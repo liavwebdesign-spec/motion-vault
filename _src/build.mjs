@@ -13,6 +13,12 @@ const CDN = {
   Draggable: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js",
   InertiaPlugin: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/InertiaPlugin.min.js",
   DrawSVGPlugin: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js",
+  Flip: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js",
+  ScrambleTextPlugin: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js",
+  MotionPathPlugin: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js",
+  ScrollToPlugin: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js",
+  CustomEase: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js",
+  CustomWiggle: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomWiggle.min.js",
 };
 
 // שימושים אפשריים: הסינון השני של האינדקס. כל מהלך יכול להשתייך לכמה.
@@ -45,6 +51,18 @@ const USES = {
   lm1: ["ambient", "hero"], lm3: ["cards", "process"], lm4: ["cards", "process"],
   lm5: ["hero"], lm6: ["nav"], lm7: ["hover"], lm8: ["ambient"], lm9: ["cards", "hover"],
   fluid: ["hero", "nav"],
+  g23: ["cards", "media", "hover"], g24: ["text", "hero"], g25: ["process", "ambient"],
+  g26: ["process", "ambient"], g27: ["hover", "feedback"], g28: ["nav"],
+  g29: ["hover", "feedback"], g30: ["process", "hero"],
+  css13: ["text", "hero"], css14: ["media", "hover"], css15: ["cards", "hover"],
+  css16: ["media", "hover"], css17: ["nav", "feedback"], css18: ["cards", "text"],
+  css19: ["ambient", "text"], css20: ["hover", "feedback"], css21: ["feedback", "hover"],
+  css22: ["ambient", "hero"],
+  r12: ["process", "ambient"], r13: ["cards", "ambient"], r14: ["numbers"],
+  r15: ["text"], r16: ["text", "hero"], r17: ["media", "cards"],
+  r18: ["ambient", "hero"], r19: ["ambient", "hero"], r20: ["ambient"],
+  r21: ["nav", "hover"], r22: ["feedback", "cards"], r23: ["hero", "media"],
+  r24: ["text", "hero"], r25: ["text"], r26: ["ambient", "hero"], r27: ["hover"],
 };
 
 // load all catalog modules
@@ -100,7 +118,7 @@ ${libs}
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
 <script>
-MV.panel(document.querySelector("[data-mvpanel]"));
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · ${e.name}").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

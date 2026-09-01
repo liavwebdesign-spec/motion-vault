@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G29 · אדווה בגריד (stagger מהמרכז) | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.rip-grid{display:grid;grid-template-columns:repeat(10,1fr);gap:8px;max-width:640px;margin-inline:auto}
+.rip{aspect-ratio:1;border-radius:8px;background:#dfe0ee;cursor:pointer}
+@media(max-width:767px){.rip-grid{grid-template-columns:repeat(6,1fr)}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G29</span> · אדווה בגריד (stagger מהמרכז)</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · stagger grid</span>
+  <span class="chip use">hover ומיקרו</span><span class="chip use">טעינה ופידבק</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g29"><code>MV:g29</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>לחיצה על תא מפיצה גל שמתפשט ממנו לכל הגריד: הסטאגר מחושב לפי מרחק מנקודת הלחיצה.</p>
+  <p class="when"><b>מתי משתמשים:</b> רגעי דיילייט: אישור פעולה, לוח אינטראקטיבי, משחקיות עדינה.</p>
+  <div class="mvpanel" data-mvpanel="g29"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight"><p class="center" style="color:var(--muted);font-size:14px;margin-top:0">לחץ על כל תא</p><div class="rip-grid"></div></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · אדווה בגריד (stagger מהמרכז)").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+const grid=document.querySelector(".rip-grid"),COLS=innerWidth<768?6:10,ROWS=5;
+for(let i=0;i<COLS*ROWS;i++){const d=document.createElement("div");d.className="rip";grid.appendChild(d);}
+const cells=[...grid.children];
+grid.addEventListener("click",e=>{
+  const idx=cells.indexOf(e.target);if(idx<0)return;
+  gsap.fromTo(cells,{scale:1},{
+    scale:.55,backgroundColor:"#4a3aff",duration:.28,yoyo:true,repeat:1,
+    stagger:{grid:[ROWS,COLS],from:idx,amount:.5},
+    onComplete:()=>gsap.set(cells,{clearProps:"all"})});
+});
+</script>
+</body>
+</html>

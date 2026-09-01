@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS21 · טוגל ומתג מונפשים | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.toggles{display:flex;gap:50px;justify-content:center;align-items:center}
+.sw{position:relative;width:58px;height:32px;display:inline-block;cursor:pointer}
+.sw input{opacity:0;width:0;height:0}
+.sw .tr{position:absolute;inset:0;background:#d5d5e2;border-radius:999px;transition:background .25s}
+.sw .tr::before{content:"";position:absolute;top:4px;inset-inline-start:4px;width:24px;height:24px;border-radius:50%;background:#fff;transition:translate .25s cubic-bezier(.2,.6,.2,1)}
+.sw input:checked+.tr{background:#12b76a}
+.sw input:checked+.tr::before{translate:-26px 0}
+html[dir="ltr"] .sw input:checked+.tr::before{translate:26px 0}
+.cb{display:inline-flex;gap:10px;align-items:center;cursor:pointer;font-size:15px}
+.cb input{opacity:0;position:absolute}
+.cb .box{width:24px;height:24px;border:2px solid #d5d5e2;border-radius:7px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.cb .box svg{width:14px;height:14px;stroke:#fff;stroke-width:3;fill:none;stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset .25s .05s}
+.cb input:checked~.box{background:var(--accent);border-color:var(--accent)}
+.cb input:checked~.box svg{stroke-dashoffset:0}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CSS21</span> · טוגל ומתג מונפשים</h1>
+  <span class="chip cat-css">CSS טהור</span>
+  <span class="chip">CSS :checked</span>
+  <span class="chip use">טעינה ופידבק</span><span class="chip use">hover ומיקרו</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:css21"><code>MV:css21</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>מתג הפעלה וצ'קבוקס עם וי שמצויר: המיקרו-אינטראקציות שגורמות לטופס להרגיש חי.</p>
+  <p class="when"><b>מתי משתמשים:</b> טפסים, הגדרות, בחירת מסלול חודשי/שנתי.</p>
+  <div class="mvpanel" data-mvpanel="css21"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight"><div class="toggles">
+<label class="sw"><input type="checkbox" checked><span class="tr"></span></label>
+<label class="cb"><input type="checkbox"><span class="box"><svg viewBox="0 0 16 16"><path d="M2.5 8.5l3.5 3.5 7-8"/></svg></span>אני מאשר את התנאים</label>
+</div></div>
+
+
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · טוגל ומתג מונפשים").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+
+</script>
+</body>
+</html>

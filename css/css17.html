@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS17 · פס התקדמות קריאה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.rprog{position:fixed;top:0;inset-inline:0;height:4px;background:linear-gradient(90deg,#4a3aff,#c2255c);transform-origin:right;transform:scaleX(0);animation:grow linear;animation-timeline:scroll();z-index:99}
+html[dir="ltr"] .rprog{transform-origin:left}
+@keyframes grow{to{transform:scaleX(1)}}
+.longtext{max-width:640px;margin-inline:auto;color:var(--muted);padding-inline:var(--gutter)}
+.longtext p{margin:0 0 60vh}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CSS17</span> · פס התקדמות קריאה</h1>
+  <span class="chip cat-css">CSS טהור</span>
+  <span class="chip">CSS scroll-driven (בלי JS!)</span>
+  <span class="chip use">ניווט ומבנה</span><span class="chip use">טעינה ופידבק</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:css17"><code>MV:css17</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>פס בראש המסך שמתמלא עם התקדמות הגלילה. מומש כולו ב-CSS עם animation-timeline: scroll().</p>
+  <p class="when"><b>מתי משתמשים:</b> מאמרים ועמודים ארוכים. תמיכת דפדפן: כרום ואדג' (פיירפוקס וספארי בדרך; יש fallback JS בפרויקטים).</p>
+  <div class="mvpanel" data-mvpanel="css17"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="rprog"></div>
+<div class="stage tight longtext">
+<p>גלול וצפה בפס למעלה מתמלא. אפס JavaScript.</p>
+<p>הקסם: animation-timeline: scroll() קושר את האנימציה לגלילת העמוד.</p>
+<p>וזה כל הסיפור.</p>
+</div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · פס התקדמות קריאה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+
+</script>
+</body>
+</html>

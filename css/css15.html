@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS15 · כרטיס תלת-ממד עוקב עכבר | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.tilt{width:min(320px,80vw);margin-inline:auto;perspective:900px}
+.tilt-in{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;padding:34px;transition:transform .18s ease-out;transform-style:preserve-3d;overflow:hidden}
+.tilt-in::after{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(74,58,255,.14),transparent 55%)}
+.tilt h3{margin:0 0 8px}.tilt p{margin:0;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CSS15</span> · כרטיס תלת-ממד עוקב עכבר</h1>
+  <span class="chip cat-css">CSS טהור</span>
+  <span class="chip">CSS 3D + JS זעיר</span>
+  <span class="chip use">כרטיסים</span><span class="chip use">hover ומיקרו</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:css15"><code>MV:css15</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>הכרטיס מוטה בעדינות לכיוון הסמן, עם הבזק אור שנע על הפנים.</p>
+  <p class="when"><b>מתי משתמשים:</b> כרטיס מוצר או הצעה מרכזית. אחד-שניים לעמוד, דסקטופ בלבד.</p>
+  <div class="mvpanel" data-mvpanel="css15"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight"><div class="tilt"><div class="tilt-in">
+<h3>כרטיס חי</h3><p>הזז את העכבר עליי ותרגיש את העומק.</p>
+</div></div></div>
+
+
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · כרטיס תלת-ממד עוקב עכבר").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+const t=document.querySelector(".tilt"),ti=document.querySelector(".tilt-in");
+t.addEventListener("mousemove",e=>{
+  const r=t.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
+  ti.style.transform="rotateY("+((x-.5)*14)+"deg) rotateX("+((.5-y)*10)+"deg)";
+  ti.style.setProperty("--gx",(x*100)+"%");ti.style.setProperty("--gy",(y*100)+"%");
+});
+t.addEventListener("mouseleave",()=>ti.style.transform="none");
+</script>
+</body>
+</html>

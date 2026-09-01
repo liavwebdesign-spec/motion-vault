@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G25 · MotionPath: אלמנט נוסע על מסלול | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.mp-wrap{width:min(720px,86vw);margin-inline:auto;position:relative}
+.mp-wrap svg{width:100%;height:auto;overflow:visible}
+.mp-path{fill:none;stroke:#d5d5e2;stroke-width:2;stroke-dasharray:6 8}
+.mp-ship{position:absolute;top:0;left:0;width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#4a3aff,#c2255c);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G25</span> · MotionPath: אלמנט נוסע על מסלול</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · MotionPath</span>
+  <span class="chip use">תהליך ושלבים</span><span class="chip use">רקע ואווירה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g25"><code>MV:g25</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>אייקון שנוסע לאורך מסלול SVG מפותל, כולל סיבוב אוטומטי לכיוון הנסיעה.</p>
+  <p class="when"><b>מתי משתמשים:</b> המחשת מסע לקוח, לוגו שמטייל בין תחנות, אינפוגרפיקה חיה.</p>
+  <div class="mvpanel" data-mvpanel="g25"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="mp-wrap">
+<svg viewBox="0 0 700 260"><path class="mp-path" id="mpp" d="M30,200 C150,40 280,240 400,110 S620,60 670,180"/></svg>
+<div class="mp-ship">✈</div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MotionPathPlugin.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · MotionPath: אלמנט נוסע על מסלול").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+gsap.to(".mp-ship",{
+  motionPath:{path:"#mpp",align:"#mpp",alignOrigin:[.5,.5],autoRotate:true},
+  ease:"none",
+  scrollTrigger:{trigger:".mp-wrap",start:"top 80%",end:"top 20%",scrub:1}});
+</script>
+</body>
+</html>

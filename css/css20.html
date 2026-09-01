@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS20 · הבזק אור על כפתור | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.shine-btn{position:relative;overflow:hidden}
+.shine-btn::after{content:"";position:absolute;top:0;height:100%;width:40%;left:-60%;
+background:linear-gradient(105deg,transparent,rgba(255,255,255,.45),transparent);
+transform:skewX(-20deg);animation:sweep 3.4s ease-in-out infinite}
+@keyframes sweep{0%,60%{left:-60%}100%{left:130%}}
+@media(prefers-reduced-motion:reduce){.shine-btn::after{animation:none;display:none}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CSS20</span> · הבזק אור על כפתור</h1>
+  <span class="chip cat-css">CSS טהור</span>
+  <span class="chip">CSS pseudo + keyframes</span>
+  <span class="chip use">hover ומיקרו</span><span class="chip use">טעינה ופידבק</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:css20"><code>MV:css20</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>פס אור אלכסוני שחולף על הכפתור כל כמה שניות ומזכיר את קיומו.</p>
+  <p class="when"><b>מתי משתמשים:</b> ה-CTA הראשי בעמוד. אחד בלבד.</p>
+  <div class="mvpanel" data-mvpanel="css20"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight center"><button class="gbtn shine-btn">קבעו שיחת ייעוץ</button></div>
+
+
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · הבזק אור על כפתור").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+
+</script>
+</body>
+</html>
