@@ -18,11 +18,13 @@
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">GSAP · timeline</span>
   <span class="chip use">מספרים ונתונים</span><span class="chip use">רקע ואווירה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:g19"><code>MV:g19</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>שמונה אלמנטים נופלים למקומם יחד, כל אחד עם סיבוב וציר סיבוב משלו.</p>
   <p class="when"><b>מתי משתמשים:</b> סקשן מספרים או הטבות, אווירה playful, המחשת שפע.</p>
+  <div class="mvpanel" data-mvpanel="g19"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
@@ -35,7 +37,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · פיזור חפצים נופלים").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

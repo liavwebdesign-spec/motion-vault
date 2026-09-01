@@ -83,11 +83,13 @@ ${e.css || ""}
   <span class="chip cat-${e.cat}">${CATS[e.cat]}</span>
   <span class="chip">${e.tech}</span>
   ${(USES[e.id] || []).map(u => `<span class="chip use">${USES_LABELS[u]}</span>`).join("")}
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:${e.id}"><code>MV:${e.id}</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>${e.desc}</p>
   <p class="when"><b>מתי משתמשים:</b> ${e.when}</p>
+  <div class="mvpanel" data-mvpanel="${e.id}"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 ${runway}
@@ -95,7 +97,10 @@ ${e.html}
 ${runwayEnd}
 ${e.note ? `<div class="demo-note">${e.note}</div>` : ""}
 ${libs}
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · ${e.name}").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;
@@ -111,11 +116,12 @@ ${e.js || ""}
 }
 
 function indexPage() {
-  const cards = entries.map(e => `<a class="vcard" data-cat="${e.cat}" data-uses="${(USES[e.id] || []).join(" ")}" data-txt="${("MV:" + e.id + " " + e.name + " " + e.desc + " " + e.tech + " " + (USES[e.id] || []).map(u => USES_LABELS[u]).join(" ")).replace(/"/g, "")}" href="${e.cat}/${e.id}.html">
-  <div class="row"><span class="vid">MV:${e.id}</span><span class="chip cat-${e.cat}">${CATS[e.cat]}</span></div>
+  const cards = entries.map(e => `<a class="vcard" data-id="${e.id}" data-cat="${e.cat}" data-uses="${(USES[e.id] || []).join(" ")}" data-txt="${("MV:" + e.id + " " + e.name + " " + e.desc + " " + e.tech + " " + (USES[e.id] || []).map(u => USES_LABELS[u]).join(" ")).replace(/"/g, "")}" href="${e.cat}/${e.id}.html">
+  <div class="row"><span class="vid">MV:${e.id}</span><span class="chip cat-${e.cat}">${CATS[e.cat]}</span><span class="chip stchip st-pending">ממתין</span></div>
   <h3>${e.name}</h3><p>${e.desc}</p>
   <div class="row"><span class="chip">${e.tech}</span>${(USES[e.id] || []).map(u => `<span class="chip use">${USES_LABELS[u]}</span>`).join("")}</div>
 </a>`).join("\n");
+  const REPORT_LIST = JSON.stringify(entries.map(e => ({ id: e.id, name: e.name, cat: e.cat })));
   const counts = Object.fromEntries(Object.keys(CATS).map(c => [c, entries.filter(e => e.cat === c).length]));
   const fbtns = Object.entries(CATS).map(([k, v]) => `<button class="fbtn" data-f="${k}">${v} · ${counts[k]}</button>`).join("");
   const ucounts = Object.fromEntries(Object.keys(USES_LABELS).map(u => [u, entries.filter(e => (USES[e.id] || []).includes(u)).length]));
@@ -143,20 +149,37 @@ ${FONT}
 <div class="vfilters2">
   <span style="font-size:13px;color:var(--muted);align-self:center;font-weight:600">לפי שימוש:</span>
   ${ubtns}
+  <span class="sep"></span>
+  <span style="font-size:13px;color:var(--muted);align-self:center;font-weight:600">לפי סטטוס:</span>
+  <button class="sbtn" data-s="ok">מאושרים</button>
+  <button class="sbtn" data-s="no">לא מאושרים</button>
+  <button class="sbtn" data-s="pending">ממתינים</button>
+  <button class="report-btn">📋 העתק דוח לקלוד</button>
 </div>
 <div class="vgrid">
 ${cards}
 </div>
+<script src="assets/baseline.js"></script>
+<script src="assets/status.js"></script>
 <script>
+const LIST=${REPORT_LIST};
 const cards=[...document.querySelectorAll('.vcard')],btns=[...document.querySelectorAll('.fbtn')],
-ubtns=[...document.querySelectorAll('.ubtn')],
+ubtns=[...document.querySelectorAll('.ubtn')],sbtns=[...document.querySelectorAll('.sbtn')],
 search=document.querySelector('.fsearch'),count=document.querySelector('.fcount');
-let cat='all',use=null;
+let cat='all',use=null,stf=null;
+function paintStatus(){
+  cards.forEach(c=>{
+    const s=MV.state(c.dataset.id),chip=c.querySelector('.stchip');
+    chip.textContent=MV.label(s);chip.className='chip stchip st-'+s;
+    c.dataset.status=s;
+  });
+}
 function apply(){
   const q=search.value.trim().toLowerCase();let n=0;
   cards.forEach(c=>{
     const ok=(cat==='all'||c.dataset.cat===cat)
       &&(!use||c.dataset.uses.split(' ').includes(use))
+      &&(!stf||c.dataset.status===stf)
       &&(!q||c.dataset.txt.toLowerCase().includes(q));
     c.hidden=!ok; if(ok)n++;
   });
@@ -168,7 +191,20 @@ ubtns.forEach(b=>b.addEventListener('click',()=>{
   else{ubtns.forEach(x=>x.classList.remove('on'));b.classList.add('on');use=b.dataset.u;}
   apply();
 }));
-search.addEventListener('input',apply);apply();
+sbtns.forEach(b=>b.addEventListener('click',()=>{
+  if(b.classList.contains('on')){b.classList.remove('on');stf=null;}
+  else{sbtns.forEach(x=>x.classList.remove('on'));b.classList.add('on');stf=b.dataset.s;}
+  apply();
+}));
+document.querySelector('.report-btn').addEventListener('click',function(){
+  navigator.clipboard.writeText(MV.report(LIST)).then(()=>{
+    this.classList.add('copied');this.textContent='הדוח הועתק ✓ הדבק לקלוד';
+    setTimeout(()=>{this.classList.remove('copied');this.textContent='📋 העתק דוח לקלוד';},2200);
+  });
+});
+search.addEventListener('input',apply);
+paintStatus();apply();
+addEventListener('pageshow',()=>{paintStatus();apply();});
 </script>
 </body>
 </html>`;

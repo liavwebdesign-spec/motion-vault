@@ -20,11 +20,13 @@ mask-image:linear-gradient(to top,#000 0%,#000 var(--reveal),transparent calc(va
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">GSAP · ScrollTrigger</span>
   <span class="chip use">תמונות וגלריות</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:g02"><code>MV:g02</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>התמונה נצבעת מלמטה למעלה עם קצה מעומעם, בקצב הגלילה, קדימה ואחורה.</p>
   <p class="when"><b>מתי משתמשים:</b> תמונת שיא, לפני/אחרי, ויז'ואל הירו משני.</p>
+  <div class="mvpanel" data-mvpanel="g02"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
@@ -33,7 +35,10 @@ mask-image:linear-gradient(to top,#000 0%,#000 var(--reveal),transparent calc(va
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · חשיפת תמונה במסכה בגלילה").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

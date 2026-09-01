@@ -21,11 +21,13 @@
   <span class="chip cat-behavior">התנהגויות</span>
   <span class="chip">vanilla JS · IntersectionObserver</span>
   <span class="chip use">ניווט ומבנה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:b03"><code>MV:b03</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>כפתור צף שמופיע רק כשאף CTA ראשי לא נמצא על המסך, ונעלם כשיש.</p>
   <p class="when"><b>מתי משתמשים:</b> עמודים ארוכים. במובייל בר תחתון מלא עם safe-area.</p>
+  <div class="mvpanel" data-mvpanel="b03"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
@@ -36,7 +38,10 @@
 
 
 
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · CTA דביק חכם").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

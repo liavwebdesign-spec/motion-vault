@@ -21,11 +21,13 @@ html[dir="rtl"] .toast.on{translate:50% 0}
   <span class="chip cat-behavior">התנהגויות</span>
   <span class="chip">CSS transitions · vanilla JS</span>
   <span class="chip use">טעינה ופידבק</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:b16"><code>MV:b16</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>הודעת אישור קטנה שעולה מהפינה, נשארת שלוש שניות ונעלמת.</p>
   <p class="when"><b>מתי משתמשים:</b> אחרי שליחת טופס, העתקה, שמירה.</p>
+  <div class="mvpanel" data-mvpanel="b16"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
@@ -34,7 +36,10 @@ html[dir="rtl"] .toast.on{translate:50% 0}
 
 
 
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · Toast (הודעה קופצת)").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

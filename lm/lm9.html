@@ -23,11 +23,13 @@
   <span class="chip cat-lm">חתימה (LM)</span>
   <span class="chip">CSS (קרפט, לא תנועה)</span>
   <span class="chip use">כרטיסים</span><span class="chip use">hover ומיקרו</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:lm9"><code>MV:lm9</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>שני מהלכי הקרפט מהעבודה החדשה: צל קשיח בצבע מותג בהיסט 45 מעלות, ורדיוס שמעוגל רק בצד אחד.</p>
   <p class="when"><b>מתי משתמשים:</b> כרטיסי מפתח בעורות עם אופי. שפת צל אחת לעמוד: או מוזח או רך, לא שניהם.</p>
+  <div class="mvpanel" data-mvpanel="lm9"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
@@ -39,7 +41,10 @@
 
 
 
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · צל מוזח קשיח + רדיוס חד-צדדי").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

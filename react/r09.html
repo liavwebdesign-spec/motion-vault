@@ -23,11 +23,13 @@
   <span class="chip cat-react">React</span>
   <span class="chip">ReactBits · Lenis</span>
   <span class="chip use">כרטיסים</span><span class="chip use">תהליך ושלבים</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:r09"><code>MV:r09</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>כרטיסים נערמים בגלילה עם עומק: scale ו-blur לפי שכבה.</p>
   <p class="when"><b>מתי משתמשים:</b> למה דווקא אנחנו, שלבים. הגרסה הריאקטית של הערימה הדביקה.</p>
+  <div class="mvpanel" data-mvpanel="r09"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
@@ -41,7 +43,10 @@
 
 <div class="demo-note">אין reduced-motion במקור: מוסיפים גייט. לא מכפילים Lenis גלובלי.</div>
 
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · ScrollStack: ערימת כרטיסים דביקה").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

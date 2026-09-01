@@ -25,11 +25,13 @@
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">vanilla JS</span>
   <span class="chip use">תמונות וגלריות</span><span class="chip use">hover ומיקרו</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:g11"><code>MV:g11</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>עיגול הגדלה עוקב עכבר על תמונה, זום 1.5.</p>
   <p class="when"><b>מתי משתמשים:</b> מוצר עתיר פרטים, תיק עבודות, תכשיטים. במובייל כבוי (pinch-zoom טבעי עדיף).</p>
+  <div class="mvpanel" data-mvpanel="g11"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
@@ -37,7 +39,10 @@
 
 
 
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · זכוכית מגדלת על תמונה").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

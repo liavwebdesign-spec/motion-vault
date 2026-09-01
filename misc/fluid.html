@@ -29,11 +29,13 @@
   <span class="chip cat-misc">מסגרת</span>
   <span class="chip">CSS clamp + vw</span>
   <span class="chip use">הירו ופתיחה</span><span class="chip use">ניווט ומבנה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:fluid"><code>MV:fluid</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>העמוד נושם עם רוחב המסך: כותרות, מרזבים וריווחים גדלים וקטנים יחד, תחומים ב-clamp. גרור את חלון הדפדפן וצפה ב-HUD.</p>
   <p class="when"><b>מתי משתמשים:</b> אתרי חוויה, תדמית-וואו וויז'ואל-גדול. עמוד ההדגמה המלא של מצב המסגרת מהמנוע.</p>
+  <div class="mvpanel" data-mvpanel="fluid"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
@@ -50,7 +52,10 @@
 
 
 
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · המסגרת הנוזלית (Fluid Frame)").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

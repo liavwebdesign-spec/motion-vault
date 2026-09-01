@@ -23,11 +23,13 @@
   <span class="chip cat-lm">חתימה (LM)</span>
   <span class="chip">CSS + IO</span>
   <span class="chip use">כרטיסים</span><span class="chip use">תהליך ושלבים</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:lm3"><code>MV:lm3</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>זוג בלוקים שנכנסים משני צדדים ונפגשים במרכז. התוכן צועד אחד לקראת השני.</p>
   <p class="when"><b>מתי משתמשים:</b> לפני/אחרי, בעיה/פתרון, שני צדדים של סיפור. פעם-פעמיים בעמוד.</p>
+  <div class="mvpanel" data-mvpanel="lm3"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
@@ -38,7 +40,10 @@
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 
 
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · הצטלבות (Converging)").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

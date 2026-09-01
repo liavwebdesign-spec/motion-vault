@@ -18,11 +18,13 @@
   <span class="chip cat-behavior">התנהגויות</span>
   <span class="chip">CSS gradient</span>
   <span class="chip use">ניווט ומבנה</span><span class="chip use">רקע ואווירה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:b10"><code>MV:b10</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>מפריד בגובה פיקסל שנמס בקצוות במקום להיחתך.</p>
   <p class="when"><b>מתי משתמשים:</b> הפרדות עדינות בין בלוקים בלי משקל ויזואלי.</p>
+  <div class="mvpanel" data-mvpanel="b10"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
@@ -30,7 +32,10 @@
 
 
 
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · קווי שיער (Hairlines)").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

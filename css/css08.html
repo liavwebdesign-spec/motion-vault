@@ -22,11 +22,13 @@ animation:shine 3.2s linear infinite}
   <span class="chip cat-css">CSS טהור</span>
   <span class="chip">CSS background-clip</span>
   <span class="chip use">טקסט וכותרות</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:css08"><code>MV:css08</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>פס אור שחולף על הכותרת בלולאה. עדין ויוקרתי.</p>
   <p class="when"><b>מתי משתמשים:</b> כותרת הירו או לוגו טקסטואלי. אחד לעמוד.</p>
+  <div class="mvpanel" data-mvpanel="css08"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
@@ -34,7 +36,10 @@ animation:shine 3.2s linear infinite}
 
 
 
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · ברק חולף על טקסט").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

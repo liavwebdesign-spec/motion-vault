@@ -19,11 +19,13 @@
   <span class="chip cat-behavior">התנהגויות</span>
   <span class="chip">vanilla JS · IntersectionObserver</span>
   <span class="chip use">מספרים ונתונים</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:b02"><code>MV:b02</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>מספר גדול שנספר פעם אחת כשהוא נכנס למסך, עם ease-out טבעי ושמירת סיומת.</p>
   <p class="when"><b>מתי משתמשים:</b> סקשן מספרים ונתונים. פעם אחת, לא בכל גלילה.</p>
+  <div class="mvpanel" data-mvpanel="b02"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
@@ -35,7 +37,10 @@
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 
 
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · Count-Up (מספר שסופר)").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

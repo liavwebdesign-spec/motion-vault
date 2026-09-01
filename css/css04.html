@@ -20,11 +20,13 @@
   <span class="chip cat-css">CSS טהור</span>
   <span class="chip">CSS @keyframes + IO</span>
   <span class="chip use">טקסט וכותרות</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:css04"><code>MV:css04</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>הכותרת נחשפת מתוך מסכה מלמטה כשהיא נכנסת למסך. גרסת ה-CSS הזולה של חשיפות הטקסט.</p>
   <p class="when"><b>מתי משתמשים:</b> כותרות סקשן כשלא רוצים לטעון GSAP.</p>
+  <div class="mvpanel" data-mvpanel="css04"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
@@ -32,7 +34,10 @@
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 
 
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · חשיפת clip בכניסה").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

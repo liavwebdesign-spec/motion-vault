@@ -25,11 +25,13 @@
   <span class="chip cat-lm">חתימה (LM)</span>
   <span class="chip">CSS transitions + delay</span>
   <span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:lm5"><code>MV:lm5</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>רכיבי ההירו נכנסים בזה אחר זה במדרגות של 150 אלפיות: לוגו, ניווט, כותרת, ליד, כפתורים.</p>
   <p class="when"><b>מתי משתמשים:</b> רגע הזהות בלבד. בשאר העמוד reveal אחיד בלי סטאגר. החריג המאושר.</p>
+  <div class="mvpanel" data-mvpanel="lm5"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
@@ -44,7 +46,10 @@
 
 
 
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · סולם כניסות הירו (150ms)").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

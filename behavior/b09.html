@@ -17,11 +17,13 @@
   <span class="chip cat-behavior">התנהגויות</span>
   <span class="chip">CSS</span>
   <span class="chip use">טקסט וכותרות</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:b09"><code>MV:b09</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>מילה רגשית אחת בגודל ענק כוויז'ואל של סקשן שלם.</p>
   <p class="when"><b>מתי משתמשים:</b> אחת לעמוד. זה רגע, לא שיטה.</p>
+  <div class="mvpanel" data-mvpanel="b09"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
@@ -29,7 +31,10 @@
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 
 
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · רגע המילה הענקית").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;

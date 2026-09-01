@@ -23,11 +23,13 @@
   <span class="chip cat-react">React</span>
   <span class="chip">ReactBits · vanilla</span>
   <span class="chip use">תמונות וגלריות</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:r04"><code>MV:r04</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>מסגרת מדיה מעוגלת שגדלה ל-full-bleed תוך גלילה, הכותרת נחשפת בסוף.</p>
   <p class="when"><b>מתי משתמשים:</b> רגע שיא מדיה. reduced-motion מובנה, RTL בטוח. הנקי בסט.</p>
+  <div class="mvpanel" data-mvpanel="r04"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
@@ -41,7 +43,10 @@
 
 
 
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
 <script>
+MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
   navigator.clipboard.writeText(this.dataset.mvid+" · ScrollExpand: מדיה שמתרחבת בגלילה").then(()=>{
     this.classList.add("copied");const c=this.querySelector("code").textContent;
