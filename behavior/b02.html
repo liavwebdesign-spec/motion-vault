@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B02 · Count-Up (מספר שסופר) | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.cnums{display:flex;gap:clamp(40px,5vw,110px);flex-wrap:wrap;justify-content:center}
+.cnum{font-size:clamp(48px,4vw,96px);font-weight:700}
+.cnums small{display:block;color:var(--muted);font-size:15px;text-align:center}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B02</span> · Count-Up (מספר שסופר)</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">vanilla JS · IntersectionObserver</span>
+  <span class="chip st-approved">מאושר-עין</span>
+</div></div>
+<div class="vintro">
+  <p>מספר גדול שנספר פעם אחת כשהוא נכנס למסך, עם ease-out טבעי ושמירת סיומת.</p>
+  <p class="when"><b>מתי משתמשים:</b> סקשן מספרים ונתונים. פעם אחת, לא בכל גלילה.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage tight center"><div class="cnums">
+<div><span class="cnum" data-count="340" data-suffix="+">0</span><small>לקוחות</small></div>
+<div><span class="cnum" data-count="97" data-suffix="%">0</span><small>שביעות רצון</small></div>
+<div><span class="cnum" data-count="12" data-suffix="">0</span><small>שנות ניסיון</small></div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+
+<script>
+
+const io=new IntersectionObserver(es=>{es.forEach(e=>{
+  if(!e.isIntersecting)return;
+  const el=e.target,to=+el.dataset.count,sfx=el.dataset.suffix||"";let t0=null;
+  function step(ts){if(!t0)t0=ts;const p=Math.min((ts-t0)/900,1);
+    el.textContent=Math.round(to*(1-Math.pow(1-p,3)))+sfx;
+    if(p<1)requestAnimationFrame(step);}
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches)requestAnimationFrame(step);
+  else el.textContent=to+sfx;
+  io.unobserve(el);
+})},{threshold:.6});
+document.querySelectorAll(".cnum").forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

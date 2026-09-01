@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B16 · Toast (הודעה קופצת) | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.toast{position:fixed;bottom:24px;inset-inline-start:50%;translate:-50% 20px;background:#16182b;color:#fff;padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;transition:opacity .24s,translate .24s;z-index:95;display:flex;gap:10px;align-items:center}
+html[dir="rtl"] .toast{translate:50% 20px}
+.toast.on{opacity:1;translate:-50% 0}
+html[dir="rtl"] .toast.on{translate:50% 0}
+.toast b{color:#12b76a}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B16</span> · Toast (הודעה קופצת)</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">CSS transitions · vanilla JS</span>
+  <span class="chip st-approved">מאושר-עין</span>
+</div></div>
+<div class="vintro">
+  <p>הודעת אישור קטנה שעולה מהפינה, נשארת שלוש שניות ונעלמת.</p>
+  <p class="when"><b>מתי משתמשים:</b> אחרי שליחת טופס, העתקה, שמירה.</p>
+</div>
+
+<div class="stage tight center"><button class="gbtn show-t">שלח טופס (דמו)</button></div>
+<div class="toast"><b>✓</b>קיבלנו! נחזור אליכם היום</div>
+
+
+
+<script>
+
+let tmr;
+document.querySelector(".show-t").addEventListener("click",()=>{
+  const t=document.querySelector(".toast");
+  t.classList.add("on");clearTimeout(tmr);
+  tmr=setTimeout(()=>t.classList.remove("on"),3000);
+});
+</script>
+</body>
+</html>

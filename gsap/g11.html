@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G11 · זכוכית מגדלת על תמונה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.mag-wrap{position:relative;width:min(640px,86vw);margin-inline:auto}
+.mag-img{width:100%;aspect-ratio:16/10;border-radius:var(--r);background:
+  radial-gradient(circle at 25% 30%,#ffd43b 0 8%,transparent 8%),
+  radial-gradient(circle at 70% 60%,#ff8787 0 12%,transparent 12%),
+  radial-gradient(circle at 45% 75%,#66d9e8 0 6%,transparent 6%),
+  linear-gradient(160deg,#1b2653,#3b5bdb)}
+.magnifier{position:absolute;pointer-events:none;width:190px;height:190px;border-radius:50%;
+  border:2px solid #fff;background-repeat:no-repeat;transform:translate(-50%,-50%) scale(0);
+  transition:transform .25s ease;z-index:5;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G11</span> · זכוכית מגדלת על תמונה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">vanilla JS</span>
+  <span class="chip st-pending">ממתין לאישור</span>
+</div></div>
+<div class="vintro">
+  <p>עיגול הגדלה עוקב עכבר על תמונה, זום 1.5.</p>
+  <p class="when"><b>מתי משתמשים:</b> מוצר עתיר פרטים, תיק עבודות, תכשיטים. במובייל כבוי (pinch-zoom טבעי עדיף).</p>
+</div>
+
+<div class="stage tight"><div class="mag-wrap"><div class="mag-img"></div></div></div>
+
+
+
+<script>
+
+const zoom=1.5,wrap=document.querySelector(".mag-wrap"),img=document.querySelector(".mag-img");
+const mag=document.createElement("div");mag.className="magnifier";wrap.appendChild(mag);
+function paint(){
+  const w=img.offsetWidth,h=img.offsetHeight;
+  mag.style.backgroundImage=getComputedStyle(img).backgroundImage;
+  mag.style.backgroundSize=(w*zoom)+"px "+(h*zoom)+"px";
+}
+paint();addEventListener("resize",paint);
+wrap.addEventListener("mouseenter",()=>mag.style.transform="translate(-50%,-50%) scale(1)");
+wrap.addEventListener("mousemove",e=>{
+  const r=img.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+  mag.style.left=x+"px";mag.style.top=y+"px";
+  mag.style.backgroundPosition=(-x*zoom+mag.offsetWidth/2)+"px "+(-y*zoom+mag.offsetHeight/2)+"px";
+});
+wrap.addEventListener("mouseleave",()=>mag.style.transform="translate(-50%,-50%) scale(0)");
+</script>
+</body>
+</html>

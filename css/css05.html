@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS05 · כניסת Blur-In | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.blurin{opacity:0}
+.blurin.in{opacity:1;animation:blurIn .9s cubic-bezier(.2,.6,.2,1) both}
+@keyframes blurIn{from{filter:blur(14px);opacity:0;scale:.97}to{filter:blur(0);opacity:1;scale:1}}
+.blurin.ph{width:min(560px,80vw);height:300px;margin-inline:auto;font-size:22px}
+@media(prefers-reduced-motion:reduce){.blurin{opacity:1;animation:none}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CSS05</span> · כניסת Blur-In</h1>
+  <span class="chip cat-css">CSS טהור</span>
+  <span class="chip">CSS @keyframes + IO</span>
+  <span class="chip st-approved">מאושר-עין</span>
+</div></div>
+<div class="vintro">
+  <p>האלמנט נכנס מטושטש ומתחדד למקומו. תחושה יוקרתית בלי אף ספרייה.</p>
+  <p class="when"><b>מתי משתמשים:</b> ויז'ואלים וכותרות באתרי פרימיום.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="blurin ph ph-c">נכנס מטושטש, מתחדד</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+
+<script>
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}
+}),{threshold:.3});
+document.querySelectorAll(".blurin").forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

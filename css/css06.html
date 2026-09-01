@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS06 · אקורדיון חלק | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.acc{max-width:560px;margin-inline:auto}
+.acc-item{border-bottom:1px solid var(--line)}
+.acc-q{width:100%;display:flex;justify-content:space-between;align-items:center;background:none;border:0;
+font-family:inherit;font-size:17px;font-weight:600;padding-block:20px;cursor:pointer;text-align:start}
+.acc-q .chev{transition:rotate .2s}
+.acc-item.open .chev{rotate:180deg}
+.acc-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.2,.6,.2,1)}
+.acc-item.open .acc-a{grid-template-rows:1fr}
+.acc-a>div{overflow:hidden;color:var(--muted);max-width:60ch}
+.acc-a p{margin:0 0 20px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CSS06</span> · אקורדיון חלק</h1>
+  <span class="chip cat-css">CSS טהור</span>
+  <span class="chip">CSS grid-rows transition</span>
+  <span class="chip st-approved">מאושר-עין</span>
+</div></div>
+<div class="vintro">
+  <p>פתיחה וסגירה חלקות עם הטריק המודרני: grid-template-rows מ-0fr ל-1fr, בלי JS שמודד גבהים.</p>
+  <p class="when"><b>מתי משתמשים:</b> שאלות ותשובות, מפרטים.</p>
+</div>
+
+<div class="stage tight"><div class="acc">
+<div class="acc-item open"><button class="acc-q">איך זה עובד בלי JS למדידת גובה?<span class="chev">▾</span></button>
+<div class="acc-a"><div><p>grid-template-rows עובר מ-0fr ל-1fr, והדפדפן עושה את כל העבודה.</p></div></div></div>
+<div class="acc-item"><button class="acc-q">וזה עובד בכל הדפדפנים?<span class="chev">▾</span></button>
+<div class="acc-a"><div><p>כן, כל הדפדפנים המודרניים תומכים במעבר על fr.</p></div></div></div>
+<div class="acc-item"><button class="acc-q">מה עם נגישות?<span class="chev">▾</span></button>
+<div class="acc-a"><div><p>הכפתור אמיתי, מקלדת עובדת, והתוכן נשאר ב-DOM.</p></div></div></div>
+</div></div>
+
+
+
+<script>
+
+document.querySelectorAll(".acc-q").forEach(q=>q.addEventListener("click",()=>{
+  q.closest(".acc-item").classList.toggle("open");
+}));
+</script>
+</body>
+</html>

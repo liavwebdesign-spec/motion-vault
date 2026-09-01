@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G01 · גלילה צידית מוצמדת | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.wrapper{transition:all 0s !important;overflow:hidden;background:#fff}
+.scroll{display:flex;gap:24px;width:max-content;padding:80px var(--gutter)}
+.scroll .ph{flex:0 0 clamp(300px,26vw,460px);height:clamp(240px,20vw,360px);font-size:22px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G01</span> · גלילה צידית מוצמדת</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger</span>
+  <span class="chip st-pending">ממתין לאישור</span>
+</div></div>
+<div class="vintro">
+  <p>הסקשן ננעל למסך והתוכן גולש הצידה במקום למטה. המהלך המבוקש ביותר.</p>
+  <p class="when"><b>מתי משתמשים:</b> תהליך שלבים, גלריית עבודות, קטגוריות.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="wrapper"><div class="scroll">
+<div class="ph ph-a">כרטיס 01</div><div class="ph ph-b">כרטיס 02</div><div class="ph ph-c">כרטיס 03</div>
+<div class="ph ph-e">כרטיס 04</div><div class="ph ph-d">כרטיס 05</div><div class="ph ph-f">כרטיס 06</div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note">אתר עברי: x חיובי. אתר אנגלי: מוסיפים מינוס. אזהרה חתומה: בלי overscroll-behavior:none על העטיפה (חוסם גלגלת).</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const container=document.querySelector(".scroll");
+const totalWidth=container.scrollWidth-window.innerWidth;
+gsap.to(container,{x:()=>totalWidth,ease:"none",
+  scrollTrigger:{trigger:".wrapper",start:"top top",end:()=>"+="+totalWidth,scrub:true,pin:true,anticipatePin:1}});
+</script>
+</body>
+</html>

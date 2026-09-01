@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G17 · כרטיסים מתעופפים פנימה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.fan{display:flex;justify-content:center;gap:var(--gap);padding-inline:var(--gutter)}
+.fan .ph{width:min(260px,28vw);height:340px;font-size:20px}
+@media(max-width:767px){.fan{flex-direction:column;align-items:center}.fan .ph{width:80vw;height:180px}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G17</span> · כרטיסים מתעופפים פנימה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger</span>
+  <span class="chip st-pending">ממתין לאישור</span>
+</div></div>
+<div class="vintro">
+  <p>שלושה כרטיסים טסים למקומם משני הצדדים עם סיבוב, בקצב הגלילה.</p>
+  <p class="when"><b>מתי משתמשים:</b> הצגת שלושה שירותים או מוצרים בכניסה דרמטית.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage tight"><div class="fan">
+<div class="ph ph-a fc-l">שירות א</div>
+<div class="ph ph-b fc-c">שירות ב</div>
+<div class="ph ph-c fc-r">שירות ג</div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const st=()=>({trigger:".fan",start:"top 78%",end:"top 45%",scrub:1});
+gsap.from(".fc-l",{x:"30vw",rotate:10,scrollTrigger:st()});
+gsap.from(".fc-c",{y:"4vw",rotate:-5,scrollTrigger:st()});
+gsap.from(".fc-r",{x:"-30vw",rotate:-10,scrollTrigger:st()});
+</script>
+</body>
+</html>

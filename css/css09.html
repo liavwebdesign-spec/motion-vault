@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS09 · רעידת שגיאה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.err-demo{display:flex;flex-direction:column;gap:10px;align-items:center}
+.err-input{font-family:inherit;font-size:16px;padding:13px 18px;border:1px solid var(--line);border-radius:12px;width:min(320px,80vw)}
+.err-input.shake{animation:shake .35s;border-color:#d92d20}
+@keyframes shake{0%,100%{translate:0}20%{translate:8px 0}40%{translate:-8px 0}60%{translate:5px 0}80%{translate:-5px 0}}
+.err-msg{font-size:13px;color:#d92d20;opacity:0;transition:opacity .2s}
+.err-msg.on{opacity:1}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CSS09</span> · רעידת שגיאה</h1>
+  <span class="chip cat-css">CSS טהור</span>
+  <span class="chip">CSS keyframes</span>
+  <span class="chip st-approved">מאושר-עין</span>
+</div></div>
+<div class="vintro">
+  <p>שדה שנרעד אופקית כששולחים ערך לא תקין. פידבק שמרגישים בלי לקרוא.</p>
+  <p class="when"><b>מתי משתמשים:</b> ולידציית טפסים. תמיד יחד עם הודעת טקסט, לא במקומה.</p>
+</div>
+
+<div class="stage tight"><div class="err-demo">
+<input class="err-input" placeholder="הקלד משהו ולחץ שלח">
+<span class="err-msg">המספר לא נראה תקין, אפשר לבדוק?</span>
+<button class="gbtn err-send">שלח</button>
+</div></div>
+
+
+
+<script>
+
+document.querySelector(".err-send").addEventListener("click",()=>{
+  const i=document.querySelector(".err-input");
+  i.classList.remove("shake");void i.offsetWidth;i.classList.add("shake");
+  document.querySelector(".err-msg").classList.add("on");
+});
+</script>
+</body>
+</html>

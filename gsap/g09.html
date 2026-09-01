@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G09 · זריקה אינרציאלית בהובר | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.throw-grid{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;padding-inline:var(--gutter)}
+.throw-item{width:110px;height:110px;border-radius:16px;font-size:17px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G09</span> · זריקה אינרציאלית בהובר</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · InertiaPlugin</span>
+  <span class="chip st-pending">ממתין לאישור</span>
+</div></div>
+<div class="vintro">
+  <p>מרחפים על פריט והוא נזרק בכיוון תנועת העכבר וחוזר למקומו ברכות.</p>
+  <p class="when"><b>מתי משתמשים:</b> גריד לוגואים, תגיות או צ'יפים באתר playful. במובייל כבוי.</p>
+</div>
+
+<div class="stage tight"><div class="throw-grid">
+<div class="throw-item ph ph-a">לוגו</div><div class="throw-item ph ph-b">לוגו</div><div class="throw-item ph ph-c">לוגו</div>
+<div class="throw-item ph ph-d">לוגו</div><div class="throw-item ph ph-e">לוגו</div><div class="throw-item ph ph-f">לוגו</div>
+</div></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/InertiaPlugin.min.js"></script>
+<script>
+gsap.registerPlugin(InertiaPlugin);
+document.querySelectorAll(".throw-item").forEach(el=>{
+  let vx=0,vy=0,lx=0,ly=0;
+  el.addEventListener("mousemove",e=>{vx=e.clientX-lx;vy=e.clientY-ly;lx=e.clientX;ly=e.clientY});
+  el.addEventListener("mouseleave",()=>{
+    gsap.to(el,{inertia:{x:{velocity:vx*40,end:0},y:{velocity:vy*40,end:0}},duration:1.2});
+  });
+});
+</script>
+</body>
+</html>

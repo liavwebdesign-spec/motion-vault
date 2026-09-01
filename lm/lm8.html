@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>LM8 · מרקי מוטה ונגרר | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.tiltm-wrap{transform:rotate(-3deg);width:104vw;margin-inline-start:-2vw;background:#16182b;padding-block:20px;overflow:hidden}
+.tiltm{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.tiltm-track{display:inline-flex;gap:48px;padding-inline-end:48px;animation:marq 26s linear infinite}
+.tiltm-track span{font-weight:800;font-size:24px;color:rgba(255,255,255,.55)}
+.tiltm-track i{font-style:normal;color:#f49e40}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(50%)}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">LM8</span> · מרקי מוטה ונגרר</h1>
+  <span class="chip cat-lm">חתימה (LM)</span>
+  <span class="chip">CSS keyframes + rAF</span>
+  <span class="chip st-pending">ממתין לאישור</span>
+</div></div>
+<div class="vintro">
+  <p>רצועה שזורמת בלולאה, מוטה 3 מעלות, וגם נגררת עם הגלילה. שתי תנועות מצטברות.</p>
+  <p class="when"><b>מתי משתמשים:</b> פסי אווירה באתרי וואו. פעם אחת בעמוד.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage full"><div class="tiltm-wrap" data-dragmarq><div class="tiltm"><div class="tiltm-track">
+<span>עיצוב</span><i>·</i><span>פיתוח</span><i>·</i><span>אסטרטגיה</span><i>·</i><span>תנועה</span><i>·</i>
+<span>עיצוב</span><i>·</i><span>פיתוח</span><i>·</i><span>אסטרטגיה</span><i>·</i><span>תנועה</span><i>·</i>
+</div></div></div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+
+<script>
+
+const dm=document.querySelector("[data-dragmarq]");
+let tick=false;
+function frame(){tick=false;
+  const r=dm.getBoundingClientRect();
+  const t=(innerHeight-r.top)/(innerHeight+r.height);
+  dm.style.translate=((t-.5)*120)+"px 0";}
+addEventListener("scroll",()=>{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});
+frame();
+</script>
+</body>
+</html>

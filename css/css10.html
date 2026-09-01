@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS10 · כרטיס מתהפך (Flip) | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.flipw{width:260px;height:330px;perspective:1100px;margin-inline:auto;cursor:pointer}
+.flip{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
+.flipw:hover .flip,.flipw.tap .flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.face.back{transform:rotateY(180deg);background:#16182b;color:#fff}
+.face.back p{color:#b9bbd4;font-size:14px;margin:0;padding-inline:24px;text-align:center}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CSS10</span> · כרטיס מתהפך (Flip)</h1>
+  <span class="chip cat-css">CSS טהור</span>
+  <span class="chip">CSS 3D transform</span>
+  <span class="chip st-approved">מאושר-עין</span>
+</div></div>
+<div class="vintro">
+  <p>כרטיס עם שני צדדים שמתהפך בהובר או בלחיצה.</p>
+  <p class="when"><b>מתי משתמשים:</b> צוות (תמונה/פרטים), פיצ'רים עם עומק, כרטיסי משחק.</p>
+</div>
+
+<div class="stage tight"><div class="flipw"><div class="flip">
+<div class="face ph ph-b">הצד הקדמי</div>
+<div class="face back"><h3 style="margin:0">הצד האחורי</h3><p>הובר בדסקטופ, לחיצה במובייל.</p></div>
+</div></div></div>
+
+
+
+<script>
+
+document.querySelector(".flipw").addEventListener("click",function(){this.classList.toggle("tap")});
+</script>
+</body>
+</html>

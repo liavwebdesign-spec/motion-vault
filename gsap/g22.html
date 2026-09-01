@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G22 · עיגול תהליך נצבע בגלילה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.pw{height:100vh;display:flex;align-items:center;justify-content:center;position:relative}
+.pstage{position:relative;width:min(540px,72vw);aspect-ratio:1}
+.pcirc{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.pcirc .track{fill:none;stroke:#e2e2e2;stroke-width:2}
+.pcirc .draw{fill:none;stroke:url(#pg);stroke-width:4;stroke-linecap:round}
+.pdot{position:absolute;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#e8590c,#c2255c);filter:grayscale(1) brightness(1.7);transform:translate(-50%,-50%)}
+.pstep{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0;padding:12%}
+.pstep h3{font-size:clamp(22px,1.8vw,36px);margin:8px 0}
+.pstep p{color:var(--muted);max-width:34ch;margin:0}
+.pstep .num{font-size:clamp(40px,3.5vw,80px);font-weight:700;color:transparent;-webkit-text-stroke:1.5px #c2255c;line-height:1}
+.pstep.p1{opacity:1}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G22</span> · עיגול תהליך נצבע בגלילה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · DrawSVG · pin</span>
+  <span class="chip st-pending">ממתין לאישור</span>
+</div></div>
+<div class="vintro">
+  <p>קשת צבעונית נצבעת סביב עיגול גדול בקצב הגלילה, כל תחנה נדלקת בתורה והתוכן במרכז מתחלף.</p>
+  <p class="when"><b>מתי משתמשים:</b> תהליך של 3-5 שלבים. האלטרנטיבה המעגלית לטיימליין האופקי.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="pw"><div class="pstage">
+<svg class="pcirc" viewBox="0 0 600 600">
+<defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8590c"/><stop offset="1" stop-color="#c2255c"/></linearGradient></defs>
+<circle class="track" cx="300" cy="300" r="290"/><circle class="draw" cx="300" cy="300" r="290"/>
+</svg>
+<div class="pdot d1" style="top:1.5%;left:50%;filter:none"></div>
+<div class="pdot d2" style="top:50%;left:98.5%"></div>
+<div class="pdot d3" style="top:98.5%;left:50%"></div>
+<div class="pdot d4" style="top:50%;left:1.5%"></div>
+<div class="pstep p1"><span class="num">01</span><h3>איפיון האתגרים</h3><p>בשיחה ראשונית נכיר אתכם ונבין את הצרכים.</p></div>
+<div class="pstep p2"><span class="num">02</span><h3>תכנון הפתרון</h3><p>בונים תהליך שמתאים לארגון ולפעילות.</p></div>
+<div class="pstep p3"><span class="num">03</span><h3>הטמעה מלאה</h3><p>מלווים את הצוות עד שהמערכת עובדת לבד.</p></div>
+<div class="pstep p4"><span class="num">04</span><h3>צמיחה</h3><p>מודדים, מדייקים וממשיכים קדימה.</p></div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+gsap.set(".pcirc .draw",{drawSVG:"0% 0%"});
+const ptl=gsap.timeline({scrollTrigger:{trigger:".pw",start:"top top",end:"+=2000",scrub:true,pin:true,anticipatePin:1}});
+const STEPS=4;
+for(let i=1;i<STEPS;i++){
+  ptl.to(".pcirc .draw",{drawSVG:"0% "+(i*100/STEPS)+"%",duration:2})
+     .to(".d"+(i+1),{filter:"grayscale(0) brightness(1)",duration:.1})
+     .to(".p"+(i+1),{opacity:1,duration:.1},"<")
+     .to(".p"+i,{opacity:0,duration:.1},"<");
+}
+ptl.to(".pcirc .draw",{drawSVG:"0% 100%",duration:2});
+</script>
+</body>
+</html>

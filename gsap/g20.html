@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G20 · טיימליין אופקי עם קו התקדמות | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.hwrap{overflow:hidden;background:#fff}
+.hcont{display:flex;position:relative;padding-block:130px}
+.step{flex:0 0 36vw;display:flex;flex-direction:column;align-items:center;text-align:center;padding-inline:20px}
+.step .dot{width:18px;height:18px;border-radius:50%;background:#3b5bdb;margin-bottom:14px}
+.step h3{margin:0 0 6px;font-size:20px}
+.step p{margin:0;color:var(--muted)}
+.tline{position:absolute;top:calc(130px + 8px);inset-inline-start:0;height:2px;width:200%;background:linear-gradient(90deg,#3b5bdb,#22b8cf)}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G20</span> · טיימליין אופקי עם קו התקדמות</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · pin + scrub</span>
+  <span class="chip st-pending">ממתין לאישור</span>
+</div></div>
+<div class="vintro">
+  <p>גלילה צידית שקו נמתח לאורכה וכל תחנה נדלקת כשהוא מגיע אליה.</p>
+  <p class="when"><b>מתי משתמשים:</b> תהליך עבודה, מסע לקוח, אבני דרך. הוא או G1, לא שניהם באותו עמוד.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="hwrap"><div class="hcont">
+<div class="tline"></div>
+<div class="step s1"><div class="dot"></div><h3>אפיון</h3><p>מבינים את העסק</p></div>
+<div class="step s2"><div class="dot"></div><h3>קופי</h3><p>כותבים את הסיפור</p></div>
+<div class="step s3"><div class="dot"></div><h3>עיצוב</h3><p>נותנים לו פנים</p></div>
+<div class="step s4"><div class="dot"></div><h3>פיתוח</h3><p>מפיחים חיים</p></div>
+<div class="step s5"><div class="dot"></div><h3>השקה</h3><p>עולים לאוויר</p></div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const panels=gsap.utils.toArray(".step");
+const hc=document.querySelector(".hcont");
+const totalW=hc.scrollWidth-window.innerWidth;
+const dist=()=> "+="+totalW*1.6;
+gsap.to(panels,{x:totalW,ease:"none",
+  scrollTrigger:{trigger:".hwrap",pin:true,scrub:true,start:"top top",end:dist(),anticipatePin:1}});
+gsap.from(".tline",{x:"45vw",ease:"none",
+  scrollTrigger:{trigger:".hwrap",scrub:true,start:"top top",end:dist()}});
+panels.forEach((s,i)=>{
+  if(i===0)return;
+  gsap.from(s,{opacity:.2,ease:"none",
+    scrollTrigger:{trigger:".hwrap",scrub:true,
+      start:()=>"top+="+(totalW*1.6*(i/panels.length))+" top",
+      end:()=>"top+="+(totalW*1.6*((i+.4)/panels.length))+" top"}});
+});
+</script>
+</body>
+</html>

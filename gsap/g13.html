@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G13 · Batch Reveal לגרידים | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);padding-inline:var(--gutter)}
+.bcard{height:130px;background:#fff;border:1px solid var(--line);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-weight:500}
+@media(max-width:767px){.bgrid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G13</span> · Batch Reveal לגרידים</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger.batch</span>
+  <span class="chip st-pending">ממתין לאישור</span>
+</div></div>
+<div class="vintro">
+  <p>כרטיסי גריד נכנסים בקבוצות חכמות: מה שנגלה יחד במסך עולה יחד, עם סטאגר זעיר של 0.08 שניות.</p>
+  <p class="when"><b>מתי משתמשים:</b> גרידים של 6 פריטים ומעלה. החריג המאושר היחיד לחוק האנטי-סטאגר.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage tight"><div class="bgrid">
+<div class="bcard">01</div><div class="bcard">02</div><div class="bcard">03</div>
+<div class="bcard">04</div><div class="bcard">05</div><div class="bcard">06</div>
+<div class="bcard">07</div><div class="bcard">08</div><div class="bcard">09</div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+gsap.set(".bcard",{y:24,opacity:0});
+ScrollTrigger.batch(".bcard",{start:"top 88%",once:true,
+  onEnter:b=>gsap.to(b,{y:0,opacity:1,stagger:.08,duration:.5,ease:"power2.out"})});
+</script>
+</body>
+</html>

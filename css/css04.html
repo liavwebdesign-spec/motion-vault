@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS04 · חשיפת clip בכניסה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.clipr{font-size:var(--fs-demo);max-width:20ch;margin-inline:auto;opacity:0}
+.clipr.in{opacity:1;animation:clipIn .8s cubic-bezier(.2,.6,.2,1) both}
+@keyframes clipIn{from{clip-path:inset(100% 0 0 0);translate:0 30px}to{clip-path:inset(0 0 0 0);translate:0 0}}
+@media(prefers-reduced-motion:reduce){.clipr{opacity:1;animation:none}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CSS04</span> · חשיפת clip בכניסה</h1>
+  <span class="chip cat-css">CSS טהור</span>
+  <span class="chip">CSS @keyframes + IO</span>
+  <span class="chip st-approved">מאושר-עין</span>
+</div></div>
+<div class="vintro">
+  <p>הכותרת נחשפת מתוך מסכה מלמטה כשהיא נכנסת למסך. גרסת ה-CSS הזולה של חשיפות הטקסט.</p>
+  <p class="when"><b>מתי משתמשים:</b> כותרות סקשן כשלא רוצים לטעון GSAP.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage center"><h2 class="clipr">הכותרת הזאת נחשפת מתוך מסכה</h2></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+
+<script>
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}
+}),{threshold:.3});
+document.querySelectorAll(".clipr").forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

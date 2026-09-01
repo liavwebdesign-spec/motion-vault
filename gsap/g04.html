@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G04 · טקסט נחשף בגלילה: שלוש רמות | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.tstage h2{font-size:var(--fs-demo);line-height:1.2;max-width:22ch;margin:0 auto clamp(120px,14vw,260px)}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G04</span> · טקסט נחשף בגלילה: שלוש רמות</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · SplitText</span>
+  <span class="chip st-pending">ממתין לאישור</span>
+</div></div>
+<div class="vintro">
+  <p>שלוש עוצמות חשיפה לכותרת: מילים עולות מ-clip, מילים מתבהרות, והכותרת נמחקת מהצד.</p>
+  <p class="when"><b>מתי משתמשים:</b> כותרות סקשן באתרי סטוריטלינג. בעברית מפצלים למילים בלבד, לא לאותיות.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage tight tstage center">
+<h2 class="t-clip">רמה א: המילים עולות מתוך מסכה, מילה אחרי מילה, בקצב הגלילה</h2>
+<h2 class="t-fade">רמה ב: המילים מתבהרות בעדינות משקיפות חלקית אל מלאה</h2>
+<h2 class="t-wipe">רמה ג: הכותרת כולה נמחקת ונחשפת מהצד בתנועה אחת</h2>
+</div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger, SplitText);
+document.querySelectorAll(".t-clip").forEach(h=>{
+  const s=new SplitText(h,{type:"lines, words"});
+  gsap.from(s.words,{clipPath:"inset(100% 0% 0% 0%)",opacity:0,stagger:.5,
+    scrollTrigger:{trigger:h,start:"top 80%",end:"top 30%",scrub:1}});
+});
+document.querySelectorAll(".t-fade").forEach(h=>{
+  const s=new SplitText(h,{type:"lines, words"});
+  gsap.from(s.words,{opacity:.15,stagger:.5,scrollTrigger:{trigger:h,start:"top 80%",end:"top 30%",scrub:1}});
+});
+document.querySelectorAll(".t-wipe").forEach(h=>{
+  gsap.from(h,{clipPath:"inset(0% 0% 0% 100%)",ease:"power4.out",
+    scrollTrigger:{trigger:h,start:"top 70%",end:"top 40%",scrub:1}});
+});
+</script>
+</body>
+</html>

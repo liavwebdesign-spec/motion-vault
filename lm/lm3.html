@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>LM3 · הצטלבות (Converging) | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.conv{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);padding-inline:var(--gutter);align-items:center}
+.cv{background:#fff;border:1px solid var(--line);border-radius:18px;padding:34px;opacity:0;transition:opacity .7s cubic-bezier(.22,1,.36,1),translate .7s cubic-bezier(.22,1,.36,1)}
+.cv h3{margin:0 0 8px}.cv p{margin:0;color:var(--muted)}
+.cv.a{translate:-64px 0}.cv.b{translate:64px 0}
+.conv.met .cv{opacity:1;translate:0 0}
+.cv.warm{box-shadow:8px 8px 0 #f49e40;border-radius:16px}
+@media(max-width:767px){.conv{grid-template-columns:1fr}.cv.a,.cv.b{translate:0 24px}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">LM3</span> · הצטלבות (Converging)</h1>
+  <span class="chip cat-lm">חתימה (LM)</span>
+  <span class="chip">CSS + IO</span>
+  <span class="chip st-pending">ממתין לאישור</span>
+</div></div>
+<div class="vintro">
+  <p>זוג בלוקים שנכנסים משני צדדים ונפגשים במרכז. התוכן צועד אחד לקראת השני.</p>
+  <p class="when"><b>מתי משתמשים:</b> לפני/אחרי, בעיה/פתרון, שני צדדים של סיפור. פעם-פעמיים בעמוד.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="conv">
+<div class="cv a warm"><h3>מה שרואים במגרש</h3><p>הביצועים שהיריב מרגיש.</p></div>
+<div class="cv b"><h3>מה שקורה מאחורי הקלעים</h3><p>הנתונים שמייצרים את הביצועים.</p></div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+
+<script>
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  if(e.isIntersecting){e.target.classList.add("met");io.unobserve(e.target)}
+}),{threshold:.35});
+document.querySelectorAll(".conv").forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

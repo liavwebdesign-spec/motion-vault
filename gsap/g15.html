@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G15 · פרילודר פרימיום (עלייה) | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+#pre{position:fixed;inset:0;background:#16182b;z-index:999;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700}
+.replay{margin-inline:var(--gutter)}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G15</span> · פרילודר פרימיום (עלייה)</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · load event</span>
+  <span class="chip st-pending">ממתין לאישור</span>
+</div></div>
+<div class="vintro">
+  <p>מסך פתיחה שמתרומם ונעלם כשהעמוד באמת נטען. בלי המתנה מלאכותית.</p>
+  <p class="when"><b>מתי משתמשים:</b> אתרי פרימיום כבדי מדיה בלבד. פרילודר על אתר מהיר הוא עיכוב מיותר.</p>
+</div>
+
+<div id="pre">כאן יושב הלוגו או לוטי של המותג</div>
+<div class="stage tight center"><button class="gbtn replay">הפעל שוב את הפרילודר</button></div>
+
+<div class="demo-note">בדמו יש השהיה קטנה כדי שתספיק לראות; באתר אמיתי הוא נפתח ברגע ה-load.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+
+function runPre(){
+  const p=document.getElementById("pre");
+  p.style.display="flex";gsap.set(p,{yPercent:0});
+  gsap.to(p,{yPercent:-100,duration:.6,ease:"power3.inOut",delay:.9,
+    onComplete:()=>p.style.display="none"});
+}
+let done=false;
+function hide(){if(done)return;done=true;runPre();}
+if(document.readyState==="complete")hide();
+else{addEventListener("load",hide);setTimeout(hide,3000);}
+document.querySelector(".replay").addEventListener("click",runPre);
+</script>
+</body>
+</html>

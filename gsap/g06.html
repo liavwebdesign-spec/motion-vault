@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G06 · גלריה נגררת עם אינרציה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.dragw{height:60vh;border:2px dashed #ccc;border-radius:var(--r);overflow:hidden;margin-inline:var(--gutter)}
+.drag{display:grid;grid-template-columns:repeat(4,240px);gap:16px;padding:24px;width:max-content;cursor:grab}
+.drag:active{cursor:grabbing}
+.drag .ph{height:170px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G06</span> · גלריה נגררת עם אינרציה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · Draggable · Inertia</span>
+  <span class="chip st-pending">ממתין לאישור</span>
+</div></div>
+<div class="vintro">
+  <p>גריד שגוררים ביד והוא ממשיך בתנופה ונבלם ברכות בגבולות.</p>
+  <p class="when"><b>מתי משתמשים:</b> פורטפוליו, גלריה חופשית. במגע זה הבית הטבעי שלו.</p>
+</div>
+
+<div class="stage tight"><div class="dragw"><div class="drag">
+<div class="ph ph-a">1</div><div class="ph ph-b">2</div><div class="ph ph-c">3</div><div class="ph ph-d">4</div>
+<div class="ph ph-e">5</div><div class="ph ph-f">6</div><div class="ph ph-b">7</div><div class="ph ph-a">8</div>
+</div></div></div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/InertiaPlugin.min.js"></script>
+<script>
+gsap.registerPlugin(Draggable, InertiaPlugin);
+Draggable.create(".drag",{type:"x,y",edgeResistance:.65,bounds:".dragw",inertia:true});
+</script>
+</body>
+</html>

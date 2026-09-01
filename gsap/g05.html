@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G05 · מסך מפוצל: תמונות מתחלפות לפי טקסט | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.sync{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);padding-inline:var(--gutter)}
+.sync-media{position:sticky;top:15vh;height:70vh}
+.sync-media .ph{position:absolute;inset:0;font-size:24px}
+.sync-texts .block{min-height:80vh;display:flex;flex-direction:column;justify-content:center}
+.sync-texts h2{font-size:var(--fs-h2)}
+.sync-texts p{color:var(--muted);max-width:40ch}
+@media(max-width:767px){.sync{grid-template-columns:1fr}.sync-media{position:static;height:36vh}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G05</span> · מסך מפוצל: תמונות מתחלפות לפי טקסט</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger · sticky</span>
+  <span class="chip st-pending">ממתין לאישור</span>
+</div></div>
+<div class="vintro">
+  <p>צד תמונה דביק וצד טקסט גולל; כל בלוק טקסט שמגיע מחליף את התמונה ב-crossfade.</p>
+  <p class="when"><b>מתי משתמשים:</b> הצגת שירותים או פרקים עם ויז'ואל לכל אחד.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="sync">
+<div class="sync-texts">
+  <div class="block sync-t"><h2>פרק ראשון</h2><p>כשהבלוק הזה במרכז המסך רואים את הכחול.</p></div>
+  <div class="block sync-t"><h2>פרק שני</h2><p>הגעת לכאן? הסגול נכנס בהדרגה מעל הכחול.</p></div>
+  <div class="block sync-t"><h2>פרק שלישי</h2><p>והירוק סוגר את הסיפור.</p></div>
+</div>
+<div class="sync-media">
+  <div class="ph ph-a si-1">תמונה 1</div>
+  <div class="ph ph-b si-2" style="opacity:1">תמונה 2</div>
+  <div class="ph ph-d si-3" style="opacity:1">תמונה 3</div>
+</div>
+</div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+gsap.utils.toArray(".sync-t").forEach((txt,i)=>{
+  if(i===0)return;
+  gsap.from(".si-"+(i+1),{opacity:0,ease:"none",
+    scrollTrigger:{trigger:txt,start:"top 60%",end:"top 30%",scrub:1}});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B03 · CTA דביק חכם | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.cta-hero{padding:60px var(--gutter);text-align:center}
+.stickycta{position:fixed;bottom:24px;inset-inline-start:24px;z-index:80;opacity:0;translate:0 12px;pointer-events:none;transition:opacity .24s,translate .24s}
+.stickycta.show{opacity:1;translate:0 0;pointer-events:auto}
+.stickycta .gbtn{box-shadow:0 8px 24px rgba(74,58,255,.35)}
+.filler{height:120vh;display:flex;align-items:center;justify-content:center;color:#c3c5d6}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B03</span> · CTA דביק חכם</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">vanilla JS · IntersectionObserver</span>
+  <span class="chip st-approved">מאושר-עין</span>
+</div></div>
+<div class="vintro">
+  <p>כפתור צף שמופיע רק כשאף CTA ראשי לא נמצא על המסך, ונעלם כשיש.</p>
+  <p class="when"><b>מתי משתמשים:</b> עמודים ארוכים. במובייל בר תחתון מלא עם safe-area.</p>
+</div>
+
+<div class="cta-hero"><button class="gbtn main-cta">הכפתור הראשי (כשאני נראה, הצף נעלם)</button></div>
+<div class="filler">גלול. כשהכפתור הראשי ייצא מהמסך, יופיע כפתור צף</div>
+<div class="cta-hero"><button class="gbtn main-cta">עוד כפתור ראשי בתחתית</button></div>
+<div class="stickycta"><button class="gbtn">בואו נדבר</button></div>
+
+
+
+<script>
+
+const sticky=document.querySelector(".stickycta");let visible=new Set();
+const io=new IntersectionObserver(es=>{
+  es.forEach(e=>{e.isIntersecting?visible.add(e.target):visible.delete(e.target)});
+  sticky.classList.toggle("show",visible.size===0);
+},{rootMargin:"-72px"});
+document.querySelectorAll(".main-cta").forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G18 · סצנת סיפור מוצמדת (Master Timeline) | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.scene{height:100vh;background:#101223;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+.scene .bgA,.scene .bgB{position:absolute;inset-inline:0;height:34%;border-radius:50% 50% 0 0/100% 100% 0 0;background:#2a2f55}
+.scene .bgA{top:-12%;transform:rotate(180deg)}.scene .bgB{bottom:-12%}
+.stitles{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center}
+.st1,.st2{position:absolute;color:#fff;font-size:var(--fs-demo);font-weight:700;max-width:20ch;padding-inline:var(--gutter)}
+.smedia{position:relative;z-index:2;width:60vw;background:linear-gradient(135deg,#7048e8,#22b8cf);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G18</span> · סצנת סיפור מוצמדת (Master Timeline)</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · pin + timeline</span>
+  <span class="chip st-pending">ממתין לאישור</span>
+</div></div>
+<div class="vintro">
+  <p>הסקשן ננעל והופך לבמה: כותרת נכנסת ונמוגה, שנייה מחליפה אותה, והמדיה נפתחת מגלולה זעירה למסך כמעט מלא. גלול לאט, גם אחורה.</p>
+  <p class="when"><b>מתי משתמשים:</b> סקשן שיא אחד באתר סטוריטלינג. אחד לאתר: זה מהלך חתימה, לא תבנית.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="scene">
+<div class="bgA"></div><div class="bgB"></div>
+<div class="stitles">
+  <h2 class="st1">יש סיפורים שאי אפשר לספר בסקשן רגיל</h2>
+  <h2 class="st2">בשביל זה בדיוק יש את הבמה הזאת</h2>
+</div>
+<div class="smedia">הווידאו שלך כאן</div>
+</div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note">הטריק המבני: הטיימליין מתחיל לפני הנעיצה ומסתיים אחריה, שני ScrollTrigger נפרדים.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger, SplitText);
+const t1=new SplitText(".st1",{type:"words"}),t2=new SplitText(".st2",{type:"words"});
+const tl=gsap.timeline({scrollTrigger:{trigger:".scene",start:"top 90%",end:"+=2600",scrub:1}});
+ScrollTrigger.create({trigger:".scene",start:"top top",end:"+=2200",pin:true,scrub:1,anticipatePin:1});
+tl.from(".bgA",{y:"-10vw",duration:1},0)
+  .from(".bgB",{y:"10vw",duration:1},0)
+  .from(t1.words,{y:50,opacity:0,stagger:.05,duration:.5},"-=0.5")
+  .to(".st1",{opacity:0,duration:.5},"+=0.3")
+  .from(t2.words,{y:50,opacity:0,stagger:.05,duration:.5})
+  .to(".st2",{opacity:0,duration:.4},"+=0.3")
+  .from(".smedia",{opacity:0,duration:.3})
+  .fromTo(".smedia",{scale:.2,borderRadius:"500vw",height:"22vw"},{scale:1,borderRadius:"24px",height:"82vh",duration:.8});
+</script>
+</body>
+</html>

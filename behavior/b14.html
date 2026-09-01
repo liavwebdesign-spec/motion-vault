@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B14 · פרלקס עדין (translate3d) | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.pxs{position:relative;height:70vh;overflow:hidden;border-radius:var(--r);margin-inline:var(--gutter);display:flex;align-items:center;justify-content:center}
+.pxbg{position:absolute;inset:-20% 0;background:linear-gradient(150deg,#1b2653,#3b5bdb);z-index:0}
+.pxs h2{position:relative;z-index:1;color:#fff;font-size:var(--fs-h2)}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B14</span> · פרלקס עדין (translate3d)</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">vanilla JS · rAF</span>
+  <span class="chip st-approved">מאושר-עין</span>
+</div></div>
+<div class="vintro">
+  <p>רקע שנע לאט מהתוכן. עומק מינימלי, ביצועים מקסימליים.</p>
+  <p class="when"><b>מתי משתמשים:</b> רקעי סקשן. במובייל מקדם חצי או כבוי.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage tight"><div class="pxs"><div class="pxbg"></div><h2>הרקע זז לאט ממני</h2></div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+
+<script>
+
+const bg=document.querySelector(".pxbg"),wrap=document.querySelector(".pxs");
+let tick=false;
+function frame(){tick=false;
+  const r=wrap.getBoundingClientRect();
+  const p=(innerHeight-r.top)/(innerHeight+r.height);
+  bg.style.transform="translate3d(0,"+((p-.5)*80)+"px,0)";}
+addEventListener("scroll",()=>{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});
+frame();
+</script>
+</body>
+</html>

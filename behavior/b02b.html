@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B02B · Hotspots על תמונה עם רשימה מסונכרנת | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.hs-wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:var(--gap);padding-inline:var(--gutter);align-items:start}
+.hs-img{position:relative;aspect-ratio:4/3;border-radius:var(--r);font-size:20px}
+.hs-dot{position:absolute;width:34px;height:34px;border-radius:50%;background:#f4c660;color:#16182b;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid #fff;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:transform .2s;opacity:0;scale:.3}
+.hs-dot:hover{transform:scale(1.15)}
+.hs-tip{position:absolute;bottom:130%;inset-inline-start:50%;translate:50% 0;background:#16182b;color:#fff;font-size:13px;padding:8px 14px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.hs-dot:hover .hs-tip{opacity:1}
+.hs-list{display:flex;flex-direction:column;gap:10px}
+.hs-row{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;transition:border-color .2s,background .2s}
+.hs-row.on{border-color:#f4c660;background:#fffaf0}
+.hs-row b{width:28px;height:28px;border-radius:50%;background:#f4c660;color:#16182b;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
+@media(max-width:767px){.hs-wrap{grid-template-columns:1fr}.hs-dot{display:none}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B02B</span> · Hotspots על תמונה עם רשימה מסונכרנת</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">CSS + GSAP pop</span>
+  <span class="chip st-approved">מאושר-עין</span>
+</div></div>
+<div class="vintro">
+  <p>נקודות ממוספרות על תמונה, כל אחת פותחת כרטיס מידע בהובר; הובר על נקודה מדליק את השורה ברשימה ולהפך.</p>
+  <p class="when"><b>מתי משתמשים:</b> תוכן שמצביע על אזורים בתמונה: נכס, מוצר, תרשים. במובייל הנקודות נעלמות והרשימה נושאת הכל.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage tight"><div class="hs-wrap">
+<div class="hs-img ph ph-c">תמונת הנכס
+  <div class="hs-dot" data-i="1" style="top:24%;inset-inline-start:30%">1<span class="hs-tip">מטבח מרווח עם אי</span></div>
+  <div class="hs-dot" data-i="2" style="top:56%;inset-inline-start:62%">2<span class="hs-tip">סלון עם יציאה למרפסת</span></div>
+  <div class="hs-dot" data-i="3" style="top:74%;inset-inline-start:22%">3<span class="hs-tip">חדר שינה ראשי</span></div>
+</div>
+<div class="hs-list">
+  <div class="hs-row" data-i="1"><b>1</b>מטבח מרווח עם אי</div>
+  <div class="hs-row" data-i="2"><b>2</b>סלון עם יציאה למרפסת</div>
+  <div class="hs-row" data-i="3"><b>3</b>חדר שינה ראשי</div>
+</div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+gsap.to(".hs-dot",{opacity:1,scale:1,ease:"back.out(2.4)",duration:.5,stagger:.12,
+  scrollTrigger:{trigger:".hs-img",start:"top 70%"}});
+function sync(i,on){
+  document.querySelectorAll('[data-i="'+i+'"]').forEach(el=>{
+    if(el.classList.contains("hs-row"))el.classList.toggle("on",on);
+    else el.style.transform=on?"scale(1.15)":"";
+  });
+}
+document.querySelectorAll("[data-i]").forEach(el=>{
+  el.addEventListener("mouseenter",()=>sync(el.dataset.i,true));
+  el.addEventListener("mouseleave",()=>sync(el.dataset.i,false));
+});
+</script>
+</body>
+</html>
