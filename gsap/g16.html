@@ -16,11 +16,13 @@
   <h1><span class="vid">G16</span> · מילים מתרוקנות בהובר</h1>
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">GSAP · SplitText · text-stroke</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">טקסט וכותרות</span><span class="chip use">hover ומיקרו</span>
+  <button class="mvid" data-mvid="MV:g16"><code>MV:g16</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>מרחפים על מילה בכותרת והיא הופכת למתאר חלול; עוזבים והיא מתמלאת חזרה.</p>
   <p class="when"><b>מתי משתמשים:</b> כותרת הירו אינטראקטיבית. עובד מצוין בעברית. במובייל כבוי.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight center"><h2 class="hovt">כל מילה בכותרת הזאת מגיבה למגע העכבר שלך בנפרד ובזמן אמת</h2></div>
@@ -29,6 +31,13 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מילים מתרוקנות בהובר").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 gsap.registerPlugin(SplitText);
 const split=new SplitText(".hovt",{type:"words"});
 gsap.set(split.words,{display:"inline-block"});

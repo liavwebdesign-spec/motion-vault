@@ -18,11 +18,13 @@
   <h1><span class="vid">G13</span> · Batch Reveal לגרידים</h1>
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">GSAP · ScrollTrigger.batch</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">כרטיסים</span>
+  <button class="mvid" data-mvid="MV:g13"><code>MV:g13</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>כרטיסי גריד נכנסים בקבוצות חכמות: מה שנגלה יחד במסך עולה יחד, עם סטאגר זעיר של 0.08 שניות.</p>
   <p class="when"><b>מתי משתמשים:</b> גרידים של 6 פריטים ומעלה. החריג המאושר היחיד לחוק האנטי-סטאגר.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="stage tight"><div class="bgrid">
@@ -35,6 +37,13 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · Batch Reveal לגרידים").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 gsap.registerPlugin(ScrollTrigger);
 gsap.set(".bcard",{y:24,opacity:0});
 ScrollTrigger.batch(".bcard",{start:"top 88%",once:true,

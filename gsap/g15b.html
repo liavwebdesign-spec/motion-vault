@@ -20,11 +20,13 @@
   <h1><span class="vid">G15B</span> · פרילודר דלתות</h1>
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">CSS transitions · load event</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">הירו ופתיחה</span><span class="chip use">טעינה ופידבק</span>
+  <button class="mvid" data-mvid="MV:g15b"><code>MV:g15b</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>שני חצאי מסך שנפתחים לצדדים כמו דלתות וחושפים את האתר.</p>
   <p class="when"><b>מתי משתמשים:</b> וריאנט דרמטי של הפרילודר. לוטי קצר במרכז ואז פתיחה.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div id="pre"><div class="door l"></div><div class="door r"></div><div class="plabel">הדלתות נפתחות כשהעמוד נטען</div></div>
@@ -33,6 +35,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · פרילודר דלתות").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const p=document.getElementById("pre");
 function open(){

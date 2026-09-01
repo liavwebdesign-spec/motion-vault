@@ -22,11 +22,13 @@ transform:translateX(101%);transition:transform .35s cubic-bezier(.2,.6,.2,1)}
   <h1><span class="vid">CSS03</span> · מילוי כפתור מהצד</h1>
   <span class="chip cat-css">CSS טהור</span>
   <span class="chip">CSS pseudo-element</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">hover ומיקרו</span>
+  <button class="mvid" data-mvid="MV:css03"><code>MV:css03</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>רקע הכפתור מתמלא בצבע מהצד בהובר, והטקסט מתהפך.</p>
   <p class="when"><b>מתי משתמשים:</b> כפתורים משניים באתרי אופי. לא בעור השקט (שם ההובר הוא הכהיה).</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight center"><button class="fill-btn">עבור עליי עם העכבר</button></div>
@@ -34,6 +36,13 @@ transform:translateX(101%);transition:transform .35s cubic-bezier(.2,.6,.2,1)}
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מילוי כפתור מהצד").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 
 </script>

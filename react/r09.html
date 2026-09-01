@@ -22,11 +22,13 @@
   <h1><span class="vid">R09</span> · ScrollStack: ערימת כרטיסים דביקה</h1>
   <span class="chip cat-react">React</span>
   <span class="chip">ReactBits · Lenis</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">כרטיסים</span><span class="chip use">תהליך ושלבים</span>
+  <button class="mvid" data-mvid="MV:r09"><code>MV:r09</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>כרטיסים נערמים בגלילה עם עומק: scale ו-blur לפי שכבה.</p>
   <p class="when"><b>מתי משתמשים:</b> למה דווקא אנחנו, שלבים. הגרסה הריאקטית של הערימה הדביקה.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="rinstall"><code>npx shadcn@latest add @react-bits/ScrollStack-TS-TW</code></div>
@@ -40,6 +42,13 @@
 <div class="demo-note">אין reduced-motion במקור: מוסיפים גייט. לא מכפילים Lenis גלובלי.</div>
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · ScrollStack: ערימת כרטיסים דביקה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const btn=document.querySelector(".rbtn"),wrap=document.querySelector(".rframe");
 btn.addEventListener("click",()=>{

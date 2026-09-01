@@ -22,11 +22,13 @@
   <h1><span class="vid">R04</span> · ScrollExpand: מדיה שמתרחבת בגלילה</h1>
   <span class="chip cat-react">React</span>
   <span class="chip">ReactBits · vanilla</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">תמונות וגלריות</span><span class="chip use">הירו ופתיחה</span>
+  <button class="mvid" data-mvid="MV:r04"><code>MV:r04</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>מסגרת מדיה מעוגלת שגדלה ל-full-bleed תוך גלילה, הכותרת נחשפת בסוף.</p>
   <p class="when"><b>מתי משתמשים:</b> רגע שיא מדיה. reduced-motion מובנה, RTL בטוח. הנקי בסט.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="rinstall"><code>npx shadcn@latest add @react-bits/ScrollExpand-TS-TW</code></div>
@@ -40,6 +42,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · ScrollExpand: מדיה שמתרחבת בגלילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const btn=document.querySelector(".rbtn"),wrap=document.querySelector(".rframe");
 btn.addEventListener("click",()=>{

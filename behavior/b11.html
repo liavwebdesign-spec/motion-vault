@@ -20,11 +20,13 @@
   <h1><span class="vid">B11</span> · נקודת דופק (Pulse)</h1>
   <span class="chip cat-behavior">התנהגויות</span>
   <span class="chip">CSS keyframes</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">טעינה ופידבק</span><span class="chip use">רקע ואווירה</span>
+  <button class="mvid" data-mvid="MV:b11"><code>MV:b11</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>נקודה ירוקה עם גלי דופק. אינדיקטור חי שמושך תשומת לב בעדינות.</p>
   <p class="when"><b>מתי משתמשים:</b> זמין עכשיו, שידור חי, סטטוס מערכת.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight center"><span class="pulse-row"><span class="pdot2"></span>זמינים לפרויקט חדש</span></div>
@@ -32,6 +34,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · נקודת דופק (Pulse)").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 
 </script>

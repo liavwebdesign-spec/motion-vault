@@ -19,11 +19,13 @@
   <h1><span class="vid">G08</span> · סמן מותאם + פנס</h1>
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">GSAP · ticker · vanilla</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">hover ומיקרו</span><span class="chip use">רקע ואווירה</span>
+  <button class="mvid" data-mvid="MV:g08"><code>MV:g08</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>עיגול סמן שרודף את העכבר וגדל מעל לחיצים, וכתם אור מטושטש שמאיר רקע כהה סביב הסמן.</p>
   <p class="when"><b>מתי משתמשים:</b> אתרי וואו כהים, פורטפוליו. במובייל כבוי.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight"><div class="fzone">
@@ -35,6 +37,13 @@
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · סמן מותאם + פנס").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const fz=document.querySelector(".fzone"),fl=document.querySelector(".flash");
 const fo=document.createElement("div");fo.className="follow";document.body.appendChild(fo);

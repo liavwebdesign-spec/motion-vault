@@ -18,11 +18,13 @@
   <h1><span class="vid">B14</span> · פרלקס עדין (translate3d)</h1>
   <span class="chip cat-behavior">התנהגויות</span>
   <span class="chip">vanilla JS · rAF</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">רקע ואווירה</span>
+  <button class="mvid" data-mvid="MV:b14"><code>MV:b14</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>רקע שנע לאט מהתוכן. עומק מינימלי, ביצועים מקסימליים.</p>
   <p class="when"><b>מתי משתמשים:</b> רקעי סקשן. במובייל מקדם חצי או כבוי.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="stage tight"><div class="pxs"><div class="pxbg"></div><h2>הרקע זז לאט ממני</h2></div></div>
@@ -30,6 +32,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · פרלקס עדין (translate3d)").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const bg=document.querySelector(".pxbg"),wrap=document.querySelector(".pxs");
 let tick=false;

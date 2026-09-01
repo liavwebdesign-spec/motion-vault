@@ -21,11 +21,13 @@ html[dir="ltr"] .ulink::after{transform-origin:left}
   <h1><span class="vid">CSS02</span> · קו תחתון שנמתח (RTL-נכון)</h1>
   <span class="chip cat-css">CSS טהור</span>
   <span class="chip">CSS scaleX + transform-origin</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">ניווט ומבנה</span><span class="chip use">hover ומיקרו</span><span class="chip use">טקסט וכותרות</span>
+  <button class="mvid" data-mvid="MV:css02"><code>MV:css02</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>קו שנמתח מתחת ללינק מכיוון הקריאה. הסוד: transform-origin לוגי שמתהפך נכון בעברית.</p>
   <p class="when"><b>מתי משתמשים:</b> לינקים בניווט ובטקסט רץ.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight"><div class="ul-row"><span class="ulink">אודות</span><span class="ulink">שירותים</span><span class="ulink">פרויקטים</span><span class="ulink">צור קשר</span></div></div>
@@ -33,6 +35,13 @@ html[dir="ltr"] .ulink::after{transform-origin:left}
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · קו תחתון שנמתח (RTL-נכון)").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 
 </script>

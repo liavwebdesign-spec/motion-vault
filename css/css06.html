@@ -25,11 +25,13 @@ font-family:inherit;font-size:17px;font-weight:600;padding-block:20px;cursor:poi
   <h1><span class="vid">CSS06</span> · אקורדיון חלק</h1>
   <span class="chip cat-css">CSS טהור</span>
   <span class="chip">CSS grid-rows transition</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">ניווט ומבנה</span>
+  <button class="mvid" data-mvid="MV:css06"><code>MV:css06</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>פתיחה וסגירה חלקות עם הטריק המודרני: grid-template-rows מ-0fr ל-1fr, בלי JS שמודד גבהים.</p>
   <p class="when"><b>מתי משתמשים:</b> שאלות ותשובות, מפרטים.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight"><div class="acc">
@@ -44,6 +46,13 @@ font-family:inherit;font-size:17px;font-weight:600;padding-block:20px;cursor:poi
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · אקורדיון חלק").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 document.querySelectorAll(".acc-q").forEach(q=>q.addEventListener("click",()=>{
   q.closest(".acc-item").classList.toggle("open");

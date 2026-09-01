@@ -22,11 +22,13 @@
   <h1><span class="vid">R08</span> · DriftWall: קיר אריחים נסחף</h1>
   <span class="chip cat-react">React</span>
   <span class="chip">ReactBits · vanilla</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">רקע ואווירה</span><span class="chip use">תמונות וגלריות</span>
+  <button class="mvid" data-mvid="MV:r08"><code>MV:r08</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>קיר אינסופי של אריחים בפרספקטיבה שנסחפים אנכית, הובר מרים אריח.</p>
   <p class="when"><b>מתי משתמשים:</b> רקע אווירה חי לתיק עבודות או לוגואים. הבטוח בסט.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="rinstall"><code>npx shadcn@latest add @react-bits/DriftWall-TS-TW</code></div>
@@ -40,6 +42,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · DriftWall: קיר אריחים נסחף").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const btn=document.querySelector(".rbtn"),wrap=document.querySelector(".rframe");
 btn.addEventListener("click",()=>{

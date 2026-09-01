@@ -21,11 +21,13 @@
   <h1><span class="vid">B13</span> · תכשיטי צורה</h1>
   <span class="chip cat-behavior">התנהגויות</span>
   <span class="chip">CSS</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">רקע ואווירה</span>
+  <button class="mvid" data-mvid="MV:b13"><code>MV:b13</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>צורות גיאומטריות קטנות שמתבלות סקשן בלי להעמיס. אפס באזורי פעולה.</p>
   <p class="when"><b>מתי משתמשים:</b> עורות playful וממפיס. אחת-שתיים לסקשן.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="jw"><span class="j j1"></span><span class="j j2"></span><span class="j j3"></span><h2>הכותרת במרכז, התכשיטים מסביב</h2></div>
@@ -33,6 +35,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · תכשיטי צורה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 
 </script>

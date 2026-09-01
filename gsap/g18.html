@@ -21,11 +21,13 @@
   <h1><span class="vid">G18</span> · סצנת סיפור מוצמדת (Master Timeline)</h1>
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">GSAP · pin + timeline</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">הירו ופתיחה</span><span class="chip use">תמונות וגלריות</span>
+  <button class="mvid" data-mvid="MV:g18"><code>MV:g18</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>הסקשן ננעל והופך לבמה: כותרת נכנסת ונמוגה, שנייה מחליפה אותה, והמדיה נפתחת מגלולה זעירה למסך כמעט מלא. גלול לאט, גם אחורה.</p>
   <p class="when"><b>מתי משתמשים:</b> סקשן שיא אחד באתר סטוריטלינג. אחד לאתר: זה מהלך חתימה, לא תבנית.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="scene">
@@ -42,6 +44,13 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · סצנת סיפור מוצמדת (Master Timeline)").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 gsap.registerPlugin(ScrollTrigger, SplitText);
 const t1=new SplitText(".st1",{type:"words"}),t2=new SplitText(".st2",{type:"words"});
 const tl=gsap.timeline({scrollTrigger:{trigger:".scene",start:"top 90%",end:"+=2600",scrub:1}});

@@ -26,11 +26,13 @@
   <h1><span class="vid">G22</span> · עיגול תהליך נצבע בגלילה</h1>
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">GSAP · DrawSVG · pin</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">תהליך ושלבים</span><span class="chip use">מספרים ונתונים</span>
+  <button class="mvid" data-mvid="MV:g22"><code>MV:g22</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>קשת צבעונית נצבעת סביב עיגול גדול בקצב הגלילה, כל תחנה נדלקת בתורה והתוכן במרכז מתחלף.</p>
   <p class="when"><b>מתי משתמשים:</b> תהליך של 3-5 שלבים. האלטרנטיבה המעגלית לטיימליין האופקי.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="pw"><div class="pstage">
@@ -53,6 +55,13 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · עיגול תהליך נצבע בגלילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
 gsap.set(".pcirc .draw",{drawSVG:"0% 0%"});
 const ptl=gsap.timeline({scrollTrigger:{trigger:".pw",start:"top top",end:"+=2000",scrub:true,pin:true,anticipatePin:1}});

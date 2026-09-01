@@ -21,11 +21,13 @@
   <h1><span class="vid">CSS10</span> · כרטיס מתהפך (Flip)</h1>
   <span class="chip cat-css">CSS טהור</span>
   <span class="chip">CSS 3D transform</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">כרטיסים</span><span class="chip use">hover ומיקרו</span>
+  <button class="mvid" data-mvid="MV:css10"><code>MV:css10</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>כרטיס עם שני צדדים שמתהפך בהובר או בלחיצה.</p>
   <p class="when"><b>מתי משתמשים:</b> צוות (תמונה/פרטים), פיצ'רים עם עומק, כרטיסי משחק.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight"><div class="flipw"><div class="flip">
@@ -36,6 +38,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · כרטיס מתהפך (Flip)").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 document.querySelector(".flipw").addEventListener("click",function(){this.classList.toggle("tap")});
 </script>

@@ -20,11 +20,13 @@
   <h1><span class="vid">B01</span> · מרקי (רצועה נעה)</h1>
   <span class="chip cat-behavior">התנהגויות</span>
   <span class="chip">CSS keyframes</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">רקע ואווירה</span><span class="chip use">ניווט ומבנה</span>
+  <button class="mvid" data-mvid="MV:b01"><code>MV:b01</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>רצועת תוכן שזורמת בלולאה מושלמת: התוכן משוכפל פעמיים בדיוק, מסכת קצה ממיסה את החיתוך, והובר עוצר.</p>
   <p class="when"><b>מתי משתמשים:</b> נקודות אמון בתחתית הירו, רצועת לוגואים, פסי אווירה.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight full"><div class="marq" aria-hidden="true"><div class="marq-track">
@@ -35,6 +37,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מרקי (רצועה נעה)").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 
 </script>

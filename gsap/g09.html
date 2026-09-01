@@ -17,11 +17,13 @@
   <h1><span class="vid">G09</span> · זריקה אינרציאלית בהובר</h1>
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">GSAP · InertiaPlugin</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">hover ומיקרו</span>
+  <button class="mvid" data-mvid="MV:g09"><code>MV:g09</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>מרחפים על פריט והוא נזרק בכיוון תנועת העכבר וחוזר למקומו ברכות.</p>
   <p class="when"><b>מתי משתמשים:</b> גריד לוגואים, תגיות או צ'יפים באתר playful. במובייל כבוי.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight"><div class="throw-grid">
@@ -33,6 +35,13 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/InertiaPlugin.min.js"></script>
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · זריקה אינרציאלית בהובר").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 gsap.registerPlugin(InertiaPlugin);
 document.querySelectorAll(".throw-item").forEach(el=>{
   let vx=0,vy=0,lx=0,ly=0;

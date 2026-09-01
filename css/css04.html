@@ -19,11 +19,13 @@
   <h1><span class="vid">CSS04</span> · חשיפת clip בכניסה</h1>
   <span class="chip cat-css">CSS טהור</span>
   <span class="chip">CSS @keyframes + IO</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">טקסט וכותרות</span>
+  <button class="mvid" data-mvid="MV:css04"><code>MV:css04</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>הכותרת נחשפת מתוך מסכה מלמטה כשהיא נכנסת למסך. גרסת ה-CSS הזולה של חשיפות הטקסט.</p>
   <p class="when"><b>מתי משתמשים:</b> כותרות סקשן כשלא רוצים לטעון GSAP.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="stage center"><h2 class="clipr">הכותרת הזאת נחשפת מתוך מסכה</h2></div>
@@ -31,6 +33,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · חשיפת clip בכניסה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const io=new IntersectionObserver(es=>es.forEach(e=>{
   if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}

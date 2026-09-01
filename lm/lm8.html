@@ -21,11 +21,13 @@
   <h1><span class="vid">LM8</span> · מרקי מוטה ונגרר</h1>
   <span class="chip cat-lm">חתימה (LM)</span>
   <span class="chip">CSS keyframes + rAF</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">רקע ואווירה</span>
+  <button class="mvid" data-mvid="MV:lm8"><code>MV:lm8</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>רצועה שזורמת בלולאה, מוטה 3 מעלות, וגם נגררת עם הגלילה. שתי תנועות מצטברות.</p>
   <p class="when"><b>מתי משתמשים:</b> פסי אווירה באתרי וואו. פעם אחת בעמוד.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="stage full"><div class="tiltm-wrap" data-dragmarq><div class="tiltm"><div class="tiltm-track">
@@ -36,6 +38,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מרקי מוטה ונגרר").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const dm=document.querySelector("[data-dragmarq]");
 let tick=false;

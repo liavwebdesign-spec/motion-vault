@@ -21,11 +21,13 @@
   <h1><span class="vid">B07</span> · כרטיס-גיבור בגריד</h1>
   <span class="chip cat-behavior">התנהגויות</span>
   <span class="chip">CSS</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">כרטיסים</span>
+  <button class="mvid" data-mvid="MV:b07"><code>MV:b07</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>כרטיס כהה אחד בתוך גריד בהיר מושך את העין בדיוק למה שמוכרים.</p>
   <p class="when"><b>מתי משתמשים:</b> עד 25% מהגריד, לא צמודים זה לזה.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight"><div class="hg">
@@ -37,6 +39,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · כרטיס-גיבור בגריד").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 
 </script>

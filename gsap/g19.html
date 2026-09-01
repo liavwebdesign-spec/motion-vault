@@ -17,11 +17,13 @@
   <h1><span class="vid">G19</span> · פיזור חפצים נופלים</h1>
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">GSAP · timeline</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">מספרים ונתונים</span><span class="chip use">רקע ואווירה</span>
+  <button class="mvid" data-mvid="MV:g19"><code>MV:g19</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>שמונה אלמנטים נופלים למקומם יחד, כל אחד עם סיבוב וציר סיבוב משלו.</p>
   <p class="when"><b>מתי משתמשים:</b> סקשן מספרים או הטבות, אווירה playful, המחשת שפע.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="stage tight"><div class="coins">
@@ -34,6 +36,13 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · פיזור חפצים נופלים").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 gsap.registerPlugin(ScrollTrigger);
 const tl=gsap.timeline({scrollTrigger:{trigger:".coins",start:"top 75%",end:"top 30%",scrub:1}});
 [["-2em",50,"left bottom"],["-2em",30,"top right"],["-2em",-50,"top center"],["-2em",50,"left bottom"],

@@ -20,11 +20,13 @@
   <h1><span class="vid">LM6</span> · ההדר המתממש</h1>
   <span class="chip cat-lm">חתימה (LM)</span>
   <span class="chip">CSS + scroll listener</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">ניווט ומבנה</span>
+  <button class="mvid" data-mvid="MV:lm6"><code>MV:lm6</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>הדר שקוף בראש העמוד; אחרי גלילה קצרה הרקע, הצל והגבול מתממשים ברכות.</p>
   <p class="when"><b>מתי משתמשים:</b> כמעט כל אתר. המתכון שחזר בשבעה מהאתרים של ליאב.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="mhdr"><b>לוגו<span style="color:var(--accent)">.</span></b><nav><span>בית</span><span>אודות</span><span>שירותים</span><span>צור קשר</span></nav></div>
@@ -33,6 +35,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · ההדר המתממש").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const h=document.querySelector(".mhdr");
 function onS(){h.classList.toggle("scrolled",scrollY>40)}

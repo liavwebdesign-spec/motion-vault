@@ -24,11 +24,13 @@
   <h1><span class="vid">CSS07</span> · ספינר + שלוש נקודות</h1>
   <span class="chip cat-css">CSS טהור</span>
   <span class="chip">CSS keyframes</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">טעינה ופידבק</span>
+  <button class="mvid" data-mvid="MV:css07"><code>MV:css07</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>שני מצייני הטעינה הקלאסיים: טבעת מסתובבת ושלוש נקודות מדלגות.</p>
   <p class="when"><b>מתי משתמשים:</b> טעינות קצרות. לטעינת תוכן ארוכה עדיף שלד (B15).</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight"><div class="loaders"><div class="spin"></div><div class="dots"><span></span><span></span><span></span></div></div></div>
@@ -36,6 +38,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · ספינר + שלוש נקודות").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 
 </script>

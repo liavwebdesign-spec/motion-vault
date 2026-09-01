@@ -19,11 +19,13 @@
   <h1><span class="vid">B04</span> · קרוסלת מובייל עם Peek</h1>
   <span class="chip cat-behavior">התנהגויות</span>
   <span class="chip">CSS scroll-snap</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">כרטיסים</span><span class="chip use">ניווט ומבנה</span>
+  <button class="mvid" data-mvid="MV:b04"><code>MV:b04</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>גלילה אופקית עם snap רך (proximity, לא mandatory) והצצה לקלף הבא, כדי שהגולש ידע שיש עוד.</p>
   <p class="when"><b>מתי משתמשים:</b> מחירון וכרטיסים במובייל. בדסקטופ פורשים בגריד.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight"><div class="peek">
@@ -34,6 +36,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · קרוסלת מובייל עם Peek").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 
 </script>

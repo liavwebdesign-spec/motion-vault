@@ -17,11 +17,13 @@
   <h1><span class="vid">G15</span> · פרילודר פרימיום (עלייה)</h1>
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">GSAP · load event</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">הירו ופתיחה</span><span class="chip use">טעינה ופידבק</span>
+  <button class="mvid" data-mvid="MV:g15"><code>MV:g15</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>מסך פתיחה שמתרומם ונעלם כשהעמוד באמת נטען. בלי המתנה מלאכותית.</p>
   <p class="when"><b>מתי משתמשים:</b> אתרי פרימיום כבדי מדיה בלבד. פרילודר על אתר מהיר הוא עיכוב מיותר.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div id="pre">כאן יושב הלוגו או לוטי של המותג</div>
@@ -30,6 +32,13 @@
 <div class="demo-note">בדמו יש השהיה קטנה כדי שתספיק לראות; באתר אמיתי הוא נפתח ברגע ה-load.</div>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · פרילודר פרימיום (עלייה)").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 function runPre(){
   const p=document.getElementById("pre");

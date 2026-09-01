@@ -22,11 +22,13 @@
   <h1><span class="vid">R02</span> · Marquee: מרקי CSS טהור</h1>
   <span class="chip cat-react">React</span>
   <span class="chip">MagicUI · CSS</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">רקע ואווירה</span><span class="chip use">תמונות וגלריות</span>
+  <button class="mvid" data-mvid="MV:r02"><code>MV:r02</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>מרקי אינסופי לכל תוכן: אופקי, אנכי, הפוך, עצירה בהובר. אפס תלויות.</p>
   <p class="when"><b>מתי משתמשים:</b> ברירת המחדל למרקי ב-React. הקל ביותר.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="rinstall"><code>npx shadcn@latest add "https://magicui.design/r/marquee.json"</code></div>
@@ -40,6 +42,13 @@
 <div class="demo-note">התאמות חובה: ב-RTL מעבירים reverse (ה-keyframe פיזי); מוסיפים motion-reduce ו-aria-hidden לעותקים.</div>
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · Marquee: מרקי CSS טהור").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const btn=document.querySelector(".rbtn"),wrap=document.querySelector(".rframe");
 btn.addEventListener("click",()=>{

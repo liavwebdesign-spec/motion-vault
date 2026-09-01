@@ -17,11 +17,13 @@
   <h1><span class="vid">B10</span> · קווי שיער (Hairlines)</h1>
   <span class="chip cat-behavior">התנהגויות</span>
   <span class="chip">CSS gradient</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">ניווט ומבנה</span><span class="chip use">רקע ואווירה</span>
+  <button class="mvid" data-mvid="MV:b10"><code>MV:b10</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>מפריד בגובה פיקסל שנמס בקצוות במקום להיחתך.</p>
   <p class="when"><b>מתי משתמשים:</b> הפרדות עדינות בין בלוקים בלי משקל ויזואלי.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight center"><p>בלוק תוכן ראשון</p><div class="hl"></div><p>בלוק תוכן שני</p><div class="hl accent"></div><p>וגרסת ה-accent העדינה</p></div>
@@ -29,6 +31,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · קווי שיער (Hairlines)").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 
 </script>

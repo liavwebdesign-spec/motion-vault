@@ -16,11 +16,13 @@
   <h1><span class="vid">G04</span> · טקסט נחשף בגלילה: שלוש רמות</h1>
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">GSAP · SplitText</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">טקסט וכותרות</span>
+  <button class="mvid" data-mvid="MV:g04"><code>MV:g04</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>שלוש עוצמות חשיפה לכותרת: מילים עולות מ-clip, מילים מתבהרות, והכותרת נמחקת מהצד.</p>
   <p class="when"><b>מתי משתמשים:</b> כותרות סקשן באתרי סטוריטלינג. בעברית מפצלים למילים בלבד, לא לאותיות.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="stage tight tstage center">
@@ -34,6 +36,13 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · טקסט נחשף בגלילה: שלוש רמות").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 gsap.registerPlugin(ScrollTrigger, SplitText);
 document.querySelectorAll(".t-clip").forEach(h=>{
   const s=new SplitText(h,{type:"lines, words"});

@@ -23,11 +23,13 @@
   <h1><span class="vid">LM7</span> · אוצר ההובר: לחיצה / הרמה / צמיחה</h1>
   <span class="chip cat-lm">חתימה (LM)</span>
   <span class="chip">CSS transitions</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">hover ומיקרו</span>
+  <button class="mvid" data-mvid="MV:lm7"><code>MV:lm7</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>שלוש משפחות ההובר: כרטיס מדיה נלחץ פנימה (0.97), כרטיס תוכן מתרומם אלכסונית, ו-CTA צומח עם סיבוב קטן. משפחה אחת לאלמנט, לעולם לא שתיים.</p>
   <p class="when"><b>מתי משתמשים:</b> כל אתר. הבחירה לפי סוג האלמנט.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight"><div class="hv">
@@ -39,6 +41,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · אוצר ההובר: לחיצה / הרמה / צמיחה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 
 </script>

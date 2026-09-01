@@ -20,11 +20,13 @@
   <h1><span class="vid">CSS05</span> · כניסת Blur-In</h1>
   <span class="chip cat-css">CSS טהור</span>
   <span class="chip">CSS @keyframes + IO</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">תמונות וגלריות</span><span class="chip use">טקסט וכותרות</span>
+  <button class="mvid" data-mvid="MV:css05"><code>MV:css05</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>האלמנט נכנס מטושטש ומתחדד למקומו. תחושה יוקרתית בלי אף ספרייה.</p>
   <p class="when"><b>מתי משתמשים:</b> ויז'ואלים וכותרות באתרי פרימיום.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="stage"><div class="blurin ph ph-c">נכנס מטושטש, מתחדד</div></div>
@@ -32,6 +34,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · כניסת Blur-In").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const io=new IntersectionObserver(es=>es.forEach(e=>{
   if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}

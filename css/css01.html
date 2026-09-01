@@ -20,11 +20,13 @@ transition:border-color .3s,box-shadow .3s,transform .4s cubic-bezier(.2,.6,.2,1
   <h1><span class="vid">CSS01</span> · הרמת כרטיס בהובר</h1>
   <span class="chip cat-css">CSS טהור</span>
   <span class="chip">CSS transition</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">כרטיסים</span><span class="chip use">hover ומיקרו</span>
+  <button class="mvid" data-mvid="MV:css01"><code>MV:css01</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>הכרטיס עולה 5 פיקסלים, הצל מתעמק והמסגרת נצבעת. השילוש הקלאסי של המנוע.</p>
   <p class="when"><b>מתי משתמשים:</b> כל כרטיס לחיץ. הטרנספורם תמיד איטי מהצבע (0.4 מול 0.3).</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight"><div class="lift-row">
@@ -36,6 +38,13 @@ transition:border-color .3s,box-shadow .3s,transform .4s cubic-bezier(.2,.6,.2,1
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · הרמת כרטיס בהובר").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 
 </script>

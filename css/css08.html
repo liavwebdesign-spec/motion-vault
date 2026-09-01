@@ -21,11 +21,13 @@ animation:shine 3.2s linear infinite}
   <h1><span class="vid">CSS08</span> · ברק חולף על טקסט</h1>
   <span class="chip cat-css">CSS טהור</span>
   <span class="chip">CSS background-clip</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">טקסט וכותרות</span><span class="chip use">הירו ופתיחה</span>
+  <button class="mvid" data-mvid="MV:css08"><code>MV:css08</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>פס אור שחולף על הכותרת בלולאה. עדין ויוקרתי.</p>
   <p class="when"><b>מתי משתמשים:</b> כותרת הירו או לוגו טקסטואלי. אחד לעמוד.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight center"><h2 class="shine">ברק שחולף על הכותרת</h2></div>
@@ -33,6 +35,13 @@ animation:shine 3.2s linear infinite}
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · ברק חולף על טקסט").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 
 </script>

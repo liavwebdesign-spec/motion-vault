@@ -24,11 +24,13 @@ animation:rot 3.5s linear infinite}
   <h1><span class="vid">CSS12</span> · גבול גרדיאנט מסתובב</h1>
   <span class="chip cat-css">CSS טהור</span>
   <span class="chip">CSS @property + conic-gradient</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">כרטיסים</span><span class="chip use">רקע ואווירה</span>
+  <button class="mvid" data-mvid="MV:css12"><code>MV:css12</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>מסגרת גרדיאנט שמסתובבת סביב הכרטיס בלולאה. אפקט פרימיום מודרני.</p>
   <p class="when"><b>מתי משתמשים:</b> כרטיס מודגש אחד: ההצעה המרכזית, באדג' AI.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight"><div class="gb"><div class="gb-in"><h3>הכרטיס המודגש</h3><p>הגבול מסתובב סביבי בלי סוף.</p></div></div></div>
@@ -36,6 +38,13 @@ animation:rot 3.5s linear infinite}
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · גבול גרדיאנט מסתובב").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 
 </script>

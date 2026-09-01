@@ -15,6 +15,38 @@ const CDN = {
   DrawSVGPlugin: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js",
 };
 
+// שימושים אפשריים: הסינון השני של האינדקס. כל מהלך יכול להשתייך לכמה.
+const USES_LABELS = {
+  text: "טקסט וכותרות", media: "תמונות וגלריות", cards: "כרטיסים",
+  process: "תהליך ושלבים", hero: "הירו ופתיחה", hover: "hover ומיקרו",
+  feedback: "טעינה ופידבק", ambient: "רקע ואווירה", numbers: "מספרים ונתונים",
+  nav: "ניווט ומבנה",
+};
+const USES = {
+  g01: ["process", "media"], g02: ["media", "hero"], g03: ["hero", "media"],
+  g04: ["text"], g05: ["media", "process"], g06: ["media"], g07: ["hover", "media", "hero"],
+  g08: ["hover", "ambient"], g09: ["hover"], g10: ["hover", "hero"], g11: ["media", "hover"],
+  g12: ["ambient", "hero"], g13: ["cards"], g14: ["numbers"], g15: ["hero", "feedback"],
+  g15b: ["hero", "feedback"], g16: ["text", "hover"], g17: ["cards", "hero"],
+  g18: ["hero", "media"], g19: ["numbers", "ambient"], g20: ["process"], g22: ["process", "numbers"],
+  r01: ["text", "ambient"], r02: ["ambient", "media"], r03: ["cards", "hover"],
+  r04: ["media", "hero"], r05: ["media", "cards"], r06: ["media", "cards", "hover"],
+  r07: ["media", "hero"], r08: ["ambient", "media"], r09: ["cards", "process"],
+  r10: ["media"], r11: ["media", "cards"],
+  b01: ["ambient", "nav"], b02: ["numbers"], b02b: ["media", "hover"], b03: ["nav"],
+  b04: ["cards", "nav"], b05: ["nav", "feedback"], b06: ["numbers", "hero"],
+  b07: ["cards"], b08: ["cards"], b09: ["text", "hero"], b10: ["nav", "ambient"],
+  b11: ["feedback", "ambient"], b12: ["media", "hero"], b13: ["ambient"],
+  b14: ["ambient"], b15: ["feedback"], b16: ["feedback"],
+  css01: ["cards", "hover"], css02: ["nav", "hover", "text"], css03: ["hover"],
+  css04: ["text"], css05: ["media", "text"], css06: ["nav"], css07: ["feedback"],
+  css08: ["text", "hero"], css09: ["feedback"], css10: ["cards", "hover"],
+  css11: ["text", "hero"], css12: ["cards", "ambient"],
+  lm1: ["ambient", "hero"], lm3: ["cards", "process"], lm4: ["cards", "process"],
+  lm5: ["hero"], lm6: ["nav"], lm7: ["hover"], lm8: ["ambient"], lm9: ["cards", "hover"],
+  fluid: ["hero", "nav"],
+};
+
 // load all catalog modules
 const entries = [];
 for (const f of readdirSync(join(ROOT, "_src", "catalog")).sort()) {
@@ -22,6 +54,8 @@ for (const f of readdirSync(join(ROOT, "_src", "catalog")).sort()) {
   const mod = await import("./catalog/" + f);
   entries.push(...mod.default);
 }
+const missing = entries.filter(e => !USES[e.id]).map(e => e.id);
+if (missing.length) throw new Error("entries missing USES tags: " + missing.join(", "));
 
 const FONT = `<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">`;
 
@@ -48,11 +82,13 @@ ${e.css || ""}
   <h1><span class="vid">${e.id.toUpperCase()}</span> · ${e.name}</h1>
   <span class="chip cat-${e.cat}">${CATS[e.cat]}</span>
   <span class="chip">${e.tech}</span>
-  <span class="chip ${e.status === "מאושר" ? "st-approved" : "st-pending"}">${e.status === "מאושר" ? "מאושר-עין" : "ממתין לאישור"}</span>
+  ${(USES[e.id] || []).map(u => `<span class="chip use">${USES_LABELS[u]}</span>`).join("")}
+  <button class="mvid" data-mvid="MV:${e.id}"><code>MV:${e.id}</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>${e.desc}</p>
   <p class="when"><b>מתי משתמשים:</b> ${e.when}</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 ${runway}
 ${e.html}
@@ -60,6 +96,13 @@ ${runwayEnd}
 ${e.note ? `<div class="demo-note">${e.note}</div>` : ""}
 ${libs}
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · ${e.name}").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 ${register ? `gsap.registerPlugin(${register});` : ""}
 ${e.js || ""}
 </script>
@@ -68,12 +111,15 @@ ${e.js || ""}
 }
 
 function indexPage() {
-  const cards = entries.map(e => `<a class="vcard" data-cat="${e.cat}" data-txt="${(e.id + " " + e.name + " " + e.desc + " " + e.tech).replace(/"/g, "")}" href="${e.cat}/${e.id}.html">
-  <div class="row"><span class="vid">${e.id.toUpperCase()}</span><span class="chip cat-${e.cat}">${CATS[e.cat]}</span><span class="chip ${e.status === "מאושר" ? "st-approved" : "st-pending"}">${e.status === "מאושר" ? "מאושר" : "ממתין"}</span></div>
-  <h3>${e.name}</h3><p>${e.desc}</p><div class="row"><span class="chip">${e.tech}</span></div>
+  const cards = entries.map(e => `<a class="vcard" data-cat="${e.cat}" data-uses="${(USES[e.id] || []).join(" ")}" data-txt="${("MV:" + e.id + " " + e.name + " " + e.desc + " " + e.tech + " " + (USES[e.id] || []).map(u => USES_LABELS[u]).join(" ")).replace(/"/g, "")}" href="${e.cat}/${e.id}.html">
+  <div class="row"><span class="vid">MV:${e.id}</span><span class="chip cat-${e.cat}">${CATS[e.cat]}</span></div>
+  <h3>${e.name}</h3><p>${e.desc}</p>
+  <div class="row"><span class="chip">${e.tech}</span>${(USES[e.id] || []).map(u => `<span class="chip use">${USES_LABELS[u]}</span>`).join("")}</div>
 </a>`).join("\n");
   const counts = Object.fromEntries(Object.keys(CATS).map(c => [c, entries.filter(e => e.cat === c).length]));
   const fbtns = Object.entries(CATS).map(([k, v]) => `<button class="fbtn" data-f="${k}">${v} · ${counts[k]}</button>`).join("");
+  const ucounts = Object.fromEntries(Object.keys(USES_LABELS).map(u => [u, entries.filter(e => (USES[e.id] || []).includes(u)).length]));
+  const ubtns = Object.entries(USES_LABELS).map(([k, v]) => `<button class="ubtn" data-u="${k}">${v} · ${ucounts[k]}</button>`).join("");
   return `<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -91,25 +137,37 @@ ${FONT}
 <div class="vfilters">
   <button class="fbtn on" data-f="all">הכל · ${entries.length}</button>
   ${fbtns}
-  <input class="fsearch" type="search" placeholder="חיפוש חופשי...">
+  <input class="fsearch" type="search" placeholder="חיפוש חופשי או MV:id...">
   <span class="fcount"></span>
+</div>
+<div class="vfilters2">
+  <span style="font-size:13px;color:var(--muted);align-self:center;font-weight:600">לפי שימוש:</span>
+  ${ubtns}
 </div>
 <div class="vgrid">
 ${cards}
 </div>
 <script>
 const cards=[...document.querySelectorAll('.vcard')],btns=[...document.querySelectorAll('.fbtn')],
+ubtns=[...document.querySelectorAll('.ubtn')],
 search=document.querySelector('.fsearch'),count=document.querySelector('.fcount');
-let cat='all';
+let cat='all',use=null;
 function apply(){
   const q=search.value.trim().toLowerCase();let n=0;
   cards.forEach(c=>{
-    const ok=(cat==='all'||c.dataset.cat===cat)&&(!q||c.dataset.txt.toLowerCase().includes(q));
+    const ok=(cat==='all'||c.dataset.cat===cat)
+      &&(!use||c.dataset.uses.split(' ').includes(use))
+      &&(!q||c.dataset.txt.toLowerCase().includes(q));
     c.hidden=!ok; if(ok)n++;
   });
   count.textContent=n+' מוצגים';
 }
 btns.forEach(b=>b.addEventListener('click',()=>{btns.forEach(x=>x.classList.remove('on'));b.classList.add('on');cat=b.dataset.f;apply();}));
+ubtns.forEach(b=>b.addEventListener('click',()=>{
+  if(b.classList.contains('on')){b.classList.remove('on');use=null;}
+  else{ubtns.forEach(x=>x.classList.remove('on'));b.classList.add('on');use=b.dataset.u;}
+  apply();
+}));
 search.addEventListener('input',apply);apply();
 </script>
 </body>

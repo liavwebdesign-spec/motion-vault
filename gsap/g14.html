@@ -18,11 +18,13 @@
   <h1><span class="vid">G14</span> · מונים בקצב הגלילה</h1>
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">GSAP · ScrollTrigger · snap</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">מספרים ונתונים</span>
+  <button class="mvid" data-mvid="MV:g14"><code>MV:g14</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>מספרים גדולים שנספרים עם הגלילה, קדימה ואחורה, לא פעם אחת.</p>
   <p class="when"><b>מתי משתמשים:</b> סקשן מספרים באתר סטוריטלינג. בעמוד שקט עדיף count-up חד-פעמי (B2).</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="stage tight center"><div class="nums">
@@ -35,6 +37,13 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מונים בקצב הגלילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 gsap.registerPlugin(ScrollTrigger);
 gsap.utils.toArray(".snum").forEach(el=>{
   gsap.fromTo(el,{textContent:0},{textContent:+el.dataset.count,snap:{textContent:1},ease:"none",

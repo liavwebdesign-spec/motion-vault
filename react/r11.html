@@ -22,11 +22,13 @@
   <h1><span class="vid">R11</span> · Masonry: גריד נושם</h1>
   <span class="chip cat-react">React</span>
   <span class="chip">ReactBits · GSAP</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">תמונות וגלריות</span><span class="chip use">כרטיסים</span>
+  <button class="mvid" data-mvid="MV:r11"><code>MV:r11</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>גריד masonry עם כניסה מונפשת מכיוון נבחר, reflow חי והובר scale+blur.</p>
   <p class="when"><b>מתי משתמשים:</b> גלריות ובלוגים עם גבהים שונים.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="rinstall"><code>npx shadcn@latest add @react-bits/Masonry-TS-TW</code></div>
@@ -40,6 +42,13 @@
 <div class="demo-note">ב-RTL הופכים את אריזת העמודות (המקור LTR קשיח); מוסיפים reduced-motion.</div>
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · Masonry: גריד נושם").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const btn=document.querySelector(".rbtn"),wrap=document.querySelector(".rframe");
 btn.addEventListener("click",()=>{

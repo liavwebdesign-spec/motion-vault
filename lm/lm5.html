@@ -24,11 +24,13 @@
   <h1><span class="vid">LM5</span> · סולם כניסות הירו (150ms)</h1>
   <span class="chip cat-lm">חתימה (LM)</span>
   <span class="chip">CSS transitions + delay</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">הירו ופתיחה</span>
+  <button class="mvid" data-mvid="MV:lm5"><code>MV:lm5</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>רכיבי ההירו נכנסים בזה אחר זה במדרגות של 150 אלפיות: לוגו, ניווט, כותרת, ליד, כפתורים.</p>
   <p class="when"><b>מתי משתמשים:</b> רגע הזהות בלבד. בשאר העמוד reveal אחיד בלי סטאגר. החריג המאושר.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="ladder go">
@@ -43,6 +45,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · סולם כניסות הירו (150ms)").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const lad=document.querySelector(".ladder");
 document.querySelector(".replay").addEventListener("click",()=>{

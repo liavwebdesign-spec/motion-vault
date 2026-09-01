@@ -22,11 +22,13 @@
   <h1><span class="vid">G20</span> · טיימליין אופקי עם קו התקדמות</h1>
   <span class="chip cat-gsap">GSAP</span>
   <span class="chip">GSAP · pin + scrub</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">תהליך ושלבים</span>
+  <button class="mvid" data-mvid="MV:g20"><code>MV:g20</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>גלילה צידית שקו נמתח לאורכה וכל תחנה נדלקת כשהוא מגיע אליה.</p>
   <p class="when"><b>מתי משתמשים:</b> תהליך עבודה, מסע לקוח, אבני דרך. הוא או G1, לא שניהם באותו עמוד.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="hwrap"><div class="hcont">
@@ -42,6 +44,13 @@
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · טיימליין אופקי עם קו התקדמות").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 gsap.registerPlugin(ScrollTrigger);
 const panels=gsap.utils.toArray(".step");
 const hc=document.querySelector(".hcont");

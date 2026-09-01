@@ -24,11 +24,13 @@
   <h1><span class="vid">B05</span> · מודאל / Bottom-Sheet</h1>
   <span class="chip cat-behavior">התנהגויות</span>
   <span class="chip">CSS transitions · vanilla JS</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">ניווט ומבנה</span><span class="chip use">טעינה ופידבק</span>
+  <button class="mvid" data-mvid="MV:b05"><code>MV:b05</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>במובייל גיליון שעולה מלמטה עם ידית; בדסקטופ דיאלוג ממורכז. סגירה ב-Escape ובלחיצה על הרקע.</p>
   <p class="when"><b>מתי משתמשים:</b> טפסים קופצים, פרטים נוספים, אישורים.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight center"><button class="gbtn open-m">פתח מודאל</button></div>
@@ -38,6 +40,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מודאל / Bottom-Sheet").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const bg=document.querySelector(".modal-bg"),sh=document.querySelector(".sheet");
 function setM(on){bg.classList.toggle("on",on);sh.classList.toggle("on",on);document.body.style.overflow=on?"hidden":""}

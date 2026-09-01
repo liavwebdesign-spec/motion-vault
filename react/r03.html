@@ -22,11 +22,13 @@
   <h1><span class="vid">R03</span> · BentoGrid: בנטו עם כוריאוגרפיית hover</h1>
   <span class="chip cat-react">React</span>
   <span class="chip">MagicUI · CSS</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">כרטיסים</span><span class="chip use">hover ומיקרו</span>
+  <button class="mvid" data-mvid="MV:r03"><code>MV:r03</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>גריד בנטו שכל כרטיס בו מגיב להובר בשלוש שכבות: טקסט עולה, אייקון מתכווץ, CTA נחשף.</p>
   <p class="when"><b>מתי משתמשים:</b> פיצ'רים עם היררכיה. חוק התאים הריקים שלנו חל.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="rinstall"><code>npx shadcn@latest add "https://magicui.design/r/bento-grid.json"</code></div>
@@ -40,6 +42,13 @@
 <div class="demo-note">RTL כמעט מובנה במקור; מוסיפים רק rtl:origin-right.</div>
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · BentoGrid: בנטו עם כוריאוגרפיית hover").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const btn=document.querySelector(".rbtn"),wrap=document.querySelector(".rframe");
 btn.addEventListener("click",()=>{

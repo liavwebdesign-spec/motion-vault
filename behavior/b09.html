@@ -16,11 +16,13 @@
   <h1><span class="vid">B09</span> · רגע המילה הענקית</h1>
   <span class="chip cat-behavior">התנהגויות</span>
   <span class="chip">CSS</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">טקסט וכותרות</span><span class="chip use">הירו ופתיחה</span>
+  <button class="mvid" data-mvid="MV:b09"><code>MV:b09</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>מילה רגשית אחת בגודל ענק כוויז'ואל של סקשן שלם.</p>
   <p class="when"><b>מתי משתמשים:</b> אחת לעמוד. זה רגע, לא שיטה.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="stage center"><div class="giant">נמכר!</div><p style="color:var(--muted)">והלוויינים הקטנים מסביב משלימים את הסיפור.</p></div>
@@ -28,6 +30,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · רגע המילה הענקית").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 
 </script>

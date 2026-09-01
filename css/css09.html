@@ -21,11 +21,13 @@
   <h1><span class="vid">CSS09</span> · רעידת שגיאה</h1>
   <span class="chip cat-css">CSS טהור</span>
   <span class="chip">CSS keyframes</span>
-  <span class="chip st-approved">מאושר-עין</span>
+  <span class="chip use">טעינה ופידבק</span>
+  <button class="mvid" data-mvid="MV:css09"><code>MV:css09</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>שדה שנרעד אופקית כששולחים ערך לא תקין. פידבק שמרגישים בלי לקרוא.</p>
   <p class="when"><b>מתי משתמשים:</b> ולידציית טפסים. תמיד יחד עם הודעת טקסט, לא במקומה.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight"><div class="err-demo">
@@ -37,6 +39,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · רעידת שגיאה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 document.querySelector(".err-send").addEventListener("click",()=>{
   const i=document.querySelector(".err-input");

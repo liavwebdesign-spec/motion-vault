@@ -19,11 +19,13 @@
   <h1><span class="vid">LM1</span> · שכבות סחיפה</h1>
   <span class="chip cat-lm">חתימה (LM)</span>
   <span class="chip">vanilla JS · rAF</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">רקע ואווירה</span><span class="chip use">הירו ופתיחה</span>
+  <button class="mvid" data-mvid="MV:lm1"><code>MV:lm1</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>אלמנטים צפים שנסחפים במהירויות שונות בגלילה, עם הטיה קלה. שכבה איטית מרגישה רחוקה, מהירה מרגישה קרובה.</p>
   <p class="when"><b>מתי משתמשים:</b> הירו וסקשני אווירה. עד 4 שכבות לסקשן. נכרה מכל האתרים של ליאב (מדרג 1/2/4).</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="stage tight"><div class="driftsec">
@@ -37,6 +39,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · שכבות סחיפה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
 if(!reduced){

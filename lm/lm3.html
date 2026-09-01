@@ -22,11 +22,13 @@
   <h1><span class="vid">LM3</span> · הצטלבות (Converging)</h1>
   <span class="chip cat-lm">חתימה (LM)</span>
   <span class="chip">CSS + IO</span>
-  <span class="chip st-pending">ממתין לאישור</span>
+  <span class="chip use">כרטיסים</span><span class="chip use">תהליך ושלבים</span>
+  <button class="mvid" data-mvid="MV:lm3"><code>MV:lm3</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
   <p>זוג בלוקים שנכנסים משני צדדים ונפגשים במרכז. התוכן צועד אחד לקראת השני.</p>
   <p class="when"><b>מתי משתמשים:</b> לפני/אחרי, בעיה/פתרון, שני צדדים של סיפור. פעם-פעמיים בעמוד.</p>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="stage"><div class="conv">
@@ -37,6 +39,13 @@
 
 
 <script>
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · הצטלבות (Converging)").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
 
 const io=new IntersectionObserver(es=>es.forEach(e=>{
   if(e.isIntersecting){e.target.classList.add("met");io.unobserve(e.target)}
