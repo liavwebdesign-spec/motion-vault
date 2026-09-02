@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B20 · מחיר שמתגלגל בהחלפת מסלול | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.pr-card{max-width:420px;margin-inline:auto;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:32px 28px;text-align:center}
+.pr-top{display:inline-flex;align-items:center;gap:12px;font-size:14px;color:var(--muted);margin-bottom:26px}
+.pr-top button{background:none;border:0;font:inherit;color:var(--muted);cursor:pointer;padding:4px}
+.pr-top button.on{color:var(--ink);font-weight:700}
+.pr-sw{width:52px;height:30px;border-radius:999px;background:#dcdce8;position:relative;transition:background .3s;flex:none}
+.pr-sw i{position:absolute;top:3px;inset-inline-start:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.pr-sw.year{background:var(--accent)}
+.pr-sw.year i{transform:translateX(-22px)}
+.pr-price{display:flex;justify-content:center;align-items:baseline;gap:4px;font-weight:800;line-height:1;font-size:clamp(52px,6vw,90px);direction:ltr}
+.pr-digit{display:inline-block;overflow:hidden;height:1em;position:relative}
+.pr-digit span{display:block;will-change:transform}
+.pr-cur{font-size:.55em;font-weight:700;color:var(--muted)}
+.pr-sub{color:var(--muted);font-size:14px;margin-top:14px;min-height:1.4em}
+.pr-save{display:inline-block;margin-top:8px;font-size:12px;background:#e9ffd6;color:#2b6a13;border-radius:999px;padding:5px 12px}
+.pr-save[hidden]{display:none}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B20</span> · מחיר שמתגלגל בהחלפת מסלול</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">GSAP · timeline</span>
+  <span class="chip use">מספרים ונתונים</span><span class="chip use">טעינה ופידבק</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b20"><code>MV:b20</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>מתג בין מסלול חודשי לשנתי, והמחיר לא מתחלף בקפיצה: הספרה הישנה נגללת למעלה ויוצאת, החדשה נכנסת מלמטה, וכל ספרה בעיכוב קטן משלה.</p>
+  <p class="when"><b>מתי משתמשים:</b> כל סקשן מחירים עם שני מסלולים. ההתגלגלות מוכיחה שהמספר באמת השתנה, במקום שהעין תפספס את ההנחה.</p>
+  <div class="mvpanel" data-mvpanel="b20"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight"><div class="pr-card">
+  <div class="pr-top">
+    <button class="to-m on">חודשי</button>
+    <span class="pr-sw" role="button" tabindex="0" aria-label="החלפת מסלול תשלום"><i></i></span>
+    <button class="to-y">שנתי</button>
+  </div>
+  <div class="pr-price" aria-live="polite"><span class="pr-cur">₪</span><span class="pr-num"></span></div>
+  <p class="pr-sub">לחודש, ללא התחייבות</p>
+  <span class="pr-save" hidden>חיסכון של 20%</span>
+</div></div>
+
+<div class="demo-note">המחיר עטוף ב-aria-live="polite" כדי שקורא מסך יקריא את הערך החדש. הספרות ב-direction:ltr כי מספרים נכתבים משמאל לימין גם בעמוד עברי.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מחיר שמתגלגל בהחלפת מסלול").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+(function(){
+  const PLANS={m:{price:"390",sub:"לחודש, ללא התחייבות",save:false},y:{price:"312",sub:"לחודש, בחיוב שנתי",save:true}};
+  const num=document.querySelector(".pr-num"),sub=document.querySelector(".pr-sub"),save=document.querySelector(".pr-save");
+  const sw=document.querySelector(".pr-sw"),bm=document.querySelector(".to-m"),by=document.querySelector(".to-y");
+  let plan="m",digits=[];
+  function build(str){
+    num.innerHTML="";
+    digits=[...str].map(c=>{
+      const w=document.createElement("span");w.className="pr-digit";
+      const inner=document.createElement("span");inner.textContent=c;
+      w.appendChild(inner);num.appendChild(w);return inner;
+    });
+  }
+  function roll(str){
+    if(digits.length!==str.length){build(str);return;}
+    [...str].forEach((c,i)=>{
+      const el=digits[i];
+      if(el.textContent===c)return;
+      gsap.timeline({delay:i*0.06})
+        .to(el,{yPercent:-110,autoAlpha:0,duration:.22,ease:"power2.in",onComplete:()=>el.textContent=c})
+        .fromTo(el,{yPercent:110,autoAlpha:0},{yPercent:0,autoAlpha:1,duration:.34,ease:"back.out(2)"});
+    });
+  }
+  function apply(next){
+    plan=next;const p=PLANS[plan];
+    roll(p.price);
+    sub.textContent=p.sub;save.hidden=!p.save;
+    sw.classList.toggle("year",plan==="y");
+    bm.classList.toggle("on",plan==="m");by.classList.toggle("on",plan==="y");
+  }
+  build(PLANS.m.price);
+  const toggle=()=>apply(plan==="m"?"y":"m");
+  sw.addEventListener("click",toggle);
+  sw.addEventListener("keydown",e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault();toggle();}});
+  bm.addEventListener("click",()=>apply("m"));
+  by.addEventListener("click",()=>apply("y"));
+})();
+</script>
+</body>
+</html>

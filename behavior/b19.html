@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B19 · כרטיס וידאו שמתנגן בהובר | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);padding-inline:var(--gutter)}
+.vcardx{position:relative;border-radius:var(--r);overflow:hidden;background:#0f1020;aspect-ratio:16/10;cursor:pointer}
+.vcardx img,.vcardx video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.vcardx video{opacity:0;transition:opacity .3s ease}
+.vcardx.playing video{opacity:1}
+.vcardx figcaption{position:absolute;inset-inline:0;bottom:0;padding:14px 16px;color:#fff;font-size:14px;font-weight:500;background:linear-gradient(transparent,rgba(0,0,0,.6));z-index:2}
+.vcardx .badge{position:absolute;top:12px;inset-inline-end:12px;z-index:2;background:rgba(255,255,255,.92);color:#111;border-radius:999px;padding:5px 12px;font-size:11px;letter-spacing:.08em}
+@media(max-width:767px){.vgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B19</span> · כרטיס וידאו שמתנגן בהובר</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">HTML video · JS</span>
+  <span class="chip use">תמונות וגלריות</span><span class="chip use">כרטיסים</span><span class="chip use">hover ומיקרו</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b19"><code>MV:b19</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>גריד כרטיסים שבו כל אחד מציג תמונת פוסטר בלבד. בהובר הווידאו נטען ומתנגן בשקט, וביציאה נעצר וחוזר להתחלה. שום וידאו לא יורד לפני שנגעו בו.</p>
+  <p class="when"><b>מתי משתמשים:</b> גלריית עבודות, קטלוג מוצרים, רשימת פרויקטים. הדרך הנכונה לשים הרבה וידאו בעמוד בלי להרוג את זמן הטעינה.</p>
+  <div class="mvpanel" data-mvpanel="b19"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight"><div class="vgrid">
+  <figure class="vcardx"><img src="../assets/media/demo-a.jpg" alt=""><video preload="none" muted loop playsinline poster="../assets/media/demo-a.jpg" data-src="../assets/media/demo-a.mp4"></video><span class="badge">וידאו</span><figcaption>פרויקט ראשון</figcaption></figure>
+  <figure class="vcardx"><img src="../assets/media/demo-b.jpg" alt=""><video preload="none" muted loop playsinline poster="../assets/media/demo-b.jpg" data-src="../assets/media/demo-b.mp4"></video><span class="badge">וידאו</span><figcaption>פרויקט שני</figcaption></figure>
+  <figure class="vcardx"><img src="../assets/media/demo-a.jpg" alt=""><video preload="none" muted loop playsinline poster="../assets/media/demo-a.jpg" data-src="../assets/media/demo-a.mp4"></video><span class="badge">וידאו</span><figcaption>פרויקט שלישי</figcaption></figure>
+</div>
+<p class="center" style="color:var(--muted);font-size:14px">בדסקטופ: הובר מנגן. במובייל: נגיעה מנגנת ועוצרת.</p></div>
+
+<div class="demo-note">preload="none" הוא הלב: הדפדפן לא נוגע בקובץ הווידאו עד ההובר הראשון, והפוסטר לבדו מצויר. הווידאו חייב muted כדי שדפדפנים ירשו ניגון בלי לחיצה, ו-playsinline כדי שאייפון לא יפתח נגן מסך מלא.</div>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · כרטיס וידאו שמתנגן בהובר").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+(function(){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const hoverable=matchMedia("(hover:hover)").matches;
+  document.querySelectorAll(".vcardx").forEach(card=>{
+    const v=card.querySelector("video");
+    let loaded=false;
+    const play=()=>{
+      if(reduce)return;
+      if(!loaded){v.src=v.dataset.src;loaded=true;}
+      card.classList.add("playing");
+      const p=v.play();if(p&&p.catch)p.catch(()=>{});
+    };
+    const stop=()=>{card.classList.remove("playing");v.pause();try{v.currentTime=0;}catch(e){}};
+    if(hoverable){
+      card.addEventListener("mouseenter",play);
+      card.addEventListener("mouseleave",stop);
+      card.addEventListener("focusin",play);
+      card.addEventListener("focusout",stop);
+    }else{
+      card.addEventListener("click",()=>card.classList.contains("playing")?stop():play());
+    }
+  });
+})();
+</script>
+</body>
+</html>
