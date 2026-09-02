@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B17 · תג HUD: מה על המסך עכשיו | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.hud-sec{min-height:80vh;display:grid;place-items:center;border-top:1px solid var(--line);font-size:clamp(28px,3vw,52px);font-weight:700;color:#c9c9d8}
+.hud-sec:nth-child(odd){background:#fff}
+.hud{position:fixed;bottom:22px;left:22px;z-index:60;display:flex;align-items:center;gap:12px;background:#111;color:#fff;border-radius:999px;padding:10px 16px;font-size:12px;letter-spacing:.14em;opacity:0;visibility:hidden}
+.hud i{width:6px;height:6px;border-radius:50%;background:#c6ff4a}
+.hud b{font-variant-numeric:tabular-nums;font-weight:600;display:inline-block;min-width:3ch;text-align:left;direction:ltr}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B17</span> · תג HUD: מה על המסך עכשיו</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">GSAP · ScrollTrigger</span>
+  <span class="chip use">ניווט ומבנה</span><span class="chip use">מספרים ונתונים</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b17"><code>MV:b17</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>תגית קטנה וקבועה בפינת המסך שמראה את מספר הפריט או הסקשן שנמצא כרגע במרכז. כשהמספר מתחלף, התג קופץ קפיצה זעירה כדי שהעין תתפוס את השינוי.</p>
+  <p class="when"><b>מתי משתמשים:</b> עמודים ארוכים עם רשימת פריטים ממוספרים: קטלוג, מהלכים, פרקים, שלבים. גם כאינדיקטור התקדמות אלגנטי במקום פס.</p>
+  <div class="mvpanel" data-mvpanel="b17"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="hud-wrap">
+  <section class="hud-sec" data-n="001">סקשן ראשון</section>
+  <section class="hud-sec" data-n="002">סקשן שני</section>
+  <section class="hud-sec" data-n="003">סקשן שלישי</section>
+  <section class="hud-sec" data-n="004">סקשן רביעי</section>
+  <section class="hud-sec" data-n="005">סקשן חמישי</section>
+</div>
+<div class="hud" aria-live="polite">על המסך <i></i> <b>000</b></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · תג HUD: מה על המסך עכשיו").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const hud=document.querySelector(".hud"),num=hud.querySelector("b");
+  let shown=false;
+  function show(){if(shown)return;shown=true;gsap.fromTo(hud,{scale:.97,autoAlpha:0},{scale:1,autoAlpha:1,duration:.16,ease:"back.out(20)"});}
+  function hide(){if(!shown)return;shown=false;gsap.to(hud,{scale:.97,autoAlpha:0,duration:.16,ease:"expo.in"});}
+  function setNum(n){
+    if(num.textContent===n)return;
+    gsap.timeline().to(num,{yPercent:-60,autoAlpha:0,duration:.14,ease:"power2.in",onComplete:()=>num.textContent=n})
+      .fromTo(num,{yPercent:60},{yPercent:0,autoAlpha:1,duration:.22,ease:"back.out(3)"});
+    gsap.fromTo(hud,{scale:.96},{scale:1,duration:.3,ease:"back.out(6)"});
+  }
+  // נראות: טריגר אחד על כל האזור. מספר: טריגר לכל סקשן. כך התג לא נתקע גלוי בקפיצות גלילה.
+  ScrollTrigger.create({trigger:".hud-wrap",start:"top center",end:"bottom center",
+    onToggle:self=>self.isActive?show():hide()});
+  gsap.utils.toArray(".hud-sec").forEach(s=>ScrollTrigger.create({trigger:s,start:"top center",end:"bottom center",
+    onToggle:self=>{if(self.isActive)setNum(s.dataset.n);}}));
+})();
+</script>
+</body>
+</html>

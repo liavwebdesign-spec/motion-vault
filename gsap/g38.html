@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G38 · Lenis + ScrollTrigger: גלילה חלקה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
+.ln-block{margin:clamp(60px,8vw,140px) var(--gutter);display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:center}
+.ln-block:nth-child(even){direction:ltr}.ln-block .ph{height:min(340px,46vw);font-size:26px}
+.ln-block h3{font-size:clamp(24px,2.4vw,40px);margin:0 0 10px}.ln-block p{color:var(--muted);margin:0}
+.ln-toggle{position:fixed;bottom:22px;left:22px;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+@media(max-width:767px){.ln-block{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G38</span> · Lenis + ScrollTrigger: גלילה חלקה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">Lenis · GSAP ticker</span>
+  <span class="chip use">ניווט ומבנה</span><span class="chip use">רקע ואווירה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g38"><code>MV:g38</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>תשתית ולא אפקט: Lenis מחליק את הגלילה של כל העמוד, ומחובר לטיקר של GSAP כך שכל ה-ScrollTriggers נשארים מסונכרנים. כפתור צף מכבה ומדליק כדי להרגיש את ההבדל.</p>
+  <p class="when"><b>מתי משתמשים:</b> אתרי חוויה ותדמית-וואו שבהם רוב המהלכים מבוססי גלילה. לא באתרי המרה, טפסים ומערכות: שם הגלילה הטבעית מנצחת. תמיד בתוך prefers-reduced-motion.</p>
+  <div class="mvpanel" data-mvpanel="g38"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="ln-block"><div><h3>הגלילה ממשיכה קצת אחרי שעזבת</h3><p>Lenis מוסיף אינרציה עדינה, כמו טראקפד טוב.</p></div><div class="ph ph-a">1</div></div>
+<div class="ln-block"><div><h3>ה-ScrollTrigger לא יודע שמשהו השתנה</h3><p>הוא מקבל עדכון מכל פריים של Lenis דרך הטיקר של GSAP.</p></div><div class="ph ph-b">2</div></div>
+<div class="ln-block"><div><h3>כבה, גלול, הדלק, גלול</h3><p>ההבדל מורגש בעיקר בגלגלת עכבר. בטראקפד ובמובייל הוא כמעט לא קיים.</p></div><div class="ph ph-c">3</div></div>
+<div class="ln-block"><div><h3>לא לכל אתר</h3><p>גלילה מלאכותית באתר טפסים מרגישה כמו בוץ. שומרים את זה לאתרי חוויה.</p></div><div class="ph ph-d">4</div></div>
+<button class="gbtn ln-toggle">Lenis: פועל</button>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note">בפרויקט אמיתי: Lenis נוצר פעם אחת ב-main, לפני כל ScrollTrigger, ומכובה אוטומטית תחת prefers-reduced-motion. אם יש בעמוד סקשן מוצמד (pin), עובדים עם pinType: transform או משאירים את ברירת המחדל של Lenis שמגלגלת את החלון (עובד).</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · Lenis + ScrollTrigger: גלילה חלקה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  let lenis=null;const btn=document.querySelector(".ln-toggle");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function raf(t){lenis&&lenis.raf(t*1000);}
+  function on(){lenis=new Lenis({lerp:.09,wheelMultiplier:1});lenis.on("scroll",ScrollTrigger.update);gsap.ticker.add(raf);gsap.ticker.lagSmoothing(0);btn.textContent="Lenis: פועל";}
+  function off(){if(lenis){lenis.destroy();lenis=null;}gsap.ticker.remove(raf);btn.textContent="Lenis: כבוי";}
+  if(!reduce)on();else off();
+  btn.addEventListener("click",()=>lenis?off():on());
+  gsap.utils.toArray(".ln-block").forEach(b=>{gsap.from(b.children,{y:40,autoAlpha:0,duration:.9,ease:"power3.out",stagger:.12,scrollTrigger:{trigger:b,start:"top 78%",once:true}});});
+})();
+</script>
+</body>
+</html>

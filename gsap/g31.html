@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G31 · גלריה אנכית נגררת עם מונה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+html,body{overflow-x:clip}
+.vg{position:relative;height:min(82vh,720px);background:#0f1020;color:#fff;overflow:hidden;user-select:none;touch-action:pan-x}
+.vg-side{position:absolute;top:50%;transform:translateY(-50%);font-size:clamp(22px,2.4vw,40px);font-weight:700;white-space:nowrap;pointer-events:none}
+.vg-side.r{right:var(--gutter)}.vg-side.l{left:var(--gutter)}
+.vg-stack{position:absolute;inset:0;display:grid;place-items:center;cursor:grab}
+.vg-stack:active{cursor:grabbing}
+.vg-item{position:absolute;width:min(360px,40vw);aspect-ratio:4/3;font-size:28px;will-change:transform;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.vg-count{position:absolute;bottom:22px;right:var(--gutter);font-variant-numeric:tabular-nums;font-size:14px;letter-spacing:.08em;color:#c9c9dd}
+.vg-hint{position:absolute;bottom:22px;left:var(--gutter);font-size:13px;color:#8d8fa8}
+@media(max-width:767px){.vg-side{display:none}.vg-item{width:64vw}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G31</span> · גלריה אנכית נגררת עם מונה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · Observer</span>
+  <span class="chip use">הירו ופתיחה</span><span class="chip use">תמונות וגלריות</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g31"><code>MV:g31</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>ערימת מדיה אנכית: הפריט המרכזי גדול, השכנים מציצים מעליו ומתחתיו. גרירה, החלקה או גלגלת מעבירים פריט, המונה מתעדכן, והכותרת מפוצלת לשני צידי הערימה.</p>
+  <p class="when"><b>מתי משתמשים:</b> הירו של אתרי פורטפוליו ואולפנים, תצוגת פרויקטים נבחרים. הגלגלת עוברת פריטים רק בתוך הגלריה, ובקצוות היא משחררת את הדף (אין מלכודת גלילה).</p>
+  <div class="mvpanel" data-mvpanel="g31"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage full" style="padding-block:0"><div class="vg">
+  <div class="vg-side r">עבודות נבחרות</div>
+  <div class="vg-side l">מהשנה האחרונה</div>
+  <div class="vg-stack">
+    <div class="vg-item ph ph-a">1</div><div class="vg-item ph ph-b">2</div><div class="vg-item ph ph-c">3</div>
+    <div class="vg-item ph ph-d">4</div><div class="vg-item ph ph-e">5</div><div class="vg-item ph ph-f">6</div><div class="vg-item ph ph-a">7</div>
+  </div>
+  <div class="vg-count">01 / 07</div>
+  <div class="vg-hint">גרור למעלה ולמטה, או גלגל</div>
+</div></div>
+
+<div class="demo-note">מובייל: החלקה אנכית בתוך הגלריה מחליפה פריט; touch-action מוגדר כך שהחלקה אופקית ממשיכה לגלול את הדף.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Observer.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · גלריה אנכית נגררת עם מונה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(Observer);
+(function(){
+  const vg=document.querySelector(".vg"),stack=vg.querySelector(".vg-stack"),items=[...vg.querySelectorAll(".vg-item")],count=vg.querySelector(".vg-count");
+  const n=items.length;let cur=0,dragY=0,busy=false;
+  const GAP=()=>items[0].offsetHeight*0.78;
+  const pad=v=>String(v).padStart(2,"0");
+  function layout(extra,instant){
+    const g=GAP();
+    items.forEach((it,i)=>{
+      const off=i-cur;
+      const y=off*g+(extra||0);
+      const near=Math.abs(off+ (extra||0)/g);
+      const props={y:y,scale:1.28-Math.min(near,1)*0.28,autoAlpha:Math.abs(off)>2?0:1,zIndex:20-Math.abs(off)};
+      if(instant)gsap.set(it,props);else gsap.to(it,Object.assign(props,{duration:.8,ease:"expo.out",overwrite:true}));
+    });
+  }
+  function go(step){
+    const next=Math.max(0,Math.min(n-1,cur+step));
+    if(next===cur){layout(0);return false;}
+    cur=next;layout(0);
+    count.textContent=pad(cur+1)+" / "+pad(n);
+    gsap.fromTo(count,{y:6,autoAlpha:0},{y:0,autoAlpha:1,duration:.35,ease:"power2.out"});
+    return true;
+  }
+  layout(0,true);
+  Observer.create({target:stack,type:"touch,pointer",preventDefault:true,dragMinimum:3,
+    onDragStart:()=>{dragY=0;},
+    onDrag:self=>{dragY+=self.deltaY;layout(dragY,true);},
+    onDragEnd:()=>{const steps=Math.round(-dragY/GAP());dragY=0;go(steps)||layout(0);}
+  });
+  vg.addEventListener("wheel",e=>{
+    const dir=e.deltaY>0?1:-1;
+    const canMove=(dir>0&&cur<n-1)||(dir<0&&cur>0);
+    if(!canMove)return;
+    e.preventDefault();
+    if(busy)return;busy=true;go(dir);setTimeout(()=>busy=false,520);
+  },{passive:false});
+  addEventListener("resize",()=>layout(0,true));
+})();
+</script>
+</body>
+</html>

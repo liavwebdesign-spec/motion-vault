@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G35 · טקסט ענק זורם על גל בגלילה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+html,body{overflow-x:clip}
+.wave{height:100vh;display:flex;align-items:center;overflow:hidden;background:#fff;border-block:1px solid var(--line)}
+.wave-track{white-space:nowrap;font-size:clamp(72px,14vw,240px);font-weight:800;line-height:1;padding-inline:var(--gutter);will-change:transform}
+.wave-track .word{display:inline-block;will-change:transform}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G35</span> · טקסט ענק זורם על גל בגלילה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger · SplitText</span>
+  <span class="chip use">טקסט וכותרות</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g35"><code>MV:g35</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>משפט ענק, רחב מהמסך, מוצמד למסך ונוסע לרוחבו בקצב הגלילה. כל מילה מתנדנדת על גל משלה, כך שהשורה נראית כמו סרט שמתגלגל ולא כמו טקסט שזז.</p>
+  <p class="when"><b>מתי משתמשים:</b> סיום העמוד לפני ה-CTA, הצהרת מותג, מעבר בין פרקים. משפט אחד קצר, מילים גדולות. בעברית הגל על מילים, לא על אותיות.</p>
+  <div class="mvpanel" data-mvpanel="g35"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="wave"><div class="wave-track">אז, מוכנים להתחיל לזוז?</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note">בכיוון RTL הטקסט מתחיל מימין והעודף נמצא משמאל, לכן המסלול מזיז את הרצועה ימינה (x חיובי). באתר LTR הופכים את הסימן.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · טקסט ענק זורם על גל בגלילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger, SplitText);
+(function(){
+  const track=document.querySelector(".wave-track"),sec=document.querySelector(".wave");
+  const split=SplitText.create(track,{type:"words",wordsClass:"word"});
+  const words=split.words;
+  const dist=()=>Math.max(0,track.scrollWidth-sec.clientWidth);
+  const tl=gsap.timeline({scrollTrigger:{trigger:sec,start:"top top",end:"+=220%",pin:true,scrub:1,invalidateOnRefresh:true}});
+  tl.fromTo(track,{x:0},{x:()=>dist(),ease:"none"},0);
+  tl.fromTo(words,{y:i=>Math.sin(i*1.1)*70,rotation:i=>Math.sin(i*1.1)*9},{y:i=>Math.sin(i*1.1+Math.PI)*70,rotation:i=>Math.sin(i*1.1+Math.PI)*9,ease:"none"},0);
+})();
+</script>
+</body>
+</html>

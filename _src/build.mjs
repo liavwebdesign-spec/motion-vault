@@ -19,7 +19,13 @@ const CDN = {
   ScrollToPlugin: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js",
   CustomEase: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomEase.min.js",
   CustomWiggle: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomWiggle.min.js",
+  Observer: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Observer.min.js",
+  MorphSVGPlugin: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MorphSVGPlugin.min.js",
+  Matter: "https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js",
+  Lenis: "https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js",
 };
+// ספריות שאינן פלאגינים של GSAP: נטענות אבל לא נרשמות ב-registerPlugin
+const NON_GSAP = new Set(["Matter", "Lenis"]);
 
 // שימושים אפשריים: הסינון השני של האינדקס. כל מהלך יכול להשתייך לכמה.
 const USES_LABELS = {
@@ -63,6 +69,9 @@ const USES = {
   r18: ["ambient", "hero"], r19: ["ambient", "hero"], r20: ["ambient"],
   r21: ["nav", "hover"], r22: ["feedback", "cards"], r23: ["hero", "media"],
   r24: ["text", "hero"], r25: ["text"], r26: ["ambient", "hero"], r27: ["hover"],
+  g31: ["hero", "media"], g32: ["text", "hero"], g33: ["cards", "hero"], g34: ["cards", "ambient"],
+  g35: ["text", "hero"], g36: ["ambient", "nav"], g37: ["media", "hero", "ambient"], g38: ["nav", "ambient"],
+  b17: ["nav", "numbers"], b18: ["nav"],
 };
 
 // load all catalog modules
@@ -79,7 +88,7 @@ const FONT = `<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@10
 
 function page(e) {
   const libs = (e.libs || []).map(l => `<script src="${CDN[l]}"></script>`).join("\n");
-  const register = (e.libs || []).filter(l => l !== "gsap").join(", ");
+  const register = (e.libs || []).filter(l => l !== "gsap" && !NON_GSAP.has(l)).join(", ");
   const runway = e.runway === false ? "" : `<div class="runway">גלול למטה, הדמו מגיע ↓</div>`;
   const runwayEnd = e.runway === false ? "" : `<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>`;
   return `<!DOCTYPE html>
