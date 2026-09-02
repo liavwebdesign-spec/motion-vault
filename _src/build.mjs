@@ -85,6 +85,7 @@ const USES = {
   b45: ["cards", "media", "nav"], b46: ["cards", "hover", "media"], g47: ["process", "media", "hero"],
   b47: ["media", "feedback"], b48: ["nav", "process"], b49: ["cards", "process", "media"], b50: ["nav", "ambient", "feedback"],
   b51: ["feedback", "nav"], g48: ["text", "hero"], b52: ["hero", "nav", "media"], b53: ["text", "hover", "nav"],
+  b54: ["cards", "hover", "media"], b55: ["nav", "hover"], b56: ["feedback", "text", "nav"],
 };
 
 // load all catalog modules
