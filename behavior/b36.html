@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B36 · טופס רב-שלבי עם התקדמות | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.ms{max-width:min(620px,92vw);margin-inline:auto;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(22px,3vw,38px);overflow:hidden}
+.ms-top{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.ms-bar{flex:1;height:6px;border-radius:999px;background:var(--line);overflow:hidden}
+.ms-bar i{display:block;height:100%;width:0;background:var(--accent);border-radius:999px;transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.ms-num{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ms-view{position:relative}
+.ms-step{display:none}
+.ms-step.on{display:block;animation:msIn .38s cubic-bezier(.2,.8,.2,1)}
+.ms-step.back.on{animation:msBack .38s cubic-bezier(.2,.8,.2,1)}
+@keyframes msIn{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
+@keyframes msBack{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+.ms-step h3{margin:0 0 6px;font-size:clamp(20px,2.2vw,28px)}
+.ms-step p.sub{margin:0 0 18px;color:var(--muted);font-size:15px}
+.ms-opts{display:grid;gap:10px}
+.ms-opt{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:14px;padding:15px 16px;cursor:pointer;
+  background:var(--bg);transition:border-color .22s,background .22s}
+.ms-opt:hover{border-color:var(--accent)}
+.ms-opt input{accent-color:var(--accent);width:18px;height:18px;flex:none}
+.ms-opt.sel{border-color:var(--accent);background:#eceaff}
+.ms-field input{width:100%;font:inherit;font-size:16px;padding:15px 16px;border:1px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink)}
+.ms-field input:focus{outline:0;border-color:var(--accent)}
+.ms-err{font-size:13px;color:#c2255c;margin-top:8px;display:none}
+.ms-err.on{display:block}
+.ms-nav{display:flex;gap:10px;margin-top:24px}
+.ms-nav button{flex:1;min-height:50px;border-radius:999px;border:0;font:inherit;font-weight:600;font-size:16px;cursor:pointer}
+.ms-back{background:var(--bg);border:1px solid var(--line)!important;color:var(--ink);flex:0 0 auto;padding-inline:22px}
+.ms-next{background:var(--accent);color:#fff}
+.ms-sum{list-style:none;margin:0 0 4px;padding:0;display:grid;gap:8px}
+.ms-sum li{display:flex;justify-content:space-between;gap:16px;font-size:15px;border-bottom:1px dashed var(--line);padding-bottom:8px}
+.ms-sum b{font-weight:600}
+.ms-done{text-align:center;padding:10px 0}
+.ms-done .ok{width:56px;height:56px;border-radius:50%;background:#2b8a3e;color:#fff;display:grid;place-items:center;font-size:26px;margin:0 auto 14px}
+@media (prefers-reduced-motion: reduce){.ms-step.on{animation:none}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B36</span> · טופס רב-שלבי עם התקדמות</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">JS · CSS transitions</span>
+  <span class="chip use">טעינה ופידבק</span><span class="chip use">תהליך ושלבים</span><span class="chip use">טקסט וכותרות</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b36"><code>MV:b36</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>שאלה אחת בכל מסך במקום טופס ארוך ומפחיד. פס התקדמות למעלה, מעבר מונפש בין השלבים, ולידציה לפני מעבר, וסיכום לפני שליחה.</p>
+  <p class="when"><b>מתי משתמשים:</b> כל טופס שמבקש יותר משלושה שדות: בקשת הצעת מחיר, קביעת תור, שאלון אפיון, חישוב עלות. מעלה השלמות מול טופס אחד ארוך.</p>
+  <div class="mvpanel" data-mvpanel="b36"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight"><form class="ms" novalidate>
+  <div class="ms-top"><div class="ms-bar"><i></i></div><span class="ms-num"></span></div>
+  <div class="ms-view">
+    <section class="ms-step on" data-key="סוג הפרויקט">
+      <h3>מה אתם צריכים?</h3><p class="sub">אפשר לבחור אחד</p>
+      <div class="ms-opts">
+        <label class="ms-opt"><input type="radio" name="type" value="אתר תדמית"><span>אתר תדמית</span></label>
+        <label class="ms-opt"><input type="radio" name="type" value="דף נחיתה"><span>דף נחיתה</span></label>
+        <label class="ms-opt"><input type="radio" name="type" value="חנות אונליין"><span>חנות אונליין</span></label>
+      </div><p class="ms-err">צריך לבחור אפשרות אחת</p>
+    </section>
+    <section class="ms-step" data-key="תקציב">
+      <h3>מה טווח התקציב?</h3><p class="sub">זה עוזר להתאים הצעה מדויקת</p>
+      <div class="ms-opts">
+        <label class="ms-opt"><input type="radio" name="budget" value="עד 8,000"><span>עד 8,000 ש"ח</span></label>
+        <label class="ms-opt"><input type="radio" name="budget" value="8,000 עד 15,000"><span>8,000 עד 15,000 ש"ח</span></label>
+        <label class="ms-opt"><input type="radio" name="budget" value="מעל 15,000"><span>מעל 15,000 ש"ח</span></label>
+      </div><p class="ms-err">צריך לבחור טווח</p>
+    </section>
+    <section class="ms-step" data-key="פרטים">
+      <h3>איך חוזרים אליכם?</h3><p class="sub">שם וטלפון, וזהו</p>
+      <div class="ms-opts">
+        <div class="ms-field"><input type="text" name="name" placeholder="שם מלא" autocomplete="name"></div>
+        <div class="ms-field"><input type="tel" name="phone" placeholder="טלפון" autocomplete="tel"></div>
+      </div><p class="ms-err">צריך שם וטלפון תקין</p>
+    </section>
+    <section class="ms-step" data-key="סיכום">
+      <h3>רגע לפני ששולחים</h3><p class="sub">אפשר לחזור ולתקן כל שלב</p>
+      <ul class="ms-sum"></ul>
+    </section>
+    <section class="ms-step ms-done-step">
+      <div class="ms-done"><div class="ok">✓</div><h3>נשלח</h3><p class="sub">נחזור אליכם היום. הדגמה בלבד, שום דבר לא נשלח.</p></div>
+    </section>
+  </div>
+  <div class="ms-nav"><button type="button" class="ms-back">חזרה</button><button type="button" class="ms-next">המשך</button></div>
+</form></div>
+
+<div class="demo-note">שלושה דברים שמעלים השלמה: שאלה אחת במסך, פס התקדמות שאומר כמה נשאר, ומסך סיכום שמאפשר לחזור ולתקן לפני שליחה. הוולידציה נעשית במעבר בין שלבים ולא בסוף, כדי שלא יגלו בעיה אחרי חמישה מסכים. השדות שומרים על autocomplete כדי שהמילוי במובייל יהיה מהיר.</div>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · טופס רב-שלבי עם התקדמות").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+(function(){
+  const form=document.querySelector(".ms");
+  const steps=[...form.querySelectorAll(".ms-step")];
+  const bar=form.querySelector(".ms-bar i"),num=form.querySelector(".ms-num");
+  const back=form.querySelector(".ms-back"),next=form.querySelector(".ms-next");
+  const sum=form.querySelector(".ms-sum");
+  const last=steps.length-1;      // מסך התודה
+  const review=last-1;            // מסך הסיכום
+  let i=0;
+  form.querySelectorAll(".ms-opt input").forEach(inp=>{
+    inp.addEventListener("change",()=>{
+      inp.closest(".ms-opts").querySelectorAll(".ms-opt").forEach(o=>o.classList.remove("sel"));
+      inp.closest(".ms-opt").classList.add("sel");
+      inp.closest(".ms-step").querySelector(".ms-err").classList.remove("on");
+    });
+  });
+  function valid(n){
+    const s=steps[n];
+    const radios=s.querySelectorAll('input[type=radio]');
+    if(radios.length)return [...radios].some(r=>r.checked);
+    const fields=[...s.querySelectorAll('input[type=text],input[type=tel]')];
+    if(fields.length)return fields.every(f=>f.name==="phone"?/^0\d{1,2}-?\d{7}$/.test(f.value.replace(/\s/g,"")):f.value.trim().length>1);
+    return true;
+  }
+  function paintSummary(){
+    sum.innerHTML="";
+    steps.slice(0,review).forEach(s=>{
+      const r=s.querySelector('input[type=radio]:checked');
+      const txt=r?r.value:[...s.querySelectorAll('input')].map(f=>f.value).filter(Boolean).join(" · ");
+      const li=document.createElement("li");
+      li.innerHTML='<span>'+s.dataset.key+'</span><b>'+(txt||"")+'</b>';
+      sum.appendChild(li);
+    });
+  }
+  function show(n,dir){
+    steps.forEach(s=>{s.classList.remove("on","back");});
+    const s=steps[n];
+    if(dir<0)s.classList.add("back");
+    s.classList.add("on");
+    i=n;
+    bar.style.width=Math.round((Math.min(i,review)/review)*100)+"%";
+    num.textContent=i<last?("שלב "+(i+1)+" מתוך "+(review+1)):"";
+    back.style.visibility=(i===0||i===last)?"hidden":"visible";
+    next.textContent=i===review?"שליחה":"המשך";
+    form.querySelector(".ms-nav").style.display=i===last?"none":"flex";
+    if(i===review)paintSummary();
+  }
+  next.addEventListener("click",()=>{
+    if(i<review&&!valid(i)){steps[i].querySelector(".ms-err").classList.add("on");return;}
+    show(Math.min(i+1,last),1);
+  });
+  back.addEventListener("click",()=>show(Math.max(0,i-1),-1));
+  show(0,1);
+})();
+</script>
+</body>
+</html>
