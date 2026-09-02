@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B42 · מרקי שמגיב למהירות הגלילה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.vm{overflow:hidden;border-block:1px solid var(--line);background:var(--card);padding-block:clamp(16px,2vw,30px)}
+.vm+.vm{border-top:0}
+.vm-track{display:flex;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}
+.vm-track span{font-size:clamp(26px,4vw,66px);font-weight:800;white-space:nowrap;color:var(--ink)}
+.vm-track span.o{color:transparent;-webkit-text-stroke:1px var(--muted)}
+.vm.alt .vm-track span{font-size:clamp(18px,2vw,30px);font-weight:600;color:var(--muted)}
+.vm-note{text-align:center;color:var(--muted);font-size:14px;padding:18px var(--gutter) 0}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B42</span> · מרקי שמגיב למהירות הגלילה</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">GSAP · ScrollTrigger velocity</span>
+  <span class="chip use">רקע ואווירה</span><span class="chip use">ניווט ומבנה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b42"><code>MV:b42</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>רצועה שזורמת לבד, מאיצה כשגוללים מהר, מתהפכת בכיוון כשגוללים אחורה, ומתעוותת קלות לפי המהירות. חוזרת לזרימה רגילה כשעוצרים.</p>
+  <p class="when"><b>מתי משתמשים:</b> רצועת לוגואים, פס אמון, כותרות ענק, שמות שירותים. שדרוג ישיר של מרקי רגיל: הוא מרגיש חי במקום לולאה מכנית.</p>
+  <div class="mvpanel" data-mvpanel="b42"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="vm"><div class="vm-track">
+  <span>אתרי תדמית</span><span class="o">דפי נחיתה</span><span>חנויות</span><span class="o">מערכות</span>
+  <span>אתרי תדמית</span><span class="o">דפי נחיתה</span><span>חנויות</span><span class="o">מערכות</span>
+</div></div>
+<div class="vm alt"><div class="vm-track">
+  <span>אפיון</span><span>קופי</span><span>עיצוב</span><span>פיתוח</span><span>מדידה</span><span>ליווי</span>
+  <span>אפיון</span><span>קופי</span><span>עיצוב</span><span>פיתוח</span><span>מדידה</span><span>ליווי</span>
+</div></div>
+<p class="vm-note">גלול מהר ולאט, ואז גלול אחורה. הרצועה מגיבה.</p>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note">getVelocity מחזיר פיקסלים לשנייה עם סימן שמעיד על הכיוון, ומכאן שני האפקטים: timeScale שלילי מהפך את הלולאה, ו-clamp מונע האצה מטורפת בגלילת מגע. חובה להחזיר את הקצב לבסיס אחרי הדחיפה, אחרת הרצועה נשארת מהירה לנצח. ה-skew מוגבל לשמונה מעלות: מעבר לזה הטקסט נעשה לא קריא.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מרקי שמגיב למהירות הגלילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll(".vm").forEach((wrap,idx)=>{
+    const track=wrap.querySelector(".vm-track");
+    const half=track.scrollWidth/2;
+    // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס
+    const loop=gsap.fromTo(track,{x:-half},{x:0,duration:14+idx*4,ease:"none",repeat:-1});
+    if(reduce){loop.pause();return;}
+    const skewTo=gsap.quickTo(track,"skewX",{duration:.4,ease:"power3"});
+    let scale=1;
+    ScrollTrigger.create({
+      onUpdate:self=>{
+        const v=self.getVelocity();
+        const dir=v>0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה
+        const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה
+        scale=dir*boost;
+        loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד
+        skewTo(gsap.utils.clamp(-8,8,-v/260));
+      }
+    });
+    // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.
+    gsap.ticker.add(()=>{
+      const base=Math.sign(scale)||1;
+      if(Math.abs(scale-base)<.02)return;
+      scale+=(base-scale)*.05;
+      loop.timeScale(scale);
+    });
+  });
+})();
+</script>
+</body>
+</html>
