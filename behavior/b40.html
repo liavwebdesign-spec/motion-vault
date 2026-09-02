@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B40 · פוטר שנחשף מאחורי העמוד | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.rvf-page{position:relative;z-index:2;background:var(--bg)}
+.rvf-hero{min-height:60vh;display:grid;place-items:center;text-align:center;padding:10vh var(--gutter)}
+.rvf-hero h2{font-size:clamp(30px,4.4vw,66px);margin:0 0 10px;font-weight:800}
+.rvf-hero p{margin:0;color:var(--muted)}
+.rvf-body{padding:0 var(--gutter) clamp(60px,8vw,120px);max-width:62ch;margin-inline:auto;color:var(--muted);line-height:1.8}
+/* הפוטר קבוע מאחור, והעמוד מקבל שוליים בגובהו כדי לפנות לו מקום בסוף */
+.rvf-footer{position:fixed;inset-inline:0;bottom:0;z-index:1;min-height:var(--rvf-h,60vh);
+  background:#16182b;color:#fff;display:grid;align-content:center;gap:18px;padding:clamp(36px,5vw,70px) var(--gutter)}
+.rvf-footer h3{font-size:clamp(28px,4vw,60px);margin:0;font-weight:800}
+.rvf-footer a{color:#fff}
+.rvf-cols{display:flex;gap:clamp(20px,4vw,60px);flex-wrap:wrap;color:#a7a9c4;font-size:15px}
+.rvf-cols div{display:grid;gap:8px}
+.rvf-bottom{border-top:1px solid rgba(255,255,255,.14);padding-top:16px;font-size:13px;color:#8d8fa8;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+@media(max-width:767px){.rvf-footer{min-height:70vh}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B40</span> · פוטר שנחשף מאחורי העמוד</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">CSS position:fixed</span>
+  <span class="chip use">ניווט ומבנה</span><span class="chip use">רקע ואווירה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b40"><code>MV:b40</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>הפוטר יושב קבוע מאחורי התוכן, והעמוד מחליק מעליו כמו וילון. בסוף הגלילה הוא נחשף במלואו בלי אנימציה ובלי JS.</p>
+  <p class="when"><b>מתי משתמשים:</b> כל אתר תדמית או פורטפוליו. נותן סיום מכובד לעמוד ומרוויח מקום לפרטי קשר גדולים, בלי להאריך את הגלילה.</p>
+  <div class="mvpanel" data-mvpanel="b40"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="rvf-page">
+  <section class="rvf-hero"><div><h2>גלול עד הסוף</h2><p>הפוטר כבר שם, מתחת לעמוד, ומתגלה כשהתוכן מחליק מעליו</p></div></section>
+  <div class="rvf-body">
+    <p>הטריק פשוט: הפוטר קבוע בתחתית המסך עם z-index נמוך, והעמוד יושב מעליו עם רקע אטום. כשהתוכן נגמר, מה שנשאר לראות זה הפוטר.</p>
+    <p>הרווח הוא כפול: אין אנימציה שצריכה לרוץ, אין ScrollTrigger, ואין קפיצה במובייל. וגם, אפשר לתת לפרטי הקשר מסך שלם בלי להאריך את הגלילה.</p>
+    <p style="height:60vh"></p>
+    <p>עוד קצת תוכן לפני הסוף.</p>
+    <p style="height:40vh"></p>
+    <p>וזהו, מכאן הפוטר.</p>
+  </div>
+</div>
+<footer class="rvf-footer">
+  <h3>נדבר?</h3>
+  <div class="rvf-cols">
+    <div><span>info@example.com</span><span>03-1234567</span></div>
+    <div><span>עבודות</span><span>שירותים</span><span>אודות</span></div>
+    <div><span>אינסטגרם</span><span>לינקדאין</span><span>פייסבוק</span></div>
+  </div>
+  <div class="rvf-bottom"><span>כל הזכויות שמורות</span><span>תנאי שימוש · מדיניות פרטיות</span></div>
+</footer>
+
+<div class="demo-note">המדידה היחידה ב-JS היא גובה הפוטר, שהופך לשוליים בתחתית העמוד. בלי זה התוכן האחרון מסתתר מאחוריו. חשוב שלעמוד יהיה רקע אטום, אחרת רואים את הפוטר דרכו לאורך כל הגלילה. בעמודים קצרים מגובה המסך כדאי לבטל את המהלך, אחרת הפוטר גלוי כל הזמן.</div>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · פוטר שנחשף מאחורי העמוד").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+(function(){
+  const page=document.querySelector(".rvf-page"),footer=document.querySelector(".rvf-footer");
+  // השוליים בתחתית העמוד שווים לגובה הפוטר. נמדד ומתעדכן בשינוי גודל.
+  function fit(){page.style.marginBottom=footer.offsetHeight+"px";}
+  fit();
+  addEventListener("resize",fit);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+})();
+</script>
+</body>
+</html>
