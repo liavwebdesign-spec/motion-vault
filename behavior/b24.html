@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B24 · כפתור שהאותיות בו מתחלפות בהובר | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.rb{--rb-bg:var(--ink);--rb-fg:#fff;
+  display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;font:inherit;font-weight:600;font-size:17px;
+  background:var(--rb-bg);color:var(--rb-fg);border-radius:999px;padding:16px 30px;overflow:hidden;position:relative}
+.rb.ghost{--rb-bg:transparent;--rb-fg:var(--ink);border:1px solid var(--line)}
+.rb.accent{--rb-bg:var(--accent)}
+.rb-txt{display:inline-flex;position:relative;overflow:hidden;line-height:1.25}
+.rb-row{display:inline-flex}
+.rb-row.b{position:absolute;inset-inline-start:0;top:0}
+.rb-ch{display:inline-block;transition:transform .42s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i) * 22ms)}
+.rb-row.a .rb-ch{transform:translateY(0)}
+.rb-row.b .rb-ch{transform:translateY(105%)}
+.rb:hover .rb-row.a .rb-ch,.rb:focus-visible .rb-row.a .rb-ch{transform:translateY(-105%)}
+.rb:hover .rb-row.b .rb-ch,.rb:focus-visible .rb-row.b .rb-ch{transform:translateY(0)}
+.rb-arrow{transition:transform .42s cubic-bezier(.2,.8,.2,1)}
+.rb:hover .rb-arrow{transform:translateX(-5px)}
+.rb-demo{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+@media (prefers-reduced-motion: reduce){.rb-ch,.rb-arrow{transition:none}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B24</span> · כפתור שהאותיות בו מתחלפות בהובר</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">CSS transform · JS split</span>
+  <span class="chip use">hover ומיקרו</span><span class="chip use">טעינה ופידבק</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b24"><code>MV:b24</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>שתי שכבות של אותו טקסט זו מעל זו. בהובר העליונה מחליקה למעלה והתחתונה עולה במקומה, אות אחרי אות, כך שהמילה מתגלגלת ולא סתם משנה צבע.</p>
+  <p class="when"><b>מתי משתמשים:</b> כפתור ראשי, קישור ניווט, כפתור מוצר. מיקרו-אינטראקציה שמסמנת ליטוש. בעברית האותיות אינן מחוברות ולכן פיצול לאותיות בטוח.</p>
+  <div class="mvpanel" data-mvpanel="b24"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight center"><div class="rb-demo">
+  <button class="rb accent"><span class="rb-txt" data-rb>קבעו שיחה</span><span class="rb-arrow" aria-hidden="true">←</span></button>
+  <button class="rb"><span class="rb-txt" data-rb>לכל העבודות</span><span class="rb-arrow" aria-hidden="true">←</span></button>
+  <button class="rb ghost"><span class="rb-txt" data-rb>המחירון שלנו</span></button>
+</div>
+<p style="color:var(--muted);font-size:14px;margin-top:22px">העבר עכבר, או הגע עם Tab</p></div>
+
+<div class="demo-note">הטקסט האמיתי נשמר ב-aria-label ושתי השכבות מסומנות aria-hidden, אחרת קורא מסך היה מקריא את המילה פעמיים. ההשהיה המדורגת היא 22 מילישניות לאות: מעל 30 זה מתחיל להרגיש איטי, ומתחת ל-15 האפקט נעלם.</div>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · כפתור שהאותיות בו מתחלפות בהובר").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+(function(){
+  document.querySelectorAll("[data-rb]").forEach(el=>{
+    const text=el.textContent.trim();
+    el.textContent="";
+    el.setAttribute("aria-label",text);
+    // שתי שכבות זהות: העליונה יוצאת, התחתונה נכנסת
+    ["a","b"].forEach(k=>{
+      const row=document.createElement("span");
+      row.className="rb-row "+k;
+      row.setAttribute("aria-hidden","true");
+      [...text].forEach((c,i)=>{
+        const s=document.createElement("span");
+        s.className="rb-ch";
+        s.style.setProperty("--i",k==="a"?i:i);
+        s.textContent=c===" "?"\u00a0":c;
+        row.appendChild(s);
+      });
+      el.appendChild(row);
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -76,6 +76,7 @@ const USES = {
   css23: ["media", "cards", "nav"],
   g40: ["process", "cards", "nav"], g41: ["ambient", "hero"], css24: ["text"],
   g42: ["text", "hero"], b21: ["hover", "ambient"], b22: ["media", "hero"],
+  g43: ["media", "hover", "cards"], b23: ["nav"], b24: ["hover", "feedback"], b25: ["ambient", "hero"],
 };
 
 // load all catalog modules
