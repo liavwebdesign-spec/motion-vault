@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B28 · חותם עגול עם טקסט שמסתובב | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.seal-row{display:flex;gap:clamp(30px,6vw,90px);align-items:center;justify-content:center;flex-wrap:wrap}
+.seal{position:relative;width:var(--sz,168px);height:var(--sz,168px);display:grid;place-items:center;flex:none}
+.seal-ring{position:absolute;inset:0;animation:sealspin 22s linear infinite}
+.seal:hover .seal-ring{animation-duration:9s}
+@keyframes sealspin{to{transform:rotate(360deg)}}
+.seal-ch{position:absolute;inset-block-start:0;inset-inline-start:50%;height:50%;transform-origin:bottom center;font-size:var(--fs,12.5px);font-weight:700;letter-spacing:.02em}
+.seal-mid{width:44%;height:44%;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:calc(var(--sz,168px) * .17)}
+.seal.warm .seal-mid{background:#c2255c}
+.seal.warm .seal-ch{color:#c2255c}
+.seal.ghost .seal-mid{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.seal-cap{text-align:center;color:var(--muted);font-size:14px;margin-top:26px}
+@media (prefers-reduced-motion: reduce){.seal-ring{animation:none}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B28</span> · חותם עגול עם טקסט שמסתובב</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">CSS transform · JS split</span>
+  <span class="chip use">רקע ואווירה</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b28"><code>MV:b28</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>טקסט שמסודר סביב מעגל ומסתובב לאט בלולאה, עם סמל במרכז. בהובר הסיבוב מאיץ קלות.</p>
+  <p class="when"><b>מתי משתמשים:</b> חותם איכות בהירו, תג "מאז 1998", כפתור צף של יצירת קשר, או חתימה בפוטר. אחד בעמוד, קטן ולא במרכז הבמה.</p>
+  <div class="mvpanel" data-mvpanel="b28"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight"><div class="seal-row">
+  <div class="seal" style="--sz:186px"><span class="seal-ring" data-seal="· בונים אתרים מאז 2014 ">
+  </span><span class="seal-mid" aria-hidden="true">✦</span></div>
+  <div class="seal warm" style="--sz:150px;--fs:11.5px"><span class="seal-ring" data-seal="· אחריות מלאה · שירות אישי ">
+  </span><span class="seal-mid" aria-hidden="true">♥</span></div>
+  <div class="seal ghost" style="--sz:128px;--fs:10.5px"><span class="seal-ring" data-seal="· דברו איתנו · דברו איתנו ">
+  </span><span class="seal-mid" aria-hidden="true">←</span></div>
+</div>
+<p class="seal-cap">העבר עכבר על אחד מהם והסיבוב יאיץ</p></div>
+
+<div class="demo-note">הסוד הוא transform-origin בתחתית התו: כל תו הוא רדיוס של המעגל, והזווית שלו קובעת איפה הוא יושב. בעברית הסימן שלילי כדי שהמילים יתקדמו עם כיוון השעון וייקראו נכון. הטקסט המלא נשמר ב-aria-label והתווים עצמם מוסתרים מקוראי מסך.</div>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · חותם עגול עם טקסט שמסתובב").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+(function(){
+  document.querySelectorAll("[data-seal]").forEach(ring=>{
+    const text=ring.dataset.seal;
+    const chars=[...text];
+    const step=360/chars.length;
+    ring.setAttribute("aria-label",text.replace(/·/g," ").trim());
+    ring.setAttribute("role","img");
+    // כל תו מסובב סביב מרכז המעגל. הזווית מחושבת מהסוף להתחלה כדי שהעברית תיקרא עם כיוון השעון.
+    chars.forEach((c,i)=>{
+      const s=document.createElement("span");
+      s.className="seal-ch";
+      s.setAttribute("aria-hidden","true");
+      s.textContent=c===" "?"\u00a0":c;
+      s.style.transform="translateX(-50%) rotate("+(-i*step)+"deg)";
+      ring.appendChild(s);
+    });
+  });
+})();
+</script>
+</body>
+</html>
