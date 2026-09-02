@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B32 · טופס עם תוויות צפות, שגיאות ומצב שליחה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.ff{max-width:min(560px,92vw);margin-inline:auto;display:grid;gap:18px}
+.ff-field{position:relative}
+.ff-field input,.ff-field textarea{width:100%;font:inherit;font-size:16px;color:var(--ink);background:var(--card);
+  border:1px solid var(--line);border-radius:12px;padding:26px 16px 10px;transition:border-color .25s,box-shadow .25s}
+.ff-field textarea{min-height:120px;resize:vertical}
+.ff-field input:focus,.ff-field textarea:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(74,58,255,.13)}
+.ff-field label{position:absolute;inset-inline-start:17px;top:17px;color:var(--muted);font-size:16px;pointer-events:none;
+  transform-origin:0 0;transition:transform .22s cubic-bezier(.2,.8,.2,1),color .22s}
+/* התווית עולה כשהשדה בפוקוס או כשיש בו תוכן. placeholder ריק הוא התנאי לזיהוי */
+.ff-field input:focus+label,.ff-field textarea:focus+label,
+.ff-field input:not(:placeholder-shown)+label,.ff-field textarea:not(:placeholder-shown)+label{transform:translateY(-11px) scale(.78)}
+.ff-field input:focus+label,.ff-field textarea:focus+label{color:var(--accent)}
+.ff-err{display:block;font-size:13px;color:#c2255c;margin-top:6px;height:0;opacity:0;transition:opacity .25s}
+.ff-field.bad input,.ff-field.bad textarea{border-color:#c2255c;animation:ffshake .34s}
+.ff-field.bad .ff-err{height:auto;opacity:1}
+@keyframes ffshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.ff-btn{position:relative;min-height:54px;border:0;border-radius:999px;background:var(--accent);color:#fff;font:inherit;font-weight:600;
+  font-size:17px;cursor:pointer;overflow:hidden;transition:background .3s}
+.ff-btn span{display:block;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .25s}
+.ff-btn .s2,.ff-btn .s3{position:absolute;inset:0;display:grid;place-items:center;transform:translateY(110%);opacity:0}
+.ff-btn.load .s1{transform:translateY(-110%);opacity:0}
+.ff-btn.load .s2{transform:none;opacity:1}
+.ff-btn.done{background:#2b8a3e}
+.ff-btn.done .s1,.ff-btn.done .s2{transform:translateY(-110%);opacity:0}
+.ff-btn.done .s3{transform:none;opacity:1}
+.ff-spin{width:17px;height:17px;border-radius:50%;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;animation:ffspin .7s linear infinite;display:inline-block}
+@keyframes ffspin{to{transform:rotate(360deg)}}
+.ff-note{font-size:13px;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion: reduce){.ff-field.bad input{animation:none}.ff-spin{animation-duration:2s}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B32</span> · טופס עם תוויות צפות, שגיאות ומצב שליחה</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">CSS :placeholder-shown · JS</span>
+  <span class="chip use">טעינה ופידבק</span><span class="chip use">טקסט וכותרות</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b32"><code>MV:b32</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>התווית יושבת בתוך השדה ועולה למעלה ברגע שמקלידים. שגיאה נכנסת עם ריצוד עדין והודעה מתחת לשדה, והכפתור עובר למצב שליחה ואז לאישור.</p>
+  <p class="when"><b>מתי משתמשים:</b> כל טופס בכל אתר: יצירת קשר, קביעת תור, הרשמה לרשימה, בקשת הצעת מחיר. זה הרכיב שקובע אם ליד נשלח או ננטש.</p>
+  <div class="mvpanel" data-mvpanel="b32"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight"><form class="ff" novalidate>
+  <div class="ff-field"><input type="text" id="ffn" placeholder=" " autocomplete="name"><label for="ffn">שם מלא</label><small class="ff-err">צריך שם כדי לדעת למי לחזור</small></div>
+  <div class="ff-field"><input type="email" id="ffe" placeholder=" " autocomplete="email"><label for="ffe">אימייל</label><small class="ff-err">כתובת האימייל לא נראית תקינה</small></div>
+  <div class="ff-field"><textarea id="ffm" placeholder=" "></textarea><label for="ffm">במה נוכל לעזור?</label><small class="ff-err">כמה מילים יעזרו לנו להתכונן</small></div>
+  <button class="ff-btn" type="submit"><span class="s1">שליחה</span><span class="s2"><i class="ff-spin"></i></span><span class="s3">נשלח, נחזור אליך</span></button>
+  <p class="ff-note">הדגמה בלבד. שום דבר לא נשלח לשום מקום.</p>
+</form></div>
+
+<div class="demo-note">התווית הצפה עובדת בלי JS בזכות :placeholder-shown, ולכן חובה placeholder של רווח בודד בכל שדה. השגיאה מנוקה תוך כדי הקלדה ולא רק בשליחה הבאה, וזה ההבדל בין טופס שמעצבן לטופס שעוזר. הכפתור מחזיק שלושה מצבים באותו רוחב כדי שלא יקפוץ, ובפרודקשן מוסיפים גם aria-live להודעת ההצלחה.</div>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · טופס עם תוויות צפות, שגיאות ומצב שליחה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+(function(){
+  const form=document.querySelector(".ff"),btn=form.querySelector(".ff-btn");
+  const fields=[...form.querySelectorAll(".ff-field")];
+  function bad(f){
+    const el=f.querySelector("input,textarea");
+    const v=el.value.trim();
+    if(el.type==="email")return !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+    return v.length<2;
+  }
+  fields.forEach(f=>{
+    const el=f.querySelector("input,textarea");
+    // מסירים את השגיאה ברגע שמתקנים, לא רק בשליחה הבאה
+    el.addEventListener("input",()=>{if(f.classList.contains("bad")&&!bad(f))f.classList.remove("bad");});
+    el.addEventListener("blur",()=>{if(el.value.trim())f.classList.toggle("bad",bad(f));});
+  });
+  form.addEventListener("submit",e=>{
+    e.preventDefault();
+    let first=null;
+    fields.forEach(f=>{const b=bad(f);f.classList.toggle("bad",b);if(b&&!first)first=f;});
+    if(first){first.querySelector("input,textarea").focus();return;}
+    btn.classList.add("load");
+    setTimeout(()=>{btn.classList.remove("load");btn.classList.add("done");},1400);
+  });
+})();
+</script>
+</body>
+</html>

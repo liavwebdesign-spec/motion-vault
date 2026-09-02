@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B33 · גלריה עם לייטבוקס | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.gl{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding-inline:var(--gutter)}
+.gl button{border:0;padding:0;background:none;cursor:zoom-in;border-radius:10px;overflow:hidden;aspect-ratio:1;position:relative}
+.gl .ph{position:absolute;inset:0;border-radius:0;font-size:22px;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.gl button:hover .ph{transform:scale(1.06)}
+.lb{position:fixed;inset:0;z-index:80;background:rgba(10,10,16,.92);display:none;place-items:center;padding:clamp(16px,4vw,48px)}
+.lb.on{display:grid}
+.lb-stage{position:relative;width:min(1000px,92vw);aspect-ratio:3/2;border-radius:14px;overflow:hidden}
+.lb-stage .ph{position:absolute;inset:0;border-radius:0;font-size:64px;opacity:0;transition:opacity .35s}
+.lb-stage .ph.on{opacity:1}
+.lb-close,.lb-arrow{position:absolute;z-index:2;width:48px;height:48px;border-radius:50%;border:0;cursor:pointer;
+  background:rgba(255,255,255,.14);color:#fff;font-size:20px;display:grid;place-items:center;backdrop-filter:blur(8px);transition:background .25s}
+.lb-close:hover,.lb-arrow:hover{background:rgba(255,255,255,.28)}
+.lb-close{top:clamp(14px,3vw,28px);inset-inline-end:clamp(14px,3vw,28px)}
+.lb-arrow{top:50%;transform:translateY(-50%)}
+.lb-prev{inset-inline-end:clamp(10px,2vw,22px)}
+.lb-next{inset-inline-start:clamp(10px,2vw,22px)}
+.lb-count{position:absolute;bottom:clamp(14px,3vw,26px);inset-inline:0;text-align:center;color:#fff;font-size:13px;letter-spacing:.1em;z-index:2;direction:ltr}
+@media(max-width:767px){.gl{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B33</span> · גלריה עם לייטבוקס</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">JS · dialog</span>
+  <span class="chip use">תמונות וגלריות</span><span class="chip use">כרטיסים</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b33"><code>MV:b33</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>גריד תמונות שנפתח למסך מלא בלחיצה, עם מעבר בין תמונות בחצים ובמקלדת, סגירה ב-Escape או בלחיצה על הרקע, וגלילה נעולה מאחור.</p>
+  <p class="when"><b>מתי משתמשים:</b> מסעדות, קליניקות, נדל"ן, אולמות, סטודיו, חנויות. בכל אתר שיש בו תמונות שאנשים ירצו לראות גדול.</p>
+  <div class="mvpanel" data-mvpanel="b33"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight">
+<div class="gl">
+  <button aria-label="פתח תמונה 1"><span class="ph ph-a">1</span></button>
+  <button aria-label="פתח תמונה 2"><span class="ph ph-b">2</span></button>
+  <button aria-label="פתח תמונה 3"><span class="ph ph-c">3</span></button>
+  <button aria-label="פתח תמונה 4"><span class="ph ph-d">4</span></button>
+  <button aria-label="פתח תמונה 5"><span class="ph ph-e">5</span></button>
+  <button aria-label="פתח תמונה 6"><span class="ph ph-f">6</span></button>
+  <button aria-label="פתח תמונה 7"><span class="ph ph-a">7</span></button>
+  <button aria-label="פתח תמונה 8"><span class="ph ph-c">8</span></button>
+</div>
+<p class="center" style="color:var(--muted);font-size:14px;margin-top:18px">לחץ על תמונה. במקלדת: חצים למעבר, Escape לסגירה.</p>
+</div>
+<div class="lb" role="dialog" aria-modal="true" aria-label="תצוגת תמונה">
+  <div class="lb-stage">
+    <span class="ph ph-a">1</span><span class="ph ph-b">2</span><span class="ph ph-c">3</span><span class="ph ph-d">4</span>
+    <span class="ph ph-e">5</span><span class="ph ph-f">6</span><span class="ph ph-a">7</span><span class="ph ph-c">8</span>
+  </div>
+  <button class="lb-close" aria-label="סגירה">✕</button>
+  <button class="lb-arrow lb-prev" aria-label="הקודמת">→</button>
+  <button class="lb-arrow lb-next" aria-label="הבאה">←</button>
+  <span class="lb-count"></span>
+</div>
+
+<div class="demo-note">שלושה דברים שהופכים לייטבוקס מצעצוע לרכיב אמיתי: נעילת גלילה שמחזירה את רוחב פס הגלילה כריפוד כדי שהעמוד לא יקפוץ, החזרת הפוקוס לתמונה שממנה נפתח אחרי הסגירה, וחצי מקלדת הפוכים בעברית. בפרודקשן מוסיפים loading="lazy" לתמונות הגריד ומחליפים לגרסה גדולה רק בפתיחה.</div>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · גלריה עם לייטבוקס").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+(function(){
+  const thumbs=[...document.querySelectorAll(".gl button")];
+  const lb=document.querySelector(".lb"),shots=[...lb.querySelectorAll(".lb-stage .ph")];
+  const count=lb.querySelector(".lb-count"),closeBtn=lb.querySelector(".lb-close");
+  let i=0,opener=null;
+  function show(n){
+    i=(n+shots.length)%shots.length;
+    shots.forEach((s,k)=>s.classList.toggle("on",k===i));
+    count.textContent=(i+1)+" / "+shots.length;
+  }
+  function open(n,from){
+    opener=from;show(n);lb.classList.add("on");
+    // נעילת גלילה בלי קפיצה: מחזירים את רוחב פס הגלילה כריפוד
+    document.body.style.paddingInlineEnd=(innerWidth-document.documentElement.clientWidth)+"px";
+    document.body.style.overflow="hidden";
+    closeBtn.focus();
+  }
+  function close(){
+    lb.classList.remove("on");
+    document.body.style.overflow="";document.body.style.paddingInlineEnd="";
+    if(opener)opener.focus();
+  }
+  thumbs.forEach((b,n)=>b.addEventListener("click",()=>open(n,b)));
+  closeBtn.addEventListener("click",close);
+  lb.querySelector(".lb-prev").addEventListener("click",()=>show(i-1));
+  lb.querySelector(".lb-next").addEventListener("click",()=>show(i+1));
+  lb.addEventListener("click",e=>{if(e.target===lb)close();});
+  addEventListener("keydown",e=>{
+    if(!lb.classList.contains("on"))return;
+    if(e.key==="Escape")close();
+    // בעברית חץ שמאלה מתקדם לתמונה הבאה
+    if(e.key==="ArrowLeft")show(i+1);
+    if(e.key==="ArrowRight")show(i-1);
+  });
+})();
+</script>
+</body>
+</html>
