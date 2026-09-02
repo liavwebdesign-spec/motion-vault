@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G48 · פסקה שנצבעת מילה-מילה בגלילה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.hl{max-width:min(880px,92vw);margin-inline:auto;padding-block:34vh}
+.hl p{margin:0;font-size:clamp(24px,3.4vw,46px);line-height:1.5;font-weight:600}
+.hl .w{color:var(--muted);transition:none;position:relative;display:inline-block}
+/* ההדגשה נפתחת מאחורי המילה. בעברית היא נפתחת מימין, מתחילת המילה */
+.hl .mk{position:relative;z-index:0;display:inline-block;padding-inline:.14em;border-radius:.16em}
+.hl .mk::before{content:"";position:absolute;inset:0;border-radius:.16em;background:var(--accent);
+  transform:scaleX(var(--fill,0));transform-origin:right center;z-index:-1}
+.hl-foot{text-align:center;color:var(--muted);font-size:14px;padding-bottom:12vh}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G48</span> · פסקה שנצבעת מילה-מילה בגלילה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger scrub</span>
+  <span class="chip use">טקסט וכותרות</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g48"><code>MV:g48</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>פסקת מניפסט שמתחילה אפורה ונצבעת מילה אחרי מילה בקצב הגלילה, כשמילות המפתח מקבלות הדגשה צבעונית שנפתחת מאחוריהן.</p>
+  <p class="when"><b>מתי משתמשים:</b> סקשן "מי אנחנו", אמירה עסקית, ערכים, פתיח למאמר. הדפוס הזה חזר בשלושה קלונאבלס נפרדים, והוא הופך פסקה שאף אחד לא קורא לרגע שעוצרים בשבילו.</p>
+  <div class="mvpanel" data-mvpanel="g48"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="hl"><p id="hl-src">אנחנו לא בונים אתרים יפים. אנחנו בונים אתרים שמביאים פניות. ההבדל הוא לא בעיצוב אלא בסדר: קודם מבינים את הלקוח, אחר כך כותבים, ורק בסוף פותחים כלי עיצוב.</p></div>
+<p class="hl-foot">גלול לאט. כל מילה נצבעת בתורה.</p>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note">ההדגשה חייבת להיות פסאודו-אלמנט מאחורי המילה ולא רקע על אותו אלמנט, אחרת אי אפשר להנפיש אותה בנפרד מצבע הטקסט. בעברית ה-transform-origin הוא right, כך שהצבע נפתח מהתחלת המילה. הפיצול הוא למילים בלבד: פיצול לאותיות בעברית שובר ניקוד ומייצר ג'יבריש בקורא מסך. ה-stagger הוא שמייצר את תחושת הקריאה, וה-scrub הקצר מונע תחושה שהטקסט רודף אחרי הגלילה.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · פסקה שנצבעת מילה-מילה בגלילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const p=document.getElementById("hl-src");
+  const MARK=["פניות","בסדר","הלקוח"];          // מילות המפתח שיקבלו הדגשה
+  const bare=w=>w.replace(/[.,:;!?"'׳״]/g,"");   // סימני פיסוק נדבקים למילה ושוברים השוואה
+  // פיצול למילים בלבד. בעברית לא מפצלים לאותיות: זה שובר ניקוד וקוראי מסך
+  const words=p.textContent.trim().split(/\s+/);
+  p.textContent="";
+  const marks=[];
+  const spans=words.map((w,i)=>{
+    const s=document.createElement("span");
+    s.className="w";
+    const core=bare(w);
+    if(MARK.includes(core)){
+      // ההדגשה עוטפת את המילה בלבד. סימן הפיסוק נשאר מחוץ לצבע
+      const mk=document.createElement("span");
+      mk.className="mk";mk.textContent=core;
+      s.appendChild(mk);
+      s.appendChild(document.createTextNode(w.slice(core.length)));
+      marks.push({mk:mk,i:i});
+    } else s.textContent=w;
+    p.appendChild(s);
+    if(i<words.length-1)p.appendChild(document.createTextNode(" "));
+    return s;
+  });
+  const STEP=.35;
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){
+    gsap.set(spans,{color:"var(--ink)"});
+    gsap.set(marks.map(m=>m.mk),{color:"#fff","--fill":1});
+    return;
+  }
+  const tl=gsap.timeline({scrollTrigger:{trigger:".hl",start:"top 78%",end:"bottom 62%",scrub:.4}});
+  tl.to(spans,{color:"var(--ink)",duration:.4,stagger:STEP,ease:"none"},0);
+  // ההדגשה של כל מילת מפתח נפתחת בדיוק בזמן שהמילה שלה נצבעת
+  marks.forEach(m=>{
+    const at=m.i*STEP;
+    tl.fromTo(m.mk,{"--fill":0},{"--fill":1,duration:.4,ease:"power2.out"},at)
+      .to(m.mk,{color:"#fff",duration:.25},at+.1);
+  });
+})();
+</script>
+</body>
+</html>

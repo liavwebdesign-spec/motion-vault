@@ -84,6 +84,7 @@ const USES = {
   b41: ["process", "media", "cards"], b42: ["ambient", "nav"], b43: ["numbers", "feedback"], b44: ["numbers", "cards"],
   b45: ["cards", "media", "nav"], b46: ["cards", "hover", "media"], g47: ["process", "media", "hero"],
   b47: ["media", "feedback"], b48: ["nav", "process"], b49: ["cards", "process", "media"], b50: ["nav", "ambient", "feedback"],
+  b51: ["feedback", "nav"], g48: ["text", "hero"], b52: ["hero", "nav", "media"], b53: ["text", "hover", "nav"],
 };
 
 // load all catalog modules
@@ -96,7 +97,8 @@ for (const f of readdirSync(join(ROOT, "_src", "catalog")).sort()) {
 const missing = entries.filter(e => !USES[e.id]).map(e => e.id);
 if (missing.length) throw new Error("entries missing USES tags: " + missing.join(", "));
 
-const FONT = `<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">`;
+// טווח משקלים רציף ולא ערכים בדידים: קובץ אחד במקום חמישה, ומשקל שאפשר להנפיש בלי קפיצות
+const FONT = `<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">`;
 
 function page(e) {
   const libs = (e.libs || []).map(l => `<script src="${CDN[l]}"></script>`).join("\n");

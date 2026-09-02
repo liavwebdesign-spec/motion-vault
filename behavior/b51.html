@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B51 · באנר עוגיות עם הגדרות וזיכרון | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.ck{position:fixed;inset-inline:16px;bottom:16px;z-index:70;max-width:560px;margin-inline:auto;
+  background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px 22px;
+  box-shadow:0 18px 50px rgba(20,20,40,.16)}
+.ck[hidden]{display:none}
+.ck h4{margin:0 0 8px;font-size:17px}
+.ck p{margin:0 0 16px;font-size:14.5px;line-height:1.65;color:var(--muted)}
+.ck p a{color:var(--accent)}
+.ck-row{display:flex;gap:8px;flex-wrap:wrap}
+.ck-btn{font-family:inherit;font-size:14px;padding:11px 18px;border-radius:999px;cursor:pointer;border:1px solid var(--line);
+  background:var(--bg);color:var(--ink)}
+.ck-btn.main{background:var(--ink);border-color:var(--ink);color:#fff}
+.ck-btn.link{border-color:transparent;background:none;color:var(--muted);text-decoration:underline;padding-inline:8px}
+.ck-prefs{margin:4px 0 16px;display:grid;gap:2px}
+.ck-pref{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
+.ck-pref strong{display:block;font-size:14.5px;font-weight:600}
+.ck-pref span{display:block;font-size:13px;color:var(--muted);line-height:1.55;margin-top:2px}
+.ck-sw{flex:none;width:44px;height:26px;border-radius:999px;background:#d5d5e0;border:0;cursor:pointer;padding:0;
+  position:relative;transition:background .2s}
+.ck-sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;
+  transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+.ck-sw[aria-checked="true"]{background:var(--accent)}
+.ck-sw[aria-checked="true"]::after{transform:translateX(18px)}
+.ck-sw[disabled]{opacity:.55;cursor:not-allowed}
+.ck-reopen{position:fixed;inset-inline-start:16px;bottom:16px;z-index:69;font-family:inherit;font-size:13px;
+  padding:9px 15px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
+.ck-reopen[hidden]{display:none}
+.ck-state{max-width:min(620px,94vw);margin-inline:auto;text-align:center;color:var(--muted);font-size:15px;line-height:1.8}
+.ck-state code{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:3px 8px;font-size:13px}
+@media (prefers-reduced-motion: reduce){.ck-sw::after{transition:none}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B51</span> · באנר עוגיות עם הגדרות וזיכרון</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">localStorage · GSAP</span>
+  <span class="chip use">טעינה ופידבק</span><span class="chip use">ניווט ומבנה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b51"><code>MV:b51</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>באנר שעולה מלמטה עם שלוש אפשרויות: אישור הכל, רק ההכרחיות, או פאנל הגדרות עם מתגים לכל קטגוריה. הבחירה נשמרת, ויש כפתור קטן לשנות אותה אחר כך.</p>
+  <p class="when"><b>מתי משתמשים:</b> כל אתר לקוח בלי יוצא מן הכלל. הרכיב מטפל בממשק ובשמירת הבחירה; אילו קטגוריות קיימות ומה הניסוח המשפטי זו החלטה של הלקוח ושל עורך הדין שלו.</p>
+  <div class="mvpanel" data-mvpanel="b51"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight"><p class="ck-state">הבאנר נפתח למטה. הבחירה נשמרת ב-localStorage תחת <code>mv-consent</code>,
+  והכפתור הקטן בפינה מחזיר את ההגדרות. לבדיקה חוזרת: נקה אחסון או לחץ על הכפתור הקטן.</p></div>
+
+<button class="ck-reopen" hidden>הגדרות עוגיות</button>
+<div class="ck" role="dialog" aria-modal="false" aria-labelledby="ck-ttl" hidden>
+  <h4 id="ck-ttl">אנחנו משתמשים בעוגיות</h4>
+  <p>חלק מהעוגיות נחוצות לתפעול האתר, ואחרות עוזרות לנו להבין איך משתמשים בו. אפשר לאשר הכל, להסתפק בהכרחיות, או לבחור לפי קטגוריה.</p>
+  <div class="ck-prefs" hidden>
+    <div class="ck-pref"><button class="ck-sw" role="switch" aria-checked="true" disabled aria-label="עוגיות הכרחיות"></button>
+      <div><strong>הכרחיות</strong><span>נדרשות לתפעול בסיסי: טעינת עמודים, טפסים ואבטחה. לא ניתן לכבות.</span></div></div>
+    <div class="ck-pref"><button class="ck-sw" role="switch" aria-checked="false" data-cat="analytics" aria-label="עוגיות מדידה"></button>
+      <div><strong>מדידה</strong><span>עוזרות לנו לראות אילו עמודים עובדים ואיפה אנשים נתקעים.</span></div></div>
+    <div class="ck-pref"><button class="ck-sw" role="switch" aria-checked="false" data-cat="marketing" aria-label="עוגיות שיווק"></button>
+      <div><strong>שיווק</strong><span>מאפשרות להתאים מודעות ולמדוד קמפיינים.</span></div></div>
+  </div>
+  <div class="ck-row">
+    <button class="ck-btn main" data-act="all">מאשר הכל</button>
+    <button class="ck-btn" data-act="necessary">רק ההכרחיות</button>
+    <button class="ck-btn link" data-act="prefs">הגדרות</button>
+    <button class="ck-btn main" data-act="save" hidden>שמור בחירה</button>
+  </div>
+</div>
+
+<div class="demo-note">שלושה דברים שהופכים באנר עוגיות מקישוט לרכיב אמיתי: "רק ההכרחיות" חייב להיות באותה בולטות כמו "מאשר הכל" ולא קישור קטן בצד, הבחירה חייבת להיות ניתנת לשינוי אחרי שסגרו (ומכאן הכפתור הקטן שנשאר בפינה), והמתגים בנויים כ-`role="switch"` עם `aria-checked` ולא כ-div, כדי שקורא מסך יידע מה מסומן. השמירה כוללת מספר גרסה, כך שאם משנים קטגוריות אפשר לבקש הסכמה מחדש בלי למחוק ידנית. הרכיב משדר אירוע `consent` במקום להפעיל סקריפטים בעצמו, וזו נקודת החיבור לגוגל טאג מנג'ר.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · באנר עוגיות עם הגדרות וזיכרון").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+(function(){
+  const KEY="mv-consent",VER=1;
+  const bar=document.querySelector(".ck"),prefs=bar.querySelector(".ck-prefs"),reopen=document.querySelector(".ck-reopen");
+  const btn=a=>bar.querySelector('[data-act="'+a+'"]');
+  const switches=[...bar.querySelectorAll(".ck-sw[data-cat]")];
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const read=()=>{try{const v=JSON.parse(localStorage.getItem(KEY));return v&&v.v===VER?v:null;}catch(e){return null;}};
+  const write=cats=>{try{localStorage.setItem(KEY,JSON.stringify({v:VER,ts:Date.now(),cats:cats}));}catch(e){}};
+  function open(){
+    bar.hidden=false;reopen.hidden=true;
+    if(reduce){gsap.set(bar,{y:0,opacity:1});return;}
+    gsap.fromTo(bar,{y:40,opacity:0},{y:0,opacity:1,duration:.45,ease:"power3.out"});
+  }
+  function close(cats){
+    write(cats);
+    // כאן מפעילים בפועל את מה שאושר: טעינת סקריפט מדידה, פיקסל וכו'
+    document.dispatchEvent(new CustomEvent("consent",{detail:cats}));
+    const done=()=>{bar.hidden=true;prefs.hidden=true;btn("save").hidden=true;reopen.hidden=false;};
+    if(reduce)return done();
+    gsap.to(bar,{y:30,opacity:0,duration:.3,ease:"power2.in",onComplete:done});
+  }
+  const chosen=()=>({necessary:true,
+    analytics:switches[0].getAttribute("aria-checked")==="true",
+    marketing:switches[1].getAttribute("aria-checked")==="true"});
+  switches.forEach(sw=>sw.addEventListener("click",()=>{
+    sw.setAttribute("aria-checked",sw.getAttribute("aria-checked")==="true"?"false":"true");
+  }));
+  btn("all").addEventListener("click",()=>close({necessary:true,analytics:true,marketing:true}));
+  btn("necessary").addEventListener("click",()=>close({necessary:true,analytics:false,marketing:false}));
+  btn("save").addEventListener("click",()=>close(chosen()));
+  btn("prefs").addEventListener("click",()=>{
+    prefs.hidden=false;btn("save").hidden=false;btn("prefs").hidden=true;
+    if(!reduce)gsap.from(prefs,{height:0,opacity:0,duration:.35,ease:"power2.out"});
+    switches[0].focus();
+  });
+  reopen.addEventListener("click",()=>{
+    const cur=read();
+    if(cur)switches.forEach((sw,i)=>sw.setAttribute("aria-checked",String(!!cur.cats[i?"marketing":"analytics"])));
+    prefs.hidden=false;btn("save").hidden=false;btn("prefs").hidden=true;open();
+  });
+  addEventListener("keydown",e=>{if(e.key==="Escape"&&!bar.hidden&&read())close(read().cats);});
+  const saved=read();
+  if(saved){reopen.hidden=false;document.dispatchEvent(new CustomEvent("consent",{detail:saved.cats}));}
+  else setTimeout(open,600);   // רגע קצר לפני שקופצים, כדי שהעמוד ייטען קודם
+})();
+</script>
+</body>
+</html>
