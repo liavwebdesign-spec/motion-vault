@@ -82,6 +82,7 @@ const USES = {
   b37: ["cards", "process"], b38: ["nav"], b39: ["nav"], b40: ["nav", "ambient"],
   g46: ["numbers", "process"],
   b41: ["process", "media", "cards"], b42: ["ambient", "nav"], b43: ["numbers", "feedback"], b44: ["numbers", "cards"],
+  b45: ["cards", "media", "nav"], b46: ["cards", "hover", "media"], g47: ["process", "media", "hero"],
 };
 
 // load all catalog modules
@@ -184,13 +185,12 @@ ${FONT}
   <span class="fcount"></span>
 </div>
 <div class="vfilters2">
-  <span style="font-size:13px;color:var(--muted);align-self:center;font-weight:600">לפי שימוש:</span>
-  ${ubtns}
-  <span class="sep"></span>
-  <span style="font-size:13px;color:var(--muted);align-self:center;font-weight:600">לפי סטטוס:</span>
-  <button class="sbtn" data-s="ok">מאושרים</button>
-  <button class="sbtn" data-s="no">לא מאושרים</button>
-  <button class="sbtn" data-s="pending">ממתינים</button>
+  <span class="fgroup"><span class="flabel">לפי שימוש:</span>${ubtns}</span>
+  <span class="fgroup status"><span class="flabel">לפי סטטוס:</span>
+    <button class="sbtn" data-s="ok">מאושרים<b class="sn"></b></button>
+    <button class="sbtn" data-s="no">לא מאושרים<b class="sn"></b></button>
+    <button class="sbtn" data-s="pending">ממתינים<b class="sn"></b></button>
+  </span>
   <button class="report-btn">📋 העתק דוח לקלוד</button>
 </div>
 <div class="vgrid">
@@ -205,11 +205,14 @@ ubtns=[...document.querySelectorAll('.ubtn')],sbtns=[...document.querySelectorAl
 search=document.querySelector('.fsearch'),count=document.querySelector('.fcount');
 let cat='all',use=null,stf=null;
 function paintStatus(){
+  const tally={ok:0,no:0,pending:0};
   cards.forEach(c=>{
     const s=MV.state(c.dataset.id),chip=c.querySelector('.stchip');
     chip.textContent=MV.label(s);chip.className='chip stchip st-'+s;
-    c.dataset.status=s;
+    c.dataset.status=s;tally[s]=(tally[s]||0)+1;
   });
+  // הספירה חיה: היא נגזרת מהאישורים בפועל ולא מהבנייה
+  sbtns.forEach(b=>{b.querySelector('.sn').textContent=tally[b.dataset.s]||0;});
 }
 function apply(){
   const q=search.value.trim().toLowerCase();let n=0;
