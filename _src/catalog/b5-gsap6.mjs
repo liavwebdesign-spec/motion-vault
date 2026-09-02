@@ -1,14 +1,13 @@
 // גל gsap.com (2.9.2026): נכרה מעמוד הבית של GSAP עצמם ושוחזר מאפס.
 export default [
 {
-  id:"g40", cat:"gsap", name:"סצנה אופקית שכל אלמנט בה מתעורר בתורו", tech:"GSAP · containerAnimation", status:"ממתין",
+  id:"g40", cat:"gsap", name:"סצנה אופקית שכל אלמנט בה מתעורר בתורו", tech:"GSAP · ScrollTrigger · RTL", status:"ממתין",
   desc:"סקשן שננעל למסך והתוכן גולש הצידה, אבל הפעם כל פריט בתוך המסלול מקבל טריגר משלו לפי המיקום האופקי שלו: הוא נכנס כשהוא מגיע לאזור הצפייה, ולא כשהסקשן כולו נכנס. אלמנט אחד בפנים גם מסתובב בסקראב משלו.",
   when:"סיפור אופקי עם תחנות: מסע לקוח, ציר זמן, שלבי תהליך. זה מה שהופך גלילה צידית מרצועה שזזה לסצנה שמתרחשת. ההבדל מ-MV:g01 הוא בדיוק זה.",
   libs:["gsap","ScrollTrigger"],
   css:`html,body{overflow-x:clip}
-.hz{overflow:hidden;background:#0f1020;color:#fff;direction:ltr}
-.hz-track{display:flex;align-items:center;gap:clamp(48px,11vw,220px);width:max-content;padding-inline:10vw 24vw;height:100vh;direction:ltr}
-.hz-item,.hz-lead{direction:rtl}
+.hz{overflow:hidden;background:#0f1020;color:#fff}
+.hz-track{display:flex;align-items:center;gap:clamp(48px,11vw,220px);width:max-content;padding-inline:24vw 10vw;height:100vh}
 .hz-item{flex:0 0 auto;text-align:center;will-change:transform}
 .hz-num{font-size:13px;letter-spacing:.16em;color:#8d8fb0;margin-bottom:14px}
 .hz-item h3{font-size:clamp(26px,2.6vw,46px);margin:0 0 10px;font-weight:800}
@@ -28,26 +27,44 @@ export default [
 </div></div>`,
   js:`(function(){
   const track=document.querySelector(".hz-track");
+  const items=gsap.utils.toArray(".hz-item");
   const spinner=document.querySelector(".hz-scrub");
   const dist=()=>Math.max(1,track.scrollWidth-window.innerWidth);
+  const clamp=gsap.utils.clamp(0,1);
 
-  // המסלול: הטריגר הוא הרצועה עצמה, וההצמדה על ההורה שלה
-  const runner=gsap.to(track,{x:()=>-dist(),ease:"none",
-    scrollTrigger:{trigger:track,pin:track.parentNode,start:"top top",end:()=>"+="+dist(),
-      scrub:1,anticipatePin:1,invalidateOnRefresh:true}});
+  // הרצועה יושבת ב-RTL: הפריט הראשון בימין, והגלישה יוצאת שמאלה.
+  // לכן x חיובי, והמצלמה נעה שמאלה בתוך התוכן, ככיוון הקריאה בעברית.
+  let origin=0; // המיקום של שפת הרצועה על המסך כשהיא בנקודת ההתחלה
 
-  // כל פריט מקבל ScrollTrigger משלו שנמדד לפי המיקום האופקי בתוך המסלול
-  gsap.utils.toArray(".hz-item").forEach(item=>{
-    gsap.from(item,{y:70,autoAlpha:0,ease:"none",
-      scrollTrigger:{trigger:item,containerAnimation:runner,scrub:true,
-        start:"left 96%",end:"left 62%"}});
+  function measure(){
+    origin=track.getBoundingClientRect().left-(gsap.getProperty(track,"x")||0);
+  }
+
+  // כל פריט מקבל את המצב שלו מהמיקום שלו על המסך ברגע הנתון.
+  // בעברית הפריט נכנס דרך שפת המסך השמאלית, ולכן מודדים את השפה הימנית שלו.
+  function paint(progress){
+    const x=dist()*progress;
+    gsap.set(track,{x:x});
+    const vw=window.innerWidth;
+    items.forEach(item=>{
+      // כמה מהפריט כבר חצה את שפת המסך השמאלית. אחד = הוא כולו בפנים.
+      const right=origin+item.offsetLeft+item.offsetWidth+x;
+      const f=clamp(right/item.offsetWidth);
+      gsap.set(item,{autoAlpha:f,y:70*(1-f)});
+    });
+    const sRight=origin+spinner.offsetLeft+spinner.offsetWidth+x;
+    gsap.set(spinner,{rotation:270*clamp(sRight/(vw+spinner.offsetWidth))});
+  }
+
+  ScrollTrigger.create({
+    trigger:track,pin:track.parentNode,start:"top top",end:()=>"+="+dist(),
+    anticipatePin:1,invalidateOnRefresh:true,
+    onRefresh:self=>{measure();paint(self.progress);},
+    onUpdate:self=>paint(self.progress)
   });
-  // סקראב מקונן: אלמנט שמסתובב לאורך כל המעבר שלו על המסך
-  gsap.fromTo(spinner,{rotation:0},{rotation:270,ease:"none",
-    scrollTrigger:{trigger:spinner,containerAnimation:runner,scrub:true,
-      start:"left 98%",end:"right 4%"}});
+  measure();paint(0);
 })();`,
-  note:"כללי הבסיס: הטריגר של המסלול הוא הרצועה עצמה וה-pin הוא ההורה שלה, לטווין האופקי חובה ease:\"none\", הטריגרים של הילדים מקבלים containerAnimation עם אותו טווין ונמדדים ב-left ו-right במקום top ו-bottom, ואסור pin או snap על טריגר שמשתמש ב-containerAnimation. <b>המלכודת שעלתה כאן, וחשובה לכל אתר עברי:</b> בתוך קונטיינר RTL, ילד עם width:max-content שרחב מהמסך מתיישר לקצה הימני והגלישה יוצאת שמאלה, כלומר נקודת האפס שלו היא כבר סוף הרצועה. בגלל זה כל המדידות של ScrollTrigger יצאו מוזזות באורך מסלול שלם וכל הפריטים נחשבו כאילו כבר עברו. זה לא באג ב-GSAP אלא התנהגות פריסה. הפתרון: direction:ltr על מעטפת הסקשן, ו-direction:rtl על הפריטים עצמם כדי שהעברית תיקרא נכון. אחרי התיקון הטכניקה הרשמית עובדת בדיוק לפי התיעוד."
+  note:"<b>כיוון:</b> הרצועה נשארת RTL, התחנה הראשונה בימין, ו-x חיובי. המצלמה נעה שמאלה בתוך התוכן וכל תחנה נכנסת דרך שפת המסך השמאלית, ככיוון הקריאה בעברית. באתר אנגלי הופכים את הסימן ומודדים את השפה השמאלית של הפריט במקום הימנית.<br><b>למה לא containerAnimation:</b> זו הדרך הרשמית לתלות אנימציות במיקום אופקי, אבל היא מודדת נכון רק כשהרצועה מתחילה בקצה השמאלי. בתוך קונטיינר RTL ילד עם width:max-content שרחב מהמסך מתיישר לקצה הימני והגלישה יוצאת שמאלה, כלומר נקודת האפס שלו היא כבר סוף הרצועה, וכל המדידות יוצאות מוזזות באורך מסלול שלם. זו התנהגות פריסה של הדפדפן ולא באג ב-GSAP. לכן כאן כל פריט מקבל את מצבו מהמיקום החי שלו על המסך, שיטה שעובדת בשני הכיוונים ולא תלויה בפרשנות של left ו-right."
 },
 {
   id:"g41", cat:"gsap", name:"סמן מותג שמתחלף בין צורות", tech:"GSAP · MorphSVG", status:"ממתין",

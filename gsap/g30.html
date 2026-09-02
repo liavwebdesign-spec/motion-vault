@@ -35,7 +35,7 @@
 <div class="snapp ph-c ph">פרק שלישי</div>
 </div></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
-<div class="demo-note">אתר עברי: הפאנלים זורמים ימינה-שמאלה עם מינוס (בדמו הזה הקונטיינר LTR פיזית). בפרויקט מתאימים כיוון לפי חוקי ה-RTL.</div>
+<div class="demo-note">הפאנל הראשון הוא הימני, והגלילה חושפת את הבאים מצד שמאל. זה הכיוון הנכון לעברית. אזהרה חתומה: בלי overscroll-behavior:none על העטיפה, זה חוסם את הגלגלת.</div>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -50,9 +50,11 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 });
 gsap.registerPlugin(ScrollTrigger);
-gsap.to(".snapc",{x:()=>-(document.querySelector(".snapc").scrollWidth-innerWidth),ease:"none",
+// עמוד עברי: הרצועה מתחילה מהקצה הימני והגלישה יוצאת שמאלה, ולכן x חיובי.
+// המצלמה נעה שמאלה בתוך התוכן, בדיוק ככיוון הקריאה. באתר אנגלי מוסיפים מינוס.
+gsap.to(".snapc",{x:()=>document.querySelector(".snapc").scrollWidth-innerWidth,ease:"none",
   scrollTrigger:{trigger:".snapw",start:"top top",end:"+=2400",scrub:.6,pin:true,anticipatePin:1,
-    snap:{snapTo:1/2,duration:.4,ease:"power1.inOut"}}});
+    invalidateOnRefresh:true,snap:{snapTo:1/2,duration:.4,ease:"power1.inOut"}}});
 </script>
 </body>
 </html>

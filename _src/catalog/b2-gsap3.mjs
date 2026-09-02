@@ -157,9 +157,11 @@ grid.addEventListener("click",e=>{
 <div class="snapp ph-b ph">פרק שני</div>
 <div class="snapp ph-c ph">פרק שלישי</div>
 </div></div>`,
-  js:`gsap.to(".snapc",{x:()=>-(document.querySelector(".snapc").scrollWidth-innerWidth),ease:"none",
+  js:`// עמוד עברי: הרצועה מתחילה מהקצה הימני והגלישה יוצאת שמאלה, ולכן x חיובי.
+// המצלמה נעה שמאלה בתוך התוכן, בדיוק ככיוון הקריאה. באתר אנגלי מוסיפים מינוס.
+gsap.to(".snapc",{x:()=>document.querySelector(".snapc").scrollWidth-innerWidth,ease:"none",
   scrollTrigger:{trigger:".snapw",start:"top top",end:"+=2400",scrub:.6,pin:true,anticipatePin:1,
-    snap:{snapTo:1/2,duration:.4,ease:"power1.inOut"}}});`,
-  note:"אתר עברי: הפאנלים זורמים ימינה-שמאלה עם מינוס (בדמו הזה הקונטיינר LTR פיזית). בפרויקט מתאימים כיוון לפי חוקי ה-RTL."
+    invalidateOnRefresh:true,snap:{snapTo:1/2,duration:.4,ease:"power1.inOut"}}});`,
+  note:"הפאנל הראשון הוא הימני, והגלילה חושפת את הבאים מצד שמאל. זה הכיוון הנכון לעברית. אזהרה חתומה: בלי overscroll-behavior:none על העטיפה, זה חוסם את הגלגלת."
 }
 ];

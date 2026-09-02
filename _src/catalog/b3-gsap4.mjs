@@ -213,7 +213,9 @@ export default [
   const track=document.querySelector(".lp-track"),pills=[...track.children],half=pills.length/2;
   const step=()=>pills[1].getBoundingClientRect().left-pills[0].getBoundingClientRect().left;
   const tl2=gsap.timeline({repeat:-1});
-  for(let k=1;k<=half;k++){tl2.to(track,{x:()=>k*step(),duration:.55,ease:"back.out(1.3)"},"+=.8");}
+  // -k*step() נותן את הכיוון הנכון בשני המצבים: ב-RTL step שלילי ולכן הרצועה זזה ימינה
+  // והפריטים נכנסים משמאל, ובאתר LTR ההפך. אין צורך לזהות כיוון ידנית.
+  for(let k=1;k<=half;k++){tl2.to(track,{x:()=>-k*step(),duration:.55,ease:"back.out(1.3)"},"+=.8");}
   tl2.set(track,{x:0});
   const fan=[...document.querySelectorAll(".lp-fan div")];
   const rot=[8,0,-8],ys=[14,7,0];
