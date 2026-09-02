@@ -21,11 +21,10 @@ const CDN = {
   CustomWiggle: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/CustomWiggle.min.js",
   Observer: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Observer.min.js",
   MorphSVGPlugin: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MorphSVGPlugin.min.js",
-  Matter: "https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js",
   Lenis: "https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js",
 };
 // ספריות שאינן פלאגינים של GSAP: נטענות אבל לא נרשמות ב-registerPlugin
-const NON_GSAP = new Set(["Matter", "Lenis"]);
+const NON_GSAP = new Set(["Lenis"]);
 
 // שימושים אפשריים: הסינון השני של האינדקס. כל מהלך יכול להשתייך לכמה.
 const USES_LABELS = {
@@ -37,7 +36,7 @@ const USES_LABELS = {
 const USES = {
   g01: ["process", "media"], g02: ["media", "hero"], g03: ["hero", "media"],
   g04: ["text"], g05: ["media", "process"], g06: ["media"], g07: ["hover", "media", "hero"],
-  g08: ["hover", "ambient"], g09: ["hover"], g10: ["hover", "hero"], g11: ["media", "hover"],
+  g08: ["hover", "ambient"], g09: ["hover"], g11: ["media", "hover"],
   g12: ["ambient", "hero"], g13: ["cards"], g14: ["numbers"], g15: ["hero", "feedback"],
   g15b: ["hero", "feedback"], g16: ["text", "hover"], g17: ["cards", "hero"],
   g18: ["hero", "media"], g19: ["numbers", "ambient"], g20: ["process"], g22: ["process", "numbers"],
@@ -69,15 +68,14 @@ const USES = {
   r18: ["ambient", "hero"], r19: ["ambient", "hero"], r20: ["ambient"],
   r21: ["nav", "hover"], r22: ["feedback", "cards"], r23: ["hero", "media"],
   r24: ["text", "hero"], r25: ["text"], r26: ["ambient", "hero"], r27: ["hover"],
-  g31: ["hero", "media"], g32: ["text", "hero"], g33: ["cards", "hero"], g34: ["cards", "ambient"],
+  g31: ["hero", "media"], g34: ["cards", "ambient"],
   g35: ["text", "hero"], g36: ["ambient", "nav"], g37: ["media", "hero", "ambient"], g38: ["nav", "ambient"],
   b17: ["nav", "numbers"], b18: ["nav"],
   g39: ["text", "ambient"], b19: ["media", "cards", "hover"], b20: ["numbers", "feedback"],
   css23: ["media", "cards", "nav"],
   g40: ["process", "cards", "nav"], g41: ["ambient", "hero"], css24: ["text"],
-  g42: ["text", "hero"], b21: ["hover", "ambient"], b22: ["media", "hero"],
-  g43: ["media", "hover", "cards"], b23: ["nav"], b24: ["hover", "feedback"], b25: ["ambient", "hero"],
-  g44: ["ambient", "process"], b26: ["text", "hero", "feedback"], b27: ["media", "nav", "cards"],
+  g42: ["text", "hero"], b22: ["media", "hero"],
+  g43: ["media", "hover", "cards"], b23: ["nav"], b24: ["hover", "feedback"], b27: ["media", "nav", "cards"],
   g45: ["process", "numbers", "media"], b28: ["ambient", "hero"], b29: ["ambient", "nav"],
   b30: ["nav", "text"], b31: ["cards", "media", "nav"], b32: ["feedback", "text"], b33: ["media", "cards"],
 };

@@ -192,26 +192,6 @@ document.querySelectorAll("button,a").forEach(t=>{
   runway:false
 },
 {
-  id:"g10", cat:"gsap", name:"שובל עכבר גרביטציוני", tech:"GSAP", status:"ממתין",
-  desc:"אלמנטים קטנים נשפכים מהסמן תוך תנועה, נופלים עם כבידה ונעלמים.",
-  when:"רגע וואו בהירו של מותג נועז. אזור אחד בלבד, לא כל העמוד.",
-  libs:["gsap"],
-  css:`.gzone{height:60vh;border:2px dashed #ccc;border-radius:var(--r);display:flex;align-items:center;justify-content:center;margin-inline:var(--gutter);color:#999;overflow:hidden;position:relative}
-.gimg{position:fixed;width:54px;height:54px;border-radius:10px;pointer-events:none;z-index:99;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}`,
-  html:`<div class="stage tight"><div class="gzone"><p>הזז את העכבר כאן וצפה בנפילה</p></div></div>`,
-  js:`const CLS=["ph-a","ph-b","ph-c","ph-d","ph-e","ph-f"];let gi=0,last=0;
-document.querySelector(".gzone").addEventListener("mousemove",e=>{
-  if(Date.now()-last<90)return;last=Date.now();
-  const el=document.createElement("div");
-  el.className="gimg ph "+CLS[gi++%CLS.length];el.textContent="✦";
-  document.body.appendChild(el);
-  gsap.set(el,{x:e.clientX,y:e.clientY,xPercent:-50,yPercent:-50,rotation:gsap.utils.random(-15,15)});
-  gsap.to(el,{y:"+="+(innerHeight*.7),rotation:"+="+gsap.utils.random(-40,40),
-    opacity:0,duration:1.4,ease:"power1.in",onComplete:()=>el.remove()});
-});`,
-  runway:false
-},
-{
   id:"g11", cat:"gsap", name:"זכוכית מגדלת על תמונה", tech:"vanilla JS", status:"ממתין",
   desc:"עיגול הגדלה עוקב עכבר על תמונה, זום 1.5.",
   when:"מוצר עתיר פרטים, תיק עבודות, תכשיטים. במובייל כבוי (pinch-zoom טבעי עדיף).",

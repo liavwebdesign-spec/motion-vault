@@ -68,113 +68,6 @@ export default [
   note:"מובייל: החלקה אנכית בתוך הגלריה מחליפה פריט; touch-action מוגדר כך שהחלקה אופקית ממשיכה לגלול את הדף."
 },
 {
-  id:"g32", cat:"gsap", name:"כותרת שמתפרקת במנוע פיזיקה", tech:"GSAP · SplitText · Matter.js", status:"ממתין",
-  desc:"הכותרת עומדת רגילה, ואז המילים שלה הופכות לגופים פיזיקליים: נופלות, מתנגשות, נערמות על הרצפה. אפשר לדחוף ולגרור אותן עם העכבר.",
-  when:"רגע אחד של הפתעה בעמוד: סוף הירו, מעבר לסקשן playful, עמוד 404. פעם אחת בעמוד, לא יותר. בעברית מפרקים למילים ולא לאותיות.",
-  libs:["gsap","ScrollTrigger","SplitText","Matter"],
-  css:`.phy{position:relative;height:min(70vh,620px);border-block:1px solid var(--line);background:#fff;overflow:hidden;user-select:none}
-.phy-title{position:static;margin:0;padding:clamp(40px,6vw,90px) var(--gutter) 0;font-size:var(--fs-demo);font-weight:800;line-height:1.15;text-align:center}
-.phy-title .word{display:inline-block;padding:.02em .12em;border-radius:.18em;will-change:transform}
-.phy.live .phy-title .word{position:absolute!important;left:0!important;top:0!important;margin:0;background:#f1f1f6;transform-origin:50% 50%}
-.phy-btn{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:5}`,
-  html:`<div class="stage full" style="padding-block:0"><div class="phy">
-  <h2 class="phy-title">כל מה שבניתם עד היום עומד ליפול, ולקום מחדש</h2>
-  <button class="gbtn phy-btn">פזר שוב</button>
-</div></div>`,
-  js:`(function(){
-  const box=document.querySelector(".phy"),title=box.querySelector(".phy-title"),btn=box.querySelector(".phy-btn");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const split=SplitText.create(title,{type:"words",wordsClass:"word"});
-  const words=split.words;
-  const M=Matter,engine=M.Engine.create(),runner=M.Runner.create();
-  let bodies=[],started=false;
-  function measure(){
-    const c=box.getBoundingClientRect();
-    return words.map(w=>{const r=w.getBoundingClientRect();return {x:r.left-c.left+r.width/2,y:r.top-c.top+r.height/2,w:r.width,h:r.height};});
-  }
-  function drop(){
-    if(reduce)return;
-    if(started){M.Composite.clear(engine.world,false);box.classList.remove("live");words.forEach(w=>w.style.transform="");}
-    const rects=measure();
-    title.style.height=title.offsetHeight+"px";
-    box.classList.add("live");
-    const W=box.clientWidth,H=box.clientHeight;
-    words.forEach((w,i)=>{w.style.width=rects[i].w+"px";w.style.height=rects[i].h+"px";});
-    bodies=rects.map(r=>M.Bodies.rectangle(r.x,r.y,r.w,r.h,{restitution:.35,friction:.4,chamfer:{radius:6},angle:(Math.random()-.5)*.08}));
-    const walls=[M.Bodies.rectangle(W/2,H+30,W*3,60,{isStatic:true}),M.Bodies.rectangle(-30,H/2,60,H*3,{isStatic:true}),M.Bodies.rectangle(W+30,H/2,60,H*3,{isStatic:true})];
-    M.Composite.add(engine.world,bodies.concat(walls));
-    if(!started){
-      started=true;
-      if(matchMedia("(hover:hover)").matches){
-        const mouse=M.Mouse.create(box);
-        ["wheel","mousewheel","DOMMouseScroll"].forEach(ev=>mouse.element.removeEventListener(ev,mouse.mousewheel));
-        M.Composite.add(engine.world,M.MouseConstraint.create(engine,{mouse:mouse,constraint:{stiffness:.18,render:{visible:false}}}));
-      }
-      M.Events.on(engine,"afterUpdate",()=>{
-        bodies.forEach((b,i)=>{const w=words[i];w.style.transform="translate("+(b.position.x-parseFloat(w.style.width)/2)+"px,"+(b.position.y-parseFloat(w.style.height)/2)+"px) rotate("+b.angle+"rad)";});
-      });
-      M.Runner.run(runner,engine);
-    }
-  }
-  let fired=false;const fire=()=>{if(fired)return;fired=true;gsap.delayedCall(.6,drop);};
-  ScrollTrigger.create({trigger:box,start:"top 55%",onEnter:fire,onRefresh:self=>{if(self.progress>0)fire();}});
-  btn.addEventListener("click",drop);
-})();`,
-  runway:true,
-  note:"Matter.js (~80KB) נטען רק בעמוד שבו המהלך חי. במובייל אין גרירה עם האצבע כדי לא לחסום את גלילת הדף; הנפילה עצמה עובדת."
-},
-{
-  id:"g33", cat:"gsap", name:"כרטיסים שנופלים לערימה (פיזיקה)", tech:"GSAP · Matter.js", status:"ממתין",
-  desc:"ארבעה כרטיסים ממוספרים נזרקים מלמעלה בזה אחר זה, מסתובבים באוויר ונוחתים לערימה מבולגנת וטבעית. אפשר להרים ולזרוק אותם.",
-  when:"הצגת ארבע הבטחות או ארבעה שלבים בצורה playful, אחרי סקשן רציני. מתאים למותגים צעירים, לא לפיננסים ומשפט.",
-  libs:["gsap","ScrollTrigger","Matter"],
-  css:`.deck{position:relative;height:min(72vh,640px);background:#0f1020;overflow:hidden;user-select:none}
-.deck-card{position:absolute;left:0;top:0;width:min(220px,42vw);aspect-ratio:3/4;border-radius:18px;padding:18px;display:flex;flex-direction:column;justify-content:space-between;color:#111;font-weight:700;transform-origin:50% 50%;will-change:transform;box-shadow:0 18px 40px rgba(0,0,0,.35);cursor:grab}
-.deck-card b{font-size:clamp(44px,5vw,72px);font-weight:800;opacity:.35;line-height:1}
-.deck-card small{font-size:14px;line-height:1.3;font-weight:500}
-.dc1{background:#8ce0b8}.dc2{background:#d9ff5c}.dc3{background:#b9e6ff}.dc4{background:#f1f1f1}
-.deck-btn{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);z-index:9}`,
-  html:`<div class="stage full" style="padding-block:0"><div class="deck">
-  <div class="deck-card dc1"><small>מתאים למתחילים<br>וגם למתקדמים</small><b>1</b></div>
-  <div class="deck-card dc2"><small>קל להטמעה<br>בכל פרויקט</small><b>2</b></div>
-  <div class="deck-card dc3"><small>מהיר ומותאם<br>לביצועים</small><b>3</b></div>
-  <div class="deck-card dc4"><small>תנועה בלי סוף<br>ובלי תחזוקה</small><b>4</b></div>
-  <button class="gbtn deck-btn">זרוק שוב</button>
-</div></div>`,
-  js:`(function(){
-  const box=document.querySelector(".deck"),cards=[...box.querySelectorAll(".deck-card")],btn=box.querySelector(".deck-btn");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const M=Matter,engine=M.Engine.create(),runner=M.Runner.create();
-  let bodies=[],started=false;
-  function throwCards(){
-    if(started)M.Composite.clear(engine.world,false);
-    const W=box.clientWidth,H=box.clientHeight,cw=cards[0].offsetWidth,ch=cards[0].offsetHeight;
-    const spread=Math.min(cw*0.8,(W-cw)/3.4);
-    bodies=cards.map((c,i)=>M.Bodies.rectangle(W/2+(i-1.5)*spread,-ch*(0.6+i*0.5),cw,ch,{restitution:.22,friction:.7,frictionAir:.014,chamfer:{radius:18},angle:(Math.random()-.5)*.5,angularVelocity:(Math.random()-.5)*.06}));
-    const walls=[M.Bodies.rectangle(W/2,H+30,W*3,60,{isStatic:true}),M.Bodies.rectangle(-30,H/2,60,H*4,{isStatic:true}),M.Bodies.rectangle(W+30,H/2,60,H*4,{isStatic:true})];
-    M.Composite.add(engine.world,bodies.concat(walls));
-    if(!started){
-      started=true;
-      if(matchMedia("(hover:hover)").matches){
-        const mouse=M.Mouse.create(box);
-        ["wheel","mousewheel","DOMMouseScroll"].forEach(ev=>mouse.element.removeEventListener(ev,mouse.mousewheel));
-        M.Composite.add(engine.world,M.MouseConstraint.create(engine,{mouse:mouse,constraint:{stiffness:.15,render:{visible:false}}}));
-      }
-      M.Events.on(engine,"afterUpdate",()=>{
-        bodies.forEach((b,i)=>{cards[i].style.transform="translate("+(b.position.x-cw/2)+"px,"+(b.position.y-ch/2)+"px) rotate("+b.angle+"rad)";});
-      });
-      M.Runner.run(runner,engine);
-    }
-  }
-  if(reduce){cards.forEach((c,i)=>{c.style.transform="translate("+(box.clientWidth/2-c.offsetWidth/2+(i-1.5)*40)+"px,"+(box.clientHeight-c.offsetHeight-20)+"px) rotate("+((i-1.5)*4)+"deg)";});return;}
-  cards.forEach(c=>c.style.transform="translate(-999px,-999px)");
-  let fired=false;const fire=()=>{if(fired)return;fired=true;gsap.delayedCall(.3,throwCards);};
-  ScrollTrigger.create({trigger:box,start:"top 60%",onEnter:fire,onRefresh:self=>{if(self.progress>0)fire();}});
-  btn.addEventListener("click",throwCards);
-})();`,
-  runway:true
-},
-{
   id:"g34", cat:"gsap", name:"מיני-דמואים בלולאה בתוך כרטיסים", tech:"GSAP · timeline loops", status:"ממתין",
   desc:"שלושה כרטיסי פיצ'ר, ובכל אחד הדגמה זעירה שרצה בלולאה אינסופית: סמן שמדלג בין שורות רשימה, שורת כפתורים שמתקדמת צעד-צעד, וערימת תמונות שמערבבת את עצמה.",
   when:"סקשן פיצ'רים של מוצר או שירות. במקום אייקון סטטי, הכרטיס מראה את הפיצ'ר עובד. שקט, איטי, בלי לגנוב את העין מהטקסט.",
@@ -341,5 +234,5 @@ export default [
   gsap.utils.toArray(".ln-block").forEach(b=>{gsap.from(b.children,{y:40,autoAlpha:0,duration:.9,ease:"power3.out",stagger:.12,scrollTrigger:{trigger:b,start:"top 78%",once:true}});});
 })();`,
   note:"בפרויקט אמיתי: Lenis נוצר פעם אחת ב-main, לפני כל ScrollTrigger, ומכובה אוטומטית תחת prefers-reduced-motion. אם יש בעמוד סקשן מוצמד (pin), עובדים עם pinType: transform או משאירים את ברירת המחדל של Lenis שמגלגלת את החלון (עובד)."
-},
+}
 ];
