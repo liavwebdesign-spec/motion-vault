@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B22 · סקשן וידאו שמתנגן רק כשרואים אותו | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.vsec{position:relative;min-height:min(88vh,780px);overflow:hidden;display:grid;place-items:center;background:#0f1020}
+.vsec video,.vsec .vposter{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vsec video{opacity:0;transition:opacity .6s ease}
+.vsec.playing video{opacity:1}
+.vsec::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.45))}
+.vsec-in{position:relative;z-index:2;text-align:center;color:#fff;padding-inline:var(--gutter)}
+.vsec-in h3{font-size:clamp(30px,4vw,66px);margin:0 0 12px;font-weight:800}
+.vsec-in p{margin:0 auto;max-width:44ch;font-size:17px;opacity:.85}
+.vstate{position:absolute;bottom:16px;inset-inline-end:20px;z-index:3;font-size:12px;letter-spacing:.1em;color:#fff;background:rgba(0,0,0,.45);border-radius:999px;padding:6px 14px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B22</span> · סקשן וידאו שמתנגן רק כשרואים אותו</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">IntersectionObserver · video</span>
+  <span class="chip use">תמונות וגלריות</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b22"><code>MV:b22</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>סרטון ברוחב מלא שמתחיל לנגן כשהסקשן נכנס למסך ונעצר כשהוא יוצא. עד אז מוצג פוסטר בלבד, והדפדפן לא מוריד את הווידאו.</p>
+  <p class="when"><b>מתי משתמשים:</b> סקשני אווירה באתרי תדמית, קליניקות, מסעדות ונדל"ן. הדרך הנכונה לשים וידאו גדול בעמוד בלי לשלם עליו בזמן טעינה.</p>
+  <div class="mvpanel" data-mvpanel="b22"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage tight center" style="color:var(--muted)">גלול למטה. הסרטון יורד לרשת רק כשהסקשן מתקרב.</div>
+<section class="vsec">
+  <img class="vposter" src="../assets/media/demo-b.jpg" alt="">
+  <video muted loop playsinline preload="none" poster="../assets/media/demo-b.jpg" data-src="../assets/media/demo-b.mp4"></video>
+  <div class="vsec-in"><h3>שקט שאפשר להרגיש</h3><p>הווידאו מתנגן רק כשהוא באמת מול העיניים, ונעצר ברגע שהוא יוצא מהמסך.</p></div>
+  <span class="vstate">ממתין</span>
+</section>
+<div class="stage center" style="color:var(--muted);min-height:120vh;display:grid;place-items:center">המשך לגלול, והסרטון ייעצר מאחוריך. גלול חזרה למעלה והוא יחזור לנגן.</div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note">הסף 0.35 אומר שהניגון מתחיל כשיותר משליש מהסקשן במסך, כדי שהוא לא יידלק ויכבה בגלילה מהירה. חובה muted ו-playsinline, אחרת הדפדפן יסרב לנגן בלי לחיצה ואייפון יפתח מסך מלא. הפוסטר הוא תמונה אמיתית מתחת לווידאו, כך שגם אם הרשת איטית הסקשן אף פעם לא ריק.</div>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · סקשן וידאו שמתנגן רק כשרואים אותו").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+(function(){
+  const sec=document.querySelector(".vsec"),v=sec.querySelector("video"),state=sec.querySelector(".vstate");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let loaded=false;
+  const set=t=>state.textContent=t;
+  if(reduce){set("מושהה: העדפת תנועה מופחתת");return;}
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        if(!loaded){v.src=v.dataset.src;loaded=true;set("טוען");}
+        const p=v.play();
+        if(p&&p.then)p.then(()=>{sec.classList.add("playing");set("מתנגן");}).catch(()=>set("הדפדפן חסם ניגון"));
+      }else{
+        v.pause();sec.classList.remove("playing");set("מושהה");
+      }
+    });
+  },{threshold:.35});
+  io.observe(sec);
+})();
+</script>
+</body>
+</html>
