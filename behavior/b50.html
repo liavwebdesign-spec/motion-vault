@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B50 · מתג מצב כהה עם מעבר וזיכרון | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.tt{position:relative;overflow:hidden;border-radius:var(--r);border:1px solid var(--line);
+  --tt-bg:#ffffff;--tt-ink:#16182b;--tt-mut:#5b5f77;--tt-card:#f4f4f8;--tt-line:#e3e3ec;
+  background:var(--tt-bg);color:var(--tt-ink);padding:clamp(24px,4vw,54px);
+  transition:background-color .35s ease,color .35s ease}
+.tt[data-theme="dark"]{--tt-bg:#111219;--tt-ink:#f2f2f7;--tt-mut:#a2a5bb;--tt-card:#1b1d27;--tt-line:#2c2f3d}
+.tt-top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}
+.tt-top h3{margin:0;font-size:clamp(20px,2.4vw,32px)}
+.tt-btn{position:relative;z-index:2;display:inline-flex;align-items:center;gap:9px;border:1px solid var(--tt-line);
+  background:var(--tt-card);color:var(--tt-ink);font:inherit;font-size:14px;padding:10px 16px;border-radius:999px;cursor:pointer}
+.tt-ico{font-size:15px;line-height:1}
+.tt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tt-card{background:var(--tt-card);border:1px solid var(--tt-line);border-radius:14px;padding:18px;
+  transition:background-color .35s ease,border-color .35s ease}
+.tt-card h4{margin:0 0 6px;font-size:16px}
+.tt-card p{margin:0;font-size:14px;line-height:1.6;color:var(--tt-mut)}
+/* הגל: עיגול שנפתח מהכפתור, ומתחתיו מחליפים את הערכה */
+.tt-wave{position:absolute;border-radius:50%;pointer-events:none;z-index:5;transform:translate(-50%,-50%) scale(0)}
+@media(max-width:700px){.tt-grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){.tt,.tt-card{transition:none}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B50</span> · מתג מצב כהה עם מעבר וזיכרון</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">CSS vars · GSAP</span>
+  <span class="chip use">ניווט ומבנה</span><span class="chip use">רקע ואווירה</span><span class="chip use">טעינה ופידבק</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b50"><code>MV:b50</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>כפתור שמחליף בין בהיר לכהה בגל עגול שנפתח מהכפתור עצמו. הבחירה נשמרת לביקור הבא, וברירת המחדל היא ההגדרה של המכשיר.</p>
+  <p class="when"><b>מתי משתמשים:</b> בלוג, תיק עבודות, מערכת, דוקומנטציה, כל אתר שקוראים בו הרבה. מצב כהה הוא היום ציפייה בסיסית, והמעבר הוא ההזדמנות להראות איכות בשנייה אחת.</p>
+  <div class="mvpanel" data-mvpanel="b50"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight"><div class="tt">
+  <div class="tt-top">
+    <h3>מצב תצוגה</h3>
+    <button class="tt-btn" aria-pressed="false"><span class="tt-ico">🌙</span><span class="tt-lbl">מצב כהה</span></button>
+  </div>
+  <div class="tt-grid">
+    <div class="tt-card"><h4>קריאה ארוכה</h4><p>מאמרים ומדריכים נוחים יותר לעין בלילה.</p></div>
+    <div class="tt-card"><h4>ממשק ניהול</h4><p>מסכים שיושבים מולם שעות דורשים בחירה.</p></div>
+    <div class="tt-card"><h4>תיק עבודות</h4><p>רקע כהה מבליט צילומים וויז`ואל.</p></div>
+  </div>
+</div></div>
+
+<div class="demo-note">הערכה כולה יושבת במשתני CSS על מעטפת אחת ולא על :root, כדי שאפשר יהיה להטמיע את הרכיב בעמוד שכבר יש לו ערכה משלו. שלושה דברים שהופכים את זה למקצועי: ברירת המחדל מגיעה מ-prefers-color-scheme ורק אז נדרסת בבחירה שמורה, ההחלפה קורית בזמן שהגל מכסה את המסך (לפני כן רואים הבזק), וכל גישה ל-localStorage עטופה ב-try כי בגלישה פרטית היא זורקת. במצב חיסכון בתנועה ההחלפה מיידית בלי גל.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מתג מצב כהה עם מעבר וזיכרון").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+(function(){
+  const root=document.querySelector(".tt"),btn=root.querySelector(".tt-btn");
+  const ico=btn.querySelector(".tt-ico"),lbl=btn.querySelector(".tt-lbl");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const KEY="mv-tt-theme";
+  let saved=null;try{saved=localStorage.getItem(KEY);}catch(e){}
+  // ברירת המחדל היא ההגדרה של המכשיר, והבחירה של המשתמש גוברת עליה
+  let dark=saved?saved==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
+  function paint(){
+    root.dataset.theme=dark?"dark":"light";
+    btn.setAttribute("aria-pressed",String(dark));
+    ico.textContent=dark?"☀️":"🌙";
+    lbl.textContent=dark?"מצב בהיר":"מצב כהה";
+    try{localStorage.setItem(KEY,dark?"dark":"light");}catch(e){}
+  }
+  paint();
+  btn.addEventListener("click",()=>{
+    if(reduce){dark=!dark;paint();return;}
+    const b=btn.getBoundingClientRect(),r=root.getBoundingClientRect();
+    const cx=b.left+b.width/2-r.left,cy=b.top+b.height/2-r.top;
+    // רדיוס שמכסה בוודאות את הפינה הרחוקה ביותר
+    const rad=Math.hypot(Math.max(cx,r.width-cx),Math.max(cy,r.height-cy));
+    const wave=document.createElement("span");
+    wave.className="tt-wave";
+    wave.style.cssText="left:"+cx+"px;top:"+cy+"px;width:"+rad*2+"px;height:"+rad*2+"px;background:"+
+      (dark?"#ffffff":"#111219");
+    root.appendChild(wave);
+    gsap.timeline({onComplete:()=>wave.remove()})
+      .to(wave,{scale:1,duration:.45,ease:"power2.out"})
+      .add(()=>{dark=!dark;paint();})              // מחליפים ערכה מתחת לגל, לא לפניו
+      .to(wave,{opacity:0,duration:.35,ease:"power1.out"},"+=0.05");
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B48 · ניווט עם התקדמות לפי סקשן | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.pn{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:60;
+  display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px;
+  box-shadow:0 10px 30px rgba(20,20,40,.1)}
+.pn a{position:relative;overflow:hidden;border-radius:999px;padding:9px 18px;font-size:14px;color:var(--muted);
+  text-decoration:none;white-space:nowrap;transition:color .25s}
+.pn a.on{color:#fff}
+.pn-fill{position:absolute;inset:0;background:var(--accent);border-radius:999px;z-index:-1}
+.pn a span{position:relative;z-index:1}
+.pn-sec{min-height:96vh;display:grid;place-items:center;text-align:center;padding-inline:var(--gutter);scroll-margin-top:90px}
+.pn-sec h3{margin:0;font-size:clamp(30px,6vw,78px)}
+.pn-sec p{margin:14px auto 0;color:var(--muted);max-width:46ch;font-size:17px;line-height:1.7}
+@media(max-width:640px){.pn{width:calc(100% - 24px);justify-content:space-between}.pn a{padding:9px 10px;font-size:13px}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B48</span> · ניווט עם התקדמות לפי סקשן</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">GSAP · ScrollTrigger</span>
+  <span class="chip use">ניווט ומבנה</span><span class="chip use">תהליך ושלבים</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b48"><code>MV:b48</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>תפריט עוגנים צף שבו הפריט של הסקשן הנוכחי מתמלא בהדרגה תוך כדי הגלילה בו, ומתרוקן כשעוברים הלאה. אין הבהוב של "פעיל" או "לא פעיל".</p>
+  <p class="when"><b>מתי משתמשים:</b> עמוד נחיתה ארוך, עמוד שירות, מסמך תנאים, מדריך. המבקר יודע כל הזמן איפה הוא ברצף וכמה נשאר, וזה מוריד נטישה באמצע.</p>
+  <div class="mvpanel" data-mvpanel="b48"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<nav class="pn">
+  <a href="#pn1" class="on"><span>שירותים</span><i class="pn-fill"></i></a>
+  <a href="#pn2"><span>תהליך</span><i class="pn-fill"></i></a>
+  <a href="#pn3"><span>מחירים</span><i class="pn-fill"></i></a>
+  <a href="#pn4"><span>שאלות</span><i class="pn-fill"></i></a>
+</nav>
+<section class="pn-sec" id="pn1"><div><h3>שירותים</h3><p>מה אנחנו עושים ולמי זה מתאים, בלי רשימת באזזוורדס.</p></div></section>
+<section class="pn-sec" id="pn2"><div><h3>תהליך</h3><p>ארבעה שלבים מהשיחה הראשונה ועד העלייה לאוויר.</p></div></section>
+<section class="pn-sec" id="pn3"><div><h3>מחירים</h3><p>שלוש חבילות, טווח ברור, בלי הפתעות בסוף.</p></div></section>
+<section class="pn-sec" id="pn4"><div><h3>שאלות</h3><p>כל מה שנשאלנו עשר פעמים, מרוכז במקום אחד.</p></div></section>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note">ההבדל מ"קישור פעיל" רגיל הוא שהמילוי הוא scrub ולא מצב בינארי, ולכן רואים גם כמה נשאר מהסקשן. **המלכודת בעברית**: המימוש המקורי מחליק את המילוי מ-xPercent שלילי, כלומר משמאל, וזה מרגיש הפוך. בעברית מתחילים ב-101, נכנסים לאפס ויוצאים למינוס. `onLeaveBack` חובה, אחרת בגלילה כלפי מעלה המילוי נשאר תקוע מלא. הסקשנים מקבלים scroll-margin כדי שהעוגן לא ייעצר מתחת לתפריט הצף.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · ניווט עם התקדמות לפי סקשן").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+(function(){
+  const links=[...document.querySelectorAll(".pn a")];
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  links.forEach(link=>{
+    const sec=document.querySelector(link.getAttribute("href"));
+    const fill=link.querySelector(".pn-fill");
+    if(!sec||!fill)return;
+    // עמוד עברי: המילוי נכנס מימין ויוצא שמאלה, בכיוון הקריאה
+    gsap.set(fill,{xPercent:101});
+    ScrollTrigger.create({
+      trigger:sec,start:"top center",end:"bottom center",scrub:true,
+      onUpdate:self=>{
+        gsap.set(fill,{xPercent:101-self.progress*101});
+        link.classList.toggle("on",self.progress>.08);
+      },
+      onLeave:()=>{gsap.to(fill,{xPercent:-101,duration:.3,ease:"power3.inOut"});link.classList.remove("on");},
+      onLeaveBack:()=>{gsap.to(fill,{xPercent:101,duration:.3,ease:"power3.inOut"});link.classList.remove("on");}
+    });
+    link.addEventListener("click",e=>{
+      e.preventDefault();
+      gsap.to(window,{duration:reduce?0:.8,ease:"power2.inOut",scrollTo:{y:sec,offsetY:70}});
+    });
+  });
+})();
+</script>
+</body>
+</html>

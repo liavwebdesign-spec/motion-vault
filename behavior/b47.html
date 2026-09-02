@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B47 · סליידר השוואה לפני ואחרי | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100;400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.ba{position:relative;max-width:min(900px,94vw);margin-inline:auto;aspect-ratio:16/10;border-radius:var(--r);
+  overflow:hidden;border:1px solid var(--line);user-select:none;touch-action:pan-y}
+.ba-layer{position:absolute;inset:0;border-radius:0;font-size:0}
+/* שכבת "לפני" יושבת מעל ונחתכת. inset(0 0 0 X) משאיר את מה שמימין ל-X */
+.ba-before{clip-path:inset(0 0 0 50%)}
+.ba-tag{position:absolute;top:14px;background:rgba(0,0,0,.62);color:#fff;font-size:13px;
+  padding:6px 14px;border-radius:999px;backdrop-filter:blur(6px);z-index:3;pointer-events:none}
+.ba-tag.is-before{right:14px}
+.ba-tag.is-after{left:14px}
+/* הידית: רוחב אפס שממוקם בפיקסלים פיזיים, והכפתור ממורכז עליה */
+.ba-handle{position:absolute;top:0;left:0;width:0;height:100%;z-index:4;cursor:ew-resize}
+.ba-line{position:absolute;top:0;left:-1px;width:2px;height:100%;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.18)}
+.ba-knob{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;
+  background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.28);display:grid;place-items:center;gap:0;
+  font-size:17px;color:#16182b;letter-spacing:-2px}
+.ba-handle:focus-visible .ba-knob{outline:3px solid var(--accent);outline-offset:3px}
+.ba-hint{text-align:center;color:var(--muted);font-size:14px;padding-top:14px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B47</span> · סליידר השוואה לפני ואחרי</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">GSAP · Draggable · clip-path</span>
+  <span class="chip use">תמונות וגלריות</span><span class="chip use">טעינה ופידבק</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b47"><code>MV:b47</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>שתי תמונות באותה מסגרת וידית שנגררת ביניהן. גרירה ימינה או שמאלה חושפת יותר מכל צד, וגם החצים במקלדת מזיזים אותה.</p>
+  <p class="when"><b>מתי משתמשים:</b> שיפוץ, שיניים, אסתטיקה, כושר, ניקיון, עיצוב מחדש, לפני ואחרי של אתר. ההוכחה החזקה ביותר שיש: הלקוח רואה את ההבדל במקום לקרוא עליו.</p>
+  <div class="mvpanel" data-mvpanel="b47"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight">
+  <div class="ba">
+    <div class="ph ba-layer ba-after ph-d"></div>
+    <div class="ph ba-layer ba-before ph-b"></div>
+    <span class="ba-tag is-before">לפני</span>
+    <span class="ba-tag is-after">אחרי</span>
+    <div class="ba-handle" tabindex="0" role="slider" aria-label="השוואה בין לפני לאחרי"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"><span class="ba-line"></span><span class="ba-knob">‹›</span></div>
+  </div>
+  <p class="ba-hint">גרור את הידית, או השתמש בחצי המקלדת.</p>
+</div>
+
+<div class="demo-note">הידית עצמה היא אלמנט ברוחב אפס שממוקם ב-x פיזי, והכפתור ממורכז עליה בטרנספורם. זה מה שמאפשר להשתמש בערך אחד גם לחיתוך וגם למיקום, בלי לחשב חצי רוחב בכל פריים. `clip-path:inset(0 0 0 X)` משאיר את מה שמימין ל-X, ולכן בעברית "לפני" יושב בימין והגרירה שמאלה חושפת את "אחרי", בכיוון שבו קוראים. בשינוי גודל חלון חייבים לבנות את ה-Draggable מחדש עם אותו אחוז, אחרת הידית קופצת החוצה מהגבולות.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · סליידר השוואה לפני ואחרי").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(Draggable);
+(function(){
+  const wrap=document.querySelector(".ba"),before=wrap.querySelector(".ba-before"),handle=wrap.querySelector(".ba-handle");
+  let drag;
+  function paint(){
+    const x=gsap.getProperty(handle,"x");
+    before.style.clipPath="inset(0 0 0 "+x+"px)";
+    handle.setAttribute("aria-valuenow",Math.round(x/wrap.offsetWidth*100));
+  }
+  function build(){
+    const w=wrap.offsetWidth;
+    const pct=(+handle.getAttribute("aria-valuenow")||50)/100;
+    if(drag)drag.kill();
+    gsap.set(handle,{x:w*pct});
+    drag=Draggable.create(handle,{type:"x",bounds:{minX:0,maxX:w},onDrag:paint,onThrowUpdate:paint})[0];
+    paint();
+  }
+  // החצים פיזיים בכוונה: ידית נגררת נתפסת כאובייקט על המסך, לא כטקסט
+  handle.addEventListener("keydown",e=>{
+    const step=e.shiftKey?wrap.offsetWidth*.1:wrap.offsetWidth*.02;
+    if(e.key==="ArrowLeft"||e.key==="ArrowRight"){
+      e.preventDefault();
+      const x=gsap.utils.clamp(0,wrap.offsetWidth,gsap.getProperty(handle,"x")+(e.key==="ArrowRight"?step:-step));
+      gsap.to(handle,{x:x,duration:.18,onUpdate:paint,onComplete:paint});
+    }
+  });
+  build();
+  let t;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(build,80);});
+})();
+</script>
+</body>
+</html>
