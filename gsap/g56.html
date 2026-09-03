@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G56 · מדיה שנפתחת לרוחב מלא בגלילה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.ex{height:260vh;position:relative}
+.ex-stick{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--bg)}
+.ex-media{position:absolute;inset:0;font-size:0;border-radius:0;
+  clip-path:inset(22% 26% 22% 26% round 26px)}
+.ex-cap{position:absolute;inset:0;display:grid;place-items:center;text-align:center;pointer-events:none;padding-inline:var(--gutter)}
+.ex-cap h3{margin:0;color:#fff;font-size:clamp(28px,5.5vw,74px);line-height:1.1;max-width:16ch;
+  text-shadow:0 4px 30px rgba(0,0,0,.35)}
+.ex-cap p{margin:14px 0 0;color:#fff;opacity:0;font-size:clamp(15px,1.6vw,20px);max-width:40ch}
+.ex-after{padding:14vh var(--gutter);max-width:min(680px,92vw);margin-inline:auto;text-align:center;
+  color:var(--muted);font-size:17px;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G56</span> · מדיה שנפתחת לרוחב מלא בגלילה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger pin · clip-path</span>
+  <span class="chip use">תמונות וגלריות</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g56"><code>MV:g56</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>תמונה שמתחילה ככרטיס קטן ומעוגל במרכז המסך, ונפתחת בגלילה עד שהיא ממלאת את המסך כולו. הכותרת שמעליה נמוגה בדיוק כשהמסגרת נעלמת.</p>
+  <p class="when"><b>מתי משתמשים:</b> פתיחת עמוד בית, מעבר לסקשן מוצר, סוף סיפור מותג. הרגע שבו התמונה מפסיקה להיות איור ומתחילה להיות סצנה.</p>
+  <div class="mvpanel" data-mvpanel="g56"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="ex"><div class="ex-stick">
+  <div class="ph ex-media ph-b"></div>
+  <div class="ex-cap"><div><h3>מהכרטיס אל הסצנה</h3><p>אותה תמונה, רק שהיא כבר לא מוצגת בתוך מסגרת אלא מקיפה את המבקר.</p></div></div>
+</div></div>
+<p class="ex-after">אותו מהלך עובד גם הפוך: מתחילים ממסך מלא ומתכווצים לכרטיס, כשרוצים לסגור סקשן במקום לפתוח אותו.</p>
+
+<div class="demo-note">הפיתוי הוא לעשות את זה עם `scale`, וזו טעות: הגדלה מותחת את התמונה ומטשטשת אותה, ומזיזה גם את הטקסט שמעליה. `clip-path: inset(...)` פותח את החלון שדרכו רואים את המדיה בלי לגעת בה בכלל, והרדיוס נכנס לאותו ערך עצמו דרך `round`, כך ששני הדברים מונפשים בטוויין אחד. GSAP מסוגל לעשות אינטרפולציה בין שני `inset` רק כשהם כתובים באותו מבנה בדיוק, כולל אותה יחידה ואותו `round` בשני הצדדים; ערבוב של אחוזים ופיקסלים שובר את המעבר. הסקשן מוצמד ב-`position:sticky` ולא ב-pin של ScrollTrigger, ולכן אין spacer ואין קפיצה בסוף.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מדיה שנפתחת לרוחב מלא בגלילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const media=document.querySelector(".ex-media"),h=document.querySelector(".ex-cap h3"),p=document.querySelector(".ex-cap p");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce){gsap.set(media,{clipPath:"inset(0% 0% 0% 0% round 0px)"});gsap.set(p,{opacity:1});return;}
+  gsap.timeline({scrollTrigger:{trigger:".ex",start:"top top",end:"bottom bottom",scrub:.6}})
+    // clip-path ולא scale: התוכן לא נמתח ולא מטשטש, רק החלון שדרכו רואים אותו גדל
+    // משכים מפורשים: בלי זה הפתיחה מסתיימת בשליש הראשון של הגלילה והשאר ריק
+    .fromTo(media,{clipPath:"inset(22% 26% 22% 26% round 26px)"},
+                  {clipPath:"inset(0% 0% 0% 0% round 0px)",duration:1,ease:"none"},0)
+    .to(h,{scale:1.08,opacity:0,duration:.45,ease:"none"},0)
+    .to(p,{opacity:1,duration:.3,ease:"none"},.68);
+})();
+</script>
+</body>
+</html>
