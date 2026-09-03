@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G50 · וילון מעבר בין עמודים | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.pt-page{min-height:64vh;display:grid;place-items:center;text-align:center;padding:8vh var(--gutter)}
+.pt-page h3{font-size:clamp(28px,5vw,62px);margin:0 0 12px}
+.pt-page p{color:var(--muted);font-size:17px;line-height:1.8;max-width:44ch;margin:0 auto 24px}
+.pt-nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.pt-nav a{padding:11px 20px;border-radius:999px;border:1px solid var(--line);background:var(--card);
+  color:var(--ink);text-decoration:none;font-size:15px}
+.pt-nav a.on{background:var(--ink);border-color:var(--ink);color:#fff}
+/* הוילון: ארבע רצועות שעולות בהפרש קטן, כך שהכיסוי מרגיש כמו תנועה ולא כמו מסך שנדלק */
+.pt-curtain{position:fixed;inset:0;z-index:90;pointer-events:none;display:grid;grid-template-columns:repeat(4,1fr)}
+.pt-curtain i{background:var(--ink);transform:translateY(101%)}
+.pt-label{position:fixed;inset:0;z-index:91;display:grid;place-items:center;color:#fff;font-size:clamp(22px,4vw,44px);
+  font-weight:800;opacity:0;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G50</span> · וילון מעבר בין עמודים</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · timeline</span>
+  <span class="chip use">ניווט ומבנה</span><span class="chip use">טעינה ופידבק</span><span class="chip use">רקע ואווירה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g50"><code>MV:g50</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>לחיצה על קישור לא מכבה את המסך: וילון עולה, מכסה, ורק אז העמוד מתחלף. בטעינה הוא יורד חזרה, כך שהמעבר מרגיש רציף ולא כמו ניתוק.</p>
+  <p class="when"><b>מתי משתמשים:</b> אתר תדמית רב-עמודי, תיק עבודות, בלוג, חנות. הדפוס הכי נפוץ בגלריה, והוא מה שמפריד בין אתר שמרגיש כמו אפליקציה לאתר שמרגיש כמו אוסף קבצים.</p>
+  <div class="mvpanel" data-mvpanel="g50"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="stage tight"><div class="pt-page" id="pt-view">
+  <div>
+    <h3>אתרי תדמית</h3>
+    <p>לחץ על אחד הקישורים. הוילון עולה, התוכן מתחלף מאחוריו, והוילון יורד.</p>
+    <nav class="pt-nav">
+      <a href="#" data-t="אתרי תדמית" class="on">אתרי תדמית</a>
+      <a href="#" data-t="דפי נחיתה">דפי נחיתה</a>
+      <a href="#" data-t="חנויות">חנויות</a>
+      <a href="#" data-t="צור קשר">צור קשר</a>
+    </nav>
+  </div>
+</div></div>
+<div class="pt-curtain"><i></i><i></i><i></i><i></i></div>
+<div class="pt-label"></div>
+
+<div class="demo-note">באתר רב-עמודי אמיתי מחליפים את שורת החלפת התוכן ב-`location.href=a.href`, ובטעינת העמוד החדש מריצים רק את `reveal()` כשהוילון מתחיל במצב מכסה. שתי מלכודות: צריך לדלג על קישורים חיצוניים, על עוגנים ועל לחיצה עם Ctrl או עם גלגל, אחרת שוברים פתיחה בלשונית חדשה; ובחזרה עם כפתור אחורה הדפדפן מחזיר את העמוד מהמטמון בלי טעינה, ולכן חייבים להאזין ל-`pageshow` ולהריץ שם `reveal()` גם כן, אחרת הוילון נשאר תקוע על המסך. ההשהיה בין הרצועות היא מה שמייצר את התחושה; וילון אחד שעולה במלואו נראה כמו מסך שנדלק.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · וילון מעבר בין עמודים").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+
+(function(){
+  const bars=gsap.utils.toArray(".pt-curtain i"),label=document.querySelector(".pt-label");
+  const view=document.querySelector("#pt-view");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const D=reduce?0:.5;
+  function cover(text){
+    label.textContent=text;                      // קודם הטקסט, אחר כך החשיפה. אחרת רואים לרגע את השם הקודם
+    return gsap.timeline()
+      .to(bars,{yPercent:-101,duration:D,ease:"power3.inOut",stagger:.05})
+      .to(label,{opacity:1,duration:D*.5},"-="+D*.5);
+  }
+  function reveal(){
+    return gsap.timeline()
+      .to(label,{opacity:0,duration:D*.4})
+      .to(bars,{yPercent:-202,duration:D,ease:"power3.inOut",stagger:.05},"-="+D*.2)
+      .set(bars,{yPercent:101});     // מחזירים למטה בלי אנימציה, מוכנים למעבר הבא
+  }
+  document.querySelectorAll(".pt-nav a").forEach(a=>{
+    a.addEventListener("click",e=>{
+      e.preventDefault();
+      if(a.classList.contains("on"))return;
+      document.querySelectorAll(".pt-nav a").forEach(x=>x.classList.toggle("on",x===a));
+      gsap.timeline()
+        .add(cover(a.dataset.t))
+        // כאן, מתחת לוילון, מחליפים תוכן. באתר אמיתי: location.href=a.href
+        .add(()=>{view.querySelector("h3").textContent=a.dataset.t;scrollTo(0,0);})
+        .add(reveal());
+    });
+  });
+  gsap.set(bars,{yPercent:101});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G51 · שתי עמודות שנעות בכיוונים הפוכים | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.oc{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.4vw,20px);
+  max-width:min(1080px,94vw);margin-inline:auto;align-items:start}
+.oc-col{display:grid;gap:clamp(10px,1.4vw,20px);will-change:transform}
+.oc-col .ph{aspect-ratio:3/4;font-size:0;border-radius:14px}
+.oc-col:nth-child(2) .ph{aspect-ratio:4/5}
+.oc-head{text-align:center;max-width:44ch;margin:0 auto clamp(24px,4vw,46px)}
+.oc-head h3{font-size:clamp(24px,3.4vw,44px);margin:0 0 10px}
+.oc-head p{color:var(--muted);font-size:17px;line-height:1.8;margin:0}
+@media(max-width:700px){.oc{grid-template-columns:1fr 1fr}.oc-col:nth-child(3){display:none}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G51</span> · שתי עמודות שנעות בכיוונים הפוכים</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger</span>
+  <span class="chip use">תמונות וגלריות</span><span class="chip use">רקע ואווירה</span><span class="chip use">כרטיסים</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g51"><code>MV:g51</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>קיר תמונות שבו עמודה אחת עולה עם הגלילה והשנייה יורדת. תנועה קטנה שהופכת גריד סטטי לרקע חי, בלי לגזול תשומת לב מהטקסט.</p>
+  <p class="when"><b>מתי משתמשים:</b> קיר עבודות, גלריית מוצרים, לוגואים של לקוחות, תמונות צוות, רקע לסקשן המלצות. עובד גם כשיש רק שש תמונות.</p>
+  <div class="mvpanel" data-mvpanel="g51"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="oc-head"><h3>קיר העבודות</h3>
+  <p>גלול. העמודות נעות בכיוונים הפוכים, והקיר מקבל עומק בלי אנימציה שצועקת.</p></div>
+<div class="oc">
+  <div class="oc-col"><div class="ph ph-a"></div><div class="ph ph-c"></div><div class="ph ph-d"></div><div class="ph ph-e"></div></div>
+  <div class="oc-col"><div class="ph ph-b"></div><div class="ph ph-f"></div><div class="ph ph-a"></div><div class="ph ph-c"></div></div>
+  <div class="oc-col"><div class="ph ph-d"></div><div class="ph ph-e"></div><div class="ph ph-b"></div><div class="ph ph-f"></div></div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note">שלוש הכרעות שמונעות מהמהלך להיראות זול: התנועה ביחידות אחוז ולא בפיקסלים, ולכן היא מתכווצת מעצמה במסכים קטנים; הטווח קטן בכוונה, שישה אחוזים לכל כיוון, כי מעבר לזה נוצרים חורים בקצוות הקיר; וה-scrub מושהה מעט כדי שהעמודות ימשיכו רגע אחרי שעוצרים לגלול. `gsap.matchMedia` מכבה את הכל במובייל ובמצב חיסכון בתנועה, ומנקה אחריו כשחוזרים לרוחב אחר.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · שתי עמודות שנעות בכיוונים הפוכים").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  // רק במסכים שיש בהם מקום לתנועה. במובייל זה מייצר חורים בפריסה
+  gsap.matchMedia().add("(min-width: 700px) and (prefers-reduced-motion: no-preference)",()=>{
+    const cols=gsap.utils.toArray(".oc-col");
+    const tw=cols.map((col,i)=>{
+      const dir=i%2?1:-1;                       // אי-זוגית יורדת, זוגית עולה
+      return gsap.fromTo(col,{yPercent:6*dir},{yPercent:-6*dir,ease:"none",
+        scrollTrigger:{trigger:".oc",start:"top bottom",end:"bottom top",scrub:1.2}});
+    });
+    return ()=>tw.forEach(t=>{t.scrollTrigger&&t.scrollTrigger.kill();t.kill();});
+  });
+})();
+</script>
+</body>
+</html>

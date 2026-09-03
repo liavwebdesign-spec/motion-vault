@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G49 · וידאו שמתקדם עם הגלילה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.vs{position:relative;height:320vh}
+.vs-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;background:#0e0f16}
+.vs-video{width:min(92vw,960px);border-radius:var(--r);display:block}
+.vs-cap{position:absolute;inset-inline:0;bottom:8vh;text-align:center;color:#fff;pointer-events:none}
+.vs-cap b{display:block;font-size:clamp(22px,3.4vw,42px);margin-bottom:6px}
+.vs-cap span{font-size:15px;opacity:.75}
+.vs-bar{position:absolute;inset-inline:0;bottom:0;height:4px;background:rgba(255,255,255,.15)}
+.vs-bar i{display:block;height:100%;width:0;background:var(--accent)}
+.vs-after{padding:14vh var(--gutter);max-width:min(680px,92vw);margin-inline:auto;text-align:center;color:var(--muted);font-size:17px;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G49</span> · וידאו שמתקדם עם הגלילה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger · currentTime</span>
+  <span class="chip use">תמונות וגלריות</span><span class="chip use">תהליך ושלבים</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g49"><code>MV:g49</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>סרטון שלא מתנגן לבד: הגלילה היא שמזיזה אותו קדימה ואחורה, פריים אחרי פריים. עוצרים והוא עוצר, גוללים אחורה והוא חוזר.</p>
+  <p class="when"><b>מתי משתמשים:</b> הדגמת מוצר מכל הזוויות, תהליך ייצור, לפני ואחרי, אנימציית מותג. הרגע שבו המבקר מבין שהוא שולט במה שקורה על המסך.</p>
+  <div class="mvpanel" data-mvpanel="g49"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="vs">
+  <div class="vs-stick">
+    <video class="vs-video" src="../assets/media/scrub.mp4" poster="../assets/media/scrub.jpg"
+           muted playsinline preload="auto" aria-label="הדגמה: וידאו שמתקדם עם הגלילה"></video>
+    <div class="vs-cap"><b>הגלילה היא הנגן</b><span>גלול למטה ולמעלה. הסרטון עוקב.</span></div>
+    <div class="vs-bar"><i></i></div>
+  </div>
+</div>
+<p class="vs-after">בסרטון אמיתי זה יהיה מוצר שמסתובב, מכונה שעובדת או בית שנבנה. הקובץ חייב להיות מקודד לחיפוש מהיר, אחרת התנועה מקרטעת.</p>
+
+<div class="demo-note">הטכניקה עצמה קצרה, וכל ההצלחה תלויה בקובץ. **הכלל**: מקודדים את הסרטון עם כל פריים כ-keyframe (`-g 1 -keyint_min 1 -sc_threshold 0`), אחרת כל קפיצה בזמן מחייבת את הדפדפן לפענח מהמפתח הקודם והתנועה נתקעת. הסרטון כאן נוצר בדיוק כך, ולכן הוא כבד יחסית לאורכו. שני דברים נוספים: לא מציבים `currentTime` ישירות מה-onUpdate אלא מתקרבים אליו ב-ticker, אחרת רואים קפיצות; ובאייפון אין הרשאה לקפוץ בזמן עד שהווידאו התנגן פעם אחת, ומכאן ה-play שמיד עוצר. `muted` ו-`playsinline` הם תנאי סף. **ומלכודת שנתפסה כאן באימות**: השרת חייב לתמוך ב-Range requests (תשובה 206). בלעדיה הדפדפן לא יכול לדלג בזמן, `seeking` נתקע על true והסרטון קפוא על הפריים הראשון בלי שום הודעת שגיאה. GitHub Pages ורוב האחסונים תומכים, אבל שווה לבדוק אחרי העלאה לשרת של לקוח.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · וידאו שמתקדם עם הגלילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const v=document.querySelector(".vs-video"),bar=document.querySelector(".vs-bar i");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let target=0,current=0,dur=0,ready=false;
+  function start(){
+    dur=v.duration||0; if(!dur)return;
+    ready=true;
+    ScrollTrigger.create({
+      trigger:".vs",start:"top top",end:"bottom bottom",scrub:true,
+      onUpdate:self=>{target=self.progress*dur;bar.style.width=(self.progress*100).toFixed(1)+"%";}
+    });
+    ScrollTrigger.refresh();
+  }
+  v.addEventListener("loadedmetadata",start);
+  if(v.readyState>=1)start();
+  // iOS לא מרשה קפיצה בזמן לפני שהווידאו התנגן פעם אחת, ולכן דוחפים play ומיד pause
+  const kick=()=>{const p=v.play();if(p&&p.then)p.then(()=>v.pause()).catch(()=>{});};
+  addEventListener("touchstart",kick,{once:true,passive:true});
+  addEventListener("click",kick,{once:true});
+  // החלקה: מתקרבים אל היעד בהדרגה במקום להציב currentTime בכל אירוע גלילה
+  gsap.ticker.add(()=>{
+    if(!ready)return;
+    if(reduce){v.currentTime=target;return;}
+    current+=(target-current)*.18;
+    if(Math.abs(target-current)<.004)current=target;
+    if(v.seeking)return;
+    v.currentTime=current;
+  });
+})();
+</script>
+</body>
+</html>
