@@ -467,16 +467,51 @@ function briefFor(e, p) {
   L.push(p.html);
   if (p.js) { L.push(""); L.push("=== JS ==="); L.push(p.js); }
   if (e.note) { L.push(""); L.push("הערת מימוש מהמאגר:"); L.push(e.note.replace(/\*\*/g, "")); }
+  L.push("");
+  L.push("=== המרה ל-React או ל-Lovable ===");
+  L.push("הכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.");
+  L.push("");
+  L.push("המרת המארקאפ:");
+  L.push('- class ל-className, for ל-htmlFor, style="a:b" לאובייקט, ותגים ריקים נסגרים בעצמם.');
+  L.push('- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.');
+  L.push('- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.');
+  L.push("- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.");
+  L.push("");
+  L.push("ה-CSS:");
+  L.push("- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.");
   if (p.libs.includes("gsap")) {
     L.push("");
-    L.push("אם היעד הוא React או Lovable:");
-    L.push("- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.");
-    L.push("- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.");
+    L.push("GSAP:");
     L.push("- אל תטען מ-CDN. התקן: npm i gsap");
     L.push(`- ייבא ורשום:\n  import gsap from "gsap";`
       + p.plugins.map(pl => `\n  import { ${pl} } from "gsap/${pl}";`).join("")
       + (p.plugins.length ? `\n  gsap.registerPlugin(${p.plugins.join(", ")});` : ""));
-    L.push("- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.");
+    L.push("- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().");
+    L.push("");
+    L.push("ארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:");
+    L.push('1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.');
+    L.push('2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.');
+    L.push('3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.');
+    L.push('4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.');
+    L.push("");
+    L.push("שלד הניקוי המלא:");
+    L.push("  const root = useRef(null);");
+    L.push("  useEffect(() => {");
+    L.push("    const el = root.current;");
+    L.push("    const ac = new AbortController();");
+    L.push("    let tickFn = null, lateST = null;");
+    L.push("    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);");
+    L.push("    return () => {");
+    L.push("      ac.abort();");
+    L.push("      if (tickFn) gsap.ticker.remove(tickFn);");
+    L.push("      if (lateST) lateST.kill();");
+    L.push("      ctx.revert();");
+    L.push("    };");
+    L.push("  }, []);");
+  } else {
+    L.push("");
+    L.push("JS:");
+    L.push("- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.");
   }
   return L.join("\n");
 }
