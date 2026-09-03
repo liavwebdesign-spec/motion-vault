@@ -87,8 +87,10 @@ export default [
 .lb-close:hover,.lb-arrow:hover{background:rgba(255,255,255,.28)}
 .lb-close{top:clamp(14px,3vw,28px);inset-inline-end:clamp(14px,3vw,28px)}
 .lb-arrow{top:50%;transform:translateY(-50%)}
-.lb-prev{inset-inline-end:clamp(10px,2vw,22px)}
-.lb-next{inset-inline-start:clamp(10px,2vw,22px)}
+/* בעברית "הקודמת" יושבת בצד ההתחלה (ימין) וחצה מצביע ימינה, ו"הבאה" בצד הסיום
+   (שמאל) וחצה מצביע שמאלה. הפוך מזה ושני החצים מצביעים אחד לשני. */
+.lb-prev{inset-inline-start:clamp(10px,2vw,22px)}
+.lb-next{inset-inline-end:clamp(10px,2vw,22px)}
 .lb-count{position:absolute;bottom:clamp(14px,3vw,26px);inset-inline:0;text-align:center;color:#fff;font-size:13px;letter-spacing:.1em;z-index:2;direction:ltr}
 @media(max-width:767px){.gl{grid-template-columns:repeat(2,1fr)}}`,
   html:`<div class="stage tight">

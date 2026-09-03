@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
 .flip-zone{padding-inline:var(--gutter)}
-.flip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.flip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;overflow:hidden}
 .flip-item{height:120px;cursor:pointer;font-size:15px}
 .flip-item.big{grid-column:1/-1;height:320px;font-size:26px}
 @media(max-width:767px){.flip-grid{grid-template-columns:repeat(2,1fr)}}
@@ -52,12 +52,38 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 });
 gsap.registerPlugin(Flip);
-document.querySelectorAll(".flip-item").forEach(item=>{
+const grid=document.querySelector(".flip-grid");
+const items=[...document.querySelectorAll(".flip-item")];
+const D=.55,E="power2.inOut";
+let busy=false;
+
+items.forEach(item=>{
   item.addEventListener("click",()=>{
-    const state=Flip.getState(".flip-item");
-    document.querySelectorAll(".flip-item.big").forEach(b=>{if(b!==item)b.classList.remove("big")});
+    if(busy)return; busy=true;
+
+    const state=Flip.getState(items);
+    const h0=grid.getBoundingClientRect().height;
+    const fs0=items.map(el=>getComputedStyle(el).fontSize);
+
+    items.forEach(b=>{if(b!==item)b.classList.remove("big")});
     item.classList.toggle("big");
-    Flip.from(state,{duration:.55,ease:"power2.inOut",absolute:true});
+
+    const h1=grid.getBoundingClientRect().height;
+    const fs1=items.map(el=>getComputedStyle(el).fontSize);
+
+    // absolute:true מוציא את כל הפריטים מהזרימה, הגריד מתרוקן ומתכווץ לאפס,
+    // וכל מה שמתחת קופץ למעלה ובחזרה. מנפישים את גובה הגריד במקביל.
+    gsap.fromTo(grid,{height:h0},{height:h1,duration:D,ease:E,
+      onComplete:()=>gsap.set(grid,{clearProps:"height"})});
+
+    // Flip לא מאינטרפל font-size, ולכן הטקסט קופץ למידה החדשה בפריים הראשון.
+    items.forEach((el,i)=>{
+      if(fs0[i]===fs1[i])return;
+      gsap.fromTo(el,{fontSize:fs0[i]},{fontSize:fs1[i],duration:D,ease:E,
+        onComplete:()=>gsap.set(el,{clearProps:"fontSize"})});
+    });
+
+    Flip.from(state,{duration:D,ease:E,absolute:true,onComplete:()=>{busy=false}});
   });
 });
 </script>

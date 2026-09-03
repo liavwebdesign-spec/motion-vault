@@ -2,17 +2,18 @@
 export default [
 {
   id:"lm1", cat:"lm", name:"שכבות סחיפה", tech:"vanilla JS · rAF", status:"ממתין",
-  desc:"אלמנטים צפים שנסחפים במהירויות שונות בגלילה, עם הטיה קלה. שכבה איטית מרגישה רחוקה, מהירה מרגישה קרובה.",
+  desc:"אלמנטים צפים שנסחפים במהירויות שונות בגלילה, עם הטיה קלה. במרכז המסך כל שכבה יושבת במקום שעוצבה, ומשם היא נסחפת לשני הכיוונים. שכבה איטית מרגישה רחוקה, מהירה מרגישה קרובה.",
   when:"הירו וסקשני אווירה. עד 4 שכבות לסקשן. נכרה מכל האתרים של ליאב (מדרג 1/2/4).",
   css:`.driftsec{position:relative;height:90vh;background:#101223;border-radius:var(--r);margin-inline:var(--gutter);overflow:hidden;display:flex;align-items:center;justify-content:center}
-.dl{position:absolute;border-radius:50%;filter:blur(50px)}
+.dl{position:absolute;border-radius:50%;filter:blur(46px);will-change:translate}
+.dchip{will-change:translate,rotate}
 .driftsec h2{color:#fff;position:relative;z-index:2;font-size:var(--fs-h2)}
 .dchip{position:absolute;z-index:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(16px);border-radius:14px;padding:12px 18px;color:#cdd0e8;font-size:13px;transform:rotate(-3deg)}`,
   html:`<div class="stage tight"><div class="driftsec">
-<div class="dl" data-drift="y:2,r:-0.3" style="width:340px;height:340px;background:rgba(44,247,217,.14);top:-6%;inset-inline-start:-4%"></div>
-<div class="dl" data-drift="y:1,x:-1,r:0.2" style="width:260px;height:260px;background:rgba(244,158,64,.13);bottom:-4%;inset-inline-end:6%"></div>
+<div class="dl" data-drift="y:2,r:-0.3" style="width:340px;height:340px;background:rgba(44,247,217,.16);top:-14%;inset-inline-start:-4%"></div>
+<div class="dl" data-drift="y:0.5,x:-1,r:0.2" style="width:260px;height:260px;background:rgba(244,158,64,.15);bottom:-12%;inset-inline-end:6%"></div>
 <div class="dchip" data-drift="y:1.5" style="top:20%;inset-inline-end:12%">שכבה מהירה (1.5)</div>
-<div class="dchip" data-drift="y:0.6,x:-0.4" style="bottom:24%;inset-inline-start:10%;transform:rotate(2deg)">שכבה איטית (0.6)</div>
+<div class="dchip" data-drift="y:0.4,x:-0.4" style="bottom:24%;inset-inline-start:10%;transform:rotate(2deg)">שכבה איטית (0.4)</div>
 <h2>שכבות בסחיפה איטית</h2>
 </div></div>`,
   js:`const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -21,13 +22,16 @@ if(!reduced){
     const p={};el.dataset.drift.split(",").forEach(s=>{const kv=s.split(":");p[kv[0]]=+kv[1]});
     return{el,y:p.y||0,x:p.x||0,r:p.r||0,sec:el.closest(".driftsec")};
   });
+  const AMP=110;                       // המרחק לשכבה במקדם 1, לכל אורך המעבר על המסך
   let tick=false;
   function frame(){tick=false;const vh=innerHeight;
     drifts.forEach(d=>{
       const rc=d.sec.getBoundingClientRect();
       const t=Math.min(1,Math.max(0,(vh-rc.top)/(vh+rc.height)));
-      d.el.style.translate=(t*d.x*24)+"px "+(t*d.y*24)+"px";
-      if(d.r)d.el.style.rotate=(t*d.r*14)+"deg";
+      // p נע מ-1 ל--1 סביב אמצע המעבר, ולכן במרכז המסך השכבה יושבת בדיוק במקום שעוצבה
+      const p=1-t*2;
+      d.el.style.translate=(p*d.x*AMP)+"px "+(p*d.y*AMP)+"px";
+      if(d.r)d.el.style.rotate=(p*d.r*20)+"deg";
     });}
   addEventListener("scroll",()=>{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});
   frame();
@@ -35,29 +39,67 @@ if(!reduced){
 },
 {
   id:"lm3", cat:"lm", name:"הצטלבות (Converging)", tech:"CSS + IO", status:"ממתין",
-  desc:"זוג בלוקים שנכנסים משני צדדים ונפגשים במרכז. התוכן צועד אחד לקראת השני.",
+  desc:"זוג בלוקים שנכנסים משני צדדים ונפגשים בנקודה במרכז. התוכן צועד אחד לקראת השני, והמפגש עצמו מקבל סימן.",
   when:"לפני/אחרי, בעיה/פתרון, שני צדדים של סיפור. פעם-פעמיים בעמוד.",
-  css:`.conv{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);padding-inline:var(--gutter);align-items:center}
-.cv{background:#fff;border:1px solid var(--line);border-radius:18px;padding:34px;opacity:0;transition:opacity .7s cubic-bezier(.22,1,.36,1),translate .7s cubic-bezier(.22,1,.36,1)}
-.cv h3{margin:0 0 8px}.cv p{margin:0;color:var(--muted)}
-.cv.a{translate:-64px 0}.cv.b{translate:64px 0}
+  css:`.conv{display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(12px,2vw,26px);align-items:center;
+  padding-inline:var(--gutter);max-width:min(1060px,100%);margin-inline:auto}
+.cv{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,2.6vw,36px);
+  opacity:0;box-shadow:0 14px 34px rgba(22,24,43,.07);
+  transition:opacity .75s cubic-bezier(.22,1,.36,1),translate .75s cubic-bezier(.22,1,.36,1)}
+.cv-kick{display:inline-block;font-size:12px;letter-spacing:.14em;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;margin-bottom:14px}
+.cv h3{margin:0 0 8px;font-size:clamp(19px,2vw,25px);line-height:1.3}
+.cv p{margin:0;color:var(--muted);font-size:15px;line-height:1.7}
+.cv-stat{display:block;margin-top:16px;font-size:clamp(26px,3vw,40px);font-weight:800;line-height:1;color:var(--ink)}
+.cv-stat small{display:block;font-size:12px;font-weight:400;color:var(--muted);letter-spacing:.06em;margin-top:6px}
+.cv.a{border-top:3px solid #f49e40}
+.cv.b{border-top:3px solid #4a3aff}
+
+/* translate הוא פיזי ולא לוגי. עם הערכים ההפוכים שני הבלוקים מתחילים קרובים
+   ונפרדים החוצה, כלומר בדיוק ההפך מהצטלבות. */
+.cv.a{translate:70px 0}.cv.b{translate:-70px 0}
+html[dir="ltr"] .cv.a{translate:-70px 0}
+html[dir="ltr"] .cv.b{translate:70px 0}
+
+.cv-meet{width:clamp(38px,4vw,52px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
+  background:var(--ink);color:#fff;font-size:clamp(17px,2vw,22px);line-height:1;
+  scale:0;opacity:0;transition:scale .5s .28s cubic-bezier(.34,1.56,.64,1),opacity .4s .28s}
 .conv.met .cv{opacity:1;translate:0 0}
-.cv.warm{box-shadow:8px 8px 0 #f49e40;border-radius:16px}
-@media(max-width:767px){.conv{grid-template-columns:1fr}.cv.a,.cv.b{translate:0 24px}}`,
+.conv.met .cv-meet{scale:1;opacity:1}
+
+@media(max-width:767px){
+  .conv{grid-template-columns:1fr;gap:14px}
+  .cv.a,.cv.b{translate:0 26px}
+  html[dir="ltr"] .cv.a,html[dir="ltr"] .cv.b{translate:0 26px}
+  .cv-meet{justify-self:center}
+}
+@media (prefers-reduced-motion: reduce){
+  .cv,.cv-meet{transition-duration:.01ms}
+  .cv.a,.cv.b{translate:0 0}
+}`,
   html:`<div class="stage"><div class="conv">
-<div class="cv a warm"><h3>מה שרואים במגרש</h3><p>הביצועים שהיריב מרגיש.</p></div>
-<div class="cv b"><h3>מה שקורה מאחורי הקלעים</h3><p>הנתונים שמייצרים את הביצועים.</p></div>
+  <div class="cv a"><span class="cv-kick">מה שרואים</span>
+    <h3>הביצועים שהיריב מרגיש</h3>
+    <p>מה שקורה על המגרש: מהירות, החלטות ועמידות בדקות האחרונות.</p>
+    <span class="cv-stat">92%<small>שיפור נמדד בעונה</small></span></div>
+  <div class="cv-meet" aria-hidden="true">+</div>
+  <div class="cv b"><span class="cv-kick">מה שמאחורי</span>
+    <h3>הנתונים שמייצרים את הביצועים</h3>
+    <p>עומסי אימון, שינה והתאוששות. מה שאף אחד לא רואה בשידור.</p>
+    <span class="cv-stat">14<small>מדדים שנאספים כל יום</small></span></div>
 </div></div>`,
   js:`const io=new IntersectionObserver(es=>es.forEach(e=>{
   if(e.isIntersecting){e.target.classList.add("met");io.unobserve(e.target)}
 }),{threshold:.35});
-document.querySelectorAll(".conv").forEach(el=>io.observe(el));`
+document.querySelectorAll(".conv").forEach(el=>io.observe(el));`,
+  note:"**מלכודת RTL**: `translate` היא תכונה פיזית ולא לוגית. אם נותנים לבלוק הראשון ערך שלילי (כמו בעמוד אנגלי), בעברית הוא יושב מימין ומתחיל לזוז שמאלה, כלומר שני הבלוקים מתחילים קרובים ונפרדים החוצה. זה בדיוק ההפך מהמהלך. הערכים כאן הפוכים עם דריסה ל-`html[dir=\"ltr\"]`. הנקודה במרכז היא מה שהופך את זה מ\"שני כרטיסים שנכנסים\" ל\"מפגש\": היא נכנסת באיחור של 0.28 שנייה, אחרי שהבלוקים כבר הגיעו."
 },
 {
   id:"lm4", cat:"lm", name:"ערימה דביקה מדורגת", tech:"CSS position:sticky", status:"ממתין",
   desc:"כרטיסים שנערמים זה על זה בגלילה עם offset מדורג. כל כרטיס נדבק מעט נמוך מקודמו.",
   when:"למה דווקא אנחנו 01-04, שלבי שירות. עד 5 כרטיסים.",
-  css:`.stackw{padding-inline:var(--gutter);display:grid;gap:24px}
+  css:`/* בלי תקרת רוחב הכרטיס נמתח על כל המסך, הטקסט תחום ב-55ch ונשאר שטח ריק גדול בצד */
+.stackw{padding-inline:var(--gutter);display:grid;gap:24px;max-width:min(980px,100%);margin-inline:auto}
 .scard{position:sticky;background:#fff;border:1px solid var(--line);border-radius:20px;padding:clamp(24px,3vw,44px);box-shadow:0 -18px 46px rgba(22,24,43,.09)}
 .scard:nth-child(1){top:110px}.scard:nth-child(2){top:150px}.scard:nth-child(3){top:190px}.scard:nth-child(4){top:230px}
 .snum{font-size:clamp(40px,4vw,80px);font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:1.5px #4a3aff}
@@ -84,7 +126,7 @@ document.querySelectorAll(".conv").forEach(el=>io.observe(el));`
 .ladder h2{font-size:var(--fs-demo);max-width:18ch;margin:12px 0}
 .ladder p{color:var(--muted);max-width:52ch;margin:0 0 22px}
 .replay{margin-top:30px;align-self:flex-start}`,
-  html:`<div class="ladder go">
+  html:`<div class="ladder">
 <span class="kick lad l1">רגע הזהות</span>
 <h2 class="lad l2">כל שורה נכנסת 150 אלפיות אחרי קודמתה</h2>
 <p class="lad l3">הסולם שמור להירו בלבד. ככה נשמרת הטבעיות בשאר העמוד.</p>
@@ -93,26 +135,16 @@ document.querySelectorAll(".conv").forEach(el=>io.observe(el));`
 <button class="gbtn replay" style="background:#16182b">הפעל שוב</button>
 </div>`,
   js:`const lad=document.querySelector(".ladder");
-document.querySelector(".replay").addEventListener("click",()=>{
-  lad.classList.remove("go");void lad.offsetHeight;lad.classList.add("go");
-});`,
+// go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל
+// והרכיבים פשוט מופיעים גמורים. זאת גם הסיבה ל-void offsetHeight בהפעלה חוזרת.
+const play=()=>{lad.classList.remove("go");void lad.offsetHeight;lad.classList.add("go")};
+let started=false;const start=()=>{if(started)return;started=true;play()};
+requestAnimationFrame(()=>requestAnimationFrame(start));
+setTimeout(start,80);   // רשת ביטחון: בטאב מוסתר rAF מושהה והכותרת הייתה נשארת נעלמת
+document.querySelector(".replay").addEventListener("click",play);`,
   runway:false
 },
-{
-  id:"lm6", cat:"lm", name:"ההדר המתממש", tech:"CSS + scroll listener", status:"ממתין",
-  desc:"הדר שקוף בראש העמוד; אחרי גלילה קצרה הרקע, הצל והגבול מתממשים ברכות.",
-  when:"כמעט כל אתר. המתכון שחזר בשבעה מהאתרים של ליאב.",
-  css:`.mhdr{position:sticky;top:0;z-index:70;display:flex;justify-content:space-between;align-items:center;padding:18px var(--gutter);transition:background .3s,box-shadow .3s,border-color .3s,padding .3s;border-bottom:1px solid transparent}
-.mhdr.scrolled{background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-color:var(--line);box-shadow:0 6px 24px rgba(22,24,43,.07);padding-block:12px}
-.mhdr b{font-size:19px}
-.mhdr nav{display:flex;gap:22px;font-size:14px;color:var(--muted)}
-.mhero{height:60vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#eef 0%,#fff 100%);color:var(--muted)}`,
-  html:`<div class="mhdr"><b>לוגו<span style="color:var(--accent)">.</span></b><nav><span>בית</span><span>אודות</span><span>שירותים</span><span>צור קשר</span></nav></div>
-<div class="mhero">גלול וצפה בהדר למעלה מתממש</div>`,
-  js:`const h=document.querySelector(".mhdr");
-function onS(){h.classList.toggle("scrolled",scrollY>40)}
-onS();addEventListener("scroll",onS,{passive:true});`
-},
+
 {
   id:"lm7", cat:"lm", name:"אוצר ההובר: לחיצה / הרמה / צמיחה", tech:"CSS transitions", status:"ממתין",
   desc:"שלוש משפחות ההובר: כרטיס מדיה נלחץ פנימה (0.97), כרטיס תוכן מתרומם אלכסונית, ו-CTA צומח עם סיבוב קטן. משפחה אחת לאלמנט, לעולם לא שתיים.",
@@ -138,15 +170,33 @@ onS();addEventListener("scroll",onS,{passive:true});`
   when:"פסי אווירה באתרי וואו. פעם אחת בעמוד.",
   css:`.tiltm-wrap{transform:rotate(-3deg);width:104vw;margin-inline-start:-2vw;background:#16182b;padding-block:20px;overflow:hidden}
 .tiltm{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.tiltm-track{display:inline-flex;gap:48px;padding-inline-end:48px;animation:marq 26s linear infinite}
-.tiltm-track span{font-weight:800;font-size:24px;color:rgba(255,255,255,.55)}
+/* ההזזה היא רוחב קבוצה מדויק בפיקסלים, ומספר העותקים נגזר מרוחב המסך */
+.tiltm-track{display:flex;width:max-content;animation:marq linear infinite;animation-duration:var(--marq-dur,26s)}
+.tiltm-set{display:flex;gap:48px;padding-inline-end:48px}
+.tiltm-track span{font-weight:800;font-size:24px;color:rgba(255,255,255,.55);white-space:nowrap}
 .tiltm-track i{font-style:normal;color:#f49e40}
-@keyframes marq{from{transform:translateX(0)}to{transform:translateX(50%)}}`,
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(var(--marq-shift,50%))}}`,
   html:`<div class="stage full"><div class="tiltm-wrap" data-dragmarq><div class="tiltm"><div class="tiltm-track">
-<span>עיצוב</span><i>·</i><span>פיתוח</span><i>·</i><span>אסטרטגיה</span><i>·</i><span>תנועה</span><i>·</i>
-<span>עיצוב</span><i>·</i><span>פיתוח</span><i>·</i><span>אסטרטגיה</span><i>·</i><span>תנועה</span><i>·</i>
+<div class="tiltm-set"><span>עיצוב</span><i>·</i><span>פיתוח</span><i>·</i><span>אסטרטגיה</span><i>·</i><span>תנועה</span><i>·</i></div>
 </div></div></div></div>`,
-  js:`const dm=document.querySelector("[data-dragmarq]");
+  js:`(function(){
+  // אותו מנגנון כמו ב-b01: מספר העותקים נגזר מרוחב המסך, וההזזה היא רוחב קבוצה מדויק
+  function build(){
+    const wrap=document.querySelector(".tiltm"),track=document.querySelector(".tiltm-track");
+    const proto=track.firstElementChild;
+    [...track.children].slice(1).forEach(c=>c.remove());
+    const setW=proto.getBoundingClientRect().width;
+    if(!setW)return;
+    const need=Math.ceil(wrap.getBoundingClientRect().width/setW)+1;
+    for(let i=1;i<need;i++){const c=proto.cloneNode(true);c.setAttribute("aria-hidden","true");track.appendChild(c);}
+    track.style.setProperty("--marq-shift",setW+"px");
+    track.style.setProperty("--marq-dur",(setW/58).toFixed(2)+"s");
+  }
+  build();
+  if(document.fonts)document.fonts.ready.then(build);
+  let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(build,200);});
+})();
+const dm=document.querySelector("[data-dragmarq]");
 let tick=false;
 function frame(){tick=false;
   const r=dm.getBoundingClientRect();

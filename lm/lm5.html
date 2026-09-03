@@ -35,7 +35,7 @@
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
-<div class="ladder go">
+<div class="ladder">
 <span class="kick lad l1">רגע הזהות</span>
 <h2 class="lad l2">כל שורה נכנסת 150 אלפיות אחרי קודמתה</h2>
 <p class="lad l3">הסולם שמור להירו בלבד. ככה נשמרת הטבעיות בשאר העמוד.</p>
@@ -59,9 +59,13 @@ document.querySelector(".mvid").addEventListener("click",function(){
 });
 
 const lad=document.querySelector(".ladder");
-document.querySelector(".replay").addEventListener("click",()=>{
-  lad.classList.remove("go");void lad.offsetHeight;lad.classList.add("go");
-});
+// go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל
+// והרכיבים פשוט מופיעים גמורים. זאת גם הסיבה ל-void offsetHeight בהפעלה חוזרת.
+const play=()=>{lad.classList.remove("go");void lad.offsetHeight;lad.classList.add("go")};
+let started=false;const start=()=>{if(started)return;started=true;play()};
+requestAnimationFrame(()=>requestAnimationFrame(start));
+setTimeout(start,80);   // רשת ביטחון: בטאב מוסתר rAF מושהה והכותרת הייתה נשארת נעלמת
+document.querySelector(".replay").addEventListener("click",play);
 </script>
 </body>
 </html>

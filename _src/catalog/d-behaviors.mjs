@@ -1,19 +1,44 @@
 // Behaviors B1-B16 (מקור: references/library/behaviors.md + engine/motion.md)
 export default [
 {
-  id:"b01", cat:"behavior", name:"מרקי (רצועה נעה)", tech:"CSS keyframes", status:"מאושר",
-  desc:"רצועת תוכן שזורמת בלולאה מושלמת: התוכן משוכפל פעמיים בדיוק, מסכת קצה ממיסה את החיתוך, והובר עוצר.",
+  id:"b01", cat:"behavior", name:"מרקי (רצועה נעה)", tech:"CSS keyframes + שכפול מדוד", status:"ממתין",
+  desc:"רצועת תוכן שזורמת בלולאה מושלמת: העותקים משוכפלים לפי רוחב המסך, ההזזה היא רוחב קבוצה מדויק, ומסכת קצה ממיסה את החיתוך. הובר עוצר.",
   when:"נקודות אמון בתחתית הירו, רצועת לוגואים, פסי אווירה.",
   css:`.marq{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);border-block:1px solid var(--line);background:#fff;padding-block:22px}
-.marq-track{display:inline-flex;gap:56px;padding-inline-end:56px;animation:marq 32s linear infinite}
+/* ההזזה היא רוחב קבוצה אחת בפיקסלים (משתנה שנקבע ב-JS), ולא אחוז מהרצועה.
+   אחוז נשבר ברגע שמספר העותקים משתנה, ופיקסלים מדויקים תמיד. */
+.marq-track{display:flex;width:max-content;animation:marq linear infinite;animation-duration:var(--marq-dur,32s)}
 .marq:hover .marq-track{animation-play-state:paused}
-.marq-track span{font-weight:800;font-size:22px;color:#c3c5d6}
-@keyframes marq{from{transform:translateX(0)}to{transform:translateX(50%)}}`,
+/* הריווח בין הקבוצות יושב על כל קבוצה בצד הפנימי, ולכן גם התפר וגם הסגירה זהים */
+.marq-set{display:flex;gap:56px;padding-inline-end:56px}
+.marq-track span{font-weight:800;font-size:22px;color:#c3c5d6;white-space:nowrap}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(var(--marq-shift,50%))}}`,
   html:`<div class="stage tight full"><div class="marq" aria-hidden="true"><div class="marq-track">
-<span>אמינות</span><span>·</span><span>מקצועיות</span><span>·</span><span>שירות</span><span>·</span><span>ניסיון</span><span>·</span>
-<span>אמינות</span><span>·</span><span>מקצועיות</span><span>·</span><span>שירות</span><span>·</span><span>ניסיון</span><span>·</span>
+<div class="marq-set"><span>אמינות</span><span>·</span><span>מקצועיות</span><span>·</span><span>שירות</span><span>·</span><span>ניסיון</span><span>·</span></div>
 </div></div></div>`,
-  js:``, runway:false
+  js:`(function(){
+  // כמה עותקים צריך: אחרי הזזה של קבוצה אחת, מה שנשאר חייב עדיין לכסות את כל הרוחב.
+  // שני עותקים בלבד משאירים שטח ריק בקצה ברגע שהקבוצה צרה מהמסך.
+  function build(marq){
+    const track=marq.querySelector(".marq-track");
+    const proto=track.firstElementChild;
+    [...track.children].slice(1).forEach(c=>c.remove());
+    const setW=proto.getBoundingClientRect().width;
+    if(!setW)return;
+    const need=Math.ceil(marq.getBoundingClientRect().width/setW)+1;
+    for(let i=1;i<need;i++){
+      const c=proto.cloneNode(true);c.setAttribute("aria-hidden","true");track.appendChild(c);
+    }
+    track.style.setProperty("--marq-shift",setW+"px");
+    // מהירות אחידה בפיקסלים לשנייה, כדי שתוכן ארוך לא ירוץ מהר יותר
+    track.style.setProperty("--marq-dur",(setW/55).toFixed(2)+"s");
+  }
+  const all=[...document.querySelectorAll(".marq")];
+  all.forEach(build);
+  // מדידה לפני שהפונט נטען נותנת רוחב קטן יותר, וההזזה יוצאת קצרה מקבוצה שלמה: קפיצה בכל סיבוב
+  if(document.fonts)document.fonts.ready.then(()=>all.forEach(build));
+  let t;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>all.forEach(build),200);});
+})();`, runway:false
 },
 {
   id:"b02", cat:"behavior", name:"Count-Up (מספר שסופר)", tech:"vanilla JS · IntersectionObserver", status:"מאושר",
@@ -103,7 +128,7 @@ document.querySelectorAll(".main-cta").forEach(el=>io.observe(el));`,
 },
 {
   id:"b04", cat:"behavior", name:"קרוסלת מובייל עם Peek", tech:"CSS scroll-snap", status:"מאושר",
-  desc:"גלילה אופקית עם snap רך (proximity, לא mandatory) והצצה לקלף הבא, כדי שהגולש ידע שיש עוד.",
+  desc:"גלילה אופקית עם snap רך (proximity, לא mandatory) והצצה לקלף הבא, כדי שהגולש ידע שיש עוד. בעכבר נוספת גרירה וגלגלת, אחרת בדסקטופ הרצועה נראית תקועה.",
   when:"מחירון וכרטיסים במובייל. בדסקטופ פורשים בגריד.",
   css:`.peek{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x proximity;padding:10px var(--gutter) 26px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
 .peek::-webkit-scrollbar{display:none}
@@ -112,92 +137,34 @@ document.querySelectorAll(".main-cta").forEach(el=>io.observe(el));`,
   html:`<div class="stage tight"><div class="peek">
 <div class="ph ph-a">בסיסי</div><div class="ph ph-b">מומלץ</div><div class="ph ph-c">פרימיום</div><div class="ph ph-d">ארגוני</div>
 <div class="spacer"></div>
-</div><p class="center" style="color:var(--muted);font-size:13px">גרור הצידה (או צפה במובייל)</p></div>`,
-  js:``, runway:false
+</div><p class="center" style="color:var(--muted);font-size:13px">גרור עם העכבר, או גלגל למטה מעל הרצועה</p></div>`,
+  js:`(function(){
+  const el=document.querySelector(".peek");
+  // במובייל הגלילה נטיבית ועובדת. בדסקטופ אין מגע, פס הגלילה מוסתר בכוונה,
+  // והקרוסלה נראית מתה לגמרי. לכן בעכבר מוסיפים גרירה וגלגלת.
+  if(!matchMedia("(pointer:fine)").matches)return;
+  const rtl=getComputedStyle(el).direction==="rtl";
+  el.style.cursor="grab";
+  let down=false,sx=0,sl=0;
+  el.addEventListener("pointerdown",e=>{
+    down=true;sx=e.clientX;sl=el.scrollLeft;el.style.cursor="grabbing";
+    el.setPointerCapture(e.pointerId);
+  });
+  el.addEventListener("pointermove",e=>{if(down)el.scrollLeft=sl-(e.clientX-sx)});
+  const up=e=>{if(!down)return;down=false;el.style.cursor="grab";
+    try{el.releasePointerCapture(e.pointerId)}catch(_){}}; 
+  el.addEventListener("pointerup",up);el.addEventListener("pointercancel",up);
+  el.addEventListener("wheel",e=>{
+    if(Math.abs(e.deltaY)<=Math.abs(e.deltaX))return;
+    e.preventDefault();el.scrollLeft+=(rtl?-1:1)*e.deltaY;
+  },{passive:false});
+})();`, runway:false
 },
-{
-  id:"b05", cat:"behavior", name:"מודאל / Bottom-Sheet", tech:"CSS transitions · vanilla JS", status:"מאושר",
-  desc:"במובייל גיליון שעולה מלמטה עם ידית; בדסקטופ דיאלוג ממורכז. סגירה ב-Escape ובלחיצה על הרקע.",
-  when:"טפסים קופצים, פרטים נוספים, אישורים.",
-  css:`.modal-bg{position:fixed;inset:0;background:rgba(22,24,43,.45);opacity:0;pointer-events:none;transition:opacity .28s;z-index:90}
-.modal-bg.on{opacity:1;pointer-events:auto}
-.sheet{position:fixed;z-index:91;background:#fff;transition:translate .32s cubic-bezier(.2,.6,.2,1),opacity .32s}
-@media(max-width:767px){.sheet{inset-inline:0;bottom:0;border-radius:20px 20px 0 0;padding:16px 22px 34px;translate:0 100%}
-.sheet.on{translate:0 0}
-.sheet .handle{width:40px;height:4px;border-radius:99px;background:#d5d5e2;margin:0 auto 18px}}
-@media(min-width:768px){.sheet{top:50%;inset-inline-start:50%;translate:50% calc(-50% + 16px);width:min(440px,90vw);border-radius:18px;padding:28px 32px;opacity:0;pointer-events:none}
-.sheet.on{translate:50% -50%;opacity:1;pointer-events:auto}
-.sheet .handle{display:none}}`,
-  html:`<div class="stage tight center"><button class="gbtn open-m">פתח מודאל</button></div>
-<div class="modal-bg"></div>
-<div class="sheet"><div class="handle"></div><h3 style="margin:0 0 8px">כותרת המודאל</h3><p style="color:var(--muted);margin:0 0 18px">בדסקטופ אני דיאלוג ממורכז, במובייל גיליון מלמטה. נסה גם Escape.</p><button class="gbtn close-m">סגור</button></div>`,
-  js:`const bg=document.querySelector(".modal-bg"),sh=document.querySelector(".sheet");
-function setM(on){bg.classList.toggle("on",on);sh.classList.toggle("on",on);document.body.style.overflow=on?"hidden":""}
-document.querySelector(".open-m").addEventListener("click",()=>setM(true));
-document.querySelector(".close-m").addEventListener("click",()=>setM(false));
-bg.addEventListener("click",()=>setM(false));
-addEventListener("keydown",e=>{if(e.key==="Escape")setM(false)});`,
-  runway:false
-},
-{
-  id:"b06", cat:"behavior", name:"כרטיסי נתון צפים על ויז'ואל", tech:"CSS absolute", status:"מאושר",
-  desc:"שני כרטיסי מספר קטנים צפים בפינות מנוגדות של ויז'ואל, חצי בפנים חצי בחוץ. זה מה שמוכר את העומק.",
-  when:"הירו עם תמונה, הדגמת מערכת. במובייל מוסתרים או יורדים לשורת צ'יפים.",
-  css:`.fv-wrap{position:relative;width:min(620px,82vw);margin-inline:auto}
-.fv-img{aspect-ratio:16/10;font-size:22px}
-.fstat{position:absolute;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 20px;box-shadow:0 14px 40px rgba(22,24,43,.13)}
-.fstat b{display:block;font-size:26px;color:var(--accent)}
-.fstat small{color:var(--muted);font-size:13px}
-.fs1{top:-24px;inset-inline-end:-20px}
-.fs2{bottom:-24px;inset-inline-start:-20px}
-@media(max-width:767px){.fstat{display:none}}`,
-  html:`<div class="stage tight"><div class="fv-wrap">
-<div class="fv-img ph ph-b">הוויז'ואל המרכזי</div>
-<div class="fstat fs1"><b>97%</b><small>שיפור מדיד</small></div>
-<div class="fstat fs2"><b>+340</b><small>לקוחות פעילים</small></div>
-</div></div>`,
-  js:``, runway:false
-},
-{
-  id:"b07", cat:"behavior", name:"כרטיס-גיבור בגריד", tech:"CSS", status:"מאושר",
-  desc:"כרטיס כהה אחד בתוך גריד בהיר מושך את העין בדיוק למה שמוכרים.",
-  when:"עד 25% מהגריד, לא צמודים זה לזה.",
-  css:`.hg{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);padding-inline:var(--gutter)}
-.hg .gcard h3{margin:0 0 6px;font-size:18px}
-.hg .gcard p{margin:0;color:var(--muted);font-size:14px}
-.hg .hero-card{background:linear-gradient(150deg,#16182b,#33355c);border-color:transparent;color:#fff}
-.hg .hero-card p{color:#b9bbd4}
-@media(max-width:767px){.hg{grid-template-columns:1fr}}`,
-  html:`<div class="stage tight"><div class="hg">
-<div class="gcard"><h3>שירות רגיל</h3><p>תיאור קצר של השירות.</p></div>
-<div class="gcard hero-card"><h3>השירות המרכזי ⭐</h3><p>העין הגיעה לכאן קודם, נכון?</p></div>
-<div class="gcard"><h3>שירות נוסף</h3><p>תיאור קצר של השירות.</p></div>
-</div></div>`,
-  js:``, runway:false
-},
-{
-  id:"b08", cat:"behavior", name:"אינדקס ממוספר (001)", tech:"CSS", status:"מאושר",
-  desc:"מספר סידורי קטן ומעומעם בפינת כל כרטיס. עיטור עריכתי שמוסיף תחושת סדרה.",
-  when:"כרטיסי שירותים ותהליכים בעור soft-modern ודומיו.",
-  css:`.ix{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);padding-inline:var(--gutter)}
-.ix .gcard{position:relative;padding-top:44px}
-.ix .n{position:absolute;top:16px;inset-inline-start:20px;font-size:12px;font-weight:600;letter-spacing:.12em;color:#b9bbd4}
-@media(max-width:767px){.ix{grid-template-columns:1fr}}`,
-  html:`<div class="stage tight"><div class="ix">
-<div class="gcard"><span class="n">001</span><h3 style="margin:0 0 6px">אפיון</h3><p style="margin:0;color:var(--muted)">מבינים את העסק לעומק.</p></div>
-<div class="gcard"><span class="n">002</span><h3 style="margin:0 0 6px">עיצוב</h3><p style="margin:0;color:var(--muted)">נותנים למסר פנים.</p></div>
-<div class="gcard"><span class="n">003</span><h3 style="margin:0 0 6px">השקה</h3><p style="margin:0;color:var(--muted)">עולים לאוויר ומודדים.</p></div>
-</div></div>`,
-  js:``, runway:false
-},
-{
-  id:"b09", cat:"behavior", name:"רגע המילה הענקית", tech:"CSS", status:"מאושר",
-  desc:"מילה רגשית אחת בגודל ענק כוויז'ואל של סקשן שלם.",
-  when:"אחת לעמוד. זה רגע, לא שיטה.",
-  css:`.giant{font-size:clamp(80px,14vw,240px);font-weight:800;line-height:1;letter-spacing:-.02em;background:linear-gradient(120deg,#4a3aff,#c2255c);-webkit-background-clip:text;background-clip:text;color:transparent}`,
-  html:`<div class="stage center"><div class="giant">נמכר!</div><p style="color:var(--muted)">והלוויינים הקטנים מסביב משלימים את הסיפור.</p></div>`,
-  js:``
-},
+
+
+
+
+
 {
   id:"b10", cat:"behavior", name:"קווי שיער (Hairlines)", tech:"CSS gradient", status:"מאושר",
   desc:"מפריד בגובה פיקסל שנמס בקצוות במקום להיחתך.",

@@ -57,7 +57,7 @@
     <div class="cx-foot"><span class="cx-name">מערכות</span><p class="cx-body">ממשק פנימי לניהול לקוחות, משימות ודוחות במקום גיליונות.</p></div></div>
 </div></div>
 
-<div class="demo-note">החלק שנשבר אצל רוב מי שבונה את זה לבד הוא הכותרת: היא עוברת בין אופקי לאנכי ובין שני גדלים, ואם לא מוסיפים `props:"fontSize"` ל-getState היא קופצת. הרוחב עצמו לא מונפש ידנית אלא נגזר מ-flex, ולכן זה מחזיק גם כשמוסיפים עמודה חמישית. **מלכודת**: כל prop שמעבירים ל-Flip נשאר כסגנון אינליין בסוף התנועה ודורס את ה-CSS, ולכן העמודה הקודמת נשארת פתוחה למראה. לכן ה-opacity מנוהל ב-CSS בלבד וה-fontSize מנוקה ב-clearProps. הובר לבד אינו נגיש, ולכן אותו פותח רשום גם על click ועל focus, והעמודות מקבלות tabIndex.</div>
+<div class="demo-note">החלק שנשבר אצל רוב מי שבונה את זה לבד הוא הכותרת: היא עוברת בין אופקי לאנכי ובין שני גדלים, ואם לא מוסיפים `props:"fontSize"` ל-getState היא קופצת. הרוחב עצמו לא מונפש ידנית אלא נגזר מ-flex, ולכן זה מחזיק גם כשמוסיפים עמודה חמישית. **מלכודת**: כל prop שמעבירים ל-Flip נשאר כסגנון אינליין בסוף התנועה ודורס את ה-CSS, ולכן העמודה הקודמת נשארת פתוחה למראה. לכן ה-opacity מנוהל ב-CSS בלבד. הובר לבד אינו נגיש, ולכן אותו פותח רשום גם על click ועל focus, והעמודות מקבלות tabIndex.</div>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -74,19 +74,20 @@ document.querySelector(".mvid").addEventListener("click",function(){
 gsap.registerPlugin(Flip);
 (function(){
   const cols=[...document.querySelectorAll(".cx-col")];
+  const names=cols.map(c=>c.querySelector(".cx-name"));
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const TEXT=".cx-name, .cx-body, .cx-num";
   let flip;
   function open(col){
     if(col.classList.contains("open"))return;
     if(flip)flip.kill();                       // הובר מהיר: מבטלים נסיעה שלא הספיקה להסתיים
-    gsap.set(TEXT,{clearProps:"fontSize"});
-    // מודדים גם את גודל הגופן, אחרת הכותרת קופצת בין שני הגדלים במקום לזרום
-    const state=Flip.getState(".cx-col, "+TEXT,{props:"fontSize"});
+    const state=Flip.getState(cols);           // רק העמודות. הטקסט לא נכנס ל-Flip
     cols.forEach(c=>c.classList.toggle("open",c===col));
     if(reduce)return;
-    flip=Flip.from(state,{duration:.7,nested:true,absolute:true,ease:"power2.inOut",
-      onComplete:()=>gsap.set(TEXT,{clearProps:"fontSize"})});
+    flip=Flip.from(state,{duration:.6,ease:"power3.inOut"});
+    // הכותרת מחליפה כיוון כתיבה (אנכי מול אופקי) וגם גודל גופן. אין בין שני המצבים
+    // האלה מה לאינטרפל, וכשמכניסים אותה ל-Flip עם absolute היא נזרקת על המסך.
+    // לכן היא מוחלפת בהצלבה קצרה, וזה נראה נקי בכל כיוון הובר.
+    gsap.fromTo(names,{opacity:0},{opacity:1,duration:.28,ease:"power1.out",delay:.14,overwrite:true});
   }
   cols.forEach(c=>{
     c.addEventListener("mouseenter",()=>open(c));

@@ -164,20 +164,7 @@ animation:shine 3.2s linear infinite}
   js:`document.querySelector(".flipw").addEventListener("click",function(){this.classList.toggle("tap")});`,
   runway:false
 },
-{
-  id:"css11", cat:"css", name:"הקלדה חיה (Typewriter)", tech:"CSS steps() + keyframes", status:"מאושר",
-  desc:"טקסט שנכתב אות-אות עם סמן מהבהב. ב-CSS טהור דרך steps.",
-  when:"הירו של מוצרי טק ו-AI. שורה אחת קצרה.",
-  css:`.typew{display:flex;justify-content:center;direction:ltr}
-.type{font-size:clamp(22px,2.2vw,40px);font-weight:700;white-space:nowrap;overflow:hidden;
-border-inline-end:3px solid var(--accent);width:0;animation:typing 2.6s steps(22) .5s forwards,caret .8s step-end infinite}
-@keyframes typing{to{width:22ch}}
-@keyframes caret{50%{border-color:transparent}}
-@media(prefers-reduced-motion:reduce){.type{width:22ch;animation:caret .8s step-end infinite}}`,
-  html:`<div class="stage tight"><div class="typew"><div class="type">Building something new.</div></div>
-<p class="center" style="color:var(--muted);font-size:13px">הערה: steps של CSS עובד חלק באנגלית; לעברית עדיף מימוש JS מילה-מילה.</p></div>`,
-  js:``, runway:false
-},
+
 {
   id:"css12", cat:"css", name:"גבול גרדיאנט מסתובב", tech:"CSS @property + conic-gradient", status:"מאושר",
   desc:"מסגרת גרדיאנט שמסתובבת סביב הכרטיס בלולאה. אפקט פרימיום מודרני.",

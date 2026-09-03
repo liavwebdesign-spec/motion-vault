@@ -67,66 +67,7 @@ export default [
   runway:false,
   note:"מובייל: החלקה אנכית בתוך הגלריה מחליפה פריט; touch-action מוגדר כך שהחלקה אופקית ממשיכה לגלול את הדף."
 },
-{
-  id:"g34", cat:"gsap", name:"מיני-דמואים בלולאה בתוך כרטיסים", tech:"GSAP · timeline loops", status:"ממתין",
-  desc:"שלושה כרטיסי פיצ'ר, ובכל אחד הדגמה זעירה שרצה בלולאה אינסופית: סמן שמדלג בין שורות רשימה, שורת כפתורים שמתקדמת צעד-צעד, וערימת תמונות שמערבבת את עצמה.",
-  when:"סקשן פיצ'רים של מוצר או שירות. במקום אייקון סטטי, הכרטיס מראה את הפיצ'ר עובד. שקט, איטי, בלי לגנוב את העין מהטקסט.",
-  libs:["gsap"],
-  css:`.lp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);padding-inline:var(--gutter)}
-.lp-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
-.lp-screen{height:220px;background:#f2f2f7;display:grid;place-items:center;overflow:hidden;position:relative}
-.lp-card h3{margin:0;padding:18px 20px 4px;font-size:17px}
-.lp-card p{margin:0;padding:0 20px 20px;font-size:14px;color:var(--muted);line-height:1.5}
-.lp-list{position:relative;background:#fff;border-radius:12px;padding:14px 18px;width:210px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
-.lp-list div{height:28px;line-height:28px;font-size:13px;color:#a2a4b8;position:relative;z-index:1;transition:color .3s}
-.lp-list div.on{color:var(--ink);font-weight:700}
-.lp-mark{position:absolute;right:10px;top:14px;width:calc(100% - 20px);height:28px;border-radius:8px;background:#eceaff;z-index:0}
-.lp-pills{width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent);mask-image:linear-gradient(90deg,transparent,#000 15%,#000 85%,transparent)}
-.lp-track{display:flex;gap:10px;width:max-content;padding-inline:20px}
-.lp-track span{display:inline-block;padding:10px 18px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;font-weight:500;white-space:nowrap}
-.lp-track span:nth-child(1),.lp-track span:nth-child(6){background:var(--accent);color:#fff;border-color:transparent}
-.lp-fan{position:relative;width:120px;height:150px}
-.lp-fan div{position:absolute;inset:0;border-radius:10px;font-size:20px;box-shadow:0 8px 20px rgba(0,0,0,.12)}
-@media(max-width:767px){.lp-grid{grid-template-columns:1fr}}`,
-  html:`<div class="stage tight"><div class="lp-grid">
-  <div class="lp-card"><div class="lp-screen">
-    <div class="lp-list"><div class="lp-mark"></div><div>מבנה העמוד</div><div>עיצוב וטיפוגרפיה</div><div>אנימציית גלילה</div><div>התאמה למובייל</div><div>בדיקות ופרסום</div></div>
-  </div><h3>מדריך צעד אחר צעד</h3><p>כל שלב מסומן ומוסבר, בלי לדלג.</p></div>
-  <div class="lp-card"><div class="lp-screen">
-    <div class="lp-pills" dir="rtl"><div class="lp-track"><span>העתק</span><span>הורד</span><span>צפה בדמו</span><span>שתף</span><span>שמור</span><span>העתק</span><span>הורד</span><span>צפה בדמו</span><span>שתף</span><span>שמור</span></div></div>
-  </div><h3>מוכן לשימוש מיידי</h3><p>העתקה, הורדה או צפייה, בלחיצה אחת.</p></div>
-  <div class="lp-card"><div class="lp-screen">
-    <div class="lp-fan"><div class="ph ph-c">3</div><div class="ph ph-b">2</div><div class="ph ph-a">1</div></div>
-  </div><h3>מתאים את עצמו לתוכן</h3><p>מוסיפים או מורידים פריטים, הכל מסתדר לבד.</p></div>
-</div></div>`,
-  js:`(function(){
-  const lines=[...document.querySelectorAll(".lp-list div:not(.lp-mark)")],mark=document.querySelector(".lp-mark");
-  const tl1=gsap.timeline({repeat:-1,repeatDelay:.4});
-  lines.forEach((l,i)=>{tl1.to(mark,{y:i*28,duration:.45,ease:"power3.inOut",onStart:()=>{lines.forEach(x=>x.classList.remove("on"));l.classList.add("on");}},i?"+=.7":0);});
-  const track=document.querySelector(".lp-track"),pills=[...track.children],half=pills.length/2;
-  const step=()=>pills[1].getBoundingClientRect().left-pills[0].getBoundingClientRect().left;
-  const tl2=gsap.timeline({repeat:-1});
-  // -k*step() נותן את הכיוון הנכון בשני המצבים: ב-RTL step שלילי ולכן הרצועה זזה ימינה
-  // והפריטים נכנסים משמאל, ובאתר LTR ההפך. אין צורך לזהות כיוון ידנית.
-  for(let k=1;k<=half;k++){tl2.to(track,{x:()=>-k*step(),duration:.55,ease:"back.out(1.3)"},"+=.8");}
-  tl2.set(track,{x:0});
-  const fan=[...document.querySelectorAll(".lp-fan div")];
-  const rot=[8,0,-8],ys=[14,7,0];
-  let order=fan.slice().reverse();
-  function place(inst){order.forEach((c,i)=>gsap[inst?"set":"to"](c,{rotation:rot[i],y:ys[i],zIndex:i+1,x:0,duration:.5,ease:"power2.out"}));}
-  place(true);
-  function shuffle(){
-    const top=order.pop();order.unshift(top);
-    const t=gsap.timeline({onComplete:()=>gsap.delayedCall(1.1,shuffle)});
-    t.to(top,{x:-110,rotation:-22,duration:.38,ease:"power2.in"});
-    t.set(top,{zIndex:0});
-    t.add(()=>place(false));
-    t.to(top,{x:0,duration:.45,ease:"power2.out"},"<");
-  }
-  gsap.delayedCall(1.2,shuffle);
-})();`,
-  runway:false
-},
+
 {
   id:"g35", cat:"gsap", name:"טקסט ענק זורם על גל בגלילה", tech:"GSAP · ScrollTrigger · SplitText", status:"ממתין",
   desc:"משפט ענק, רחב מהמסך, מוצמד למסך ונוסע לרוחבו בקצב הגלילה. כל מילה מתנדנדת על גל משלה, כך שהשורה נראית כמו סרט שמתגלגל ולא כמו טקסט שזז.",
@@ -214,9 +155,11 @@ export default [
   libs:["gsap","ScrollTrigger","Lenis"],
   css:`html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
 .ln-block{margin:clamp(60px,8vw,140px) var(--gutter);display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:center}
-.ln-block:nth-child(even){direction:ltr}.ln-block .ph{height:min(340px,46vw);font-size:26px}
+/* היפוך סדר העמודות בלבד. direction:ltr על הבלוק היה הופך גם את הטקסט העברי עצמו. */
+.ln-block:nth-child(even)>:first-child{order:2}
+.ln-block .ph{height:min(340px,46vw);font-size:26px}
 .ln-block h3{font-size:clamp(24px,2.4vw,40px);margin:0 0 10px}.ln-block p{color:var(--muted);margin:0}
-.ln-toggle{position:fixed;bottom:22px;left:22px;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.ln-toggle{position:fixed;bottom:22px;inset-inline-start:22px;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.18)}
 @media(max-width:767px){.ln-block{grid-template-columns:1fr}}`,
   html:`<div class="ln-block"><div><h3>הגלילה ממשיכה קצת אחרי שעזבת</h3><p>Lenis מוסיף אינרציה עדינה, כמו טראקפד טוב.</p></div><div class="ph ph-a">1</div></div>
 <div class="ln-block"><div><h3>ה-ScrollTrigger לא יודע שמשהו השתנה</h3><p>הוא מקבל עדכון מכל פריים של Lenis דרך הטיקר של GSAP.</p></div><div class="ph ph-b">2</div></div>

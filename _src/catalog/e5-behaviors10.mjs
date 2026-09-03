@@ -13,7 +13,7 @@ export default [
 .fg-chip:hover{border-color:var(--accent)}
 .fg-chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .fg-count{margin-inline-start:auto;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
-.fg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+.fg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);position:relative;background:var(--bg)}
 .fg-item{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
 .fg-item .ph{height:clamp(150px,15vw,210px);border-radius:0;font-size:22px}
 .fg-item h3{margin:0;padding:16px 18px 4px;font-size:17px}
@@ -47,10 +47,12 @@ export default [
   js:`(function(){
   const chips=[...document.querySelectorAll(".fg-chip")],items=[...document.querySelectorAll(".fg-item")];
   const count=document.querySelector(".fg-count"),empty=document.querySelector(".fg-empty");
+  const grid=document.querySelector(".fg-grid");
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function apply(f){
+  function apply(f,animate){
     // Flip: מצלמים את המצב לפני, משנים את ה-DOM, והספרייה מנפישה את ההפרש
     const state=Flip.getState(items,{props:"opacity"});
+    const h0=grid.getBoundingClientRect().height;
     let shown=0;
     items.forEach(it=>{
       const vis=f==="all"||it.dataset.c===f;
@@ -59,31 +61,40 @@ export default [
     });
     count.textContent=shown+" מתוך "+items.length;
     empty.classList.toggle("on",shown===0);
-    if(reduce)return;
+    if(reduce||!animate)return;                 // הקריאה הראשונה רק מסמנת מצב, בלי אנימציה על טעינה
+    const h1=grid.getBoundingClientRect().height;
+    // absolute:true מוציא את הכרטיסים מהזרימה, הגריד מתכווץ לאפס, וכל מה שמתחתיו
+    // עולה למעלה ומציץ מאחורי הכרטיסים המרחפים. מנפישים את גובה הגריד במקביל.
+    gsap.fromTo(grid,{height:h0},{height:h1,duration:.55,ease:"power2.inOut",
+      onComplete:()=>gsap.set(grid,{clearProps:"height"})});
     Flip.from(state,{duration:.55,ease:"power2.inOut",scale:true,absolute:true,
       onEnter:els=>gsap.fromTo(els,{opacity:0,scale:.9},{opacity:1,scale:1,duration:.4}),
       onLeave:els=>gsap.to(els,{opacity:0,scale:.9,duration:.25})});
   }
   chips.forEach(c=>c.addEventListener("click",()=>{
     chips.forEach(x=>x.classList.toggle("on",x===c));
-    apply(c.dataset.f);
+    apply(c.dataset.f,true);
   }));
-  apply("all");
+  apply("all",false);
 })();`,
   runway:false,
-  note:"Flip פותר את הבעיה האמיתית בגריד מסונן: בלעדיו הפריטים קופצים למקום החדש בפריים אחד. absolute:true מונע קפיצה כשמספר השורות משתנה, ו-onEnter ו-onLeave מטפלים בפריטים שנכנסים ויוצאים לגמרי. תחת prefers-reduced-motion הסינון עדיין עובד, פשוט בלי תנועה."
+  note:"Flip פותר את הבעיה האמיתית בגריד מסונן: בלעדיו הפריטים קופצים למקום החדש בפריים אחד. absolute:true מונע קפיצה כשמספר השורות משתנה, אבל הוא גם מרוקן את הגריד ולכן חייבים להנפיש את גובהו במקביל, ו-onEnter ו-onLeave מטפלים בפריטים שנכנסים ויוצאים לגמרי. תחת prefers-reduced-motion הסינון עדיין עובד, פשוט בלי תנועה."
 },
 {
   id:"b35", cat:"behavior", name:"ציר תהליך אנכי עם קו שמתמלא", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"שלבים אחד מתחת לשני, וקו אנכי שמתמלא בקצב הגלילה. כל שלב נדלק כשהקו מגיע אליו, והמספר שלו מתמלא בצבע.",
   when:"איך עובדים איתנו, מסלול טיפול, שלבי פרויקט, מה קורה אחרי שמשאירים פרטים. הגרסה האנכית עובדת מצוין במובייל, בניגוד לציר אופקי.",
   libs:["gsap","ScrollTrigger"],
-  css:`.vt{position:relative;max-width:min(780px,92vw);margin-inline:auto;padding-inline-start:clamp(46px,6vw,72px)}
-.vt-rail{position:absolute;inset-block:14px 10px;inset-inline-start:clamp(15px,2vw,24px);width:2px;background:var(--line);border-radius:2px}
+  css:`/* כל הגאומטריה נגזרת משלושה משתנים. כשהקו והעיגולים מקבלים כל אחד clamp משלו
+   הם מתיישרים במקרה ברוחב אחד ומתפצלים בכל השאר, וזה נראה כמו קו עקום. */
+.vt{--vt-pad:clamp(46px,6vw,72px);--vt-x:clamp(4px,1vw,12px);--vt-dot:clamp(24px,3vw,34px);
+  position:relative;max-width:min(780px,92vw);margin-inline:auto;padding-inline-start:var(--vt-pad)}
+.vt-rail{position:absolute;inset-block:14px 10px;width:2px;background:var(--line);border-radius:2px;
+  inset-inline-start:calc(var(--vt-x) + var(--vt-dot)/2 - 1px)}
 .vt-fill{position:absolute;inset-block-start:0;inset-inline:0;height:0;background:var(--accent);border-radius:2px}
 .vt-step{position:relative;padding-block:clamp(18px,2.4vw,34px)}
-.vt-dot{position:absolute;inset-inline-start:calc(clamp(46px,6vw,72px) * -1 + clamp(4px,1vw,12px));top:calc(clamp(18px,2.4vw,34px) + 2px);
-  width:clamp(24px,3vw,34px);height:clamp(24px,3vw,34px);border-radius:50%;background:var(--card);border:2px solid var(--line);
+.vt-dot{position:absolute;inset-inline-start:calc(var(--vt-pad) * -1 + var(--vt-x));top:calc(clamp(18px,2.4vw,34px) + 2px);
+  width:var(--vt-dot);height:var(--vt-dot);border-radius:50%;background:var(--card);border:2px solid var(--line);
   display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--muted);transition:background .35s,border-color .35s,color .35s}
 .vt-step.on .vt-dot{background:var(--accent);border-color:var(--accent);color:#fff}
 .vt-step h3{margin:0 0 6px;font-size:clamp(19px,2vw,26px);color:var(--muted);transition:color .35s}

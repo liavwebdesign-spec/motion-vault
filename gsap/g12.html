@@ -7,9 +7,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
-.para{position:relative;height:80vh;background:#101223;border-radius:var(--r);overflow:hidden;display:flex;align-items:center;justify-content:center;margin-inline:var(--gutter)}
-.para .layer{position:absolute;border-radius:50%}
-.para h2{color:#fff;position:relative;z-index:2;font-size:var(--fs-h2)}
+.para{position:relative;height:86vh;background:#101223;border-radius:var(--r);overflow:hidden;
+  display:flex;align-items:center;justify-content:center;margin-inline:var(--gutter)}
+.para .layer{position:absolute;border-radius:50%;will-change:transform}
+.para h2{color:#fff;position:relative;z-index:2;font-size:var(--fs-h2);text-align:center;padding-inline:var(--gutter)}
+.para-hint{text-align:center;color:var(--muted);font-size:14px;padding-top:18px}
 </style>
 </head>
 <body>
@@ -23,18 +25,20 @@
   <button class="mvid" data-mvid="MV:g12"><code>MV:g12</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
-  <p>שכבות באותו סקשן נעות במהירויות שונות בגלילה. עומק בלי אף תמונה.</p>
+  <p>שכבות באותו סקשן נעות במהירויות שונות בגלילה, מהעמוקה ועד הקרובה, והכותרת נעה בכיוון ההפוך. עומק בלי אף תמונה.</p>
   <p class="when"><b>מתי משתמשים:</b> הירו עשיר, סקשני אווירה. במובייל מקדם מוקטן או כבוי.</p>
   <div class="mvpanel" data-mvpanel="g12"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
-<div class="stage tight"><div class="para">
-<div class="layer" data-speed="0.7" style="width:240px;height:240px;background:rgba(94,124,255,.35);top:8%;right:12%"></div>
-<div class="layer" data-speed="1" style="width:130px;height:130px;background:rgba(255,169,77,.4);bottom:16%;right:32%"></div>
-<div class="layer" data-speed="1.35" style="width:180px;height:180px;background:rgba(56,217,169,.35);top:22%;left:14%"></div>
+<div class="stage"><div class="para">
+<div class="layer" data-depth="0.22" style="width:min(46vw,340px);aspect-ratio:1;background:rgba(94,124,255,.30);top:-6%;right:8%"></div>
+<div class="layer" data-depth="0.45" style="width:min(30vw,210px);aspect-ratio:1;background:rgba(255,169,77,.34);bottom:4%;right:30%"></div>
+<div class="layer" data-depth="0.72" style="width:min(34vw,250px);aspect-ratio:1;background:rgba(56,217,169,.30);top:10%;left:10%"></div>
+<div class="layer" data-depth="1" style="width:min(20vw,140px);aspect-ratio:1;background:rgba(233,89,12,.34);bottom:-4%;left:26%"></div>
 <h2>שכבות בעומק שונה</h2>
-</div></div>
+</div>
+<p class="para-hint">גלול. ככל שהשכבה קרובה יותר, כך היא נעה מהר יותר.</p></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -51,10 +55,21 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 });
 gsap.registerPlugin(ScrollTrigger);
-gsap.utils.toArray(".para .layer").forEach(el=>{
-  gsap.to(el,{y:()=>(1-parseFloat(el.dataset.speed))*240,ease:"none",
-    scrollTrigger:{trigger:".para",start:"top bottom",end:"bottom top",scrub:true}});
-});
+(function(){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+  const RANGE=260;                       // המרחק המלא של השכבה העמוקה ביותר
+  gsap.utils.toArray(".para .layer").forEach(el=>{
+    const d=parseFloat(el.dataset.depth);
+    // fromTo סימטרי סביב המיקום ב-CSS: בכניסה למסך השכבה למטה, ביציאה למעלה,
+    // ובאמצע היא בדיוק במקום שבו עוצבה. עם to בלבד היא מתחילה במקום ולא זזה עד הסוף.
+    gsap.fromTo(el,{y:d*RANGE},{y:-d*RANGE,ease:"none",
+      scrollTrigger:{trigger:".para",start:"top bottom",end:"bottom top",scrub:.4}});
+  });
+  // הכותרת נעה מעט בכיוון ההפוך, וזה מה שמחדד את תחושת המרחק
+  gsap.fromTo(".para h2",{y:-40},{y:40,ease:"none",
+    scrollTrigger:{trigger:".para",start:"top bottom",end:"bottom top",scrub:.4}});
+})();
 </script>
 </body>
 </html>

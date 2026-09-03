@@ -96,19 +96,20 @@ export default [
 </div></div>`,
   js:`(function(){
   const cols=[...document.querySelectorAll(".cx-col")];
+  const names=cols.map(c=>c.querySelector(".cx-name"));
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const TEXT=".cx-name, .cx-body, .cx-num";
   let flip;
   function open(col){
     if(col.classList.contains("open"))return;
     if(flip)flip.kill();                       // הובר מהיר: מבטלים נסיעה שלא הספיקה להסתיים
-    gsap.set(TEXT,{clearProps:"fontSize"});
-    // מודדים גם את גודל הגופן, אחרת הכותרת קופצת בין שני הגדלים במקום לזרום
-    const state=Flip.getState(".cx-col, "+TEXT,{props:"fontSize"});
+    const state=Flip.getState(cols);           // רק העמודות. הטקסט לא נכנס ל-Flip
     cols.forEach(c=>c.classList.toggle("open",c===col));
     if(reduce)return;
-    flip=Flip.from(state,{duration:.7,nested:true,absolute:true,ease:"power2.inOut",
-      onComplete:()=>gsap.set(TEXT,{clearProps:"fontSize"})});
+    flip=Flip.from(state,{duration:.6,ease:"power3.inOut"});
+    // הכותרת מחליפה כיוון כתיבה (אנכי מול אופקי) וגם גודל גופן. אין בין שני המצבים
+    // האלה מה לאינטרפל, וכשמכניסים אותה ל-Flip עם absolute היא נזרקת על המסך.
+    // לכן היא מוחלפת בהצלבה קצרה, וזה נראה נקי בכל כיוון הובר.
+    gsap.fromTo(names,{opacity:0},{opacity:1,duration:.28,ease:"power1.out",delay:.14,overwrite:true});
   }
   cols.forEach(c=>{
     c.addEventListener("mouseenter",()=>open(c));
@@ -118,7 +119,7 @@ export default [
   });
 })();`,
   runway:false,
-  note:"החלק שנשבר אצל רוב מי שבונה את זה לבד הוא הכותרת: היא עוברת בין אופקי לאנכי ובין שני גדלים, ואם לא מוסיפים `props:\"fontSize\"` ל-getState היא קופצת. הרוחב עצמו לא מונפש ידנית אלא נגזר מ-flex, ולכן זה מחזיק גם כשמוסיפים עמודה חמישית. **מלכודת**: כל prop שמעבירים ל-Flip נשאר כסגנון אינליין בסוף התנועה ודורס את ה-CSS, ולכן העמודה הקודמת נשארת פתוחה למראה. לכן ה-opacity מנוהל ב-CSS בלבד וה-fontSize מנוקה ב-clearProps. הובר לבד אינו נגיש, ולכן אותו פותח רשום גם על click ועל focus, והעמודות מקבלות tabIndex."
+  note:"החלק שנשבר אצל רוב מי שבונה את זה לבד הוא הכותרת: היא עוברת בין אופקי לאנכי ובין שני גדלים, ואם לא מוסיפים `props:\"fontSize\"` ל-getState היא קופצת. הרוחב עצמו לא מונפש ידנית אלא נגזר מ-flex, ולכן זה מחזיק גם כשמוסיפים עמודה חמישית. **מלכודת**: כל prop שמעבירים ל-Flip נשאר כסגנון אינליין בסוף התנועה ודורס את ה-CSS, ולכן העמודה הקודמת נשארת פתוחה למראה. לכן ה-opacity מנוהל ב-CSS בלבד. הובר לבד אינו נגיש, ולכן אותו פותח רשום גם על click ועל focus, והעמודות מקבלות tabIndex."
 },
 {
   id:"g47", cat:"gsap", name:"אלמנט שנוסע בין תחנות לאורך הגלילה", tech:"GSAP · Flip.fit · ScrollTrigger", status:"ממתין",

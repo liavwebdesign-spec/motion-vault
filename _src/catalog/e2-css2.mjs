@@ -12,19 +12,7 @@ background:linear-gradient(90deg,#4a3aff,#c2255c,#e8590c,#4a3aff);background-siz
   html:`<div class="stage tight center"><h2 class="gtext">גרדיאנט שנושם לאט</h2></div>`,
   js:``, runway:false
 },
-{
-  id:"css14", cat:"css", name:"וילון נפתח על תמונה", tech:"CSS clip-path hover", status:"ממתין",
-  desc:"שכבת צבע מכסה את התמונה ונפתחת כמו וילון בהובר, וכיתוב נחשף.",
-  when:"כרטיסי פורטפוליו וגלריות עבודות.",
-  css:`.curtain{position:relative;width:min(420px,80vw);aspect-ratio:4/3;margin-inline:auto;border-radius:var(--r);overflow:hidden;cursor:pointer;font-size:20px}
-.curtain .cover{position:absolute;inset:0;background:#16182b;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;clip-path:inset(0 0 0 0);transition:clip-path .5s cubic-bezier(.2,.6,.2,1)}
-.curtain:hover .cover{clip-path:inset(0 0 0 100%)}
-html[dir="rtl"] .curtain:hover .cover{clip-path:inset(0 100% 0 0)}`,
-  html:`<div class="stage tight"><div class="curtain ph ph-d">התמונה מתחת
-<div class="cover">שם הפרויקט: עבור עליי</div>
-</div></div>`,
-  js:``, runway:false
-},
+
 {
   id:"css15", cat:"css", name:"כרטיס תלת-ממד עוקב עכבר", tech:"CSS 3D + JS זעיר", status:"ממתין",
   desc:"הכרטיס מוטה בעדינות לכיוון הסמן, עם הבזק אור שנע על הפנים.",
@@ -72,23 +60,7 @@ html[dir="ltr"] .rprog{transform-origin:left}
 </div>`,
   js:``
 },
-{
-  id:"css18", cat:"css", name:"חשיפה ב-view-timeline (בלי JS!)", tech:"CSS scroll-driven", status:"ממתין",
-  desc:"כרטיסים שנחשפים כשהם נכנסים למסך, בלי IntersectionObserver בכלל: animation-timeline: view().",
-  when:"העתיד של ה-reveal. כרום ואדג' היום, עם fallback רגיל לשאר.",
-  css:`.vt-list{display:grid;gap:26px;max-width:560px;margin-inline:auto;padding-inline:var(--gutter)}
-.vt{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;
-animation:vtIn linear both;animation-timeline:view();animation-range:entry 0% entry 60%}
-@keyframes vtIn{from{opacity:0;translate:0 30px;scale:.97}to{opacity:1;translate:0 0;scale:1}}
-@media(prefers-reduced-motion:reduce){.vt{animation:none}}`,
-  html:`<div class="stage tight vt-list">
-<div class="vt"><b>כרטיס ראשון:</b> נחשפתי בזכות CSS בלבד.</div>
-<div class="vt"><b>כרטיס שני:</b> animation-timeline: view() עוקב אחרי הכניסה שלי למסך.</div>
-<div class="vt"><b>כרטיס שלישי:</b> וגם ההיעלמות בגלילה חזרה חלקה.</div>
-<div class="vt"><b>כרטיס רביעי:</b> אפס שורות JavaScript.</div>
-</div>`,
-  js:``
-},
+
 {
   id:"css19", cat:"css", name:"מרקי אנכי (עדויות)", tech:"CSS keyframes", status:"ממתין",
   desc:"טור עדויות שזורם כלפי מעלה בלולאה, עם מסכת קצוות ועצירה בהובר.",
@@ -131,17 +103,17 @@ transform:skewX(-20deg);animation:sweep 3.4s ease-in-out infinite}
   desc:"מתג הפעלה וצ'קבוקס עם וי שמצויר: המיקרו-אינטראקציות שגורמות לטופס להרגיש חי.",
   when:"טפסים, הגדרות, בחירת מסלול חודשי/שנתי.",
   css:`.toggles{display:flex;gap:50px;justify-content:center;align-items:center}
-.sw{position:relative;width:58px;height:32px;display:inline-block;cursor:pointer}
+.sw{position:relative;width:48px;height:27px;display:inline-block;cursor:pointer}
 .sw input{opacity:0;width:0;height:0}
 .sw .tr{position:absolute;inset:0;background:#d5d5e2;border-radius:999px;transition:background .25s}
-.sw .tr::before{content:"";position:absolute;top:4px;inset-inline-start:4px;width:24px;height:24px;border-radius:50%;background:#fff;transition:translate .25s cubic-bezier(.2,.6,.2,1)}
+.sw .tr::before{content:"";position:absolute;top:3.5px;inset-inline-start:3.5px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:translate .25s cubic-bezier(.2,.6,.2,1)}
 .sw input:checked+.tr{background:#12b76a}
-.sw input:checked+.tr::before{translate:-26px 0}
-html[dir="ltr"] .sw input:checked+.tr::before{translate:26px 0}
+.sw input:checked+.tr::before{translate:-21px 0}
+html[dir="ltr"] .sw input:checked+.tr::before{translate:21px 0}
 .cb{display:inline-flex;gap:10px;align-items:center;cursor:pointer;font-size:15px}
 .cb input{opacity:0;position:absolute}
-.cb .box{width:24px;height:24px;border:2px solid #d5d5e2;border-radius:7px;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.cb .box svg{width:14px;height:14px;stroke:#fff;stroke-width:3;fill:none;stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset .25s .05s}
+.cb .box{width:19px;height:19px;flex:0 0 19px;border:1.8px solid #d5d5e2;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s}
+.cb .box svg{width:11px;height:11px;stroke:#fff;stroke-width:3.2;fill:none;stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset .25s .05s}
 .cb input:checked~.box{background:var(--accent);border-color:var(--accent)}
 .cb input:checked~.box svg{stroke-dashoffset:0}`,
   html:`<div class="stage tight"><div class="toggles">
@@ -150,18 +122,5 @@ html[dir="ltr"] .sw input:checked+.tr::before{translate:26px 0}
 </div></div>`,
   js:``, runway:false
 },
-{
-  id:"css22", cat:"css", name:"בלוב נושם", tech:"CSS border-radius keyframes", status:"ממתין",
-  desc:"צורה אורגנית שמשנה את קימוריה לאט. רקע חי לאזורי הירו רכים.",
-  when:"מאחורי תמונות ואייקונים בעורות רכים. אחד-שניים לעמוד.",
-  css:`.blob2{width:min(300px,64vw);aspect-ratio:1;margin-inline:auto;background:linear-gradient(140deg,#d0bfff,#91d5ff);
-border-radius:58% 42% 55% 45%/45% 58% 42% 55%;animation:blobm 9s ease-in-out infinite alternate;display:flex;align-items:center;justify-content:center;font-weight:700;color:#4a3f8f}
-@keyframes blobm{
-0%{border-radius:58% 42% 55% 45%/45% 58% 42% 55%}
-50%{border-radius:45% 55% 40% 60%/60% 42% 58% 40%}
-100%{border-radius:52% 48% 60% 40%/42% 55% 45% 58%}}
-@media(prefers-reduced-motion:reduce){.blob2{animation:none}}`,
-  html:`<div class="stage tight"><div class="blob2">נושם לאט</div></div>`,
-  js:``, runway:false
-}
+
 ];

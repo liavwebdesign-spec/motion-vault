@@ -10,10 +10,12 @@
 .hwrap{overflow:hidden;background:#fff}
 .hcont{display:flex;position:relative;padding-block:130px}
 .step{flex:0 0 36vw;display:flex;flex-direction:column;align-items:center;text-align:center;padding-inline:20px}
-.step .dot{width:18px;height:18px;border-radius:50%;background:#3b5bdb;margin-bottom:14px}
+.step .dot{width:18px;height:18px;border-radius:50%;background:#3b5bdb;margin-bottom:14px;position:relative;z-index:2}
 .step h3{margin:0 0 6px;font-size:20px}
 .step p{margin:0;color:var(--muted)}
-.tline{position:absolute;top:calc(130px + 8px);inset-inline-start:0;height:2px;width:200%;background:linear-gradient(90deg,#3b5bdb,#22b8cf)}
+.tline-rail,.tline{position:absolute;top:calc(130px + 8px);inset-inline-start:0;height:2px;width:180vw}
+.tline-rail{background:#e6e8f2}
+.tline{background:linear-gradient(270deg,#3b5bdb,#22b8cf);transform-origin:100% 50%;will-change:transform}
 </style>
 </head>
 <body>
@@ -34,7 +36,7 @@
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="hwrap"><div class="hcont">
-<div class="tline"></div>
+<div class="tline-rail"></div><div class="tline"></div>
 <div class="step s1"><div class="dot"></div><h3>אפיון</h3><p>מבינים את העסק</p></div>
 <div class="step s2"><div class="dot"></div><h3>קופי</h3><p>כותבים את הסיפור</p></div>
 <div class="step s3"><div class="dot"></div><h3>עיצוב</h3><p>נותנים לו פנים</p></div>
@@ -57,20 +59,26 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 });
 gsap.registerPlugin(ScrollTrigger);
-const panels=gsap.utils.toArray(".step");
+const steps=gsap.utils.toArray(".step");
 const hc=document.querySelector(".hcont");
-const totalW=hc.scrollWidth-window.innerWidth;
-const dist=()=> "+="+totalW*1.6;
-gsap.to(panels,{x:totalW,ease:"none",
-  scrollTrigger:{trigger:".hwrap",pin:true,scrub:true,start:"top top",end:dist(),anticipatePin:1}});
-gsap.from(".tline",{x:"45vw",ease:"none",
-  scrollTrigger:{trigger:".hwrap",scrub:true,start:"top top",end:dist()}});
-panels.forEach((s,i)=>{
+const rails=[document.querySelector(".tline-rail"),document.querySelector(".tline")];
+const total=()=>hc.scrollWidth-innerWidth;
+
+gsap.set(steps.slice(1),{opacity:.22});
+gsap.set(".tline",{scaleX:0});
+
+// הכל יושב על טיימליין אחד שמחובר לפין. ScrollTrigger נפרד לכל תחנה,
+// שמכוון לאותו אלמנט מפונן, מחשב טווחים על מיקום שמשתנה מתחתיו והשלבים נשארים שקופים.
+const tl=gsap.timeline({scrollTrigger:{
+  trigger:".hwrap",pin:true,scrub:.5,start:"top top",
+  end:()=>"+="+total()*1.6,anticipatePin:1,invalidateOnRefresh:true}});
+
+tl.to([...steps,...rails],{x:()=>total(),ease:"none",duration:1},0)
+  .to(".tline",{scaleX:1,ease:"none",duration:1},0);
+
+steps.forEach((el,i)=>{
   if(i===0)return;
-  gsap.from(s,{opacity:.2,ease:"none",
-    scrollTrigger:{trigger:".hwrap",scrub:true,
-      start:()=>"top+="+(totalW*1.6*(i/panels.length))+" top",
-      end:()=>"top+="+(totalW*1.6*((i+.4)/panels.length))+" top"}});
+  tl.to(el,{opacity:1,ease:"none",duration:.1},i/steps.length*0.9);
 });
 </script>
 </body>

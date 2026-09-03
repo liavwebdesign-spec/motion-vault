@@ -15,23 +15,26 @@ export default [
   transform:translate(-50%,0);will-change:transform}
 .wh-item{position:absolute;top:0;left:50%;width:clamp(120px,15vh,220px);aspect-ratio:3/4;
   margin-inline-start:calc(clamp(120px,15vh,220px) / -2);
-  border-radius:14px;overflow:hidden;transform-origin:50% calc(min(190vh,190vw) / 2)}
-.wh-item .ph{position:absolute;inset:0;border-radius:0;font-size:0}
-.wh-item b{position:absolute;inset-inline:0;bottom:0;padding:8px 10px;color:#fff;font-size:13px;
+  transform-origin:50% calc(min(190vh,190vw) / 2)}
+/* שכבה פנימית אחת שמסובבת-נגד. סיבוב נפרד של התמונה ושל התווית מסובב כל אחת
+   סביב מרכז אחר, והתווית שיושבת בתחתית נשברת החוצה מהמסגרת. */
+.wh-inner{position:absolute;inset:0;border-radius:14px;overflow:hidden;will-change:transform}
+.wh-inner .ph{position:absolute;inset:0;border-radius:0;font-size:0}
+.wh-inner b{position:absolute;inset-inline:0;bottom:0;padding:8px 10px;color:#fff;font-size:13px;
   background:linear-gradient(transparent,rgba(0,0,0,.6))}
 .wh-after{padding:14vh var(--gutter);max-width:min(680px,92vw);margin-inline:auto;text-align:center;
   color:var(--muted);font-size:17px;line-height:1.9}`,
   html:`<div class="wh"><div class="wh-stick">
   <div class="wh-title"><h3>העבודות שלנו</h3><p>גלול. הגלגל מסתובב והפריטים עולים בתורם.</p></div>
   <div class="wh-wheel">
-    <div class="wh-item"><div class="ph ph-a"></div><b>משרד עורכי דין</b></div>
-    <div class="wh-item"><div class="ph ph-c"></div><b>מותג קוסמטיקה</b></div>
-    <div class="wh-item"><div class="ph ph-d"></div><b>קורס דיגיטלי</b></div>
-    <div class="wh-item"><div class="ph ph-e"></div><b>פורטל לקוחות</b></div>
-    <div class="wh-item"><div class="ph ph-b"></div><b>קליניקה פרטית</b></div>
-    <div class="wh-item"><div class="ph ph-f"></div><b>יבואן ריהוט</b></div>
-    <div class="wh-item"><div class="ph ph-a"></div><b>סטודיו צילום</b></div>
-    <div class="wh-item"><div class="ph ph-c"></div><b>רשת מסעדות</b></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-a"></div><b>משרד עורכי דין</b></div></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-c"></div><b>מותג קוסמטיקה</b></div></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-d"></div><b>קורס דיגיטלי</b></div></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-e"></div><b>פורטל לקוחות</b></div></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-b"></div><b>קליניקה פרטית</b></div></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-f"></div><b>יבואן ריהוט</b></div></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-a"></div><b>סטודיו צילום</b></div></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-c"></div><b>רשת מסעדות</b></div></div>
   </div>
 </div></div>
 <p class="wh-after">אותו מנגנון עובד גם עם שמות שנים או שלבי תהליך במקום תמונות, וגם בכיוון ההפוך.</p>`,
@@ -41,19 +44,28 @@ export default [
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
   const SPREAD=13;                                   // מעלות בין פריט לפריט
   const START=(items.length-1)*SPREAD/2;
-  // כל פריט מסובב סביב מרכז הגלגל, ואז מסובב חזרה בעצמו כדי להישאר ישר
-  items.forEach((el,i)=>{
+
+  const angles=items.map((el,i)=>{
     const a=-START+i*SPREAD;
     gsap.set(el,{rotation:a});
-    gsap.set(el.querySelector(".ph"),{rotation:-a});
-    gsap.set(el.querySelector("b"),{rotation:-a});
+    return a;
   });
-  if(reduce)return;
-  gsap.fromTo(wheel,{rotation:START},{rotation:-START,ease:"none",
-    scrollTrigger:{trigger:".wh",start:"top top",end:"bottom bottom",scrub:.7}});
+
+  if(reduce){items.forEach((el,i)=>gsap.set(el.querySelector(".wh-inner"),{rotation:-angles[i]}));return;}
+
+  // ההטיה האמיתית של פריט היא הזווית שלו על הגלגל ועוד סיבוב הגלגל עצמו, וזה משתנה
+  // לאורך כל הגלילה. סיבוב-נגד סטטי מיישר אותו רק בנקודה אחת ומטה אותו בכל השאר,
+  // ולכן שני הסיבובים יושבים על אותו טיימליין ומתקזזים בכל רגע.
+  const tl=gsap.timeline({scrollTrigger:{trigger:".wh",start:"top top",end:"bottom bottom",scrub:.7}});
+  tl.fromTo(wheel,{rotation:START},{rotation:-START,ease:"none",duration:1},0);
+  items.forEach((el,i)=>{
+    const a=angles[i];
+    tl.fromTo(el.querySelector(".wh-inner"),
+      {rotation:-(a+START)},{rotation:-(a-START),ease:"none",duration:1},0);
+  });
 })();`,
   runway:false,
-  note:"הכל נשען על `transform-origin` אחד: כל פריט מסובב סביב מרכז הגלגל שנמצא הרבה מתחת למסך, ולכן הוא נע על קשת ולא בקו ישר. הפריט מסובב בזווית שלו, והתוכן שבתוכו מסובב במינוס אותה זווית, וכך הוא נשאר ישר כלפי הצופה בזמן שהגלגל מסתובב. הגלגל עצמו רחב מהמסך בכוונה, כדי שהקשת תיראה כמעט ישרה ולא כמו קרוסלה עגולה. שני מספרים שולטים בהכל: המרווח בין הפריטים במעלות, וקוטר הגלגל. מרווח גדול מדי והפריטים מתפזרים, קוטר קטן מדי והקשת נעשית תלולה."
+  note:"הכל נשען על `transform-origin` אחד: כל פריט מסובב סביב מרכז הגלגל שנמצא הרבה מתחת למסך, ולכן הוא נע על קשת ולא בקו ישר. הפריט מסובב בזווית שלו, והתוכן שבתוכו מסובב במינוס הזווית **הכוללת**: זווית הפריט ועוד סיבוב הגלגל. **המלכודת**: סיבוב-נגד סטטי מיישר את התמונה רק בנקודת גלילה אחת ומטה אותה בכל השאר, ולכן שני הסיבובים חייבים לשבת על אותו טיימליין. ומלכודת שנייה: מסובבים שכבה פנימית אחת שעוטפת גם את התמונה וגם את התווית, כי סיבוב נפרד לכל אחת מסובב אותן סביב מרכזים שונים והתווית נשברת החוצה. הגלגל עצמו רחב מהמסך בכוונה, כדי שהקשת תיראה כמעט ישרה ולא כמו קרוסלה עגולה. שני מספרים שולטים בהכל: המרווח בין הפריטים במעלות, וקוטר הגלגל. מרווח גדול מדי והפריטים מתפזרים, קוטר קטן מדי והקשת נעשית תלולה."
 },
 {
   id:"g58", cat:"gsap", name:"כותרת ענקית שרואים דרכה את המדיה", tech:"GSAP · ScrollTrigger · background-clip", status:"ממתין",

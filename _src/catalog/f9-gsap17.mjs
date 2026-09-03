@@ -100,19 +100,36 @@ export default [
   const move=gsap.fromTo(track,{x:-dist()},{x:0,ease:"none",
     scrollTrigger:{trigger:".ctr",start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
   if(reduce)return;
-  // מודדים כל פריט מול מרכז המסך בכל פריים, וזה זול יותר מטריגר לכל פריט
-  gsap.ticker.add(()=>{
-    const mid=innerWidth/2;
+
+  // הדעיכה נמדדת ביחידות של כרטיס אחד ולא של חצי מסך. עם חצי מסך גם השכן הצמוד
+  // מקבל כמעט את אותו גודל, ואז אין באמת פריט אחד שתופס את תשומת הלב.
+  const step=()=>{
+    const first=items[0].getBoundingClientRect();
+    const gap=items.length>1?Math.abs(items[1].getBoundingClientRect().left-first.left):first.width;
+    return gap||first.width||1;
+  };
+  const paint=()=>{
+    const mid=innerWidth/2,unit=step();
     items.forEach(el=>{
       const r=el.getBoundingClientRect();
-      const d=Math.abs(r.left+r.width/2-mid)/mid;          // 0 במרכז, 1 בקצה
-      const f=gsap.utils.clamp(0,1,1-d);
-      gsap.set(el,{scale:.82+f*.28,filter:"blur("+((1-f)*3).toFixed(2)+"px)",zIndex:Math.round(f*10)});
+      const d=Math.min(1,Math.abs(r.left+r.width/2-mid)/(unit*1.7)); // 0 במרכז, 1 בערך שני כרטיסים משם
+      const f=1-d*d;                                             // דעיכה רכה בקצה, חדה במרכז
+      gsap.set(el,{scale:.84+f*.24,opacity:.5+f*.5,
+        filter:"blur("+((1-f)*2.4).toFixed(2)+"px)",zIndex:Math.round(f*10)});
     });
-  });
+  };
+
+  // הלולאה רצה רק כשהרצועה על המסך. בלי זה היא מודדת שישה אלמנטים בכל פריים
+  // לכל אורך העמוד, גם כשאין מה לראות.
+  let running=false;
+  const startLoop=()=>{if(!running){running=true;gsap.ticker.add(paint)}};
+  const stopLoop=()=>{if(running){running=false;gsap.ticker.remove(paint)}};
+  ScrollTrigger.create({trigger:".ctr",start:"top bottom",end:"bottom top",
+    onToggle:self=>self.isActive?startLoop():stopLoop()});
+  paint();
 })();`,
   runway:false,
-  note:"שני דברים. הראשון הוא מלכודת ה-RTL שכבר תפסה אותנו: ילד `width:max-content` בתוך קונטיינר RTL מתחיל מהקצה הימני, ואז כל המדידות של ScrollTrigger יוצאות מוזזות. לכן המעטפת מקבלת `direction:ltr` והרצועה עצמה `rtl`. השני הוא שיטת המדידה: במקום טריגר נפרד לכל כרטיס, יש לולאת ticker אחת שמודדת את המרחק מהמרכז ומתרגמת אותו לגודל ולחדות. זה גם זול יותר וגם ממשיך לעבוד כשמוסיפים כרטיסים בלי לגעת בקוד."
+  note:"שני דברים. הראשון הוא מלכודת ה-RTL שכבר תפסה אותנו: ילד `width:max-content` בתוך קונטיינר RTL מתחיל מהקצה הימני, ואז כל המדידות של ScrollTrigger יוצאות מוזזות. לכן המעטפת מקבלת `direction:ltr` והרצועה עצמה `rtl`. השני הוא שיטת המדידה: במקום טריגר נפרד לכל כרטיס, יש לולאת ticker אחת שמודדת את המרחק מהמרכז ומתרגמת אותו לגודל, לאטימות ולחדות. **שני הידוקים שנדרשו**: המרחק נמדד ביחידות של רוחב כרטיס ולא של חצי מסך, אחרת גם השכן הצמוד כמעט זהה למרכזי ואין פריט אחד שמושך את העין; והלולאה נדלקת ונכבית עם ScrollTrigger, אחרת היא מודדת שישה אלמנטים בכל פריים לכל אורך העמוד."
 },
 {
   id:"g66", cat:"gsap", name:"רקע שמתחלף בין סקשנים בחשיפה מסכתית", tech:"GSAP · ScrollTrigger", status:"ממתין",

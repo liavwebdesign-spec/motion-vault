@@ -7,13 +7,42 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
-.conv{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);padding-inline:var(--gutter);align-items:center}
-.cv{background:#fff;border:1px solid var(--line);border-radius:18px;padding:34px;opacity:0;transition:opacity .7s cubic-bezier(.22,1,.36,1),translate .7s cubic-bezier(.22,1,.36,1)}
-.cv h3{margin:0 0 8px}.cv p{margin:0;color:var(--muted)}
-.cv.a{translate:-64px 0}.cv.b{translate:64px 0}
+.conv{display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(12px,2vw,26px);align-items:center;
+  padding-inline:var(--gutter);max-width:min(1060px,100%);margin-inline:auto}
+.cv{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,2.6vw,36px);
+  opacity:0;box-shadow:0 14px 34px rgba(22,24,43,.07);
+  transition:opacity .75s cubic-bezier(.22,1,.36,1),translate .75s cubic-bezier(.22,1,.36,1)}
+.cv-kick{display:inline-block;font-size:12px;letter-spacing:.14em;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;margin-bottom:14px}
+.cv h3{margin:0 0 8px;font-size:clamp(19px,2vw,25px);line-height:1.3}
+.cv p{margin:0;color:var(--muted);font-size:15px;line-height:1.7}
+.cv-stat{display:block;margin-top:16px;font-size:clamp(26px,3vw,40px);font-weight:800;line-height:1;color:var(--ink)}
+.cv-stat small{display:block;font-size:12px;font-weight:400;color:var(--muted);letter-spacing:.06em;margin-top:6px}
+.cv.a{border-top:3px solid #f49e40}
+.cv.b{border-top:3px solid #4a3aff}
+
+/* translate הוא פיזי ולא לוגי. עם הערכים ההפוכים שני הבלוקים מתחילים קרובים
+   ונפרדים החוצה, כלומר בדיוק ההפך מהצטלבות. */
+.cv.a{translate:70px 0}.cv.b{translate:-70px 0}
+html[dir="ltr"] .cv.a{translate:-70px 0}
+html[dir="ltr"] .cv.b{translate:70px 0}
+
+.cv-meet{width:clamp(38px,4vw,52px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
+  background:var(--ink);color:#fff;font-size:clamp(17px,2vw,22px);line-height:1;
+  scale:0;opacity:0;transition:scale .5s .28s cubic-bezier(.34,1.56,.64,1),opacity .4s .28s}
 .conv.met .cv{opacity:1;translate:0 0}
-.cv.warm{box-shadow:8px 8px 0 #f49e40;border-radius:16px}
-@media(max-width:767px){.conv{grid-template-columns:1fr}.cv.a,.cv.b{translate:0 24px}}
+.conv.met .cv-meet{scale:1;opacity:1}
+
+@media(max-width:767px){
+  .conv{grid-template-columns:1fr;gap:14px}
+  .cv.a,.cv.b{translate:0 26px}
+  html[dir="ltr"] .cv.a,html[dir="ltr"] .cv.b{translate:0 26px}
+  .cv-meet{justify-self:center}
+}
+@media (prefers-reduced-motion: reduce){
+  .cv,.cv-meet{transition-duration:.01ms}
+  .cv.a,.cv.b{translate:0 0}
+}
 </style>
 </head>
 <body>
@@ -27,18 +56,25 @@
   <button class="mvid" data-mvid="MV:lm3"><code>MV:lm3</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
-  <p>זוג בלוקים שנכנסים משני צדדים ונפגשים במרכז. התוכן צועד אחד לקראת השני.</p>
+  <p>זוג בלוקים שנכנסים משני צדדים ונפגשים בנקודה במרכז. התוכן צועד אחד לקראת השני, והמפגש עצמו מקבל סימן.</p>
   <p class="when"><b>מתי משתמשים:</b> לפני/אחרי, בעיה/פתרון, שני צדדים של סיפור. פעם-פעמיים בעמוד.</p>
   <div class="mvpanel" data-mvpanel="lm3"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="stage"><div class="conv">
-<div class="cv a warm"><h3>מה שרואים במגרש</h3><p>הביצועים שהיריב מרגיש.</p></div>
-<div class="cv b"><h3>מה שקורה מאחורי הקלעים</h3><p>הנתונים שמייצרים את הביצועים.</p></div>
+  <div class="cv a"><span class="cv-kick">מה שרואים</span>
+    <h3>הביצועים שהיריב מרגיש</h3>
+    <p>מה שקורה על המגרש: מהירות, החלטות ועמידות בדקות האחרונות.</p>
+    <span class="cv-stat">92%<small>שיפור נמדד בעונה</small></span></div>
+  <div class="cv-meet" aria-hidden="true">+</div>
+  <div class="cv b"><span class="cv-kick">מה שמאחורי</span>
+    <h3>הנתונים שמייצרים את הביצועים</h3>
+    <p>עומסי אימון, שינה והתאוששות. מה שאף אחד לא רואה בשידור.</p>
+    <span class="cv-stat">14<small>מדדים שנאספים כל יום</small></span></div>
 </div></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
-
+<div class="demo-note">**מלכודת RTL**: `translate` היא תכונה פיזית ולא לוגית. אם נותנים לבלוק הראשון ערך שלילי (כמו בעמוד אנגלי), בעברית הוא יושב מימין ומתחיל לזוז שמאלה, כלומר שני הבלוקים מתחילים קרובים ונפרדים החוצה. זה בדיוק ההפך מהמהלך. הערכים כאן הפוכים עם דריסה ל-`html[dir="ltr"]`. הנקודה במרכז היא מה שהופך את זה מ"שני כרטיסים שנכנסים" ל"מפגש": היא נכנסת באיחור של 0.28 שנייה, אחרי שהבלוקים כבר הגיעו.</div>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>

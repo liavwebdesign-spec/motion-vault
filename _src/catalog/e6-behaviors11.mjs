@@ -9,11 +9,12 @@ export default [
   css:`.stk{padding-inline:var(--gutter);padding-block:clamp(30px,4vw,60px)}
 .stk-card{position:sticky;border-radius:22px;padding:clamp(26px,3.4vw,54px);min-height:clamp(320px,42vh,440px);
   display:flex;flex-direction:column;justify-content:space-between;color:#fff;transform-origin:50% 0%;
-  box-shadow:0 -10px 40px rgba(0,0,0,.12);margin-bottom:clamp(18px,2.4vw,40px)}
-.stk-card:nth-child(1){top:14vh;background:#16182b}
-.stk-card:nth-child(2){top:calc(14vh + 22px);background:#4a3aff}
-.stk-card:nth-child(3){top:calc(14vh + 44px);background:#0b7285}
-.stk-card:nth-child(4){top:calc(14vh + 66px);background:#c2255c}
+  box-shadow:0 -14px 44px rgba(0,0,0,.16);margin-bottom:clamp(18px,2.4vw,40px);
+  will-change:transform,filter}
+.stk-card:nth-child(1){top:clamp(70px,13vh,120px);background:#16182b}
+.stk-card:nth-child(2){top:calc(clamp(70px,13vh,120px) + 18px);background:#4a3aff}
+.stk-card:nth-child(3){top:calc(clamp(70px,13vh,120px) + 36px);background:#0b7285}
+.stk-card:nth-child(4){top:calc(clamp(70px,13vh,120px) + 54px);background:#c2255c}
 .stk-num{font-size:13px;letter-spacing:.16em;opacity:.7}
 .stk-card h3{font-size:clamp(26px,3.4vw,52px);margin:14px 0 10px;font-weight:800;max-width:20ch}
 .stk-card p{margin:0;max-width:52ch;font-size:clamp(15px,1.4vw,18px);line-height:1.6;opacity:.86}
@@ -37,56 +38,71 @@ export default [
   if(reduce)return;
   cards.forEach((card,i)=>{
     if(i===cards.length-1)return;
-    // הכרטיס מתכווץ ומתעמעם בדיוק בזמן שהבא אחריו מטפס מעליו
-    gsap.to(card,{scale:.94,opacity:.55,ease:"none",
-      scrollTrigger:{trigger:cards[i+1],start:"top 80%",end:"top 22%",scrub:true}});
+    // הכרטיס נסוג לאחור בדיוק בזמן שהבא אחריו מטפס מעליו.
+    // ההחשכה היא filter ולא opacity: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס
+    // שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות.
+    gsap.to(card,{scale:.955,filter:"brightness(.62)",ease:"none",
+      scrollTrigger:{trigger:cards[i+1],start:"top 82%",end:"top 26%",scrub:true}});
   });
 })();`,
   runway:false,
-  note:"הערימה עצמה היא CSS טהור: position:sticky עם top שגדל בכמה פיקסלים לכל כרטיס, כך שנשארת מדרגה שמראה שיש עוד מתחת. ה-GSAP רק מוסיף את הכיווץ וההתעמעמות. transform-origin חייב להיות בראש הכרטיס, אחרת הכיווץ מזיז אותו כלפי מטה ונוצר רעד. תחת prefers-reduced-motion הערימה נשארת בלי הכיווץ."
+  note:"הערימה עצמה היא CSS טהור: position:sticky עם top שגדל בכמה פיקסלים לכל כרטיס, כך שנשארת מדרגה שמראה שיש עוד מתחת. ה-GSAP רק מוסיף את הכיווץ וההתעמעמות. transform-origin חייב להיות בראש הכרטיס, אחרת הכיווץ מזיז אותו כלפי מטה ונוצר רעד. **והנסיגה היא החשכה ולא שקיפות**: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות. תחת prefers-reduced-motion הערימה נשארת בלי הכיווץ."
 },
 {
   id:"b38", cat:"behavior", name:"הדר שמתחבא בגלילה וחוזר", tech:"JS · CSS transform", status:"ממתין",
-  desc:"בגלילה למטה ההדר מחליק החוצה ומפנה מסך, ובגלילה קלה למעלה הוא חוזר מיד. בראש העמוד הוא שקוף ומתמלא ברקע ברגע שיוצאים מהירו.",
+  desc:"בגלילה למטה ההדר מחליק החוצה ומפנה מסך, ובגלילה קלה למעלה הוא חוזר מיד. בראש העמוד הוא שקוף ומתמלא ברקע ברגע שיוצאים מהירו. כאן הוא רץ בתוך מסגרת גלילה עצמאית, כדי שאפשר יהיה לשפוט אותו בלי ההדר של המאגר מעליו.",
   when:"כל אתר. זו התנהגות ההדר הנפוצה ביותר, והיא פותרת את הקונפליקט בין ניווט תמיד זמין לבין מסך נקי לתוכן.",
   libs:[],
-  css:`.hd-bar{position:fixed;inset-inline:0;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
-  padding:16px var(--gutter);transition:transform .42s cubic-bezier(.2,.8,.2,1),background-color .35s,padding .35s,box-shadow .35s;
+  css:`.hd-frame{position:relative;height:clamp(420px,76vh,640px);overflow-y:auto;overscroll-behavior:contain;
+  border:1px solid var(--line);border-radius:var(--r);margin-inline:var(--gutter);background:var(--bg)}
+.hd-frame::-webkit-scrollbar{width:8px}
+.hd-frame::-webkit-scrollbar-thumb{background:#c9cbdb;border-radius:99px}
+.hd-hint{text-align:center;color:var(--muted);font-size:14px;margin:14px 0 0}
+/* sticky ולא fixed, כי כאן ההקשר הוא המסגרת. באתר אמיתי זה position:fixed על החלון. */
+.hd-bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:16px clamp(16px,3vw,30px);
+  transition:transform .42s cubic-bezier(.2,.8,.2,1),background-color .35s,padding .35s,box-shadow .35s;
   background:transparent}
 .hd-bar.solid{background:rgba(247,247,250,.9);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line);padding-block:11px}
 .hd-bar.up{transform:translateY(-105%)}
-.hd-bar nav{display:flex;gap:6px}
+.hd-bar nav{display:flex;gap:6px;flex-wrap:wrap}
 .hd-bar nav a{color:var(--ink);text-decoration:none;font-size:15px;padding:8px 14px;border-radius:999px;transition:background .25s}
 .hd-bar nav a:hover{background:#eceaff}
 .hd-cta{background:var(--ink);color:#fff!important;font-weight:600}
-.hd-hero{min-height:100vh;display:grid;place-items:center;text-align:center;padding-inline:var(--gutter);
+.hd-hero{min-height:100%;margin-top:-72px;display:grid;place-items:center;text-align:center;padding:90px clamp(16px,3vw,30px) 40px;
   background:linear-gradient(160deg,#eceaff,#f7f7fa)}
-.hd-hero h2{font-size:clamp(32px,5vw,78px);margin:0 0 10px;font-weight:800}
+.hd-hero h2{font-size:clamp(26px,3.6vw,52px);margin:0 0 10px;font-weight:800}
 .hd-hero p{margin:0;color:var(--muted)}
-.hd-body{padding:var(--sec) var(--gutter);max-width:62ch;margin-inline:auto;color:var(--muted)}
+.hd-body{padding:clamp(30px,5vw,70px) clamp(16px,3vw,30px);max-width:62ch;margin-inline:auto;color:var(--muted)}
 .hd-body p{margin:0 0 18px;line-height:1.8}
 @media (prefers-reduced-motion: reduce){.hd-bar{transition:background-color .3s}.hd-bar.up{transform:none}}`,
-  html:`<header class="hd-bar">
-  <strong>לוגו</strong>
-  <nav><a href="#">עבודות</a><a href="#">שירותים</a><a href="#">אודות</a><a class="hd-cta" href="#">דברו איתנו</a></nav>
-</header>
-<section class="hd-hero"><div><h2>גלול למטה וההדר ייעלם</h2><p>גלול קצת חזרה למעלה והוא יחזור מיד</p></div></section>
-<div class="hd-body">
-  <p>ההתנהגות הזאת פותרת בעיה אמיתית: הדר קבוע גוזל גובה יקר במובייל, אבל הדר שנעלם לגמרי מכריח את הגולש לחזור עד למעלה. הפשרה היא הדר שמגיב לכוונה: יורדים, הוא מתפנה; רוצים לנווט, מרימים קצת והוא כבר שם.</p>
-  <p>שני פרטים שקובעים אם זה מרגיש טוב: סף מרחק שמונע ריצוד בגלילות זעירות, וכניסה מיידית לרקע אטום ברגע שעוזבים את הירו, כדי שהטקסט מאחור לא יתערבב בניווט.</p>
-  <p>גלול עוד קצת. אחר כך גלול למעלה בעדינות.</p>
-  <p style="height:120vh"></p>
-  <p>עוד תוכן, כדי שיהיה מסלול גלילה אמיתי לבדיקה.</p>
-  <p style="height:120vh"></p>
-  <p>סוף העמוד.</p>
+  html:`<div class="stage tight">
+<div class="hd-frame">
+  <header class="hd-bar">
+    <strong>לוגו</strong>
+    <nav><a href="#">עבודות</a><a href="#">שירותים</a><a class="hd-cta" href="#">דברו איתנו</a></nav>
+  </header>
+  <section class="hd-hero"><div><h2>גלול למטה וההדר ייעלם</h2><p>גלול קצת חזרה למעלה והוא יחזור מיד</p></div></section>
+  <div class="hd-body">
+    <p>ההתנהגות הזאת פותרת בעיה אמיתית: הדר קבוע גוזל גובה יקר במובייל, אבל הדר שנעלם לגמרי מכריח את הגולש לחזור עד למעלה. הפשרה היא הדר שמגיב לכוונה: יורדים, הוא מתפנה; רוצים לנווט, מרימים קצת והוא כבר שם.</p>
+    <p>שני פרטים שקובעים אם זה מרגיש טוב: סף מרחק שמונע ריצוד בגלילות זעירות, וכניסה מיידית לרקע אטום ברגע שעוזבים את הירו, כדי שהטקסט מאחור לא יתערבב בניווט.</p>
+    <p>גלול עוד קצת בתוך המסגרת. אחר כך גלול למעלה בעדינות.</p>
+    <p style="height:70vh"></p>
+    <p>עוד תוכן, כדי שיהיה מסלול גלילה אמיתי לבדיקה.</p>
+    <p style="height:70vh"></p>
+    <p>סוף העמוד.</p>
+  </div>
+</div>
+<p class="hd-hint">גלול בתוך המסגרת, לא בעמוד.</p>
 </div>`,
   js:`(function(){
-  const bar=document.querySelector(".hd-bar");
-  const hero=document.querySelector(".hd-hero");
-  let last=window.scrollY,acc=0;
+  const frame=document.querySelector(".hd-frame");
+  const bar=frame.querySelector(".hd-bar");
+  const hero=frame.querySelector(".hd-hero");
+  let last=frame.scrollTop,acc=0;
   const THRESH=90;   // כמה צריך לגלול ברצף לפני שההדר מגיב. מונע ריצוד.
   function onScroll(){
-    const y=window.scrollY;
+    const y=frame.scrollTop;
     const d=y-last;last=y;
     bar.classList.toggle("solid",y>hero.offsetHeight*0.6);
     if(y<80){bar.classList.remove("up");acc=0;return;}
@@ -96,11 +112,11 @@ export default [
     if(acc>THRESH){bar.classList.add("up");acc=0;}
     if(acc<-THRESH){bar.classList.remove("up");acc=0;}
   }
-  addEventListener("scroll",onScroll,{passive:true});
+  frame.addEventListener("scroll",onScroll,{passive:true});
   onScroll();
 })();`,
   runway:false,
-  note:"הסף של 90 פיקסלים הוא הפרט החשוב: בלעדיו ההדר מרצד בכל תזוזה קטנה של הטראקפד. הצבירה מתאפסת בכל שינוי כיוון, ולכן גלילה קצרה למעלה מחזירה אותו מיד. מתחת ל-80 פיקסלים מהראש הוא תמיד גלוי, כדי שלא ייתקע מוסתר בראש העמוד."
+  note:"הסף של 90 פיקסלים הוא הפרט החשוב: בלעדיו ההדר מרצד בכל תזוזה קטנה של הטראקפד. הצבירה מתאפסת בכל שינוי כיוון, ולכן גלילה קצרה למעלה מחזירה אותו מיד. מתחת ל-80 פיקסלים מהראש הוא תמיד גלוי, כדי שלא ייתקע מוסתר בראש העמוד. **הערת דמו**: כאן ההדר הוא `position:sticky` בתוך מסגרת שגוללת בעצמה, כי לעמוד המאגר כבר יש הדר משלו ואי אפשר היה לשפוט את המהלך. בפרויקט אמיתי מחליפים לשורה אחת: `position:fixed` עם `inset-inline:0`, ומאזינים ל-window במקום למסגרת."
 },
 {
   id:"b39", cat:"behavior", name:"תפריט נפתח עם פאנל מונפש", tech:"JS · CSS grid-rows", status:"ממתין",
@@ -114,8 +130,9 @@ export default [
 .mm-btn{display:inline-flex;align-items:center;gap:7px;background:none;border:0;font:inherit;font-size:15px;color:var(--ink);
   padding:10px 14px;border-radius:999px;cursor:pointer;transition:background .22s}
 .mm-btn:hover,.mm-item.open .mm-btn{background:#eceaff}
-.mm-btn i{width:7px;height:7px;border-inline-end:2px solid currentColor;border-block-end:2px solid currentColor;
-  transform:rotate(45deg) translateY(-2px);transition:transform .3s}
+.mm-btn i{width:5px;height:5px;opacity:.6;border-inline-end:1.5px solid currentColor;border-block-end:1.5px solid currentColor;
+  transform:rotate(45deg) translateY(-2px);transition:transform .3s,opacity .22s}
+.mm-item.open .mm-btn i{opacity:1}
 .mm-item.open .mm-btn i{transform:rotate(225deg) translateY(-2px)}
 .mm-panel{position:absolute;inset-inline-start:0;top:calc(100% + 8px);min-width:min(560px,86vw);
   background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 22px 60px rgba(22,24,43,.14);

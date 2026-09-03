@@ -10,8 +10,11 @@
 .bgz{--bg:#f7f7fa;--fg:#16182b;--soft:#6a6d85;
   background:var(--bg);color:var(--fg);transition:background-color .8s ease,color .8s ease}
 .bgz-sec{min-height:92vh;display:grid;place-items:center;text-align:center;padding:8vh var(--gutter)}
-.bgz-sec h3{font-size:clamp(30px,4.4vw,72px);margin:0 0 14px;font-weight:800;max-width:18ch}
-.bgz-sec p{margin:0;max-width:46ch;color:var(--soft);font-size:17px;line-height:1.6}
+/* place-items:center ממרכז את העטיפה, אבל בתוכה כל בלוק עם max-width נצמד לצד ההתחלה.
+   בלי margin-inline:auto הכותרת הצרה יושבת בימין והפסקה הרחבה מתחתיה, וזה נראה עקום. */
+.bgz-sec h3{font-size:clamp(30px,4.4vw,72px);margin:0 auto 14px;font-weight:800;max-width:18ch}
+.bgz-sec p{margin:0 auto;max-width:46ch;color:var(--soft);font-size:17px;line-height:1.6}
+.bgz-sec>div{display:grid;justify-items:center}
 .bgz-tag{font-size:12px;letter-spacing:.18em;margin-bottom:18px;opacity:.6}
 .bgz-dot{width:10px;height:10px;border-radius:50%;background:currentColor;margin:26px auto 0;opacity:.4}
 .bgz-rail{position:fixed;inset-inline-end:18px;top:50%;transform:translateY(-50%);z-index:20;display:grid;gap:10px}

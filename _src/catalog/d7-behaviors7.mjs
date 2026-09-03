@@ -1,52 +1,6 @@
 // גל awwwards 13-16 (2.9.2026): נכרה מ-era-residence.com ומ-ronnsquare.fr. שחזור התנהגות בלבד, מאפס.
 export default [
-{
-  id:"b28", cat:"behavior", name:"חותם עגול עם טקסט שמסתובב", tech:"CSS transform · JS split", status:"ממתין",
-  desc:"טקסט שמסודר סביב מעגל ומסתובב לאט בלולאה, עם סמל במרכז. בהובר הסיבוב מאיץ קלות.",
-  when:"חותם איכות בהירו, תג \"מאז 1998\", כפתור צף של יצירת קשר, או חתימה בפוטר. אחד בעמוד, קטן ולא במרכז הבמה.",
-  libs:[],
-  css:`.seal-row{display:flex;gap:clamp(30px,6vw,90px);align-items:center;justify-content:center;flex-wrap:wrap}
-.seal{position:relative;width:var(--sz,168px);height:var(--sz,168px);display:grid;place-items:center;flex:none}
-.seal-ring{position:absolute;inset:0;animation:sealspin 22s linear infinite}
-.seal:hover .seal-ring{animation-duration:9s}
-@keyframes sealspin{to{transform:rotate(360deg)}}
-.seal-ch{position:absolute;inset-block-start:0;inset-inline-start:50%;height:50%;transform-origin:bottom center;font-size:var(--fs,12.5px);font-weight:700;letter-spacing:.02em}
-.seal-mid{width:44%;height:44%;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:calc(var(--sz,168px) * .17)}
-.seal.warm .seal-mid{background:#c2255c}
-.seal.warm .seal-ch{color:#c2255c}
-.seal.ghost .seal-mid{background:transparent;color:var(--ink);border:1px solid var(--line)}
-.seal-cap{text-align:center;color:var(--muted);font-size:14px;margin-top:26px}
-@media (prefers-reduced-motion: reduce){.seal-ring{animation:none}}`,
-  html:`<div class="stage tight"><div class="seal-row">
-  <div class="seal" style="--sz:186px"><span class="seal-ring" data-seal="· בונים אתרים מאז 2014 ">
-  </span><span class="seal-mid" aria-hidden="true">✦</span></div>
-  <div class="seal warm" style="--sz:150px;--fs:11.5px"><span class="seal-ring" data-seal="· אחריות מלאה · שירות אישי ">
-  </span><span class="seal-mid" aria-hidden="true">♥</span></div>
-  <div class="seal ghost" style="--sz:128px;--fs:10.5px"><span class="seal-ring" data-seal="· דברו איתנו · דברו איתנו ">
-  </span><span class="seal-mid" aria-hidden="true">←</span></div>
-</div>
-<p class="seal-cap">העבר עכבר על אחד מהם והסיבוב יאיץ</p></div>`,
-  js:`(function(){
-  document.querySelectorAll("[data-seal]").forEach(ring=>{
-    const text=ring.dataset.seal;
-    const chars=[...text];
-    const step=360/chars.length;
-    ring.setAttribute("aria-label",text.replace(/·/g," ").trim());
-    ring.setAttribute("role","img");
-    // כל תו מסובב סביב מרכז המעגל. הזווית מחושבת מהסוף להתחלה כדי שהעברית תיקרא עם כיוון השעון.
-    chars.forEach((c,i)=>{
-      const s=document.createElement("span");
-      s.className="seal-ch";
-      s.setAttribute("aria-hidden","true");
-      s.textContent=c===" "?"\\u00a0":c;
-      s.style.transform="translateX(-50%) rotate("+(-i*step)+"deg)";
-      ring.appendChild(s);
-    });
-  });
-})();`,
-  runway:false,
-  note:"הסוד הוא transform-origin בתחתית התו: כל תו הוא רדיוס של המעגל, והזווית שלו קובעת איפה הוא יושב. בעברית הסימן שלילי כדי שהמילים יתקדמו עם כיוון השעון וייקראו נכון. הטקסט המלא נשמר ב-aria-label והתווים עצמם מוסתרים מקוראי מסך."
-},
+
 {
   id:"b29", cat:"behavior", name:"רקע העמוד שמחליף צבע לפי הסקשן", tech:"IntersectionObserver · CSS vars", status:"ממתין",
   desc:"כל סקשן מכריז על ערכת הצבע שלו, והרקע והטקסט של העמוד עוברים אליה במעבר רך. הצבע מחליף במקום שהסקשן יגזור אותו.",
@@ -55,8 +9,11 @@ export default [
   css:`.bgz{--bg:#f7f7fa;--fg:#16182b;--soft:#6a6d85;
   background:var(--bg);color:var(--fg);transition:background-color .8s ease,color .8s ease}
 .bgz-sec{min-height:92vh;display:grid;place-items:center;text-align:center;padding:8vh var(--gutter)}
-.bgz-sec h3{font-size:clamp(30px,4.4vw,72px);margin:0 0 14px;font-weight:800;max-width:18ch}
-.bgz-sec p{margin:0;max-width:46ch;color:var(--soft);font-size:17px;line-height:1.6}
+/* place-items:center ממרכז את העטיפה, אבל בתוכה כל בלוק עם max-width נצמד לצד ההתחלה.
+   בלי margin-inline:auto הכותרת הצרה יושבת בימין והפסקה הרחבה מתחתיה, וזה נראה עקום. */
+.bgz-sec h3{font-size:clamp(30px,4.4vw,72px);margin:0 auto 14px;font-weight:800;max-width:18ch}
+.bgz-sec p{margin:0 auto;max-width:46ch;color:var(--soft);font-size:17px;line-height:1.6}
+.bgz-sec>div{display:grid;justify-items:center}
 .bgz-tag{font-size:12px;letter-spacing:.18em;margin-bottom:18px;opacity:.6}
 .bgz-dot{width:10px;height:10px;border-radius:50%;background:currentColor;margin:26px auto 0;opacity:.4}
 .bgz-rail{position:fixed;inset-inline-end:18px;top:50%;transform:translateY(-50%);z-index:20;display:grid;gap:10px}

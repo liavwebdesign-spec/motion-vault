@@ -24,7 +24,7 @@
   <button class="mvid" data-mvid="MV:b04"><code>MV:b04</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
-  <p>גלילה אופקית עם snap רך (proximity, לא mandatory) והצצה לקלף הבא, כדי שהגולש ידע שיש עוד.</p>
+  <p>גלילה אופקית עם snap רך (proximity, לא mandatory) והצצה לקלף הבא, כדי שהגולש ידע שיש עוד. בעכבר נוספת גרירה וגלגלת, אחרת בדסקטופ הרצועה נראית תקועה.</p>
   <p class="when"><b>מתי משתמשים:</b> מחירון וכרטיסים במובייל. בדסקטופ פורשים בגריד.</p>
   <div class="mvpanel" data-mvpanel="b04"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
@@ -33,7 +33,7 @@
 <div class="stage tight"><div class="peek">
 <div class="ph ph-a">בסיסי</div><div class="ph ph-b">מומלץ</div><div class="ph ph-c">פרימיום</div><div class="ph ph-d">ארגוני</div>
 <div class="spacer"></div>
-</div><p class="center" style="color:var(--muted);font-size:13px">גרור הצידה (או צפה במובייל)</p></div>
+</div><p class="center" style="color:var(--muted);font-size:13px">גרור עם העכבר, או גלגל למטה מעל הרצועה</p></div>
 
 
 
@@ -49,7 +49,27 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 });
 
-
+(function(){
+  const el=document.querySelector(".peek");
+  // במובייל הגלילה נטיבית ועובדת. בדסקטופ אין מגע, פס הגלילה מוסתר בכוונה,
+  // והקרוסלה נראית מתה לגמרי. לכן בעכבר מוסיפים גרירה וגלגלת.
+  if(!matchMedia("(pointer:fine)").matches)return;
+  const rtl=getComputedStyle(el).direction==="rtl";
+  el.style.cursor="grab";
+  let down=false,sx=0,sl=0;
+  el.addEventListener("pointerdown",e=>{
+    down=true;sx=e.clientX;sl=el.scrollLeft;el.style.cursor="grabbing";
+    el.setPointerCapture(e.pointerId);
+  });
+  el.addEventListener("pointermove",e=>{if(down)el.scrollLeft=sl-(e.clientX-sx)});
+  const up=e=>{if(!down)return;down=false;el.style.cursor="grab";
+    try{el.releasePointerCapture(e.pointerId)}catch(_){}}; 
+  el.addEventListener("pointerup",up);el.addEventListener("pointercancel",up);
+  el.addEventListener("wheel",e=>{
+    if(Math.abs(e.deltaY)<=Math.abs(e.deltaX))return;
+    e.preventDefault();el.scrollLeft+=(rtl?-1:1)*e.deltaY;
+  },{passive:false});
+})();
 </script>
 </body>
 </html>

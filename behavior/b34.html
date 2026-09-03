@@ -14,7 +14,7 @@
 .fg-chip:hover{border-color:var(--accent)}
 .fg-chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .fg-count{margin-inline-start:auto;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
-.fg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
+.fg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);position:relative;background:var(--bg)}
 .fg-item{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
 .fg-item .ph{height:clamp(150px,15vw,210px);border-radius:0;font-size:22px}
 .fg-item h3{margin:0;padding:16px 18px 4px;font-size:17px}
@@ -65,7 +65,7 @@
   <p class="fg-empty">אין פריטים בקטגוריה הזאת.</p>
 </div></div>
 
-<div class="demo-note">Flip פותר את הבעיה האמיתית בגריד מסונן: בלעדיו הפריטים קופצים למקום החדש בפריים אחד. absolute:true מונע קפיצה כשמספר השורות משתנה, ו-onEnter ו-onLeave מטפלים בפריטים שנכנסים ויוצאים לגמרי. תחת prefers-reduced-motion הסינון עדיין עובד, פשוט בלי תנועה.</div>
+<div class="demo-note">Flip פותר את הבעיה האמיתית בגריד מסונן: בלעדיו הפריטים קופצים למקום החדש בפריים אחד. absolute:true מונע קפיצה כשמספר השורות משתנה, אבל הוא גם מרוקן את הגריד ולכן חייבים להנפיש את גובהו במקביל, ו-onEnter ו-onLeave מטפלים בפריטים שנכנסים ויוצאים לגמרי. תחת prefers-reduced-motion הסינון עדיין עובד, פשוט בלי תנועה.</div>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -83,10 +83,12 @@ gsap.registerPlugin(Flip);
 (function(){
   const chips=[...document.querySelectorAll(".fg-chip")],items=[...document.querySelectorAll(".fg-item")];
   const count=document.querySelector(".fg-count"),empty=document.querySelector(".fg-empty");
+  const grid=document.querySelector(".fg-grid");
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function apply(f){
+  function apply(f,animate){
     // Flip: מצלמים את המצב לפני, משנים את ה-DOM, והספרייה מנפישה את ההפרש
     const state=Flip.getState(items,{props:"opacity"});
+    const h0=grid.getBoundingClientRect().height;
     let shown=0;
     items.forEach(it=>{
       const vis=f==="all"||it.dataset.c===f;
@@ -95,16 +97,21 @@ gsap.registerPlugin(Flip);
     });
     count.textContent=shown+" מתוך "+items.length;
     empty.classList.toggle("on",shown===0);
-    if(reduce)return;
+    if(reduce||!animate)return;                 // הקריאה הראשונה רק מסמנת מצב, בלי אנימציה על טעינה
+    const h1=grid.getBoundingClientRect().height;
+    // absolute:true מוציא את הכרטיסים מהזרימה, הגריד מתכווץ לאפס, וכל מה שמתחתיו
+    // עולה למעלה ומציץ מאחורי הכרטיסים המרחפים. מנפישים את גובה הגריד במקביל.
+    gsap.fromTo(grid,{height:h0},{height:h1,duration:.55,ease:"power2.inOut",
+      onComplete:()=>gsap.set(grid,{clearProps:"height"})});
     Flip.from(state,{duration:.55,ease:"power2.inOut",scale:true,absolute:true,
       onEnter:els=>gsap.fromTo(els,{opacity:0,scale:.9},{opacity:1,scale:1,duration:.4}),
       onLeave:els=>gsap.to(els,{opacity:0,scale:.9,duration:.25})});
   }
   chips.forEach(c=>c.addEventListener("click",()=>{
     chips.forEach(x=>x.classList.toggle("on",x===c));
-    apply(c.dataset.f);
+    apply(c.dataset.f,true);
   }));
-  apply("all");
+  apply("all",false);
 })();
 </script>
 </body>

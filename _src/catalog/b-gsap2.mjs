@@ -2,22 +2,37 @@
 export default [
 {
   id:"g12", cat:"gsap", name:"פרלקס עומק רב-שכבתי", tech:"GSAP · ScrollTrigger", status:"ממתין",
-  desc:"שכבות באותו סקשן נעות במהירויות שונות בגלילה. עומק בלי אף תמונה.",
+  desc:"שכבות באותו סקשן נעות במהירויות שונות בגלילה, מהעמוקה ועד הקרובה, והכותרת נעה בכיוון ההפוך. עומק בלי אף תמונה.",
   when:"הירו עשיר, סקשני אווירה. במובייל מקדם מוקטן או כבוי.",
   libs:["gsap","ScrollTrigger"],
-  css:`.para{position:relative;height:80vh;background:#101223;border-radius:var(--r);overflow:hidden;display:flex;align-items:center;justify-content:center;margin-inline:var(--gutter)}
-.para .layer{position:absolute;border-radius:50%}
-.para h2{color:#fff;position:relative;z-index:2;font-size:var(--fs-h2)}`,
-  html:`<div class="stage tight"><div class="para">
-<div class="layer" data-speed="0.7" style="width:240px;height:240px;background:rgba(94,124,255,.35);top:8%;right:12%"></div>
-<div class="layer" data-speed="1" style="width:130px;height:130px;background:rgba(255,169,77,.4);bottom:16%;right:32%"></div>
-<div class="layer" data-speed="1.35" style="width:180px;height:180px;background:rgba(56,217,169,.35);top:22%;left:14%"></div>
+  css:`.para{position:relative;height:86vh;background:#101223;border-radius:var(--r);overflow:hidden;
+  display:flex;align-items:center;justify-content:center;margin-inline:var(--gutter)}
+.para .layer{position:absolute;border-radius:50%;will-change:transform}
+.para h2{color:#fff;position:relative;z-index:2;font-size:var(--fs-h2);text-align:center;padding-inline:var(--gutter)}
+.para-hint{text-align:center;color:var(--muted);font-size:14px;padding-top:18px}`,
+  html:`<div class="stage"><div class="para">
+<div class="layer" data-depth="0.22" style="width:min(46vw,340px);aspect-ratio:1;background:rgba(94,124,255,.30);top:-6%;right:8%"></div>
+<div class="layer" data-depth="0.45" style="width:min(30vw,210px);aspect-ratio:1;background:rgba(255,169,77,.34);bottom:4%;right:30%"></div>
+<div class="layer" data-depth="0.72" style="width:min(34vw,250px);aspect-ratio:1;background:rgba(56,217,169,.30);top:10%;left:10%"></div>
+<div class="layer" data-depth="1" style="width:min(20vw,140px);aspect-ratio:1;background:rgba(233,89,12,.34);bottom:-4%;left:26%"></div>
 <h2>שכבות בעומק שונה</h2>
-</div></div>`,
-  js:`gsap.utils.toArray(".para .layer").forEach(el=>{
-  gsap.to(el,{y:()=>(1-parseFloat(el.dataset.speed))*240,ease:"none",
-    scrollTrigger:{trigger:".para",start:"top bottom",end:"bottom top",scrub:true}});
-});`
+</div>
+<p class="para-hint">גלול. ככל שהשכבה קרובה יותר, כך היא נעה מהר יותר.</p></div>`,
+  js:`(function(){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+  const RANGE=260;                       // המרחק המלא של השכבה העמוקה ביותר
+  gsap.utils.toArray(".para .layer").forEach(el=>{
+    const d=parseFloat(el.dataset.depth);
+    // fromTo סימטרי סביב המיקום ב-CSS: בכניסה למסך השכבה למטה, ביציאה למעלה,
+    // ובאמצע היא בדיוק במקום שבו עוצבה. עם to בלבד היא מתחילה במקום ולא זזה עד הסוף.
+    gsap.fromTo(el,{y:d*RANGE},{y:-d*RANGE,ease:"none",
+      scrollTrigger:{trigger:".para",start:"top bottom",end:"bottom top",scrub:.4}});
+  });
+  // הכותרת נעה מעט בכיוון ההפוך, וזה מה שמחדד את תחושת המרחק
+  gsap.fromTo(".para h2",{y:-40},{y:40,ease:"none",
+    scrollTrigger:{trigger:".para",start:"top bottom",end:"bottom top",scrub:.4}});
+})();`
 },
 {
   id:"g13", cat:"gsap", name:"Batch Reveal לגרידים", tech:"GSAP · ScrollTrigger.batch", status:"ממתין",
@@ -79,36 +94,58 @@ document.querySelector(".replay").addEventListener("click",runPre);`,
 },
 {
   id:"g15b", cat:"gsap", name:"פרילודר דלתות", tech:"CSS transitions · load event", status:"ממתין",
-  desc:"שני חצאי מסך שנפתחים לצדדים כמו דלתות וחושפים את האתר.",
+  desc:"שני חצאי מסך שנפתחים לצדדים כמו דלתות וחושפים את האתר. כאן הוא מוצג בתוך מסגרת כדי שאפשר יהיה לראות אותו, ובאתר אמיתי החלק הזה הוא position:fixed על כל המסך.",
   when:"וריאנט דרמטי של הפרילודר. לוטי קצר במרכז ואז פתיחה.",
   libs:[],
-  css:`#pre{position:fixed;inset:0;z-index:999}
-.door{position:absolute;inset-block:0;width:50.5%;background:#16182b;transition:transform .8s cubic-bezier(.76,0,.24,1)}
-.door.l{inset-inline-start:0}.door.r{inset-inline-end:0}
-.plabel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700;transition:opacity .4s}
-.replay{margin-inline:var(--gutter)}`,
-  html:`<div id="pre"><div class="door l"></div><div class="door r"></div><div class="plabel">הדלתות נפתחות כשהעמוד נטען</div></div>
-<div class="stage tight center"><button class="gbtn replay">הפעל שוב</button></div>`,
-  js:`const p=document.getElementById("pre");
+  css:`.doorstage{position:relative;height:clamp(320px,56vh,520px);overflow:hidden;border-radius:var(--r);
+  margin-inline:var(--gutter);background:#0d0f1c;display:grid;place-items:center;isolation:isolate}
+.doorstage .under{color:#e8ebff;text-align:center;padding-inline:26px;max-width:44ch}
+.doorstage .under h3{margin:0 0 8px;font-size:clamp(22px,2.6vw,34px)}
+.doorstage .under p{margin:0;color:#9aa0c4;font-size:15px;line-height:1.7}
+#pre{position:absolute;inset:0;z-index:2}
+/* left ו-right פיזיים בכוונה. עם inset-inline הדלתות מתהפכות ב-RTL בזמן
+   ש-translateX נשאר פיזי, והן חוצות את המסך במקום להיפתח החוצה. */
+.door{position:absolute;top:0;bottom:0;width:50.5%;background:#16182b;transition:transform .8s cubic-bezier(.76,0,.24,1)}
+.door.l{left:0}.door.r{right:0}
+.door::after{content:"";position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.14)}
+.door.l::after{right:0}.door.r::after{left:0}
+.plabel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:clamp(16px,1.6vw,20px);font-weight:700;transition:opacity .4s;z-index:3;pointer-events:none}
+.doorbar{display:flex;justify-content:center;margin-top:18px}`,
+  html:`<div class="stage tight"><div class="doorstage">
+  <div class="under"><h3>העמוד מתחת</h3><p>הדלתות נסגרות מעל התוכן עד שהוא מוכן, ונפתחות החוצה כשהטעינה מסתיימת.</p></div>
+  <div id="pre"><div class="door l"></div><div class="door r"></div></div>
+  <div class="plabel">הדלתות נפתחות כשהעמוד נטען</div>
+</div>
+<div class="doorbar"><button class="gbtn replay">הפעל שוב</button></div></div>`,
+  js:`const pre=document.getElementById("pre");
+const label=document.querySelector(".plabel");
+const L=pre.querySelector(".door.l"),R=pre.querySelector(".door.r");
+let t=[];
+const clear=()=>{t.forEach(clearTimeout);t=[]};
+
 function open(){
-  p.querySelector(".plabel").style.opacity=0;
-  setTimeout(()=>{
-    p.querySelector(".door.l").style.transform="translateX(-100%)";
-    p.querySelector(".door.r").style.transform="translateX(100%)";
-  },200);
-  setTimeout(()=>p.style.display="none",1200);
+  label.style.opacity=0;
+  t.push(setTimeout(()=>{L.style.transform="translateX(-100%)";R.style.transform="translateX(100%)"},200));
+  t.push(setTimeout(()=>pre.style.visibility="hidden",1100));
 }
 function reset(){
-  p.style.display="block";p.querySelector(".plabel").style.opacity=1;
-  p.querySelectorAll(".door").forEach(d=>d.style.transform="none");
-  setTimeout(open,900);
+  clear();
+  pre.style.visibility="visible";label.style.opacity=1;
+  L.style.transition=R.style.transition="none";
+  L.style.transform=R.style.transform="none";
+  void L.offsetHeight;                                  // מאלץ ציור לפני החזרת הטרנזישן
+  L.style.transition=R.style.transition="";
+  t.push(setTimeout(open,700));
 }
+document.querySelector(".replay").addEventListener("click",reset);
+
 let done=false;
-function first(){if(done)return;done=true;setTimeout(open,900);}
+const first=()=>{if(done)return;done=true;t.push(setTimeout(open,900))};
 if(document.readyState==="complete")first();
-else{addEventListener("load",first);setTimeout(first,3000);}
-document.querySelector(".replay").addEventListener("click",reset);`,
-  runway:false
+else{addEventListener("load",first);setTimeout(first,3000)}`,
+  runway:false,
+  note:"בפרויקט אמיתי ה-#pre הוא position:fixed עם inset:0 ו-z-index גבוה, וכאן הוא absolute בתוך מסגרת כדי שיהיה אפשר לראות אותו ליד שאר העמוד. **מלכודת RTL**: אם ממקמים את הדלתות ב-inset-inline-start ו-inset-inline-end, הן מתחלפות בעברית בזמן ש-translateX נשאר פיזי, והתוצאה היא שתי דלתות שחוצות את המסך במקום להיפתח החוצה. כאן המיקום פיזי (left ו-right) בכוונה. הפעלה חוזרת דורשת לכבות את הטרנזישן, לאפס, לאלץ ציור ורק אז להחזיר אותו."
 },
 {
   id:"g16", cat:"gsap", name:"מילים מתרוקנות בהובר", tech:"GSAP · SplitText · text-stroke", status:"ממתין",
@@ -202,32 +239,40 @@ tl.from(".bgA",{y:"-10vw",duration:1},0)
   css:`.hwrap{overflow:hidden;background:#fff}
 .hcont{display:flex;position:relative;padding-block:130px}
 .step{flex:0 0 36vw;display:flex;flex-direction:column;align-items:center;text-align:center;padding-inline:20px}
-.step .dot{width:18px;height:18px;border-radius:50%;background:#3b5bdb;margin-bottom:14px}
+.step .dot{width:18px;height:18px;border-radius:50%;background:#3b5bdb;margin-bottom:14px;position:relative;z-index:2}
 .step h3{margin:0 0 6px;font-size:20px}
 .step p{margin:0;color:var(--muted)}
-.tline{position:absolute;top:calc(130px + 8px);inset-inline-start:0;height:2px;width:200%;background:linear-gradient(90deg,#3b5bdb,#22b8cf)}`,
+.tline-rail,.tline{position:absolute;top:calc(130px + 8px);inset-inline-start:0;height:2px;width:180vw}
+.tline-rail{background:#e6e8f2}
+.tline{background:linear-gradient(270deg,#3b5bdb,#22b8cf);transform-origin:100% 50%;will-change:transform}`,
   html:`<div class="hwrap"><div class="hcont">
-<div class="tline"></div>
+<div class="tline-rail"></div><div class="tline"></div>
 <div class="step s1"><div class="dot"></div><h3>אפיון</h3><p>מבינים את העסק</p></div>
 <div class="step s2"><div class="dot"></div><h3>קופי</h3><p>כותבים את הסיפור</p></div>
 <div class="step s3"><div class="dot"></div><h3>עיצוב</h3><p>נותנים לו פנים</p></div>
 <div class="step s4"><div class="dot"></div><h3>פיתוח</h3><p>מפיחים חיים</p></div>
 <div class="step s5"><div class="dot"></div><h3>השקה</h3><p>עולים לאוויר</p></div>
 </div></div>`,
-  js:`const panels=gsap.utils.toArray(".step");
+  js:`const steps=gsap.utils.toArray(".step");
 const hc=document.querySelector(".hcont");
-const totalW=hc.scrollWidth-window.innerWidth;
-const dist=()=> "+="+totalW*1.6;
-gsap.to(panels,{x:totalW,ease:"none",
-  scrollTrigger:{trigger:".hwrap",pin:true,scrub:true,start:"top top",end:dist(),anticipatePin:1}});
-gsap.from(".tline",{x:"45vw",ease:"none",
-  scrollTrigger:{trigger:".hwrap",scrub:true,start:"top top",end:dist()}});
-panels.forEach((s,i)=>{
+const rails=[document.querySelector(".tline-rail"),document.querySelector(".tline")];
+const total=()=>hc.scrollWidth-innerWidth;
+
+gsap.set(steps.slice(1),{opacity:.22});
+gsap.set(".tline",{scaleX:0});
+
+// הכל יושב על טיימליין אחד שמחובר לפין. ScrollTrigger נפרד לכל תחנה,
+// שמכוון לאותו אלמנט מפונן, מחשב טווחים על מיקום שמשתנה מתחתיו והשלבים נשארים שקופים.
+const tl=gsap.timeline({scrollTrigger:{
+  trigger:".hwrap",pin:true,scrub:.5,start:"top top",
+  end:()=>"+="+total()*1.6,anticipatePin:1,invalidateOnRefresh:true}});
+
+tl.to([...steps,...rails],{x:()=>total(),ease:"none",duration:1},0)
+  .to(".tline",{scaleX:1,ease:"none",duration:1},0);
+
+steps.forEach((el,i)=>{
   if(i===0)return;
-  gsap.from(s,{opacity:.2,ease:"none",
-    scrollTrigger:{trigger:".hwrap",scrub:true,
-      start:()=>"top+="+(totalW*1.6*(i/panels.length))+" top",
-      end:()=>"top+="+(totalW*1.6*((i+.4)/panels.length))+" top"}});
+  tl.to(el,{opacity:1,ease:"none",duration:.1},i/steps.length*0.9);
 });`
 },
 {

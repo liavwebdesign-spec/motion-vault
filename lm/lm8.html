@@ -9,10 +9,12 @@
 <style>
 .tiltm-wrap{transform:rotate(-3deg);width:104vw;margin-inline-start:-2vw;background:#16182b;padding-block:20px;overflow:hidden}
 .tiltm{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
-.tiltm-track{display:inline-flex;gap:48px;padding-inline-end:48px;animation:marq 26s linear infinite}
-.tiltm-track span{font-weight:800;font-size:24px;color:rgba(255,255,255,.55)}
+/* ההזזה היא רוחב קבוצה מדויק בפיקסלים, ומספר העותקים נגזר מרוחב המסך */
+.tiltm-track{display:flex;width:max-content;animation:marq linear infinite;animation-duration:var(--marq-dur,26s)}
+.tiltm-set{display:flex;gap:48px;padding-inline-end:48px}
+.tiltm-track span{font-weight:800;font-size:24px;color:rgba(255,255,255,.55);white-space:nowrap}
 .tiltm-track i{font-style:normal;color:#f49e40}
-@keyframes marq{from{transform:translateX(0)}to{transform:translateX(50%)}}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(var(--marq-shift,50%))}}
 </style>
 </head>
 <body>
@@ -33,8 +35,7 @@
 </div>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="stage full"><div class="tiltm-wrap" data-dragmarq><div class="tiltm"><div class="tiltm-track">
-<span>עיצוב</span><i>·</i><span>פיתוח</span><i>·</i><span>אסטרטגיה</span><i>·</i><span>תנועה</span><i>·</i>
-<span>עיצוב</span><i>·</i><span>פיתוח</span><i>·</i><span>אסטרטגיה</span><i>·</i><span>תנועה</span><i>·</i>
+<div class="tiltm-set"><span>עיצוב</span><i>·</i><span>פיתוח</span><i>·</i><span>אסטרטגיה</span><i>·</i><span>תנועה</span><i>·</i></div>
 </div></div></div></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 
@@ -51,6 +52,23 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 });
 
+(function(){
+  // אותו מנגנון כמו ב-b01: מספר העותקים נגזר מרוחב המסך, וההזזה היא רוחב קבוצה מדויק
+  function build(){
+    const wrap=document.querySelector(".tiltm"),track=document.querySelector(".tiltm-track");
+    const proto=track.firstElementChild;
+    [...track.children].slice(1).forEach(c=>c.remove());
+    const setW=proto.getBoundingClientRect().width;
+    if(!setW)return;
+    const need=Math.ceil(wrap.getBoundingClientRect().width/setW)+1;
+    for(let i=1;i<need;i++){const c=proto.cloneNode(true);c.setAttribute("aria-hidden","true");track.appendChild(c);}
+    track.style.setProperty("--marq-shift",setW+"px");
+    track.style.setProperty("--marq-dur",(setW/58).toFixed(2)+"s");
+  }
+  build();
+  if(document.fonts)document.fonts.ready.then(build);
+  let rt;addEventListener("resize",()=>{clearTimeout(rt);rt=setTimeout(build,200);});
+})();
 const dm=document.querySelector("[data-dragmarq]");
 let tick=false;
 function frame(){tick=false;

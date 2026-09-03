@@ -8,10 +8,14 @@
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
 .marq{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);border-block:1px solid var(--line);background:#fff;padding-block:22px}
-.marq-track{display:inline-flex;gap:56px;padding-inline-end:56px;animation:marq 32s linear infinite}
+/* ההזזה היא רוחב קבוצה אחת בפיקסלים (משתנה שנקבע ב-JS), ולא אחוז מהרצועה.
+   אחוז נשבר ברגע שמספר העותקים משתנה, ופיקסלים מדויקים תמיד. */
+.marq-track{display:flex;width:max-content;animation:marq linear infinite;animation-duration:var(--marq-dur,32s)}
 .marq:hover .marq-track{animation-play-state:paused}
-.marq-track span{font-weight:800;font-size:22px;color:#c3c5d6}
-@keyframes marq{from{transform:translateX(0)}to{transform:translateX(50%)}}
+/* הריווח בין הקבוצות יושב על כל קבוצה בצד הפנימי, ולכן גם התפר וגם הסגירה זהים */
+.marq-set{display:flex;gap:56px;padding-inline-end:56px}
+.marq-track span{font-weight:800;font-size:22px;color:#c3c5d6;white-space:nowrap}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(var(--marq-shift,50%))}}
 </style>
 </head>
 <body>
@@ -19,21 +23,20 @@
   <a class="vback" href="../index.html">→ לכל המאגר</a>
   <h1><span class="vid">B01</span> · מרקי (רצועה נעה)</h1>
   <span class="chip cat-behavior">התנהגויות</span>
-  <span class="chip">CSS keyframes</span>
+  <span class="chip">CSS keyframes + שכפול מדוד</span>
   <span class="chip use">רקע ואווירה</span><span class="chip use">ניווט ומבנה</span>
   <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:b01"><code>MV:b01</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
-  <p>רצועת תוכן שזורמת בלולאה מושלמת: התוכן משוכפל פעמיים בדיוק, מסכת קצה ממיסה את החיתוך, והובר עוצר.</p>
+  <p>רצועת תוכן שזורמת בלולאה מושלמת: העותקים משוכפלים לפי רוחב המסך, ההזזה היא רוחב קבוצה מדויק, ומסכת קצה ממיסה את החיתוך. הובר עוצר.</p>
   <p class="when"><b>מתי משתמשים:</b> נקודות אמון בתחתית הירו, רצועת לוגואים, פסי אווירה.</p>
   <div class="mvpanel" data-mvpanel="b01"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
 <div class="stage tight full"><div class="marq" aria-hidden="true"><div class="marq-track">
-<span>אמינות</span><span>·</span><span>מקצועיות</span><span>·</span><span>שירות</span><span>·</span><span>ניסיון</span><span>·</span>
-<span>אמינות</span><span>·</span><span>מקצועיות</span><span>·</span><span>שירות</span><span>·</span><span>ניסיון</span><span>·</span>
+<div class="marq-set"><span>אמינות</span><span>·</span><span>מקצועיות</span><span>·</span><span>שירות</span><span>·</span><span>ניסיון</span><span>·</span></div>
 </div></div></div>
 
 
@@ -50,7 +53,29 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 });
 
-
+(function(){
+  // כמה עותקים צריך: אחרי הזזה של קבוצה אחת, מה שנשאר חייב עדיין לכסות את כל הרוחב.
+  // שני עותקים בלבד משאירים שטח ריק בקצה ברגע שהקבוצה צרה מהמסך.
+  function build(marq){
+    const track=marq.querySelector(".marq-track");
+    const proto=track.firstElementChild;
+    [...track.children].slice(1).forEach(c=>c.remove());
+    const setW=proto.getBoundingClientRect().width;
+    if(!setW)return;
+    const need=Math.ceil(marq.getBoundingClientRect().width/setW)+1;
+    for(let i=1;i<need;i++){
+      const c=proto.cloneNode(true);c.setAttribute("aria-hidden","true");track.appendChild(c);
+    }
+    track.style.setProperty("--marq-shift",setW+"px");
+    // מהירות אחידה בפיקסלים לשנייה, כדי שתוכן ארוך לא ירוץ מהר יותר
+    track.style.setProperty("--marq-dur",(setW/55).toFixed(2)+"s");
+  }
+  const all=[...document.querySelectorAll(".marq")];
+  all.forEach(build);
+  // מדידה לפני שהפונט נטען נותנת רוחב קטן יותר, וההזזה יוצאת קצרה מקבוצה שלמה: קפיצה בכל סיבוב
+  if(document.fonts)document.fonts.ready.then(()=>all.forEach(build));
+  let t;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>all.forEach(build),200);});
+})();
 </script>
 </body>
 </html>

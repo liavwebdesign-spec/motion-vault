@@ -12,7 +12,11 @@
 .tg-pill{position:absolute;top:5px;left:0;height:calc(100% - 10px);border-radius:999px;background:var(--ink);z-index:0}
 .tg a{position:relative;z-index:1;padding:10px 20px;border-radius:999px;font-size:15px;color:var(--muted);
   text-decoration:none;white-space:nowrap;transition:color .22s}
-.tg a.on{color:#fff}
+/* הצבע הלבן נקבע לפי מי שהגלולה נמצאת מתחתיו ברגע זה (hot), ולא לפי מי שנבחר (on).
+   אחרת בהובר הטקסט האפור יושב על גלולה כהה, והנבחר נשאר לבן על רקע בהיר. */
+.tg a.hot{color:#fff}
+.tg a:hover{color:var(--ink)}
+.tg a.hot:hover{color:#fff}
 .tg a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .tg-wrap{display:grid;justify-items:center;gap:26px}
 .tg-out{color:var(--muted);font-size:15px}
@@ -40,12 +44,12 @@
 <div class="stage tight"><div class="tg-wrap">
   <nav class="tg">
     <i class="tg-pill"></i>
-    <a href="#" class="on">הכל</a><a href="#">אתרי תדמית</a><a href="#">דפי נחיתה</a><a href="#">חנויות</a><a href="#">מערכות</a>
+    <a href="#" class="on" aria-current="true">הכל</a><a href="#">אתרי תדמית</a><a href="#">דפי נחיתה</a><a href="#">חנויות</a><a href="#">מערכות</a>
   </nav>
   <p class="tg-out">הבחירה הנוכחית: <b class="tg-now">הכל</b></p>
 </div></div>
 
-<div class="demo-note">שלוש נקודות שמפרידות בין מימוש עובד למימוש שנשבר: המחוון מונפש גם ברוחב ולא רק במיקום, אחרת מילים באורך שונה נחתכות; המדידה חוזרת אחרי `document.fonts.ready`, כי עד שהפונט נטען רוחב המילים שונה והמחוון מתחיל במקום הלא נכון; ויציאה מהתפריט מחזירה אותו לפריט הפעיל במקום להשאיר אותו על האחרון שרוחפים מעליו. `offsetLeft` ו-`offsetTop` הם ערכים פיזיים, ולכן אותו קוד עובד בעברית ובאנגלית בלי תנאים.</div>
+<div class="demo-note">שלוש נקודות שמפרידות בין מימוש עובד למימוש שנשבר: המחוון מונפש גם ברוחב ולא רק במיקום, אחרת מילים באורך שונה נחתכות; המדידה חוזרת אחרי `document.fonts.ready`, כי עד שהפונט נטען רוחב המילים שונה והמחוון מתחיל במקום הלא נכון; ויציאה מהתפריט מחזירה אותו לפריט הפעיל במקום להשאיר אותו על האחרון שרוחפים מעליו. `offsetLeft` ו-`offsetTop` הם ערכים פיזיים, ולכן אותו קוד עובד בעברית ובאנגלית בלי תנאים. **ומלכודת ניגודיות**: הצבע הלבן חייב להיקבע לפי מי שהגלולה נמצאת מתחתיו ברגע זה ולא לפי הפריט הנבחר, אחרת בהובר מקבלים טקסט אפור על גלולה כהה ובמקביל טקסט לבן על רקע בהיר. הבחירה עצמה מסומנת ב-aria-current.</div>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -66,6 +70,7 @@ document.querySelector(".mvid").addEventListener("click",function(){
   let active=links[0];
   // offsetLeft/offsetTop פיזיים, ולכן החישוב זהה בעברית ובאנגלית
   const move=(el,animate)=>{
+    links.forEach(x=>x.classList.toggle("hot",x===el));
     const to={x:el.offsetLeft,y:el.offsetTop-5,width:el.offsetWidth,height:el.offsetHeight};
     if(animate&&!reduce)gsap.to(pill,{...to,duration:.4,ease:"back.out(1.4)"});
     else gsap.set(pill,to);
@@ -75,7 +80,8 @@ document.querySelector(".mvid").addEventListener("click",function(){
     a.addEventListener("focus",()=>move(a,true));
     a.addEventListener("click",e=>{
       e.preventDefault();
-      active=a;links.forEach(x=>x.classList.toggle("on",x===a));
+      active=a;links.forEach(x=>{x.classList.toggle("on",x===a);
+        x===a?x.setAttribute("aria-current","true"):x.removeAttribute("aria-current")});
       out.textContent=a.textContent;move(a,true);
     });
   });

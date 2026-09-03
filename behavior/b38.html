@@ -7,20 +7,27 @@
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
-.hd-bar{position:fixed;inset-inline:0;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
-  padding:16px var(--gutter);transition:transform .42s cubic-bezier(.2,.8,.2,1),background-color .35s,padding .35s,box-shadow .35s;
+.hd-frame{position:relative;height:clamp(420px,76vh,640px);overflow-y:auto;overscroll-behavior:contain;
+  border:1px solid var(--line);border-radius:var(--r);margin-inline:var(--gutter);background:var(--bg)}
+.hd-frame::-webkit-scrollbar{width:8px}
+.hd-frame::-webkit-scrollbar-thumb{background:#c9cbdb;border-radius:99px}
+.hd-hint{text-align:center;color:var(--muted);font-size:14px;margin:14px 0 0}
+/* sticky ולא fixed, כי כאן ההקשר הוא המסגרת. באתר אמיתי זה position:fixed על החלון. */
+.hd-bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
+  padding:16px clamp(16px,3vw,30px);
+  transition:transform .42s cubic-bezier(.2,.8,.2,1),background-color .35s,padding .35s,box-shadow .35s;
   background:transparent}
 .hd-bar.solid{background:rgba(247,247,250,.9);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line);padding-block:11px}
 .hd-bar.up{transform:translateY(-105%)}
-.hd-bar nav{display:flex;gap:6px}
+.hd-bar nav{display:flex;gap:6px;flex-wrap:wrap}
 .hd-bar nav a{color:var(--ink);text-decoration:none;font-size:15px;padding:8px 14px;border-radius:999px;transition:background .25s}
 .hd-bar nav a:hover{background:#eceaff}
 .hd-cta{background:var(--ink);color:#fff!important;font-weight:600}
-.hd-hero{min-height:100vh;display:grid;place-items:center;text-align:center;padding-inline:var(--gutter);
+.hd-hero{min-height:100%;margin-top:-72px;display:grid;place-items:center;text-align:center;padding:90px clamp(16px,3vw,30px) 40px;
   background:linear-gradient(160deg,#eceaff,#f7f7fa)}
-.hd-hero h2{font-size:clamp(32px,5vw,78px);margin:0 0 10px;font-weight:800}
+.hd-hero h2{font-size:clamp(26px,3.6vw,52px);margin:0 0 10px;font-weight:800}
 .hd-hero p{margin:0;color:var(--muted)}
-.hd-body{padding:var(--sec) var(--gutter);max-width:62ch;margin-inline:auto;color:var(--muted)}
+.hd-body{padding:clamp(30px,5vw,70px) clamp(16px,3vw,30px);max-width:62ch;margin-inline:auto;color:var(--muted)}
 .hd-body p{margin:0 0 18px;line-height:1.8}
 @media (prefers-reduced-motion: reduce){.hd-bar{transition:background-color .3s}.hd-bar.up{transform:none}}
 </style>
@@ -36,28 +43,33 @@
   <button class="mvid" data-mvid="MV:b38"><code>MV:b38</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
-  <p>בגלילה למטה ההדר מחליק החוצה ומפנה מסך, ובגלילה קלה למעלה הוא חוזר מיד. בראש העמוד הוא שקוף ומתמלא ברקע ברגע שיוצאים מהירו.</p>
+  <p>בגלילה למטה ההדר מחליק החוצה ומפנה מסך, ובגלילה קלה למעלה הוא חוזר מיד. בראש העמוד הוא שקוף ומתמלא ברקע ברגע שיוצאים מהירו. כאן הוא רץ בתוך מסגרת גלילה עצמאית, כדי שאפשר יהיה לשפוט אותו בלי ההדר של המאגר מעליו.</p>
   <p class="when"><b>מתי משתמשים:</b> כל אתר. זו התנהגות ההדר הנפוצה ביותר, והיא פותרת את הקונפליקט בין ניווט תמיד זמין לבין מסך נקי לתוכן.</p>
   <div class="mvpanel" data-mvpanel="b38"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
 </div>
 
-<header class="hd-bar">
-  <strong>לוגו</strong>
-  <nav><a href="#">עבודות</a><a href="#">שירותים</a><a href="#">אודות</a><a class="hd-cta" href="#">דברו איתנו</a></nav>
-</header>
-<section class="hd-hero"><div><h2>גלול למטה וההדר ייעלם</h2><p>גלול קצת חזרה למעלה והוא יחזור מיד</p></div></section>
-<div class="hd-body">
-  <p>ההתנהגות הזאת פותרת בעיה אמיתית: הדר קבוע גוזל גובה יקר במובייל, אבל הדר שנעלם לגמרי מכריח את הגולש לחזור עד למעלה. הפשרה היא הדר שמגיב לכוונה: יורדים, הוא מתפנה; רוצים לנווט, מרימים קצת והוא כבר שם.</p>
-  <p>שני פרטים שקובעים אם זה מרגיש טוב: סף מרחק שמונע ריצוד בגלילות זעירות, וכניסה מיידית לרקע אטום ברגע שעוזבים את הירו, כדי שהטקסט מאחור לא יתערבב בניווט.</p>
-  <p>גלול עוד קצת. אחר כך גלול למעלה בעדינות.</p>
-  <p style="height:120vh"></p>
-  <p>עוד תוכן, כדי שיהיה מסלול גלילה אמיתי לבדיקה.</p>
-  <p style="height:120vh"></p>
-  <p>סוף העמוד.</p>
+<div class="stage tight">
+<div class="hd-frame">
+  <header class="hd-bar">
+    <strong>לוגו</strong>
+    <nav><a href="#">עבודות</a><a href="#">שירותים</a><a class="hd-cta" href="#">דברו איתנו</a></nav>
+  </header>
+  <section class="hd-hero"><div><h2>גלול למטה וההדר ייעלם</h2><p>גלול קצת חזרה למעלה והוא יחזור מיד</p></div></section>
+  <div class="hd-body">
+    <p>ההתנהגות הזאת פותרת בעיה אמיתית: הדר קבוע גוזל גובה יקר במובייל, אבל הדר שנעלם לגמרי מכריח את הגולש לחזור עד למעלה. הפשרה היא הדר שמגיב לכוונה: יורדים, הוא מתפנה; רוצים לנווט, מרימים קצת והוא כבר שם.</p>
+    <p>שני פרטים שקובעים אם זה מרגיש טוב: סף מרחק שמונע ריצוד בגלילות זעירות, וכניסה מיידית לרקע אטום ברגע שעוזבים את הירו, כדי שהטקסט מאחור לא יתערבב בניווט.</p>
+    <p>גלול עוד קצת בתוך המסגרת. אחר כך גלול למעלה בעדינות.</p>
+    <p style="height:70vh"></p>
+    <p>עוד תוכן, כדי שיהיה מסלול גלילה אמיתי לבדיקה.</p>
+    <p style="height:70vh"></p>
+    <p>סוף העמוד.</p>
+  </div>
+</div>
+<p class="hd-hint">גלול בתוך המסגרת, לא בעמוד.</p>
 </div>
 
-<div class="demo-note">הסף של 90 פיקסלים הוא הפרט החשוב: בלעדיו ההדר מרצד בכל תזוזה קטנה של הטראקפד. הצבירה מתאפסת בכל שינוי כיוון, ולכן גלילה קצרה למעלה מחזירה אותו מיד. מתחת ל-80 פיקסלים מהראש הוא תמיד גלוי, כדי שלא ייתקע מוסתר בראש העמוד.</div>
+<div class="demo-note">הסף של 90 פיקסלים הוא הפרט החשוב: בלעדיו ההדר מרצד בכל תזוזה קטנה של הטראקפד. הצבירה מתאפסת בכל שינוי כיוון, ולכן גלילה קצרה למעלה מחזירה אותו מיד. מתחת ל-80 פיקסלים מהראש הוא תמיד גלוי, כדי שלא ייתקע מוסתר בראש העמוד. **הערת דמו**: כאן ההדר הוא `position:sticky` בתוך מסגרת שגוללת בעצמה, כי לעמוד המאגר כבר יש הדר משלו ואי אפשר היה לשפוט את המהלך. בפרויקט אמיתי מחליפים לשורה אחת: `position:fixed` עם `inset-inline:0`, ומאזינים ל-window במקום למסגרת.</div>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -72,12 +84,13 @@ document.querySelector(".mvid").addEventListener("click",function(){
 });
 
 (function(){
-  const bar=document.querySelector(".hd-bar");
-  const hero=document.querySelector(".hd-hero");
-  let last=window.scrollY,acc=0;
+  const frame=document.querySelector(".hd-frame");
+  const bar=frame.querySelector(".hd-bar");
+  const hero=frame.querySelector(".hd-hero");
+  let last=frame.scrollTop,acc=0;
   const THRESH=90;   // כמה צריך לגלול ברצף לפני שההדר מגיב. מונע ריצוד.
   function onScroll(){
-    const y=window.scrollY;
+    const y=frame.scrollTop;
     const d=y-last;last=y;
     bar.classList.toggle("solid",y>hero.offsetHeight*0.6);
     if(y<80){bar.classList.remove("up");acc=0;return;}
@@ -87,7 +100,7 @@ document.querySelector(".mvid").addEventListener("click",function(){
     if(acc>THRESH){bar.classList.add("up");acc=0;}
     if(acc<-THRESH){bar.classList.remove("up");acc=0;}
   }
-  addEventListener("scroll",onScroll,{passive:true});
+  frame.addEventListener("scroll",onScroll,{passive:true});
   onScroll();
 })();
 </script>
