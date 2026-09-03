@@ -41,6 +41,57 @@
 <p class="para-hint">גלול. ככל שהשכבה קרובה יותר, כך היא נעה מהר יותר.</p></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g12.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G12 · פרלקס עומק רב-שכבתי */
+.para{position:relative;height:86vh;background:#101223;border-radius:var(--r, 14px);overflow:hidden;
+  display:flex;align-items:center;justify-content:center;margin-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.para .layer{position:absolute;border-radius:50%;will-change:transform}
+.para h2{color:#fff;position:relative;z-index:2;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));text-align:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.para-hint{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding-top:18px}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;div class="para"&gt;
+&lt;div class="layer" data-depth="0.22" style="width:min(46vw,340px);aspect-ratio:1;background:rgba(94,124,255,.30);top:-6%;right:8%"&gt;&lt;/div&gt;
+&lt;div class="layer" data-depth="0.45" style="width:min(30vw,210px);aspect-ratio:1;background:rgba(255,169,77,.34);bottom:4%;right:30%"&gt;&lt;/div&gt;
+&lt;div class="layer" data-depth="0.72" style="width:min(34vw,250px);aspect-ratio:1;background:rgba(56,217,169,.30);top:10%;left:10%"&gt;&lt;/div&gt;
+&lt;div class="layer" data-depth="1" style="width:min(20vw,140px);aspect-ratio:1;background:rgba(233,89,12,.34);bottom:-4%;left:26%"&gt;&lt;/div&gt;
+&lt;h2&gt;שכבות בעומק שונה&lt;/h2&gt;
+&lt;/div&gt;
+&lt;p class="para-hint"&gt;גלול. ככל שהשכבה קרובה יותר, כך היא נעה מהר יותר.&lt;/p&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+  const RANGE=260;                       // המרחק המלא של השכבה העמוקה ביותר
+  gsap.utils.toArray(".para .layer").forEach(el=&gt;{
+    const d=parseFloat(el.dataset.depth);
+    // fromTo סימטרי סביב המיקום ב-CSS: בכניסה למסך השכבה למטה, ביציאה למעלה,
+    // ובאמצע היא בדיוק במקום שבו עוצבה. עם to בלבד היא מתחילה במקום ולא זזה עד הסוף.
+    gsap.fromTo(el,{y:d*RANGE},{y:-d*RANGE,ease:"none",
+      scrollTrigger:{trigger:".para",start:"top bottom",end:"bottom top",scrub:.4}});
+  });
+  // הכותרת נעה מעט בכיוון ההפוך, וזה מה שמחדד את תחושת המרחק
+  gsap.fromTo(".para h2",{y:-40},{y:40,ease:"none",
+    scrollTrigger:{trigger:".para",start:"top bottom",end:"bottom top",scrub:.4}});
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g12 · פרלקס עומק רב-שכבתי\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g12.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g12.html\n\nמה זה עושה: שכבות באותו סקשן נעות במהירויות שונות בגלילה, מהעמוקה ועד הקרובה, והכותרת נעה בכיוון ההפוך. עומק בלי אף תמונה.\nמתי משתמשים: הירו עשיר, סקשני אווירה. במובייל מקדם מוקטן או כבוי.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G12 · פרלקס עומק רב-שכבתי */\n.para{position:relative;height:86vh;background:#101223;border-radius:var(--r, 14px);overflow:hidden;\n  display:flex;align-items:center;justify-content:center;margin-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.para .layer{position:absolute;border-radius:50%;will-change:transform}\n.para h2{color:#fff;position:relative;z-index:2;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));text-align:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.para-hint{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding-top:18px}\n\n=== HTML ===\n<div class=\"stage\"><div class=\"para\">\n<div class=\"layer\" data-depth=\"0.22\" style=\"width:min(46vw,340px);aspect-ratio:1;background:rgba(94,124,255,.30);top:-6%;right:8%\"><\/div>\n<div class=\"layer\" data-depth=\"0.45\" style=\"width:min(30vw,210px);aspect-ratio:1;background:rgba(255,169,77,.34);bottom:4%;right:30%\"><\/div>\n<div class=\"layer\" data-depth=\"0.72\" style=\"width:min(34vw,250px);aspect-ratio:1;background:rgba(56,217,169,.30);top:10%;left:10%\"><\/div>\n<div class=\"layer\" data-depth=\"1\" style=\"width:min(20vw,140px);aspect-ratio:1;background:rgba(233,89,12,.34);bottom:-4%;left:26%\"><\/div>\n<h2>שכבות בעומק שונה<\/h2>\n<\/div>\n<p class=\"para-hint\">גלול. ככל שהשכבה קרובה יותר, כך היא נעה מהר יותר.<\/p><\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce)return;\n  const RANGE=260;                       // המרחק המלא של השכבה העמוקה ביותר\n  gsap.utils.toArray(\".para .layer\").forEach(el=>{\n    const d=parseFloat(el.dataset.depth);\n    // fromTo סימטרי סביב המיקום ב-CSS: בכניסה למסך השכבה למטה, ביציאה למעלה,\n    // ובאמצע היא בדיוק במקום שבו עוצבה. עם to בלבד היא מתחילה במקום ולא זזה עד הסוף.\n    gsap.fromTo(el,{y:d*RANGE},{y:-d*RANGE,ease:\"none\",\n      scrollTrigger:{trigger:\".para\",start:\"top bottom\",end:\"bottom top\",scrub:.4}});\n  });\n  // הכותרת נעה מעט בכיוון ההפוך, וזה מה שמחדד את תחושת המרחק\n  gsap.fromTo(\".para h2\",{y:-40},{y:40,ease:\"none\",\n    scrollTrigger:{trigger:\".para\",start:\"top bottom\",end:\"bottom top\",scrub:.4}});\n})();\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G12 · פרלקס עומק רב-שכבתי */\n.para{position:relative;height:86vh;background:#101223;border-radius:var(--r, 14px);overflow:hidden;\n  display:flex;align-items:center;justify-content:center;margin-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.para .layer{position:absolute;border-radius:50%;will-change:transform}\n.para h2{color:#fff;position:relative;z-index:2;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));text-align:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.para-hint{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding-top:18px}","html":"<div class=\"stage\"><div class=\"para\">\n<div class=\"layer\" data-depth=\"0.22\" style=\"width:min(46vw,340px);aspect-ratio:1;background:rgba(94,124,255,.30);top:-6%;right:8%\"><\/div>\n<div class=\"layer\" data-depth=\"0.45\" style=\"width:min(30vw,210px);aspect-ratio:1;background:rgba(255,169,77,.34);bottom:4%;right:30%\"><\/div>\n<div class=\"layer\" data-depth=\"0.72\" style=\"width:min(34vw,250px);aspect-ratio:1;background:rgba(56,217,169,.30);top:10%;left:10%\"><\/div>\n<div class=\"layer\" data-depth=\"1\" style=\"width:min(20vw,140px);aspect-ratio:1;background:rgba(233,89,12,.34);bottom:-4%;left:26%\"><\/div>\n<h2>שכבות בעומק שונה<\/h2>\n<\/div>\n<p class=\"para-hint\">גלול. ככל שהשכבה קרובה יותר, כך היא נעה מהר יותר.<\/p><\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce)return;\n  const RANGE=260;                       // המרחק המלא של השכבה העמוקה ביותר\n  gsap.utils.toArray(\".para .layer\").forEach(el=>{\n    const d=parseFloat(el.dataset.depth);\n    // fromTo סימטרי סביב המיקום ב-CSS: בכניסה למסך השכבה למטה, ביציאה למעלה,\n    // ובאמצע היא בדיוק במקום שבו עוצבה. עם to בלבד היא מתחילה במקום ולא זזה עד הסוף.\n    gsap.fromTo(el,{y:d*RANGE},{y:-d*RANGE,ease:\"none\",\n      scrollTrigger:{trigger:\".para\",start:\"top bottom\",end:\"bottom top\",scrub:.4}});\n  });\n  // הכותרת נעה מעט בכיוון ההפוך, וזה מה שמחדד את תחושת המרחק\n  gsap.fromTo(\".para h2\",{y:-40},{y:40,ease:\"none\",\n    scrollTrigger:{trigger:\".para\",start:\"top bottom\",end:\"bottom top\",scrub:.4}});\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -54,6 +105,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;

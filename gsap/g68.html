@@ -45,6 +45,60 @@
 </div>
 
 <div class="demo-note">אין כאן pin ואין spacer: כל סקשן הוא `position:sticky` בגובה מסך, וזה לבדו מייצר את ההיצמדות והכיסוי. מה ש-GSAP מוסיף הוא רק הנסיגה של הסקשן היוצא, וזה מה שהופך כיסוי שטוח לתחושת עומק. **הטריגר הוא הסקשן הבא ולא הנוכחי**: הטווח מתחיל כשהבא נוגע בתחתית המסך ומסתיים כשהוא מגיע לראשו, כלומר בדיוק משך הכיסוי. הסקשן האחרון לא נסוג, אחרת סוף העמוד נראה שבור.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g68.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+
+/* G68 · סקשנים שדוחפים זה את זה בגלילה */
+.pu-sec{position:sticky;top:0;height:100vh;display:grid;place-items:center;text-align:center;
+  padding:0 var(--gutter, clamp(24px, 5vw, 96px));color:#fff;will-change:transform;overflow:hidden}
+.pu-sec .ph{position:absolute;inset:0;border-radius:0;font-size:0}
+.pu-in{position:relative;z-index:1;max-width:44ch}
+.pu-sec h3{margin:0;font-size:clamp(28px,4.8vw,64px);line-height:1.12;text-shadow:0 3px 24px rgba(0,0,0,.35)}
+.pu-sec p{margin:14px 0 0;font-size:17px;line-height:1.8;opacity:.9;text-shadow:0 2px 16px rgba(0,0,0,.4)}
+.pu-veil{position:absolute;inset:0;background:#0b0c14;opacity:0;pointer-events:none;z-index:2}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="pu"&gt;
+  &lt;section class="pu-sec"&gt;&lt;div class="ph ph-a"&gt;&lt;/div&gt;&lt;div class="pu-in"&gt;&lt;h3&gt;אפיון לפני עיצוב&lt;/h3&gt;
+    &lt;p&gt;השלב שקובע אם האתר יביא פניות או רק ייראה טוב.&lt;/p&gt;&lt;/div&gt;&lt;div class="pu-veil"&gt;&lt;/div&gt;&lt;/section&gt;
+  &lt;section class="pu-sec"&gt;&lt;div class="ph ph-c"&gt;&lt;/div&gt;&lt;div class="pu-in"&gt;&lt;h3&gt;קופי שמדבר אל הלקוח&lt;/h3&gt;
+    &lt;p&gt;כל כותרת עונה על שאלה אמיתית של מי שנחת בעמוד.&lt;/p&gt;&lt;/div&gt;&lt;div class="pu-veil"&gt;&lt;/div&gt;&lt;/section&gt;
+  &lt;section class="pu-sec"&gt;&lt;div class="ph ph-d"&gt;&lt;/div&gt;&lt;div class="pu-in"&gt;&lt;h3&gt;עיצוב בשפה אחת&lt;/h3&gt;
+    &lt;p&gt;מערכת אחת של צבע, טיפוגרפיה וריווח שחוזרת בכל עמוד.&lt;/p&gt;&lt;/div&gt;&lt;div class="pu-veil"&gt;&lt;/div&gt;&lt;/section&gt;
+  &lt;section class="pu-sec"&gt;&lt;div class="ph ph-e"&gt;&lt;/div&gt;&lt;div class="pu-in"&gt;&lt;h3&gt;מדידה מהיום הראשון&lt;/h3&gt;
+    &lt;p&gt;מחברים מעקב לפני העלייה לאוויר, ולא חודש אחרי.&lt;/p&gt;&lt;/div&gt;&lt;div class="pu-veil"&gt;&lt;/div&gt;&lt;/section&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const secs=gsap.utils.toArray(".pu-sec");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+  secs.forEach((sec,i)=&gt;{
+    if(i===secs.length-1)return;
+    // הסקשן הנוכחי נסוג ומתכהה בזמן שהבא אחריו עולה מעליו
+    gsap.timeline({scrollTrigger:{trigger:secs[i+1],start:"top bottom",end:"top top",scrub:.5}})
+      .fromTo(sec,{scale:1,y:0},{scale:.9,y:-40,ease:"none"},0)
+      .fromTo(sec.querySelector(".pu-veil"),{opacity:0},{opacity:.55,ease:"none"},0);
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g68 · סקשנים שדוחפים זה את זה בגלילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g68.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g68.html\n\nמה זה עושה: כל סקשן עולה מלמטה ומכסה את הקודם, בזמן שהקודם נסוג לאחור ומתעמעם. לא גלילה של רשימה אלא חפיסה של מסכים שמתחלפים.\nמתי משתמשים: עמוד עם שלושה עד חמישה פרקים שווי משקל: שירותים, יתרונות, שלבים, ערכים. הופך עמוד ארוך לרצף קצר שמרגיש מכוון.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n\n/* G68 · סקשנים שדוחפים זה את זה בגלילה */\n.pu-sec{position:sticky;top:0;height:100vh;display:grid;place-items:center;text-align:center;\n  padding:0 var(--gutter, clamp(24px, 5vw, 96px));color:#fff;will-change:transform;overflow:hidden}\n.pu-sec .ph{position:absolute;inset:0;border-radius:0;font-size:0}\n.pu-in{position:relative;z-index:1;max-width:44ch}\n.pu-sec h3{margin:0;font-size:clamp(28px,4.8vw,64px);line-height:1.12;text-shadow:0 3px 24px rgba(0,0,0,.35)}\n.pu-sec p{margin:14px 0 0;font-size:17px;line-height:1.8;opacity:.9;text-shadow:0 2px 16px rgba(0,0,0,.4)}\n.pu-veil{position:absolute;inset:0;background:#0b0c14;opacity:0;pointer-events:none;z-index:2}\n\n=== HTML ===\n<div class=\"pu\">\n  <section class=\"pu-sec\"><div class=\"ph ph-a\"><\/div><div class=\"pu-in\"><h3>אפיון לפני עיצוב<\/h3>\n    <p>השלב שקובע אם האתר יביא פניות או רק ייראה טוב.<\/p><\/div><div class=\"pu-veil\"><\/div><\/section>\n  <section class=\"pu-sec\"><div class=\"ph ph-c\"><\/div><div class=\"pu-in\"><h3>קופי שמדבר אל הלקוח<\/h3>\n    <p>כל כותרת עונה על שאלה אמיתית של מי שנחת בעמוד.<\/p><\/div><div class=\"pu-veil\"><\/div><\/section>\n  <section class=\"pu-sec\"><div class=\"ph ph-d\"><\/div><div class=\"pu-in\"><h3>עיצוב בשפה אחת<\/h3>\n    <p>מערכת אחת של צבע, טיפוגרפיה וריווח שחוזרת בכל עמוד.<\/p><\/div><div class=\"pu-veil\"><\/div><\/section>\n  <section class=\"pu-sec\"><div class=\"ph ph-e\"><\/div><div class=\"pu-in\"><h3>מדידה מהיום הראשון<\/h3>\n    <p>מחברים מעקב לפני העלייה לאוויר, ולא חודש אחרי.<\/p><\/div><div class=\"pu-veil\"><\/div><\/section>\n<\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const secs=gsap.utils.toArray(\".pu-sec\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce)return;\n  secs.forEach((sec,i)=>{\n    if(i===secs.length-1)return;\n    // הסקשן הנוכחי נסוג ומתכהה בזמן שהבא אחריו עולה מעליו\n    gsap.timeline({scrollTrigger:{trigger:secs[i+1],start:\"top bottom\",end:\"top top\",scrub:.5}})\n      .fromTo(sec,{scale:1,y:0},{scale:.9,y:-40,ease:\"none\"},0)\n      .fromTo(sec.querySelector(\".pu-veil\"),{opacity:0},{opacity:.55,ease:\"none\"},0);\n  });\n})();\n\nהערת מימוש מהמאגר:\nאין כאן pin ואין spacer: כל סקשן הוא `position:sticky` בגובה מסך, וזה לבדו מייצר את ההיצמדות והכיסוי. מה ש-GSAP מוסיף הוא רק הנסיגה של הסקשן היוצא, וזה מה שהופך כיסוי שטוח לתחושת עומק. הטריגר הוא הסקשן הבא ולא הנוכחי: הטווח מתחיל כשהבא נוגע בתחתית המסך ומסתיים כשהוא מגיע לראשו, כלומר בדיוק משך הכיסוי. הסקשן האחרון לא נסוג, אחרת סוף העמוד נראה שבור.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n\n/* G68 · סקשנים שדוחפים זה את זה בגלילה */\n.pu-sec{position:sticky;top:0;height:100vh;display:grid;place-items:center;text-align:center;\n  padding:0 var(--gutter, clamp(24px, 5vw, 96px));color:#fff;will-change:transform;overflow:hidden}\n.pu-sec .ph{position:absolute;inset:0;border-radius:0;font-size:0}\n.pu-in{position:relative;z-index:1;max-width:44ch}\n.pu-sec h3{margin:0;font-size:clamp(28px,4.8vw,64px);line-height:1.12;text-shadow:0 3px 24px rgba(0,0,0,.35)}\n.pu-sec p{margin:14px 0 0;font-size:17px;line-height:1.8;opacity:.9;text-shadow:0 2px 16px rgba(0,0,0,.4)}\n.pu-veil{position:absolute;inset:0;background:#0b0c14;opacity:0;pointer-events:none;z-index:2}","html":"<div class=\"pu\">\n  <section class=\"pu-sec\"><div class=\"ph ph-a\"><\/div><div class=\"pu-in\"><h3>אפיון לפני עיצוב<\/h3>\n    <p>השלב שקובע אם האתר יביא פניות או רק ייראה טוב.<\/p><\/div><div class=\"pu-veil\"><\/div><\/section>\n  <section class=\"pu-sec\"><div class=\"ph ph-c\"><\/div><div class=\"pu-in\"><h3>קופי שמדבר אל הלקוח<\/h3>\n    <p>כל כותרת עונה על שאלה אמיתית של מי שנחת בעמוד.<\/p><\/div><div class=\"pu-veil\"><\/div><\/section>\n  <section class=\"pu-sec\"><div class=\"ph ph-d\"><\/div><div class=\"pu-in\"><h3>עיצוב בשפה אחת<\/h3>\n    <p>מערכת אחת של צבע, טיפוגרפיה וריווח שחוזרת בכל עמוד.<\/p><\/div><div class=\"pu-veil\"><\/div><\/section>\n  <section class=\"pu-sec\"><div class=\"ph ph-e\"><\/div><div class=\"pu-in\"><h3>מדידה מהיום הראשון<\/h3>\n    <p>מחברים מעקב לפני העלייה לאוויר, ולא חודש אחרי.<\/p><\/div><div class=\"pu-veil\"><\/div><\/section>\n<\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const secs=gsap.utils.toArray(\".pu-sec\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce)return;\n  secs.forEach((sec,i)=>{\n    if(i===secs.length-1)return;\n    // הסקשן הנוכחי נסוג ומתכהה בזמן שהבא אחריו עולה מעליו\n    gsap.timeline({scrollTrigger:{trigger:secs[i+1],start:\"top bottom\",end:\"top top\",scrub:.5}})\n      .fromTo(sec,{scale:1,y:0},{scale:.9,y:-40,ease:\"none\"},0)\n      .fromTo(sec.querySelector(\".pu-veil\"),{opacity:0},{opacity:.55,ease:\"none\"},0);\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":false}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -58,6 +112,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const secs=gsap.utils.toArray(".pu-sec");

@@ -40,6 +40,59 @@
 </div></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/lm1.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* LM1 · שכבות סחיפה */
+.driftsec{position:relative;height:90vh;background:#101223;border-radius:var(--r, 14px);margin-inline:var(--gutter, clamp(24px, 5vw, 96px));overflow:hidden;display:flex;align-items:center;justify-content:center}
+.dl{position:absolute;border-radius:50%;filter:blur(46px);will-change:translate}
+.dchip{will-change:translate,rotate}
+.driftsec h2{color:#fff;position:relative;z-index:2;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
+.dchip{position:absolute;z-index:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(16px);border-radius:14px;padding:12px 18px;color:#cdd0e8;font-size:13px;transform:rotate(-3deg)}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="driftsec"&gt;
+&lt;div class="dl" data-drift="y:2,r:-0.3" style="width:340px;height:340px;background:rgba(44,247,217,.16);top:-14%;inset-inline-start:-4%"&gt;&lt;/div&gt;
+&lt;div class="dl" data-drift="y:0.5,x:-1,r:0.2" style="width:260px;height:260px;background:rgba(244,158,64,.15);bottom:-12%;inset-inline-end:6%"&gt;&lt;/div&gt;
+&lt;div class="dchip" data-drift="y:1.5" style="top:20%;inset-inline-end:12%"&gt;שכבה מהירה (1.5)&lt;/div&gt;
+&lt;div class="dchip" data-drift="y:0.4,x:-0.4" style="bottom:24%;inset-inline-start:10%;transform:rotate(2deg)"&gt;שכבה איטית (0.4)&lt;/div&gt;
+&lt;h2&gt;שכבות בסחיפה איטית&lt;/h2&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+if(!reduced){
+  const drifts=[...document.querySelectorAll("[data-drift]")].map(el=&gt;{
+    const p={};el.dataset.drift.split(",").forEach(s=&gt;{const kv=s.split(":");p[kv[0]]=+kv[1]});
+    return{el,y:p.y||0,x:p.x||0,r:p.r||0,sec:el.closest(".driftsec")};
+  });
+  const AMP=110;                       // המרחק לשכבה במקדם 1, לכל אורך המעבר על המסך
+  let tick=false;
+  function frame(){tick=false;const vh=innerHeight;
+    drifts.forEach(d=&gt;{
+      const rc=d.sec.getBoundingClientRect();
+      const t=Math.min(1,Math.max(0,(vh-rc.top)/(vh+rc.height)));
+      // p נע מ-1 ל--1 סביב אמצע המעבר, ולכן במרכז המסך השכבה יושבת בדיוק במקום שעוצבה
+      const p=1-t*2;
+      d.el.style.translate=(p*d.x*AMP)+"px "+(p*d.y*AMP)+"px";
+      if(d.r)d.el.style.rotate=(p*d.r*20)+"deg";
+    });}
+  addEventListener("scroll",()=&gt;{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});
+  frame();
+}</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:lm1 · שכבות סחיפה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/lm/lm1.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/lm1.html\n\nמה זה עושה: אלמנטים צפים שנסחפים במהירויות שונות בגלילה, עם הטיה קלה. במרכז המסך כל שכבה יושבת במקום שעוצבה, ומשם היא נסחפת לשני הכיוונים. שכבה איטית מרגישה רחוקה, מהירה מרגישה קרובה.\nמתי משתמשים: הירו וסקשני אווירה. עד 4 שכבות לסקשן. נכרה מכל האתרים של ליאב (מדרג 1/2/4).\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* LM1 · שכבות סחיפה */\n.driftsec{position:relative;height:90vh;background:#101223;border-radius:var(--r, 14px);margin-inline:var(--gutter, clamp(24px, 5vw, 96px));overflow:hidden;display:flex;align-items:center;justify-content:center}\n.dl{position:absolute;border-radius:50%;filter:blur(46px);will-change:translate}\n.dchip{will-change:translate,rotate}\n.driftsec h2{color:#fff;position:relative;z-index:2;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}\n.dchip{position:absolute;z-index:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(16px);border-radius:14px;padding:12px 18px;color:#cdd0e8;font-size:13px;transform:rotate(-3deg)}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"driftsec\">\n<div class=\"dl\" data-drift=\"y:2,r:-0.3\" style=\"width:340px;height:340px;background:rgba(44,247,217,.16);top:-14%;inset-inline-start:-4%\"><\/div>\n<div class=\"dl\" data-drift=\"y:0.5,x:-1,r:0.2\" style=\"width:260px;height:260px;background:rgba(244,158,64,.15);bottom:-12%;inset-inline-end:6%\"><\/div>\n<div class=\"dchip\" data-drift=\"y:1.5\" style=\"top:20%;inset-inline-end:12%\">שכבה מהירה (1.5)<\/div>\n<div class=\"dchip\" data-drift=\"y:0.4,x:-0.4\" style=\"bottom:24%;inset-inline-start:10%;transform:rotate(2deg)\">שכבה איטית (0.4)<\/div>\n<h2>שכבות בסחיפה איטית<\/h2>\n<\/div><\/div>\n\n=== JS ===\nconst reduced=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif(!reduced){\n  const drifts=[...document.querySelectorAll(\"[data-drift]\")].map(el=>{\n    const p={};el.dataset.drift.split(\",\").forEach(s=>{const kv=s.split(\":\");p[kv[0]]=+kv[1]});\n    return{el,y:p.y||0,x:p.x||0,r:p.r||0,sec:el.closest(\".driftsec\")};\n  });\n  const AMP=110;                       // המרחק לשכבה במקדם 1, לכל אורך המעבר על המסך\n  let tick=false;\n  function frame(){tick=false;const vh=innerHeight;\n    drifts.forEach(d=>{\n      const rc=d.sec.getBoundingClientRect();\n      const t=Math.min(1,Math.max(0,(vh-rc.top)/(vh+rc.height)));\n      // p נע מ-1 ל--1 סביב אמצע המעבר, ולכן במרכז המסך השכבה יושבת בדיוק במקום שעוצבה\n      const p=1-t*2;\n      d.el.style.translate=(p*d.x*AMP)+\"px \"+(p*d.y*AMP)+\"px\";\n      if(d.r)d.el.style.rotate=(p*d.r*20)+\"deg\";\n    });}\n  addEventListener(\"scroll\",()=>{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});\n  frame();\n}","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* LM1 · שכבות סחיפה */\n.driftsec{position:relative;height:90vh;background:#101223;border-radius:var(--r, 14px);margin-inline:var(--gutter, clamp(24px, 5vw, 96px));overflow:hidden;display:flex;align-items:center;justify-content:center}\n.dl{position:absolute;border-radius:50%;filter:blur(46px);will-change:translate}\n.dchip{will-change:translate,rotate}\n.driftsec h2{color:#fff;position:relative;z-index:2;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}\n.dchip{position:absolute;z-index:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(16px);border-radius:14px;padding:12px 18px;color:#cdd0e8;font-size:13px;transform:rotate(-3deg)}","html":"<div class=\"stage tight\"><div class=\"driftsec\">\n<div class=\"dl\" data-drift=\"y:2,r:-0.3\" style=\"width:340px;height:340px;background:rgba(44,247,217,.16);top:-14%;inset-inline-start:-4%\"><\/div>\n<div class=\"dl\" data-drift=\"y:0.5,x:-1,r:0.2\" style=\"width:260px;height:260px;background:rgba(244,158,64,.15);bottom:-12%;inset-inline-end:6%\"><\/div>\n<div class=\"dchip\" data-drift=\"y:1.5\" style=\"top:20%;inset-inline-end:12%\">שכבה מהירה (1.5)<\/div>\n<div class=\"dchip\" data-drift=\"y:0.4,x:-0.4\" style=\"bottom:24%;inset-inline-start:10%;transform:rotate(2deg)\">שכבה איטית (0.4)<\/div>\n<h2>שכבות בסחיפה איטית<\/h2>\n<\/div><\/div>","js":"const reduced=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nif(!reduced){\n  const drifts=[...document.querySelectorAll(\"[data-drift]\")].map(el=>{\n    const p={};el.dataset.drift.split(\",\").forEach(s=>{const kv=s.split(\":\");p[kv[0]]=+kv[1]});\n    return{el,y:p.y||0,x:p.x||0,r:p.r||0,sec:el.closest(\".driftsec\")};\n  });\n  const AMP=110;                       // המרחק לשכבה במקדם 1, לכל אורך המעבר על המסך\n  let tick=false;\n  function frame(){tick=false;const vh=innerHeight;\n    drifts.forEach(d=>{\n      const rc=d.sec.getBoundingClientRect();\n      const t=Math.min(1,Math.max(0,(vh-rc.top)/(vh+rc.height)));\n      // p נע מ-1 ל--1 סביב אמצע המעבר, ולכן במרכז המסך השכבה יושבת בדיוק במקום שעוצבה\n      const p=1-t*2;\n      d.el.style.translate=(p*d.x*AMP)+\"px \"+(p*d.y*AMP)+\"px\";\n      if(d.r)d.el.style.rotate=(p*d.r*20)+\"deg\";\n    });}\n  addEventListener(\"scroll\",()=>{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});\n  frame();\n}","scripts":"","rtl":true}</script>
+</section>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -52,6 +105,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
 if(!reduced){

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G18 · סצנת סיפור מוצמדת (Master Timeline)</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* G18 · סצנת סיפור מוצמדת (Master Timeline) */
+.scene{height:100vh;background:#101223;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+.scene .bgA,.scene .bgB{position:absolute;inset-inline:0;height:34%;border-radius:50% 50% 0 0/100% 100% 0 0;background:#2a2f55}
+.scene .bgA{top:-12%;transform:rotate(180deg)}.scene .bgB{bottom:-12%}
+.stitles{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center}
+.st1,.st2{position:absolute;color:#fff;font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));font-weight:700;max-width:20ch;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.smedia{position:relative;z-index:2;width:60vw;background:linear-gradient(135deg,#7048e8,#22b8cf);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700}
+</style>
+</head>
+<body>
+<div class="scene">
+<div class="bgA"></div><div class="bgB"></div>
+<div class="stitles">
+  <h2 class="st1">יש סיפורים שאי אפשר לספר בסקשן רגיל</h2>
+  <h2 class="st2">בשביל זה בדיוק יש את הבמה הזאת</h2>
+</div>
+<div class="smedia">הווידאו שלך כאן</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger, SplitText);
+
+const t1=new SplitText(".st1",{type:"words"}),t2=new SplitText(".st2",{type:"words"});
+const tl=gsap.timeline({scrollTrigger:{trigger:".scene",start:"top 90%",end:"+=2600",scrub:1}});
+ScrollTrigger.create({trigger:".scene",start:"top top",end:"+=2200",pin:true,scrub:1,anticipatePin:1});
+tl.from(".bgA",{y:"-10vw",duration:1},0)
+  .from(".bgB",{y:"10vw",duration:1},0)
+  .from(t1.words,{y:50,opacity:0,stagger:.05,duration:.5},"-=0.5")
+  .to(".st1",{opacity:0,duration:.5},"+=0.3")
+  .from(t2.words,{y:50,opacity:0,stagger:.05,duration:.5})
+  .to(".st2",{opacity:0,duration:.4},"+=0.3")
+  .from(".smedia",{opacity:0,duration:.3})
+  .fromTo(".smedia",{scale:.2,borderRadius:"500vw",height:"22vw"},{scale:1,borderRadius:"24px",height:"82vh",duration:.8});
+</script>
+</body>
+</html>

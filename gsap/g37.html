@@ -45,6 +45,62 @@ html,body{overflow-x:clip}
 </div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g37.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
+
+/* G37 · ענן תמונות מרחפות בעומק */
+html,body{overflow-x:clip}
+.cloud{height:100vh;position:relative;overflow:hidden;background:#0f1020}
+.cloud-img{position:absolute;border-radius:10px;font-size:16px;will-change:transform;box-shadow:0 18px 40px rgba(0,0,0,.4)}
+.cloud-title{position:absolute;inset:auto var(--gutter, clamp(24px, 5vw, 96px)) 10%;color:#fff;font-size:clamp(24px,2.6vw,42px);font-weight:700;max-width:520px;pointer-events:none}
+.cloud-title span{display:inline-block;margin-top:14px;padding:12px 22px;border-radius:999px;background:#fff;color:var(--ink, #16182b);font-size:15px;font-weight:500}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="cloud"&gt;
+  &lt;div class="cloud-img ph ph-a" data-x="8"  data-y="12" data-w="16" data-d="1.4"&gt;1&lt;/div&gt;
+  &lt;div class="cloud-img ph ph-b" data-x="30" data-y="6"  data-w="22" data-d="0.9"&gt;2&lt;/div&gt;
+  &lt;div class="cloud-img ph ph-c" data-x="58" data-y="14" data-w="10" data-d="1.8"&gt;3&lt;/div&gt;
+  &lt;div class="cloud-img ph ph-d" data-x="74" data-y="4"  data-w="18" data-d="1.1"&gt;4&lt;/div&gt;
+  &lt;div class="cloud-img ph ph-e" data-x="14" data-y="48" data-w="12" data-d="1.6"&gt;5&lt;/div&gt;
+  &lt;div class="cloud-img ph ph-f" data-x="40" data-y="42" data-w="26" data-d="0.7"&gt;6&lt;/div&gt;
+  &lt;div class="cloud-img ph ph-a" data-x="70" data-y="40" data-w="14" data-d="1.3"&gt;7&lt;/div&gt;
+  &lt;div class="cloud-img ph ph-b" data-x="86" data-y="58" data-w="9"  data-d="2"&gt;8&lt;/div&gt;
+  &lt;div class="cloud-img ph ph-c" data-x="4"  data-y="76" data-w="20" data-d="1"&gt;9&lt;/div&gt;
+  &lt;div class="cloud-title"&gt;קהילה שבונה דברים יפים&lt;br&gt;&lt;span&gt;לכל הפרויקטים ←&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const sec=document.querySelector(".cloud"),imgs=[...sec.querySelectorAll(".cloud-img")];
+  const k=innerWidth&lt;768?1.9:1; // במובייל הענן צריך פריטים גדולים יותר כדי להיקרא
+  imgs.forEach(el=&gt;{const w=+el.dataset.w*k;gsap.set(el,{left:el.dataset.x+"%",top:el.dataset.y+"%",width:w+"vw",height:w*0.75+"vw",autoAlpha:0,scale:.9});});
+  gsap.to(imgs,{autoAlpha:1,scale:1,duration:.9,ease:"power3.out",stagger:{each:.06,from:"random"},scrollTrigger:{trigger:sec,start:"top 70%",toggleActions:"play none none none"}});
+  const tl=gsap.timeline({scrollTrigger:{trigger:sec,start:"top top",end:"+=160%",pin:true,scrub:1}});
+  imgs.forEach(el=&gt;tl.to(el,{y:()=&gt;-innerHeight*0.55*(+el.dataset.d),ease:"none"},0));
+  if(matchMedia("(hover:hover)").matches){
+    const setters=imgs.map(el=&gt;({x:gsap.quickTo(el,"x",{duration:.9,ease:"power3"}),d:+el.dataset.d}));
+    sec.addEventListener("mousemove",e=&gt;{const r=sec.getBoundingClientRect();const nx=(e.clientX-r.left)/r.width-.5;setters.forEach(s=&gt;s.x(-nx*60*s.d));});
+  }
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g37 · ענן תמונות מרחפות בעומק\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g37.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g37.html\n\nמה זה עושה: סקשן מוצמד שבו תמונות מפוזרות במרחב בגדלים שונים. בגלילה כל תמונה עולה במהירות משלה לפי העומק שלה, והעכבר מזיז את כולן בעדינות בפרלקסה.\nמתי משתמשים: הצגת אוסף: לקוחות, פרויקטים, קהילה, מוצרים. במקום גריד מסודר, תחושת מרחב. 7 עד 12 תמונות, לא יותר.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G37 · ענן תמונות מרחפות בעומק */\nhtml,body{overflow-x:clip}\n.cloud{height:100vh;position:relative;overflow:hidden;background:#0f1020}\n.cloud-img{position:absolute;border-radius:10px;font-size:16px;will-change:transform;box-shadow:0 18px 40px rgba(0,0,0,.4)}\n.cloud-title{position:absolute;inset:auto var(--gutter, clamp(24px, 5vw, 96px)) 10%;color:#fff;font-size:clamp(24px,2.6vw,42px);font-weight:700;max-width:520px;pointer-events:none}\n.cloud-title span{display:inline-block;margin-top:14px;padding:12px 22px;border-radius:999px;background:#fff;color:var(--ink, #16182b);font-size:15px;font-weight:500}\n\n=== HTML ===\n<div class=\"cloud\">\n  <div class=\"cloud-img ph ph-a\" data-x=\"8\"  data-y=\"12\" data-w=\"16\" data-d=\"1.4\">1<\/div>\n  <div class=\"cloud-img ph ph-b\" data-x=\"30\" data-y=\"6\"  data-w=\"22\" data-d=\"0.9\">2<\/div>\n  <div class=\"cloud-img ph ph-c\" data-x=\"58\" data-y=\"14\" data-w=\"10\" data-d=\"1.8\">3<\/div>\n  <div class=\"cloud-img ph ph-d\" data-x=\"74\" data-y=\"4\"  data-w=\"18\" data-d=\"1.1\">4<\/div>\n  <div class=\"cloud-img ph ph-e\" data-x=\"14\" data-y=\"48\" data-w=\"12\" data-d=\"1.6\">5<\/div>\n  <div class=\"cloud-img ph ph-f\" data-x=\"40\" data-y=\"42\" data-w=\"26\" data-d=\"0.7\">6<\/div>\n  <div class=\"cloud-img ph ph-a\" data-x=\"70\" data-y=\"40\" data-w=\"14\" data-d=\"1.3\">7<\/div>\n  <div class=\"cloud-img ph ph-b\" data-x=\"86\" data-y=\"58\" data-w=\"9\"  data-d=\"2\">8<\/div>\n  <div class=\"cloud-img ph ph-c\" data-x=\"4\"  data-y=\"76\" data-w=\"20\" data-d=\"1\">9<\/div>\n  <div class=\"cloud-title\">קהילה שבונה דברים יפים<br><span>לכל הפרויקטים ←<\/span><\/div>\n<\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const sec=document.querySelector(\".cloud\"),imgs=[...sec.querySelectorAll(\".cloud-img\")];\n  const k=innerWidth<768?1.9:1; // במובייל הענן צריך פריטים גדולים יותר כדי להיקרא\n  imgs.forEach(el=>{const w=+el.dataset.w*k;gsap.set(el,{left:el.dataset.x+\"%\",top:el.dataset.y+\"%\",width:w+\"vw\",height:w*0.75+\"vw\",autoAlpha:0,scale:.9});});\n  gsap.to(imgs,{autoAlpha:1,scale:1,duration:.9,ease:\"power3.out\",stagger:{each:.06,from:\"random\"},scrollTrigger:{trigger:sec,start:\"top 70%\",toggleActions:\"play none none none\"}});\n  const tl=gsap.timeline({scrollTrigger:{trigger:sec,start:\"top top\",end:\"+=160%\",pin:true,scrub:1}});\n  imgs.forEach(el=>tl.to(el,{y:()=>-innerHeight*0.55*(+el.dataset.d),ease:\"none\"},0));\n  if(matchMedia(\"(hover:hover)\").matches){\n    const setters=imgs.map(el=>({x:gsap.quickTo(el,\"x\",{duration:.9,ease:\"power3\"}),d:+el.dataset.d}));\n    sec.addEventListener(\"mousemove\",e=>{const r=sec.getBoundingClientRect();const nx=(e.clientX-r.left)/r.width-.5;setters.forEach(s=>s.x(-nx*60*s.d));});\n  }\n})();\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G37 · ענן תמונות מרחפות בעומק */\nhtml,body{overflow-x:clip}\n.cloud{height:100vh;position:relative;overflow:hidden;background:#0f1020}\n.cloud-img{position:absolute;border-radius:10px;font-size:16px;will-change:transform;box-shadow:0 18px 40px rgba(0,0,0,.4)}\n.cloud-title{position:absolute;inset:auto var(--gutter, clamp(24px, 5vw, 96px)) 10%;color:#fff;font-size:clamp(24px,2.6vw,42px);font-weight:700;max-width:520px;pointer-events:none}\n.cloud-title span{display:inline-block;margin-top:14px;padding:12px 22px;border-radius:999px;background:#fff;color:var(--ink, #16182b);font-size:15px;font-weight:500}","html":"<div class=\"cloud\">\n  <div class=\"cloud-img ph ph-a\" data-x=\"8\"  data-y=\"12\" data-w=\"16\" data-d=\"1.4\">1<\/div>\n  <div class=\"cloud-img ph ph-b\" data-x=\"30\" data-y=\"6\"  data-w=\"22\" data-d=\"0.9\">2<\/div>\n  <div class=\"cloud-img ph ph-c\" data-x=\"58\" data-y=\"14\" data-w=\"10\" data-d=\"1.8\">3<\/div>\n  <div class=\"cloud-img ph ph-d\" data-x=\"74\" data-y=\"4\"  data-w=\"18\" data-d=\"1.1\">4<\/div>\n  <div class=\"cloud-img ph ph-e\" data-x=\"14\" data-y=\"48\" data-w=\"12\" data-d=\"1.6\">5<\/div>\n  <div class=\"cloud-img ph ph-f\" data-x=\"40\" data-y=\"42\" data-w=\"26\" data-d=\"0.7\">6<\/div>\n  <div class=\"cloud-img ph ph-a\" data-x=\"70\" data-y=\"40\" data-w=\"14\" data-d=\"1.3\">7<\/div>\n  <div class=\"cloud-img ph ph-b\" data-x=\"86\" data-y=\"58\" data-w=\"9\"  data-d=\"2\">8<\/div>\n  <div class=\"cloud-img ph ph-c\" data-x=\"4\"  data-y=\"76\" data-w=\"20\" data-d=\"1\">9<\/div>\n  <div class=\"cloud-title\">קהילה שבונה דברים יפים<br><span>לכל הפרויקטים ←<\/span><\/div>\n<\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const sec=document.querySelector(\".cloud\"),imgs=[...sec.querySelectorAll(\".cloud-img\")];\n  const k=innerWidth<768?1.9:1; // במובייל הענן צריך פריטים גדולים יותר כדי להיקרא\n  imgs.forEach(el=>{const w=+el.dataset.w*k;gsap.set(el,{left:el.dataset.x+\"%\",top:el.dataset.y+\"%\",width:w+\"vw\",height:w*0.75+\"vw\",autoAlpha:0,scale:.9});});\n  gsap.to(imgs,{autoAlpha:1,scale:1,duration:.9,ease:\"power3.out\",stagger:{each:.06,from:\"random\"},scrollTrigger:{trigger:sec,start:\"top 70%\",toggleActions:\"play none none none\"}});\n  const tl=gsap.timeline({scrollTrigger:{trigger:sec,start:\"top top\",end:\"+=160%\",pin:true,scrub:1}});\n  imgs.forEach(el=>tl.to(el,{y:()=>-innerHeight*0.55*(+el.dataset.d),ease:\"none\"},0));\n  if(matchMedia(\"(hover:hover)\").matches){\n    const setters=imgs.map(el=>({x:gsap.quickTo(el,\"x\",{duration:.9,ease:\"power3\"}),d:+el.dataset.d}));\n    sec.addEventListener(\"mousemove\",e=>{const r=sec.getBoundingClientRect();const nx=(e.clientX-r.left)/r.width-.5;setters.forEach(s=>s.x(-nx*60*s.d));});\n  }\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":false}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -58,6 +114,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const sec=document.querySelector(".cloud"),imgs=[...sec.querySelectorAll(".cloud-img")];

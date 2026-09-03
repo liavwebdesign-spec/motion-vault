@@ -48,6 +48,53 @@
 <p class="tm-after">במקום גרדיאנט אפשר לשים כאן תמונה או וידאו של הלקוח, ואז האותיות הופכות לחלון אל העבודה עצמה.</p>
 
 <div class="demo-note">שני דברים שאסור לפספס. הראשון: `-webkit-text-fill-color:transparent` נחוץ בנוסף ל-`color:transparent`, אחרת בחלק מהדפדפנים הטקסט פשוט נעלם או נשאר צבוע. השני: חייבים `@supports` שמחזיר צבע מלא כשאין תמיכה, כי טקסט שקוף בלי רקע גלוי הוא טקסט בלתי נראה, וזו תקלת נגישות ולא רק תקלה חזותית. הרקע גדול מהאלמנט (`background-size` מעל מאה אחוז) כי בלי עודף אין מה להזיז. אם שמים תמונה במקום גרדיאנט, כדאי תמונה עם ניגודיות גבוהה: פרטים עדינים נעלמים בתוך אותיות.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g58.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* G58 · כותרת ענקית שרואים דרכה את המדיה */
+.tm{height:220vh;position:relative}
+.tm-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;background:var(--bg, #f7f7fa)}
+.tm-word{margin:0;font-size:clamp(72px,20vw,280px);line-height:.92;font-weight:800;letter-spacing:-.02em;
+  text-align:center;
+  background-image:linear-gradient(120deg,#3b5bdb,#0b7285 38%,#e8590c 68%,#5f3dc4);
+  background-size:260% 260%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-text-fill-color:transparent}
+/* אם הדפדפן לא תומך בחיתוך רקע לטקסט, חוזרים לצבע מלא ולא לטקסט שקוף */
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  .tm-word{color:var(--ink, #16182b);-webkit-text-fill-color:currentColor}
+}
+.tm-sub{position:absolute;bottom:11vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}
+.tm-after{padding:14vh var(--gutter, clamp(24px, 5vw, 96px));max-width:min(680px,92vw);margin-inline:auto;text-align:center;
+  color:var(--muted, #6a6d85);font-size:17px;line-height:1.9}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="tm"&gt;&lt;div class="tm-stick"&gt;
+  &lt;h2 class="tm-word"&gt;אתרים&lt;br&gt;שמביאים&lt;/h2&gt;
+  &lt;p class="tm-sub"&gt;גלול. מה שרואים בתוך האותיות זז.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;
+&lt;p class="tm-after"&gt;במקום גרדיאנט אפשר לשים כאן תמונה או וידאו של הלקוח, ואז האותיות הופכות לחלון אל העבודה עצמה.&lt;/p&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const word=document.querySelector(".tm-word");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+  gsap.timeline({scrollTrigger:{trigger:".tm",start:"top top",end:"bottom bottom",scrub:.5}})
+    // הרקע הוא מה שנע, לא הטקסט: האותיות נשארות במקום והחלון שלהן מראה חלק אחר
+    .fromTo(word,{backgroundPosition:"0% 50%"},{backgroundPosition:"100% 50%",ease:"none"},0)
+    .fromTo(word,{scale:.86,letterSpacing:"0.04em"},{scale:1,letterSpacing:"-0.02em",ease:"none"},0);
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g58 · כותרת ענקית שרואים דרכה את המדיה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g58.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g58.html\n\nמה זה עושה: מילה אחת בגודל ענק שהאותיות שלה הן חלון: מאחוריהן נעה תמונה בקצב הגלילה. הטקסט הוא המסכה, לא הצבע.\nמתי משתמשים: פתיחת עמוד, מעבר בין פרקים, שם המותג בסוף העמוד. רגע יחיד בעמוד, ובדיוק בגלל זה הוא נזכר.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* G58 · כותרת ענקית שרואים דרכה את המדיה */\n.tm{height:220vh;position:relative}\n.tm-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;background:var(--bg, #f7f7fa)}\n.tm-word{margin:0;font-size:clamp(72px,20vw,280px);line-height:.92;font-weight:800;letter-spacing:-.02em;\n  text-align:center;\n  background-image:linear-gradient(120deg,#3b5bdb,#0b7285 38%,#e8590c 68%,#5f3dc4);\n  background-size:260% 260%;\n  -webkit-background-clip:text;background-clip:text;color:transparent;\n  -webkit-text-fill-color:transparent}\n/* אם הדפדפן לא תומך בחיתוך רקע לטקסט, חוזרים לצבע מלא ולא לטקסט שקוף */\n@supports not ((-webkit-background-clip:text) or (background-clip:text)){\n  .tm-word{color:var(--ink, #16182b);-webkit-text-fill-color:currentColor}\n}\n.tm-sub{position:absolute;bottom:11vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}\n.tm-after{padding:14vh var(--gutter, clamp(24px, 5vw, 96px));max-width:min(680px,92vw);margin-inline:auto;text-align:center;\n  color:var(--muted, #6a6d85);font-size:17px;line-height:1.9}\n\n=== HTML ===\n<div class=\"tm\"><div class=\"tm-stick\">\n  <h2 class=\"tm-word\">אתרים<br>שמביאים<\/h2>\n  <p class=\"tm-sub\">גלול. מה שרואים בתוך האותיות זז.<\/p>\n<\/div><\/div>\n<p class=\"tm-after\">במקום גרדיאנט אפשר לשים כאן תמונה או וידאו של הלקוח, ואז האותיות הופכות לחלון אל העבודה עצמה.<\/p>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const word=document.querySelector(\".tm-word\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce)return;\n  gsap.timeline({scrollTrigger:{trigger:\".tm\",start:\"top top\",end:\"bottom bottom\",scrub:.5}})\n    // הרקע הוא מה שנע, לא הטקסט: האותיות נשארות במקום והחלון שלהן מראה חלק אחר\n    .fromTo(word,{backgroundPosition:\"0% 50%\"},{backgroundPosition:\"100% 50%\",ease:\"none\"},0)\n    .fromTo(word,{scale:.86,letterSpacing:\"0.04em\"},{scale:1,letterSpacing:\"-0.02em\",ease:\"none\"},0);\n})();\n\nהערת מימוש מהמאגר:\nשני דברים שאסור לפספס. הראשון: `-webkit-text-fill-color:transparent` נחוץ בנוסף ל-`color:transparent`, אחרת בחלק מהדפדפנים הטקסט פשוט נעלם או נשאר צבוע. השני: חייבים `@supports` שמחזיר צבע מלא כשאין תמיכה, כי טקסט שקוף בלי רקע גלוי הוא טקסט בלתי נראה, וזו תקלת נגישות ולא רק תקלה חזותית. הרקע גדול מהאלמנט (`background-size` מעל מאה אחוז) כי בלי עודף אין מה להזיז. אם שמים תמונה במקום גרדיאנט, כדאי תמונה עם ניגודיות גבוהה: פרטים עדינים נעלמים בתוך אותיות.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* G58 · כותרת ענקית שרואים דרכה את המדיה */\n.tm{height:220vh;position:relative}\n.tm-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;background:var(--bg, #f7f7fa)}\n.tm-word{margin:0;font-size:clamp(72px,20vw,280px);line-height:.92;font-weight:800;letter-spacing:-.02em;\n  text-align:center;\n  background-image:linear-gradient(120deg,#3b5bdb,#0b7285 38%,#e8590c 68%,#5f3dc4);\n  background-size:260% 260%;\n  -webkit-background-clip:text;background-clip:text;color:transparent;\n  -webkit-text-fill-color:transparent}\n/* אם הדפדפן לא תומך בחיתוך רקע לטקסט, חוזרים לצבע מלא ולא לטקסט שקוף */\n@supports not ((-webkit-background-clip:text) or (background-clip:text)){\n  .tm-word{color:var(--ink, #16182b);-webkit-text-fill-color:currentColor}\n}\n.tm-sub{position:absolute;bottom:11vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}\n.tm-after{padding:14vh var(--gutter, clamp(24px, 5vw, 96px));max-width:min(680px,92vw);margin-inline:auto;text-align:center;\n  color:var(--muted, #6a6d85);font-size:17px;line-height:1.9}","html":"<div class=\"tm\"><div class=\"tm-stick\">\n  <h2 class=\"tm-word\">אתרים<br>שמביאים<\/h2>\n  <p class=\"tm-sub\">גלול. מה שרואים בתוך האותיות זז.<\/p>\n<\/div><\/div>\n<p class=\"tm-after\">במקום גרדיאנט אפשר לשים כאן תמונה או וידאו של הלקוח, ואז האותיות הופכות לחלון אל העבודה עצמה.<\/p>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const word=document.querySelector(\".tm-word\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce)return;\n  gsap.timeline({scrollTrigger:{trigger:\".tm\",start:\"top top\",end:\"bottom bottom\",scrub:.5}})\n    // הרקע הוא מה שנע, לא הטקסט: האותיות נשארות במקום והחלון שלהן מראה חלק אחר\n    .fromTo(word,{backgroundPosition:\"0% 50%\"},{backgroundPosition:\"100% 50%\",ease:\"none\"},0)\n    .fromTo(word,{scale:.86,letterSpacing:\"0.04em\"},{scale:1,letterSpacing:\"-0.02em\",ease:\"none\"},0);\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -61,6 +108,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const word=document.querySelector(".tm-word");

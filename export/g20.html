@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G20 · טיימליין אופקי עם קו התקדמות</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* G20 · טיימליין אופקי עם קו התקדמות */
+.hwrap{overflow:hidden;background:#fff}
+.hcont{display:flex;position:relative;padding-block:130px}
+.step{flex:0 0 36vw;display:flex;flex-direction:column;align-items:center;text-align:center;padding-inline:20px}
+.step .dot{width:18px;height:18px;border-radius:50%;background:#3b5bdb;margin-bottom:14px;position:relative;z-index:2}
+.step h3{margin:0 0 6px;font-size:20px}
+.step p{margin:0;color:var(--muted, #6a6d85)}
+.tline-rail,.tline{position:absolute;top:calc(130px + 8px);inset-inline-start:0;height:2px;width:180vw}
+.tline-rail{background:#e6e8f2}
+.tline{background:linear-gradient(270deg,#3b5bdb,#22b8cf);transform-origin:100% 50%;will-change:transform}
+</style>
+</head>
+<body>
+<div class="hwrap"><div class="hcont">
+<div class="tline-rail"></div><div class="tline"></div>
+<div class="step s1"><div class="dot"></div><h3>אפיון</h3><p>מבינים את העסק</p></div>
+<div class="step s2"><div class="dot"></div><h3>קופי</h3><p>כותבים את הסיפור</p></div>
+<div class="step s3"><div class="dot"></div><h3>עיצוב</h3><p>נותנים לו פנים</p></div>
+<div class="step s4"><div class="dot"></div><h3>פיתוח</h3><p>מפיחים חיים</p></div>
+<div class="step s5"><div class="dot"></div><h3>השקה</h3><p>עולים לאוויר</p></div>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+const steps=gsap.utils.toArray(".step");
+const hc=document.querySelector(".hcont");
+const rails=[document.querySelector(".tline-rail"),document.querySelector(".tline")];
+const total=()=>hc.scrollWidth-innerWidth;
+
+gsap.set(steps.slice(1),{opacity:.22});
+gsap.set(".tline",{scaleX:0});
+
+// הכל יושב על טיימליין אחד שמחובר לפין. ScrollTrigger נפרד לכל תחנה,
+// שמכוון לאותו אלמנט מפונן, מחשב טווחים על מיקום שמשתנה מתחתיו והשלבים נשארים שקופים.
+const tl=gsap.timeline({scrollTrigger:{
+  trigger:".hwrap",pin:true,scrub:.5,start:"top top",
+  end:()=>"+="+total()*1.6,anticipatePin:1,invalidateOnRefresh:true}});
+
+tl.to([...steps,...rails],{x:()=>total(),ease:"none",duration:1},0)
+  .to(".tline",{scaleX:1,ease:"none",duration:1},0);
+
+steps.forEach((el,i)=>{
+  if(i===0)return;
+  tl.to(el,{opacity:1,ease:"none",duration:.1},i/steps.length*0.9);
+});
+</script>
+</body>
+</html>

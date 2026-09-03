@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G15B · פרילודר דלתות</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:#fff;font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
+
+/* G15B · פרילודר דלתות */
+.doorstage{position:relative;height:clamp(320px,56vh,520px);overflow:hidden;border-radius:var(--r, 14px);
+  margin-inline:var(--gutter, clamp(24px, 5vw, 96px));background:#0d0f1c;display:grid;place-items:center;isolation:isolate}
+.doorstage .under{color:#e8ebff;text-align:center;padding-inline:26px;max-width:44ch}
+.doorstage .under h3{margin:0 0 8px;font-size:clamp(22px,2.6vw,34px)}
+.doorstage .under p{margin:0;color:#9aa0c4;font-size:15px;line-height:1.7}
+#pre{position:absolute;inset:0;z-index:2}
+/* left ו-right פיזיים בכוונה. עם inset-inline הדלתות מתהפכות ב-RTL בזמן
+   ש-translateX נשאר פיזי, והן חוצות את המסך במקום להיפתח החוצה. */
+.door{position:absolute;top:0;bottom:0;width:50.5%;background:#16182b;transition:transform .8s cubic-bezier(.76,0,.24,1)}
+.door.l{left:0}.door.r{right:0}
+.door::after{content:"";position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.14)}
+.door.l::after{right:0}.door.r::after{left:0}
+.plabel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:clamp(16px,1.6vw,20px);font-weight:700;transition:opacity .4s;z-index:3;pointer-events:none}
+.doorbar{display:flex;justify-content:center;margin-top:18px}
+</style>
+</head>
+<body>
+<div class="stage tight"><div class="doorstage">
+  <div class="under"><h3>העמוד מתחת</h3><p>הדלתות נסגרות מעל התוכן עד שהוא מוכן, ונפתחות החוצה כשהטעינה מסתיימת.</p></div>
+  <div id="pre"><div class="door l"></div><div class="door r"></div></div>
+  <div class="plabel">הדלתות נפתחות כשהעמוד נטען</div>
+</div>
+<div class="doorbar"><button class="gbtn replay">הפעל שוב</button></div></div>
+
+<script>
+const pre=document.getElementById("pre");
+const label=document.querySelector(".plabel");
+const L=pre.querySelector(".door.l"),R=pre.querySelector(".door.r");
+let t=[];
+const clear=()=>{t.forEach(clearTimeout);t=[]};
+
+function open(){
+  label.style.opacity=0;
+  t.push(setTimeout(()=>{L.style.transform="translateX(-100%)";R.style.transform="translateX(100%)"},200));
+  t.push(setTimeout(()=>pre.style.visibility="hidden",1100));
+}
+function reset(){
+  clear();
+  pre.style.visibility="visible";label.style.opacity=1;
+  L.style.transition=R.style.transition="none";
+  L.style.transform=R.style.transform="none";
+  void L.offsetHeight;                                  // מאלץ ציור לפני החזרת הטרנזישן
+  L.style.transition=R.style.transition="";
+  t.push(setTimeout(open,700));
+}
+document.querySelector(".replay").addEventListener("click",reset);
+
+let done=false;
+const first=()=>{if(done)return;done=true;t.push(setTimeout(open,900))};
+if(document.readyState==="complete")first();
+else{addEventListener("load",first);setTimeout(first,3000)}
+</script>
+</body>
+</html>

@@ -36,6 +36,47 @@
 </div></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b02.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.center{text-align:center}
+
+/* B02 · Count-Up (מספר שסופר) */
+.cnums{display:flex;gap:clamp(40px,5vw,110px);flex-wrap:wrap;justify-content:center}
+.cnum{font-size:clamp(48px,4vw,96px);font-weight:700}
+.cnums small{display:block;color:var(--muted, #6a6d85);font-size:15px;text-align:center}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight center"&gt;&lt;div class="cnums"&gt;
+&lt;div&gt;&lt;span class="cnum" data-count="340" data-suffix="+"&gt;0&lt;/span&gt;&lt;small&gt;לקוחות&lt;/small&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span class="cnum" data-count="97" data-suffix="%"&gt;0&lt;/span&gt;&lt;small&gt;שביעות רצון&lt;/small&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span class="cnum" data-count="12" data-suffix=""&gt;0&lt;/span&gt;&lt;small&gt;שנות ניסיון&lt;/small&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>const io=new IntersectionObserver(es=&gt;{es.forEach(e=&gt;{
+  if(!e.isIntersecting)return;
+  const el=e.target,to=+el.dataset.count,sfx=el.dataset.suffix||"";let t0=null;
+  function step(ts){if(!t0)t0=ts;const p=Math.min((ts-t0)/900,1);
+    el.textContent=Math.round(to*(1-Math.pow(1-p,3)))+sfx;
+    if(p&lt;1)requestAnimationFrame(step);}
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches)requestAnimationFrame(step);
+  else el.textContent=to+sfx;
+  io.unobserve(el);
+})},{threshold:.6});
+document.querySelectorAll(".cnum").forEach(el=&gt;io.observe(el));</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b02 · Count-Up (מספר שסופר)\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b02.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b02.html\n\nמה זה עושה: מספר גדול שנספר פעם אחת כשהוא נכנס למסך, עם ease-out טבעי ושמירת סיומת.\nמתי משתמשים: סקשן מספרים ונתונים. פעם אחת, לא בכל גלילה.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.center{text-align:center}\n\n/* B02 · Count-Up (מספר שסופר) */\n.cnums{display:flex;gap:clamp(40px,5vw,110px);flex-wrap:wrap;justify-content:center}\n.cnum{font-size:clamp(48px,4vw,96px);font-weight:700}\n.cnums small{display:block;color:var(--muted, #6a6d85);font-size:15px;text-align:center}\n\n=== HTML ===\n<div class=\"stage tight center\"><div class=\"cnums\">\n<div><span class=\"cnum\" data-count=\"340\" data-suffix=\"+\">0<\/span><small>לקוחות<\/small><\/div>\n<div><span class=\"cnum\" data-count=\"97\" data-suffix=\"%\">0<\/span><small>שביעות רצון<\/small><\/div>\n<div><span class=\"cnum\" data-count=\"12\" data-suffix=\"\">0<\/span><small>שנות ניסיון<\/small><\/div>\n<\/div><\/div>\n\n=== JS ===\nconst io=new IntersectionObserver(es=>{es.forEach(e=>{\n  if(!e.isIntersecting)return;\n  const el=e.target,to=+el.dataset.count,sfx=el.dataset.suffix||\"\";let t0=null;\n  function step(ts){if(!t0)t0=ts;const p=Math.min((ts-t0)/900,1);\n    el.textContent=Math.round(to*(1-Math.pow(1-p,3)))+sfx;\n    if(p<1)requestAnimationFrame(step);}\n  if(!matchMedia(\"(prefers-reduced-motion: reduce)\").matches)requestAnimationFrame(step);\n  else el.textContent=to+sfx;\n  io.unobserve(el);\n})},{threshold:.6});\ndocument.querySelectorAll(\".cnum\").forEach(el=>io.observe(el));","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.center{text-align:center}\n\n/* B02 · Count-Up (מספר שסופר) */\n.cnums{display:flex;gap:clamp(40px,5vw,110px);flex-wrap:wrap;justify-content:center}\n.cnum{font-size:clamp(48px,4vw,96px);font-weight:700}\n.cnums small{display:block;color:var(--muted, #6a6d85);font-size:15px;text-align:center}","html":"<div class=\"stage tight center\"><div class=\"cnums\">\n<div><span class=\"cnum\" data-count=\"340\" data-suffix=\"+\">0<\/span><small>לקוחות<\/small><\/div>\n<div><span class=\"cnum\" data-count=\"97\" data-suffix=\"%\">0<\/span><small>שביעות רצון<\/small><\/div>\n<div><span class=\"cnum\" data-count=\"12\" data-suffix=\"\">0<\/span><small>שנות ניסיון<\/small><\/div>\n<\/div><\/div>","js":"const io=new IntersectionObserver(es=>{es.forEach(e=>{\n  if(!e.isIntersecting)return;\n  const el=e.target,to=+el.dataset.count,sfx=el.dataset.suffix||\"\";let t0=null;\n  function step(ts){if(!t0)t0=ts;const p=Math.min((ts-t0)/900,1);\n    el.textContent=Math.round(to*(1-Math.pow(1-p,3)))+sfx;\n    if(p<1)requestAnimationFrame(step);}\n  if(!matchMedia(\"(prefers-reduced-motion: reduce)\").matches)requestAnimationFrame(step);\n  else el.textContent=to+sfx;\n  io.unobserve(el);\n})},{threshold:.6});\ndocument.querySelectorAll(\".cnum\").forEach(el=>io.observe(el));","scripts":"","rtl":false}</script>
+</section>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -48,6 +89,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 const io=new IntersectionObserver(es=>{es.forEach(e=>{
   if(!e.isIntersecting)return;

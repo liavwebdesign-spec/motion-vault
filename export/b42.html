@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B42 · מרקי שמגיב למהירות הגלילה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* B42 · מרקי שמגיב למהירות הגלילה */
+.vm{overflow:hidden;border-block:1px solid var(--line, #e4e4ee);background:var(--card, #fff);padding-block:clamp(16px,2vw,30px)}
+.vm+.vm{border-top:0}
+.vm-track{display:flex;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}
+.vm-track span{font-size:clamp(26px,4vw,66px);font-weight:800;white-space:nowrap;color:var(--ink, #16182b)}
+.vm-track span.o{color:transparent;-webkit-text-stroke:1px var(--muted, #6a6d85)}
+.vm.alt .vm-track span{font-size:clamp(18px,2vw,30px);font-weight:600;color:var(--muted, #6a6d85)}
+.vm-note{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding:18px var(--gutter, clamp(24px, 5vw, 96px)) 0}
+</style>
+</head>
+<body>
+<div class="vm"><div class="vm-track">
+  <span>אתרי תדמית</span><span class="o">דפי נחיתה</span><span>חנויות</span><span class="o">מערכות</span>
+  <span>אתרי תדמית</span><span class="o">דפי נחיתה</span><span>חנויות</span><span class="o">מערכות</span>
+</div></div>
+<div class="vm alt"><div class="vm-track">
+  <span>אפיון</span><span>קופי</span><span>עיצוב</span><span>פיתוח</span><span>מדידה</span><span>ליווי</span>
+  <span>אפיון</span><span>קופי</span><span>עיצוב</span><span>פיתוח</span><span>מדידה</span><span>ליווי</span>
+</div></div>
+<p class="vm-note">גלול מהר ולאט, ואז גלול אחורה. הרצועה מגיבה.</p>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll(".vm").forEach((wrap,idx)=>{
+    const track=wrap.querySelector(".vm-track");
+    const half=track.scrollWidth/2;
+    // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס
+    const loop=gsap.fromTo(track,{x:-half},{x:0,duration:14+idx*4,ease:"none",repeat:-1});
+    if(reduce){loop.pause();return;}
+    const skewTo=gsap.quickTo(track,"skewX",{duration:.4,ease:"power3"});
+    let scale=1;
+    ScrollTrigger.create({
+      onUpdate:self=>{
+        const v=self.getVelocity();
+        const dir=v>0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה
+        const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה
+        scale=dir*boost;
+        loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד
+        skewTo(gsap.utils.clamp(-8,8,-v/260));
+      }
+    });
+    // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.
+    gsap.ticker.add(()=>{
+      const base=Math.sign(scale)||1;
+      if(Math.abs(scale-base)<.02)return;
+      scale+=(base-scale)*.05;
+      loop.timeScale(scale);
+    });
+  });
+})();
+</script>
+</body>
+</html>

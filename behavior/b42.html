@@ -44,6 +44,69 @@
 <p class="vm-note">גלול מהר ולאט, ואז גלול אחורה. הרצועה מגיבה.</p>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 <div class="demo-note">getVelocity מחזיר פיקסלים לשנייה עם סימן שמעיד על הכיוון, ומכאן שני האפקטים: timeScale שלילי מהפך את הלולאה, ו-clamp מונע האצה מטורפת בגלילת מגע. חובה להחזיר את הקצב לבסיס אחרי הדחיפה, אחרת הרצועה נשארת מהירה לנצח. ה-skew מוגבל לשמונה מעלות: מעבר לזה הטקסט נעשה לא קריא.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/b42.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* B42 · מרקי שמגיב למהירות הגלילה */
+.vm{overflow:hidden;border-block:1px solid var(--line, #e4e4ee);background:var(--card, #fff);padding-block:clamp(16px,2vw,30px)}
+.vm+.vm{border-top:0}
+.vm-track{display:flex;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}
+.vm-track span{font-size:clamp(26px,4vw,66px);font-weight:800;white-space:nowrap;color:var(--ink, #16182b)}
+.vm-track span.o{color:transparent;-webkit-text-stroke:1px var(--muted, #6a6d85)}
+.vm.alt .vm-track span{font-size:clamp(18px,2vw,30px);font-weight:600;color:var(--muted, #6a6d85)}
+.vm-note{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding:18px var(--gutter, clamp(24px, 5vw, 96px)) 0}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="vm"&gt;&lt;div class="vm-track"&gt;
+  &lt;span&gt;אתרי תדמית&lt;/span&gt;&lt;span class="o"&gt;דפי נחיתה&lt;/span&gt;&lt;span&gt;חנויות&lt;/span&gt;&lt;span class="o"&gt;מערכות&lt;/span&gt;
+  &lt;span&gt;אתרי תדמית&lt;/span&gt;&lt;span class="o"&gt;דפי נחיתה&lt;/span&gt;&lt;span&gt;חנויות&lt;/span&gt;&lt;span class="o"&gt;מערכות&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;
+&lt;div class="vm alt"&gt;&lt;div class="vm-track"&gt;
+  &lt;span&gt;אפיון&lt;/span&gt;&lt;span&gt;קופי&lt;/span&gt;&lt;span&gt;עיצוב&lt;/span&gt;&lt;span&gt;פיתוח&lt;/span&gt;&lt;span&gt;מדידה&lt;/span&gt;&lt;span&gt;ליווי&lt;/span&gt;
+  &lt;span&gt;אפיון&lt;/span&gt;&lt;span&gt;קופי&lt;/span&gt;&lt;span&gt;עיצוב&lt;/span&gt;&lt;span&gt;פיתוח&lt;/span&gt;&lt;span&gt;מדידה&lt;/span&gt;&lt;span&gt;ליווי&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;
+&lt;p class="vm-note"&gt;גלול מהר ולאט, ואז גלול אחורה. הרצועה מגיבה.&lt;/p&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll(".vm").forEach((wrap,idx)=&gt;{
+    const track=wrap.querySelector(".vm-track");
+    const half=track.scrollWidth/2;
+    // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס
+    const loop=gsap.fromTo(track,{x:-half},{x:0,duration:14+idx*4,ease:"none",repeat:-1});
+    if(reduce){loop.pause();return;}
+    const skewTo=gsap.quickTo(track,"skewX",{duration:.4,ease:"power3"});
+    let scale=1;
+    ScrollTrigger.create({
+      onUpdate:self=&gt;{
+        const v=self.getVelocity();
+        const dir=v&gt;0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה
+        const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה
+        scale=dir*boost;
+        loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד
+        skewTo(gsap.utils.clamp(-8,8,-v/260));
+      }
+    });
+    // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.
+    gsap.ticker.add(()=&gt;{
+      const base=Math.sign(scale)||1;
+      if(Math.abs(scale-base)&lt;.02)return;
+      scale+=(base-scale)*.05;
+      loop.timeScale(scale);
+    });
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b42 · מרקי שמגיב למהירות הגלילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b42.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b42.html\n\nמה זה עושה: רצועה שזורמת לבד, מאיצה כשגוללים מהר, מתהפכת בכיוון כשגוללים אחורה, ומתעוותת קלות לפי המהירות. חוזרת לזרימה רגילה כשעוצרים.\nמתי משתמשים: רצועת לוגואים, פס אמון, כותרות ענק, שמות שירותים. שדרוג ישיר של מרקי רגיל: הוא מרגיש חי במקום לולאה מכנית.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* B42 · מרקי שמגיב למהירות הגלילה */\n.vm{overflow:hidden;border-block:1px solid var(--line, #e4e4ee);background:var(--card, #fff);padding-block:clamp(16px,2vw,30px)}\n.vm+.vm{border-top:0}\n.vm-track{display:flex;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}\n.vm-track span{font-size:clamp(26px,4vw,66px);font-weight:800;white-space:nowrap;color:var(--ink, #16182b)}\n.vm-track span.o{color:transparent;-webkit-text-stroke:1px var(--muted, #6a6d85)}\n.vm.alt .vm-track span{font-size:clamp(18px,2vw,30px);font-weight:600;color:var(--muted, #6a6d85)}\n.vm-note{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding:18px var(--gutter, clamp(24px, 5vw, 96px)) 0}\n\n=== HTML ===\n<div class=\"vm\"><div class=\"vm-track\">\n  <span>אתרי תדמית<\/span><span class=\"o\">דפי נחיתה<\/span><span>חנויות<\/span><span class=\"o\">מערכות<\/span>\n  <span>אתרי תדמית<\/span><span class=\"o\">דפי נחיתה<\/span><span>חנויות<\/span><span class=\"o\">מערכות<\/span>\n<\/div><\/div>\n<div class=\"vm alt\"><div class=\"vm-track\">\n  <span>אפיון<\/span><span>קופי<\/span><span>עיצוב<\/span><span>פיתוח<\/span><span>מדידה<\/span><span>ליווי<\/span>\n  <span>אפיון<\/span><span>קופי<\/span><span>עיצוב<\/span><span>פיתוח<\/span><span>מדידה<\/span><span>ליווי<\/span>\n<\/div><\/div>\n<p class=\"vm-note\">גלול מהר ולאט, ואז גלול אחורה. הרצועה מגיבה.<\/p>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  document.querySelectorAll(\".vm\").forEach((wrap,idx)=>{\n    const track=wrap.querySelector(\".vm-track\");\n    const half=track.scrollWidth/2;\n    // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס\n    const loop=gsap.fromTo(track,{x:-half},{x:0,duration:14+idx*4,ease:\"none\",repeat:-1});\n    if(reduce){loop.pause();return;}\n    const skewTo=gsap.quickTo(track,\"skewX\",{duration:.4,ease:\"power3\"});\n    let scale=1;\n    ScrollTrigger.create({\n      onUpdate:self=>{\n        const v=self.getVelocity();\n        const dir=v>0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה\n        const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה\n        scale=dir*boost;\n        loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד\n        skewTo(gsap.utils.clamp(-8,8,-v/260));\n      }\n    });\n    // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.\n    gsap.ticker.add(()=>{\n      const base=Math.sign(scale)||1;\n      if(Math.abs(scale-base)<.02)return;\n      scale+=(base-scale)*.05;\n      loop.timeScale(scale);\n    });\n  });\n})();\n\nהערת מימוש מהמאגר:\ngetVelocity מחזיר פיקסלים לשנייה עם סימן שמעיד על הכיוון, ומכאן שני האפקטים: timeScale שלילי מהפך את הלולאה, ו-clamp מונע האצה מטורפת בגלילת מגע. חובה להחזיר את הקצב לבסיס אחרי הדחיפה, אחרת הרצועה נשארת מהירה לנצח. ה-skew מוגבל לשמונה מעלות: מעבר לזה הטקסט נעשה לא קריא.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* B42 · מרקי שמגיב למהירות הגלילה */\n.vm{overflow:hidden;border-block:1px solid var(--line, #e4e4ee);background:var(--card, #fff);padding-block:clamp(16px,2vw,30px)}\n.vm+.vm{border-top:0}\n.vm-track{display:flex;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}\n.vm-track span{font-size:clamp(26px,4vw,66px);font-weight:800;white-space:nowrap;color:var(--ink, #16182b)}\n.vm-track span.o{color:transparent;-webkit-text-stroke:1px var(--muted, #6a6d85)}\n.vm.alt .vm-track span{font-size:clamp(18px,2vw,30px);font-weight:600;color:var(--muted, #6a6d85)}\n.vm-note{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding:18px var(--gutter, clamp(24px, 5vw, 96px)) 0}","html":"<div class=\"vm\"><div class=\"vm-track\">\n  <span>אתרי תדמית<\/span><span class=\"o\">דפי נחיתה<\/span><span>חנויות<\/span><span class=\"o\">מערכות<\/span>\n  <span>אתרי תדמית<\/span><span class=\"o\">דפי נחיתה<\/span><span>חנויות<\/span><span class=\"o\">מערכות<\/span>\n<\/div><\/div>\n<div class=\"vm alt\"><div class=\"vm-track\">\n  <span>אפיון<\/span><span>קופי<\/span><span>עיצוב<\/span><span>פיתוח<\/span><span>מדידה<\/span><span>ליווי<\/span>\n  <span>אפיון<\/span><span>קופי<\/span><span>עיצוב<\/span><span>פיתוח<\/span><span>מדידה<\/span><span>ליווי<\/span>\n<\/div><\/div>\n<p class=\"vm-note\">גלול מהר ולאט, ואז גלול אחורה. הרצועה מגיבה.<\/p>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  document.querySelectorAll(\".vm\").forEach((wrap,idx)=>{\n    const track=wrap.querySelector(\".vm-track\");\n    const half=track.scrollWidth/2;\n    // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס\n    const loop=gsap.fromTo(track,{x:-half},{x:0,duration:14+idx*4,ease:\"none\",repeat:-1});\n    if(reduce){loop.pause();return;}\n    const skewTo=gsap.quickTo(track,\"skewX\",{duration:.4,ease:\"power3\"});\n    let scale=1;\n    ScrollTrigger.create({\n      onUpdate:self=>{\n        const v=self.getVelocity();\n        const dir=v>0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה\n        const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה\n        scale=dir*boost;\n        loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד\n        skewTo(gsap.utils.clamp(-8,8,-v/260));\n      }\n    });\n    // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.\n    gsap.ticker.add(()=>{\n      const base=Math.sign(scale)||1;\n      if(Math.abs(scale-base)<.02)return;\n      scale+=(base-scale)*.05;\n      loop.timeScale(scale);\n    });\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":false}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -57,6 +120,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B24 · כפתור שהאותיות בו מתחלפות בהובר</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.center{text-align:center}
+
+/* B24 · כפתור שהאותיות בו מתחלפות בהובר */
+.rb{--rb-bg:var(--ink, #16182b);--rb-fg:#fff;
+  display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;font:inherit;font-weight:600;font-size:17px;
+  background:var(--rb-bg);color:var(--rb-fg);border-radius:999px;padding:16px 30px;overflow:hidden;position:relative}
+.rb.ghost{--rb-bg:transparent;--rb-fg:var(--ink, #16182b);border:1px solid var(--line, #e4e4ee)}
+.rb.accent{--rb-bg:var(--accent, #4a3aff)}
+.rb-txt{display:inline-flex;position:relative;overflow:hidden;line-height:1.25}
+.rb-row{display:inline-flex}
+.rb-row.b{position:absolute;inset-inline-start:0;top:0}
+.rb-ch{display:inline-block;transition:transform .42s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i) * 22ms)}
+.rb-row.a .rb-ch{transform:translateY(0)}
+.rb-row.b .rb-ch{transform:translateY(105%)}
+.rb:hover .rb-row.a .rb-ch,.rb:focus-visible .rb-row.a .rb-ch{transform:translateY(-105%)}
+.rb:hover .rb-row.b .rb-ch,.rb:focus-visible .rb-row.b .rb-ch{transform:translateY(0)}
+.rb-arrow{transition:transform .42s cubic-bezier(.2,.8,.2,1)}
+.rb:hover .rb-arrow{transform:translateX(-5px)}
+.rb-demo{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+@media (prefers-reduced-motion: reduce){.rb-ch,.rb-arrow{transition:none}}
+</style>
+</head>
+<body>
+<div class="stage tight center"><div class="rb-demo">
+  <button class="rb accent"><span class="rb-txt" data-rb>קבעו שיחה</span><span class="rb-arrow" aria-hidden="true">←</span></button>
+  <button class="rb"><span class="rb-txt" data-rb>לכל העבודות</span><span class="rb-arrow" aria-hidden="true">←</span></button>
+  <button class="rb ghost"><span class="rb-txt" data-rb>המחירון שלנו</span></button>
+</div>
+<p style="color:var(--muted);font-size:14px;margin-top:22px">העבר עכבר, או הגע עם Tab</p></div>
+
+<script>
+(function(){
+  document.querySelectorAll("[data-rb]").forEach(el=>{
+    const text=el.textContent.trim();
+    el.textContent="";
+    el.setAttribute("aria-label",text);
+    // שתי שכבות זהות: העליונה יוצאת, התחתונה נכנסת
+    ["a","b"].forEach(k=>{
+      const row=document.createElement("span");
+      row.className="rb-row "+k;
+      row.setAttribute("aria-hidden","true");
+      [...text].forEach((c,i)=>{
+        const s=document.createElement("span");
+        s.className="rb-ch";
+        s.style.setProperty("--i",k==="a"?i:i);
+        s.textContent=c===" "?"\u00a0":c;
+        row.appendChild(s);
+      });
+      el.appendChild(row);
+    });
+  });
+})();
+</script>
+</body>
+</html>

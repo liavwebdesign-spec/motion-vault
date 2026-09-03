@@ -39,6 +39,63 @@
 </div></div></div></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/lm8.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* LM8 · מרקי מוטה ונגרר */
+.tiltm-wrap{transform:rotate(-3deg);width:104vw;margin-inline-start:-2vw;background:#16182b;padding-block:20px;overflow:hidden}
+.tiltm{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+/* ההזזה היא רוחב קבוצה מדויק בפיקסלים, ומספר העותקים נגזר מרוחב המסך */
+.tiltm-track{display:flex;width:max-content;animation:marq linear infinite;animation-duration:var(--marq-dur,26s)}
+.tiltm-set{display:flex;gap:48px;padding-inline-end:48px}
+.tiltm-track span{font-weight:800;font-size:24px;color:rgba(255,255,255,.55);white-space:nowrap}
+.tiltm-track i{font-style:normal;color:#f49e40}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(var(--marq-shift,50%))}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage full"&gt;&lt;div class="tiltm-wrap" data-dragmarq&gt;&lt;div class="tiltm"&gt;&lt;div class="tiltm-track"&gt;
+&lt;div class="tiltm-set"&gt;&lt;span&gt;עיצוב&lt;/span&gt;&lt;i&gt;·&lt;/i&gt;&lt;span&gt;פיתוח&lt;/span&gt;&lt;i&gt;·&lt;/i&gt;&lt;span&gt;אסטרטגיה&lt;/span&gt;&lt;i&gt;·&lt;/i&gt;&lt;span&gt;תנועה&lt;/span&gt;&lt;i&gt;·&lt;/i&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  // אותו מנגנון כמו ב-b01: מספר העותקים נגזר מרוחב המסך, וההזזה היא רוחב קבוצה מדויק
+  function build(){
+    const wrap=document.querySelector(".tiltm"),track=document.querySelector(".tiltm-track");
+    const proto=track.firstElementChild;
+    [...track.children].slice(1).forEach(c=&gt;c.remove());
+    const setW=proto.getBoundingClientRect().width;
+    if(!setW)return;
+    const need=Math.ceil(wrap.getBoundingClientRect().width/setW)+1;
+    for(let i=1;i&lt;need;i++){const c=proto.cloneNode(true);c.setAttribute("aria-hidden","true");track.appendChild(c);}
+    track.style.setProperty("--marq-shift",setW+"px");
+    track.style.setProperty("--marq-dur",(setW/58).toFixed(2)+"s");
+  }
+  build();
+  if(document.fonts)document.fonts.ready.then(build);
+  let rt;addEventListener("resize",()=&gt;{clearTimeout(rt);rt=setTimeout(build,200);});
+})();
+const dm=document.querySelector("[data-dragmarq]");
+let tick=false;
+function frame(){tick=false;
+  const r=dm.getBoundingClientRect();
+  const t=(innerHeight-r.top)/(innerHeight+r.height);
+  dm.style.translate=((t-.5)*120)+"px 0";}
+addEventListener("scroll",()=&gt;{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});
+frame();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:lm8 · מרקי מוטה ונגרר\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/lm/lm8.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/lm8.html\n\nמה זה עושה: רצועה שזורמת בלולאה, מוטה 3 מעלות, וגם נגררת עם הגלילה. שתי תנועות מצטברות.\nמתי משתמשים: פסי אווירה באתרי וואו. פעם אחת בעמוד.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* LM8 · מרקי מוטה ונגרר */\n.tiltm-wrap{transform:rotate(-3deg);width:104vw;margin-inline-start:-2vw;background:#16182b;padding-block:20px;overflow:hidden}\n.tiltm{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}\n/* ההזזה היא רוחב קבוצה מדויק בפיקסלים, ומספר העותקים נגזר מרוחב המסך */\n.tiltm-track{display:flex;width:max-content;animation:marq linear infinite;animation-duration:var(--marq-dur,26s)}\n.tiltm-set{display:flex;gap:48px;padding-inline-end:48px}\n.tiltm-track span{font-weight:800;font-size:24px;color:rgba(255,255,255,.55);white-space:nowrap}\n.tiltm-track i{font-style:normal;color:#f49e40}\n@keyframes marq{from{transform:translateX(0)}to{transform:translateX(var(--marq-shift,50%))}}\n\n=== HTML ===\n<div class=\"stage full\"><div class=\"tiltm-wrap\" data-dragmarq><div class=\"tiltm\"><div class=\"tiltm-track\">\n<div class=\"tiltm-set\"><span>עיצוב<\/span><i>·<\/i><span>פיתוח<\/span><i>·<\/i><span>אסטרטגיה<\/span><i>·<\/i><span>תנועה<\/span><i>·<\/i><\/div>\n<\/div><\/div><\/div><\/div>\n\n=== JS ===\n(function(){\n  // אותו מנגנון כמו ב-b01: מספר העותקים נגזר מרוחב המסך, וההזזה היא רוחב קבוצה מדויק\n  function build(){\n    const wrap=document.querySelector(\".tiltm\"),track=document.querySelector(\".tiltm-track\");\n    const proto=track.firstElementChild;\n    [...track.children].slice(1).forEach(c=>c.remove());\n    const setW=proto.getBoundingClientRect().width;\n    if(!setW)return;\n    const need=Math.ceil(wrap.getBoundingClientRect().width/setW)+1;\n    for(let i=1;i<need;i++){const c=proto.cloneNode(true);c.setAttribute(\"aria-hidden\",\"true\");track.appendChild(c);}\n    track.style.setProperty(\"--marq-shift\",setW+\"px\");\n    track.style.setProperty(\"--marq-dur\",(setW/58).toFixed(2)+\"s\");\n  }\n  build();\n  if(document.fonts)document.fonts.ready.then(build);\n  let rt;addEventListener(\"resize\",()=>{clearTimeout(rt);rt=setTimeout(build,200);});\n})();\nconst dm=document.querySelector(\"[data-dragmarq]\");\nlet tick=false;\nfunction frame(){tick=false;\n  const r=dm.getBoundingClientRect();\n  const t=(innerHeight-r.top)/(innerHeight+r.height);\n  dm.style.translate=((t-.5)*120)+\"px 0\";}\naddEventListener(\"scroll\",()=>{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});\nframe();","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* LM8 · מרקי מוטה ונגרר */\n.tiltm-wrap{transform:rotate(-3deg);width:104vw;margin-inline-start:-2vw;background:#16182b;padding-block:20px;overflow:hidden}\n.tiltm{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}\n/* ההזזה היא רוחב קבוצה מדויק בפיקסלים, ומספר העותקים נגזר מרוחב המסך */\n.tiltm-track{display:flex;width:max-content;animation:marq linear infinite;animation-duration:var(--marq-dur,26s)}\n.tiltm-set{display:flex;gap:48px;padding-inline-end:48px}\n.tiltm-track span{font-weight:800;font-size:24px;color:rgba(255,255,255,.55);white-space:nowrap}\n.tiltm-track i{font-style:normal;color:#f49e40}\n@keyframes marq{from{transform:translateX(0)}to{transform:translateX(var(--marq-shift,50%))}}","html":"<div class=\"stage full\"><div class=\"tiltm-wrap\" data-dragmarq><div class=\"tiltm\"><div class=\"tiltm-track\">\n<div class=\"tiltm-set\"><span>עיצוב<\/span><i>·<\/i><span>פיתוח<\/span><i>·<\/i><span>אסטרטגיה<\/span><i>·<\/i><span>תנועה<\/span><i>·<\/i><\/div>\n<\/div><\/div><\/div><\/div>","js":"(function(){\n  // אותו מנגנון כמו ב-b01: מספר העותקים נגזר מרוחב המסך, וההזזה היא רוחב קבוצה מדויק\n  function build(){\n    const wrap=document.querySelector(\".tiltm\"),track=document.querySelector(\".tiltm-track\");\n    const proto=track.firstElementChild;\n    [...track.children].slice(1).forEach(c=>c.remove());\n    const setW=proto.getBoundingClientRect().width;\n    if(!setW)return;\n    const need=Math.ceil(wrap.getBoundingClientRect().width/setW)+1;\n    for(let i=1;i<need;i++){const c=proto.cloneNode(true);c.setAttribute(\"aria-hidden\",\"true\");track.appendChild(c);}\n    track.style.setProperty(\"--marq-shift\",setW+\"px\");\n    track.style.setProperty(\"--marq-dur\",(setW/58).toFixed(2)+\"s\");\n  }\n  build();\n  if(document.fonts)document.fonts.ready.then(build);\n  let rt;addEventListener(\"resize\",()=>{clearTimeout(rt);rt=setTimeout(build,200);});\n})();\nconst dm=document.querySelector(\"[data-dragmarq]\");\nlet tick=false;\nfunction frame(){tick=false;\n  const r=dm.getBoundingClientRect();\n  const t=(innerHeight-r.top)/(innerHeight+r.height);\n  dm.style.translate=((t-.5)*120)+\"px 0\";}\naddEventListener(\"scroll\",()=>{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});\nframe();","scripts":"","rtl":true}</script>
+</section>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -51,6 +108,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 (function(){
   // אותו מנגנון כמו ב-b01: מספר העותקים נגזר מרוחב המסך, וההזזה היא רוחב קבוצה מדויק

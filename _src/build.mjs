@@ -3,6 +3,7 @@
 import { writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { portable, standalone } from "./portable.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CATS = { gsap: "GSAP", react: "React", behavior: "התנהגויות", css: "CSS טהור", lm: "חתימה (LM)", misc: "מסגרת" };
@@ -440,6 +441,75 @@ if (missingF.length) throw new Error("entries missing FIT tags: " + missingF.joi
 // טווח משקלים רציף ולא ערכים בדידים: קובץ אחד במקום חמישה, ומשקל שאפשר להנפיש בלי קפיצות
 const FONT = `<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">`;
 
+const LIVE = "https://liavwebdesign-spec.github.io/motion-vault";
+
+// ההנחיה שנדבקת לסוכן קוד. היא נושאת את כל מה שהמהלך צריך כדי לעבוד ביעד,
+// כולל הדברים שנשארים מאחור בהעתקה ידנית: כיוון המסמך, סדר הסקריפטים והרישום.
+function briefFor(e, p) {
+  const L = [];
+  L.push(`מהלך מתוך Motion Vault: MV:${e.id} · ${e.name}`);
+  L.push(`עמוד הדמו: ${LIVE}/${e.cat}/${e.id}.html`);
+  L.push(`קובץ עצמאי לבדיקה: ${LIVE}/export/${e.id}.html`);
+  L.push("");
+  L.push(`מה זה עושה: ${e.desc}`);
+  L.push(`מתי משתמשים: ${e.when}`);
+  L.push("");
+  L.push("כללי הטמעה:");
+  L.push("1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.");
+  if (p.needsRtl) L.push('2. הרכיב מסתמך על dir="rtl" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.');
+  if (p.scripts.length) L.push(`${p.needsRtl ? 3 : 2}. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n${p.scripts.join("\n")}`);
+  L.push(`${(p.needsRtl ? 3 : 2) + (p.scripts.length ? 1 : 0)}. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.`);
+  L.push("");
+  L.push("=== CSS ===");
+  L.push(p.css);
+  L.push("");
+  L.push("=== HTML ===");
+  L.push(p.html);
+  if (p.js) { L.push(""); L.push("=== JS ==="); L.push(p.js); }
+  if (e.note) { L.push(""); L.push("הערת מימוש מהמאגר:"); L.push(e.note.replace(/\*\*/g, "")); }
+  if (p.libs.includes("gsap")) {
+    L.push("");
+    L.push("אם היעד הוא React או Lovable:");
+    L.push("- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.");
+    L.push("- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.");
+    L.push("- אל תטען מ-CDN. התקן: npm i gsap");
+    L.push(`- ייבא ורשום:\n  import gsap from "gsap";`
+      + p.plugins.map(pl => `\n  import { ${pl} } from "gsap/${pl}";`).join("")
+      + (p.plugins.length ? `\n  gsap.registerPlugin(${p.plugins.join(", ")});` : ""));
+    L.push("- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.");
+  }
+  return L.join("\n");
+}
+
+const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+// הקוד עצמו נשלח כ-JSON ולא כטקסט בתוך HTML, כדי שלא יעבור שום שכבת בריחה נוספת
+// בדרך אל הלוח. כפתור הקופי מקבל בדיוק את מה שהמניפסט מכיל.
+function codePanel(e) {
+  const p = portable(e, CDN, NON_GSAP);
+  const payload = { brief: briefFor(e, p), css: p.css, html: p.html, js: p.js,
+                    scripts: p.scripts.join("\n"), rtl: p.needsRtl };
+  const json = JSON.stringify(payload).replace(/<\//g, "<\\/");
+  return `<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.${p.needsRtl ? ' הרכיב הזה מסתמך על <code>dir="rtl"</code>.' : ""}</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    ${p.js ? '<button class="cp" data-cp="js">JS</button>' : ""}
+    ${p.scripts.length ? '<button class="cp" data-cp="scripts">תגי סקריפט</button>' : ""}
+    <a class="cp cp-link" href="../export/${e.id}.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>${esc(p.css)}</code></pre>
+    <h3>HTML</h3><pre><code>${esc(p.html)}</code></pre>
+    ${p.js ? `<h3>JS</h3><pre><code>${esc(p.js)}</code></pre>` : ""}
+  </details>
+  <script type="application/json" id="mvcode-data">${json}</script>
+</section>`;
+}
+
 function page(e) {
   const libs = (e.libs || []).map(l => `<script src="${CDN[l]}"></script>`).join("\n");
   const register = (e.libs || []).filter(l => l !== "gsap" && !NON_GSAP.has(l)).join(", ");
@@ -477,6 +547,7 @@ ${runway}
 ${e.html}
 ${runwayEnd}
 ${e.note ? `<div class="demo-note">${e.note}</div>` : ""}
+${codePanel(e)}
 ${libs}
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -489,6 +560,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 ${register ? `gsap.registerPlugin(${register});` : ""}
 ${e.js || ""}
 </script>
@@ -525,6 +608,7 @@ ${FONT}
 <div class="vhead">
   <h2>Motion Vault</h2>
   <p>מאגר האנימציות החי: ${entries.length} דמואים בכל הטכנולוגיות. כל כרטיס נפתח לעמוד מבודד עם הדמו רץ בלייב. סנן, חפש, פתח, גלול.</p>
+  <p class="vhead-code">בתחתית כל עמוד מהלך יש <b>קוד להדבקה</b>: כפתור אחד מעתיק הנחיה מלאה לסוכן קוד, עם ה-CSS, ה-HTML, ה-JS, תגי הסקריפט לפי הסדר ואופן ההמרה ל-React. הקוד עומד בפני עצמו ולא נשען על שום דבר מהמאגר.</p>
 </div>
 <div class="vtoolbar">
   <div class="vtoolbar-row">
@@ -641,9 +725,31 @@ addEventListener('pageshow',()=>{paintStatus();apply();});
 
 // write everything
 for (const cat of Object.keys(CATS)) mkdirSync(join(ROOT, cat), { recursive: true });
+mkdirSync(join(ROOT, "export"), { recursive: true });
 let n = 0;
 for (const e of entries) { writeFileSync(join(ROOT, e.cat, e.id + ".html"), page(e)); n++; }
+
+// ייצוא נייד: קובץ עצמאי לכל מהלך + מניפסט מובנה לסוכן קוד
+const manifest = [];
+for (const e of entries) {
+  writeFileSync(join(ROOT, "export", e.id + ".html"), standalone(e, CDN, NON_GSAP));
+  const p = portable(e, CDN, NON_GSAP);
+  manifest.push({
+    id: e.id, name: e.name, cat: e.cat, tech: e.tech,
+    desc: e.desc, when: e.when, note: e.note || null,
+    libs: p.libs, plugins: p.plugins, scripts: p.scripts,
+    needsRtl: p.needsRtl, usesVaultHelpers: p.helpers,
+    demo: `${e.cat}/${e.id}.html`, standalone: `export/${e.id}.html`,
+    css: p.css, html: p.html, js: p.js,
+  });
+}
+writeFileSync(join(ROOT, "export", "manifest.json"), JSON.stringify({
+  generated: new Date().toISOString(), count: manifest.length,
+  readme: "כל כניסה כאן עומדת בפני עצמה. css נושא ברירות מחדל לכל טוקן ומהלות העזר מוטמעות בו. scripts כולל את כל תגי ה-CDN לפי הסדר. js מתחיל ב-registerPlugin. needsRtl אומר אם הרכיב מסתמך על dir=rtl.",
+  entries: manifest,
+}, null, 1));
+
 writeFileSync(join(ROOT, "index.html"), indexPage());
 writeFileSync(join(ROOT, "robots.txt"), "User-agent: *\nDisallow: /\n");
 writeFileSync(join(ROOT, ".nojekyll"), "");
-console.log(`built ${n} pages + index (${entries.length} entries)`);
+console.log(`built ${n} pages + index + ${manifest.length} standalone exports`);

@@ -54,6 +54,63 @@
 </div>
 
 <div class="demo-note">הערימה עצמה היא CSS טהור: position:sticky עם top שגדל בכמה פיקסלים לכל כרטיס, כך שנשארת מדרגה שמראה שיש עוד מתחת. ה-GSAP רק מוסיף את הכיווץ וההתעמעמות. transform-origin חייב להיות בראש הכרטיס, אחרת הכיווץ מזיז אותו כלפי מטה ונוצר רעד. **והנסיגה היא החשכה ולא שקיפות**: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות. תחת prefers-reduced-motion הערימה נשארת בלי הכיווץ.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/b37.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* B37 · כרטיסים שנערמים בגלילה */
+.stk{padding-inline:var(--gutter, clamp(24px, 5vw, 96px));padding-block:clamp(30px,4vw,60px)}
+.stk-card{position:sticky;border-radius:22px;padding:clamp(26px,3.4vw,54px);min-height:clamp(320px,42vh,440px);
+  display:flex;flex-direction:column;justify-content:space-between;color:#fff;transform-origin:50% 0%;
+  box-shadow:0 -14px 44px rgba(0,0,0,.16);margin-bottom:clamp(18px,2.4vw,40px);
+  will-change:transform,filter}
+.stk-card:nth-child(1){top:clamp(70px,13vh,120px);background:#16182b}
+.stk-card:nth-child(2){top:calc(clamp(70px,13vh,120px) + 18px);background:#4a3aff}
+.stk-card:nth-child(3){top:calc(clamp(70px,13vh,120px) + 36px);background:#0b7285}
+.stk-card:nth-child(4){top:calc(clamp(70px,13vh,120px) + 54px);background:#c2255c}
+.stk-num{font-size:13px;letter-spacing:.16em;opacity:.7}
+.stk-card h3{font-size:clamp(26px,3.4vw,52px);margin:14px 0 10px;font-weight:800;max-width:20ch}
+.stk-card p{margin:0;max-width:52ch;font-size:clamp(15px,1.4vw,18px);line-height:1.6;opacity:.86}
+.stk-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:26px;font-size:14px;opacity:.85}
+.stk-tag{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:6px 14px}
+.stk-end{height:30vh}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stk"&gt;
+  &lt;article class="stk-card"&gt;&lt;div&gt;&lt;span class="stk-num"&gt;01&lt;/span&gt;&lt;h3&gt;אפיון ואסטרטגיה&lt;/h3&gt;&lt;p&gt;מבינים את העסק, את הלקוח ואת מה שצריך לקרות באתר לפני שנוגעים בעיצוב.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class="stk-foot"&gt;&lt;span class="stk-tag"&gt;שבוע&lt;/span&gt;&lt;span&gt;כלול בכל חבילה&lt;/span&gt;&lt;/div&gt;&lt;/article&gt;
+  &lt;article class="stk-card"&gt;&lt;div&gt;&lt;span class="stk-num"&gt;02&lt;/span&gt;&lt;h3&gt;עיצוב שמותאם למותג&lt;/h3&gt;&lt;p&gt;סקיצה של עמוד הבית לאישור, ואחריה שאר העמודים באותה שפה עיצובית.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class="stk-foot"&gt;&lt;span class="stk-tag"&gt;שבוע עד שבועיים&lt;/span&gt;&lt;span&gt;כולל שני סבבי תיקונים&lt;/span&gt;&lt;/div&gt;&lt;/article&gt;
+  &lt;article class="stk-card"&gt;&lt;div&gt;&lt;span class="stk-num"&gt;03&lt;/span&gt;&lt;h3&gt;בנייה ובדיקות&lt;/h3&gt;&lt;p&gt;מרכיבים, בודקים בכל רוחב מסך, מחברים טפסים ומדידה, ומוודאים מהירות טעינה.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class="stk-foot"&gt;&lt;span class="stk-tag"&gt;שבועיים&lt;/span&gt;&lt;span&gt;כולל התאמה למובייל&lt;/span&gt;&lt;/div&gt;&lt;/article&gt;
+  &lt;article class="stk-card"&gt;&lt;div&gt;&lt;span class="stk-num"&gt;04&lt;/span&gt;&lt;h3&gt;עלייה לאוויר וליווי&lt;/h3&gt;&lt;p&gt;מפרסמים, מוודאים שהפניות מגיעות, ומלווים חודש נוסף אחרי ההשקה.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class="stk-foot"&gt;&lt;span class="stk-tag"&gt;יום&lt;/span&gt;&lt;span&gt;חודש ליווי כלול&lt;/span&gt;&lt;/div&gt;&lt;/article&gt;
+  &lt;div class="stk-end"&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const cards=gsap.utils.toArray(".stk-card");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+  cards.forEach((card,i)=&gt;{
+    if(i===cards.length-1)return;
+    // הכרטיס נסוג לאחור בדיוק בזמן שהבא אחריו מטפס מעליו.
+    // ההחשכה היא filter ולא opacity: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס
+    // שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות.
+    gsap.to(card,{scale:.955,filter:"brightness(.62)",ease:"none",
+      scrollTrigger:{trigger:cards[i+1],start:"top 82%",end:"top 26%",scrub:true}});
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b37 · כרטיסים שנערמים בגלילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b37.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b37.html\n\nמה זה עושה: כל כרטיס נעצר בראש המסך והבא אחריו מטפס מעליו, בזמן שהקודם מתכווץ מעט ומתעמעם. נוצרת ערימה במקום רשימה ארוכה.\nמתי משתמשים: שירותים, חבילות, יתרונות, שלבי עבודה. מכווץ ארבעה סקשנים לאורך של אחד, ועובד מצוין גם במובייל.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* B37 · כרטיסים שנערמים בגלילה */\n.stk{padding-inline:var(--gutter, clamp(24px, 5vw, 96px));padding-block:clamp(30px,4vw,60px)}\n.stk-card{position:sticky;border-radius:22px;padding:clamp(26px,3.4vw,54px);min-height:clamp(320px,42vh,440px);\n  display:flex;flex-direction:column;justify-content:space-between;color:#fff;transform-origin:50% 0%;\n  box-shadow:0 -14px 44px rgba(0,0,0,.16);margin-bottom:clamp(18px,2.4vw,40px);\n  will-change:transform,filter}\n.stk-card:nth-child(1){top:clamp(70px,13vh,120px);background:#16182b}\n.stk-card:nth-child(2){top:calc(clamp(70px,13vh,120px) + 18px);background:#4a3aff}\n.stk-card:nth-child(3){top:calc(clamp(70px,13vh,120px) + 36px);background:#0b7285}\n.stk-card:nth-child(4){top:calc(clamp(70px,13vh,120px) + 54px);background:#c2255c}\n.stk-num{font-size:13px;letter-spacing:.16em;opacity:.7}\n.stk-card h3{font-size:clamp(26px,3.4vw,52px);margin:14px 0 10px;font-weight:800;max-width:20ch}\n.stk-card p{margin:0;max-width:52ch;font-size:clamp(15px,1.4vw,18px);line-height:1.6;opacity:.86}\n.stk-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:26px;font-size:14px;opacity:.85}\n.stk-tag{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:6px 14px}\n.stk-end{height:30vh}\n\n=== HTML ===\n<div class=\"stk\">\n  <article class=\"stk-card\"><div><span class=\"stk-num\">01<\/span><h3>אפיון ואסטרטגיה<\/h3><p>מבינים את העסק, את הלקוח ואת מה שצריך לקרות באתר לפני שנוגעים בעיצוב.<\/p><\/div>\n    <div class=\"stk-foot\"><span class=\"stk-tag\">שבוע<\/span><span>כלול בכל חבילה<\/span><\/div><\/article>\n  <article class=\"stk-card\"><div><span class=\"stk-num\">02<\/span><h3>עיצוב שמותאם למותג<\/h3><p>סקיצה של עמוד הבית לאישור, ואחריה שאר העמודים באותה שפה עיצובית.<\/p><\/div>\n    <div class=\"stk-foot\"><span class=\"stk-tag\">שבוע עד שבועיים<\/span><span>כולל שני סבבי תיקונים<\/span><\/div><\/article>\n  <article class=\"stk-card\"><div><span class=\"stk-num\">03<\/span><h3>בנייה ובדיקות<\/h3><p>מרכיבים, בודקים בכל רוחב מסך, מחברים טפסים ומדידה, ומוודאים מהירות טעינה.<\/p><\/div>\n    <div class=\"stk-foot\"><span class=\"stk-tag\">שבועיים<\/span><span>כולל התאמה למובייל<\/span><\/div><\/article>\n  <article class=\"stk-card\"><div><span class=\"stk-num\">04<\/span><h3>עלייה לאוויר וליווי<\/h3><p>מפרסמים, מוודאים שהפניות מגיעות, ומלווים חודש נוסף אחרי ההשקה.<\/p><\/div>\n    <div class=\"stk-foot\"><span class=\"stk-tag\">יום<\/span><span>חודש ליווי כלול<\/span><\/div><\/article>\n  <div class=\"stk-end\"><\/div>\n<\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const cards=gsap.utils.toArray(\".stk-card\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce)return;\n  cards.forEach((card,i)=>{\n    if(i===cards.length-1)return;\n    // הכרטיס נסוג לאחור בדיוק בזמן שהבא אחריו מטפס מעליו.\n    // ההחשכה היא filter ולא opacity: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס\n    // שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות.\n    gsap.to(card,{scale:.955,filter:\"brightness(.62)\",ease:\"none\",\n      scrollTrigger:{trigger:cards[i+1],start:\"top 82%\",end:\"top 26%\",scrub:true}});\n  });\n})();\n\nהערת מימוש מהמאגר:\nהערימה עצמה היא CSS טהור: position:sticky עם top שגדל בכמה פיקסלים לכל כרטיס, כך שנשארת מדרגה שמראה שיש עוד מתחת. ה-GSAP רק מוסיף את הכיווץ וההתעמעמות. transform-origin חייב להיות בראש הכרטיס, אחרת הכיווץ מזיז אותו כלפי מטה ונוצר רעד. והנסיגה היא החשכה ולא שקיפות: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות. תחת prefers-reduced-motion הערימה נשארת בלי הכיווץ.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* B37 · כרטיסים שנערמים בגלילה */\n.stk{padding-inline:var(--gutter, clamp(24px, 5vw, 96px));padding-block:clamp(30px,4vw,60px)}\n.stk-card{position:sticky;border-radius:22px;padding:clamp(26px,3.4vw,54px);min-height:clamp(320px,42vh,440px);\n  display:flex;flex-direction:column;justify-content:space-between;color:#fff;transform-origin:50% 0%;\n  box-shadow:0 -14px 44px rgba(0,0,0,.16);margin-bottom:clamp(18px,2.4vw,40px);\n  will-change:transform,filter}\n.stk-card:nth-child(1){top:clamp(70px,13vh,120px);background:#16182b}\n.stk-card:nth-child(2){top:calc(clamp(70px,13vh,120px) + 18px);background:#4a3aff}\n.stk-card:nth-child(3){top:calc(clamp(70px,13vh,120px) + 36px);background:#0b7285}\n.stk-card:nth-child(4){top:calc(clamp(70px,13vh,120px) + 54px);background:#c2255c}\n.stk-num{font-size:13px;letter-spacing:.16em;opacity:.7}\n.stk-card h3{font-size:clamp(26px,3.4vw,52px);margin:14px 0 10px;font-weight:800;max-width:20ch}\n.stk-card p{margin:0;max-width:52ch;font-size:clamp(15px,1.4vw,18px);line-height:1.6;opacity:.86}\n.stk-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:26px;font-size:14px;opacity:.85}\n.stk-tag{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:6px 14px}\n.stk-end{height:30vh}","html":"<div class=\"stk\">\n  <article class=\"stk-card\"><div><span class=\"stk-num\">01<\/span><h3>אפיון ואסטרטגיה<\/h3><p>מבינים את העסק, את הלקוח ואת מה שצריך לקרות באתר לפני שנוגעים בעיצוב.<\/p><\/div>\n    <div class=\"stk-foot\"><span class=\"stk-tag\">שבוע<\/span><span>כלול בכל חבילה<\/span><\/div><\/article>\n  <article class=\"stk-card\"><div><span class=\"stk-num\">02<\/span><h3>עיצוב שמותאם למותג<\/h3><p>סקיצה של עמוד הבית לאישור, ואחריה שאר העמודים באותה שפה עיצובית.<\/p><\/div>\n    <div class=\"stk-foot\"><span class=\"stk-tag\">שבוע עד שבועיים<\/span><span>כולל שני סבבי תיקונים<\/span><\/div><\/article>\n  <article class=\"stk-card\"><div><span class=\"stk-num\">03<\/span><h3>בנייה ובדיקות<\/h3><p>מרכיבים, בודקים בכל רוחב מסך, מחברים טפסים ומדידה, ומוודאים מהירות טעינה.<\/p><\/div>\n    <div class=\"stk-foot\"><span class=\"stk-tag\">שבועיים<\/span><span>כולל התאמה למובייל<\/span><\/div><\/article>\n  <article class=\"stk-card\"><div><span class=\"stk-num\">04<\/span><h3>עלייה לאוויר וליווי<\/h3><p>מפרסמים, מוודאים שהפניות מגיעות, ומלווים חודש נוסף אחרי ההשקה.<\/p><\/div>\n    <div class=\"stk-foot\"><span class=\"stk-tag\">יום<\/span><span>חודש ליווי כלול<\/span><\/div><\/article>\n  <div class=\"stk-end\"><\/div>\n<\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const cards=gsap.utils.toArray(\".stk-card\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce)return;\n  cards.forEach((card,i)=>{\n    if(i===cards.length-1)return;\n    // הכרטיס נסוג לאחור בדיוק בזמן שהבא אחריו מטפס מעליו.\n    // ההחשכה היא filter ולא opacity: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס\n    // שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות.\n    gsap.to(card,{scale:.955,filter:\"brightness(.62)\",ease:\"none\",\n      scrollTrigger:{trigger:cards[i+1],start:\"top 82%\",end:\"top 26%\",scrub:true}});\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -67,6 +124,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const cards=gsap.utils.toArray(".stk-card");

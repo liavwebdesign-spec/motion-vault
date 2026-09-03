@@ -58,6 +58,91 @@
 </div></div>
 
 <div class="demo-note">פס הזמן אינו קישוט אלא הטיימר עצמו: ה-onComplete שלו הוא מה שמעביר טאב, ולכן אין שני מנגנוני זמן שיכולים להתפצל. `width` נבחר על פני `scaleX` כדי שהפס יישאר חד בקצוות, והוא מעוגן ל-right כי בעברית הוא צריך לגדול מימין לשמאל. הסקשן מתחיל לרוץ רק כשהוא נראה, נעצר בהובר ובפוקוס, ובמצב חיסכון בתנועה הופך לטאבים רגילים לחלוטין.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/b49.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+
+/* B49 · טאבים שמתקדמים לבד עם פס זמן */
+.at{max-width:min(1020px,94vw);margin-inline:auto}
+.at-links{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line, #e4e4ee);margin-bottom:clamp(20px,3vw,34px)}
+.at-btn{position:relative;border:0;background:none;font:inherit;font-size:16px;color:var(--muted, #6a6d85);
+  padding:12px 4px 16px;margin-inline-end:20px;cursor:pointer;transition:color .25s}
+.at-btn.on{color:var(--ink, #16182b);font-weight:600}
+.at-bar{position:absolute;bottom:-1px;right:0;height:2px;width:0;background:var(--accent, #4a3aff);border-radius:2px}
+.at-panel{display:none;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,50px);align-items:center}
+.at-panel.on{display:grid}
+.at-panel h4{margin:0 0 10px;font-size:clamp(20px,2.4vw,32px)}
+.at-panel p{margin:0;color:var(--muted, #6a6d85);font-size:17px;line-height:1.75;max-width:44ch}
+.at-panel ul{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:8px;color:var(--muted, #6a6d85);font-size:15px}
+.at-panel li::before{content:"✓";color:#2b8a3e;font-weight:700;margin-inline-end:8px}
+.at-media{aspect-ratio:4/3;font-size:30px}
+@media(max-width:760px){.at-panel.on{grid-template-columns:1fr}.at-links{overflow-x:auto;flex-wrap:nowrap}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="at"&gt;
+  &lt;div class="at-links"&gt;
+    &lt;button class="at-btn on"&gt;אפיון&lt;i class="at-bar"&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;button class="at-btn"&gt;קופי&lt;i class="at-bar"&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;button class="at-btn"&gt;עיצוב&lt;i class="at-bar"&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;button class="at-btn"&gt;מדידה&lt;i class="at-bar"&gt;&lt;/i&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="at-panel on"&gt;&lt;div&gt;&lt;h4&gt;מתחילים בהבנה&lt;/h4&gt;&lt;p&gt;שיחה אחת שממפה את העסק, את הלקוח ואת מה שצריך לקרות באתר.&lt;/p&gt;
+    &lt;ul&gt;&lt;li&gt;מיפוי קהל ומסרים&lt;/li&gt;&lt;li&gt;מבנה עמודים&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;div class="ph at-media ph-a"&gt;1&lt;/div&gt;&lt;/div&gt;
+  &lt;div class="at-panel"&gt;&lt;div&gt;&lt;h4&gt;כותבים לפני שמעצבים&lt;/h4&gt;&lt;p&gt;הטקסט קובע את המבנה, ולא להפך. כל סקשן עונה על השאלה הבאה בתור.&lt;/p&gt;
+    &lt;ul&gt;&lt;li&gt;כותרות שמדברות ללקוח&lt;/li&gt;&lt;li&gt;קריאה לפעולה אחת&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;div class="ph at-media ph-c"&gt;2&lt;/div&gt;&lt;/div&gt;
+  &lt;div class="at-panel"&gt;&lt;div&gt;&lt;h4&gt;שפה אחת בכל עמוד&lt;/h4&gt;&lt;p&gt;מערכת צבעים, טיפוגרפיה וריווח שחוזרת בכל מקום, כך שהאתר מרגיש שלם.&lt;/p&gt;
+    &lt;ul&gt;&lt;li&gt;מערכת עיצוב&lt;/li&gt;&lt;li&gt;התאמה לכל מסך&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;div class="ph at-media ph-d"&gt;3&lt;/div&gt;&lt;/div&gt;
+  &lt;div class="at-panel"&gt;&lt;div&gt;&lt;h4&gt;יודעים מה עובד&lt;/h4&gt;&lt;p&gt;מחברים מעקב לפני העלייה לאוויר, ומשפרים לפי נתונים במקום לפי תחושה.&lt;/p&gt;
+    &lt;ul&gt;&lt;li&gt;מעקב המרות&lt;/li&gt;&lt;li&gt;דוח חודשי&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;div class="ph at-media ph-e"&gt;4&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const DUR=5;
+  const btns=[...document.querySelectorAll(".at-btn")],panels=[...document.querySelectorAll(".at-panel")];
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let i=0,timer,running=false;
+  function show(n){
+    i=n;
+    btns.forEach((b,k)=&gt;b.classList.toggle("on",k===n));
+    panels.forEach((p,k)=&gt;p.classList.toggle("on",k===n));
+    if(!reduce)gsap.fromTo(panels[n],{opacity:0,y:18},{opacity:1,y:0,duration:.5,ease:"power2.out"});
+    if(timer)timer.kill();
+    gsap.set(".at-bar",{width:0});
+    if(reduce||!running)return;
+    // הפס הוא השעון: כשהוא מגיע לסוף עוברים לטאב הבא
+    timer=gsap.to(btns[n].querySelector(".at-bar"),{width:"100%",duration:DUR,ease:"none",
+      onComplete:()=&gt;show((n+1)%btns.length)});
+  }
+  btns.forEach((b,k)=&gt;b.addEventListener("click",()=&gt;show(k)));
+  const at=document.querySelector(".at");
+  at.addEventListener("mouseenter",()=&gt;timer&amp;&amp;timer.pause());
+  at.addEventListener("mouseleave",()=&gt;timer&amp;&amp;timer.resume());
+  at.addEventListener("focusin",()=&gt;timer&amp;&amp;timer.pause());
+  // מתחילים רק כשהסקשן על המסך, אחרת הטאבים "בוזבזו" לפני שהמבקר הגיע
+  ScrollTrigger.create({trigger:at,start:"top 75%",end:"bottom 25%",
+    onToggle:self=&gt;{running=self.isActive;if(self.isActive)show(i);else if(timer)timer.pause();}});
+  show(0);
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b49 · טאבים שמתקדמים לבד עם פס זמן\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b49.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b49.html\n\nמה זה עושה: שורת טאבים שמתחלפת מעצמה, כשמתחת לכל כותרת רץ פס שמראה כמה זמן נשאר. מעבר עכבר עוצר, לחיצה קופצת, והכל מתחיל רק כשרואים את הסקשן.\nמתי משתמשים: הצגת יכולות, שלבי שירות, סוגי לקוחות, פיצ'רים. המבקר רואה את כל התוכן גם אם לא לחץ על כלום, וזה בדיוק מה שקורה ברוב הביקורים.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n\n/* B49 · טאבים שמתקדמים לבד עם פס זמן */\n.at{max-width:min(1020px,94vw);margin-inline:auto}\n.at-links{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line, #e4e4ee);margin-bottom:clamp(20px,3vw,34px)}\n.at-btn{position:relative;border:0;background:none;font:inherit;font-size:16px;color:var(--muted, #6a6d85);\n  padding:12px 4px 16px;margin-inline-end:20px;cursor:pointer;transition:color .25s}\n.at-btn.on{color:var(--ink, #16182b);font-weight:600}\n.at-bar{position:absolute;bottom:-1px;right:0;height:2px;width:0;background:var(--accent, #4a3aff);border-radius:2px}\n.at-panel{display:none;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,50px);align-items:center}\n.at-panel.on{display:grid}\n.at-panel h4{margin:0 0 10px;font-size:clamp(20px,2.4vw,32px)}\n.at-panel p{margin:0;color:var(--muted, #6a6d85);font-size:17px;line-height:1.75;max-width:44ch}\n.at-panel ul{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:8px;color:var(--muted, #6a6d85);font-size:15px}\n.at-panel li::before{content:\"✓\";color:#2b8a3e;font-weight:700;margin-inline-end:8px}\n.at-media{aspect-ratio:4/3;font-size:30px}\n@media(max-width:760px){.at-panel.on{grid-template-columns:1fr}.at-links{overflow-x:auto;flex-wrap:nowrap}}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"at\">\n  <div class=\"at-links\">\n    <button class=\"at-btn on\">אפיון<i class=\"at-bar\"><\/i><\/button>\n    <button class=\"at-btn\">קופי<i class=\"at-bar\"><\/i><\/button>\n    <button class=\"at-btn\">עיצוב<i class=\"at-bar\"><\/i><\/button>\n    <button class=\"at-btn\">מדידה<i class=\"at-bar\"><\/i><\/button>\n  <\/div>\n  <div class=\"at-panel on\"><div><h4>מתחילים בהבנה<\/h4><p>שיחה אחת שממפה את העסק, את הלקוח ואת מה שצריך לקרות באתר.<\/p>\n    <ul><li>מיפוי קהל ומסרים<\/li><li>מבנה עמודים<\/li><\/ul><\/div><div class=\"ph at-media ph-a\">1<\/div><\/div>\n  <div class=\"at-panel\"><div><h4>כותבים לפני שמעצבים<\/h4><p>הטקסט קובע את המבנה, ולא להפך. כל סקשן עונה על השאלה הבאה בתור.<\/p>\n    <ul><li>כותרות שמדברות ללקוח<\/li><li>קריאה לפעולה אחת<\/li><\/ul><\/div><div class=\"ph at-media ph-c\">2<\/div><\/div>\n  <div class=\"at-panel\"><div><h4>שפה אחת בכל עמוד<\/h4><p>מערכת צבעים, טיפוגרפיה וריווח שחוזרת בכל מקום, כך שהאתר מרגיש שלם.<\/p>\n    <ul><li>מערכת עיצוב<\/li><li>התאמה לכל מסך<\/li><\/ul><\/div><div class=\"ph at-media ph-d\">3<\/div><\/div>\n  <div class=\"at-panel\"><div><h4>יודעים מה עובד<\/h4><p>מחברים מעקב לפני העלייה לאוויר, ומשפרים לפי נתונים במקום לפי תחושה.<\/p>\n    <ul><li>מעקב המרות<\/li><li>דוח חודשי<\/li><\/ul><\/div><div class=\"ph at-media ph-e\">4<\/div><\/div>\n<\/div><\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const DUR=5;\n  const btns=[...document.querySelectorAll(\".at-btn\")],panels=[...document.querySelectorAll(\".at-panel\")];\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  let i=0,timer,running=false;\n  function show(n){\n    i=n;\n    btns.forEach((b,k)=>b.classList.toggle(\"on\",k===n));\n    panels.forEach((p,k)=>p.classList.toggle(\"on\",k===n));\n    if(!reduce)gsap.fromTo(panels[n],{opacity:0,y:18},{opacity:1,y:0,duration:.5,ease:\"power2.out\"});\n    if(timer)timer.kill();\n    gsap.set(\".at-bar\",{width:0});\n    if(reduce||!running)return;\n    // הפס הוא השעון: כשהוא מגיע לסוף עוברים לטאב הבא\n    timer=gsap.to(btns[n].querySelector(\".at-bar\"),{width:\"100%\",duration:DUR,ease:\"none\",\n      onComplete:()=>show((n+1)%btns.length)});\n  }\n  btns.forEach((b,k)=>b.addEventListener(\"click\",()=>show(k)));\n  const at=document.querySelector(\".at\");\n  at.addEventListener(\"mouseenter\",()=>timer&&timer.pause());\n  at.addEventListener(\"mouseleave\",()=>timer&&timer.resume());\n  at.addEventListener(\"focusin\",()=>timer&&timer.pause());\n  // מתחילים רק כשהסקשן על המסך, אחרת הטאבים \"בוזבזו\" לפני שהמבקר הגיע\n  ScrollTrigger.create({trigger:at,start:\"top 75%\",end:\"bottom 25%\",\n    onToggle:self=>{running=self.isActive;if(self.isActive)show(i);else if(timer)timer.pause();}});\n  show(0);\n})();\n\nהערת מימוש מהמאגר:\nפס הזמן אינו קישוט אלא הטיימר עצמו: ה-onComplete שלו הוא מה שמעביר טאב, ולכן אין שני מנגנוני זמן שיכולים להתפצל. `width` נבחר על פני `scaleX` כדי שהפס יישאר חד בקצוות, והוא מעוגן ל-right כי בעברית הוא צריך לגדול מימין לשמאל. הסקשן מתחיל לרוץ רק כשהוא נראה, נעצר בהובר ובפוקוס, ובמצב חיסכון בתנועה הופך לטאבים רגילים לחלוטין.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n\n/* B49 · טאבים שמתקדמים לבד עם פס זמן */\n.at{max-width:min(1020px,94vw);margin-inline:auto}\n.at-links{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line, #e4e4ee);margin-bottom:clamp(20px,3vw,34px)}\n.at-btn{position:relative;border:0;background:none;font:inherit;font-size:16px;color:var(--muted, #6a6d85);\n  padding:12px 4px 16px;margin-inline-end:20px;cursor:pointer;transition:color .25s}\n.at-btn.on{color:var(--ink, #16182b);font-weight:600}\n.at-bar{position:absolute;bottom:-1px;right:0;height:2px;width:0;background:var(--accent, #4a3aff);border-radius:2px}\n.at-panel{display:none;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,50px);align-items:center}\n.at-panel.on{display:grid}\n.at-panel h4{margin:0 0 10px;font-size:clamp(20px,2.4vw,32px)}\n.at-panel p{margin:0;color:var(--muted, #6a6d85);font-size:17px;line-height:1.75;max-width:44ch}\n.at-panel ul{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:8px;color:var(--muted, #6a6d85);font-size:15px}\n.at-panel li::before{content:\"✓\";color:#2b8a3e;font-weight:700;margin-inline-end:8px}\n.at-media{aspect-ratio:4/3;font-size:30px}\n@media(max-width:760px){.at-panel.on{grid-template-columns:1fr}.at-links{overflow-x:auto;flex-wrap:nowrap}}","html":"<div class=\"stage tight\"><div class=\"at\">\n  <div class=\"at-links\">\n    <button class=\"at-btn on\">אפיון<i class=\"at-bar\"><\/i><\/button>\n    <button class=\"at-btn\">קופי<i class=\"at-bar\"><\/i><\/button>\n    <button class=\"at-btn\">עיצוב<i class=\"at-bar\"><\/i><\/button>\n    <button class=\"at-btn\">מדידה<i class=\"at-bar\"><\/i><\/button>\n  <\/div>\n  <div class=\"at-panel on\"><div><h4>מתחילים בהבנה<\/h4><p>שיחה אחת שממפה את העסק, את הלקוח ואת מה שצריך לקרות באתר.<\/p>\n    <ul><li>מיפוי קהל ומסרים<\/li><li>מבנה עמודים<\/li><\/ul><\/div><div class=\"ph at-media ph-a\">1<\/div><\/div>\n  <div class=\"at-panel\"><div><h4>כותבים לפני שמעצבים<\/h4><p>הטקסט קובע את המבנה, ולא להפך. כל סקשן עונה על השאלה הבאה בתור.<\/p>\n    <ul><li>כותרות שמדברות ללקוח<\/li><li>קריאה לפעולה אחת<\/li><\/ul><\/div><div class=\"ph at-media ph-c\">2<\/div><\/div>\n  <div class=\"at-panel\"><div><h4>שפה אחת בכל עמוד<\/h4><p>מערכת צבעים, טיפוגרפיה וריווח שחוזרת בכל מקום, כך שהאתר מרגיש שלם.<\/p>\n    <ul><li>מערכת עיצוב<\/li><li>התאמה לכל מסך<\/li><\/ul><\/div><div class=\"ph at-media ph-d\">3<\/div><\/div>\n  <div class=\"at-panel\"><div><h4>יודעים מה עובד<\/h4><p>מחברים מעקב לפני העלייה לאוויר, ומשפרים לפי נתונים במקום לפי תחושה.<\/p>\n    <ul><li>מעקב המרות<\/li><li>דוח חודשי<\/li><\/ul><\/div><div class=\"ph at-media ph-e\">4<\/div><\/div>\n<\/div><\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const DUR=5;\n  const btns=[...document.querySelectorAll(\".at-btn\")],panels=[...document.querySelectorAll(\".at-panel\")];\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  let i=0,timer,running=false;\n  function show(n){\n    i=n;\n    btns.forEach((b,k)=>b.classList.toggle(\"on\",k===n));\n    panels.forEach((p,k)=>p.classList.toggle(\"on\",k===n));\n    if(!reduce)gsap.fromTo(panels[n],{opacity:0,y:18},{opacity:1,y:0,duration:.5,ease:\"power2.out\"});\n    if(timer)timer.kill();\n    gsap.set(\".at-bar\",{width:0});\n    if(reduce||!running)return;\n    // הפס הוא השעון: כשהוא מגיע לסוף עוברים לטאב הבא\n    timer=gsap.to(btns[n].querySelector(\".at-bar\"),{width:\"100%\",duration:DUR,ease:\"none\",\n      onComplete:()=>show((n+1)%btns.length)});\n  }\n  btns.forEach((b,k)=>b.addEventListener(\"click\",()=>show(k)));\n  const at=document.querySelector(\".at\");\n  at.addEventListener(\"mouseenter\",()=>timer&&timer.pause());\n  at.addEventListener(\"mouseleave\",()=>timer&&timer.resume());\n  at.addEventListener(\"focusin\",()=>timer&&timer.pause());\n  // מתחילים רק כשהסקשן על המסך, אחרת הטאבים \"בוזבזו\" לפני שהמבקר הגיע\n  ScrollTrigger.create({trigger:at,start:\"top 75%\",end:\"bottom 25%\",\n    onToggle:self=>{running=self.isActive;if(self.isActive)show(i);else if(timer)timer.pause();}});\n  show(0);\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -71,6 +156,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const DUR=5;

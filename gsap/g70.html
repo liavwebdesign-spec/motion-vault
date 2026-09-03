@@ -50,6 +50,58 @@
 </div>
 
 <div class="demo-note">אין כאן שום מדידה בזמן ריצה: שני המצבים מוגדרים במלואם, ו-GSAP עושה אינטרפולציה בין אחוזים לפיקסלים. המרכוז מושג בשילוב `right:50%` עם `xPercent:50`, כלומר הקצה הימני במרכז ואז דחיפה של חצי רוחב. **הניסיון הראשון כאן נכשל**: מדדתי בזמן ריצה את המרחק אל המרכז, אבל המדידה נעשית על אלמנט שכבר נושא טרנספורם, ולכן היא מזינה את עצמה והכותרת ברחה מהמסך. העיגון עובד כי `transform-origin` נמצא בקצה שאליו הכותרת נוסעת: בעברית זה `100% 0%`, כלומר הפינה הימנית העליונה, ולכן ההתכווצות מושכת אותה ימינה במקום להשאיר אותה תלויה באוויר. הכותרת יושבת בשכבה `sticky` נפרדת עם `pointer-events:none`, והתוכן נמשך מעליה ב-`margin-top:-100vh`, כך שהיא מרחפת מעל הטקסט בלי לחסום לחיצות. הטווח מוגדר כ-`+=70%` של גובה המסך ולא כאחוז מגובה הפרק. **זו הייתה תקלה אמיתית כאן**: טווח שנגזר מגובה הפרק יצא ארוך יותר ממה שאפשר לגלול בפועל, ולכן שליש מהאנימציה מעולם לא הגיע לסופו והכותרת נתקעה באמצע הדרך. הכלל: אזור ההיצמדות חייב להיות ארוך מטווח האנימציה. **ומלכודת שנייה שנתפסה מיד אחריה**: ריפוד תחתון על אלמנט האב אינו חלק מתיבת התוכן שלו, ו-`position:sticky` נעצר בגבול תיבת התוכן. לכן המרווח שנועד להאריך את ההיצמדות דווקא קיצר אותה, והוא הועבר לתוכן עצמו.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g70.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* G70 · כותרת שמתכווצת ומתעגנת לפינה */
+.dk{position:relative}
+.dk-stage{position:sticky;top:0;height:100vh;pointer-events:none;z-index:5}
+/* העוגן הוא הפינה הימנית העליונה, ונקודת הקנה מידה שם, כך שההתכווצות מושכת אליה */
+.dk-title{position:absolute;top:26px;right:24px;margin:0;white-space:nowrap;
+  font-size:clamp(30px,6vw,84px);font-weight:800;line-height:1;color:var(--ink, #16182b);
+  transform-origin:100% 0%;will-change:transform}
+/* המרווח יושב על התוכן ולא על הפרק: ריפוד של האב אינו חלק מתיבת התוכן שלו,
+   ו-sticky נעצר בגבול תיבת התוכן. מרווח על האב היה מקצר את אזור ההיצמדות. */
+.dk-body{margin-top:-100vh;padding:100vh var(--gutter, clamp(24px, 5vw, 96px)) 60vh;max-width:min(760px,92vw);margin-inline:auto}
+.dk-body p{font-size:17px;line-height:1.9;color:var(--muted, #6a6d85);margin:0 0 22px}
+.dk-body h4{font-size:clamp(20px,2.4vw,30px);margin:40px 0 12px}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="dk"&gt;
+  &lt;div class="dk-stage"&gt;&lt;h3 class="dk-title"&gt;אפיון&lt;/h3&gt;&lt;/div&gt;
+  &lt;div class="dk-body"&gt;
+    &lt;h4&gt;מה קורה בשלב הזה&lt;/h4&gt;
+    &lt;p&gt;מתחילים בהבנה של העסק ושל הלקוח, ורק אחר כך פותחים כלי עיצוב. זה השלב שקובע אם האתר יביא פניות או רק ייראה טוב, והוא גם השלב שהכי קל לוותר עליו כשממהרים.&lt;/p&gt;
+    &lt;p&gt;בפועל זו שיחה אחת ממוקדת: מי הלקוח, מה הוא מחפש, מה עוצר אותו מלפנות, ומה הפעולה היחידה שאנחנו רוצים שיעשה. התשובות האלה קובעות את סדר הסקשנים באתר.&lt;/p&gt;
+    &lt;h4&gt;מה יוצא מזה&lt;/h4&gt;
+    &lt;p&gt;מסמך קצר עם מפת עמודים, המסרים המרכזיים והקריאה לפעולה. לא מסמך לארכיון אלא מסמך שכותבים לפיו.&lt;/p&gt;
+    &lt;p&gt;גלול והכותרת למעלה תתכווץ לתווית. גלול חזרה והיא תחזור להיות כותרת מלאה.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const title=document.querySelector(".dk-title");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+  // בלי שום מדידה: שני מצבים מוגדרים במלואם, ו-GSAP עושה אינטרפולציה בין אחוזים לפיקסלים.
+  // מצב א: הקצה הימני במרכז המסך ואז דחיפה של חצי רוחב, כלומר מרכוז מדויק.
+  // מצב ב: העוגן בפינה, ונקודת הקנה מידה שם, ולכן ההתכווצות מושכת אל הפינה.
+  gsap.fromTo(title,
+    {top:"50%",right:"50%",xPercent:50,yPercent:-50,scale:1},
+    {top:"26px",right:"24px",xPercent:0,yPercent:0,scale:.34,ease:"none",
+     scrollTrigger:{trigger:".dk",start:"top top",end:"+=70%",scrub:.5,invalidateOnRefresh:true}});
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g70 · כותרת שמתכווצת ומתעגנת לפינה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g70.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g70.html\n\nמה זה עושה: כותרת פרק במרכז המסך שמתכווצת בגלילה, נעה לפינה העליונה והופכת לתווית קטנה שמלווה את התוכן. בגלילה אחורה היא חוזרת להיות כותרת.\nמתי משתמשים: עמוד ארוך עם פרקים, מדריך, תיק עבודות לפי קטגוריות, מסמך תנאים. המבקר תמיד יודע באיזה פרק הוא נמצא בלי תפריט צף נוסף.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* G70 · כותרת שמתכווצת ומתעגנת לפינה */\n.dk{position:relative}\n.dk-stage{position:sticky;top:0;height:100vh;pointer-events:none;z-index:5}\n/* העוגן הוא הפינה הימנית העליונה, ונקודת הקנה מידה שם, כך שההתכווצות מושכת אליה */\n.dk-title{position:absolute;top:26px;right:24px;margin:0;white-space:nowrap;\n  font-size:clamp(30px,6vw,84px);font-weight:800;line-height:1;color:var(--ink, #16182b);\n  transform-origin:100% 0%;will-change:transform}\n/* המרווח יושב על התוכן ולא על הפרק: ריפוד של האב אינו חלק מתיבת התוכן שלו,\n   ו-sticky נעצר בגבול תיבת התוכן. מרווח על האב היה מקצר את אזור ההיצמדות. */\n.dk-body{margin-top:-100vh;padding:100vh var(--gutter, clamp(24px, 5vw, 96px)) 60vh;max-width:min(760px,92vw);margin-inline:auto}\n.dk-body p{font-size:17px;line-height:1.9;color:var(--muted, #6a6d85);margin:0 0 22px}\n.dk-body h4{font-size:clamp(20px,2.4vw,30px);margin:40px 0 12px}\n\n=== HTML ===\n<div class=\"dk\">\n  <div class=\"dk-stage\"><h3 class=\"dk-title\">אפיון<\/h3><\/div>\n  <div class=\"dk-body\">\n    <h4>מה קורה בשלב הזה<\/h4>\n    <p>מתחילים בהבנה של העסק ושל הלקוח, ורק אחר כך פותחים כלי עיצוב. זה השלב שקובע אם האתר יביא פניות או רק ייראה טוב, והוא גם השלב שהכי קל לוותר עליו כשממהרים.<\/p>\n    <p>בפועל זו שיחה אחת ממוקדת: מי הלקוח, מה הוא מחפש, מה עוצר אותו מלפנות, ומה הפעולה היחידה שאנחנו רוצים שיעשה. התשובות האלה קובעות את סדר הסקשנים באתר.<\/p>\n    <h4>מה יוצא מזה<\/h4>\n    <p>מסמך קצר עם מפת עמודים, המסרים המרכזיים והקריאה לפעולה. לא מסמך לארכיון אלא מסמך שכותבים לפיו.<\/p>\n    <p>גלול והכותרת למעלה תתכווץ לתווית. גלול חזרה והיא תחזור להיות כותרת מלאה.<\/p>\n  <\/div>\n<\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const title=document.querySelector(\".dk-title\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce)return;\n  // בלי שום מדידה: שני מצבים מוגדרים במלואם, ו-GSAP עושה אינטרפולציה בין אחוזים לפיקסלים.\n  // מצב א: הקצה הימני במרכז המסך ואז דחיפה של חצי רוחב, כלומר מרכוז מדויק.\n  // מצב ב: העוגן בפינה, ונקודת הקנה מידה שם, ולכן ההתכווצות מושכת אל הפינה.\n  gsap.fromTo(title,\n    {top:\"50%\",right:\"50%\",xPercent:50,yPercent:-50,scale:1},\n    {top:\"26px\",right:\"24px\",xPercent:0,yPercent:0,scale:.34,ease:\"none\",\n     scrollTrigger:{trigger:\".dk\",start:\"top top\",end:\"+=70%\",scrub:.5,invalidateOnRefresh:true}});\n})();\n\nהערת מימוש מהמאגר:\nאין כאן שום מדידה בזמן ריצה: שני המצבים מוגדרים במלואם, ו-GSAP עושה אינטרפולציה בין אחוזים לפיקסלים. המרכוז מושג בשילוב `right:50%` עם `xPercent:50`, כלומר הקצה הימני במרכז ואז דחיפה של חצי רוחב. הניסיון הראשון כאן נכשל: מדדתי בזמן ריצה את המרחק אל המרכז, אבל המדידה נעשית על אלמנט שכבר נושא טרנספורם, ולכן היא מזינה את עצמה והכותרת ברחה מהמסך. העיגון עובד כי `transform-origin` נמצא בקצה שאליו הכותרת נוסעת: בעברית זה `100% 0%`, כלומר הפינה הימנית העליונה, ולכן ההתכווצות מושכת אותה ימינה במקום להשאיר אותה תלויה באוויר. הכותרת יושבת בשכבה `sticky` נפרדת עם `pointer-events:none`, והתוכן נמשך מעליה ב-`margin-top:-100vh`, כך שהיא מרחפת מעל הטקסט בלי לחסום לחיצות. הטווח מוגדר כ-`+=70%` של גובה המסך ולא כאחוז מגובה הפרק. זו הייתה תקלה אמיתית כאן: טווח שנגזר מגובה הפרק יצא ארוך יותר ממה שאפשר לגלול בפועל, ולכן שליש מהאנימציה מעולם לא הגיע לסופו והכותרת נתקעה באמצע הדרך. הכלל: אזור ההיצמדות חייב להיות ארוך מטווח האנימציה. ומלכודת שנייה שנתפסה מיד אחריה: ריפוד תחתון על אלמנט האב אינו חלק מתיבת התוכן שלו, ו-`position:sticky` נעצר בגבול תיבת התוכן. לכן המרווח שנועד להאריך את ההיצמדות דווקא קיצר אותה, והוא הועבר לתוכן עצמו.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* G70 · כותרת שמתכווצת ומתעגנת לפינה */\n.dk{position:relative}\n.dk-stage{position:sticky;top:0;height:100vh;pointer-events:none;z-index:5}\n/* העוגן הוא הפינה הימנית העליונה, ונקודת הקנה מידה שם, כך שההתכווצות מושכת אליה */\n.dk-title{position:absolute;top:26px;right:24px;margin:0;white-space:nowrap;\n  font-size:clamp(30px,6vw,84px);font-weight:800;line-height:1;color:var(--ink, #16182b);\n  transform-origin:100% 0%;will-change:transform}\n/* המרווח יושב על התוכן ולא על הפרק: ריפוד של האב אינו חלק מתיבת התוכן שלו,\n   ו-sticky נעצר בגבול תיבת התוכן. מרווח על האב היה מקצר את אזור ההיצמדות. */\n.dk-body{margin-top:-100vh;padding:100vh var(--gutter, clamp(24px, 5vw, 96px)) 60vh;max-width:min(760px,92vw);margin-inline:auto}\n.dk-body p{font-size:17px;line-height:1.9;color:var(--muted, #6a6d85);margin:0 0 22px}\n.dk-body h4{font-size:clamp(20px,2.4vw,30px);margin:40px 0 12px}","html":"<div class=\"dk\">\n  <div class=\"dk-stage\"><h3 class=\"dk-title\">אפיון<\/h3><\/div>\n  <div class=\"dk-body\">\n    <h4>מה קורה בשלב הזה<\/h4>\n    <p>מתחילים בהבנה של העסק ושל הלקוח, ורק אחר כך פותחים כלי עיצוב. זה השלב שקובע אם האתר יביא פניות או רק ייראה טוב, והוא גם השלב שהכי קל לוותר עליו כשממהרים.<\/p>\n    <p>בפועל זו שיחה אחת ממוקדת: מי הלקוח, מה הוא מחפש, מה עוצר אותו מלפנות, ומה הפעולה היחידה שאנחנו רוצים שיעשה. התשובות האלה קובעות את סדר הסקשנים באתר.<\/p>\n    <h4>מה יוצא מזה<\/h4>\n    <p>מסמך קצר עם מפת עמודים, המסרים המרכזיים והקריאה לפעולה. לא מסמך לארכיון אלא מסמך שכותבים לפיו.<\/p>\n    <p>גלול והכותרת למעלה תתכווץ לתווית. גלול חזרה והיא תחזור להיות כותרת מלאה.<\/p>\n  <\/div>\n<\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const title=document.querySelector(\".dk-title\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce)return;\n  // בלי שום מדידה: שני מצבים מוגדרים במלואם, ו-GSAP עושה אינטרפולציה בין אחוזים לפיקסלים.\n  // מצב א: הקצה הימני במרכז המסך ואז דחיפה של חצי רוחב, כלומר מרכוז מדויק.\n  // מצב ב: העוגן בפינה, ונקודת הקנה מידה שם, ולכן ההתכווצות מושכת אל הפינה.\n  gsap.fromTo(title,\n    {top:\"50%\",right:\"50%\",xPercent:50,yPercent:-50,scale:1},\n    {top:\"26px\",right:\"24px\",xPercent:0,yPercent:0,scale:.34,ease:\"none\",\n     scrollTrigger:{trigger:\".dk\",start:\"top top\",end:\"+=70%\",scrub:.5,invalidateOnRefresh:true}});\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -63,6 +115,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const title=document.querySelector(".dk-title");

@@ -38,6 +38,52 @@
 <div class="stage tight"><div class="mag-wrap"><div class="mag-img"></div></div></div>
 
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/g11.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G11 · זכוכית מגדלת על תמונה */
+.mag-wrap{position:relative;width:min(640px,86vw);margin-inline:auto}
+.mag-img{width:100%;aspect-ratio:16/10;border-radius:var(--r, 14px);background:
+  radial-gradient(circle at 25% 30%,#ffd43b 0 8%,transparent 8%),
+  radial-gradient(circle at 70% 60%,#ff8787 0 12%,transparent 12%),
+  radial-gradient(circle at 45% 75%,#66d9e8 0 6%,transparent 6%),
+  linear-gradient(160deg,#1b2653,#3b5bdb)}
+.magnifier{position:absolute;pointer-events:none;width:190px;height:190px;border-radius:50%;
+  border:2px solid #fff;background-repeat:no-repeat;transform:translate(-50%,-50%) scale(0);
+  transition:transform .25s ease;z-index:5;box-shadow:0 10px 30px rgba(0,0,0,.3)}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="mag-wrap"&gt;&lt;div class="mag-img"&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>const zoom=1.5,wrap=document.querySelector(".mag-wrap"),img=document.querySelector(".mag-img");
+const mag=document.createElement("div");mag.className="magnifier";wrap.appendChild(mag);
+function paint(){
+  const w=img.offsetWidth,h=img.offsetHeight;
+  mag.style.backgroundImage=getComputedStyle(img).backgroundImage;
+  mag.style.backgroundSize=(w*zoom)+"px "+(h*zoom)+"px";
+}
+paint();addEventListener("resize",paint);
+wrap.addEventListener("mouseenter",()=&gt;mag.style.transform="translate(-50%,-50%) scale(1)");
+wrap.addEventListener("mousemove",e=&gt;{
+  const r=img.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+  mag.style.left=x+"px";mag.style.top=y+"px";
+  mag.style.backgroundPosition=(-x*zoom+mag.offsetWidth/2)+"px "+(-y*zoom+mag.offsetHeight/2)+"px";
+});
+wrap.addEventListener("mouseleave",()=&gt;mag.style.transform="translate(-50%,-50%) scale(0)");</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g11 · זכוכית מגדלת על תמונה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g11.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g11.html\n\nמה זה עושה: עיגול הגדלה עוקב עכבר על תמונה, זום 1.5.\nמתי משתמשים: מוצר עתיר פרטים, תיק עבודות, תכשיטים. במובייל כבוי (pinch-zoom טבעי עדיף).\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G11 · זכוכית מגדלת על תמונה */\n.mag-wrap{position:relative;width:min(640px,86vw);margin-inline:auto}\n.mag-img{width:100%;aspect-ratio:16/10;border-radius:var(--r, 14px);background:\n  radial-gradient(circle at 25% 30%,#ffd43b 0 8%,transparent 8%),\n  radial-gradient(circle at 70% 60%,#ff8787 0 12%,transparent 12%),\n  radial-gradient(circle at 45% 75%,#66d9e8 0 6%,transparent 6%),\n  linear-gradient(160deg,#1b2653,#3b5bdb)}\n.magnifier{position:absolute;pointer-events:none;width:190px;height:190px;border-radius:50%;\n  border:2px solid #fff;background-repeat:no-repeat;transform:translate(-50%,-50%) scale(0);\n  transition:transform .25s ease;z-index:5;box-shadow:0 10px 30px rgba(0,0,0,.3)}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"mag-wrap\"><div class=\"mag-img\"><\/div><\/div><\/div>\n\n=== JS ===\nconst zoom=1.5,wrap=document.querySelector(\".mag-wrap\"),img=document.querySelector(\".mag-img\");\nconst mag=document.createElement(\"div\");mag.className=\"magnifier\";wrap.appendChild(mag);\nfunction paint(){\n  const w=img.offsetWidth,h=img.offsetHeight;\n  mag.style.backgroundImage=getComputedStyle(img).backgroundImage;\n  mag.style.backgroundSize=(w*zoom)+\"px \"+(h*zoom)+\"px\";\n}\npaint();addEventListener(\"resize\",paint);\nwrap.addEventListener(\"mouseenter\",()=>mag.style.transform=\"translate(-50%,-50%) scale(1)\");\nwrap.addEventListener(\"mousemove\",e=>{\n  const r=img.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;\n  mag.style.left=x+\"px\";mag.style.top=y+\"px\";\n  mag.style.backgroundPosition=(-x*zoom+mag.offsetWidth/2)+\"px \"+(-y*zoom+mag.offsetHeight/2)+\"px\";\n});\nwrap.addEventListener(\"mouseleave\",()=>mag.style.transform=\"translate(-50%,-50%) scale(0)\");","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G11 · זכוכית מגדלת על תמונה */\n.mag-wrap{position:relative;width:min(640px,86vw);margin-inline:auto}\n.mag-img{width:100%;aspect-ratio:16/10;border-radius:var(--r, 14px);background:\n  radial-gradient(circle at 25% 30%,#ffd43b 0 8%,transparent 8%),\n  radial-gradient(circle at 70% 60%,#ff8787 0 12%,transparent 12%),\n  radial-gradient(circle at 45% 75%,#66d9e8 0 6%,transparent 6%),\n  linear-gradient(160deg,#1b2653,#3b5bdb)}\n.magnifier{position:absolute;pointer-events:none;width:190px;height:190px;border-radius:50%;\n  border:2px solid #fff;background-repeat:no-repeat;transform:translate(-50%,-50%) scale(0);\n  transition:transform .25s ease;z-index:5;box-shadow:0 10px 30px rgba(0,0,0,.3)}","html":"<div class=\"stage tight\"><div class=\"mag-wrap\"><div class=\"mag-img\"><\/div><\/div><\/div>","js":"const zoom=1.5,wrap=document.querySelector(\".mag-wrap\"),img=document.querySelector(\".mag-img\");\nconst mag=document.createElement(\"div\");mag.className=\"magnifier\";wrap.appendChild(mag);\nfunction paint(){\n  const w=img.offsetWidth,h=img.offsetHeight;\n  mag.style.backgroundImage=getComputedStyle(img).backgroundImage;\n  mag.style.backgroundSize=(w*zoom)+\"px \"+(h*zoom)+\"px\";\n}\npaint();addEventListener(\"resize\",paint);\nwrap.addEventListener(\"mouseenter\",()=>mag.style.transform=\"translate(-50%,-50%) scale(1)\");\nwrap.addEventListener(\"mousemove\",e=>{\n  const r=img.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;\n  mag.style.left=x+\"px\";mag.style.top=y+\"px\";\n  mag.style.backgroundPosition=(-x*zoom+mag.offsetWidth/2)+\"px \"+(-y*zoom+mag.offsetHeight/2)+\"px\";\n});\nwrap.addEventListener(\"mouseleave\",()=>mag.style.transform=\"translate(-50%,-50%) scale(0)\");","scripts":"","rtl":true}</script>
+</section>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -50,6 +96,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 const zoom=1.5,wrap=document.querySelector(".mag-wrap"),img=document.querySelector(".mag-img");
 const mag=document.createElement("div");mag.className="magnifier";wrap.appendChild(mag);

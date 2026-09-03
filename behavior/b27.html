@@ -56,6 +56,90 @@
 </div></div>
 
 <div class="demo-note">המחוון ממוקם לפי מדידה חיה של הכפתור הפעיל, ולכן הוא נוחת נכון גם בעברית וגם אחרי שינוי רוחב או טעינת פונט. חצי המקלדת הפוכים בכוונה: בעברית חץ שמאלה הוא הבא בתור. התמונה הנכנסת מתחילה בהגדלה קלה וחוזרת ל-1, וזה מה שנותן את תחושת ההחלפה במקום הבהוב.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b27.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+
+/* B27 · טאבים צפים שמחליפים מדיה מלאה */
+.tsw{position:relative;min-height:min(84vh,720px);overflow:hidden;display:grid;place-items:end center;padding-bottom:clamp(28px,5vh,60px)}
+.tsw-media{position:absolute;inset:0}
+.tsw-media .ph{position:absolute;inset:0;border-radius:0;opacity:0;transform:scale(1.06);transition:opacity .7s ease,transform 1.1s cubic-bezier(.2,.8,.2,1);font-size:0}
+.tsw-media .ph.on{opacity:1;transform:none}
+.tsw::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.5))}
+.tsw-in{position:relative;z-index:2;text-align:center;color:#fff;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.tsw-cap{min-height:3.4em;margin:0 auto 20px;max-width:34ch}
+.tsw-cap h3{font-size:clamp(24px,3vw,44px);margin:0 0 6px;font-weight:800}
+.tsw-cap p{margin:0;opacity:.85;font-size:16px}
+.tsw-tabs{position:relative;display:inline-flex;gap:4px;padding:5px;border-radius:999px;background:rgba(255,255,255,.14);backdrop-filter:blur(10px)}
+.tsw-ind{position:absolute;top:5px;bottom:5px;left:0;border-radius:999px;background:#fff;transition:transform .45s cubic-bezier(.2,.8,.2,1),width .45s cubic-bezier(.2,.8,.2,1);z-index:0}
+.tsw-tab{position:relative;z-index:1;border:0;background:none;font:inherit;font-size:15px;font-weight:600;color:#fff;padding:11px 22px;border-radius:999px;cursor:pointer;transition:color .3s;white-space:nowrap}
+.tsw-tab[aria-selected="true"]{color:#16182b}
+@media (prefers-reduced-motion: reduce){.tsw-ind,.tsw-media .ph{transition-duration:.01ms}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage full" style="padding-block:0"&gt;&lt;div class="tsw"&gt;
+  &lt;div class="tsw-media"&gt;
+    &lt;div class="ph ph-a on"&gt;&lt;/div&gt;&lt;div class="ph ph-c"&gt;&lt;/div&gt;&lt;div class="ph ph-e"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="tsw-in"&gt;
+    &lt;div class="tsw-cap"&gt;&lt;h3&gt;נדל"ן&lt;/h3&gt;&lt;p&gt;אתרי תדמית לחברות תיווך ויזמות, עם דגש על אמון ועל נכסים.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class="tsw-tabs" role="tablist" aria-label="תחומים"&gt;
+      &lt;span class="tsw-ind" aria-hidden="true"&gt;&lt;/span&gt;
+      &lt;button class="tsw-tab" role="tab" aria-selected="true" data-i="0" data-t="נדל&amp;quot;ן" data-d="אתרי תדמית לחברות תיווך ויזמות, עם דגש על אמון ועל נכסים."&gt;נדל"ן&lt;/button&gt;
+      &lt;button class="tsw-tab" role="tab" aria-selected="false" data-i="1" data-t="קליניקות" data-d="עמודים שקטים ומדויקים שמייצרים פניות בלי להיראות מסחריים."&gt;קליניקות&lt;/button&gt;
+      &lt;button class="tsw-tab" role="tab" aria-selected="false" data-i="2" data-t="חנויות" data-d="חנויות שמוכרות: מסלול קנייה קצר, ודף מוצר שעונה על התנגדויות."&gt;חנויות&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const wrap=document.querySelector(".tsw"),tabs=[...wrap.querySelectorAll(".tsw-tab")];
+  const shots=[...wrap.querySelectorAll(".tsw-media .ph")],ind=wrap.querySelector(".tsw-ind");
+  const cap=wrap.querySelector(".tsw-cap");
+  function moveInd(btn){
+    // מודדים מיקום חי ולא מחשבים לפי אינדקס, כך שזה נכון גם ב-RTL וגם אחרי שינוי גודל
+    const a=btn.getBoundingClientRect(),b=btn.parentElement.getBoundingClientRect();
+    ind.style.width=a.width+"px";
+    ind.style.transform="translateX("+(a.left-b.left)+"px)";
+  }
+  function select(btn){
+    tabs.forEach(t=&gt;t.setAttribute("aria-selected",String(t===btn)));
+    shots.forEach((s,i)=&gt;s.classList.toggle("on",i===+btn.dataset.i));
+    cap.querySelector("h3").textContent=btn.dataset.t;
+    cap.querySelector("p").textContent=btn.dataset.d;
+    moveInd(btn);
+  }
+  tabs.forEach(t=&gt;t.addEventListener("click",()=&gt;select(t)));
+  wrap.addEventListener("keydown",e=&gt;{
+    if(!e.target.classList.contains("tsw-tab"))return;
+    const i=tabs.indexOf(e.target);
+    let n=null;
+    if(e.key==="ArrowLeft")n=tabs[(i+1)%tabs.length];      // בעברית חץ שמאלה מתקדם
+    if(e.key==="ArrowRight")n=tabs[(i-1+tabs.length)%tabs.length];
+    if(n){e.preventDefault();n.focus();select(n);}
+  });
+  const start=()=&gt;select(tabs[0]);
+  start();
+  addEventListener("resize",()=&gt;moveInd(tabs.find(t=&gt;t.getAttribute("aria-selected")==="true")));
+  if(document.fonts&amp;&amp;document.fonts.ready)document.fonts.ready.then(start);
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b27 · טאבים צפים שמחליפים מדיה מלאה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b27.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b27.html\n\nמה זה עושה: שורת כפתורים צפה מעל תמונה במסך מלא. לחיצה מחליפה את המדיה שמאחור בהצלבה רכה, והמחוון מחליק אל הכפתור הפעיל.\nמתי משתמשים: עמוד שירותים שמציג תחומים שונים, קטלוג לפי קטגוריה, או תיק עבודות לפי סוג. מחליף שלושה סקשנים נפרדים בסקשן אחד.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n\n/* B27 · טאבים צפים שמחליפים מדיה מלאה */\n.tsw{position:relative;min-height:min(84vh,720px);overflow:hidden;display:grid;place-items:end center;padding-bottom:clamp(28px,5vh,60px)}\n.tsw-media{position:absolute;inset:0}\n.tsw-media .ph{position:absolute;inset:0;border-radius:0;opacity:0;transform:scale(1.06);transition:opacity .7s ease,transform 1.1s cubic-bezier(.2,.8,.2,1);font-size:0}\n.tsw-media .ph.on{opacity:1;transform:none}\n.tsw::after{content:\"\";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.5))}\n.tsw-in{position:relative;z-index:2;text-align:center;color:#fff;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.tsw-cap{min-height:3.4em;margin:0 auto 20px;max-width:34ch}\n.tsw-cap h3{font-size:clamp(24px,3vw,44px);margin:0 0 6px;font-weight:800}\n.tsw-cap p{margin:0;opacity:.85;font-size:16px}\n.tsw-tabs{position:relative;display:inline-flex;gap:4px;padding:5px;border-radius:999px;background:rgba(255,255,255,.14);backdrop-filter:blur(10px)}\n.tsw-ind{position:absolute;top:5px;bottom:5px;left:0;border-radius:999px;background:#fff;transition:transform .45s cubic-bezier(.2,.8,.2,1),width .45s cubic-bezier(.2,.8,.2,1);z-index:0}\n.tsw-tab{position:relative;z-index:1;border:0;background:none;font:inherit;font-size:15px;font-weight:600;color:#fff;padding:11px 22px;border-radius:999px;cursor:pointer;transition:color .3s;white-space:nowrap}\n.tsw-tab[aria-selected=\"true\"]{color:#16182b}\n@media (prefers-reduced-motion: reduce){.tsw-ind,.tsw-media .ph{transition-duration:.01ms}}\n\n=== HTML ===\n<div class=\"stage full\" style=\"padding-block:0\"><div class=\"tsw\">\n  <div class=\"tsw-media\">\n    <div class=\"ph ph-a on\"><\/div><div class=\"ph ph-c\"><\/div><div class=\"ph ph-e\"><\/div>\n  <\/div>\n  <div class=\"tsw-in\">\n    <div class=\"tsw-cap\"><h3>נדל\"ן<\/h3><p>אתרי תדמית לחברות תיווך ויזמות, עם דגש על אמון ועל נכסים.<\/p><\/div>\n    <div class=\"tsw-tabs\" role=\"tablist\" aria-label=\"תחומים\">\n      <span class=\"tsw-ind\" aria-hidden=\"true\"><\/span>\n      <button class=\"tsw-tab\" role=\"tab\" aria-selected=\"true\" data-i=\"0\" data-t=\"נדל&quot;ן\" data-d=\"אתרי תדמית לחברות תיווך ויזמות, עם דגש על אמון ועל נכסים.\">נדל\"ן<\/button>\n      <button class=\"tsw-tab\" role=\"tab\" aria-selected=\"false\" data-i=\"1\" data-t=\"קליניקות\" data-d=\"עמודים שקטים ומדויקים שמייצרים פניות בלי להיראות מסחריים.\">קליניקות<\/button>\n      <button class=\"tsw-tab\" role=\"tab\" aria-selected=\"false\" data-i=\"2\" data-t=\"חנויות\" data-d=\"חנויות שמוכרות: מסלול קנייה קצר, ודף מוצר שעונה על התנגדויות.\">חנויות<\/button>\n    <\/div>\n  <\/div>\n<\/div><\/div>\n\n=== JS ===\n(function(){\n  const wrap=document.querySelector(\".tsw\"),tabs=[...wrap.querySelectorAll(\".tsw-tab\")];\n  const shots=[...wrap.querySelectorAll(\".tsw-media .ph\")],ind=wrap.querySelector(\".tsw-ind\");\n  const cap=wrap.querySelector(\".tsw-cap\");\n  function moveInd(btn){\n    // מודדים מיקום חי ולא מחשבים לפי אינדקס, כך שזה נכון גם ב-RTL וגם אחרי שינוי גודל\n    const a=btn.getBoundingClientRect(),b=btn.parentElement.getBoundingClientRect();\n    ind.style.width=a.width+\"px\";\n    ind.style.transform=\"translateX(\"+(a.left-b.left)+\"px)\";\n  }\n  function select(btn){\n    tabs.forEach(t=>t.setAttribute(\"aria-selected\",String(t===btn)));\n    shots.forEach((s,i)=>s.classList.toggle(\"on\",i===+btn.dataset.i));\n    cap.querySelector(\"h3\").textContent=btn.dataset.t;\n    cap.querySelector(\"p\").textContent=btn.dataset.d;\n    moveInd(btn);\n  }\n  tabs.forEach(t=>t.addEventListener(\"click\",()=>select(t)));\n  wrap.addEventListener(\"keydown\",e=>{\n    if(!e.target.classList.contains(\"tsw-tab\"))return;\n    const i=tabs.indexOf(e.target);\n    let n=null;\n    if(e.key===\"ArrowLeft\")n=tabs[(i+1)%tabs.length];      // בעברית חץ שמאלה מתקדם\n    if(e.key===\"ArrowRight\")n=tabs[(i-1+tabs.length)%tabs.length];\n    if(n){e.preventDefault();n.focus();select(n);}\n  });\n  const start=()=>select(tabs[0]);\n  start();\n  addEventListener(\"resize\",()=>moveInd(tabs.find(t=>t.getAttribute(\"aria-selected\")===\"true\")));\n  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(start);\n})();\n\nהערת מימוש מהמאגר:\nהמחוון ממוקם לפי מדידה חיה של הכפתור הפעיל, ולכן הוא נוחת נכון גם בעברית וגם אחרי שינוי רוחב או טעינת פונט. חצי המקלדת הפוכים בכוונה: בעברית חץ שמאלה הוא הבא בתור. התמונה הנכנסת מתחילה בהגדלה קלה וחוזרת ל-1, וזה מה שנותן את תחושת ההחלפה במקום הבהוב.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n\n/* B27 · טאבים צפים שמחליפים מדיה מלאה */\n.tsw{position:relative;min-height:min(84vh,720px);overflow:hidden;display:grid;place-items:end center;padding-bottom:clamp(28px,5vh,60px)}\n.tsw-media{position:absolute;inset:0}\n.tsw-media .ph{position:absolute;inset:0;border-radius:0;opacity:0;transform:scale(1.06);transition:opacity .7s ease,transform 1.1s cubic-bezier(.2,.8,.2,1);font-size:0}\n.tsw-media .ph.on{opacity:1;transform:none}\n.tsw::after{content:\"\";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.5))}\n.tsw-in{position:relative;z-index:2;text-align:center;color:#fff;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.tsw-cap{min-height:3.4em;margin:0 auto 20px;max-width:34ch}\n.tsw-cap h3{font-size:clamp(24px,3vw,44px);margin:0 0 6px;font-weight:800}\n.tsw-cap p{margin:0;opacity:.85;font-size:16px}\n.tsw-tabs{position:relative;display:inline-flex;gap:4px;padding:5px;border-radius:999px;background:rgba(255,255,255,.14);backdrop-filter:blur(10px)}\n.tsw-ind{position:absolute;top:5px;bottom:5px;left:0;border-radius:999px;background:#fff;transition:transform .45s cubic-bezier(.2,.8,.2,1),width .45s cubic-bezier(.2,.8,.2,1);z-index:0}\n.tsw-tab{position:relative;z-index:1;border:0;background:none;font:inherit;font-size:15px;font-weight:600;color:#fff;padding:11px 22px;border-radius:999px;cursor:pointer;transition:color .3s;white-space:nowrap}\n.tsw-tab[aria-selected=\"true\"]{color:#16182b}\n@media (prefers-reduced-motion: reduce){.tsw-ind,.tsw-media .ph{transition-duration:.01ms}}","html":"<div class=\"stage full\" style=\"padding-block:0\"><div class=\"tsw\">\n  <div class=\"tsw-media\">\n    <div class=\"ph ph-a on\"><\/div><div class=\"ph ph-c\"><\/div><div class=\"ph ph-e\"><\/div>\n  <\/div>\n  <div class=\"tsw-in\">\n    <div class=\"tsw-cap\"><h3>נדל\"ן<\/h3><p>אתרי תדמית לחברות תיווך ויזמות, עם דגש על אמון ועל נכסים.<\/p><\/div>\n    <div class=\"tsw-tabs\" role=\"tablist\" aria-label=\"תחומים\">\n      <span class=\"tsw-ind\" aria-hidden=\"true\"><\/span>\n      <button class=\"tsw-tab\" role=\"tab\" aria-selected=\"true\" data-i=\"0\" data-t=\"נדל&quot;ן\" data-d=\"אתרי תדמית לחברות תיווך ויזמות, עם דגש על אמון ועל נכסים.\">נדל\"ן<\/button>\n      <button class=\"tsw-tab\" role=\"tab\" aria-selected=\"false\" data-i=\"1\" data-t=\"קליניקות\" data-d=\"עמודים שקטים ומדויקים שמייצרים פניות בלי להיראות מסחריים.\">קליניקות<\/button>\n      <button class=\"tsw-tab\" role=\"tab\" aria-selected=\"false\" data-i=\"2\" data-t=\"חנויות\" data-d=\"חנויות שמוכרות: מסלול קנייה קצר, ודף מוצר שעונה על התנגדויות.\">חנויות<\/button>\n    <\/div>\n  <\/div>\n<\/div><\/div>","js":"(function(){\n  const wrap=document.querySelector(\".tsw\"),tabs=[...wrap.querySelectorAll(\".tsw-tab\")];\n  const shots=[...wrap.querySelectorAll(\".tsw-media .ph\")],ind=wrap.querySelector(\".tsw-ind\");\n  const cap=wrap.querySelector(\".tsw-cap\");\n  function moveInd(btn){\n    // מודדים מיקום חי ולא מחשבים לפי אינדקס, כך שזה נכון גם ב-RTL וגם אחרי שינוי גודל\n    const a=btn.getBoundingClientRect(),b=btn.parentElement.getBoundingClientRect();\n    ind.style.width=a.width+\"px\";\n    ind.style.transform=\"translateX(\"+(a.left-b.left)+\"px)\";\n  }\n  function select(btn){\n    tabs.forEach(t=>t.setAttribute(\"aria-selected\",String(t===btn)));\n    shots.forEach((s,i)=>s.classList.toggle(\"on\",i===+btn.dataset.i));\n    cap.querySelector(\"h3\").textContent=btn.dataset.t;\n    cap.querySelector(\"p\").textContent=btn.dataset.d;\n    moveInd(btn);\n  }\n  tabs.forEach(t=>t.addEventListener(\"click\",()=>select(t)));\n  wrap.addEventListener(\"keydown\",e=>{\n    if(!e.target.classList.contains(\"tsw-tab\"))return;\n    const i=tabs.indexOf(e.target);\n    let n=null;\n    if(e.key===\"ArrowLeft\")n=tabs[(i+1)%tabs.length];      // בעברית חץ שמאלה מתקדם\n    if(e.key===\"ArrowRight\")n=tabs[(i-1+tabs.length)%tabs.length];\n    if(n){e.preventDefault();n.focus();select(n);}\n  });\n  const start=()=>select(tabs[0]);\n  start();\n  addEventListener(\"resize\",()=>moveInd(tabs.find(t=>t.getAttribute(\"aria-selected\")===\"true\")));\n  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(start);\n})();","scripts":"","rtl":true}</script>
+</section>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -68,6 +152,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 (function(){
   const wrap=document.querySelector(".tsw"),tabs=[...wrap.querySelectorAll(".tsw-tab")];

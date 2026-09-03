@@ -48,6 +48,90 @@ html,body{overflow-x:clip}
 </div></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 <div class="demo-note"><b>כיוון:</b> הרצועה נשארת RTL, התחנה הראשונה בימין, ו-x חיובי. המצלמה נעה שמאלה בתוך התוכן וכל תחנה נכנסת דרך שפת המסך השמאלית, ככיוון הקריאה בעברית. באתר אנגלי הופכים את הסימן ומודדים את השפה השמאלית של הפריט במקום הימנית.<br><b>למה לא containerAnimation:</b> זו הדרך הרשמית לתלות אנימציות במיקום אופקי, אבל היא מודדת נכון רק כשהרצועה מתחילה בקצה השמאלי. בתוך קונטיינר RTL ילד עם width:max-content שרחב מהמסך מתיישר לקצה הימני והגלישה יוצאת שמאלה, כלומר נקודת האפס שלו היא כבר סוף הרצועה, וכל המדידות יוצאות מוזזות באורך מסלול שלם. זו התנהגות פריסה של הדפדפן ולא באג ב-GSAP. לכן כאן כל פריט מקבל את מצבו מהמיקום החי שלו על המסך, שיטה שעובדת בשני הכיוונים ולא תלויה בפרשנות של left ו-right.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g40.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+
+/* G40 · סצנה אופקית שכל אלמנט בה מתעורר בתורו */
+html,body{overflow-x:clip}
+.hz{overflow:hidden;background:#0f1020;color:#fff}
+.hz-track{display:flex;align-items:center;gap:clamp(48px,11vw,220px);width:max-content;padding-inline:24vw 10vw;height:100vh}
+.hz-item{flex:0 0 auto;text-align:center;will-change:transform}
+.hz-num{font-size:13px;letter-spacing:.16em;color:#8d8fb0;margin-bottom:14px}
+.hz-item h3{font-size:clamp(26px,2.6vw,46px);margin:0 0 10px;font-weight:800}
+.hz-item p{margin:0 auto;max-width:32ch;color:#b9bad0;font-size:15px;line-height:1.6}
+.hz-card{width:min(420px,74vw);aspect-ratio:4/3;margin-inline:auto;margin-bottom:22px;font-size:26px}
+.hz-scrub{width:120px;height:120px;flex:0 0 auto;border-radius:26px;background:linear-gradient(140deg,#c6ff4a,#4a3aff);display:grid;place-items:center;font-size:34px;color:#0f1020}
+.hz-lead{flex:0 0 min(760px,82vw)}
+.hz-lead h2{font-size:clamp(34px,4vw,72px);margin:0 0 12px;font-weight:800;line-height:1.1}
+.hz-lead p{color:#b9bad0;margin:0;font-size:16px}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="hz"&gt;&lt;div class="hz-track"&gt;
+  &lt;div class="hz-lead"&gt;&lt;h2&gt;ארבע תחנות, גלילה אחת&lt;/h2&gt;&lt;p&gt;גלול למטה. המסלול זז הצידה, וכל תחנה נכנסת ברגע שהיא מגיעה לאזור הצפייה.&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="hz-item"&gt;&lt;div class="hz-card ph ph-a"&gt;1&lt;/div&gt;&lt;div class="hz-num"&gt;תחנה 01&lt;/div&gt;&lt;h3&gt;הכירות&lt;/h3&gt;&lt;p&gt;מבינים את המצב הקיים ואת מה שצריך לקרות.&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="hz-item"&gt;&lt;div class="hz-card ph ph-b"&gt;2&lt;/div&gt;&lt;div class="hz-num"&gt;תחנה 02&lt;/div&gt;&lt;h3&gt;אפיון&lt;/h3&gt;&lt;p&gt;מגדירים מבנה, תוכן והיררכיה לפני שנוגעים בעיצוב.&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="hz-scrub" aria-hidden="true"&gt;✦&lt;/div&gt;
+  &lt;div class="hz-item"&gt;&lt;div class="hz-card ph ph-c"&gt;3&lt;/div&gt;&lt;div class="hz-num"&gt;תחנה 03&lt;/div&gt;&lt;h3&gt;בנייה&lt;/h3&gt;&lt;p&gt;מרכיבים את העמוד ובודקים אותו בכל רוחב מסך.&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="hz-item"&gt;&lt;div class="hz-card ph ph-d"&gt;4&lt;/div&gt;&lt;div class="hz-num"&gt;תחנה 04&lt;/div&gt;&lt;h3&gt;עלייה לאוויר&lt;/h3&gt;&lt;p&gt;מפרסמים, מודדים ומתקנים לפי מה שקורה באמת.&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const track=document.querySelector(".hz-track");
+  const items=gsap.utils.toArray(".hz-item");
+  const spinner=document.querySelector(".hz-scrub");
+  const dist=()=&gt;Math.max(1,track.scrollWidth-window.innerWidth);
+  const clamp=gsap.utils.clamp(0,1);
+
+  // הרצועה יושבת ב-RTL: הפריט הראשון בימין, והגלישה יוצאת שמאלה.
+  // לכן x חיובי, והמצלמה נעה שמאלה בתוך התוכן, ככיוון הקריאה בעברית.
+  let origin=0; // המיקום של שפת הרצועה על המסך כשהיא בנקודת ההתחלה
+
+  function measure(){
+    origin=track.getBoundingClientRect().left-(gsap.getProperty(track,"x")||0);
+  }
+
+  // כל פריט מקבל את המצב שלו מהמיקום שלו על המסך ברגע הנתון.
+  // בעברית הפריט נכנס דרך שפת המסך השמאלית, ולכן מודדים את השפה הימנית שלו.
+  function paint(progress){
+    const x=dist()*progress;
+    gsap.set(track,{x:x});
+    const vw=window.innerWidth;
+    items.forEach(item=&gt;{
+      // כמה מהפריט כבר חצה את שפת המסך השמאלית. אחד = הוא כולו בפנים.
+      const right=origin+item.offsetLeft+item.offsetWidth+x;
+      const f=clamp(right/item.offsetWidth);
+      gsap.set(item,{autoAlpha:f,y:70*(1-f)});
+    });
+    const sRight=origin+spinner.offsetLeft+spinner.offsetWidth+x;
+    gsap.set(spinner,{rotation:270*clamp(sRight/(vw+spinner.offsetWidth))});
+  }
+
+  ScrollTrigger.create({
+    trigger:track,pin:track.parentNode,start:"top top",end:()=&gt;"+="+dist(),
+    anticipatePin:1,invalidateOnRefresh:true,
+    onRefresh:self=&gt;{measure();paint(self.progress);},
+    onUpdate:self=&gt;paint(self.progress)
+  });
+  measure();paint(0);
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g40 · סצנה אופקית שכל אלמנט בה מתעורר בתורו\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g40.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g40.html\n\nמה זה עושה: סקשן שננעל למסך והתוכן גולש הצידה, אבל הפעם כל פריט בתוך המסלול מקבל טריגר משלו לפי המיקום האופקי שלו: הוא נכנס כשהוא מגיע לאזור הצפייה, ולא כשהסקשן כולו נכנס. אלמנט אחד בפנים גם מסתובב בסקראב משלו.\nמתי משתמשים: סיפור אופקי עם תחנות: מסע לקוח, ציר זמן, שלבי תהליך. זה מה שהופך גלילה צידית מרצועה שזזה לסצנה שמתרחשת. ההבדל מ-MV:g01 הוא בדיוק זה.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n\n/* G40 · סצנה אופקית שכל אלמנט בה מתעורר בתורו */\nhtml,body{overflow-x:clip}\n.hz{overflow:hidden;background:#0f1020;color:#fff}\n.hz-track{display:flex;align-items:center;gap:clamp(48px,11vw,220px);width:max-content;padding-inline:24vw 10vw;height:100vh}\n.hz-item{flex:0 0 auto;text-align:center;will-change:transform}\n.hz-num{font-size:13px;letter-spacing:.16em;color:#8d8fb0;margin-bottom:14px}\n.hz-item h3{font-size:clamp(26px,2.6vw,46px);margin:0 0 10px;font-weight:800}\n.hz-item p{margin:0 auto;max-width:32ch;color:#b9bad0;font-size:15px;line-height:1.6}\n.hz-card{width:min(420px,74vw);aspect-ratio:4/3;margin-inline:auto;margin-bottom:22px;font-size:26px}\n.hz-scrub{width:120px;height:120px;flex:0 0 auto;border-radius:26px;background:linear-gradient(140deg,#c6ff4a,#4a3aff);display:grid;place-items:center;font-size:34px;color:#0f1020}\n.hz-lead{flex:0 0 min(760px,82vw)}\n.hz-lead h2{font-size:clamp(34px,4vw,72px);margin:0 0 12px;font-weight:800;line-height:1.1}\n.hz-lead p{color:#b9bad0;margin:0;font-size:16px}\n\n=== HTML ===\n<div class=\"hz\"><div class=\"hz-track\">\n  <div class=\"hz-lead\"><h2>ארבע תחנות, גלילה אחת<\/h2><p>גלול למטה. המסלול זז הצידה, וכל תחנה נכנסת ברגע שהיא מגיעה לאזור הצפייה.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-a\">1<\/div><div class=\"hz-num\">תחנה 01<\/div><h3>הכירות<\/h3><p>מבינים את המצב הקיים ואת מה שצריך לקרות.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-b\">2<\/div><div class=\"hz-num\">תחנה 02<\/div><h3>אפיון<\/h3><p>מגדירים מבנה, תוכן והיררכיה לפני שנוגעים בעיצוב.<\/p><\/div>\n  <div class=\"hz-scrub\" aria-hidden=\"true\">✦<\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-c\">3<\/div><div class=\"hz-num\">תחנה 03<\/div><h3>בנייה<\/h3><p>מרכיבים את העמוד ובודקים אותו בכל רוחב מסך.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-d\">4<\/div><div class=\"hz-num\">תחנה 04<\/div><h3>עלייה לאוויר<\/h3><p>מפרסמים, מודדים ומתקנים לפי מה שקורה באמת.<\/p><\/div>\n<\/div><\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const track=document.querySelector(\".hz-track\");\n  const items=gsap.utils.toArray(\".hz-item\");\n  const spinner=document.querySelector(\".hz-scrub\");\n  const dist=()=>Math.max(1,track.scrollWidth-window.innerWidth);\n  const clamp=gsap.utils.clamp(0,1);\n\n  // הרצועה יושבת ב-RTL: הפריט הראשון בימין, והגלישה יוצאת שמאלה.\n  // לכן x חיובי, והמצלמה נעה שמאלה בתוך התוכן, ככיוון הקריאה בעברית.\n  let origin=0; // המיקום של שפת הרצועה על המסך כשהיא בנקודת ההתחלה\n\n  function measure(){\n    origin=track.getBoundingClientRect().left-(gsap.getProperty(track,\"x\")||0);\n  }\n\n  // כל פריט מקבל את המצב שלו מהמיקום שלו על המסך ברגע הנתון.\n  // בעברית הפריט נכנס דרך שפת המסך השמאלית, ולכן מודדים את השפה הימנית שלו.\n  function paint(progress){\n    const x=dist()*progress;\n    gsap.set(track,{x:x});\n    const vw=window.innerWidth;\n    items.forEach(item=>{\n      // כמה מהפריט כבר חצה את שפת המסך השמאלית. אחד = הוא כולו בפנים.\n      const right=origin+item.offsetLeft+item.offsetWidth+x;\n      const f=clamp(right/item.offsetWidth);\n      gsap.set(item,{autoAlpha:f,y:70*(1-f)});\n    });\n    const sRight=origin+spinner.offsetLeft+spinner.offsetWidth+x;\n    gsap.set(spinner,{rotation:270*clamp(sRight/(vw+spinner.offsetWidth))});\n  }\n\n  ScrollTrigger.create({\n    trigger:track,pin:track.parentNode,start:\"top top\",end:()=>\"+=\"+dist(),\n    anticipatePin:1,invalidateOnRefresh:true,\n    onRefresh:self=>{measure();paint(self.progress);},\n    onUpdate:self=>paint(self.progress)\n  });\n  measure();paint(0);\n})();\n\nהערת מימוש מהמאגר:\n<b>כיוון:<\/b> הרצועה נשארת RTL, התחנה הראשונה בימין, ו-x חיובי. המצלמה נעה שמאלה בתוך התוכן וכל תחנה נכנסת דרך שפת המסך השמאלית, ככיוון הקריאה בעברית. באתר אנגלי הופכים את הסימן ומודדים את השפה השמאלית של הפריט במקום הימנית.<br><b>למה לא containerAnimation:<\/b> זו הדרך הרשמית לתלות אנימציות במיקום אופקי, אבל היא מודדת נכון רק כשהרצועה מתחילה בקצה השמאלי. בתוך קונטיינר RTL ילד עם width:max-content שרחב מהמסך מתיישר לקצה הימני והגלישה יוצאת שמאלה, כלומר נקודת האפס שלו היא כבר סוף הרצועה, וכל המדידות יוצאות מוזזות באורך מסלול שלם. זו התנהגות פריסה של הדפדפן ולא באג ב-GSAP. לכן כאן כל פריט מקבל את מצבו מהמיקום החי שלו על המסך, שיטה שעובדת בשני הכיוונים ולא תלויה בפרשנות של left ו-right.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n\n/* G40 · סצנה אופקית שכל אלמנט בה מתעורר בתורו */\nhtml,body{overflow-x:clip}\n.hz{overflow:hidden;background:#0f1020;color:#fff}\n.hz-track{display:flex;align-items:center;gap:clamp(48px,11vw,220px);width:max-content;padding-inline:24vw 10vw;height:100vh}\n.hz-item{flex:0 0 auto;text-align:center;will-change:transform}\n.hz-num{font-size:13px;letter-spacing:.16em;color:#8d8fb0;margin-bottom:14px}\n.hz-item h3{font-size:clamp(26px,2.6vw,46px);margin:0 0 10px;font-weight:800}\n.hz-item p{margin:0 auto;max-width:32ch;color:#b9bad0;font-size:15px;line-height:1.6}\n.hz-card{width:min(420px,74vw);aspect-ratio:4/3;margin-inline:auto;margin-bottom:22px;font-size:26px}\n.hz-scrub{width:120px;height:120px;flex:0 0 auto;border-radius:26px;background:linear-gradient(140deg,#c6ff4a,#4a3aff);display:grid;place-items:center;font-size:34px;color:#0f1020}\n.hz-lead{flex:0 0 min(760px,82vw)}\n.hz-lead h2{font-size:clamp(34px,4vw,72px);margin:0 0 12px;font-weight:800;line-height:1.1}\n.hz-lead p{color:#b9bad0;margin:0;font-size:16px}","html":"<div class=\"hz\"><div class=\"hz-track\">\n  <div class=\"hz-lead\"><h2>ארבע תחנות, גלילה אחת<\/h2><p>גלול למטה. המסלול זז הצידה, וכל תחנה נכנסת ברגע שהיא מגיעה לאזור הצפייה.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-a\">1<\/div><div class=\"hz-num\">תחנה 01<\/div><h3>הכירות<\/h3><p>מבינים את המצב הקיים ואת מה שצריך לקרות.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-b\">2<\/div><div class=\"hz-num\">תחנה 02<\/div><h3>אפיון<\/h3><p>מגדירים מבנה, תוכן והיררכיה לפני שנוגעים בעיצוב.<\/p><\/div>\n  <div class=\"hz-scrub\" aria-hidden=\"true\">✦<\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-c\">3<\/div><div class=\"hz-num\">תחנה 03<\/div><h3>בנייה<\/h3><p>מרכיבים את העמוד ובודקים אותו בכל רוחב מסך.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-d\">4<\/div><div class=\"hz-num\">תחנה 04<\/div><h3>עלייה לאוויר<\/h3><p>מפרסמים, מודדים ומתקנים לפי מה שקורה באמת.<\/p><\/div>\n<\/div><\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const track=document.querySelector(\".hz-track\");\n  const items=gsap.utils.toArray(\".hz-item\");\n  const spinner=document.querySelector(\".hz-scrub\");\n  const dist=()=>Math.max(1,track.scrollWidth-window.innerWidth);\n  const clamp=gsap.utils.clamp(0,1);\n\n  // הרצועה יושבת ב-RTL: הפריט הראשון בימין, והגלישה יוצאת שמאלה.\n  // לכן x חיובי, והמצלמה נעה שמאלה בתוך התוכן, ככיוון הקריאה בעברית.\n  let origin=0; // המיקום של שפת הרצועה על המסך כשהיא בנקודת ההתחלה\n\n  function measure(){\n    origin=track.getBoundingClientRect().left-(gsap.getProperty(track,\"x\")||0);\n  }\n\n  // כל פריט מקבל את המצב שלו מהמיקום שלו על המסך ברגע הנתון.\n  // בעברית הפריט נכנס דרך שפת המסך השמאלית, ולכן מודדים את השפה הימנית שלו.\n  function paint(progress){\n    const x=dist()*progress;\n    gsap.set(track,{x:x});\n    const vw=window.innerWidth;\n    items.forEach(item=>{\n      // כמה מהפריט כבר חצה את שפת המסך השמאלית. אחד = הוא כולו בפנים.\n      const right=origin+item.offsetLeft+item.offsetWidth+x;\n      const f=clamp(right/item.offsetWidth);\n      gsap.set(item,{autoAlpha:f,y:70*(1-f)});\n    });\n    const sRight=origin+spinner.offsetLeft+spinner.offsetWidth+x;\n    gsap.set(spinner,{rotation:270*clamp(sRight/(vw+spinner.offsetWidth))});\n  }\n\n  ScrollTrigger.create({\n    trigger:track,pin:track.parentNode,start:\"top top\",end:()=>\"+=\"+dist(),\n    anticipatePin:1,invalidateOnRefresh:true,\n    onRefresh:self=>{measure();paint(self.progress);},\n    onUpdate:self=>paint(self.progress)\n  });\n  measure();paint(0);\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -61,6 +145,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const track=document.querySelector(".hz-track");

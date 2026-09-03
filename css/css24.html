@@ -52,6 +52,52 @@
 <p class="mk-hover">יש גם וריאנט הובר: העבר עכבר על <b>המילה הזאת</b> ותראה.</p></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 <div class="demo-note">ה-background-position הוא right כדי שהמרקר יימתח מימין לשמאל, ככיוון הקריאה בעברית; באתר אנגלי משנים ל-left. box-decoration-break: clone שומר שהפס יעבוד נכון גם כשהמילה נשברת לשתי שורות. בדפדפן בלי תמיכה בגלילה כטיימליין ההדגשה פשוט מוצגת מלאה.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    
+    
+    <a class="cp cp-link" href="../export/css24.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS24 · מרקר שנמתח מאחורי מילה */
+.mk-wrap{max-width:24ch;margin-inline:auto;font-size:clamp(28px,3.4vw,58px);font-weight:800;line-height:1.35;text-align:center}
+.mk{
+  background-image:linear-gradient(var(--mk,#d9ff5c),var(--mk,#d9ff5c));
+  background-repeat:no-repeat;
+  background-position:right 0.06em center;
+  background-size:0% 62%;
+  padding-inline:.12em;
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+}
+.mk--ink{--mk:#c9c6ff}
+@supports (animation-timeline: view()){
+  .mk{animation:mk-grow linear both;animation-timeline:view();animation-range:entry 25% cover 42%}
+}
+@supports not (animation-timeline: view()){
+  .mk{background-size:100% 62%}
+}
+@keyframes mk-grow{from{background-size:0% 62%}to{background-size:100% 62%}}
+@media (prefers-reduced-motion: reduce){.mk{animation:none;background-size:100% 62%}}
+.mk-hover{margin-top:18px;font-size:17px;font-weight:500;color:var(--muted, #6a6d85);text-align:center}
+.mk-hover b{font-weight:700;color:var(--ink, #16182b);background-image:linear-gradient(#ffd6e7,#ffd6e7);background-repeat:no-repeat;background-position:right center;background-size:0% 58%;transition:background-size .45s cubic-bezier(.2,.8,.2,1);padding-inline:.1em}
+.mk-hover:hover b{background-size:100% 58%}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;p class="mk-wrap"&gt;אנחנו לא מוכרים אתר. אנחנו מוכרים &lt;span class="mk"&gt;תוצאה שאפשר למדוד&lt;/span&gt; בסוף החודש.&lt;/p&gt;&lt;/div&gt;
+&lt;div class="stage"&gt;&lt;p class="mk-wrap"&gt;כל פרויקט מתחיל ב&lt;span class="mk mk--ink"&gt;אפיון&lt;/span&gt;, לא בעיצוב.&lt;/p&gt;
+&lt;p class="mk-hover"&gt;יש גם וריאנט הובר: העבר עכבר על &lt;b&gt;המילה הזאת&lt;/b&gt; ותראה.&lt;/p&gt;&lt;/div&gt;</code></pre>
+    
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:css24 · מרקר שנמתח מאחורי מילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/css/css24.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/css24.html\n\nמה זה עושה: מילה שמקבלת פס צבע מאחוריה, נמתח מימין לשמאל בזמן שהיא נכנסת למסך. בלי JS: הרקע הוא גרדיאנט שגדל, והתזמון מגיע מ-animation-timeline של הגלילה.\nמתי משתמשים: הדגשת מילת מפתח במשפט פתיחה, ציטוט, הבטחה מרכזית. אחת או שתיים בעמוד, אחרת זה הופך לצבע ולא להדגשה.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS24 · מרקר שנמתח מאחורי מילה */\n.mk-wrap{max-width:24ch;margin-inline:auto;font-size:clamp(28px,3.4vw,58px);font-weight:800;line-height:1.35;text-align:center}\n.mk{\n  background-image:linear-gradient(var(--mk,#d9ff5c),var(--mk,#d9ff5c));\n  background-repeat:no-repeat;\n  background-position:right 0.06em center;\n  background-size:0% 62%;\n  padding-inline:.12em;\n  box-decoration-break:clone;-webkit-box-decoration-break:clone;\n}\n.mk--ink{--mk:#c9c6ff}\n@supports (animation-timeline: view()){\n  .mk{animation:mk-grow linear both;animation-timeline:view();animation-range:entry 25% cover 42%}\n}\n@supports not (animation-timeline: view()){\n  .mk{background-size:100% 62%}\n}\n@keyframes mk-grow{from{background-size:0% 62%}to{background-size:100% 62%}}\n@media (prefers-reduced-motion: reduce){.mk{animation:none;background-size:100% 62%}}\n.mk-hover{margin-top:18px;font-size:17px;font-weight:500;color:var(--muted, #6a6d85);text-align:center}\n.mk-hover b{font-weight:700;color:var(--ink, #16182b);background-image:linear-gradient(#ffd6e7,#ffd6e7);background-repeat:no-repeat;background-position:right center;background-size:0% 58%;transition:background-size .45s cubic-bezier(.2,.8,.2,1);padding-inline:.1em}\n.mk-hover:hover b{background-size:100% 58%}\n\n=== HTML ===\n<div class=\"stage\"><p class=\"mk-wrap\">אנחנו לא מוכרים אתר. אנחנו מוכרים <span class=\"mk\">תוצאה שאפשר למדוד<\/span> בסוף החודש.<\/p><\/div>\n<div class=\"stage\"><p class=\"mk-wrap\">כל פרויקט מתחיל ב<span class=\"mk mk--ink\">אפיון<\/span>, לא בעיצוב.<\/p>\n<p class=\"mk-hover\">יש גם וריאנט הובר: העבר עכבר על <b>המילה הזאת<\/b> ותראה.<\/p><\/div>\n\nהערת מימוש מהמאגר:\nה-background-position הוא right כדי שהמרקר יימתח מימין לשמאל, ככיוון הקריאה בעברית; באתר אנגלי משנים ל-left. box-decoration-break: clone שומר שהפס יעבוד נכון גם כשהמילה נשברת לשתי שורות. בדפדפן בלי תמיכה בגלילה כטיימליין ההדגשה פשוט מוצגת מלאה.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS24 · מרקר שנמתח מאחורי מילה */\n.mk-wrap{max-width:24ch;margin-inline:auto;font-size:clamp(28px,3.4vw,58px);font-weight:800;line-height:1.35;text-align:center}\n.mk{\n  background-image:linear-gradient(var(--mk,#d9ff5c),var(--mk,#d9ff5c));\n  background-repeat:no-repeat;\n  background-position:right 0.06em center;\n  background-size:0% 62%;\n  padding-inline:.12em;\n  box-decoration-break:clone;-webkit-box-decoration-break:clone;\n}\n.mk--ink{--mk:#c9c6ff}\n@supports (animation-timeline: view()){\n  .mk{animation:mk-grow linear both;animation-timeline:view();animation-range:entry 25% cover 42%}\n}\n@supports not (animation-timeline: view()){\n  .mk{background-size:100% 62%}\n}\n@keyframes mk-grow{from{background-size:0% 62%}to{background-size:100% 62%}}\n@media (prefers-reduced-motion: reduce){.mk{animation:none;background-size:100% 62%}}\n.mk-hover{margin-top:18px;font-size:17px;font-weight:500;color:var(--muted, #6a6d85);text-align:center}\n.mk-hover b{font-weight:700;color:var(--ink, #16182b);background-image:linear-gradient(#ffd6e7,#ffd6e7);background-repeat:no-repeat;background-position:right center;background-size:0% 58%;transition:background-size .45s cubic-bezier(.2,.8,.2,1);padding-inline:.1em}\n.mk-hover:hover b{background-size:100% 58%}","html":"<div class=\"stage\"><p class=\"mk-wrap\">אנחנו לא מוכרים אתר. אנחנו מוכרים <span class=\"mk\">תוצאה שאפשר למדוד<\/span> בסוף החודש.<\/p><\/div>\n<div class=\"stage\"><p class=\"mk-wrap\">כל פרויקט מתחיל ב<span class=\"mk mk--ink\">אפיון<\/span>, לא בעיצוב.<\/p>\n<p class=\"mk-hover\">יש גם וריאנט הובר: העבר עכבר על <b>המילה הזאת<\/b> ותראה.<\/p><\/div>","js":"","scripts":"","rtl":true}</script>
+</section>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -64,6 +110,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 
 </script>

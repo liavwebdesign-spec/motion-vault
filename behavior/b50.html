@@ -58,6 +58,90 @@
 </div></div>
 
 <div class="demo-note">הערכה כולה יושבת במשתני CSS על מעטפת אחת ולא על :root, כדי שאפשר יהיה להטמיע את הרכיב בעמוד שכבר יש לו ערכה משלו. שלושה דברים שהופכים את זה למקצועי: ברירת המחדל מגיעה מ-prefers-color-scheme ורק אז נדרסת בבחירה שמורה, ההחלפה קורית בזמן שהגל מכסה את המסך (לפני כן רואים הבזק), וכל גישה ל-localStorage עטופה ב-try כי בגלישה פרטית היא זורקת. במצב חיסכון בתנועה ההחלפה מיידית בלי גל.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/b50.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B50 · מתג מצב כהה עם מעבר וזיכרון */
+.tt{position:relative;overflow:hidden;border-radius:var(--r, 14px);border:1px solid var(--line, #e4e4ee);
+  --tt-bg:#ffffff;--tt-ink:#16182b;--tt-mut:#5b5f77;--tt-card:#f4f4f8;--tt-line:#e3e3ec;
+  background:var(--tt-bg);color:var(--tt-ink);padding:clamp(24px,4vw,54px);
+  transition:background-color .35s ease,color .35s ease}
+.tt[data-theme="dark"]{--tt-bg:#111219;--tt-ink:#f2f2f7;--tt-mut:#a2a5bb;--tt-card:#1b1d27;--tt-line:#2c2f3d}
+.tt-top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}
+.tt-top h3{margin:0;font-size:clamp(20px,2.4vw,32px)}
+.tt-btn{position:relative;z-index:2;display:inline-flex;align-items:center;gap:9px;border:1px solid var(--tt-line);
+  background:var(--tt-card);color:var(--tt-ink);font:inherit;font-size:14px;padding:10px 16px;border-radius:999px;cursor:pointer}
+.tt-ico{font-size:15px;line-height:1}
+.tt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tt-card{background:var(--tt-card);border:1px solid var(--tt-line);border-radius:14px;padding:18px;
+  transition:background-color .35s ease,border-color .35s ease}
+.tt-card h4{margin:0 0 6px;font-size:16px}
+.tt-card p{margin:0;font-size:14px;line-height:1.6;color:var(--tt-mut)}
+/* הגל: עיגול שנפתח מהכפתור, ומתחתיו מחליפים את הערכה */
+.tt-wave{position:absolute;border-radius:50%;pointer-events:none;z-index:5;transform:translate(-50%,-50%) scale(0)}
+@media(max-width:700px){.tt-grid{grid-template-columns:1fr}}
+@media (prefers-reduced-motion: reduce){.tt,.tt-card{transition:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="tt"&gt;
+  &lt;div class="tt-top"&gt;
+    &lt;h3&gt;מצב תצוגה&lt;/h3&gt;
+    &lt;button class="tt-btn" aria-pressed="false"&gt;&lt;span class="tt-ico"&gt;🌙&lt;/span&gt;&lt;span class="tt-lbl"&gt;מצב כהה&lt;/span&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="tt-grid"&gt;
+    &lt;div class="tt-card"&gt;&lt;h4&gt;קריאה ארוכה&lt;/h4&gt;&lt;p&gt;מאמרים ומדריכים נוחים יותר לעין בלילה.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class="tt-card"&gt;&lt;h4&gt;ממשק ניהול&lt;/h4&gt;&lt;p&gt;מסכים שיושבים מולם שעות דורשים בחירה.&lt;/p&gt;&lt;/div&gt;
+    &lt;div class="tt-card"&gt;&lt;h4&gt;תיק עבודות&lt;/h4&gt;&lt;p&gt;רקע כהה מבליט צילומים וויז`ואל.&lt;/p&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const root=document.querySelector(".tt"),btn=root.querySelector(".tt-btn");
+  const ico=btn.querySelector(".tt-ico"),lbl=btn.querySelector(".tt-lbl");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const KEY="mv-tt-theme";
+  let saved=null;try{saved=localStorage.getItem(KEY);}catch(e){}
+  // ברירת המחדל היא ההגדרה של המכשיר, והבחירה של המשתמש גוברת עליה
+  let dark=saved?saved==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
+  function paint(){
+    root.dataset.theme=dark?"dark":"light";
+    btn.setAttribute("aria-pressed",String(dark));
+    ico.textContent=dark?"☀️":"🌙";
+    lbl.textContent=dark?"מצב בהיר":"מצב כהה";
+    try{localStorage.setItem(KEY,dark?"dark":"light");}catch(e){}
+  }
+  paint();
+  btn.addEventListener("click",()=&gt;{
+    if(reduce){dark=!dark;paint();return;}
+    const b=btn.getBoundingClientRect(),r=root.getBoundingClientRect();
+    const cx=b.left+b.width/2-r.left,cy=b.top+b.height/2-r.top;
+    // רדיוס שמכסה בוודאות את הפינה הרחוקה ביותר
+    const rad=Math.hypot(Math.max(cx,r.width-cx),Math.max(cy,r.height-cy));
+    const wave=document.createElement("span");
+    wave.className="tt-wave";
+    wave.style.cssText="left:"+cx+"px;top:"+cy+"px;width:"+rad*2+"px;height:"+rad*2+"px;background:"+
+      (dark?"#ffffff":"#111219");
+    root.appendChild(wave);
+    gsap.timeline({onComplete:()=&gt;wave.remove()})
+      .to(wave,{scale:1,duration:.45,ease:"power2.out"})
+      .add(()=&gt;{dark=!dark;paint();})              // מחליפים ערכה מתחת לגל, לא לפניו
+      .to(wave,{opacity:0,duration:.35,ease:"power1.out"},"+=0.05");
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b50 · מתג מצב כהה עם מעבר וזיכרון\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b50.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b50.html\n\nמה זה עושה: כפתור שמחליף בין בהיר לכהה בגל עגול שנפתח מהכפתור עצמו. הבחירה נשמרת לביקור הבא, וברירת המחדל היא ההגדרה של המכשיר.\nמתי משתמשים: בלוג, תיק עבודות, מערכת, דוקומנטציה, כל אתר שקוראים בו הרבה. מצב כהה הוא היום ציפייה בסיסית, והמעבר הוא ההזדמנות להראות איכות בשנייה אחת.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B50 · מתג מצב כהה עם מעבר וזיכרון */\n.tt{position:relative;overflow:hidden;border-radius:var(--r, 14px);border:1px solid var(--line, #e4e4ee);\n  --tt-bg:#ffffff;--tt-ink:#16182b;--tt-mut:#5b5f77;--tt-card:#f4f4f8;--tt-line:#e3e3ec;\n  background:var(--tt-bg);color:var(--tt-ink);padding:clamp(24px,4vw,54px);\n  transition:background-color .35s ease,color .35s ease}\n.tt[data-theme=\"dark\"]{--tt-bg:#111219;--tt-ink:#f2f2f7;--tt-mut:#a2a5bb;--tt-card:#1b1d27;--tt-line:#2c2f3d}\n.tt-top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}\n.tt-top h3{margin:0;font-size:clamp(20px,2.4vw,32px)}\n.tt-btn{position:relative;z-index:2;display:inline-flex;align-items:center;gap:9px;border:1px solid var(--tt-line);\n  background:var(--tt-card);color:var(--tt-ink);font:inherit;font-size:14px;padding:10px 16px;border-radius:999px;cursor:pointer}\n.tt-ico{font-size:15px;line-height:1}\n.tt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}\n.tt-card{background:var(--tt-card);border:1px solid var(--tt-line);border-radius:14px;padding:18px;\n  transition:background-color .35s ease,border-color .35s ease}\n.tt-card h4{margin:0 0 6px;font-size:16px}\n.tt-card p{margin:0;font-size:14px;line-height:1.6;color:var(--tt-mut)}\n/* הגל: עיגול שנפתח מהכפתור, ומתחתיו מחליפים את הערכה */\n.tt-wave{position:absolute;border-radius:50%;pointer-events:none;z-index:5;transform:translate(-50%,-50%) scale(0)}\n@media(max-width:700px){.tt-grid{grid-template-columns:1fr}}\n@media (prefers-reduced-motion: reduce){.tt,.tt-card{transition:none}}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"tt\">\n  <div class=\"tt-top\">\n    <h3>מצב תצוגה<\/h3>\n    <button class=\"tt-btn\" aria-pressed=\"false\"><span class=\"tt-ico\">🌙<\/span><span class=\"tt-lbl\">מצב כהה<\/span><\/button>\n  <\/div>\n  <div class=\"tt-grid\">\n    <div class=\"tt-card\"><h4>קריאה ארוכה<\/h4><p>מאמרים ומדריכים נוחים יותר לעין בלילה.<\/p><\/div>\n    <div class=\"tt-card\"><h4>ממשק ניהול<\/h4><p>מסכים שיושבים מולם שעות דורשים בחירה.<\/p><\/div>\n    <div class=\"tt-card\"><h4>תיק עבודות<\/h4><p>רקע כהה מבליט צילומים וויז`ואל.<\/p><\/div>\n  <\/div>\n<\/div><\/div>\n\n=== JS ===\n(function(){\n  const root=document.querySelector(\".tt\"),btn=root.querySelector(\".tt-btn\");\n  const ico=btn.querySelector(\".tt-ico\"),lbl=btn.querySelector(\".tt-lbl\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  const KEY=\"mv-tt-theme\";\n  let saved=null;try{saved=localStorage.getItem(KEY);}catch(e){}\n  // ברירת המחדל היא ההגדרה של המכשיר, והבחירה של המשתמש גוברת עליה\n  let dark=saved?saved===\"dark\":matchMedia(\"(prefers-color-scheme: dark)\").matches;\n  function paint(){\n    root.dataset.theme=dark?\"dark\":\"light\";\n    btn.setAttribute(\"aria-pressed\",String(dark));\n    ico.textContent=dark?\"☀️\":\"🌙\";\n    lbl.textContent=dark?\"מצב בהיר\":\"מצב כהה\";\n    try{localStorage.setItem(KEY,dark?\"dark\":\"light\");}catch(e){}\n  }\n  paint();\n  btn.addEventListener(\"click\",()=>{\n    if(reduce){dark=!dark;paint();return;}\n    const b=btn.getBoundingClientRect(),r=root.getBoundingClientRect();\n    const cx=b.left+b.width/2-r.left,cy=b.top+b.height/2-r.top;\n    // רדיוס שמכסה בוודאות את הפינה הרחוקה ביותר\n    const rad=Math.hypot(Math.max(cx,r.width-cx),Math.max(cy,r.height-cy));\n    const wave=document.createElement(\"span\");\n    wave.className=\"tt-wave\";\n    wave.style.cssText=\"left:\"+cx+\"px;top:\"+cy+\"px;width:\"+rad*2+\"px;height:\"+rad*2+\"px;background:\"+\n      (dark?\"#ffffff\":\"#111219\");\n    root.appendChild(wave);\n    gsap.timeline({onComplete:()=>wave.remove()})\n      .to(wave,{scale:1,duration:.45,ease:\"power2.out\"})\n      .add(()=>{dark=!dark;paint();})              // מחליפים ערכה מתחת לגל, לא לפניו\n      .to(wave,{opacity:0,duration:.35,ease:\"power1.out\"},\"+=0.05\");\n  });\n})();\n\nהערת מימוש מהמאגר:\nהערכה כולה יושבת במשתני CSS על מעטפת אחת ולא על :root, כדי שאפשר יהיה להטמיע את הרכיב בעמוד שכבר יש לו ערכה משלו. שלושה דברים שהופכים את זה למקצועי: ברירת המחדל מגיעה מ-prefers-color-scheme ורק אז נדרסת בבחירה שמורה, ההחלפה קורית בזמן שהגל מכסה את המסך (לפני כן רואים הבזק), וכל גישה ל-localStorage עטופה ב-try כי בגלישה פרטית היא זורקת. במצב חיסכון בתנועה ההחלפה מיידית בלי גל.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B50 · מתג מצב כהה עם מעבר וזיכרון */\n.tt{position:relative;overflow:hidden;border-radius:var(--r, 14px);border:1px solid var(--line, #e4e4ee);\n  --tt-bg:#ffffff;--tt-ink:#16182b;--tt-mut:#5b5f77;--tt-card:#f4f4f8;--tt-line:#e3e3ec;\n  background:var(--tt-bg);color:var(--tt-ink);padding:clamp(24px,4vw,54px);\n  transition:background-color .35s ease,color .35s ease}\n.tt[data-theme=\"dark\"]{--tt-bg:#111219;--tt-ink:#f2f2f7;--tt-mut:#a2a5bb;--tt-card:#1b1d27;--tt-line:#2c2f3d}\n.tt-top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}\n.tt-top h3{margin:0;font-size:clamp(20px,2.4vw,32px)}\n.tt-btn{position:relative;z-index:2;display:inline-flex;align-items:center;gap:9px;border:1px solid var(--tt-line);\n  background:var(--tt-card);color:var(--tt-ink);font:inherit;font-size:14px;padding:10px 16px;border-radius:999px;cursor:pointer}\n.tt-ico{font-size:15px;line-height:1}\n.tt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}\n.tt-card{background:var(--tt-card);border:1px solid var(--tt-line);border-radius:14px;padding:18px;\n  transition:background-color .35s ease,border-color .35s ease}\n.tt-card h4{margin:0 0 6px;font-size:16px}\n.tt-card p{margin:0;font-size:14px;line-height:1.6;color:var(--tt-mut)}\n/* הגל: עיגול שנפתח מהכפתור, ומתחתיו מחליפים את הערכה */\n.tt-wave{position:absolute;border-radius:50%;pointer-events:none;z-index:5;transform:translate(-50%,-50%) scale(0)}\n@media(max-width:700px){.tt-grid{grid-template-columns:1fr}}\n@media (prefers-reduced-motion: reduce){.tt,.tt-card{transition:none}}","html":"<div class=\"stage tight\"><div class=\"tt\">\n  <div class=\"tt-top\">\n    <h3>מצב תצוגה<\/h3>\n    <button class=\"tt-btn\" aria-pressed=\"false\"><span class=\"tt-ico\">🌙<\/span><span class=\"tt-lbl\">מצב כהה<\/span><\/button>\n  <\/div>\n  <div class=\"tt-grid\">\n    <div class=\"tt-card\"><h4>קריאה ארוכה<\/h4><p>מאמרים ומדריכים נוחים יותר לעין בלילה.<\/p><\/div>\n    <div class=\"tt-card\"><h4>ממשק ניהול<\/h4><p>מסכים שיושבים מולם שעות דורשים בחירה.<\/p><\/div>\n    <div class=\"tt-card\"><h4>תיק עבודות<\/h4><p>רקע כהה מבליט צילומים וויז`ואל.<\/p><\/div>\n  <\/div>\n<\/div><\/div>","js":"(function(){\n  const root=document.querySelector(\".tt\"),btn=root.querySelector(\".tt-btn\");\n  const ico=btn.querySelector(\".tt-ico\"),lbl=btn.querySelector(\".tt-lbl\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  const KEY=\"mv-tt-theme\";\n  let saved=null;try{saved=localStorage.getItem(KEY);}catch(e){}\n  // ברירת המחדל היא ההגדרה של המכשיר, והבחירה של המשתמש גוברת עליה\n  let dark=saved?saved===\"dark\":matchMedia(\"(prefers-color-scheme: dark)\").matches;\n  function paint(){\n    root.dataset.theme=dark?\"dark\":\"light\";\n    btn.setAttribute(\"aria-pressed\",String(dark));\n    ico.textContent=dark?\"☀️\":\"🌙\";\n    lbl.textContent=dark?\"מצב בהיר\":\"מצב כהה\";\n    try{localStorage.setItem(KEY,dark?\"dark\":\"light\");}catch(e){}\n  }\n  paint();\n  btn.addEventListener(\"click\",()=>{\n    if(reduce){dark=!dark;paint();return;}\n    const b=btn.getBoundingClientRect(),r=root.getBoundingClientRect();\n    const cx=b.left+b.width/2-r.left,cy=b.top+b.height/2-r.top;\n    // רדיוס שמכסה בוודאות את הפינה הרחוקה ביותר\n    const rad=Math.hypot(Math.max(cx,r.width-cx),Math.max(cy,r.height-cy));\n    const wave=document.createElement(\"span\");\n    wave.className=\"tt-wave\";\n    wave.style.cssText=\"left:\"+cx+\"px;top:\"+cy+\"px;width:\"+rad*2+\"px;height:\"+rad*2+\"px;background:\"+\n      (dark?\"#ffffff\":\"#111219\");\n    root.appendChild(wave);\n    gsap.timeline({onComplete:()=>wave.remove()})\n      .to(wave,{scale:1,duration:.45,ease:\"power2.out\"})\n      .add(()=>{dark=!dark;paint();})              // מחליפים ערכה מתחת לגל, לא לפניו\n      .to(wave,{opacity:0,duration:.35,ease:\"power1.out\"},\"+=0.05\");\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>","rtl":false}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -70,6 +154,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 (function(){
   const root=document.querySelector(".tt"),btn=root.querySelector(".tt-btn");

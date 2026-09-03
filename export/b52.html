@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B52 · הירו שמתקפל לתפריט דביק</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+
+/* B52 · הירו שמתקפל לתפריט דביק */
+.fu-scope{--fu-h:100vh}
+.fu-mask{position:sticky;top:0;z-index:60;height:var(--fu-h);overflow:hidden;background:var(--ink, #16182b);
+  border-radius:0 0 var(--fu-r,0px) var(--fu-r,0px)}
+.fu-media{position:absolute;inset:0;border-radius:0;font-size:0}
+.fu-inner{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr;padding:18px clamp(16px,3vw,34px)}
+.fu-nav{display:flex;align-items:center;justify-content:space-between;gap:16px;color:#fff;height:56px}
+.fu-logo{font-weight:800;font-size:19px}
+.fu-links{display:flex;gap:20px;font-size:14px;opacity:.9}
+.fu-links a{color:#fff;text-decoration:none}
+.fu-title{align-self:center;color:#fff;margin:0;font-size:clamp(32px,7vw,90px);line-height:1.05;max-width:14ch}
+/* המרווח המשלים: מה שהמסכה מאבדת בגובה הוא מקבל, ולכן העמוד לא קופץ תוך כדי הקיפול */
+.fu-gap{height:calc(100vh - var(--fu-h))}
+/* הרצועה המקופלת נשארת דבוקה מעל התוכן. בלי ריפוד עליון בגובה שלה הכותרת הראשונה
+   נכנסת מתחתיה והטקסט נראה כאילו הוא חופף להירו. --fu-bar נמדד מהתפריט עצמו ב-JS. */
+.fu-body{padding:calc(var(--fu-bar,92px) + clamp(30px,6vw,80px)) var(--gutter, clamp(24px, 5vw, 96px)) 20vh;
+  max-width:min(760px,92vw);margin-inline:auto}
+.fu-body h3{font-size:clamp(22px,3vw,36px);margin:0 0 12px}
+.fu-body p{color:var(--muted, #6a6d85);font-size:17px;line-height:1.8;margin:0 0 22px}
+@media(max-width:700px){.fu-links{display:none}}
+</style>
+</head>
+<body>
+<div class="fu-scope">
+  <div class="fu-mask">
+    <div class="ph fu-media ph-b"></div>
+    <div class="fu-inner">
+      <div class="fu-nav"><span class="fu-logo">סטודיו</span>
+        <nav class="fu-links"><a href="#">עבודות</a><a href="#">שירותים</a><a href="#">אודות</a><a href="#">צור קשר</a></nav>
+      </div>
+      <h1 class="fu-title">אתרים שמביאים פניות</h1>
+    </div>
+  </div>
+  <div class="fu-gap"></div>
+  <div class="fu-body">
+    <h3>מה קורה כאן</h3>
+    <p>הירו לא נעלם ולא מוחלף בתפריט אחר. אותו אלמנט מתכווץ עד לגובה רצועה, והכותרת יוצאת ממנו תוך כדי. זה מה שגורם למעבר להרגיש כמו תנועה אחת ולא כמו שני מצבים.</p>
+    <p>הגובה הסופי נמדד מהתפריט עצמו ולא מוזן כמספר קבוע, ולכן זה מחזיק גם כשמשנים לוגו, פונט או ריפוד.</p>
+    <p>גלול חזרה למעלה כדי לראות את זה נפתח בחזרה.</p>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const scope=document.querySelector(".fu-scope"),nav=scope.querySelector(".fu-nav"),title=scope.querySelector(".fu-title");
+  let tl;
+  function build(){
+    if(tl){tl.scrollTrigger&&tl.scrollTrigger.kill();tl.kill();gsap.set([scope,title],{clearProps:"all"});}
+    // הגובה הסופי נמדד מהתפריט האמיתי, כדי שלא יהיה מספר קסם בקוד
+    const navH=nav.offsetHeight+36;
+    scope.style.setProperty("--fu-bar",navH+"px");   // גם ה-CSS צריך את המידה הזאת
+    gsap.set(scope,{"--fu-h":"100vh","--fu-r":"0px"});
+    tl=gsap.timeline({scrollTrigger:{trigger:scope,start:"top top",end:"+=100%",scrub:.8}});
+    tl.to(scope,{"--fu-h":navH+"px","--fu-r":"22px",ease:"none"},0)
+      .to(title,{opacity:0,y:-30,ease:"none"},0);
+  }
+  build();
+  let t;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>{build();ScrollTrigger.refresh();},200);});
+})();
+</script>
+</body>
+</html>

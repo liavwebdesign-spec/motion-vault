@@ -57,6 +57,83 @@
 </div>
 
 <div class="demo-note">המלכודת שנתפסה כאן בבדיקה: אם בוחרים את הסקשן לפי היחסים שמגיעים באירוע של IntersectionObserver, הצבע נתקע על הראשון, כי כל אירוע מדווח רק על מה שהשתנה. הפתרון הוא למדוד בכל בדיקה את כל הסקשנים ולבחור את זה שתופס הכי הרבה מהמסך. מלכודת שנייה: המעבר חייב לשבת על משתני CSS ברמת המעטפת ולא על כל אלמנט בנפרד, אחרת רצים עשרות טרנזישנים במקביל.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b29.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* B29 · רקע העמוד שמחליף צבע לפי הסקשן */
+.bgz{--bg:#f7f7fa;--fg:#16182b;--soft:#6a6d85;
+  background:var(--bg, #f7f7fa);color:var(--fg);transition:background-color .8s ease,color .8s ease}
+.bgz-sec{min-height:92vh;display:grid;place-items:center;text-align:center;padding:8vh var(--gutter, clamp(24px, 5vw, 96px))}
+/* place-items:center ממרכז את העטיפה, אבל בתוכה כל בלוק עם max-width נצמד לצד ההתחלה.
+   בלי margin-inline:auto הכותרת הצרה יושבת בימין והפסקה הרחבה מתחתיה, וזה נראה עקום. */
+.bgz-sec h3{font-size:clamp(30px,4.4vw,72px);margin:0 auto 14px;font-weight:800;max-width:18ch}
+.bgz-sec p{margin:0 auto;max-width:46ch;color:var(--soft);font-size:17px;line-height:1.6}
+.bgz-sec&gt;div{display:grid;justify-items:center}
+.bgz-tag{font-size:12px;letter-spacing:.18em;margin-bottom:18px;opacity:.6}
+.bgz-dot{width:10px;height:10px;border-radius:50%;background:currentColor;margin:26px auto 0;opacity:.4}
+.bgz-rail{position:fixed;inset-inline-end:18px;top:50%;transform:translateY(-50%);z-index:20;display:grid;gap:10px}
+.bgz-rail i{display:block;width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.28;transition:opacity .4s,transform .4s}
+.bgz-rail i.on{opacity:1;transform:scale(1.5)}
+@media (prefers-reduced-motion: reduce){.bgz{transition-duration:.01ms}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="bgz"&gt;
+  &lt;section class="bgz-sec" data-bg="#f7f7fa" data-fg="#16182b" data-soft="#6a6d85"&gt;
+    &lt;div&gt;&lt;p class="bgz-tag"&gt;פרק ראשון&lt;/p&gt;&lt;h3&gt;מתחילים בהיר&lt;/h3&gt;&lt;p&gt;גלול למטה. הרקע של העמוד כולו יעבור לצבע של הסקשן הבא, בלי קו מפריד ובלי קפיצה.&lt;/p&gt;&lt;span class="bgz-dot"&gt;&lt;/span&gt;&lt;/div&gt;
+  &lt;/section&gt;
+  &lt;section class="bgz-sec" data-bg="#101322" data-fg="#f2f2f7" data-soft="#a3a6c0"&gt;
+    &lt;div&gt;&lt;p class="bgz-tag"&gt;פרק שני&lt;/p&gt;&lt;h3&gt;ואז נכנסים לעומק&lt;/h3&gt;&lt;p&gt;אותו טקסט, אותה פריסה, ורק ערכת הצבע מתחלפת. זה מה שנותן תחושה של מעבר בין פרקים.&lt;/p&gt;&lt;span class="bgz-dot"&gt;&lt;/span&gt;&lt;/div&gt;
+  &lt;/section&gt;
+  &lt;section class="bgz-sec" data-bg="#123b32" data-fg="#f2fbf6" data-soft="#9dc7b6"&gt;
+    &lt;div&gt;&lt;p class="bgz-tag"&gt;פרק שלישי&lt;/p&gt;&lt;h3&gt;וממשיכים לצבע של המותג&lt;/h3&gt;&lt;p&gt;בפרויקט אמיתי הצבעים מגיעים מהטוקנים של העור, ולא נכתבים בכל סקשן מחדש.&lt;/p&gt;&lt;span class="bgz-dot"&gt;&lt;/span&gt;&lt;/div&gt;
+  &lt;/section&gt;
+  &lt;section class="bgz-sec" data-bg="#f4ede3" data-fg="#3a2a1c" data-soft="#8a7561"&gt;
+    &lt;div&gt;&lt;p class="bgz-tag"&gt;פרק רביעי&lt;/p&gt;&lt;h3&gt;ונוחתים רך&lt;/h3&gt;&lt;p&gt;המעבר הוא 0.8 שניות. מהר מזה מרגיש כמו הבהוב, ואיטי מזה מרגיש כמו באג.&lt;/p&gt;&lt;span class="bgz-dot"&gt;&lt;/span&gt;&lt;/div&gt;
+  &lt;/section&gt;
+  &lt;nav class="bgz-rail" aria-hidden="true"&gt;&lt;i class="on"&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/nav&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const wrap=document.querySelector(".bgz");
+  const secs=[...wrap.querySelectorAll(".bgz-sec")];
+  const dots=[...wrap.querySelectorAll(".bgz-rail i")];
+  function apply(sec){
+    wrap.style.setProperty("--bg",sec.dataset.bg);
+    wrap.style.setProperty("--fg",sec.dataset.fg);
+    wrap.style.setProperty("--soft",sec.dataset.soft);
+    const i=secs.indexOf(sec);
+    dots.forEach((d,n)=&gt;d.classList.toggle("on",n===i));
+  }
+  // בוחרים את הסקשן שתופס הכי הרבה מהמסך. חשוב למדוד את כל הסקשנים בכל בדיקה
+  // ולא רק את אלה שהאירוע דיווח עליהם, אחרת הצבע נתקע על הראשון.
+  let last=null;
+  function pick(){
+    let best=null,area=0;
+    secs.forEach(s=&gt;{
+      const r=s.getBoundingClientRect();
+      const vis=Math.max(0,Math.min(r.bottom,window.innerHeight)-Math.max(r.top,0));
+      if(vis&gt;area){area=vis;best=s;}
+    });
+    if(best&amp;&amp;best!==last){last=best;apply(best);}
+  }
+  // ויסות לפי זמן ולא לפי requestAnimationFrame: אם פריים אחד לא מגיע, דגל של rAF נתקע דלוק
+  // וכל אירועי הגלילה הבאים נבלעים. מדידה של 80 מילישניות זולה ואמינה בכל מצב.
+  let t=0;
+  const onScroll=()=&gt;{const n=performance.now();if(n-t&lt;80)return;t=n;pick();};
+  const io=new IntersectionObserver(pick,{threshold:[0,.2,.4,.6,.8,1]});
+  secs.forEach(s=&gt;io.observe(s));
+  addEventListener("scroll",onScroll,{passive:true});
+  pick();
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b29 · רקע העמוד שמחליף צבע לפי הסקשן\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b29.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b29.html\n\nמה זה עושה: כל סקשן מכריז על ערכת הצבע שלו, והרקע והטקסט של העמוד עוברים אליה במעבר רך. הצבע מחליף במקום שהסקשן יגזור אותו.\nמתי משתמשים: אתרי תדמית וסיפור מותג, עמודי מוצר ארוכים. נותן תחושת פרקים בלי קווים מפרידים ובלי סקשנים עם קצוות חדים.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* B29 · רקע העמוד שמחליף צבע לפי הסקשן */\n.bgz{--bg:#f7f7fa;--fg:#16182b;--soft:#6a6d85;\n  background:var(--bg, #f7f7fa);color:var(--fg);transition:background-color .8s ease,color .8s ease}\n.bgz-sec{min-height:92vh;display:grid;place-items:center;text-align:center;padding:8vh var(--gutter, clamp(24px, 5vw, 96px))}\n/* place-items:center ממרכז את העטיפה, אבל בתוכה כל בלוק עם max-width נצמד לצד ההתחלה.\n   בלי margin-inline:auto הכותרת הצרה יושבת בימין והפסקה הרחבה מתחתיה, וזה נראה עקום. */\n.bgz-sec h3{font-size:clamp(30px,4.4vw,72px);margin:0 auto 14px;font-weight:800;max-width:18ch}\n.bgz-sec p{margin:0 auto;max-width:46ch;color:var(--soft);font-size:17px;line-height:1.6}\n.bgz-sec>div{display:grid;justify-items:center}\n.bgz-tag{font-size:12px;letter-spacing:.18em;margin-bottom:18px;opacity:.6}\n.bgz-dot{width:10px;height:10px;border-radius:50%;background:currentColor;margin:26px auto 0;opacity:.4}\n.bgz-rail{position:fixed;inset-inline-end:18px;top:50%;transform:translateY(-50%);z-index:20;display:grid;gap:10px}\n.bgz-rail i{display:block;width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.28;transition:opacity .4s,transform .4s}\n.bgz-rail i.on{opacity:1;transform:scale(1.5)}\n@media (prefers-reduced-motion: reduce){.bgz{transition-duration:.01ms}}\n\n=== HTML ===\n<div class=\"bgz\">\n  <section class=\"bgz-sec\" data-bg=\"#f7f7fa\" data-fg=\"#16182b\" data-soft=\"#6a6d85\">\n    <div><p class=\"bgz-tag\">פרק ראשון<\/p><h3>מתחילים בהיר<\/h3><p>גלול למטה. הרקע של העמוד כולו יעבור לצבע של הסקשן הבא, בלי קו מפריד ובלי קפיצה.<\/p><span class=\"bgz-dot\"><\/span><\/div>\n  <\/section>\n  <section class=\"bgz-sec\" data-bg=\"#101322\" data-fg=\"#f2f2f7\" data-soft=\"#a3a6c0\">\n    <div><p class=\"bgz-tag\">פרק שני<\/p><h3>ואז נכנסים לעומק<\/h3><p>אותו טקסט, אותה פריסה, ורק ערכת הצבע מתחלפת. זה מה שנותן תחושה של מעבר בין פרקים.<\/p><span class=\"bgz-dot\"><\/span><\/div>\n  <\/section>\n  <section class=\"bgz-sec\" data-bg=\"#123b32\" data-fg=\"#f2fbf6\" data-soft=\"#9dc7b6\">\n    <div><p class=\"bgz-tag\">פרק שלישי<\/p><h3>וממשיכים לצבע של המותג<\/h3><p>בפרויקט אמיתי הצבעים מגיעים מהטוקנים של העור, ולא נכתבים בכל סקשן מחדש.<\/p><span class=\"bgz-dot\"><\/span><\/div>\n  <\/section>\n  <section class=\"bgz-sec\" data-bg=\"#f4ede3\" data-fg=\"#3a2a1c\" data-soft=\"#8a7561\">\n    <div><p class=\"bgz-tag\">פרק רביעי<\/p><h3>ונוחתים רך<\/h3><p>המעבר הוא 0.8 שניות. מהר מזה מרגיש כמו הבהוב, ואיטי מזה מרגיש כמו באג.<\/p><span class=\"bgz-dot\"><\/span><\/div>\n  <\/section>\n  <nav class=\"bgz-rail\" aria-hidden=\"true\"><i class=\"on\"><\/i><i><\/i><i><\/i><i><\/i><\/nav>\n<\/div>\n\n=== JS ===\n(function(){\n  const wrap=document.querySelector(\".bgz\");\n  const secs=[...wrap.querySelectorAll(\".bgz-sec\")];\n  const dots=[...wrap.querySelectorAll(\".bgz-rail i\")];\n  function apply(sec){\n    wrap.style.setProperty(\"--bg\",sec.dataset.bg);\n    wrap.style.setProperty(\"--fg\",sec.dataset.fg);\n    wrap.style.setProperty(\"--soft\",sec.dataset.soft);\n    const i=secs.indexOf(sec);\n    dots.forEach((d,n)=>d.classList.toggle(\"on\",n===i));\n  }\n  // בוחרים את הסקשן שתופס הכי הרבה מהמסך. חשוב למדוד את כל הסקשנים בכל בדיקה\n  // ולא רק את אלה שהאירוע דיווח עליהם, אחרת הצבע נתקע על הראשון.\n  let last=null;\n  function pick(){\n    let best=null,area=0;\n    secs.forEach(s=>{\n      const r=s.getBoundingClientRect();\n      const vis=Math.max(0,Math.min(r.bottom,window.innerHeight)-Math.max(r.top,0));\n      if(vis>area){area=vis;best=s;}\n    });\n    if(best&&best!==last){last=best;apply(best);}\n  }\n  // ויסות לפי זמן ולא לפי requestAnimationFrame: אם פריים אחד לא מגיע, דגל של rAF נתקע דלוק\n  // וכל אירועי הגלילה הבאים נבלעים. מדידה של 80 מילישניות זולה ואמינה בכל מצב.\n  let t=0;\n  const onScroll=()=>{const n=performance.now();if(n-t<80)return;t=n;pick();};\n  const io=new IntersectionObserver(pick,{threshold:[0,.2,.4,.6,.8,1]});\n  secs.forEach(s=>io.observe(s));\n  addEventListener(\"scroll\",onScroll,{passive:true});\n  pick();\n})();\n\nהערת מימוש מהמאגר:\nהמלכודת שנתפסה כאן בבדיקה: אם בוחרים את הסקשן לפי היחסים שמגיעים באירוע של IntersectionObserver, הצבע נתקע על הראשון, כי כל אירוע מדווח רק על מה שהשתנה. הפתרון הוא למדוד בכל בדיקה את כל הסקשנים ולבחור את זה שתופס הכי הרבה מהמסך. מלכודת שנייה: המעבר חייב לשבת על משתני CSS ברמת המעטפת ולא על כל אלמנט בנפרד, אחרת רצים עשרות טרנזישנים במקביל.","css":"/* B29 · רקע העמוד שמחליף צבע לפי הסקשן */\n.bgz{--bg:#f7f7fa;--fg:#16182b;--soft:#6a6d85;\n  background:var(--bg, #f7f7fa);color:var(--fg);transition:background-color .8s ease,color .8s ease}\n.bgz-sec{min-height:92vh;display:grid;place-items:center;text-align:center;padding:8vh var(--gutter, clamp(24px, 5vw, 96px))}\n/* place-items:center ממרכז את העטיפה, אבל בתוכה כל בלוק עם max-width נצמד לצד ההתחלה.\n   בלי margin-inline:auto הכותרת הצרה יושבת בימין והפסקה הרחבה מתחתיה, וזה נראה עקום. */\n.bgz-sec h3{font-size:clamp(30px,4.4vw,72px);margin:0 auto 14px;font-weight:800;max-width:18ch}\n.bgz-sec p{margin:0 auto;max-width:46ch;color:var(--soft);font-size:17px;line-height:1.6}\n.bgz-sec>div{display:grid;justify-items:center}\n.bgz-tag{font-size:12px;letter-spacing:.18em;margin-bottom:18px;opacity:.6}\n.bgz-dot{width:10px;height:10px;border-radius:50%;background:currentColor;margin:26px auto 0;opacity:.4}\n.bgz-rail{position:fixed;inset-inline-end:18px;top:50%;transform:translateY(-50%);z-index:20;display:grid;gap:10px}\n.bgz-rail i{display:block;width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.28;transition:opacity .4s,transform .4s}\n.bgz-rail i.on{opacity:1;transform:scale(1.5)}\n@media (prefers-reduced-motion: reduce){.bgz{transition-duration:.01ms}}","html":"<div class=\"bgz\">\n  <section class=\"bgz-sec\" data-bg=\"#f7f7fa\" data-fg=\"#16182b\" data-soft=\"#6a6d85\">\n    <div><p class=\"bgz-tag\">פרק ראשון<\/p><h3>מתחילים בהיר<\/h3><p>גלול למטה. הרקע של העמוד כולו יעבור לצבע של הסקשן הבא, בלי קו מפריד ובלי קפיצה.<\/p><span class=\"bgz-dot\"><\/span><\/div>\n  <\/section>\n  <section class=\"bgz-sec\" data-bg=\"#101322\" data-fg=\"#f2f2f7\" data-soft=\"#a3a6c0\">\n    <div><p class=\"bgz-tag\">פרק שני<\/p><h3>ואז נכנסים לעומק<\/h3><p>אותו טקסט, אותה פריסה, ורק ערכת הצבע מתחלפת. זה מה שנותן תחושה של מעבר בין פרקים.<\/p><span class=\"bgz-dot\"><\/span><\/div>\n  <\/section>\n  <section class=\"bgz-sec\" data-bg=\"#123b32\" data-fg=\"#f2fbf6\" data-soft=\"#9dc7b6\">\n    <div><p class=\"bgz-tag\">פרק שלישי<\/p><h3>וממשיכים לצבע של המותג<\/h3><p>בפרויקט אמיתי הצבעים מגיעים מהטוקנים של העור, ולא נכתבים בכל סקשן מחדש.<\/p><span class=\"bgz-dot\"><\/span><\/div>\n  <\/section>\n  <section class=\"bgz-sec\" data-bg=\"#f4ede3\" data-fg=\"#3a2a1c\" data-soft=\"#8a7561\">\n    <div><p class=\"bgz-tag\">פרק רביעי<\/p><h3>ונוחתים רך<\/h3><p>המעבר הוא 0.8 שניות. מהר מזה מרגיש כמו הבהוב, ואיטי מזה מרגיש כמו באג.<\/p><span class=\"bgz-dot\"><\/span><\/div>\n  <\/section>\n  <nav class=\"bgz-rail\" aria-hidden=\"true\"><i class=\"on\"><\/i><i><\/i><i><\/i><i><\/i><\/nav>\n<\/div>","js":"(function(){\n  const wrap=document.querySelector(\".bgz\");\n  const secs=[...wrap.querySelectorAll(\".bgz-sec\")];\n  const dots=[...wrap.querySelectorAll(\".bgz-rail i\")];\n  function apply(sec){\n    wrap.style.setProperty(\"--bg\",sec.dataset.bg);\n    wrap.style.setProperty(\"--fg\",sec.dataset.fg);\n    wrap.style.setProperty(\"--soft\",sec.dataset.soft);\n    const i=secs.indexOf(sec);\n    dots.forEach((d,n)=>d.classList.toggle(\"on\",n===i));\n  }\n  // בוחרים את הסקשן שתופס הכי הרבה מהמסך. חשוב למדוד את כל הסקשנים בכל בדיקה\n  // ולא רק את אלה שהאירוע דיווח עליהם, אחרת הצבע נתקע על הראשון.\n  let last=null;\n  function pick(){\n    let best=null,area=0;\n    secs.forEach(s=>{\n      const r=s.getBoundingClientRect();\n      const vis=Math.max(0,Math.min(r.bottom,window.innerHeight)-Math.max(r.top,0));\n      if(vis>area){area=vis;best=s;}\n    });\n    if(best&&best!==last){last=best;apply(best);}\n  }\n  // ויסות לפי זמן ולא לפי requestAnimationFrame: אם פריים אחד לא מגיע, דגל של rAF נתקע דלוק\n  // וכל אירועי הגלילה הבאים נבלעים. מדידה של 80 מילישניות זולה ואמינה בכל מצב.\n  let t=0;\n  const onScroll=()=>{const n=performance.now();if(n-t<80)return;t=n;pick();};\n  const io=new IntersectionObserver(pick,{threshold:[0,.2,.4,.6,.8,1]});\n  secs.forEach(s=>io.observe(s));\n  addEventListener(\"scroll\",onScroll,{passive:true});\n  pick();\n})();","scripts":"","rtl":true}</script>
+</section>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -69,6 +146,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 (function(){
   const wrap=document.querySelector(".bgz");

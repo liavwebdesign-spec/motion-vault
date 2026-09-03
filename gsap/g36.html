@@ -44,6 +44,42 @@
 </section>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g36.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* G36 · מעבר סקשן בקשת שמתיישרת */
+.arc-light{background:#fff;padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));text-align:center}
+.arc-dark{background:#0f1020;color:#fff;position:relative;padding:0 var(--gutter, clamp(24px, 5vw, 96px)) var(--sec, clamp(120px, 12vw, 260px))}
+.arc-svg{display:block;width:100%;height:clamp(60px,14vw,220px)}
+.arc-svg path{fill:#fff}
+.arc-inner{max-width:720px;margin-inline:auto;padding-top:clamp(40px,5vw,80px);text-align:center}
+.arc-card{background:#fff;color:var(--ink, #16182b);border-radius:20px;padding:36px 28px;margin-top:32px;display:inline-block;min-width:min(360px,80vw)}
+.arc-card b{font-size:clamp(44px,5vw,80px);display:block;line-height:1}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;section class="arc-light"&gt;&lt;h2 style="font-size:var(--fs-demo);margin:0"&gt;הכל מתחיל בסקשן בהיר&lt;/h2&gt;&lt;p style="color:var(--muted)"&gt;גלול, ותראה את הקשת מתיישרת בכניסה לסקשן הכהה&lt;/p&gt;&lt;/section&gt;
+&lt;section class="arc-dark"&gt;
+  &lt;svg class="arc-svg" viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"&gt;
+    &lt;path id="arcA" d="M0,0 H100 V0 C78,40 22,40 0,0 Z"/&gt;
+    &lt;path id="arcB" d="M0,0 H100 V0 C78,0 22,0 0,0 Z" style="display:none"/&gt;
+  &lt;/svg&gt;
+  &lt;div class="arc-inner"&gt;&lt;p style="letter-spacing:.14em;font-size:12px;color:#9a9cb8"&gt;מחיר אחד, פשוט&lt;/p&gt;
+  &lt;div class="arc-card"&gt;&lt;b&gt;250 ₪&lt;/b&gt;&lt;span style="color:var(--muted)"&gt;לחודש, ללא התחייבות&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/section&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger, MorphSVGPlugin);
+
+gsap.to("#arcA",{morphSVG:"#arcB",ease:"none",
+  scrollTrigger:{trigger:".arc-svg",start:"top 95%",end:"top 25%",scrub:1}});</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g36 · מעבר סקשן בקשת שמתיישרת\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g36.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g36.html\n\nמה זה עושה: הגבול בין סקשן בהיר לכהה הוא קשת עגולה. ככל שגוללים אליו, הקשת מתיישרת לקו ישר. מעבר רך במקום חיתוך, בלי תמונה ובלי clip-path קופצני.\nמתי משתמשים: מעבר מהירו לסקשן הבא, כניסה לאזור מחירים או ציטוט. פעם או פעמיים בעמוד. עובד על כל שני צבעי רקע.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MorphSVGPlugin.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* G36 · מעבר סקשן בקשת שמתיישרת */\n.arc-light{background:#fff;padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));text-align:center}\n.arc-dark{background:#0f1020;color:#fff;position:relative;padding:0 var(--gutter, clamp(24px, 5vw, 96px)) var(--sec, clamp(120px, 12vw, 260px))}\n.arc-svg{display:block;width:100%;height:clamp(60px,14vw,220px)}\n.arc-svg path{fill:#fff}\n.arc-inner{max-width:720px;margin-inline:auto;padding-top:clamp(40px,5vw,80px);text-align:center}\n.arc-card{background:#fff;color:var(--ink, #16182b);border-radius:20px;padding:36px 28px;margin-top:32px;display:inline-block;min-width:min(360px,80vw)}\n.arc-card b{font-size:clamp(44px,5vw,80px);display:block;line-height:1}\n\n=== HTML ===\n<section class=\"arc-light\"><h2 style=\"font-size:var(--fs-demo);margin:0\">הכל מתחיל בסקשן בהיר<\/h2><p style=\"color:var(--muted)\">גלול, ותראה את הקשת מתיישרת בכניסה לסקשן הכהה<\/p><\/section>\n<section class=\"arc-dark\">\n  <svg class=\"arc-svg\" viewBox=\"0 0 100 30\" preserveAspectRatio=\"none\" aria-hidden=\"true\">\n    <path id=\"arcA\" d=\"M0,0 H100 V0 C78,40 22,40 0,0 Z\"/>\n    <path id=\"arcB\" d=\"M0,0 H100 V0 C78,0 22,0 0,0 Z\" style=\"display:none\"/>\n  <\/svg>\n  <div class=\"arc-inner\"><p style=\"letter-spacing:.14em;font-size:12px;color:#9a9cb8\">מחיר אחד, פשוט<\/p>\n  <div class=\"arc-card\"><b>250 ₪<\/b><span style=\"color:var(--muted)\">לחודש, ללא התחייבות<\/span><\/div><\/div>\n<\/section>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger, MorphSVGPlugin);\n\ngsap.to(\"#arcA\",{morphSVG:\"#arcB\",ease:\"none\",\n  scrollTrigger:{trigger:\".arc-svg\",start:\"top 95%\",end:\"top 25%\",scrub:1}});\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  import { MorphSVGPlugin } from \"gsap/MorphSVGPlugin\";\n  gsap.registerPlugin(ScrollTrigger, MorphSVGPlugin);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* G36 · מעבר סקשן בקשת שמתיישרת */\n.arc-light{background:#fff;padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));text-align:center}\n.arc-dark{background:#0f1020;color:#fff;position:relative;padding:0 var(--gutter, clamp(24px, 5vw, 96px)) var(--sec, clamp(120px, 12vw, 260px))}\n.arc-svg{display:block;width:100%;height:clamp(60px,14vw,220px)}\n.arc-svg path{fill:#fff}\n.arc-inner{max-width:720px;margin-inline:auto;padding-top:clamp(40px,5vw,80px);text-align:center}\n.arc-card{background:#fff;color:var(--ink, #16182b);border-radius:20px;padding:36px 28px;margin-top:32px;display:inline-block;min-width:min(360px,80vw)}\n.arc-card b{font-size:clamp(44px,5vw,80px);display:block;line-height:1}","html":"<section class=\"arc-light\"><h2 style=\"font-size:var(--fs-demo);margin:0\">הכל מתחיל בסקשן בהיר<\/h2><p style=\"color:var(--muted)\">גלול, ותראה את הקשת מתיישרת בכניסה לסקשן הכהה<\/p><\/section>\n<section class=\"arc-dark\">\n  <svg class=\"arc-svg\" viewBox=\"0 0 100 30\" preserveAspectRatio=\"none\" aria-hidden=\"true\">\n    <path id=\"arcA\" d=\"M0,0 H100 V0 C78,40 22,40 0,0 Z\"/>\n    <path id=\"arcB\" d=\"M0,0 H100 V0 C78,0 22,0 0,0 Z\" style=\"display:none\"/>\n  <\/svg>\n  <div class=\"arc-inner\"><p style=\"letter-spacing:.14em;font-size:12px;color:#9a9cb8\">מחיר אחד, פשוט<\/p>\n  <div class=\"arc-card\"><b>250 ₪<\/b><span style=\"color:var(--muted)\">לחודש, ללא התחייבות<\/span><\/div><\/div>\n<\/section>","js":"gsap.registerPlugin(ScrollTrigger, MorphSVGPlugin);\n\ngsap.to(\"#arcA\",{morphSVG:\"#arcB\",ease:\"none\",\n  scrollTrigger:{trigger:\".arc-svg\",start:\"top 95%\",end:\"top 25%\",scrub:1}});","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MorphSVGPlugin.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/MorphSVGPlugin.min.js"></script>
@@ -58,6 +94,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger, MorphSVGPlugin);
 gsap.to("#arcA",{morphSVG:"#arcB",ease:"none",
   scrollTrigger:{trigger:".arc-svg",start:"top 95%",end:"top 25%",scrub:1}});

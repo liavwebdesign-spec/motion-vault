@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>FLUID · המסגרת הנוזלית (Fluid Frame)</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+
+/* FLUID · המסגרת הנוזלית (Fluid Frame) */
+.fl-hero{min-height:70vh;display:flex;flex-direction:column;justify-content:center}
+.fl-hero h2{font-size:clamp(44px,5vw + .5rem,118px);line-height:1.05;max-width:14ch;margin:0}
+.fl-hero p{font-size:clamp(19px,1vw + .55rem,30px);color:var(--muted, #6a6d85);max-width:640px}
+.fl-split{display:grid;grid-template-columns:65% 35%;gap:clamp(20px,2vw,48px);align-items:center;background:#fff;padding:clamp(64px,7vw,150px) var(--gutter, clamp(24px, 5vw, 96px))}
+.fl-split .txt{padding-inline-end:20%}
+.fl-split h3{font-size:clamp(26px,2vw + .4rem,52px);margin:0 0 14px}
+.fl-split p{color:var(--muted, #6a6d85);max-width:640px}
+.fl-visual{aspect-ratio:4/5;border-radius:clamp(12px,1vw,24px);font-size:clamp(18px,1.4vw,30px)}
+.fl-breath{padding-block:clamp(120px,18vw,320px);text-align:center;background:#16182b;color:#fff}
+.fl-breath h3{font-size:clamp(26px,2.2vw,54px);font-weight:100;max-width:26ch;margin-inline:auto}
+.fl-breath b{font-weight:800}
+.hud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;background:#16182b;color:#fff;font-size:13px;padding:8px 14px;border-radius:8px;opacity:.92}
+@media(max-width:767px){.fl-split{grid-template-columns:1fr}.fl-split .txt{padding-inline-end:0}}
+</style>
+</head>
+<body>
+<div class="hud" id="hud"></div>
+<div class="fl-hero" style="padding-inline:var(--gutter)">
+  <h2>העמוד הזה נושם עם המסך שלך</h2>
+  <p>גרור את חלון הדפדפן. הכל משתנה יחד, בלי אף מדרגה, והטקסט הרץ נשאר תחום וקריא.</p>
+</div>
+<div class="fl-split">
+  <div class="txt"><h3>עמודה באחוזים, טקסט תחום</h3><p>העמודה תופסת 65% מהמסך אבל שומרת 20% אוויר בצד הסגירה. אסימטריה שגדלה עם המסך בלי ששורות מתארכות לאינסוף.</p></div>
+  <div class="fl-visual ph ph-b">35%</div>
+</div>
+<div class="fl-breath"><h3>סקשן נשימה של 18vw: <b>הלוקסוס של המסך הגדול</b>, בלי לאבד את הלפטופ</h3></div>
+
+<script>
+const hud=document.getElementById("hud");
+function upd(){
+  const h=getComputedStyle(document.querySelector(".fl-hero h2")).fontSize;
+  hud.textContent="רוחב: "+innerWidth+"px · כותרת: "+parseFloat(h).toFixed(0)+"px";
+}
+addEventListener("resize",upd);upd();
+</script>
+</body>
+</html>

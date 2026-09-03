@@ -50,6 +50,70 @@
 <section class="pn-sec" id="pn4"><div><h3>שאלות</h3><p>כל מה שנשאלנו עשר פעמים, מרוכז במקום אחד.</p></div></section>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 <div class="demo-note">ההבדל מ"קישור פעיל" רגיל הוא שהמילוי הוא scrub ולא מצב בינארי, ולכן רואים גם כמה נשאר מהסקשן. **המלכודת בעברית**: המימוש המקורי מחליק את המילוי מ-xPercent שלילי, כלומר משמאל, וזה מרגיש הפוך. בעברית מתחילים ב-101, נכנסים לאפס ויוצאים למינוס. `onLeaveBack` חובה, אחרת בגלילה כלפי מעלה המילוי נשאר תקוע מלא. הסקשנים מקבלים scroll-margin כדי שהעוגן לא ייעצר מתחת לתפריט הצף.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/b48.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* B48 · ניווט עם התקדמות לפי סקשן */
+.pn{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:60;
+  display:flex;gap:4px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:5px;
+  box-shadow:0 10px 30px rgba(20,20,40,.1)}
+.pn a{position:relative;overflow:hidden;border-radius:999px;padding:9px 18px;font-size:14px;color:var(--muted, #6a6d85);
+  text-decoration:none;white-space:nowrap;transition:color .25s}
+.pn a.on{color:#fff}
+.pn-fill{position:absolute;inset:0;background:var(--accent, #4a3aff);border-radius:999px;z-index:-1}
+.pn a span{position:relative;z-index:1}
+.pn-sec{min-height:96vh;display:grid;place-items:center;text-align:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px));scroll-margin-top:90px}
+.pn-sec h3{margin:0;font-size:clamp(30px,6vw,78px)}
+.pn-sec p{margin:14px auto 0;color:var(--muted, #6a6d85);max-width:46ch;font-size:17px;line-height:1.7}
+@media(max-width:640px){.pn{width:calc(100% - 24px);justify-content:space-between}.pn a{padding:9px 10px;font-size:13px}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;nav class="pn"&gt;
+  &lt;a href="#pn1" class="on"&gt;&lt;span&gt;שירותים&lt;/span&gt;&lt;i class="pn-fill"&gt;&lt;/i&gt;&lt;/a&gt;
+  &lt;a href="#pn2"&gt;&lt;span&gt;תהליך&lt;/span&gt;&lt;i class="pn-fill"&gt;&lt;/i&gt;&lt;/a&gt;
+  &lt;a href="#pn3"&gt;&lt;span&gt;מחירים&lt;/span&gt;&lt;i class="pn-fill"&gt;&lt;/i&gt;&lt;/a&gt;
+  &lt;a href="#pn4"&gt;&lt;span&gt;שאלות&lt;/span&gt;&lt;i class="pn-fill"&gt;&lt;/i&gt;&lt;/a&gt;
+&lt;/nav&gt;
+&lt;section class="pn-sec" id="pn1"&gt;&lt;div&gt;&lt;h3&gt;שירותים&lt;/h3&gt;&lt;p&gt;מה אנחנו עושים ולמי זה מתאים, בלי רשימת באזזוורדס.&lt;/p&gt;&lt;/div&gt;&lt;/section&gt;
+&lt;section class="pn-sec" id="pn2"&gt;&lt;div&gt;&lt;h3&gt;תהליך&lt;/h3&gt;&lt;p&gt;ארבעה שלבים מהשיחה הראשונה ועד העלייה לאוויר.&lt;/p&gt;&lt;/div&gt;&lt;/section&gt;
+&lt;section class="pn-sec" id="pn3"&gt;&lt;div&gt;&lt;h3&gt;מחירים&lt;/h3&gt;&lt;p&gt;שלוש חבילות, טווח ברור, בלי הפתעות בסוף.&lt;/p&gt;&lt;/div&gt;&lt;/section&gt;
+&lt;section class="pn-sec" id="pn4"&gt;&lt;div&gt;&lt;h3&gt;שאלות&lt;/h3&gt;&lt;p&gt;כל מה שנשאלנו עשר פעמים, מרוכז במקום אחד.&lt;/p&gt;&lt;/div&gt;&lt;/section&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+(function(){
+  const links=[...document.querySelectorAll(".pn a")];
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  links.forEach(link=&gt;{
+    const sec=document.querySelector(link.getAttribute("href"));
+    const fill=link.querySelector(".pn-fill");
+    if(!sec||!fill)return;
+    // עמוד עברי: המילוי נכנס מימין ויוצא שמאלה, בכיוון הקריאה
+    gsap.set(fill,{xPercent:101});
+    ScrollTrigger.create({
+      trigger:sec,start:"top center",end:"bottom center",scrub:true,
+      onUpdate:self=&gt;{
+        gsap.set(fill,{xPercent:101-self.progress*101});
+        link.classList.toggle("on",self.progress&gt;.08);
+      },
+      onLeave:()=&gt;{gsap.to(fill,{xPercent:-101,duration:.3,ease:"power3.inOut"});link.classList.remove("on");},
+      onLeaveBack:()=&gt;{gsap.to(fill,{xPercent:101,duration:.3,ease:"power3.inOut"});link.classList.remove("on");}
+    });
+    link.addEventListener("click",e=&gt;{
+      e.preventDefault();
+      gsap.to(window,{duration:reduce?0:.8,ease:"power2.inOut",scrollTo:{y:sec,offsetY:70}});
+    });
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b48 · ניווט עם התקדמות לפי סקשן\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b48.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b48.html\n\nמה זה עושה: תפריט עוגנים צף שבו הפריט של הסקשן הנוכחי מתמלא בהדרגה תוך כדי הגלילה בו, ומתרוקן כשעוברים הלאה. אין הבהוב של \"פעיל\" או \"לא פעיל\".\nמתי משתמשים: עמוד נחיתה ארוך, עמוד שירות, מסמך תנאים, מדריך. המבקר יודע כל הזמן איפה הוא ברצף וכמה נשאר, וזה מוריד נטישה באמצע.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* B48 · ניווט עם התקדמות לפי סקשן */\n.pn{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:60;\n  display:flex;gap:4px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:5px;\n  box-shadow:0 10px 30px rgba(20,20,40,.1)}\n.pn a{position:relative;overflow:hidden;border-radius:999px;padding:9px 18px;font-size:14px;color:var(--muted, #6a6d85);\n  text-decoration:none;white-space:nowrap;transition:color .25s}\n.pn a.on{color:#fff}\n.pn-fill{position:absolute;inset:0;background:var(--accent, #4a3aff);border-radius:999px;z-index:-1}\n.pn a span{position:relative;z-index:1}\n.pn-sec{min-height:96vh;display:grid;place-items:center;text-align:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px));scroll-margin-top:90px}\n.pn-sec h3{margin:0;font-size:clamp(30px,6vw,78px)}\n.pn-sec p{margin:14px auto 0;color:var(--muted, #6a6d85);max-width:46ch;font-size:17px;line-height:1.7}\n@media(max-width:640px){.pn{width:calc(100% - 24px);justify-content:space-between}.pn a{padding:9px 10px;font-size:13px}}\n\n=== HTML ===\n<nav class=\"pn\">\n  <a href=\"#pn1\" class=\"on\"><span>שירותים<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn2\"><span>תהליך<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn3\"><span>מחירים<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn4\"><span>שאלות<\/span><i class=\"pn-fill\"><\/i><\/a>\n<\/nav>\n<section class=\"pn-sec\" id=\"pn1\"><div><h3>שירותים<\/h3><p>מה אנחנו עושים ולמי זה מתאים, בלי רשימת באזזוורדס.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn2\"><div><h3>תהליך<\/h3><p>ארבעה שלבים מהשיחה הראשונה ועד העלייה לאוויר.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn3\"><div><h3>מחירים<\/h3><p>שלוש חבילות, טווח ברור, בלי הפתעות בסוף.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn4\"><div><h3>שאלות<\/h3><p>כל מה שנשאלנו עשר פעמים, מרוכז במקום אחד.<\/p><\/div><\/section>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger, ScrollToPlugin);\n\n(function(){\n  const links=[...document.querySelectorAll(\".pn a\")];\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  links.forEach(link=>{\n    const sec=document.querySelector(link.getAttribute(\"href\"));\n    const fill=link.querySelector(\".pn-fill\");\n    if(!sec||!fill)return;\n    // עמוד עברי: המילוי נכנס מימין ויוצא שמאלה, בכיוון הקריאה\n    gsap.set(fill,{xPercent:101});\n    ScrollTrigger.create({\n      trigger:sec,start:\"top center\",end:\"bottom center\",scrub:true,\n      onUpdate:self=>{\n        gsap.set(fill,{xPercent:101-self.progress*101});\n        link.classList.toggle(\"on\",self.progress>.08);\n      },\n      onLeave:()=>{gsap.to(fill,{xPercent:-101,duration:.3,ease:\"power3.inOut\"});link.classList.remove(\"on\");},\n      onLeaveBack:()=>{gsap.to(fill,{xPercent:101,duration:.3,ease:\"power3.inOut\"});link.classList.remove(\"on\");}\n    });\n    link.addEventListener(\"click\",e=>{\n      e.preventDefault();\n      gsap.to(window,{duration:reduce?0:.8,ease:\"power2.inOut\",scrollTo:{y:sec,offsetY:70}});\n    });\n  });\n})();\n\nהערת מימוש מהמאגר:\nההבדל מ\"קישור פעיל\" רגיל הוא שהמילוי הוא scrub ולא מצב בינארי, ולכן רואים גם כמה נשאר מהסקשן. המלכודת בעברית: המימוש המקורי מחליק את המילוי מ-xPercent שלילי, כלומר משמאל, וזה מרגיש הפוך. בעברית מתחילים ב-101, נכנסים לאפס ויוצאים למינוס. `onLeaveBack` חובה, אחרת בגלילה כלפי מעלה המילוי נשאר תקוע מלא. הסקשנים מקבלים scroll-margin כדי שהעוגן לא ייעצר מתחת לתפריט הצף.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  import { ScrollToPlugin } from \"gsap/ScrollToPlugin\";\n  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* B48 · ניווט עם התקדמות לפי סקשן */\n.pn{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:60;\n  display:flex;gap:4px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:5px;\n  box-shadow:0 10px 30px rgba(20,20,40,.1)}\n.pn a{position:relative;overflow:hidden;border-radius:999px;padding:9px 18px;font-size:14px;color:var(--muted, #6a6d85);\n  text-decoration:none;white-space:nowrap;transition:color .25s}\n.pn a.on{color:#fff}\n.pn-fill{position:absolute;inset:0;background:var(--accent, #4a3aff);border-radius:999px;z-index:-1}\n.pn a span{position:relative;z-index:1}\n.pn-sec{min-height:96vh;display:grid;place-items:center;text-align:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px));scroll-margin-top:90px}\n.pn-sec h3{margin:0;font-size:clamp(30px,6vw,78px)}\n.pn-sec p{margin:14px auto 0;color:var(--muted, #6a6d85);max-width:46ch;font-size:17px;line-height:1.7}\n@media(max-width:640px){.pn{width:calc(100% - 24px);justify-content:space-between}.pn a{padding:9px 10px;font-size:13px}}","html":"<nav class=\"pn\">\n  <a href=\"#pn1\" class=\"on\"><span>שירותים<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn2\"><span>תהליך<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn3\"><span>מחירים<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn4\"><span>שאלות<\/span><i class=\"pn-fill\"><\/i><\/a>\n<\/nav>\n<section class=\"pn-sec\" id=\"pn1\"><div><h3>שירותים<\/h3><p>מה אנחנו עושים ולמי זה מתאים, בלי רשימת באזזוורדס.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn2\"><div><h3>תהליך<\/h3><p>ארבעה שלבים מהשיחה הראשונה ועד העלייה לאוויר.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn3\"><div><h3>מחירים<\/h3><p>שלוש חבילות, טווח ברור, בלי הפתעות בסוף.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn4\"><div><h3>שאלות<\/h3><p>כל מה שנשאלנו עשר פעמים, מרוכז במקום אחד.<\/p><\/div><\/section>","js":"gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);\n\n(function(){\n  const links=[...document.querySelectorAll(\".pn a\")];\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  links.forEach(link=>{\n    const sec=document.querySelector(link.getAttribute(\"href\"));\n    const fill=link.querySelector(\".pn-fill\");\n    if(!sec||!fill)return;\n    // עמוד עברי: המילוי נכנס מימין ויוצא שמאלה, בכיוון הקריאה\n    gsap.set(fill,{xPercent:101});\n    ScrollTrigger.create({\n      trigger:sec,start:\"top center\",end:\"bottom center\",scrub:true,\n      onUpdate:self=>{\n        gsap.set(fill,{xPercent:101-self.progress*101});\n        link.classList.toggle(\"on\",self.progress>.08);\n      },\n      onLeave:()=>{gsap.to(fill,{xPercent:-101,duration:.3,ease:\"power3.inOut\"});link.classList.remove(\"on\");},\n      onLeaveBack:()=>{gsap.to(fill,{xPercent:101,duration:.3,ease:\"power3.inOut\"});link.classList.remove(\"on\");}\n    });\n    link.addEventListener(\"click\",e=>{\n      e.preventDefault();\n      gsap.to(window,{duration:reduce?0:.8,ease:\"power2.inOut\",scrollTo:{y:sec,offsetY:70}});\n    });\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
@@ -64,6 +128,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 (function(){
   const links=[...document.querySelectorAll(".pn a")];

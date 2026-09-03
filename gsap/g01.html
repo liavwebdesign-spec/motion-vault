@@ -35,6 +35,44 @@
 </div></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 <div class="demo-note">אתר עברי: x חיובי. אתר אנגלי: מוסיפים מינוס. אזהרה חתומה: בלי overscroll-behavior:none על העטיפה (חוסם גלגלת).</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g01.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
+
+/* G01 · גלילה צידית מוצמדת */
+.wrapper{transition:all 0s !important;overflow:hidden;background:#fff}
+.scroll{display:flex;gap:24px;width:max-content;padding:80px var(--gutter, clamp(24px, 5vw, 96px))}
+.scroll .ph{flex:0 0 clamp(300px,26vw,460px);height:clamp(240px,20vw,360px);font-size:22px}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="wrapper"&gt;&lt;div class="scroll"&gt;
+&lt;div class="ph ph-a"&gt;כרטיס 01&lt;/div&gt;&lt;div class="ph ph-b"&gt;כרטיס 02&lt;/div&gt;&lt;div class="ph ph-c"&gt;כרטיס 03&lt;/div&gt;
+&lt;div class="ph ph-e"&gt;כרטיס 04&lt;/div&gt;&lt;div class="ph ph-d"&gt;כרטיס 05&lt;/div&gt;&lt;div class="ph ph-f"&gt;כרטיס 06&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+const container=document.querySelector(".scroll");
+const totalWidth=container.scrollWidth-window.innerWidth;
+gsap.to(container,{x:()=&gt;totalWidth,ease:"none",
+  scrollTrigger:{trigger:".wrapper",start:"top top",end:()=&gt;"+="+totalWidth,scrub:true,pin:true,anticipatePin:1}});</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g01 · גלילה צידית מוצמדת\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g01.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g01.html\n\nמה זה עושה: הסקשן ננעל למסך והתוכן גולש הצידה במקום למטה. המהלך המבוקש ביותר.\nמתי משתמשים: תהליך שלבים, גלריית עבודות, קטגוריות.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G01 · גלילה צידית מוצמדת */\n.wrapper{transition:all 0s !important;overflow:hidden;background:#fff}\n.scroll{display:flex;gap:24px;width:max-content;padding:80px var(--gutter, clamp(24px, 5vw, 96px))}\n.scroll .ph{flex:0 0 clamp(300px,26vw,460px);height:clamp(240px,20vw,360px);font-size:22px}\n\n=== HTML ===\n<div class=\"wrapper\"><div class=\"scroll\">\n<div class=\"ph ph-a\">כרטיס 01<\/div><div class=\"ph ph-b\">כרטיס 02<\/div><div class=\"ph ph-c\">כרטיס 03<\/div>\n<div class=\"ph ph-e\">כרטיס 04<\/div><div class=\"ph ph-d\">כרטיס 05<\/div><div class=\"ph ph-f\">כרטיס 06<\/div>\n<\/div><\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\nconst container=document.querySelector(\".scroll\");\nconst totalWidth=container.scrollWidth-window.innerWidth;\ngsap.to(container,{x:()=>totalWidth,ease:\"none\",\n  scrollTrigger:{trigger:\".wrapper\",start:\"top top\",end:()=>\"+=\"+totalWidth,scrub:true,pin:true,anticipatePin:1}});\n\nהערת מימוש מהמאגר:\nאתר עברי: x חיובי. אתר אנגלי: מוסיפים מינוס. אזהרה חתומה: בלי overscroll-behavior:none על העטיפה (חוסם גלגלת).\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G01 · גלילה צידית מוצמדת */\n.wrapper{transition:all 0s !important;overflow:hidden;background:#fff}\n.scroll{display:flex;gap:24px;width:max-content;padding:80px var(--gutter, clamp(24px, 5vw, 96px))}\n.scroll .ph{flex:0 0 clamp(300px,26vw,460px);height:clamp(240px,20vw,360px);font-size:22px}","html":"<div class=\"wrapper\"><div class=\"scroll\">\n<div class=\"ph ph-a\">כרטיס 01<\/div><div class=\"ph ph-b\">כרטיס 02<\/div><div class=\"ph ph-c\">כרטיס 03<\/div>\n<div class=\"ph ph-e\">כרטיס 04<\/div><div class=\"ph ph-d\">כרטיס 05<\/div><div class=\"ph ph-f\">כרטיס 06<\/div>\n<\/div><\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\nconst container=document.querySelector(\".scroll\");\nconst totalWidth=container.scrollWidth-window.innerWidth;\ngsap.to(container,{x:()=>totalWidth,ease:\"none\",\n  scrollTrigger:{trigger:\".wrapper\",start:\"top top\",end:()=>\"+=\"+totalWidth,scrub:true,pin:true,anticipatePin:1}});","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":false}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -48,6 +86,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 const container=document.querySelector(".scroll");
 const totalWidth=container.scrollWidth-window.innerWidth;

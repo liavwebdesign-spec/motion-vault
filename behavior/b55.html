@@ -50,6 +50,78 @@
 </div></div>
 
 <div class="demo-note">שלוש נקודות שמפרידות בין מימוש עובד למימוש שנשבר: המחוון מונפש גם ברוחב ולא רק במיקום, אחרת מילים באורך שונה נחתכות; המדידה חוזרת אחרי `document.fonts.ready`, כי עד שהפונט נטען רוחב המילים שונה והמחוון מתחיל במקום הלא נכון; ויציאה מהתפריט מחזירה אותו לפריט הפעיל במקום להשאיר אותו על האחרון שרוחפים מעליו. `offsetLeft` ו-`offsetTop` הם ערכים פיזיים, ולכן אותו קוד עובד בעברית ובאנגלית בלי תנאים. **ומלכודת ניגודיות**: הצבע הלבן חייב להיקבע לפי מי שהגלולה נמצאת מתחתיו ברגע זה ולא לפי הפריט הנבחר, אחרת בהובר מקבלים טקסט אפור על גלולה כהה ובמקביל טקסט לבן על רקע בהיר. הבחירה עצמה מסומנת ב-aria-current.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/b55.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B55 · מחוון שמחליק בין פריטי תפריט */
+.tg{display:inline-flex;position:relative;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);
+  border-radius:999px;padding:5px;gap:2px;max-width:100%;flex-wrap:wrap}
+.tg-pill{position:absolute;top:5px;left:0;height:calc(100% - 10px);border-radius:999px;background:var(--ink, #16182b);z-index:0}
+.tg a{position:relative;z-index:1;padding:10px 20px;border-radius:999px;font-size:15px;color:var(--muted, #6a6d85);
+  text-decoration:none;white-space:nowrap;transition:color .22s}
+/* הצבע הלבן נקבע לפי מי שהגלולה נמצאת מתחתיו ברגע זה (hot), ולא לפי מי שנבחר (on).
+   אחרת בהובר הטקסט האפור יושב על גלולה כהה, והנבחר נשאר לבן על רקע בהיר. */
+.tg a.hot{color:#fff}
+.tg a:hover{color:var(--ink, #16182b)}
+.tg a.hot:hover{color:#fff}
+.tg a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.tg-wrap{display:grid;justify-items:center;gap:26px}
+.tg-out{color:var(--muted, #6a6d85);font-size:15px}
+.tg-out b{color:var(--ink, #16182b)}
+@media(max-width:520px){.tg a{padding:10px 13px;font-size:14px}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="tg-wrap"&gt;
+  &lt;nav class="tg"&gt;
+    &lt;i class="tg-pill"&gt;&lt;/i&gt;
+    &lt;a href="#" class="on" aria-current="true"&gt;הכל&lt;/a&gt;&lt;a href="#"&gt;אתרי תדמית&lt;/a&gt;&lt;a href="#"&gt;דפי נחיתה&lt;/a&gt;&lt;a href="#"&gt;חנויות&lt;/a&gt;&lt;a href="#"&gt;מערכות&lt;/a&gt;
+  &lt;/nav&gt;
+  &lt;p class="tg-out"&gt;הבחירה הנוכחית: &lt;b class="tg-now"&gt;הכל&lt;/b&gt;&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const nav=document.querySelector(".tg"),pill=nav.querySelector(".tg-pill"),out=document.querySelector(".tg-now");
+  const links=[...nav.querySelectorAll("a")];
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let active=links[0];
+  // offsetLeft/offsetTop פיזיים, ולכן החישוב זהה בעברית ובאנגלית
+  const move=(el,animate)=&gt;{
+    links.forEach(x=&gt;x.classList.toggle("hot",x===el));
+    const to={x:el.offsetLeft,y:el.offsetTop-5,width:el.offsetWidth,height:el.offsetHeight};
+    if(animate&amp;&amp;!reduce)gsap.to(pill,{...to,duration:.4,ease:"back.out(1.4)"});
+    else gsap.set(pill,to);
+  };
+  links.forEach(a=&gt;{
+    a.addEventListener("mouseenter",()=&gt;move(a,true));
+    a.addEventListener("focus",()=&gt;move(a,true));
+    a.addEventListener("click",e=&gt;{
+      e.preventDefault();
+      active=a;links.forEach(x=&gt;{x.classList.toggle("on",x===a);
+        x===a?x.setAttribute("aria-current","true"):x.removeAttribute("aria-current")});
+      out.textContent=a.textContent;move(a,true);
+    });
+  });
+  // יציאה מהתפריט מחזירה את המחוון לפריט שנבחר, ולא משאירה אותו במקום אקראי
+  nav.addEventListener("mouseleave",()=&gt;move(active,true));
+  nav.addEventListener("focusout",e=&gt;{if(!nav.contains(e.relatedTarget))move(active,true);});
+  move(active,false);
+  addEventListener("resize",()=&gt;move(active,false));
+  document.fonts&amp;&amp;document.fonts.ready.then(()=&gt;move(active,false));  // הפונט משנה רוחב מילים
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b55 · מחוון שמחליק בין פריטי תפריט\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b55.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b55.html\n\nמה זה עושה: כדור צבע אחד שיושב מאחורי הפריט הפעיל ומחליק אליו כשעוברים עכבר או בוחרים אחר. משתנה גם ברוחב, ולכן זה עובד עם מילים באורך שונה.\nמתי משתמשים: תפריט ראשי, טאבים, מסנני קטגוריה, מתגי תצוגה. אלמנט אחד שהופך שורת קישורים לממשק.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B55 · מחוון שמחליק בין פריטי תפריט */\n.tg{display:inline-flex;position:relative;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);\n  border-radius:999px;padding:5px;gap:2px;max-width:100%;flex-wrap:wrap}\n.tg-pill{position:absolute;top:5px;left:0;height:calc(100% - 10px);border-radius:999px;background:var(--ink, #16182b);z-index:0}\n.tg a{position:relative;z-index:1;padding:10px 20px;border-radius:999px;font-size:15px;color:var(--muted, #6a6d85);\n  text-decoration:none;white-space:nowrap;transition:color .22s}\n/* הצבע הלבן נקבע לפי מי שהגלולה נמצאת מתחתיו ברגע זה (hot), ולא לפי מי שנבחר (on).\n   אחרת בהובר הטקסט האפור יושב על גלולה כהה, והנבחר נשאר לבן על רקע בהיר. */\n.tg a.hot{color:#fff}\n.tg a:hover{color:var(--ink, #16182b)}\n.tg a.hot:hover{color:#fff}\n.tg a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n.tg-wrap{display:grid;justify-items:center;gap:26px}\n.tg-out{color:var(--muted, #6a6d85);font-size:15px}\n.tg-out b{color:var(--ink, #16182b)}\n@media(max-width:520px){.tg a{padding:10px 13px;font-size:14px}}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"tg-wrap\">\n  <nav class=\"tg\">\n    <i class=\"tg-pill\"><\/i>\n    <a href=\"#\" class=\"on\" aria-current=\"true\">הכל<\/a><a href=\"#\">אתרי תדמית<\/a><a href=\"#\">דפי נחיתה<\/a><a href=\"#\">חנויות<\/a><a href=\"#\">מערכות<\/a>\n  <\/nav>\n  <p class=\"tg-out\">הבחירה הנוכחית: <b class=\"tg-now\">הכל<\/b><\/p>\n<\/div><\/div>\n\n=== JS ===\n(function(){\n  const nav=document.querySelector(\".tg\"),pill=nav.querySelector(\".tg-pill\"),out=document.querySelector(\".tg-now\");\n  const links=[...nav.querySelectorAll(\"a\")];\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  let active=links[0];\n  // offsetLeft/offsetTop פיזיים, ולכן החישוב זהה בעברית ובאנגלית\n  const move=(el,animate)=>{\n    links.forEach(x=>x.classList.toggle(\"hot\",x===el));\n    const to={x:el.offsetLeft,y:el.offsetTop-5,width:el.offsetWidth,height:el.offsetHeight};\n    if(animate&&!reduce)gsap.to(pill,{...to,duration:.4,ease:\"back.out(1.4)\"});\n    else gsap.set(pill,to);\n  };\n  links.forEach(a=>{\n    a.addEventListener(\"mouseenter\",()=>move(a,true));\n    a.addEventListener(\"focus\",()=>move(a,true));\n    a.addEventListener(\"click\",e=>{\n      e.preventDefault();\n      active=a;links.forEach(x=>{x.classList.toggle(\"on\",x===a);\n        x===a?x.setAttribute(\"aria-current\",\"true\"):x.removeAttribute(\"aria-current\")});\n      out.textContent=a.textContent;move(a,true);\n    });\n  });\n  // יציאה מהתפריט מחזירה את המחוון לפריט שנבחר, ולא משאירה אותו במקום אקראי\n  nav.addEventListener(\"mouseleave\",()=>move(active,true));\n  nav.addEventListener(\"focusout\",e=>{if(!nav.contains(e.relatedTarget))move(active,true);});\n  move(active,false);\n  addEventListener(\"resize\",()=>move(active,false));\n  document.fonts&&document.fonts.ready.then(()=>move(active,false));  // הפונט משנה רוחב מילים\n})();\n\nהערת מימוש מהמאגר:\nשלוש נקודות שמפרידות בין מימוש עובד למימוש שנשבר: המחוון מונפש גם ברוחב ולא רק במיקום, אחרת מילים באורך שונה נחתכות; המדידה חוזרת אחרי `document.fonts.ready`, כי עד שהפונט נטען רוחב המילים שונה והמחוון מתחיל במקום הלא נכון; ויציאה מהתפריט מחזירה אותו לפריט הפעיל במקום להשאיר אותו על האחרון שרוחפים מעליו. `offsetLeft` ו-`offsetTop` הם ערכים פיזיים, ולכן אותו קוד עובד בעברית ובאנגלית בלי תנאים. ומלכודת ניגודיות: הצבע הלבן חייב להיקבע לפי מי שהגלולה נמצאת מתחתיו ברגע זה ולא לפי הפריט הנבחר, אחרת בהובר מקבלים טקסט אפור על גלולה כהה ובמקביל טקסט לבן על רקע בהיר. הבחירה עצמה מסומנת ב-aria-current.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B55 · מחוון שמחליק בין פריטי תפריט */\n.tg{display:inline-flex;position:relative;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);\n  border-radius:999px;padding:5px;gap:2px;max-width:100%;flex-wrap:wrap}\n.tg-pill{position:absolute;top:5px;left:0;height:calc(100% - 10px);border-radius:999px;background:var(--ink, #16182b);z-index:0}\n.tg a{position:relative;z-index:1;padding:10px 20px;border-radius:999px;font-size:15px;color:var(--muted, #6a6d85);\n  text-decoration:none;white-space:nowrap;transition:color .22s}\n/* הצבע הלבן נקבע לפי מי שהגלולה נמצאת מתחתיו ברגע זה (hot), ולא לפי מי שנבחר (on).\n   אחרת בהובר הטקסט האפור יושב על גלולה כהה, והנבחר נשאר לבן על רקע בהיר. */\n.tg a.hot{color:#fff}\n.tg a:hover{color:var(--ink, #16182b)}\n.tg a.hot:hover{color:#fff}\n.tg a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n.tg-wrap{display:grid;justify-items:center;gap:26px}\n.tg-out{color:var(--muted, #6a6d85);font-size:15px}\n.tg-out b{color:var(--ink, #16182b)}\n@media(max-width:520px){.tg a{padding:10px 13px;font-size:14px}}","html":"<div class=\"stage tight\"><div class=\"tg-wrap\">\n  <nav class=\"tg\">\n    <i class=\"tg-pill\"><\/i>\n    <a href=\"#\" class=\"on\" aria-current=\"true\">הכל<\/a><a href=\"#\">אתרי תדמית<\/a><a href=\"#\">דפי נחיתה<\/a><a href=\"#\">חנויות<\/a><a href=\"#\">מערכות<\/a>\n  <\/nav>\n  <p class=\"tg-out\">הבחירה הנוכחית: <b class=\"tg-now\">הכל<\/b><\/p>\n<\/div><\/div>","js":"(function(){\n  const nav=document.querySelector(\".tg\"),pill=nav.querySelector(\".tg-pill\"),out=document.querySelector(\".tg-now\");\n  const links=[...nav.querySelectorAll(\"a\")];\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  let active=links[0];\n  // offsetLeft/offsetTop פיזיים, ולכן החישוב זהה בעברית ובאנגלית\n  const move=(el,animate)=>{\n    links.forEach(x=>x.classList.toggle(\"hot\",x===el));\n    const to={x:el.offsetLeft,y:el.offsetTop-5,width:el.offsetWidth,height:el.offsetHeight};\n    if(animate&&!reduce)gsap.to(pill,{...to,duration:.4,ease:\"back.out(1.4)\"});\n    else gsap.set(pill,to);\n  };\n  links.forEach(a=>{\n    a.addEventListener(\"mouseenter\",()=>move(a,true));\n    a.addEventListener(\"focus\",()=>move(a,true));\n    a.addEventListener(\"click\",e=>{\n      e.preventDefault();\n      active=a;links.forEach(x=>{x.classList.toggle(\"on\",x===a);\n        x===a?x.setAttribute(\"aria-current\",\"true\"):x.removeAttribute(\"aria-current\")});\n      out.textContent=a.textContent;move(a,true);\n    });\n  });\n  // יציאה מהתפריט מחזירה את המחוון לפריט שנבחר, ולא משאירה אותו במקום אקראי\n  nav.addEventListener(\"mouseleave\",()=>move(active,true));\n  nav.addEventListener(\"focusout\",e=>{if(!nav.contains(e.relatedTarget))move(active,true);});\n  move(active,false);\n  addEventListener(\"resize\",()=>move(active,false));\n  document.fonts&&document.fonts.ready.then(()=>move(active,false));  // הפונט משנה רוחב מילים\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>","rtl":false}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -62,6 +134,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 (function(){
   const nav=document.querySelector(".tg"),pill=nav.querySelector(".tg-pill"),out=document.querySelector(".tg-now");

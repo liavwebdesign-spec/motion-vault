@@ -48,6 +48,85 @@
 </div></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 <div class="demo-note">ההבדל בין פיזור שנראה מכוון לפיזור שנראה כמו תקלה הוא שהמרחק לא אקראי: כל כרטיס מגיע מהכיוון שאליו הוא ממילא שייך בגריד, וזה מחושב מהמיקום שלו ביחס למרכז. לכן העין קוראת את זה כהתכנסות ולא כבלגן. הערכים ביחידות אחוז (`xPercent`) ולא בפיקסלים, כך שהאפקט מתכווץ מעצמו במסכים קטנים. `rotateY` קטן עם `perspective` על הגריד מוסיף עומק בלי להפוך את זה לאטרקציה. חובה לחשב מחדש בשינוי רוחב, כי מספר העמודות משתנה וכל הכיוונים איתו.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g54.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
+
+/* G54 · גריד מפוזר שמתכנס בגלילה */
+.cv-head{text-align:center;max-width:44ch;margin:0 auto clamp(30px,5vw,60px)}
+.cv-head h3{font-size:clamp(26px,3.6vw,48px);margin:0 0 10px}
+.cv-head p{color:var(--muted, #6a6d85);font-size:17px;line-height:1.8;margin:0}
+.cv{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.4vw,22px);
+  max-width:min(1080px,94vw);margin-inline:auto;perspective:1200px}
+/* align-self:start קריטי. בלעדיו פריט הגריד נמתח בשני הצירים, aspect-ratio גוזר את
+   הרוחב מגובה השורה במקום להפך, והעמודות יוצאות ברוחבים שונים. אז הפיזור שמחושב
+   באחוזים מרוחב הפריט יוצא לא סימטרי והענן נסחף הצידה מול הכותרת. */
+.cv-item{aspect-ratio:1;align-self:start;border-radius:16px;font-size:0;will-change:transform,opacity}
+.cv-item:nth-child(4n+1){aspect-ratio:3/4}
+.cv-item:nth-child(4n+4){aspect-ratio:4/5}
+@media(max-width:820px){.cv{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:540px){.cv{grid-template-columns:repeat(2,1fr)}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;div class="cv-head"&gt;&lt;h3&gt;קיר העבודות&lt;/h3&gt;
+  &lt;p&gt;גלול לאט. הכרטיסים מגיעים מהחלל ומתיישבים לגריד, ובגלילה אחורה חוזרים להתפזר.&lt;/p&gt;&lt;/div&gt;
+&lt;div class="cv"&gt;
+  &lt;div class="ph cv-item ph-a"&gt;&lt;/div&gt;&lt;div class="ph cv-item ph-c"&gt;&lt;/div&gt;&lt;div class="ph cv-item ph-d"&gt;&lt;/div&gt;&lt;div class="ph cv-item ph-e"&gt;&lt;/div&gt;
+  &lt;div class="ph cv-item ph-b"&gt;&lt;/div&gt;&lt;div class="ph cv-item ph-f"&gt;&lt;/div&gt;&lt;div class="ph cv-item ph-a"&gt;&lt;/div&gt;&lt;div class="ph cv-item ph-c"&gt;&lt;/div&gt;
+  &lt;div class="ph cv-item ph-d"&gt;&lt;/div&gt;&lt;div class="ph cv-item ph-e"&gt;&lt;/div&gt;&lt;div class="ph cv-item ph-b"&gt;&lt;/div&gt;&lt;div class="ph cv-item ph-f"&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const grid=document.querySelector(".cv");
+  const items=gsap.utils.toArray(".cv-item");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce){gsap.set(items,{opacity:1});return;}
+  let tl;
+  function build(){
+    if(tl){tl.scrollTrigger&amp;&amp;tl.scrollTrigger.kill();tl.kill();gsap.set(items,{clearProps:"all"});}
+    const g=grid.getBoundingClientRect();
+    const cx=g.left+g.width/2, cy=g.top+g.height/2;
+    tl=gsap.timeline({scrollTrigger:{trigger:grid,start:"top 92%",end:"top 22%",scrub:.8,invalidateOnRefresh:true}});
+    items.forEach(el=&gt;{
+      const r=el.getBoundingClientRect();
+      // הכיוון נגזר מהמיקום בגריד: כל כרטיס בא מהצד שאליו הוא ממילא שייך
+      const dx=(r.left+r.width/2-cx)/g.width;      // בין מינוס חצי לחצי
+      const dy=(r.top+r.height/2-cy)/g.height;
+      // duration מפורש. בלעדיו הטווין מקבל חצי שנייה, וכל ההתכנסות נגמרת בשליש הראשון של הגלילה.
+      tl.fromTo(el,{
+        xPercent:dx*190, yPercent:dy*150,
+        scale:.42, rotate:dx*22, rotateY:dx*-26, opacity:0
+      },{
+        xPercent:0,yPercent:0,scale:1,rotate:0,rotateY:0,opacity:1,duration:1,ease:"power2.out"
+      },0);
+    });
+  }
+  build();
+  // הפיזור מחושב ממידות אמיתיות, ולכן חייבים לחשב מחדש כשהגריד משנה מספר עמודות
+  let t;addEventListener("resize",()=&gt;{clearTimeout(t);t=setTimeout(()=&gt;{build();ScrollTrigger.refresh();},220);});
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g54 · גריד מפוזר שמתכנס בגלילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g54.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g54.html\n\nמה זה עושה: תמונות שמפוזרות בחלל, מסובבות וקטנות, ומתכנסות לגריד מסודר בקצב הגלילה. גוללים אחורה והן מתפזרות בחזרה.\nמתי משתמשים: פתיחת סקשן עבודות, קיר לקוחות, גלריית מוצרים, מעבר בין פרק לפרק. רגע אחד שאומר \"יש כאן מישהו ששולט בפרטים\", ואחריו התוכן מתנהג רגיל.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G54 · גריד מפוזר שמתכנס בגלילה */\n.cv-head{text-align:center;max-width:44ch;margin:0 auto clamp(30px,5vw,60px)}\n.cv-head h3{font-size:clamp(26px,3.6vw,48px);margin:0 0 10px}\n.cv-head p{color:var(--muted, #6a6d85);font-size:17px;line-height:1.8;margin:0}\n.cv{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.4vw,22px);\n  max-width:min(1080px,94vw);margin-inline:auto;perspective:1200px}\n/* align-self:start קריטי. בלעדיו פריט הגריד נמתח בשני הצירים, aspect-ratio גוזר את\n   הרוחב מגובה השורה במקום להפך, והעמודות יוצאות ברוחבים שונים. אז הפיזור שמחושב\n   באחוזים מרוחב הפריט יוצא לא סימטרי והענן נסחף הצידה מול הכותרת. */\n.cv-item{aspect-ratio:1;align-self:start;border-radius:16px;font-size:0;will-change:transform,opacity}\n.cv-item:nth-child(4n+1){aspect-ratio:3/4}\n.cv-item:nth-child(4n+4){aspect-ratio:4/5}\n@media(max-width:820px){.cv{grid-template-columns:repeat(3,1fr)}}\n@media(max-width:540px){.cv{grid-template-columns:repeat(2,1fr)}}\n\n=== HTML ===\n<div class=\"stage\"><div class=\"cv-head\"><h3>קיר העבודות<\/h3>\n  <p>גלול לאט. הכרטיסים מגיעים מהחלל ומתיישבים לגריד, ובגלילה אחורה חוזרים להתפזר.<\/p><\/div>\n<div class=\"cv\">\n  <div class=\"ph cv-item ph-a\"><\/div><div class=\"ph cv-item ph-c\"><\/div><div class=\"ph cv-item ph-d\"><\/div><div class=\"ph cv-item ph-e\"><\/div>\n  <div class=\"ph cv-item ph-b\"><\/div><div class=\"ph cv-item ph-f\"><\/div><div class=\"ph cv-item ph-a\"><\/div><div class=\"ph cv-item ph-c\"><\/div>\n  <div class=\"ph cv-item ph-d\"><\/div><div class=\"ph cv-item ph-e\"><\/div><div class=\"ph cv-item ph-b\"><\/div><div class=\"ph cv-item ph-f\"><\/div>\n<\/div><\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const grid=document.querySelector(\".cv\");\n  const items=gsap.utils.toArray(\".cv-item\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce){gsap.set(items,{opacity:1});return;}\n  let tl;\n  function build(){\n    if(tl){tl.scrollTrigger&&tl.scrollTrigger.kill();tl.kill();gsap.set(items,{clearProps:\"all\"});}\n    const g=grid.getBoundingClientRect();\n    const cx=g.left+g.width/2, cy=g.top+g.height/2;\n    tl=gsap.timeline({scrollTrigger:{trigger:grid,start:\"top 92%\",end:\"top 22%\",scrub:.8,invalidateOnRefresh:true}});\n    items.forEach(el=>{\n      const r=el.getBoundingClientRect();\n      // הכיוון נגזר מהמיקום בגריד: כל כרטיס בא מהצד שאליו הוא ממילא שייך\n      const dx=(r.left+r.width/2-cx)/g.width;      // בין מינוס חצי לחצי\n      const dy=(r.top+r.height/2-cy)/g.height;\n      // duration מפורש. בלעדיו הטווין מקבל חצי שנייה, וכל ההתכנסות נגמרת בשליש הראשון של הגלילה.\n      tl.fromTo(el,{\n        xPercent:dx*190, yPercent:dy*150,\n        scale:.42, rotate:dx*22, rotateY:dx*-26, opacity:0\n      },{\n        xPercent:0,yPercent:0,scale:1,rotate:0,rotateY:0,opacity:1,duration:1,ease:\"power2.out\"\n      },0);\n    });\n  }\n  build();\n  // הפיזור מחושב ממידות אמיתיות, ולכן חייבים לחשב מחדש כשהגריד משנה מספר עמודות\n  let t;addEventListener(\"resize\",()=>{clearTimeout(t);t=setTimeout(()=>{build();ScrollTrigger.refresh();},220);});\n})();\n\nהערת מימוש מהמאגר:\nההבדל בין פיזור שנראה מכוון לפיזור שנראה כמו תקלה הוא שהמרחק לא אקראי: כל כרטיס מגיע מהכיוון שאליו הוא ממילא שייך בגריד, וזה מחושב מהמיקום שלו ביחס למרכז. לכן העין קוראת את זה כהתכנסות ולא כבלגן. הערכים ביחידות אחוז (`xPercent`) ולא בפיקסלים, כך שהאפקט מתכווץ מעצמו במסכים קטנים. `rotateY` קטן עם `perspective` על הגריד מוסיף עומק בלי להפוך את זה לאטרקציה. חובה לחשב מחדש בשינוי רוחב, כי מספר העמודות משתנה וכל הכיוונים איתו.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G54 · גריד מפוזר שמתכנס בגלילה */\n.cv-head{text-align:center;max-width:44ch;margin:0 auto clamp(30px,5vw,60px)}\n.cv-head h3{font-size:clamp(26px,3.6vw,48px);margin:0 0 10px}\n.cv-head p{color:var(--muted, #6a6d85);font-size:17px;line-height:1.8;margin:0}\n.cv{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.4vw,22px);\n  max-width:min(1080px,94vw);margin-inline:auto;perspective:1200px}\n/* align-self:start קריטי. בלעדיו פריט הגריד נמתח בשני הצירים, aspect-ratio גוזר את\n   הרוחב מגובה השורה במקום להפך, והעמודות יוצאות ברוחבים שונים. אז הפיזור שמחושב\n   באחוזים מרוחב הפריט יוצא לא סימטרי והענן נסחף הצידה מול הכותרת. */\n.cv-item{aspect-ratio:1;align-self:start;border-radius:16px;font-size:0;will-change:transform,opacity}\n.cv-item:nth-child(4n+1){aspect-ratio:3/4}\n.cv-item:nth-child(4n+4){aspect-ratio:4/5}\n@media(max-width:820px){.cv{grid-template-columns:repeat(3,1fr)}}\n@media(max-width:540px){.cv{grid-template-columns:repeat(2,1fr)}}","html":"<div class=\"stage\"><div class=\"cv-head\"><h3>קיר העבודות<\/h3>\n  <p>גלול לאט. הכרטיסים מגיעים מהחלל ומתיישבים לגריד, ובגלילה אחורה חוזרים להתפזר.<\/p><\/div>\n<div class=\"cv\">\n  <div class=\"ph cv-item ph-a\"><\/div><div class=\"ph cv-item ph-c\"><\/div><div class=\"ph cv-item ph-d\"><\/div><div class=\"ph cv-item ph-e\"><\/div>\n  <div class=\"ph cv-item ph-b\"><\/div><div class=\"ph cv-item ph-f\"><\/div><div class=\"ph cv-item ph-a\"><\/div><div class=\"ph cv-item ph-c\"><\/div>\n  <div class=\"ph cv-item ph-d\"><\/div><div class=\"ph cv-item ph-e\"><\/div><div class=\"ph cv-item ph-b\"><\/div><div class=\"ph cv-item ph-f\"><\/div>\n<\/div><\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const grid=document.querySelector(\".cv\");\n  const items=gsap.utils.toArray(\".cv-item\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce){gsap.set(items,{opacity:1});return;}\n  let tl;\n  function build(){\n    if(tl){tl.scrollTrigger&&tl.scrollTrigger.kill();tl.kill();gsap.set(items,{clearProps:\"all\"});}\n    const g=grid.getBoundingClientRect();\n    const cx=g.left+g.width/2, cy=g.top+g.height/2;\n    tl=gsap.timeline({scrollTrigger:{trigger:grid,start:\"top 92%\",end:\"top 22%\",scrub:.8,invalidateOnRefresh:true}});\n    items.forEach(el=>{\n      const r=el.getBoundingClientRect();\n      // הכיוון נגזר מהמיקום בגריד: כל כרטיס בא מהצד שאליו הוא ממילא שייך\n      const dx=(r.left+r.width/2-cx)/g.width;      // בין מינוס חצי לחצי\n      const dy=(r.top+r.height/2-cy)/g.height;\n      // duration מפורש. בלעדיו הטווין מקבל חצי שנייה, וכל ההתכנסות נגמרת בשליש הראשון של הגלילה.\n      tl.fromTo(el,{\n        xPercent:dx*190, yPercent:dy*150,\n        scale:.42, rotate:dx*22, rotateY:dx*-26, opacity:0\n      },{\n        xPercent:0,yPercent:0,scale:1,rotate:0,rotateY:0,opacity:1,duration:1,ease:\"power2.out\"\n      },0);\n    });\n  }\n  build();\n  // הפיזור מחושב ממידות אמיתיות, ולכן חייבים לחשב מחדש כשהגריד משנה מספר עמודות\n  let t;addEventListener(\"resize\",()=>{clearTimeout(t);t=setTimeout(()=>{build();ScrollTrigger.refresh();},220);});\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -61,6 +140,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const grid=document.querySelector(".cv");

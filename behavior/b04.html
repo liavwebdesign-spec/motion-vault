@@ -36,6 +36,62 @@
 </div><p class="center" style="color:var(--muted);font-size:13px">גרור עם העכבר, או גלגל למטה מעל הרצועה</p></div>
 
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b04.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.center{text-align:center}
+
+/* B04 · קרוסלת מובייל עם Peek */
+.peek{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x proximity;padding:10px var(--gutter, clamp(24px, 5vw, 96px)) 26px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.peek::-webkit-scrollbar{display:none}
+.peek .ph{flex:0 0 72%;max-width:340px;height:220px;scroll-snap-align:center;font-size:20px}
+.peek .spacer{flex:0 0 8%}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="peek"&gt;
+&lt;div class="ph ph-a"&gt;בסיסי&lt;/div&gt;&lt;div class="ph ph-b"&gt;מומלץ&lt;/div&gt;&lt;div class="ph ph-c"&gt;פרימיום&lt;/div&gt;&lt;div class="ph ph-d"&gt;ארגוני&lt;/div&gt;
+&lt;div class="spacer"&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;p class="center" style="color:var(--muted);font-size:13px"&gt;גרור עם העכבר, או גלגל למטה מעל הרצועה&lt;/p&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const el=document.querySelector(".peek");
+  // במובייל הגלילה נטיבית ועובדת. בדסקטופ אין מגע, פס הגלילה מוסתר בכוונה,
+  // והקרוסלה נראית מתה לגמרי. לכן בעכבר מוסיפים גרירה וגלגלת.
+  if(!matchMedia("(pointer:fine)").matches)return;
+  const rtl=getComputedStyle(el).direction==="rtl";
+  el.style.cursor="grab";
+  let down=false,sx=0,sl=0;
+  el.addEventListener("pointerdown",e=&gt;{
+    down=true;sx=e.clientX;sl=el.scrollLeft;el.style.cursor="grabbing";
+    el.setPointerCapture(e.pointerId);
+  });
+  el.addEventListener("pointermove",e=&gt;{if(down)el.scrollLeft=sl-(e.clientX-sx)});
+  const up=e=&gt;{if(!down)return;down=false;el.style.cursor="grab";
+    try{el.releasePointerCapture(e.pointerId)}catch(_){}}; 
+  el.addEventListener("pointerup",up);el.addEventListener("pointercancel",up);
+  el.addEventListener("wheel",e=&gt;{
+    if(Math.abs(e.deltaY)&lt;=Math.abs(e.deltaX))return;
+    e.preventDefault();el.scrollLeft+=(rtl?-1:1)*e.deltaY;
+  },{passive:false});
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b04 · קרוסלת מובייל עם Peek\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b04.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b04.html\n\nמה זה עושה: גלילה אופקית עם snap רך (proximity, לא mandatory) והצצה לקלף הבא, כדי שהגולש ידע שיש עוד. בעכבר נוספת גרירה וגלגלת, אחרת בדסקטופ הרצועה נראית תקועה.\nמתי משתמשים: מחירון וכרטיסים במובייל. בדסקטופ פורשים בגריד.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.center{text-align:center}\n\n/* B04 · קרוסלת מובייל עם Peek */\n.peek{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x proximity;padding:10px var(--gutter, clamp(24px, 5vw, 96px)) 26px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}\n.peek::-webkit-scrollbar{display:none}\n.peek .ph{flex:0 0 72%;max-width:340px;height:220px;scroll-snap-align:center;font-size:20px}\n.peek .spacer{flex:0 0 8%}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"peek\">\n<div class=\"ph ph-a\">בסיסי<\/div><div class=\"ph ph-b\">מומלץ<\/div><div class=\"ph ph-c\">פרימיום<\/div><div class=\"ph ph-d\">ארגוני<\/div>\n<div class=\"spacer\"><\/div>\n<\/div><p class=\"center\" style=\"color:var(--muted);font-size:13px\">גרור עם העכבר, או גלגל למטה מעל הרצועה<\/p><\/div>\n\n=== JS ===\n(function(){\n  const el=document.querySelector(\".peek\");\n  // במובייל הגלילה נטיבית ועובדת. בדסקטופ אין מגע, פס הגלילה מוסתר בכוונה,\n  // והקרוסלה נראית מתה לגמרי. לכן בעכבר מוסיפים גרירה וגלגלת.\n  if(!matchMedia(\"(pointer:fine)\").matches)return;\n  const rtl=getComputedStyle(el).direction===\"rtl\";\n  el.style.cursor=\"grab\";\n  let down=false,sx=0,sl=0;\n  el.addEventListener(\"pointerdown\",e=>{\n    down=true;sx=e.clientX;sl=el.scrollLeft;el.style.cursor=\"grabbing\";\n    el.setPointerCapture(e.pointerId);\n  });\n  el.addEventListener(\"pointermove\",e=>{if(down)el.scrollLeft=sl-(e.clientX-sx)});\n  const up=e=>{if(!down)return;down=false;el.style.cursor=\"grab\";\n    try{el.releasePointerCapture(e.pointerId)}catch(_){}}; \n  el.addEventListener(\"pointerup\",up);el.addEventListener(\"pointercancel\",up);\n  el.addEventListener(\"wheel\",e=>{\n    if(Math.abs(e.deltaY)<=Math.abs(e.deltaX))return;\n    e.preventDefault();el.scrollLeft+=(rtl?-1:1)*e.deltaY;\n  },{passive:false});\n})();","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.center{text-align:center}\n\n/* B04 · קרוסלת מובייל עם Peek */\n.peek{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x proximity;padding:10px var(--gutter, clamp(24px, 5vw, 96px)) 26px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}\n.peek::-webkit-scrollbar{display:none}\n.peek .ph{flex:0 0 72%;max-width:340px;height:220px;scroll-snap-align:center;font-size:20px}\n.peek .spacer{flex:0 0 8%}","html":"<div class=\"stage tight\"><div class=\"peek\">\n<div class=\"ph ph-a\">בסיסי<\/div><div class=\"ph ph-b\">מומלץ<\/div><div class=\"ph ph-c\">פרימיום<\/div><div class=\"ph ph-d\">ארגוני<\/div>\n<div class=\"spacer\"><\/div>\n<\/div><p class=\"center\" style=\"color:var(--muted);font-size:13px\">גרור עם העכבר, או גלגל למטה מעל הרצועה<\/p><\/div>","js":"(function(){\n  const el=document.querySelector(\".peek\");\n  // במובייל הגלילה נטיבית ועובדת. בדסקטופ אין מגע, פס הגלילה מוסתר בכוונה,\n  // והקרוסלה נראית מתה לגמרי. לכן בעכבר מוסיפים גרירה וגלגלת.\n  if(!matchMedia(\"(pointer:fine)\").matches)return;\n  const rtl=getComputedStyle(el).direction===\"rtl\";\n  el.style.cursor=\"grab\";\n  let down=false,sx=0,sl=0;\n  el.addEventListener(\"pointerdown\",e=>{\n    down=true;sx=e.clientX;sl=el.scrollLeft;el.style.cursor=\"grabbing\";\n    el.setPointerCapture(e.pointerId);\n  });\n  el.addEventListener(\"pointermove\",e=>{if(down)el.scrollLeft=sl-(e.clientX-sx)});\n  const up=e=>{if(!down)return;down=false;el.style.cursor=\"grab\";\n    try{el.releasePointerCapture(e.pointerId)}catch(_){}}; \n  el.addEventListener(\"pointerup\",up);el.addEventListener(\"pointercancel\",up);\n  el.addEventListener(\"wheel\",e=>{\n    if(Math.abs(e.deltaY)<=Math.abs(e.deltaX))return;\n    e.preventDefault();el.scrollLeft+=(rtl?-1:1)*e.deltaY;\n  },{passive:false});\n})();","scripts":"","rtl":false}</script>
+</section>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -48,6 +104,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 (function(){
   const el=document.querySelector(".peek");

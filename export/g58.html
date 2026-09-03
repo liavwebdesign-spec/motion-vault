@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G58 · כותרת ענקית שרואים דרכה את המדיה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* G58 · כותרת ענקית שרואים דרכה את המדיה */
+.tm{height:220vh;position:relative}
+.tm-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;background:var(--bg, #f7f7fa)}
+.tm-word{margin:0;font-size:clamp(72px,20vw,280px);line-height:.92;font-weight:800;letter-spacing:-.02em;
+  text-align:center;
+  background-image:linear-gradient(120deg,#3b5bdb,#0b7285 38%,#e8590c 68%,#5f3dc4);
+  background-size:260% 260%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-text-fill-color:transparent}
+/* אם הדפדפן לא תומך בחיתוך רקע לטקסט, חוזרים לצבע מלא ולא לטקסט שקוף */
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  .tm-word{color:var(--ink, #16182b);-webkit-text-fill-color:currentColor}
+}
+.tm-sub{position:absolute;bottom:11vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}
+.tm-after{padding:14vh var(--gutter, clamp(24px, 5vw, 96px));max-width:min(680px,92vw);margin-inline:auto;text-align:center;
+  color:var(--muted, #6a6d85);font-size:17px;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="tm"><div class="tm-stick">
+  <h2 class="tm-word">אתרים<br>שמביאים</h2>
+  <p class="tm-sub">גלול. מה שרואים בתוך האותיות זז.</p>
+</div></div>
+<p class="tm-after">במקום גרדיאנט אפשר לשים כאן תמונה או וידאו של הלקוח, ואז האותיות הופכות לחלון אל העבודה עצמה.</p>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const word=document.querySelector(".tm-word");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+  gsap.timeline({scrollTrigger:{trigger:".tm",start:"top top",end:"bottom bottom",scrub:.5}})
+    // הרקע הוא מה שנע, לא הטקסט: האותיות נשארות במקום והחלון שלהן מראה חלק אחר
+    .fromTo(word,{backgroundPosition:"0% 50%"},{backgroundPosition:"100% 50%",ease:"none"},0)
+    .fromTo(word,{scale:.86,letterSpacing:"0.04em"},{scale:1,letterSpacing:"-0.02em",ease:"none"},0);
+})();
+</script>
+</body>
+</html>

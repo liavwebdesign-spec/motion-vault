@@ -49,6 +49,74 @@
 <p class="vs-after">בסרטון אמיתי זה יהיה מוצר שמסתובב, מכונה שעובדת או בית שנבנה. הקובץ חייב להיות מקודד לחיפוש מהיר, אחרת התנועה מקרטעת.</p>
 
 <div class="demo-note">הטכניקה עצמה קצרה, וכל ההצלחה תלויה בקובץ. **הכלל**: מקודדים את הסרטון עם כל פריים כ-keyframe (`-g 1 -keyint_min 1 -sc_threshold 0`), אחרת כל קפיצה בזמן מחייבת את הדפדפן לפענח מהמפתח הקודם והתנועה נתקעת. הסרטון כאן נוצר בדיוק כך, ולכן הוא כבד יחסית לאורכו. שני דברים נוספים: לא מציבים `currentTime` ישירות מה-onUpdate אלא מתקרבים אליו ב-ticker, אחרת רואים קפיצות; ובאייפון אין הרשאה לקפוץ בזמן עד שהווידאו התנגן פעם אחת, ומכאן ה-play שמיד עוצר. `muted` ו-`playsinline` הם תנאי סף. **ומלכודת שנתפסה כאן באימות**: השרת חייב לתמוך ב-Range requests (תשובה 206). בלעדיה הדפדפן לא יכול לדלג בזמן, `seeking` נתקע על true והסרטון קפוא על הפריים הראשון בלי שום הודעת שגיאה. GitHub Pages ורוב האחסונים תומכים, אבל שווה לבדוק אחרי העלאה לשרת של לקוח.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g49.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* G49 · וידאו שמתקדם עם הגלילה */
+.vs{position:relative;height:320vh}
+.vs-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;background:#0e0f16}
+.vs-video{width:min(92vw,960px);border-radius:var(--r, 14px);display:block}
+.vs-cap{position:absolute;inset-inline:0;bottom:11vh;text-align:center;color:#fff;pointer-events:none}
+.vs-cap b{display:block;font-size:clamp(22px,3.4vw,42px);margin-bottom:6px}
+.vs-cap span{font-size:15px;opacity:.75}
+/* מוטבע ומעוגל. רצועה בגובה 4 פיקסלים שנמתחת מקצה לקצה המסך נקראת כקו מפריד תועה
+   ולא כמד התקדמות, במיוחד כשהיא ריקה בתחילת הגלילה. */
+.vs-bar{position:absolute;inset-inline:clamp(16px,6vw,80px);bottom:clamp(14px,2.5vh,26px);
+  height:5px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.14)}
+.vs-bar i{display:block;height:100%;width:0;border-radius:999px;background:var(--accent, #4a3aff)}
+.vs-after{padding:14vh var(--gutter, clamp(24px, 5vw, 96px));max-width:min(680px,92vw);margin-inline:auto;text-align:center;color:var(--muted, #6a6d85);font-size:17px;line-height:1.9}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="vs"&gt;
+  &lt;div class="vs-stick"&gt;
+    &lt;video class="vs-video" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/scrub.mp4" poster="https://liavwebdesign-spec.github.io/motion-vault/assets/media/scrub.jpg"
+           muted playsinline preload="auto" aria-label="הדגמה: וידאו שמתקדם עם הגלילה"&gt;&lt;/video&gt;
+    &lt;div class="vs-cap"&gt;&lt;b&gt;הגלילה היא הנגן&lt;/b&gt;&lt;span&gt;גלול למטה ולמעלה. הסרטון עוקב.&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="vs-bar"&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p class="vs-after"&gt;בסרטון אמיתי זה יהיה מוצר שמסתובב, מכונה שעובדת או בית שנבנה. הקובץ חייב להיות מקודד לחיפוש מהיר, אחרת התנועה מקרטעת.&lt;/p&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const v=document.querySelector(".vs-video"),bar=document.querySelector(".vs-bar i");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let target=0,current=0,dur=0,ready=false;
+  function start(){
+    dur=v.duration||0; if(!dur)return;
+    ready=true;
+    ScrollTrigger.create({
+      trigger:".vs",start:"top top",end:"bottom bottom",scrub:true,
+      onUpdate:self=&gt;{target=self.progress*dur;bar.style.width=(self.progress*100).toFixed(1)+"%";}
+    });
+    ScrollTrigger.refresh();
+  }
+  v.addEventListener("loadedmetadata",start);
+  if(v.readyState&gt;=1)start();
+  // iOS לא מרשה קפיצה בזמן לפני שהווידאו התנגן פעם אחת, ולכן דוחפים play ומיד pause
+  const kick=()=&gt;{const p=v.play();if(p&amp;&amp;p.then)p.then(()=&gt;v.pause()).catch(()=&gt;{});};
+  addEventListener("touchstart",kick,{once:true,passive:true});
+  addEventListener("click",kick,{once:true});
+  // החלקה: מתקרבים אל היעד בהדרגה במקום להציב currentTime בכל אירוע גלילה
+  gsap.ticker.add(()=&gt;{
+    if(!ready)return;
+    if(reduce){v.currentTime=target;return;}
+    current+=(target-current)*.18;
+    if(Math.abs(target-current)&lt;.004)current=target;
+    if(v.seeking)return;
+    v.currentTime=current;
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g49 · וידאו שמתקדם עם הגלילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g49.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g49.html\n\nמה זה עושה: סרטון שלא מתנגן לבד: הגלילה היא שמזיזה אותו קדימה ואחורה, פריים אחרי פריים. עוצרים והוא עוצר, גוללים אחורה והוא חוזר.\nמתי משתמשים: הדגמת מוצר מכל הזוויות, תהליך ייצור, לפני ואחרי, אנימציית מותג. הרגע שבו המבקר מבין שהוא שולט במה שקורה על המסך.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* G49 · וידאו שמתקדם עם הגלילה */\n.vs{position:relative;height:320vh}\n.vs-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;background:#0e0f16}\n.vs-video{width:min(92vw,960px);border-radius:var(--r, 14px);display:block}\n.vs-cap{position:absolute;inset-inline:0;bottom:11vh;text-align:center;color:#fff;pointer-events:none}\n.vs-cap b{display:block;font-size:clamp(22px,3.4vw,42px);margin-bottom:6px}\n.vs-cap span{font-size:15px;opacity:.75}\n/* מוטבע ומעוגל. רצועה בגובה 4 פיקסלים שנמתחת מקצה לקצה המסך נקראת כקו מפריד תועה\n   ולא כמד התקדמות, במיוחד כשהיא ריקה בתחילת הגלילה. */\n.vs-bar{position:absolute;inset-inline:clamp(16px,6vw,80px);bottom:clamp(14px,2.5vh,26px);\n  height:5px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.14)}\n.vs-bar i{display:block;height:100%;width:0;border-radius:999px;background:var(--accent, #4a3aff)}\n.vs-after{padding:14vh var(--gutter, clamp(24px, 5vw, 96px));max-width:min(680px,92vw);margin-inline:auto;text-align:center;color:var(--muted, #6a6d85);font-size:17px;line-height:1.9}\n\n=== HTML ===\n<div class=\"vs\">\n  <div class=\"vs-stick\">\n    <video class=\"vs-video\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/scrub.mp4\" poster=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/scrub.jpg\"\n           muted playsinline preload=\"auto\" aria-label=\"הדגמה: וידאו שמתקדם עם הגלילה\"><\/video>\n    <div class=\"vs-cap\"><b>הגלילה היא הנגן<\/b><span>גלול למטה ולמעלה. הסרטון עוקב.<\/span><\/div>\n    <div class=\"vs-bar\"><i><\/i><\/div>\n  <\/div>\n<\/div>\n<p class=\"vs-after\">בסרטון אמיתי זה יהיה מוצר שמסתובב, מכונה שעובדת או בית שנבנה. הקובץ חייב להיות מקודד לחיפוש מהיר, אחרת התנועה מקרטעת.<\/p>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const v=document.querySelector(\".vs-video\"),bar=document.querySelector(\".vs-bar i\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  let target=0,current=0,dur=0,ready=false;\n  function start(){\n    dur=v.duration||0; if(!dur)return;\n    ready=true;\n    ScrollTrigger.create({\n      trigger:\".vs\",start:\"top top\",end:\"bottom bottom\",scrub:true,\n      onUpdate:self=>{target=self.progress*dur;bar.style.width=(self.progress*100).toFixed(1)+\"%\";}\n    });\n    ScrollTrigger.refresh();\n  }\n  v.addEventListener(\"loadedmetadata\",start);\n  if(v.readyState>=1)start();\n  // iOS לא מרשה קפיצה בזמן לפני שהווידאו התנגן פעם אחת, ולכן דוחפים play ומיד pause\n  const kick=()=>{const p=v.play();if(p&&p.then)p.then(()=>v.pause()).catch(()=>{});};\n  addEventListener(\"touchstart\",kick,{once:true,passive:true});\n  addEventListener(\"click\",kick,{once:true});\n  // החלקה: מתקרבים אל היעד בהדרגה במקום להציב currentTime בכל אירוע גלילה\n  gsap.ticker.add(()=>{\n    if(!ready)return;\n    if(reduce){v.currentTime=target;return;}\n    current+=(target-current)*.18;\n    if(Math.abs(target-current)<.004)current=target;\n    if(v.seeking)return;\n    v.currentTime=current;\n  });\n})();\n\nהערת מימוש מהמאגר:\nהטכניקה עצמה קצרה, וכל ההצלחה תלויה בקובץ. הכלל: מקודדים את הסרטון עם כל פריים כ-keyframe (`-g 1 -keyint_min 1 -sc_threshold 0`), אחרת כל קפיצה בזמן מחייבת את הדפדפן לפענח מהמפתח הקודם והתנועה נתקעת. הסרטון כאן נוצר בדיוק כך, ולכן הוא כבד יחסית לאורכו. שני דברים נוספים: לא מציבים `currentTime` ישירות מה-onUpdate אלא מתקרבים אליו ב-ticker, אחרת רואים קפיצות; ובאייפון אין הרשאה לקפוץ בזמן עד שהווידאו התנגן פעם אחת, ומכאן ה-play שמיד עוצר. `muted` ו-`playsinline` הם תנאי סף. ומלכודת שנתפסה כאן באימות: השרת חייב לתמוך ב-Range requests (תשובה 206). בלעדיה הדפדפן לא יכול לדלג בזמן, `seeking` נתקע על true והסרטון קפוא על הפריים הראשון בלי שום הודעת שגיאה. GitHub Pages ורוב האחסונים תומכים, אבל שווה לבדוק אחרי העלאה לשרת של לקוח.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* G49 · וידאו שמתקדם עם הגלילה */\n.vs{position:relative;height:320vh}\n.vs-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;background:#0e0f16}\n.vs-video{width:min(92vw,960px);border-radius:var(--r, 14px);display:block}\n.vs-cap{position:absolute;inset-inline:0;bottom:11vh;text-align:center;color:#fff;pointer-events:none}\n.vs-cap b{display:block;font-size:clamp(22px,3.4vw,42px);margin-bottom:6px}\n.vs-cap span{font-size:15px;opacity:.75}\n/* מוטבע ומעוגל. רצועה בגובה 4 פיקסלים שנמתחת מקצה לקצה המסך נקראת כקו מפריד תועה\n   ולא כמד התקדמות, במיוחד כשהיא ריקה בתחילת הגלילה. */\n.vs-bar{position:absolute;inset-inline:clamp(16px,6vw,80px);bottom:clamp(14px,2.5vh,26px);\n  height:5px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.14)}\n.vs-bar i{display:block;height:100%;width:0;border-radius:999px;background:var(--accent, #4a3aff)}\n.vs-after{padding:14vh var(--gutter, clamp(24px, 5vw, 96px));max-width:min(680px,92vw);margin-inline:auto;text-align:center;color:var(--muted, #6a6d85);font-size:17px;line-height:1.9}","html":"<div class=\"vs\">\n  <div class=\"vs-stick\">\n    <video class=\"vs-video\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/scrub.mp4\" poster=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/scrub.jpg\"\n           muted playsinline preload=\"auto\" aria-label=\"הדגמה: וידאו שמתקדם עם הגלילה\"><\/video>\n    <div class=\"vs-cap\"><b>הגלילה היא הנגן<\/b><span>גלול למטה ולמעלה. הסרטון עוקב.<\/span><\/div>\n    <div class=\"vs-bar\"><i><\/i><\/div>\n  <\/div>\n<\/div>\n<p class=\"vs-after\">בסרטון אמיתי זה יהיה מוצר שמסתובב, מכונה שעובדת או בית שנבנה. הקובץ חייב להיות מקודד לחיפוש מהיר, אחרת התנועה מקרטעת.<\/p>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const v=document.querySelector(\".vs-video\"),bar=document.querySelector(\".vs-bar i\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  let target=0,current=0,dur=0,ready=false;\n  function start(){\n    dur=v.duration||0; if(!dur)return;\n    ready=true;\n    ScrollTrigger.create({\n      trigger:\".vs\",start:\"top top\",end:\"bottom bottom\",scrub:true,\n      onUpdate:self=>{target=self.progress*dur;bar.style.width=(self.progress*100).toFixed(1)+\"%\";}\n    });\n    ScrollTrigger.refresh();\n  }\n  v.addEventListener(\"loadedmetadata\",start);\n  if(v.readyState>=1)start();\n  // iOS לא מרשה קפיצה בזמן לפני שהווידאו התנגן פעם אחת, ולכן דוחפים play ומיד pause\n  const kick=()=>{const p=v.play();if(p&&p.then)p.then(()=>v.pause()).catch(()=>{});};\n  addEventListener(\"touchstart\",kick,{once:true,passive:true});\n  addEventListener(\"click\",kick,{once:true});\n  // החלקה: מתקרבים אל היעד בהדרגה במקום להציב currentTime בכל אירוע גלילה\n  gsap.ticker.add(()=>{\n    if(!ready)return;\n    if(reduce){v.currentTime=target;return;}\n    current+=(target-current)*.18;\n    if(Math.abs(target-current)<.004)current=target;\n    if(v.seeking)return;\n    v.currentTime=current;\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -62,6 +130,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const v=document.querySelector(".vs-video"),bar=document.querySelector(".vs-bar i");

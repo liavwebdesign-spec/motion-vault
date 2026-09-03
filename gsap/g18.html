@@ -42,6 +42,49 @@
 </div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 <div class="demo-note">הטריק המבני: הטיימליין מתחיל לפני הנעיצה ומסתיים אחריה, שני ScrollTrigger נפרדים.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g18.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* G18 · סצנת סיפור מוצמדת (Master Timeline) */
+.scene{height:100vh;background:#101223;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+.scene .bgA,.scene .bgB{position:absolute;inset-inline:0;height:34%;border-radius:50% 50% 0 0/100% 100% 0 0;background:#2a2f55}
+.scene .bgA{top:-12%;transform:rotate(180deg)}.scene .bgB{bottom:-12%}
+.stitles{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center}
+.st1,.st2{position:absolute;color:#fff;font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));font-weight:700;max-width:20ch;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.smedia{position:relative;z-index:2;width:60vw;background:linear-gradient(135deg,#7048e8,#22b8cf);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="scene"&gt;
+&lt;div class="bgA"&gt;&lt;/div&gt;&lt;div class="bgB"&gt;&lt;/div&gt;
+&lt;div class="stitles"&gt;
+  &lt;h2 class="st1"&gt;יש סיפורים שאי אפשר לספר בסקשן רגיל&lt;/h2&gt;
+  &lt;h2 class="st2"&gt;בשביל זה בדיוק יש את הבמה הזאת&lt;/h2&gt;
+&lt;/div&gt;
+&lt;div class="smedia"&gt;הווידאו שלך כאן&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger, SplitText);
+
+const t1=new SplitText(".st1",{type:"words"}),t2=new SplitText(".st2",{type:"words"});
+const tl=gsap.timeline({scrollTrigger:{trigger:".scene",start:"top 90%",end:"+=2600",scrub:1}});
+ScrollTrigger.create({trigger:".scene",start:"top top",end:"+=2200",pin:true,scrub:1,anticipatePin:1});
+tl.from(".bgA",{y:"-10vw",duration:1},0)
+  .from(".bgB",{y:"10vw",duration:1},0)
+  .from(t1.words,{y:50,opacity:0,stagger:.05,duration:.5},"-=0.5")
+  .to(".st1",{opacity:0,duration:.5},"+=0.3")
+  .from(t2.words,{y:50,opacity:0,stagger:.05,duration:.5})
+  .to(".st2",{opacity:0,duration:.4},"+=0.3")
+  .from(".smedia",{opacity:0,duration:.3})
+  .fromTo(".smedia",{scale:.2,borderRadius:"500vw",height:"22vw"},{scale:1,borderRadius:"24px",height:"82vh",duration:.8});</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g18 · סצנת סיפור מוצמדת (Master Timeline)\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g18.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g18.html\n\nמה זה עושה: הסקשן ננעל והופך לבמה: כותרת נכנסת ונמוגה, שנייה מחליפה אותה, והמדיה נפתחת מגלולה זעירה למסך כמעט מלא. גלול לאט, גם אחורה.\nמתי משתמשים: סקשן שיא אחד באתר סטוריטלינג. אחד לאתר: זה מהלך חתימה, לא תבנית.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* G18 · סצנת סיפור מוצמדת (Master Timeline) */\n.scene{height:100vh;background:#101223;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}\n.scene .bgA,.scene .bgB{position:absolute;inset-inline:0;height:34%;border-radius:50% 50% 0 0/100% 100% 0 0;background:#2a2f55}\n.scene .bgA{top:-12%;transform:rotate(180deg)}.scene .bgB{bottom:-12%}\n.stitles{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center}\n.st1,.st2{position:absolute;color:#fff;font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));font-weight:700;max-width:20ch;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.smedia{position:relative;z-index:2;width:60vw;background:linear-gradient(135deg,#7048e8,#22b8cf);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700}\n\n=== HTML ===\n<div class=\"scene\">\n<div class=\"bgA\"><\/div><div class=\"bgB\"><\/div>\n<div class=\"stitles\">\n  <h2 class=\"st1\">יש סיפורים שאי אפשר לספר בסקשן רגיל<\/h2>\n  <h2 class=\"st2\">בשביל זה בדיוק יש את הבמה הזאת<\/h2>\n<\/div>\n<div class=\"smedia\">הווידאו שלך כאן<\/div>\n<\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger, SplitText);\n\nconst t1=new SplitText(\".st1\",{type:\"words\"}),t2=new SplitText(\".st2\",{type:\"words\"});\nconst tl=gsap.timeline({scrollTrigger:{trigger:\".scene\",start:\"top 90%\",end:\"+=2600\",scrub:1}});\nScrollTrigger.create({trigger:\".scene\",start:\"top top\",end:\"+=2200\",pin:true,scrub:1,anticipatePin:1});\ntl.from(\".bgA\",{y:\"-10vw\",duration:1},0)\n  .from(\".bgB\",{y:\"10vw\",duration:1},0)\n  .from(t1.words,{y:50,opacity:0,stagger:.05,duration:.5},\"-=0.5\")\n  .to(\".st1\",{opacity:0,duration:.5},\"+=0.3\")\n  .from(t2.words,{y:50,opacity:0,stagger:.05,duration:.5})\n  .to(\".st2\",{opacity:0,duration:.4},\"+=0.3\")\n  .from(\".smedia\",{opacity:0,duration:.3})\n  .fromTo(\".smedia\",{scale:.2,borderRadius:\"500vw\",height:\"22vw\"},{scale:1,borderRadius:\"24px\",height:\"82vh\",duration:.8});\n\nהערת מימוש מהמאגר:\nהטריק המבני: הטיימליין מתחיל לפני הנעיצה ומסתיים אחריה, שני ScrollTrigger נפרדים.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  import { SplitText } from \"gsap/SplitText\";\n  gsap.registerPlugin(ScrollTrigger, SplitText);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* G18 · סצנת סיפור מוצמדת (Master Timeline) */\n.scene{height:100vh;background:#101223;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}\n.scene .bgA,.scene .bgB{position:absolute;inset-inline:0;height:34%;border-radius:50% 50% 0 0/100% 100% 0 0;background:#2a2f55}\n.scene .bgA{top:-12%;transform:rotate(180deg)}.scene .bgB{bottom:-12%}\n.stitles{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center}\n.st1,.st2{position:absolute;color:#fff;font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));font-weight:700;max-width:20ch;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.smedia{position:relative;z-index:2;width:60vw;background:linear-gradient(135deg,#7048e8,#22b8cf);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700}","html":"<div class=\"scene\">\n<div class=\"bgA\"><\/div><div class=\"bgB\"><\/div>\n<div class=\"stitles\">\n  <h2 class=\"st1\">יש סיפורים שאי אפשר לספר בסקשן רגיל<\/h2>\n  <h2 class=\"st2\">בשביל זה בדיוק יש את הבמה הזאת<\/h2>\n<\/div>\n<div class=\"smedia\">הווידאו שלך כאן<\/div>\n<\/div>","js":"gsap.registerPlugin(ScrollTrigger, SplitText);\n\nconst t1=new SplitText(\".st1\",{type:\"words\"}),t2=new SplitText(\".st2\",{type:\"words\"});\nconst tl=gsap.timeline({scrollTrigger:{trigger:\".scene\",start:\"top 90%\",end:\"+=2600\",scrub:1}});\nScrollTrigger.create({trigger:\".scene\",start:\"top top\",end:\"+=2200\",pin:true,scrub:1,anticipatePin:1});\ntl.from(\".bgA\",{y:\"-10vw\",duration:1},0)\n  .from(\".bgB\",{y:\"10vw\",duration:1},0)\n  .from(t1.words,{y:50,opacity:0,stagger:.05,duration:.5},\"-=0.5\")\n  .to(\".st1\",{opacity:0,duration:.5},\"+=0.3\")\n  .from(t2.words,{y:50,opacity:0,stagger:.05,duration:.5})\n  .to(\".st2\",{opacity:0,duration:.4},\"+=0.3\")\n  .from(\".smedia\",{opacity:0,duration:.3})\n  .fromTo(\".smedia\",{scale:.2,borderRadius:\"500vw\",height:\"22vw\"},{scale:1,borderRadius:\"24px\",height:\"82vh\",duration:.8});","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
@@ -56,6 +99,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger, SplitText);
 const t1=new SplitText(".st1",{type:"words"}),t2=new SplitText(".st2",{type:"words"});
 const tl=gsap.timeline({scrollTrigger:{trigger:".scene",start:"top 90%",end:"+=2600",scrub:1}});

@@ -59,6 +59,91 @@
 </div>
 
 <div class="demo-note">כל הרכיב הוא נוסחה אחת: זווית הסמן ביחס למרכז הכרטיס, מעוגלת לרבע הקרוב. הנרמול לפי יחס הצלעות הוא מה שמונע מכרטיס רחב לדווח "מימין" גם כשנכנסים מלמעלה. `xPercent`/`yPercent` נבחרו על פני פיקסלים כדי שזה יעבוד בכל גודל כרטיס בלי מדידה. הכיוונים פיזיים ולא לוגיים: היד של המשתמש לא יודעת מה כיוון הכתיבה של האתר. במקלדת אין כיוון כניסה, ולכן הפוקוס תמיד נכנס מלמעלה.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/b54.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
+
+/* B54 · הובר שנכנס מהכיוון שממנו בא הסמן */
+.da{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap, clamp(16px, 1.6vw, 36px));max-width:min(1020px,94vw);margin-inline:auto}
+.da-card{position:relative;overflow:hidden;border-radius:16px;aspect-ratio:4/3;cursor:pointer;
+  border:1px solid var(--line, #e4e4ee);background:var(--card, #fff)}
+.da-card:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:3px}
+.da-bg{position:absolute;inset:0;border-radius:0;font-size:0}
+.da-name{position:absolute;inset-inline-start:16px;bottom:14px;z-index:2;color:#fff;font-weight:700;font-size:18px;
+  text-shadow:0 2px 12px rgba(0,0,0,.45)}
+.da-over{position:absolute;inset:0;z-index:1;background:rgba(74,58,255,.92);color:#fff;
+  display:grid;place-content:center;text-align:center;padding:18px;gap:8px}
+.da-over strong{font-size:20px}
+.da-over span{font-size:14px;opacity:.9;max-width:24ch;line-height:1.6}
+.da-hint{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding-top:22px}
+@media(max-width:860px){.da{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.da{grid-template-columns:1fr}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;
+&lt;div class="da"&gt;
+  &lt;article class="da-card" tabindex="0"&gt;&lt;div class="ph da-bg ph-a"&gt;&lt;/div&gt;&lt;span class="da-name"&gt;אתרי תדמית&lt;/span&gt;
+    &lt;div class="da-over"&gt;&lt;strong&gt;אתרי תדמית&lt;/strong&gt;&lt;span&gt;אתר שמסביר מה אתם עושים ומוביל לפנייה אחת ברורה.&lt;/span&gt;&lt;/div&gt;&lt;/article&gt;
+  &lt;article class="da-card" tabindex="0"&gt;&lt;div class="ph da-bg ph-c"&gt;&lt;/div&gt;&lt;span class="da-name"&gt;דפי נחיתה&lt;/span&gt;
+    &lt;div class="da-over"&gt;&lt;strong&gt;דפי נחיתה&lt;/strong&gt;&lt;span&gt;עמוד יחיד ממוקד לקמפיין, עם מסר אחד וקריאה אחת.&lt;/span&gt;&lt;/div&gt;&lt;/article&gt;
+  &lt;article class="da-card" tabindex="0"&gt;&lt;div class="ph da-bg ph-d"&gt;&lt;/div&gt;&lt;span class="da-name"&gt;חנויות&lt;/span&gt;
+    &lt;div class="da-over"&gt;&lt;strong&gt;חנויות&lt;/strong&gt;&lt;span&gt;חנות שמוכרת גם בלי איש מכירות, עם מסלול קנייה קצר.&lt;/span&gt;&lt;/div&gt;&lt;/article&gt;
+  &lt;article class="da-card" tabindex="0"&gt;&lt;div class="ph da-bg ph-e"&gt;&lt;/div&gt;&lt;span class="da-name"&gt;מערכות&lt;/span&gt;
+    &lt;div class="da-over"&gt;&lt;strong&gt;מערכות&lt;/strong&gt;&lt;span&gt;ממשק לניהול לקוחות, משימות ודוחות במקום גיליונות.&lt;/span&gt;&lt;/div&gt;&lt;/article&gt;
+  &lt;article class="da-card" tabindex="0"&gt;&lt;div class="ph da-bg ph-b"&gt;&lt;/div&gt;&lt;span class="da-name"&gt;מיתוג&lt;/span&gt;
+    &lt;div class="da-over"&gt;&lt;strong&gt;מיתוג&lt;/strong&gt;&lt;span&gt;שפה חזותית אחת שחוזרת בכל נקודת מגע.&lt;/span&gt;&lt;/div&gt;&lt;/article&gt;
+  &lt;article class="da-card" tabindex="0"&gt;&lt;div class="ph da-bg ph-f"&gt;&lt;/div&gt;&lt;span class="da-name"&gt;ליווי&lt;/span&gt;
+    &lt;div class="da-over"&gt;&lt;strong&gt;ליווי&lt;/strong&gt;&lt;span&gt;אחזקה, מדידה ושיפור אחרי העלייה לאוויר.&lt;/span&gt;&lt;/div&gt;&lt;/article&gt;
+&lt;/div&gt;
+&lt;p class="da-hint"&gt;העבר עכבר מלמעלה, מהצד ומלמטה. השכבה נכנסת משם.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const OFF=101;
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // 0=למעלה 1=ימין 2=למטה 3=שמאל, בקואורדינטות פיזיות
+  const VEC=[{x:0,y:-OFF},{x:OFF,y:0},{x:0,y:OFF},{x:-OFF,y:0}];
+  function edge(el,e){
+    const r=el.getBoundingClientRect();
+    // מנרמלים לפי היחס בין הצלעות, אחרת בכרטיס רחב כל כניסה נחשבת "מהצד"
+    const w=r.width,h=r.height;
+    const x=(e.clientX-r.left-w/2)*(w&gt;h?h/w:1);
+    const y=(e.clientY-r.top-h/2)*(h&gt;w?w/h:1);
+    return (Math.round((Math.atan2(y,x)*(180/Math.PI)+180)/90)+3)%4;
+  }
+  document.querySelectorAll(".da-card").forEach(card=&gt;{
+    const over=card.querySelector(".da-over");
+    gsap.set(over,{xPercent:0,yPercent:OFF});
+    const show=v=&gt;{gsap.killTweensOf(over);
+      gsap.fromTo(over,{xPercent:v.x,yPercent:v.y},{xPercent:0,yPercent:0,duration:reduce?0:.42,ease:"power3.out"});};
+    const hide=v=&gt;{gsap.killTweensOf(over);
+      gsap.to(over,{xPercent:v.x,yPercent:v.y,duration:reduce?0:.42,ease:"power3.in"});};
+    card.addEventListener("mouseenter",e=&gt;show(VEC[edge(card,e)]));
+    card.addEventListener("mouseleave",e=&gt;hide(VEC[edge(card,e)]));
+    card.addEventListener("focus",()=&gt;show(VEC[0]));      // מקלדת: תמיד מלמעלה
+    card.addEventListener("blur",()=&gt;hide(VEC[0]));
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b54 · הובר שנכנס מהכיוון שממנו בא הסמן\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b54.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b54.html\n\nמה זה עושה: שכבת הובר שלא מופיעה סתם: היא נכנסת מהצד שממנו העכבר נכנס לכרטיס, ויוצאת לצד שממנו הוא יצא. התנועה עוקבת אחרי היד ולא אחרי הקוד.\nמתי משתמשים: גריד עבודות, כרטיסי שירות, צוות, מוצרים, קטגוריות. אותו הובר שיש לכולם, רק שהוא מרגיש נכון במקום מכני.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* B54 · הובר שנכנס מהכיוון שממנו בא הסמן */\n.da{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap, clamp(16px, 1.6vw, 36px));max-width:min(1020px,94vw);margin-inline:auto}\n.da-card{position:relative;overflow:hidden;border-radius:16px;aspect-ratio:4/3;cursor:pointer;\n  border:1px solid var(--line, #e4e4ee);background:var(--card, #fff)}\n.da-card:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:3px}\n.da-bg{position:absolute;inset:0;border-radius:0;font-size:0}\n.da-name{position:absolute;inset-inline-start:16px;bottom:14px;z-index:2;color:#fff;font-weight:700;font-size:18px;\n  text-shadow:0 2px 12px rgba(0,0,0,.45)}\n.da-over{position:absolute;inset:0;z-index:1;background:rgba(74,58,255,.92);color:#fff;\n  display:grid;place-content:center;text-align:center;padding:18px;gap:8px}\n.da-over strong{font-size:20px}\n.da-over span{font-size:14px;opacity:.9;max-width:24ch;line-height:1.6}\n.da-hint{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding-top:22px}\n@media(max-width:860px){.da{grid-template-columns:1fr 1fr}}\n@media(max-width:560px){.da{grid-template-columns:1fr}}\n\n=== HTML ===\n<div class=\"stage tight\">\n<div class=\"da\">\n  <article class=\"da-card\" tabindex=\"0\"><div class=\"ph da-bg ph-a\"><\/div><span class=\"da-name\">אתרי תדמית<\/span>\n    <div class=\"da-over\"><strong>אתרי תדמית<\/strong><span>אתר שמסביר מה אתם עושים ומוביל לפנייה אחת ברורה.<\/span><\/div><\/article>\n  <article class=\"da-card\" tabindex=\"0\"><div class=\"ph da-bg ph-c\"><\/div><span class=\"da-name\">דפי נחיתה<\/span>\n    <div class=\"da-over\"><strong>דפי נחיתה<\/strong><span>עמוד יחיד ממוקד לקמפיין, עם מסר אחד וקריאה אחת.<\/span><\/div><\/article>\n  <article class=\"da-card\" tabindex=\"0\"><div class=\"ph da-bg ph-d\"><\/div><span class=\"da-name\">חנויות<\/span>\n    <div class=\"da-over\"><strong>חנויות<\/strong><span>חנות שמוכרת גם בלי איש מכירות, עם מסלול קנייה קצר.<\/span><\/div><\/article>\n  <article class=\"da-card\" tabindex=\"0\"><div class=\"ph da-bg ph-e\"><\/div><span class=\"da-name\">מערכות<\/span>\n    <div class=\"da-over\"><strong>מערכות<\/strong><span>ממשק לניהול לקוחות, משימות ודוחות במקום גיליונות.<\/span><\/div><\/article>\n  <article class=\"da-card\" tabindex=\"0\"><div class=\"ph da-bg ph-b\"><\/div><span class=\"da-name\">מיתוג<\/span>\n    <div class=\"da-over\"><strong>מיתוג<\/strong><span>שפה חזותית אחת שחוזרת בכל נקודת מגע.<\/span><\/div><\/article>\n  <article class=\"da-card\" tabindex=\"0\"><div class=\"ph da-bg ph-f\"><\/div><span class=\"da-name\">ליווי<\/span>\n    <div class=\"da-over\"><strong>ליווי<\/strong><span>אחזקה, מדידה ושיפור אחרי העלייה לאוויר.<\/span><\/div><\/article>\n<\/div>\n<p class=\"da-hint\">העבר עכבר מלמעלה, מהצד ומלמטה. השכבה נכנסת משם.<\/p>\n<\/div>\n\n=== JS ===\n(function(){\n  const OFF=101;\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  // 0=למעלה 1=ימין 2=למטה 3=שמאל, בקואורדינטות פיזיות\n  const VEC=[{x:0,y:-OFF},{x:OFF,y:0},{x:0,y:OFF},{x:-OFF,y:0}];\n  function edge(el,e){\n    const r=el.getBoundingClientRect();\n    // מנרמלים לפי היחס בין הצלעות, אחרת בכרטיס רחב כל כניסה נחשבת \"מהצד\"\n    const w=r.width,h=r.height;\n    const x=(e.clientX-r.left-w/2)*(w>h?h/w:1);\n    const y=(e.clientY-r.top-h/2)*(h>w?w/h:1);\n    return (Math.round((Math.atan2(y,x)*(180/Math.PI)+180)/90)+3)%4;\n  }\n  document.querySelectorAll(\".da-card\").forEach(card=>{\n    const over=card.querySelector(\".da-over\");\n    gsap.set(over,{xPercent:0,yPercent:OFF});\n    const show=v=>{gsap.killTweensOf(over);\n      gsap.fromTo(over,{xPercent:v.x,yPercent:v.y},{xPercent:0,yPercent:0,duration:reduce?0:.42,ease:\"power3.out\"});};\n    const hide=v=>{gsap.killTweensOf(over);\n      gsap.to(over,{xPercent:v.x,yPercent:v.y,duration:reduce?0:.42,ease:\"power3.in\"});};\n    card.addEventListener(\"mouseenter\",e=>show(VEC[edge(card,e)]));\n    card.addEventListener(\"mouseleave\",e=>hide(VEC[edge(card,e)]));\n    card.addEventListener(\"focus\",()=>show(VEC[0]));      // מקלדת: תמיד מלמעלה\n    card.addEventListener(\"blur\",()=>hide(VEC[0]));\n  });\n})();\n\nהערת מימוש מהמאגר:\nכל הרכיב הוא נוסחה אחת: זווית הסמן ביחס למרכז הכרטיס, מעוגלת לרבע הקרוב. הנרמול לפי יחס הצלעות הוא מה שמונע מכרטיס רחב לדווח \"מימין\" גם כשנכנסים מלמעלה. `xPercent`/`yPercent` נבחרו על פני פיקסלים כדי שזה יעבוד בכל גודל כרטיס בלי מדידה. הכיוונים פיזיים ולא לוגיים: היד של המשתמש לא יודעת מה כיוון הכתיבה של האתר. במקלדת אין כיוון כניסה, ולכן הפוקוס תמיד נכנס מלמעלה.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* B54 · הובר שנכנס מהכיוון שממנו בא הסמן */\n.da{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap, clamp(16px, 1.6vw, 36px));max-width:min(1020px,94vw);margin-inline:auto}\n.da-card{position:relative;overflow:hidden;border-radius:16px;aspect-ratio:4/3;cursor:pointer;\n  border:1px solid var(--line, #e4e4ee);background:var(--card, #fff)}\n.da-card:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:3px}\n.da-bg{position:absolute;inset:0;border-radius:0;font-size:0}\n.da-name{position:absolute;inset-inline-start:16px;bottom:14px;z-index:2;color:#fff;font-weight:700;font-size:18px;\n  text-shadow:0 2px 12px rgba(0,0,0,.45)}\n.da-over{position:absolute;inset:0;z-index:1;background:rgba(74,58,255,.92);color:#fff;\n  display:grid;place-content:center;text-align:center;padding:18px;gap:8px}\n.da-over strong{font-size:20px}\n.da-over span{font-size:14px;opacity:.9;max-width:24ch;line-height:1.6}\n.da-hint{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding-top:22px}\n@media(max-width:860px){.da{grid-template-columns:1fr 1fr}}\n@media(max-width:560px){.da{grid-template-columns:1fr}}","html":"<div class=\"stage tight\">\n<div class=\"da\">\n  <article class=\"da-card\" tabindex=\"0\"><div class=\"ph da-bg ph-a\"><\/div><span class=\"da-name\">אתרי תדמית<\/span>\n    <div class=\"da-over\"><strong>אתרי תדמית<\/strong><span>אתר שמסביר מה אתם עושים ומוביל לפנייה אחת ברורה.<\/span><\/div><\/article>\n  <article class=\"da-card\" tabindex=\"0\"><div class=\"ph da-bg ph-c\"><\/div><span class=\"da-name\">דפי נחיתה<\/span>\n    <div class=\"da-over\"><strong>דפי נחיתה<\/strong><span>עמוד יחיד ממוקד לקמפיין, עם מסר אחד וקריאה אחת.<\/span><\/div><\/article>\n  <article class=\"da-card\" tabindex=\"0\"><div class=\"ph da-bg ph-d\"><\/div><span class=\"da-name\">חנויות<\/span>\n    <div class=\"da-over\"><strong>חנויות<\/strong><span>חנות שמוכרת גם בלי איש מכירות, עם מסלול קנייה קצר.<\/span><\/div><\/article>\n  <article class=\"da-card\" tabindex=\"0\"><div class=\"ph da-bg ph-e\"><\/div><span class=\"da-name\">מערכות<\/span>\n    <div class=\"da-over\"><strong>מערכות<\/strong><span>ממשק לניהול לקוחות, משימות ודוחות במקום גיליונות.<\/span><\/div><\/article>\n  <article class=\"da-card\" tabindex=\"0\"><div class=\"ph da-bg ph-b\"><\/div><span class=\"da-name\">מיתוג<\/span>\n    <div class=\"da-over\"><strong>מיתוג<\/strong><span>שפה חזותית אחת שחוזרת בכל נקודת מגע.<\/span><\/div><\/article>\n  <article class=\"da-card\" tabindex=\"0\"><div class=\"ph da-bg ph-f\"><\/div><span class=\"da-name\">ליווי<\/span>\n    <div class=\"da-over\"><strong>ליווי<\/strong><span>אחזקה, מדידה ושיפור אחרי העלייה לאוויר.<\/span><\/div><\/article>\n<\/div>\n<p class=\"da-hint\">העבר עכבר מלמעלה, מהצד ומלמטה. השכבה נכנסת משם.<\/p>\n<\/div>","js":"(function(){\n  const OFF=101;\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  // 0=למעלה 1=ימין 2=למטה 3=שמאל, בקואורדינטות פיזיות\n  const VEC=[{x:0,y:-OFF},{x:OFF,y:0},{x:0,y:OFF},{x:-OFF,y:0}];\n  function edge(el,e){\n    const r=el.getBoundingClientRect();\n    // מנרמלים לפי היחס בין הצלעות, אחרת בכרטיס רחב כל כניסה נחשבת \"מהצד\"\n    const w=r.width,h=r.height;\n    const x=(e.clientX-r.left-w/2)*(w>h?h/w:1);\n    const y=(e.clientY-r.top-h/2)*(h>w?w/h:1);\n    return (Math.round((Math.atan2(y,x)*(180/Math.PI)+180)/90)+3)%4;\n  }\n  document.querySelectorAll(\".da-card\").forEach(card=>{\n    const over=card.querySelector(\".da-over\");\n    gsap.set(over,{xPercent:0,yPercent:OFF});\n    const show=v=>{gsap.killTweensOf(over);\n      gsap.fromTo(over,{xPercent:v.x,yPercent:v.y},{xPercent:0,yPercent:0,duration:reduce?0:.42,ease:\"power3.out\"});};\n    const hide=v=>{gsap.killTweensOf(over);\n      gsap.to(over,{xPercent:v.x,yPercent:v.y,duration:reduce?0:.42,ease:\"power3.in\"});};\n    card.addEventListener(\"mouseenter\",e=>show(VEC[edge(card,e)]));\n    card.addEventListener(\"mouseleave\",e=>hide(VEC[edge(card,e)]));\n    card.addEventListener(\"focus\",()=>show(VEC[0]));      // מקלדת: תמיד מלמעלה\n    card.addEventListener(\"blur\",()=>hide(VEC[0]));\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -71,6 +156,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 (function(){
   const OFF=101;

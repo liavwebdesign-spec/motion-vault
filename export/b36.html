@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B36 · טופס רב-שלבי עם התקדמות</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B36 · טופס רב-שלבי עם התקדמות */
+.ms{max-width:min(620px,92vw);margin-inline:auto;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:20px;padding:clamp(22px,3vw,38px);overflow:hidden}
+.ms-top{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.ms-bar{flex:1;height:6px;border-radius:999px;background:var(--line, #e4e4ee);overflow:hidden}
+.ms-bar i{display:block;height:100%;width:0;background:var(--accent, #4a3aff);border-radius:999px;transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.ms-num{font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ms-view{position:relative}
+.ms-step{display:none}
+.ms-step.on{display:block;animation:msIn .38s cubic-bezier(.2,.8,.2,1)}
+.ms-step.back.on{animation:msBack .38s cubic-bezier(.2,.8,.2,1)}
+@keyframes msIn{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
+@keyframes msBack{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+.ms-step h3{margin:0 0 6px;font-size:clamp(20px,2.2vw,28px)}
+.ms-step p.sub{margin:0 0 18px;color:var(--muted, #6a6d85);font-size:15px}
+.ms-opts{display:grid;gap:10px}
+.ms-opt{display:flex;align-items:center;gap:12px;border:1px solid var(--line, #e4e4ee);border-radius:14px;padding:15px 16px;cursor:pointer;
+  background:var(--bg, #f7f7fa);transition:border-color .22s,background .22s}
+.ms-opt:hover{border-color:var(--accent, #4a3aff)}
+.ms-opt input{accent-color:var(--accent, #4a3aff);width:18px;height:18px;flex:none}
+.ms-opt.sel{border-color:var(--accent, #4a3aff);background:#eceaff}
+.ms-field input{width:100%;font:inherit;font-size:16px;padding:15px 16px;border:1px solid var(--line, #e4e4ee);border-radius:14px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}
+.ms-field input:focus{outline:0;border-color:var(--accent, #4a3aff)}
+.ms-err{font-size:13px;color:#c2255c;margin-top:8px;display:none}
+.ms-err.on{display:block}
+.ms-nav{display:flex;gap:10px;margin-top:24px}
+.ms-nav button{flex:1;min-height:50px;border-radius:999px;border:0;font:inherit;font-weight:600;font-size:16px;cursor:pointer}
+.ms-back{background:var(--bg, #f7f7fa);border:1px solid var(--line, #e4e4ee)!important;color:var(--ink, #16182b);flex:0 0 auto;padding-inline:22px}
+.ms-next{background:var(--accent, #4a3aff);color:#fff}
+.ms-sum{list-style:none;margin:0 0 4px;padding:0;display:grid;gap:8px}
+.ms-sum li{display:flex;justify-content:space-between;gap:16px;font-size:15px;border-bottom:1px dashed var(--line, #e4e4ee);padding-bottom:8px}
+.ms-sum b{font-weight:600}
+.ms-done{text-align:center;padding:10px 0}
+.ms-done .ok{width:56px;height:56px;border-radius:50%;background:#2b8a3e;color:#fff;display:grid;place-items:center;font-size:26px;margin:0 auto 14px}
+@media (prefers-reduced-motion: reduce){.ms-step.on{animation:none}}
+</style>
+</head>
+<body>
+<div class="stage tight"><form class="ms" novalidate>
+  <div class="ms-top"><div class="ms-bar"><i></i></div><span class="ms-num"></span></div>
+  <div class="ms-view">
+    <section class="ms-step on" data-key="סוג הפרויקט">
+      <h3>מה אתם צריכים?</h3><p class="sub">אפשר לבחור אחד</p>
+      <div class="ms-opts">
+        <label class="ms-opt"><input type="radio" name="type" value="אתר תדמית"><span>אתר תדמית</span></label>
+        <label class="ms-opt"><input type="radio" name="type" value="דף נחיתה"><span>דף נחיתה</span></label>
+        <label class="ms-opt"><input type="radio" name="type" value="חנות אונליין"><span>חנות אונליין</span></label>
+      </div><p class="ms-err">צריך לבחור אפשרות אחת</p>
+    </section>
+    <section class="ms-step" data-key="תקציב">
+      <h3>מה טווח התקציב?</h3><p class="sub">זה עוזר להתאים הצעה מדויקת</p>
+      <div class="ms-opts">
+        <label class="ms-opt"><input type="radio" name="budget" value="עד 8,000"><span>עד 8,000 ש"ח</span></label>
+        <label class="ms-opt"><input type="radio" name="budget" value="8,000 עד 15,000"><span>8,000 עד 15,000 ש"ח</span></label>
+        <label class="ms-opt"><input type="radio" name="budget" value="מעל 15,000"><span>מעל 15,000 ש"ח</span></label>
+      </div><p class="ms-err">צריך לבחור טווח</p>
+    </section>
+    <section class="ms-step" data-key="פרטים">
+      <h3>איך חוזרים אליכם?</h3><p class="sub">שם וטלפון, וזהו</p>
+      <div class="ms-opts">
+        <div class="ms-field"><input type="text" name="name" placeholder="שם מלא" autocomplete="name"></div>
+        <div class="ms-field"><input type="tel" name="phone" placeholder="טלפון" autocomplete="tel"></div>
+      </div><p class="ms-err">צריך שם וטלפון תקין</p>
+    </section>
+    <section class="ms-step" data-key="סיכום">
+      <h3>רגע לפני ששולחים</h3><p class="sub">אפשר לחזור ולתקן כל שלב</p>
+      <ul class="ms-sum"></ul>
+    </section>
+    <section class="ms-step ms-done-step">
+      <div class="ms-done"><div class="ok">✓</div><h3>נשלח</h3><p class="sub">נחזור אליכם היום. הדגמה בלבד, שום דבר לא נשלח.</p></div>
+    </section>
+  </div>
+  <div class="ms-nav"><button type="button" class="ms-back">חזרה</button><button type="button" class="ms-next">המשך</button></div>
+</form></div>
+
+<script>
+(function(){
+  const form=document.querySelector(".ms");
+  const steps=[...form.querySelectorAll(".ms-step")];
+  const bar=form.querySelector(".ms-bar i"),num=form.querySelector(".ms-num");
+  const back=form.querySelector(".ms-back"),next=form.querySelector(".ms-next");
+  const sum=form.querySelector(".ms-sum");
+  const last=steps.length-1;      // מסך התודה
+  const review=last-1;            // מסך הסיכום
+  let i=0;
+  form.querySelectorAll(".ms-opt input").forEach(inp=>{
+    inp.addEventListener("change",()=>{
+      inp.closest(".ms-opts").querySelectorAll(".ms-opt").forEach(o=>o.classList.remove("sel"));
+      inp.closest(".ms-opt").classList.add("sel");
+      inp.closest(".ms-step").querySelector(".ms-err").classList.remove("on");
+    });
+  });
+  function valid(n){
+    const s=steps[n];
+    const radios=s.querySelectorAll('input[type=radio]');
+    if(radios.length)return [...radios].some(r=>r.checked);
+    const fields=[...s.querySelectorAll('input[type=text],input[type=tel]')];
+    if(fields.length)return fields.every(f=>f.name==="phone"?/^0\d{1,2}-?\d{7}$/.test(f.value.replace(/\s/g,"")):f.value.trim().length>1);
+    return true;
+  }
+  function paintSummary(){
+    sum.innerHTML="";
+    steps.slice(0,review).forEach(s=>{
+      const r=s.querySelector('input[type=radio]:checked');
+      const txt=r?r.value:[...s.querySelectorAll('input')].map(f=>f.value).filter(Boolean).join(" · ");
+      const li=document.createElement("li");
+      li.innerHTML='<span>'+s.dataset.key+'</span><b>'+(txt||"")+'</b>';
+      sum.appendChild(li);
+    });
+  }
+  function show(n,dir){
+    steps.forEach(s=>{s.classList.remove("on","back");});
+    const s=steps[n];
+    if(dir<0)s.classList.add("back");
+    s.classList.add("on");
+    i=n;
+    bar.style.width=Math.round((Math.min(i,review)/review)*100)+"%";
+    num.textContent=i<last?("שלב "+(i+1)+" מתוך "+(review+1)):"";
+    back.style.visibility=(i===0||i===last)?"hidden":"visible";
+    next.textContent=i===review?"שליחה":"המשך";
+    form.querySelector(".ms-nav").style.display=i===last?"none":"flex";
+    if(i===review)paintSummary();
+  }
+  next.addEventListener("click",()=>{
+    if(i<review&&!valid(i)){steps[i].querySelector(".ms-err").classList.add("on");return;}
+    show(Math.min(i+1,last),1);
+  });
+  back.addEventListener("click",()=>show(Math.max(0,i-1),-1));
+  show(0,1);
+})();
+</script>
+</body>
+</html>

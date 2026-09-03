@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B44 · סקשן תמחור עם השוואה והדגשת חבילה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:#fff;font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
+
+/* B44 · סקשן תמחור עם השוואה והדגשת חבילה */
+.pr2{max-width:min(1080px,94vw);margin-inline:auto}
+.pr2-top{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:clamp(22px,3vw,38px)}
+.pr2-top h3{margin:0;font-size:clamp(24px,3vw,42px)}
+.pr2-switch{display:inline-flex;background:var(--bg, #f7f7fa);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:4px}
+.pr2-switch button{border:0;background:none;font:inherit;font-size:14px;padding:9px 18px;border-radius:999px;cursor:pointer;color:var(--muted, #6a6d85)}
+.pr2-switch button.on{background:var(--ink, #16182b);color:#fff}
+.pr2-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap, clamp(16px, 1.6vw, 36px));align-items:start}
+.pr2-card{background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:20px;padding:clamp(20px,2.4vw,32px);display:flex;flex-direction:column;gap:14px}
+.pr2-card.best{border-color:var(--accent, #4a3aff);box-shadow:0 18px 50px rgba(74,58,255,.14);position:relative}
+.pr2-tag{position:absolute;top:-13px;inset-inline-start:24px;background:var(--accent, #4a3aff);color:#fff;font-size:12px;border-radius:999px;padding:5px 13px}
+.pr2-card h4{margin:0;font-size:19px}
+.pr2-price{font-size:clamp(30px,3.6vw,46px);font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
+.pr2-price small{font-size:14px;font-weight:500;color:var(--muted, #6a6d85)}
+.pr2-card ul{list-style:none;margin:0;padding:0;display:grid;gap:9px;font-size:15px;color:var(--muted, #6a6d85)}
+.pr2-card li::before{content:"✓";color:#2b8a3e;font-weight:700;margin-inline-end:8px}
+.pr2-card li.no{opacity:.5}
+.pr2-card li.no::before{content:"✕";color:var(--muted, #6a6d85);font-weight:500}
+.pr2-card .gbtn{margin-top:auto;width:100%}
+.pr2-card:not(.best) .gbtn{background:var(--bg, #f7f7fa);color:var(--ink, #16182b);border:1px solid var(--line, #e4e4ee)}
+.pr2-table{display:none;width:100%;border-collapse:collapse;font-size:15px}
+.pr2-table th,.pr2-table td{padding:14px 12px;border-bottom:1px solid var(--line, #e4e4ee);text-align:start}
+.pr2-table thead th{font-size:14px;color:var(--muted, #6a6d85);font-weight:600}
+.pr2-table td.mid,.pr2-table th.mid{text-align:center}
+.pr2-table .best-col{background:rgba(74,58,255,.06)}
+.pr2.table .pr2-cards{display:none}
+.pr2.table .pr2-table{display:table}
+@media(max-width:860px){.pr2-cards{grid-template-columns:1fr}.pr2-table{font-size:13px}}
+</style>
+</head>
+<body>
+<div class="stage tight"><div class="pr2">
+  <div class="pr2-top">
+    <h3>שלוש דרכים לעבוד יחד</h3>
+    <div class="pr2-switch"><button class="on" data-v="cards">כרטיסים</button><button data-v="table">טבלת השוואה</button></div>
+  </div>
+  <div class="pr2-cards">
+    <article class="pr2-card"><h4>קלאסי</h4><div class="pr2-price">4,900 <small>ש"ח</small></div>
+      <ul><li>עד 5 עמודים</li><li>התאמה למובייל</li><li>טופס יצירת קשר</li><li class="no">כתיבת קופי</li><li class="no">אנימציות מתקדמות</li></ul>
+      <button class="gbtn">מתאים לי</button></article>
+    <article class="pr2-card best"><span class="pr2-tag">הכי נבחר</span><h4>גימור גבוה</h4><div class="pr2-price">8,900 <small>ש"ח</small></div>
+      <ul><li>עד 10 עמודים</li><li>התאמה למובייל</li><li>טופס יצירת קשר</li><li>כתיבת קופי</li><li class="no">אנימציות מתקדמות</li></ul>
+      <button class="gbtn">מתאים לי</button></article>
+    <article class="pr2-card"><h4>שומט לסתות</h4><div class="pr2-price">14,900 <small>ש"ח</small></div>
+      <ul><li>ללא הגבלת עמודים</li><li>התאמה למובייל</li><li>טופס יצירת קשר</li><li>כתיבת קופי</li><li>אנימציות מתקדמות</li></ul>
+      <button class="gbtn">מתאים לי</button></article>
+  </div>
+  <table class="pr2-table">
+    <thead><tr><th>מה כלול</th><th class="mid">קלאסי</th><th class="mid best-col">גימור גבוה</th><th class="mid">שומט לסתות</th></tr></thead>
+    <tbody>
+      <tr><td>מספר עמודים</td><td class="mid">5</td><td class="mid best-col">10</td><td class="mid">ללא הגבלה</td></tr>
+      <tr><td>כתיבת קופי</td><td class="mid">✕</td><td class="mid best-col">✓</td><td class="mid">✓</td></tr>
+      <tr><td>אנימציות מתקדמות</td><td class="mid">✕</td><td class="mid best-col">✕</td><td class="mid">✓</td></tr>
+      <tr><td>זמן אספקה</td><td class="mid">שבועיים</td><td class="mid best-col">3 שבועות</td><td class="mid">5 שבועות</td></tr>
+      <tr><td>ליווי אחרי השקה</td><td class="mid">חודש</td><td class="mid best-col">חודשיים</td><td class="mid">שלושה חודשים</td></tr>
+    </tbody>
+  </table>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const wrap=document.querySelector(".pr2");
+  const btns=[...wrap.querySelectorAll(".pr2-switch button")];
+  btns.forEach(b=>b.addEventListener("click",()=>{
+    btns.forEach(x=>x.classList.toggle("on",x===b));
+    wrap.classList.toggle("table",b.dataset.v==="table");
+  }));
+  // כניסה מדורגת, והחבילה המומלצת נכנסת ראשונה כדי שהעין תיפול עליה
+  const cards=gsap.utils.toArray(".pr2-card");
+  const order=[...cards].sort((a,b)=>(b.classList.contains("best")?1:0)-(a.classList.contains("best")?1:0));
+  gsap.from(order,{y:34,autoAlpha:0,duration:.6,ease:"power3.out",stagger:.09,
+    scrollTrigger:{trigger:".pr2-cards",start:"top 82%",once:true}});
+})();
+</script>
+</body>
+</html>

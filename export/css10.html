@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS10 · כרטיס מתהפך (Flip)</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+
+/* CSS10 · כרטיס מתהפך (Flip) */
+.flipw{width:260px;height:330px;perspective:1100px;margin-inline:auto;cursor:pointer}
+.flip{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
+.flipw:hover .flip,.flipw.tap .flip{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r, 14px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.face.back{transform:rotateY(180deg);background:#16182b;color:#fff}
+.face.back p{color:#b9bbd4;font-size:14px;margin:0;padding-inline:24px;text-align:center}
+</style>
+</head>
+<body>
+<div class="stage tight"><div class="flipw"><div class="flip">
+<div class="face ph ph-b">הצד הקדמי</div>
+<div class="face back"><h3 style="margin:0">הצד האחורי</h3><p>הובר בדסקטופ, לחיצה במובייל.</p></div>
+</div></div></div>
+
+<script>
+document.querySelector(".flipw").addEventListener("click",function(){this.classList.toggle("tap")});
+</script>
+</body>
+</html>

@@ -61,6 +61,92 @@
 <p class="wh-after">אותו מנגנון עובד גם עם שמות שנים או שלבי תהליך במקום תמונות, וגם בכיוון ההפוך.</p>
 
 <div class="demo-note">הכל נשען על `transform-origin` אחד: כל פריט מסובב סביב מרכז הגלגל שנמצא הרבה מתחת למסך, ולכן הוא נע על קשת ולא בקו ישר. הפריט מסובב בזווית שלו, והתוכן שבתוכו מסובב במינוס הזווית **הכוללת**: זווית הפריט ועוד סיבוב הגלגל. **המלכודת**: סיבוב-נגד סטטי מיישר את התמונה רק בנקודת גלילה אחת ומטה אותה בכל השאר, ולכן שני הסיבובים חייבים לשבת על אותו טיימליין. ומלכודת שנייה: מסובבים שכבה פנימית אחת שעוטפת גם את התמונה וגם את התווית, כי סיבוב נפרד לכל אחת מסובב אותן סביב מרכזים שונים והתווית נשברת החוצה. הגלגל עצמו רחב מהמסך בכוונה, כדי שהקשת תיראה כמעט ישרה ולא כמו קרוסלה עגולה. שני מספרים שולטים בהכל: המרווח בין הפריטים במעלות, וקוטר הגלגל. מרווח גדול מדי והפריטים מתפזרים, קוטר קטן מדי והקשת נעשית תלולה.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g57.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
+
+/* G57 · גלגל תמונות שמסתובב בגלילה */
+.wh{height:300vh;position:relative}
+.wh-stick{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center}
+.wh-title{position:absolute;top:12vh;inset-inline:0;text-align:center;pointer-events:none;z-index:2}
+.wh-title h3{margin:0;font-size:clamp(24px,3.4vw,46px)}
+.wh-title p{margin:8px 0 0;color:var(--muted, #6a6d85);font-size:15px}
+/* הגלגל גדול מהמסך בכוונה: רואים רק את הקשת העליונה שלו */
+.wh-wheel{position:absolute;top:58vh;left:50%;width:min(190vh,190vw);aspect-ratio:1;
+  transform:translate(-50%,0);will-change:transform}
+.wh-item{position:absolute;top:0;left:50%;width:clamp(120px,15vh,220px);aspect-ratio:3/4;
+  margin-inline-start:calc(clamp(120px,15vh,220px) / -2);
+  transform-origin:50% calc(min(190vh,190vw) / 2)}
+/* שכבה פנימית אחת שמסובבת-נגד. סיבוב נפרד של התמונה ושל התווית מסובב כל אחת
+   סביב מרכז אחר, והתווית שיושבת בתחתית נשברת החוצה מהמסגרת. */
+.wh-inner{position:absolute;inset:0;border-radius:14px;overflow:hidden;will-change:transform}
+.wh-inner .ph{position:absolute;inset:0;border-radius:0;font-size:0}
+.wh-inner b{position:absolute;inset-inline:0;bottom:0;padding:8px 10px;color:#fff;font-size:13px;
+  background:linear-gradient(transparent,rgba(0,0,0,.6))}
+.wh-after{padding:14vh var(--gutter, clamp(24px, 5vw, 96px));max-width:min(680px,92vw);margin-inline:auto;text-align:center;
+  color:var(--muted, #6a6d85);font-size:17px;line-height:1.9}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="wh"&gt;&lt;div class="wh-stick"&gt;
+  &lt;div class="wh-title"&gt;&lt;h3&gt;העבודות שלנו&lt;/h3&gt;&lt;p&gt;גלול. הגלגל מסתובב והפריטים עולים בתורם.&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="wh-wheel"&gt;
+    &lt;div class="wh-item"&gt;&lt;div class="wh-inner"&gt;&lt;div class="ph ph-a"&gt;&lt;/div&gt;&lt;b&gt;משרד עורכי דין&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="wh-item"&gt;&lt;div class="wh-inner"&gt;&lt;div class="ph ph-c"&gt;&lt;/div&gt;&lt;b&gt;מותג קוסמטיקה&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="wh-item"&gt;&lt;div class="wh-inner"&gt;&lt;div class="ph ph-d"&gt;&lt;/div&gt;&lt;b&gt;קורס דיגיטלי&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="wh-item"&gt;&lt;div class="wh-inner"&gt;&lt;div class="ph ph-e"&gt;&lt;/div&gt;&lt;b&gt;פורטל לקוחות&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="wh-item"&gt;&lt;div class="wh-inner"&gt;&lt;div class="ph ph-b"&gt;&lt;/div&gt;&lt;b&gt;קליניקה פרטית&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="wh-item"&gt;&lt;div class="wh-inner"&gt;&lt;div class="ph ph-f"&gt;&lt;/div&gt;&lt;b&gt;יבואן ריהוט&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="wh-item"&gt;&lt;div class="wh-inner"&gt;&lt;div class="ph ph-a"&gt;&lt;/div&gt;&lt;b&gt;סטודיו צילום&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="wh-item"&gt;&lt;div class="wh-inner"&gt;&lt;div class="ph ph-c"&gt;&lt;/div&gt;&lt;b&gt;רשת מסעדות&lt;/b&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;
+&lt;p class="wh-after"&gt;אותו מנגנון עובד גם עם שמות שנים או שלבי תהליך במקום תמונות, וגם בכיוון ההפוך.&lt;/p&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const wheel=document.querySelector(".wh-wheel");
+  const items=gsap.utils.toArray(".wh-item");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const SPREAD=13;                                   // מעלות בין פריט לפריט
+  const START=(items.length-1)*SPREAD/2;
+
+  const angles=items.map((el,i)=&gt;{
+    const a=-START+i*SPREAD;
+    gsap.set(el,{rotation:a});
+    return a;
+  });
+
+  if(reduce){items.forEach((el,i)=&gt;gsap.set(el.querySelector(".wh-inner"),{rotation:-angles[i]}));return;}
+
+  // ההטיה האמיתית של פריט היא הזווית שלו על הגלגל ועוד סיבוב הגלגל עצמו, וזה משתנה
+  // לאורך כל הגלילה. סיבוב-נגד סטטי מיישר אותו רק בנקודה אחת ומטה אותו בכל השאר,
+  // ולכן שני הסיבובים יושבים על אותו טיימליין ומתקזזים בכל רגע.
+  const tl=gsap.timeline({scrollTrigger:{trigger:".wh",start:"top top",end:"bottom bottom",scrub:.7}});
+  tl.fromTo(wheel,{rotation:START},{rotation:-START,ease:"none",duration:1},0);
+  items.forEach((el,i)=&gt;{
+    const a=angles[i];
+    tl.fromTo(el.querySelector(".wh-inner"),
+      {rotation:-(a+START)},{rotation:-(a-START),ease:"none",duration:1},0);
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g57 · גלגל תמונות שמסתובב בגלילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g57.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g57.html\n\nמה זה עושה: תמונות מסודרות על היקף מעגל ענק שרובו מחוץ למסך. הגלילה מסובבת את הגלגל, כל תמונה עולה לראש הקשת בתורה, וכל אחת נשארת ישרה כלפי הצופה.\nמתי משתמשים: תיק עבודות, קטלוג שירותים, ציר שנים, גלריית לקוחות. מחליף קרוסלה רגילה ברגע שנשאר בזיכרון, בלי כפתורים ובלי חצים.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G57 · גלגל תמונות שמסתובב בגלילה */\n.wh{height:300vh;position:relative}\n.wh-stick{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center}\n.wh-title{position:absolute;top:12vh;inset-inline:0;text-align:center;pointer-events:none;z-index:2}\n.wh-title h3{margin:0;font-size:clamp(24px,3.4vw,46px)}\n.wh-title p{margin:8px 0 0;color:var(--muted, #6a6d85);font-size:15px}\n/* הגלגל גדול מהמסך בכוונה: רואים רק את הקשת העליונה שלו */\n.wh-wheel{position:absolute;top:58vh;left:50%;width:min(190vh,190vw);aspect-ratio:1;\n  transform:translate(-50%,0);will-change:transform}\n.wh-item{position:absolute;top:0;left:50%;width:clamp(120px,15vh,220px);aspect-ratio:3/4;\n  margin-inline-start:calc(clamp(120px,15vh,220px) / -2);\n  transform-origin:50% calc(min(190vh,190vw) / 2)}\n/* שכבה פנימית אחת שמסובבת-נגד. סיבוב נפרד של התמונה ושל התווית מסובב כל אחת\n   סביב מרכז אחר, והתווית שיושבת בתחתית נשברת החוצה מהמסגרת. */\n.wh-inner{position:absolute;inset:0;border-radius:14px;overflow:hidden;will-change:transform}\n.wh-inner .ph{position:absolute;inset:0;border-radius:0;font-size:0}\n.wh-inner b{position:absolute;inset-inline:0;bottom:0;padding:8px 10px;color:#fff;font-size:13px;\n  background:linear-gradient(transparent,rgba(0,0,0,.6))}\n.wh-after{padding:14vh var(--gutter, clamp(24px, 5vw, 96px));max-width:min(680px,92vw);margin-inline:auto;text-align:center;\n  color:var(--muted, #6a6d85);font-size:17px;line-height:1.9}\n\n=== HTML ===\n<div class=\"wh\"><div class=\"wh-stick\">\n  <div class=\"wh-title\"><h3>העבודות שלנו<\/h3><p>גלול. הגלגל מסתובב והפריטים עולים בתורם.<\/p><\/div>\n  <div class=\"wh-wheel\">\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-a\"><\/div><b>משרד עורכי דין<\/b><\/div><\/div>\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-c\"><\/div><b>מותג קוסמטיקה<\/b><\/div><\/div>\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-d\"><\/div><b>קורס דיגיטלי<\/b><\/div><\/div>\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-e\"><\/div><b>פורטל לקוחות<\/b><\/div><\/div>\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-b\"><\/div><b>קליניקה פרטית<\/b><\/div><\/div>\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-f\"><\/div><b>יבואן ריהוט<\/b><\/div><\/div>\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-a\"><\/div><b>סטודיו צילום<\/b><\/div><\/div>\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-c\"><\/div><b>רשת מסעדות<\/b><\/div><\/div>\n  <\/div>\n<\/div><\/div>\n<p class=\"wh-after\">אותו מנגנון עובד גם עם שמות שנים או שלבי תהליך במקום תמונות, וגם בכיוון ההפוך.<\/p>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const wheel=document.querySelector(\".wh-wheel\");\n  const items=gsap.utils.toArray(\".wh-item\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  const SPREAD=13;                                   // מעלות בין פריט לפריט\n  const START=(items.length-1)*SPREAD/2;\n\n  const angles=items.map((el,i)=>{\n    const a=-START+i*SPREAD;\n    gsap.set(el,{rotation:a});\n    return a;\n  });\n\n  if(reduce){items.forEach((el,i)=>gsap.set(el.querySelector(\".wh-inner\"),{rotation:-angles[i]}));return;}\n\n  // ההטיה האמיתית של פריט היא הזווית שלו על הגלגל ועוד סיבוב הגלגל עצמו, וזה משתנה\n  // לאורך כל הגלילה. סיבוב-נגד סטטי מיישר אותו רק בנקודה אחת ומטה אותו בכל השאר,\n  // ולכן שני הסיבובים יושבים על אותו טיימליין ומתקזזים בכל רגע.\n  const tl=gsap.timeline({scrollTrigger:{trigger:\".wh\",start:\"top top\",end:\"bottom bottom\",scrub:.7}});\n  tl.fromTo(wheel,{rotation:START},{rotation:-START,ease:\"none\",duration:1},0);\n  items.forEach((el,i)=>{\n    const a=angles[i];\n    tl.fromTo(el.querySelector(\".wh-inner\"),\n      {rotation:-(a+START)},{rotation:-(a-START),ease:\"none\",duration:1},0);\n  });\n})();\n\nהערת מימוש מהמאגר:\nהכל נשען על `transform-origin` אחד: כל פריט מסובב סביב מרכז הגלגל שנמצא הרבה מתחת למסך, ולכן הוא נע על קשת ולא בקו ישר. הפריט מסובב בזווית שלו, והתוכן שבתוכו מסובב במינוס הזווית הכוללת: זווית הפריט ועוד סיבוב הגלגל. המלכודת: סיבוב-נגד סטטי מיישר את התמונה רק בנקודת גלילה אחת ומטה אותה בכל השאר, ולכן שני הסיבובים חייבים לשבת על אותו טיימליין. ומלכודת שנייה: מסובבים שכבה פנימית אחת שעוטפת גם את התמונה וגם את התווית, כי סיבוב נפרד לכל אחת מסובב אותן סביב מרכזים שונים והתווית נשברת החוצה. הגלגל עצמו רחב מהמסך בכוונה, כדי שהקשת תיראה כמעט ישרה ולא כמו קרוסלה עגולה. שני מספרים שולטים בהכל: המרווח בין הפריטים במעלות, וקוטר הגלגל. מרווח גדול מדי והפריטים מתפזרים, קוטר קטן מדי והקשת נעשית תלולה.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G57 · גלגל תמונות שמסתובב בגלילה */\n.wh{height:300vh;position:relative}\n.wh-stick{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center}\n.wh-title{position:absolute;top:12vh;inset-inline:0;text-align:center;pointer-events:none;z-index:2}\n.wh-title h3{margin:0;font-size:clamp(24px,3.4vw,46px)}\n.wh-title p{margin:8px 0 0;color:var(--muted, #6a6d85);font-size:15px}\n/* הגלגל גדול מהמסך בכוונה: רואים רק את הקשת העליונה שלו */\n.wh-wheel{position:absolute;top:58vh;left:50%;width:min(190vh,190vw);aspect-ratio:1;\n  transform:translate(-50%,0);will-change:transform}\n.wh-item{position:absolute;top:0;left:50%;width:clamp(120px,15vh,220px);aspect-ratio:3/4;\n  margin-inline-start:calc(clamp(120px,15vh,220px) / -2);\n  transform-origin:50% calc(min(190vh,190vw) / 2)}\n/* שכבה פנימית אחת שמסובבת-נגד. סיבוב נפרד של התמונה ושל התווית מסובב כל אחת\n   סביב מרכז אחר, והתווית שיושבת בתחתית נשברת החוצה מהמסגרת. */\n.wh-inner{position:absolute;inset:0;border-radius:14px;overflow:hidden;will-change:transform}\n.wh-inner .ph{position:absolute;inset:0;border-radius:0;font-size:0}\n.wh-inner b{position:absolute;inset-inline:0;bottom:0;padding:8px 10px;color:#fff;font-size:13px;\n  background:linear-gradient(transparent,rgba(0,0,0,.6))}\n.wh-after{padding:14vh var(--gutter, clamp(24px, 5vw, 96px));max-width:min(680px,92vw);margin-inline:auto;text-align:center;\n  color:var(--muted, #6a6d85);font-size:17px;line-height:1.9}","html":"<div class=\"wh\"><div class=\"wh-stick\">\n  <div class=\"wh-title\"><h3>העבודות שלנו<\/h3><p>גלול. הגלגל מסתובב והפריטים עולים בתורם.<\/p><\/div>\n  <div class=\"wh-wheel\">\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-a\"><\/div><b>משרד עורכי דין<\/b><\/div><\/div>\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-c\"><\/div><b>מותג קוסמטיקה<\/b><\/div><\/div>\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-d\"><\/div><b>קורס דיגיטלי<\/b><\/div><\/div>\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-e\"><\/div><b>פורטל לקוחות<\/b><\/div><\/div>\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-b\"><\/div><b>קליניקה פרטית<\/b><\/div><\/div>\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-f\"><\/div><b>יבואן ריהוט<\/b><\/div><\/div>\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-a\"><\/div><b>סטודיו צילום<\/b><\/div><\/div>\n    <div class=\"wh-item\"><div class=\"wh-inner\"><div class=\"ph ph-c\"><\/div><b>רשת מסעדות<\/b><\/div><\/div>\n  <\/div>\n<\/div><\/div>\n<p class=\"wh-after\">אותו מנגנון עובד גם עם שמות שנים או שלבי תהליך במקום תמונות, וגם בכיוון ההפוך.<\/p>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const wheel=document.querySelector(\".wh-wheel\");\n  const items=gsap.utils.toArray(\".wh-item\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  const SPREAD=13;                                   // מעלות בין פריט לפריט\n  const START=(items.length-1)*SPREAD/2;\n\n  const angles=items.map((el,i)=>{\n    const a=-START+i*SPREAD;\n    gsap.set(el,{rotation:a});\n    return a;\n  });\n\n  if(reduce){items.forEach((el,i)=>gsap.set(el.querySelector(\".wh-inner\"),{rotation:-angles[i]}));return;}\n\n  // ההטיה האמיתית של פריט היא הזווית שלו על הגלגל ועוד סיבוב הגלגל עצמו, וזה משתנה\n  // לאורך כל הגלילה. סיבוב-נגד סטטי מיישר אותו רק בנקודה אחת ומטה אותו בכל השאר,\n  // ולכן שני הסיבובים יושבים על אותו טיימליין ומתקזזים בכל רגע.\n  const tl=gsap.timeline({scrollTrigger:{trigger:\".wh\",start:\"top top\",end:\"bottom bottom\",scrub:.7}});\n  tl.fromTo(wheel,{rotation:START},{rotation:-START,ease:\"none\",duration:1},0);\n  items.forEach((el,i)=>{\n    const a=angles[i];\n    tl.fromTo(el.querySelector(\".wh-inner\"),\n      {rotation:-(a+START)},{rotation:-(a-START),ease:\"none\",duration:1},0);\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -74,6 +160,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const wheel=document.querySelector(".wh-wheel");

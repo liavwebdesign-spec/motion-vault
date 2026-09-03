@@ -44,6 +44,57 @@
 </div></div>
 
 <div class="demo-note">הפרט שקובע הוא רגע החלפת ה-`zIndex`: הוא חייב לקרות בדיוק כשהתמונות חופפות, כלומר באמצע ציר הזמן. מוקדם מדי או מאוחר מדי, והעין תופסת קפיצה של שכבה. ההחלפה נעשית ב-`set` על הטיימליין ולא ב-`onUpdate`, כי בטיימליין מסונכרן ב-scrub זה עובד גם בגלילה אחורה בלי קוד נוסף. הגודל משתנה יחד עם המעבר, וזה מה שמסביר לעין מי מלפנים בלי להסתמך רק על חפיפה.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g71.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+
+/* G71 · שתי תמונות שמחליפות מקומות בגלילה */
+.sx{height:260vh;position:relative}
+.sx-stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
+.sx-pair{position:relative;width:min(860px,92vw);aspect-ratio:16/9}
+.sx-img{position:absolute;top:50%;width:52%;aspect-ratio:4/5;border-radius:18px;font-size:0;
+  margin-top:-26%;will-change:transform;box-shadow:0 24px 60px rgba(20,20,40,.2)}
+.sx-a{right:0;z-index:2}
+.sx-b{left:0;z-index:1}
+.sx-tag{position:absolute;bottom:-34px;inset-inline:0;text-align:center;font-size:14px;color:var(--muted, #6a6d85)}
+.sx-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="sx"&gt;&lt;div class="sx-stage"&gt;
+  &lt;div class="sx-pair"&gt;
+    &lt;div class="ph sx-img sx-a ph-b"&gt;&lt;span class="sx-tag"&gt;אפשרות א&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="ph sx-img sx-b ph-d"&gt;&lt;span class="sx-tag"&gt;אפשרות ב&lt;/span&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;p class="sx-cap"&gt;גלול. השתיים מחליפות צדדים, וזו שמלפנים גדלה.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const a=document.querySelector(".sx-a"),b=document.querySelector(".sx-b");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+  const tl=gsap.timeline({scrollTrigger:{trigger:".sx",start:"top top",end:"bottom bottom",scrub:.6}});
+  // התנועה באחוזים של האלמנט עצמו, ולכן היא מדויקת בכל רוחב מסך
+  tl.fromTo(a,{xPercent:0,scale:1,zIndex:2},{xPercent:-92,scale:.86,ease:"power1.inOut"},0)
+    .fromTo(b,{xPercent:0,scale:.86,zIndex:1},{xPercent:92,scale:1,ease:"power1.inOut"},0)
+    // החלפת השכבות קורית באמצע הדרך, בדיוק כשהן חופפות
+    .set(a,{zIndex:1},.5)
+    .set(b,{zIndex:2},.5);
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g71 · שתי תמונות שמחליפות מקומות בגלילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g71.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g71.html\n\nמה זה עושה: שתי תמונות זו לצד זו שעוברות אחת מעל השנייה ומחליפות צדדים בגלילה, כשזו שעוברת מלפנים גדלה קלות.\nמתי משתמשים: השוואה בין שתי אפשרויות, לפני ואחרי, שני קהלים, שני שירותים. מספר ויזואלית שיש כאן שתי אפשרויות שמתחלפות ביניהן.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n\n/* G71 · שתי תמונות שמחליפות מקומות בגלילה */\n.sx{height:260vh;position:relative}\n.sx-stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}\n.sx-pair{position:relative;width:min(860px,92vw);aspect-ratio:16/9}\n.sx-img{position:absolute;top:50%;width:52%;aspect-ratio:4/5;border-radius:18px;font-size:0;\n  margin-top:-26%;will-change:transform;box-shadow:0 24px 60px rgba(20,20,40,.2)}\n.sx-a{right:0;z-index:2}\n.sx-b{left:0;z-index:1}\n.sx-tag{position:absolute;bottom:-34px;inset-inline:0;text-align:center;font-size:14px;color:var(--muted, #6a6d85)}\n.sx-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}\n\n=== HTML ===\n<div class=\"sx\"><div class=\"sx-stage\">\n  <div class=\"sx-pair\">\n    <div class=\"ph sx-img sx-a ph-b\"><span class=\"sx-tag\">אפשרות א<\/span><\/div>\n    <div class=\"ph sx-img sx-b ph-d\"><span class=\"sx-tag\">אפשרות ב<\/span><\/div>\n  <\/div>\n  <p class=\"sx-cap\">גלול. השתיים מחליפות צדדים, וזו שמלפנים גדלה.<\/p>\n<\/div><\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const a=document.querySelector(\".sx-a\"),b=document.querySelector(\".sx-b\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce)return;\n  const tl=gsap.timeline({scrollTrigger:{trigger:\".sx\",start:\"top top\",end:\"bottom bottom\",scrub:.6}});\n  // התנועה באחוזים של האלמנט עצמו, ולכן היא מדויקת בכל רוחב מסך\n  tl.fromTo(a,{xPercent:0,scale:1,zIndex:2},{xPercent:-92,scale:.86,ease:\"power1.inOut\"},0)\n    .fromTo(b,{xPercent:0,scale:.86,zIndex:1},{xPercent:92,scale:1,ease:\"power1.inOut\"},0)\n    // החלפת השכבות קורית באמצע הדרך, בדיוק כשהן חופפות\n    .set(a,{zIndex:1},.5)\n    .set(b,{zIndex:2},.5);\n})();\n\nהערת מימוש מהמאגר:\nהפרט שקובע הוא רגע החלפת ה-`zIndex`: הוא חייב לקרות בדיוק כשהתמונות חופפות, כלומר באמצע ציר הזמן. מוקדם מדי או מאוחר מדי, והעין תופסת קפיצה של שכבה. ההחלפה נעשית ב-`set` על הטיימליין ולא ב-`onUpdate`, כי בטיימליין מסונכרן ב-scrub זה עובד גם בגלילה אחורה בלי קוד נוסף. הגודל משתנה יחד עם המעבר, וזה מה שמסביר לעין מי מלפנים בלי להסתמך רק על חפיפה.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n\n/* G71 · שתי תמונות שמחליפות מקומות בגלילה */\n.sx{height:260vh;position:relative}\n.sx-stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}\n.sx-pair{position:relative;width:min(860px,92vw);aspect-ratio:16/9}\n.sx-img{position:absolute;top:50%;width:52%;aspect-ratio:4/5;border-radius:18px;font-size:0;\n  margin-top:-26%;will-change:transform;box-shadow:0 24px 60px rgba(20,20,40,.2)}\n.sx-a{right:0;z-index:2}\n.sx-b{left:0;z-index:1}\n.sx-tag{position:absolute;bottom:-34px;inset-inline:0;text-align:center;font-size:14px;color:var(--muted, #6a6d85)}\n.sx-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}","html":"<div class=\"sx\"><div class=\"sx-stage\">\n  <div class=\"sx-pair\">\n    <div class=\"ph sx-img sx-a ph-b\"><span class=\"sx-tag\">אפשרות א<\/span><\/div>\n    <div class=\"ph sx-img sx-b ph-d\"><span class=\"sx-tag\">אפשרות ב<\/span><\/div>\n  <\/div>\n  <p class=\"sx-cap\">גלול. השתיים מחליפות צדדים, וזו שמלפנים גדלה.<\/p>\n<\/div><\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const a=document.querySelector(\".sx-a\"),b=document.querySelector(\".sx-b\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce)return;\n  const tl=gsap.timeline({scrollTrigger:{trigger:\".sx\",start:\"top top\",end:\"bottom bottom\",scrub:.6}});\n  // התנועה באחוזים של האלמנט עצמו, ולכן היא מדויקת בכל רוחב מסך\n  tl.fromTo(a,{xPercent:0,scale:1,zIndex:2},{xPercent:-92,scale:.86,ease:\"power1.inOut\"},0)\n    .fromTo(b,{xPercent:0,scale:.86,zIndex:1},{xPercent:92,scale:1,ease:\"power1.inOut\"},0)\n    // החלפת השכבות קורית באמצע הדרך, בדיוק כשהן חופפות\n    .set(a,{zIndex:1},.5)\n    .set(b,{zIndex:2},.5);\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -57,6 +108,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const a=document.querySelector(".sx-a"),b=document.querySelector(".sx-b");

@@ -38,6 +38,79 @@
 </div></div>
 
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g23.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.center{text-align:center}
+
+/* G23 · Flip: פריט קופץ לגריד וחזרה */
+.flip-zone{padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.flip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;overflow:hidden}
+.flip-item{height:120px;cursor:pointer;font-size:15px}
+.flip-item.big{grid-column:1/-1;height:320px;font-size:26px}
+@media(max-width:767px){.flip-grid{grid-template-columns:repeat(2,1fr)}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight flip-zone"&gt;&lt;p class="center" style="color:var(--muted);font-size:14px;margin-top:0"&gt;לחץ על כרטיס כדי להגדיל אותו, ולחץ שוב כדי להחזיר&lt;/p&gt;
+&lt;div class="flip-grid"&gt;
+&lt;div class="flip-item ph ph-a"&gt;1&lt;/div&gt;&lt;div class="flip-item ph ph-b"&gt;2&lt;/div&gt;
+&lt;div class="flip-item ph ph-c"&gt;3&lt;/div&gt;&lt;div class="flip-item ph ph-d"&gt;4&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(Flip);
+
+const grid=document.querySelector(".flip-grid");
+const items=[...document.querySelectorAll(".flip-item")];
+const D=.55,E="power2.inOut";
+let busy=false;
+
+items.forEach(item=&gt;{
+  item.addEventListener("click",()=&gt;{
+    if(busy)return; busy=true;
+
+    const state=Flip.getState(items);
+    const h0=grid.getBoundingClientRect().height;
+    const fs0=items.map(el=&gt;getComputedStyle(el).fontSize);
+
+    items.forEach(b=&gt;{if(b!==item)b.classList.remove("big")});
+    item.classList.toggle("big");
+
+    const h1=grid.getBoundingClientRect().height;
+    const fs1=items.map(el=&gt;getComputedStyle(el).fontSize);
+
+    // absolute:true מוציא את כל הפריטים מהזרימה, הגריד מתרוקן ומתכווץ לאפס,
+    // וכל מה שמתחת קופץ למעלה ובחזרה. מנפישים את גובה הגריד במקביל.
+    gsap.fromTo(grid,{height:h0},{height:h1,duration:D,ease:E,
+      onComplete:()=&gt;gsap.set(grid,{clearProps:"height"})});
+
+    // Flip לא מאינטרפל font-size, ולכן הטקסט קופץ למידה החדשה בפריים הראשון.
+    items.forEach((el,i)=&gt;{
+      if(fs0[i]===fs1[i])return;
+      gsap.fromTo(el,{fontSize:fs0[i]},{fontSize:fs1[i],duration:D,ease:E,
+        onComplete:()=&gt;gsap.set(el,{clearProps:"fontSize"})});
+    });
+
+    Flip.from(state,{duration:D,ease:E,absolute:true,onComplete:()=&gt;{busy=false}});
+  });
+});</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g23 · Flip: פריט קופץ לגריד וחזרה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g23.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g23.html\n\nמה זה עושה: לחיצה על כרטיס מעבירה אותו מהגריד לתצוגה מורחבת, וה-Flip מנפיש את המסע בין שני המצבים אוטומטית.\nמתי משתמשים: גלריה שנפתחת לפריט מורחב, מיון וסינון עם תזוזה חלקה, שינוי לייאאוט חי.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.center{text-align:center}\n\n/* G23 · Flip: פריט קופץ לגריד וחזרה */\n.flip-zone{padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.flip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;overflow:hidden}\n.flip-item{height:120px;cursor:pointer;font-size:15px}\n.flip-item.big{grid-column:1/-1;height:320px;font-size:26px}\n@media(max-width:767px){.flip-grid{grid-template-columns:repeat(2,1fr)}}\n\n=== HTML ===\n<div class=\"stage tight flip-zone\"><p class=\"center\" style=\"color:var(--muted);font-size:14px;margin-top:0\">לחץ על כרטיס כדי להגדיל אותו, ולחץ שוב כדי להחזיר<\/p>\n<div class=\"flip-grid\">\n<div class=\"flip-item ph ph-a\">1<\/div><div class=\"flip-item ph ph-b\">2<\/div>\n<div class=\"flip-item ph ph-c\">3<\/div><div class=\"flip-item ph ph-d\">4<\/div>\n<\/div><\/div>\n\n=== JS ===\ngsap.registerPlugin(Flip);\n\nconst grid=document.querySelector(\".flip-grid\");\nconst items=[...document.querySelectorAll(\".flip-item\")];\nconst D=.55,E=\"power2.inOut\";\nlet busy=false;\n\nitems.forEach(item=>{\n  item.addEventListener(\"click\",()=>{\n    if(busy)return; busy=true;\n\n    const state=Flip.getState(items);\n    const h0=grid.getBoundingClientRect().height;\n    const fs0=items.map(el=>getComputedStyle(el).fontSize);\n\n    items.forEach(b=>{if(b!==item)b.classList.remove(\"big\")});\n    item.classList.toggle(\"big\");\n\n    const h1=grid.getBoundingClientRect().height;\n    const fs1=items.map(el=>getComputedStyle(el).fontSize);\n\n    // absolute:true מוציא את כל הפריטים מהזרימה, הגריד מתרוקן ומתכווץ לאפס,\n    // וכל מה שמתחת קופץ למעלה ובחזרה. מנפישים את גובה הגריד במקביל.\n    gsap.fromTo(grid,{height:h0},{height:h1,duration:D,ease:E,\n      onComplete:()=>gsap.set(grid,{clearProps:\"height\"})});\n\n    // Flip לא מאינטרפל font-size, ולכן הטקסט קופץ למידה החדשה בפריים הראשון.\n    items.forEach((el,i)=>{\n      if(fs0[i]===fs1[i])return;\n      gsap.fromTo(el,{fontSize:fs0[i]},{fontSize:fs1[i],duration:D,ease:E,\n        onComplete:()=>gsap.set(el,{clearProps:\"fontSize\"})});\n    });\n\n    Flip.from(state,{duration:D,ease:E,absolute:true,onComplete:()=>{busy=false}});\n  });\n});\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { Flip } from \"gsap/Flip\";\n  gsap.registerPlugin(Flip);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.center{text-align:center}\n\n/* G23 · Flip: פריט קופץ לגריד וחזרה */\n.flip-zone{padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.flip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;overflow:hidden}\n.flip-item{height:120px;cursor:pointer;font-size:15px}\n.flip-item.big{grid-column:1/-1;height:320px;font-size:26px}\n@media(max-width:767px){.flip-grid{grid-template-columns:repeat(2,1fr)}}","html":"<div class=\"stage tight flip-zone\"><p class=\"center\" style=\"color:var(--muted);font-size:14px;margin-top:0\">לחץ על כרטיס כדי להגדיל אותו, ולחץ שוב כדי להחזיר<\/p>\n<div class=\"flip-grid\">\n<div class=\"flip-item ph ph-a\">1<\/div><div class=\"flip-item ph ph-b\">2<\/div>\n<div class=\"flip-item ph ph-c\">3<\/div><div class=\"flip-item ph ph-d\">4<\/div>\n<\/div><\/div>","js":"gsap.registerPlugin(Flip);\n\nconst grid=document.querySelector(\".flip-grid\");\nconst items=[...document.querySelectorAll(\".flip-item\")];\nconst D=.55,E=\"power2.inOut\";\nlet busy=false;\n\nitems.forEach(item=>{\n  item.addEventListener(\"click\",()=>{\n    if(busy)return; busy=true;\n\n    const state=Flip.getState(items);\n    const h0=grid.getBoundingClientRect().height;\n    const fs0=items.map(el=>getComputedStyle(el).fontSize);\n\n    items.forEach(b=>{if(b!==item)b.classList.remove(\"big\")});\n    item.classList.toggle(\"big\");\n\n    const h1=grid.getBoundingClientRect().height;\n    const fs1=items.map(el=>getComputedStyle(el).fontSize);\n\n    // absolute:true מוציא את כל הפריטים מהזרימה, הגריד מתרוקן ומתכווץ לאפס,\n    // וכל מה שמתחת קופץ למעלה ובחזרה. מנפישים את גובה הגריד במקביל.\n    gsap.fromTo(grid,{height:h0},{height:h1,duration:D,ease:E,\n      onComplete:()=>gsap.set(grid,{clearProps:\"height\"})});\n\n    // Flip לא מאינטרפל font-size, ולכן הטקסט קופץ למידה החדשה בפריים הראשון.\n    items.forEach((el,i)=>{\n      if(fs0[i]===fs1[i])return;\n      gsap.fromTo(el,{fontSize:fs0[i]},{fontSize:fs1[i],duration:D,ease:E,\n        onComplete:()=>gsap.set(el,{clearProps:\"fontSize\"})});\n    });\n\n    Flip.from(state,{duration:D,ease:E,absolute:true,onComplete:()=>{busy=false}});\n  });\n});","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -51,6 +124,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(Flip);
 const grid=document.querySelector(".flip-grid");
 const items=[...document.querySelectorAll(".flip-item")];

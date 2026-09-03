@@ -45,6 +45,64 @@
 <div class="stage center" style="color:var(--muted);min-height:120vh;display:grid;place-items:center">המשך לגלול, והסרטון ייעצר מאחוריך. גלול חזרה למעלה והוא יחזור לנגן.</div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 <div class="demo-note">הסף 0.35 אומר שהניגון מתחיל כשיותר משליש מהסקשן במסך, כדי שהוא לא יידלק ויכבה בגלילה מהירה. חובה muted ו-playsinline, אחרת הדפדפן יסרב לנגן בלי לחיצה ואייפון יפתח מסך מלא. הפוסטר הוא תמונה אמיתית מתחת לווידאו, כך שגם אם הרשת איטית הסקשן אף פעם לא ריק.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b22.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.center{text-align:center}
+
+/* B22 · סקשן וידאו שמתנגן רק כשרואים אותו */
+.vsec{position:relative;min-height:min(88vh,780px);overflow:hidden;display:grid;place-items:center;background:#0f1020}
+.vsec video,.vsec .vposter{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vsec video{opacity:0;transition:opacity .6s ease}
+.vsec.playing video{opacity:1}
+.vsec::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.45))}
+.vsec-in{position:relative;z-index:2;text-align:center;color:#fff;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.vsec-in h3{font-size:clamp(30px,4vw,66px);margin:0 0 12px;font-weight:800}
+.vsec-in p{margin:0 auto;max-width:44ch;font-size:17px;opacity:.85}
+.vstate{position:absolute;bottom:16px;inset-inline-end:20px;z-index:3;font-size:12px;letter-spacing:.1em;color:#fff;background:rgba(0,0,0,.45);border-radius:999px;padding:6px 14px}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight center" style="color:var(--muted)"&gt;גלול למטה. הסרטון יורד לרשת רק כשהסקשן מתקרב.&lt;/div&gt;
+&lt;section class="vsec"&gt;
+  &lt;img class="vposter" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-b.jpg" alt=""&gt;
+  &lt;video muted loop playsinline preload="none" poster="https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-b.jpg" data-src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-b.mp4"&gt;&lt;/video&gt;
+  &lt;div class="vsec-in"&gt;&lt;h3&gt;שקט שאפשר להרגיש&lt;/h3&gt;&lt;p&gt;הווידאו מתנגן רק כשהוא באמת מול העיניים, ונעצר ברגע שהוא יוצא מהמסך.&lt;/p&gt;&lt;/div&gt;
+  &lt;span class="vstate"&gt;ממתין&lt;/span&gt;
+&lt;/section&gt;
+&lt;div class="stage center" style="color:var(--muted);min-height:120vh;display:grid;place-items:center"&gt;המשך לגלול, והסרטון ייעצר מאחוריך. גלול חזרה למעלה והוא יחזור לנגן.&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const sec=document.querySelector(".vsec"),v=sec.querySelector("video"),state=sec.querySelector(".vstate");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let loaded=false;
+  const set=t=&gt;state.textContent=t;
+  if(reduce){set("מושהה: העדפת תנועה מופחתת");return;}
+  const io=new IntersectionObserver(entries=&gt;{
+    entries.forEach(e=&gt;{
+      if(e.isIntersecting){
+        if(!loaded){v.src=v.dataset.src;loaded=true;set("טוען");}
+        const p=v.play();
+        if(p&amp;&amp;p.then)p.then(()=&gt;{sec.classList.add("playing");set("מתנגן");}).catch(()=&gt;set("הדפדפן חסם ניגון"));
+      }else{
+        v.pause();sec.classList.remove("playing");set("מושהה");
+      }
+    });
+  },{threshold:.35});
+  io.observe(sec);
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b22 · סקשן וידאו שמתנגן רק כשרואים אותו\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b22.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b22.html\n\nמה זה עושה: סרטון ברוחב מלא שמתחיל לנגן כשהסקשן נכנס למסך ונעצר כשהוא יוצא. עד אז מוצג פוסטר בלבד, והדפדפן לא מוריד את הווידאו.\nמתי משתמשים: סקשני אווירה באתרי תדמית, קליניקות, מסעדות ונדל\"ן. הדרך הנכונה לשים וידאו גדול בעמוד בלי לשלם עליו בזמן טעינה.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.center{text-align:center}\n\n/* B22 · סקשן וידאו שמתנגן רק כשרואים אותו */\n.vsec{position:relative;min-height:min(88vh,780px);overflow:hidden;display:grid;place-items:center;background:#0f1020}\n.vsec video,.vsec .vposter{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}\n.vsec video{opacity:0;transition:opacity .6s ease}\n.vsec.playing video{opacity:1}\n.vsec::after{content:\"\";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.45))}\n.vsec-in{position:relative;z-index:2;text-align:center;color:#fff;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.vsec-in h3{font-size:clamp(30px,4vw,66px);margin:0 0 12px;font-weight:800}\n.vsec-in p{margin:0 auto;max-width:44ch;font-size:17px;opacity:.85}\n.vstate{position:absolute;bottom:16px;inset-inline-end:20px;z-index:3;font-size:12px;letter-spacing:.1em;color:#fff;background:rgba(0,0,0,.45);border-radius:999px;padding:6px 14px}\n\n=== HTML ===\n<div class=\"stage tight center\" style=\"color:var(--muted)\">גלול למטה. הסרטון יורד לרשת רק כשהסקשן מתקרב.<\/div>\n<section class=\"vsec\">\n  <img class=\"vposter\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-b.jpg\" alt=\"\">\n  <video muted loop playsinline preload=\"none\" poster=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-b.jpg\" data-src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-b.mp4\"><\/video>\n  <div class=\"vsec-in\"><h3>שקט שאפשר להרגיש<\/h3><p>הווידאו מתנגן רק כשהוא באמת מול העיניים, ונעצר ברגע שהוא יוצא מהמסך.<\/p><\/div>\n  <span class=\"vstate\">ממתין<\/span>\n<\/section>\n<div class=\"stage center\" style=\"color:var(--muted);min-height:120vh;display:grid;place-items:center\">המשך לגלול, והסרטון ייעצר מאחוריך. גלול חזרה למעלה והוא יחזור לנגן.<\/div>\n\n=== JS ===\n(function(){\n  const sec=document.querySelector(\".vsec\"),v=sec.querySelector(\"video\"),state=sec.querySelector(\".vstate\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  let loaded=false;\n  const set=t=>state.textContent=t;\n  if(reduce){set(\"מושהה: העדפת תנועה מופחתת\");return;}\n  const io=new IntersectionObserver(entries=>{\n    entries.forEach(e=>{\n      if(e.isIntersecting){\n        if(!loaded){v.src=v.dataset.src;loaded=true;set(\"טוען\");}\n        const p=v.play();\n        if(p&&p.then)p.then(()=>{sec.classList.add(\"playing\");set(\"מתנגן\");}).catch(()=>set(\"הדפדפן חסם ניגון\"));\n      }else{\n        v.pause();sec.classList.remove(\"playing\");set(\"מושהה\");\n      }\n    });\n  },{threshold:.35});\n  io.observe(sec);\n})();\n\nהערת מימוש מהמאגר:\nהסף 0.35 אומר שהניגון מתחיל כשיותר משליש מהסקשן במסך, כדי שהוא לא יידלק ויכבה בגלילה מהירה. חובה muted ו-playsinline, אחרת הדפדפן יסרב לנגן בלי לחיצה ואייפון יפתח מסך מלא. הפוסטר הוא תמונה אמיתית מתחת לווידאו, כך שגם אם הרשת איטית הסקשן אף פעם לא ריק.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.center{text-align:center}\n\n/* B22 · סקשן וידאו שמתנגן רק כשרואים אותו */\n.vsec{position:relative;min-height:min(88vh,780px);overflow:hidden;display:grid;place-items:center;background:#0f1020}\n.vsec video,.vsec .vposter{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}\n.vsec video{opacity:0;transition:opacity .6s ease}\n.vsec.playing video{opacity:1}\n.vsec::after{content:\"\";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.15),rgba(0,0,0,.45))}\n.vsec-in{position:relative;z-index:2;text-align:center;color:#fff;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.vsec-in h3{font-size:clamp(30px,4vw,66px);margin:0 0 12px;font-weight:800}\n.vsec-in p{margin:0 auto;max-width:44ch;font-size:17px;opacity:.85}\n.vstate{position:absolute;bottom:16px;inset-inline-end:20px;z-index:3;font-size:12px;letter-spacing:.1em;color:#fff;background:rgba(0,0,0,.45);border-radius:999px;padding:6px 14px}","html":"<div class=\"stage tight center\" style=\"color:var(--muted)\">גלול למטה. הסרטון יורד לרשת רק כשהסקשן מתקרב.<\/div>\n<section class=\"vsec\">\n  <img class=\"vposter\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-b.jpg\" alt=\"\">\n  <video muted loop playsinline preload=\"none\" poster=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-b.jpg\" data-src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-b.mp4\"><\/video>\n  <div class=\"vsec-in\"><h3>שקט שאפשר להרגיש<\/h3><p>הווידאו מתנגן רק כשהוא באמת מול העיניים, ונעצר ברגע שהוא יוצא מהמסך.<\/p><\/div>\n  <span class=\"vstate\">ממתין<\/span>\n<\/section>\n<div class=\"stage center\" style=\"color:var(--muted);min-height:120vh;display:grid;place-items:center\">המשך לגלול, והסרטון ייעצר מאחוריך. גלול חזרה למעלה והוא יחזור לנגן.<\/div>","js":"(function(){\n  const sec=document.querySelector(\".vsec\"),v=sec.querySelector(\"video\"),state=sec.querySelector(\".vstate\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  let loaded=false;\n  const set=t=>state.textContent=t;\n  if(reduce){set(\"מושהה: העדפת תנועה מופחתת\");return;}\n  const io=new IntersectionObserver(entries=>{\n    entries.forEach(e=>{\n      if(e.isIntersecting){\n        if(!loaded){v.src=v.dataset.src;loaded=true;set(\"טוען\");}\n        const p=v.play();\n        if(p&&p.then)p.then(()=>{sec.classList.add(\"playing\");set(\"מתנגן\");}).catch(()=>set(\"הדפדפן חסם ניגון\"));\n      }else{\n        v.pause();sec.classList.remove(\"playing\");set(\"מושהה\");\n      }\n    });\n  },{threshold:.35});\n  io.observe(sec);\n})();","scripts":"","rtl":true}</script>
+</section>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -57,6 +115,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 (function(){
   const sec=document.querySelector(".vsec"),v=sec.querySelector("video"),state=sec.querySelector(".vstate");

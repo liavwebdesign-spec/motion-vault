@@ -56,6 +56,88 @@
 </div>
 
 <div class="demo-note">הידית עצמה היא אלמנט ברוחב אפס שממוקם ב-x פיזי, והכפתור ממורכז עליה בטרנספורם. זה מה שמאפשר להשתמש בערך אחד גם לחיתוך וגם למיקום, בלי לחשב חצי רוחב בכל פריים. `clip-path:inset(0 0 0 X)` משאיר את מה שמימין ל-X, ולכן בעברית "לפני" יושב בימין והגרירה שמאלה חושפת את "אחרי", בכיוון שבו קוראים. בשינוי גודל חלון חייבים לבנות את ה-Draggable מחדש עם אותו אחוז, אחרת הידית קופצת החוצה מהגבולות.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/b47.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+
+/* B47 · סליידר השוואה לפני ואחרי */
+.ba{position:relative;max-width:min(900px,94vw);margin-inline:auto;aspect-ratio:16/10;border-radius:var(--r, 14px);
+  overflow:hidden;border:1px solid var(--line, #e4e4ee);user-select:none;touch-action:pan-y}
+.ba-layer{position:absolute;inset:0;border-radius:0;font-size:0}
+/* שכבת "לפני" יושבת מעל ונחתכת. inset(0 0 0 X) משאיר את מה שמימין ל-X */
+.ba-before{clip-path:inset(0 0 0 50%)}
+.ba-tag{position:absolute;top:14px;background:rgba(0,0,0,.62);color:#fff;font-size:13px;
+  padding:6px 14px;border-radius:999px;backdrop-filter:blur(6px);z-index:3;pointer-events:none}
+.ba-tag.is-before{right:14px}
+.ba-tag.is-after{left:14px}
+/* הידית: רוחב אפס שממוקם בפיקסלים פיזיים, והכפתור ממורכז עליה */
+.ba-handle{position:absolute;top:0;left:0;width:0;height:100%;z-index:4;cursor:ew-resize}
+.ba-line{position:absolute;top:0;left:-1px;width:2px;height:100%;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.18)}
+.ba-knob{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;
+  background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.28);display:grid;place-items:center;gap:0;
+  font-size:17px;color:#16182b;letter-spacing:-2px}
+.ba-handle:focus-visible .ba-knob{outline:3px solid var(--accent, #4a3aff);outline-offset:3px}
+.ba-hint{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding-top:14px}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;
+  &lt;div class="ba"&gt;
+    &lt;div class="ph ba-layer ba-after ph-d"&gt;&lt;/div&gt;
+    &lt;div class="ph ba-layer ba-before ph-b"&gt;&lt;/div&gt;
+    &lt;span class="ba-tag is-before"&gt;לפני&lt;/span&gt;
+    &lt;span class="ba-tag is-after"&gt;אחרי&lt;/span&gt;
+    &lt;div class="ba-handle" tabindex="0" role="slider" aria-label="השוואה בין לפני לאחרי"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"&gt;&lt;span class="ba-line"&gt;&lt;/span&gt;&lt;span class="ba-knob"&gt;‹›&lt;/span&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;p class="ba-hint"&gt;גרור את הידית, או השתמש בחצי המקלדת.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(Draggable);
+
+(function(){
+  const wrap=document.querySelector(".ba"),before=wrap.querySelector(".ba-before"),handle=wrap.querySelector(".ba-handle");
+  let drag;
+  function paint(){
+    const x=gsap.getProperty(handle,"x");
+    before.style.clipPath="inset(0 0 0 "+x+"px)";
+    handle.setAttribute("aria-valuenow",Math.round(x/wrap.offsetWidth*100));
+  }
+  function build(){
+    const w=wrap.offsetWidth;
+    const pct=(+handle.getAttribute("aria-valuenow")||50)/100;
+    if(drag)drag.kill();
+    gsap.set(handle,{x:w*pct});
+    drag=Draggable.create(handle,{type:"x",bounds:{minX:0,maxX:w},onDrag:paint,onThrowUpdate:paint})[0];
+    paint();
+  }
+  // החצים פיזיים בכוונה: ידית נגררת נתפסת כאובייקט על המסך, לא כטקסט
+  handle.addEventListener("keydown",e=&gt;{
+    const step=e.shiftKey?wrap.offsetWidth*.1:wrap.offsetWidth*.02;
+    if(e.key==="ArrowLeft"||e.key==="ArrowRight"){
+      e.preventDefault();
+      const x=gsap.utils.clamp(0,wrap.offsetWidth,gsap.getProperty(handle,"x")+(e.key==="ArrowRight"?step:-step));
+      gsap.to(handle,{x:x,duration:.18,onUpdate:paint,onComplete:paint});
+    }
+  });
+  build();
+  let t;addEventListener("resize",()=&gt;{clearTimeout(t);t=setTimeout(build,80);});
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b47 · סליידר השוואה לפני ואחרי\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b47.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b47.html\n\nמה זה עושה: שתי תמונות באותה מסגרת וידית שנגררת ביניהן. גרירה ימינה או שמאלה חושפת יותר מכל צד, וגם החצים במקלדת מזיזים אותה.\nמתי משתמשים: שיפוץ, שיניים, אסתטיקה, כושר, ניקיון, עיצוב מחדש, לפני ואחרי של אתר. ההוכחה החזקה ביותר שיש: הלקוח רואה את ההבדל במקום לקרוא עליו.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n\n/* B47 · סליידר השוואה לפני ואחרי */\n.ba{position:relative;max-width:min(900px,94vw);margin-inline:auto;aspect-ratio:16/10;border-radius:var(--r, 14px);\n  overflow:hidden;border:1px solid var(--line, #e4e4ee);user-select:none;touch-action:pan-y}\n.ba-layer{position:absolute;inset:0;border-radius:0;font-size:0}\n/* שכבת \"לפני\" יושבת מעל ונחתכת. inset(0 0 0 X) משאיר את מה שמימין ל-X */\n.ba-before{clip-path:inset(0 0 0 50%)}\n.ba-tag{position:absolute;top:14px;background:rgba(0,0,0,.62);color:#fff;font-size:13px;\n  padding:6px 14px;border-radius:999px;backdrop-filter:blur(6px);z-index:3;pointer-events:none}\n.ba-tag.is-before{right:14px}\n.ba-tag.is-after{left:14px}\n/* הידית: רוחב אפס שממוקם בפיקסלים פיזיים, והכפתור ממורכז עליה */\n.ba-handle{position:absolute;top:0;left:0;width:0;height:100%;z-index:4;cursor:ew-resize}\n.ba-line{position:absolute;top:0;left:-1px;width:2px;height:100%;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.18)}\n.ba-knob{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;\n  background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.28);display:grid;place-items:center;gap:0;\n  font-size:17px;color:#16182b;letter-spacing:-2px}\n.ba-handle:focus-visible .ba-knob{outline:3px solid var(--accent, #4a3aff);outline-offset:3px}\n.ba-hint{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding-top:14px}\n\n=== HTML ===\n<div class=\"stage tight\">\n  <div class=\"ba\">\n    <div class=\"ph ba-layer ba-after ph-d\"><\/div>\n    <div class=\"ph ba-layer ba-before ph-b\"><\/div>\n    <span class=\"ba-tag is-before\">לפני<\/span>\n    <span class=\"ba-tag is-after\">אחרי<\/span>\n    <div class=\"ba-handle\" tabindex=\"0\" role=\"slider\" aria-label=\"השוואה בין לפני לאחרי\"\n         aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"50\"><span class=\"ba-line\"><\/span><span class=\"ba-knob\">‹›<\/span><\/div>\n  <\/div>\n  <p class=\"ba-hint\">גרור את הידית, או השתמש בחצי המקלדת.<\/p>\n<\/div>\n\n=== JS ===\ngsap.registerPlugin(Draggable);\n\n(function(){\n  const wrap=document.querySelector(\".ba\"),before=wrap.querySelector(\".ba-before\"),handle=wrap.querySelector(\".ba-handle\");\n  let drag;\n  function paint(){\n    const x=gsap.getProperty(handle,\"x\");\n    before.style.clipPath=\"inset(0 0 0 \"+x+\"px)\";\n    handle.setAttribute(\"aria-valuenow\",Math.round(x/wrap.offsetWidth*100));\n  }\n  function build(){\n    const w=wrap.offsetWidth;\n    const pct=(+handle.getAttribute(\"aria-valuenow\")||50)/100;\n    if(drag)drag.kill();\n    gsap.set(handle,{x:w*pct});\n    drag=Draggable.create(handle,{type:\"x\",bounds:{minX:0,maxX:w},onDrag:paint,onThrowUpdate:paint})[0];\n    paint();\n  }\n  // החצים פיזיים בכוונה: ידית נגררת נתפסת כאובייקט על המסך, לא כטקסט\n  handle.addEventListener(\"keydown\",e=>{\n    const step=e.shiftKey?wrap.offsetWidth*.1:wrap.offsetWidth*.02;\n    if(e.key===\"ArrowLeft\"||e.key===\"ArrowRight\"){\n      e.preventDefault();\n      const x=gsap.utils.clamp(0,wrap.offsetWidth,gsap.getProperty(handle,\"x\")+(e.key===\"ArrowRight\"?step:-step));\n      gsap.to(handle,{x:x,duration:.18,onUpdate:paint,onComplete:paint});\n    }\n  });\n  build();\n  let t;addEventListener(\"resize\",()=>{clearTimeout(t);t=setTimeout(build,80);});\n})();\n\nהערת מימוש מהמאגר:\nהידית עצמה היא אלמנט ברוחב אפס שממוקם ב-x פיזי, והכפתור ממורכז עליה בטרנספורם. זה מה שמאפשר להשתמש בערך אחד גם לחיתוך וגם למיקום, בלי לחשב חצי רוחב בכל פריים. `clip-path:inset(0 0 0 X)` משאיר את מה שמימין ל-X, ולכן בעברית \"לפני\" יושב בימין והגרירה שמאלה חושפת את \"אחרי\", בכיוון שבו קוראים. בשינוי גודל חלון חייבים לבנות את ה-Draggable מחדש עם אותו אחוז, אחרת הידית קופצת החוצה מהגבולות.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { Draggable } from \"gsap/Draggable\";\n  gsap.registerPlugin(Draggable);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n\n/* B47 · סליידר השוואה לפני ואחרי */\n.ba{position:relative;max-width:min(900px,94vw);margin-inline:auto;aspect-ratio:16/10;border-radius:var(--r, 14px);\n  overflow:hidden;border:1px solid var(--line, #e4e4ee);user-select:none;touch-action:pan-y}\n.ba-layer{position:absolute;inset:0;border-radius:0;font-size:0}\n/* שכבת \"לפני\" יושבת מעל ונחתכת. inset(0 0 0 X) משאיר את מה שמימין ל-X */\n.ba-before{clip-path:inset(0 0 0 50%)}\n.ba-tag{position:absolute;top:14px;background:rgba(0,0,0,.62);color:#fff;font-size:13px;\n  padding:6px 14px;border-radius:999px;backdrop-filter:blur(6px);z-index:3;pointer-events:none}\n.ba-tag.is-before{right:14px}\n.ba-tag.is-after{left:14px}\n/* הידית: רוחב אפס שממוקם בפיקסלים פיזיים, והכפתור ממורכז עליה */\n.ba-handle{position:absolute;top:0;left:0;width:0;height:100%;z-index:4;cursor:ew-resize}\n.ba-line{position:absolute;top:0;left:-1px;width:2px;height:100%;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.18)}\n.ba-knob{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;\n  background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.28);display:grid;place-items:center;gap:0;\n  font-size:17px;color:#16182b;letter-spacing:-2px}\n.ba-handle:focus-visible .ba-knob{outline:3px solid var(--accent, #4a3aff);outline-offset:3px}\n.ba-hint{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding-top:14px}","html":"<div class=\"stage tight\">\n  <div class=\"ba\">\n    <div class=\"ph ba-layer ba-after ph-d\"><\/div>\n    <div class=\"ph ba-layer ba-before ph-b\"><\/div>\n    <span class=\"ba-tag is-before\">לפני<\/span>\n    <span class=\"ba-tag is-after\">אחרי<\/span>\n    <div class=\"ba-handle\" tabindex=\"0\" role=\"slider\" aria-label=\"השוואה בין לפני לאחרי\"\n         aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"50\"><span class=\"ba-line\"><\/span><span class=\"ba-knob\">‹›<\/span><\/div>\n  <\/div>\n  <p class=\"ba-hint\">גרור את הידית, או השתמש בחצי המקלדת.<\/p>\n<\/div>","js":"gsap.registerPlugin(Draggable);\n\n(function(){\n  const wrap=document.querySelector(\".ba\"),before=wrap.querySelector(\".ba-before\"),handle=wrap.querySelector(\".ba-handle\");\n  let drag;\n  function paint(){\n    const x=gsap.getProperty(handle,\"x\");\n    before.style.clipPath=\"inset(0 0 0 \"+x+\"px)\";\n    handle.setAttribute(\"aria-valuenow\",Math.round(x/wrap.offsetWidth*100));\n  }\n  function build(){\n    const w=wrap.offsetWidth;\n    const pct=(+handle.getAttribute(\"aria-valuenow\")||50)/100;\n    if(drag)drag.kill();\n    gsap.set(handle,{x:w*pct});\n    drag=Draggable.create(handle,{type:\"x\",bounds:{minX:0,maxX:w},onDrag:paint,onThrowUpdate:paint})[0];\n    paint();\n  }\n  // החצים פיזיים בכוונה: ידית נגררת נתפסת כאובייקט על המסך, לא כטקסט\n  handle.addEventListener(\"keydown\",e=>{\n    const step=e.shiftKey?wrap.offsetWidth*.1:wrap.offsetWidth*.02;\n    if(e.key===\"ArrowLeft\"||e.key===\"ArrowRight\"){\n      e.preventDefault();\n      const x=gsap.utils.clamp(0,wrap.offsetWidth,gsap.getProperty(handle,\"x\")+(e.key===\"ArrowRight\"?step:-step));\n      gsap.to(handle,{x:x,duration:.18,onUpdate:paint,onComplete:paint});\n    }\n  });\n  build();\n  let t;addEventListener(\"resize\",()=>{clearTimeout(t);t=setTimeout(build,80);});\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -69,6 +151,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(Draggable);
 (function(){
   const wrap=document.querySelector(".ba"),before=wrap.querySelector(".ba-before"),handle=wrap.querySelector(".ba-handle");

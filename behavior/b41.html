@@ -73,6 +73,91 @@
 </div></div></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 <div class="demo-note">הקסם הוא שילוב של שניים: הפאנל נפתח ב-grid-template-rows מ-0fr ל-1fr כדי לקבל גובה אמיתי, והמדיה נשארת במקום עם position:sticky. בגרסת המובייל אין מקום לעמודה דביקה, ולכן התמונה עוברת לתוך הפריט הפתוח עצמו. אין pin ואין חישובי גובה, ולכן זה לא נשבר כשהטקסט מתארך.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/b41.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+
+/* B41 · סקשן מוצמד שהתוכן בו מתחלף בגלילה */
+.ss{position:relative}
+.ss-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,70px);align-items:start;
+  padding-inline:var(--gutter, clamp(24px, 5vw, 96px));max-width:1180px;margin-inline:auto}
+.ss-media{position:sticky;top:16vh;aspect-ratio:4/3;border-radius:var(--r, 14px);overflow:hidden}
+.ss-media .ph{position:absolute;inset:0;border-radius:0;font-size:38px;opacity:0;transform:scale(1.05);
+  transition:opacity .55s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+.ss-media .ph.on{opacity:1;transform:none}
+.ss-list{display:grid}
+.ss-item{border-top:1px solid var(--line, #e4e4ee);padding-block:clamp(16px,2vw,26px)}
+.ss-item:last-child{border-bottom:1px solid var(--line, #e4e4ee)}
+.ss-head{display:flex;align-items:center;gap:14px}
+.ss-idx{font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}
+.ss-item h3{margin:0;font-size:clamp(19px,2.1vw,30px);color:var(--muted, #6a6d85);transition:color .35s}
+.ss-item.on h3{color:var(--ink, #16182b)}
+.ss-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}
+.ss-item.on .ss-body{grid-template-rows:1fr}
+.ss-body&gt;div{overflow:hidden}
+.ss-body p{margin:12px 0 0;color:var(--muted, #6a6d85);font-size:16px;line-height:1.7;max-width:46ch}
+.ss-mobile{display:none}
+@media(max-width:860px){
+  .ss-grid{grid-template-columns:1fr}
+  .ss-media{display:none}
+  .ss-mobile{display:block;aspect-ratio:16/10;border-radius:var(--r, 14px);overflow:hidden;margin-top:14px;position:relative}
+  .ss-mobile .ph{position:absolute;inset:0;border-radius:0;font-size:26px}
+}
+@media (prefers-reduced-motion: reduce){.ss-body,.ss-media .ph{transition-duration:.01ms}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;div class="ss"&gt;&lt;div class="ss-grid"&gt;
+  &lt;div class="ss-media"&gt;
+    &lt;div class="ph ph-a on"&gt;1&lt;/div&gt;&lt;div class="ph ph-c"&gt;2&lt;/div&gt;&lt;div class="ph ph-d"&gt;3&lt;/div&gt;&lt;div class="ph ph-e"&gt;4&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ss-list"&gt;
+    &lt;div class="ss-item on" data-i="0"&gt;&lt;div class="ss-head"&gt;&lt;span class="ss-idx"&gt;01&lt;/span&gt;&lt;h3&gt;אפיון לפני עיצוב&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class="ss-body"&gt;&lt;div&gt;&lt;p&gt;מתחילים בהבנה של העסק ושל הלקוח, ורק אחר כך פותחים כלי עיצוב. זה השלב שקובע אם האתר יביא פניות.&lt;/p&gt;
+      &lt;div class="ss-mobile"&gt;&lt;div class="ph ph-a"&gt;1&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="ss-item" data-i="1"&gt;&lt;div class="ss-head"&gt;&lt;span class="ss-idx"&gt;02&lt;/span&gt;&lt;h3&gt;קופי שמדבר אל הלקוח&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class="ss-body"&gt;&lt;div&gt;&lt;p&gt;כל כותרת עונה על שאלה אמיתית שיש למי שנחת בעמוד, במקום לתאר את העסק מבפנים.&lt;/p&gt;
+      &lt;div class="ss-mobile"&gt;&lt;div class="ph ph-c"&gt;2&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="ss-item" data-i="2"&gt;&lt;div class="ss-head"&gt;&lt;span class="ss-idx"&gt;03&lt;/span&gt;&lt;h3&gt;עיצוב בשפה אחת&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class="ss-body"&gt;&lt;div&gt;&lt;p&gt;מערכת אחת של צבעים, טיפוגרפיה וריווח שחוזרת בכל עמוד, כך שהאתר מרגיש שלם ולא אוסף מסכים.&lt;/p&gt;
+      &lt;div class="ss-mobile"&gt;&lt;div class="ph ph-d"&gt;3&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="ss-item" data-i="3"&gt;&lt;div class="ss-head"&gt;&lt;span class="ss-idx"&gt;04&lt;/span&gt;&lt;h3&gt;מדידה מהיום הראשון&lt;/h3&gt;&lt;/div&gt;
+      &lt;div class="ss-body"&gt;&lt;div&gt;&lt;p&gt;מחברים מעקב לפני העלייה לאוויר, כדי שנדע מה עובד במקום לנחש חודש אחרי.&lt;/p&gt;
+      &lt;div class="ss-mobile"&gt;&lt;div class="ph ph-e"&gt;4&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const items=gsap.utils.toArray(".ss-item");
+  const shots=[...document.querySelectorAll(".ss-media .ph")];
+  function activate(i){
+    items.forEach((it,n)=&gt;it.classList.toggle("on",n===i));
+    shots.forEach((s,n)=&gt;s.classList.toggle("on",n===i));
+  }
+  items.forEach((item,i)=&gt;{
+    ScrollTrigger.create({trigger:item,start:"top 62%",end:"bottom 45%",
+      onToggle:self=&gt;{if(self.isActive)activate(i);}});
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b41 · סקשן מוצמד שהתוכן בו מתחלף בגלילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b41.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b41.html\n\nמה זה עושה: רשימת נושאים שנשארת במקום, וכל אחד נפתח מעצמו כשמגיע תורו בגלילה, יחד עם התמונה שמתחלפת לצידו. אקורדיון שהגלילה מפעילה במקום לחיצה.\nמתי משתמשים: פיצ'רים, שירותים, שלבי עבודה, יתרונות. הדפוס הזה חזר שש פעמים באוסף הקלונאבלס של Webflow ועוד פעם ב-21st.dev, והוא מחליף ארבעה סקשנים בסקשן אחד.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n\n/* B41 · סקשן מוצמד שהתוכן בו מתחלף בגלילה */\n.ss{position:relative}\n.ss-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,70px);align-items:start;\n  padding-inline:var(--gutter, clamp(24px, 5vw, 96px));max-width:1180px;margin-inline:auto}\n.ss-media{position:sticky;top:16vh;aspect-ratio:4/3;border-radius:var(--r, 14px);overflow:hidden}\n.ss-media .ph{position:absolute;inset:0;border-radius:0;font-size:38px;opacity:0;transform:scale(1.05);\n  transition:opacity .55s ease,transform .9s cubic-bezier(.2,.8,.2,1)}\n.ss-media .ph.on{opacity:1;transform:none}\n.ss-list{display:grid}\n.ss-item{border-top:1px solid var(--line, #e4e4ee);padding-block:clamp(16px,2vw,26px)}\n.ss-item:last-child{border-bottom:1px solid var(--line, #e4e4ee)}\n.ss-head{display:flex;align-items:center;gap:14px}\n.ss-idx{font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}\n.ss-item h3{margin:0;font-size:clamp(19px,2.1vw,30px);color:var(--muted, #6a6d85);transition:color .35s}\n.ss-item.on h3{color:var(--ink, #16182b)}\n.ss-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}\n.ss-item.on .ss-body{grid-template-rows:1fr}\n.ss-body>div{overflow:hidden}\n.ss-body p{margin:12px 0 0;color:var(--muted, #6a6d85);font-size:16px;line-height:1.7;max-width:46ch}\n.ss-mobile{display:none}\n@media(max-width:860px){\n  .ss-grid{grid-template-columns:1fr}\n  .ss-media{display:none}\n  .ss-mobile{display:block;aspect-ratio:16/10;border-radius:var(--r, 14px);overflow:hidden;margin-top:14px;position:relative}\n  .ss-mobile .ph{position:absolute;inset:0;border-radius:0;font-size:26px}\n}\n@media (prefers-reduced-motion: reduce){.ss-body,.ss-media .ph{transition-duration:.01ms}}\n\n=== HTML ===\n<div class=\"stage\"><div class=\"ss\"><div class=\"ss-grid\">\n  <div class=\"ss-media\">\n    <div class=\"ph ph-a on\">1<\/div><div class=\"ph ph-c\">2<\/div><div class=\"ph ph-d\">3<\/div><div class=\"ph ph-e\">4<\/div>\n  <\/div>\n  <div class=\"ss-list\">\n    <div class=\"ss-item on\" data-i=\"0\"><div class=\"ss-head\"><span class=\"ss-idx\">01<\/span><h3>אפיון לפני עיצוב<\/h3><\/div>\n      <div class=\"ss-body\"><div><p>מתחילים בהבנה של העסק ושל הלקוח, ורק אחר כך פותחים כלי עיצוב. זה השלב שקובע אם האתר יביא פניות.<\/p>\n      <div class=\"ss-mobile\"><div class=\"ph ph-a\">1<\/div><\/div><\/div><\/div><\/div>\n    <div class=\"ss-item\" data-i=\"1\"><div class=\"ss-head\"><span class=\"ss-idx\">02<\/span><h3>קופי שמדבר אל הלקוח<\/h3><\/div>\n      <div class=\"ss-body\"><div><p>כל כותרת עונה על שאלה אמיתית שיש למי שנחת בעמוד, במקום לתאר את העסק מבפנים.<\/p>\n      <div class=\"ss-mobile\"><div class=\"ph ph-c\">2<\/div><\/div><\/div><\/div><\/div>\n    <div class=\"ss-item\" data-i=\"2\"><div class=\"ss-head\"><span class=\"ss-idx\">03<\/span><h3>עיצוב בשפה אחת<\/h3><\/div>\n      <div class=\"ss-body\"><div><p>מערכת אחת של צבעים, טיפוגרפיה וריווח שחוזרת בכל עמוד, כך שהאתר מרגיש שלם ולא אוסף מסכים.<\/p>\n      <div class=\"ss-mobile\"><div class=\"ph ph-d\">3<\/div><\/div><\/div><\/div><\/div>\n    <div class=\"ss-item\" data-i=\"3\"><div class=\"ss-head\"><span class=\"ss-idx\">04<\/span><h3>מדידה מהיום הראשון<\/h3><\/div>\n      <div class=\"ss-body\"><div><p>מחברים מעקב לפני העלייה לאוויר, כדי שנדע מה עובד במקום לנחש חודש אחרי.<\/p>\n      <div class=\"ss-mobile\"><div class=\"ph ph-e\">4<\/div><\/div><\/div><\/div><\/div>\n  <\/div>\n<\/div><\/div><\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const items=gsap.utils.toArray(\".ss-item\");\n  const shots=[...document.querySelectorAll(\".ss-media .ph\")];\n  function activate(i){\n    items.forEach((it,n)=>it.classList.toggle(\"on\",n===i));\n    shots.forEach((s,n)=>s.classList.toggle(\"on\",n===i));\n  }\n  items.forEach((item,i)=>{\n    ScrollTrigger.create({trigger:item,start:\"top 62%\",end:\"bottom 45%\",\n      onToggle:self=>{if(self.isActive)activate(i);}});\n  });\n})();\n\nהערת מימוש מהמאגר:\nהקסם הוא שילוב של שניים: הפאנל נפתח ב-grid-template-rows מ-0fr ל-1fr כדי לקבל גובה אמיתי, והמדיה נשארת במקום עם position:sticky. בגרסת המובייל אין מקום לעמודה דביקה, ולכן התמונה עוברת לתוך הפריט הפתוח עצמו. אין pin ואין חישובי גובה, ולכן זה לא נשבר כשהטקסט מתארך.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n\n/* B41 · סקשן מוצמד שהתוכן בו מתחלף בגלילה */\n.ss{position:relative}\n.ss-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,70px);align-items:start;\n  padding-inline:var(--gutter, clamp(24px, 5vw, 96px));max-width:1180px;margin-inline:auto}\n.ss-media{position:sticky;top:16vh;aspect-ratio:4/3;border-radius:var(--r, 14px);overflow:hidden}\n.ss-media .ph{position:absolute;inset:0;border-radius:0;font-size:38px;opacity:0;transform:scale(1.05);\n  transition:opacity .55s ease,transform .9s cubic-bezier(.2,.8,.2,1)}\n.ss-media .ph.on{opacity:1;transform:none}\n.ss-list{display:grid}\n.ss-item{border-top:1px solid var(--line, #e4e4ee);padding-block:clamp(16px,2vw,26px)}\n.ss-item:last-child{border-bottom:1px solid var(--line, #e4e4ee)}\n.ss-head{display:flex;align-items:center;gap:14px}\n.ss-idx{font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}\n.ss-item h3{margin:0;font-size:clamp(19px,2.1vw,30px);color:var(--muted, #6a6d85);transition:color .35s}\n.ss-item.on h3{color:var(--ink, #16182b)}\n.ss-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}\n.ss-item.on .ss-body{grid-template-rows:1fr}\n.ss-body>div{overflow:hidden}\n.ss-body p{margin:12px 0 0;color:var(--muted, #6a6d85);font-size:16px;line-height:1.7;max-width:46ch}\n.ss-mobile{display:none}\n@media(max-width:860px){\n  .ss-grid{grid-template-columns:1fr}\n  .ss-media{display:none}\n  .ss-mobile{display:block;aspect-ratio:16/10;border-radius:var(--r, 14px);overflow:hidden;margin-top:14px;position:relative}\n  .ss-mobile .ph{position:absolute;inset:0;border-radius:0;font-size:26px}\n}\n@media (prefers-reduced-motion: reduce){.ss-body,.ss-media .ph{transition-duration:.01ms}}","html":"<div class=\"stage\"><div class=\"ss\"><div class=\"ss-grid\">\n  <div class=\"ss-media\">\n    <div class=\"ph ph-a on\">1<\/div><div class=\"ph ph-c\">2<\/div><div class=\"ph ph-d\">3<\/div><div class=\"ph ph-e\">4<\/div>\n  <\/div>\n  <div class=\"ss-list\">\n    <div class=\"ss-item on\" data-i=\"0\"><div class=\"ss-head\"><span class=\"ss-idx\">01<\/span><h3>אפיון לפני עיצוב<\/h3><\/div>\n      <div class=\"ss-body\"><div><p>מתחילים בהבנה של העסק ושל הלקוח, ורק אחר כך פותחים כלי עיצוב. זה השלב שקובע אם האתר יביא פניות.<\/p>\n      <div class=\"ss-mobile\"><div class=\"ph ph-a\">1<\/div><\/div><\/div><\/div><\/div>\n    <div class=\"ss-item\" data-i=\"1\"><div class=\"ss-head\"><span class=\"ss-idx\">02<\/span><h3>קופי שמדבר אל הלקוח<\/h3><\/div>\n      <div class=\"ss-body\"><div><p>כל כותרת עונה על שאלה אמיתית שיש למי שנחת בעמוד, במקום לתאר את העסק מבפנים.<\/p>\n      <div class=\"ss-mobile\"><div class=\"ph ph-c\">2<\/div><\/div><\/div><\/div><\/div>\n    <div class=\"ss-item\" data-i=\"2\"><div class=\"ss-head\"><span class=\"ss-idx\">03<\/span><h3>עיצוב בשפה אחת<\/h3><\/div>\n      <div class=\"ss-body\"><div><p>מערכת אחת של צבעים, טיפוגרפיה וריווח שחוזרת בכל עמוד, כך שהאתר מרגיש שלם ולא אוסף מסכים.<\/p>\n      <div class=\"ss-mobile\"><div class=\"ph ph-d\">3<\/div><\/div><\/div><\/div><\/div>\n    <div class=\"ss-item\" data-i=\"3\"><div class=\"ss-head\"><span class=\"ss-idx\">04<\/span><h3>מדידה מהיום הראשון<\/h3><\/div>\n      <div class=\"ss-body\"><div><p>מחברים מעקב לפני העלייה לאוויר, כדי שנדע מה עובד במקום לנחש חודש אחרי.<\/p>\n      <div class=\"ss-mobile\"><div class=\"ph ph-e\">4<\/div><\/div><\/div><\/div><\/div>\n  <\/div>\n<\/div><\/div><\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const items=gsap.utils.toArray(\".ss-item\");\n  const shots=[...document.querySelectorAll(\".ss-media .ph\")];\n  function activate(i){\n    items.forEach((it,n)=>it.classList.toggle(\"on\",n===i));\n    shots.forEach((s,n)=>s.classList.toggle(\"on\",n===i));\n  }\n  items.forEach((item,i)=>{\n    ScrollTrigger.create({trigger:item,start:\"top 62%\",end:\"bottom 45%\",\n      onToggle:self=>{if(self.isActive)activate(i);}});\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -86,6 +171,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const items=gsap.utils.toArray(".ss-item");

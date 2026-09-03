@@ -34,6 +34,49 @@
 </div></div>
 
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g09.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
+
+/* G09 · זריקה אינרציאלית בהובר */
+.throw-grid{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.throw-item{width:110px;height:110px;border-radius:16px;font-size:17px}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="throw-grid"&gt;
+&lt;div class="throw-item ph ph-a"&gt;לוגו&lt;/div&gt;&lt;div class="throw-item ph ph-b"&gt;לוגו&lt;/div&gt;&lt;div class="throw-item ph ph-c"&gt;לוגו&lt;/div&gt;
+&lt;div class="throw-item ph ph-d"&gt;לוגו&lt;/div&gt;&lt;div class="throw-item ph ph-e"&gt;לוגו&lt;/div&gt;&lt;div class="throw-item ph ph-f"&gt;לוגו&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(InertiaPlugin);
+
+document.querySelectorAll(".throw-item").forEach(el=&gt;{
+  let vx=0,vy=0,lx=0,ly=0;
+  el.addEventListener("mousemove",e=&gt;{vx=e.clientX-lx;vy=e.clientY-ly;lx=e.clientX;ly=e.clientY});
+  el.addEventListener("mouseleave",()=&gt;{
+    gsap.to(el,{inertia:{x:{velocity:vx*40,end:0},y:{velocity:vy*40,end:0}},duration:1.2});
+  });
+});</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g09 · זריקה אינרציאלית בהובר\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g09.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g09.html\n\nמה זה עושה: מרחפים על פריט והוא נזרק בכיוון תנועת העכבר וחוזר למקומו ברכות.\nמתי משתמשים: גריד לוגואים, תגיות או צ'יפים באתר playful. במובייל כבוי.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/InertiaPlugin.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G09 · זריקה אינרציאלית בהובר */\n.throw-grid{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.throw-item{width:110px;height:110px;border-radius:16px;font-size:17px}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"throw-grid\">\n<div class=\"throw-item ph ph-a\">לוגו<\/div><div class=\"throw-item ph ph-b\">לוגו<\/div><div class=\"throw-item ph ph-c\">לוגו<\/div>\n<div class=\"throw-item ph ph-d\">לוגו<\/div><div class=\"throw-item ph ph-e\">לוגו<\/div><div class=\"throw-item ph ph-f\">לוגו<\/div>\n<\/div><\/div>\n\n=== JS ===\ngsap.registerPlugin(InertiaPlugin);\n\ndocument.querySelectorAll(\".throw-item\").forEach(el=>{\n  let vx=0,vy=0,lx=0,ly=0;\n  el.addEventListener(\"mousemove\",e=>{vx=e.clientX-lx;vy=e.clientY-ly;lx=e.clientX;ly=e.clientY});\n  el.addEventListener(\"mouseleave\",()=>{\n    gsap.to(el,{inertia:{x:{velocity:vx*40,end:0},y:{velocity:vy*40,end:0}},duration:1.2});\n  });\n});\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { InertiaPlugin } from \"gsap/InertiaPlugin\";\n  gsap.registerPlugin(InertiaPlugin);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G09 · זריקה אינרציאלית בהובר */\n.throw-grid{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.throw-item{width:110px;height:110px;border-radius:16px;font-size:17px}","html":"<div class=\"stage tight\"><div class=\"throw-grid\">\n<div class=\"throw-item ph ph-a\">לוגו<\/div><div class=\"throw-item ph ph-b\">לוגו<\/div><div class=\"throw-item ph ph-c\">לוגו<\/div>\n<div class=\"throw-item ph ph-d\">לוגו<\/div><div class=\"throw-item ph ph-e\">לוגו<\/div><div class=\"throw-item ph ph-f\">לוגו<\/div>\n<\/div><\/div>","js":"gsap.registerPlugin(InertiaPlugin);\n\ndocument.querySelectorAll(\".throw-item\").forEach(el=>{\n  let vx=0,vy=0,lx=0,ly=0;\n  el.addEventListener(\"mousemove\",e=>{vx=e.clientX-lx;vy=e.clientY-ly;lx=e.clientX;ly=e.clientY});\n  el.addEventListener(\"mouseleave\",()=>{\n    gsap.to(el,{inertia:{x:{velocity:vx*40,end:0},y:{velocity:vy*40,end:0}},duration:1.2});\n  });\n});","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/InertiaPlugin.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/InertiaPlugin.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -47,6 +90,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(InertiaPlugin);
 document.querySelectorAll(".throw-item").forEach(el=>{
   let vx=0,vy=0,lx=0,ly=0;

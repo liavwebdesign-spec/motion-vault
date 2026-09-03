@@ -33,6 +33,46 @@
 </div></div>
 
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g07.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+
+/* G07 · תמונות רודפות עכבר (Image Trail) */
+.tzone{height:60vh;border:2px dashed #ccc;border-radius:var(--r, 14px);display:flex;align-items:center;justify-content:center;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));color:#999}
+.timg{width:130px;height:95px;border-radius:10px;position:fixed;left:0;top:0;pointer-events:none;z-index:99;opacity:0;font-size:18px}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="tzone"&gt;&lt;p&gt;הזז את העכבר כאן&lt;/p&gt;
+&lt;div class="timg ph ph-a"&gt;1&lt;/div&gt;&lt;div class="timg ph ph-b"&gt;2&lt;/div&gt;&lt;div class="timg ph ph-c"&gt;3&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>const zone=document.querySelector(".tzone"),imgs=document.querySelectorAll(".timg");
+let mx=0,my=0,inside=false;
+zone.addEventListener("mouseenter",()=&gt;{inside=true;imgs.forEach(i=&gt;i.style.opacity=1)});
+zone.addEventListener("mouseleave",()=&gt;{inside=false;imgs.forEach(i=&gt;i.style.opacity=0)});
+document.addEventListener("mousemove",e=&gt;{mx=e.clientX;my=e.clientY});
+imgs.forEach((img,i)=&gt;{
+  let px=0,py=0;const speed=.15-i*.04;
+  gsap.ticker.add(()=&gt;{if(!inside)return;px+=(mx-px)*speed;py+=(my-py)*speed;
+    gsap.set(img,{x:px-65,y:py-48});});
+});</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g07 · תמונות רודפות עכבר (Image Trail)\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g07.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g07.html\n\nמה זה עושה: מניפת תמונות שרודפת אחרי הסמן במהירויות שונות: הראשונה צמודה, האחרונות משתרכות.\nמתי משתמשים: הירו של פורטפוליו או סטודיו, סקשן playful. במובייל כבוי.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n\n/* G07 · תמונות רודפות עכבר (Image Trail) */\n.tzone{height:60vh;border:2px dashed #ccc;border-radius:var(--r, 14px);display:flex;align-items:center;justify-content:center;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));color:#999}\n.timg{width:130px;height:95px;border-radius:10px;position:fixed;left:0;top:0;pointer-events:none;z-index:99;opacity:0;font-size:18px}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"tzone\"><p>הזז את העכבר כאן<\/p>\n<div class=\"timg ph ph-a\">1<\/div><div class=\"timg ph ph-b\">2<\/div><div class=\"timg ph ph-c\">3<\/div>\n<\/div><\/div>\n\n=== JS ===\nconst zone=document.querySelector(\".tzone\"),imgs=document.querySelectorAll(\".timg\");\nlet mx=0,my=0,inside=false;\nzone.addEventListener(\"mouseenter\",()=>{inside=true;imgs.forEach(i=>i.style.opacity=1)});\nzone.addEventListener(\"mouseleave\",()=>{inside=false;imgs.forEach(i=>i.style.opacity=0)});\ndocument.addEventListener(\"mousemove\",e=>{mx=e.clientX;my=e.clientY});\nimgs.forEach((img,i)=>{\n  let px=0,py=0;const speed=.15-i*.04;\n  gsap.ticker.add(()=>{if(!inside)return;px+=(mx-px)*speed;py+=(my-py)*speed;\n    gsap.set(img,{x:px-65,y:py-48});});\n});\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n\n/* G07 · תמונות רודפות עכבר (Image Trail) */\n.tzone{height:60vh;border:2px dashed #ccc;border-radius:var(--r, 14px);display:flex;align-items:center;justify-content:center;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));color:#999}\n.timg{width:130px;height:95px;border-radius:10px;position:fixed;left:0;top:0;pointer-events:none;z-index:99;opacity:0;font-size:18px}","html":"<div class=\"stage tight\"><div class=\"tzone\"><p>הזז את העכבר כאן<\/p>\n<div class=\"timg ph ph-a\">1<\/div><div class=\"timg ph ph-b\">2<\/div><div class=\"timg ph ph-c\">3<\/div>\n<\/div><\/div>","js":"const zone=document.querySelector(\".tzone\"),imgs=document.querySelectorAll(\".timg\");\nlet mx=0,my=0,inside=false;\nzone.addEventListener(\"mouseenter\",()=>{inside=true;imgs.forEach(i=>i.style.opacity=1)});\nzone.addEventListener(\"mouseleave\",()=>{inside=false;imgs.forEach(i=>i.style.opacity=0)});\ndocument.addEventListener(\"mousemove\",e=>{mx=e.clientX;my=e.clientY});\nimgs.forEach((img,i)=>{\n  let px=0,py=0;const speed=.15-i*.04;\n  gsap.ticker.add(()=>{if(!inside)return;px+=(mx-px)*speed;py+=(my-py)*speed;\n    gsap.set(img,{x:px-65,y:py-48});});\n});","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -45,6 +85,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 const zone=document.querySelector(".tzone"),imgs=document.querySelectorAll(".timg");
 let mx=0,my=0,inside=false;

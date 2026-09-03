@@ -46,6 +46,48 @@
 </div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 <div class="demo-note">ההדר כאן sticky בתוך הדמו כדי לא להתנגש בסרגל של המאגר. בפרויקט אמיתי הוא fixed, והחישוב זהה.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/b18.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* B18 · הדר שמחליף ערכת צבע לפי הסקשן */
+.th-wrap{position:relative}
+.th-head{position:sticky;top:0;z-index:40;display:flex;justify-content:space-between;align-items:center;padding:14px var(--gutter, clamp(24px, 5vw, 96px));color:var(--ink, #16182b);transition:color .35s}
+.th-head nav{display:flex;gap:6px;padding:6px;border-radius:999px;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border:1px solid rgba(0,0,0,.08);transition:background .35s,border-color .35s}
+.th-head nav span{padding:8px 14px;border-radius:999px;font-size:13px}
+.th-head nav span.cta{background:#111;color:#fff;transition:background .35s,color .35s}
+.th-head[data-theme="dark"]{color:#fff}
+.th-head[data-theme="dark"] nav{background:rgba(20,20,32,.75);border-color:rgba(255,255,255,.12)}
+.th-head[data-theme="dark"] nav span.cta{background:#c6ff4a;color:#111}
+.th-sec{min-height:90vh;display:grid;place-items:center;font-size:clamp(28px,3vw,52px);font-weight:700}
+.th-sec[data-theme="light"]{background:#fff;color:#c9c9d8}
+.th-sec[data-theme="dark"]{background:#0f1020;color:#3a3c55}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="th-wrap"&gt;
+  &lt;header class="th-head" data-theme="light"&gt;&lt;strong&gt;לוגו&lt;/strong&gt;&lt;nav&gt;&lt;span&gt;עבודות&lt;/span&gt;&lt;span&gt;שירותים&lt;/span&gt;&lt;span&gt;אודות&lt;/span&gt;&lt;span class="cta"&gt;דברו איתנו&lt;/span&gt;&lt;/nav&gt;&lt;/header&gt;
+  &lt;section class="th-sec" data-theme="light"&gt;סקשן בהיר&lt;/section&gt;
+  &lt;section class="th-sec" data-theme="dark"&gt;סקשן כהה&lt;/section&gt;
+  &lt;section class="th-sec" data-theme="light"&gt;שוב בהיר&lt;/section&gt;
+  &lt;section class="th-sec" data-theme="dark"&gt;ושוב כהה&lt;/section&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const head=document.querySelector(".th-head");
+  const h=()=&gt;head.offsetHeight;
+  gsap.utils.toArray(".th-sec").forEach(s=&gt;ScrollTrigger.create({trigger:s,start:()=&gt;"top "+h()*0.6,end:()=&gt;"bottom "+h()*0.6,
+    onToggle:self=&gt;{if(self.isActive)head.dataset.theme=s.dataset.theme;}}));
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b18 · הדר שמחליף ערכת צבע לפי הסקשן\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b18.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b18.html\n\nמה זה עושה: הדר דביק שנשאר קריא על כל רקע: כשהוא עובר מעל סקשן כהה הוא הופך לבהיר, ומעל סקשן בהיר חוזר לכהה. הטריגר נמדד בגובה ההדר עצמו, לא באמצע המסך.\nמתי משתמשים: כל אתר עם הדר שקוף או דביק וסקשנים בצבעים מתחלפים. חוסך את הפשרה של הדר אטום לבן.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* B18 · הדר שמחליף ערכת צבע לפי הסקשן */\n.th-wrap{position:relative}\n.th-head{position:sticky;top:0;z-index:40;display:flex;justify-content:space-between;align-items:center;padding:14px var(--gutter, clamp(24px, 5vw, 96px));color:var(--ink, #16182b);transition:color .35s}\n.th-head nav{display:flex;gap:6px;padding:6px;border-radius:999px;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border:1px solid rgba(0,0,0,.08);transition:background .35s,border-color .35s}\n.th-head nav span{padding:8px 14px;border-radius:999px;font-size:13px}\n.th-head nav span.cta{background:#111;color:#fff;transition:background .35s,color .35s}\n.th-head[data-theme=\"dark\"]{color:#fff}\n.th-head[data-theme=\"dark\"] nav{background:rgba(20,20,32,.75);border-color:rgba(255,255,255,.12)}\n.th-head[data-theme=\"dark\"] nav span.cta{background:#c6ff4a;color:#111}\n.th-sec{min-height:90vh;display:grid;place-items:center;font-size:clamp(28px,3vw,52px);font-weight:700}\n.th-sec[data-theme=\"light\"]{background:#fff;color:#c9c9d8}\n.th-sec[data-theme=\"dark\"]{background:#0f1020;color:#3a3c55}\n\n=== HTML ===\n<div class=\"th-wrap\">\n  <header class=\"th-head\" data-theme=\"light\"><strong>לוגו<\/strong><nav><span>עבודות<\/span><span>שירותים<\/span><span>אודות<\/span><span class=\"cta\">דברו איתנו<\/span><\/nav><\/header>\n  <section class=\"th-sec\" data-theme=\"light\">סקשן בהיר<\/section>\n  <section class=\"th-sec\" data-theme=\"dark\">סקשן כהה<\/section>\n  <section class=\"th-sec\" data-theme=\"light\">שוב בהיר<\/section>\n  <section class=\"th-sec\" data-theme=\"dark\">ושוב כהה<\/section>\n<\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const head=document.querySelector(\".th-head\");\n  const h=()=>head.offsetHeight;\n  gsap.utils.toArray(\".th-sec\").forEach(s=>ScrollTrigger.create({trigger:s,start:()=>\"top \"+h()*0.6,end:()=>\"bottom \"+h()*0.6,\n    onToggle:self=>{if(self.isActive)head.dataset.theme=s.dataset.theme;}}));\n})();\n\nהערת מימוש מהמאגר:\nההדר כאן sticky בתוך הדמו כדי לא להתנגש בסרגל של המאגר. בפרויקט אמיתי הוא fixed, והחישוב זהה.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* B18 · הדר שמחליף ערכת צבע לפי הסקשן */\n.th-wrap{position:relative}\n.th-head{position:sticky;top:0;z-index:40;display:flex;justify-content:space-between;align-items:center;padding:14px var(--gutter, clamp(24px, 5vw, 96px));color:var(--ink, #16182b);transition:color .35s}\n.th-head nav{display:flex;gap:6px;padding:6px;border-radius:999px;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border:1px solid rgba(0,0,0,.08);transition:background .35s,border-color .35s}\n.th-head nav span{padding:8px 14px;border-radius:999px;font-size:13px}\n.th-head nav span.cta{background:#111;color:#fff;transition:background .35s,color .35s}\n.th-head[data-theme=\"dark\"]{color:#fff}\n.th-head[data-theme=\"dark\"] nav{background:rgba(20,20,32,.75);border-color:rgba(255,255,255,.12)}\n.th-head[data-theme=\"dark\"] nav span.cta{background:#c6ff4a;color:#111}\n.th-sec{min-height:90vh;display:grid;place-items:center;font-size:clamp(28px,3vw,52px);font-weight:700}\n.th-sec[data-theme=\"light\"]{background:#fff;color:#c9c9d8}\n.th-sec[data-theme=\"dark\"]{background:#0f1020;color:#3a3c55}","html":"<div class=\"th-wrap\">\n  <header class=\"th-head\" data-theme=\"light\"><strong>לוגו<\/strong><nav><span>עבודות<\/span><span>שירותים<\/span><span>אודות<\/span><span class=\"cta\">דברו איתנו<\/span><\/nav><\/header>\n  <section class=\"th-sec\" data-theme=\"light\">סקשן בהיר<\/section>\n  <section class=\"th-sec\" data-theme=\"dark\">סקשן כהה<\/section>\n  <section class=\"th-sec\" data-theme=\"light\">שוב בהיר<\/section>\n  <section class=\"th-sec\" data-theme=\"dark\">ושוב כהה<\/section>\n<\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const head=document.querySelector(\".th-head\");\n  const h=()=>head.offsetHeight;\n  gsap.utils.toArray(\".th-sec\").forEach(s=>ScrollTrigger.create({trigger:s,start:()=>\"top \"+h()*0.6,end:()=>\"bottom \"+h()*0.6,\n    onToggle:self=>{if(self.isActive)head.dataset.theme=s.dataset.theme;}}));\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":false}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -59,6 +101,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const head=document.querySelector(".th-head");

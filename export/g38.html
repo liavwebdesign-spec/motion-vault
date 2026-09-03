@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G38 · Lenis + ScrollTrigger: גלילה חלקה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:#fff;font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
+
+/* G38 · Lenis + ScrollTrigger: גלילה חלקה */
+html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
+.ln-block{margin:clamp(60px,8vw,140px) var(--gutter, clamp(24px, 5vw, 96px));display:grid;grid-template-columns:1fr 1fr;gap:var(--gap, clamp(16px, 1.6vw, 36px));align-items:center}
+/* היפוך סדר העמודות בלבד. direction:ltr על הבלוק היה הופך גם את הטקסט העברי עצמו. */
+.ln-block:nth-child(even)>:first-child{order:2}
+.ln-block .ph{height:min(340px,46vw);font-size:26px}
+.ln-block h3{font-size:clamp(24px,2.4vw,40px);margin:0 0 10px}.ln-block p{color:var(--muted, #6a6d85);margin:0}
+.ln-toggle{position:fixed;bottom:22px;inset-inline-start:22px;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+@media(max-width:767px){.ln-block{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="ln-block"><div><h3>הגלילה ממשיכה קצת אחרי שעזבת</h3><p>Lenis מוסיף אינרציה עדינה, כמו טראקפד טוב.</p></div><div class="ph ph-a">1</div></div>
+<div class="ln-block"><div><h3>ה-ScrollTrigger לא יודע שמשהו השתנה</h3><p>הוא מקבל עדכון מכל פריים של Lenis דרך הטיקר של GSAP.</p></div><div class="ph ph-b">2</div></div>
+<div class="ln-block"><div><h3>כבה, גלול, הדלק, גלול</h3><p>ההבדל מורגש בעיקר בגלגלת עכבר. בטראקפד ובמובייל הוא כמעט לא קיים.</p></div><div class="ph ph-c">3</div></div>
+<div class="ln-block"><div><h3>לא לכל אתר</h3><p>גלילה מלאכותית באתר טפסים מרגישה כמו בוץ. שומרים את זה לאתרי חוויה.</p></div><div class="ph ph-d">4</div></div>
+<button class="gbtn ln-toggle">Lenis: פועל</button>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  let lenis=null;const btn=document.querySelector(".ln-toggle");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function raf(t){lenis&&lenis.raf(t*1000);}
+  function on(){lenis=new Lenis({lerp:.09,wheelMultiplier:1});lenis.on("scroll",ScrollTrigger.update);gsap.ticker.add(raf);gsap.ticker.lagSmoothing(0);btn.textContent="Lenis: פועל";}
+  function off(){if(lenis){lenis.destroy();lenis=null;}gsap.ticker.remove(raf);btn.textContent="Lenis: כבוי";}
+  if(!reduce)on();else off();
+  btn.addEventListener("click",()=>lenis?off():on());
+  gsap.utils.toArray(".ln-block").forEach(b=>{gsap.from(b.children,{y:40,autoAlpha:0,duration:.9,ease:"power3.out",stagger:.12,scrollTrigger:{trigger:b,start:"top 78%",once:true}});});
+})();
+</script>
+</body>
+</html>

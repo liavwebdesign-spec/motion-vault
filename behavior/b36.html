@@ -97,6 +97,150 @@
 </form></div>
 
 <div class="demo-note">שלושה דברים שמעלים השלמה: שאלה אחת במסך, פס התקדמות שאומר כמה נשאר, ומסך סיכום שמאפשר לחזור ולתקן לפני שליחה. הוולידציה נעשית במעבר בין שלבים ולא בסוף, כדי שלא יגלו בעיה אחרי חמישה מסכים. השדות שומרים על autocomplete כדי שהמילוי במובייל יהיה מהיר.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b36.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B36 · טופס רב-שלבי עם התקדמות */
+.ms{max-width:min(620px,92vw);margin-inline:auto;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:20px;padding:clamp(22px,3vw,38px);overflow:hidden}
+.ms-top{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.ms-bar{flex:1;height:6px;border-radius:999px;background:var(--line, #e4e4ee);overflow:hidden}
+.ms-bar i{display:block;height:100%;width:0;background:var(--accent, #4a3aff);border-radius:999px;transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.ms-num{font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ms-view{position:relative}
+.ms-step{display:none}
+.ms-step.on{display:block;animation:msIn .38s cubic-bezier(.2,.8,.2,1)}
+.ms-step.back.on{animation:msBack .38s cubic-bezier(.2,.8,.2,1)}
+@keyframes msIn{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
+@keyframes msBack{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+.ms-step h3{margin:0 0 6px;font-size:clamp(20px,2.2vw,28px)}
+.ms-step p.sub{margin:0 0 18px;color:var(--muted, #6a6d85);font-size:15px}
+.ms-opts{display:grid;gap:10px}
+.ms-opt{display:flex;align-items:center;gap:12px;border:1px solid var(--line, #e4e4ee);border-radius:14px;padding:15px 16px;cursor:pointer;
+  background:var(--bg, #f7f7fa);transition:border-color .22s,background .22s}
+.ms-opt:hover{border-color:var(--accent, #4a3aff)}
+.ms-opt input{accent-color:var(--accent, #4a3aff);width:18px;height:18px;flex:none}
+.ms-opt.sel{border-color:var(--accent, #4a3aff);background:#eceaff}
+.ms-field input{width:100%;font:inherit;font-size:16px;padding:15px 16px;border:1px solid var(--line, #e4e4ee);border-radius:14px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}
+.ms-field input:focus{outline:0;border-color:var(--accent, #4a3aff)}
+.ms-err{font-size:13px;color:#c2255c;margin-top:8px;display:none}
+.ms-err.on{display:block}
+.ms-nav{display:flex;gap:10px;margin-top:24px}
+.ms-nav button{flex:1;min-height:50px;border-radius:999px;border:0;font:inherit;font-weight:600;font-size:16px;cursor:pointer}
+.ms-back{background:var(--bg, #f7f7fa);border:1px solid var(--line, #e4e4ee)!important;color:var(--ink, #16182b);flex:0 0 auto;padding-inline:22px}
+.ms-next{background:var(--accent, #4a3aff);color:#fff}
+.ms-sum{list-style:none;margin:0 0 4px;padding:0;display:grid;gap:8px}
+.ms-sum li{display:flex;justify-content:space-between;gap:16px;font-size:15px;border-bottom:1px dashed var(--line, #e4e4ee);padding-bottom:8px}
+.ms-sum b{font-weight:600}
+.ms-done{text-align:center;padding:10px 0}
+.ms-done .ok{width:56px;height:56px;border-radius:50%;background:#2b8a3e;color:#fff;display:grid;place-items:center;font-size:26px;margin:0 auto 14px}
+@media (prefers-reduced-motion: reduce){.ms-step.on{animation:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;form class="ms" novalidate&gt;
+  &lt;div class="ms-top"&gt;&lt;div class="ms-bar"&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;&lt;span class="ms-num"&gt;&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="ms-view"&gt;
+    &lt;section class="ms-step on" data-key="סוג הפרויקט"&gt;
+      &lt;h3&gt;מה אתם צריכים?&lt;/h3&gt;&lt;p class="sub"&gt;אפשר לבחור אחד&lt;/p&gt;
+      &lt;div class="ms-opts"&gt;
+        &lt;label class="ms-opt"&gt;&lt;input type="radio" name="type" value="אתר תדמית"&gt;&lt;span&gt;אתר תדמית&lt;/span&gt;&lt;/label&gt;
+        &lt;label class="ms-opt"&gt;&lt;input type="radio" name="type" value="דף נחיתה"&gt;&lt;span&gt;דף נחיתה&lt;/span&gt;&lt;/label&gt;
+        &lt;label class="ms-opt"&gt;&lt;input type="radio" name="type" value="חנות אונליין"&gt;&lt;span&gt;חנות אונליין&lt;/span&gt;&lt;/label&gt;
+      &lt;/div&gt;&lt;p class="ms-err"&gt;צריך לבחור אפשרות אחת&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section class="ms-step" data-key="תקציב"&gt;
+      &lt;h3&gt;מה טווח התקציב?&lt;/h3&gt;&lt;p class="sub"&gt;זה עוזר להתאים הצעה מדויקת&lt;/p&gt;
+      &lt;div class="ms-opts"&gt;
+        &lt;label class="ms-opt"&gt;&lt;input type="radio" name="budget" value="עד 8,000"&gt;&lt;span&gt;עד 8,000 ש"ח&lt;/span&gt;&lt;/label&gt;
+        &lt;label class="ms-opt"&gt;&lt;input type="radio" name="budget" value="8,000 עד 15,000"&gt;&lt;span&gt;8,000 עד 15,000 ש"ח&lt;/span&gt;&lt;/label&gt;
+        &lt;label class="ms-opt"&gt;&lt;input type="radio" name="budget" value="מעל 15,000"&gt;&lt;span&gt;מעל 15,000 ש"ח&lt;/span&gt;&lt;/label&gt;
+      &lt;/div&gt;&lt;p class="ms-err"&gt;צריך לבחור טווח&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section class="ms-step" data-key="פרטים"&gt;
+      &lt;h3&gt;איך חוזרים אליכם?&lt;/h3&gt;&lt;p class="sub"&gt;שם וטלפון, וזהו&lt;/p&gt;
+      &lt;div class="ms-opts"&gt;
+        &lt;div class="ms-field"&gt;&lt;input type="text" name="name" placeholder="שם מלא" autocomplete="name"&gt;&lt;/div&gt;
+        &lt;div class="ms-field"&gt;&lt;input type="tel" name="phone" placeholder="טלפון" autocomplete="tel"&gt;&lt;/div&gt;
+      &lt;/div&gt;&lt;p class="ms-err"&gt;צריך שם וטלפון תקין&lt;/p&gt;
+    &lt;/section&gt;
+    &lt;section class="ms-step" data-key="סיכום"&gt;
+      &lt;h3&gt;רגע לפני ששולחים&lt;/h3&gt;&lt;p class="sub"&gt;אפשר לחזור ולתקן כל שלב&lt;/p&gt;
+      &lt;ul class="ms-sum"&gt;&lt;/ul&gt;
+    &lt;/section&gt;
+    &lt;section class="ms-step ms-done-step"&gt;
+      &lt;div class="ms-done"&gt;&lt;div class="ok"&gt;✓&lt;/div&gt;&lt;h3&gt;נשלח&lt;/h3&gt;&lt;p class="sub"&gt;נחזור אליכם היום. הדגמה בלבד, שום דבר לא נשלח.&lt;/p&gt;&lt;/div&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+  &lt;div class="ms-nav"&gt;&lt;button type="button" class="ms-back"&gt;חזרה&lt;/button&gt;&lt;button type="button" class="ms-next"&gt;המשך&lt;/button&gt;&lt;/div&gt;
+&lt;/form&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const form=document.querySelector(".ms");
+  const steps=[...form.querySelectorAll(".ms-step")];
+  const bar=form.querySelector(".ms-bar i"),num=form.querySelector(".ms-num");
+  const back=form.querySelector(".ms-back"),next=form.querySelector(".ms-next");
+  const sum=form.querySelector(".ms-sum");
+  const last=steps.length-1;      // מסך התודה
+  const review=last-1;            // מסך הסיכום
+  let i=0;
+  form.querySelectorAll(".ms-opt input").forEach(inp=&gt;{
+    inp.addEventListener("change",()=&gt;{
+      inp.closest(".ms-opts").querySelectorAll(".ms-opt").forEach(o=&gt;o.classList.remove("sel"));
+      inp.closest(".ms-opt").classList.add("sel");
+      inp.closest(".ms-step").querySelector(".ms-err").classList.remove("on");
+    });
+  });
+  function valid(n){
+    const s=steps[n];
+    const radios=s.querySelectorAll('input[type=radio]');
+    if(radios.length)return [...radios].some(r=&gt;r.checked);
+    const fields=[...s.querySelectorAll('input[type=text],input[type=tel]')];
+    if(fields.length)return fields.every(f=&gt;f.name==="phone"?/^0\d{1,2}-?\d{7}$/.test(f.value.replace(/\s/g,"")):f.value.trim().length&gt;1);
+    return true;
+  }
+  function paintSummary(){
+    sum.innerHTML="";
+    steps.slice(0,review).forEach(s=&gt;{
+      const r=s.querySelector('input[type=radio]:checked');
+      const txt=r?r.value:[...s.querySelectorAll('input')].map(f=&gt;f.value).filter(Boolean).join(" · ");
+      const li=document.createElement("li");
+      li.innerHTML='&lt;span&gt;'+s.dataset.key+'&lt;/span&gt;&lt;b&gt;'+(txt||"")+'&lt;/b&gt;';
+      sum.appendChild(li);
+    });
+  }
+  function show(n,dir){
+    steps.forEach(s=&gt;{s.classList.remove("on","back");});
+    const s=steps[n];
+    if(dir&lt;0)s.classList.add("back");
+    s.classList.add("on");
+    i=n;
+    bar.style.width=Math.round((Math.min(i,review)/review)*100)+"%";
+    num.textContent=i&lt;last?("שלב "+(i+1)+" מתוך "+(review+1)):"";
+    back.style.visibility=(i===0||i===last)?"hidden":"visible";
+    next.textContent=i===review?"שליחה":"המשך";
+    form.querySelector(".ms-nav").style.display=i===last?"none":"flex";
+    if(i===review)paintSummary();
+  }
+  next.addEventListener("click",()=&gt;{
+    if(i&lt;review&amp;&amp;!valid(i)){steps[i].querySelector(".ms-err").classList.add("on");return;}
+    show(Math.min(i+1,last),1);
+  });
+  back.addEventListener("click",()=&gt;show(Math.max(0,i-1),-1));
+  show(0,1);
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b36 · טופס רב-שלבי עם התקדמות\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b36.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b36.html\n\nמה זה עושה: שאלה אחת בכל מסך במקום טופס ארוך ומפחיד. פס התקדמות למעלה, מעבר מונפש בין השלבים, ולידציה לפני מעבר, וסיכום לפני שליחה.\nמתי משתמשים: כל טופס שמבקש יותר משלושה שדות: בקשת הצעת מחיר, קביעת תור, שאלון אפיון, חישוב עלות. מעלה השלמות מול טופס אחד ארוך.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B36 · טופס רב-שלבי עם התקדמות */\n.ms{max-width:min(620px,92vw);margin-inline:auto;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:20px;padding:clamp(22px,3vw,38px);overflow:hidden}\n.ms-top{display:flex;align-items:center;gap:14px;margin-bottom:26px}\n.ms-bar{flex:1;height:6px;border-radius:999px;background:var(--line, #e4e4ee);overflow:hidden}\n.ms-bar i{display:block;height:100%;width:0;background:var(--accent, #4a3aff);border-radius:999px;transition:width .45s cubic-bezier(.2,.8,.2,1)}\n.ms-num{font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums;white-space:nowrap}\n.ms-view{position:relative}\n.ms-step{display:none}\n.ms-step.on{display:block;animation:msIn .38s cubic-bezier(.2,.8,.2,1)}\n.ms-step.back.on{animation:msBack .38s cubic-bezier(.2,.8,.2,1)}\n@keyframes msIn{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}\n@keyframes msBack{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}\n.ms-step h3{margin:0 0 6px;font-size:clamp(20px,2.2vw,28px)}\n.ms-step p.sub{margin:0 0 18px;color:var(--muted, #6a6d85);font-size:15px}\n.ms-opts{display:grid;gap:10px}\n.ms-opt{display:flex;align-items:center;gap:12px;border:1px solid var(--line, #e4e4ee);border-radius:14px;padding:15px 16px;cursor:pointer;\n  background:var(--bg, #f7f7fa);transition:border-color .22s,background .22s}\n.ms-opt:hover{border-color:var(--accent, #4a3aff)}\n.ms-opt input{accent-color:var(--accent, #4a3aff);width:18px;height:18px;flex:none}\n.ms-opt.sel{border-color:var(--accent, #4a3aff);background:#eceaff}\n.ms-field input{width:100%;font:inherit;font-size:16px;padding:15px 16px;border:1px solid var(--line, #e4e4ee);border-radius:14px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}\n.ms-field input:focus{outline:0;border-color:var(--accent, #4a3aff)}\n.ms-err{font-size:13px;color:#c2255c;margin-top:8px;display:none}\n.ms-err.on{display:block}\n.ms-nav{display:flex;gap:10px;margin-top:24px}\n.ms-nav button{flex:1;min-height:50px;border-radius:999px;border:0;font:inherit;font-weight:600;font-size:16px;cursor:pointer}\n.ms-back{background:var(--bg, #f7f7fa);border:1px solid var(--line, #e4e4ee)!important;color:var(--ink, #16182b);flex:0 0 auto;padding-inline:22px}\n.ms-next{background:var(--accent, #4a3aff);color:#fff}\n.ms-sum{list-style:none;margin:0 0 4px;padding:0;display:grid;gap:8px}\n.ms-sum li{display:flex;justify-content:space-between;gap:16px;font-size:15px;border-bottom:1px dashed var(--line, #e4e4ee);padding-bottom:8px}\n.ms-sum b{font-weight:600}\n.ms-done{text-align:center;padding:10px 0}\n.ms-done .ok{width:56px;height:56px;border-radius:50%;background:#2b8a3e;color:#fff;display:grid;place-items:center;font-size:26px;margin:0 auto 14px}\n@media (prefers-reduced-motion: reduce){.ms-step.on{animation:none}}\n\n=== HTML ===\n<div class=\"stage tight\"><form class=\"ms\" novalidate>\n  <div class=\"ms-top\"><div class=\"ms-bar\"><i><\/i><\/div><span class=\"ms-num\"><\/span><\/div>\n  <div class=\"ms-view\">\n    <section class=\"ms-step on\" data-key=\"סוג הפרויקט\">\n      <h3>מה אתם צריכים?<\/h3><p class=\"sub\">אפשר לבחור אחד<\/p>\n      <div class=\"ms-opts\">\n        <label class=\"ms-opt\"><input type=\"radio\" name=\"type\" value=\"אתר תדמית\"><span>אתר תדמית<\/span><\/label>\n        <label class=\"ms-opt\"><input type=\"radio\" name=\"type\" value=\"דף נחיתה\"><span>דף נחיתה<\/span><\/label>\n        <label class=\"ms-opt\"><input type=\"radio\" name=\"type\" value=\"חנות אונליין\"><span>חנות אונליין<\/span><\/label>\n      <\/div><p class=\"ms-err\">צריך לבחור אפשרות אחת<\/p>\n    <\/section>\n    <section class=\"ms-step\" data-key=\"תקציב\">\n      <h3>מה טווח התקציב?<\/h3><p class=\"sub\">זה עוזר להתאים הצעה מדויקת<\/p>\n      <div class=\"ms-opts\">\n        <label class=\"ms-opt\"><input type=\"radio\" name=\"budget\" value=\"עד 8,000\"><span>עד 8,000 ש\"ח<\/span><\/label>\n        <label class=\"ms-opt\"><input type=\"radio\" name=\"budget\" value=\"8,000 עד 15,000\"><span>8,000 עד 15,000 ש\"ח<\/span><\/label>\n        <label class=\"ms-opt\"><input type=\"radio\" name=\"budget\" value=\"מעל 15,000\"><span>מעל 15,000 ש\"ח<\/span><\/label>\n      <\/div><p class=\"ms-err\">צריך לבחור טווח<\/p>\n    <\/section>\n    <section class=\"ms-step\" data-key=\"פרטים\">\n      <h3>איך חוזרים אליכם?<\/h3><p class=\"sub\">שם וטלפון, וזהו<\/p>\n      <div class=\"ms-opts\">\n        <div class=\"ms-field\"><input type=\"text\" name=\"name\" placeholder=\"שם מלא\" autocomplete=\"name\"><\/div>\n        <div class=\"ms-field\"><input type=\"tel\" name=\"phone\" placeholder=\"טלפון\" autocomplete=\"tel\"><\/div>\n      <\/div><p class=\"ms-err\">צריך שם וטלפון תקין<\/p>\n    <\/section>\n    <section class=\"ms-step\" data-key=\"סיכום\">\n      <h3>רגע לפני ששולחים<\/h3><p class=\"sub\">אפשר לחזור ולתקן כל שלב<\/p>\n      <ul class=\"ms-sum\"><\/ul>\n    <\/section>\n    <section class=\"ms-step ms-done-step\">\n      <div class=\"ms-done\"><div class=\"ok\">✓<\/div><h3>נשלח<\/h3><p class=\"sub\">נחזור אליכם היום. הדגמה בלבד, שום דבר לא נשלח.<\/p><\/div>\n    <\/section>\n  <\/div>\n  <div class=\"ms-nav\"><button type=\"button\" class=\"ms-back\">חזרה<\/button><button type=\"button\" class=\"ms-next\">המשך<\/button><\/div>\n<\/form><\/div>\n\n=== JS ===\n(function(){\n  const form=document.querySelector(\".ms\");\n  const steps=[...form.querySelectorAll(\".ms-step\")];\n  const bar=form.querySelector(\".ms-bar i\"),num=form.querySelector(\".ms-num\");\n  const back=form.querySelector(\".ms-back\"),next=form.querySelector(\".ms-next\");\n  const sum=form.querySelector(\".ms-sum\");\n  const last=steps.length-1;      // מסך התודה\n  const review=last-1;            // מסך הסיכום\n  let i=0;\n  form.querySelectorAll(\".ms-opt input\").forEach(inp=>{\n    inp.addEventListener(\"change\",()=>{\n      inp.closest(\".ms-opts\").querySelectorAll(\".ms-opt\").forEach(o=>o.classList.remove(\"sel\"));\n      inp.closest(\".ms-opt\").classList.add(\"sel\");\n      inp.closest(\".ms-step\").querySelector(\".ms-err\").classList.remove(\"on\");\n    });\n  });\n  function valid(n){\n    const s=steps[n];\n    const radios=s.querySelectorAll('input[type=radio]');\n    if(radios.length)return [...radios].some(r=>r.checked);\n    const fields=[...s.querySelectorAll('input[type=text],input[type=tel]')];\n    if(fields.length)return fields.every(f=>f.name===\"phone\"?/^0\\d{1,2}-?\\d{7}$/.test(f.value.replace(/\\s/g,\"\")):f.value.trim().length>1);\n    return true;\n  }\n  function paintSummary(){\n    sum.innerHTML=\"\";\n    steps.slice(0,review).forEach(s=>{\n      const r=s.querySelector('input[type=radio]:checked');\n      const txt=r?r.value:[...s.querySelectorAll('input')].map(f=>f.value).filter(Boolean).join(\" · \");\n      const li=document.createElement(\"li\");\n      li.innerHTML='<span>'+s.dataset.key+'<\/span><b>'+(txt||\"\")+'<\/b>';\n      sum.appendChild(li);\n    });\n  }\n  function show(n,dir){\n    steps.forEach(s=>{s.classList.remove(\"on\",\"back\");});\n    const s=steps[n];\n    if(dir<0)s.classList.add(\"back\");\n    s.classList.add(\"on\");\n    i=n;\n    bar.style.width=Math.round((Math.min(i,review)/review)*100)+\"%\";\n    num.textContent=i<last?(\"שלב \"+(i+1)+\" מתוך \"+(review+1)):\"\";\n    back.style.visibility=(i===0||i===last)?\"hidden\":\"visible\";\n    next.textContent=i===review?\"שליחה\":\"המשך\";\n    form.querySelector(\".ms-nav\").style.display=i===last?\"none\":\"flex\";\n    if(i===review)paintSummary();\n  }\n  next.addEventListener(\"click\",()=>{\n    if(i<review&&!valid(i)){steps[i].querySelector(\".ms-err\").classList.add(\"on\");return;}\n    show(Math.min(i+1,last),1);\n  });\n  back.addEventListener(\"click\",()=>show(Math.max(0,i-1),-1));\n  show(0,1);\n})();\n\nהערת מימוש מהמאגר:\nשלושה דברים שמעלים השלמה: שאלה אחת במסך, פס התקדמות שאומר כמה נשאר, ומסך סיכום שמאפשר לחזור ולתקן לפני שליחה. הוולידציה נעשית במעבר בין שלבים ולא בסוף, כדי שלא יגלו בעיה אחרי חמישה מסכים. השדות שומרים על autocomplete כדי שהמילוי במובייל יהיה מהיר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B36 · טופס רב-שלבי עם התקדמות */\n.ms{max-width:min(620px,92vw);margin-inline:auto;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:20px;padding:clamp(22px,3vw,38px);overflow:hidden}\n.ms-top{display:flex;align-items:center;gap:14px;margin-bottom:26px}\n.ms-bar{flex:1;height:6px;border-radius:999px;background:var(--line, #e4e4ee);overflow:hidden}\n.ms-bar i{display:block;height:100%;width:0;background:var(--accent, #4a3aff);border-radius:999px;transition:width .45s cubic-bezier(.2,.8,.2,1)}\n.ms-num{font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums;white-space:nowrap}\n.ms-view{position:relative}\n.ms-step{display:none}\n.ms-step.on{display:block;animation:msIn .38s cubic-bezier(.2,.8,.2,1)}\n.ms-step.back.on{animation:msBack .38s cubic-bezier(.2,.8,.2,1)}\n@keyframes msIn{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}\n@keyframes msBack{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}\n.ms-step h3{margin:0 0 6px;font-size:clamp(20px,2.2vw,28px)}\n.ms-step p.sub{margin:0 0 18px;color:var(--muted, #6a6d85);font-size:15px}\n.ms-opts{display:grid;gap:10px}\n.ms-opt{display:flex;align-items:center;gap:12px;border:1px solid var(--line, #e4e4ee);border-radius:14px;padding:15px 16px;cursor:pointer;\n  background:var(--bg, #f7f7fa);transition:border-color .22s,background .22s}\n.ms-opt:hover{border-color:var(--accent, #4a3aff)}\n.ms-opt input{accent-color:var(--accent, #4a3aff);width:18px;height:18px;flex:none}\n.ms-opt.sel{border-color:var(--accent, #4a3aff);background:#eceaff}\n.ms-field input{width:100%;font:inherit;font-size:16px;padding:15px 16px;border:1px solid var(--line, #e4e4ee);border-radius:14px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}\n.ms-field input:focus{outline:0;border-color:var(--accent, #4a3aff)}\n.ms-err{font-size:13px;color:#c2255c;margin-top:8px;display:none}\n.ms-err.on{display:block}\n.ms-nav{display:flex;gap:10px;margin-top:24px}\n.ms-nav button{flex:1;min-height:50px;border-radius:999px;border:0;font:inherit;font-weight:600;font-size:16px;cursor:pointer}\n.ms-back{background:var(--bg, #f7f7fa);border:1px solid var(--line, #e4e4ee)!important;color:var(--ink, #16182b);flex:0 0 auto;padding-inline:22px}\n.ms-next{background:var(--accent, #4a3aff);color:#fff}\n.ms-sum{list-style:none;margin:0 0 4px;padding:0;display:grid;gap:8px}\n.ms-sum li{display:flex;justify-content:space-between;gap:16px;font-size:15px;border-bottom:1px dashed var(--line, #e4e4ee);padding-bottom:8px}\n.ms-sum b{font-weight:600}\n.ms-done{text-align:center;padding:10px 0}\n.ms-done .ok{width:56px;height:56px;border-radius:50%;background:#2b8a3e;color:#fff;display:grid;place-items:center;font-size:26px;margin:0 auto 14px}\n@media (prefers-reduced-motion: reduce){.ms-step.on{animation:none}}","html":"<div class=\"stage tight\"><form class=\"ms\" novalidate>\n  <div class=\"ms-top\"><div class=\"ms-bar\"><i><\/i><\/div><span class=\"ms-num\"><\/span><\/div>\n  <div class=\"ms-view\">\n    <section class=\"ms-step on\" data-key=\"סוג הפרויקט\">\n      <h3>מה אתם צריכים?<\/h3><p class=\"sub\">אפשר לבחור אחד<\/p>\n      <div class=\"ms-opts\">\n        <label class=\"ms-opt\"><input type=\"radio\" name=\"type\" value=\"אתר תדמית\"><span>אתר תדמית<\/span><\/label>\n        <label class=\"ms-opt\"><input type=\"radio\" name=\"type\" value=\"דף נחיתה\"><span>דף נחיתה<\/span><\/label>\n        <label class=\"ms-opt\"><input type=\"radio\" name=\"type\" value=\"חנות אונליין\"><span>חנות אונליין<\/span><\/label>\n      <\/div><p class=\"ms-err\">צריך לבחור אפשרות אחת<\/p>\n    <\/section>\n    <section class=\"ms-step\" data-key=\"תקציב\">\n      <h3>מה טווח התקציב?<\/h3><p class=\"sub\">זה עוזר להתאים הצעה מדויקת<\/p>\n      <div class=\"ms-opts\">\n        <label class=\"ms-opt\"><input type=\"radio\" name=\"budget\" value=\"עד 8,000\"><span>עד 8,000 ש\"ח<\/span><\/label>\n        <label class=\"ms-opt\"><input type=\"radio\" name=\"budget\" value=\"8,000 עד 15,000\"><span>8,000 עד 15,000 ש\"ח<\/span><\/label>\n        <label class=\"ms-opt\"><input type=\"radio\" name=\"budget\" value=\"מעל 15,000\"><span>מעל 15,000 ש\"ח<\/span><\/label>\n      <\/div><p class=\"ms-err\">צריך לבחור טווח<\/p>\n    <\/section>\n    <section class=\"ms-step\" data-key=\"פרטים\">\n      <h3>איך חוזרים אליכם?<\/h3><p class=\"sub\">שם וטלפון, וזהו<\/p>\n      <div class=\"ms-opts\">\n        <div class=\"ms-field\"><input type=\"text\" name=\"name\" placeholder=\"שם מלא\" autocomplete=\"name\"><\/div>\n        <div class=\"ms-field\"><input type=\"tel\" name=\"phone\" placeholder=\"טלפון\" autocomplete=\"tel\"><\/div>\n      <\/div><p class=\"ms-err\">צריך שם וטלפון תקין<\/p>\n    <\/section>\n    <section class=\"ms-step\" data-key=\"סיכום\">\n      <h3>רגע לפני ששולחים<\/h3><p class=\"sub\">אפשר לחזור ולתקן כל שלב<\/p>\n      <ul class=\"ms-sum\"><\/ul>\n    <\/section>\n    <section class=\"ms-step ms-done-step\">\n      <div class=\"ms-done\"><div class=\"ok\">✓<\/div><h3>נשלח<\/h3><p class=\"sub\">נחזור אליכם היום. הדגמה בלבד, שום דבר לא נשלח.<\/p><\/div>\n    <\/section>\n  <\/div>\n  <div class=\"ms-nav\"><button type=\"button\" class=\"ms-back\">חזרה<\/button><button type=\"button\" class=\"ms-next\">המשך<\/button><\/div>\n<\/form><\/div>","js":"(function(){\n  const form=document.querySelector(\".ms\");\n  const steps=[...form.querySelectorAll(\".ms-step\")];\n  const bar=form.querySelector(\".ms-bar i\"),num=form.querySelector(\".ms-num\");\n  const back=form.querySelector(\".ms-back\"),next=form.querySelector(\".ms-next\");\n  const sum=form.querySelector(\".ms-sum\");\n  const last=steps.length-1;      // מסך התודה\n  const review=last-1;            // מסך הסיכום\n  let i=0;\n  form.querySelectorAll(\".ms-opt input\").forEach(inp=>{\n    inp.addEventListener(\"change\",()=>{\n      inp.closest(\".ms-opts\").querySelectorAll(\".ms-opt\").forEach(o=>o.classList.remove(\"sel\"));\n      inp.closest(\".ms-opt\").classList.add(\"sel\");\n      inp.closest(\".ms-step\").querySelector(\".ms-err\").classList.remove(\"on\");\n    });\n  });\n  function valid(n){\n    const s=steps[n];\n    const radios=s.querySelectorAll('input[type=radio]');\n    if(radios.length)return [...radios].some(r=>r.checked);\n    const fields=[...s.querySelectorAll('input[type=text],input[type=tel]')];\n    if(fields.length)return fields.every(f=>f.name===\"phone\"?/^0\\d{1,2}-?\\d{7}$/.test(f.value.replace(/\\s/g,\"\")):f.value.trim().length>1);\n    return true;\n  }\n  function paintSummary(){\n    sum.innerHTML=\"\";\n    steps.slice(0,review).forEach(s=>{\n      const r=s.querySelector('input[type=radio]:checked');\n      const txt=r?r.value:[...s.querySelectorAll('input')].map(f=>f.value).filter(Boolean).join(\" · \");\n      const li=document.createElement(\"li\");\n      li.innerHTML='<span>'+s.dataset.key+'<\/span><b>'+(txt||\"\")+'<\/b>';\n      sum.appendChild(li);\n    });\n  }\n  function show(n,dir){\n    steps.forEach(s=>{s.classList.remove(\"on\",\"back\");});\n    const s=steps[n];\n    if(dir<0)s.classList.add(\"back\");\n    s.classList.add(\"on\");\n    i=n;\n    bar.style.width=Math.round((Math.min(i,review)/review)*100)+\"%\";\n    num.textContent=i<last?(\"שלב \"+(i+1)+\" מתוך \"+(review+1)):\"\";\n    back.style.visibility=(i===0||i===last)?\"hidden\":\"visible\";\n    next.textContent=i===review?\"שליחה\":\"המשך\";\n    form.querySelector(\".ms-nav\").style.display=i===last?\"none\":\"flex\";\n    if(i===review)paintSummary();\n  }\n  next.addEventListener(\"click\",()=>{\n    if(i<review&&!valid(i)){steps[i].querySelector(\".ms-err\").classList.add(\"on\");return;}\n    show(Math.min(i+1,last),1);\n  });\n  back.addEventListener(\"click\",()=>show(Math.max(0,i-1),-1));\n  show(0,1);\n})();","scripts":"","rtl":true}</script>
+</section>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -109,6 +253,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 (function(){
   const form=document.querySelector(".ms");

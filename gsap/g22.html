@@ -53,6 +53,59 @@
 </div></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g22.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* G22 · עיגול תהליך נצבע בגלילה */
+.pw{height:100vh;display:flex;align-items:center;justify-content:center;position:relative}
+.pstage{position:relative;width:min(540px,72vw);aspect-ratio:1}
+.pcirc{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.pcirc .track{fill:none;stroke:#e2e2e2;stroke-width:2}
+.pcirc .draw{fill:none;stroke:url(#pg);stroke-width:4;stroke-linecap:round}
+.pdot{position:absolute;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#e8590c,#c2255c);filter:grayscale(1) brightness(1.7);transform:translate(-50%,-50%)}
+.pstep{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0;padding:12%}
+.pstep h3{font-size:clamp(22px,1.8vw,36px);margin:8px 0}
+.pstep p{color:var(--muted, #6a6d85);max-width:34ch;margin:0}
+.pstep .num{font-size:clamp(40px,3.5vw,80px);font-weight:700;color:transparent;-webkit-text-stroke:1.5px #c2255c;line-height:1}
+.pstep.p1{opacity:1}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="pw"&gt;&lt;div class="pstage"&gt;
+&lt;svg class="pcirc" viewBox="0 0 600 600"&gt;
+&lt;defs&gt;&lt;linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"&gt;&lt;stop offset="0" stop-color="#e8590c"/&gt;&lt;stop offset="1" stop-color="#c2255c"/&gt;&lt;/linearGradient&gt;&lt;/defs&gt;
+&lt;circle class="track" cx="300" cy="300" r="290"/&gt;&lt;circle class="draw" cx="300" cy="300" r="290"/&gt;
+&lt;/svg&gt;
+&lt;div class="pdot d1" style="top:1.5%;left:50%;filter:none"&gt;&lt;/div&gt;
+&lt;div class="pdot d2" style="top:50%;left:98.5%"&gt;&lt;/div&gt;
+&lt;div class="pdot d3" style="top:98.5%;left:50%"&gt;&lt;/div&gt;
+&lt;div class="pdot d4" style="top:50%;left:1.5%"&gt;&lt;/div&gt;
+&lt;div class="pstep p1"&gt;&lt;span class="num"&gt;01&lt;/span&gt;&lt;h3&gt;איפיון האתגרים&lt;/h3&gt;&lt;p&gt;בשיחה ראשונית נכיר אתכם ונבין את הצרכים.&lt;/p&gt;&lt;/div&gt;
+&lt;div class="pstep p2"&gt;&lt;span class="num"&gt;02&lt;/span&gt;&lt;h3&gt;תכנון הפתרון&lt;/h3&gt;&lt;p&gt;בונים תהליך שמתאים לארגון ולפעילות.&lt;/p&gt;&lt;/div&gt;
+&lt;div class="pstep p3"&gt;&lt;span class="num"&gt;03&lt;/span&gt;&lt;h3&gt;הטמעה מלאה&lt;/h3&gt;&lt;p&gt;מלווים את הצוות עד שהמערכת עובדת לבד.&lt;/p&gt;&lt;/div&gt;
+&lt;div class="pstep p4"&gt;&lt;span class="num"&gt;04&lt;/span&gt;&lt;h3&gt;צמיחה&lt;/h3&gt;&lt;p&gt;מודדים, מדייקים וממשיכים קדימה.&lt;/p&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+
+gsap.set(".pcirc .draw",{drawSVG:"0% 0%"});
+const ptl=gsap.timeline({scrollTrigger:{trigger:".pw",start:"top top",end:"+=2000",scrub:true,pin:true,anticipatePin:1}});
+const STEPS=4;
+for(let i=1;i&lt;STEPS;i++){
+  ptl.to(".pcirc .draw",{drawSVG:"0% "+(i*100/STEPS)+"%",duration:2})
+     .to(".d"+(i+1),{filter:"grayscale(0) brightness(1)",duration:.1})
+     .to(".p"+(i+1),{opacity:1,duration:.1},"&lt;")
+     .to(".p"+i,{opacity:0,duration:.1},"&lt;");
+}
+ptl.to(".pcirc .draw",{drawSVG:"0% 100%",duration:2});</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g22 · עיגול תהליך נצבע בגלילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g22.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g22.html\n\nמה זה עושה: קשת צבעונית נצבעת סביב עיגול גדול בקצב הגלילה, כל תחנה נדלקת בתורה והתוכן במרכז מתחלף.\nמתי משתמשים: תהליך של 3-5 שלבים. האלטרנטיבה המעגלית לטיימליין האופקי.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* G22 · עיגול תהליך נצבע בגלילה */\n.pw{height:100vh;display:flex;align-items:center;justify-content:center;position:relative}\n.pstage{position:relative;width:min(540px,72vw);aspect-ratio:1}\n.pcirc{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}\n.pcirc .track{fill:none;stroke:#e2e2e2;stroke-width:2}\n.pcirc .draw{fill:none;stroke:url(#pg);stroke-width:4;stroke-linecap:round}\n.pdot{position:absolute;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#e8590c,#c2255c);filter:grayscale(1) brightness(1.7);transform:translate(-50%,-50%)}\n.pstep{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0;padding:12%}\n.pstep h3{font-size:clamp(22px,1.8vw,36px);margin:8px 0}\n.pstep p{color:var(--muted, #6a6d85);max-width:34ch;margin:0}\n.pstep .num{font-size:clamp(40px,3.5vw,80px);font-weight:700;color:transparent;-webkit-text-stroke:1.5px #c2255c;line-height:1}\n.pstep.p1{opacity:1}\n\n=== HTML ===\n<div class=\"pw\"><div class=\"pstage\">\n<svg class=\"pcirc\" viewBox=\"0 0 600 600\">\n<defs><linearGradient id=\"pg\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#e8590c\"/><stop offset=\"1\" stop-color=\"#c2255c\"/><\/linearGradient><\/defs>\n<circle class=\"track\" cx=\"300\" cy=\"300\" r=\"290\"/><circle class=\"draw\" cx=\"300\" cy=\"300\" r=\"290\"/>\n<\/svg>\n<div class=\"pdot d1\" style=\"top:1.5%;left:50%;filter:none\"><\/div>\n<div class=\"pdot d2\" style=\"top:50%;left:98.5%\"><\/div>\n<div class=\"pdot d3\" style=\"top:98.5%;left:50%\"><\/div>\n<div class=\"pdot d4\" style=\"top:50%;left:1.5%\"><\/div>\n<div class=\"pstep p1\"><span class=\"num\">01<\/span><h3>איפיון האתגרים<\/h3><p>בשיחה ראשונית נכיר אתכם ונבין את הצרכים.<\/p><\/div>\n<div class=\"pstep p2\"><span class=\"num\">02<\/span><h3>תכנון הפתרון<\/h3><p>בונים תהליך שמתאים לארגון ולפעילות.<\/p><\/div>\n<div class=\"pstep p3\"><span class=\"num\">03<\/span><h3>הטמעה מלאה<\/h3><p>מלווים את הצוות עד שהמערכת עובדת לבד.<\/p><\/div>\n<div class=\"pstep p4\"><span class=\"num\">04<\/span><h3>צמיחה<\/h3><p>מודדים, מדייקים וממשיכים קדימה.<\/p><\/div>\n<\/div><\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);\n\ngsap.set(\".pcirc .draw\",{drawSVG:\"0% 0%\"});\nconst ptl=gsap.timeline({scrollTrigger:{trigger:\".pw\",start:\"top top\",end:\"+=2000\",scrub:true,pin:true,anticipatePin:1}});\nconst STEPS=4;\nfor(let i=1;i<STEPS;i++){\n  ptl.to(\".pcirc .draw\",{drawSVG:\"0% \"+(i*100/STEPS)+\"%\",duration:2})\n     .to(\".d\"+(i+1),{filter:\"grayscale(0) brightness(1)\",duration:.1})\n     .to(\".p\"+(i+1),{opacity:1,duration:.1},\"<\")\n     .to(\".p\"+i,{opacity:0,duration:.1},\"<\");\n}\nptl.to(\".pcirc .draw\",{drawSVG:\"0% 100%\",duration:2});\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  import { DrawSVGPlugin } from \"gsap/DrawSVGPlugin\";\n  gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* G22 · עיגול תהליך נצבע בגלילה */\n.pw{height:100vh;display:flex;align-items:center;justify-content:center;position:relative}\n.pstage{position:relative;width:min(540px,72vw);aspect-ratio:1}\n.pcirc{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}\n.pcirc .track{fill:none;stroke:#e2e2e2;stroke-width:2}\n.pcirc .draw{fill:none;stroke:url(#pg);stroke-width:4;stroke-linecap:round}\n.pdot{position:absolute;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#e8590c,#c2255c);filter:grayscale(1) brightness(1.7);transform:translate(-50%,-50%)}\n.pstep{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0;padding:12%}\n.pstep h3{font-size:clamp(22px,1.8vw,36px);margin:8px 0}\n.pstep p{color:var(--muted, #6a6d85);max-width:34ch;margin:0}\n.pstep .num{font-size:clamp(40px,3.5vw,80px);font-weight:700;color:transparent;-webkit-text-stroke:1.5px #c2255c;line-height:1}\n.pstep.p1{opacity:1}","html":"<div class=\"pw\"><div class=\"pstage\">\n<svg class=\"pcirc\" viewBox=\"0 0 600 600\">\n<defs><linearGradient id=\"pg\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\"><stop offset=\"0\" stop-color=\"#e8590c\"/><stop offset=\"1\" stop-color=\"#c2255c\"/><\/linearGradient><\/defs>\n<circle class=\"track\" cx=\"300\" cy=\"300\" r=\"290\"/><circle class=\"draw\" cx=\"300\" cy=\"300\" r=\"290\"/>\n<\/svg>\n<div class=\"pdot d1\" style=\"top:1.5%;left:50%;filter:none\"><\/div>\n<div class=\"pdot d2\" style=\"top:50%;left:98.5%\"><\/div>\n<div class=\"pdot d3\" style=\"top:98.5%;left:50%\"><\/div>\n<div class=\"pdot d4\" style=\"top:50%;left:1.5%\"><\/div>\n<div class=\"pstep p1\"><span class=\"num\">01<\/span><h3>איפיון האתגרים<\/h3><p>בשיחה ראשונית נכיר אתכם ונבין את הצרכים.<\/p><\/div>\n<div class=\"pstep p2\"><span class=\"num\">02<\/span><h3>תכנון הפתרון<\/h3><p>בונים תהליך שמתאים לארגון ולפעילות.<\/p><\/div>\n<div class=\"pstep p3\"><span class=\"num\">03<\/span><h3>הטמעה מלאה<\/h3><p>מלווים את הצוות עד שהמערכת עובדת לבד.<\/p><\/div>\n<div class=\"pstep p4\"><span class=\"num\">04<\/span><h3>צמיחה<\/h3><p>מודדים, מדייקים וממשיכים קדימה.<\/p><\/div>\n<\/div><\/div>","js":"gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);\n\ngsap.set(\".pcirc .draw\",{drawSVG:\"0% 0%\"});\nconst ptl=gsap.timeline({scrollTrigger:{trigger:\".pw\",start:\"top top\",end:\"+=2000\",scrub:true,pin:true,anticipatePin:1}});\nconst STEPS=4;\nfor(let i=1;i<STEPS;i++){\n  ptl.to(\".pcirc .draw\",{drawSVG:\"0% \"+(i*100/STEPS)+\"%\",duration:2})\n     .to(\".d\"+(i+1),{filter:\"grayscale(0) brightness(1)\",duration:.1})\n     .to(\".p\"+(i+1),{opacity:1,duration:.1},\"<\")\n     .to(\".p\"+i,{opacity:0,duration:.1},\"<\");\n}\nptl.to(\".pcirc .draw\",{drawSVG:\"0% 100%\",duration:2});","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
@@ -67,6 +120,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
 gsap.set(".pcirc .draw",{drawSVG:"0% 0%"});
 const ptl=gsap.timeline({scrollTrigger:{trigger:".pw",start:"top top",end:"+=2000",scrub:true,pin:true,anticipatePin:1}});

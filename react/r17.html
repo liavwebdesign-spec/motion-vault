@@ -42,6 +42,47 @@
 <div class="rframe"></div>
 
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/r17.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:#fff;font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
+.vback{font-size:14px;font-weight:500;color:var(--muted, #6a6d85);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:7px 16px;background:#fff;text-decoration:none;transition:color .18s,border-color .18s}
+.vback:hover{color:var(--accent, #4a3aff);border-color:var(--accent, #4a3aff)}
+
+/* R17 · BlurFade: כניסת טשטוש */
+.rload{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px));margin-bottom:16px}
+.rframe{display:none;border-block:1px solid var(--line, #e4e4ee);background:#0e0f1a}
+.rframe.on{display:block}
+.rframe iframe{width:100%;height:min(82vh,780px);border:0;display:block}
+.rinstall{padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.rinstall code{font-size:12.5px;background:#ececf4;border:1px solid var(--line, #e4e4ee);border-radius:8px;padding:8px 14px;direction:ltr;display:inline-block;max-width:100%;overflow-x:auto;white-space:nowrap}
+.rdeps{font-size:13px;color:var(--muted, #6a6d85);padding:8px var(--gutter, clamp(24px, 5vw, 96px)) 0}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="rinstall"&gt;&lt;code&gt;npx shadcn@latest add "https://magicui.design/r/blur-fade.json"&lt;/code&gt;&lt;/div&gt;
+&lt;div class="rdeps"&gt;תלויות npm: &lt;b&gt;motion&lt;/b&gt;&lt;/div&gt;
+&lt;div class="rload"&gt;
+  &lt;button class="gbtn rbtn"&gt;טען דמו חי כאן&lt;/button&gt;
+  &lt;a class="vback" href="https://magicui.design/docs/components/blur-fade" target="_blank" rel="noopener"&gt;פתח באתר המקור ↗&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class="rframe"&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>const btn=document.querySelector(".rbtn"),wrap=document.querySelector(".rframe");
+btn.addEventListener("click",()=&gt;{
+  if(wrap.classList.contains("on")){wrap.classList.remove("on");wrap.innerHTML="";btn.textContent="טען דמו חי כאן";return;}
+  wrap.innerHTML='&lt;iframe loading="lazy" src="https://magicui.design/docs/components/blur-fade"&gt;&lt;/iframe&gt;';
+  wrap.classList.add("on");btn.textContent="סגור דמו";
+});</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:r17 · BlurFade: כניסת טשטוש\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/react/r17.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/r17.html\n\nמה זה עושה: אלמנטים נכנסים מטושטשים ומתחדדים, עם סטאגר עדין ברשימות.\nמתי משתמשים: גלריות וגרידים באתרי פרימיום. תחליף reveal יוקרתי.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:#fff;font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n.vback{font-size:14px;font-weight:500;color:var(--muted, #6a6d85);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:7px 16px;background:#fff;text-decoration:none;transition:color .18s,border-color .18s}\n.vback:hover{color:var(--accent, #4a3aff);border-color:var(--accent, #4a3aff)}\n\n/* R17 · BlurFade: כניסת טשטוש */\n.rload{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px));margin-bottom:16px}\n.rframe{display:none;border-block:1px solid var(--line, #e4e4ee);background:#0e0f1a}\n.rframe.on{display:block}\n.rframe iframe{width:100%;height:min(82vh,780px);border:0;display:block}\n.rinstall{padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.rinstall code{font-size:12.5px;background:#ececf4;border:1px solid var(--line, #e4e4ee);border-radius:8px;padding:8px 14px;direction:ltr;display:inline-block;max-width:100%;overflow-x:auto;white-space:nowrap}\n.rdeps{font-size:13px;color:var(--muted, #6a6d85);padding:8px var(--gutter, clamp(24px, 5vw, 96px)) 0}\n\n=== HTML ===\n<div class=\"rinstall\"><code>npx shadcn@latest add \"https://magicui.design/r/blur-fade.json\"<\/code><\/div>\n<div class=\"rdeps\">תלויות npm: <b>motion<\/b><\/div>\n<div class=\"rload\">\n  <button class=\"gbtn rbtn\">טען דמו חי כאן<\/button>\n  <a class=\"vback\" href=\"https://magicui.design/docs/components/blur-fade\" target=\"_blank\" rel=\"noopener\">פתח באתר המקור ↗<\/a>\n<\/div>\n<div class=\"rframe\"><\/div>\n\n=== JS ===\nconst btn=document.querySelector(\".rbtn\"),wrap=document.querySelector(\".rframe\");\nbtn.addEventListener(\"click\",()=>{\n  if(wrap.classList.contains(\"on\")){wrap.classList.remove(\"on\");wrap.innerHTML=\"\";btn.textContent=\"טען דמו חי כאן\";return;}\n  wrap.innerHTML='<iframe loading=\"lazy\" src=\"https://magicui.design/docs/components/blur-fade\"><\/iframe>';\n  wrap.classList.add(\"on\");btn.textContent=\"סגור דמו\";\n});","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:#fff;font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n.vback{font-size:14px;font-weight:500;color:var(--muted, #6a6d85);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:7px 16px;background:#fff;text-decoration:none;transition:color .18s,border-color .18s}\n.vback:hover{color:var(--accent, #4a3aff);border-color:var(--accent, #4a3aff)}\n\n/* R17 · BlurFade: כניסת טשטוש */\n.rload{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px));margin-bottom:16px}\n.rframe{display:none;border-block:1px solid var(--line, #e4e4ee);background:#0e0f1a}\n.rframe.on{display:block}\n.rframe iframe{width:100%;height:min(82vh,780px);border:0;display:block}\n.rinstall{padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.rinstall code{font-size:12.5px;background:#ececf4;border:1px solid var(--line, #e4e4ee);border-radius:8px;padding:8px 14px;direction:ltr;display:inline-block;max-width:100%;overflow-x:auto;white-space:nowrap}\n.rdeps{font-size:13px;color:var(--muted, #6a6d85);padding:8px var(--gutter, clamp(24px, 5vw, 96px)) 0}","html":"<div class=\"rinstall\"><code>npx shadcn@latest add \"https://magicui.design/r/blur-fade.json\"<\/code><\/div>\n<div class=\"rdeps\">תלויות npm: <b>motion<\/b><\/div>\n<div class=\"rload\">\n  <button class=\"gbtn rbtn\">טען דמו חי כאן<\/button>\n  <a class=\"vback\" href=\"https://magicui.design/docs/components/blur-fade\" target=\"_blank\" rel=\"noopener\">פתח באתר המקור ↗<\/a>\n<\/div>\n<div class=\"rframe\"><\/div>","js":"const btn=document.querySelector(\".rbtn\"),wrap=document.querySelector(\".rframe\");\nbtn.addEventListener(\"click\",()=>{\n  if(wrap.classList.contains(\"on\")){wrap.classList.remove(\"on\");wrap.innerHTML=\"\";btn.textContent=\"טען דמו חי כאן\";return;}\n  wrap.innerHTML='<iframe loading=\"lazy\" src=\"https://magicui.design/docs/components/blur-fade\"><\/iframe>';\n  wrap.classList.add(\"on\");btn.textContent=\"סגור דמו\";\n});","scripts":"","rtl":true}</script>
+</section>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -54,6 +95,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 const btn=document.querySelector(".rbtn"),wrap=document.querySelector(".rframe");
 btn.addEventListener("click",()=>{

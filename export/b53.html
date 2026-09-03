@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B53 · מילים שמתעבות לפי קרבת הסמן</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B53 · מילים שמתעבות לפי קרבת הסמן */
+.vf{max-width:min(900px,92vw);margin-inline:auto;text-align:center}
+.vf-title{font-size:clamp(30px,6.5vw,84px);line-height:1.18;margin:0 0 clamp(26px,4vw,50px);
+  font-variation-settings:"wght" 400}
+.vf-menu{display:flex;gap:clamp(16px,3vw,42px);justify-content:center;flex-wrap:wrap;
+  border-top:1px solid var(--line, #e4e4ee);padding-top:clamp(20px,3vw,34px)}
+.vf-menu .vw{font-size:clamp(17px,2vw,26px)}
+/* הרכיב מכריז על הפונט המשתנה בעצמו: בסטאק של האתר יכול לשבת פונט סטטי, ואז לציר אין משמעות */
+.vf-title,.vf-menu,.vw{font-family:Heebo,system-ui,sans-serif}
+.vw{display:inline-block;font-variation-settings:"wght" 400;will-change:font-variation-settings}
+.vf-hint{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding-top:26px}
+@media(hover:none){.vf-hint::after{content:" (במגע האפקט כבוי, והטקסט נשאר במשקל הרגיל)"}}
+</style>
+</head>
+<body>
+<div class="stage tight"><div class="vf">
+  <h2 class="vf-title" data-vf>אנחנו בונים אתרים שאנשים זוכרים</h2>
+  <nav class="vf-menu"><span data-vf>עבודות</span><span data-vf>שירותים</span><span data-vf>תהליך</span><span data-vf>אודות</span><span data-vf>צור קשר</span></nav>
+  <p class="vf-hint">הזז את העכבר מעל הטקסט.</p>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+(function(){
+  const MIN=300,MAX=800,RADIUS=260;
+  if(matchMedia("(hover:none)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const items=[];
+  document.querySelectorAll("[data-vf]").forEach(el=>{
+    // פיצול למילים בלבד: בעברית פיצול לאותיות שובר ניקוד ומייצר ג'יבריש בקורא מסך
+    const parts=el.textContent.trim().split(/\s+/);
+    el.textContent="";
+    parts.forEach((w,i)=>{
+      const s=document.createElement("span");s.className="vw";s.textContent=w;
+      el.appendChild(s);
+      if(i<parts.length-1)el.appendChild(document.createTextNode(" "));
+      items.push({el:s,cur:400,target:400});
+    });
+  });
+  let mx=-9999,my=-9999,boxes=[];
+  const measure=()=>{boxes=items.map(it=>{const r=it.el.getBoundingClientRect();
+    return {x:r.left+r.width/2,y:r.top+r.height/2};});};
+  measure();
+  addEventListener("scroll",measure,{passive:true});
+  addEventListener("resize",measure);
+  addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;});
+  addEventListener("mouseleave",()=>{mx=my=-9999;});
+  // ticker אחד לכל המילים: זול בהרבה מטוויין נפרד לכל אחת, ומייצר תנועה רציפה
+  gsap.ticker.add(()=>{
+    for(let i=0;i<items.length;i++){
+      const b=boxes[i];if(!b)continue;
+      const d=Math.hypot(mx-b.x,my-b.y);
+      const f=Math.max(0,1-d/RADIUS);
+      items[i].target=MIN+(MAX-MIN)*(f*f);        // ריבוע: הדעיכה מהירה יותר, וזה מרגיש מגנטי
+      items[i].cur+=(items[i].target-items[i].cur)*.14;
+      const v=items[i].cur.toFixed(0);
+      items[i].el.style.fontVariationSettings='"wght" '+v;
+      items[i].el.style.fontWeight=v;      // נפילה רכה: בפונט סטטי לפחות מקבלים מדרגות
+    }
+  });
+})();
+</script>
+</body>
+</html>

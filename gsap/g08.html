@@ -37,6 +37,49 @@
 </div></div>
 
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g08.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G08 · סמן מותאם + פנס */
+.fzone{position:relative;height:70vh;background:#101223;border-radius:var(--r, 14px);margin-inline:var(--gutter, clamp(24px, 5vw, 96px));overflow:hidden;display:flex;flex-direction:column;gap:20px;align-items:center;justify-content:center;color:#fff}
+.flash{position:absolute;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,#f4c66044,transparent 65%);filter:blur(40px);pointer-events:none;opacity:0;transform:translate(-50%,-50%);transition:opacity .3s}
+.follow{width:22px;height:22px;border-radius:50%;background:#fff;mix-blend-mode:difference;position:fixed;left:0;top:0;pointer-events:none;z-index:99;opacity:0}
+.fzone button{min-height:48px;padding-inline:26px;border-radius:999px;border:1px solid #fff5;background:transparent;color:#fff;font-family:inherit;font-size:15px;cursor:pointer}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="fzone"&gt;
+&lt;div class="flash"&gt;&lt;/div&gt;
+&lt;p&gt;הזז את העכבר. שים לב לפנס ולעיגול הסמן&lt;/p&gt;
+&lt;button&gt;כפתור לבדיקת הסמן&lt;/button&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>const fz=document.querySelector(".fzone"),fl=document.querySelector(".flash");
+const fo=document.createElement("div");fo.className="follow";document.body.appendChild(fo);
+let mx=0,my=0,px=0,py=0;
+document.addEventListener("mousemove",e=&gt;{mx=e.clientX;my=e.clientY;
+  const r=fz.getBoundingClientRect();
+  fl.style.left=(e.clientX-r.left)+"px";fl.style.top=(e.clientY-r.top)+"px";});
+fz.addEventListener("mouseenter",()=&gt;{fl.style.opacity=1;fo.style.opacity=1});
+fz.addEventListener("mouseleave",()=&gt;{fl.style.opacity=0});
+gsap.ticker.add(()=&gt;{px+=(mx-px)*.2;py+=(my-py)*.2;gsap.set(fo,{x:px-11,y:py-11})});
+document.querySelectorAll("button,a").forEach(t=&gt;{
+  t.addEventListener("mouseenter",()=&gt;gsap.to(fo,{scale:2.4,duration:.3,ease:"power2.out"}));
+  t.addEventListener("mouseleave",()=&gt;gsap.to(fo,{scale:1,duration:.3,ease:"power2.out"}));
+});</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g08 · סמן מותאם + פנס\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g08.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g08.html\n\nמה זה עושה: עיגול סמן שרודף את העכבר וגדל מעל לחיצים, וכתם אור מטושטש שמאיר רקע כהה סביב הסמן.\nמתי משתמשים: אתרי וואו כהים, פורטפוליו. במובייל כבוי.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G08 · סמן מותאם + פנס */\n.fzone{position:relative;height:70vh;background:#101223;border-radius:var(--r, 14px);margin-inline:var(--gutter, clamp(24px, 5vw, 96px));overflow:hidden;display:flex;flex-direction:column;gap:20px;align-items:center;justify-content:center;color:#fff}\n.flash{position:absolute;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,#f4c66044,transparent 65%);filter:blur(40px);pointer-events:none;opacity:0;transform:translate(-50%,-50%);transition:opacity .3s}\n.follow{width:22px;height:22px;border-radius:50%;background:#fff;mix-blend-mode:difference;position:fixed;left:0;top:0;pointer-events:none;z-index:99;opacity:0}\n.fzone button{min-height:48px;padding-inline:26px;border-radius:999px;border:1px solid #fff5;background:transparent;color:#fff;font-family:inherit;font-size:15px;cursor:pointer}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"fzone\">\n<div class=\"flash\"><\/div>\n<p>הזז את העכבר. שים לב לפנס ולעיגול הסמן<\/p>\n<button>כפתור לבדיקת הסמן<\/button>\n<\/div><\/div>\n\n=== JS ===\nconst fz=document.querySelector(\".fzone\"),fl=document.querySelector(\".flash\");\nconst fo=document.createElement(\"div\");fo.className=\"follow\";document.body.appendChild(fo);\nlet mx=0,my=0,px=0,py=0;\ndocument.addEventListener(\"mousemove\",e=>{mx=e.clientX;my=e.clientY;\n  const r=fz.getBoundingClientRect();\n  fl.style.left=(e.clientX-r.left)+\"px\";fl.style.top=(e.clientY-r.top)+\"px\";});\nfz.addEventListener(\"mouseenter\",()=>{fl.style.opacity=1;fo.style.opacity=1});\nfz.addEventListener(\"mouseleave\",()=>{fl.style.opacity=0});\ngsap.ticker.add(()=>{px+=(mx-px)*.2;py+=(my-py)*.2;gsap.set(fo,{x:px-11,y:py-11})});\ndocument.querySelectorAll(\"button,a\").forEach(t=>{\n  t.addEventListener(\"mouseenter\",()=>gsap.to(fo,{scale:2.4,duration:.3,ease:\"power2.out\"}));\n  t.addEventListener(\"mouseleave\",()=>gsap.to(fo,{scale:1,duration:.3,ease:\"power2.out\"}));\n});\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G08 · סמן מותאם + פנס */\n.fzone{position:relative;height:70vh;background:#101223;border-radius:var(--r, 14px);margin-inline:var(--gutter, clamp(24px, 5vw, 96px));overflow:hidden;display:flex;flex-direction:column;gap:20px;align-items:center;justify-content:center;color:#fff}\n.flash{position:absolute;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,#f4c66044,transparent 65%);filter:blur(40px);pointer-events:none;opacity:0;transform:translate(-50%,-50%);transition:opacity .3s}\n.follow{width:22px;height:22px;border-radius:50%;background:#fff;mix-blend-mode:difference;position:fixed;left:0;top:0;pointer-events:none;z-index:99;opacity:0}\n.fzone button{min-height:48px;padding-inline:26px;border-radius:999px;border:1px solid #fff5;background:transparent;color:#fff;font-family:inherit;font-size:15px;cursor:pointer}","html":"<div class=\"stage tight\"><div class=\"fzone\">\n<div class=\"flash\"><\/div>\n<p>הזז את העכבר. שים לב לפנס ולעיגול הסמן<\/p>\n<button>כפתור לבדיקת הסמן<\/button>\n<\/div><\/div>","js":"const fz=document.querySelector(\".fzone\"),fl=document.querySelector(\".flash\");\nconst fo=document.createElement(\"div\");fo.className=\"follow\";document.body.appendChild(fo);\nlet mx=0,my=0,px=0,py=0;\ndocument.addEventListener(\"mousemove\",e=>{mx=e.clientX;my=e.clientY;\n  const r=fz.getBoundingClientRect();\n  fl.style.left=(e.clientX-r.left)+\"px\";fl.style.top=(e.clientY-r.top)+\"px\";});\nfz.addEventListener(\"mouseenter\",()=>{fl.style.opacity=1;fo.style.opacity=1});\nfz.addEventListener(\"mouseleave\",()=>{fl.style.opacity=0});\ngsap.ticker.add(()=>{px+=(mx-px)*.2;py+=(my-py)*.2;gsap.set(fo,{x:px-11,y:py-11})});\ndocument.querySelectorAll(\"button,a\").forEach(t=>{\n  t.addEventListener(\"mouseenter\",()=>gsap.to(fo,{scale:2.4,duration:.3,ease:\"power2.out\"}));\n  t.addEventListener(\"mouseleave\",()=>gsap.to(fo,{scale:1,duration:.3,ease:\"power2.out\"}));\n});","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -49,6 +92,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 const fz=document.querySelector(".fzone"),fl=document.querySelector(".flash");
 const fo=document.createElement("div");fo.className="follow";document.body.appendChild(fo);

@@ -46,6 +46,48 @@ font-family:inherit;font-size:17px;font-weight:600;padding-block:20px;cursor:poi
 </div></div>
 
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/css06.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS06 · אקורדיון חלק */
+.acc{max-width:560px;margin-inline:auto}
+.acc-item{border-bottom:1px solid var(--line, #e4e4ee)}
+.acc-q{width:100%;display:flex;justify-content:space-between;align-items:center;background:none;border:0;
+font-family:inherit;font-size:17px;font-weight:600;padding-block:20px;cursor:pointer;text-align:start}
+.acc-q .chev{transition:rotate .2s}
+.acc-item.open .chev{rotate:180deg}
+.acc-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.2,.6,.2,1)}
+.acc-item.open .acc-a{grid-template-rows:1fr}
+.acc-a&gt;div{overflow:hidden;color:var(--muted, #6a6d85);max-width:60ch}
+.acc-a p{margin:0 0 20px}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="acc"&gt;
+&lt;div class="acc-item open"&gt;&lt;button class="acc-q"&gt;איך זה עובד בלי JS למדידת גובה?&lt;span class="chev"&gt;▾&lt;/span&gt;&lt;/button&gt;
+&lt;div class="acc-a"&gt;&lt;div&gt;&lt;p&gt;grid-template-rows עובר מ-0fr ל-1fr, והדפדפן עושה את כל העבודה.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class="acc-item"&gt;&lt;button class="acc-q"&gt;וזה עובד בכל הדפדפנים?&lt;span class="chev"&gt;▾&lt;/span&gt;&lt;/button&gt;
+&lt;div class="acc-a"&gt;&lt;div&gt;&lt;p&gt;כן, כל הדפדפנים המודרניים תומכים במעבר על fr.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class="acc-item"&gt;&lt;button class="acc-q"&gt;מה עם נגישות?&lt;span class="chev"&gt;▾&lt;/span&gt;&lt;/button&gt;
+&lt;div class="acc-a"&gt;&lt;div&gt;&lt;p&gt;הכפתור אמיתי, מקלדת עובדת, והתוכן נשאר ב-DOM.&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>document.querySelectorAll(".acc-q").forEach(q=&gt;q.addEventListener("click",()=&gt;{
+  q.closest(".acc-item").classList.toggle("open");
+}));</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:css06 · אקורדיון חלק\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/css/css06.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/css06.html\n\nמה זה עושה: פתיחה וסגירה חלקות עם הטריק המודרני: grid-template-rows מ-0fr ל-1fr, בלי JS שמודד גבהים.\nמתי משתמשים: שאלות ותשובות, מפרטים.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS06 · אקורדיון חלק */\n.acc{max-width:560px;margin-inline:auto}\n.acc-item{border-bottom:1px solid var(--line, #e4e4ee)}\n.acc-q{width:100%;display:flex;justify-content:space-between;align-items:center;background:none;border:0;\nfont-family:inherit;font-size:17px;font-weight:600;padding-block:20px;cursor:pointer;text-align:start}\n.acc-q .chev{transition:rotate .2s}\n.acc-item.open .chev{rotate:180deg}\n.acc-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.2,.6,.2,1)}\n.acc-item.open .acc-a{grid-template-rows:1fr}\n.acc-a>div{overflow:hidden;color:var(--muted, #6a6d85);max-width:60ch}\n.acc-a p{margin:0 0 20px}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"acc\">\n<div class=\"acc-item open\"><button class=\"acc-q\">איך זה עובד בלי JS למדידת גובה?<span class=\"chev\">▾<\/span><\/button>\n<div class=\"acc-a\"><div><p>grid-template-rows עובר מ-0fr ל-1fr, והדפדפן עושה את כל העבודה.<\/p><\/div><\/div><\/div>\n<div class=\"acc-item\"><button class=\"acc-q\">וזה עובד בכל הדפדפנים?<span class=\"chev\">▾<\/span><\/button>\n<div class=\"acc-a\"><div><p>כן, כל הדפדפנים המודרניים תומכים במעבר על fr.<\/p><\/div><\/div><\/div>\n<div class=\"acc-item\"><button class=\"acc-q\">מה עם נגישות?<span class=\"chev\">▾<\/span><\/button>\n<div class=\"acc-a\"><div><p>הכפתור אמיתי, מקלדת עובדת, והתוכן נשאר ב-DOM.<\/p><\/div><\/div><\/div>\n<\/div><\/div>\n\n=== JS ===\ndocument.querySelectorAll(\".acc-q\").forEach(q=>q.addEventListener(\"click\",()=>{\n  q.closest(\".acc-item\").classList.toggle(\"open\");\n}));","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS06 · אקורדיון חלק */\n.acc{max-width:560px;margin-inline:auto}\n.acc-item{border-bottom:1px solid var(--line, #e4e4ee)}\n.acc-q{width:100%;display:flex;justify-content:space-between;align-items:center;background:none;border:0;\nfont-family:inherit;font-size:17px;font-weight:600;padding-block:20px;cursor:pointer;text-align:start}\n.acc-q .chev{transition:rotate .2s}\n.acc-item.open .chev{rotate:180deg}\n.acc-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.2,.6,.2,1)}\n.acc-item.open .acc-a{grid-template-rows:1fr}\n.acc-a>div{overflow:hidden;color:var(--muted, #6a6d85);max-width:60ch}\n.acc-a p{margin:0 0 20px}","html":"<div class=\"stage tight\"><div class=\"acc\">\n<div class=\"acc-item open\"><button class=\"acc-q\">איך זה עובד בלי JS למדידת גובה?<span class=\"chev\">▾<\/span><\/button>\n<div class=\"acc-a\"><div><p>grid-template-rows עובר מ-0fr ל-1fr, והדפדפן עושה את כל העבודה.<\/p><\/div><\/div><\/div>\n<div class=\"acc-item\"><button class=\"acc-q\">וזה עובד בכל הדפדפנים?<span class=\"chev\">▾<\/span><\/button>\n<div class=\"acc-a\"><div><p>כן, כל הדפדפנים המודרניים תומכים במעבר על fr.<\/p><\/div><\/div><\/div>\n<div class=\"acc-item\"><button class=\"acc-q\">מה עם נגישות?<span class=\"chev\">▾<\/span><\/button>\n<div class=\"acc-a\"><div><p>הכפתור אמיתי, מקלדת עובדת, והתוכן נשאר ב-DOM.<\/p><\/div><\/div><\/div>\n<\/div><\/div>","js":"document.querySelectorAll(\".acc-q\").forEach(q=>q.addEventListener(\"click\",()=>{\n  q.closest(\".acc-item\").classList.toggle(\"open\");\n}));","scripts":"","rtl":true}</script>
+</section>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -58,6 +100,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 document.querySelectorAll(".acc-q").forEach(q=>q.addEventListener("click",()=>{
   q.closest(".acc-item").classList.toggle("open");

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B29 · רקע העמוד שמחליף צבע לפי הסקשן</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* B29 · רקע העמוד שמחליף צבע לפי הסקשן */
+.bgz{--bg:#f7f7fa;--fg:#16182b;--soft:#6a6d85;
+  background:var(--bg, #f7f7fa);color:var(--fg);transition:background-color .8s ease,color .8s ease}
+.bgz-sec{min-height:92vh;display:grid;place-items:center;text-align:center;padding:8vh var(--gutter, clamp(24px, 5vw, 96px))}
+/* place-items:center ממרכז את העטיפה, אבל בתוכה כל בלוק עם max-width נצמד לצד ההתחלה.
+   בלי margin-inline:auto הכותרת הצרה יושבת בימין והפסקה הרחבה מתחתיה, וזה נראה עקום. */
+.bgz-sec h3{font-size:clamp(30px,4.4vw,72px);margin:0 auto 14px;font-weight:800;max-width:18ch}
+.bgz-sec p{margin:0 auto;max-width:46ch;color:var(--soft);font-size:17px;line-height:1.6}
+.bgz-sec>div{display:grid;justify-items:center}
+.bgz-tag{font-size:12px;letter-spacing:.18em;margin-bottom:18px;opacity:.6}
+.bgz-dot{width:10px;height:10px;border-radius:50%;background:currentColor;margin:26px auto 0;opacity:.4}
+.bgz-rail{position:fixed;inset-inline-end:18px;top:50%;transform:translateY(-50%);z-index:20;display:grid;gap:10px}
+.bgz-rail i{display:block;width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.28;transition:opacity .4s,transform .4s}
+.bgz-rail i.on{opacity:1;transform:scale(1.5)}
+@media (prefers-reduced-motion: reduce){.bgz{transition-duration:.01ms}}
+</style>
+</head>
+<body>
+<div class="bgz">
+  <section class="bgz-sec" data-bg="#f7f7fa" data-fg="#16182b" data-soft="#6a6d85">
+    <div><p class="bgz-tag">פרק ראשון</p><h3>מתחילים בהיר</h3><p>גלול למטה. הרקע של העמוד כולו יעבור לצבע של הסקשן הבא, בלי קו מפריד ובלי קפיצה.</p><span class="bgz-dot"></span></div>
+  </section>
+  <section class="bgz-sec" data-bg="#101322" data-fg="#f2f2f7" data-soft="#a3a6c0">
+    <div><p class="bgz-tag">פרק שני</p><h3>ואז נכנסים לעומק</h3><p>אותו טקסט, אותה פריסה, ורק ערכת הצבע מתחלפת. זה מה שנותן תחושה של מעבר בין פרקים.</p><span class="bgz-dot"></span></div>
+  </section>
+  <section class="bgz-sec" data-bg="#123b32" data-fg="#f2fbf6" data-soft="#9dc7b6">
+    <div><p class="bgz-tag">פרק שלישי</p><h3>וממשיכים לצבע של המותג</h3><p>בפרויקט אמיתי הצבעים מגיעים מהטוקנים של העור, ולא נכתבים בכל סקשן מחדש.</p><span class="bgz-dot"></span></div>
+  </section>
+  <section class="bgz-sec" data-bg="#f4ede3" data-fg="#3a2a1c" data-soft="#8a7561">
+    <div><p class="bgz-tag">פרק רביעי</p><h3>ונוחתים רך</h3><p>המעבר הוא 0.8 שניות. מהר מזה מרגיש כמו הבהוב, ואיטי מזה מרגיש כמו באג.</p><span class="bgz-dot"></span></div>
+  </section>
+  <nav class="bgz-rail" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></nav>
+</div>
+
+<script>
+(function(){
+  const wrap=document.querySelector(".bgz");
+  const secs=[...wrap.querySelectorAll(".bgz-sec")];
+  const dots=[...wrap.querySelectorAll(".bgz-rail i")];
+  function apply(sec){
+    wrap.style.setProperty("--bg",sec.dataset.bg);
+    wrap.style.setProperty("--fg",sec.dataset.fg);
+    wrap.style.setProperty("--soft",sec.dataset.soft);
+    const i=secs.indexOf(sec);
+    dots.forEach((d,n)=>d.classList.toggle("on",n===i));
+  }
+  // בוחרים את הסקשן שתופס הכי הרבה מהמסך. חשוב למדוד את כל הסקשנים בכל בדיקה
+  // ולא רק את אלה שהאירוע דיווח עליהם, אחרת הצבע נתקע על הראשון.
+  let last=null;
+  function pick(){
+    let best=null,area=0;
+    secs.forEach(s=>{
+      const r=s.getBoundingClientRect();
+      const vis=Math.max(0,Math.min(r.bottom,window.innerHeight)-Math.max(r.top,0));
+      if(vis>area){area=vis;best=s;}
+    });
+    if(best&&best!==last){last=best;apply(best);}
+  }
+  // ויסות לפי זמן ולא לפי requestAnimationFrame: אם פריים אחד לא מגיע, דגל של rAF נתקע דלוק
+  // וכל אירועי הגלילה הבאים נבלעים. מדידה של 80 מילישניות זולה ואמינה בכל מצב.
+  let t=0;
+  const onScroll=()=>{const n=performance.now();if(n-t<80)return;t=n;pick();};
+  const io=new IntersectionObserver(pick,{threshold:[0,.2,.4,.6,.8,1]});
+  secs.forEach(s=>io.observe(s));
+  addEventListener("scroll",onScroll,{passive:true});
+  pick();
+})();
+</script>
+</body>
+</html>

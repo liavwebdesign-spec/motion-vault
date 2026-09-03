@@ -36,6 +36,45 @@
 </div></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g17.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+
+/* G17 · כרטיסים מתעופפים פנימה */
+.fan{display:flex;justify-content:center;gap:var(--gap, clamp(16px, 1.6vw, 36px));padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.fan .ph{width:min(260px,28vw);height:340px;font-size:20px}
+@media(max-width:767px){.fan{flex-direction:column;align-items:center}.fan .ph{width:80vw;height:180px}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="fan"&gt;
+&lt;div class="ph ph-a fc-l"&gt;שירות א&lt;/div&gt;
+&lt;div class="ph ph-b fc-c"&gt;שירות ב&lt;/div&gt;
+&lt;div class="ph ph-c fc-r"&gt;שירות ג&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+const st=()=&gt;({trigger:".fan",start:"top 78%",end:"top 45%",scrub:1});
+gsap.from(".fc-l",{x:"30vw",rotate:10,scrollTrigger:st()});
+gsap.from(".fc-c",{y:"4vw",rotate:-5,scrollTrigger:st()});
+gsap.from(".fc-r",{x:"-30vw",rotate:-10,scrollTrigger:st()});</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g17 · כרטיסים מתעופפים פנימה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g17.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g17.html\n\nמה זה עושה: שלושה כרטיסים טסים למקומם משני הצדדים עם סיבוב, בקצב הגלילה.\nמתי משתמשים: הצגת שלושה שירותים או מוצרים בכניסה דרמטית.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n\n/* G17 · כרטיסים מתעופפים פנימה */\n.fan{display:flex;justify-content:center;gap:var(--gap, clamp(16px, 1.6vw, 36px));padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.fan .ph{width:min(260px,28vw);height:340px;font-size:20px}\n@media(max-width:767px){.fan{flex-direction:column;align-items:center}.fan .ph{width:80vw;height:180px}}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"fan\">\n<div class=\"ph ph-a fc-l\">שירות א<\/div>\n<div class=\"ph ph-b fc-c\">שירות ב<\/div>\n<div class=\"ph ph-c fc-r\">שירות ג<\/div>\n<\/div><\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\nconst st=()=>({trigger:\".fan\",start:\"top 78%\",end:\"top 45%\",scrub:1});\ngsap.from(\".fc-l\",{x:\"30vw\",rotate:10,scrollTrigger:st()});\ngsap.from(\".fc-c\",{y:\"4vw\",rotate:-5,scrollTrigger:st()});\ngsap.from(\".fc-r\",{x:\"-30vw\",rotate:-10,scrollTrigger:st()});\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n\n/* G17 · כרטיסים מתעופפים פנימה */\n.fan{display:flex;justify-content:center;gap:var(--gap, clamp(16px, 1.6vw, 36px));padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.fan .ph{width:min(260px,28vw);height:340px;font-size:20px}\n@media(max-width:767px){.fan{flex-direction:column;align-items:center}.fan .ph{width:80vw;height:180px}}","html":"<div class=\"stage tight\"><div class=\"fan\">\n<div class=\"ph ph-a fc-l\">שירות א<\/div>\n<div class=\"ph ph-b fc-c\">שירות ב<\/div>\n<div class=\"ph ph-c fc-r\">שירות ג<\/div>\n<\/div><\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\nconst st=()=>({trigger:\".fan\",start:\"top 78%\",end:\"top 45%\",scrub:1});\ngsap.from(\".fc-l\",{x:\"30vw\",rotate:10,scrollTrigger:st()});\ngsap.from(\".fc-c\",{y:\"4vw\",rotate:-5,scrollTrigger:st()});\ngsap.from(\".fc-r\",{x:\"-30vw\",rotate:-10,scrollTrigger:st()});","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -49,6 +88,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 const st=()=>({trigger:".fan",start:"top 78%",end:"top 45%",scrub:1});
 gsap.from(".fc-l",{x:"30vw",rotate:10,scrollTrigger:st()});

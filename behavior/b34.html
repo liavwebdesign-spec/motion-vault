@@ -66,6 +66,107 @@
 </div></div>
 
 <div class="demo-note">Flip פותר את הבעיה האמיתית בגריד מסונן: בלעדיו הפריטים קופצים למקום החדש בפריים אחד. absolute:true מונע קפיצה כשמספר השורות משתנה, אבל הוא גם מרוקן את הגריד ולכן חייבים להנפיש את גובהו במקביל, ו-onEnter ו-onLeave מטפלים בפריטים שנכנסים ויוצאים לגמרי. תחת prefers-reduced-motion הסינון עדיין עובד, פשוט בלי תנועה.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/b34.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
+
+/* B34 · גריד מסונן עם מעבר חלק */
+.fg{padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.fg-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:clamp(20px,2.4vw,34px)}
+.fg-chip{border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);border-radius:999px;padding:10px 18px;font:inherit;font-size:14px;
+  color:var(--ink, #16182b);cursor:pointer;transition:background .25s,border-color .25s,color .25s}
+.fg-chip:hover{border-color:var(--accent, #4a3aff)}
+.fg-chip.on{background:var(--ink, #16182b);color:#fff;border-color:var(--ink, #16182b)}
+.fg-count{margin-inline-start:auto;font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}
+.fg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap, clamp(16px, 1.6vw, 36px));position:relative;background:var(--bg, #f7f7fa)}
+.fg-item{background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden}
+.fg-item .ph{height:clamp(150px,15vw,210px);border-radius:0;font-size:22px}
+.fg-item h3{margin:0;padding:16px 18px 4px;font-size:17px}
+.fg-item p{margin:0;padding:0 18px 18px;font-size:13px;color:var(--muted, #6a6d85)}
+.fg-item.hide{display:none}
+.fg-empty{padding:40px 4px;color:var(--muted, #6a6d85);text-align:center;display:none}
+.fg-empty.on{display:block}
+@media(max-width:900px){.fg-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.fg-grid{grid-template-columns:1fr}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="fg"&gt;
+  &lt;div class="fg-bar" role="group" aria-label="סינון לפי קטגוריה"&gt;
+    &lt;button class="fg-chip on" data-f="all"&gt;הכל&lt;/button&gt;
+    &lt;button class="fg-chip" data-f="web"&gt;אתרי תדמית&lt;/button&gt;
+    &lt;button class="fg-chip" data-f="shop"&gt;חנויות&lt;/button&gt;
+    &lt;button class="fg-chip" data-f="lp"&gt;דפי נחיתה&lt;/button&gt;
+    &lt;span class="fg-count"&gt;&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class="fg-grid"&gt;
+    &lt;article class="fg-item" data-c="web"&gt;&lt;div class="ph ph-a"&gt;1&lt;/div&gt;&lt;h3&gt;משרד עורכי דין&lt;/h3&gt;&lt;p&gt;אתר תדמית&lt;/p&gt;&lt;/article&gt;
+    &lt;article class="fg-item" data-c="shop"&gt;&lt;div class="ph ph-b"&gt;2&lt;/div&gt;&lt;h3&gt;חנות תכשיטים&lt;/h3&gt;&lt;p&gt;חנות&lt;/p&gt;&lt;/article&gt;
+    &lt;article class="fg-item" data-c="lp"&gt;&lt;div class="ph ph-c"&gt;3&lt;/div&gt;&lt;h3&gt;קמפיין קיץ&lt;/h3&gt;&lt;p&gt;דף נחיתה&lt;/p&gt;&lt;/article&gt;
+    &lt;article class="fg-item" data-c="web"&gt;&lt;div class="ph ph-d"&gt;4&lt;/div&gt;&lt;h3&gt;קליניקת שיניים&lt;/h3&gt;&lt;p&gt;אתר תדמית&lt;/p&gt;&lt;/article&gt;
+    &lt;article class="fg-item" data-c="shop"&gt;&lt;div class="ph ph-e"&gt;5&lt;/div&gt;&lt;h3&gt;חנות רהיטים&lt;/h3&gt;&lt;p&gt;חנות&lt;/p&gt;&lt;/article&gt;
+    &lt;article class="fg-item" data-c="lp"&gt;&lt;div class="ph ph-f"&gt;6&lt;/div&gt;&lt;h3&gt;וובינר&lt;/h3&gt;&lt;p&gt;דף נחיתה&lt;/p&gt;&lt;/article&gt;
+    &lt;article class="fg-item" data-c="web"&gt;&lt;div class="ph ph-c"&gt;7&lt;/div&gt;&lt;h3&gt;חברת בנייה&lt;/h3&gt;&lt;p&gt;אתר תדמית&lt;/p&gt;&lt;/article&gt;
+    &lt;article class="fg-item" data-c="shop"&gt;&lt;div class="ph ph-a"&gt;8&lt;/div&gt;&lt;h3&gt;חנות קפה&lt;/h3&gt;&lt;p&gt;חנות&lt;/p&gt;&lt;/article&gt;
+    &lt;article class="fg-item" data-c="lp"&gt;&lt;div class="ph ph-b"&gt;9&lt;/div&gt;&lt;h3&gt;קורס דיגיטלי&lt;/h3&gt;&lt;p&gt;דף נחיתה&lt;/p&gt;&lt;/article&gt;
+  &lt;/div&gt;
+  &lt;p class="fg-empty"&gt;אין פריטים בקטגוריה הזאת.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(Flip);
+
+(function(){
+  const chips=[...document.querySelectorAll(".fg-chip")],items=[...document.querySelectorAll(".fg-item")];
+  const count=document.querySelector(".fg-count"),empty=document.querySelector(".fg-empty");
+  const grid=document.querySelector(".fg-grid");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function apply(f,animate){
+    // Flip: מצלמים את המצב לפני, משנים את ה-DOM, והספרייה מנפישה את ההפרש
+    const state=Flip.getState(items,{props:"opacity"});
+    const h0=grid.getBoundingClientRect().height;
+    let shown=0;
+    items.forEach(it=&gt;{
+      const vis=f==="all"||it.dataset.c===f;
+      it.classList.toggle("hide",!vis);
+      if(vis)shown++;
+    });
+    count.textContent=shown+" מתוך "+items.length;
+    empty.classList.toggle("on",shown===0);
+    if(reduce||!animate)return;                 // הקריאה הראשונה רק מסמנת מצב, בלי אנימציה על טעינה
+    const h1=grid.getBoundingClientRect().height;
+    // absolute:true מוציא את הכרטיסים מהזרימה, הגריד מתכווץ לאפס, וכל מה שמתחתיו
+    // עולה למעלה ומציץ מאחורי הכרטיסים המרחפים. מנפישים את גובה הגריד במקביל.
+    gsap.fromTo(grid,{height:h0},{height:h1,duration:.55,ease:"power2.inOut",
+      onComplete:()=&gt;gsap.set(grid,{clearProps:"height"})});
+    Flip.from(state,{duration:.55,ease:"power2.inOut",scale:true,absolute:true,
+      onEnter:els=&gt;gsap.fromTo(els,{opacity:0,scale:.9},{opacity:1,scale:1,duration:.4}),
+      onLeave:els=&gt;gsap.to(els,{opacity:0,scale:.9,duration:.25})});
+  }
+  chips.forEach(c=&gt;c.addEventListener("click",()=&gt;{
+    chips.forEach(x=&gt;x.classList.toggle("on",x===c));
+    apply(c.dataset.f,true);
+  }));
+  apply("all",false);
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b34 · גריד מסונן עם מעבר חלק\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b34.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b34.html\n\nמה זה עושה: שורת קטגוריות מעל גריד. לחיצה מסננת, והפריטים שנשארים מחליקים למקומם החדש במקום להיעלם ולקפוץ. הנעלמים דוהים והחדשים נכנסים.\nמתי משתמשים: תיק עבודות, קטלוג מוצרים, תפריט מסעדה, רשימת שירותים, מאמרים, צוות. הרכיב הזה הופיע ביותר ממחצית האתרים שנסרקו.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* B34 · גריד מסונן עם מעבר חלק */\n.fg{padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.fg-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:clamp(20px,2.4vw,34px)}\n.fg-chip{border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);border-radius:999px;padding:10px 18px;font:inherit;font-size:14px;\n  color:var(--ink, #16182b);cursor:pointer;transition:background .25s,border-color .25s,color .25s}\n.fg-chip:hover{border-color:var(--accent, #4a3aff)}\n.fg-chip.on{background:var(--ink, #16182b);color:#fff;border-color:var(--ink, #16182b)}\n.fg-count{margin-inline-start:auto;font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}\n.fg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap, clamp(16px, 1.6vw, 36px));position:relative;background:var(--bg, #f7f7fa)}\n.fg-item{background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden}\n.fg-item .ph{height:clamp(150px,15vw,210px);border-radius:0;font-size:22px}\n.fg-item h3{margin:0;padding:16px 18px 4px;font-size:17px}\n.fg-item p{margin:0;padding:0 18px 18px;font-size:13px;color:var(--muted, #6a6d85)}\n.fg-item.hide{display:none}\n.fg-empty{padding:40px 4px;color:var(--muted, #6a6d85);text-align:center;display:none}\n.fg-empty.on{display:block}\n@media(max-width:900px){.fg-grid{grid-template-columns:repeat(2,1fr)}}\n@media(max-width:560px){.fg-grid{grid-template-columns:1fr}}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"fg\">\n  <div class=\"fg-bar\" role=\"group\" aria-label=\"סינון לפי קטגוריה\">\n    <button class=\"fg-chip on\" data-f=\"all\">הכל<\/button>\n    <button class=\"fg-chip\" data-f=\"web\">אתרי תדמית<\/button>\n    <button class=\"fg-chip\" data-f=\"shop\">חנויות<\/button>\n    <button class=\"fg-chip\" data-f=\"lp\">דפי נחיתה<\/button>\n    <span class=\"fg-count\"><\/span>\n  <\/div>\n  <div class=\"fg-grid\">\n    <article class=\"fg-item\" data-c=\"web\"><div class=\"ph ph-a\">1<\/div><h3>משרד עורכי דין<\/h3><p>אתר תדמית<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"shop\"><div class=\"ph ph-b\">2<\/div><h3>חנות תכשיטים<\/h3><p>חנות<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"lp\"><div class=\"ph ph-c\">3<\/div><h3>קמפיין קיץ<\/h3><p>דף נחיתה<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"web\"><div class=\"ph ph-d\">4<\/div><h3>קליניקת שיניים<\/h3><p>אתר תדמית<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"shop\"><div class=\"ph ph-e\">5<\/div><h3>חנות רהיטים<\/h3><p>חנות<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"lp\"><div class=\"ph ph-f\">6<\/div><h3>וובינר<\/h3><p>דף נחיתה<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"web\"><div class=\"ph ph-c\">7<\/div><h3>חברת בנייה<\/h3><p>אתר תדמית<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"shop\"><div class=\"ph ph-a\">8<\/div><h3>חנות קפה<\/h3><p>חנות<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"lp\"><div class=\"ph ph-b\">9<\/div><h3>קורס דיגיטלי<\/h3><p>דף נחיתה<\/p><\/article>\n  <\/div>\n  <p class=\"fg-empty\">אין פריטים בקטגוריה הזאת.<\/p>\n<\/div><\/div>\n\n=== JS ===\ngsap.registerPlugin(Flip);\n\n(function(){\n  const chips=[...document.querySelectorAll(\".fg-chip\")],items=[...document.querySelectorAll(\".fg-item\")];\n  const count=document.querySelector(\".fg-count\"),empty=document.querySelector(\".fg-empty\");\n  const grid=document.querySelector(\".fg-grid\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  function apply(f,animate){\n    // Flip: מצלמים את המצב לפני, משנים את ה-DOM, והספרייה מנפישה את ההפרש\n    const state=Flip.getState(items,{props:\"opacity\"});\n    const h0=grid.getBoundingClientRect().height;\n    let shown=0;\n    items.forEach(it=>{\n      const vis=f===\"all\"||it.dataset.c===f;\n      it.classList.toggle(\"hide\",!vis);\n      if(vis)shown++;\n    });\n    count.textContent=shown+\" מתוך \"+items.length;\n    empty.classList.toggle(\"on\",shown===0);\n    if(reduce||!animate)return;                 // הקריאה הראשונה רק מסמנת מצב, בלי אנימציה על טעינה\n    const h1=grid.getBoundingClientRect().height;\n    // absolute:true מוציא את הכרטיסים מהזרימה, הגריד מתכווץ לאפס, וכל מה שמתחתיו\n    // עולה למעלה ומציץ מאחורי הכרטיסים המרחפים. מנפישים את גובה הגריד במקביל.\n    gsap.fromTo(grid,{height:h0},{height:h1,duration:.55,ease:\"power2.inOut\",\n      onComplete:()=>gsap.set(grid,{clearProps:\"height\"})});\n    Flip.from(state,{duration:.55,ease:\"power2.inOut\",scale:true,absolute:true,\n      onEnter:els=>gsap.fromTo(els,{opacity:0,scale:.9},{opacity:1,scale:1,duration:.4}),\n      onLeave:els=>gsap.to(els,{opacity:0,scale:.9,duration:.25})});\n  }\n  chips.forEach(c=>c.addEventListener(\"click\",()=>{\n    chips.forEach(x=>x.classList.toggle(\"on\",x===c));\n    apply(c.dataset.f,true);\n  }));\n  apply(\"all\",false);\n})();\n\nהערת מימוש מהמאגר:\nFlip פותר את הבעיה האמיתית בגריד מסונן: בלעדיו הפריטים קופצים למקום החדש בפריים אחד. absolute:true מונע קפיצה כשמספר השורות משתנה, אבל הוא גם מרוקן את הגריד ולכן חייבים להנפיש את גובהו במקביל, ו-onEnter ו-onLeave מטפלים בפריטים שנכנסים ויוצאים לגמרי. תחת prefers-reduced-motion הסינון עדיין עובד, פשוט בלי תנועה.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { Flip } from \"gsap/Flip\";\n  gsap.registerPlugin(Flip);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* B34 · גריד מסונן עם מעבר חלק */\n.fg{padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.fg-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:clamp(20px,2.4vw,34px)}\n.fg-chip{border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);border-radius:999px;padding:10px 18px;font:inherit;font-size:14px;\n  color:var(--ink, #16182b);cursor:pointer;transition:background .25s,border-color .25s,color .25s}\n.fg-chip:hover{border-color:var(--accent, #4a3aff)}\n.fg-chip.on{background:var(--ink, #16182b);color:#fff;border-color:var(--ink, #16182b)}\n.fg-count{margin-inline-start:auto;font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}\n.fg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap, clamp(16px, 1.6vw, 36px));position:relative;background:var(--bg, #f7f7fa)}\n.fg-item{background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden}\n.fg-item .ph{height:clamp(150px,15vw,210px);border-radius:0;font-size:22px}\n.fg-item h3{margin:0;padding:16px 18px 4px;font-size:17px}\n.fg-item p{margin:0;padding:0 18px 18px;font-size:13px;color:var(--muted, #6a6d85)}\n.fg-item.hide{display:none}\n.fg-empty{padding:40px 4px;color:var(--muted, #6a6d85);text-align:center;display:none}\n.fg-empty.on{display:block}\n@media(max-width:900px){.fg-grid{grid-template-columns:repeat(2,1fr)}}\n@media(max-width:560px){.fg-grid{grid-template-columns:1fr}}","html":"<div class=\"stage tight\"><div class=\"fg\">\n  <div class=\"fg-bar\" role=\"group\" aria-label=\"סינון לפי קטגוריה\">\n    <button class=\"fg-chip on\" data-f=\"all\">הכל<\/button>\n    <button class=\"fg-chip\" data-f=\"web\">אתרי תדמית<\/button>\n    <button class=\"fg-chip\" data-f=\"shop\">חנויות<\/button>\n    <button class=\"fg-chip\" data-f=\"lp\">דפי נחיתה<\/button>\n    <span class=\"fg-count\"><\/span>\n  <\/div>\n  <div class=\"fg-grid\">\n    <article class=\"fg-item\" data-c=\"web\"><div class=\"ph ph-a\">1<\/div><h3>משרד עורכי דין<\/h3><p>אתר תדמית<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"shop\"><div class=\"ph ph-b\">2<\/div><h3>חנות תכשיטים<\/h3><p>חנות<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"lp\"><div class=\"ph ph-c\">3<\/div><h3>קמפיין קיץ<\/h3><p>דף נחיתה<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"web\"><div class=\"ph ph-d\">4<\/div><h3>קליניקת שיניים<\/h3><p>אתר תדמית<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"shop\"><div class=\"ph ph-e\">5<\/div><h3>חנות רהיטים<\/h3><p>חנות<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"lp\"><div class=\"ph ph-f\">6<\/div><h3>וובינר<\/h3><p>דף נחיתה<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"web\"><div class=\"ph ph-c\">7<\/div><h3>חברת בנייה<\/h3><p>אתר תדמית<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"shop\"><div class=\"ph ph-a\">8<\/div><h3>חנות קפה<\/h3><p>חנות<\/p><\/article>\n    <article class=\"fg-item\" data-c=\"lp\"><div class=\"ph ph-b\">9<\/div><h3>קורס דיגיטלי<\/h3><p>דף נחיתה<\/p><\/article>\n  <\/div>\n  <p class=\"fg-empty\">אין פריטים בקטגוריה הזאת.<\/p>\n<\/div><\/div>","js":"gsap.registerPlugin(Flip);\n\n(function(){\n  const chips=[...document.querySelectorAll(\".fg-chip\")],items=[...document.querySelectorAll(\".fg-item\")];\n  const count=document.querySelector(\".fg-count\"),empty=document.querySelector(\".fg-empty\");\n  const grid=document.querySelector(\".fg-grid\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  function apply(f,animate){\n    // Flip: מצלמים את המצב לפני, משנים את ה-DOM, והספרייה מנפישה את ההפרש\n    const state=Flip.getState(items,{props:\"opacity\"});\n    const h0=grid.getBoundingClientRect().height;\n    let shown=0;\n    items.forEach(it=>{\n      const vis=f===\"all\"||it.dataset.c===f;\n      it.classList.toggle(\"hide\",!vis);\n      if(vis)shown++;\n    });\n    count.textContent=shown+\" מתוך \"+items.length;\n    empty.classList.toggle(\"on\",shown===0);\n    if(reduce||!animate)return;                 // הקריאה הראשונה רק מסמנת מצב, בלי אנימציה על טעינה\n    const h1=grid.getBoundingClientRect().height;\n    // absolute:true מוציא את הכרטיסים מהזרימה, הגריד מתכווץ לאפס, וכל מה שמתחתיו\n    // עולה למעלה ומציץ מאחורי הכרטיסים המרחפים. מנפישים את גובה הגריד במקביל.\n    gsap.fromTo(grid,{height:h0},{height:h1,duration:.55,ease:\"power2.inOut\",\n      onComplete:()=>gsap.set(grid,{clearProps:\"height\"})});\n    Flip.from(state,{duration:.55,ease:\"power2.inOut\",scale:true,absolute:true,\n      onEnter:els=>gsap.fromTo(els,{opacity:0,scale:.9},{opacity:1,scale:1,duration:.4}),\n      onLeave:els=>gsap.to(els,{opacity:0,scale:.9,duration:.25})});\n  }\n  chips.forEach(c=>c.addEventListener(\"click\",()=>{\n    chips.forEach(x=>x.classList.toggle(\"on\",x===c));\n    apply(c.dataset.f,true);\n  }));\n  apply(\"all\",false);\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -79,6 +180,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(Flip);
 (function(){
   const chips=[...document.querySelectorAll(".fg-chip")],items=[...document.querySelectorAll(".fg-item")];

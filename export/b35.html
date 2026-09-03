@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B35 · ציר תהליך אנכי עם קו שמתמלא</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B35 · ציר תהליך אנכי עם קו שמתמלא */
+/* כל הגאומטריה נגזרת משלושה משתנים. כשהקו והעיגולים מקבלים כל אחד clamp משלו
+   הם מתיישרים במקרה ברוחב אחד ומתפצלים בכל השאר, וזה נראה כמו קו עקום. */
+.vt{--vt-pad:clamp(46px,6vw,72px);--vt-x:clamp(4px,1vw,12px);--vt-dot:clamp(24px,3vw,34px);
+  position:relative;max-width:min(780px,92vw);margin-inline:auto;padding-inline-start:var(--vt-pad)}
+.vt-rail{position:absolute;inset-block:14px 10px;width:2px;background:var(--line, #e4e4ee);border-radius:2px;
+  inset-inline-start:calc(var(--vt-x) + var(--vt-dot)/2 - 1px)}
+.vt-fill{position:absolute;inset-block-start:0;inset-inline:0;height:0;background:var(--accent, #4a3aff);border-radius:2px}
+.vt-step{position:relative;padding-block:clamp(18px,2.4vw,34px)}
+.vt-dot{position:absolute;inset-inline-start:calc(var(--vt-pad) * -1 + var(--vt-x));top:calc(clamp(18px,2.4vw,34px) + 2px);
+  width:var(--vt-dot);height:var(--vt-dot);border-radius:50%;background:var(--card, #fff);border:2px solid var(--line, #e4e4ee);
+  display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--muted, #6a6d85);transition:background .35s,border-color .35s,color .35s}
+.vt-step.on .vt-dot{background:var(--accent, #4a3aff);border-color:var(--accent, #4a3aff);color:#fff}
+.vt-step h3{margin:0 0 6px;font-size:clamp(19px,2vw,26px);color:var(--muted, #6a6d85);transition:color .35s}
+.vt-step.on h3{color:var(--ink, #16182b)}
+.vt-step p{margin:0;color:var(--muted, #6a6d85);font-size:16px;line-height:1.65;max-width:56ch}
+.vt-when{display:inline-block;margin-top:8px;font-size:12px;letter-spacing:.08em;color:var(--muted, #6a6d85);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:4px 11px}
+</style>
+</head>
+<body>
+<div class="stage"><div class="vt">
+  <div class="vt-rail"><span class="vt-fill"></span></div>
+  <div class="vt-step"><span class="vt-dot">1</span><h3>שיחת היכרות</h3><p>מבינים מה העסק עושה, מי הלקוח, ומה צריך לקרות באתר כדי שהטלפון יצלצל.</p><span class="vt-when">20 דקות</span></div>
+  <div class="vt-step"><span class="vt-dot">2</span><h3>אפיון ותוכן</h3><p>בונים מבנה, כותבים את הטקסטים ואוספים חומרים. השלב שקובע את איכות התוצאה.</p><span class="vt-when">שבוע</span></div>
+  <div class="vt-step"><span class="vt-dot">3</span><h3>עיצוב</h3><p>סקיצה של עמוד הבית לאישור, ואחריה שאר העמודים באותה שפה.</p><span class="vt-when">שבוע עד שבועיים</span></div>
+  <div class="vt-step"><span class="vt-dot">4</span><h3>בנייה ובדיקות</h3><p>מרכיבים, בודקים בכל רוחב מסך, מחברים טפסים ומדידה.</p><span class="vt-when">שבועיים</span></div>
+  <div class="vt-step"><span class="vt-dot">5</span><h3>עלייה לאוויר</h3><p>מפרסמים, מוודאים שהפניות מגיעות, ומלווים חודש נוסף.</p><span class="vt-when">יום אחד</span></div>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const wrap=document.querySelector(".vt"),fill=document.querySelector(".vt-fill"),steps=gsap.utils.toArray(".vt-step");
+  const rail=document.querySelector(".vt-rail");
+  gsap.to(fill,{height:"100%",ease:"none",
+    scrollTrigger:{trigger:wrap,start:"top 62%",end:"bottom 72%",scrub:.6}});
+  steps.forEach(s=>{
+    ScrollTrigger.create({trigger:s,start:"top 66%",end:"bottom 40%",
+      onToggle:self=>s.classList.toggle("on",self.isActive),
+      onEnter:()=>s.classList.add("on")});
+  });
+})();
+</script>
+</body>
+</html>

@@ -41,6 +41,55 @@ html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!
 <button class="gbtn ln-toggle">Lenis: פועל</button>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 <div class="demo-note">בפרויקט אמיתי: Lenis נוצר פעם אחת ב-main, לפני כל ScrollTrigger, ומכובה אוטומטית תחת prefers-reduced-motion. אם יש בעמוד סקשן מוצמד (pin), עובדים עם pinType: transform או משאירים את ברירת המחדל של Lenis שמגלגלת את החלון (עובד).</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g38.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:#fff;font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
+
+/* G38 · Lenis + ScrollTrigger: גלילה חלקה */
+html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}
+.ln-block{margin:clamp(60px,8vw,140px) var(--gutter, clamp(24px, 5vw, 96px));display:grid;grid-template-columns:1fr 1fr;gap:var(--gap, clamp(16px, 1.6vw, 36px));align-items:center}
+/* היפוך סדר העמודות בלבד. direction:ltr על הבלוק היה הופך גם את הטקסט העברי עצמו. */
+.ln-block:nth-child(even)&gt;:first-child{order:2}
+.ln-block .ph{height:min(340px,46vw);font-size:26px}
+.ln-block h3{font-size:clamp(24px,2.4vw,40px);margin:0 0 10px}.ln-block p{color:var(--muted, #6a6d85);margin:0}
+.ln-toggle{position:fixed;bottom:22px;inset-inline-start:22px;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+@media(max-width:767px){.ln-block{grid-template-columns:1fr}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="ln-block"&gt;&lt;div&gt;&lt;h3&gt;הגלילה ממשיכה קצת אחרי שעזבת&lt;/h3&gt;&lt;p&gt;Lenis מוסיף אינרציה עדינה, כמו טראקפד טוב.&lt;/p&gt;&lt;/div&gt;&lt;div class="ph ph-a"&gt;1&lt;/div&gt;&lt;/div&gt;
+&lt;div class="ln-block"&gt;&lt;div&gt;&lt;h3&gt;ה-ScrollTrigger לא יודע שמשהו השתנה&lt;/h3&gt;&lt;p&gt;הוא מקבל עדכון מכל פריים של Lenis דרך הטיקר של GSAP.&lt;/p&gt;&lt;/div&gt;&lt;div class="ph ph-b"&gt;2&lt;/div&gt;&lt;/div&gt;
+&lt;div class="ln-block"&gt;&lt;div&gt;&lt;h3&gt;כבה, גלול, הדלק, גלול&lt;/h3&gt;&lt;p&gt;ההבדל מורגש בעיקר בגלגלת עכבר. בטראקפד ובמובייל הוא כמעט לא קיים.&lt;/p&gt;&lt;/div&gt;&lt;div class="ph ph-c"&gt;3&lt;/div&gt;&lt;/div&gt;
+&lt;div class="ln-block"&gt;&lt;div&gt;&lt;h3&gt;לא לכל אתר&lt;/h3&gt;&lt;p&gt;גלילה מלאכותית באתר טפסים מרגישה כמו בוץ. שומרים את זה לאתרי חוויה.&lt;/p&gt;&lt;/div&gt;&lt;div class="ph ph-d"&gt;4&lt;/div&gt;&lt;/div&gt;
+&lt;button class="gbtn ln-toggle"&gt;Lenis: פועל&lt;/button&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  let lenis=null;const btn=document.querySelector(".ln-toggle");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function raf(t){lenis&amp;&amp;lenis.raf(t*1000);}
+  function on(){lenis=new Lenis({lerp:.09,wheelMultiplier:1});lenis.on("scroll",ScrollTrigger.update);gsap.ticker.add(raf);gsap.ticker.lagSmoothing(0);btn.textContent="Lenis: פועל";}
+  function off(){if(lenis){lenis.destroy();lenis=null;}gsap.ticker.remove(raf);btn.textContent="Lenis: כבוי";}
+  if(!reduce)on();else off();
+  btn.addEventListener("click",()=&gt;lenis?off():on());
+  gsap.utils.toArray(".ln-block").forEach(b=&gt;{gsap.from(b.children,{y:40,autoAlpha:0,duration:.9,ease:"power3.out",stagger:.12,scrollTrigger:{trigger:b,start:"top 78%",once:true}});});
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g38 · Lenis + ScrollTrigger: גלילה חלקה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g38.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g38.html\n\nמה זה עושה: תשתית ולא אפקט: Lenis מחליק את הגלילה של כל העמוד, ומחובר לטיקר של GSAP כך שכל ה-ScrollTriggers נשארים מסונכרנים. כפתור צף מכבה ומדליק כדי להרגיש את ההבדל.\nמתי משתמשים: אתרי חוויה ותדמית-וואו שבהם רוב המהלכים מבוססי גלילה. לא באתרי המרה, טפסים ומערכות: שם הגלילה הטבעית מנצחת. תמיד בתוך prefers-reduced-motion.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:#fff;font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* G38 · Lenis + ScrollTrigger: גלילה חלקה */\nhtml.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}\n.ln-block{margin:clamp(60px,8vw,140px) var(--gutter, clamp(24px, 5vw, 96px));display:grid;grid-template-columns:1fr 1fr;gap:var(--gap, clamp(16px, 1.6vw, 36px));align-items:center}\n/* היפוך סדר העמודות בלבד. direction:ltr על הבלוק היה הופך גם את הטקסט העברי עצמו. */\n.ln-block:nth-child(even)>:first-child{order:2}\n.ln-block .ph{height:min(340px,46vw);font-size:26px}\n.ln-block h3{font-size:clamp(24px,2.4vw,40px);margin:0 0 10px}.ln-block p{color:var(--muted, #6a6d85);margin:0}\n.ln-toggle{position:fixed;bottom:22px;inset-inline-start:22px;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.18)}\n@media(max-width:767px){.ln-block{grid-template-columns:1fr}}\n\n=== HTML ===\n<div class=\"ln-block\"><div><h3>הגלילה ממשיכה קצת אחרי שעזבת<\/h3><p>Lenis מוסיף אינרציה עדינה, כמו טראקפד טוב.<\/p><\/div><div class=\"ph ph-a\">1<\/div><\/div>\n<div class=\"ln-block\"><div><h3>ה-ScrollTrigger לא יודע שמשהו השתנה<\/h3><p>הוא מקבל עדכון מכל פריים של Lenis דרך הטיקר של GSAP.<\/p><\/div><div class=\"ph ph-b\">2<\/div><\/div>\n<div class=\"ln-block\"><div><h3>כבה, גלול, הדלק, גלול<\/h3><p>ההבדל מורגש בעיקר בגלגלת עכבר. בטראקפד ובמובייל הוא כמעט לא קיים.<\/p><\/div><div class=\"ph ph-c\">3<\/div><\/div>\n<div class=\"ln-block\"><div><h3>לא לכל אתר<\/h3><p>גלילה מלאכותית באתר טפסים מרגישה כמו בוץ. שומרים את זה לאתרי חוויה.<\/p><\/div><div class=\"ph ph-d\">4<\/div><\/div>\n<button class=\"gbtn ln-toggle\">Lenis: פועל<\/button>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  let lenis=null;const btn=document.querySelector(\".ln-toggle\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  function raf(t){lenis&&lenis.raf(t*1000);}\n  function on(){lenis=new Lenis({lerp:.09,wheelMultiplier:1});lenis.on(\"scroll\",ScrollTrigger.update);gsap.ticker.add(raf);gsap.ticker.lagSmoothing(0);btn.textContent=\"Lenis: פועל\";}\n  function off(){if(lenis){lenis.destroy();lenis=null;}gsap.ticker.remove(raf);btn.textContent=\"Lenis: כבוי\";}\n  if(!reduce)on();else off();\n  btn.addEventListener(\"click\",()=>lenis?off():on());\n  gsap.utils.toArray(\".ln-block\").forEach(b=>{gsap.from(b.children,{y:40,autoAlpha:0,duration:.9,ease:\"power3.out\",stagger:.12,scrollTrigger:{trigger:b,start:\"top 78%\",once:true}});});\n})();\n\nהערת מימוש מהמאגר:\nבפרויקט אמיתי: Lenis נוצר פעם אחת ב-main, לפני כל ScrollTrigger, ומכובה אוטומטית תחת prefers-reduced-motion. אם יש בעמוד סקשן מוצמד (pin), עובדים עם pinType: transform או משאירים את ברירת המחדל של Lenis שמגלגלת את החלון (עובד).\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:#fff;font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* G38 · Lenis + ScrollTrigger: גלילה חלקה */\nhtml.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}\n.ln-block{margin:clamp(60px,8vw,140px) var(--gutter, clamp(24px, 5vw, 96px));display:grid;grid-template-columns:1fr 1fr;gap:var(--gap, clamp(16px, 1.6vw, 36px));align-items:center}\n/* היפוך סדר העמודות בלבד. direction:ltr על הבלוק היה הופך גם את הטקסט העברי עצמו. */\n.ln-block:nth-child(even)>:first-child{order:2}\n.ln-block .ph{height:min(340px,46vw);font-size:26px}\n.ln-block h3{font-size:clamp(24px,2.4vw,40px);margin:0 0 10px}.ln-block p{color:var(--muted, #6a6d85);margin:0}\n.ln-toggle{position:fixed;bottom:22px;inset-inline-start:22px;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.18)}\n@media(max-width:767px){.ln-block{grid-template-columns:1fr}}","html":"<div class=\"ln-block\"><div><h3>הגלילה ממשיכה קצת אחרי שעזבת<\/h3><p>Lenis מוסיף אינרציה עדינה, כמו טראקפד טוב.<\/p><\/div><div class=\"ph ph-a\">1<\/div><\/div>\n<div class=\"ln-block\"><div><h3>ה-ScrollTrigger לא יודע שמשהו השתנה<\/h3><p>הוא מקבל עדכון מכל פריים של Lenis דרך הטיקר של GSAP.<\/p><\/div><div class=\"ph ph-b\">2<\/div><\/div>\n<div class=\"ln-block\"><div><h3>כבה, גלול, הדלק, גלול<\/h3><p>ההבדל מורגש בעיקר בגלגלת עכבר. בטראקפד ובמובייל הוא כמעט לא קיים.<\/p><\/div><div class=\"ph ph-c\">3<\/div><\/div>\n<div class=\"ln-block\"><div><h3>לא לכל אתר<\/h3><p>גלילה מלאכותית באתר טפסים מרגישה כמו בוץ. שומרים את זה לאתרי חוויה.<\/p><\/div><div class=\"ph ph-d\">4<\/div><\/div>\n<button class=\"gbtn ln-toggle\">Lenis: פועל<\/button>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  let lenis=null;const btn=document.querySelector(\".ln-toggle\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  function raf(t){lenis&&lenis.raf(t*1000);}\n  function on(){lenis=new Lenis({lerp:.09,wheelMultiplier:1});lenis.on(\"scroll\",ScrollTrigger.update);gsap.ticker.add(raf);gsap.ticker.lagSmoothing(0);btn.textContent=\"Lenis: פועל\";}\n  function off(){if(lenis){lenis.destroy();lenis=null;}gsap.ticker.remove(raf);btn.textContent=\"Lenis: כבוי\";}\n  if(!reduce)on();else off();\n  btn.addEventListener(\"click\",()=>lenis?off():on());\n  gsap.utils.toArray(\".ln-block\").forEach(b=>{gsap.from(b.children,{y:40,autoAlpha:0,duration:.9,ease:\"power3.out\",stagger:.12,scrollTrigger:{trigger:b,start:\"top 78%\",once:true}});});\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.11/dist/lenis.min.js"></script>
@@ -55,6 +104,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   let lenis=null;const btn=document.querySelector(".ln-toggle");

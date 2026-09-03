@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G40 · סצנה אופקית שכל אלמנט בה מתעורר בתורו</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+
+/* G40 · סצנה אופקית שכל אלמנט בה מתעורר בתורו */
+html,body{overflow-x:clip}
+.hz{overflow:hidden;background:#0f1020;color:#fff}
+.hz-track{display:flex;align-items:center;gap:clamp(48px,11vw,220px);width:max-content;padding-inline:24vw 10vw;height:100vh}
+.hz-item{flex:0 0 auto;text-align:center;will-change:transform}
+.hz-num{font-size:13px;letter-spacing:.16em;color:#8d8fb0;margin-bottom:14px}
+.hz-item h3{font-size:clamp(26px,2.6vw,46px);margin:0 0 10px;font-weight:800}
+.hz-item p{margin:0 auto;max-width:32ch;color:#b9bad0;font-size:15px;line-height:1.6}
+.hz-card{width:min(420px,74vw);aspect-ratio:4/3;margin-inline:auto;margin-bottom:22px;font-size:26px}
+.hz-scrub{width:120px;height:120px;flex:0 0 auto;border-radius:26px;background:linear-gradient(140deg,#c6ff4a,#4a3aff);display:grid;place-items:center;font-size:34px;color:#0f1020}
+.hz-lead{flex:0 0 min(760px,82vw)}
+.hz-lead h2{font-size:clamp(34px,4vw,72px);margin:0 0 12px;font-weight:800;line-height:1.1}
+.hz-lead p{color:#b9bad0;margin:0;font-size:16px}
+</style>
+</head>
+<body>
+<div class="hz"><div class="hz-track">
+  <div class="hz-lead"><h2>ארבע תחנות, גלילה אחת</h2><p>גלול למטה. המסלול זז הצידה, וכל תחנה נכנסת ברגע שהיא מגיעה לאזור הצפייה.</p></div>
+  <div class="hz-item"><div class="hz-card ph ph-a">1</div><div class="hz-num">תחנה 01</div><h3>הכירות</h3><p>מבינים את המצב הקיים ואת מה שצריך לקרות.</p></div>
+  <div class="hz-item"><div class="hz-card ph ph-b">2</div><div class="hz-num">תחנה 02</div><h3>אפיון</h3><p>מגדירים מבנה, תוכן והיררכיה לפני שנוגעים בעיצוב.</p></div>
+  <div class="hz-scrub" aria-hidden="true">✦</div>
+  <div class="hz-item"><div class="hz-card ph ph-c">3</div><div class="hz-num">תחנה 03</div><h3>בנייה</h3><p>מרכיבים את העמוד ובודקים אותו בכל רוחב מסך.</p></div>
+  <div class="hz-item"><div class="hz-card ph ph-d">4</div><div class="hz-num">תחנה 04</div><h3>עלייה לאוויר</h3><p>מפרסמים, מודדים ומתקנים לפי מה שקורה באמת.</p></div>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const track=document.querySelector(".hz-track");
+  const items=gsap.utils.toArray(".hz-item");
+  const spinner=document.querySelector(".hz-scrub");
+  const dist=()=>Math.max(1,track.scrollWidth-window.innerWidth);
+  const clamp=gsap.utils.clamp(0,1);
+
+  // הרצועה יושבת ב-RTL: הפריט הראשון בימין, והגלישה יוצאת שמאלה.
+  // לכן x חיובי, והמצלמה נעה שמאלה בתוך התוכן, ככיוון הקריאה בעברית.
+  let origin=0; // המיקום של שפת הרצועה על המסך כשהיא בנקודת ההתחלה
+
+  function measure(){
+    origin=track.getBoundingClientRect().left-(gsap.getProperty(track,"x")||0);
+  }
+
+  // כל פריט מקבל את המצב שלו מהמיקום שלו על המסך ברגע הנתון.
+  // בעברית הפריט נכנס דרך שפת המסך השמאלית, ולכן מודדים את השפה הימנית שלו.
+  function paint(progress){
+    const x=dist()*progress;
+    gsap.set(track,{x:x});
+    const vw=window.innerWidth;
+    items.forEach(item=>{
+      // כמה מהפריט כבר חצה את שפת המסך השמאלית. אחד = הוא כולו בפנים.
+      const right=origin+item.offsetLeft+item.offsetWidth+x;
+      const f=clamp(right/item.offsetWidth);
+      gsap.set(item,{autoAlpha:f,y:70*(1-f)});
+    });
+    const sRight=origin+spinner.offsetLeft+spinner.offsetWidth+x;
+    gsap.set(spinner,{rotation:270*clamp(sRight/(vw+spinner.offsetWidth))});
+  }
+
+  ScrollTrigger.create({
+    trigger:track,pin:track.parentNode,start:"top top",end:()=>"+="+dist(),
+    anticipatePin:1,invalidateOnRefresh:true,
+    onRefresh:self=>{measure();paint(self.progress);},
+    onUpdate:self=>paint(self.progress)
+  });
+  measure();paint(0);
+})();
+</script>
+</body>
+</html>

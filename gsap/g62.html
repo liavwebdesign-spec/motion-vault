@@ -53,6 +53,71 @@
 </div></div>
 
 <div class="demo-note">אותו רעיון של סליידר ההשוואה, בלי ידית: הגלילה היא הידית. `clip-path:inset(0 0 0 X%)` משאיר את מה שמימין ל-X, ולכן בעברית "לפני" יושב בימין והחשיפה מתקדמת שמאלה, בכיוון שבו קוראים. הקו הלבן ממוקם באחוזים באותו ערך עצמו, ולכן הוא לעולם לא מתפצל מהחיתוך גם כשמשנים גודל חלון, ואין כאן שום מדידה בפיקסלים. הוא נעלם בקצוות כי קו על גבול המסגרת נראה כמו פגם. במצב חיסכון בתנועה מציגים חצי חצי סטטי, שזה עדיין מסר מובן.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g62.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+
+/* G62 · לפני ואחרי שנחשף בגלילה */
+.ba2{height:280vh;position:relative}
+.ba2-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.ba2-frame{position:relative;width:min(900px,92vw);aspect-ratio:16/10;border-radius:var(--r, 14px);overflow:hidden;
+  border:1px solid var(--line, #e4e4ee)}
+.ba2-layer{position:absolute;inset:0;border-radius:0;font-size:0}
+/* השכבה העליונה היא "לפני", והיא נחתכת מימין לשמאל, בכיוון הקריאה בעברית */
+.ba2-before{clip-path:inset(0 0 0 0)}
+.ba2-tag{position:absolute;top:16px;z-index:3;background:rgba(0,0,0,.62);color:#fff;font-size:13px;
+  padding:6px 14px;border-radius:999px;backdrop-filter:blur(6px)}
+.ba2-tag.is-before{right:16px}
+.ba2-tag.is-after{left:16px}
+/* הקו מתחיל שקוף: לפני שהגלילה נכנסת לטווח הוא היה נראה כפס לבן דבוק לקצה */
+.ba2-edge{position:absolute;top:0;bottom:0;width:2px;background:#fff;z-index:4;
+  box-shadow:0 0 0 1px rgba(0,0,0,.18);left:0;opacity:0}
+.ba2-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="ba2"&gt;&lt;div class="ba2-stick"&gt;
+  &lt;div class="ba2-frame"&gt;
+    &lt;div class="ph ba2-layer ba2-after ph-d"&gt;&lt;/div&gt;
+    &lt;div class="ph ba2-layer ba2-before ph-b"&gt;&lt;/div&gt;
+    &lt;span class="ba2-tag is-before"&gt;לפני&lt;/span&gt;
+    &lt;span class="ba2-tag is-after"&gt;אחרי&lt;/span&gt;
+    &lt;i class="ba2-edge"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+  &lt;p class="ba2-cap"&gt;גלול. קו החשיפה נע מימין לשמאל.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const before=document.querySelector(".ba2-before"),edge=document.querySelector(".ba2-edge"),
+        frame=document.querySelector(".ba2-frame");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce){before.style.clipPath="inset(0 0 0 50%)";edge.style.left="50%";return;}
+  const state={p:0};
+  ScrollTrigger.create({
+    trigger:".ba2",start:"top top",end:"bottom bottom",scrub:.5,
+    onUpdate:self=&gt;{
+      // p הוא כמה נחשף מ"אחרי". החיתוך משמאל מותיר את "לפני" בימין
+      const p=self.progress;
+      before.style.clipPath="inset(0 0 0 "+(p*100).toFixed(2)+"%)";
+      edge.style.left=(p*100).toFixed(2)+"%";
+      edge.style.opacity=p&gt;0.002&amp;&amp;p&lt;0.998?1:0;
+    }
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g62 · לפני ואחרי שנחשף בגלילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g62.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g62.html\n\nמה זה עושה: שתי תמונות באותה מסגרת, וקו החשיפה נע ביניהן לפי הגלילה במקום לפי גרירה. המבקר לא צריך לדעת שאפשר לגרור, זה קורה לו מעצמו.\nמתי משתמשים: שיפוץ, שיניים, אסתטיקה, כושר, ניקיון, עיצוב מחדש, לפני ואחרי של אתר. הגרסה הפסיבית של ההוכחה החזקה ביותר שיש.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n\n/* G62 · לפני ואחרי שנחשף בגלילה */\n.ba2{height:280vh;position:relative}\n.ba2-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.ba2-frame{position:relative;width:min(900px,92vw);aspect-ratio:16/10;border-radius:var(--r, 14px);overflow:hidden;\n  border:1px solid var(--line, #e4e4ee)}\n.ba2-layer{position:absolute;inset:0;border-radius:0;font-size:0}\n/* השכבה העליונה היא \"לפני\", והיא נחתכת מימין לשמאל, בכיוון הקריאה בעברית */\n.ba2-before{clip-path:inset(0 0 0 0)}\n.ba2-tag{position:absolute;top:16px;z-index:3;background:rgba(0,0,0,.62);color:#fff;font-size:13px;\n  padding:6px 14px;border-radius:999px;backdrop-filter:blur(6px)}\n.ba2-tag.is-before{right:16px}\n.ba2-tag.is-after{left:16px}\n/* הקו מתחיל שקוף: לפני שהגלילה נכנסת לטווח הוא היה נראה כפס לבן דבוק לקצה */\n.ba2-edge{position:absolute;top:0;bottom:0;width:2px;background:#fff;z-index:4;\n  box-shadow:0 0 0 1px rgba(0,0,0,.18);left:0;opacity:0}\n.ba2-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}\n\n=== HTML ===\n<div class=\"ba2\"><div class=\"ba2-stick\">\n  <div class=\"ba2-frame\">\n    <div class=\"ph ba2-layer ba2-after ph-d\"><\/div>\n    <div class=\"ph ba2-layer ba2-before ph-b\"><\/div>\n    <span class=\"ba2-tag is-before\">לפני<\/span>\n    <span class=\"ba2-tag is-after\">אחרי<\/span>\n    <i class=\"ba2-edge\"><\/i>\n  <\/div>\n  <p class=\"ba2-cap\">גלול. קו החשיפה נע מימין לשמאל.<\/p>\n<\/div><\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const before=document.querySelector(\".ba2-before\"),edge=document.querySelector(\".ba2-edge\"),\n        frame=document.querySelector(\".ba2-frame\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce){before.style.clipPath=\"inset(0 0 0 50%)\";edge.style.left=\"50%\";return;}\n  const state={p:0};\n  ScrollTrigger.create({\n    trigger:\".ba2\",start:\"top top\",end:\"bottom bottom\",scrub:.5,\n    onUpdate:self=>{\n      // p הוא כמה נחשף מ\"אחרי\". החיתוך משמאל מותיר את \"לפני\" בימין\n      const p=self.progress;\n      before.style.clipPath=\"inset(0 0 0 \"+(p*100).toFixed(2)+\"%)\";\n      edge.style.left=(p*100).toFixed(2)+\"%\";\n      edge.style.opacity=p>0.002&&p<0.998?1:0;\n    }\n  });\n})();\n\nהערת מימוש מהמאגר:\nאותו רעיון של סליידר ההשוואה, בלי ידית: הגלילה היא הידית. `clip-path:inset(0 0 0 X%)` משאיר את מה שמימין ל-X, ולכן בעברית \"לפני\" יושב בימין והחשיפה מתקדמת שמאלה, בכיוון שבו קוראים. הקו הלבן ממוקם באחוזים באותו ערך עצמו, ולכן הוא לעולם לא מתפצל מהחיתוך גם כשמשנים גודל חלון, ואין כאן שום מדידה בפיקסלים. הוא נעלם בקצוות כי קו על גבול המסגרת נראה כמו פגם. במצב חיסכון בתנועה מציגים חצי חצי סטטי, שזה עדיין מסר מובן.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n\n/* G62 · לפני ואחרי שנחשף בגלילה */\n.ba2{height:280vh;position:relative}\n.ba2-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.ba2-frame{position:relative;width:min(900px,92vw);aspect-ratio:16/10;border-radius:var(--r, 14px);overflow:hidden;\n  border:1px solid var(--line, #e4e4ee)}\n.ba2-layer{position:absolute;inset:0;border-radius:0;font-size:0}\n/* השכבה העליונה היא \"לפני\", והיא נחתכת מימין לשמאל, בכיוון הקריאה בעברית */\n.ba2-before{clip-path:inset(0 0 0 0)}\n.ba2-tag{position:absolute;top:16px;z-index:3;background:rgba(0,0,0,.62);color:#fff;font-size:13px;\n  padding:6px 14px;border-radius:999px;backdrop-filter:blur(6px)}\n.ba2-tag.is-before{right:16px}\n.ba2-tag.is-after{left:16px}\n/* הקו מתחיל שקוף: לפני שהגלילה נכנסת לטווח הוא היה נראה כפס לבן דבוק לקצה */\n.ba2-edge{position:absolute;top:0;bottom:0;width:2px;background:#fff;z-index:4;\n  box-shadow:0 0 0 1px rgba(0,0,0,.18);left:0;opacity:0}\n.ba2-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}","html":"<div class=\"ba2\"><div class=\"ba2-stick\">\n  <div class=\"ba2-frame\">\n    <div class=\"ph ba2-layer ba2-after ph-d\"><\/div>\n    <div class=\"ph ba2-layer ba2-before ph-b\"><\/div>\n    <span class=\"ba2-tag is-before\">לפני<\/span>\n    <span class=\"ba2-tag is-after\">אחרי<\/span>\n    <i class=\"ba2-edge\"><\/i>\n  <\/div>\n  <p class=\"ba2-cap\">גלול. קו החשיפה נע מימין לשמאל.<\/p>\n<\/div><\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const before=document.querySelector(\".ba2-before\"),edge=document.querySelector(\".ba2-edge\"),\n        frame=document.querySelector(\".ba2-frame\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce){before.style.clipPath=\"inset(0 0 0 50%)\";edge.style.left=\"50%\";return;}\n  const state={p:0};\n  ScrollTrigger.create({\n    trigger:\".ba2\",start:\"top top\",end:\"bottom bottom\",scrub:.5,\n    onUpdate:self=>{\n      // p הוא כמה נחשף מ\"אחרי\". החיתוך משמאל מותיר את \"לפני\" בימין\n      const p=self.progress;\n      before.style.clipPath=\"inset(0 0 0 \"+(p*100).toFixed(2)+\"%)\";\n      edge.style.left=(p*100).toFixed(2)+\"%\";\n      edge.style.opacity=p>0.002&&p<0.998?1:0;\n    }\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -66,6 +131,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const before=document.querySelector(".ba2-before"),edge=document.querySelector(".ba2-edge"),

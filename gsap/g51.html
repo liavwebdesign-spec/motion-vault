@@ -44,6 +44,64 @@
 </div></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 <div class="demo-note">שלוש הכרעות שמונעות מהמהלך להיראות זול: התנועה ביחידות אחוז ולא בפיקסלים, ולכן היא מתכווצת מעצמה במסכים קטנים; הטווח קטן בכוונה, שישה אחוזים לכל כיוון, כי מעבר לזה נוצרים חורים בקצוות הקיר; וה-scrub מושהה מעט כדי שהעמודות ימשיכו רגע אחרי שעוצרים לגלול. `gsap.matchMedia` מכבה את הכל במובייל ובמצב חיסכון בתנועה, ומנקה אחריו כשחוזרים לרוחב אחר.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g51.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
+
+/* G51 · שתי עמודות שנעות בכיוונים הפוכים */
+.oc{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.4vw,20px);
+  max-width:min(1080px,94vw);margin-inline:auto;align-items:start}
+.oc-col{display:grid;gap:clamp(10px,1.4vw,20px);will-change:transform}
+.oc-col .ph{aspect-ratio:3/4;font-size:0;border-radius:14px}
+.oc-col:nth-child(2) .ph{aspect-ratio:4/5}
+.oc-head{text-align:center;max-width:44ch;margin:0 auto clamp(24px,4vw,46px)}
+.oc-head h3{font-size:clamp(24px,3.4vw,44px);margin:0 0 10px}
+.oc-head p{color:var(--muted, #6a6d85);font-size:17px;line-height:1.8;margin:0}
+@media(max-width:700px){.oc{grid-template-columns:1fr 1fr}.oc-col:nth-child(3){display:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;div class="oc-head"&gt;&lt;h3&gt;קיר העבודות&lt;/h3&gt;
+  &lt;p&gt;גלול. העמודות נעות בכיוונים הפוכים, והקיר מקבל עומק בלי אנימציה שצועקת.&lt;/p&gt;&lt;/div&gt;
+&lt;div class="oc"&gt;
+  &lt;div class="oc-col"&gt;&lt;div class="ph ph-a"&gt;&lt;/div&gt;&lt;div class="ph ph-c"&gt;&lt;/div&gt;&lt;div class="ph ph-d"&gt;&lt;/div&gt;&lt;div class="ph ph-e"&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;div class="oc-col"&gt;&lt;div class="ph ph-b"&gt;&lt;/div&gt;&lt;div class="ph ph-f"&gt;&lt;/div&gt;&lt;div class="ph ph-a"&gt;&lt;/div&gt;&lt;div class="ph ph-c"&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;div class="oc-col"&gt;&lt;div class="ph ph-d"&gt;&lt;/div&gt;&lt;div class="ph ph-e"&gt;&lt;/div&gt;&lt;div class="ph ph-b"&gt;&lt;/div&gt;&lt;div class="ph ph-f"&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  // רק במסכים שיש בהם מקום לתנועה. במובייל זה מייצר חורים בפריסה
+  gsap.matchMedia().add("(min-width: 700px) and (prefers-reduced-motion: no-preference)",()=&gt;{
+    const cols=gsap.utils.toArray(".oc-col");
+    const tw=cols.map((col,i)=&gt;{
+      const dir=i%2?1:-1;                       // אי-זוגית יורדת, זוגית עולה
+      return gsap.fromTo(col,{yPercent:6*dir},{yPercent:-6*dir,ease:"none",
+        scrollTrigger:{trigger:".oc",start:"top bottom",end:"bottom top",scrub:1.2}});
+    });
+    return ()=&gt;tw.forEach(t=&gt;{t.scrollTrigger&amp;&amp;t.scrollTrigger.kill();t.kill();});
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g51 · שתי עמודות שנעות בכיוונים הפוכים\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g51.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g51.html\n\nמה זה עושה: קיר תמונות שבו עמודה אחת עולה עם הגלילה והשנייה יורדת. תנועה קטנה שהופכת גריד סטטי לרקע חי, בלי לגזול תשומת לב מהטקסט.\nמתי משתמשים: קיר עבודות, גלריית מוצרים, לוגואים של לקוחות, תמונות צוות, רקע לסקשן המלצות. עובד גם כשיש רק שש תמונות.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G51 · שתי עמודות שנעות בכיוונים הפוכים */\n.oc{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.4vw,20px);\n  max-width:min(1080px,94vw);margin-inline:auto;align-items:start}\n.oc-col{display:grid;gap:clamp(10px,1.4vw,20px);will-change:transform}\n.oc-col .ph{aspect-ratio:3/4;font-size:0;border-radius:14px}\n.oc-col:nth-child(2) .ph{aspect-ratio:4/5}\n.oc-head{text-align:center;max-width:44ch;margin:0 auto clamp(24px,4vw,46px)}\n.oc-head h3{font-size:clamp(24px,3.4vw,44px);margin:0 0 10px}\n.oc-head p{color:var(--muted, #6a6d85);font-size:17px;line-height:1.8;margin:0}\n@media(max-width:700px){.oc{grid-template-columns:1fr 1fr}.oc-col:nth-child(3){display:none}}\n\n=== HTML ===\n<div class=\"stage\"><div class=\"oc-head\"><h3>קיר העבודות<\/h3>\n  <p>גלול. העמודות נעות בכיוונים הפוכים, והקיר מקבל עומק בלי אנימציה שצועקת.<\/p><\/div>\n<div class=\"oc\">\n  <div class=\"oc-col\"><div class=\"ph ph-a\"><\/div><div class=\"ph ph-c\"><\/div><div class=\"ph ph-d\"><\/div><div class=\"ph ph-e\"><\/div><\/div>\n  <div class=\"oc-col\"><div class=\"ph ph-b\"><\/div><div class=\"ph ph-f\"><\/div><div class=\"ph ph-a\"><\/div><div class=\"ph ph-c\"><\/div><\/div>\n  <div class=\"oc-col\"><div class=\"ph ph-d\"><\/div><div class=\"ph ph-e\"><\/div><div class=\"ph ph-b\"><\/div><div class=\"ph ph-f\"><\/div><\/div>\n<\/div><\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  // רק במסכים שיש בהם מקום לתנועה. במובייל זה מייצר חורים בפריסה\n  gsap.matchMedia().add(\"(min-width: 700px) and (prefers-reduced-motion: no-preference)\",()=>{\n    const cols=gsap.utils.toArray(\".oc-col\");\n    const tw=cols.map((col,i)=>{\n      const dir=i%2?1:-1;                       // אי-זוגית יורדת, זוגית עולה\n      return gsap.fromTo(col,{yPercent:6*dir},{yPercent:-6*dir,ease:\"none\",\n        scrollTrigger:{trigger:\".oc\",start:\"top bottom\",end:\"bottom top\",scrub:1.2}});\n    });\n    return ()=>tw.forEach(t=>{t.scrollTrigger&&t.scrollTrigger.kill();t.kill();});\n  });\n})();\n\nהערת מימוש מהמאגר:\nשלוש הכרעות שמונעות מהמהלך להיראות זול: התנועה ביחידות אחוז ולא בפיקסלים, ולכן היא מתכווצת מעצמה במסכים קטנים; הטווח קטן בכוונה, שישה אחוזים לכל כיוון, כי מעבר לזה נוצרים חורים בקצוות הקיר; וה-scrub מושהה מעט כדי שהעמודות ימשיכו רגע אחרי שעוצרים לגלול. `gsap.matchMedia` מכבה את הכל במובייל ובמצב חיסכון בתנועה, ומנקה אחריו כשחוזרים לרוחב אחר.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G51 · שתי עמודות שנעות בכיוונים הפוכים */\n.oc{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(10px,1.4vw,20px);\n  max-width:min(1080px,94vw);margin-inline:auto;align-items:start}\n.oc-col{display:grid;gap:clamp(10px,1.4vw,20px);will-change:transform}\n.oc-col .ph{aspect-ratio:3/4;font-size:0;border-radius:14px}\n.oc-col:nth-child(2) .ph{aspect-ratio:4/5}\n.oc-head{text-align:center;max-width:44ch;margin:0 auto clamp(24px,4vw,46px)}\n.oc-head h3{font-size:clamp(24px,3.4vw,44px);margin:0 0 10px}\n.oc-head p{color:var(--muted, #6a6d85);font-size:17px;line-height:1.8;margin:0}\n@media(max-width:700px){.oc{grid-template-columns:1fr 1fr}.oc-col:nth-child(3){display:none}}","html":"<div class=\"stage\"><div class=\"oc-head\"><h3>קיר העבודות<\/h3>\n  <p>גלול. העמודות נעות בכיוונים הפוכים, והקיר מקבל עומק בלי אנימציה שצועקת.<\/p><\/div>\n<div class=\"oc\">\n  <div class=\"oc-col\"><div class=\"ph ph-a\"><\/div><div class=\"ph ph-c\"><\/div><div class=\"ph ph-d\"><\/div><div class=\"ph ph-e\"><\/div><\/div>\n  <div class=\"oc-col\"><div class=\"ph ph-b\"><\/div><div class=\"ph ph-f\"><\/div><div class=\"ph ph-a\"><\/div><div class=\"ph ph-c\"><\/div><\/div>\n  <div class=\"oc-col\"><div class=\"ph ph-d\"><\/div><div class=\"ph ph-e\"><\/div><div class=\"ph ph-b\"><\/div><div class=\"ph ph-f\"><\/div><\/div>\n<\/div><\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  // רק במסכים שיש בהם מקום לתנועה. במובייל זה מייצר חורים בפריסה\n  gsap.matchMedia().add(\"(min-width: 700px) and (prefers-reduced-motion: no-preference)\",()=>{\n    const cols=gsap.utils.toArray(\".oc-col\");\n    const tw=cols.map((col,i)=>{\n      const dir=i%2?1:-1;                       // אי-זוגית יורדת, זוגית עולה\n      return gsap.fromTo(col,{yPercent:6*dir},{yPercent:-6*dir,ease:\"none\",\n        scrollTrigger:{trigger:\".oc\",start:\"top bottom\",end:\"bottom top\",scrub:1.2}});\n    });\n    return ()=>tw.forEach(t=>{t.scrollTrigger&&t.scrollTrigger.kill();t.kill();});\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -57,6 +115,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   // רק במסכים שיש בהם מקום לתנועה. במובייל זה מייצר חורים בפריסה

@@ -42,6 +42,58 @@
 </div></div>
 
 <div class="demo-note">הרשת נבנית ב-JS ולא ב-HTML, כי מאה עשרים ושישה ריבועים בקוד הם קובץ בלתי קריא, ובגלל שמספר העמודות והשורות הוא מספר אחד שאפשר לכייל. `from:"random"` הוא ההבדל בין חשיפה שמרגישה כמו טעינה לבין מחיקה שמרגישה כמו מגב. הריבועים בצבע הרקע ולא שקופים, ולכן זה עובד מעל כל תמונה. שים לב ש-`each` קטן מאוד: עם מאה ועשרים ריבועים גם שתי מאיות שנייה מצטברות לזמן ארוך, וה-scrub פורש את הכל על מסלול הגלילה ממילא.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g69.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+
+/* G69 · חשיפת פיקסלים בגלילה */
+.px{height:280vh;position:relative}
+.px-stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
+.px-frame{position:relative;width:min(880px,92vw);aspect-ratio:16/10;border-radius:18px;overflow:hidden}
+.px-img{position:absolute;inset:0;border-radius:0;font-size:0}
+.px-grid{position:absolute;inset:0;display:grid}
+.px-cell{background:var(--bg, #f7f7fa);will-change:opacity}
+.px-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="px"&gt;&lt;div class="px-stage"&gt;
+  &lt;div class="px-frame"&gt;
+    &lt;div class="ph px-img ph-c"&gt;&lt;/div&gt;
+    &lt;div class="px-grid"&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;p class="px-cap"&gt;גלול. הריבועים נעלמים בסדר אקראי.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const COLS=14, ROWS=9;
+  const grid=document.querySelector(".px-grid");
+  grid.style.gridTemplateColumns="repeat("+COLS+",1fr)";
+  grid.style.gridTemplateRows="repeat("+ROWS+",1fr)";
+  const cells=[];
+  for(let i=0;i&lt;COLS*ROWS;i++){
+    const d=document.createElement("div");d.className="px-cell";grid.appendChild(d);cells.push(d);
+  }
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce){gsap.set(cells,{opacity:0});return;}
+  gsap.to(cells,{opacity:0,ease:"none",
+    // stagger אקראי עם from:"random" הוא מה שמונע תחושת מחיקה מסודרת
+    stagger:{each:.012,from:"random"},
+    scrollTrigger:{trigger:".px",start:"top top",end:"bottom bottom",scrub:.4}});
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g69 · חשיפת פיקסלים בגלילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g69.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g69.html\n\nמה זה עושה: רשת ריבועים שמכסה את התמונה ונעלמת בגלילה בסדר אקראי, כמו תמונה שנטענת בחיבור איטי. התמונה מתגלה חתיכה אחרי חתיכה.\nמתי משתמשים: חשיפת מוצר, פתיחת סקשן עבודות, מעבר בין פרקים. אפקט חשיפה שמרגיש דיגיטלי ולא קולנועי, ומתאים למותגי טק ומוצר.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n\n/* G69 · חשיפת פיקסלים בגלילה */\n.px{height:280vh;position:relative}\n.px-stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}\n.px-frame{position:relative;width:min(880px,92vw);aspect-ratio:16/10;border-radius:18px;overflow:hidden}\n.px-img{position:absolute;inset:0;border-radius:0;font-size:0}\n.px-grid{position:absolute;inset:0;display:grid}\n.px-cell{background:var(--bg, #f7f7fa);will-change:opacity}\n.px-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}\n\n=== HTML ===\n<div class=\"px\"><div class=\"px-stage\">\n  <div class=\"px-frame\">\n    <div class=\"ph px-img ph-c\"><\/div>\n    <div class=\"px-grid\"><\/div>\n  <\/div>\n  <p class=\"px-cap\">גלול. הריבועים נעלמים בסדר אקראי.<\/p>\n<\/div><\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const COLS=14, ROWS=9;\n  const grid=document.querySelector(\".px-grid\");\n  grid.style.gridTemplateColumns=\"repeat(\"+COLS+\",1fr)\";\n  grid.style.gridTemplateRows=\"repeat(\"+ROWS+\",1fr)\";\n  const cells=[];\n  for(let i=0;i<COLS*ROWS;i++){\n    const d=document.createElement(\"div\");d.className=\"px-cell\";grid.appendChild(d);cells.push(d);\n  }\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce){gsap.set(cells,{opacity:0});return;}\n  gsap.to(cells,{opacity:0,ease:\"none\",\n    // stagger אקראי עם from:\"random\" הוא מה שמונע תחושת מחיקה מסודרת\n    stagger:{each:.012,from:\"random\"},\n    scrollTrigger:{trigger:\".px\",start:\"top top\",end:\"bottom bottom\",scrub:.4}});\n})();\n\nהערת מימוש מהמאגר:\nהרשת נבנית ב-JS ולא ב-HTML, כי מאה עשרים ושישה ריבועים בקוד הם קובץ בלתי קריא, ובגלל שמספר העמודות והשורות הוא מספר אחד שאפשר לכייל. `from:\"random\"` הוא ההבדל בין חשיפה שמרגישה כמו טעינה לבין מחיקה שמרגישה כמו מגב. הריבועים בצבע הרקע ולא שקופים, ולכן זה עובד מעל כל תמונה. שים לב ש-`each` קטן מאוד: עם מאה ועשרים ריבועים גם שתי מאיות שנייה מצטברות לזמן ארוך, וה-scrub פורש את הכל על מסלול הגלילה ממילא.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n\n/* G69 · חשיפת פיקסלים בגלילה */\n.px{height:280vh;position:relative}\n.px-stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}\n.px-frame{position:relative;width:min(880px,92vw);aspect-ratio:16/10;border-radius:18px;overflow:hidden}\n.px-img{position:absolute;inset:0;border-radius:0;font-size:0}\n.px-grid{position:absolute;inset:0;display:grid}\n.px-cell{background:var(--bg, #f7f7fa);will-change:opacity}\n.px-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}","html":"<div class=\"px\"><div class=\"px-stage\">\n  <div class=\"px-frame\">\n    <div class=\"ph px-img ph-c\"><\/div>\n    <div class=\"px-grid\"><\/div>\n  <\/div>\n  <p class=\"px-cap\">גלול. הריבועים נעלמים בסדר אקראי.<\/p>\n<\/div><\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const COLS=14, ROWS=9;\n  const grid=document.querySelector(\".px-grid\");\n  grid.style.gridTemplateColumns=\"repeat(\"+COLS+\",1fr)\";\n  grid.style.gridTemplateRows=\"repeat(\"+ROWS+\",1fr)\";\n  const cells=[];\n  for(let i=0;i<COLS*ROWS;i++){\n    const d=document.createElement(\"div\");d.className=\"px-cell\";grid.appendChild(d);cells.push(d);\n  }\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce){gsap.set(cells,{opacity:0});return;}\n  gsap.to(cells,{opacity:0,ease:\"none\",\n    // stagger אקראי עם from:\"random\" הוא מה שמונע תחושת מחיקה מסודרת\n    stagger:{each:.012,from:\"random\"},\n    scrollTrigger:{trigger:\".px\",start:\"top top\",end:\"bottom bottom\",scrub:.4}});\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="../assets/baseline.js"></script>
@@ -55,6 +107,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
   const COLS=14, ROWS=9;

@@ -45,6 +45,50 @@
 <p class="hd-note">גם החץ מצויר ביד</p></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
 <div class="demo-note">הקו מצויר מהקצה הימני של ה-path שמאלה, ככיוון הקריאה בעברית. באתר אנגלי הופכים את סדר הנקודות ב-d. הסוד לתחושת יד: לא להשתמש בקו ישר, אלא בעקומה עם שתי נקודות בקרה שסוטות מעט למעלה ולמטה, ו-stroke-linecap עגול. ה-SVG מסומן aria-hidden כי הוא קישוט בלבד.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g42.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G42 · קו מצויר ביד מתחת לכותרת */
+.hd-wrap{max-width:22ch;margin-inline:auto;text-align:center;font-size:clamp(30px,3.6vw,62px);font-weight:800;line-height:1.4}
+.hd-mark{position:relative;display:inline-block;white-space:nowrap}
+.hd-mark svg{position:absolute;inset-inline:-6%;bottom:-.28em;width:112%;height:.42em;overflow:visible;pointer-events:none}
+.hd-mark.circle svg{inset:-22% -10%;width:120%;height:150%;bottom:auto}
+.hd-mark path{fill:none;stroke:var(--accent, #4a3aff);stroke-width:7;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.hd-mark.warm path{stroke:#e8590c}
+.hd-arrow{display:block;width:min(240px,50vw);height:70px;margin:26px auto 0;overflow:visible}
+.hd-arrow path{fill:none;stroke:var(--muted, #6a6d85);stroke-width:3;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.hd-note{text-align:center;font-size:16px;font-weight:500;color:var(--muted, #6a6d85);margin-top:6px}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;p class="hd-wrap"&gt;בונים לך אתר שגם &lt;span class="hd-mark"&gt;&lt;span&gt;נראה טוב&lt;/span&gt;
+&lt;svg viewBox="0 0 300 30" preserveAspectRatio="none" aria-hidden="true"&gt;&lt;path d="M296,17 C250,25 190,7 140,14 C96,20 44,10 6,19"/&gt;&lt;/svg&gt;
+&lt;/span&gt; וגם מביא לקוחות.&lt;/p&gt;&lt;/div&gt;
+&lt;div class="stage"&gt;&lt;p class="hd-wrap"&gt;המחיר מתחיל ב&lt;span class="hd-mark circle warm"&gt;&lt;span&gt;2,900&lt;/span&gt;
+&lt;svg viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true"&gt;&lt;path d="M262,26 C226,6 96,2 46,22 C-4,44 6,92 62,106 C132,122 268,112 288,80 C300,58 286,34 250,22"/&gt;&lt;/svg&gt;
+&lt;/span&gt; ש"ח בלבד.&lt;/p&gt;
+&lt;svg class="hd-arrow" viewBox="0 0 240 70" aria-hidden="true"&gt;&lt;path d="M228,10 C196,44 150,60 96,58 M96,58 L118,40 M96,58 L120,66"/&gt;&lt;/svg&gt;
+&lt;p class="hd-note"&gt;גם החץ מצויר ביד&lt;/p&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+
+gsap.utils.toArray(".hd-mark svg path, .hd-arrow path").forEach(p=&gt;{
+  gsap.fromTo(p,{drawSVG:"0% 0%"},{drawSVG:"0% 100%",duration:.75,ease:"power2.inOut",
+    scrollTrigger:{trigger:p.closest(".stage"),start:"top 62%",toggleActions:"play none none none"}});
+});</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g42 · קו מצויר ביד מתחת לכותרת\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g42.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g42.html\n\nמה זה עושה: קו לא מושלם, כמו שרבוט של עיפרון, שנמתח מימין לשמאל מתחת למילה כשהכותרת נכנסת למסך. שלושה סוגים: קו תחתון, עיגול סביב מילה, וחץ שמצביע.\nמתי משתמשים: הדגשת מילת מפתח בכותרת ראשית, מחיר, או הבטחה. עובד יפה במותגים חמים ואנושיים. אחד או שניים בעמוד, לא יותר.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G42 · קו מצויר ביד מתחת לכותרת */\n.hd-wrap{max-width:22ch;margin-inline:auto;text-align:center;font-size:clamp(30px,3.6vw,62px);font-weight:800;line-height:1.4}\n.hd-mark{position:relative;display:inline-block;white-space:nowrap}\n.hd-mark svg{position:absolute;inset-inline:-6%;bottom:-.28em;width:112%;height:.42em;overflow:visible;pointer-events:none}\n.hd-mark.circle svg{inset:-22% -10%;width:120%;height:150%;bottom:auto}\n.hd-mark path{fill:none;stroke:var(--accent, #4a3aff);stroke-width:7;stroke-linecap:round;vector-effect:non-scaling-stroke}\n.hd-mark.warm path{stroke:#e8590c}\n.hd-arrow{display:block;width:min(240px,50vw);height:70px;margin:26px auto 0;overflow:visible}\n.hd-arrow path{fill:none;stroke:var(--muted, #6a6d85);stroke-width:3;stroke-linecap:round;vector-effect:non-scaling-stroke}\n.hd-note{text-align:center;font-size:16px;font-weight:500;color:var(--muted, #6a6d85);margin-top:6px}\n\n=== HTML ===\n<div class=\"stage\"><p class=\"hd-wrap\">בונים לך אתר שגם <span class=\"hd-mark\"><span>נראה טוב<\/span>\n<svg viewBox=\"0 0 300 30\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M296,17 C250,25 190,7 140,14 C96,20 44,10 6,19\"/><\/svg>\n<\/span> וגם מביא לקוחות.<\/p><\/div>\n<div class=\"stage\"><p class=\"hd-wrap\">המחיר מתחיל ב<span class=\"hd-mark circle warm\"><span>2,900<\/span>\n<svg viewBox=\"0 0 300 120\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M262,26 C226,6 96,2 46,22 C-4,44 6,92 62,106 C132,122 268,112 288,80 C300,58 286,34 250,22\"/><\/svg>\n<\/span> ש\"ח בלבד.<\/p>\n<svg class=\"hd-arrow\" viewBox=\"0 0 240 70\" aria-hidden=\"true\"><path d=\"M228,10 C196,44 150,60 96,58 M96,58 L118,40 M96,58 L120,66\"/><\/svg>\n<p class=\"hd-note\">גם החץ מצויר ביד<\/p><\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);\n\ngsap.utils.toArray(\".hd-mark svg path, .hd-arrow path\").forEach(p=>{\n  gsap.fromTo(p,{drawSVG:\"0% 0%\"},{drawSVG:\"0% 100%\",duration:.75,ease:\"power2.inOut\",\n    scrollTrigger:{trigger:p.closest(\".stage\"),start:\"top 62%\",toggleActions:\"play none none none\"}});\n});\n\nהערת מימוש מהמאגר:\nהקו מצויר מהקצה הימני של ה-path שמאלה, ככיוון הקריאה בעברית. באתר אנגלי הופכים את סדר הנקודות ב-d. הסוד לתחושת יד: לא להשתמש בקו ישר, אלא בעקומה עם שתי נקודות בקרה שסוטות מעט למעלה ולמטה, ו-stroke-linecap עגול. ה-SVG מסומן aria-hidden כי הוא קישוט בלבד.\n\nאם היעד הוא React או Lovable:\n- אל תמיר את ה-CSS למחלקות Tailwind. חלק גדול מהכללים כאן נשען על סלקטורים כמו nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את ה-CSS כמו שהוא בקובץ CSS גלובלי או במודול.\n- ה-HTML הופך ל-JSX: class ל-className, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  import { DrawSVGPlugin } from \"gsap/DrawSVGPlugin\";\n  gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);\n- עטוף את ה-JS ב-useEffect עם מערך תלויות ריק, בתוך gsap.context, והחזר פונקציית ניקוי שקוראת ל-ctx.revert(). בלי זה כל רינדור חוזר מוסיף עוד ScrollTrigger.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G42 · קו מצויר ביד מתחת לכותרת */\n.hd-wrap{max-width:22ch;margin-inline:auto;text-align:center;font-size:clamp(30px,3.6vw,62px);font-weight:800;line-height:1.4}\n.hd-mark{position:relative;display:inline-block;white-space:nowrap}\n.hd-mark svg{position:absolute;inset-inline:-6%;bottom:-.28em;width:112%;height:.42em;overflow:visible;pointer-events:none}\n.hd-mark.circle svg{inset:-22% -10%;width:120%;height:150%;bottom:auto}\n.hd-mark path{fill:none;stroke:var(--accent, #4a3aff);stroke-width:7;stroke-linecap:round;vector-effect:non-scaling-stroke}\n.hd-mark.warm path{stroke:#e8590c}\n.hd-arrow{display:block;width:min(240px,50vw);height:70px;margin:26px auto 0;overflow:visible}\n.hd-arrow path{fill:none;stroke:var(--muted, #6a6d85);stroke-width:3;stroke-linecap:round;vector-effect:non-scaling-stroke}\n.hd-note{text-align:center;font-size:16px;font-weight:500;color:var(--muted, #6a6d85);margin-top:6px}","html":"<div class=\"stage\"><p class=\"hd-wrap\">בונים לך אתר שגם <span class=\"hd-mark\"><span>נראה טוב<\/span>\n<svg viewBox=\"0 0 300 30\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M296,17 C250,25 190,7 140,14 C96,20 44,10 6,19\"/><\/svg>\n<\/span> וגם מביא לקוחות.<\/p><\/div>\n<div class=\"stage\"><p class=\"hd-wrap\">המחיר מתחיל ב<span class=\"hd-mark circle warm\"><span>2,900<\/span>\n<svg viewBox=\"0 0 300 120\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M262,26 C226,6 96,2 46,22 C-4,44 6,92 62,106 C132,122 268,112 288,80 C300,58 286,34 250,22\"/><\/svg>\n<\/span> ש\"ח בלבד.<\/p>\n<svg class=\"hd-arrow\" viewBox=\"0 0 240 70\" aria-hidden=\"true\"><path d=\"M228,10 C196,44 150,60 96,58 M96,58 L118,40 M96,58 L120,66\"/><\/svg>\n<p class=\"hd-note\">גם החץ מצויר ביד<\/p><\/div>","js":"gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);\n\ngsap.utils.toArray(\".hd-mark svg path, .hd-arrow path\").forEach(p=>{\n  gsap.fromTo(p,{drawSVG:\"0% 0%\"},{drawSVG:\"0% 100%\",duration:.75,ease:\"power2.inOut\",\n    scrollTrigger:{trigger:p.closest(\".stage\"),start:\"top 62%\",toggleActions:\"play none none none\"}});\n});","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js\"><\/script>","rtl":true}</script>
+</section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
@@ -59,6 +103,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
 gsap.utils.toArray(".hd-mark svg path, .hd-arrow path").forEach(p=>{
   gsap.fromTo(p,{drawSVG:"0% 0%"},{drawSVG:"0% 100%",duration:.75,ease:"power2.inOut",

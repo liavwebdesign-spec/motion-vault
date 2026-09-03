@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B55 · מחוון שמחליק בין פריטי תפריט</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B55 · מחוון שמחליק בין פריטי תפריט */
+.tg{display:inline-flex;position:relative;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);
+  border-radius:999px;padding:5px;gap:2px;max-width:100%;flex-wrap:wrap}
+.tg-pill{position:absolute;top:5px;left:0;height:calc(100% - 10px);border-radius:999px;background:var(--ink, #16182b);z-index:0}
+.tg a{position:relative;z-index:1;padding:10px 20px;border-radius:999px;font-size:15px;color:var(--muted, #6a6d85);
+  text-decoration:none;white-space:nowrap;transition:color .22s}
+/* הצבע הלבן נקבע לפי מי שהגלולה נמצאת מתחתיו ברגע זה (hot), ולא לפי מי שנבחר (on).
+   אחרת בהובר הטקסט האפור יושב על גלולה כהה, והנבחר נשאר לבן על רקע בהיר. */
+.tg a.hot{color:#fff}
+.tg a:hover{color:var(--ink, #16182b)}
+.tg a.hot:hover{color:#fff}
+.tg a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.tg-wrap{display:grid;justify-items:center;gap:26px}
+.tg-out{color:var(--muted, #6a6d85);font-size:15px}
+.tg-out b{color:var(--ink, #16182b)}
+@media(max-width:520px){.tg a{padding:10px 13px;font-size:14px}}
+</style>
+</head>
+<body>
+<div class="stage tight"><div class="tg-wrap">
+  <nav class="tg">
+    <i class="tg-pill"></i>
+    <a href="#" class="on" aria-current="true">הכל</a><a href="#">אתרי תדמית</a><a href="#">דפי נחיתה</a><a href="#">חנויות</a><a href="#">מערכות</a>
+  </nav>
+  <p class="tg-out">הבחירה הנוכחית: <b class="tg-now">הכל</b></p>
+</div></div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+(function(){
+  const nav=document.querySelector(".tg"),pill=nav.querySelector(".tg-pill"),out=document.querySelector(".tg-now");
+  const links=[...nav.querySelectorAll("a")];
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let active=links[0];
+  // offsetLeft/offsetTop פיזיים, ולכן החישוב זהה בעברית ובאנגלית
+  const move=(el,animate)=>{
+    links.forEach(x=>x.classList.toggle("hot",x===el));
+    const to={x:el.offsetLeft,y:el.offsetTop-5,width:el.offsetWidth,height:el.offsetHeight};
+    if(animate&&!reduce)gsap.to(pill,{...to,duration:.4,ease:"back.out(1.4)"});
+    else gsap.set(pill,to);
+  };
+  links.forEach(a=>{
+    a.addEventListener("mouseenter",()=>move(a,true));
+    a.addEventListener("focus",()=>move(a,true));
+    a.addEventListener("click",e=>{
+      e.preventDefault();
+      active=a;links.forEach(x=>{x.classList.toggle("on",x===a);
+        x===a?x.setAttribute("aria-current","true"):x.removeAttribute("aria-current")});
+      out.textContent=a.textContent;move(a,true);
+    });
+  });
+  // יציאה מהתפריט מחזירה את המחוון לפריט שנבחר, ולא משאירה אותו במקום אקראי
+  nav.addEventListener("mouseleave",()=>move(active,true));
+  nav.addEventListener("focusout",e=>{if(!nav.contains(e.relatedTarget))move(active,true);});
+  move(active,false);
+  addEventListener("resize",()=>move(active,false));
+  document.fonts&&document.fonts.ready.then(()=>move(active,false));  // הפונט משנה רוחב מילים
+})();
+</script>
+</body>
+</html>

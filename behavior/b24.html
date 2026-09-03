@@ -51,6 +51,72 @@
 <p style="color:var(--muted);font-size:14px;margin-top:22px">העבר עכבר, או הגע עם Tab</p></div>
 
 <div class="demo-note">הטקסט האמיתי נשמר ב-aria-label ושתי השכבות מסומנות aria-hidden, אחרת קורא מסך היה מקריא את המילה פעמיים. ההשהיה המדורגת היא 22 מילישניות לאות: מעל 30 זה מתחיל להרגיש איטי, ומתחת ל-15 האפקט נעלם.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b24.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.center{text-align:center}
+
+/* B24 · כפתור שהאותיות בו מתחלפות בהובר */
+.rb{--rb-bg:var(--ink, #16182b);--rb-fg:#fff;
+  display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;font:inherit;font-weight:600;font-size:17px;
+  background:var(--rb-bg);color:var(--rb-fg);border-radius:999px;padding:16px 30px;overflow:hidden;position:relative}
+.rb.ghost{--rb-bg:transparent;--rb-fg:var(--ink, #16182b);border:1px solid var(--line, #e4e4ee)}
+.rb.accent{--rb-bg:var(--accent, #4a3aff)}
+.rb-txt{display:inline-flex;position:relative;overflow:hidden;line-height:1.25}
+.rb-row{display:inline-flex}
+.rb-row.b{position:absolute;inset-inline-start:0;top:0}
+.rb-ch{display:inline-block;transition:transform .42s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i) * 22ms)}
+.rb-row.a .rb-ch{transform:translateY(0)}
+.rb-row.b .rb-ch{transform:translateY(105%)}
+.rb:hover .rb-row.a .rb-ch,.rb:focus-visible .rb-row.a .rb-ch{transform:translateY(-105%)}
+.rb:hover .rb-row.b .rb-ch,.rb:focus-visible .rb-row.b .rb-ch{transform:translateY(0)}
+.rb-arrow{transition:transform .42s cubic-bezier(.2,.8,.2,1)}
+.rb:hover .rb-arrow{transform:translateX(-5px)}
+.rb-demo{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+@media (prefers-reduced-motion: reduce){.rb-ch,.rb-arrow{transition:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight center"&gt;&lt;div class="rb-demo"&gt;
+  &lt;button class="rb accent"&gt;&lt;span class="rb-txt" data-rb&gt;קבעו שיחה&lt;/span&gt;&lt;span class="rb-arrow" aria-hidden="true"&gt;←&lt;/span&gt;&lt;/button&gt;
+  &lt;button class="rb"&gt;&lt;span class="rb-txt" data-rb&gt;לכל העבודות&lt;/span&gt;&lt;span class="rb-arrow" aria-hidden="true"&gt;←&lt;/span&gt;&lt;/button&gt;
+  &lt;button class="rb ghost"&gt;&lt;span class="rb-txt" data-rb&gt;המחירון שלנו&lt;/span&gt;&lt;/button&gt;
+&lt;/div&gt;
+&lt;p style="color:var(--muted);font-size:14px;margin-top:22px"&gt;העבר עכבר, או הגע עם Tab&lt;/p&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  document.querySelectorAll("[data-rb]").forEach(el=&gt;{
+    const text=el.textContent.trim();
+    el.textContent="";
+    el.setAttribute("aria-label",text);
+    // שתי שכבות זהות: העליונה יוצאת, התחתונה נכנסת
+    ["a","b"].forEach(k=&gt;{
+      const row=document.createElement("span");
+      row.className="rb-row "+k;
+      row.setAttribute("aria-hidden","true");
+      [...text].forEach((c,i)=&gt;{
+        const s=document.createElement("span");
+        s.className="rb-ch";
+        s.style.setProperty("--i",k==="a"?i:i);
+        s.textContent=c===" "?"\u00a0":c;
+        row.appendChild(s);
+      });
+      el.appendChild(row);
+    });
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b24 · כפתור שהאותיות בו מתחלפות בהובר\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b24.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b24.html\n\nמה זה עושה: שתי שכבות של אותו טקסט זו מעל זו. בהובר העליונה מחליקה למעלה והתחתונה עולה במקומה, אות אחרי אות, כך שהמילה מתגלגלת ולא סתם משנה צבע.\nמתי משתמשים: כפתור ראשי, קישור ניווט, כפתור מוצר. מיקרו-אינטראקציה שמסמנת ליטוש. בעברית האותיות אינן מחוברות ולכן פיצול לאותיות בטוח.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.center{text-align:center}\n\n/* B24 · כפתור שהאותיות בו מתחלפות בהובר */\n.rb{--rb-bg:var(--ink, #16182b);--rb-fg:#fff;\n  display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;font:inherit;font-weight:600;font-size:17px;\n  background:var(--rb-bg);color:var(--rb-fg);border-radius:999px;padding:16px 30px;overflow:hidden;position:relative}\n.rb.ghost{--rb-bg:transparent;--rb-fg:var(--ink, #16182b);border:1px solid var(--line, #e4e4ee)}\n.rb.accent{--rb-bg:var(--accent, #4a3aff)}\n.rb-txt{display:inline-flex;position:relative;overflow:hidden;line-height:1.25}\n.rb-row{display:inline-flex}\n.rb-row.b{position:absolute;inset-inline-start:0;top:0}\n.rb-ch{display:inline-block;transition:transform .42s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i) * 22ms)}\n.rb-row.a .rb-ch{transform:translateY(0)}\n.rb-row.b .rb-ch{transform:translateY(105%)}\n.rb:hover .rb-row.a .rb-ch,.rb:focus-visible .rb-row.a .rb-ch{transform:translateY(-105%)}\n.rb:hover .rb-row.b .rb-ch,.rb:focus-visible .rb-row.b .rb-ch{transform:translateY(0)}\n.rb-arrow{transition:transform .42s cubic-bezier(.2,.8,.2,1)}\n.rb:hover .rb-arrow{transform:translateX(-5px)}\n.rb-demo{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}\n@media (prefers-reduced-motion: reduce){.rb-ch,.rb-arrow{transition:none}}\n\n=== HTML ===\n<div class=\"stage tight center\"><div class=\"rb-demo\">\n  <button class=\"rb accent\"><span class=\"rb-txt\" data-rb>קבעו שיחה<\/span><span class=\"rb-arrow\" aria-hidden=\"true\">←<\/span><\/button>\n  <button class=\"rb\"><span class=\"rb-txt\" data-rb>לכל העבודות<\/span><span class=\"rb-arrow\" aria-hidden=\"true\">←<\/span><\/button>\n  <button class=\"rb ghost\"><span class=\"rb-txt\" data-rb>המחירון שלנו<\/span><\/button>\n<\/div>\n<p style=\"color:var(--muted);font-size:14px;margin-top:22px\">העבר עכבר, או הגע עם Tab<\/p><\/div>\n\n=== JS ===\n(function(){\n  document.querySelectorAll(\"[data-rb]\").forEach(el=>{\n    const text=el.textContent.trim();\n    el.textContent=\"\";\n    el.setAttribute(\"aria-label\",text);\n    // שתי שכבות זהות: העליונה יוצאת, התחתונה נכנסת\n    [\"a\",\"b\"].forEach(k=>{\n      const row=document.createElement(\"span\");\n      row.className=\"rb-row \"+k;\n      row.setAttribute(\"aria-hidden\",\"true\");\n      [...text].forEach((c,i)=>{\n        const s=document.createElement(\"span\");\n        s.className=\"rb-ch\";\n        s.style.setProperty(\"--i\",k===\"a\"?i:i);\n        s.textContent=c===\" \"?\"\\u00a0\":c;\n        row.appendChild(s);\n      });\n      el.appendChild(row);\n    });\n  });\n})();\n\nהערת מימוש מהמאגר:\nהטקסט האמיתי נשמר ב-aria-label ושתי השכבות מסומנות aria-hidden, אחרת קורא מסך היה מקריא את המילה פעמיים. ההשהיה המדורגת היא 22 מילישניות לאות: מעל 30 זה מתחיל להרגיש איטי, ומתחת ל-15 האפקט נעלם.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.center{text-align:center}\n\n/* B24 · כפתור שהאותיות בו מתחלפות בהובר */\n.rb{--rb-bg:var(--ink, #16182b);--rb-fg:#fff;\n  display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;font:inherit;font-weight:600;font-size:17px;\n  background:var(--rb-bg);color:var(--rb-fg);border-radius:999px;padding:16px 30px;overflow:hidden;position:relative}\n.rb.ghost{--rb-bg:transparent;--rb-fg:var(--ink, #16182b);border:1px solid var(--line, #e4e4ee)}\n.rb.accent{--rb-bg:var(--accent, #4a3aff)}\n.rb-txt{display:inline-flex;position:relative;overflow:hidden;line-height:1.25}\n.rb-row{display:inline-flex}\n.rb-row.b{position:absolute;inset-inline-start:0;top:0}\n.rb-ch{display:inline-block;transition:transform .42s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i) * 22ms)}\n.rb-row.a .rb-ch{transform:translateY(0)}\n.rb-row.b .rb-ch{transform:translateY(105%)}\n.rb:hover .rb-row.a .rb-ch,.rb:focus-visible .rb-row.a .rb-ch{transform:translateY(-105%)}\n.rb:hover .rb-row.b .rb-ch,.rb:focus-visible .rb-row.b .rb-ch{transform:translateY(0)}\n.rb-arrow{transition:transform .42s cubic-bezier(.2,.8,.2,1)}\n.rb:hover .rb-arrow{transform:translateX(-5px)}\n.rb-demo{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}\n@media (prefers-reduced-motion: reduce){.rb-ch,.rb-arrow{transition:none}}","html":"<div class=\"stage tight center\"><div class=\"rb-demo\">\n  <button class=\"rb accent\"><span class=\"rb-txt\" data-rb>קבעו שיחה<\/span><span class=\"rb-arrow\" aria-hidden=\"true\">←<\/span><\/button>\n  <button class=\"rb\"><span class=\"rb-txt\" data-rb>לכל העבודות<\/span><span class=\"rb-arrow\" aria-hidden=\"true\">←<\/span><\/button>\n  <button class=\"rb ghost\"><span class=\"rb-txt\" data-rb>המחירון שלנו<\/span><\/button>\n<\/div>\n<p style=\"color:var(--muted);font-size:14px;margin-top:22px\">העבר עכבר, או הגע עם Tab<\/p><\/div>","js":"(function(){\n  document.querySelectorAll(\"[data-rb]\").forEach(el=>{\n    const text=el.textContent.trim();\n    el.textContent=\"\";\n    el.setAttribute(\"aria-label\",text);\n    // שתי שכבות זהות: העליונה יוצאת, התחתונה נכנסת\n    [\"a\",\"b\"].forEach(k=>{\n      const row=document.createElement(\"span\");\n      row.className=\"rb-row \"+k;\n      row.setAttribute(\"aria-hidden\",\"true\");\n      [...text].forEach((c,i)=>{\n        const s=document.createElement(\"span\");\n        s.className=\"rb-ch\";\n        s.style.setProperty(\"--i\",k===\"a\"?i:i);\n        s.textContent=c===\" \"?\"\\u00a0\":c;\n        row.appendChild(s);\n      });\n      el.appendChild(row);\n    });\n  });\n})();","scripts":"","rtl":true}</script>
+</section>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -63,6 +129,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 (function(){
   document.querySelectorAll("[data-rb]").forEach(el=>{

@@ -62,6 +62,109 @@
 </div></div>
 
 <div class="demo-note">בנוי על גלילה נטיבית עם scroll-snap ולא על טרנספורמים, ולכן במובייל זה חלק לגמרי, עובד עם אינרציית המערכת, ונשאר נגיש למקלדת. בזמן גרירה בעכבר מכבים את ה-snap ומחזירים אותו בשחרור, אחרת הדפדפן נלחם בגרירה. הכיוון נגזר ממדידת מרכזים ולכן זהה בעברית ובאנגלית.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b31.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+
+/* B31 · סליידר המלצות עם גרירה, חצים ונקודות */
+.tq{position:relative;max-width:min(1100px,94vw);margin-inline:auto}
+.tq-track{display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-block:6px;
+  -webkit-overflow-scrolling:touch;cursor:grab}
+.tq-track::-webkit-scrollbar{display:none}
+.tq-track.drag{cursor:grabbing;scroll-snap-type:none;user-select:none}
+.tq-card{flex:0 0 min(420px,82vw);scroll-snap-align:start;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);
+  padding:clamp(22px,2.4vw,34px);display:flex;flex-direction:column;gap:16px}
+.tq-stars{color:#f0a500;font-size:15px;letter-spacing:2px}
+.tq-card p{margin:0;font-size:clamp(15px,1.4vw,18px);line-height:1.65;color:var(--ink, #16182b)}
+.tq-who{display:flex;align-items:center;gap:12px;margin-top:auto}
+.tq-av{width:40px;height:40px;border-radius:50%;flex:none;font-size:14px}
+.tq-who b{display:block;font-size:15px}
+.tq-who span{font-size:13px;color:var(--muted, #6a6d85)}
+.tq-bar{display:flex;align-items:center;gap:14px;justify-content:center;margin-top:26px}
+.tq-nav{width:44px;height:44px;border-radius:50%;border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);cursor:pointer;font-size:17px;color:var(--ink, #16182b);
+  display:grid;place-items:center;transition:background .25s,opacity .25s}
+.tq-nav:hover{background:#eceaff}
+.tq-nav[disabled]{opacity:.35;cursor:default}
+.tq-dots{display:flex;gap:8px}
+.tq-dots button{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:var(--line, #e4e4ee);cursor:pointer;transition:width .3s,background .3s}
+.tq-dots button.on{width:24px;border-radius:999px;background:var(--accent, #4a3aff)}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="tq"&gt;
+  &lt;div class="tq-track"&gt;
+    &lt;article class="tq-card"&gt;&lt;div class="tq-stars"&gt;★★★★★&lt;/div&gt;&lt;p&gt;הגיעו עם שאלות שלא חשבנו עליהן, ובסוף קיבלנו אתר שמביא פניות כל שבוע. התהליך היה מסודר ובלי הפתעות.&lt;/p&gt;&lt;div class="tq-who"&gt;&lt;span class="tq-av ph ph-a"&gt;א&lt;/span&gt;&lt;div&gt;&lt;b&gt;אורית לוי&lt;/b&gt;&lt;span&gt;מנכ"לית, חברת ייעוץ&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/article&gt;
+    &lt;article class="tq-card"&gt;&lt;div class="tq-stars"&gt;★★★★★&lt;/div&gt;&lt;p&gt;שלושה ספקים לפניהם לא הצליחו. כאן הבינו את העסק שלי תוך פגישה אחת, וזה הורגש בכל שורה באתר.&lt;/p&gt;&lt;div class="tq-who"&gt;&lt;span class="tq-av ph ph-c"&gt;ד&lt;/span&gt;&lt;div&gt;&lt;b&gt;דני כהן&lt;/b&gt;&lt;span&gt;בעלים, מוסך&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/article&gt;
+    &lt;article class="tq-card"&gt;&lt;div class="tq-stars"&gt;★★★★★&lt;/div&gt;&lt;p&gt;הכי אהבתי שלא נעלמו אחרי העלייה לאוויר. כל שאלה נענתה, וגם חודשיים אחרי עדיין מלווים.&lt;/p&gt;&lt;div class="tq-who"&gt;&lt;span class="tq-av ph ph-d"&gt;מ&lt;/span&gt;&lt;div&gt;&lt;b&gt;מיכל ברק&lt;/b&gt;&lt;span&gt;מנהלת שיווק&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/article&gt;
+    &lt;article class="tq-card"&gt;&lt;div class="tq-stars"&gt;★★★★★&lt;/div&gt;&lt;p&gt;העלינו את האתר ותוך שבועיים ראינו הבדל בכמות הפניות. ההשקעה החזירה את עצמה מהר.&lt;/p&gt;&lt;div class="tq-who"&gt;&lt;span class="tq-av ph ph-e"&gt;י&lt;/span&gt;&lt;div&gt;&lt;b&gt;יוסי אדרי&lt;/b&gt;&lt;span&gt;בעלים, קליניקה&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;&lt;/article&gt;
+  &lt;/div&gt;
+  &lt;div class="tq-bar"&gt;
+    &lt;button class="tq-nav prev" aria-label="הקודם"&gt;→&lt;/button&gt;
+    &lt;div class="tq-dots" role="tablist" aria-label="מעבר בין המלצות"&gt;&lt;/div&gt;
+    &lt;button class="tq-nav next" aria-label="הבא"&gt;←&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const track=document.querySelector(".tq-track"),cards=[...track.children];
+  const dots=document.querySelector(".tq-dots"),prev=document.querySelector(".prev"),next=document.querySelector(".next");
+  cards.forEach((c,i)=&gt;{
+    const b=document.createElement("button");
+    b.setAttribute("role","tab");b.setAttribute("aria-label","המלצה "+(i+1));
+    b.addEventListener("click",()=&gt;c.scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"}));
+    dots.appendChild(b);
+  });
+  const buttons=[...dots.children];
+  const rtl=getComputedStyle(track).direction==="rtl";
+  const startEdge=el=&gt;{const r=el.getBoundingClientRect();return rtl?r.right:r.left;};
+  function current(){
+    // הכרטיס ששפת ההתחלה שלו הכי קרובה לשפת ההתחלה של המסלול.
+    // בעברית שפת ההתחלה היא הימנית, ולכן מודדים אותה ולא את המרכז.
+    const s=startEdge(track);
+    let best=0,d=1e9;
+    cards.forEach((c,i)=&gt;{const dist=Math.abs(startEdge(c)-s);if(dist&lt;d){d=dist;best=i;}});
+    return best;
+  }
+  // scrollLeft שלילי ב-RTL, ולכן כל ההשוואות על הערך המוחלט
+  const pos=()=&gt;Math.abs(track.scrollLeft);
+  const maxScroll=()=&gt;track.scrollWidth-track.clientWidth;
+  const atStart=()=&gt;pos()&lt;4, atEnd=()=&gt;maxScroll()-pos()&lt;4;
+  function sync(){
+    // בסוף המסלול מסמנים את האחרון גם אם הוא לא הגיע לשפת ההתחלה,
+    // כי כשמוצגים כמה כרטיסים במקביל אי אפשר להביא אותו לשם
+    const i=atEnd()?cards.length-1:current();
+    buttons.forEach((b,n)=&gt;b.classList.toggle("on",n===i));
+    prev.disabled=atStart();next.disabled=atEnd();
+  }
+  track.addEventListener("scroll",sync,{passive:true});
+  prev.addEventListener("click",()=&gt;cards[Math.max(0,current()-1)].scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"}));
+  next.addEventListener("click",()=&gt;cards[Math.min(cards.length-1,current()+1)].scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"}));
+  // גרירה בעכבר. במגע הדפדפן כבר עושה את זה לבד ולכן לא נוגעים.
+  let down=false,sx=0,sl=0;
+  track.addEventListener("pointerdown",e=&gt;{if(e.pointerType!=="mouse")return;down=true;sx=e.clientX;sl=track.scrollLeft;track.classList.add("drag");});
+  track.addEventListener("pointermove",e=&gt;{if(!down)return;track.scrollLeft=sl-(e.clientX-sx);});
+  const up=()=&gt;{if(!down)return;down=false;track.classList.remove("drag");
+    cards[current()].scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"});};
+  ["pointerup","pointerleave","pointercancel"].forEach(ev=&gt;track.addEventListener(ev,up));
+  sync();
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b31 · סליידר המלצות עם גרירה, חצים ונקודות\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b31.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b31.html\n\nמה זה עושה: רצועת ציטוטים שנגררת באצבע ובעכבר, נצמדת לכל כרטיס, ומסונכרנת עם חצים ונקודות. בנוי על גלילה נטיבית, ולכן חלק במובייל ולא נשבר.\nמתי משתמשים: המלצות לקוחות, לוגואים, מקרי בוחן, מוצרים נבחרים. אחרי אקורדיון זה הרכיב הכי נפוץ שראינו, וכל עסק צריך אותו.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n\n/* B31 · סליידר המלצות עם גרירה, חצים ונקודות */\n.tq{position:relative;max-width:min(1100px,94vw);margin-inline:auto}\n.tq-track{display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-block:6px;\n  -webkit-overflow-scrolling:touch;cursor:grab}\n.tq-track::-webkit-scrollbar{display:none}\n.tq-track.drag{cursor:grabbing;scroll-snap-type:none;user-select:none}\n.tq-card{flex:0 0 min(420px,82vw);scroll-snap-align:start;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);\n  padding:clamp(22px,2.4vw,34px);display:flex;flex-direction:column;gap:16px}\n.tq-stars{color:#f0a500;font-size:15px;letter-spacing:2px}\n.tq-card p{margin:0;font-size:clamp(15px,1.4vw,18px);line-height:1.65;color:var(--ink, #16182b)}\n.tq-who{display:flex;align-items:center;gap:12px;margin-top:auto}\n.tq-av{width:40px;height:40px;border-radius:50%;flex:none;font-size:14px}\n.tq-who b{display:block;font-size:15px}\n.tq-who span{font-size:13px;color:var(--muted, #6a6d85)}\n.tq-bar{display:flex;align-items:center;gap:14px;justify-content:center;margin-top:26px}\n.tq-nav{width:44px;height:44px;border-radius:50%;border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);cursor:pointer;font-size:17px;color:var(--ink, #16182b);\n  display:grid;place-items:center;transition:background .25s,opacity .25s}\n.tq-nav:hover{background:#eceaff}\n.tq-nav[disabled]{opacity:.35;cursor:default}\n.tq-dots{display:flex;gap:8px}\n.tq-dots button{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:var(--line, #e4e4ee);cursor:pointer;transition:width .3s,background .3s}\n.tq-dots button.on{width:24px;border-radius:999px;background:var(--accent, #4a3aff)}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"tq\">\n  <div class=\"tq-track\">\n    <article class=\"tq-card\"><div class=\"tq-stars\">★★★★★<\/div><p>הגיעו עם שאלות שלא חשבנו עליהן, ובסוף קיבלנו אתר שמביא פניות כל שבוע. התהליך היה מסודר ובלי הפתעות.<\/p><div class=\"tq-who\"><span class=\"tq-av ph ph-a\">א<\/span><div><b>אורית לוי<\/b><span>מנכ\"לית, חברת ייעוץ<\/span><\/div><\/div><\/article>\n    <article class=\"tq-card\"><div class=\"tq-stars\">★★★★★<\/div><p>שלושה ספקים לפניהם לא הצליחו. כאן הבינו את העסק שלי תוך פגישה אחת, וזה הורגש בכל שורה באתר.<\/p><div class=\"tq-who\"><span class=\"tq-av ph ph-c\">ד<\/span><div><b>דני כהן<\/b><span>בעלים, מוסך<\/span><\/div><\/div><\/article>\n    <article class=\"tq-card\"><div class=\"tq-stars\">★★★★★<\/div><p>הכי אהבתי שלא נעלמו אחרי העלייה לאוויר. כל שאלה נענתה, וגם חודשיים אחרי עדיין מלווים.<\/p><div class=\"tq-who\"><span class=\"tq-av ph ph-d\">מ<\/span><div><b>מיכל ברק<\/b><span>מנהלת שיווק<\/span><\/div><\/div><\/article>\n    <article class=\"tq-card\"><div class=\"tq-stars\">★★★★★<\/div><p>העלינו את האתר ותוך שבועיים ראינו הבדל בכמות הפניות. ההשקעה החזירה את עצמה מהר.<\/p><div class=\"tq-who\"><span class=\"tq-av ph ph-e\">י<\/span><div><b>יוסי אדרי<\/b><span>בעלים, קליניקה<\/span><\/div><\/div><\/article>\n  <\/div>\n  <div class=\"tq-bar\">\n    <button class=\"tq-nav prev\" aria-label=\"הקודם\">→<\/button>\n    <div class=\"tq-dots\" role=\"tablist\" aria-label=\"מעבר בין המלצות\"><\/div>\n    <button class=\"tq-nav next\" aria-label=\"הבא\">←<\/button>\n  <\/div>\n<\/div><\/div>\n\n=== JS ===\n(function(){\n  const track=document.querySelector(\".tq-track\"),cards=[...track.children];\n  const dots=document.querySelector(\".tq-dots\"),prev=document.querySelector(\".prev\"),next=document.querySelector(\".next\");\n  cards.forEach((c,i)=>{\n    const b=document.createElement(\"button\");\n    b.setAttribute(\"role\",\"tab\");b.setAttribute(\"aria-label\",\"המלצה \"+(i+1));\n    b.addEventListener(\"click\",()=>c.scrollIntoView({behavior:\"smooth\",block:\"nearest\",inline:\"start\"}));\n    dots.appendChild(b);\n  });\n  const buttons=[...dots.children];\n  const rtl=getComputedStyle(track).direction===\"rtl\";\n  const startEdge=el=>{const r=el.getBoundingClientRect();return rtl?r.right:r.left;};\n  function current(){\n    // הכרטיס ששפת ההתחלה שלו הכי קרובה לשפת ההתחלה של המסלול.\n    // בעברית שפת ההתחלה היא הימנית, ולכן מודדים אותה ולא את המרכז.\n    const s=startEdge(track);\n    let best=0,d=1e9;\n    cards.forEach((c,i)=>{const dist=Math.abs(startEdge(c)-s);if(dist<d){d=dist;best=i;}});\n    return best;\n  }\n  // scrollLeft שלילי ב-RTL, ולכן כל ההשוואות על הערך המוחלט\n  const pos=()=>Math.abs(track.scrollLeft);\n  const maxScroll=()=>track.scrollWidth-track.clientWidth;\n  const atStart=()=>pos()<4, atEnd=()=>maxScroll()-pos()<4;\n  function sync(){\n    // בסוף המסלול מסמנים את האחרון גם אם הוא לא הגיע לשפת ההתחלה,\n    // כי כשמוצגים כמה כרטיסים במקביל אי אפשר להביא אותו לשם\n    const i=atEnd()?cards.length-1:current();\n    buttons.forEach((b,n)=>b.classList.toggle(\"on\",n===i));\n    prev.disabled=atStart();next.disabled=atEnd();\n  }\n  track.addEventListener(\"scroll\",sync,{passive:true});\n  prev.addEventListener(\"click\",()=>cards[Math.max(0,current()-1)].scrollIntoView({behavior:\"smooth\",block:\"nearest\",inline:\"start\"}));\n  next.addEventListener(\"click\",()=>cards[Math.min(cards.length-1,current()+1)].scrollIntoView({behavior:\"smooth\",block:\"nearest\",inline:\"start\"}));\n  // גרירה בעכבר. במגע הדפדפן כבר עושה את זה לבד ולכן לא נוגעים.\n  let down=false,sx=0,sl=0;\n  track.addEventListener(\"pointerdown\",e=>{if(e.pointerType!==\"mouse\")return;down=true;sx=e.clientX;sl=track.scrollLeft;track.classList.add(\"drag\");});\n  track.addEventListener(\"pointermove\",e=>{if(!down)return;track.scrollLeft=sl-(e.clientX-sx);});\n  const up=()=>{if(!down)return;down=false;track.classList.remove(\"drag\");\n    cards[current()].scrollIntoView({behavior:\"smooth\",block:\"nearest\",inline:\"start\"});};\n  [\"pointerup\",\"pointerleave\",\"pointercancel\"].forEach(ev=>track.addEventListener(ev,up));\n  sync();\n})();\n\nהערת מימוש מהמאגר:\nבנוי על גלילה נטיבית עם scroll-snap ולא על טרנספורמים, ולכן במובייל זה חלק לגמרי, עובד עם אינרציית המערכת, ונשאר נגיש למקלדת. בזמן גרירה בעכבר מכבים את ה-snap ומחזירים אותו בשחרור, אחרת הדפדפן נלחם בגרירה. הכיוון נגזר ממדידת מרכזים ולכן זהה בעברית ובאנגלית.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n\n/* B31 · סליידר המלצות עם גרירה, חצים ונקודות */\n.tq{position:relative;max-width:min(1100px,94vw);margin-inline:auto}\n.tq-track{display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-block:6px;\n  -webkit-overflow-scrolling:touch;cursor:grab}\n.tq-track::-webkit-scrollbar{display:none}\n.tq-track.drag{cursor:grabbing;scroll-snap-type:none;user-select:none}\n.tq-card{flex:0 0 min(420px,82vw);scroll-snap-align:start;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);\n  padding:clamp(22px,2.4vw,34px);display:flex;flex-direction:column;gap:16px}\n.tq-stars{color:#f0a500;font-size:15px;letter-spacing:2px}\n.tq-card p{margin:0;font-size:clamp(15px,1.4vw,18px);line-height:1.65;color:var(--ink, #16182b)}\n.tq-who{display:flex;align-items:center;gap:12px;margin-top:auto}\n.tq-av{width:40px;height:40px;border-radius:50%;flex:none;font-size:14px}\n.tq-who b{display:block;font-size:15px}\n.tq-who span{font-size:13px;color:var(--muted, #6a6d85)}\n.tq-bar{display:flex;align-items:center;gap:14px;justify-content:center;margin-top:26px}\n.tq-nav{width:44px;height:44px;border-radius:50%;border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);cursor:pointer;font-size:17px;color:var(--ink, #16182b);\n  display:grid;place-items:center;transition:background .25s,opacity .25s}\n.tq-nav:hover{background:#eceaff}\n.tq-nav[disabled]{opacity:.35;cursor:default}\n.tq-dots{display:flex;gap:8px}\n.tq-dots button{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:var(--line, #e4e4ee);cursor:pointer;transition:width .3s,background .3s}\n.tq-dots button.on{width:24px;border-radius:999px;background:var(--accent, #4a3aff)}","html":"<div class=\"stage tight\"><div class=\"tq\">\n  <div class=\"tq-track\">\n    <article class=\"tq-card\"><div class=\"tq-stars\">★★★★★<\/div><p>הגיעו עם שאלות שלא חשבנו עליהן, ובסוף קיבלנו אתר שמביא פניות כל שבוע. התהליך היה מסודר ובלי הפתעות.<\/p><div class=\"tq-who\"><span class=\"tq-av ph ph-a\">א<\/span><div><b>אורית לוי<\/b><span>מנכ\"לית, חברת ייעוץ<\/span><\/div><\/div><\/article>\n    <article class=\"tq-card\"><div class=\"tq-stars\">★★★★★<\/div><p>שלושה ספקים לפניהם לא הצליחו. כאן הבינו את העסק שלי תוך פגישה אחת, וזה הורגש בכל שורה באתר.<\/p><div class=\"tq-who\"><span class=\"tq-av ph ph-c\">ד<\/span><div><b>דני כהן<\/b><span>בעלים, מוסך<\/span><\/div><\/div><\/article>\n    <article class=\"tq-card\"><div class=\"tq-stars\">★★★★★<\/div><p>הכי אהבתי שלא נעלמו אחרי העלייה לאוויר. כל שאלה נענתה, וגם חודשיים אחרי עדיין מלווים.<\/p><div class=\"tq-who\"><span class=\"tq-av ph ph-d\">מ<\/span><div><b>מיכל ברק<\/b><span>מנהלת שיווק<\/span><\/div><\/div><\/article>\n    <article class=\"tq-card\"><div class=\"tq-stars\">★★★★★<\/div><p>העלינו את האתר ותוך שבועיים ראינו הבדל בכמות הפניות. ההשקעה החזירה את עצמה מהר.<\/p><div class=\"tq-who\"><span class=\"tq-av ph ph-e\">י<\/span><div><b>יוסי אדרי<\/b><span>בעלים, קליניקה<\/span><\/div><\/div><\/article>\n  <\/div>\n  <div class=\"tq-bar\">\n    <button class=\"tq-nav prev\" aria-label=\"הקודם\">→<\/button>\n    <div class=\"tq-dots\" role=\"tablist\" aria-label=\"מעבר בין המלצות\"><\/div>\n    <button class=\"tq-nav next\" aria-label=\"הבא\">←<\/button>\n  <\/div>\n<\/div><\/div>","js":"(function(){\n  const track=document.querySelector(\".tq-track\"),cards=[...track.children];\n  const dots=document.querySelector(\".tq-dots\"),prev=document.querySelector(\".prev\"),next=document.querySelector(\".next\");\n  cards.forEach((c,i)=>{\n    const b=document.createElement(\"button\");\n    b.setAttribute(\"role\",\"tab\");b.setAttribute(\"aria-label\",\"המלצה \"+(i+1));\n    b.addEventListener(\"click\",()=>c.scrollIntoView({behavior:\"smooth\",block:\"nearest\",inline:\"start\"}));\n    dots.appendChild(b);\n  });\n  const buttons=[...dots.children];\n  const rtl=getComputedStyle(track).direction===\"rtl\";\n  const startEdge=el=>{const r=el.getBoundingClientRect();return rtl?r.right:r.left;};\n  function current(){\n    // הכרטיס ששפת ההתחלה שלו הכי קרובה לשפת ההתחלה של המסלול.\n    // בעברית שפת ההתחלה היא הימנית, ולכן מודדים אותה ולא את המרכז.\n    const s=startEdge(track);\n    let best=0,d=1e9;\n    cards.forEach((c,i)=>{const dist=Math.abs(startEdge(c)-s);if(dist<d){d=dist;best=i;}});\n    return best;\n  }\n  // scrollLeft שלילי ב-RTL, ולכן כל ההשוואות על הערך המוחלט\n  const pos=()=>Math.abs(track.scrollLeft);\n  const maxScroll=()=>track.scrollWidth-track.clientWidth;\n  const atStart=()=>pos()<4, atEnd=()=>maxScroll()-pos()<4;\n  function sync(){\n    // בסוף המסלול מסמנים את האחרון גם אם הוא לא הגיע לשפת ההתחלה,\n    // כי כשמוצגים כמה כרטיסים במקביל אי אפשר להביא אותו לשם\n    const i=atEnd()?cards.length-1:current();\n    buttons.forEach((b,n)=>b.classList.toggle(\"on\",n===i));\n    prev.disabled=atStart();next.disabled=atEnd();\n  }\n  track.addEventListener(\"scroll\",sync,{passive:true});\n  prev.addEventListener(\"click\",()=>cards[Math.max(0,current()-1)].scrollIntoView({behavior:\"smooth\",block:\"nearest\",inline:\"start\"}));\n  next.addEventListener(\"click\",()=>cards[Math.min(cards.length-1,current()+1)].scrollIntoView({behavior:\"smooth\",block:\"nearest\",inline:\"start\"}));\n  // גרירה בעכבר. במגע הדפדפן כבר עושה את זה לבד ולכן לא נוגעים.\n  let down=false,sx=0,sl=0;\n  track.addEventListener(\"pointerdown\",e=>{if(e.pointerType!==\"mouse\")return;down=true;sx=e.clientX;sl=track.scrollLeft;track.classList.add(\"drag\");});\n  track.addEventListener(\"pointermove\",e=>{if(!down)return;track.scrollLeft=sl-(e.clientX-sx);});\n  const up=()=>{if(!down)return;down=false;track.classList.remove(\"drag\");\n    cards[current()].scrollIntoView({behavior:\"smooth\",block:\"nearest\",inline:\"start\"});};\n  [\"pointerup\",\"pointerleave\",\"pointercancel\"].forEach(ev=>track.addEventListener(ev,up));\n  sync();\n})();","scripts":"","rtl":true}</script>
+</section>
 
 <script src="../assets/baseline.js"></script>
 <script src="../assets/status.js"></script>
@@ -74,6 +177,18 @@ document.querySelector(".mvid").addEventListener("click",function(){
     setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
   });
 });
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
 
 (function(){
   const track=document.querySelector(".tq-track"),cards=[...track.children];

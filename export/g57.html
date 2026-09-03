@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G57 · גלגל תמונות שמסתובב בגלילה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
+
+/* G57 · גלגל תמונות שמסתובב בגלילה */
+.wh{height:300vh;position:relative}
+.wh-stick{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center}
+.wh-title{position:absolute;top:12vh;inset-inline:0;text-align:center;pointer-events:none;z-index:2}
+.wh-title h3{margin:0;font-size:clamp(24px,3.4vw,46px)}
+.wh-title p{margin:8px 0 0;color:var(--muted, #6a6d85);font-size:15px}
+/* הגלגל גדול מהמסך בכוונה: רואים רק את הקשת העליונה שלו */
+.wh-wheel{position:absolute;top:58vh;left:50%;width:min(190vh,190vw);aspect-ratio:1;
+  transform:translate(-50%,0);will-change:transform}
+.wh-item{position:absolute;top:0;left:50%;width:clamp(120px,15vh,220px);aspect-ratio:3/4;
+  margin-inline-start:calc(clamp(120px,15vh,220px) / -2);
+  transform-origin:50% calc(min(190vh,190vw) / 2)}
+/* שכבה פנימית אחת שמסובבת-נגד. סיבוב נפרד של התמונה ושל התווית מסובב כל אחת
+   סביב מרכז אחר, והתווית שיושבת בתחתית נשברת החוצה מהמסגרת. */
+.wh-inner{position:absolute;inset:0;border-radius:14px;overflow:hidden;will-change:transform}
+.wh-inner .ph{position:absolute;inset:0;border-radius:0;font-size:0}
+.wh-inner b{position:absolute;inset-inline:0;bottom:0;padding:8px 10px;color:#fff;font-size:13px;
+  background:linear-gradient(transparent,rgba(0,0,0,.6))}
+.wh-after{padding:14vh var(--gutter, clamp(24px, 5vw, 96px));max-width:min(680px,92vw);margin-inline:auto;text-align:center;
+  color:var(--muted, #6a6d85);font-size:17px;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="wh"><div class="wh-stick">
+  <div class="wh-title"><h3>העבודות שלנו</h3><p>גלול. הגלגל מסתובב והפריטים עולים בתורם.</p></div>
+  <div class="wh-wheel">
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-a"></div><b>משרד עורכי דין</b></div></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-c"></div><b>מותג קוסמטיקה</b></div></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-d"></div><b>קורס דיגיטלי</b></div></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-e"></div><b>פורטל לקוחות</b></div></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-b"></div><b>קליניקה פרטית</b></div></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-f"></div><b>יבואן ריהוט</b></div></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-a"></div><b>סטודיו צילום</b></div></div>
+    <div class="wh-item"><div class="wh-inner"><div class="ph ph-c"></div><b>רשת מסעדות</b></div></div>
+  </div>
+</div></div>
+<p class="wh-after">אותו מנגנון עובד גם עם שמות שנים או שלבי תהליך במקום תמונות, וגם בכיוון ההפוך.</p>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const wheel=document.querySelector(".wh-wheel");
+  const items=gsap.utils.toArray(".wh-item");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const SPREAD=13;                                   // מעלות בין פריט לפריט
+  const START=(items.length-1)*SPREAD/2;
+
+  const angles=items.map((el,i)=>{
+    const a=-START+i*SPREAD;
+    gsap.set(el,{rotation:a});
+    return a;
+  });
+
+  if(reduce){items.forEach((el,i)=>gsap.set(el.querySelector(".wh-inner"),{rotation:-angles[i]}));return;}
+
+  // ההטיה האמיתית של פריט היא הזווית שלו על הגלגל ועוד סיבוב הגלגל עצמו, וזה משתנה
+  // לאורך כל הגלילה. סיבוב-נגד סטטי מיישר אותו רק בנקודה אחת ומטה אותו בכל השאר,
+  // ולכן שני הסיבובים יושבים על אותו טיימליין ומתקזזים בכל רגע.
+  const tl=gsap.timeline({scrollTrigger:{trigger:".wh",start:"top top",end:"bottom bottom",scrub:.7}});
+  tl.fromTo(wheel,{rotation:START},{rotation:-START,ease:"none",duration:1},0);
+  items.forEach((el,i)=>{
+    const a=angles[i];
+    tl.fromTo(el.querySelector(".wh-inner"),
+      {rotation:-(a+START)},{rotation:-(a-START),ease:"none",duration:1},0);
+  });
+})();
+</script>
+</body>
+</html>

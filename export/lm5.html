@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>LM5 · סולם כניסות הירו (150ms)</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:#fff;font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
+
+/* LM5 · סולם כניסות הירו (150ms) */
+.ladder{min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.lad{opacity:0;translate:0 18px;transition:opacity .6s cubic-bezier(.2,.6,.2,1),translate .6s cubic-bezier(.2,.6,.2,1)}
+.go .lad{opacity:1;translate:0 0}
+.go .l1{transition-delay:0ms}.go .l2{transition-delay:150ms}.go .l3{transition-delay:300ms}
+.go .l4{transition-delay:450ms}.go .l5{transition-delay:600ms}
+.ladder .kick{color:var(--accent, #4a3aff);font-weight:600;font-size:14px;letter-spacing:.14em}
+.ladder h2{font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));max-width:18ch;margin:12px 0}
+.ladder p{color:var(--muted, #6a6d85);max-width:52ch;margin:0 0 22px}
+.replay{margin-top:30px;align-self:flex-start}
+</style>
+</head>
+<body>
+<div class="ladder">
+<span class="kick lad l1">רגע הזהות</span>
+<h2 class="lad l2">כל שורה נכנסת 150 אלפיות אחרי קודמתה</h2>
+<p class="lad l3">הסולם שמור להירו בלבד. ככה נשמרת הטבעיות בשאר העמוד.</p>
+<div class="lad l4"><button class="gbtn">כפתור ראשי</button></div>
+<span class="lad l5" style="font-size:13px;color:var(--muted);margin-top:12px">שורת מיקרו · אמון · בלי התחייבות</span>
+<button class="gbtn replay" style="background:#16182b">הפעל שוב</button>
+</div>
+
+<script>
+const lad=document.querySelector(".ladder");
+// go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל
+// והרכיבים פשוט מופיעים גמורים. זאת גם הסיבה ל-void offsetHeight בהפעלה חוזרת.
+const play=()=>{lad.classList.remove("go");void lad.offsetHeight;lad.classList.add("go")};
+let started=false;const start=()=>{if(started)return;started=true;play()};
+requestAnimationFrame(()=>requestAnimationFrame(start));
+setTimeout(start,80);   // רשת ביטחון: בטאב מוסתר rAF מושהה והכותרת הייתה נשארת נעלמת
+document.querySelector(".replay").addEventListener("click",play);
+</script>
+</body>
+</html>
