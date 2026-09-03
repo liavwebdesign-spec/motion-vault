@@ -90,6 +90,16 @@ export function portable(e, CDN, NON_GSAP) {
 export function standalone(e, CDN, NON_GSAP) {
   const p = portable(e, CDN, NON_GSAP);
   const tokens = Object.entries(TOKENS).map(([k, v]) => `  ${k}: ${v};`).join("\n");
+
+  // מהלך מונע-גלילה צריך תוכן מעליו ומתחתיו. בעמוד ריק הטריגר מתחיל במיקום גלילה
+  // שלילי שאי אפשר להגיע אליו, והרכיב נטען כשהאנימציה כבר באמצע. בפרויקט אמיתי
+  // יש סקשנים מסביב, וכאן זה מדומה במסלול גלילה שמסומן בבירור כפיגום של הדמו.
+  const runway = e.runway === false ? "" : true;
+  const runwayCss = runway ? `
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#b9bcd0;font-size:14px}` : "";
+  const runwayTop = runway ? `<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>` : "";
+  const runwayEnd = runway ? `<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>` : "";
   return `<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -105,13 +115,16 @@ ${tokens}
 *{box-sizing:border-box}
 body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
 img{max-width:100%}
+${runwayCss}
 
 /* ===== הרכיב ===== */
 ${p.css}
 </style>
 </head>
 <body>
+${runwayTop}
 ${p.html}
+${runwayEnd}
 ${p.scripts.join("\n")}
 ${p.js ? `<script>\n${p.js}\n</script>` : ""}
 </body>
