@@ -91,6 +91,182 @@ const USES = {
   g54: ["media", "cards", "hero"], g55: ["media", "cards", "ambient"], g56: ["media", "hero"],
 };
 
+// רכיבי UI: הסינון השלישי של האינדקס. לכל מהלך אפשר לסמן כמה, והסימון מצטבר.
+const ELEMS_LABELS = {
+  btn: "כפתורים ו-CTA", card: "כרטיסים וקופסאות", img: "תמונות ומדיה",
+  head: "כותרות וטקסט", list: "רשימות וגרידים", sect: "סקשנים ופריסה",
+  nav: "תפריטים וניווט", form: "טפסים ושדות", over: "שכבות ומודאלים",
+  cursor: "סמן ועכבר", page: "עמוד שלם",
+};
+const ELEMS = {
+  g01: ["sect","list","img"],
+  g02: ["img","over"],
+  g03: ["img","over"],
+  g04: ["head","sect"],
+  g05: ["img","head","sect"],
+  g06: ["img","list"],
+  g07: ["cursor","img"],
+  g08: ["cursor","sect"],
+  g09: ["cursor","list"],
+  g11: ["img","cursor"],
+  g12: ["img","sect"],
+  g13: ["list","card"],
+  g14: ["sect"],
+  g15: ["over","page"],
+  g15b: ["over","page"],
+  g16: ["head","cursor"],
+  g17: ["card","list"],
+  g18: ["sect","img","head"],
+  g19: ["sect","img"],
+  g20: ["sect","list"],
+  g22: ["sect"],
+  g46: ["sect","list"],
+  g23: ["card","list","img"],
+  g24: ["head"],
+  g25: ["sect","img"],
+  g26: ["sect","head"],
+  g27: ["btn"],
+  g28: ["nav","page"],
+  g29: ["list","card"],
+  g30: ["sect","page"],
+  g31: ["img","list"],
+  g34: ["card","img"],
+  g35: ["head","sect"],
+  g36: ["sect","head"],
+  g37: ["img","sect"],
+  g38: ["page","sect"],
+  g39: ["head","sect"],
+  g40: ["sect","list"],
+  g41: ["cursor"],
+  g42: ["head"],
+  g43: ["list","img","cursor"],
+  g45: ["sect","list"],
+  r01: ["head","sect"],
+  r02: ["cursor"],
+  r03: ["btn","card","head"],
+  r04: ["img","head"],
+  r05: ["card"],
+  r06: ["img","cursor"],
+  r07: ["img","form"],
+  r08: ["sect","nav","cursor"],
+  r09: ["card","over"],
+  r10: ["img"],
+  r11: ["img","list","cursor"],
+  r12: ["sect"],
+  r13: ["card"],
+  r14: ["sect"],
+  r15: ["head","sect"],
+  r16: ["head","sect","cursor"],
+  r17: ["img","list"],
+  r18: ["nav"],
+  r19: ["btn","sect","nav"],
+  r20: ["sect"],
+  r21: ["nav","cursor"],
+  r22: ["list"],
+  r23: ["btn","img","sect"],
+  r24: ["head","sect"],
+  r25: ["head"],
+  r26: ["sect"],
+  r27: ["btn","cursor"],
+  b01: ["list","sect"],
+  b02: ["sect"],
+  b02b: ["img","list"],
+  b03: ["btn","nav"],
+  b04: ["list","card"],
+  b05: ["over","btn"],
+  b06: ["card","img"],
+  b07: ["card","list"],
+  b08: ["card","list"],
+  b09: ["head","sect"],
+  b10: ["sect"],
+  b11: ["sect"],
+  b12: ["img","sect"],
+  b13: ["sect"],
+  b14: ["sect","img"],
+  b15: ["over","card"],
+  b16: ["over","page"],
+  b17: ["over","nav"],
+  b18: ["nav","sect"],
+  b19: ["card","img","cursor"],
+  b20: ["btn","card"],
+  b22: ["img","sect"],
+  b23: ["nav","over"],
+  b24: ["btn","cursor"],
+  b27: ["nav","img"],
+  b28: ["sect","head"],
+  b29: ["sect","page"],
+  b30: ["list","head"],
+  b31: ["card","list","form"],
+  b32: ["form"],
+  b33: ["img","over","list"],
+  css01: ["card","cursor"],
+  css02: ["nav","head"],
+  css03: ["btn"],
+  css04: ["head","over"],
+  css05: ["sect","head"],
+  css06: ["list"],
+  css07: ["over","sect"],
+  css08: ["head"],
+  css09: ["form","head"],
+  css10: ["card","cursor"],
+  css11: ["head"],
+  css12: ["card","sect"],
+  css13: ["head"],
+  css14: ["img","over"],
+  css15: ["card","cursor"],
+  css16: ["img","card","cursor"],
+  css17: ["page","nav"],
+  css18: ["card","list"],
+  css19: ["card","list"],
+  css20: ["btn"],
+  css21: ["btn","form"],
+  css22: ["sect","img"],
+  css23: ["list","page"],
+  css24: ["head"],
+  b34: ["list","card"],
+  b35: ["sect","list"],
+  b36: ["form"],
+  b37: ["card","list"],
+  b38: ["nav","page"],
+  b39: ["nav","over"],
+  b40: ["nav","sect"],
+  b41: ["sect","list","img"],
+  b42: ["list","sect"],
+  b43: ["form","list"],
+  b44: ["card","list","btn"],
+  b45: ["list","card","img"],
+  b46: ["list","card","img"],
+  g47: ["sect","img"],
+  lm1: ["sect","over"],
+  lm3: ["sect"],
+  lm4: ["card"],
+  lm5: ["head","sect"],
+  lm6: ["sect","nav"],
+  lm7: ["btn","card","cursor"],
+  lm8: ["list","sect"],
+  lm9: ["card"],
+  b47: ["img","form"],
+  b48: ["nav","sect"],
+  b49: ["nav","card","img"],
+  b50: ["btn","page"],
+  b51: ["over","btn","page"],
+  g48: ["head","sect"],
+  b52: ["sect","nav"],
+  b53: ["head","cursor","nav"],
+  b54: ["card","list","cursor"],
+  b55: ["nav","btn"],
+  b56: ["over","head","form"],
+  g49: ["img","sect"],
+  g50: ["over","page","nav"],
+  g51: ["img","list"],
+  g52: ["btn","cursor"],
+  g53: ["head","sect"],
+  g54: ["list","img","sect"],
+  g55: ["list","card","sect"],
+  g56: ["img","sect"],
+  fluid: ["sect","page"],
+};
+
 // load all catalog modules
 const entries = [];
 for (const f of readdirSync(join(ROOT, "_src", "catalog")).sort()) {
@@ -100,6 +276,8 @@ for (const f of readdirSync(join(ROOT, "_src", "catalog")).sort()) {
 }
 const missing = entries.filter(e => !USES[e.id]).map(e => e.id);
 if (missing.length) throw new Error("entries missing USES tags: " + missing.join(", "));
+const missingE = entries.filter(e => !ELEMS[e.id]).map(e => e.id);
+if (missingE.length) throw new Error("entries missing ELEMS tags: " + missingE.join(", "));
 
 // טווח משקלים רציף ולא ערכים בדידים: קובץ אחד במקום חמישה, ומשקל שאפשר להנפיש בלי קפיצות
 const FONT = `<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">`;
@@ -161,16 +339,18 @@ ${e.js || ""}
 }
 
 function indexPage() {
-  const cards = entries.map(e => `<a class="vcard" data-id="${e.id}" data-cat="${e.cat}" data-uses="${(USES[e.id] || []).join(" ")}" data-txt="${("MV:" + e.id + " " + e.name + " " + e.desc + " " + e.tech + " " + (USES[e.id] || []).map(u => USES_LABELS[u]).join(" ")).replace(/"/g, "")}" href="${e.cat}/${e.id}.html">
+  const cards = entries.map(e => `<a class="vcard" data-id="${e.id}" data-cat="${e.cat}" data-uses="${(USES[e.id] || []).join(" ")}" data-elems="${(ELEMS[e.id] || []).join(" ")}" data-txt="${("MV:" + e.id + " " + e.name + " " + e.desc + " " + e.tech + " " + (USES[e.id] || []).map(u => USES_LABELS[u]).join(" ") + " " + (ELEMS[e.id] || []).map(u => ELEMS_LABELS[u]).join(" ")).replace(/"/g, "")}" href="${e.cat}/${e.id}.html">
   <div class="row"><span class="vid">MV:${e.id}</span><span class="chip cat-${e.cat}">${CATS[e.cat]}</span><span class="chip stchip st-pending">ממתין</span></div>
   <h3>${e.name}</h3><p>${e.desc}</p>
-  <div class="row"><span class="chip">${e.tech}</span>${(USES[e.id] || []).map(u => `<span class="chip use">${USES_LABELS[u]}</span>`).join("")}</div>
+  <div class="row"><span class="chip">${e.tech}</span>${(USES[e.id] || []).map(u => `<span class="chip use">${USES_LABELS[u]}</span>`).join("")}${(ELEMS[e.id] || []).map(u => `<span class="chip elem">${ELEMS_LABELS[u]}</span>`).join("")}</div>
 </a>`).join("\n");
   const REPORT_LIST = JSON.stringify(entries.map(e => ({ id: e.id, name: e.name, cat: e.cat })));
   const counts = Object.fromEntries(Object.keys(CATS).map(c => [c, entries.filter(e => e.cat === c).length]));
   const fbtns = Object.entries(CATS).map(([k, v]) => `<button class="fbtn" data-f="${k}">${v} · ${counts[k]}</button>`).join("");
   const ucounts = Object.fromEntries(Object.keys(USES_LABELS).map(u => [u, entries.filter(e => (USES[e.id] || []).includes(u)).length]));
   const ubtns = Object.entries(USES_LABELS).map(([k, v]) => `<button class="ubtn" data-u="${k}">${v} · ${ucounts[k]}</button>`).join("");
+  const ecounts = Object.fromEntries(Object.keys(ELEMS_LABELS).map(u => [u, entries.filter(e => (ELEMS[e.id] || []).includes(u)).length]));
+  const ebtns = Object.entries(ELEMS_LABELS).map(([k, v]) => `<button class="ebtn" data-e="${k}">${v} · ${ecounts[k]}</button>`).join("");
   return `<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -191,6 +371,10 @@ ${FONT}
   <input class="fsearch" type="search" placeholder="חיפוש חופשי או MV:id...">
   <span class="fcount"></span>
 </div>
+<div class="vfilters2 elems">
+  <span class="fgroup"><span class="flabel">רכיב UI:</span>${ebtns}</span>
+  <button class="clr-btn" hidden>נקה סינון</button>
+</div>
 <div class="vfilters2">
   <span class="fgroup"><span class="flabel">לפי שימוש:</span>${ubtns}</span>
   <span class="fgroup status"><span class="flabel">לפי סטטוס:</span>
@@ -208,9 +392,11 @@ ${cards}
 <script>
 const LIST=${REPORT_LIST};
 const cards=[...document.querySelectorAll('.vcard')],btns=[...document.querySelectorAll('.fbtn')],
-ubtns=[...document.querySelectorAll('.ubtn')],sbtns=[...document.querySelectorAll('.sbtn')],
+ubtns=[...document.querySelectorAll('.ubtn')],ebtns=[...document.querySelectorAll('.ebtn')],
+sbtns=[...document.querySelectorAll('.sbtn')],clr=document.querySelector('.clr-btn'),
 search=document.querySelector('.fsearch'),count=document.querySelector('.fcount');
-let cat='all',use=null,stf=null;
+// שתי קבוצות רב-בחירה: בתוך כל קבוצה זה "או", ובין הקבוצות זה "וגם"
+let cat='all',stf=null;const useSet=new Set(),elemSet=new Set();
 function paintStatus(){
   const tally={ok:0,no:0,pending:0};
   cards.forEach(c=>{
@@ -225,19 +411,33 @@ function apply(){
   const q=search.value.trim().toLowerCase();let n=0;
   cards.forEach(c=>{
     const ok=(cat==='all'||c.dataset.cat===cat)
-      &&(!use||c.dataset.uses.split(' ').includes(use))
+      &&(!useSet.size||c.dataset.uses.split(' ').some(u=>useSet.has(u)))
+      &&(!elemSet.size||c.dataset.elems.split(' ').some(u=>elemSet.has(u)))
       &&(!stf||c.dataset.status===stf)
       &&(!q||c.dataset.txt.toLowerCase().includes(q));
     c.hidden=!ok; if(ok)n++;
   });
-  count.textContent=n+' מוצגים';
+  const active=useSet.size+elemSet.size+(stf?1:0)+(cat==='all'?0:1)+(q?1:0);
+  count.textContent=n+' מוצגים'+(active?' · '+active+' סינונים פעילים':'');
+  clr.hidden=!active;
 }
 btns.forEach(b=>b.addEventListener('click',()=>{btns.forEach(x=>x.classList.remove('on'));b.classList.add('on');cat=b.dataset.f;apply();}));
-ubtns.forEach(b=>b.addEventListener('click',()=>{
-  if(b.classList.contains('on')){b.classList.remove('on');use=null;}
-  else{ubtns.forEach(x=>x.classList.remove('on'));b.classList.add('on');use=b.dataset.u;}
+function multi(list,set,key){
+  list.forEach(b=>b.addEventListener('click',()=>{
+    const v=b.dataset[key];
+    if(set.has(v)){set.delete(v);b.classList.remove('on');}
+    else{set.add(v);b.classList.add('on');}
+    apply();
+  }));
+}
+multi(ubtns,useSet,'u');
+multi(ebtns,elemSet,'e');
+clr.addEventListener('click',()=>{
+  useSet.clear();elemSet.clear();stf=null;cat='all';search.value='';
+  [...ubtns,...ebtns,...sbtns].forEach(x=>x.classList.remove('on'));
+  btns.forEach(x=>x.classList.toggle('on',x.dataset.f==='all'));
   apply();
-}));
+});
 sbtns.forEach(b=>b.addEventListener('click',()=>{
   if(b.classList.contains('on')){b.classList.remove('on');stf=null;}
   else{sbtns.forEach(x=>x.classList.remove('on'));b.classList.add('on');stf=b.dataset.s;}
