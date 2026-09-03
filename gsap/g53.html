@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G53 · פסקה שנחשפת שורה-שורה מתוך מסכה (RTL-נכון) | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.sl{max-width:min(760px,92vw);margin-inline:auto;padding-block:12vh}
+.sl h3{font-size:clamp(26px,4vw,54px);line-height:1.28;margin:0 0 clamp(20px,3vw,34px)}
+.sl p{font-size:clamp(17px,1.6vw,22px);line-height:1.85;color:var(--muted);margin:0 0 22px}
+.sl .tag{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.08em;color:var(--accent);margin-bottom:14px}
+/* המסכה חותכת את השורה שמתחתיה, ולכן היא עולה "מתוך" הטקסט ולא מתוך שום מקום */
+.sl-mask{display:block;overflow:clip}
+.sl-line{display:block;will-change:transform}
+.sl-note{max-width:min(680px,92vw);margin:6vh auto 0;text-align:center;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G53</span> · פסקה שנחשפת שורה-שורה מתוך מסכה (RTL-נכון)</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger · פיצול שורות עצמאי</span>
+  <span class="chip use">טקסט וכותרות</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g53"><code>MV:g53</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>בלוק טקסט שהשורות בו עולות מתוך עצמן, אחת אחרי השנייה, כאילו נחשפו מאחורי קו. הפיצול נבנה מחדש כשמשתנה רוחב החלון או כשהפונט מסיים להיטען.</p>
+  <p class="when"><b>מתי משתמשים:</b> פסקת פתיחה, אמירה עסקית, ציטוט, סקשן אודות, כותרת ארוכה. האפקט הכי נפוץ בגלריה, ובעברית הוא דורש מימוש משלו.</p>
+  <div class="mvpanel" data-mvpanel="g53"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="sl">
+  <span class="tag" data-rev>איך אנחנו עובדים</span>
+  <h3 data-rev>לא מתחילים מעיצוב. מתחילים מהשאלה מה צריך לקרות באתר הזה, ולמי.</h3>
+  <p data-rev>רוב האתרים נראים טוב ולא מביאים כלום, כי מישהו התחיל לעצב לפני שהיה ברור מה המסר ומי הקהל. אנחנו הופכים את הסדר: קודם מבינים את העסק ואת הלקוח, אחר כך כותבים, ורק בסוף פותחים כלי עיצוב.</p>
+  <p data-rev>התוצאה היא אתר שאפשר להסביר. כל סקשן בו קיים מסיבה, וכל כותרת עונה על שאלה אמיתית שיש למי שנחת בעמוד.</p>
+</div>
+<p class="sl-note">שנה את רוחב החלון: הפיצול לשורות נבנה מחדש לפי השבירה החדשה.</p></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note">**זה המהלך שגילה באג אמיתי**: `SplitText` של GSAP 3.13, כולל `mask:"lines"` ו-`autoSplit`, לא מפצל לשורות בעמוד `dir="rtl"`. הוא מחזיר שורה אחת שמכילה את כל הטקסט, בלי שגיאה, וכל האפקט מת בשקט. בדקתי את זה בארבע קומבינציות: עברית ב-LTR מתפצלת נכון לשלוש שורות, ואנגלית ב-RTL נכשלת בדיוק כמו עברית, כלומר הבעיה היא הכיוון ולא השפה. לכן הפיצול כאן נעשה ידנית בשלושה שלבים: עוטפים כל מילה, מקבצים לפי המיקום האנכי שנמדד בפועל, ובונים מחדש כשורות בתוך מסכות. זה גם חוסך את טעינת הפלאגין. שאר הכללים כרגיל: `aria-label` על המעטפת והמסכות `aria-hidden` כדי שהטקסט לא ייקרא פעמיים, בנייה מחדש אחרי `document.fonts.ready` ובשינוי רוחב, ודגל `fired` במקום `once` כדי שנחיתה באמצע העמוד תעבוד.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · פסקה שנחשפת שורה-שורה מתוך מסכה (RTL-נכון)").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;                              // בלי תנועה הטקסט פשוט נמצא שם
+  const blocks=gsap.utils.toArray("[data-rev]");
+  const state=new Map();
+
+  function split(el){
+    const orig=el.dataset.orig||(el.dataset.orig=el.textContent.trim());
+    el.setAttribute("aria-label",orig);          // הטקסט הנגיש נשמר על המעטפת
+    // שלב א: כל מילה בתוך span, כדי שאפשר יהיה למדוד באיזו שורה היא נחתה
+    el.textContent="";
+    const words=orig.split(/\s+/).map((w,i,arr)=>{
+      const s=document.createElement("span");
+      s.textContent=w;s.style.display="inline-block";
+      el.appendChild(s);
+      if(i<arr.length-1)el.appendChild(document.createTextNode(" "));
+      return s;
+    });
+    // שלב ב: קיבוץ לפי המיקום האנכי בפועל. סובלנות של שישה פיקסלים מכסה עיגולי תת-פיקסל
+    const rows=[];
+    words.forEach(w=>{
+      const top=Math.round(w.getBoundingClientRect().top);
+      let row=rows.find(r=>Math.abs(r.top-top)<6);
+      if(!row){row={top:top,words:[]};rows.push(row);}
+      row.words.push(w.textContent);
+    });
+    // שלב ג: בונים מחדש כשורות עטופות במסכה
+    el.textContent="";
+    return rows.map(r=>{
+      const mask=document.createElement("div");mask.className="sl-mask";mask.setAttribute("aria-hidden","true");
+      const line=document.createElement("div");line.className="sl-line";
+      line.textContent=r.words.join(" ");
+      mask.appendChild(line);el.appendChild(mask);
+      return line;
+    });
+  }
+
+  function build(el){
+    const prev=state.get(el);
+    const wasShown=prev?prev.shown:false;
+    if(prev){prev.tw&&prev.tw.kill();prev.st&&prev.st.kill();}
+    const lines=split(el);
+    // אם הטקסט כבר נחשף, בנייה מחדש אחרי טעינת פונט או שינוי רוחב לא מחביאה אותו שוב
+    if(wasShown){state.set(el,{shown:true});return;}
+    const rec={shown:false};
+    const tw=gsap.from(lines,{yPercent:110,duration:.75,stagger:.09,ease:"power3.out",paused:true,
+      onStart:()=>{rec.shown=true;}});
+    const fire=()=>{if(!rec.fired){rec.fired=true;tw.play();}};
+    // דגל במקום once:true, אחרת נחיתה באמצע העמוד או רענון לא מפעילים כלום
+    const st=ScrollTrigger.create({trigger:el,start:"top 84%",
+      onEnter:fire,onRefresh:self=>{if(self.progress>0)fire();}});
+    rec.tw=tw;rec.st=st;state.set(el,rec);
+  }
+
+  blocks.forEach(build);
+  // הפונט משנה את שבירת השורות, ולכן בונים שוב אחרי שהוא נטען
+  document.fonts&&document.fonts.ready.then(()=>{blocks.forEach(build);ScrollTrigger.refresh();});
+  let t;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>{blocks.forEach(build);ScrollTrigger.refresh();},220);});
+})();
+</script>
+</body>
+</html>
