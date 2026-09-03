@@ -289,6 +289,193 @@ const ELEMS = {
   fluid: ["sect","page"],
 };
 
+// סוג פרויקט: שכבת סינון שלישית, עצמאית מהשתיים האחרות. לא חובה לתייג את שתיהן.
+const FIT_LABELS = { L: "דף נחיתה", S: "וואן-פייג'ר ותדמית" };
+const FIT = {
+  g01: ["S"],
+  g02: ["S"],
+  g03: ["S"],
+  g04: ["L","S"],
+  g05: ["S"],
+  g06: ["S"],
+  g07: ["S"],
+  g08: ["S"],
+  g09: ["S"],
+  g11: ["L","S"],
+  g12: ["S"],
+  g13: ["L","S"],
+  g14: ["L","S"],
+  g15: ["S"],
+  g15b: ["S"],
+  g16: ["S"],
+  g17: ["L","S"],
+  g18: ["S"],
+  g19: ["S"],
+  g20: ["L","S"],
+  g22: ["L","S"],
+  g46: ["L","S"],
+  g23: ["L","S"],
+  g24: ["S"],
+  g25: ["S"],
+  g26: ["S"],
+  g27: ["S"],
+  g28: ["L","S"],
+  g29: ["S"],
+  g30: ["S"],
+  g31: ["S"],
+  g34: ["S"],
+  g35: ["S"],
+  g36: ["S"],
+  g37: ["S"],
+  g38: ["L","S"],
+  g39: ["S"],
+  g40: ["S"],
+  g41: ["S"],
+  g42: ["L","S"],
+  g43: ["S"],
+  g45: ["L","S"],
+  g47: ["S"],
+  g48: ["S"],
+  g49: ["L","S"],
+  g50: ["S"],
+  g51: ["S"],
+  g52: ["L","S"],
+  g53: ["S"],
+  g54: ["S"],
+  g55: ["S"],
+  g56: ["S"],
+  g57: ["S"],
+  g58: ["S"],
+  g59: ["L","S"],
+  g60: ["L","S"],
+  g61: ["S"],
+  g62: ["L"],
+  g63: ["S"],
+  g64: ["S"],
+  g65: ["S"],
+  g66: ["S"],
+  g67: ["L","S"],
+  g68: ["S"],
+  g69: ["S"],
+  g70: ["L","S"],
+  g71: ["L","S"],
+  g72: ["L","S"],
+  r01: ["S"],
+  r02: ["L","S"],
+  r03: ["L","S"],
+  r04: ["S"],
+  r05: ["S"],
+  r06: ["L","S"],
+  r07: ["S"],
+  r08: ["S"],
+  r09: ["L","S"],
+  r10: ["S"],
+  r11: ["L","S"],
+  r12: ["L","S"],
+  r13: ["L","S"],
+  r14: ["L","S"],
+  r15: ["L","S"],
+  r16: ["L","S"],
+  r17: ["L","S"],
+  r18: ["S"],
+  r19: ["S"],
+  r20: ["S"],
+  r21: ["S"],
+  r22: ["L","S"],
+  r23: ["L","S"],
+  r24: ["L","S"],
+  r25: ["L","S"],
+  r26: ["S"],
+  r27: ["L","S"],
+  b01: ["L","S"],
+  b02: ["L"],
+  b02b: ["L","S"],
+  b03: ["L"],
+  b04: ["L"],
+  b05: ["L"],
+  b06: ["L","S"],
+  b07: ["L"],
+  b08: ["L","S"],
+  b09: ["S"],
+  b10: ["S"],
+  b11: ["L","S"],
+  b12: ["S"],
+  b13: ["S"],
+  b14: ["L","S"],
+  b15: ["L"],
+  b16: ["L"],
+  b17: ["S"],
+  b18: ["L","S"],
+  b19: ["L","S"],
+  b20: ["L"],
+  b22: ["L","S"],
+  b23: ["L"],
+  b24: ["L"],
+  b27: ["L","S"],
+  b28: ["S"],
+  b29: ["S"],
+  b30: ["L"],
+  b31: ["L"],
+  b32: ["L"],
+  b33: ["L","S"],
+  b34: ["L"],
+  b35: ["L"],
+  b36: ["L"],
+  b37: ["L","S"],
+  b38: ["L"],
+  b39: ["L"],
+  b40: ["L","S"],
+  b41: ["L","S"],
+  b42: ["S"],
+  b43: ["L"],
+  b44: ["L"],
+  b45: ["L"],
+  b46: ["L"],
+  b47: ["L"],
+  b48: ["L"],
+  b49: ["L"],
+  b50: ["L","S"],
+  b51: ["L"],
+  b52: ["L"],
+  b53: ["S"],
+  b54: ["L","S"],
+  b55: ["L"],
+  b56: ["L"],
+  css01: ["L"],
+  css02: ["L"],
+  css03: ["L"],
+  css04: ["L","S"],
+  css05: ["L","S"],
+  css06: ["L"],
+  css07: ["L"],
+  css08: ["L","S"],
+  css09: ["L"],
+  css10: ["L","S"],
+  css11: ["L","S"],
+  css12: ["S"],
+  css13: ["S"],
+  css14: ["S"],
+  css15: ["S"],
+  css16: ["L","S"],
+  css17: ["L","S"],
+  css18: ["L","S"],
+  css19: ["L"],
+  css20: ["L"],
+  css21: ["L"],
+  css22: ["S"],
+  css23: ["L","S"],
+  css24: ["L","S"],
+  lm1: ["S"],
+  lm3: ["S"],
+  lm4: ["S"],
+  lm5: ["S"],
+  lm6: ["S"],
+  lm7: ["S"],
+  lm8: ["S"],
+  lm9: ["S"],
+  fluid: ["S"],
+};
+
 // load all catalog modules
 const entries = [];
 for (const f of readdirSync(join(ROOT, "_src", "catalog")).sort()) {
@@ -300,6 +487,8 @@ const missing = entries.filter(e => !USES[e.id]).map(e => e.id);
 if (missing.length) throw new Error("entries missing USES tags: " + missing.join(", "));
 const missingE = entries.filter(e => !ELEMS[e.id]).map(e => e.id);
 if (missingE.length) throw new Error("entries missing ELEMS tags: " + missingE.join(", "));
+const missingF = entries.filter(e => !FIT[e.id]).map(e => e.id);
+if (missingF.length) throw new Error("entries missing FIT tags: " + missingF.join(", "));
 
 // טווח משקלים רציף ולא ערכים בדידים: קובץ אחד במקום חמישה, ומשקל שאפשר להנפיש בלי קפיצות
 const FONT = `<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">`;
@@ -361,7 +550,7 @@ ${e.js || ""}
 }
 
 function indexPage() {
-  const cards = entries.map(e => `<a class="vcard" data-id="${e.id}" data-cat="${e.cat}" data-uses="${(USES[e.id] || []).join(" ")}" data-elems="${(ELEMS[e.id] || []).join(" ")}" data-txt="${("MV:" + e.id + " " + e.name + " " + e.desc + " " + e.tech + " " + (USES[e.id] || []).map(u => USES_LABELS[u]).join(" ") + " " + (ELEMS[e.id] || []).map(u => ELEMS_LABELS[u]).join(" ")).replace(/"/g, "")}" href="${e.cat}/${e.id}.html">
+  const cards = entries.map(e => `<a class="vcard" data-id="${e.id}" data-cat="${e.cat}" data-uses="${(USES[e.id] || []).join(" ")}" data-elems="${(ELEMS[e.id] || []).join(" ")}" data-fit="${(FIT[e.id] || []).join(" ")}" data-txt="${("MV:" + e.id + " " + e.name + " " + e.desc + " " + e.tech + " " + (USES[e.id] || []).map(u => USES_LABELS[u]).join(" ") + " " + (ELEMS[e.id] || []).map(u => ELEMS_LABELS[u]).join(" ") + " " + (FIT[e.id] || []).map(u => FIT_LABELS[u]).join(" ")).replace(/"/g, "")}" href="${e.cat}/${e.id}.html">
   <div class="row"><span class="vid">MV:${e.id}</span><span class="chip cat-${e.cat}">${CATS[e.cat]}</span><span class="chip stchip st-pending">ממתין</span></div>
   <h3>${e.name}</h3><p>${e.desc}</p>
   <div class="row"><span class="chip">${e.tech}</span>${(USES[e.id] || []).map(u => `<span class="chip use">${USES_LABELS[u]}</span>`).join("")}${(ELEMS[e.id] || []).map(u => `<span class="chip elem">${ELEMS_LABELS[u]}</span>`).join("")}</div>
@@ -373,6 +562,9 @@ function indexPage() {
   const ubtns = Object.entries(USES_LABELS).map(([k, v]) => `<button class="ubtn" data-u="${k}">${v} · ${ucounts[k]}</button>`).join("");
   const ecounts = Object.fromEntries(Object.keys(ELEMS_LABELS).map(u => [u, entries.filter(e => (ELEMS[e.id] || []).includes(u)).length]));
   const ebtns = Object.entries(ELEMS_LABELS).map(([k, v]) => `<button class="ebtn" data-e="${k}">${v} · ${ecounts[k]}</button>`).join("");
+  const FIT_ICON = { L: "🎯", S: "✨" };
+  const fcounts = Object.fromEntries(Object.keys(FIT_LABELS).map(u => [u, entries.filter(e => (FIT[e.id] || []).includes(u)).length]));
+  const fitbtns = Object.entries(FIT_LABELS).map(([k, v]) => `<button class="fitbtn" data-fit="${k}">${FIT_ICON[k]} ${v}<b class="fn">${fcounts[k]}</b></button>`).join("");
   return `<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -387,24 +579,33 @@ ${FONT}
   <h2>Motion Vault</h2>
   <p>מאגר האנימציות החי: ${entries.length} דמואים בכל הטכנולוגיות. כל כרטיס נפתח לעמוד מבודד עם הדמו רץ בלייב. סנן, חפש, פתח, גלול.</p>
 </div>
-<div class="vfilters">
-  <button class="fbtn on" data-f="all">הכל · ${entries.length}</button>
-  ${fbtns}
-  <input class="fsearch" type="search" placeholder="חיפוש חופשי או MV:id...">
-  <span class="fcount"></span>
-</div>
-<div class="vfilters2 elems">
-  <span class="fgroup"><span class="flabel">רכיב UI:</span>${ebtns}</span>
-  <button class="clr-btn" hidden>נקה סינון</button>
-</div>
-<div class="vfilters2">
-  <span class="fgroup"><span class="flabel">לפי שימוש:</span>${ubtns}</span>
-  <span class="fgroup status"><span class="flabel">לפי סטטוס:</span>
-    <button class="sbtn" data-s="ok">מאושרים<b class="sn"></b></button>
-    <button class="sbtn" data-s="no">לא מאושרים<b class="sn"></b></button>
-    <button class="sbtn" data-s="pending">ממתינים<b class="sn"></b></button>
-  </span>
-  <button class="report-btn">📋 העתק דוח לקלוד</button>
+<div class="vtoolbar">
+  <div class="vtoolbar-row">
+    <div class="seg" role="tablist" aria-label="קטגוריה">
+      <button class="fbtn on" data-f="all">הכל · ${entries.length}</button>
+      ${fbtns}
+    </div>
+    <input class="fsearch" type="search" placeholder="חיפוש חופשי או MV:id...">
+  </div>
+  <div class="vtoolbar-row">
+    <span class="fgroup fit-row"><span class="flabel">מתאים ל:</span>${fitbtns}</span>
+    <button class="adv-toggle" aria-expanded="false" aria-controls="adv-panel">
+      <span>סינון מתקדם</span><b class="adv-badge" hidden></b>
+      <svg class="adv-chev" width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <span class="fcount"></span>
+    <button class="clr-btn" hidden>נקה הכל</button>
+  </div>
+  <div class="adv-panel" id="adv-panel" hidden>
+    <div class="fgroup"><span class="flabel">לפי שימוש:</span>${ubtns}</div>
+    <div class="fgroup"><span class="flabel">רכיב UI:</span>${ebtns}</div>
+    <div class="fgroup status"><span class="flabel">לפי סטטוס:</span>
+      <button class="sbtn" data-s="ok">מאושרים<b class="sn"></b></button>
+      <button class="sbtn" data-s="no">לא מאושרים<b class="sn"></b></button>
+      <button class="sbtn" data-s="pending">ממתינים<b class="sn"></b></button>
+      <button class="report-btn">📋 העתק דוח לקלוד</button>
+    </div>
+  </div>
 </div>
 <div class="vgrid">
 ${cards}
@@ -415,10 +616,12 @@ ${cards}
 const LIST=${REPORT_LIST};
 const cards=[...document.querySelectorAll('.vcard')],btns=[...document.querySelectorAll('.fbtn')],
 ubtns=[...document.querySelectorAll('.ubtn')],ebtns=[...document.querySelectorAll('.ebtn')],
+fitbtns=[...document.querySelectorAll('.fitbtn')],
 sbtns=[...document.querySelectorAll('.sbtn')],clr=document.querySelector('.clr-btn'),
+advToggle=document.querySelector('.adv-toggle'),advPanel=document.querySelector('.adv-panel'),advBadge=document.querySelector('.adv-badge'),
 search=document.querySelector('.fsearch'),count=document.querySelector('.fcount');
-// שתי קבוצות רב-בחירה: בתוך כל קבוצה זה "או", ובין הקבוצות זה "וגם"
-let cat='all',stf=null;const useSet=new Set(),elemSet=new Set();
+// שלוש קבוצות רב-בחירה: בתוך כל קבוצה זה "או", ובין הקבוצות זה "וגם"
+let cat='all',stf=null;const useSet=new Set(),elemSet=new Set(),fitSet=new Set();
 function paintStatus(){
   const tally={ok:0,no:0,pending:0};
   cards.forEach(c=>{
@@ -435,13 +638,17 @@ function apply(){
     const ok=(cat==='all'||c.dataset.cat===cat)
       &&(!useSet.size||c.dataset.uses.split(' ').some(u=>useSet.has(u)))
       &&(!elemSet.size||c.dataset.elems.split(' ').some(u=>elemSet.has(u)))
+      &&(!fitSet.size||c.dataset.fit.split(' ').some(u=>fitSet.has(u)))
       &&(!stf||c.dataset.status===stf)
       &&(!q||c.dataset.txt.toLowerCase().includes(q));
     c.hidden=!ok; if(ok)n++;
   });
-  const active=useSet.size+elemSet.size+(stf?1:0)+(cat==='all'?0:1)+(q?1:0);
+  const advActive=useSet.size+elemSet.size+(stf?1:0);
+  const active=advActive+fitSet.size+(cat==='all'?0:1)+(q?1:0);
   count.textContent=n+' מוצגים'+(active?' · '+active+' סינונים פעילים':'');
   clr.hidden=!active;
+  advBadge.hidden=!advActive; advBadge.textContent=advActive;
+  advToggle.classList.toggle('active',!!advActive);
 }
 btns.forEach(b=>b.addEventListener('click',()=>{btns.forEach(x=>x.classList.remove('on'));b.classList.add('on');cat=b.dataset.f;apply();}));
 function multi(list,set,key){
@@ -454,9 +661,15 @@ function multi(list,set,key){
 }
 multi(ubtns,useSet,'u');
 multi(ebtns,elemSet,'e');
+multi(fitbtns,fitSet,'fit');
+function setAdv(open){
+  advPanel.hidden=!open;
+  advToggle.setAttribute('aria-expanded',String(open));
+}
+advToggle.addEventListener('click',()=>setAdv(advPanel.hidden));
 clr.addEventListener('click',()=>{
-  useSet.clear();elemSet.clear();stf=null;cat='all';search.value='';
-  [...ubtns,...ebtns,...sbtns].forEach(x=>x.classList.remove('on'));
+  useSet.clear();elemSet.clear();fitSet.clear();stf=null;cat='all';search.value='';
+  [...ubtns,...ebtns,...fitbtns,...sbtns].forEach(x=>x.classList.remove('on'));
   btns.forEach(x=>x.classList.toggle('on',x.dataset.f==='all'));
   apply();
 });

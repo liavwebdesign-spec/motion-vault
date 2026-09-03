@@ -67,13 +67,44 @@ h2{font-size:var(--fs-h2);margin:0}
 /* index */
 .vhead{padding:clamp(48px,6vw,110px) var(--gutter) clamp(20px,2vw,40px)}
 .vhead p{color:var(--muted);max-width:640px;margin:10px 0 0}
-.vfilters{position:sticky;top:0;z-index:50;background:rgba(247,247,250,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding:14px var(--gutter);display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.fbtn{font-family:inherit;font-size:14px;font-weight:500;padding:8px 18px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;transition:all .18s}
-.fbtn:hover{border-color:var(--accent);color:var(--accent)}
+/* מגדל הכלים: שורה קבועה למעלה, שתי שורות ראשונות תמיד גלויות, השלישית (סינון מתקדם) נפתחת לפי בקשה */
+.vtoolbar{position:sticky;top:0;z-index:50;background:rgba(247,247,250,.94);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--line);padding:14px var(--gutter) 12px;display:flex;flex-direction:column;gap:10px}
+.vtoolbar-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+/* קטגוריה: לוח כפתורים אחד עם רקע משותף, במקום שורת פילים נפרדים */
+.seg{display:inline-flex;flex-wrap:wrap;gap:2px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px}
+.seg .fbtn{border:0;background:none}
+.fbtn{font-family:inherit;font-size:13.5px;font-weight:500;padding:7px 15px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;transition:all .18s}
+.fbtn:hover{color:var(--accent)}
+.seg .fbtn:hover{background:#f1f1f7}
 .fbtn.on{background:var(--ink);border-color:var(--ink);color:#fff}
-.fsearch{font-family:inherit;font-size:15px;padding:9px 18px;border-radius:999px;border:1px solid var(--line);min-width:min(280px,60vw)}
+.fsearch{font-family:inherit;font-size:14.5px;padding:9px 16px;border-radius:999px;border:1px solid var(--line);
+  background:#fff;min-width:min(260px,55vw);margin-inline-start:auto}
 .fsearch:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
-.fcount{font-size:13px;color:var(--muted);margin-inline-start:auto}
+.fcount{font-size:13px;color:var(--muted);white-space:nowrap}
+/* סוג פרויקט: הציר החדש והחשוב, לכן הכפתורים גדולים וברורים משאר הסינונים */
+.fit-row{gap:8px}
+.fitbtn{font-family:inherit;font-size:13.5px;font-weight:600;padding:8px 16px;border-radius:999px;
+  border:1.5px solid var(--line);background:#fff;color:var(--ink);cursor:pointer;transition:all .18s;
+  display:inline-flex;align-items:center;gap:7px}
+.fitbtn:hover{border-color:#9a6b00}
+.fitbtn .fn{font-variant-numeric:tabular-nums;font-weight:700;opacity:.55;font-size:12.5px}
+.fitbtn.on{background:#fff4dd;border-color:#c98a00;color:#7a5300}
+.fitbtn.on .fn{opacity:.8}
+/* סינון מתקדם: מתחיל מקופל, כך שבביקור ראשון רואים רק קטגוריה + סוג פרויקט + חיפוש */
+.adv-toggle{display:inline-flex;align-items:center;gap:7px;font-family:inherit;font-size:13.5px;font-weight:500;
+  padding:8px 14px;border-radius:999px;border:1px dashed var(--line);background:none;color:var(--muted);cursor:pointer;transition:all .18s}
+.adv-toggle:hover{border-color:var(--ink);color:var(--ink)}
+.adv-toggle.active{border-style:solid;color:var(--accent);border-color:var(--accent)}
+.adv-badge{background:var(--accent);color:#fff;font-size:11px;font-weight:700;border-radius:999px;
+  min-width:17px;height:17px;display:inline-flex;align-items:center;justify-content:center;padding:0 4px}
+.adv-chev{transition:transform .25s;flex:none}
+.adv-toggle[aria-expanded="true"] .adv-chev{transform:rotate(180deg)}
+/* פתיחה/סגירה ב-hidden בלבד, בלי אנימציית גובה: בבדיקה כאן טריקי ה-grid-rows/max-height
+   שעובדים בכל שאר המאגר נתקעו על גובה שגוי גם במקרה מבודד לגמרי, כנראה מגבלת סביבת התצוגה.
+   ויתור מודע על האנימציה לטובת ודאות שהפאנל נפתח. */
+.adv-panel{display:flex;flex-direction:column;gap:10px;padding-top:6px}
+.adv-panel[hidden]{display:none}
 .vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:var(--gap);padding:clamp(24px,2.5vw,48px) var(--gutter) clamp(80px,8vw,160px)}
 .vcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;display:flex;flex-direction:column;gap:10px;transition:transform .3s cubic-bezier(.2,.6,.2,1),box-shadow .3s,border-color .3s}
 .vcard:hover{transform:translateY(-4px);box-shadow:0 12px 32px rgba(22,24,43,.09);border-color:#cfd0e0}
@@ -91,26 +122,24 @@ h2{font-size:var(--fs-h2);margin:0}
 .mvid.copied{background:#0a7d4f;transform:scale(1.04)}
 .mvid code{font-family:inherit;direction:ltr}
 
-/* uses chips + second filter row */
+/* uses chips + advanced filter groups (בתוך .adv-panel) */
 .chip.use{background:#eef3ff;color:#2b4bcc}
-.vfilters .sep{width:1px;align-self:stretch;background:var(--line);margin-inline:4px}
-.vfilters2{display:flex;gap:8px;flex-wrap:wrap;padding:0 var(--gutter) 14px;background:rgba(247,247,250,.94);border-bottom:1px solid var(--line)}
-.ubtn{font-family:inherit;font-size:13px;font-weight:500;padding:6px 15px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;transition:all .18s}
+.ubtn{font-family:inherit;font-size:12.5px;font-weight:500;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;transition:all .18s}
 .ubtn:hover{border-color:#2b4bcc;color:#2b4bcc}
 .ubtn.on{background:#2b4bcc;border-color:#2b4bcc;color:#fff}
 /* שורת רכיבי UI: אותה מכניקה, צבע אחר, כדי שהעין תפריד בין שתי השאלות */
-.vfilters2.elems{padding-bottom:10px}
-.ebtn{font-family:inherit;font-size:13px;font-weight:500;padding:6px 15px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;transition:all .18s}
+.ebtn{font-family:inherit;font-size:12.5px;font-weight:500;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;transition:all .18s}
 .ebtn:hover{border-color:#0b7285;color:#0b7285}
 .ebtn.on{background:#0b7285;border-color:#0b7285;color:#fff}
 .chip.elem{background:#e6f7fa;color:#0b7285}
-.clr-btn{font-family:inherit;font-size:13px;padding:6px 14px;border-radius:999px;border:1px dashed var(--line);background:none;color:var(--muted);cursor:pointer}
+.clr-btn{font-family:inherit;font-size:13px;padding:6px 14px;border-radius:999px;border:1px dashed var(--line);background:none;color:var(--muted);cursor:pointer;white-space:nowrap}
 .clr-btn:hover{border-color:var(--ink);color:var(--ink)}
 .clr-btn[hidden]{display:none}
 /* קבוצת סינון: הכותרת והכפתורים שלה נשארים יחד גם כשהשורה נשברת */
-.fgroup{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.fgroup>.flabel{font-size:13px;color:var(--muted);font-weight:600;white-space:nowrap}
-.fgroup.status{background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 6px 4px 12px}
+.fgroup{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.fgroup>.flabel{font-size:12.5px;color:var(--muted);font-weight:600;white-space:nowrap}
+.fgroup.status{gap:8px}
+.fgroup.status .report-btn{margin-inline-start:auto}
 .sbtn .sn{font-variant-numeric:tabular-nums;opacity:.65;margin-inline-start:5px;font-weight:600}
 .sbtn.on .sn{opacity:.85}
 
