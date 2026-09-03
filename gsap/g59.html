@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G59 · כרטיסים שמתקרבים מהעומק בגלילה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.dp{height:340vh;position:relative}
+.dp-stick{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center;
+  perspective:900px;perspective-origin:50% 50%}
+.dp-card{position:absolute;width:min(420px,84vw);border-radius:20px;background:var(--card);
+  border:1px solid var(--line);padding:clamp(20px,2.6vw,34px);box-shadow:0 24px 60px rgba(20,20,40,.14);
+  will-change:transform,opacity,filter}
+.dp-card .ph{aspect-ratio:16/9;border-radius:12px;font-size:0;margin-bottom:16px}
+.dp-card h4{margin:0 0 8px;font-size:clamp(19px,2vw,26px)}
+.dp-card p{margin:0;color:var(--muted);font-size:15.5px;line-height:1.7}
+.dp-num{position:absolute;top:8vh;inset-inline:0;text-align:center;color:var(--muted);font-size:14px;z-index:3}
+.dp-after{padding:14vh var(--gutter);max-width:min(680px,92vw);margin-inline:auto;text-align:center;
+  color:var(--muted);font-size:17px;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G59</span> · כרטיסים שמתקרבים מהעומק בגלילה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger · perspective</span>
+  <span class="chip use">כרטיסים</span><span class="chip use">תהליך ושלבים</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g59"><code>MV:g59</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>כרטיסים שמגיעים מרחוק, מטושטשים וקטנים, וחולפים על פני הצופה אחד אחרי השני בקצב הגלילה. מי שקרוב חד, מי שרחוק מטושטש.</p>
+  <p class="when"><b>מתי משתמשים:</b> שלבי תהליך, יתרונות, ציטוטי לקוחות, מעבר בין פרקים בעמוד ארוך. נותן לרצף פריטים תחושת מסע במקום רשימה.</p>
+  <div class="mvpanel" data-mvpanel="g59"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="dp"><div class="dp-stick">
+  <p class="dp-num">גלול. הכרטיסים מגיעים מרחוק וחולפים.</p>
+  <article class="dp-card"><div class="ph ph-a"></div><h4>שיחת אפיון</h4>
+    <p>מבינים את העסק, את הלקוח ואת מה שצריך לקרות באתר, לפני שנוגעים בעיצוב.</p></article>
+  <article class="dp-card"><div class="ph ph-c"></div><h4>קופי ומבנה</h4>
+    <p>כותבים את המסרים ובונים את סדר הסקשנים, כך שכל גלילה עונה על השאלה הבאה.</p></article>
+  <article class="dp-card"><div class="ph ph-d"></div><h4>עיצוב ופיתוח</h4>
+    <p>הופכים את המבנה לאתר חי, מהיר, שנראה נכון בכל מסך.</p></article>
+  <article class="dp-card"><div class="ph ph-e"></div><h4>עלייה ומדידה</h4>
+    <p>מחברים מעקב, עולים לאוויר, ובודקים מה עובד במקום לנחש.</p></article>
+</div></div>
+<p class="dp-after">הטשטוש הוא מה שהופך את זה לעומק ולא להגדלה. בלעדיו הכרטיס פשוט גדל, ועם קצת ממנו העין מפרשת מרחק.</p>
+
+<div class="demo-note">שלוש הכרעות. הראשונה: `perspective` יושב על המעטפת ולא על הכרטיס, אחרת לכל כרטיס יש נקודת מגוז משלו והעומק נשבר. השנייה: הטשטוש הוא מה שקונה את האשליה. תנועה ב-`z` בלבד נקראת כהגדלה, וברגע שהרחוק מטושטש המוח מפרש מרחק. `filter:blur` יקר, ולכן הוא נשאר על ארבעה כרטיסים ולא על עשרים. השלישית: `immediateRender` פעיל רק לכרטיס הראשון; בלעדיו כל ארבעת ה-fromTo מציירים את מצב ההתחלה שלהם בבנייה, והכרטיס הראשון נדחף אחורה לפני שהגלילה בכלל התחילה. החפיפה בין הפרקים היא מה שמונע רגע ריק בין כרטיס לכרטיס.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · כרטיסים שמתקרבים מהעומק בגלילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const cards=gsap.utils.toArray(".dp-card");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce){gsap.set(cards,{position:"relative",opacity:1,marginBottom:24});return;}
+  const FAR=-1400, NEAR=460, SLOT=.6, DUR=.9;
+  const tl=gsap.timeline({scrollTrigger:{trigger:".dp",start:"top top",end:"bottom bottom",scrub:.6}});
+  cards.forEach((c,i)=>{
+    // כל כרטיס תופס פרק זמן משלו, והפרקים חופפים כדי שתמיד יהיה משהו על המסך.
+    // כל ה-fromTo מציירים את מצב ההתחלה מיד, ולכן כולם מתחילים רחוק ושקופים.
+    tl.fromTo(c,{z:FAR,opacity:0,filter:"blur(14px)"},
+      {z:NEAR,opacity:1,filter:"blur(0px)",ease:"none",duration:DUR},i*SLOT)
+      // האטימות עולה מהר יותר מהמרחק, אחרת יש רגע שבו הכרטיס הבא עוד שקוף והקודם כבר יצא
+      .to(c,{opacity:1,duration:DUR*.4,ease:"none"},i*SLOT);
+    // האחרון נשאר, כדי שסוף הסקשן לא יהיה מסך ריק
+    if(i<cards.length-1)tl.to(c,{opacity:0,ease:"none",duration:.25},i*SLOT+DUR*.86);
+  });
+})();
+</script>
+</body>
+</html>

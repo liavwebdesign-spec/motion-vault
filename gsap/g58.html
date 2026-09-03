@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G58 · כותרת ענקית שרואים דרכה את המדיה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.tm{height:220vh;position:relative}
+.tm-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;background:var(--bg)}
+.tm-word{margin:0;font-size:clamp(72px,20vw,280px);line-height:.92;font-weight:800;letter-spacing:-.02em;
+  text-align:center;
+  background-image:linear-gradient(120deg,#3b5bdb,#0b7285 38%,#e8590c 68%,#5f3dc4);
+  background-size:260% 260%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-text-fill-color:transparent}
+/* אם הדפדפן לא תומך בחיתוך רקע לטקסט, חוזרים לצבע מלא ולא לטקסט שקוף */
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  .tm-word{color:var(--ink);-webkit-text-fill-color:currentColor}
+}
+.tm-sub{position:absolute;bottom:11vh;inset-inline:0;text-align:center;color:var(--muted);font-size:15px}
+.tm-after{padding:14vh var(--gutter);max-width:min(680px,92vw);margin-inline:auto;text-align:center;
+  color:var(--muted);font-size:17px;line-height:1.9}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G58</span> · כותרת ענקית שרואים דרכה את המדיה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger · background-clip</span>
+  <span class="chip use">טקסט וכותרות</span><span class="chip use">הירו ופתיחה</span><span class="chip use">רקע ואווירה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g58"><code>MV:g58</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>מילה אחת בגודל ענק שהאותיות שלה הן חלון: מאחוריהן נעה תמונה בקצב הגלילה. הטקסט הוא המסכה, לא הצבע.</p>
+  <p class="when"><b>מתי משתמשים:</b> פתיחת עמוד, מעבר בין פרקים, שם המותג בסוף העמוד. רגע יחיד בעמוד, ובדיוק בגלל זה הוא נזכר.</p>
+  <div class="mvpanel" data-mvpanel="g58"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="tm"><div class="tm-stick">
+  <h2 class="tm-word">אתרים<br>שמביאים</h2>
+  <p class="tm-sub">גלול. מה שרואים בתוך האותיות זז.</p>
+</div></div>
+<p class="tm-after">במקום גרדיאנט אפשר לשים כאן תמונה או וידאו של הלקוח, ואז האותיות הופכות לחלון אל העבודה עצמה.</p>
+
+<div class="demo-note">שני דברים שאסור לפספס. הראשון: `-webkit-text-fill-color:transparent` נחוץ בנוסף ל-`color:transparent`, אחרת בחלק מהדפדפנים הטקסט פשוט נעלם או נשאר צבוע. השני: חייבים `@supports` שמחזיר צבע מלא כשאין תמיכה, כי טקסט שקוף בלי רקע גלוי הוא טקסט בלתי נראה, וזו תקלת נגישות ולא רק תקלה חזותית. הרקע גדול מהאלמנט (`background-size` מעל מאה אחוז) כי בלי עודף אין מה להזיז. אם שמים תמונה במקום גרדיאנט, כדאי תמונה עם ניגודיות גבוהה: פרטים עדינים נעלמים בתוך אותיות.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · כותרת ענקית שרואים דרכה את המדיה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const word=document.querySelector(".tm-word");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+  gsap.timeline({scrollTrigger:{trigger:".tm",start:"top top",end:"bottom bottom",scrub:.5}})
+    // הרקע הוא מה שנע, לא הטקסט: האותיות נשארות במקום והחלון שלהן מראה חלק אחר
+    .fromTo(word,{backgroundPosition:"0% 50%"},{backgroundPosition:"100% 50%",ease:"none"},0)
+    .fromTo(word,{scale:.86,letterSpacing:"0.04em"},{scale:1,letterSpacing:"-0.02em",ease:"none"},0);
+})();
+</script>
+</body>
+</html>

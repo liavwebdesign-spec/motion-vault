@@ -89,6 +89,7 @@ const USES = {
   g49: ["media", "process", "hero"], g50: ["nav", "feedback", "ambient"], g51: ["media", "ambient", "cards"],
   g52: ["hover", "feedback", "nav"], g53: ["text", "hero"],
   g54: ["media", "cards", "hero"], g55: ["media", "cards", "ambient"], g56: ["media", "hero"],
+  g57: ["media", "cards", "process"], g58: ["text", "hero", "ambient"], g59: ["cards", "process", "hero"],
 };
 
 // רכיבי UI: הסינון השלישי של האינדקס. לכל מהלך אפשר לסמן כמה, והסימון מצטבר.
@@ -264,6 +265,9 @@ const ELEMS = {
   g54: ["list","img","sect"],
   g55: ["list","card","sect"],
   g56: ["img","sect"],
+  g57: ["img","list","sect"],
+  g58: ["head","sect"],
+  g59: ["card","list","sect"],
   fluid: ["sect","page"],
 };
 
