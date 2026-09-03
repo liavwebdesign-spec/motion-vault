@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G66 · רקע שמתחלף בין סקשנים בחשיפה מסכתית | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.bgs{position:relative}
+.bgs-fixed{position:sticky;top:0;height:100vh;overflow:hidden;z-index:0}
+.bgs-layer{position:absolute;inset:0;border-radius:0;font-size:0;clip-path:inset(100% 0 0 0)}
+.bgs-layer:first-child{clip-path:inset(0 0 0 0)}
+.bgs-veil{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,20,.55),rgba(10,10,20,.72))}
+.bgs-content{position:relative;z-index:1;margin-top:-100vh}
+.bgs-sec{min-height:100vh;display:grid;place-items:center;text-align:center;padding:0 var(--gutter);color:#fff}
+.bgs-sec h3{margin:0;font-size:clamp(28px,4.6vw,60px);max-width:18ch;line-height:1.14}
+.bgs-sec p{margin:14px auto 0;max-width:44ch;font-size:17px;line-height:1.8;opacity:.86}
+.bgs-num{display:block;font-size:13px;letter-spacing:.1em;opacity:.7;margin-bottom:12px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G66</span> · רקע שמתחלף בין סקשנים בחשיפה מסכתית</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger</span>
+  <span class="chip use">רקע ואווירה</span><span class="chip use">תהליך ושלבים</span><span class="chip use">תמונות וגלריות</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g66"><code>MV:g66</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>רקע אחד קבוע מאחורי כל הסקשנים, שמתחלף בין תמונות בחשיפה מלמטה כשעוברים מסקשן לסקשן. הטקסט נשאר בחזית ורק העולם שמאחוריו משתנה.</p>
+  <p class="when"><b>מתי משתמשים:</b> עמוד סיפור מותג, שלבי תהליך, פרקי שירות, עמוד אודות. נותן לעמוד ארוך תחושת רצף במקום רצף של קופסאות.</p>
+  <div class="mvpanel" data-mvpanel="g66"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="bgs">
+  <div class="bgs-fixed">
+    <div class="ph bgs-layer ph-a"></div>
+    <div class="ph bgs-layer ph-c"></div>
+    <div class="ph bgs-layer ph-d"></div>
+    <div class="ph bgs-layer ph-e"></div>
+    <div class="bgs-veil"></div>
+  </div>
+  <div class="bgs-content">
+    <section class="bgs-sec"><div><span class="bgs-num">שלב 01</span><h3>שיחת אפיון</h3>
+      <p>מבינים את העסק ואת הלקוח לפני שנוגעים בעיצוב.</p></div></section>
+    <section class="bgs-sec"><div><span class="bgs-num">שלב 02</span><h3>קופי ומבנה</h3>
+      <p>המסרים נכתבים קודם, וסדר הסקשנים נגזר מהם.</p></div></section>
+    <section class="bgs-sec"><div><span class="bgs-num">שלב 03</span><h3>עיצוב ופיתוח</h3>
+      <p>המבנה הופך לאתר חי, מהיר, שנראה נכון בכל מסך.</p></div></section>
+    <section class="bgs-sec"><div><span class="bgs-num">שלב 04</span><h3>עלייה ומדידה</h3>
+      <p>מחברים מעקב, עולים לאוויר, ומשפרים לפי נתונים.</p></div></section>
+  </div>
+</div>
+
+<div class="demo-note">המבנה הוא מה שעושה את העבודה: רצועת רקע `sticky` בגובה מסך, ואחריה התוכן עם `margin-top:-100vh` שמושך אותו בדיוק מעל הרקע. כך הרקע נשאר במקום בזמן שהתוכן גולל מעליו, בלי `position:fixed` ובלי pin. החשיפה היא `clip-path` מלמטה ולא הצלבת שקיפויות, כי הצלבה מייצרת רגע עכור שבו שתי התמונות נראות יחד. השכבה הראשונה חשופה מראש, וכל אחת אחריה נחשפת בטווח של הסקשן שלה ונשארת. הצעיף הכהה מעל הכל הוא מה שמאפשר לכתוב טקסט לבן על תמונות שלא בחרנו.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · רקע שמתחלף בין סקשנים בחשיפה מסכתית").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const layers=gsap.utils.toArray(".bgs-layer");
+  const secs=gsap.utils.toArray(".bgs-sec");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  secs.forEach((sec,i)=>{
+    if(i===0)return;
+    // כל שכבה נחשפת מלמטה בזמן שהסקשן שלה עולה, ונשארת חשופה אחריו
+    gsap.fromTo(layers[i],{clipPath:"inset(100% 0 0 0)"},{clipPath:"inset(0% 0 0 0)",ease:"none",
+      scrollTrigger:{trigger:sec,start:"top 85%",end:"top 25%",scrub:reduce?false:.5}});
+  });
+})();
+</script>
+</body>
+</html>

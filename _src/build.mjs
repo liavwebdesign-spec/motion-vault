@@ -91,6 +91,10 @@ const USES = {
   g54: ["media", "cards", "hero"], g55: ["media", "cards", "ambient"], g56: ["media", "hero"],
   g57: ["media", "cards", "process"], g58: ["text", "hero", "ambient"], g59: ["cards", "process", "hero"],
   g60: ["text", "hero", "process"], g61: ["media", "hero", "ambient"], g62: ["media", "feedback"],
+  g63: ["process", "hero", "ambient"], g64: ["hero", "text", "media"], g65: ["media", "cards", "process"],
+  g66: ["ambient", "process", "media"], g67: ["cards", "process", "hero"], g68: ["process", "hero", "ambient"],
+  g69: ["media", "feedback", "hero"], g70: ["text", "nav", "process"], g71: ["media", "cards", "numbers"],
+  g72: ["cards", "process", "text"],
 };
 
 // רכיבי UI: הסינון השלישי של האינדקס. לכל מהלך אפשר לסמן כמה, והסימון מצטבר.
@@ -272,6 +276,16 @@ const ELEMS = {
   g60: ["head","sect"],
   g61: ["img","sect"],
   g62: ["img","sect"],
+  g63: ["sect","page"],
+  g64: ["head","img","sect"],
+  g65: ["list","card","img"],
+  g66: ["sect","img","page"],
+  g67: ["card","list","sect"],
+  g68: ["sect","page"],
+  g69: ["img","over","sect"],
+  g70: ["head","nav","sect"],
+  g71: ["img","card"],
+  g72: ["card","sect"],
   fluid: ["sect","page"],
 };
 

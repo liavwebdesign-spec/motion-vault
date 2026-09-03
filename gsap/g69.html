@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G69 · חשיפת פיקסלים בגלילה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.px{height:280vh;position:relative}
+.px-stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
+.px-frame{position:relative;width:min(880px,92vw);aspect-ratio:16/10;border-radius:18px;overflow:hidden}
+.px-img{position:absolute;inset:0;border-radius:0;font-size:0}
+.px-grid{position:absolute;inset:0;display:grid}
+.px-cell{background:var(--bg);will-change:opacity}
+.px-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted);font-size:15px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G69</span> · חשיפת פיקסלים בגלילה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger · stagger</span>
+  <span class="chip use">תמונות וגלריות</span><span class="chip use">טעינה ופידבק</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g69"><code>MV:g69</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>רשת ריבועים שמכסה את התמונה ונעלמת בגלילה בסדר אקראי, כמו תמונה שנטענת בחיבור איטי. התמונה מתגלה חתיכה אחרי חתיכה.</p>
+  <p class="when"><b>מתי משתמשים:</b> חשיפת מוצר, פתיחת סקשן עבודות, מעבר בין פרקים. אפקט חשיפה שמרגיש דיגיטלי ולא קולנועי, ומתאים למותגי טק ומוצר.</p>
+  <div class="mvpanel" data-mvpanel="g69"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="px"><div class="px-stage">
+  <div class="px-frame">
+    <div class="ph px-img ph-c"></div>
+    <div class="px-grid"></div>
+  </div>
+  <p class="px-cap">גלול. הריבועים נעלמים בסדר אקראי.</p>
+</div></div>
+
+<div class="demo-note">הרשת נבנית ב-JS ולא ב-HTML, כי מאה עשרים ושישה ריבועים בקוד הם קובץ בלתי קריא, ובגלל שמספר העמודות והשורות הוא מספר אחד שאפשר לכייל. `from:"random"` הוא ההבדל בין חשיפה שמרגישה כמו טעינה לבין מחיקה שמרגישה כמו מגב. הריבועים בצבע הרקע ולא שקופים, ולכן זה עובד מעל כל תמונה. שים לב ש-`each` קטן מאוד: עם מאה ועשרים ריבועים גם שתי מאיות שנייה מצטברות לזמן ארוך, וה-scrub פורש את הכל על מסלול הגלילה ממילא.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · חשיפת פיקסלים בגלילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const COLS=14, ROWS=9;
+  const grid=document.querySelector(".px-grid");
+  grid.style.gridTemplateColumns="repeat("+COLS+",1fr)";
+  grid.style.gridTemplateRows="repeat("+ROWS+",1fr)";
+  const cells=[];
+  for(let i=0;i<COLS*ROWS;i++){
+    const d=document.createElement("div");d.className="px-cell";grid.appendChild(d);cells.push(d);
+  }
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce){gsap.set(cells,{opacity:0});return;}
+  gsap.to(cells,{opacity:0,ease:"none",
+    // stagger אקראי עם from:"random" הוא מה שמונע תחושת מחיקה מסודרת
+    stagger:{each:.012,from:"random"},
+    scrollTrigger:{trigger:".px",start:"top top",end:"bottom bottom",scrub:.4}});
+})();
+</script>
+</body>
+</html>

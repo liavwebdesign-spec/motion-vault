@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G72 · סקשן שמתהפך בין שתי פאות בגלילה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.fl{height:250vh;position:relative}
+.fl-stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1600px;padding:0 var(--gutter)}
+.fl-card{position:relative;width:min(880px,92vw);aspect-ratio:16/10;transform-style:preserve-3d;will-change:transform}
+.fl-face{position:absolute;inset:0;border-radius:22px;backface-visibility:hidden;overflow:hidden;
+  display:grid;place-items:center;text-align:center;padding:clamp(20px,4vw,50px);color:#fff}
+.fl-face h3{margin:0;font-size:clamp(24px,3.6vw,48px);line-height:1.14;max-width:20ch}
+.fl-face p{margin:14px 0 0;font-size:17px;line-height:1.8;max-width:40ch;opacity:.9}
+.fl-face .ph{position:absolute;inset:0;border-radius:0;font-size:0;z-index:-1}
+.fl-back{transform:rotateY(180deg)}
+.fl-cap{position:absolute;bottom:7vh;inset-inline:0;text-align:center;color:var(--muted);font-size:15px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G72</span> · סקשן שמתהפך בין שתי פאות בגלילה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger · rotateY</span>
+  <span class="chip use">כרטיסים</span><span class="chip use">תהליך ושלבים</span><span class="chip use">טקסט וכותרות</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g72"><code>MV:g72</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>סקשן אחד עם שתי פאות, שמסתובב בגלילה על ציר אנכי ומגלה את הצד השני. אותו שטח מסך מספר שני דברים.</p>
+  <p class="when"><b>מתי משתמשים:</b> שאלה ותשובה, בעיה ופתרון, לפני ואחרי, שתי חבילות. במקום שני סקשנים זה אחרי זה, אחד שמתהפך.</p>
+  <div class="mvpanel" data-mvpanel="g72"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="fl"><div class="fl-stage">
+  <div class="fl-card">
+    <div class="fl-face fl-front"><div class="ph ph-f"></div>
+      <div><h3>רוב האתרים נראים טוב ולא מביאים כלום</h3>
+      <p>כי מישהו התחיל לעצב לפני שהיה ברור מה המסר ומי הקהל.</p></div></div>
+    <div class="fl-face fl-back"><div class="ph ph-d"></div>
+      <div><h3>אנחנו הופכים את הסדר</h3>
+      <p>קודם מבינים את העסק ואת הלקוח, אחר כך כותבים, ורק בסוף מעצבים.</p></div></div>
+  </div>
+  <p class="fl-cap">גלול. הסקשן מתהפך ומגלה את הצד השני.</p>
+</div></div>
+
+<div class="demo-note">שלושה תנאים הכרחיים: `transform-style:preserve-3d` על הקלף, `backface-visibility:hidden` על שתי הפאות, והפאה האחורית מסובבת מראש ב-180 מעלות. אם אחד מהם חסר רואים את שתי הפאות יחד או טקסט הפוך. ה-`perspective` יושב על הבמה ולא על הקלף, אחרת הסיבוב נראה שטוח. ההתכווצות באמצע היא מה שמוכר את התלת-ממד: בזווית של תשעים מעלות הקלף דק כמו קו, ובלי שינוי גודל המוח קורא את הרגע הזה כהיעלמות ולא כסיבוב. בעמוד עברי כדאי לסובב לכיוון החיובי, כך שההיפוך מרגיש כמו הפיכת דף בספר עברי.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · סקשן שמתהפך בין שתי פאות בגלילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const card=document.querySelector(".fl-card");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+  gsap.timeline({scrollTrigger:{trigger:".fl",start:"top top",end:"bottom bottom",scrub:.6}})
+    // משך מפורש לשניהם, אחרת ההיפוך נגמר בחצי הדרך והשאר ריק
+    .fromTo(card,{rotateY:0},{rotateY:180,duration:1,ease:"none"},0)
+    // התכווצות קלה באמצע ההיפוך: בלעדיה הקלף נראה שטוח בדיוק ברגע שהוא הכי דק
+    .fromTo(card,{scale:1},{scale:.9,ease:"none",yoyo:true,repeat:1,duration:.5},0);
+})();
+</script>
+</body>
+</html>

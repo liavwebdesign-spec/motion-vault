@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G63 · סקשן שמתקפל כמו דף בגלילה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.fo{height:230vh;position:relative}
+.fo-stage{position:sticky;top:0;height:100vh;overflow:hidden;perspective:1400px;perspective-origin:50% 0%}
+.fo-page{position:absolute;inset:0;transform-origin:50% 0%;backface-visibility:hidden;
+  display:grid;place-items:center;text-align:center;padding:0 var(--gutter);will-change:transform}
+.fo-page.front{background:var(--ink);color:#fff;z-index:2}
+.fo-page.back{background:var(--bg);color:var(--ink);z-index:1}
+.fo-page h3{margin:0;font-size:clamp(28px,5vw,66px);max-width:16ch;line-height:1.12}
+.fo-page p{margin:14px 0 0;max-width:44ch;font-size:17px;line-height:1.8;opacity:.82}
+.fo-shade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;z-index:3}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G63</span> · סקשן שמתקפל כמו דף בגלילה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger · rotateX</span>
+  <span class="chip use">תהליך ושלבים</span><span class="chip use">הירו ופתיחה</span><span class="chip use">רקע ואווירה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g63"><code>MV:g63</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>הסקשן לא נגלל החוצה אלא מתקפל אחורה על ציר עליון, כמו דף שמתהפך, והסקשן הבא נחשף מתחתיו.</p>
+  <p class="when"><b>מתי משתמשים:</b> מעבר בין פרקים בעמוד ארוך, סוף סקשן הירו, מעבר בין שירות לשירות. הופך את הרווח בין שני סקשנים לרגע במקום לחתך.</p>
+  <div class="mvpanel" data-mvpanel="g63"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="fo"><div class="fo-stage">
+  <section class="fo-page back"><div><h3>ומתחתיו מחכה הבא</h3>
+    <p>הסקשן השני היה שם כל הזמן. הקיפול רק הסיר את מה שכיסה אותו.</p></div></section>
+  <section class="fo-page front"><div><h3>הסקשן הזה מתקפל</h3>
+    <p>גלול. הוא לא נגלל החוצה, הוא מסתובב אחורה על הציר העליון שלו.</p></div>
+    <div class="fo-shade"></div></section>
+</div></div>
+
+<div class="demo-note">שלושה פרטים הופכים את זה מסיבוב לקיפול. `transform-origin` בראש האלמנט ו-`perspective-origin` בראש הבמה: יחד הם מציבים את הצופה מול הציר, וזה מה שגורם לדף ליפול אחורה ולא להסתובב סביב עצמו. עצירה בשמונים ומשהו מעלות ולא בתשעים, כי בזווית ישרה הדף נעלם לגמרי ורואים קו. וההצללה שגדלה עם הזווית: בלעדיה המוח קורא את זה כשינוי גודל. `backface-visibility:hidden` מונע הצצה לצד האחורי ברגע שעוברים את הזווית.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · סקשן שמתקפל כמו דף בגלילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const front=document.querySelector(".fo-page.front"),shade=document.querySelector(".fo-shade");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+  gsap.timeline({scrollTrigger:{trigger:".fo",start:"top top",end:"bottom bottom",scrub:.6}})
+    // הציר למעלה, ולכן הדף נופל אחורה ולא מסתובב סביב המרכז
+    .fromTo(front,{rotateX:0},{rotateX:-82,ease:"none"},0)
+    // ההצללה גדלה עם הזווית, וזה מה שמוכר את התלת-ממד
+    .fromTo(shade,{opacity:0},{opacity:.55,ease:"none"},0);
+})();
+</script>
+</body>
+</html>

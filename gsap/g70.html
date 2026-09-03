@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G70 · כותרת שמתכווצת ומתעגנת לפינה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.dk{position:relative}
+.dk-stage{position:sticky;top:0;height:100vh;pointer-events:none;z-index:5}
+/* העוגן הוא הפינה הימנית העליונה, ונקודת הקנה מידה שם, כך שההתכווצות מושכת אליה */
+.dk-title{position:absolute;top:26px;right:24px;margin:0;white-space:nowrap;
+  font-size:clamp(30px,6vw,84px);font-weight:800;line-height:1;color:var(--ink);
+  transform-origin:100% 0%;will-change:transform}
+/* המרווח יושב על התוכן ולא על הפרק: ריפוד של האב אינו חלק מתיבת התוכן שלו,
+   ו-sticky נעצר בגבול תיבת התוכן. מרווח על האב היה מקצר את אזור ההיצמדות. */
+.dk-body{margin-top:-100vh;padding:100vh var(--gutter) 60vh;max-width:min(760px,92vw);margin-inline:auto}
+.dk-body p{font-size:17px;line-height:1.9;color:var(--muted);margin:0 0 22px}
+.dk-body h4{font-size:clamp(20px,2.4vw,30px);margin:40px 0 12px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G70</span> · כותרת שמתכווצת ומתעגנת לפינה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger scrub</span>
+  <span class="chip use">טקסט וכותרות</span><span class="chip use">ניווט ומבנה</span><span class="chip use">תהליך ושלבים</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g70"><code>MV:g70</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>כותרת פרק במרכז המסך שמתכווצת בגלילה, נעה לפינה העליונה והופכת לתווית קטנה שמלווה את התוכן. בגלילה אחורה היא חוזרת להיות כותרת.</p>
+  <p class="when"><b>מתי משתמשים:</b> עמוד ארוך עם פרקים, מדריך, תיק עבודות לפי קטגוריות, מסמך תנאים. המבקר תמיד יודע באיזה פרק הוא נמצא בלי תפריט צף נוסף.</p>
+  <div class="mvpanel" data-mvpanel="g70"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="dk">
+  <div class="dk-stage"><h3 class="dk-title">אפיון</h3></div>
+  <div class="dk-body">
+    <h4>מה קורה בשלב הזה</h4>
+    <p>מתחילים בהבנה של העסק ושל הלקוח, ורק אחר כך פותחים כלי עיצוב. זה השלב שקובע אם האתר יביא פניות או רק ייראה טוב, והוא גם השלב שהכי קל לוותר עליו כשממהרים.</p>
+    <p>בפועל זו שיחה אחת ממוקדת: מי הלקוח, מה הוא מחפש, מה עוצר אותו מלפנות, ומה הפעולה היחידה שאנחנו רוצים שיעשה. התשובות האלה קובעות את סדר הסקשנים באתר.</p>
+    <h4>מה יוצא מזה</h4>
+    <p>מסמך קצר עם מפת עמודים, המסרים המרכזיים והקריאה לפעולה. לא מסמך לארכיון אלא מסמך שכותבים לפיו.</p>
+    <p>גלול והכותרת למעלה תתכווץ לתווית. גלול חזרה והיא תחזור להיות כותרת מלאה.</p>
+  </div>
+</div>
+
+<div class="demo-note">אין כאן שום מדידה בזמן ריצה: שני המצבים מוגדרים במלואם, ו-GSAP עושה אינטרפולציה בין אחוזים לפיקסלים. המרכוז מושג בשילוב `right:50%` עם `xPercent:50`, כלומר הקצה הימני במרכז ואז דחיפה של חצי רוחב. **הניסיון הראשון כאן נכשל**: מדדתי בזמן ריצה את המרחק אל המרכז, אבל המדידה נעשית על אלמנט שכבר נושא טרנספורם, ולכן היא מזינה את עצמה והכותרת ברחה מהמסך. העיגון עובד כי `transform-origin` נמצא בקצה שאליו הכותרת נוסעת: בעברית זה `100% 0%`, כלומר הפינה הימנית העליונה, ולכן ההתכווצות מושכת אותה ימינה במקום להשאיר אותה תלויה באוויר. הכותרת יושבת בשכבה `sticky` נפרדת עם `pointer-events:none`, והתוכן נמשך מעליה ב-`margin-top:-100vh`, כך שהיא מרחפת מעל הטקסט בלי לחסום לחיצות. הטווח מוגדר כ-`+=70%` של גובה המסך ולא כאחוז מגובה הפרק. **זו הייתה תקלה אמיתית כאן**: טווח שנגזר מגובה הפרק יצא ארוך יותר ממה שאפשר לגלול בפועל, ולכן שליש מהאנימציה מעולם לא הגיע לסופו והכותרת נתקעה באמצע הדרך. הכלל: אזור ההיצמדות חייב להיות ארוך מטווח האנימציה. **ומלכודת שנייה שנתפסה מיד אחריה**: ריפוד תחתון על אלמנט האב אינו חלק מתיבת התוכן שלו, ו-`position:sticky` נעצר בגבול תיבת התוכן. לכן המרווח שנועד להאריך את ההיצמדות דווקא קיצר אותה, והוא הועבר לתוכן עצמו.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · כותרת שמתכווצת ומתעגנת לפינה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const title=document.querySelector(".dk-title");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+  // בלי שום מדידה: שני מצבים מוגדרים במלואם, ו-GSAP עושה אינטרפולציה בין אחוזים לפיקסלים.
+  // מצב א: הקצה הימני במרכז המסך ואז דחיפה של חצי רוחב, כלומר מרכוז מדויק.
+  // מצב ב: העוגן בפינה, ונקודת הקנה מידה שם, ולכן ההתכווצות מושכת אל הפינה.
+  gsap.fromTo(title,
+    {top:"50%",right:"50%",xPercent:50,yPercent:-50,scale:1},
+    {top:"26px",right:"24px",xPercent:0,yPercent:0,scale:.34,ease:"none",
+     scrollTrigger:{trigger:".dk",start:"top top",end:"+=70%",scrub:.5,invalidateOnRefresh:true}});
+})();
+</script>
+</body>
+</html>

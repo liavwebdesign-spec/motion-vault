@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G65 · רצועה אופקית שהפריט במרכזה גדל | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.ctr{height:340vh;position:relative}
+.ctr-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;align-content:center}
+/* בעמוד עברי הרצועה נשארת RTL, אבל המדידה של ScrollTrigger דורשת הקשר LTR על המעטפת */
+.ctr-view{direction:ltr;overflow:hidden}
+.ctr-track{display:flex;gap:clamp(16px,2.4vw,40px);width:max-content;padding-inline:44vw;direction:rtl}
+.ctr-item{width:clamp(180px,22vw,320px);flex:none;border-radius:18px;overflow:hidden;background:var(--card);
+  border:1px solid var(--line);will-change:transform,filter}
+.ctr-item .ph{aspect-ratio:3/4;border-radius:0;font-size:0}
+.ctr-item b{display:block;padding:12px 14px 14px;font-size:15px}
+.ctr-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted);font-size:15px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G65</span> · רצועה אופקית שהפריט במרכזה גדל</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger · containerAnimation</span>
+  <span class="chip use">תמונות וגלריות</span><span class="chip use">כרטיסים</span><span class="chip use">תהליך ושלבים</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g65"><code>MV:g65</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>רצועת כרטיסים שנעה לרוחב לפי הגלילה האנכית, וכל כרטיס גדל ומתחדד כשהוא מגיע למרכז המסך ומתכווץ כשהוא יוצא ממנו.</p>
+  <p class="when"><b>מתי משתמשים:</b> תיק עבודות, קטלוג מוצרים, ציר שנים, המלצות. מפנה את תשומת הלב לפריט אחד בכל רגע במקום להציג שורה שטוחה.</p>
+  <div class="mvpanel" data-mvpanel="g65"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="ctr"><div class="ctr-stage">
+  <div class="ctr-view"><div class="ctr-track">
+    <article class="ctr-item"><div class="ph ph-a"></div><b>משרד עורכי דין</b></article>
+    <article class="ctr-item"><div class="ph ph-c"></div><b>מותג קוסמטיקה</b></article>
+    <article class="ctr-item"><div class="ph ph-d"></div><b>קורס דיגיטלי</b></article>
+    <article class="ctr-item"><div class="ph ph-e"></div><b>פורטל לקוחות</b></article>
+    <article class="ctr-item"><div class="ph ph-b"></div><b>קליניקה פרטית</b></article>
+    <article class="ctr-item"><div class="ph ph-f"></div><b>יבואן ריהוט</b></article>
+  </div></div>
+  <p class="ctr-cap">גלול. מי שבמרכז גדל וחד, והשאר נסוגים.</p>
+</div></div>
+
+<div class="demo-note">שני דברים. הראשון הוא מלכודת ה-RTL שכבר תפסה אותנו: ילד `width:max-content` בתוך קונטיינר RTL מתחיל מהקצה הימני, ואז כל המדידות של ScrollTrigger יוצאות מוזזות. לכן המעטפת מקבלת `direction:ltr` והרצועה עצמה `rtl`. השני הוא שיטת המדידה: במקום טריגר נפרד לכל כרטיס, יש לולאת ticker אחת שמודדת את המרחק מהמרכז ומתרגמת אותו לגודל ולחדות. זה גם זול יותר וגם ממשיך לעבוד כשמוסיפים כרטיסים בלי לגעת בקוד.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · רצועה אופקית שהפריט במרכזה גדל").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const track=document.querySelector(".ctr-track"),view=document.querySelector(".ctr-view");
+  const items=gsap.utils.toArray(".ctr-item");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const dist=()=>track.scrollWidth-view.clientWidth;
+  // בעברית הרצועה מתחילה בימין, ולכן היא נעה ל-x חיובי
+  const move=gsap.fromTo(track,{x:-dist()},{x:0,ease:"none",
+    scrollTrigger:{trigger:".ctr",start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
+  if(reduce)return;
+  // מודדים כל פריט מול מרכז המסך בכל פריים, וזה זול יותר מטריגר לכל פריט
+  gsap.ticker.add(()=>{
+    const mid=innerWidth/2;
+    items.forEach(el=>{
+      const r=el.getBoundingClientRect();
+      const d=Math.abs(r.left+r.width/2-mid)/mid;          // 0 במרכז, 1 בקצה
+      const f=gsap.utils.clamp(0,1,1-d);
+      gsap.set(el,{scale:.82+f*.28,filter:"blur("+((1-f)*3).toFixed(2)+"px)",zIndex:Math.round(f*10)});
+    });
+  });
+})();
+</script>
+</body>
+</html>

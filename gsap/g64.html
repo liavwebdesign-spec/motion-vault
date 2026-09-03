@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G64 · מדיה שעוברת בין שתי שכבות של הכותרת | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.sw{height:260vh;position:relative}
+.sw-stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
+.sw-word{position:absolute;margin:0;font-size:clamp(52px,13vw,190px);font-weight:800;line-height:1;
+  letter-spacing:-.02em;text-align:center;white-space:nowrap;color:var(--ink)}
+.sw-word.back{z-index:1}
+/* השכבה הקדמית נחתכת בחציה העליון בלבד, ולכן היא מכסה רק את החלק שהתמונה אמורה להיכנס מאחוריו */
+.sw-word.front{z-index:3;clip-path:inset(0 0 52% 0)}
+.sw-media{position:relative;z-index:2;width:min(420px,62vw);aspect-ratio:3/4;border-radius:18px;
+  font-size:0;will-change:transform;box-shadow:0 30px 70px rgba(20,20,40,.28)}
+.sw-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted);font-size:15px;z-index:4}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G64</span> · מדיה שעוברת בין שתי שכבות של הכותרת</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger · z-index</span>
+  <span class="chip use">הירו ופתיחה</span><span class="chip use">טקסט וכותרות</span><span class="chip use">תמונות וגלריות</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g64"><code>MV:g64</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>אותה כותרת מודפסת פעמיים, אחת מאחורי התמונה ואחת לפניה. התמונה עולה בגלילה ונכנסת בין השתיים, כך שהיא נראית מונחת בתוך הטקסט.</p>
+  <p class="when"><b>מתי משתמשים:</b> הירו של עמוד הבית, פתיחת סקשן מוצר, שם המותג. אחד מהרגעים הבודדים שגורמים למבקר לעצור ולהסתכל שוב.</p>
+  <div class="mvpanel" data-mvpanel="g64"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="sw"><div class="sw-stage">
+  <h2 class="sw-word back">סטודיו</h2>
+  <div class="ph sw-media ph-b"></div>
+  <h2 class="sw-word front">סטודיו</h2>
+  <p class="sw-cap">גלול. התמונה נכנסת בין שתי השכבות של המילה.</p>
+</div></div>
+
+<div class="demo-note">אין כאן שום קסם בקוד: כל העבודה בסידור השכבות. אותה מילה מודפסת פעמיים באותו מקום, התמונה ביניהן, והשכבה הקדמית נחתכת ב-`clip-path` כך שהיא קיימת רק בחלק העליון. התוצאה היא שהתמונה נראית עוברת מאחורי החלק העליון של האותיות ולפני החלק התחתון. **הכלל היחיד שחייבים לשמור**: אחוז החיתוך בשכבה הקדמית חייב להתאים לגובה שאליו התמונה מגיעה. אם משנים את אחד מהם בלי השני, האשליה נשברת. הטקסט מוכפל, ולכן ראוי לתת לשכבה אחת `aria-hidden` בפרויקט אמיתי.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מדיה שעוברת בין שתי שכבות של הכותרת").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const media=document.querySelector(".sw-media");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce)return;
+  gsap.fromTo(media,{yPercent:62,scale:.82},{yPercent:-8,scale:1,ease:"none",
+    scrollTrigger:{trigger:".sw",start:"top top",end:"bottom bottom",scrub:.55}});
+})();
+</script>
+</body>
+</html>

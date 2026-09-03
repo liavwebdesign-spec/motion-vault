@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G67 · קלפים שנפרשים כמניפה בגלילה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.fn{height:260vh;position:relative}
+.fn-stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
+.fn-deck{position:relative;width:min(1000px,92vw);height:min(58vh,460px)}
+.fn-card{position:absolute;top:0;left:50%;width:clamp(150px,19vw,240px);height:100%;
+  margin-inline-start:calc(clamp(150px,19vw,240px) / -2);
+  border-radius:18px;overflow:hidden;background:var(--card);border:1px solid var(--line);
+  box-shadow:0 20px 50px rgba(20,20,40,.16);transform-origin:50% 130%;will-change:transform}
+.fn-card .ph{aspect-ratio:1;border-radius:0;font-size:0}
+.fn-card b{display:block;padding:12px 14px 4px;font-size:15px}
+.fn-card span{display:block;padding:0 14px 14px;font-size:13px;color:var(--muted);line-height:1.55}
+.fn-cap{position:absolute;bottom:7vh;inset-inline:0;text-align:center;color:var(--muted);font-size:15px}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G67</span> · קלפים שנפרשים כמניפה בגלילה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger scrub</span>
+  <span class="chip use">כרטיסים</span><span class="chip use">תהליך ושלבים</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g67"><code>MV:g67</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>ערימת קלפים אחת במרכז שנפרשת בגלילה למניפה, כל קלף בזווית ובגובה משלו, ונאספת בחזרה בגלילה למעלה.</p>
+  <p class="when"><b>מתי משתמשים:</b> סקשן שירותים, יתרונות, חבילות, צוות. לוקח ארבעה עד שישה פריטים והופך את ההצגה שלהם לרגע אחד במקום לרשימה.</p>
+  <div class="mvpanel" data-mvpanel="g67"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+
+<div class="fn"><div class="fn-stage">
+  <div class="fn-deck">
+    <article class="fn-card"><div class="ph ph-a"></div><b>אפיון</b><span>מבינים לפני שמעצבים</span></article>
+    <article class="fn-card"><div class="ph ph-c"></div><b>קופי</b><span>המסר קובע את המבנה</span></article>
+    <article class="fn-card"><div class="ph ph-d"></div><b>עיצוב</b><span>שפה אחת בכל עמוד</span></article>
+    <article class="fn-card"><div class="ph ph-e"></div><b>פיתוח</b><span>מהיר ונכון בכל מסך</span></article>
+    <article class="fn-card"><div class="ph ph-b"></div><b>מדידה</b><span>יודעים מה עובד</span></article>
+  </div>
+  <p class="fn-cap">גלול. הערימה נפרשת ונאספת.</p>
+</div></div>
+
+<div class="demo-note">`transform-origin` מתחת לקלף הוא כל הסוד: סיבוב סביב נקודה שנמצאת מתחת לקלף מייצר מניפה, וסיבוב סביב המרכז מייצר ערימה מבולגנת. הזווית והמרחק נגזרים מהמרחק מהקלף האמצעי, ולכן אפשר להוסיף קלף שישי בלי לגעת במספרים. ה-`yPercent` הקטן שגדל עם המרחק מהאמצע הוא מה שמייצר את הקשת: בלעדיו הקלפים נפרשים על קו ישר ונראים כמו כרטיסים שהודבקו. `zIndex` נגזר גם הוא מהמרחק מהאמצע, כך שהקלף המרכזי תמיד מעל.</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · קלפים שנפרשים כמניפה בגלילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const cards=gsap.utils.toArray(".fn-card");
+  const n=cards.length, mid=(n-1)/2;
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce){cards.forEach((c,i)=>gsap.set(c,{rotation:(i-mid)*11,xPercent:(i-mid)*86,yPercent:Math.abs(i-mid)*7}));return;}
+  const tl=gsap.timeline({scrollTrigger:{trigger:".fn",start:"top top",end:"bottom bottom",scrub:.6}});
+  cards.forEach((c,i)=>{
+    const off=i-mid;
+    // הזווית ומרחק הפריסה נגזרים מהמרחק מהאמצע, ולכן זה נשאר סימטרי בכל מספר קלפים
+    tl.fromTo(c,{rotation:0,xPercent:0,yPercent:0,zIndex:n-Math.abs(off)},
+      {rotation:off*11,xPercent:off*86,yPercent:Math.abs(off)*7,ease:"power2.out"},0);
+  });
+})();
+</script>
+</body>
+</html>
