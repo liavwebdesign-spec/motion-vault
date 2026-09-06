@@ -91,12 +91,12 @@ function styleItem(e, n) {
   if (e.engine) L.push(`**אילוצי מנוע**: ${e.engine}`);
   if (e.extra) { L.push("**ערכים שנלטשו**:"); L.push("```css"); L.push(e.extra); L.push("```"); }
   L.push(`**לסוכן**: "${e.agent}"`);
-  L.push(`**דמו חי** (עמוד הייחוס בשפה הזאת): ${LIVE}/${e.cat}/${e.id}.html ${DOT} \`MV:${e.id}\``);
+  L.push(`**דמו חי** (עמוד הייחוס בשפה הזאת): ${LIVE}/${e.cat}/${e.id}.html ${DOT} \`MV:${e.id}\`` + (e.score ? ` ${DOT} **רף הסטודיו: ${e.score}** ${DOT} פרטים בכל מצב: ${LIVE}/${e.cat}/${e.id}d.html ${DOT} \`MV:${e.id}d\`` : ""));
   return L.join("\n");
 }
 
 export function stylesMarkdown(entries) {
-  const styles = entries.filter(e => e.cat === "style");
+  const styles = entries.filter(e => e.cat === "style" && !e.sub).sort((a, b) => a.id.localeCompare(b.id));
   const out = [];
   out.push(`# אינדקס שפות העיצוב ${DOT} הספרייה לבחירה והמלצה`);
   out.push("");

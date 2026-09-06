@@ -231,36 +231,6 @@ sk({
 }),
 
 sk({
-  id: "s05", name: "מינימליזם", en: "Minimalism", group: "אמירה וקיצון",
-  desc: "רק מה שחייב. מרחב נשימה ענק, טיפוגרפיה חזקה, צבע אחד או שניים. השקט הוא הלוקסוס.",
-  when: "פרימיום, פורטפוליו, SaaS מקצועי, כשהתוכן הוא הכוכב.",
-  no: "מוצרים עתירי פיצ'רים שדורשים גילוי מהיר.",
-  recipe: "זה העור המלא storeos-quiet. להשתמש בו.",
-  apply: "כל אלמנט מצדיק את קיומו; קווי שיער במקום קופסאות; הכרטיס הוא קו עליון ואוויר, לא מסגרת; ה-CTA שחור, וה-accent מופיע רק בנקודות בודדות (eyebrow, סימני V).",
-  sig: "אוויר כמרכיב עיצובי אקטיבי · טיפוגרפיה היא הוויז'ואל · accent במשורה כירורגית.",
-  avoid: "ריק אינו מינימליזם. עמוד חלש בלי מתח טיפוגרפי הוא סתם ריק · אפרוריות אחידה בלי היררכיה · יישור-יתר זהה בכל סקשן.",
-  qa: ["הצ'קליסט הראשי מכסה (זה עור הבית)"],
-  engine: "",
-  agent: "עצב מינימליסטי: המון white space, היררכיה טיפוגרפית חזקה, פלטה מונוכרומטית עם צבע מבטא אחד, אפס קישוטים.",
-  note: "בדמו: ריווחי הסקשן גדולים ב-30% מכל שפה אחרת, אפס צללים, כרטיס = קו עליון שחור, accent כחול בשלושה מקומות בלבד.",
-  css: `.sk-s05 .ref{--s-bg:#FAFAF8;--s-surface:transparent;--s-ink:#111;--s-muted:#5f5f5c;--s-line:#E3E3DE;--s-accent:#111;--s-accent-ink:#fff;--s-accent-txt:#2F5BFF;--s-r:4px;--s-btn-r:4px;--s-ph:#EEEEE9;--s-ph-ink:#8a8a85;--s-wt-h:600;
- --s-card-b:0;--s-card-sh:none;--s-ghost-b:1px solid #111;--s-in-b:0;--s-in-bg:transparent;--s-in-r:0;--s-hi-bg:#111;--s-ico-bg:transparent;--s-ico-r:0;--s-form-bg:transparent;--s-gap:40px}
-.sk-s05 .hero{padding-block:clamp(56px,10cqi,140px)}
-.sk-s05 .sec{padding-block:clamp(48px,8cqi,112px)}
-.sk-s05 .hero h1{font-size:clamp(34px,5.6cqi,72px)}
-.sk-s05 .card{padding:24px 0 0;border-top:1px solid #111;border-radius:0}
-.sk-s05 .ico{width:28px;height:2px;background:#2F5BFF;margin-bottom:22px}
-.sk-s05 .price.hi{padding:32px;transform:none}
-.sk-s05 .in{border-bottom:1px solid #111;padding-inline:0}
-.sk-s05 .fbox{text-align:start;padding:0;max-width:none;border-radius:0}
-.sk-s05 .fbox p{margin-inline:0}
-.sk-s05 .hd{padding-block:22px;border-bottom:1px solid #E3E3DE}
-.sk-s05 .logo::before{border-radius:0;width:12px;height:12px}
-.sk-s05 .hv-a{position:absolute;inset:auto 0 0;height:1px;background:#111;opacity:.15}
-.sk-s05 .hv-b{display:none}`,
-}),
-
-sk({
   id: "s06", name: "מקסימליזם", en: "Maximalism", group: "אמירה וקיצון",
   desc: "צבעים מתנגשים, שכבות, טיפוגרפיה ענקית, תנועה בכל פינה. מקסימום זיכרון.",
   when: "אופנה, מוזיקה, אירועים, קמפיינים. לבלוט בכל מחיר.",
