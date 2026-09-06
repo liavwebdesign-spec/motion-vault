@@ -74,6 +74,73 @@ export function compositionsMarkdown(entries) {
   return md;
 }
 
+// ───────── שפות עיצוב: skins/languages.md ─────────
+// הפורמט זהה לקובץ הידני שהיה שם עד 6.9.2026 (מהות, כן/לא, מתכון, יישום, חתימה,
+// קריקטורה, QA, אילוצי מנוע, לסוכן), בתוספת קישור לדמו החי ומזהה MV.
+function styleItem(e, n) {
+  const L = [];
+  L.push(`### ${n}. ${e.name} (${e.en})`);
+  L.push(`**מהות**: ${e.desc}`);
+  L.push(`**כן**: ${e.when} **לא**: ${e.no}`);
+  if (e.recipe.includes("\n")) { L.push("**מתכון**:"); L.push("```css"); L.push(e.recipe); L.push("```"); }
+  else L.push(`**מתכון**: ${e.recipe}`);
+  L.push(`**יישום**: ${e.apply}`);
+  L.push(`**חתימה**: ${e.sig}`);
+  L.push(`**קריקטורה**: ${e.avoid}`);
+  L.push(`**QA**: ${(e.qa || []).map(q => "☐ " + q).join(" ")}.`);
+  if (e.engine) L.push(`**אילוצי מנוע**: ${e.engine}`);
+  if (e.extra) { L.push("**ערכים שנלטשו**:"); L.push("```css"); L.push(e.extra); L.push("```"); }
+  L.push(`**לסוכן**: "${e.agent}"`);
+  L.push(`**דמו חי** (עמוד הייחוס בשפה הזאת): ${LIVE}/${e.cat}/${e.id}.html ${DOT} \`MV:${e.id}\``);
+  return L.join("\n");
+}
+
+export function stylesMarkdown(entries) {
+  const styles = entries.filter(e => e.cat === "style");
+  const out = [];
+  out.push(`# אינדקס שפות העיצוב ${DOT} הספרייה לבחירה והמלצה`);
+  out.push("");
+  out.push(`<!-- נוצר אוטומטית מ-Motion Vault (_src/catalog/i-style*.mjs) על ידי node _src/build.mjs. לא לערוך כאן: עורכים בקטלוג ובונים. -->`);
+  out.push("");
+  out.push("**שתי רמות בתיקיית skins/:**");
+  out.push(`1. **עורות מלאים**, נכרו מ-ground truth, מוכנים לפרודקשן: \`storeos-quiet\` (מינימליזם עריכתי), \`soft-modern\` (Soft UI מודרני). כשיש עור מלא שמתאים, הוא עדיף תמיד.`);
+  out.push(`2. **שפות (blueprints)**, הקובץ הזה: מתכון התחלה קונקרטי לכל שפה. בפרויקט אמיתי ראשון בשפה, מלטשים אותה לעור מלא דרך \`_skin-crafting.md\` (רצוי עם רפרנס).`);
+  out.push("");
+  out.push(`בכל שפה: המהות ${DOT} מתי כן/לא ${DOT} **מתכון טוקנים** (ערכי פתיחה אמיתיים) ${DOT} **מפת יישום** (איך השפה מתנהגת בכל אלמנט) ${DOT} **חתימה** (המהלכים שגורמים לה להרגיש אותנטית) ${DOT} **קריקטורה** (הטעויות שהופכות אותה לפלסטיק) ${DOT} **QA** ייעודי ${DOT} אילוצי מנוע ${DOT} המשפט לסוכן (לפרומפטי Lovable) ${DOT} **דמו חי**.`);
+  out.push(`**כלל הדיוק: שפה מדברים, לא לובשים.** מתכון הטוקנים לבד = תחפושת; מפת היישום + מהלכי החתימה = השפה עצמה.`);
+  out.push(`**הדמו החי**: כל שפה מרונדרת במאגר על אותו עמוד ייחוס בדיוק (הדר, הירו, שלושה יתרונות, שלוש חבילות, טופס, פוטר), עם מתג רוחב. ההשוואה בין שפות היא תפוחים לתפוחים, וכל הצעה לליאב מצרפת את הקישור. הכפתור "העתק הנחיה מלאה" בעמוד נותן לסוכן את המתכון, החתימה, הקריקטורה, ה-QA וה-CSS של עמוד הייחוס כנקודת פתיחה לעור.`);
+  out.push(`מקור הטקסונומיה: המדריך לשפות עיצוב (design-guide-site.vercel.app) + trends שנכרו קודם. המתכונים והדיוקים שלנו.`);
+  out.push("");
+  let n = 0, group = null;
+  for (const e of styles) {
+    if (e.group !== group) {
+      group = e.group;
+      out.push("---"); out.push(""); out.push(`## ${group}`); out.push("");
+    }
+    out.push(styleItem(e, ++n)); out.push("");
+  }
+  out.push("---");
+  out.push("");
+  out.push("## איך זה עובד בשלב ההצעה (חיבור ל-SKILL)");
+  out.push(`בכל פרויקט חדש, ההצעה בשלב 2 שולפת מכאן: סוג העסק + קהל + מסר, ומהם 1-2 שפות מומלצות עם נימוק **וקישור לדמו החי**. אם נבחרה שפה בלי עור מלא, המתכון + מפת היישום הם הבסיס, וטובעים עור דרך \`_skin-crafting.md\` (רצוי עם רפרנס). אחרי פרויקט מוצלח ראשון, השפה מקודמת לעור מלא עם הערכים שנלטשו, והדיוקים שנלמדו מהפידבק של ליאב נכתבים חזרה לקטלוג המאגר (לא לכאן) ובונים מחדש.`);
+  out.push("");
+  const md = out.join("\n");
+  if (md.includes(EM_DASH)) throw new Error("em dash in generated languages markdown");
+  return md;
+}
+
+export function writeStylesSkill(entries, ROOT) {
+  const md = stylesMarkdown(entries);
+  const targets = [];
+  const skillDir = join(homedir(), ".claude", "skills", "design-dna", "references", "skins");
+  if (existsSync(skillDir)) targets.push(join(skillDir, "languages.md"));
+  const exp = join(ROOT, "export", "doctrine");
+  mkdirSync(exp, { recursive: true });
+  targets.push(join(exp, "languages.md"));
+  for (const t of targets) writeFileSync(t, md);
+  return targets;
+}
+
 export function writeCompositionsSkill(entries, ROOT) {
   const md = compositionsMarkdown(entries);
   const targets = [];

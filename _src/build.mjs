@@ -4,14 +4,14 @@ import { writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { portable, standalone } from "./portable.mjs";
-import { writeCompositionsSkill } from "./skill.mjs";
+import { writeCompositionsSkill, writeStylesSkill } from "./skill.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const CATS = { comp: "קומפוזיציות", rhythm: "מקצבי עמוד", gsap: "GSAP", react: "React", behavior: "התנהגויות", css: "CSS טהור", lm: "חתימה (LM)", misc: "מסגרת" };
+const CATS = { comp: "קומפוזיציות", rhythm: "מקצבי עמוד", style: "שפות עיצוב", gsap: "GSAP", react: "React", behavior: "התנהגויות", css: "CSS טהור", lm: "חתימה (LM)", misc: "מסגרת" };
 // שני אזורים, שתי שאלות שונות: "מה בונים" (תורה) ו"איך זה זז" (מהלכים).
 // ההחלטה 6.9.2026: המאגר הופך לשכבה הוויזואלית של התורה, לא לתורה שנייה.
 const AREAS = { doctrine: "תורה", moves: "מהלכים" };
-const CAT_AREA = { comp: "doctrine", rhythm: "doctrine", gsap: "moves", react: "moves", behavior: "moves", css: "moves", lm: "moves", misc: "moves" };
+const CAT_AREA = { comp: "doctrine", rhythm: "doctrine", style: "doctrine", gsap: "moves", react: "moves", behavior: "moves", css: "moves", lm: "moves", misc: "moves" };
 const CDN = {
   gsap: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js",
   ScrollTrigger: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js",
@@ -47,6 +47,7 @@ const USES = {
   c11: ["nav", "media", "text"], c12: ["media", "cards"], c13: ["media", "cards"],
   c14: ["text", "ambient"], c15: ["cards", "media"], c16: ["nav", "cards"],
   p01: ["nav"], p02: ["nav"], p03: ["nav"], p04: ["nav", "process"], p05: ["nav"],
+  s01: ["hero", "cards", "nav"], s02: ["hero", "cards", "nav"], s03: ["hero", "cards", "nav"], s04: ["hero", "cards", "nav"], s05: ["hero", "cards", "nav"], s06: ["hero", "cards", "nav"], s07: ["hero", "cards", "nav"], s08: ["hero", "cards", "nav"], s09: ["hero", "cards", "nav"], s10: ["hero", "cards", "nav"], s11: ["hero", "cards", "nav"], s12: ["hero", "cards", "nav"],
   g01: ["process", "media"], g02: ["media", "hero"], g03: ["hero", "media"],
   g04: ["text"], g05: ["media", "process"], g06: ["media"], g07: ["hover", "media", "hero"],
   g08: ["hover", "ambient"], g09: ["hover"], g11: ["media", "hover"],
@@ -117,6 +118,7 @@ const ELEMS = {
   c09: ["img", "card"], c10: ["sect"], c11: ["sect", "list"], c12: ["list", "img"],
   c13: ["list", "img"], c14: ["head", "sect"], c15: ["list", "card"], c16: ["sect", "card"],
   p01: ["page"], p02: ["page"], p03: ["page"], p04: ["page"], p05: ["page"],
+  s01: ["page", "btn", "card", "form"], s02: ["page", "btn", "card", "form"], s03: ["page", "btn", "card", "form"], s04: ["page", "btn", "card", "form"], s05: ["page", "btn", "card", "form"], s06: ["page", "btn", "card", "form"], s07: ["page", "btn", "card", "form"], s08: ["page", "btn", "card", "form"], s09: ["page", "btn", "card", "form"], s10: ["page", "btn", "card", "form"], s11: ["page", "btn", "card", "form"], s12: ["page", "btn", "card", "form"],
   g01: ["sect","list","img"],
   g02: ["img","over"],
   g03: ["img","over"],
@@ -286,6 +288,7 @@ const FIT = {
   c07: ["S"], c08: ["S"], c09: ["L", "S"], c10: ["L", "S"], c11: ["S"], c12: ["L", "S"],
   c13: ["S"], c14: ["L", "S"], c15: ["L", "S"], c16: ["L", "S"],
   p01: ["L", "S"], p02: ["L"], p03: ["S"], p04: ["S"], p05: ["L", "S"],
+  s01: ["L", "S"], s02: ["L", "S"], s03: ["L", "S"], s04: ["L", "S"], s05: ["L", "S"], s06: ["L", "S"], s07: ["L", "S"], s08: ["L", "S"], s09: ["L", "S"], s10: ["L", "S"], s11: ["L", "S"], s12: ["L", "S"],
   g01: ["S"],
   g02: ["S"],
   g03: ["S"],
@@ -465,12 +468,48 @@ if (missingF.length) throw new Error("entries missing FIT tags: " + missingF.joi
 const FONT = `<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">`;
 
 const LIVE = "https://liavwebdesign-spec.github.io/motion-vault";
+// שפת עיצוב יכולה לדרוש פונט משלה (Suez One לרטרו, Karantina לברוטליזם). הקישור נבנה מהשדה fonts.
+const fontLink = e => e.fonts && e.fonts.length ? `<link href="https://fonts.googleapis.com/css2?${e.fonts.map(f => "family=" + f.replace(/ /g, "+")).join("&")}&display=swap" rel="stylesheet">` : "";
 
 // ההנחיה שנדבקת לסוכן קוד. היא נושאת את כל מה שהמהלך צריך כדי לעבוד ביעד,
 // כולל הדברים שנשארים מאחור בהעתקה ידנית: כיוון המסמך, סדר הסקריפטים והרישום.
 function briefFor(e, p) {
   const L = [];
   // תורה: התדריך הוא על פריסה, לא על סקריפטים. אין GSAP, אין המרת React מיוחדת.
+  if (e.cat === "style") {
+    L.push(`שפת עיצוב מתוך Motion Vault: MV:${e.id} · ${e.name} (${e.en})`);
+    L.push(`עמוד הדמו: ${LIVE}/${e.cat}/${e.id}.html`);
+    L.push("");
+    L.push(`המשפט לסוכן: ${e.agent}`);
+    L.push("");
+    L.push(`מהות: ${e.desc}`);
+    L.push(`מתאים ל: ${e.when}`);
+    L.push(`לא מתאים ל: ${e.no}`);
+    L.push("");
+    L.push("מתכון הטוקנים:");
+    L.push(e.recipe);
+    L.push("");
+    L.push(`מפת יישום: ${e.apply}`);
+    L.push(`חתימה (מה שהופך אותה לאותנטית): ${e.sig}`);
+    L.push(`קריקטורה (מה שהופך אותה לפלסטיק): ${e.avoid}`);
+    L.push("QA ייעודי: " + (e.qa || []).map(q => "[ ] " + q).join(" · "));
+    if (e.engine) L.push(`אילוצי מנוע: ${e.engine}`);
+    if (e.extra) { L.push(""); L.push(e.extra); }
+    L.push("");
+    L.push("כללי שימוש:");
+    L.push("1. שפה מדברים, לא לובשים. מתכון הטוקנים לבד הוא תחפושת; מפת היישום ומהלכי החתימה הם השפה עצמה.");
+    L.push("2. עור אחד לעמוד. לעולם לא מערבבים שפות באותו עמוד.");
+    L.push("3. הקוד למטה הוא עמוד ייחוס ניטרלי (הדר, הירו, יתרונות, חבילות, טופס) שלבוש בשפה הזאת. הוא נקודת פתיחה לעור: לוקחים את משתני ה---s-* ואת מהלכי החתימה, ומחליפים את התוכן, הפונטים והגריד בשל הפרויקט.");
+    L.push("4. המנוע לא מתפשר: כיול פונטים, סולם ריווחים, גריד, RTL ונגישות AA נשמרים גם בשפה הקיצונית ביותר.");
+    if (e.fonts && e.fonts.length) L.push(`5. הדמו טוען מגוגל: ${e.fonts.join(", ")}. בפרויקט מכיילים לפי engine/font-calibration.md.`);
+    L.push("");
+    L.push("=== CSS ===");
+    L.push(p.css);
+    L.push("");
+    L.push("=== HTML ===");
+    L.push(p.html);
+    return L.join("\n");
+  }
   if (e.area === "doctrine") {
     L.push(`קומפוזיציה מתוך Motion Vault: MV:${e.id} · ${e.name}`);
     L.push(`עמוד הדמו: ${LIVE}/${e.cat}/${e.id}.html`);
@@ -592,6 +631,7 @@ function codePanel(e) {
 }
 
 const MOVE_NOTE = "הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.";
+const STYLE_NOTE = "זה אותו עמוד ייחוס בדיוק בכל שפת עיצוב: אותו תוכן, אותו מבנה, אותה קריסה. כל מה שמשתנה בין עמוד לעמוד הוא העור, ולכן ההשוואה בין השפות היא תפוחים לתפוחים. התוכן ניטרלי בכוונה; הפונטים, הצבעים והמהלכים כאן הם מתכון פתיחה, ובפרויקט אמיתי טובעים מהם עור מלא.";
 const DOC_NOTE = "הדמו כאן ניטרלי בכוונה ומגדיר מבנה בלבד: גריד, יחסים וקריסה. צבעים, רדיוסים, גופנים וריווח נלקחים מהעור של הפרויקט. מתג הרוחב למעלה מצמצם את המכולה ולא את חלון הדפדפן, ולכן הקריסה שרואים כאן היא הקריסה האמיתית.";
 // מתג הרוחב: העטיפה נמדדת (container-type) בתוך הקוד המיוצא, ולכן אותה קריסה
 // שרואים כאן תקרה גם בפרויקט. הבחירה נשמרת בין עמודים כדי להשוות קומפוזיציות באותו רוחב.
@@ -618,6 +658,7 @@ function page(e) {
 <meta name="robots" content="noindex, nofollow">
 <title>${e.id.toUpperCase()} · ${e.name} | Motion Vault</title>
 ${FONT}
+${fontLink(e)}
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
 ${e.css || ""}
@@ -637,7 +678,7 @@ ${e.css || ""}
   <p>${e.desc}</p>
   <p class="when"><b>מתי משתמשים:</b> ${e.when}</p>
   <div class="mvpanel" data-mvpanel="${e.id}"></div>
-  <p class="inherit-note">${isDoc ? DOC_NOTE : MOVE_NOTE}</p>
+  <p class="inherit-note">${e.cat === "style" ? STYLE_NOTE : isDoc ? DOC_NOTE : MOVE_NOTE}</p>
 </div>
 ${runway}
 ${body}
@@ -861,7 +902,7 @@ writeFileSync(join(ROOT, "export", "manifest.json"), JSON.stringify({
 
 writeFileSync(join(ROOT, "index.html"), indexPage());
 // התורה נכתבת לסקיל מהקטלוג: המאגר הוא מקור האמת (6.9.2026)
-const skillTargets = writeCompositionsSkill(entries, ROOT);
+const skillTargets = [...writeCompositionsSkill(entries, ROOT), ...writeStylesSkill(entries, ROOT)];
 console.log("doctrine -> " + skillTargets.join(" , "));
 writeFileSync(join(ROOT, "robots.txt"), "User-agent: *\nDisallow: /\n");
 writeFileSync(join(ROOT, ".nojekyll"), "");

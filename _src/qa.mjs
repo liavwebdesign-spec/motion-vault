@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const ROOT = process.argv[2];
-const CAT_DIRS = ["comp", "rhythm", "gsap", "react", "behavior", "css", "lm", "misc"];
+const CAT_DIRS = ["comp", "rhythm", "style", "gsap", "react", "behavior", "css", "lm", "misc"];
 const problems = [];
 let pages = 0;
 
@@ -60,7 +60,7 @@ for (const d of CAT_DIRS) {
 }
 
 const missingPages = entries.filter(e => {
-  const dirMap = { comp: "comp", rhythm: "rhythm", gsap: "gsap", react: "react", behavior: "behavior", css: "css", lm: "lm", misc: "misc" };
+  const dirMap = { comp: "comp", rhythm: "rhythm", style: "style", gsap: "gsap", react: "react", behavior: "behavior", css: "css", lm: "lm", misc: "misc" };
   return !existsSync(join(ROOT, dirMap[e.cat], e.id + ".html"));
 }).map(e => e.id);
 if (missingPages.length) problems.push("entries without a page: " + missingPages.join(","));
