@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>C05 · בנטו</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+
+/* C05 · בנטו */
+.cwrap{container-type:inline-size}
+.cstage{--pad:clamp(20px,4cqi,64px);padding:clamp(36px,5cqi,80px) var(--pad)}
+.tx{height:11px;border-radius:6px;background:#dfe0ea;margin:9px 0}
+.tx.s{width:38%}.tx.m{width:62%}.tx.l{width:86%}
+.ttl{font-size:clamp(22px,2.6cqi,34px);font-weight:700;margin:0 0 10px;line-height:1.2}
+.lead{color:var(--muted, #6a6d85);margin:0 0 14px;font-size:15px;line-height:1.6}
+.btn{display:inline-block;background:var(--ink, #16182b);color:#fff;border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;margin-top:12px}
+.cwrap .ph{font-size:clamp(14px,1.6cqi,20px)}
+.c5{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(96px,14cqi,150px);gap:clamp(10px,1.6cqi,20px)}
+.c5 .cell{border-radius:var(--r, 14px);padding:16px;display:flex;flex-direction:column;justify-content:flex-end}
+/* הלבן רק לתאים שאינם ויז'ואל. .c5 .cell (שתי מחלקות) גובר על .ph-a (מחלקה אחת),
+   ובלי הסייג הזה תא הגיבור יצא לבן עם טקסט לבן, כלומר ריק. נתפס בצילום, 6.9.2026. */
+.c5 .cell:not(.ph):not(.cta){background:#fff;border:1px solid var(--line, #e4e4ee)}
+.c5 .hero{grid-column:span 2;grid-row:span 2}
+.c5 .tall{grid-row:span 2}
+.c5 .num{font-size:clamp(30px,5cqi,56px);font-weight:800;line-height:1}
+.c5 .cta{background:var(--ink, #16182b);color:#fff;justify-content:center;align-items:flex-start}
+.c5 .cta .btn{background:#fff;color:var(--ink, #16182b)}
+.c5 .ph{border-radius:var(--r, 14px)}
+@container (max-width:767px){.c5{grid-template-columns:repeat(2,1fr)}.c5 .cell{grid-column:span 1 !important;grid-row:span 1 !important}.c5 .hero{grid-column:span 2 !important}}
+</style>
+</head>
+<body>
+
+<div class="cwrap cstage"><div class="c5">
+  <div class="cell hero ph ph-a">תא גיבור 2 על 2</div>
+  <div class="cell"><span class="num">120</span><div class="tx m"></div></div>
+  <div class="cell tall ph ph-c">תא גבוה</div>
+  <div class="cell"><div class="tx l"></div><div class="tx s"></div></div>
+  <div class="cell"><span class="num">7</span><div class="tx m"></div></div>
+  <div class="cell cta"><b>נשאר חור בגריד?</b><span class="btn">תא CTA ממלא אותו</span></div>
+</div></div>
+
+
+
+</body>
+</html>

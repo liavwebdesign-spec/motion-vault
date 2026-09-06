@@ -4,9 +4,14 @@ import { writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { portable, standalone } from "./portable.mjs";
+import { writeCompositionsSkill } from "./skill.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const CATS = { gsap: "GSAP", react: "React", behavior: "התנהגויות", css: "CSS טהור", lm: "חתימה (LM)", misc: "מסגרת" };
+const CATS = { comp: "קומפוזיציות", rhythm: "מקצבי עמוד", gsap: "GSAP", react: "React", behavior: "התנהגויות", css: "CSS טהור", lm: "חתימה (LM)", misc: "מסגרת" };
+// שני אזורים, שתי שאלות שונות: "מה בונים" (תורה) ו"איך זה זז" (מהלכים).
+// ההחלטה 6.9.2026: המאגר הופך לשכבה הוויזואלית של התורה, לא לתורה שנייה.
+const AREAS = { doctrine: "תורה", moves: "מהלכים" };
+const CAT_AREA = { comp: "doctrine", rhythm: "doctrine", gsap: "moves", react: "moves", behavior: "moves", css: "moves", lm: "moves", misc: "moves" };
 const CDN = {
   gsap: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js",
   ScrollTrigger: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js",
@@ -35,6 +40,13 @@ const USES_LABELS = {
   nav: "ניווט ומבנה",
 };
 const USES = {
+  // תורה (6.9.2026)
+  c01: ["text", "media"], c02: ["media", "text"], c03: ["process", "media"], c04: ["cards"],
+  c05: ["cards", "numbers", "media"], c06: ["process", "numbers"], c07: ["numbers", "text", "hero"],
+  c08: ["text", "media"], c09: ["hero", "media", "numbers"], c10: ["ambient", "numbers"],
+  c11: ["nav", "media", "text"], c12: ["media", "cards"], c13: ["media", "cards"],
+  c14: ["text", "ambient"], c15: ["cards", "media"], c16: ["nav", "cards"],
+  p01: ["nav"], p02: ["nav"], p03: ["nav"], p04: ["nav", "process"], p05: ["nav"],
   g01: ["process", "media"], g02: ["media", "hero"], g03: ["hero", "media"],
   g04: ["text"], g05: ["media", "process"], g06: ["media"], g07: ["hover", "media", "hero"],
   g08: ["hover", "ambient"], g09: ["hover"], g11: ["media", "hover"],
@@ -99,6 +111,12 @@ const ELEMS_LABELS = {
   cursor: "סמן ועכבר", page: "עמוד שלם",
 };
 const ELEMS = {
+  // תורה (6.9.2026)
+  c01: ["sect", "img"], c02: ["sect", "card", "img"], c03: ["sect", "list"], c04: ["list", "card"],
+  c05: ["list", "card"], c06: ["sect", "list"], c07: ["head", "sect"], c08: ["head", "img"],
+  c09: ["img", "card"], c10: ["sect"], c11: ["sect", "list"], c12: ["list", "img"],
+  c13: ["list", "img"], c14: ["head", "sect"], c15: ["list", "card"], c16: ["sect", "card"],
+  p01: ["page"], p02: ["page"], p03: ["page"], p04: ["page"], p05: ["page"],
   g01: ["sect","list","img"],
   g02: ["img","over"],
   g03: ["img","over"],
@@ -263,6 +281,11 @@ const ELEMS = {
 // סוג פרויקט: שכבת סינון שלישית, עצמאית מהשתיים האחרות. לא חובה לתייג את שתיהן.
 const FIT_LABELS = { L: "דף נחיתה", S: "וואן-פייג'ר ותדמית" };
 const FIT = {
+  // תורה (6.9.2026)
+  c01: ["L", "S"], c02: ["S"], c03: ["L", "S"], c04: ["L", "S"], c05: ["L", "S"], c06: ["L", "S"],
+  c07: ["S"], c08: ["S"], c09: ["L", "S"], c10: ["L", "S"], c11: ["S"], c12: ["L", "S"],
+  c13: ["S"], c14: ["L", "S"], c15: ["L", "S"], c16: ["L", "S"],
+  p01: ["L", "S"], p02: ["L"], p03: ["S"], p04: ["S"], p05: ["L", "S"],
   g01: ["S"],
   g02: ["S"],
   g03: ["S"],
@@ -447,6 +470,29 @@ const LIVE = "https://liavwebdesign-spec.github.io/motion-vault";
 // כולל הדברים שנשארים מאחור בהעתקה ידנית: כיוון המסמך, סדר הסקריפטים והרישום.
 function briefFor(e, p) {
   const L = [];
+  // תורה: התדריך הוא על פריסה, לא על סקריפטים. אין GSAP, אין המרת React מיוחדת.
+  if (e.area === "doctrine") {
+    L.push(`קומפוזיציה מתוך Motion Vault: MV:${e.id} · ${e.name}`);
+    L.push(`עמוד הדמו: ${LIVE}/${e.cat}/${e.id}.html`);
+    L.push("");
+    L.push(`מבנה: ${e.desc}`);
+    L.push(`מתאים ל: ${e.when}`);
+    if (e.mobile) L.push(`קריסת מובייל: ${e.mobile}`);
+    if (e.note) L.push(`הערה: ${e.note.replace(/\*\*/g, "")}`);
+    L.push("");
+    L.push("כללי שימוש:");
+    L.push("1. התוכן קובע, לא הקומפוזיציה. אם טבע התוכן לא מתאים לפריסה הזאת, לבחור אחרת.");
+    L.push("2. חוק הגיוון: אותה קומפוזיציה לא פעמיים ברצף ולא יותר מפעמיים בעמוד.");
+    L.push("3. הקוד למטה ניטרלי בכוונה: הוא מגדיר מבנה בלבד. צבעים, רדיוסים, גופנים וריווח נלקחים מהעור של הפרויקט. המחלקות .ph ו-.tx הן ממלאי מקום להחלפה בתוכן אמיתי.");
+    L.push("4. הקריסה למובייל כתובה ב-@container. העטיפה .cwrap חייבת container-type:inline-size (היא כלולה בקוד). אם הפרויקט מעדיף @media, להמיר את @container (max-width:767px) ל-@media (max-width:767px).");
+    L.push("");
+    L.push("=== CSS ===");
+    L.push(p.css);
+    L.push("");
+    L.push("=== HTML ===");
+    L.push(p.html);
+    return L.join("\n");
+  }
   L.push(`מהלך מתוך Motion Vault: MV:${e.id} · ${e.name}`);
   L.push(`עמוד הדמו: ${LIVE}/${e.cat}/${e.id}.html`);
   L.push(`קובץ עצמאי לבדיקה: ${LIVE}/export/${e.id}.html`);
@@ -545,7 +591,22 @@ function codePanel(e) {
 </section>`;
 }
 
+const MOVE_NOTE = "הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.";
+const DOC_NOTE = "הדמו כאן ניטרלי בכוונה ומגדיר מבנה בלבד: גריד, יחסים וקריסה. צבעים, רדיוסים, גופנים וריווח נלקחים מהעור של הפרויקט. מתג הרוחב למעלה מצמצם את המכולה ולא את חלון הדפדפן, ולכן הקריסה שרואים כאן היא הקריסה האמיתית.";
+// מתג הרוחב: העטיפה נמדדת (container-type) בתוך הקוד המיוצא, ולכן אותה קריסה
+// שרואים כאן תקרה גם בפרויקט. הבחירה נשמרת בין עמודים כדי להשוות קומפוזיציות באותו רוחב.
+const BP_BAR = `<div class="bpbar"><span class="flabel">רוחב תצוגה:</span>
+  <button class="bpbtn on" data-bp="desktop">דסקטופ</button>
+  <button class="bpbtn" data-bp="tablet">טאבלט 768</button>
+  <button class="bpbtn" data-bp="mobile">מובייל 375</button></div>`;
+const BP_JS = `(function(){var w=document.querySelector(".bpwrap"),bs=[].slice.call(document.querySelectorAll(".bpbtn"));
+function set(v){bs.forEach(function(x){x.classList.toggle("on",x.dataset.bp===v)});w.dataset.bp=v;try{localStorage.setItem("mv-bp",v)}catch(e){}}
+bs.forEach(function(b){b.addEventListener("click",function(){set(b.dataset.bp)})});
+try{var s=localStorage.getItem("mv-bp");if(s)set(s)}catch(e){}})();`;
+
 function page(e) {
+  const isDoc = e.area === "doctrine";
+  const body = isDoc ? `${BP_BAR}\n<div class="bpwrap" data-bp="desktop">\n${e.html}\n</div>` : e.html;
   const libs = (e.libs || []).map(l => `<script src="${CDN[l]}"></script>`).join("\n");
   const register = (e.libs || []).filter(l => l !== "gsap" && !NON_GSAP.has(l)).join(", ");
   const runway = e.runway === false ? "" : `<div class="runway">גלול למטה, הדמו מגיע ↓</div>`;
@@ -576,10 +637,10 @@ ${e.css || ""}
   <p>${e.desc}</p>
   <p class="when"><b>מתי משתמשים:</b> ${e.when}</p>
   <div class="mvpanel" data-mvpanel="${e.id}"></div>
-  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+  <p class="inherit-note">${isDoc ? DOC_NOTE : MOVE_NOTE}</p>
 </div>
 ${runway}
-${e.html}
+${body}
 ${runwayEnd}
 ${e.note ? `<div class="demo-note">${e.note}</div>` : ""}
 ${codePanel(e)}
@@ -608,21 +669,24 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 })();
 ${register ? `gsap.registerPlugin(${register});` : ""}
-${e.js || ""}
+${isDoc ? BP_JS + String.fromCharCode(10) : ""}${e.js || ""}
 </script>
 </body>
 </html>`;
 }
 
 function indexPage() {
-  const cards = entries.map(e => `<a class="vcard" data-id="${e.id}" data-cat="${e.cat}" data-uses="${(USES[e.id] || []).join(" ")}" data-elems="${(ELEMS[e.id] || []).join(" ")}" data-fit="${(FIT[e.id] || []).join(" ")}" data-txt="${("MV:" + e.id + " " + e.name + " " + e.desc + " " + e.tech + " " + (USES[e.id] || []).map(u => USES_LABELS[u]).join(" ") + " " + (ELEMS[e.id] || []).map(u => ELEMS_LABELS[u]).join(" ") + " " + (FIT[e.id] || []).map(u => FIT_LABELS[u]).join(" ")).replace(/"/g, "")}" href="${e.cat}/${e.id}.html">
+  const cards = entries.map(e => `<a class="vcard" data-id="${e.id}" data-cat="${e.cat}" data-area="${CAT_AREA[e.cat]}" data-uses="${(USES[e.id] || []).join(" ")}" data-elems="${(ELEMS[e.id] || []).join(" ")}" data-fit="${(FIT[e.id] || []).join(" ")}" data-txt="${("MV:" + e.id + " " + e.name + " " + e.desc + " " + e.tech + " " + (USES[e.id] || []).map(u => USES_LABELS[u]).join(" ") + " " + (ELEMS[e.id] || []).map(u => ELEMS_LABELS[u]).join(" ") + " " + (FIT[e.id] || []).map(u => FIT_LABELS[u]).join(" ")).replace(/"/g, "")}" href="${e.cat}/${e.id}.html">
   <div class="row"><span class="vid">MV:${e.id}</span><span class="chip cat-${e.cat}">${CATS[e.cat]}</span><span class="chip stchip st-pending">ממתין</span></div>
   <h3>${e.name}</h3><p>${e.desc}</p>
   <div class="row"><span class="chip">${e.tech}</span>${(USES[e.id] || []).map(u => `<span class="chip use">${USES_LABELS[u]}</span>`).join("")}${(ELEMS[e.id] || []).map(u => `<span class="chip elem">${ELEMS_LABELS[u]}</span>`).join("")}</div>
 </a>`).join("\n");
   const REPORT_LIST = JSON.stringify(entries.map(e => ({ id: e.id, name: e.name, cat: e.cat })));
   const counts = Object.fromEntries(Object.keys(CATS).map(c => [c, entries.filter(e => e.cat === c).length]));
-  const fbtns = Object.entries(CATS).map(([k, v]) => `<button class="fbtn" data-f="${k}">${v} · ${counts[k]}</button>`).join("");
+  const fbtns = Object.entries(CATS).map(([k, v]) => `<button class="fbtn" data-f="${k}" data-area="${CAT_AREA[k]}">${v} · ${counts[k]}</button>`).join("");
+  const acounts = Object.fromEntries(Object.keys(AREAS).map(a => [a, entries.filter(e => CAT_AREA[e.cat] === a).length]));
+  const AREA_ICON = { doctrine: "📐", moves: "✨" };
+  const abtns = Object.entries(AREAS).map(([k, v]) => `<button class="abtn" data-a="${k}">${AREA_ICON[k]} ${v} · ${acounts[k]}</button>`).join("");
   const ucounts = Object.fromEntries(Object.keys(USES_LABELS).map(u => [u, entries.filter(e => (USES[e.id] || []).includes(u)).length]));
   const ubtns = Object.entries(USES_LABELS).map(([k, v]) => `<button class="ubtn" data-u="${k}">${v} · ${ucounts[k]}</button>`).join("");
   const ecounts = Object.fromEntries(Object.keys(ELEMS_LABELS).map(u => [u, entries.filter(e => (ELEMS[e.id] || []).includes(u)).length]));
@@ -642,10 +706,16 @@ ${FONT}
 <body>
 <div class="vhead">
   <h2>Motion Vault</h2>
-  <p>מאגר האנימציות החי: ${entries.length} דמואים בכל הטכנולוגיות. כל כרטיס נפתח לעמוד מבודד עם הדמו רץ בלייב. סנן, חפש, פתח, גלול.</p>
+  <p>התורה החיה של העיצוב והפיתוח: ${entries.length} דמואים בשני אזורים. <b>תורה</b> עונה על "מה בונים": קומפוזיציות ומקצבי עמוד, כל אחד עם מתג רוחב. <b>מהלכים</b> עונה על "איך זה זז": אנימציה והתנהגות בכל הטכנולוגיות. כל כרטיס נפתח לעמוד מבודד עם הדמו רץ בלייב.</p>
   <p class="vhead-code">בתחתית כל עמוד מהלך יש <b>קוד להדבקה</b>: כפתור אחד מעתיק הנחיה מלאה לסוכן קוד, עם ה-CSS, ה-HTML, ה-JS, תגי הסקריפט לפי הסדר ואופן ההמרה ל-React. הקוד עומד בפני עצמו ולא נשען על שום דבר מהמאגר.</p>
 </div>
 <div class="vtoolbar">
+  <div class="vtoolbar-row">
+    <div class="seg area-seg" role="tablist" aria-label="אזור">
+      <button class="abtn on" data-a="all">הכל · ${entries.length}</button>
+      ${abtns}
+    </div>
+  </div>
   <div class="vtoolbar-row">
     <div class="seg" role="tablist" aria-label="קטגוריה">
       <button class="fbtn on" data-f="all">הכל · ${entries.length}</button>
@@ -687,7 +757,10 @@ sbtns=[...document.querySelectorAll('.sbtn')],clr=document.querySelector('.clr-b
 advToggle=document.querySelector('.adv-toggle'),advPanel=document.querySelector('.adv-panel'),advBadge=document.querySelector('.adv-badge'),
 search=document.querySelector('.fsearch'),count=document.querySelector('.fcount');
 // שלוש קבוצות רב-בחירה: בתוך כל קבוצה זה "או", ובין הקבוצות זה "וגם"
-let cat='all',stf=null;const useSet=new Set(),elemSet=new Set(),fitSet=new Set();
+let cat='all',stf=null,area='all';const useSet=new Set(),elemSet=new Set(),fitSet=new Set();
+const abtns=[...document.querySelectorAll('.abtn')];
+// כפתורי הקטגוריה מצטמצמים לאזור שנבחר, כדי שלא יוצגו קטגוריות ריקות
+function syncCats(){btns.forEach(b=>{if(b.dataset.f==='all')return;b.hidden=!(area==='all'||b.dataset.area===area);});}
 function paintStatus(){
   const tally={ok:0,no:0,pending:0};
   cards.forEach(c=>{
@@ -701,7 +774,7 @@ function paintStatus(){
 function apply(){
   const q=search.value.trim().toLowerCase();let n=0;
   cards.forEach(c=>{
-    const ok=(cat==='all'||c.dataset.cat===cat)
+    const ok=(area==='all'||c.dataset.area===area)&&(cat==='all'||c.dataset.cat===cat)
       &&(!useSet.size||c.dataset.uses.split(' ').some(u=>useSet.has(u)))
       &&(!elemSet.size||c.dataset.elems.split(' ').some(u=>elemSet.has(u)))
       &&(!fitSet.size||c.dataset.fit.split(' ').some(u=>fitSet.has(u)))
@@ -717,6 +790,7 @@ function apply(){
   advToggle.classList.toggle('active',!!advActive);
 }
 btns.forEach(b=>b.addEventListener('click',()=>{btns.forEach(x=>x.classList.remove('on'));b.classList.add('on');cat=b.dataset.f;apply();}));
+abtns.forEach(b=>b.addEventListener('click',()=>{abtns.forEach(x=>x.classList.remove('on'));b.classList.add('on');area=b.dataset.a;cat='all';btns.forEach(x=>x.classList.toggle('on',x.dataset.f==='all'));syncCats();apply();}));
 function multi(list,set,key){
   list.forEach(b=>b.addEventListener('click',()=>{
     const v=b.dataset[key];
@@ -734,7 +808,8 @@ function setAdv(open){
 }
 advToggle.addEventListener('click',()=>setAdv(advPanel.hidden));
 clr.addEventListener('click',()=>{
-  useSet.clear();elemSet.clear();fitSet.clear();stf=null;cat='all';search.value='';
+  useSet.clear();elemSet.clear();fitSet.clear();stf=null;cat='all';area='all';search.value='';
+  abtns.forEach(x=>x.classList.toggle('on',x.dataset.a==='all'));syncCats();
   [...ubtns,...ebtns,...fitbtns,...sbtns].forEach(x=>x.classList.remove('on'));
   btns.forEach(x=>x.classList.toggle('on',x.dataset.f==='all'));
   apply();
@@ -751,7 +826,7 @@ document.querySelector('.report-btn').addEventListener('click',function(){
   });
 });
 search.addEventListener('input',apply);
-paintStatus();apply();
+syncCats();paintStatus();apply();
 addEventListener('pageshow',()=>{paintStatus();apply();});
 </script>
 </body>
@@ -785,6 +860,9 @@ writeFileSync(join(ROOT, "export", "manifest.json"), JSON.stringify({
 }, null, 1));
 
 writeFileSync(join(ROOT, "index.html"), indexPage());
+// התורה נכתבת לסקיל מהקטלוג: המאגר הוא מקור האמת (6.9.2026)
+const skillTargets = writeCompositionsSkill(entries, ROOT);
+console.log("doctrine -> " + skillTargets.join(" , "));
 writeFileSync(join(ROOT, "robots.txt"), "User-agent: *\nDisallow: /\n");
 writeFileSync(join(ROOT, ".nojekyll"), "");
 console.log(`built ${n} pages + index + ${manifest.length} standalone exports`);
