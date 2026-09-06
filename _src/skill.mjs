@@ -141,6 +141,89 @@ export function writeStylesSkill(entries, ROOT) {
   return targets;
 }
 
+// ───────── אנטי-פטרנים: library/anti-patterns.md ─────────
+function writeDoc(ROOT, sub, name, md) {
+  if (md.includes(EM_DASH)) throw new Error("em dash in generated " + name);
+  const targets = [];
+  const skillDir = join(homedir(), ".claude", "skills", "design-dna", "references", sub);
+  if (existsSync(skillDir)) targets.push(join(skillDir, name));
+  const exp = join(ROOT, "export", "doctrine");
+  mkdirSync(exp, { recursive: true });
+  targets.push(join(exp, name));
+  for (const t of targets) writeFileSync(t, md);
+  return targets;
+}
+
+export function antiMarkdown(entries) {
+  const items = entries.filter(e => e.cat === "anti");
+  const out = [];
+  out.push(`# גלריית אנטי-פטרנים ${DOT} ככה לא, ככה כן`);
+  out.push("");
+  out.push(`<!-- נוצר אוטומטית מ-Motion Vault (_src/catalog/j-anti.mjs) על ידי node _src/build.mjs. לא לערוך כאן: עורכים בקטלוג ובונים. -->`);
+  out.push("");
+  out.push(`כל פריט כאן הוא לקח שכבר רשום בתורה (צ'קליסט ה-QA, קריקטורות השפות, כללי המנוע), עם דמו חי שמראה את הטעות ואת התיקון על אותו בלוק ניטרלי. **לפני כל מסירה עוברים על הרשימה הזאת** ומחפשים כל תבנית בעמוד. "איך מזהים" הוא המבחן המהיר: איפה להסתכל כדי לתפוס את זה בעין.`);
+  out.push("");
+  out.push(`כשליאב מדביק \`MV:a05\`, זו הפניה לאנטי-פטרן: לתקן לפי סעיף "התיקון" של אותו פריט.`);
+  out.push("");
+  out.push("---");
+  out.push("");
+  items.forEach((e, i) => {
+    out.push(`### A${i + 1} ${DOT} ${e.name}`);
+    out.push(e.desc);
+    out.push(`**איפה**: ${e.when}`);
+    out.push(`**החוק**: ${e.rule}`);
+    out.push(`**למה זה רע**: ${e.why}`);
+    out.push(`**התיקון**: ${e.fix}`);
+    out.push(`**איך מזהים**: ${e.spot}`);
+    out.push(`**דמו חי**: ${LIVE}/${e.cat}/${e.id}.html ${DOT} \`MV:${e.id}\``);
+    out.push("");
+  });
+  out.push("---");
+  out.push("");
+  out.push("## הזנה");
+  out.push(`לקח חדש מפידבק של ליאב (למשל "זה נראה על הפנים" עם סיבה) נכנס קודם לצ'קליסט ב-SKILL.md כסעיף ממוספר, ואז מקבל דמו כאן: רשומה ב-\`_src/catalog/j-anti.mjs\` עם שני החלונות על בלוק ניטרלי, ובונים. הקובץ הזה נוצר מהבנייה.`);
+  out.push("");
+  return out.join("\n");
+}
+export function writeAntiSkill(entries, ROOT) { return writeDoc(ROOT, "library", "anti-patterns.md", antiMarkdown(entries)); }
+
+// ───────── ארכיטיפים: library/archetypes.md ─────────
+export function archMarkdown(entries) {
+  const items = entries.filter(e => e.cat === "arch");
+  const out = [];
+  out.push(`# ארכיטיפים של עמוד מלא ${DOT} סדר הסקשנים לכל סוג עמוד`);
+  out.push("");
+  out.push(`<!-- נוצר אוטומטית מ-Motion Vault (_src/catalog/k-arch.mjs) על ידי node _src/build.mjs. לא לערוך כאן: עורכים בקטלוג ובונים. -->`);
+  out.push("");
+  out.push(`ארכיטיפ הוא הרמה שמעל המקצב: **איזה סקשנים, באיזה סדר, ולמה**, עם קומפוזיציה מומלצת (C) לכל סקשן ומקצב (P) לעמוד. בשלב האפיון (site-planning.md) בוחרים ארכיטיפ לכל עמוד, ואז מתאימים: סקשן שאין לו תוכן אמיתי יורד, סקשן שהתוכן שלו שונה מטבעו מחליף קומפוזיציה. הסדר עצמו משתנה רק עם סיבה שמדווחת.`);
+  out.push("");
+  out.push(`**כל ארכיטיפ הוא שלד חי במאגר** עם מתג רוחב, וכל סקשן בו מתויג במספר, תפקיד וקומפוזיציה. ההצעה לליאב מצרפת את הקישור. כפתור ההעתקה נותן שלד CSS+HTML ניטרלי כנקודת פתיחה למבנה.`);
+  out.push("");
+  out.push("---");
+  out.push("");
+  items.forEach((e, i) => {
+    out.push(`### R${i + 1} ${DOT} ${e.name} ${DOT} ${e.rhythm}`);
+    out.push(e.desc);
+    out.push(`**מתאים ל**: ${e.when}`);
+    out.push("");
+    out.push("| # | סקשן | קומפוזיציה | למה |");
+    out.push("|---|---|---|---|");
+    e.sections.forEach((s, j) => out.push(`| ${j + 1} | ${s.role} | ${s.comp || "לפי העור"} | ${s.why} |`));
+    out.push("");
+    if (e.mobile) out.push(`**מובייל**: ${e.mobile}`);
+    if (e.note) out.push(`**הערה**: ${e.note}`);
+    out.push(`**דמו חי**: ${LIVE}/${e.cat}/${e.id}.html ${DOT} \`MV:${e.id}\``);
+    out.push("");
+  });
+  out.push("---");
+  out.push("");
+  out.push("## שילוב בהצעה (שלב 2 ב-SKILL)");
+  out.push(`ההצעה לפרויקט פותחת בארכיטיפ לכל עמוד ("עמוד הבית: R3, עמוד שירות: R4"), ומתוכו נגזרים המקצב והקומפוזיציות. סטייה מהארכיטיפ (סקשן שנוסף, סדר שהשתנה) מקבלת משפט נימוק. ארכיטיפ חדש נכנס לקטלוג \`_src/catalog/k-arch.mjs\` ובונים.`);
+  out.push("");
+  return out.join("\n");
+}
+export function writeArchSkill(entries, ROOT) { return writeDoc(ROOT, "library", "archetypes.md", archMarkdown(entries)); }
+
 export function writeCompositionsSkill(entries, ROOT) {
   const md = compositionsMarkdown(entries);
   const targets = [];

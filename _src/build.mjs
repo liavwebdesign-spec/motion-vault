@@ -4,14 +4,14 @@ import { writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { portable, standalone } from "./portable.mjs";
-import { writeCompositionsSkill, writeStylesSkill } from "./skill.mjs";
+import { writeCompositionsSkill, writeStylesSkill, writeAntiSkill, writeArchSkill } from "./skill.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const CATS = { comp: "קומפוזיציות", rhythm: "מקצבי עמוד", style: "שפות עיצוב", gsap: "GSAP", react: "React", behavior: "התנהגויות", css: "CSS טהור", lm: "חתימה (LM)", misc: "מסגרת" };
+const CATS = { comp: "קומפוזיציות", rhythm: "מקצבי עמוד", style: "שפות עיצוב", anti: "אנטי-פטרנים", arch: "ארכיטיפים", gsap: "GSAP", react: "React", behavior: "התנהגויות", css: "CSS טהור", lm: "חתימה (LM)", misc: "מסגרת" };
 // שני אזורים, שתי שאלות שונות: "מה בונים" (תורה) ו"איך זה זז" (מהלכים).
 // ההחלטה 6.9.2026: המאגר הופך לשכבה הוויזואלית של התורה, לא לתורה שנייה.
 const AREAS = { doctrine: "תורה", moves: "מהלכים" };
-const CAT_AREA = { comp: "doctrine", rhythm: "doctrine", style: "doctrine", gsap: "moves", react: "moves", behavior: "moves", css: "moves", lm: "moves", misc: "moves" };
+const CAT_AREA = { comp: "doctrine", rhythm: "doctrine", style: "doctrine", anti: "doctrine", arch: "doctrine", gsap: "moves", react: "moves", behavior: "moves", css: "moves", lm: "moves", misc: "moves" };
 const CDN = {
   gsap: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js",
   ScrollTrigger: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js",
@@ -47,6 +47,8 @@ const USES = {
   c11: ["nav", "media", "text"], c12: ["media", "cards"], c13: ["media", "cards"],
   c14: ["text", "ambient"], c15: ["cards", "media"], c16: ["nav", "cards"],
   p01: ["nav"], p02: ["nav"], p03: ["nav"], p04: ["nav", "process"], p05: ["nav"],
+  a01: ["nav", "cards", "text"], a02: ["nav", "cards", "text"], a03: ["nav", "cards", "text"], a04: ["nav", "cards", "text"], a05: ["nav", "cards", "text"], a06: ["nav", "cards", "text"], a07: ["nav", "cards", "text"], a08: ["nav", "cards", "text"], a09: ["nav", "cards", "text"], a10: ["nav", "cards", "text"], a11: ["nav", "cards", "text"], a12: ["nav", "cards", "text"], a13: ["nav", "cards", "text"], a14: ["nav", "cards", "text"],
+  ar01: ["nav", "hero", "process"], ar02: ["nav", "hero", "process"], ar03: ["nav", "hero", "process"], ar04: ["nav", "hero", "process"], ar05: ["nav", "hero", "process"], ar06: ["nav", "hero", "process"], ar07: ["nav", "hero", "process"], ar08: ["nav", "hero", "process"], ar09: ["nav", "hero", "process"], ar10: ["nav", "hero", "process"], ar11: ["nav", "hero", "process"], ar12: ["nav", "hero", "process"],
   s01: ["hero", "cards", "nav"], s02: ["hero", "cards", "nav"], s03: ["hero", "cards", "nav"], s04: ["hero", "cards", "nav"], s05: ["hero", "cards", "nav"], s06: ["hero", "cards", "nav"], s07: ["hero", "cards", "nav"], s08: ["hero", "cards", "nav"], s09: ["hero", "cards", "nav"], s10: ["hero", "cards", "nav"], s11: ["hero", "cards", "nav"], s12: ["hero", "cards", "nav"],
   g01: ["process", "media"], g02: ["media", "hero"], g03: ["hero", "media"],
   g04: ["text"], g05: ["media", "process"], g06: ["media"], g07: ["hover", "media", "hero"],
@@ -118,6 +120,8 @@ const ELEMS = {
   c09: ["img", "card"], c10: ["sect"], c11: ["sect", "list"], c12: ["list", "img"],
   c13: ["list", "img"], c14: ["head", "sect"], c15: ["list", "card"], c16: ["sect", "card"],
   p01: ["page"], p02: ["page"], p03: ["page"], p04: ["page"], p05: ["page"],
+  a01: ["sect", "card", "btn"], a02: ["sect", "card", "btn"], a03: ["sect", "card", "btn"], a04: ["sect", "card", "btn"], a05: ["sect", "card", "btn"], a06: ["sect", "card", "btn"], a07: ["sect", "card", "btn"], a08: ["sect", "card", "btn"], a09: ["sect", "card", "btn"], a10: ["sect", "card", "btn"], a11: ["sect", "card", "btn"], a12: ["sect", "card", "btn"], a13: ["sect", "card", "btn"], a14: ["sect", "card", "btn"],
+  ar01: ["page", "sect"], ar02: ["page", "sect"], ar03: ["page", "sect"], ar04: ["page", "sect"], ar05: ["page", "sect"], ar06: ["page", "sect"], ar07: ["page", "sect"], ar08: ["page", "sect"], ar09: ["page", "sect"], ar10: ["page", "sect"], ar11: ["page", "sect"], ar12: ["page", "sect"],
   s01: ["page", "btn", "card", "form"], s02: ["page", "btn", "card", "form"], s03: ["page", "btn", "card", "form"], s04: ["page", "btn", "card", "form"], s05: ["page", "btn", "card", "form"], s06: ["page", "btn", "card", "form"], s07: ["page", "btn", "card", "form"], s08: ["page", "btn", "card", "form"], s09: ["page", "btn", "card", "form"], s10: ["page", "btn", "card", "form"], s11: ["page", "btn", "card", "form"], s12: ["page", "btn", "card", "form"],
   g01: ["sect","list","img"],
   g02: ["img","over"],
@@ -288,6 +292,8 @@ const FIT = {
   c07: ["S"], c08: ["S"], c09: ["L", "S"], c10: ["L", "S"], c11: ["S"], c12: ["L", "S"],
   c13: ["S"], c14: ["L", "S"], c15: ["L", "S"], c16: ["L", "S"],
   p01: ["L", "S"], p02: ["L"], p03: ["S"], p04: ["S"], p05: ["L", "S"],
+  a01: ["L", "S"], a02: ["L", "S"], a03: ["L", "S"], a04: ["L", "S"], a05: ["L", "S"], a06: ["L", "S"], a07: ["L", "S"], a08: ["L", "S"], a09: ["L", "S"], a10: ["L", "S"], a11: ["L", "S"], a12: ["L", "S"], a13: ["L", "S"], a14: ["L", "S"],
+  ar01: ["L"], ar02: ["S"], ar03: ["S"], ar04: ["S"], ar05: ["L", "S"], ar06: ["S"], ar07: ["S"], ar08: ["S"], ar09: ["S"], ar10: ["L", "S"], ar11: ["L"], ar12: ["S"],
   s01: ["L", "S"], s02: ["L", "S"], s03: ["L", "S"], s04: ["L", "S"], s05: ["L", "S"], s06: ["L", "S"], s07: ["L", "S"], s08: ["L", "S"], s09: ["L", "S"], s10: ["L", "S"], s11: ["L", "S"], s12: ["L", "S"],
   g01: ["S"],
   g02: ["S"],
@@ -476,6 +482,52 @@ const fontLink = e => e.fonts && e.fonts.length ? `<link href="https://fonts.goo
 function briefFor(e, p) {
   const L = [];
   // תורה: התדריך הוא על פריסה, לא על סקריפטים. אין GSAP, אין המרת React מיוחדת.
+  if (e.cat === "anti") {
+    L.push(`אנטי-פטרן מתוך Motion Vault: MV:${e.id} · ${e.name}`);
+    L.push(`עמוד הדמו (ככה לא מול ככה כן): ${LIVE}/${e.cat}/${e.id}.html`);
+    L.push("");
+    L.push(`מה זה: ${e.desc}`);
+    L.push(`איפה זה קורה: ${e.when}`);
+    L.push(`החוק: ${e.rule}`);
+    L.push(`למה זה רע: ${e.why}`);
+    L.push(`התיקון: ${e.fix}`);
+    L.push(`איך מזהים: ${e.spot}`);
+    L.push("");
+    L.push("הנחיה לסוכן: לפני מסירה, לעבור על העמוד ולחפש את התבנית הזאת בדיוק. הקוד למטה הוא הדמו עצמו (שני החלונות), לא קוד להדבקה; הצד הימני בכל זוג הוא הטעות והשמאלי הוא התיקון.");
+    L.push("");
+    L.push("=== CSS ===");
+    L.push(p.css);
+    L.push("");
+    L.push("=== HTML ===");
+    L.push(p.html);
+    return L.join("\n");
+  }
+  if (e.cat === "arch") {
+    L.push(`ארכיטיפ עמוד מתוך Motion Vault: MV:${e.id} · ${e.name}`);
+    L.push(`עמוד הדמו: ${LIVE}/${e.cat}/${e.id}.html`);
+    L.push("");
+    L.push(`מה זה: ${e.desc}`);
+    L.push(`מתאים ל: ${e.when}`);
+    L.push(`מקצב עמוד: ${e.rhythm}`);
+    if (e.mobile) L.push(`מובייל: ${e.mobile}`);
+    if (e.note) L.push(`הערה: ${e.note}`);
+    L.push("");
+    L.push("סדר הסקשנים (תפקיד · קומפוזיציה · למה):");
+    e.sections.forEach((s, i) => L.push(`${i + 1}. ${s.role} · ${s.comp || "לפי העור"} · ${s.why}`));
+    L.push("");
+    L.push("כללי שימוש:");
+    L.push("1. הארכיטיפ הוא סדר הסקשנים ותפקידם. הקומפוזיציה בכל סקשן היא המלצה מטבע התוכן; אם התוכן האמיתי שונה, מחליפים קומפוזיציה ולא סדר.");
+    L.push("2. הקוד למטה הוא שלד ניטרלי (קווי טקסט וממלאי מקום). הוא נקודת פתיחה למבנה, ומתלבש בעור של הפרויקט. אין בו צבעים או גופנים לשמור.");
+    L.push("3. חוק הגיוון נשמר בארכיטיפ עצמו: אין אותה קומפוזיציה פעמיים ברצף.");
+    L.push("4. הקריסה כתובה ב-@container. העטיפה .cwrap צריכה container-type:inline-size (כלולה).");
+    L.push("");
+    L.push("=== CSS ===");
+    L.push(p.css);
+    L.push("");
+    L.push("=== HTML ===");
+    L.push(p.html);
+    return L.join("\n");
+  }
   if (e.cat === "style") {
     L.push(`שפת עיצוב מתוך Motion Vault: MV:${e.id} · ${e.name} (${e.en})`);
     L.push(`עמוד הדמו: ${LIVE}/${e.cat}/${e.id}.html`);
@@ -631,6 +683,8 @@ function codePanel(e) {
 }
 
 const MOVE_NOTE = "הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.";
+const ANTI_NOTE = "שני חלונות, אותו בלוק בדיוק: מימין הטעות, משמאל התיקון. התוכן ניטרלי בכוונה. הכלל שנשבר, הסיבה, התיקון ואיך מזהים אותו בעין נמצאים בכפתור ההעתקה למטה, והם מה שנכנס לצ'קליסט לפני מסירה.";
+const ARCH_NOTE = "שלד עמוד מלא: כל סקשן מתויג במספרו, בתפקידו ובקומפוזיציה המומלצת לו (C), ולעמוד כולו יש מקצב (P). קווי הטקסט וממלאי המקום ניטרליים בכוונה; העור של הפרויקט מלביש את השלד. מתג הרוחב למעלה מראה את הקריסה האמיתית של כל הסקשנים.";
 const STYLE_NOTE = "זה אותו עמוד ייחוס בדיוק בכל שפת עיצוב: אותו תוכן, אותו מבנה, אותה קריסה. כל מה שמשתנה בין עמוד לעמוד הוא העור, ולכן ההשוואה בין השפות היא תפוחים לתפוחים. התוכן ניטרלי בכוונה; הפונטים, הצבעים והמהלכים כאן הם מתכון פתיחה, ובפרויקט אמיתי טובעים מהם עור מלא.";
 const DOC_NOTE = "הדמו כאן ניטרלי בכוונה ומגדיר מבנה בלבד: גריד, יחסים וקריסה. צבעים, רדיוסים, גופנים וריווח נלקחים מהעור של הפרויקט. מתג הרוחב למעלה מצמצם את המכולה ולא את חלון הדפדפן, ולכן הקריסה שרואים כאן היא הקריסה האמיתית.";
 // מתג הרוחב: העטיפה נמדדת (container-type) בתוך הקוד המיוצא, ולכן אותה קריסה
@@ -678,7 +732,7 @@ ${e.css || ""}
   <p>${e.desc}</p>
   <p class="when"><b>מתי משתמשים:</b> ${e.when}</p>
   <div class="mvpanel" data-mvpanel="${e.id}"></div>
-  <p class="inherit-note">${e.cat === "style" ? STYLE_NOTE : isDoc ? DOC_NOTE : MOVE_NOTE}</p>
+  <p class="inherit-note">${e.cat === "style" ? STYLE_NOTE : e.cat === "anti" ? ANTI_NOTE : e.cat === "arch" ? ARCH_NOTE : isDoc ? DOC_NOTE : MOVE_NOTE}</p>
 </div>
 ${runway}
 ${body}
@@ -902,7 +956,7 @@ writeFileSync(join(ROOT, "export", "manifest.json"), JSON.stringify({
 
 writeFileSync(join(ROOT, "index.html"), indexPage());
 // התורה נכתבת לסקיל מהקטלוג: המאגר הוא מקור האמת (6.9.2026)
-const skillTargets = [...writeCompositionsSkill(entries, ROOT), ...writeStylesSkill(entries, ROOT)];
+const skillTargets = [...writeCompositionsSkill(entries, ROOT), ...writeStylesSkill(entries, ROOT), ...writeAntiSkill(entries, ROOT), ...writeArchSkill(entries, ROOT)];
 console.log("doctrine -> " + skillTargets.join(" , "));
 writeFileSync(join(ROOT, "robots.txt"), "User-agent: *\nDisallow: /\n");
 writeFileSync(join(ROOT, ".nojekyll"), "");
