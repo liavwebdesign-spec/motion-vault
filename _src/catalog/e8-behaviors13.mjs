@@ -18,7 +18,7 @@ export default [
 .calc-bars{display:flex;align-items:flex-end;gap:clamp(8px,1.4vw,18px);height:clamp(140px,18vw,210px);margin-top:8px}
 .calc-bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px;height:100%}
 .calc-fill{width:100%;border-radius:10px 10px 4px 4px;background:linear-gradient(180deg,#6f63ff,#4a3aff);
-  transition:height .45s cubic-bezier(.2,.8,.2,1)}
+  height:100%;transform-origin:50% 100%;transform:scaleY(.1);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
 .calc-bar.dim .calc-fill{background:linear-gradient(180deg,#cfcfe4,#b9b9d4)}
 .calc-name{font-size:12px;color:var(--muted);white-space:nowrap}
 .calc-foot{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center;margin-top:24px;
@@ -56,7 +56,7 @@ export default [
     // האפיון כמעט קבוע, והפיתוח הוא זה שמטפס. נרמול לפי הגבוהה כדי שתמיד תמלא את הגובה.
     const vals=bars.map(b=>+b.dataset.b + n * +b.dataset.g);
     const max=Math.max(...vals);
-    bars.forEach((b,i)=>{b.style.height=Math.max(10,(vals[i]/max)*100)+"%";});
+    bars.forEach((b,i)=>{b.style.transform="scaleY("+Math.max(.1,vals[i]/max).toFixed(3)+")";});   // scaleY במקום height: אותו גרף, בלי layout thrash
     const total=BASE+n*PER;
     sum.textContent=total.toLocaleString("he-IL")+" ש\\"ח";
   }

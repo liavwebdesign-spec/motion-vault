@@ -3,7 +3,7 @@
 import { writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { portable, standalone } from "./portable.mjs";
+import { portable, standalone, labelPh } from "./portable.mjs";
 import { writeCompositionsSkill, writeStylesSkill, writeAntiSkill, writeArchSkill } from "./skill.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -703,7 +703,7 @@ try{var s=localStorage.getItem("mv-bp");if(s)set(s)}catch(e){}})();`;
 
 function page(e) {
   const isDoc = e.area === "doctrine";
-  const body = isDoc ? `${BP_BAR}\n<div class="bpwrap" data-bp="desktop">\n${e.html}\n</div>` : e.html;
+  const body = labelPh(isDoc ? `${BP_BAR}\n<div class="bpwrap" data-bp="desktop">\n${e.html}\n</div>` : e.html);
   const libs = (e.libs || []).map(l => `<script src="${CDN[l]}"></script>`).join("\n");
   const register = (e.libs || []).filter(l => l !== "gsap" && !NON_GSAP.has(l)).join(", ");
   const runway = e.runway === false ? "" : `<div class="runway">גלול למטה, הדמו מגיע ↓</div>`;
@@ -737,6 +737,7 @@ ${e.css || ""}
   <div class="mvpanel" data-mvpanel="${e.id}"></div>
   <p class="inherit-note">${e.cat === "style" ? STYLE_NOTE : e.cat === "anti" ? ANTI_NOTE : e.cat === "arch" ? ARCH_NOTE : isDoc ? DOC_NOTE : MOVE_NOTE}</p>
 </div>
+<h2 class="sr-only">הדמו</h2>
 ${runway}
 ${body}
 ${runwayEnd}

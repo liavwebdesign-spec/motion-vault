@@ -32,6 +32,10 @@ const HELPERS = {
   "ph-d": ".ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}",
   "ph-e": ".ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}",
   "ph-f": ".ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}",
+  // תווית הפלייסהולדר. לבן ישיר על הקצה הבהיר של כל ששת הגרדיאנטים נכשל ב-AA
+  // (1.75 עד 3.36 ל-1, נמדד 7.9.2026). במקום להכהות את הגרדיאנטים ולשנות את המראה
+  // של 219 עמודים, התווית יושבת על גלולה כהה שנותנת מעל 9:1 בלי תלות בצבע שמאחור.
+  "ph-l": ".ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}",
   gcard:  ".gcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:clamp(18px,1.8vw,32px)}",
   gbtn:   ".gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent);color:#fff;font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}",
   center: ".center{text-align:center}",
@@ -49,6 +53,15 @@ export function withFallbacks(css) {
   });
 }
 
+// עוטף טקסט חשוף שיושב ישירות בתוך אלמנט .ph ב-span.ph-l. רץ בזמן בנייה, לא בקטלוג,
+// כדי שלא לגעת ב-183 מקומות ידנית ושכל כניסה חדשה תקבל את זה אוטומטית.
+export function labelPh(html) {
+  return html.replace(
+    /(<(div|span)\b[^>]*\bclass="[^"]*\bph\b[^"]*"[^>]*>)([^<]+?)(<\/\2>)/g,
+    (m, open, tag, text, close) => text.trim() ? `${open}<span class="ph-l">${text.trim()}</span>${close}` : m
+  );
+}
+
 function usedHelpers(html) {
   const out = [];
   const classes = [...html.matchAll(/class="([^"]*)"/g)].flatMap(m => m[1].split(/\s+/));
@@ -64,7 +77,8 @@ const MEDIA_BASE = "https://liavwebdesign-spec.github.io/motion-vault/assets/";
 const absolutize = t => t.replace(/(?:\.\.\/)+assets\//g, MEDIA_BASE);
 
 export function portable(e, CDN, NON_GSAP) {
-  const helpers = usedHelpers(e.html || "");
+  const srcHtml = labelPh(e.html || "");
+  const helpers = usedHelpers(srcHtml);
   const libs = e.libs || [];
   const plugins = libs.filter(l => l !== "gsap" && !NON_GSAP.has(l));
 
@@ -82,7 +96,7 @@ export function portable(e, CDN, NON_GSAP) {
   const needsRtl = /inset-inline|padding-inline|margin-inline|border-inline|direction\s*:/.test(
     [e.css || "", e.js || ""].join("\n"));
 
-  return { css, html: absolutize((e.html || "").trim()), js: absolutize(js),
+  return { css, html: absolutize(srcHtml.trim()), js: absolutize(js),
            scripts, libs, plugins, needsRtl, helpers: helpers.length > 0 };
 }
 
@@ -97,7 +111,7 @@ export function standalone(e, CDN, NON_GSAP) {
   const runway = e.runway === false ? "" : true;
   const runwayCss = runway ? `
 /* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
-.mv-runway{height:70vh;display:grid;place-items:center;color:#b9bcd0;font-size:14px}` : "";
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}` : "";
   const runwayTop = runway ? `<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>` : "";
   const runwayEnd = runway ? `<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>` : "";
   return `<!DOCTYPE html>

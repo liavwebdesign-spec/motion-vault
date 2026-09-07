@@ -34,11 +34,11 @@ h2{font-size:var(--fs-h2);margin:0}
 .chip.cat-gsap{background:#e8f6ee;color:#0a7d4f}
 .chip.cat-react{background:#e6f2fb;color:#0b5f9e}
 .chip.cat-behavior{background:#f3ecfa;color:#6d3ab0}
-.chip.cat-css{background:#fdf0e6;color:#b05e14}
+.chip.cat-css{background:#fdf0e6;color:#984e0f}
 .chip.cat-lm{background:#faecec;color:#b02525}
 .chip.cat-misc{background:#ececf4;color:#4b4e66}
 .chip.st-approved{background:#e4f6ee;color:#0a7d4f}
-.chip.st-pending{background:#fff4dd;color:#9a6b00}
+.chip.st-pending{background:#fff4dd;color:#7f5800}
 
 /* page intro */
 .vintro{padding:clamp(28px,3vw,56px) var(--gutter) 0;max-width:900px}
@@ -46,7 +46,7 @@ h2{font-size:var(--fs-h2);margin:0}
 .vintro .when b{color:var(--ink);font-weight:500}
 
 /* demo area */
-.runway{height:38vh;display:flex;align-items:center;justify-content:center;color:#c3c5d6;font-size:14px}
+.runway{height:38vh;display:flex;align-items:center;justify-content:center;color:#66697a;font-size:14px}
 .stage{padding:var(--sec) var(--gutter);position:relative}
 .stage.tight{padding-block:clamp(48px,5vw,90px)}
 .stage.full{padding-inline:0}
@@ -60,6 +60,7 @@ h2{font-size:var(--fs-h2);margin:0}
 .ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
 .ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
 .ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
+.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}
 .gcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:clamp(18px,1.8vw,32px)}
 .gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent);color:#fff;font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
 .center{text-align:center}
@@ -76,8 +77,9 @@ h2{font-size:var(--fs-h2);margin:0}
 .seg .fbtn{border:0;background:none}
 .fbtn{font-family:inherit;font-size:13.5px;font-weight:500;padding:7px 15px;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;transition:all .18s}
 .fbtn:hover{color:var(--accent)}
-.seg .fbtn:hover{background:#f1f1f7}
+.seg .fbtn:not(.on):hover{background:#f1f1f7}
 .fbtn.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.fbtn.on:hover{background:#0d0f1c;border-color:#0d0f1c;color:#fff}
 .fsearch{font-family:inherit;font-size:14.5px;padding:9px 16px;border-radius:999px;border:1px solid var(--line);
   background:#fff;min-width:min(260px,55vw);margin-inline-start:auto}
 .fsearch:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
@@ -175,7 +177,7 @@ h2{font-size:var(--fs-h2);margin:0}
 /* approval panel + status chips */
 .chip.st-ok{background:#e4f6ee;color:#0a7d4f}
 .chip.st-no{background:#fdecec;color:#c02626}
-.chip.st-pending{background:#fff4dd;color:#9a6b00}
+.chip.st-pending{background:#fff4dd;color:#7f5800}
 .mvpanel{margin:18px 0 0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 20px;max-width:640px}
 .mvp-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .mvp-q{font-weight:600;font-size:15px}
@@ -237,7 +239,13 @@ h2{font-size:var(--fs-h2);margin:0}
 .bpbtn{font-family:inherit;font-size:13px;font-weight:600;padding:7px 15px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;transition:all .18s}
 .bpbtn:hover{border-color:var(--ink);color:var(--ink)}
 .bpbtn.on{background:var(--ink);border-color:var(--ink);color:#fff}
-.bpwrap{width:100%;margin-inline:auto;transition:max-width .35s cubic-bezier(.2,.6,.2,1)}
+/* בלי מעבר: max-width היא תכונת layout, והחלפת ברייקפוינט היא פעולה שהמשתמש יזם ולא צריכה 350ms של thrash */
+.bpwrap{width:100%;margin-inline:auto}
 .bpwrap[data-bp="tablet"]{max-width:768px}
 .bpwrap[data-bp="mobile"]{max-width:375px}
 .bpwrap:not([data-bp="desktop"]){outline:1px dashed #c3c5d6;outline-offset:10px;border-radius:12px}
+
+/* כותרת נסתרת לקוראי מסך. קיימת כדי שסדר הכותרות בעמוד הדמו לא ידלג מ-h1 ל-h3
+   שיושב בתוך הרכיב עצמו. אסור לתקן את הדילוג במארקאפ של הרכיב, כי זה הקוד שמיוצא. */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0}

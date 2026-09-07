@@ -5,7 +5,7 @@ export default [
   desc:"תגית קטנה וקבועה בפינת המסך שמראה את מספר הפריט או הסקשן שנמצא כרגע במרכז. כשהמספר מתחלף, התג קופץ קפיצה זעירה כדי שהעין תתפוס את השינוי.",
   when:"עמודים ארוכים עם רשימת פריטים ממוספרים: קטלוג, מהלכים, פרקים, שלבים. גם כאינדיקטור התקדמות אלגנטי במקום פס.",
   libs:["gsap","ScrollTrigger"],
-  css:`.hud-sec{min-height:80vh;display:grid;place-items:center;border-top:1px solid var(--line);font-size:clamp(28px,3vw,52px);font-weight:700;color:#c9c9d8}
+  css:`.hud-sec{min-height:80vh;display:grid;place-items:center;border-top:1px solid var(--line);font-size:clamp(28px,3vw,52px);font-weight:700;color:#6a6d85}
 .hud-sec:nth-child(odd){background:#fff}
 .hud{position:fixed;bottom:22px;left:22px;z-index:60;display:flex;align-items:center;gap:12px;background:#111;color:#fff;border-radius:999px;padding:10px 16px;font-size:12px;letter-spacing:.14em;opacity:0;visibility:hidden}
 .hud i{width:6px;height:6px;border-radius:50%;background:#c6ff4a}
@@ -50,7 +50,7 @@ export default [
 .th-head[data-theme="dark"] nav{background:rgba(20,20,32,.75);border-color:rgba(255,255,255,.12)}
 .th-head[data-theme="dark"] nav span.cta{background:#c6ff4a;color:#111}
 .th-sec{min-height:90vh;display:grid;place-items:center;font-size:clamp(28px,3vw,52px);font-weight:700}
-.th-sec[data-theme="light"]{background:#fff;color:#c9c9d8}
+.th-sec[data-theme="light"]{background:#fff;color:#6a6d85}
 .th-sec[data-theme="dark"]{background:#0f1020;color:#3a3c55}`,
   html:`<div class="th-wrap">
   <header class="th-head" data-theme="light"><strong>לוגו</strong><nav><span>עבודות</span><span>שירותים</span><span>אודות</span><span class="cta">דברו איתנו</span></nav></header>

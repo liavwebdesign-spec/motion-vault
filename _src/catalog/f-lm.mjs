@@ -63,7 +63,7 @@ html[dir="ltr"] .cv.b{translate:70px 0}
 
 .cv-meet{width:clamp(38px,4vw,52px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
   background:var(--ink);color:#fff;font-size:clamp(17px,2vw,22px);line-height:1;
-  scale:0;opacity:0;transition:scale .5s .28s cubic-bezier(.34,1.56,.64,1),opacity .4s .28s}
+  scale:0;opacity:0;transition:scale .5s .28s cubic-bezier(.2,.6,.2,1),opacity .4s .28s}
 .conv.met .cv{opacity:1;translate:0 0}
 .conv.met .cv-meet{scale:1;opacity:1}
 

@@ -38,7 +38,8 @@ img{max-width:100%}
 .ms{max-width:min(620px,92vw);margin-inline:auto;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:20px;padding:clamp(22px,3vw,38px);overflow:hidden}
 .ms-top{display:flex;align-items:center;gap:14px;margin-bottom:26px}
 .ms-bar{flex:1;height:6px;border-radius:999px;background:var(--line, #e4e4ee);overflow:hidden}
-.ms-bar i{display:block;height:100%;width:0;background:var(--accent, #4a3aff);border-radius:999px;transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.ms-bar i{display:block;height:100%;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--accent, #4a3aff);border-radius:999px;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+html[dir="rtl"] .ms-bar i{transform-origin:100% 50%}
 .ms-num{font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums;white-space:nowrap}
 .ms-view{position:relative}
 .ms-step{display:none}
@@ -151,7 +152,7 @@ img{max-width:100%}
     if(dir<0)s.classList.add("back");
     s.classList.add("on");
     i=n;
-    bar.style.width=Math.round((Math.min(i,review)/review)*100)+"%";
+    bar.style.transform="scaleX("+(Math.min(i,review)/review).toFixed(3)+")";   // transform ולא width: לא מחולל layout
     num.textContent=i<last?("שלב "+(i+1)+" מתוך "+(review+1)):"";
     back.style.visibility=(i===0||i===last)?"hidden":"visible";
     next.textContent=i===review?"שליחה":"המשך";
