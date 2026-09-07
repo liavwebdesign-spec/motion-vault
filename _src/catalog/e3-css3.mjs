@@ -15,7 +15,7 @@ export default [
 .vt-note{color:var(--muted);font-size:14px;margin-top:18px}
 .vt-detail h3{font-size:clamp(24px,2.4vw,38px);margin:0 0 10px}
 .vt-detail p{color:var(--muted);margin:0}
-::view-transition-old(root),::view-transition-new(root){animation-duration:.42s;animation-timing-function:cubic-bezier(.2,.8,.2,1)}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.42s;animation-timing-function:cubic-bezier(.2,.6,.2,1)}
 @media(prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
 @media(max-width:767px){.vt-grid{grid-template-columns:repeat(2,1fr)}.vt-detail{grid-template-columns:1fr}}`,
   html:`<div class="stage tight"><div class="vt-wrap">

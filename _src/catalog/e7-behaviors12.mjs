@@ -11,7 +11,7 @@ export default [
   padding-inline:var(--gutter);max-width:1180px;margin-inline:auto}
 .ss-media{position:sticky;top:16vh;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden}
 .ss-media .ph{position:absolute;inset:0;border-radius:0;font-size:38px;opacity:0;transform:scale(1.05);
-  transition:opacity .55s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
+  transition:opacity .55s ease,transform .9s cubic-bezier(.2,.6,.2,1)}
 .ss-media .ph.on{opacity:1;transform:none}
 .ss-list{display:grid}
 .ss-item{border-top:1px solid var(--line);padding-block:clamp(16px,2vw,26px)}
@@ -20,7 +20,7 @@ export default [
 .ss-idx{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .ss-item h3{margin:0;font-size:clamp(19px,2.1vw,30px);color:var(--muted);transition:color .35s}
 .ss-item.on h3{color:var(--ink)}
-.ss-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}
+.ss-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.6,.2,1)}
 .ss-item.on .ss-body{grid-template-rows:1fr}
 .ss-body>div{overflow:hidden}
 .ss-body p{margin:12px 0 0;color:var(--muted);font-size:16px;line-height:1.7;max-width:46ch}

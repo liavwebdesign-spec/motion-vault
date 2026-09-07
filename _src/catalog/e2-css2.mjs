@@ -5,7 +5,7 @@ export default [
   desc:"כותרת בגרדיאנט שזז לאט הלוך ושוב. חיים בלי הסחת דעת.",
   when:"כותרת הירו או מילת מפתח באתרי טק ופרימיום.",
   css:`.gtext{font-size:var(--fs-demo);font-weight:800;
-background:linear-gradient(90deg,#4a3aff,#c2255c,#e8590c,#4a3aff);background-size:300% 100%;
+background:linear-gradient(90deg,var(--accent),#c2255c,#e8590c,var(--accent));background-size:300% 100%;
 -webkit-background-clip:text;background-clip:text;color:transparent;animation:gflow 6s ease-in-out infinite alternate}
 @keyframes gflow{from{background-position:0% 0}to{background-position:100% 0}}
 @media(prefers-reduced-motion:reduce){.gtext{animation:none}}`,
@@ -47,7 +47,7 @@ t.addEventListener("mouseleave",()=>ti.style.transform="none");`,
   id:"css17", cat:"css", name:"פס התקדמות קריאה", tech:"CSS scroll-driven (בלי JS!)", status:"ממתין",
   desc:"פס בראש המסך שמתמלא עם התקדמות הגלילה. מומש כולו ב-CSS עם animation-timeline: scroll().",
   when:"מאמרים ועמודים ארוכים. תמיכת דפדפן: כרום ואדג' (פיירפוקס וספארי בדרך; יש fallback JS בפרויקטים).",
-  css:`.rprog{position:fixed;top:0;inset-inline:0;height:4px;background:linear-gradient(90deg,#4a3aff,#c2255c);transform-origin:right;transform:scaleX(0);animation:grow linear;animation-timeline:scroll();z-index:99}
+  css:`.rprog{position:fixed;top:0;inset-inline:0;height:4px;background:linear-gradient(90deg,var(--accent),#c2255c);transform-origin:right;transform:scaleX(0);animation:grow linear;animation-timeline:scroll();z-index:99}
 html[dir="ltr"] .rprog{transform-origin:left}
 @keyframes grow{to{transform:scaleX(1)}}
 .longtext{max-width:640px;margin-inline:auto;color:var(--muted);padding-inline:var(--gutter)}

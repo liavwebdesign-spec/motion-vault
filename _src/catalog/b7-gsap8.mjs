@@ -9,7 +9,7 @@ export default [
 .pl-row{display:flex;align-items:baseline;gap:18px;padding:clamp(18px,2.2vw,32px) 4px;border-top:1px solid var(--line);cursor:pointer;position:relative}
 .pl-row:last-child{border-bottom:1px solid var(--line)}
 .pl-row .idx{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:3ch}
-.pl-row h3{margin:0;font-size:clamp(24px,3vw,50px);font-weight:800;transition:transform .4s cubic-bezier(.2,.8,.2,1),opacity .3s}
+.pl-row h3{margin:0;font-size:clamp(24px,3vw,50px);font-weight:800;transition:transform .4s cubic-bezier(.2,.6,.2,1),opacity .3s}
 .pl-row .tags{margin-inline-start:auto;font-size:12px;letter-spacing:.1em;color:var(--muted)}
 .pl.hovering .pl-row h3{opacity:.35}
 .pl-row.on h3{opacity:1;transform:translateX(-16px)}

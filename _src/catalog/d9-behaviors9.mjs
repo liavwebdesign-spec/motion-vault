@@ -12,7 +12,7 @@ export default [
 .ff-field textarea{min-height:120px;resize:vertical}
 .ff-field input:focus,.ff-field textarea:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(74,58,255,.13)}
 .ff-field label{position:absolute;inset-inline-start:17px;top:17px;color:var(--muted);font-size:16px;pointer-events:none;
-  transform-origin:0 0;transition:transform .22s cubic-bezier(.2,.8,.2,1),color .22s}
+  transform-origin:0 0;transition:transform .22s cubic-bezier(.2,.6,.2,1),color .22s}
 /* התווית עולה כשהשדה בפוקוס או כשיש בו תוכן. placeholder ריק הוא התנאי לזיהוי */
 .ff-field input:focus+label,.ff-field textarea:focus+label,
 .ff-field input:not(:placeholder-shown)+label,.ff-field textarea:not(:placeholder-shown)+label{transform:translateY(-11px) scale(.78)}
@@ -23,7 +23,7 @@ export default [
 @keyframes ffshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .ff-btn{position:relative;min-height:54px;border:0;border-radius:999px;background:var(--accent);color:#fff;font:inherit;font-weight:600;
   font-size:17px;cursor:pointer;overflow:hidden;transition:background .3s}
-.ff-btn span{display:block;transition:transform .3s cubic-bezier(.2,.8,.2,1),opacity .25s}
+.ff-btn span{display:block;transition:transform .3s cubic-bezier(.2,.6,.2,1),opacity .25s}
 .ff-btn .s2,.ff-btn .s3{position:absolute;inset:0;display:grid;place-items:center;transform:translateY(110%);opacity:0}
 .ff-btn.load .s1{transform:translateY(-110%);opacity:0}
 .ff-btn.load .s2{transform:none;opacity:1}
@@ -75,7 +75,7 @@ export default [
   libs:[],
   css:`.gl{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding-inline:var(--gutter)}
 .gl button{border:0;padding:0;background:none;cursor:zoom-in;border-radius:10px;overflow:hidden;aspect-ratio:1;position:relative}
-.gl .ph{position:absolute;inset:0;border-radius:0;font-size:22px;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.gl .ph{position:absolute;inset:0;border-radius:0;font-size:22px;transition:transform .5s cubic-bezier(.2,.6,.2,1)}
 .gl button:hover .ph{transform:scale(1.06)}
 .lb{position:fixed;inset:0;z-index:80;background:rgba(10,10,16,.92);display:none;place-items:center;padding:clamp(16px,4vw,48px)}
 .lb.on{display:grid}

@@ -24,7 +24,7 @@ export default [
 @keyframes mk-grow{from{background-size:0% 62%}to{background-size:100% 62%}}
 @media (prefers-reduced-motion: reduce){.mk{animation:none;background-size:100% 62%}}
 .mk-hover{margin-top:18px;font-size:17px;font-weight:500;color:var(--muted);text-align:center}
-.mk-hover b{font-weight:700;color:var(--ink);background-image:linear-gradient(#ffd6e7,#ffd6e7);background-repeat:no-repeat;background-position:right center;background-size:0% 58%;transition:background-size .45s cubic-bezier(.2,.8,.2,1);padding-inline:.1em}
+.mk-hover b{font-weight:700;color:var(--ink);background-image:linear-gradient(#ffd6e7,#ffd6e7);background-repeat:no-repeat;background-position:right center;background-size:0% 58%;transition:background-size .45s cubic-bezier(.2,.6,.2,1);padding-inline:.1em}
 .mk-hover:hover b{background-size:100% 58%}`,
   html:`<div class="stage"><p class="mk-wrap">אנחנו לא מוכרים אתר. אנחנו מוכרים <span class="mk">תוצאה שאפשר למדוד</span> בסוף החודש.</p></div>
 <div class="stage"><p class="mk-wrap">כל פרויקט מתחיל ב<span class="mk mk--ink">אפיון</span>, לא בעיצוב.</p>

@@ -135,10 +135,10 @@ export default [
 .tp{border-bottom:1.5px dashed var(--accent);cursor:help;color:var(--ink);font-weight:500;background:none;
   border-inline:0;border-top:0;font-family:inherit;font-size:inherit;padding:0}
 .tp:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
-.tp-box{position:fixed;z-index:80;max-width:min(300px,80vw);background:#16182b;color:#fff;font-size:14px;
+.tp-box{position:fixed;z-index:80;max-width:min(300px,80vw);background:var(--ink);color:#fff;font-size:14px;
   line-height:1.6;padding:11px 15px;border-radius:12px;box-shadow:0 14px 40px rgba(20,20,40,.28);
   pointer-events:none;opacity:0;top:0;left:0}
-.tp-box::after{content:"";position:absolute;width:11px;height:11px;background:#16182b;transform:rotate(45deg);
+.tp-box::after{content:"";position:absolute;width:11px;height:11px;background:var(--ink);transform:rotate(45deg);
   left:var(--ax,50%);margin-left:-5.5px}
 .tp-box.top::after{bottom:-5px}
 .tp-box.bottom::after{top:-5px}

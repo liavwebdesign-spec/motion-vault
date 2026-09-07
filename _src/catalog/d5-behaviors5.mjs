@@ -8,7 +8,7 @@ export default [
   css:`.nv-bar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:16px var(--gutter);background:rgba(247,247,250,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .nv-toggle{display:flex;align-items:center;gap:10px;background:none;border:0;font:inherit;font-size:15px;cursor:pointer;color:var(--ink);padding:6px}
 .nv-burger{width:26px;height:14px;position:relative;display:block}
-.nv-burger i{position:absolute;inset-inline:0;height:2px;background:var(--ink);border-radius:2px;transition:transform .4s cubic-bezier(.2,.8,.2,1),opacity .25s}
+.nv-burger i{position:absolute;inset-inline:0;height:2px;background:var(--ink);border-radius:2px;transition:transform .4s cubic-bezier(.2,.6,.2,1),opacity .25s}
 .nv-burger i:nth-child(1){top:0}.nv-burger i:nth-child(2){top:6px}.nv-burger i:nth-child(3){top:12px}
 .nv-open .nv-burger i:nth-child(1){transform:translateY(6px) rotate(45deg)}
 .nv-open .nv-burger i:nth-child(2){opacity:0}
@@ -23,7 +23,7 @@ export default [
 .nv-open .nv-link:nth-child(2){transition-delay:.25s}
 .nv-open .nv-link:nth-child(3){transition-delay:.32s}
 .nv-open .nv-link:nth-child(4){transition-delay:.39s}
-.nv-link span{display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.nv-link span{display:inline-block;transition:transform .35s cubic-bezier(.2,.6,.2,1)}
 .nv-link:hover span{transform:translateX(-14px)}
 .nv-link small{font-size:14px;font-weight:500;opacity:.45;margin-inline-start:14px;vertical-align:middle}
 .nv-foot{margin-top:8vh;display:flex;gap:22px;flex-wrap:wrap;font-size:14px;color:#a7a9c4;opacity:0;transition:opacity .5s .5s}
@@ -88,12 +88,12 @@ export default [
 .rb-txt{display:inline-flex;position:relative;overflow:hidden;line-height:1.25}
 .rb-row{display:inline-flex}
 .rb-row.b{position:absolute;inset-inline-start:0;top:0}
-.rb-ch{display:inline-block;transition:transform .42s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i) * 22ms)}
+.rb-ch{display:inline-block;transition:transform .42s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i) * 22ms)}
 .rb-row.a .rb-ch{transform:translateY(0)}
 .rb-row.b .rb-ch{transform:translateY(105%)}
 .rb:hover .rb-row.a .rb-ch,.rb:focus-visible .rb-row.a .rb-ch{transform:translateY(-105%)}
 .rb:hover .rb-row.b .rb-ch,.rb:focus-visible .rb-row.b .rb-ch{transform:translateY(0)}
-.rb-arrow{transition:transform .42s cubic-bezier(.2,.8,.2,1)}
+.rb-arrow{transition:transform .42s cubic-bezier(.2,.6,.2,1)}
 .rb:hover .rb-arrow{transform:translateX(-5px)}
 .rb-demo{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
 @media (prefers-reduced-motion: reduce){.rb-ch,.rb-arrow{transition:none}}`,

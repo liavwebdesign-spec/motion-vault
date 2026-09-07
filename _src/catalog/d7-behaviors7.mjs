@@ -6,7 +6,7 @@ export default [
   desc:"כל סקשן מכריז על ערכת הצבע שלו, והרקע והטקסט של העמוד עוברים אליה במעבר רך. הצבע מחליף במקום שהסקשן יגזור אותו.",
   when:"אתרי תדמית וסיפור מותג, עמודי מוצר ארוכים. נותן תחושת פרקים בלי קווים מפרידים ובלי סקשנים עם קצוות חדים.",
   libs:[],
-  css:`.bgz{--bg:#f7f7fa;--fg:#16182b;--soft:#6a6d85;
+  css:`.bgz{--bg:var(--bg);--fg:var(--ink);--soft:var(--muted);
   background:var(--bg);color:var(--fg);transition:background-color .8s ease,color .8s ease}
 .bgz-sec{min-height:92vh;display:grid;place-items:center;text-align:center;padding:8vh var(--gutter)}
 /* place-items:center ממרכז את העטיפה, אבל בתוכה כל בלוק עם max-width נצמד לצד ההתחלה.

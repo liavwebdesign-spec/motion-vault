@@ -12,12 +12,12 @@ export default [
   font-weight:600;color:var(--ink);text-align:start;padding:clamp(18px,2vw,26px) 4px;cursor:pointer}
 .faq-q:hover{color:var(--accent)}
 .faq-ic{margin-inline-start:auto;flex:none;width:22px;height:22px;position:relative}
-.faq-ic::before,.faq-ic::after{content:"";position:absolute;background:currentColor;border-radius:2px;transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .25s}
+.faq-ic::before,.faq-ic::after{content:"";position:absolute;background:currentColor;border-radius:2px;transition:transform .35s cubic-bezier(.2,.6,.2,1),opacity .25s}
 .faq-ic::before{inset-inline:0;top:10px;height:2px}
 .faq-ic::after{inset-block:0;left:10px;width:2px}
 .faq-item.open .faq-ic::after{transform:rotate(90deg);opacity:0}
 /* grid-template-rows מ-0fr ל-1fr נותן פתיחה לגובה האמיתי בלי למדוד פיקסלים ב-JS */
-.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .42s cubic-bezier(.2,.8,.2,1)}
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .42s cubic-bezier(.2,.6,.2,1)}
 .faq-item.open .faq-a{grid-template-rows:1fr}
 .faq-a>div{overflow:hidden}
 .faq-a p{margin:0;padding:0 4px clamp(20px,2.2vw,30px);color:var(--muted);font-size:16px;line-height:1.7;max-width:62ch}
@@ -72,7 +72,7 @@ export default [
 .tq-nav:hover{background:#eceaff}
 .tq-nav[disabled]{opacity:.35;cursor:default}
 .tq-dots{display:flex;gap:8px}
-.tq-dots button{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:var(--line);cursor:pointer;transition:width .3s,background .3s}
+.tq-dots button{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:var(--line);cursor:pointer;transition:/* qa-allow: layout, נקודה של 8px שנמתחת ל-24 */width .3s,background .3s}
 .tq-dots button.on{width:24px;border-radius:999px;background:var(--accent)}`,
   html:`<div class="stage tight"><div class="tq">
   <div class="tq-track">

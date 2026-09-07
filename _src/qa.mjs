@@ -14,6 +14,47 @@ for (const f of readdirSync(join(ROOT, "_src", "catalog")).sort()) {
   mod.default.forEach(e => entries.push({ ...e, file: f }));
 }
 
+// ---- אכיפת התורה של motion.md על המאגר (7.9.2026) ----
+// לפני זה ה-QA בדק תחביר בלבד, והמאגר סטה מהתורה שלו: ה-easing הנפוץ ביותר לא היה החתום,
+// 26 מהלכים החזיקו ערכי טוקנים כליטרלים (ולכן לא ירשו את עור הפרויקט), ושלושה הנפישו layout.
+const EASE_ALLOW = new Set([
+  ".2,.6,.2,1",        // ה-easing החתום (ease-out), לכל דבר
+  ".76,0,.24,1",       // in-out מאושר: מעבר על פני המסך (דלתות, ניווט מסך מלא)
+  ".05,.7,.1,1",       // MD3 Emphasized, שכבה אקספרסיבית בלבד (motion.md §10)
+  ".25,.1,.25,1",      // Apple HIG, שכבה אקספרסיבית בלבד
+  ".4,0,.2,1",         // ריחוף אמביינטי / פרימיום, שכבה אקספרסיבית בלבד
+]);
+const normBezier = s => s.replace(/\s+/g, "").replace(/(^|,)0\./g, "$1.").replace(/(^|,)0(?=,|$)/g, "$10");
+const TOKEN_LITERALS = { "#4a3aff": "--accent", "#16182b": "--ink", "#6a6d85": "--muted", "#e4e4ee": "--line", "#f7f7fa": "--bg" };
+const LAYOUT_PROPS = /^(width|height|max-height|min-height|max-width|padding|padding-[a-z-]+|margin|margin-[a-z-]+|top|left|right|bottom|inset[a-z-]*|flex-basis|font-size|line-height)$/;
+
+for (const e of entries) {
+  const css = e.css || "", js = e.js || "";
+  // 1) easing: רק מהרשימה. GSAP named eases (power2.out וכו') הם מחרוזות ולא נבדקים כאן.
+  for (const m of (css + "\n" + js).matchAll(/cubic-bezier\(([^)]*)\)/g)) {
+    const k = normBezier(m[1]);
+    if (!EASE_ALLOW.has(k)) problems.push(`${e.id}: easing outside doctrine -> cubic-bezier(${m[1]}) (allowed: signed .2,.6,.2,1 or in-out .76,0,.24,1)`);
+  }
+  // 2) ערכי טוקנים כליטרלים ב-CSS: שוברים ירושת עור בפרויקט היעד.
+  //    חל רק על מהלכים לשימוש חוזר. עורות (style) מגדירים צבעים בהגדרה, ועמודי הדוקטרינה
+  //    (anti/arch/comp/rhythm) מדגימים ולא מיובאים, ולכן ליטרלים שם לגיטימיים.
+  const REUSABLE = new Set(["gsap", "behavior", "css", "lm", "misc"]);
+  if (REUSABLE.has(e.cat)) {
+    for (const [hex, tok] of Object.entries(TOKEN_LITERALS)) {
+      if (new RegExp(hex, "i").test(css)) problems.push(`${e.id}: token literal ${hex} in CSS, use var(${tok})`);
+    }
+  }
+  // 3) transition על תכונות layout. grid-template-rows מותר (האקורדיון הדוקטרינרי). מנוס: /* qa-allow: layout */ באותו ערך.
+  for (const m of css.matchAll(/transition\s*:\s*([^;}`]*)/g)) {
+    const val = m[1];
+    if (/qa-allow:\s*layout/.test(val)) continue;
+    for (const part of val.split(",")) {
+      const prop = part.trim().split(/\s+/)[0];
+      if (prop && LAYOUT_PROPS.test(prop)) problems.push(`${e.id}: transition on layout property "${prop}" (use transform/opacity, or grid-template-rows for height)`);
+    }
+  }
+}
+
 const ids = entries.map(e => e.id);
 const dupes = ids.filter((v, i) => ids.indexOf(v) !== i);
 if (dupes.length) problems.push("duplicate ids: " + dupes.join(","));

@@ -45,7 +45,7 @@ if(!reduced){
   padding-inline:var(--gutter);max-width:min(1060px,100%);margin-inline:auto}
 .cv{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,2.6vw,36px);
   opacity:0;box-shadow:0 14px 34px rgba(22,24,43,.07);
-  transition:opacity .75s cubic-bezier(.22,1,.36,1),translate .75s cubic-bezier(.22,1,.36,1)}
+  transition:opacity .75s cubic-bezier(.2,.6,.2,1),translate .75s cubic-bezier(.2,.6,.2,1)}
 .cv-kick{display:inline-block;font-size:12px;letter-spacing:.14em;color:var(--muted);
   border:1px solid var(--line);border-radius:999px;padding:4px 11px;margin-bottom:14px}
 .cv h3{margin:0 0 8px;font-size:clamp(19px,2vw,25px);line-height:1.3}
@@ -53,7 +53,7 @@ if(!reduced){
 .cv-stat{display:block;margin-top:16px;font-size:clamp(26px,3vw,40px);font-weight:800;line-height:1;color:var(--ink)}
 .cv-stat small{display:block;font-size:12px;font-weight:400;color:var(--muted);letter-spacing:.06em;margin-top:6px}
 .cv.a{border-top:3px solid #f49e40}
-.cv.b{border-top:3px solid #4a3aff}
+.cv.b{border-top:3px solid var(--accent)}
 
 /* translate הוא פיזי ולא לוגי. עם הערכים ההפוכים שני הבלוקים מתחילים קרובים
    ונפרדים החוצה, כלומר בדיוק ההפך מהצטלבות. */
@@ -102,7 +102,7 @@ document.querySelectorAll(".conv").forEach(el=>io.observe(el));`,
 .stackw{padding-inline:var(--gutter);display:grid;gap:24px;max-width:min(980px,100%);margin-inline:auto}
 .scard{position:sticky;background:#fff;border:1px solid var(--line);border-radius:20px;padding:clamp(24px,3vw,44px);box-shadow:0 -18px 46px rgba(22,24,43,.09)}
 .scard:nth-child(1){top:110px}.scard:nth-child(2){top:150px}.scard:nth-child(3){top:190px}.scard:nth-child(4){top:230px}
-.snum{font-size:clamp(40px,4vw,80px);font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:1.5px #4a3aff}
+.snum{font-size:clamp(40px,4vw,80px);font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--accent)}
 .scard h3{margin:10px 0 6px;font-size:22px}.scard p{margin:0;color:var(--muted);max-width:55ch}
 .stail{height:30vh}`,
   html:`<div class="stackw">
@@ -168,7 +168,7 @@ document.querySelector(".replay").addEventListener("click",play);`,
   id:"lm8", cat:"lm", name:"מרקי מוטה ונגרר", tech:"CSS keyframes + rAF", status:"ממתין",
   desc:"רצועה שזורמת בלולאה, מוטה 3 מעלות, וגם נגררת עם הגלילה. שתי תנועות מצטברות.",
   when:"פסי אווירה באתרי וואו. פעם אחת בעמוד.",
-  css:`.tiltm-wrap{transform:rotate(-3deg);width:104vw;margin-inline-start:-2vw;background:#16182b;padding-block:20px;overflow:hidden}
+  css:`.tiltm-wrap{transform:rotate(-3deg);width:104vw;margin-inline-start:-2vw;background:var(--ink);padding-block:20px;overflow:hidden}
 .tiltm{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
 /* ההזזה היא רוחב קבוצה מדויק בפיקסלים, ומספר העותקים נגזר מרוחב המסך */
 .tiltm-track{display:flex;width:max-content;animation:marq linear infinite;animation-duration:var(--marq-dur,26s)}
@@ -210,9 +210,9 @@ frame();`
   desc:"שני מהלכי הקרפט מהעבודה החדשה: צל קשיח בצבע מותג בהיסט 45 מעלות, ורדיוס שמעוגל רק בצד אחד.",
   when:"כרטיסי מפתח בעורות עם אופי. שפת צל אחת לעמוד: או מוזח או רך, לא שניהם.",
   css:`.craft{display:flex;gap:var(--gap);justify-content:center;flex-wrap:wrap}
-.hard{background:#fff;border:2px solid #16182b;border-radius:14px;padding:30px;box-shadow:8px 8px 0 #f49e40;max-width:240px;transition:transform .25s,box-shadow .25s}
+.hard{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:30px;box-shadow:8px 8px 0 #f49e40;max-width:240px;transition:transform .25s,box-shadow .25s}
 .hard:hover{transform:translate(-3px,-3px);box-shadow:12px 12px 0 #f49e40}
-.oneside{background:#16182b;color:#fff;padding:30px;border-radius:40px 40px 0 0;max-width:240px}
+.oneside{background:var(--ink);color:#fff;padding:30px;border-radius:40px 40px 0 0;max-width:240px}
 .oneside2{background:#fff;border:1px solid var(--line);padding:30px;border-radius:0 0 60px 0;max-width:240px}
 .craft h3{margin:0 0 6px;font-size:17px}.craft p{margin:0;font-size:13.5px;color:var(--muted)}
 .oneside p{color:#b9bbd4}`,

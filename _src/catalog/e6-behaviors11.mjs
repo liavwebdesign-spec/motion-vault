@@ -11,8 +11,8 @@ export default [
   display:flex;flex-direction:column;justify-content:space-between;color:#fff;transform-origin:50% 0%;
   box-shadow:0 -14px 44px rgba(0,0,0,.16);margin-bottom:clamp(18px,2.4vw,40px);
   will-change:transform,filter}
-.stk-card:nth-child(1){top:clamp(70px,13vh,120px);background:#16182b}
-.stk-card:nth-child(2){top:calc(clamp(70px,13vh,120px) + 18px);background:#4a3aff}
+.stk-card:nth-child(1){top:clamp(70px,13vh,120px);background:var(--ink)}
+.stk-card:nth-child(2){top:calc(clamp(70px,13vh,120px) + 18px);background:var(--accent)}
 .stk-card:nth-child(3){top:calc(clamp(70px,13vh,120px) + 36px);background:#0b7285}
 .stk-card:nth-child(4){top:calc(clamp(70px,13vh,120px) + 54px);background:#c2255c}
 .stk-num{font-size:13px;letter-spacing:.16em;opacity:.7}
@@ -61,7 +61,7 @@ export default [
 /* sticky ולא fixed, כי כאן ההקשר הוא המסגרת. באתר אמיתי זה position:fixed על החלון. */
 .hd-bar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;
   padding:16px clamp(16px,3vw,30px);
-  transition:transform .42s cubic-bezier(.2,.8,.2,1),background-color .35s,padding .35s,box-shadow .35s;
+  transition:/* qa-allow: layout, ההתכווצות של ההדר היא הפיצ'ר */transform .42s cubic-bezier(.2,.6,.2,1),background-color .35s,padding .35s,box-shadow .35s;
   background:transparent}
 .hd-bar.solid{background:rgba(247,247,250,.9);backdrop-filter:blur(12px);box-shadow:0 1px 0 var(--line);padding-block:11px}
 .hd-bar.up{transform:translateY(-105%)}
@@ -70,7 +70,7 @@ export default [
 .hd-bar nav a:hover{background:#eceaff}
 .hd-cta{background:var(--ink);color:#fff!important;font-weight:600}
 .hd-hero{min-height:100%;margin-top:-72px;display:grid;place-items:center;text-align:center;padding:90px clamp(16px,3vw,30px) 40px;
-  background:linear-gradient(160deg,#eceaff,#f7f7fa)}
+  background:linear-gradient(160deg,#eceaff,var(--bg))}
 .hd-hero h2{font-size:clamp(26px,3.6vw,52px);margin:0 0 10px;font-weight:800}
 .hd-hero p{margin:0;color:var(--muted)}
 .hd-body{padding:clamp(30px,5vw,70px) clamp(16px,3vw,30px);max-width:62ch;margin-inline:auto;color:var(--muted)}
@@ -137,7 +137,7 @@ export default [
 .mm-panel{position:absolute;inset-inline-start:0;top:calc(100% + 8px);min-width:min(560px,86vw);
   background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 22px 60px rgba(22,24,43,.14);
   display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;transform:translateY(-6px);
-  transition:grid-template-rows .32s cubic-bezier(.2,.8,.2,1),opacity .25s,transform .32s,visibility .32s}
+  transition:grid-template-rows .32s cubic-bezier(.2,.6,.2,1),opacity .25s,transform .32s,visibility .32s}
 .mm-item.open .mm-panel{grid-template-rows:1fr;opacity:1;visibility:visible;transform:none}
 .mm-panel>div{overflow:hidden}
 .mm-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:16px}
@@ -212,7 +212,7 @@ export default [
 .rvf-body{padding:0 var(--gutter) clamp(60px,8vw,120px);max-width:62ch;margin-inline:auto;color:var(--muted);line-height:1.8}
 /* הפוטר קבוע מאחור, והעמוד מקבל שוליים בגובהו כדי לפנות לו מקום בסוף */
 .rvf-footer{position:fixed;inset-inline:0;bottom:0;z-index:1;min-height:var(--rvf-h,60vh);
-  background:#16182b;color:#fff;display:grid;align-content:center;gap:18px;padding:clamp(36px,5vw,70px) var(--gutter)}
+  background:var(--ink);color:#fff;display:grid;align-content:center;gap:18px;padding:clamp(36px,5vw,70px) var(--gutter)}
 .rvf-footer h3{font-size:clamp(28px,4vw,60px);margin:0;font-weight:800}
 .rvf-footer a{color:#fff}
 .rvf-cols{display:flex;gap:clamp(20px,4vw,60px);flex-wrap:wrap;color:#a7a9c4;font-size:15px}

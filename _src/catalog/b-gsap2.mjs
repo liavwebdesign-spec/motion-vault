@@ -74,7 +74,7 @@ ScrollTrigger.batch(".bcard",{start:"top 88%",once:true,
   desc:"מסך פתיחה שמתרומם ונעלם כשהעמוד באמת נטען. בלי המתנה מלאכותית.",
   when:"אתרי פרימיום כבדי מדיה בלבד. פרילודר על אתר מהיר הוא עיכוב מיותר.",
   libs:["gsap"],
-  css:`#pre{position:fixed;inset:0;background:#16182b;z-index:999;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700}
+  css:`#pre{position:fixed;inset:0;background:var(--ink);z-index:999;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700}
 .replay{margin-inline:var(--gutter)}`,
   html:`<div id="pre">כאן יושב הלוגו או לוטי של המותג</div>
 <div class="stage tight center"><button class="gbtn replay">הפעל שוב את הפרילודר</button></div>`,
@@ -105,7 +105,7 @@ document.querySelector(".replay").addEventListener("click",runPre);`,
 #pre{position:absolute;inset:0;z-index:2}
 /* left ו-right פיזיים בכוונה. עם inset-inline הדלתות מתהפכות ב-RTL בזמן
    ש-translateX נשאר פיזי, והן חוצות את המסך במקום להיפתח החוצה. */
-.door{position:absolute;top:0;bottom:0;width:50.5%;background:#16182b;transition:transform .8s cubic-bezier(.76,0,.24,1)}
+.door{position:absolute;top:0;bottom:0;width:50.5%;background:var(--ink);transition:transform .8s cubic-bezier(.76,0,.24,1)}
 .door.l{left:0}.door.r{right:0}
 .door::after{content:"";position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.14)}
 .door.l::after{right:0}.door.r::after{left:0}

@@ -12,10 +12,10 @@ export default [
 .fl-split h3{font-size:clamp(26px,2vw + .4rem,52px);margin:0 0 14px}
 .fl-split p{color:var(--muted);max-width:640px}
 .fl-visual{aspect-ratio:4/5;border-radius:clamp(12px,1vw,24px);font-size:clamp(18px,1.4vw,30px)}
-.fl-breath{padding-block:clamp(120px,18vw,320px);text-align:center;background:#16182b;color:#fff}
+.fl-breath{padding-block:clamp(120px,18vw,320px);text-align:center;background:var(--ink);color:#fff}
 .fl-breath h3{font-size:clamp(26px,2.2vw,54px);font-weight:100;max-width:26ch;margin-inline:auto}
 .fl-breath b{font-weight:800}
-.hud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;background:#16182b;color:#fff;font-size:13px;padding:8px 14px;border-radius:8px;opacity:.92}
+.hud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;background:var(--ink);color:#fff;font-size:13px;padding:8px 14px;border-radius:8px;opacity:.92}
 @media(max-width:767px){.fl-split{grid-template-columns:1fr}.fl-split .txt{padding-inline-end:0}}`,
   html:`<div class="hud" id="hud"></div>
 <div class="fl-hero" style="padding-inline:var(--gutter)">

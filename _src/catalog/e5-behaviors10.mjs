@@ -130,13 +130,13 @@ export default [
   css:`.ms{max-width:min(620px,92vw);margin-inline:auto;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(22px,3vw,38px);overflow:hidden}
 .ms-top{display:flex;align-items:center;gap:14px;margin-bottom:26px}
 .ms-bar{flex:1;height:6px;border-radius:999px;background:var(--line);overflow:hidden}
-.ms-bar i{display:block;height:100%;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--accent);border-radius:999px;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.ms-bar i{display:block;height:100%;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--accent);border-radius:999px;transition:transform .45s cubic-bezier(.2,.6,.2,1)}
 html[dir="rtl"] .ms-bar i{transform-origin:100% 50%}
 .ms-num{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 .ms-view{position:relative}
 .ms-step{display:none}
-.ms-step.on{display:block;animation:msIn .38s cubic-bezier(.2,.8,.2,1)}
-.ms-step.back.on{animation:msBack .38s cubic-bezier(.2,.8,.2,1)}
+.ms-step.on{display:block;animation:msIn .38s cubic-bezier(.2,.6,.2,1)}
+.ms-step.back.on{animation:msBack .38s cubic-bezier(.2,.6,.2,1)}
 @keyframes msIn{from{opacity:0;transform:translateX(-26px)}to{opacity:1;transform:none}}
 @keyframes msBack{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
 .ms-step h3{margin:0 0 6px;font-size:clamp(20px,2.2vw,28px)}

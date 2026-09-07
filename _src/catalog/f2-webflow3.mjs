@@ -25,7 +25,7 @@ export default [
 .ck-sw{flex:none;width:44px;height:26px;border-radius:999px;background:#d5d5e0;border:0;cursor:pointer;padding:0;
   position:relative;transition:background .2s}
 .ck-sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;
-  transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+  transition:transform .22s cubic-bezier(.2,.6,.2,1)}
 .ck-sw[aria-checked="true"]{background:var(--accent)}
 .ck-sw[aria-checked="true"]::after{transform:translateX(18px)}
 .ck-sw[disabled]{opacity:.55;cursor:not-allowed}

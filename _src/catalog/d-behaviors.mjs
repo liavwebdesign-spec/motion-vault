@@ -71,14 +71,14 @@ document.querySelectorAll(".cnum").forEach(el=>io.observe(el));`
   libs:["gsap","ScrollTrigger"],
   css:`.hs-wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:var(--gap);padding-inline:var(--gutter);align-items:start}
 .hs-img{position:relative;aspect-ratio:4/3;border-radius:var(--r);font-size:20px}
-.hs-dot{position:absolute;width:34px;height:34px;border-radius:50%;background:#f4c660;color:#16182b;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid #fff;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:transform .2s;opacity:0;scale:.3}
+.hs-dot{position:absolute;width:34px;height:34px;border-radius:50%;background:#f4c660;color:var(--ink);font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid #fff;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:transform .2s;opacity:0;scale:.3}
 .hs-dot:hover{transform:scale(1.15)}
-.hs-tip{position:absolute;bottom:130%;inset-inline-start:50%;translate:50% 0;background:#16182b;color:#fff;font-size:13px;padding:8px 14px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.hs-tip{position:absolute;bottom:130%;inset-inline-start:50%;translate:50% 0;background:var(--ink);color:#fff;font-size:13px;padding:8px 14px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
 .hs-dot:hover .hs-tip{opacity:1}
 .hs-list{display:flex;flex-direction:column;gap:10px}
 .hs-row{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;transition:border-color .2s,background .2s}
 .hs-row.on{border-color:#f4c660;background:#fffaf0}
-.hs-row b{width:28px;height:28px;border-radius:50%;background:#f4c660;color:#16182b;display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
+.hs-row b{width:28px;height:28px;border-radius:50%;background:#f4c660;color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
 @media(max-width:767px){.hs-wrap{grid-template-columns:1fr}.hs-dot{display:none}}`,
   html:`<div class="stage tight"><div class="hs-wrap">
 <div class="hs-img ph ph-c">תמונת הנכס
@@ -231,7 +231,7 @@ frame();`
   desc:"מצייני טעינה בצורת התוכן עם הבהוב שמאלה-ימינה, במקום ספינר.",
   when:"מערכות ודשבורדים בזמן טעינת דאטה.",
   css:`.sk-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px;max-width:420px;margin-inline:auto;display:flex;flex-direction:column;gap:12px}
-.sk{background:linear-gradient(90deg,#ececf4 25%,#f7f7fa 50%,#ececf4 75%);background-size:200% 100%;animation:sk 1.4s infinite;border-radius:8px}
+.sk{background:linear-gradient(90deg,#ececf4 25%,var(--bg) 50%,#ececf4 75%);background-size:200% 100%;animation:sk 1.4s infinite;border-radius:8px}
 @keyframes sk{from{background-position:200% 0}to{background-position:-200% 0}}
 @media(prefers-reduced-motion:reduce){.sk{animation:none}}`,
   html:`<div class="stage tight"><div class="sk-card">
@@ -246,7 +246,7 @@ frame();`
   id:"b16", cat:"behavior", name:"Toast (הודעה קופצת)", tech:"CSS transitions · vanilla JS", status:"מאושר",
   desc:"הודעת אישור קטנה שעולה מהפינה, נשארת שלוש שניות ונעלמת.",
   when:"אחרי שליחת טופס, העתקה, שמירה.",
-  css:`.toast{position:fixed;bottom:24px;inset-inline-start:50%;translate:-50% 20px;background:#16182b;color:#fff;padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;transition:opacity .24s,translate .24s;z-index:95;display:flex;gap:10px;align-items:center}
+  css:`.toast{position:fixed;bottom:24px;inset-inline-start:50%;translate:-50% 20px;background:var(--ink);color:#fff;padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;transition:opacity .24s,translate .24s;z-index:95;display:flex;gap:10px;align-items:center}
 html[dir="rtl"] .toast{translate:50% 20px}
 .toast.on{opacity:1;translate:-50% 0}
 html[dir="rtl"] .toast.on{translate:50% 0}

@@ -7,7 +7,7 @@ export default [
   libs:[],
   css:`.tsw{position:relative;min-height:min(84vh,720px);overflow:hidden;display:grid;place-items:end center;padding-bottom:clamp(28px,5vh,60px)}
 .tsw-media{position:absolute;inset:0}
-.tsw-media .ph{position:absolute;inset:0;border-radius:0;opacity:0;transform:scale(1.06);transition:opacity .7s ease,transform 1.1s cubic-bezier(.2,.8,.2,1);font-size:0}
+.tsw-media .ph{position:absolute;inset:0;border-radius:0;opacity:0;transform:scale(1.06);transition:opacity .7s ease,transform 1.1s cubic-bezier(.2,.6,.2,1);font-size:0}
 .tsw-media .ph.on{opacity:1;transform:none}
 .tsw::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.5))}
 .tsw-in{position:relative;z-index:2;text-align:center;color:#fff;padding-inline:var(--gutter)}
@@ -15,9 +15,9 @@ export default [
 .tsw-cap h3{font-size:clamp(24px,3vw,44px);margin:0 0 6px;font-weight:800}
 .tsw-cap p{margin:0;opacity:.85;font-size:16px}
 .tsw-tabs{position:relative;display:inline-flex;gap:4px;padding:5px;border-radius:999px;background:rgba(255,255,255,.14);backdrop-filter:blur(10px)}
-.tsw-ind{position:absolute;top:5px;bottom:5px;left:0;border-radius:999px;background:#fff;transition:transform .45s cubic-bezier(.2,.8,.2,1),width .45s cubic-bezier(.2,.8,.2,1);z-index:0}
+.tsw-ind{position:absolute;top:5px;bottom:5px;left:0;border-radius:999px;background:#fff;transition:/* qa-allow: layout, גלולה שמשנה רוחב בין טאבים; scaleX מעוות את הקצוות */transform .45s cubic-bezier(.2,.6,.2,1),width .45s cubic-bezier(.2,.6,.2,1);z-index:0}
 .tsw-tab{position:relative;z-index:1;border:0;background:none;font:inherit;font-size:15px;font-weight:600;color:#fff;padding:11px 22px;border-radius:999px;cursor:pointer;transition:color .3s;white-space:nowrap}
-.tsw-tab[aria-selected="true"]{color:#16182b}
+.tsw-tab[aria-selected="true"]{color:var(--ink)}
 @media (prefers-reduced-motion: reduce){.tsw-ind,.tsw-media .ph{transition-duration:.01ms}}`,
   html:`<div class="stage full" style="padding-block:0"><div class="tsw">
   <div class="tsw-media">

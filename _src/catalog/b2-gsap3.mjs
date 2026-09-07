@@ -60,7 +60,7 @@ items.forEach(item=>{
   css:`.mp-wrap{width:min(720px,86vw);margin-inline:auto;position:relative}
 .mp-wrap svg{width:100%;height:auto;overflow:visible}
 .mp-path{fill:none;stroke:#d5d5e2;stroke-width:2;stroke-dasharray:6 8}
-.mp-ship{position:absolute;top:0;left:0;width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#4a3aff,#c2255c);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}`,
+.mp-ship{position:absolute;top:0;left:0;width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#c2255c);display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px}`,
   html:`<div class="stage"><div class="mp-wrap">
 <svg viewBox="0 0 700 260"><path class="mp-path" id="mpp" d="M30,200 C150,40 280,240 400,110 S620,60 670,180"/></svg>
 <div class="mp-ship">✈</div>
