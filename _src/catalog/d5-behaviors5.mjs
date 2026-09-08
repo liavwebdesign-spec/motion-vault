@@ -13,21 +13,26 @@ export default [
 .nv-open .nv-burger i:nth-child(1){transform:translateY(6px) rotate(45deg)}
 .nv-open .nv-burger i:nth-child(2){opacity:0}
 .nv-open .nv-burger i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-.nv-overlay{position:fixed;inset:0;z-index:29;background:#0f1020;color:#fff;display:grid;align-content:center;gap:6px;padding:12vh var(--gutter) 8vh;
+.nv-overlay{position:fixed;inset:0;z-index:29;background:var(--ink);color:var(--bg);display:grid;align-content:center;gap:6px;padding:12vh var(--gutter) 8vh;
   clip-path:inset(0 0 100% 0);transition:clip-path .62s cubic-bezier(.76,0,.24,1);visibility:hidden}
 .nv-open .nv-overlay{clip-path:inset(0 0 0 0);visibility:visible}
-.nv-link{display:block;font-size:clamp(34px,6vw,86px);font-weight:800;line-height:1.18;color:#fff;text-decoration:none;
+.nv-link{display:block;font-size:clamp(34px,6vw,86px);font-weight:800;line-height:1.1;color:var(--bg);text-decoration:none;
   opacity:0;transform:translateY(28px);transition:opacity .5s,transform .5s;transition-delay:0s}
 .nv-open .nv-link{opacity:1;transform:none}
 .nv-open .nv-link:nth-child(1){transition-delay:.18s}
 .nv-open .nv-link:nth-child(2){transition-delay:.25s}
 .nv-open .nv-link:nth-child(3){transition-delay:.32s}
 .nv-open .nv-link:nth-child(4){transition-delay:.39s}
-.nv-link span{display:inline-block;transition:transform .35s cubic-bezier(.2,.6,.2,1)}
-.nv-link:hover span{transform:translateX(-14px)}
-.nv-link small{font-size:14px;font-weight:500;opacity:.45;margin-inline-start:14px;vertical-align:middle}
-.nv-foot{margin-top:8vh;display:flex;gap:22px;flex-wrap:wrap;font-size:14px;color:#a7a9c4;opacity:0;transition:opacity .5s .5s}
+.nv-link span{display:inline-block;transition:transform .35s cubic-bezier(.2,.6,.2,1),color .35s}
+/* הזזה בכיוון הקריאה: ב-RTL שמאלה, ב-LTR ימינה */
+.nv-link:hover span{transform:translateX(-14px);color:var(--accent)}
+[dir="ltr"] .nv-link:hover span{transform:translateX(14px)}
+.nv-link small{font-size:14px;font-weight:500;opacity:.55;margin-inline-start:14px;vertical-align:middle}
+.nv-foot{margin-top:8vh;display:flex;gap:22px;flex-wrap:wrap;font-size:14px;color:var(--bg);opacity:0;transition:opacity .5s .5s}
+.nv-foot span{opacity:.62}
 .nv-open .nv-foot{opacity:1}
+/* עמוד כהה: הפוכים. השכבה מקבלת את הרקע של העמוד והטקסט את הדיו, בלי צבע קשיח */
+@media (prefers-color-scheme: dark){.nv-overlay{background:var(--bg);color:var(--ink)}.nv-link,.nv-foot{color:var(--ink)}}
 .nv-body{padding:var(--sec) var(--gutter);max-width:60ch;margin-inline:auto;color:var(--muted)}
 @media (prefers-reduced-motion: reduce){.nv-overlay,.nv-link,.nv-foot{transition-duration:.01ms!important}}`,
   html:`<header class="nv-bar">
