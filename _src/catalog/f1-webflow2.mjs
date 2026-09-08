@@ -17,10 +17,10 @@ export default [
 .ba-tag.is-after{left:14px}
 /* הידית: רוחב אפס שממוקם בפיקסלים פיזיים, והכפתור ממורכז עליה */
 .ba-handle{position:absolute;top:0;left:0;width:0;height:100%;z-index:4;cursor:ew-resize}
-.ba-line{position:absolute;top:0;left:-1px;width:2px;height:100%;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.18)}
-.ba-knob{position:absolute;top:50%;left:0;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;
-  background:#fff;box-shadow:0 6px 20px rgba(0,0,0,.28);display:grid;place-items:center;gap:0;
-  font-size:17px;color:var(--ink);letter-spacing:-2px}
+.ba-line{position:absolute;top:0;left:-1px;width:2px;height:100%;background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;box-shadow:0 0 0 1px rgba(0,0,0,.18)}
+.ba-knob{color:#16182b /* qa-allow: literal, ידית לבנה קשיחה */;position:absolute;top:50%;left:0;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;
+  background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;box-shadow:0 6px 20px rgba(0,0,0,.28);display:grid;place-items:center;gap:0;
+  font-size:17px;letter-spacing:-2px}
 .ba-handle:focus-visible .ba-knob{outline:3px solid var(--accent);outline-offset:3px}
 .ba-hint{text-align:center;color:var(--muted);font-size:14px;padding-top:14px}`,
   html:`<div class="stage tight">
@@ -190,7 +190,7 @@ export default [
   when:"בלוג, תיק עבודות, מערכת, דוקומנטציה, כל אתר שקוראים בו הרבה. מצב כהה הוא היום ציפייה בסיסית, והמעבר הוא ההזדמנות להראות איכות בשנייה אחת.",
   libs:["gsap"],
   css:`.tt{position:relative;overflow:hidden;border-radius:var(--r);border:1px solid var(--line);
-  --tt-bg:#ffffff;--tt-ink:var(--ink);--tt-mut:#5b5f77;--tt-card:#f4f4f8;--tt-line:#e3e3ec;
+  --tt-bg:#ffffff;--tt-ink:#16182b /* qa-allow: literal, הדמו מגדיר שני ערכות משלו */;--tt-mut:#5b5f77;--tt-card:#f4f4f8;--tt-line:#e3e3ec;
   background:var(--tt-bg);color:var(--tt-ink);padding:clamp(24px,4vw,54px);
   transition:background-color .35s ease,color .35s ease}
 .tt[data-theme="dark"]{--tt-bg:#111219;--tt-ink:#f2f2f7;--tt-mut:#a2a5bb;--tt-card:#1b1d27;--tt-line:#2c2f3d}

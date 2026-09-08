@@ -40,7 +40,7 @@ export default [
   when:"גרידים של 6 פריטים ומעלה. החריג המאושר היחיד לחוק האנטי-סטאגר.",
   libs:["gsap","ScrollTrigger"],
   css:`.bgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);padding-inline:var(--gutter)}
-.bcard{height:130px;background:#fff;border:1px solid var(--line);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-weight:500}
+.bcard{height:130px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);display:flex;align-items:center;justify-content:center;font-weight:500}
 @media(max-width:767px){.bgrid{grid-template-columns:1fr 1fr}}`,
   html:`<div class="stage tight"><div class="bgrid">
 <div class="bcard">01</div><div class="bcard">02</div><div class="bcard">03</div>
@@ -74,7 +74,7 @@ ScrollTrigger.batch(".bcard",{start:"top 88%",once:true,
   desc:"מסך פתיחה שמתרומם ונעלם כשהעמוד באמת נטען. בלי המתנה מלאכותית.",
   when:"אתרי פרימיום כבדי מדיה בלבד. פרילודר על אתר מהיר הוא עיכוב מיותר.",
   libs:["gsap"],
-  css:`#pre{position:fixed;inset:0;background:var(--ink);z-index:999;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700}
+  css:`#pre{position:fixed;inset:0;background:var(--ink);z-index:999;display:flex;align-items:center;justify-content:center;color:var(--bg);font-size:20px;font-weight:700}
 .replay{margin-inline:var(--gutter)}`,
   html:`<div id="pre">כאן יושב הלוגו או לוטי של המותג</div>
 <div class="stage tight center"><button class="gbtn replay">הפעל שוב את הפרילודר</button></div>`,
@@ -236,7 +236,7 @@ tl.from(".bgA",{y:"-10vw",duration:1},0)
   desc:"גלילה צידית שקו נמתח לאורכה וכל תחנה נדלקת כשהוא מגיע אליה.",
   when:"תהליך עבודה, מסע לקוח, אבני דרך. הוא או G1, לא שניהם באותו עמוד.",
   libs:["gsap","ScrollTrigger"],
-  css:`.hwrap{overflow:hidden;background:#fff}
+  css:`.hwrap{overflow:hidden;background:var(--bg)}
 .hcont{display:flex;position:relative;padding-block:130px}
 .step{flex:0 0 36vw;display:flex;flex-direction:column;align-items:center;text-align:center;padding-inline:20px}
 .step .dot{width:18px;height:18px;border-radius:50%;background:#3b5bdb;margin-bottom:14px;position:relative;z-index:2}

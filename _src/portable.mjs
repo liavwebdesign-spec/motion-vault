@@ -19,6 +19,7 @@ export const TOKENS = {
   "--line":   "#e4e4ee",
   "--accent": "#4a3aff",
   "--card":   "#fff",
+  "--accent-ink": "#fff",   // צבע הטקסט על משטח accent. accent בהיר (צהוב, מנטה) מגדיר כאן כהה
   "--r":      "14px",
 };
 
@@ -37,7 +38,7 @@ const HELPERS = {
   // של 219 עמודים, התווית יושבת על גלולה כהה שנותנת מעל 9:1 בלי תלות בצבע שמאחור.
   "ph-l": ".ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}",
   gcard:  ".gcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:clamp(18px,1.8vw,32px)}",
-  gbtn:   ".gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent);color:#fff;font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}",
+  gbtn:   ".gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}",
   center: ".center{text-align:center}",
   // כניסות ה-React משתמשות בכפתור הקישור של המאגר. בלי הכלל הזה הוא מגיע ליעד בלי שום עיצוב.
   vback:  ".vback{font-size:14px;font-weight:500;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:7px 16px;background:#fff;text-decoration:none;transition:color .18s,border-color .18s}\n.vback:hover{color:var(--accent);border-color:var(--accent)}",

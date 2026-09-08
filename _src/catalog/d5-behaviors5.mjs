@@ -5,7 +5,7 @@ export default [
   desc:"לחיצה על הכפתור פורשת שכבה על כל המסך, הקישורים נכנסים אחד אחרי השני, והגלילה מאחור ננעלת. סגירה בכפתור, ב-Escape או בבחירת קישור.",
   when:"כמעט כל אתר תדמית. במובייל זו ברירת המחדל, ובדסקטופ זו בחירה עיצובית שמפנה מקום לכותרת ולתוכן.",
   libs:[],
-  css:`.nv-bar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:16px var(--gutter);background:rgba(247,247,250,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  css:`.nv-bar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:16px var(--gutter);background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .nv-toggle{display:flex;align-items:center;gap:10px;background:none;border:0;font:inherit;font-size:15px;cursor:pointer;color:var(--ink);padding:6px}
 .nv-burger{width:26px;height:14px;position:relative;display:block}
 .nv-burger i{position:absolute;inset-inline:0;height:2px;background:var(--ink);border-radius:2px;transition:transform .4s cubic-bezier(.2,.6,.2,1),opacity .25s}

@@ -5,7 +5,7 @@ export default [
   desc:"הכרטיס עולה 5 פיקסלים, הצל מתעמק והמסגרת נצבעת. השילוש הקלאסי של המנוע.",
   when:"כל כרטיס לחיץ. הטרנספורם תמיד איטי מהצבע (0.4 מול 0.3).",
   css:`.lift-row{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);padding-inline:var(--gutter)}
-.lift{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;cursor:pointer;
+.lift{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;cursor:pointer;
 transition:border-color .3s,box-shadow .3s,transform .4s cubic-bezier(.2,.6,.2,1)}
 .lift:hover{transform:translateY(-5px);box-shadow:0 14px 40px rgba(22,24,43,.11);border-color:#b3a8ff}
 @media(max-width:767px){.lift-row{grid-template-columns:1fr}}`,
@@ -77,7 +77,7 @@ document.querySelectorAll(".blurin").forEach(el=>io.observe(el));`
   when:"שאלות ותשובות, מפרטים.",
   css:`.acc{max-width:560px;margin-inline:auto}
 .acc-item{border-bottom:1px solid var(--line)}
-.acc-q{width:100%;display:flex;justify-content:space-between;align-items:center;background:none;border:0;
+.acc-q{width:100%;display:flex;justify-content:space-between;align-items:center;background:none;border:0;color:inherit;
 font-family:inherit;font-size:17px;font-weight:600;padding-block:20px;cursor:pointer;text-align:start}
 .acc-q .chev{transition:rotate .2s}
 .acc-item.open .chev{rotate:180deg}
@@ -155,8 +155,8 @@ animation:shine 3.2s linear infinite}
 .flip{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
 .flipw:hover .flip,.flipw.tap .flip{transform:rotateY(180deg)}
 .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
-.face.back{transform:rotateY(180deg);background:var(--ink);color:#fff}
-.face.back p{color:#b9bbd4;font-size:14px;margin:0;padding-inline:24px;text-align:center}`,
+.face.back{transform:rotateY(180deg);background:var(--ink);color:var(--bg)}
+.face.back p{color:color-mix(in srgb,var(--bg) 70%,transparent);font-size:14px;margin:0;padding-inline:24px;text-align:center}`,
   html:`<div class="stage tight"><div class="flipw"><div class="flip">
 <div class="face ph ph-b">הצד הקדמי</div>
 <div class="face back"><h3 style="margin:0">הצד האחורי</h3><p>הובר בדסקטופ, לחיצה במובייל.</p></div>
@@ -174,7 +174,7 @@ animation:shine 3.2s linear infinite}
 background:conic-gradient(from var(--ang),var(--accent),#c2255c,#e8590c,var(--accent));
 animation:rot 3.5s linear infinite}
 @keyframes rot{to{--ang:360deg}}
-.gb-in{background:#fff;border-radius:16px;padding:30px;text-align:center}
+.gb-in{background:var(--card);border-radius:16px;padding:30px;text-align:center}
 .gb-in h3{margin:0 0 6px}
 .gb-in p{margin:0;color:var(--muted);font-size:14px}
 @media(prefers-reduced-motion:reduce){.gb{animation:none}}`,

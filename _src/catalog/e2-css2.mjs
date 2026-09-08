@@ -18,7 +18,7 @@ background:linear-gradient(90deg,var(--accent),#c2255c,#e8590c,var(--accent));ba
   desc:"הכרטיס מוטה בעדינות לכיוון הסמן, עם הבזק אור שנע על הפנים.",
   when:"כרטיס מוצר או הצעה מרכזית. אחד-שניים לעמוד, דסקטופ בלבד.",
   css:`.tilt{width:min(320px,80vw);margin-inline:auto;perspective:900px}
-.tilt-in{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;padding:34px;transition:transform .18s ease-out;transform-style:preserve-3d;overflow:hidden}
+.tilt-in{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:34px;transition:transform .18s ease-out;transform-style:preserve-3d;overflow:hidden}
 .tilt-in::after{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(74,58,255,.14),transparent 55%)}
 .tilt h3{margin:0 0 8px}.tilt p{margin:0;color:var(--muted);font-size:14px}`,
   html:`<div class="stage tight"><div class="tilt"><div class="tilt-in">
@@ -69,7 +69,7 @@ html[dir="ltr"] .rprog{transform-origin:left}
 -webkit-mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent)}
 .vmq-track{display:flex;flex-direction:column;gap:14px;animation:vup 18s linear infinite}
 .vmq:hover .vmq-track{animation-play-state:paused}
-.vq{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 20px;font-size:14.5px}
+.vq{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;font-size:14.5px}
 .vq b{display:block;font-size:13px;color:var(--muted);margin-top:6px;font-weight:500}
 @keyframes vup{from{transform:translateY(0)}to{transform:translateY(-50%)}}
 @media(prefers-reduced-motion:reduce){.vmq-track{animation:none}}`,
@@ -106,7 +106,7 @@ transform:skewX(-20deg);animation:sweep 3.4s ease-in-out infinite}
 .sw{position:relative;width:48px;height:27px;display:inline-block;cursor:pointer}
 .sw input{opacity:0;width:0;height:0}
 .sw .tr{position:absolute;inset:0;background:#d5d5e2;border-radius:999px;transition:background .25s}
-.sw .tr::before{content:"";position:absolute;top:3.5px;inset-inline-start:3.5px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:translate .25s cubic-bezier(.2,.6,.2,1)}
+.sw .tr::before{content:"";position:absolute;top:3.5px;inset-inline-start:3.5px;width:20px;height:20px;border-radius:50%;background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:translate .25s cubic-bezier(.2,.6,.2,1)}
 .sw input:checked+.tr{background:#12b76a}
 .sw input:checked+.tr::before{translate:-21px 0}
 html[dir="ltr"] .sw input:checked+.tr::before{translate:21px 0}

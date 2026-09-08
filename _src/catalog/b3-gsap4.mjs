@@ -74,7 +74,7 @@ export default [
   when:"סיום העמוד לפני ה-CTA, הצהרת מותג, מעבר בין פרקים. משפט אחד קצר, מילים גדולות. בעברית הגל על מילים, לא על אותיות.",
   libs:["gsap","ScrollTrigger","SplitText"],
   css:`html,body{overflow-x:clip}
-.wave{height:100vh;display:flex;align-items:center;overflow:hidden;background:#fff;border-block:1px solid var(--line)}
+.wave{height:100vh;display:flex;align-items:center;overflow:hidden;background:var(--bg);border-block:1px solid var(--line)}
 .wave-track{white-space:nowrap;font-size:clamp(72px,14vw,240px);font-weight:800;line-height:1;padding-inline:var(--gutter);will-change:transform}
 .wave-track .word{display:inline-block;will-change:transform}`,
   html:`<div class="wave"><div class="wave-track">אז, מוכנים להתחיל לזוז?</div></div>`,
@@ -94,12 +94,12 @@ export default [
   desc:"הגבול בין סקשן בהיר לכהה הוא קשת עגולה. ככל שגוללים אליו, הקשת מתיישרת לקו ישר. מעבר רך במקום חיתוך, בלי תמונה ובלי clip-path קופצני.",
   when:"מעבר מהירו לסקשן הבא, כניסה לאזור מחירים או ציטוט. פעם או פעמיים בעמוד. עובד על כל שני צבעי רקע.",
   libs:["gsap","ScrollTrigger","MorphSVGPlugin"],
-  css:`.arc-light{background:#fff;padding:var(--sec) var(--gutter);text-align:center}
+  css:`.arc-light{background:var(--card);padding:var(--sec) var(--gutter);text-align:center}
 .arc-dark{background:#0f1020;color:#fff;position:relative;padding:0 var(--gutter) var(--sec)}
 .arc-svg{display:block;width:100%;height:clamp(60px,14vw,220px)}
 .arc-svg path{fill:#fff}
 .arc-inner{max-width:720px;margin-inline:auto;padding-top:clamp(40px,5vw,80px);text-align:center}
-.arc-card{background:#fff;color:var(--ink);border-radius:20px;padding:36px 28px;margin-top:32px;display:inline-block;min-width:min(360px,80vw)}
+.arc-card{background:var(--card);color:var(--ink);border-radius:20px;padding:36px 28px;margin-top:32px;display:inline-block;min-width:min(360px,80vw)}
 .arc-card b{font-size:clamp(44px,5vw,80px);display:block;line-height:1}`,
   html:`<section class="arc-light"><h2 style="font-size:var(--fs-demo);margin:0">הכל מתחיל בסקשן בהיר</h2><p style="color:var(--muted)">גלול, ותראה את הקשת מתיישרת בכניסה לסקשן הכהה</p></section>
 <section class="arc-dark">
@@ -122,7 +122,7 @@ export default [
 .cloud{height:100vh;position:relative;overflow:hidden;background:#0f1020}
 .cloud-img{position:absolute;border-radius:10px;font-size:16px;will-change:transform;box-shadow:0 18px 40px rgba(0,0,0,.4)}
 .cloud-title{position:absolute;inset:auto var(--gutter) 10%;color:#fff;font-size:clamp(24px,2.6vw,42px);font-weight:700;max-width:520px;pointer-events:none}
-.cloud-title span{display:inline-block;margin-top:14px;padding:12px 22px;border-radius:999px;background:#fff;color:var(--ink);font-size:15px;font-weight:500}`,
+.cloud-title span{display:inline-block;margin-top:14px;padding:12px 22px;border-radius:999px;background:var(--card);color:var(--ink);font-size:15px;font-weight:500}`,
   html:`<div class="cloud">
   <div class="cloud-img ph ph-a" data-x="8"  data-y="12" data-w="16" data-d="1.4">1</div>
   <div class="cloud-img ph ph-b" data-x="30" data-y="6"  data-w="22" data-d="0.9">2</div>

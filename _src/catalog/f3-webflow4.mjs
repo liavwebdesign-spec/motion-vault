@@ -78,9 +78,9 @@ export default [
   text-decoration:none;white-space:nowrap;transition:color .22s}
 /* הצבע הלבן נקבע לפי מי שהגלולה נמצאת מתחתיו ברגע זה (hot), ולא לפי מי שנבחר (on).
    אחרת בהובר הטקסט האפור יושב על גלולה כהה, והנבחר נשאר לבן על רקע בהיר. */
-.tg a.hot{color:#fff}
+.tg a.hot{color:var(--bg)}
 .tg a:hover{color:var(--ink)}
-.tg a.hot:hover{color:#fff}
+.tg a.hot:hover{color:var(--bg)}
 .tg a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .tg-wrap{display:grid;justify-items:center;gap:26px}
 .tg-out{color:var(--muted);font-size:15px}
@@ -135,7 +135,7 @@ export default [
 .tp{border-bottom:1.5px dashed var(--accent);cursor:help;color:var(--ink);font-weight:500;background:none;
   border-inline:0;border-top:0;font-family:inherit;font-size:inherit;padding:0}
 .tp:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
-.tp-box{position:fixed;z-index:80;max-width:min(300px,80vw);background:var(--ink);color:#fff;font-size:14px;
+.tp-box{position:fixed;z-index:80;max-width:min(300px,80vw);background:var(--ink);color:var(--bg);font-size:14px;
   line-height:1.6;padding:11px 15px;border-radius:12px;box-shadow:0 14px 40px rgba(20,20,40,.28);
   pointer-events:none;opacity:0;top:0;left:0}
 .tp-box::after{content:"";position:absolute;width:11px;height:11px;background:var(--ink);transform:rotate(45deg);

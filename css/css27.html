@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS27 · לוויינים במסלול סביב מרכז | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.orb{position:relative;width:min(520px,90vw);aspect-ratio:1;margin-inline:auto;display:grid;place-items:center}
+.orb-core{width:96px;height:96px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:800;font-size:22px;box-shadow:0 20px 50px color-mix(in srgb,var(--accent) 35%,transparent);position:relative;z-index:2}
+.orb-ring{position:absolute;inset:0;border-radius:50%;border:1px dashed var(--line);margin:auto;animation:orb-spin var(--t,22s) linear infinite}
+.orb-ring.in{width:56%;height:56%;--t:14s;animation-direction:reverse}
+.orb-ring.out{width:92%;height:92%}
+.orb-sat{position:absolute;top:50%;left:50%;width:64px;height:64px;margin:-32px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:12px;color:var(--ink);box-shadow:0 6px 18px rgba(0,0,0,.08);text-align:center;padding:4px;line-height:1.1;
+  transform:rotate(var(--a)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a)));animation:orb-counter var(--t,22s) linear infinite}
+.orb-ring.in .orb-sat{animation-direction:reverse}
+.orb-ring.in{--rad:146}.orb-ring.out{--rad:239}
+@media (max-width:520px){.orb-ring.in{--rad:110}.orb-ring.out{--rad:180}.orb-ring.out{width:88%;height:88%}}
+@keyframes orb-spin{to{transform:rotate(360deg)}}
+@keyframes orb-counter{to{transform:rotate(calc(var(--a) + 360deg)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a) - 360deg))}}
+@media (prefers-reduced-motion: reduce){.orb-ring,.orb-sat{animation:none}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CSS27</span> · לוויינים במסלול סביב מרכז</h1>
+  <span class="chip cat-css">CSS טהור</span>
+  <span class="chip">CSS · keyframes</span>
+  <span class="chip use">רקע ואווירה</span><span class="chip use">תמונות וגלריות</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:css27"><code>MV:css27</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>אלמנט מרכזי ושני מסלולים סביבו, שבכל אחד אייקונים מקיפים אותו במהירות וכיוון שונים. האייקונים נשארים זקופים כי הם מסתובבים נגד המסלול.</p>
+  <p class="when"><b>מתי משתמשים:</b> הצגת אקוסיסטם: אינטגרציות סביב מוצר, כישורים סביב לוגו, שותפים סביב חברה. אחד לעמוד.</p>
+  <div class="mvpanel" data-mvpanel="css27"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="stage tight"><div class="orb">
+  <div class="orb-core">MV</div>
+  <div class="orb-ring in"><span class="orb-sat" style="--a:0deg">CRM</span><span class="orb-sat" style="--a:120deg">מייל</span><span class="orb-sat" style="--a:240deg">וואטסאפ</span></div>
+  <div class="orb-ring out"><span class="orb-sat" style="--a:30deg">סליקה</span><span class="orb-sat" style="--a:102deg">יומן</span><span class="orb-sat" style="--a:174deg">אנליטיקס</span><span class="orb-sat" style="--a:246deg">חשבוניות</span><span class="orb-sat" style="--a:318deg">אוטומציה</span></div>
+</div></div>
+
+<div class="demo-note">מקור: MagicUI OrbitingCircles. נכתב מחדש ב-CSS בלבד. כל לוויין מקבל זווית התחלה ב---a, והסיבוב הנגדי שומר אותו קריא.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    
+    
+    <a class="cp cp-link" href="../export/css27.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS27 · לוויינים במסלול סביב מרכז */
+.orb{position:relative;width:min(520px,90vw);aspect-ratio:1;margin-inline:auto;display:grid;place-items:center}
+.orb-core{width:96px;height:96px;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);display:grid;place-items:center;font-weight:800;font-size:22px;box-shadow:0 20px 50px color-mix(in srgb,var(--accent, #4a3aff) 35%,transparent);position:relative;z-index:2}
+.orb-ring{position:absolute;inset:0;border-radius:50%;border:1px dashed var(--line, #e4e4ee);margin:auto;animation:orb-spin var(--t,22s) linear infinite}
+.orb-ring.in{width:56%;height:56%;--t:14s;animation-direction:reverse}
+.orb-ring.out{width:92%;height:92%}
+.orb-sat{position:absolute;top:50%;left:50%;width:64px;height:64px;margin:-32px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;font-weight:700;font-size:12px;color:var(--ink, #16182b);box-shadow:0 6px 18px rgba(0,0,0,.08);text-align:center;padding:4px;line-height:1.1;
+  transform:rotate(var(--a)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a)));animation:orb-counter var(--t,22s) linear infinite}
+.orb-ring.in .orb-sat{animation-direction:reverse}
+.orb-ring.in{--rad:146}.orb-ring.out{--rad:239}
+@media (max-width:520px){.orb-ring.in{--rad:110}.orb-ring.out{--rad:180}.orb-ring.out{width:88%;height:88%}}
+@keyframes orb-spin{to{transform:rotate(360deg)}}
+@keyframes orb-counter{to{transform:rotate(calc(var(--a) + 360deg)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a) - 360deg))}}
+@media (prefers-reduced-motion: reduce){.orb-ring,.orb-sat{animation:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="orb"&gt;
+  &lt;div class="orb-core"&gt;MV&lt;/div&gt;
+  &lt;div class="orb-ring in"&gt;&lt;span class="orb-sat" style="--a:0deg"&gt;CRM&lt;/span&gt;&lt;span class="orb-sat" style="--a:120deg"&gt;מייל&lt;/span&gt;&lt;span class="orb-sat" style="--a:240deg"&gt;וואטסאפ&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="orb-ring out"&gt;&lt;span class="orb-sat" style="--a:30deg"&gt;סליקה&lt;/span&gt;&lt;span class="orb-sat" style="--a:102deg"&gt;יומן&lt;/span&gt;&lt;span class="orb-sat" style="--a:174deg"&gt;אנליטיקס&lt;/span&gt;&lt;span class="orb-sat" style="--a:246deg"&gt;חשבוניות&lt;/span&gt;&lt;span class="orb-sat" style="--a:318deg"&gt;אוטומציה&lt;/span&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:css27 · לוויינים במסלול סביב מרכז\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/css/css27.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/css27.html\n\nמה זה עושה: אלמנט מרכזי ושני מסלולים סביבו, שבכל אחד אייקונים מקיפים אותו במהירות וכיוון שונים. האייקונים נשארים זקופים כי הם מסתובבים נגד המסלול.\nמתי משתמשים: הצגת אקוסיסטם: אינטגרציות סביב מוצר, כישורים סביב לוגו, שותפים סביב חברה. אחד לעמוד.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS27 · לוויינים במסלול סביב מרכז */\n.orb{position:relative;width:min(520px,90vw);aspect-ratio:1;margin-inline:auto;display:grid;place-items:center}\n.orb-core{width:96px;height:96px;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);display:grid;place-items:center;font-weight:800;font-size:22px;box-shadow:0 20px 50px color-mix(in srgb,var(--accent, #4a3aff) 35%,transparent);position:relative;z-index:2}\n.orb-ring{position:absolute;inset:0;border-radius:50%;border:1px dashed var(--line, #e4e4ee);margin:auto;animation:orb-spin var(--t,22s) linear infinite}\n.orb-ring.in{width:56%;height:56%;--t:14s;animation-direction:reverse}\n.orb-ring.out{width:92%;height:92%}\n.orb-sat{position:absolute;top:50%;left:50%;width:64px;height:64px;margin:-32px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;font-weight:700;font-size:12px;color:var(--ink, #16182b);box-shadow:0 6px 18px rgba(0,0,0,.08);text-align:center;padding:4px;line-height:1.1;\n  transform:rotate(var(--a)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a)));animation:orb-counter var(--t,22s) linear infinite}\n.orb-ring.in .orb-sat{animation-direction:reverse}\n.orb-ring.in{--rad:146}.orb-ring.out{--rad:239}\n@media (max-width:520px){.orb-ring.in{--rad:110}.orb-ring.out{--rad:180}.orb-ring.out{width:88%;height:88%}}\n@keyframes orb-spin{to{transform:rotate(360deg)}}\n@keyframes orb-counter{to{transform:rotate(calc(var(--a) + 360deg)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a) - 360deg))}}\n@media (prefers-reduced-motion: reduce){.orb-ring,.orb-sat{animation:none}}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"orb\">\n  <div class=\"orb-core\">MV<\/div>\n  <div class=\"orb-ring in\"><span class=\"orb-sat\" style=\"--a:0deg\">CRM<\/span><span class=\"orb-sat\" style=\"--a:120deg\">מייל<\/span><span class=\"orb-sat\" style=\"--a:240deg\">וואטסאפ<\/span><\/div>\n  <div class=\"orb-ring out\"><span class=\"orb-sat\" style=\"--a:30deg\">סליקה<\/span><span class=\"orb-sat\" style=\"--a:102deg\">יומן<\/span><span class=\"orb-sat\" style=\"--a:174deg\">אנליטיקס<\/span><span class=\"orb-sat\" style=\"--a:246deg\">חשבוניות<\/span><span class=\"orb-sat\" style=\"--a:318deg\">אוטומציה<\/span><\/div>\n<\/div><\/div>\n\nהערת מימוש מהמאגר:\nמקור: MagicUI OrbitingCircles. נכתב מחדש ב-CSS בלבד. כל לוויין מקבל זווית התחלה ב---a, והסיבוב הנגדי שומר אותו קריא.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS27 · לוויינים במסלול סביב מרכז */\n.orb{position:relative;width:min(520px,90vw);aspect-ratio:1;margin-inline:auto;display:grid;place-items:center}\n.orb-core{width:96px;height:96px;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);display:grid;place-items:center;font-weight:800;font-size:22px;box-shadow:0 20px 50px color-mix(in srgb,var(--accent, #4a3aff) 35%,transparent);position:relative;z-index:2}\n.orb-ring{position:absolute;inset:0;border-radius:50%;border:1px dashed var(--line, #e4e4ee);margin:auto;animation:orb-spin var(--t,22s) linear infinite}\n.orb-ring.in{width:56%;height:56%;--t:14s;animation-direction:reverse}\n.orb-ring.out{width:92%;height:92%}\n.orb-sat{position:absolute;top:50%;left:50%;width:64px;height:64px;margin:-32px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;font-weight:700;font-size:12px;color:var(--ink, #16182b);box-shadow:0 6px 18px rgba(0,0,0,.08);text-align:center;padding:4px;line-height:1.1;\n  transform:rotate(var(--a)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a)));animation:orb-counter var(--t,22s) linear infinite}\n.orb-ring.in .orb-sat{animation-direction:reverse}\n.orb-ring.in{--rad:146}.orb-ring.out{--rad:239}\n@media (max-width:520px){.orb-ring.in{--rad:110}.orb-ring.out{--rad:180}.orb-ring.out{width:88%;height:88%}}\n@keyframes orb-spin{to{transform:rotate(360deg)}}\n@keyframes orb-counter{to{transform:rotate(calc(var(--a) + 360deg)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a) - 360deg))}}\n@media (prefers-reduced-motion: reduce){.orb-ring,.orb-sat{animation:none}}","html":"<div class=\"stage tight\"><div class=\"orb\">\n  <div class=\"orb-core\">MV<\/div>\n  <div class=\"orb-ring in\"><span class=\"orb-sat\" style=\"--a:0deg\">CRM<\/span><span class=\"orb-sat\" style=\"--a:120deg\">מייל<\/span><span class=\"orb-sat\" style=\"--a:240deg\">וואטסאפ<\/span><\/div>\n  <div class=\"orb-ring out\"><span class=\"orb-sat\" style=\"--a:30deg\">סליקה<\/span><span class=\"orb-sat\" style=\"--a:102deg\">יומן<\/span><span class=\"orb-sat\" style=\"--a:174deg\">אנליטיקס<\/span><span class=\"orb-sat\" style=\"--a:246deg\">חשבוניות<\/span><span class=\"orb-sat\" style=\"--a:318deg\">אוטומציה<\/span><\/div>\n<\/div><\/div>","js":"","scripts":"","rtl":true}</script>
+</section>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · לוויינים במסלול סביב מרכז").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+</script>
+</body>
+</html>

@@ -9,7 +9,7 @@ export default [
 .fo-stage{position:sticky;top:0;height:100vh;overflow:hidden;perspective:1400px;perspective-origin:50% 0%}
 .fo-page{position:absolute;inset:0;transform-origin:50% 0%;backface-visibility:hidden;
   display:grid;place-items:center;text-align:center;padding:0 var(--gutter);will-change:transform}
-.fo-page.front{background:var(--ink);color:#fff;z-index:2}
+.fo-page.front{background:var(--ink);color:var(--bg);z-index:2}
 .fo-page.back{background:var(--bg);color:var(--ink);z-index:1}
 .fo-page h3{margin:0;font-size:clamp(28px,5vw,66px);max-width:16ch;line-height:1.12}
 .fo-page p{margin:14px 0 0;max-width:44ch;font-size:17px;line-height:1.8;opacity:.82}

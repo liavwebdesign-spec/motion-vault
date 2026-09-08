@@ -119,7 +119,7 @@ export default [
 .ba2-tag.is-before{right:16px}
 .ba2-tag.is-after{left:16px}
 /* הקו מתחיל שקוף: לפני שהגלילה נכנסת לטווח הוא היה נראה כפס לבן דבוק לקצה */
-.ba2-edge{position:absolute;top:0;bottom:0;width:2px;background:#fff;z-index:4;
+.ba2-edge{position:absolute;top:0;bottom:0;width:2px;background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;z-index:4;
   box-shadow:0 0 0 1px rgba(0,0,0,.18);left:0;opacity:0}
 .ba2-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted);font-size:15px}`,
   html:`<div class="ba2"><div class="ba2-stick">

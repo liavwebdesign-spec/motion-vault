@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS28 · אדוות רקע מאחורי אלמנט | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.rip{position:relative;height:clamp(320px,50vh,480px);display:grid;place-items:center;overflow:hidden;border-radius:var(--r);background:var(--card);border:1px solid var(--line)}
+.rip-ring{position:absolute;top:50%;left:50%;width:calc(180px + var(--i) * 70px);aspect-ratio:1;border-radius:50%;border:1px solid var(--accent);
+  background:color-mix(in srgb,var(--accent) 6%,transparent);opacity:calc(.55 - var(--i) * .06);transform:translate(-50%,-50%) scale(1);
+  animation:rip-pulse 3.2s cubic-bezier(.2,.6,.2,1) infinite;animation-delay:calc(var(--i) * .22s)}
+@keyframes rip-pulse{50%{transform:translate(-50%,-50%) scale(.94)}}
+.rip-core{position:relative;z-index:1;text-align:center}
+.rip-core h3{margin:0 0 14px;font-size:clamp(22px,2.6vw,36px)}
+@media (prefers-reduced-motion: reduce){.rip-ring{animation:none}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CSS28</span> · אדוות רקע מאחורי אלמנט</h1>
+  <span class="chip cat-css">CSS טהור</span>
+  <span class="chip">CSS · keyframes</span>
+  <span class="chip use">רקע ואווירה</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:css28"><code>MV:css28</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>מעגלים קונצנטריים שמתרחבים ודוהים לאט מאחורי אלמנט מרכזי, כמו אבן במים. שקט מאוד, כמעט לא מורגש, ונותן לכפתור או ללוגו נוכחות.</p>
+  <p class="when"><b>מתי משתמשים:</b> מאחורי CTA ראשי, לוגו בהירו, או אייקון "זמין עכשיו". עדין מספיק כדי לשבת מאחורי טקסט.</p>
+  <div class="mvpanel" data-mvpanel="css28"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="stage tight"><div class="rip">
+  <span class="rip-ring" style="--i:0"></span><span class="rip-ring" style="--i:1"></span><span class="rip-ring" style="--i:2"></span><span class="rip-ring" style="--i:3"></span>
+  <span class="rip-ring" style="--i:4"></span><span class="rip-ring" style="--i:5"></span><span class="rip-ring" style="--i:6"></span><span class="rip-ring" style="--i:7"></span>
+  <div class="rip-core"><h3>מוכנים להתחיל?</h3><button class="gbtn">קבעו שיחת היכרות</button></div>
+</div></div>
+
+<div class="demo-note">מקור: MagicUI Ripple. נכתב מחדש ב-CSS בלבד עם שמונה טבעות ב---i. השקיפות יורדת עם הרדיוס, כך שהחיצוניות כמעט לא נראות.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    
+    
+    <a class="cp cp-link" href="../export/css28.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
+
+/* CSS28 · אדוות רקע מאחורי אלמנט */
+.rip{position:relative;height:clamp(320px,50vh,480px);display:grid;place-items:center;overflow:hidden;border-radius:var(--r, 14px);background:var(--card, #fff);border:1px solid var(--line, #e4e4ee)}
+.rip-ring{position:absolute;top:50%;left:50%;width:calc(180px + var(--i) * 70px);aspect-ratio:1;border-radius:50%;border:1px solid var(--accent, #4a3aff);
+  background:color-mix(in srgb,var(--accent, #4a3aff) 6%,transparent);opacity:calc(.55 - var(--i) * .06);transform:translate(-50%,-50%) scale(1);
+  animation:rip-pulse 3.2s cubic-bezier(.2,.6,.2,1) infinite;animation-delay:calc(var(--i) * .22s)}
+@keyframes rip-pulse{50%{transform:translate(-50%,-50%) scale(.94)}}
+.rip-core{position:relative;z-index:1;text-align:center}
+.rip-core h3{margin:0 0 14px;font-size:clamp(22px,2.6vw,36px)}
+@media (prefers-reduced-motion: reduce){.rip-ring{animation:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="rip"&gt;
+  &lt;span class="rip-ring" style="--i:0"&gt;&lt;/span&gt;&lt;span class="rip-ring" style="--i:1"&gt;&lt;/span&gt;&lt;span class="rip-ring" style="--i:2"&gt;&lt;/span&gt;&lt;span class="rip-ring" style="--i:3"&gt;&lt;/span&gt;
+  &lt;span class="rip-ring" style="--i:4"&gt;&lt;/span&gt;&lt;span class="rip-ring" style="--i:5"&gt;&lt;/span&gt;&lt;span class="rip-ring" style="--i:6"&gt;&lt;/span&gt;&lt;span class="rip-ring" style="--i:7"&gt;&lt;/span&gt;
+  &lt;div class="rip-core"&gt;&lt;h3&gt;מוכנים להתחיל?&lt;/h3&gt;&lt;button class="gbtn"&gt;קבעו שיחת היכרות&lt;/button&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:css28 · אדוות רקע מאחורי אלמנט\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/css/css28.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/css28.html\n\nמה זה עושה: מעגלים קונצנטריים שמתרחבים ודוהים לאט מאחורי אלמנט מרכזי, כמו אבן במים. שקט מאוד, כמעט לא מורגש, ונותן לכפתור או ללוגו נוכחות.\nמתי משתמשים: מאחורי CTA ראשי, לוגו בהירו, או אייקון \"זמין עכשיו\". עדין מספיק כדי לשבת מאחורי טקסט.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* CSS28 · אדוות רקע מאחורי אלמנט */\n.rip{position:relative;height:clamp(320px,50vh,480px);display:grid;place-items:center;overflow:hidden;border-radius:var(--r, 14px);background:var(--card, #fff);border:1px solid var(--line, #e4e4ee)}\n.rip-ring{position:absolute;top:50%;left:50%;width:calc(180px + var(--i) * 70px);aspect-ratio:1;border-radius:50%;border:1px solid var(--accent, #4a3aff);\n  background:color-mix(in srgb,var(--accent, #4a3aff) 6%,transparent);opacity:calc(.55 - var(--i) * .06);transform:translate(-50%,-50%) scale(1);\n  animation:rip-pulse 3.2s cubic-bezier(.2,.6,.2,1) infinite;animation-delay:calc(var(--i) * .22s)}\n@keyframes rip-pulse{50%{transform:translate(-50%,-50%) scale(.94)}}\n.rip-core{position:relative;z-index:1;text-align:center}\n.rip-core h3{margin:0 0 14px;font-size:clamp(22px,2.6vw,36px)}\n@media (prefers-reduced-motion: reduce){.rip-ring{animation:none}}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"rip\">\n  <span class=\"rip-ring\" style=\"--i:0\"><\/span><span class=\"rip-ring\" style=\"--i:1\"><\/span><span class=\"rip-ring\" style=\"--i:2\"><\/span><span class=\"rip-ring\" style=\"--i:3\"><\/span>\n  <span class=\"rip-ring\" style=\"--i:4\"><\/span><span class=\"rip-ring\" style=\"--i:5\"><\/span><span class=\"rip-ring\" style=\"--i:6\"><\/span><span class=\"rip-ring\" style=\"--i:7\"><\/span>\n  <div class=\"rip-core\"><h3>מוכנים להתחיל?<\/h3><button class=\"gbtn\">קבעו שיחת היכרות<\/button><\/div>\n<\/div><\/div>\n\nהערת מימוש מהמאגר:\nמקור: MagicUI Ripple. נכתב מחדש ב-CSS בלבד עם שמונה טבעות ב---i. השקיפות יורדת עם הרדיוס, כך שהחיצוניות כמעט לא נראות.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* CSS28 · אדוות רקע מאחורי אלמנט */\n.rip{position:relative;height:clamp(320px,50vh,480px);display:grid;place-items:center;overflow:hidden;border-radius:var(--r, 14px);background:var(--card, #fff);border:1px solid var(--line, #e4e4ee)}\n.rip-ring{position:absolute;top:50%;left:50%;width:calc(180px + var(--i) * 70px);aspect-ratio:1;border-radius:50%;border:1px solid var(--accent, #4a3aff);\n  background:color-mix(in srgb,var(--accent, #4a3aff) 6%,transparent);opacity:calc(.55 - var(--i) * .06);transform:translate(-50%,-50%) scale(1);\n  animation:rip-pulse 3.2s cubic-bezier(.2,.6,.2,1) infinite;animation-delay:calc(var(--i) * .22s)}\n@keyframes rip-pulse{50%{transform:translate(-50%,-50%) scale(.94)}}\n.rip-core{position:relative;z-index:1;text-align:center}\n.rip-core h3{margin:0 0 14px;font-size:clamp(22px,2.6vw,36px)}\n@media (prefers-reduced-motion: reduce){.rip-ring{animation:none}}","html":"<div class=\"stage tight\"><div class=\"rip\">\n  <span class=\"rip-ring\" style=\"--i:0\"><\/span><span class=\"rip-ring\" style=\"--i:1\"><\/span><span class=\"rip-ring\" style=\"--i:2\"><\/span><span class=\"rip-ring\" style=\"--i:3\"><\/span>\n  <span class=\"rip-ring\" style=\"--i:4\"><\/span><span class=\"rip-ring\" style=\"--i:5\"><\/span><span class=\"rip-ring\" style=\"--i:6\"><\/span><span class=\"rip-ring\" style=\"--i:7\"><\/span>\n  <div class=\"rip-core\"><h3>מוכנים להתחיל?<\/h3><button class=\"gbtn\">קבעו שיחת היכרות<\/button><\/div>\n<\/div><\/div>","js":"","scripts":"","rtl":false}</script>
+</section>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · אדוות רקע מאחורי אלמנט").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+</script>
+</body>
+</html>

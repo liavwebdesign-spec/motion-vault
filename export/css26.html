@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS26 · קיר אריחים נסחף בפרספקטיבה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}
+
+/* CSS26 · קיר אריחים נסחף בפרספקטיבה */
+.dw{position:relative;height:clamp(360px,60vh,560px);overflow:hidden;border-radius:var(--r, 14px);background:var(--ink, #16182b);perspective:900px;
+  mask-image:linear-gradient(180deg,transparent,#000 18%,#000 82%,transparent);-webkit-mask-image:linear-gradient(180deg,transparent,#000 18%,#000 82%,transparent)}
+.dw-grid{position:absolute;inset:-10% -4%;display:grid;grid-template-columns:repeat(5,1fr);gap:14px;transform:rotateX(14deg) rotateZ(-4deg) scale(1.08);transform-style:preserve-3d}
+.dw-col{display:flex;flex-direction:column;gap:14px;animation:dw-up 26s linear infinite}
+.dw-col:nth-child(2n){animation-duration:34s;animation-direction:reverse}
+.dw-col:nth-child(3n){animation-duration:30s}
+.dw-tile{aspect-ratio:4/3;border-radius:12px;background:color-mix(in srgb,var(--bg, #f7f7fa) 8%,transparent);border:1px solid color-mix(in srgb,var(--bg, #f7f7fa) 10%,transparent);display:grid;place-items:center;color:color-mix(in srgb,var(--bg, #f7f7fa) 60%,transparent);font-weight:700;font-size:14px;
+  transition:transform .5s cubic-bezier(.2,.6,.2,1),background-color .4s}
+.dw-tile.ph{color:#fff}
+@keyframes dw-up{to{transform:translateY(-50%)}}
+@media (hover:hover) and (pointer:fine){
+  .dw-col:hover{animation-play-state:paused}
+  .dw-tile:hover{transform:translateZ(40px) scale(1.04);background:rgba(255,255,255,.14)}
+}
+.dw-over{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--bg, #f7f7fa);pointer-events:none;padding:24px}
+.dw-over h2{margin:0;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));text-shadow:0 2px 24px rgba(0,0,0,.5)}
+@media (prefers-reduced-motion: reduce){.dw-col{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="stage tight"><div class="dw">
+  <div class="dw-grid">
+    <div class="dw-col"><div class="dw-tile ph ph-a"><span class="ph-l">1</span></div><div class="dw-tile">2</div><div class="dw-tile ph ph-c"><span class="ph-l">3</span></div><div class="dw-tile">4</div><div class="dw-tile ph ph-a"><span class="ph-l">1</span></div><div class="dw-tile">2</div><div class="dw-tile ph ph-c"><span class="ph-l">3</span></div><div class="dw-tile">4</div></div>
+    <div class="dw-col"><div class="dw-tile">5</div><div class="dw-tile ph ph-b"><span class="ph-l">6</span></div><div class="dw-tile">7</div><div class="dw-tile ph ph-d"><span class="ph-l">8</span></div><div class="dw-tile">5</div><div class="dw-tile ph ph-b"><span class="ph-l">6</span></div><div class="dw-tile">7</div><div class="dw-tile ph ph-d"><span class="ph-l">8</span></div></div>
+    <div class="dw-col"><div class="dw-tile ph ph-e"><span class="ph-l">9</span></div><div class="dw-tile">10</div><div class="dw-tile ph ph-a"><span class="ph-l">11</span></div><div class="dw-tile">12</div><div class="dw-tile ph ph-e"><span class="ph-l">9</span></div><div class="dw-tile">10</div><div class="dw-tile ph ph-a"><span class="ph-l">11</span></div><div class="dw-tile">12</div></div>
+    <div class="dw-col"><div class="dw-tile">13</div><div class="dw-tile ph ph-c"><span class="ph-l">14</span></div><div class="dw-tile">15</div><div class="dw-tile ph ph-b"><span class="ph-l">16</span></div><div class="dw-tile">13</div><div class="dw-tile ph ph-c"><span class="ph-l">14</span></div><div class="dw-tile">15</div><div class="dw-tile ph ph-b"><span class="ph-l">16</span></div></div>
+    <div class="dw-col"><div class="dw-tile ph ph-d"><span class="ph-l">17</span></div><div class="dw-tile">18</div><div class="dw-tile ph ph-e"><span class="ph-l">19</span></div><div class="dw-tile">20</div><div class="dw-tile ph ph-d"><span class="ph-l">17</span></div><div class="dw-tile">18</div><div class="dw-tile ph ph-e"><span class="ph-l">19</span></div><div class="dw-tile">20</div></div>
+  </div>
+  <div class="dw-over"><h2>יותר מארבעים פרויקטים שעלו לאוויר</h2></div>
+</div></div>
+
+
+
+</body>
+</html>

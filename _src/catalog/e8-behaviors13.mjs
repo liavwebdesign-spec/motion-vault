@@ -76,11 +76,11 @@ export default [
 .pr2-top h3{margin:0;font-size:clamp(24px,3vw,42px)}
 .pr2-switch{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px}
 .pr2-switch button{border:0;background:none;font:inherit;font-size:14px;padding:9px 18px;border-radius:999px;cursor:pointer;color:var(--muted)}
-.pr2-switch button.on{background:var(--ink);color:#fff}
+.pr2-switch button.on{background:var(--ink);color:var(--bg)}
 .pr2-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);align-items:start}
 .pr2-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(20px,2.4vw,32px);display:flex;flex-direction:column;gap:14px}
 .pr2-card.best{border-color:var(--accent);box-shadow:0 18px 50px rgba(74,58,255,.14);position:relative}
-.pr2-tag{position:absolute;top:-13px;inset-inline-start:24px;background:var(--accent);color:#fff;font-size:12px;border-radius:999px;padding:5px 13px}
+.pr2-tag{position:absolute;top:-13px;inset-inline-start:24px;background:var(--accent);color:var(--accent-ink);font-size:12px;border-radius:999px;padding:5px 13px}
 .pr2-card h4{margin:0;font-size:19px}
 .pr2-price{font-size:clamp(30px,3.6vw,46px);font-weight:800;line-height:1;font-variant-numeric:tabular-nums}
 .pr2-price small{font-size:14px;font-weight:500;color:var(--muted)}

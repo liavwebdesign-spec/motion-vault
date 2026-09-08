@@ -55,7 +55,7 @@ export default [
 .pr-top button{background:none;border:0;font:inherit;color:var(--muted);cursor:pointer;padding:4px}
 .pr-top button.on{color:var(--ink);font-weight:700}
 .pr-sw{width:52px;height:30px;border-radius:999px;background:#dcdce8;position:relative;transition:background .3s;flex:none}
-.pr-sw i{position:absolute;top:3px;inset-inline-start:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .3s cubic-bezier(.2,.6,.2,1)}
+.pr-sw i{position:absolute;top:3px;inset-inline-start:3px;width:24px;height:24px;border-radius:50%;background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;transition:transform .3s cubic-bezier(.2,.6,.2,1)}
 .pr-sw.year{background:var(--accent)}
 .pr-sw.year i{transform:translateX(-22px)}
 .pr-price{display:flex;justify-content:center;align-items:baseline;gap:4px;font-weight:800;line-height:1;font-size:clamp(52px,6vw,90px);direction:ltr}

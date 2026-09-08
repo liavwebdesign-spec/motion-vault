@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS25 · בנטו עם כוריאוגרפיית הובר | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.bn{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:minmax(220px,auto);gap:var(--gap);max-width:1100px;margin-inline:auto}
+.bn-card{position:relative;overflow:hidden;border-radius:var(--r);background:var(--card);border:1px solid var(--line);padding:24px;display:flex;flex-direction:column;justify-content:flex-end;min-height:220px;isolation:isolate}
+.bn-card.wide{grid-column:span 2}
+.bn-ic{width:44px;height:44px;border-radius:12px;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:800;margin-bottom:auto;transform-origin:top right;transition:transform .5s cubic-bezier(.2,.6,.2,1)}
+.bn-body{transition:transform .5s cubic-bezier(.2,.6,.2,1)}
+.bn-body h3{margin:0 0 6px;font-size:clamp(18px,1.8vw,24px)}
+.bn-body p{margin:0;color:var(--muted);font-size:15px;line-height:1.55;max-width:38ch}
+.bn-cta{position:absolute;inset-inline:24px;bottom:0;display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--accent);padding-block:14px;
+  transform:translateY(100%);opacity:0;transition:transform .5s cubic-bezier(.2,.6,.2,1),opacity .35s}
+.bn-cta::after{content:"←"}
+.bn-card::after{content:"";position:absolute;inset:0;background:var(--ink);opacity:0;transition:opacity .4s;z-index:-1;pointer-events:none}
+@media (hover:hover) and (pointer:fine){
+  .bn-card:hover .bn-body{transform:translateY(-38px)}
+  .bn-card:hover .bn-ic{transform:scale(.78)}
+  .bn-card:hover .bn-cta{transform:none;opacity:1}
+  .bn-card:hover::after{opacity:.04}
+}
+@media (hover:none){.bn-cta{position:static;transform:none;opacity:1;margin-top:14px;padding-block:0}}
+@media (max-width:767px){.bn{grid-template-columns:1fr}.bn-card.wide{grid-column:auto}}
+@media (prefers-reduced-motion: reduce){.bn-body,.bn-ic,.bn-cta,.bn-card::after{transition:none}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CSS25</span> · בנטו עם כוריאוגרפיית הובר</h1>
+  <span class="chip cat-css">CSS טהור</span>
+  <span class="chip">CSS · grid</span>
+  <span class="chip use">כרטיסים</span><span class="chip use">hover ומיקרו</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:css25"><code>MV:css25</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>גריד בנטו שכל כרטיס בו מגיב להובר בשלוש שכבות בבת אחת: הטקסט עולה, האייקון מתכווץ, וקישור נחשף מלמטה. תנועה אחת שמרגישה כמו שלוש.</p>
+  <p class="when"><b>מתי משתמשים:</b> סקשן פיצ'רים עם היררכיה (תא אחד גדול, השאר קטנים). חוק התאים הריקים חל: כל תא חייב תוכן אמיתי.</p>
+  <div class="mvpanel" data-mvpanel="css25"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="stage tight"><div class="bn">
+  <article class="bn-card wide"><div class="bn-ic">01</div><div class="bn-body"><h3>אפיון לפני עיצוב</h3><p>שיחה אחת שממפה מי הלקוח, מה הוא מחפש ומה מונע ממנו לפנות. משם נגזר כל העמוד.</p></div><a class="bn-cta" href="#">איך זה עובד</a></article>
+  <article class="bn-card"><div class="bn-ic">02</div><div class="bn-body"><h3>קופי שמוכר</h3><p>כל משפט עונה על שאלה שהגולש שואל.</p></div><a class="bn-cta" href="#">דוגמאות</a></article>
+  <article class="bn-card"><div class="bn-ic">03</div><div class="bn-body"><h3>מובייל קודם</h3><p>שבעים אחוז מהתנועה. שם מתחילים.</p></div><a class="bn-cta" href="#">למה</a></article>
+  <article class="bn-card wide"><div class="bn-ic">04</div><div class="bn-body"><h3>מדידה מהיום הראשון</h3><p>טפסים, שיחות, וואטסאפ. כל פנייה נספרת, וכל שינוי נבחן מול מספר.</p></div><a class="bn-cta" href="#">מה מודדים</a></article>
+</div></div>
+
+<div class="demo-note">מקור: MagicUI BentoGrid. נכתב מחדש ב-CSS בלבד. במגע אין הובר, לכן הקישור גלוי תמיד במובייל.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    
+    
+    <a class="cp cp-link" href="../export/css25.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS25 · בנטו עם כוריאוגרפיית הובר */
+.bn{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:minmax(220px,auto);gap:var(--gap, clamp(16px, 1.6vw, 36px));max-width:1100px;margin-inline:auto}
+.bn-card{position:relative;overflow:hidden;border-radius:var(--r, 14px);background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:24px;display:flex;flex-direction:column;justify-content:flex-end;min-height:220px;isolation:isolate}
+.bn-card.wide{grid-column:span 2}
+.bn-ic{width:44px;height:44px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);display:grid;place-items:center;font-weight:800;margin-bottom:auto;transform-origin:top right;transition:transform .5s cubic-bezier(.2,.6,.2,1)}
+.bn-body{transition:transform .5s cubic-bezier(.2,.6,.2,1)}
+.bn-body h3{margin:0 0 6px;font-size:clamp(18px,1.8vw,24px)}
+.bn-body p{margin:0;color:var(--muted, #6a6d85);font-size:15px;line-height:1.55;max-width:38ch}
+.bn-cta{position:absolute;inset-inline:24px;bottom:0;display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--accent, #4a3aff);padding-block:14px;
+  transform:translateY(100%);opacity:0;transition:transform .5s cubic-bezier(.2,.6,.2,1),opacity .35s}
+.bn-cta::after{content:"←"}
+.bn-card::after{content:"";position:absolute;inset:0;background:var(--ink, #16182b);opacity:0;transition:opacity .4s;z-index:-1;pointer-events:none}
+@media (hover:hover) and (pointer:fine){
+  .bn-card:hover .bn-body{transform:translateY(-38px)}
+  .bn-card:hover .bn-ic{transform:scale(.78)}
+  .bn-card:hover .bn-cta{transform:none;opacity:1}
+  .bn-card:hover::after{opacity:.04}
+}
+@media (hover:none){.bn-cta{position:static;transform:none;opacity:1;margin-top:14px;padding-block:0}}
+@media (max-width:767px){.bn{grid-template-columns:1fr}.bn-card.wide{grid-column:auto}}
+@media (prefers-reduced-motion: reduce){.bn-body,.bn-ic,.bn-cta,.bn-card::after{transition:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="bn"&gt;
+  &lt;article class="bn-card wide"&gt;&lt;div class="bn-ic"&gt;01&lt;/div&gt;&lt;div class="bn-body"&gt;&lt;h3&gt;אפיון לפני עיצוב&lt;/h3&gt;&lt;p&gt;שיחה אחת שממפה מי הלקוח, מה הוא מחפש ומה מונע ממנו לפנות. משם נגזר כל העמוד.&lt;/p&gt;&lt;/div&gt;&lt;a class="bn-cta" href="#"&gt;איך זה עובד&lt;/a&gt;&lt;/article&gt;
+  &lt;article class="bn-card"&gt;&lt;div class="bn-ic"&gt;02&lt;/div&gt;&lt;div class="bn-body"&gt;&lt;h3&gt;קופי שמוכר&lt;/h3&gt;&lt;p&gt;כל משפט עונה על שאלה שהגולש שואל.&lt;/p&gt;&lt;/div&gt;&lt;a class="bn-cta" href="#"&gt;דוגמאות&lt;/a&gt;&lt;/article&gt;
+  &lt;article class="bn-card"&gt;&lt;div class="bn-ic"&gt;03&lt;/div&gt;&lt;div class="bn-body"&gt;&lt;h3&gt;מובייל קודם&lt;/h3&gt;&lt;p&gt;שבעים אחוז מהתנועה. שם מתחילים.&lt;/p&gt;&lt;/div&gt;&lt;a class="bn-cta" href="#"&gt;למה&lt;/a&gt;&lt;/article&gt;
+  &lt;article class="bn-card wide"&gt;&lt;div class="bn-ic"&gt;04&lt;/div&gt;&lt;div class="bn-body"&gt;&lt;h3&gt;מדידה מהיום הראשון&lt;/h3&gt;&lt;p&gt;טפסים, שיחות, וואטסאפ. כל פנייה נספרת, וכל שינוי נבחן מול מספר.&lt;/p&gt;&lt;/div&gt;&lt;a class="bn-cta" href="#"&gt;מה מודדים&lt;/a&gt;&lt;/article&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:css25 · בנטו עם כוריאוגרפיית הובר\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/css/css25.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/css25.html\n\nמה זה עושה: גריד בנטו שכל כרטיס בו מגיב להובר בשלוש שכבות בבת אחת: הטקסט עולה, האייקון מתכווץ, וקישור נחשף מלמטה. תנועה אחת שמרגישה כמו שלוש.\nמתי משתמשים: סקשן פיצ'רים עם היררכיה (תא אחד גדול, השאר קטנים). חוק התאים הריקים חל: כל תא חייב תוכן אמיתי.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS25 · בנטו עם כוריאוגרפיית הובר */\n.bn{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:minmax(220px,auto);gap:var(--gap, clamp(16px, 1.6vw, 36px));max-width:1100px;margin-inline:auto}\n.bn-card{position:relative;overflow:hidden;border-radius:var(--r, 14px);background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:24px;display:flex;flex-direction:column;justify-content:flex-end;min-height:220px;isolation:isolate}\n.bn-card.wide{grid-column:span 2}\n.bn-ic{width:44px;height:44px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);display:grid;place-items:center;font-weight:800;margin-bottom:auto;transform-origin:top right;transition:transform .5s cubic-bezier(.2,.6,.2,1)}\n.bn-body{transition:transform .5s cubic-bezier(.2,.6,.2,1)}\n.bn-body h3{margin:0 0 6px;font-size:clamp(18px,1.8vw,24px)}\n.bn-body p{margin:0;color:var(--muted, #6a6d85);font-size:15px;line-height:1.55;max-width:38ch}\n.bn-cta{position:absolute;inset-inline:24px;bottom:0;display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--accent, #4a3aff);padding-block:14px;\n  transform:translateY(100%);opacity:0;transition:transform .5s cubic-bezier(.2,.6,.2,1),opacity .35s}\n.bn-cta::after{content:\"←\"}\n.bn-card::after{content:\"\";position:absolute;inset:0;background:var(--ink, #16182b);opacity:0;transition:opacity .4s;z-index:-1;pointer-events:none}\n@media (hover:hover) and (pointer:fine){\n  .bn-card:hover .bn-body{transform:translateY(-38px)}\n  .bn-card:hover .bn-ic{transform:scale(.78)}\n  .bn-card:hover .bn-cta{transform:none;opacity:1}\n  .bn-card:hover::after{opacity:.04}\n}\n@media (hover:none){.bn-cta{position:static;transform:none;opacity:1;margin-top:14px;padding-block:0}}\n@media (max-width:767px){.bn{grid-template-columns:1fr}.bn-card.wide{grid-column:auto}}\n@media (prefers-reduced-motion: reduce){.bn-body,.bn-ic,.bn-cta,.bn-card::after{transition:none}}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"bn\">\n  <article class=\"bn-card wide\"><div class=\"bn-ic\">01<\/div><div class=\"bn-body\"><h3>אפיון לפני עיצוב<\/h3><p>שיחה אחת שממפה מי הלקוח, מה הוא מחפש ומה מונע ממנו לפנות. משם נגזר כל העמוד.<\/p><\/div><a class=\"bn-cta\" href=\"#\">איך זה עובד<\/a><\/article>\n  <article class=\"bn-card\"><div class=\"bn-ic\">02<\/div><div class=\"bn-body\"><h3>קופי שמוכר<\/h3><p>כל משפט עונה על שאלה שהגולש שואל.<\/p><\/div><a class=\"bn-cta\" href=\"#\">דוגמאות<\/a><\/article>\n  <article class=\"bn-card\"><div class=\"bn-ic\">03<\/div><div class=\"bn-body\"><h3>מובייל קודם<\/h3><p>שבעים אחוז מהתנועה. שם מתחילים.<\/p><\/div><a class=\"bn-cta\" href=\"#\">למה<\/a><\/article>\n  <article class=\"bn-card wide\"><div class=\"bn-ic\">04<\/div><div class=\"bn-body\"><h3>מדידה מהיום הראשון<\/h3><p>טפסים, שיחות, וואטסאפ. כל פנייה נספרת, וכל שינוי נבחן מול מספר.<\/p><\/div><a class=\"bn-cta\" href=\"#\">מה מודדים<\/a><\/article>\n<\/div><\/div>\n\nהערת מימוש מהמאגר:\nמקור: MagicUI BentoGrid. נכתב מחדש ב-CSS בלבד. במגע אין הובר, לכן הקישור גלוי תמיד במובייל.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS25 · בנטו עם כוריאוגרפיית הובר */\n.bn{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:minmax(220px,auto);gap:var(--gap, clamp(16px, 1.6vw, 36px));max-width:1100px;margin-inline:auto}\n.bn-card{position:relative;overflow:hidden;border-radius:var(--r, 14px);background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:24px;display:flex;flex-direction:column;justify-content:flex-end;min-height:220px;isolation:isolate}\n.bn-card.wide{grid-column:span 2}\n.bn-ic{width:44px;height:44px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);display:grid;place-items:center;font-weight:800;margin-bottom:auto;transform-origin:top right;transition:transform .5s cubic-bezier(.2,.6,.2,1)}\n.bn-body{transition:transform .5s cubic-bezier(.2,.6,.2,1)}\n.bn-body h3{margin:0 0 6px;font-size:clamp(18px,1.8vw,24px)}\n.bn-body p{margin:0;color:var(--muted, #6a6d85);font-size:15px;line-height:1.55;max-width:38ch}\n.bn-cta{position:absolute;inset-inline:24px;bottom:0;display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px;color:var(--accent, #4a3aff);padding-block:14px;\n  transform:translateY(100%);opacity:0;transition:transform .5s cubic-bezier(.2,.6,.2,1),opacity .35s}\n.bn-cta::after{content:\"←\"}\n.bn-card::after{content:\"\";position:absolute;inset:0;background:var(--ink, #16182b);opacity:0;transition:opacity .4s;z-index:-1;pointer-events:none}\n@media (hover:hover) and (pointer:fine){\n  .bn-card:hover .bn-body{transform:translateY(-38px)}\n  .bn-card:hover .bn-ic{transform:scale(.78)}\n  .bn-card:hover .bn-cta{transform:none;opacity:1}\n  .bn-card:hover::after{opacity:.04}\n}\n@media (hover:none){.bn-cta{position:static;transform:none;opacity:1;margin-top:14px;padding-block:0}}\n@media (max-width:767px){.bn{grid-template-columns:1fr}.bn-card.wide{grid-column:auto}}\n@media (prefers-reduced-motion: reduce){.bn-body,.bn-ic,.bn-cta,.bn-card::after{transition:none}}","html":"<div class=\"stage tight\"><div class=\"bn\">\n  <article class=\"bn-card wide\"><div class=\"bn-ic\">01<\/div><div class=\"bn-body\"><h3>אפיון לפני עיצוב<\/h3><p>שיחה אחת שממפה מי הלקוח, מה הוא מחפש ומה מונע ממנו לפנות. משם נגזר כל העמוד.<\/p><\/div><a class=\"bn-cta\" href=\"#\">איך זה עובד<\/a><\/article>\n  <article class=\"bn-card\"><div class=\"bn-ic\">02<\/div><div class=\"bn-body\"><h3>קופי שמוכר<\/h3><p>כל משפט עונה על שאלה שהגולש שואל.<\/p><\/div><a class=\"bn-cta\" href=\"#\">דוגמאות<\/a><\/article>\n  <article class=\"bn-card\"><div class=\"bn-ic\">03<\/div><div class=\"bn-body\"><h3>מובייל קודם<\/h3><p>שבעים אחוז מהתנועה. שם מתחילים.<\/p><\/div><a class=\"bn-cta\" href=\"#\">למה<\/a><\/article>\n  <article class=\"bn-card wide\"><div class=\"bn-ic\">04<\/div><div class=\"bn-body\"><h3>מדידה מהיום הראשון<\/h3><p>טפסים, שיחות, וואטסאפ. כל פנייה נספרת, וכל שינוי נבחן מול מספר.<\/p><\/div><a class=\"bn-cta\" href=\"#\">מה מודדים<\/a><\/article>\n<\/div><\/div>","js":"","scripts":"","rtl":true}</script>
+</section>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · בנטו עם כוריאוגרפיית הובר").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+</script>
+</body>
+</html>

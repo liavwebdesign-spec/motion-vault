@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B58 · דוק אייקונים שמתנפחים ליד הסמן | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.dk-wrap{display:flex;justify-content:center;padding-block:60px 30px}
+.dk{display:flex;align-items:flex-end;gap:10px;padding:10px 14px;border-radius:22px;background:var(--card);border:1px solid var(--line);box-shadow:0 18px 50px rgba(0,0,0,.12)}
+.dk a{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--bg);color:var(--ink);font-weight:700;font-size:12px;text-decoration:none;
+  transform-origin:bottom center;transform:scale(var(--s,1));transition:transform .18s cubic-bezier(.2,.6,.2,1);position:relative}
+.dk a::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 10px);left:50%;translate:-50% 4px;background:var(--ink);color:var(--bg);font-size:12px;padding:5px 9px;border-radius:8px;white-space:nowrap;opacity:0;transition:opacity .2s,translate .2s;pointer-events:none}
+@media (hover:hover) and (pointer:fine){.dk a:hover::after{opacity:1;translate:-50% 0}}
+.dk a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){.dk a{transition:none}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B58</span> · דוק אייקונים שמתנפחים ליד הסמן</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">vanilla JS · CSS</span>
+  <span class="chip use">ניווט ומבנה</span><span class="chip use">hover ומיקרו</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b58"><code>MV:b58</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>שורת אייקונים שכל אחד מהם גדל ככל שהסמן קרוב אליו, והשכנים גדלים פחות. בדיוק כמו הדוק של מק. במגע הכל נשאר בגודל אחיד.</p>
+  <p class="when"><b>מתי משתמשים:</b> ניווט צף בתחתית המסך באתרי פורטפוליו ומוצר, סרגל כלים, קישורים חברתיים. דסקטופ בלבד, במובייל זה סרגל רגיל.</p>
+  <div class="mvpanel" data-mvpanel="b58"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="stage tight"><div class="dk-wrap"><nav class="dk" aria-label="ניווט מהיר">
+  <a href="#" data-tip="בית">בית</a><a href="#" data-tip="עבודות">עבודות</a><a href="#" data-tip="שירותים">שירות</a><a href="#" data-tip="בלוג">בלוג</a><a href="#" data-tip="אודות">אודות</a><a href="#" data-tip="צור קשר">קשר</a>
+</nav></div></div>
+
+<div class="demo-note">מקור: MagicUI Dock. נכתב מחדש: המרחק מהסמן נמדד ב-mousemove, וכל אייקון מקבל scale לפי עקומה, על transform בלבד. הרוחב לא משתנה, לכן השכנים לא קופצים.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b58.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B58 · דוק אייקונים שמתנפחים ליד הסמן */
+.dk-wrap{display:flex;justify-content:center;padding-block:60px 30px}
+.dk{display:flex;align-items:flex-end;gap:10px;padding:10px 14px;border-radius:22px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);box-shadow:0 18px 50px rgba(0,0,0,.12)}
+.dk a{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font-weight:700;font-size:12px;text-decoration:none;
+  transform-origin:bottom center;transform:scale(var(--s,1));transition:transform .18s cubic-bezier(.2,.6,.2,1);position:relative}
+.dk a::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 10px);left:50%;translate:-50% 4px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:12px;padding:5px 9px;border-radius:8px;white-space:nowrap;opacity:0;transition:opacity .2s,translate .2s;pointer-events:none}
+@media (hover:hover) and (pointer:fine){.dk a:hover::after{opacity:1;translate:-50% 0}}
+.dk a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){.dk a{transition:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="dk-wrap"&gt;&lt;nav class="dk" aria-label="ניווט מהיר"&gt;
+  &lt;a href="#" data-tip="בית"&gt;בית&lt;/a&gt;&lt;a href="#" data-tip="עבודות"&gt;עבודות&lt;/a&gt;&lt;a href="#" data-tip="שירותים"&gt;שירות&lt;/a&gt;&lt;a href="#" data-tip="בלוג"&gt;בלוג&lt;/a&gt;&lt;a href="#" data-tip="אודות"&gt;אודות&lt;/a&gt;&lt;a href="#" data-tip="צור קשר"&gt;קשר&lt;/a&gt;
+&lt;/nav&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  if(!matchMedia("(hover:hover) and (pointer:fine)").matches)return;
+  const dock=document.querySelector(".dk"),icons=[...dock.querySelectorAll("a")],RANGE=140,MAX=1.7;
+  function paint(x){
+    icons.forEach(a=&gt;{
+      const r=a.getBoundingClientRect(),d=Math.abs(x-(r.left+r.width/2));
+      const s=d&gt;RANGE?1:1+(MAX-1)*Math.cos((d/RANGE)*Math.PI/2);   // קוסינוס: רך במרכז, מתאפס בקצה הטווח
+      a.style.setProperty("--s",s.toFixed(3));
+    });
+  }
+  dock.addEventListener("mousemove",e=&gt;paint(e.clientX));
+  dock.addEventListener("mouseleave",()=&gt;icons.forEach(a=&gt;a.style.setProperty("--s",1)));
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b58 · דוק אייקונים שמתנפחים ליד הסמן\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b58.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b58.html\n\nמה זה עושה: שורת אייקונים שכל אחד מהם גדל ככל שהסמן קרוב אליו, והשכנים גדלים פחות. בדיוק כמו הדוק של מק. במגע הכל נשאר בגודל אחיד.\nמתי משתמשים: ניווט צף בתחתית המסך באתרי פורטפוליו ומוצר, סרגל כלים, קישורים חברתיים. דסקטופ בלבד, במובייל זה סרגל רגיל.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B58 · דוק אייקונים שמתנפחים ליד הסמן */\n.dk-wrap{display:flex;justify-content:center;padding-block:60px 30px}\n.dk{display:flex;align-items:flex-end;gap:10px;padding:10px 14px;border-radius:22px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);box-shadow:0 18px 50px rgba(0,0,0,.12)}\n.dk a{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font-weight:700;font-size:12px;text-decoration:none;\n  transform-origin:bottom center;transform:scale(var(--s,1));transition:transform .18s cubic-bezier(.2,.6,.2,1);position:relative}\n.dk a::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 10px);left:50%;translate:-50% 4px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:12px;padding:5px 9px;border-radius:8px;white-space:nowrap;opacity:0;transition:opacity .2s,translate .2s;pointer-events:none}\n@media (hover:hover) and (pointer:fine){.dk a:hover::after{opacity:1;translate:-50% 0}}\n.dk a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n@media (prefers-reduced-motion: reduce){.dk a{transition:none}}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"dk-wrap\"><nav class=\"dk\" aria-label=\"ניווט מהיר\">\n  <a href=\"#\" data-tip=\"בית\">בית<\/a><a href=\"#\" data-tip=\"עבודות\">עבודות<\/a><a href=\"#\" data-tip=\"שירותים\">שירות<\/a><a href=\"#\" data-tip=\"בלוג\">בלוג<\/a><a href=\"#\" data-tip=\"אודות\">אודות<\/a><a href=\"#\" data-tip=\"צור קשר\">קשר<\/a>\n<\/nav><\/div><\/div>\n\n=== JS ===\n(function(){\n  if(!matchMedia(\"(hover:hover) and (pointer:fine)\").matches)return;\n  const dock=document.querySelector(\".dk\"),icons=[...dock.querySelectorAll(\"a\")],RANGE=140,MAX=1.7;\n  function paint(x){\n    icons.forEach(a=>{\n      const r=a.getBoundingClientRect(),d=Math.abs(x-(r.left+r.width/2));\n      const s=d>RANGE?1:1+(MAX-1)*Math.cos((d/RANGE)*Math.PI/2);   // קוסינוס: רך במרכז, מתאפס בקצה הטווח\n      a.style.setProperty(\"--s\",s.toFixed(3));\n    });\n  }\n  dock.addEventListener(\"mousemove\",e=>paint(e.clientX));\n  dock.addEventListener(\"mouseleave\",()=>icons.forEach(a=>a.style.setProperty(\"--s\",1)));\n})();\n\nהערת מימוש מהמאגר:\nמקור: MagicUI Dock. נכתב מחדש: המרחק מהסמן נמדד ב-mousemove, וכל אייקון מקבל scale לפי עקומה, על transform בלבד. הרוחב לא משתנה, לכן השכנים לא קופצים.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B58 · דוק אייקונים שמתנפחים ליד הסמן */\n.dk-wrap{display:flex;justify-content:center;padding-block:60px 30px}\n.dk{display:flex;align-items:flex-end;gap:10px;padding:10px 14px;border-radius:22px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);box-shadow:0 18px 50px rgba(0,0,0,.12)}\n.dk a{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font-weight:700;font-size:12px;text-decoration:none;\n  transform-origin:bottom center;transform:scale(var(--s,1));transition:transform .18s cubic-bezier(.2,.6,.2,1);position:relative}\n.dk a::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 10px);left:50%;translate:-50% 4px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:12px;padding:5px 9px;border-radius:8px;white-space:nowrap;opacity:0;transition:opacity .2s,translate .2s;pointer-events:none}\n@media (hover:hover) and (pointer:fine){.dk a:hover::after{opacity:1;translate:-50% 0}}\n.dk a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n@media (prefers-reduced-motion: reduce){.dk a{transition:none}}","html":"<div class=\"stage tight\"><div class=\"dk-wrap\"><nav class=\"dk\" aria-label=\"ניווט מהיר\">\n  <a href=\"#\" data-tip=\"בית\">בית<\/a><a href=\"#\" data-tip=\"עבודות\">עבודות<\/a><a href=\"#\" data-tip=\"שירותים\">שירות<\/a><a href=\"#\" data-tip=\"בלוג\">בלוג<\/a><a href=\"#\" data-tip=\"אודות\">אודות<\/a><a href=\"#\" data-tip=\"צור קשר\">קשר<\/a>\n<\/nav><\/div><\/div>","js":"(function(){\n  if(!matchMedia(\"(hover:hover) and (pointer:fine)\").matches)return;\n  const dock=document.querySelector(\".dk\"),icons=[...dock.querySelectorAll(\"a\")],RANGE=140,MAX=1.7;\n  function paint(x){\n    icons.forEach(a=>{\n      const r=a.getBoundingClientRect(),d=Math.abs(x-(r.left+r.width/2));\n      const s=d>RANGE?1:1+(MAX-1)*Math.cos((d/RANGE)*Math.PI/2);   // קוסינוס: רך במרכז, מתאפס בקצה הטווח\n      a.style.setProperty(\"--s\",s.toFixed(3));\n    });\n  }\n  dock.addEventListener(\"mousemove\",e=>paint(e.clientX));\n  dock.addEventListener(\"mouseleave\",()=>icons.forEach(a=>a.style.setProperty(\"--s\",1)));\n})();","scripts":"","rtl":false}</script>
+</section>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · דוק אייקונים שמתנפחים ליד הסמן").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+(function(){
+  if(!matchMedia("(hover:hover) and (pointer:fine)").matches)return;
+  const dock=document.querySelector(".dk"),icons=[...dock.querySelectorAll("a")],RANGE=140,MAX=1.7;
+  function paint(x){
+    icons.forEach(a=>{
+      const r=a.getBoundingClientRect(),d=Math.abs(x-(r.left+r.width/2));
+      const s=d>RANGE?1:1+(MAX-1)*Math.cos((d/RANGE)*Math.PI/2);   // קוסינוס: רך במרכז, מתאפס בקצה הטווח
+      a.style.setProperty("--s",s.toFixed(3));
+    });
+  }
+  dock.addEventListener("mousemove",e=>paint(e.clientX));
+  dock.addEventListener("mouseleave",()=>icons.forEach(a=>a.style.setProperty("--s",1)));
+})();
+</script>
+</body>
+</html>

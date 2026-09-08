@@ -6,7 +6,7 @@ export default [
   when:"רגע דקורטיבי אחד בעמוד: מעל סקשן הטבות, סביב תמונה עגולה, לפני ה-CTA. משפט קצר בלבד. הטקסט הנגיש נשמר ב-aria-label.",
   libs:["gsap","ScrollTrigger"],
   css:`html,body{overflow-x:clip}
-.arc-t{height:100vh;display:grid;place-items:center;background:#fff;border-block:1px solid var(--line);overflow:hidden}
+.arc-t{height:100vh;display:grid;place-items:center;background:var(--bg);border-block:1px solid var(--line);overflow:hidden}
 .arc-line{font-size:clamp(30px,5.2vw,86px);font-weight:800;white-space:nowrap;direction:rtl;will-change:transform}
 .arc-line .ch{display:inline-block;transform-origin:50% 620px;will-change:transform}
 .arc-hint{position:absolute;bottom:24px;inset-inline:0;text-align:center;font-size:13px;color:var(--muted)}`,

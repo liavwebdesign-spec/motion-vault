@@ -6,7 +6,7 @@ export default [
   when:"עמודים ארוכים עם רשימת פריטים ממוספרים: קטלוג, מהלכים, פרקים, שלבים. גם כאינדיקטור התקדמות אלגנטי במקום פס.",
   libs:["gsap","ScrollTrigger"],
   css:`.hud-sec{min-height:80vh;display:grid;place-items:center;border-top:1px solid var(--line);font-size:clamp(28px,3vw,52px);font-weight:700;color:var(--muted)}
-.hud-sec:nth-child(odd){background:#fff}
+.hud-sec:nth-child(odd){background:var(--card)}
 .hud{position:fixed;bottom:22px;left:22px;z-index:60;display:flex;align-items:center;gap:12px;background:#111;color:#fff;border-radius:999px;padding:10px 16px;font-size:12px;letter-spacing:.14em;opacity:0;visibility:hidden}
 .hud i{width:6px;height:6px;border-radius:50%;background:#c6ff4a}
 .hud b{font-variant-numeric:tabular-nums;font-weight:600;display:inline-block;min-width:3ch;text-align:left;direction:ltr}`,
@@ -50,8 +50,8 @@ export default [
 .th-head[data-theme="dark"] nav{background:rgba(20,20,32,.75);border-color:rgba(255,255,255,.12)}
 .th-head[data-theme="dark"] nav span.cta{background:#c6ff4a;color:#111}
 .th-sec{min-height:90vh;display:grid;place-items:center;font-size:clamp(28px,3vw,52px);font-weight:700}
-.th-sec[data-theme="light"]{background:#fff;color:var(--muted)}
-.th-sec[data-theme="dark"]{background:#0f1020;color:#3a3c55}`,
+.th-sec[data-theme="light"]{background:var(--card);color:var(--muted)}
+.th-sec[data-theme="dark"]{background:#0f1020;color:#a4a7c0}`,
   html:`<div class="th-wrap">
   <header class="th-head" data-theme="light"><strong>לוגו</strong><nav><span>עבודות</span><span>שירותים</span><span>אודות</span><span class="cta">דברו איתנו</span></nav></header>
   <section class="th-sec" data-theme="light">סקשן בהיר</section>

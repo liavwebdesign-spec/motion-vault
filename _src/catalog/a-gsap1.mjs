@@ -5,7 +5,7 @@ export default [
   desc:"הסקשן ננעל למסך והתוכן גולש הצידה במקום למטה. המהלך המבוקש ביותר.",
   when:"תהליך שלבים, גלריית עבודות, קטגוריות.",
   libs:["gsap","ScrollTrigger"],
-  css:`.wrapper{transition:all 0s !important;overflow:hidden;background:#fff}
+  css:`.wrapper{transition:all 0s !important;overflow:hidden;background:var(--bg)}
 .scroll{display:flex;gap:24px;width:max-content;padding:80px var(--gutter)}
 .scroll .ph{flex:0 0 clamp(300px,26vw,460px);height:clamp(240px,20vw,360px);font-size:22px}`,
   html:`<div class="wrapper"><div class="scroll">
@@ -125,7 +125,7 @@ document.querySelectorAll(".t-wipe").forEach(h=>{
   desc:"מניפת תמונות שרודפת אחרי הסמן במהירויות שונות: הראשונה צמודה, האחרונות משתרכות.",
   when:"הירו של פורטפוליו או סטודיו, סקשן playful. במובייל כבוי.",
   libs:["gsap"],
-  css:`.tzone{height:60vh;border:2px dashed #ccc;border-radius:var(--r);display:flex;align-items:center;justify-content:center;margin-inline:var(--gutter);color:#999}
+  css:`.tzone{height:60vh;border:2px dashed #ccc;border-radius:var(--r);display:flex;align-items:center;justify-content:center;margin-inline:var(--gutter);color:var(--muted)}
 .timg{width:130px;height:95px;border-radius:10px;position:fixed;left:0;top:0;pointer-events:none;z-index:99;opacity:0;font-size:18px}`,
   html:`<div class="stage tight"><div class="tzone"><p>הזז את העכבר כאן</p>
 <div class="timg ph ph-a">1</div><div class="timg ph ph-b">2</div><div class="timg ph ph-c">3</div>
@@ -149,7 +149,7 @@ imgs.forEach((img,i)=>{
   libs:["gsap"],
   css:`.fzone{position:relative;height:70vh;background:#101223;border-radius:var(--r);margin-inline:var(--gutter);overflow:hidden;display:flex;flex-direction:column;gap:20px;align-items:center;justify-content:center;color:#fff}
 .flash{position:absolute;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,#f4c66044,transparent 65%);filter:blur(40px);pointer-events:none;opacity:0;transform:translate(-50%,-50%);transition:opacity .3s}
-.follow{width:22px;height:22px;border-radius:50%;background:#fff;mix-blend-mode:difference;position:fixed;left:0;top:0;pointer-events:none;z-index:99;opacity:0}
+.follow{width:22px;height:22px;border-radius:50%;background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;mix-blend-mode:difference;position:fixed;left:0;top:0;pointer-events:none;z-index:99;opacity:0}
 .fzone button{min-height:48px;padding-inline:26px;border-radius:999px;border:1px solid #fff5;background:transparent;color:#fff;font-family:inherit;font-size:15px;cursor:pointer}`,
   html:`<div class="stage tight"><div class="fzone">
 <div class="flash"></div>

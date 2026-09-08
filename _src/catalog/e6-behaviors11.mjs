@@ -11,15 +11,15 @@ export default [
   display:flex;flex-direction:column;justify-content:space-between;color:#fff;transform-origin:50% 0%;
   box-shadow:0 -14px 44px rgba(0,0,0,.16);margin-bottom:clamp(18px,2.4vw,40px);
   will-change:transform,filter}
-.stk-card:nth-child(1){top:clamp(70px,13vh,120px);background:var(--ink)}
-.stk-card:nth-child(2){top:calc(clamp(70px,13vh,120px) + 18px);background:var(--accent)}
+.stk-card:nth-child(1){top:clamp(70px,13vh,120px);background:var(--ink);color:var(--bg)}
+.stk-card:nth-child(2){top:calc(clamp(70px,13vh,120px) + 18px);background:var(--accent);color:var(--accent-ink)}
 .stk-card:nth-child(3){top:calc(clamp(70px,13vh,120px) + 36px);background:#0b7285}
 .stk-card:nth-child(4){top:calc(clamp(70px,13vh,120px) + 54px);background:#c2255c}
 .stk-num{font-size:13px;letter-spacing:.16em;opacity:.7}
 .stk-card h3{font-size:clamp(26px,3.4vw,52px);margin:14px 0 10px;font-weight:800;max-width:20ch}
 .stk-card p{margin:0;max-width:52ch;font-size:clamp(15px,1.4vw,18px);line-height:1.6;opacity:.86}
 .stk-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:26px;font-size:14px;opacity:.85}
-.stk-tag{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:6px 14px}
+.stk-tag{border:1px solid color-mix(in srgb,currentColor 35%,transparent);border-radius:999px;padding:6px 14px}
 .stk-end{height:30vh}`,
   html:`<div class="stk">
   <article class="stk-card"><div><span class="stk-num">01</span><h3>אפיון ואסטרטגיה</h3><p>מבינים את העסק, את הלקוח ואת מה שצריך לקרות באתר לפני שנוגעים בעיצוב.</p></div>
@@ -68,7 +68,7 @@ export default [
 .hd-bar nav{display:flex;gap:6px;flex-wrap:wrap}
 .hd-bar nav a{color:var(--ink);text-decoration:none;font-size:15px;padding:8px 14px;border-radius:999px;transition:background .25s}
 .hd-bar nav a:hover{background:#eceaff}
-.hd-cta{background:var(--ink);color:#fff!important;font-weight:600}
+.hd-cta{background:var(--ink);color:var(--bg)!important;font-weight:600}
 .hd-hero{min-height:100%;margin-top:-72px;display:grid;place-items:center;text-align:center;padding:90px clamp(16px,3vw,30px) 40px;
   background:linear-gradient(160deg,#eceaff,var(--bg))}
 .hd-hero h2{font-size:clamp(26px,3.6vw,52px);margin:0 0 10px;font-weight:800}
@@ -212,12 +212,12 @@ export default [
 .rvf-body{padding:0 var(--gutter) clamp(60px,8vw,120px);max-width:62ch;margin-inline:auto;color:var(--muted);line-height:1.8}
 /* הפוטר קבוע מאחור, והעמוד מקבל שוליים בגובהו כדי לפנות לו מקום בסוף */
 .rvf-footer{position:fixed;inset-inline:0;bottom:0;z-index:1;min-height:var(--rvf-h,60vh);
-  background:var(--ink);color:#fff;display:grid;align-content:center;gap:18px;padding:clamp(36px,5vw,70px) var(--gutter)}
+  background:var(--ink);color:var(--bg);display:grid;align-content:center;gap:18px;padding:clamp(36px,5vw,70px) var(--gutter)}
 .rvf-footer h3{font-size:clamp(28px,4vw,60px);margin:0;font-weight:800}
-.rvf-footer a{color:#fff}
-.rvf-cols{display:flex;gap:clamp(20px,4vw,60px);flex-wrap:wrap;color:#a7a9c4;font-size:15px}
+.rvf-footer a{color:var(--bg)}
+.rvf-cols{display:flex;gap:clamp(20px,4vw,60px);flex-wrap:wrap;color:color-mix(in srgb,var(--bg) 62%,transparent);font-size:15px}
 .rvf-cols div{display:grid;gap:8px}
-.rvf-bottom{border-top:1px solid rgba(255,255,255,.14);padding-top:16px;font-size:13px;color:#8d8fa8;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.rvf-bottom{border-top:1px solid color-mix(in srgb,var(--bg) 14%,transparent);padding-top:16px;font-size:13px;color:color-mix(in srgb,var(--bg) 55%,transparent);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 @media(max-width:767px){.rvf-footer{min-height:70vh}}`,
   html:`<div class="rvf-page">
   <section class="rvf-hero"><div><h2>גלול עד הסוף</h2><p>הפוטר כבר שם, מתחת לעמוד, ומתגלה כשהתוכן מחליק מעליו</p></div></section>

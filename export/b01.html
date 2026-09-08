@@ -21,6 +21,7 @@
   --line: #e4e4ee;
   --accent: #4a3aff;
   --card: #fff;
+  --accent-ink: #fff;
   --r: 14px;
 }
 *{box-sizing:border-box}
@@ -35,14 +36,14 @@ img{max-width:100%}
 .stage.full{padding-inline:0}
 
 /* B01 · מרקי (רצועה נעה) */
-.marq{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);border-block:1px solid var(--line, #e4e4ee);background:#fff;padding-block:22px}
+.marq{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);border-block:1px solid var(--line, #e4e4ee);background:var(--bg, #f7f7fa);padding-block:22px}
 /* ההזזה היא רוחב קבוצה אחת בפיקסלים (משתנה שנקבע ב-JS), ולא אחוז מהרצועה.
    אחוז נשבר ברגע שמספר העותקים משתנה, ופיקסלים מדויקים תמיד. */
 .marq-track{display:flex;width:max-content;animation:marq linear infinite;animation-duration:var(--marq-dur,32s)}
 .marq:hover .marq-track{animation-play-state:paused}
 /* הריווח בין הקבוצות יושב על כל קבוצה בצד הפנימי, ולכן גם התפר וגם הסגירה זהים */
 .marq-set{display:flex;gap:56px;padding-inline-end:56px}
-.marq-track span{font-weight:800;font-size:22px;color:#c3c5d6;white-space:nowrap}
+.marq-track span{font-weight:800;font-size:22px;color:var(--muted, #6a6d85);opacity:.75;white-space:nowrap}
 @keyframes marq{from{transform:translateX(0)}to{transform:translateX(var(--marq-shift,50%))}}
 </style>
 </head>

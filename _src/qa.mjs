@@ -39,9 +39,23 @@ for (const e of entries) {
   //    חל רק על מהלכים לשימוש חוזר. עורות (style) מגדירים צבעים בהגדרה, ועמודי הדוקטרינה
   //    (anti/arch/comp/rhythm) מדגימים ולא מיובאים, ולכן ליטרלים שם לגיטימיים.
   const REUSABLE = new Set(["gsap", "behavior", "css", "lm", "misc"]);
+  //    מנוס: /* qa-allow: literal, סיבה */ באותו כלל. משמש כשהליטרל מזווג בכוונה למשטח ליטרלי (טקסט כהה על מחוון לבן קשיח).
   if (REUSABLE.has(e.cat)) {
+    const live = css.split("}").filter(b => !/qa-allow:\s*literal/.test(b)).join("}");
     for (const [hex, tok] of Object.entries(TOKEN_LITERALS)) {
-      if (new RegExp(hex, "i").test(css)) problems.push(`${e.id}: token literal ${hex} in CSS, use var(${tok})`);
+      if (new RegExp(hex, "i").test(live)) problems.push(`${e.id}: token literal ${hex} in CSS, use var(${tok})`);
+    }
+  }
+  // 2ב) מטריצת העורות (8.9.2026) הראתה שלושה דפוסים שנשברים אצל לקוח עם עור אחר, גם כשכל הטוקנים במקום:
+  //     משטח טקסט עם background:#fff (על עור כהה: כרטיס לבן עם טקסט לבן), טקסט לבן על var(--ink)
+  //     (על עור כהה ink בהיר), וטקסט לבן על var(--accent) (accent בהיר). מנוס: /* qa-allow: white */ לידיות וסמנים.
+  if (REUSABLE.has(e.cat)) {
+    for (const blk of css.split("}")) {
+      if (/qa-allow:\s*white/.test(blk)) continue;
+      const sel = blk.split("{")[0].trim().split("\n").pop().trim();
+      if (/background(?:-color)?\s*:\s*#fff(?:fff)?\b/.test(blk)) problems.push(`${e.id}: background:#fff on "${sel}", use var(--card) or var(--bg) (or /* qa-allow: white */ for knobs)`);
+      if (/background(?:-color)?\s*:\s*var\(--ink\b/.test(blk) && /(^|[;{\s])color\s*:\s*#fff\b/.test(blk)) problems.push(`${e.id}: white text on var(--ink) in "${sel}", use color:var(--bg)`);
+      if (/background(?:-color|-image)?\s*:[^;]*var\(--accent\)/.test(blk) && /(^|[;{\s])color\s*:\s*#fff\b/.test(blk)) problems.push(`${e.id}: white text on var(--accent) in "${sel}", use color:var(--accent-ink)`);
     }
   }
   // 3) transition על תכונות layout. grid-template-rows מותר (האקורדיון הדוקטרינרי). מנוס: /* qa-allow: layout */ באותו ערך.

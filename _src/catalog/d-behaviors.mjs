@@ -4,14 +4,14 @@ export default [
   id:"b01", cat:"behavior", name:"מרקי (רצועה נעה)", tech:"CSS keyframes + שכפול מדוד", status:"ממתין",
   desc:"רצועת תוכן שזורמת בלולאה מושלמת: העותקים משוכפלים לפי רוחב המסך, ההזזה היא רוחב קבוצה מדויק, ומסכת קצה ממיסה את החיתוך. הובר עוצר.",
   when:"נקודות אמון בתחתית הירו, רצועת לוגואים, פסי אווירה.",
-  css:`.marq{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);border-block:1px solid var(--line);background:#fff;padding-block:22px}
+  css:`.marq{overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);border-block:1px solid var(--line);background:var(--bg);padding-block:22px}
 /* ההזזה היא רוחב קבוצה אחת בפיקסלים (משתנה שנקבע ב-JS), ולא אחוז מהרצועה.
    אחוז נשבר ברגע שמספר העותקים משתנה, ופיקסלים מדויקים תמיד. */
 .marq-track{display:flex;width:max-content;animation:marq linear infinite;animation-duration:var(--marq-dur,32s)}
 .marq:hover .marq-track{animation-play-state:paused}
 /* הריווח בין הקבוצות יושב על כל קבוצה בצד הפנימי, ולכן גם התפר וגם הסגירה זהים */
 .marq-set{display:flex;gap:56px;padding-inline-end:56px}
-.marq-track span{font-weight:800;font-size:22px;color:#c3c5d6;white-space:nowrap}
+.marq-track span{font-weight:800;font-size:22px;color:var(--muted);opacity:.75;white-space:nowrap}
 @keyframes marq{from{transform:translateX(0)}to{transform:translateX(var(--marq-shift,50%))}}`,
   html:`<div class="stage tight full"><div class="marq" aria-hidden="true"><div class="marq-track">
 <div class="marq-set"><span>אמינות</span><span>·</span><span>מקצועיות</span><span>·</span><span>שירות</span><span>·</span><span>ניסיון</span><span>·</span></div>
@@ -73,10 +73,10 @@ document.querySelectorAll(".cnum").forEach(el=>io.observe(el));`
 .hs-img{position:relative;aspect-ratio:4/3;border-radius:var(--r);font-size:20px}
 .hs-dot{position:absolute;width:34px;height:34px;border-radius:50%;background:#f4c660;color:var(--ink);font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid #fff;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:transform .2s;opacity:0;scale:.3}
 .hs-dot:hover{transform:scale(1.15)}
-.hs-tip{position:absolute;bottom:130%;inset-inline-start:50%;translate:50% 0;background:var(--ink);color:#fff;font-size:13px;padding:8px 14px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+.hs-tip{position:absolute;bottom:130%;inset-inline-start:50%;translate:50% 0;background:var(--ink);color:var(--bg);font-size:13px;padding:8px 14px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
 .hs-dot:hover .hs-tip{opacity:1}
 .hs-list{display:flex;flex-direction:column;gap:10px}
-.hs-row{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px;transition:border-color .2s,background .2s}
+.hs-row{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;transition:border-color .2s,background .2s}
 .hs-row.on{border-color:#f4c660;background:#fffaf0}
 .hs-row b{width:28px;height:28px;border-radius:50%;background:#f4c660;color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
 @media(max-width:767px){.hs-wrap{grid-template-columns:1fr}.hs-dot{display:none}}`,
@@ -113,7 +113,7 @@ document.querySelectorAll("[data-i]").forEach(el=>{
 .stickycta{position:fixed;bottom:24px;inset-inline-start:24px;z-index:80;opacity:0;translate:0 12px;pointer-events:none;transition:opacity .24s,translate .24s}
 .stickycta.show{opacity:1;translate:0 0;pointer-events:auto}
 .stickycta .gbtn{box-shadow:0 8px 24px rgba(74,58,255,.35)}
-.filler{height:120vh;display:flex;align-items:center;justify-content:center;color:#c3c5d6}`,
+.filler{height:120vh;display:flex;align-items:center;justify-content:center;color:var(--muted)}`,
   html:`<div class="cta-hero"><button class="gbtn main-cta">הכפתור הראשי (כשאני נראה, הצף נעלם)</button></div>
 <div class="filler">גלול. כשהכפתור הראשי ייצא מהמסך, יופיע כפתור צף</div>
 <div class="cta-hero"><button class="gbtn main-cta">עוד כפתור ראשי בתחתית</button></div>
@@ -178,7 +178,7 @@ document.querySelectorAll(".main-cta").forEach(el=>io.observe(el));`,
   id:"b11", cat:"behavior", name:"נקודת דופק (Pulse)", tech:"CSS keyframes", status:"מאושר",
   desc:"נקודה ירוקה עם גלי דופק. אינדיקטור חי שמושך תשומת לב בעדינות.",
   when:"זמין עכשיו, שידור חי, סטטוס מערכת.",
-  css:`.pulse-row{display:inline-flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:10px 22px}
+  css:`.pulse-row{display:inline-flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:10px 22px}
 .pdot2{position:relative;width:10px;height:10px;border-radius:50%;background:#12b76a}
 .pdot2::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid #12b76a;animation:pulse 1.6s ease-out infinite}
 @keyframes pulse{from{transform:scale(.6);opacity:1}to{transform:scale(1.8);opacity:0}}
@@ -230,7 +230,7 @@ frame();`
   id:"b15", cat:"behavior", name:"שלדים (Skeletons)", tech:"CSS keyframes", status:"מאושר",
   desc:"מצייני טעינה בצורת התוכן עם הבהוב שמאלה-ימינה, במקום ספינר.",
   when:"מערכות ודשבורדים בזמן טעינת דאטה.",
-  css:`.sk-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:22px;max-width:420px;margin-inline:auto;display:flex;flex-direction:column;gap:12px}
+  css:`.sk-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;max-width:420px;margin-inline:auto;display:flex;flex-direction:column;gap:12px}
 .sk{background:linear-gradient(90deg,#ececf4 25%,var(--bg) 50%,#ececf4 75%);background-size:200% 100%;animation:sk 1.4s infinite;border-radius:8px}
 @keyframes sk{from{background-position:200% 0}to{background-position:-200% 0}}
 @media(prefers-reduced-motion:reduce){.sk{animation:none}}`,
@@ -246,7 +246,7 @@ frame();`
   id:"b16", cat:"behavior", name:"Toast (הודעה קופצת)", tech:"CSS transitions · vanilla JS", status:"מאושר",
   desc:"הודעת אישור קטנה שעולה מהפינה, נשארת שלוש שניות ונעלמת.",
   when:"אחרי שליחת טופס, העתקה, שמירה.",
-  css:`.toast{position:fixed;bottom:24px;inset-inline-start:50%;translate:-50% 20px;background:var(--ink);color:#fff;padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;transition:opacity .24s,translate .24s;z-index:95;display:flex;gap:10px;align-items:center}
+  css:`.toast{position:fixed;bottom:24px;inset-inline-start:50%;translate:-50% 20px;background:var(--ink);color:var(--bg);padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;transition:opacity .24s,translate .24s;z-index:95;display:flex;gap:10px;align-items:center}
 html[dir="rtl"] .toast{translate:50% 20px}
 .toast.on{opacity:1;translate:-50% 0}
 html[dir="rtl"] .toast.on{translate:50% 0}

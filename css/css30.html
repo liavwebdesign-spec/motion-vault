@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS30 · מילים שמתבהרות מהערפל | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.bt{max-width:22ch;margin-inline:auto;text-align:center;font-size:var(--fs-demo);font-weight:800;line-height:1.15}
+.bt .w{display:inline-block;margin-inline:.12em;opacity:0;filter:blur(10px);translate:0 14px;
+  transition:opacity .7s cubic-bezier(.2,.6,.2,1),filter .7s cubic-bezier(.2,.6,.2,1),translate .7s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i) * 90ms)}
+.bt.in .w{opacity:1;filter:blur(0);translate:0 0}
+.bt-sub{text-align:center;color:var(--muted);margin-top:18px;opacity:0;transition:opacity .6s .7s}
+.bt.in + .bt-sub{opacity:1}
+@media (prefers-reduced-motion: reduce){.bt .w{transition:none;opacity:1;filter:none;translate:none}.bt-sub{transition:none;opacity:1}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CSS30</span> · מילים שמתבהרות מהערפל</h1>
+  <span class="chip cat-css">CSS טהור</span>
+  <span class="chip">CSS · IntersectionObserver</span>
+  <span class="chip use">טקסט וכותרות</span><span class="chip use">הירו ופתיחה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:css30"><code>MV:css30</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>כותרת שנכנסת מילה אחרי מילה, כל מילה מטושטשת ומעט למטה ומתבהרת למקומה. פיצול למילים בלבד, אף פעם לא לאותיות בעברית.</p>
+  <p class="when"><b>מתי משתמשים:</b> כותרת הירו או משפט מפתח אחד בעמוד. הפיצול למילים שומר על הקריאות של עברית מחוברת.</p>
+  <div class="mvpanel" data-mvpanel="css30"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><h2 class="bt"><span class="w" style="--i:0">אתר</span><span class="w" style="--i:1">שמביא</span><span class="w" style="--i:2">לקוחות,</span><span class="w" style="--i:3">לא</span><span class="w" style="--i:4">רק</span><span class="w" style="--i:5">מחמאות.</span></h2>
+<p class="bt-sub">כל עמוד נבנה סביב פעולה אחת שהגולש אמור לעשות.</p></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note">מקור: ReactBits BlurText. נכתב מחדש: המילים כבר מפוצלות במארקאפ (בלי JS שמפצל בזמן ריצה), הסטאגר ב---i, וה-IO רק מוסיף .in. בלי JS המילים פשוט מופיעות.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/css30.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS30 · מילים שמתבהרות מהערפל */
+.bt{max-width:22ch;margin-inline:auto;text-align:center;font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));font-weight:800;line-height:1.15}
+.bt .w{display:inline-block;margin-inline:.12em;opacity:0;filter:blur(10px);translate:0 14px;
+  transition:opacity .7s cubic-bezier(.2,.6,.2,1),filter .7s cubic-bezier(.2,.6,.2,1),translate .7s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i) * 90ms)}
+.bt.in .w{opacity:1;filter:blur(0);translate:0 0}
+.bt-sub{text-align:center;color:var(--muted, #6a6d85);margin-top:18px;opacity:0;transition:opacity .6s .7s}
+.bt.in + .bt-sub{opacity:1}
+@media (prefers-reduced-motion: reduce){.bt .w{transition:none;opacity:1;filter:none;translate:none}.bt-sub{transition:none;opacity:1}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;h2 class="bt"&gt;&lt;span class="w" style="--i:0"&gt;אתר&lt;/span&gt;&lt;span class="w" style="--i:1"&gt;שמביא&lt;/span&gt;&lt;span class="w" style="--i:2"&gt;לקוחות,&lt;/span&gt;&lt;span class="w" style="--i:3"&gt;לא&lt;/span&gt;&lt;span class="w" style="--i:4"&gt;רק&lt;/span&gt;&lt;span class="w" style="--i:5"&gt;מחמאות.&lt;/span&gt;&lt;/h2&gt;
+&lt;p class="bt-sub"&gt;כל עמוד נבנה סביב פעולה אחת שהגולש אמור לעשות.&lt;/p&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>const io=new IntersectionObserver(es=&gt;es.forEach(e=&gt;{ if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)} }),{threshold:.4});
+document.querySelectorAll(".bt").forEach(el=&gt;io.observe(el));</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:css30 · מילים שמתבהרות מהערפל\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/css/css30.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/css30.html\n\nמה זה עושה: כותרת שנכנסת מילה אחרי מילה, כל מילה מטושטשת ומעט למטה ומתבהרת למקומה. פיצול למילים בלבד, אף פעם לא לאותיות בעברית.\nמתי משתמשים: כותרת הירו או משפט מפתח אחד בעמוד. הפיצול למילים שומר על הקריאות של עברית מחוברת.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS30 · מילים שמתבהרות מהערפל */\n.bt{max-width:22ch;margin-inline:auto;text-align:center;font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));font-weight:800;line-height:1.15}\n.bt .w{display:inline-block;margin-inline:.12em;opacity:0;filter:blur(10px);translate:0 14px;\n  transition:opacity .7s cubic-bezier(.2,.6,.2,1),filter .7s cubic-bezier(.2,.6,.2,1),translate .7s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i) * 90ms)}\n.bt.in .w{opacity:1;filter:blur(0);translate:0 0}\n.bt-sub{text-align:center;color:var(--muted, #6a6d85);margin-top:18px;opacity:0;transition:opacity .6s .7s}\n.bt.in + .bt-sub{opacity:1}\n@media (prefers-reduced-motion: reduce){.bt .w{transition:none;opacity:1;filter:none;translate:none}.bt-sub{transition:none;opacity:1}}\n\n=== HTML ===\n<div class=\"stage\"><h2 class=\"bt\"><span class=\"w\" style=\"--i:0\">אתר<\/span><span class=\"w\" style=\"--i:1\">שמביא<\/span><span class=\"w\" style=\"--i:2\">לקוחות,<\/span><span class=\"w\" style=\"--i:3\">לא<\/span><span class=\"w\" style=\"--i:4\">רק<\/span><span class=\"w\" style=\"--i:5\">מחמאות.<\/span><\/h2>\n<p class=\"bt-sub\">כל עמוד נבנה סביב פעולה אחת שהגולש אמור לעשות.<\/p><\/div>\n\n=== JS ===\nconst io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add(\"in\");io.unobserve(e.target)} }),{threshold:.4});\ndocument.querySelectorAll(\".bt\").forEach(el=>io.observe(el));\n\nהערת מימוש מהמאגר:\nמקור: ReactBits BlurText. נכתב מחדש: המילים כבר מפוצלות במארקאפ (בלי JS שמפצל בזמן ריצה), הסטאגר ב---i, וה-IO רק מוסיף .in. בלי JS המילים פשוט מופיעות.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS30 · מילים שמתבהרות מהערפל */\n.bt{max-width:22ch;margin-inline:auto;text-align:center;font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));font-weight:800;line-height:1.15}\n.bt .w{display:inline-block;margin-inline:.12em;opacity:0;filter:blur(10px);translate:0 14px;\n  transition:opacity .7s cubic-bezier(.2,.6,.2,1),filter .7s cubic-bezier(.2,.6,.2,1),translate .7s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i) * 90ms)}\n.bt.in .w{opacity:1;filter:blur(0);translate:0 0}\n.bt-sub{text-align:center;color:var(--muted, #6a6d85);margin-top:18px;opacity:0;transition:opacity .6s .7s}\n.bt.in + .bt-sub{opacity:1}\n@media (prefers-reduced-motion: reduce){.bt .w{transition:none;opacity:1;filter:none;translate:none}.bt-sub{transition:none;opacity:1}}","html":"<div class=\"stage\"><h2 class=\"bt\"><span class=\"w\" style=\"--i:0\">אתר<\/span><span class=\"w\" style=\"--i:1\">שמביא<\/span><span class=\"w\" style=\"--i:2\">לקוחות,<\/span><span class=\"w\" style=\"--i:3\">לא<\/span><span class=\"w\" style=\"--i:4\">רק<\/span><span class=\"w\" style=\"--i:5\">מחמאות.<\/span><\/h2>\n<p class=\"bt-sub\">כל עמוד נבנה סביב פעולה אחת שהגולש אמור לעשות.<\/p><\/div>","js":"const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add(\"in\");io.unobserve(e.target)} }),{threshold:.4});\ndocument.querySelectorAll(\".bt\").forEach(el=>io.observe(el));","scripts":"","rtl":true}</script>
+</section>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מילים שמתבהרות מהערפל").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)} }),{threshold:.4});
+document.querySelectorAll(".bt").forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

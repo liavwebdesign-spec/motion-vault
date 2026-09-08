@@ -11,7 +11,7 @@ export default [
 .gl-top h3{margin:0;font-size:clamp(22px,2.8vw,38px)}
 .gl-switch{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px}
 .gl-switch button{border:0;background:none;font:inherit;font-size:14px;padding:9px 18px;border-radius:999px;cursor:pointer;color:var(--muted)}
-.gl-switch button.on{background:var(--ink);color:#fff}
+.gl-switch button.on{background:var(--ink);color:var(--bg)}
 .gl-list{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
 .gl-item{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
 .gl-img{aspect-ratio:16/10;font-size:24px}

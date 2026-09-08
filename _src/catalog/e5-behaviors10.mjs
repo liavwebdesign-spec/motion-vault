@@ -11,7 +11,7 @@ export default [
 .fg-chip{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:10px 18px;font:inherit;font-size:14px;
   color:var(--ink);cursor:pointer;transition:background .25s,border-color .25s,color .25s}
 .fg-chip:hover{border-color:var(--accent)}
-.fg-chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.fg-chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .fg-count{margin-inline-start:auto;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .fg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);position:relative;background:var(--bg)}
 .fg-item{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
@@ -96,7 +96,7 @@ export default [
 .vt-dot{position:absolute;inset-inline-start:calc(var(--vt-pad) * -1 + var(--vt-x));top:calc(clamp(18px,2.4vw,34px) + 2px);
   width:var(--vt-dot);height:var(--vt-dot);border-radius:50%;background:var(--card);border:2px solid var(--line);
   display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--muted);transition:background .35s,border-color .35s,color .35s}
-.vt-step.on .vt-dot{background:var(--accent);border-color:var(--accent);color:#fff}
+.vt-step.on .vt-dot{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .vt-step h3{margin:0 0 6px;font-size:clamp(19px,2vw,26px);color:var(--muted);transition:color .35s}
 .vt-step.on h3{color:var(--ink)}
 .vt-step p{margin:0;color:var(--muted);font-size:16px;line-height:1.65;max-width:56ch}
@@ -154,7 +154,7 @@ html[dir="rtl"] .ms-bar i{transform-origin:100% 50%}
 .ms-nav{display:flex;gap:10px;margin-top:24px}
 .ms-nav button{flex:1;min-height:50px;border-radius:999px;border:0;font:inherit;font-weight:600;font-size:16px;cursor:pointer}
 .ms-back{background:var(--bg);border:1px solid var(--line)!important;color:var(--ink);flex:0 0 auto;padding-inline:22px}
-.ms-next{background:var(--accent);color:#fff}
+.ms-next{background:var(--accent);color:var(--accent-ink)}
 .ms-sum{list-style:none;margin:0 0 4px;padding:0;display:grid;gap:8px}
 .ms-sum li{display:flex;justify-content:space-between;gap:16px;font-size:15px;border-bottom:1px dashed var(--line);padding-bottom:8px}
 .ms-sum b{font-weight:600}

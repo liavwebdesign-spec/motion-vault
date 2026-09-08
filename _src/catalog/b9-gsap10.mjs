@@ -6,7 +6,7 @@ export default [
   when:"נדל\"ן, קליניקות, מלונות ומסעדות: הסקשן שעונה על \"מה יש בסביבה ובכמה זמן מגיעים\". מחליף מפת גוגל סטטית בסיפור שנבנה מול העיניים.",
   libs:["gsap","ScrollTrigger","DrawSVGPlugin"],
   css:`html,body{overflow-x:clip}
-.geo{padding:clamp(60px,8vw,120px) 0 clamp(80px,10vw,150px);background:#faf8f4}
+.geo{padding:clamp(60px,8vw,120px) 0 clamp(80px,10vw,150px);background:var(--card)}
 .geo-head{text-align:center;padding-inline:var(--gutter);margin-bottom:clamp(30px,4vw,60px)}
 .geo-head h3{font-size:clamp(28px,3.6vw,60px);margin:0 0 10px;font-weight:800}
 .geo-head p{margin:0;color:var(--muted)}
@@ -15,12 +15,12 @@ export default [
 .geo-line{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round}
 .geo-stop{position:absolute;transform:translate(-50%,-50%);text-align:center;opacity:0}
 .geo-dot{width:11px;height:11px;border-radius:50%;background:var(--ink);margin-inline:auto;position:relative}
-.geo-dot::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px solid rgba(22,24,43,.28)}
+.geo-dot::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px solid color-mix(in srgb,var(--ink) 28%,transparent)}
 .geo-name{font-size:clamp(13px,1.1vw,16px);font-weight:700;margin-top:12px;white-space:nowrap}
 .geo-min{font-size:12px;color:var(--muted);letter-spacing:.06em;white-space:nowrap}
 .geo-home{position:absolute;transform:translate(-50%,-50%);text-align:center}
-.geo-home .geo-dot{width:16px;height:16px;background:#c2255c}
-.geo-home .geo-name{color:#c2255c}
+.geo-home .geo-dot{width:16px;height:16px;background:var(--accent)}
+.geo-home .geo-name{color:var(--accent);font-size:clamp(14px,1.2vw,18px)}
 @media(max-width:767px){.geo-name{font-size:12px}.geo-min{font-size:11px}}`,
   html:`<div class="geo">
   <div class="geo-head"><h3>הכל במרחק נסיעה קצרה</h3><p>גלול, והקו יסמן את מה שיש מסביב</p></div>

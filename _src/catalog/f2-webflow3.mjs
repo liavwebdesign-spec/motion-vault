@@ -16,7 +16,7 @@ export default [
 .ck-row{display:flex;gap:8px;flex-wrap:wrap}
 .ck-btn{font-family:inherit;font-size:14px;padding:11px 18px;border-radius:999px;cursor:pointer;border:1px solid var(--line);
   background:var(--bg);color:var(--ink)}
-.ck-btn.main{background:var(--ink);border-color:var(--ink);color:#fff}
+.ck-btn.main{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 .ck-btn.link{border-color:transparent;background:none;color:var(--muted);text-decoration:underline;padding-inline:8px}
 .ck-prefs{margin:4px 0 16px;display:grid;gap:2px}
 .ck-pref{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
@@ -24,7 +24,7 @@ export default [
 .ck-pref span{display:block;font-size:13px;color:var(--muted);line-height:1.55;margin-top:2px}
 .ck-sw{flex:none;width:44px;height:26px;border-radius:999px;background:#d5d5e0;border:0;cursor:pointer;padding:0;
   position:relative;transition:background .2s}
-.ck-sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;
+.ck-sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;
   transition:transform .22s cubic-bezier(.2,.6,.2,1)}
 .ck-sw[aria-checked="true"]{background:var(--accent)}
 .ck-sw[aria-checked="true"]::after{transform:translateX(18px)}

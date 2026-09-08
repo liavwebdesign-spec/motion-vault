@@ -21,7 +21,7 @@ export default [
 .ff-field.bad input,.ff-field.bad textarea{border-color:#c2255c;animation:ffshake .34s}
 .ff-field.bad .ff-err{height:auto;opacity:1}
 @keyframes ffshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-.ff-btn{position:relative;min-height:54px;border:0;border-radius:999px;background:var(--accent);color:#fff;font:inherit;font-weight:600;
+.ff-btn{position:relative;min-height:54px;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:600;
   font-size:17px;cursor:pointer;overflow:hidden;transition:background .3s}
 .ff-btn span{display:block;transition:transform .3s cubic-bezier(.2,.6,.2,1),opacity .25s}
 .ff-btn .s2,.ff-btn .s3{position:absolute;inset:0;display:grid;place-items:center;transform:translateY(110%);opacity:0}

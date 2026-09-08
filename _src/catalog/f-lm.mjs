@@ -62,7 +62,7 @@ html[dir="ltr"] .cv.a{translate:-70px 0}
 html[dir="ltr"] .cv.b{translate:70px 0}
 
 .cv-meet{width:clamp(38px,4vw,52px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
-  background:var(--ink);color:#fff;font-size:clamp(17px,2vw,22px);line-height:1;
+  background:var(--ink);color:var(--bg);font-size:clamp(17px,2vw,22px);line-height:1;
   scale:0;opacity:0;transition:scale .5s .28s cubic-bezier(.2,.6,.2,1),opacity .4s .28s}
 .conv.met .cv{opacity:1;translate:0 0}
 .conv.met .cv-meet{scale:1;opacity:1}
@@ -100,7 +100,7 @@ document.querySelectorAll(".conv").forEach(el=>io.observe(el));`,
   when:"למה דווקא אנחנו 01-04, שלבי שירות. עד 5 כרטיסים.",
   css:`/* בלי תקרת רוחב הכרטיס נמתח על כל המסך, הטקסט תחום ב-55ch ונשאר שטח ריק גדול בצד */
 .stackw{padding-inline:var(--gutter);display:grid;gap:24px;max-width:min(980px,100%);margin-inline:auto}
-.scard{position:sticky;background:#fff;border:1px solid var(--line);border-radius:20px;padding:clamp(24px,3vw,44px);box-shadow:0 -18px 46px rgba(22,24,43,.09)}
+.scard{position:sticky;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(24px,3vw,44px);box-shadow:0 -18px 46px rgba(22,24,43,.09)}
 .scard:nth-child(1){top:110px}.scard:nth-child(2){top:150px}.scard:nth-child(3){top:190px}.scard:nth-child(4){top:230px}
 .snum{font-size:clamp(40px,4vw,80px);font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--accent)}
 .scard h3{margin:10px 0 6px;font-size:22px}.scard p{margin:0;color:var(--muted);max-width:55ch}
@@ -132,7 +132,7 @@ document.querySelectorAll(".conv").forEach(el=>io.observe(el));`,
 <p class="lad l3">הסולם שמור להירו בלבד. ככה נשמרת הטבעיות בשאר העמוד.</p>
 <div class="lad l4"><button class="gbtn">כפתור ראשי</button></div>
 <span class="lad l5" style="font-size:13px;color:var(--muted);margin-top:12px">שורת מיקרו · אמון · בלי התחייבות</span>
-<button class="gbtn replay" style="background:#16182b">הפעל שוב</button>
+<button class="gbtn replay" style="background:var(--ink);color:var(--bg)">הפעל שוב</button>
 </div>`,
   js:`const lad=document.querySelector(".ladder");
 // go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל
@@ -173,7 +173,7 @@ document.querySelector(".replay").addEventListener("click",play);`,
 /* ההזזה היא רוחב קבוצה מדויק בפיקסלים, ומספר העותקים נגזר מרוחב המסך */
 .tiltm-track{display:flex;width:max-content;animation:marq linear infinite;animation-duration:var(--marq-dur,26s)}
 .tiltm-set{display:flex;gap:48px;padding-inline-end:48px}
-.tiltm-track span{font-weight:800;font-size:24px;color:rgba(255,255,255,.55);white-space:nowrap}
+.tiltm-track span{font-weight:800;font-size:24px;color:color-mix(in srgb,var(--bg) 55%,transparent);white-space:nowrap}
 .tiltm-track i{font-style:normal;color:#f49e40}
 @keyframes marq{from{transform:translateX(0)}to{transform:translateX(var(--marq-shift,50%))}}`,
   html:`<div class="stage full"><div class="tiltm-wrap" data-dragmarq><div class="tiltm"><div class="tiltm-track">
@@ -210,12 +210,12 @@ frame();`
   desc:"שני מהלכי הקרפט מהעבודה החדשה: צל קשיח בצבע מותג בהיסט 45 מעלות, ורדיוס שמעוגל רק בצד אחד.",
   when:"כרטיסי מפתח בעורות עם אופי. שפת צל אחת לעמוד: או מוזח או רך, לא שניהם.",
   css:`.craft{display:flex;gap:var(--gap);justify-content:center;flex-wrap:wrap}
-.hard{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:30px;box-shadow:8px 8px 0 #f49e40;max-width:240px;transition:transform .25s,box-shadow .25s}
+.hard{background:var(--card);border:2px solid var(--ink);border-radius:14px;padding:30px;box-shadow:8px 8px 0 #f49e40;max-width:240px;transition:transform .25s,box-shadow .25s}
 .hard:hover{transform:translate(-3px,-3px);box-shadow:12px 12px 0 #f49e40}
-.oneside{background:var(--ink);color:#fff;padding:30px;border-radius:40px 40px 0 0;max-width:240px}
-.oneside2{background:#fff;border:1px solid var(--line);padding:30px;border-radius:0 0 60px 0;max-width:240px}
+.oneside{background:var(--ink);color:var(--bg);padding:30px;border-radius:40px 40px 0 0;max-width:240px}
+.oneside2{background:var(--card);border:1px solid var(--line);padding:30px;border-radius:0 0 60px 0;max-width:240px}
 .craft h3{margin:0 0 6px;font-size:17px}.craft p{margin:0;font-size:13.5px;color:var(--muted)}
-.oneside p{color:#b9bbd4}`,
+.oneside p{color:color-mix(in srgb,var(--bg) 70%,transparent)}`,
   html:`<div class="stage tight"><div class="craft">
 <div class="hard"><h3>צל מוזח קשיח</h3><p>תמיד 45 מעלות, תמיד צבע מותג, בלי blur. עבור עליי.</p></div>
 <div class="oneside"><h3>רדיוס עליון בלבד</h3><p>40 40 0 0. שובר את המלבניות בלי אפקט.</p></div>

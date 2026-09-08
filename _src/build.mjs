@@ -85,6 +85,10 @@ const USES = {
   g39: ["text", "ambient"], b19: ["media", "cards", "hover"], b20: ["numbers", "feedback"],
   css23: ["media", "cards", "nav"],
   g40: ["process", "cards", "nav"], css24: ["text"],
+  // פורטים נייטיב (8.9.2026)
+  css25: ["cards", "hover"], css26: ["ambient", "media", "hero"], css27: ["ambient", "media"], css28: ["ambient", "hero"], css29: ["ambient", "hero"],
+  css30: ["text", "hero"], css31: ["ambient", "hero"], css32: ["process", "ambient"], b57: ["media", "cards"], b58: ["nav", "hover"],
+  b59: ["feedback", "cards"], b60: ["hero", "media"], b61: ["hover"],
   g42: ["text", "hero"], b22: ["media", "hero"],
   g43: ["media", "hover", "cards"], b23: ["nav"], b24: ["hover", "feedback"], b27: ["media", "nav", "cards"],
   g45: ["process", "numbers", "media"], b29: ["ambient", "nav"],
@@ -230,6 +234,9 @@ const ELEMS = {
   css21: ["btn","form"],
   css23: ["list","page"],
   css24: ["head"],
+  css25: ["card","list","btn"], css26: ["sect","img"], css27: ["sect","img"], css28: ["sect","btn"], css29: ["sect"],
+  css30: ["head"], css31: ["sect","head"], css32: ["sect","card"], b57: ["list","img"], b58: ["nav","cursor"],
+  b59: ["list","card"], b60: ["img","over","btn"], b61: ["btn","cursor"],
   b34: ["list","card"],
   b35: ["sect","list"],
   b36: ["form"],
@@ -449,6 +456,8 @@ const FIT = {
   css21: ["L"],
   css23: ["L","S"],
   css24: ["L","S"],
+  css25: ["L","S"], css26: ["S"], css27: ["L","S"], css28: ["L"], css29: ["S"], css30: ["L","S"], css31: ["L","S"], css32: ["L","S"],
+  b57: ["S"], b58: ["S"], b59: ["L","S"], b60: ["L","S"], b61: ["L","S"],
   lm1: ["S"],
   lm3: ["S"],
   lm4: ["S"],
@@ -774,6 +783,139 @@ ${isDoc ? BP_JS + String.fromCharCode(10) : ""}${e.js || ""}
 </html>`;
 }
 
+// עמוד סבב סקירה (8.9.2026): 132 מהלכים מעולם לא נשפטו על ידי ליאב, כי לשפוט אותם דרש לפתוח כל
+// עמוד בנפרד. כאן: הממתינים בזה אחר זה בתוך iframe, אישור/דחייה מהמקלדת, והדוח באותו כפתור.
+// הסטטוס נשמר דרך אותה שכבת אישורים (status.js, localStorage), ולכן האינדקס והעמודים רואים אותו מיד.
+function reviewPage() {
+  const LIST = JSON.stringify(entries.map(e => ({ id: e.id, name: e.name, cat: e.cat, desc: e.desc, when: e.when || "" })));
+  const CATS_JSON = JSON.stringify(CATS);
+  return `<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Motion Vault · סבב סקירה</title>
+${FONT}
+<link rel="stylesheet" href="assets/vault.css">
+<style>
+html,body{height:100%}
+body.rv{margin:0;display:flex;flex-direction:column;background:var(--bg)}
+.rv-bar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:10px var(--gutter);border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:5}
+.rv-bar h1{font-size:16px;margin:0;font-weight:700}
+.rv-count{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.rv-title{font-size:15px;font-weight:600;display:flex;gap:8px;align-items:center;min-width:0}
+.rv-title .vid{font-size:12px}
+.rv-desc{font-size:13px;color:var(--muted);max-width:60ch;line-height:1.45}
+.rv-acts{display:flex;gap:8px;align-items:center;margin-inline-start:auto;flex-wrap:wrap}
+.rv-nav{font-family:inherit;font-size:13px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;cursor:pointer}
+.rv-nav:hover{border-color:var(--ink)}
+.rv-kbd{font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:1px 5px;margin-inline-start:4px;font-family:ui-monospace,monospace}
+.rv-note{display:none;padding:8px var(--gutter);background:#fff5f5;border-bottom:1px solid #f3c3c3}
+.rv-note.on{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.rv-note textarea{flex:1;min-width:260px;font:inherit;font-size:14px;padding:8px 10px;border:1px solid #f3c3c3;border-radius:8px;resize:vertical;min-height:38px}
+.rv-note small{color:#c92a2a}
+.rv-frame{flex:1;border:0;width:100%;min-height:0;background:#fff}
+.rv-filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.rv-filters select{font:inherit;font-size:13px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:#fff}
+.rv-done{padding:60px var(--gutter);text-align:center}
+.rv-done h2{margin:0 0 10px}
+.rv-open{font-size:13px;color:var(--accent)}
+@media (max-width:767px){.rv-desc{display:none}.rv-kbd{display:none}}
+</style>
+</head>
+<body class="rv">
+<div class="rv-bar">
+  <h1>סבב סקירה</h1>
+  <span class="rv-count" data-count></span>
+  <div class="rv-filters">
+    <select data-filter aria-label="מה לסקור">
+      <option value="pending">רק ממתינים</option>
+      <option value="all">הכל</option>
+      <option value="no">רק לא מאושרים</option>
+    </select>
+    <select data-cat aria-label="קטגוריה"><option value="all">כל הקטגוריות</option></select>
+  </div>
+  <div class="rv-title"><span class="vid" data-id></span><span data-name></span><a class="rv-open" data-open target="_blank" rel="noopener">פתח בטאב ↗</a></div>
+  <div class="rv-acts">
+    <button class="rv-nav" data-prev>→ הקודם<span class="rv-kbd">←</span></button>
+    <button class="stbtn ok" data-s="ok">מאשר ✓<span class="rv-kbd">A</span></button>
+    <button class="stbtn no" data-s="no">לא מאושר ✕<span class="rv-kbd">X</span></button>
+    <button class="rv-nav" data-next>הבא ←<span class="rv-kbd">→</span></button>
+    <button class="rv-nav" data-report>העתק דוח</button>
+    <a class="rv-nav" href="index.html">לכל המאגר</a>
+  </div>
+</div>
+<div class="rv-desc" style="padding:8px var(--gutter) 0" data-desc></div>
+<div class="rv-note" data-note><small>מה לא עובד? (נכנס לדוח)</small><textarea rows="1" data-ta placeholder="לדוגמה: הכרטיסים קופצים בכניסה, הטקסט נחתך במובייל..."></textarea></div>
+<iframe class="rv-frame" data-frame title="דמו"></iframe>
+<div class="rv-done" hidden data-done><h2>אין מה לסקור בסינון הזה</h2><p class="rv-desc" style="margin-inline:auto">כל המהלכים שנבחרו כבר מסומנים. אפשר לעבור ל"הכל" כדי לבדוק שוב, או להעתיק את הדוח.</p></div>
+<script src="assets/baseline.js"></script>
+<script src="assets/status.js"></script>
+<script>
+(function(){
+  const ALL=${LIST}, CATS=${CATS_JSON};
+  // הסדר: מהלכים קודם (הם מה שלא נשפט), ואז הדוקטרינה
+  const ORDER=["gsap","behavior","css","lm","misc","react","comp","rhythm","style","anti","arch"];
+  ALL.sort((a,b)=>ORDER.indexOf(a.cat)-ORDER.indexOf(b.cat));
+  const $=s=>document.querySelector(s);
+  const frame=$("[data-frame]"),count=$("[data-count]"),note=$("[data-note]"),ta=$("[data-ta]"),done=$("[data-done]");
+  const fsel=$("[data-filter]"),csel=$("[data-cat]");
+  Object.entries(CATS).forEach(([k,v])=>{const o=document.createElement("option");o.value=k;o.textContent=v;csel.appendChild(o);});
+  let list=[],i=0,cur=null;
+  function build(){
+    const f=fsel.value,c=csel.value;
+    list=ALL.filter(e=>(c==="all"||e.cat===c)&&(f==="all"||MV.state(e.id)===f));
+    i=Math.min(i,Math.max(0,list.length-1)); show();
+  }
+  function show(){
+    cur=list[i]||null;
+    done.hidden=!!cur; frame.hidden=!cur;
+    if(!cur){count.textContent="0 בסינון";return;}
+    count.textContent=(i+1)+" מתוך "+list.length+(fsel.value==="pending"?" ממתינים":"");
+    $("[data-id]").textContent="MV:"+cur.id; $("[data-name]").textContent=cur.name;
+    $("[data-desc]").textContent=cur.desc+(cur.when?" · מתאים ל: "+cur.when:"");
+    $("[data-open]").href=cur.cat+"/"+cur.id+".html";
+    frame.src=cur.cat+"/"+cur.id+".html?qa=0";
+    paint();
+  }
+  function paint(){
+    const s=cur?MV.state(cur.id):"pending";
+    document.querySelectorAll(".stbtn").forEach(b=>b.classList.toggle("on",b.dataset.s===s));
+    note.classList.toggle("on",s==="no"); ta.value=cur?MV.note(cur.id):"";
+  }
+  function mark(s){
+    if(!cur)return;
+    const now=MV.state(cur.id);
+    if(now===s){MV.set(cur.id,null);paint();return;}   // לחיצה חוזרת מחזירה לממתין
+    MV.set(cur.id,s,s==="no"?ta.value:"");
+    paint();
+    if(s==="ok")next();  // אישור זורם הלאה; דחייה נשארת כדי לכתוב סיבה
+    else ta.focus();
+  }
+  function next(){ if(fsel.value==="pending"){ list=list.filter(e=>MV.state(e.id)==="pending"); i=Math.min(i,list.length-1); if(i<0)i=0; show(); } else { i=Math.min(list.length-1,i+1); show(); } }
+  function prev(){ i=Math.max(0,i-1); show(); }
+  ta.addEventListener("input",()=>{ if(cur&&MV.state(cur.id)==="no")MV.set(cur.id,"no",ta.value); });
+  document.querySelectorAll(".stbtn").forEach(b=>b.addEventListener("click",()=>mark(b.dataset.s)));
+  $("[data-next]").addEventListener("click",next); $("[data-prev]").addEventListener("click",prev);
+  fsel.addEventListener("change",()=>{i=0;build();}); csel.addEventListener("change",()=>{i=0;build();});
+  $("[data-report]").addEventListener("click",function(){
+    const txt=MV.report(ALL); navigator.clipboard.writeText(txt).then(()=>{this.textContent="הועתק ✓";setTimeout(()=>this.textContent="העתק דוח",1500);});
+  });
+  document.addEventListener("keydown",e=>{
+    if(e.target===ta)return;
+    if(e.key==="ArrowRight")next(); else if(e.key==="ArrowLeft")prev();
+    else if(e.key==="a"||e.key==="A"||e.key==="ש")mark("ok");
+    else if(e.key==="x"||e.key==="X"||e.key==="ס")mark("no");
+  });
+  // סימון מתוך ה-iframe (הפאנל של העמוד עצמו) מתעדכן כאן דרך localStorage
+  window.addEventListener("storage",paint);
+  build();
+})();
+</script>
+</body>
+</html>`;
+}
+
 function indexPage() {
   const cards = entries.map(e => `<a class="vcard" data-id="${e.id}" data-cat="${e.cat}" data-area="${CAT_AREA[e.cat]}" data-uses="${(USES[e.id] || []).join(" ")}" data-elems="${(ELEMS[e.id] || []).join(" ")}" data-fit="${(FIT[e.id] || []).join(" ")}" data-txt="${("MV:" + e.id + " " + e.name + " " + e.desc + " " + e.tech + " " + (USES[e.id] || []).map(u => USES_LABELS[u]).join(" ") + " " + (ELEMS[e.id] || []).map(u => ELEMS_LABELS[u]).join(" ") + " " + (FIT[e.id] || []).map(u => FIT_LABELS[u]).join(" ")).replace(/"/g, "")}" href="${e.cat}/${e.id}.html">
   <div class="row"><span class="vid">MV:${e.id}</span><span class="chip cat-${e.cat}">${CATS[e.cat]}</span><span class="chip stchip st-pending">ממתין</span></div>
@@ -806,7 +948,7 @@ ${FONT}
 <div class="vhead">
   <h2>Motion Vault</h2>
   <p>התורה החיה של העיצוב והפיתוח: ${entries.length} דמואים בשני אזורים. <b>תורה</b> עונה על "מה בונים": קומפוזיציות ומקצבי עמוד, כל אחד עם מתג רוחב. <b>מהלכים</b> עונה על "איך זה זז": אנימציה והתנהגות בכל הטכנולוגיות. כל כרטיס נפתח לעמוד מבודד עם הדמו רץ בלייב.</p>
-  <p class="vhead-code">בתחתית כל עמוד מהלך יש <b>קוד להדבקה</b>: כפתור אחד מעתיק הנחיה מלאה לסוכן קוד, עם ה-CSS, ה-HTML, ה-JS, תגי הסקריפט לפי הסדר ואופן ההמרה ל-React. הקוד עומד בפני עצמו ולא נשען על שום דבר מהמאגר.</p>
+  <p class="vhead-code">בתחתית כל עמוד מהלך יש <b>קוד להדבקה</b>: כפתור אחד מעתיק הנחיה מלאה לסוכן קוד, עם ה-CSS, ה-HTML, ה-JS, תגי הסקריפט לפי הסדר ואופן ההמרה ל-React. הקוד עומד בפני עצמו ולא נשען על שום דבר מהמאגר. <a href="review.html"><b>סבב סקירה מהיר</b></a>: הממתינים בזה אחר זה, אישור מהמקלדת.</p>
 </div>
 <div class="vtoolbar">
   <div class="vtoolbar-row">
@@ -959,6 +1101,7 @@ writeFileSync(join(ROOT, "export", "manifest.json"), JSON.stringify({
 }, null, 1));
 
 writeFileSync(join(ROOT, "index.html"), indexPage());
+writeFileSync(join(ROOT, "review.html"), reviewPage());
 // התורה נכתבת לסקיל מהקטלוג: המאגר הוא מקור האמת (6.9.2026)
 const skillTargets = [...writeCompositionsSkill(entries, ROOT), ...writeStylesSkill(entries, ROOT), ...writeAntiSkill(entries, ROOT), ...writeArchSkill(entries, ROOT)];
 console.log("doctrine -> " + skillTargets.join(" , "));

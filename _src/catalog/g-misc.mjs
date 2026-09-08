@@ -7,15 +7,15 @@ export default [
   css:`.fl-hero{min-height:70vh;display:flex;flex-direction:column;justify-content:center}
 .fl-hero h2{font-size:clamp(44px,5vw + .5rem,118px);line-height:1.05;max-width:14ch;margin:0}
 .fl-hero p{font-size:clamp(19px,1vw + .55rem,30px);color:var(--muted);max-width:640px}
-.fl-split{display:grid;grid-template-columns:65% 35%;gap:clamp(20px,2vw,48px);align-items:center;background:#fff;padding:clamp(64px,7vw,150px) var(--gutter)}
+.fl-split{display:grid;grid-template-columns:65% 35%;gap:clamp(20px,2vw,48px);align-items:center;background:var(--card);padding:clamp(64px,7vw,150px) var(--gutter)}
 .fl-split .txt{padding-inline-end:20%}
 .fl-split h3{font-size:clamp(26px,2vw + .4rem,52px);margin:0 0 14px}
 .fl-split p{color:var(--muted);max-width:640px}
 .fl-visual{aspect-ratio:4/5;border-radius:clamp(12px,1vw,24px);font-size:clamp(18px,1.4vw,30px)}
-.fl-breath{padding-block:clamp(120px,18vw,320px);text-align:center;background:var(--ink);color:#fff}
+.fl-breath{padding-block:clamp(120px,18vw,320px);text-align:center;background:var(--ink);color:var(--bg)}
 .fl-breath h3{font-size:clamp(26px,2.2vw,54px);font-weight:100;max-width:26ch;margin-inline:auto}
 .fl-breath b{font-weight:800}
-.hud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;background:var(--ink);color:#fff;font-size:13px;padding:8px 14px;border-radius:8px;opacity:.92}
+.hud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;background:var(--ink);color:var(--bg);font-size:13px;padding:8px 14px;border-radius:8px;opacity:.92}
 @media(max-width:767px){.fl-split{grid-template-columns:1fr}.fl-split .txt{padding-inline-end:0}}`,
   html:`<div class="hud" id="hud"></div>
 <div class="fl-hero" style="padding-inline:var(--gutter)">

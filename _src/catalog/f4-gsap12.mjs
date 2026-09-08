@@ -69,7 +69,7 @@ export default [
 .pt-nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .pt-nav a{padding:11px 20px;border-radius:999px;border:1px solid var(--line);background:var(--card);
   color:var(--ink);text-decoration:none;font-size:15px}
-.pt-nav a.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.pt-nav a.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 /* הוילון: ארבע רצועות שעולות בהפרש קטן, כך שהכיסוי מרגיש כמו תנועה ולא כמו מסך שנדלק */
 .pt-curtain{position:fixed;inset:0;z-index:90;pointer-events:none;display:grid;grid-template-columns:repeat(4,1fr)}
 .pt-curtain i{background:var(--ink);transform:translateY(101%)}
