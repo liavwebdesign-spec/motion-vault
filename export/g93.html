@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G93 · מדיה שמשנה צורת חיתוך בין סקשנים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+
+/* G93 · מדיה שמשנה צורת חיתוך בין סקשנים */
+.cm{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap, clamp(16px, 1.6vw, 36px));align-items:start}
+.cm-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center}
+.cm-media{width:100%;height:78vh;clip-path:inset(30% 30% round 50%);will-change:clip-path}
+.cm-media .ph{width:100%;height:100%;border-radius:0;font-size:0}
+.cm-steps{display:flex;flex-direction:column;gap:46vh;padding-block:36vh}
+.cm-step h3{margin:0 0 10px;font-size:clamp(22px,2.6vw,36px)}
+.cm-step p{margin:0;color:var(--muted, #6a6d85);line-height:1.7;max-width:36ch}
+@media(max-width:767px){.cm{grid-template-columns:1fr}.cm-pin{height:44vh;top:0;z-index:2;background:var(--bg, #f7f7fa)}.cm-media{height:40vh}.cm-steps{gap:30vh;padding-block:8vh 30vh}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage tight full"><div class="cm">
+  <div class="cm-pin"><div class="cm-media"><div class="ph ph-c"></div></div></div>
+  <div class="cm-steps">
+    <div class="cm-step"><h3>מתחילים מנקודה אחת</h3><p>הבעיה שהלקוח מגיע איתה. לא הלוגו, לא הצבעים.</p></div>
+    <div class="cm-step"><h3>מרחיבים למסגרת</h3><p>מבנה עמוד שעונה על השאלות בסדר שבו הן עולות.</p></div>
+    <div class="cm-step"><h3>ופותחים את כל התמונה</h3><p>אתר שלם שמדבר בקול אחד, מהכותרת ועד הפוטר.</p></div>
+  </div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const media=document.querySelector(".cm-media"),steps=gsap.utils.toArray(".cm-step");
+  const shapes=["inset(30% 30% round 50%)","inset(8% 8% round 32px)","inset(0% 0% round 0px)"];
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(media,{clipPath:shapes[1]});return;}
+  steps.forEach((s,i)=>{
+    ScrollTrigger.create({trigger:s,start:"top 65%",onEnter:()=>gsap.to(media,{clipPath:shapes[i],duration:.9,ease:"power3.inOut",overwrite:true}),
+      onLeaveBack:()=>gsap.to(media,{clipPath:shapes[Math.max(0,i-1)],duration:.9,ease:"power3.inOut",overwrite:true})});
+  });
+})();
+</script>
+</body>
+</html>

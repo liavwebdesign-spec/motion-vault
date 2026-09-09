@@ -1,6 +1,6 @@
 {
- "generated": "2026-09-09T19:14:53.891Z",
- "count": 224,
+ "generated": "2026-09-09T19:41:52.752Z",
+ "count": 234,
  "readme": "כל כניסה כאן עומדת בפני עצמה. css נושא ברירות מחדל לכל טוקן ומהלות העזר מוטמעות בו. scripts כולל את כל תגי ה-CDN לפי הסדר. js מתחיל ב-registerPlugin. needsRtl אומר אם הרכיב מסתמך על dir=rtl.",
  "entries": [
   {
@@ -4631,7 +4631,7 @@
    "standalone": "export/g74.html",
    "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G74 · משקל הפונט זורם בגלילה */\n.wv{max-width:min(900px,92vw);margin-inline:auto;padding-block:20vh}\n.wv h2{font-family:\"Heebo\",system-ui,sans-serif;font-size:clamp(34px,6vw,96px);line-height:1.15;margin:0;font-weight:200;text-align:center}\n.wv .w{display:inline-block;margin-inline:.14em;font-weight:200;font-variation-settings:\"wght\" 200}\n.wv-hint{text-align:center;color:var(--muted, #6a6d85);font-size:14px;margin-top:20px}",
    "html": "<div class=\"stage\"><div class=\"wv\">\n  <h2><span class=\"w\">אתר</span><span class=\"w\">טוב</span><span class=\"w\">לא</span><span class=\"w\">צועק.</span><br><span class=\"w\">הוא</span><span class=\"w\">מסביר,</span><span class=\"w\">ואז</span><span class=\"w\">מוכר.</span></h2>\n  <p class=\"wv-hint\">גלול לאט</p>\n</div></div>",
-   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const words=gsap.utils.toArray(\".wv .w\");\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){gsap.set(words,{fontWeight:600});return;}\n  const mm=gsap.matchMedia();\n  mm.add({desk:\"(min-width:768px)\",mob:\"(max-width:767px)\"},ctx=>{\n    const [lo,hi]=ctx.conditions.desk?[200,900]:[300,700];\n    const tl=gsap.timeline({scrollTrigger:{trigger:\".wv\",start:\"top 70%\",end:\"bottom 30%\",scrub:.6}});\n    words.forEach((w,i)=>{\n      // כל מילה עולה ויורדת בתורה: גל שעובר על המשפט\n      tl.fromTo(w,{fontWeight:lo},{fontWeight:hi,duration:1,ease:\"none\"},i*.35)\n        .to(w,{fontWeight:lo,duration:1,ease:\"none\"},i*.35+1.2);\n    });\n  });\n})();"
+   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const words=gsap.utils.toArray(\".wv .w\");\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){gsap.set(words,{fontWeight:600});return;}\n  const mm=gsap.matchMedia();\n  mm.add({desk:\"(min-width:768px)\",mob:\"(max-width:767px)\"},ctx=>{\n    const [lo,hi]=ctx.conditions.desk?[200,900]:[300,700];\n    const tl=gsap.timeline({scrollTrigger:{trigger:\".wv\",start:\"top 70%\",end:\"bottom 30%\",scrub:.6}});\n    words.forEach((w,i)=>{\n      // כל מילה עולה ויורדת בתורה: גל שעובר על המשפט\n      tl.fromTo(w,{fontWeight:lo},{fontWeight:hi,duration:1,ease:\"none\"},i*.35);\n      // המילה האחרונה נשארת שמנה: הגל נגמר בהדגשה ולא חוזר לאפס\n      if(i<words.length-1)tl.to(w,{fontWeight:lo,duration:1,ease:\"none\"},i*.35+1.2);\n    });\n  });\n})();"
   },
   {
    "id": "g75",
@@ -5003,6 +5003,276 @@
    "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G88 · מילה שמתחלפת בהירו בלולאה */\n.rw{text-align:center;max-width:36ch;margin-inline:auto}\n.rw-keep{white-space:nowrap}\n.rw h2{font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));line-height:1.25;margin:0}\n.rw-slot{display:inline-grid;vertical-align:bottom;text-align:start;overflow:hidden;color:var(--accent, #4a3aff);height:1.25em;width:var(--w,auto);transition:/* qa-allow: layout, רוחב המילה משתנה בהגדרה, scaleX היה מעוות את האותיות */width .5s cubic-bezier(.2,.6,.2,1)}\n.rw-slot span{grid-area:1/1;white-space:nowrap;opacity:0;translate:0 100%}\n.rw-slot span:first-child{opacity:1;translate:0 0}\n@media (prefers-reduced-motion: reduce){.rw-slot{transition:none}}",
    "html": "<div class=\"stage\"><div class=\"rw\"><h2>אנחנו בונים אתרים <span class=\"rw-keep\">ל<span class=\"rw-slot\"><span>קליניקות</span><span>משרדי עורכי דין</span><span>חנויות אונליין</span><span>סטודיו לעיצוב</span></span></span><br>שמביאים פניות, לא רק מחמאות.</h2></div></div>",
    "js": "(function(){\n  const slot=document.querySelector(\".rw-slot\"),words=gsap.utils.toArray(\".rw-slot span\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  const widths=words.map(w=>w.getBoundingClientRect().width);\n  slot.style.setProperty(\"--w\",widths[0]+\"px\");\n  let i=0;\n  function next(){\n    const cur=words[i],nx=words[(i+1)%words.length];i=(i+1)%words.length;\n    slot.style.setProperty(\"--w\",widths[i]+\"px\");\n    if(reduce){gsap.set(cur,{opacity:0});gsap.set(nx,{opacity:1,translate:\"0 0\"});return;}\n    gsap.timeline()\n      .to(cur,{translate:\"0 -100%\",opacity:0,duration:.5,ease:\"power3.in\"},0)\n      .fromTo(nx,{translate:\"0 100%\",opacity:0},{translate:\"0 0\",opacity:1,duration:.55,ease:\"power3.out\"},.25);\n  }\n  setTimeout(next,900); setInterval(next,reduce?3000:2200);   // החלפה ראשונה מהר, אחר כך בקצב קריאה\n  addEventListener(\"resize\",()=>{words.forEach((w,k)=>widths[k]=w.getBoundingClientRect().width);slot.style.setProperty(\"--w\",widths[i]+\"px\");});\n})();"
+  },
+  {
+   "id": "g89",
+   "name": "מעבר דרך הכותרת (Zoom Through)",
+   "cat": "gsap",
+   "tech": "GSAP · ScrollTrigger · SVG mask",
+   "desc": "כותרת ענקית היא חור במסך אטום. בגלילה החור גדל עד שהצופה עובר דרך האותיות אל הסצנה שמאחור. פתיחה קולנועית לעמוד.",
+   "when": "הירו של אתר תדמית פרימיום, פתיחת קמפיין, מעבר לסקשן הגיבור. פעם אחת בעמוד, בראש.",
+   "note": "המסכה היא SVG mask עם טקסט עברי (SVG text תומך בעברית), והטקסט בתוך המסכה מקבל scale מ-1 ל-40 סביב אות מרכזית. הסצנה מאחור נחשפת בלי לזוז. במובייל הכותרת מתחילה גדולה יותר (אחרת האותיות דקות מדי כחור) והמסע קצר יותר.",
+   "libs": [
+    "gsap",
+    "ScrollTrigger"
+   ],
+   "plugins": [
+    "ScrollTrigger"
+   ],
+   "scripts": [
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"></script>"
+   ],
+   "needsRtl": true,
+   "usesVaultHelpers": true,
+   "demo": "gsap/g89.html",
+   "standalone": "export/g89.html",
+   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n\n/* G89 · מעבר דרך הכותרת (Zoom Through) */\n.zt{position:relative;height:230vh}\n.zt-pin{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--ink, #16182b)}\n.zt-scene{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--bg, #f7f7fa);padding:24px}\n.zt-scene .ph{position:absolute;inset:0;border-radius:0;opacity:.55;font-size:0}\n.zt-scene div{position:relative;max-width:30ch}\n.zt-scene h3{margin:0 0 10px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}\n.zt-scene p{margin:0;opacity:.85}\n.zt-front{position:absolute;inset:0;width:100%;height:100%}\n.zt-front rect{fill:var(--bg, #f7f7fa)}\n.zt-front text{font-weight:900;font-size:120px;fill:#000;font-family:inherit}\n.zt-hint{position:absolute;bottom:26px;inset-inline:0;text-align:center;font-size:13px;color:var(--muted, #6a6d85)}\n@media(max-width:767px){.zt{height:180vh}.zt-front text{font-size:150px}}",
+   "html": "<div class=\"zt\">\n  <div class=\"zt-pin\">\n    <div class=\"zt-scene\"><div class=\"ph ph-b\"></div><div><h3>ברוכים הבאים פנימה</h3><p>מה שמאחורי השם: שיטה, צוות, ותוצאות שאפשר למדוד.</p></div></div>\n    <svg class=\"zt-front\" viewBox=\"0 0 1000 600\" preserveAspectRatio=\"xMidYMid slice\" aria-hidden=\"true\">\n      <defs><mask id=\"zt-m\"><rect width=\"1000\" height=\"600\" fill=\"#fff\"/><g class=\"zt-hole\"><text x=\"500\" y=\"345\" text-anchor=\"middle\" direction=\"rtl\">סטודיו</text></g></mask></defs>\n      <rect width=\"1000\" height=\"600\" mask=\"url(#zt-m)\"/>\n    </svg>\n    <p class=\"zt-hint\">גלול כדי להיכנס</p>\n  </div>\n</div>",
+   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){gsap.set(\".zt-front\",{opacity:0});return;}\n  const mob=matchMedia(\"(max-width:767px)\").matches;\n  gsap.timeline({scrollTrigger:{trigger:\".zt\",start:\"top top\",end:\"bottom bottom\",scrub:.6}})\n    .to(\".zt-hole\",{scale:mob?26:40,transformOrigin:\"50% 50%\",ease:\"power2.in\",duration:1})   // GSAP מתעלם מ-transform-origin של CSS ב-SVG, חייבים לתת לו את המרכז\n    .to(\".zt-hint\",{opacity:0,duration:.1},0)\n    .to(\".zt-front\",{opacity:0,duration:.15},.85);   // בסוף המסע המסכה נעלמת לגמרי, כדי שלא יישאר קצה\n})();"
+  },
+  {
+   "id": "g90",
+   "name": "שכבות מוצר שמתפרקות ומתחברות",
+   "cat": "gsap",
+   "tech": "GSAP · ScrollTrigger · 3D",
+   "desc": "מוצר שמוצג כערימת שכבות באיזומטריה. בגלילה השכבות מתרחקות זו מזו, כל אחת מקבלת תווית, ובסוף חוזרות ומתחברות. תרשים מפורק (exploded view) חי.",
+   "when": "מוצר עם שכבות אמיתיות (מזרן, נעל, מכשיר, ארכיטקטורת מערכת, חבילת שירות). שלוש עד חמש שכבות.",
+   "note": "כל שכבה היא div ב-preserve-3d עם translateZ שגדל בסקראב; ההטיה האיזומטרית (rotateX 58, rotateZ -32) קבועה על המכל. התוויות נדלקות כשהשכבה שלהן נפרדת. במובייל ההטיה קטנה והמרווח בין השכבות חצי, כדי שהכל ייכנס ל-390px.",
+   "libs": [
+    "gsap",
+    "ScrollTrigger"
+   ],
+   "plugins": [
+    "ScrollTrigger"
+   ],
+   "scripts": [
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"></script>"
+   ],
+   "needsRtl": true,
+   "usesVaultHelpers": true,
+   "demo": "gsap/g90.html",
+   "standalone": "export/g90.html",
+   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n\n/* G90 · שכבות מוצר שמתפרקות ומתחברות */\n.ex{position:relative;height:260vh}\n.ex-pin{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:var(--gap, clamp(16px, 1.6vw, 36px));padding-inline:var(--gutter, clamp(24px, 5vw, 96px));overflow:hidden}\n.ex-stage{perspective:1400px;display:grid;place-items:center;height:70vh}\n.ex-stack{position:relative;width:min(34vw,380px);aspect-ratio:1;transform-style:preserve-3d;transform:rotateX(58deg) rotateZ(-32deg)}\n.ex-layer{position:absolute;inset:0;border-radius:22px;transform-style:preserve-3d;display:grid;place-items:center;color:#fff;font-weight:800;font-size:22px;box-shadow:0 30px 60px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.35)}\n.ex-copy h2{margin:0 0 12px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}\n.ex-copy p{margin:0 0 22px;color:var(--muted, #6a6d85)}\n.ex-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}\n.ex-list li{display:flex;gap:12px;align-items:baseline;opacity:.3;transition:opacity .35s}\n.ex-list li.on{opacity:1}\n.ex-list b{font-size:12px;color:var(--accent, #4a3aff);letter-spacing:.12em;min-width:2.4em}\n@media(max-width:767px){.ex{height:200vh}.ex-pin{grid-template-columns:1fr;align-content:center;gap:10px}.ex-stage{height:44vh}.ex-stack{width:56vw;transform:rotateX(52deg) rotateZ(-28deg)}.ex-copy h2{font-size:clamp(22px,6vw,32px)}}",
+   "html": "<div class=\"ex\">\n  <div class=\"ex-pin\">\n    <div class=\"ex-stage\"><div class=\"ex-stack\">\n      <div class=\"ex-layer ph-a\" style=\"background:linear-gradient(160deg,#3b5bdb,#748ffc)\"><span class=\"ph-l\">בסיס</span></div>\n      <div class=\"ex-layer\" style=\"background:linear-gradient(160deg,#0b7285,#3bc9db)\">מנוע</div>\n      <div class=\"ex-layer\" style=\"background:linear-gradient(160deg,#5f3dc4,#9775fa)\">ממשק</div>\n      <div class=\"ex-layer\" style=\"background:linear-gradient(160deg,#e8590c,#ffa94d)\">מעטפת</div>\n    </div></div>\n    <div class=\"ex-copy\"><h2>מה יש בפנים</h2><p>ארבע שכבות שעובדות ביחד. גלול כדי לפרק.</p>\n      <ul class=\"ex-list\"><li><b>01</b>בסיס נתונים מאובטח, גיבוי יומי</li><li><b>02</b>מנוע אוטומציות שרץ ברקע</li><li><b>03</b>ממשק בעברית, לכל מכשיר</li><li><b>04</b>מעטפת שירות ותמיכה</li></ul></div>\n  </div>\n</div>",
+   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const layers=gsap.utils.toArray(\".ex-layer\"),items=gsap.utils.toArray(\".ex-list li\");\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){items.forEach(l=>l.classList.add(\"on\"));layers.forEach((l,i)=>gsap.set(l,{z:i*40}));return;}\n  const GAP=matchMedia(\"(max-width:767px)\").matches?70:130;\n  const tl=gsap.timeline({scrollTrigger:{trigger:\".ex\",start:\"top top\",end:\"bottom bottom\",scrub:.5}});\n  layers.forEach((l,i)=>{\n    tl.to(l,{z:i*GAP,duration:1,ease:\"power2.inOut\",onStart:()=>items[i].classList.add(\"on\"),onReverseComplete:()=>items[i].classList.remove(\"on\")},i*.25);\n  });\n  tl.to({},{duration:.6});                                    // רגע של שהייה במצב המפורק\n  tl.to(layers,{z:(i)=>i*10,duration:1.2,ease:\"power2.inOut\",stagger:{each:.08,from:\"end\"}});   // מתחבר חזרה מלמעלה למטה\n})();"
+  },
+  {
+   "id": "g91",
+   "name": "טקסט שנוסע במנהרה לעומק",
+   "cat": "gsap",
+   "tech": "GSAP · ScrollTrigger · 3D",
+   "desc": "שורות טקסט מונחות זו אחרי זו בעומק. הגלילה מסיעה את הצופה קדימה: כל שורה גדלה, חולפת על פניו ונעלמת, והבאה מגיעה מהרחוק. מניפסט שנקרא כמו מסע.",
+   "when": "מניפסט, ערכים, \"מה אנחנו מאמינים\", פתיחת סיפור מותג. ארבע עד שבע שורות קצרות.",
+   "note": "כל שורה מקבלת z התחלתי שלילי לפי המיקום שלה, והטיימליין מוסיף לכולן אותו z בסקראב, כך שהתחושה היא של מצלמה שנוסעת. השורה דוהה לפני שהיא חוצה את המצלמה. במובייל הפרספקטיבה קצרה יותר והמרווח בין שורות קטן.",
+   "libs": [
+    "gsap",
+    "ScrollTrigger"
+   ],
+   "plugins": [
+    "ScrollTrigger"
+   ],
+   "scripts": [
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"></script>"
+   ],
+   "needsRtl": true,
+   "usesVaultHelpers": false,
+   "demo": "gsap/g91.html",
+   "standalone": "export/g91.html",
+   "css": "/* G91 · טקסט שנוסע במנהרה לעומק */\n.tn{position:relative;height:320vh}\n.tn-pin{position:sticky;top:0;height:100vh;overflow:hidden;perspective:900px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);display:grid;place-items:center}\n.tn-space{position:absolute;inset:0;transform-style:preserve-3d;display:grid;place-items:center}\n.tn-line{position:absolute;font-size:clamp(28px,5vw,72px);font-weight:800;white-space:nowrap;will-change:transform,opacity;text-align:center;padding-inline:20px}\n.tn-line small{display:block;font-size:.4em;font-weight:500;opacity:.7;margin-top:.3em}\n.tn-glow{position:absolute;inset:30%;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent, #4a3aff) 45%,transparent),transparent);filter:blur(40px)}\n@media(max-width:767px){.tn{height:260vh}.tn-pin{perspective:600px}}",
+   "html": "<div class=\"tn\">\n  <div class=\"tn-pin\"><div class=\"tn-glow\"></div><div class=\"tn-space\">\n    <div class=\"tn-line\">אנחנו לא בונים אתרים.<small>שורה ראשונה</small></div>\n    <div class=\"tn-line\">אנחנו בונים דרך להגיע אליכם.</div>\n    <div class=\"tn-line\">בלי רעש. בלי קישוטים.</div>\n    <div class=\"tn-line\">רק מה שמזיז לקוח לפעולה.</div>\n    <div class=\"tn-line\">וזה נמדד. כל יום.</div>\n  </div></div>\n</div>",
+   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const lines=gsap.utils.toArray(\".tn-line\"),STEP=matchMedia(\"(max-width:767px)\").matches?700:1000;\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){lines.forEach((l,i)=>gsap.set(l,{position:\"static\",marginBottom:20}));return;}\n  lines.forEach((l,i)=>gsap.set(l,{z:-i*STEP,opacity:i===0?1:0}));\n  const total=(lines.length-1)*STEP+STEP*.6;\n  const tl=gsap.timeline({scrollTrigger:{trigger:\".tn\",start:\"top top\",end:\"bottom bottom\",scrub:.7}});\n  tl.to(lines,{z:\"+=\"+total,ease:\"none\",duration:1},0);\n  // השקיפות יושבת באותו טיימליין ולא ב-onUpdate נפרד, כך שהיא נכונה גם בסקראב לאחור וגם בקפיצה.\n  // לכל שורה: מופיעה כשהיא במרחק 1.2 צעדים, מלאה מ-0.4 צעד, ונעלמת כשהיא חולפת על פני המצלמה.\n  const at=(i,z)=>Math.max(0,(z+i*STEP)/total);   // הזמן (0..1) שבו השורה i מגיעה לעומק z\n  lines.forEach((l,i)=>{\n    if(i>0)tl.fromTo(l,{opacity:0},{opacity:1,duration:Math.max(.001,at(i,-STEP*.4)-at(i,-STEP*1.2)),ease:\"none\"},at(i,-STEP*1.2));\n    tl.to(l,{opacity:0,duration:Math.max(.001,at(i,300)-at(i,100)),ease:\"none\"},at(i,100));\n  });\n})();"
+  },
+  {
+   "id": "g92",
+   "name": "חפיסה שמתהפכת קלף אחר קלף",
+   "cat": "gsap",
+   "tech": "GSAP · ScrollTrigger · 3D",
+   "desc": "ערימת קלפים מוצמדת למסך. כל גלילה הופכת את הקלף העליון על צירו האופקי, חושפת את הבא, והקלף ההפוך נעלם מאחור. עדויות או יתרונות בקצב של קריאה.",
+   "when": "עדויות, שאלות ותשובות, ארבעה עד שישה יתרונות. כשרוצים שהקורא יעצור על כל אחד בנפרד.",
+   "note": "כל קלף מתהפך ב-rotateX מ-0 ל--180 עם backface-visibility:hidden, כך שבחצי הדרך הוא נעלם והבא כבר מלא מאחוריו. סדר ה-z מתעדכן באמצע ההיפוך. במובייל הקלף גבוה ומרווח הגלילה לכל קלף קצר יותר.",
+   "libs": [
+    "gsap",
+    "ScrollTrigger"
+   ],
+   "plugins": [
+    "ScrollTrigger"
+   ],
+   "scripts": [
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"></script>"
+   ],
+   "needsRtl": true,
+   "usesVaultHelpers": false,
+   "demo": "gsap/g92.html",
+   "standalone": "export/g92.html",
+   "css": "/* G92 · חפיסה שמתהפכת קלף אחר קלף */\n.fk{position:relative;height:calc(100vh + var(--fk-n,4) * 70vh)}\n.fk-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1600px;overflow:hidden}\n.fk-deck{position:relative;width:min(640px,88vw);aspect-ratio:16/9;transform-style:preserve-3d}\n.fk-card{position:absolute;inset:0;border-radius:24px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;\n  backface-visibility:hidden;transform-origin:50% 50%;box-shadow:0 30px 70px rgba(0,0,0,.14);will-change:transform}\n.fk-card q{font-size:clamp(18px,2.4vw,30px);font-weight:600;line-height:1.35;quotes:none}\n.fk-card q::before{content:\"״\"}.fk-card q::after{content:\"״\"}\n.fk-card cite{font-style:normal;color:var(--muted, #6a6d85);font-size:15px}\n.fk-card b{font-size:12px;color:var(--accent, #4a3aff);letter-spacing:.14em}\n.fk-hint{position:absolute;bottom:22px;font-size:13px;color:var(--muted, #6a6d85)}\n@media(max-width:767px){.fk-deck{aspect-ratio:4/5}.fk{height:calc(100vh + var(--fk-n,4) * 55vh)}}",
+   "html": "<div class=\"fk\" style=\"--fk-n:4\">\n  <div class=\"fk-pin\"><div class=\"fk-deck\">\n    <article class=\"fk-card\"><b>01</b><q>תוך שבועיים מהעלייה לאוויר קיבלנו יותר פניות מאשר בחצי השנה שלפני.</q><cite>ד\"ר נועה לוי, קליניקה בתל אביב</cite></article>\n    <article class=\"fk-card\"><b>02</b><q>הפעם הראשונה שמישהו שאל אותנו מה הלקוח צריך לפני שדיבר על צבעים.</q><cite>רועי ברק, משרד עורכי דין</cite></article>\n    <article class=\"fk-card\"><b>03</b><q>האתר מסביר את העסק טוב יותר ממני. וזה בסדר.</q><cite>מיכל אדר, סטודיו לעיצוב פנים</cite></article>\n    <article class=\"fk-card\"><b>04</b><q>המספרים בדשבורד הם מה ששכנע את השותף שלי שזה עובד.</q><cite>אייל כהן, חנות אונליין</cite></article>\n  </div><p class=\"fk-hint\">גלול כדי להפוך</p></div>\n</div>",
+   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const cards=gsap.utils.toArray(\".fk-card\"),n=cards.length;\n  document.querySelector(\".fk\").style.setProperty(\"--fk-n\",n-1);\n  cards.forEach((c,i)=>gsap.set(c,{zIndex:n-i,y:i*6,scale:1-i*.02}));   // ערימה: כל קלף מציץ מעט מתחת לקודם\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){gsap.set(cards,{position:\"relative\",y:0,scale:1,marginBottom:16});document.querySelector(\".fk-pin\").style.height=\"auto\";return;}\n  const tl=gsap.timeline({scrollTrigger:{trigger:\".fk\",start:\"top top\",end:\"bottom bottom\",scrub:.5}});\n  cards.slice(0,-1).forEach((c,i)=>{\n    tl.to(c,{rotateX:-180,duration:1,ease:\"power2.inOut\"},i)\n      .set(c,{zIndex:0},i+.5)                                           // באמצע ההיפוך הקלף עובר לתחתית הערימה\n      .to(cards.slice(i+1),{y:(k)=>k*6,scale:(k)=>1-k*.02,duration:1,ease:\"power2.out\"},i)\n      .to(\".fk-hint\",{opacity:0,duration:.2},0);\n  });\n})();"
+  },
+  {
+   "id": "g93",
+   "name": "מדיה שמשנה צורת חיתוך בין סקשנים",
+   "cat": "gsap",
+   "tech": "GSAP · ScrollTrigger · clip-path",
+   "desc": "תמונה דביקה בצד אחד, טקסט שגולל בצד השני. בכל סקשן שנכנס התמונה משנה צורה: עיגול קטן, ריבוע מעוגל, ואז מסך מלא. אותה תמונה, שלוש נוכחויות.",
+   "when": "סיפור מותג בשלושה פרקים, תהליך עבודה, מוצר שמתגלה. שלושה עד ארבעה שלבים.",
+   "note": "כל הצורות הן inset() עם round, כך ש-GSAP יכול לעבור ביניהן (clip-path מתאנפש רק בין אותה פונקציה). במובייל הפריסה הופכת לעמודה: התמונה דביקה למעלה בגובה 40vh והטקסט גולל מתחתיה.",
+   "libs": [
+    "gsap",
+    "ScrollTrigger"
+   ],
+   "plugins": [
+    "ScrollTrigger"
+   ],
+   "scripts": [
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"></script>"
+   ],
+   "needsRtl": true,
+   "usesVaultHelpers": true,
+   "demo": "gsap/g93.html",
+   "standalone": "export/g93.html",
+   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n\n/* G93 · מדיה שמשנה צורת חיתוך בין סקשנים */\n.cm{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap, clamp(16px, 1.6vw, 36px));align-items:start}\n.cm-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center}\n.cm-media{width:100%;height:78vh;clip-path:inset(30% 30% round 50%);will-change:clip-path}\n.cm-media .ph{width:100%;height:100%;border-radius:0;font-size:0}\n.cm-steps{display:flex;flex-direction:column;gap:46vh;padding-block:36vh}\n.cm-step h3{margin:0 0 10px;font-size:clamp(22px,2.6vw,36px)}\n.cm-step p{margin:0;color:var(--muted, #6a6d85);line-height:1.7;max-width:36ch}\n@media(max-width:767px){.cm{grid-template-columns:1fr}.cm-pin{height:44vh;top:0;z-index:2;background:var(--bg, #f7f7fa)}.cm-media{height:40vh}.cm-steps{gap:30vh;padding-block:8vh 30vh}}",
+   "html": "<div class=\"stage tight full\"><div class=\"cm\">\n  <div class=\"cm-pin\"><div class=\"cm-media\"><div class=\"ph ph-c\"></div></div></div>\n  <div class=\"cm-steps\">\n    <div class=\"cm-step\"><h3>מתחילים מנקודה אחת</h3><p>הבעיה שהלקוח מגיע איתה. לא הלוגו, לא הצבעים.</p></div>\n    <div class=\"cm-step\"><h3>מרחיבים למסגרת</h3><p>מבנה עמוד שעונה על השאלות בסדר שבו הן עולות.</p></div>\n    <div class=\"cm-step\"><h3>ופותחים את כל התמונה</h3><p>אתר שלם שמדבר בקול אחד, מהכותרת ועד הפוטר.</p></div>\n  </div>\n</div></div>",
+   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const media=document.querySelector(\".cm-media\"),steps=gsap.utils.toArray(\".cm-step\");\n  const shapes=[\"inset(30% 30% round 50%)\",\"inset(8% 8% round 32px)\",\"inset(0% 0% round 0px)\"];\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){gsap.set(media,{clipPath:shapes[1]});return;}\n  steps.forEach((s,i)=>{\n    ScrollTrigger.create({trigger:s,start:\"top 65%\",onEnter:()=>gsap.to(media,{clipPath:shapes[i],duration:.9,ease:\"power3.inOut\",overwrite:true}),\n      onLeaveBack:()=>gsap.to(media,{clipPath:shapes[Math.max(0,i-1)],duration:.9,ease:\"power3.inOut\",overwrite:true})});\n  });\n})();"
+  },
+  {
+   "id": "g94",
+   "name": "מצלמה שנוסעת על תמונה בגלילה",
+   "cat": "gsap",
+   "tech": "GSAP · ScrollTrigger · pin",
+   "desc": "תמונה גדולה אחת (מפה, תוכנית קומה, איור) ומצלמה שנוסעת עליה עם הגלילה: זום לנקודה, כיתוב, נסיעה לנקודה הבאה. סיור מודרך בלי שהצופה זז.",
+   "when": "מפת פרויקט, תוכנית דירה, איור תהליך, קמפוס, תפריט מסעדה מאויר. שלוש עד חמש תחנות.",
+   "note": "כל תחנה היא אחוזים על התמונה + זום. הטרנספורם מחושב בזמן refresh לפי גודל המכל (invalidateOnRefresh), לכן זה נכון בכל רוחב. במובייל הזום גדול יותר כי המסך צר, והכיתוב יושב למטה במקום בצד.",
+   "libs": [
+    "gsap",
+    "ScrollTrigger"
+   ],
+   "plugins": [
+    "ScrollTrigger"
+   ],
+   "scripts": [
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"></script>"
+   ],
+   "needsRtl": true,
+   "usesVaultHelpers": true,
+   "demo": "gsap/g94.html",
+   "standalone": "export/g94.html",
+   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n\n/* G94 · מצלמה שנוסעת על תמונה בגלילה */\n.cam{position:relative;height:320vh}\n.cam-pin{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--ink, #16182b)}\n.cam-img{position:absolute;inset:0;transform-origin:0 0;will-change:transform}\n.cam-img .ph{position:absolute;inset:0;border-radius:0;font-size:0;background:linear-gradient(135deg,#1b2a4a,#2f7a6b 45%,#c98a3a)}\n.cam-spot{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 8px color-mix(in srgb,var(--accent, #4a3aff) 30%,transparent);translate:-50% -50%}\n.cam-cap{position:absolute;inset-inline-end:clamp(20px,5vw,60px);bottom:clamp(20px,6vh,60px);max-width:34ch;background:color-mix(in srgb,var(--bg, #f7f7fa) 92%,transparent);color:var(--ink, #16182b);padding:18px 22px;border-radius:16px;opacity:0;translate:0 12px}\n.cam-cap b{display:block;font-size:12px;color:var(--accent, #4a3aff);letter-spacing:.14em;margin-bottom:6px}\n.cam-cap h3{margin:0 0 6px;font-size:20px}\n.cam-cap p{margin:0;color:var(--muted, #6a6d85);font-size:15px;line-height:1.6}\n@media(max-width:767px){.cam-cap{inset-inline:16px;max-width:none}}",
+   "html": "<div class=\"cam\">\n  <div class=\"cam-pin\">\n    <div class=\"cam-img\"><div class=\"ph\"></div>\n      <span class=\"cam-spot\" style=\"left:22%;top:34%\"></span><span class=\"cam-spot\" style=\"left:64%;top:28%\"></span><span class=\"cam-spot\" style=\"left:48%;top:72%\"></span></div>\n    <div class=\"cam-cap\" data-i=\"0\"><b>תחנה 01</b><h3>הכניסה הראשית</h3><p>מפה מקבלת פנים, מרחב המתנה, וקפה.</p></div>\n    <div class=\"cam-cap\" data-i=\"1\"><b>תחנה 02</b><h3>חדרי הטיפול</h3><p>שישה חדרים, אור טבעי בכולם.</p></div>\n    <div class=\"cam-cap\" data-i=\"2\"><b>תחנה 03</b><h3>הגינה האחורית</h3><p>איפה שהמטופלים אוהבים לחכות.</p></div>\n  </div>\n</div>",
+   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const pin=document.querySelector(\".cam-pin\"),img=document.querySelector(\".cam-img\"),caps=gsap.utils.toArray(\".cam-cap\");\n  const stops=[{x:.22,y:.34},{x:.64,y:.28},{x:.48,y:.72}];\n  const Z=()=>matchMedia(\"(max-width:767px)\").matches?3.2:2.4;\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){gsap.set(caps[0],{opacity:1,translate:\"0 0\"});return;}\n  // מביאים נקודה (אחוזים) למרכז המסך בזום נתון: x = W/2 - px*W*z\n  const to=(p)=>({x:()=>pin.clientWidth/2-p.x*pin.clientWidth*Z(),y:()=>pin.clientHeight/2-p.y*pin.clientHeight*Z(),scale:Z});\n  const tl=gsap.timeline({scrollTrigger:{trigger:\".cam\",start:\"top top\",end:\"bottom bottom\",scrub:.8,invalidateOnRefresh:true}});\n  stops.forEach((p,i)=>{\n    tl.to(img,{...to(p),duration:1.2,ease:\"power2.inOut\"},i*2)\n      .to(caps[i],{opacity:1,translate:\"0 0\",duration:.3},i*2+1)\n      .to(caps[i],{opacity:0,translate:\"0 -12px\",duration:.3},i*2+1.7);\n  });\n  tl.to(img,{x:0,y:0,scale:1,duration:1.2,ease:\"power2.inOut\"},stops.length*2);   // חזרה למבט מלא בסוף\n})();"
+  },
+  {
+   "id": "g95",
+   "name": "קובייה שמסתובבת פאה-פאה בגלילה",
+   "cat": "gsap",
+   "tech": "GSAP · ScrollTrigger · 3D",
+   "desc": "ארבע פאות של קובייה, כל אחת נושאת עדות או יתרון. הגלילה מסובבת את הקובייה 90 מעלות בכל שלב, עם עצירה קצרה על כל פאה.",
+   "when": "עדויות, ארבעה עקרונות, ארבע חבילות. בדיוק ארבעה פריטים, שקולים זה לזה.",
+   "note": "הפאות מסודרות ב-rotateY(i*90) translateZ(חצי הרוחב), והרוחב נמדד ב-refresh כדי שהעומק יתאים לכל מסך. הסיבוב בסקראב עם ease לכל רבע, כך שיש שהייה על כל פאה. במובייל הקובייה צרה יותר והגובה של המסלול קצר.",
+   "libs": [
+    "gsap",
+    "ScrollTrigger"
+   ],
+   "plugins": [
+    "ScrollTrigger"
+   ],
+   "scripts": [
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"></script>"
+   ],
+   "needsRtl": true,
+   "usesVaultHelpers": false,
+   "demo": "gsap/g95.html",
+   "standalone": "export/g95.html",
+   "css": "/* G95 · קובייה שמסתובבת פאה-פאה בגלילה */\n.cb{position:relative;height:300vh}\n.cb-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1500px;overflow:hidden}\n.cb-cube{position:relative;width:min(560px,80vw);aspect-ratio:16/10;transform-style:preserve-3d;will-change:transform}\n.cb-face{position:absolute;inset:0;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:22px;padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;backface-visibility:hidden;box-shadow:0 30px 70px rgba(0,0,0,.12)}\n.cb-face q{font-size:clamp(18px,2.4vw,30px);font-weight:600;line-height:1.35;quotes:none}\n.cb-face cite{font-style:normal;color:var(--muted, #6a6d85);font-size:15px}\n.cb-face b{font-size:12px;color:var(--accent, #4a3aff);letter-spacing:.14em}\n.cb-dots{position:absolute;bottom:26px;display:flex;gap:8px}\n.cb-dots i{width:8px;height:8px;border-radius:50%;background:var(--line, #e4e4ee)}\n.cb-dots i.on{background:var(--accent, #4a3aff)}\n@media(max-width:767px){.cb{height:240vh}.cb-cube{aspect-ratio:4/5}}",
+   "html": "<div class=\"cb\">\n  <div class=\"cb-pin\"><div class=\"cb-cube\">\n    <div class=\"cb-face\"><b>01</b><q>האתר מסביר את העסק טוב יותר ממני.</q><cite>מיכל אדר, סטודיו לעיצוב פנים</cite></div>\n    <div class=\"cb-face\"><b>02</b><q>תוך שבועיים קיבלנו יותר פניות מחצי השנה שלפני.</q><cite>ד\"ר נועה לוי, קליניקה</cite></div>\n    <div class=\"cb-face\"><b>03</b><q>הפעם הראשונה שמישהו שאל מה הלקוח צריך.</q><cite>רועי ברק, עורך דין</cite></div>\n    <div class=\"cb-face\"><b>04</b><q>המספרים שכנעו את השותף שלי.</q><cite>אייל כהן, חנות אונליין</cite></div>\n  </div><div class=\"cb-dots\"><i class=\"on\"></i><i></i><i></i><i></i></div></div>\n</div>",
+   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const cube=document.querySelector(\".cb-cube\"),faces=gsap.utils.toArray(\".cb-face\"),dots=gsap.utils.toArray(\".cb-dots i\");\n  function place(){const d=cube.offsetWidth/2;faces.forEach((f,i)=>gsap.set(f,{rotateY:i*90,z:d}));gsap.set(cube,{z:-d});}\n  place();addEventListener(\"resize\",place);\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches)return;\n  const tl=gsap.timeline({scrollTrigger:{trigger:\".cb\",start:\"top top\",end:\"bottom bottom\",scrub:.6,onUpdate(s){const k=Math.min(3,Math.round(s.progress*3));dots.forEach((d,i)=>d.classList.toggle(\"on\",i===k));}}});\n  // RTL: הפאה הבאה מגיעה משמאל, לכן הקובייה מסתובבת חיובית\n  for(let i=1;i<4;i++)tl.to(cube,{rotateY:i*90,duration:1,ease:\"power2.inOut\"},i-1+.2);\n})();"
+  },
+  {
+   "id": "g96",
+   "name": "סקשן שמתרומם מהשולחן",
+   "cat": "gsap",
+   "tech": "GSAP · ScrollTrigger · 3D",
+   "desc": "כרטיסים שוכבים שטוחים בפרספקטיבה, כמו על שולחן, ובזמן שהם נכנסים למסך הם מתרוממים לזקוף, אחד אחרי השני. כניסה עם עומק במקום עוד fade-up.",
+   "when": "גריד יתרונות, חבילות, צוות. כל סקשן כרטיסים שרוצים לתת לו נוכחות. פעם או פעמיים בעמוד.",
+   "note": "המכל מקבל perspective והכרטיסים rotateX(48) עם transform-origin למטה, וסקראב מחזיר אותם ל-0 עם סטאגר. אין pin, לכן זה זול וזורם. במובייל הזווית ההתחלתית קטנה (28) כי הכרטיסים בעמודה אחת וארוכים.",
+   "libs": [
+    "gsap",
+    "ScrollTrigger"
+   ],
+   "plugins": [
+    "ScrollTrigger"
+   ],
+   "scripts": [
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"></script>"
+   ],
+   "needsRtl": true,
+   "usesVaultHelpers": true,
+   "demo": "gsap/g96.html",
+   "standalone": "export/g96.html",
+   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n\n/* G96 · סקשן שמתרומם מהשולחן */\n.tb{perspective:1200px;perspective-origin:50% 0%;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap, clamp(16px, 1.6vw, 36px));max-width:1100px;margin-inline:auto;padding-block:10vh 20vh}\n.tb-card{background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);padding:26px;transform-origin:50% 100%;will-change:transform,opacity;box-shadow:0 20px 50px rgba(0,0,0,.08)}\n.tb-card .ph{height:140px;border-radius:12px;margin-bottom:18px;font-size:18px}\n.tb-card h3{margin:0 0 6px;font-size:20px}\n.tb-card p{margin:0;color:var(--muted, #6a6d85);font-size:15px;line-height:1.6}\n@media(max-width:767px){.tb{grid-template-columns:1fr}}",
+   "html": "<div class=\"stage tight\"><div class=\"tb\">\n  <article class=\"tb-card\"><div class=\"ph ph-a\"><span class=\"ph-l\">1</span></div><h3>אפיון</h3><p>שיחה אחת שממפה מי הלקוח ומה מונע ממנו לפנות.</p></article>\n  <article class=\"tb-card\"><div class=\"ph ph-b\"><span class=\"ph-l\">2</span></div><h3>קופי ועיצוב</h3><p>כל משפט עונה על שאלה. כל מסך מוביל לפעולה.</p></article>\n  <article class=\"tb-card\"><div class=\"ph ph-c\"><span class=\"ph-l\">3</span></div><h3>עלייה ומדידה</h3><p>האתר עולה תוך שבועיים, וכל פנייה נספרת.</p></article>\n  <article class=\"tb-card\"><div class=\"ph ph-d\"><span class=\"ph-l\">4</span></div><h3>ליווי</h3><p>חודש של תיקונים ושיפורים לפי הנתונים.</p></article>\n  <article class=\"tb-card\"><div class=\"ph ph-e\"><span class=\"ph-l\">5</span></div><h3>הרחבה</h3><p>דפי נחיתה, מערכות, אוטומציות. כשצריך.</p></article>\n  <article class=\"tb-card\"><div class=\"ph ph-a\"><span class=\"ph-l\">6</span></div><h3>תחזוקה</h3><p>עדכונים, גיבויים ואבטחה, בלי לחשוב על זה.</p></article>\n</div></div>",
+   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const cards=gsap.utils.toArray(\".tb-card\");\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches)return;\n  const ang=matchMedia(\"(max-width:767px)\").matches?28:48;\n  gsap.set(cards,{rotateX:ang,y:60,opacity:.35});\n  ScrollTrigger.batch(cards,{start:\"top 88%\",end:\"top 45%\",scrub:.6,onEnter:b=>{},   // batch כאן רק כדי לקבץ את הכרטיסים לפי שורה\n    onEnter:batch=>gsap.to(batch,{rotateX:0,y:0,opacity:1,stagger:.1,duration:.8,ease:\"power3.out\",overwrite:true}),\n    onLeaveBack:batch=>gsap.to(batch,{rotateX:ang,y:60,opacity:.35,stagger:.05,duration:.5,ease:\"power3.in\",overwrite:true})});\n})();"
+  },
+  {
+   "id": "g97",
+   "name": "קו סריקה שהופך שלד לצבע",
+   "cat": "gsap",
+   "tech": "GSAP · ScrollTrigger · clip-path",
+   "desc": "מסך מוצר מופיע כשלד אפור עם קווי מתאר. קו סריקה יורד עם הגלילה, ומתחתיו הכל מקבל צבע וחיים. \"לפני ואחרי\" שהגלילה עצמה מציירת.",
+   "when": "מוצר דיגיטלי, מערכת, אפליקציה, \"מה אנחנו בונים\". פעם אחת בעמוד.",
+   "note": "שתי שכבות זהות: אחת בשלד (grayscale, opacity, גבולות מקווקווים), אחת בצבע עם clip-path inset מלמעלה. הסקראב מזיז את קו החיתוך ואת פס הסריקה יחד. במובייל המסך המדומה צר וגבוה, והסריקה זהה.",
+   "libs": [
+    "gsap",
+    "ScrollTrigger"
+   ],
+   "plugins": [
+    "ScrollTrigger"
+   ],
+   "scripts": [
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"></script>"
+   ],
+   "needsRtl": true,
+   "usesVaultHelpers": false,
+   "demo": "gsap/g97.html",
+   "standalone": "export/g97.html",
+   "css": "/* G97 · קו סריקה שהופך שלד לצבע */\n.sc{position:relative;height:220vh}\n.sc-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}\n.sc-frame{position:relative;width:min(760px,90vw);aspect-ratio:16/10;border-radius:18px;overflow:hidden;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);box-shadow:0 30px 70px rgba(0,0,0,.12)}\n.sc-ui{position:absolute;inset:0;padding:22px;display:grid;grid-template-columns:1fr 2fr;gap:14px}\n.sc-ui i{display:block;border-radius:10px}\n.sc-side{display:grid;gap:10px;align-content:start}\n.sc-side i{height:14px;background:var(--line, #e4e4ee)}\n.sc-side i:first-child{height:34px;background:var(--accent, #4a3aff)}\n.sc-main{display:grid;grid-template-rows:auto 1fr;gap:12px}\n.sc-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}\n.sc-kpis i{height:56px;background:var(--bg, #f7f7fa);border:1px solid var(--line, #e4e4ee)}\n.sc-chart{border:1px solid var(--line, #e4e4ee);border-radius:12px;background:linear-gradient(180deg,transparent 60%,color-mix(in srgb,var(--accent, #4a3aff) 20%,transparent));position:relative}\n.sc-chart::after{content:\"\";position:absolute;inset:auto 10% 20% 10%;height:3px;background:var(--accent, #4a3aff);border-radius:3px}\n.sc-wire{filter:grayscale(1) contrast(.5);opacity:.55}\n.sc-wire i,.sc-wire .sc-chart{background:transparent!important;border:1.5px dashed var(--muted, #6a6d85)!important}\n.sc-wire .sc-chart::after{background:var(--muted, #6a6d85)}\n.sc-color{clip-path:inset(0 0 100% 0);will-change:clip-path}\n.sc-line{position:absolute;inset-inline:0;top:0;height:2px;background:var(--accent, #4a3aff);box-shadow:0 0 18px var(--accent, #4a3aff);will-change:transform}\n.sc-cap{position:absolute;bottom:26px;font-size:13px;color:var(--muted, #6a6d85)}\n@media(max-width:767px){.sc-frame{aspect-ratio:4/5}.sc-ui{grid-template-columns:1fr;grid-template-rows:auto 1fr}.sc-kpis i{height:40px}}",
+   "html": "<div class=\"sc\">\n  <div class=\"sc-pin\"><div class=\"sc-frame\">\n    <div class=\"sc-ui sc-wire\"><div class=\"sc-side\"><i></i><i></i><i></i><i></i><i></i></div><div class=\"sc-main\"><div class=\"sc-kpis\"><i></i><i></i><i></i></div><div class=\"sc-chart\"></div></div></div>\n    <div class=\"sc-ui sc-color\"><div class=\"sc-side\"><i></i><i></i><i></i><i></i><i></i></div><div class=\"sc-main\"><div class=\"sc-kpis\"><i></i><i></i><i></i></div><div class=\"sc-chart\"></div></div></div>\n    <div class=\"sc-line\"></div>\n  </div><p class=\"sc-cap\">גלול כדי לסרוק</p></div>\n</div>",
+   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const frame=document.querySelector(\".sc-frame\"),color=document.querySelector(\".sc-color\"),line=document.querySelector(\".sc-line\");\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){gsap.set(color,{clipPath:\"inset(0 0 0% 0)\"});gsap.set(line,{opacity:0});return;}\n  gsap.timeline({scrollTrigger:{trigger:\".sc\",start:\"top top\",end:\"bottom bottom\",scrub:.5,invalidateOnRefresh:true}})\n    .fromTo(color,{clipPath:\"inset(0 0 100% 0)\"},{clipPath:\"inset(0 0 0% 0)\",ease:\"none\",duration:1},0)\n    .fromTo(line,{y:0},{y:()=>frame.clientHeight,ease:\"none\",duration:1},0)\n    .to(line,{opacity:0,duration:.05},.96)\n    .to(\".sc-cap\",{opacity:0,duration:.1},0);\n})();"
+  },
+  {
+   "id": "g98",
+   "name": "אריחים שמתהפכים בגל בגלילה",
+   "cat": "gsap",
+   "tech": "GSAP · ScrollTrigger · 3D",
+   "desc": "גריד אריחים שכולם מראים את הצד הכהה. ככל שגוללים, גל של היפוכים עובר עליהם באלכסון וחושף תמונה או צבע בכל אריח. פסיפס שנבנה מול העיניים.",
+   "when": "קיר לוגואים, גלריית פרויקטים, \"במספרים\" עם אריח לכל נתון. שנים עשר עד עשרים אריחים.",
+   "note": "כל אריח הוא שתי פאות עם backface-visibility, וההיפוך (rotateY 180 ל-0) בסקראב עם stagger מסוג grid באלכסון מהפינה הימנית העליונה. במובייל הגריד יורד לשתי עמודות והגל נשאר אלכסוני.",
+   "libs": [
+    "gsap",
+    "ScrollTrigger"
+   ],
+   "plugins": [
+    "ScrollTrigger"
+   ],
+   "scripts": [
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"></script>"
+   ],
+   "needsRtl": true,
+   "usesVaultHelpers": true,
+   "demo": "gsap/g98.html",
+   "standalone": "export/g98.html",
+   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n\n/* G98 · אריחים שמתהפכים בגל בגלילה */\n.fw{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:1000px;margin-inline:auto;perspective:1000px;padding-block:10vh 30vh}\n.fw-tile{position:relative;aspect-ratio:1;transform-style:preserve-3d;will-change:transform}\n.fw-face{position:absolute;inset:0;border-radius:14px;backface-visibility:hidden;display:grid;place-items:center;font-weight:800;color:#fff;font-size:20px}\n.fw-back{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);transform:rotateY(180deg);font-size:14px;opacity:.9}\n.fw-front.ph{border-radius:14px}\n@media(max-width:767px){.fw{grid-template-columns:repeat(2,1fr)}}",
+   "html": "<div class=\"stage tight\"><div class=\"fw\">\n  <div class=\"fw-tile\"><div class=\"fw-face fw-front ph ph-a\"><span class=\"ph-l\">1</span></div><div class=\"fw-face fw-back\">·</div></div><div class=\"fw-tile\"><div class=\"fw-face fw-front ph ph-b\"><span class=\"ph-l\">2</span></div><div class=\"fw-face fw-back\">·</div></div>\n  <div class=\"fw-tile\"><div class=\"fw-face fw-front ph ph-c\"><span class=\"ph-l\">3</span></div><div class=\"fw-face fw-back\">·</div></div><div class=\"fw-tile\"><div class=\"fw-face fw-front ph ph-d\"><span class=\"ph-l\">4</span></div><div class=\"fw-face fw-back\">·</div></div>\n  <div class=\"fw-tile\"><div class=\"fw-face fw-front ph ph-e\"><span class=\"ph-l\">5</span></div><div class=\"fw-face fw-back\">·</div></div><div class=\"fw-tile\"><div class=\"fw-face fw-front ph ph-a\"><span class=\"ph-l\">6</span></div><div class=\"fw-face fw-back\">·</div></div>\n  <div class=\"fw-tile\"><div class=\"fw-face fw-front ph ph-b\"><span class=\"ph-l\">7</span></div><div class=\"fw-face fw-back\">·</div></div><div class=\"fw-tile\"><div class=\"fw-face fw-front ph ph-c\"><span class=\"ph-l\">8</span></div><div class=\"fw-face fw-back\">·</div></div>\n  <div class=\"fw-tile\"><div class=\"fw-face fw-front ph ph-d\"><span class=\"ph-l\">9</span></div><div class=\"fw-face fw-back\">·</div></div><div class=\"fw-tile\"><div class=\"fw-face fw-front ph ph-e\"><span class=\"ph-l\">10</span></div><div class=\"fw-face fw-back\">·</div></div>\n  <div class=\"fw-tile\"><div class=\"fw-face fw-front ph ph-a\"><span class=\"ph-l\">11</span></div><div class=\"fw-face fw-back\">·</div></div><div class=\"fw-tile\"><div class=\"fw-face fw-front ph ph-b\"><span class=\"ph-l\">12</span></div><div class=\"fw-face fw-back\">·</div></div>\n</div></div>",
+   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const tiles=gsap.utils.toArray(\".fw-tile\");\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches)return;\n  const cols=matchMedia(\"(max-width:767px)\").matches?2:4;\n  gsap.set(tiles,{rotateY:180});\n  gsap.to(tiles,{rotateY:0,ease:\"power2.inOut\",duration:1,\n    stagger:{grid:[Math.ceil(tiles.length/cols),cols],from:\"start\",axis:null,amount:1.4},   // גל אלכסוני מהפינה הראשונה (ימין למעלה ב-RTL)\n    scrollTrigger:{trigger:\".fw\",start:\"top 75%\",end:\"bottom 60%\",scrub:.6}});\n})();"
   }
  ]
 }

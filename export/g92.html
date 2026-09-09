@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G92 · חפיסה שמתהפכת קלף אחר קלף</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* G92 · חפיסה שמתהפכת קלף אחר קלף */
+.fk{position:relative;height:calc(100vh + var(--fk-n,4) * 70vh)}
+.fk-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1600px;overflow:hidden}
+.fk-deck{position:relative;width:min(640px,88vw);aspect-ratio:16/9;transform-style:preserve-3d}
+.fk-card{position:absolute;inset:0;border-radius:24px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;
+  backface-visibility:hidden;transform-origin:50% 50%;box-shadow:0 30px 70px rgba(0,0,0,.14);will-change:transform}
+.fk-card q{font-size:clamp(18px,2.4vw,30px);font-weight:600;line-height:1.35;quotes:none}
+.fk-card q::before{content:"״"}.fk-card q::after{content:"״"}
+.fk-card cite{font-style:normal;color:var(--muted, #6a6d85);font-size:15px}
+.fk-card b{font-size:12px;color:var(--accent, #4a3aff);letter-spacing:.14em}
+.fk-hint{position:absolute;bottom:22px;font-size:13px;color:var(--muted, #6a6d85)}
+@media(max-width:767px){.fk-deck{aspect-ratio:4/5}.fk{height:calc(100vh + var(--fk-n,4) * 55vh)}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="fk" style="--fk-n:4">
+  <div class="fk-pin"><div class="fk-deck">
+    <article class="fk-card"><b>01</b><q>תוך שבועיים מהעלייה לאוויר קיבלנו יותר פניות מאשר בחצי השנה שלפני.</q><cite>ד"ר נועה לוי, קליניקה בתל אביב</cite></article>
+    <article class="fk-card"><b>02</b><q>הפעם הראשונה שמישהו שאל אותנו מה הלקוח צריך לפני שדיבר על צבעים.</q><cite>רועי ברק, משרד עורכי דין</cite></article>
+    <article class="fk-card"><b>03</b><q>האתר מסביר את העסק טוב יותר ממני. וזה בסדר.</q><cite>מיכל אדר, סטודיו לעיצוב פנים</cite></article>
+    <article class="fk-card"><b>04</b><q>המספרים בדשבורד הם מה ששכנע את השותף שלי שזה עובד.</q><cite>אייל כהן, חנות אונליין</cite></article>
+  </div><p class="fk-hint">גלול כדי להפוך</p></div>
+</div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const cards=gsap.utils.toArray(".fk-card"),n=cards.length;
+  document.querySelector(".fk").style.setProperty("--fk-n",n-1);
+  cards.forEach((c,i)=>gsap.set(c,{zIndex:n-i,y:i*6,scale:1-i*.02}));   // ערימה: כל קלף מציץ מעט מתחת לקודם
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(cards,{position:"relative",y:0,scale:1,marginBottom:16});document.querySelector(".fk-pin").style.height="auto";return;}
+  const tl=gsap.timeline({scrollTrigger:{trigger:".fk",start:"top top",end:"bottom bottom",scrub:.5}});
+  cards.slice(0,-1).forEach((c,i)=>{
+    tl.to(c,{rotateX:-180,duration:1,ease:"power2.inOut"},i)
+      .set(c,{zIndex:0},i+.5)                                           // באמצע ההיפוך הקלף עובר לתחתית הערימה
+      .to(cards.slice(i+1),{y:(k)=>k*6,scale:(k)=>1-k*.02,duration:1,ease:"power2.out"},i)
+      .to(".fk-hint",{opacity:0,duration:.2},0);
+  });
+})();
+</script>
+</body>
+</html>

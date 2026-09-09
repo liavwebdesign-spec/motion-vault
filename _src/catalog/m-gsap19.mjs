@@ -58,8 +58,9 @@ export default [
     const tl=gsap.timeline({scrollTrigger:{trigger:".wv",start:"top 70%",end:"bottom 30%",scrub:.6}});
     words.forEach((w,i)=>{
       // כל מילה עולה ויורדת בתורה: גל שעובר על המשפט
-      tl.fromTo(w,{fontWeight:lo},{fontWeight:hi,duration:1,ease:"none"},i*.35)
-        .to(w,{fontWeight:lo,duration:1,ease:"none"},i*.35+1.2);
+      tl.fromTo(w,{fontWeight:lo},{fontWeight:hi,duration:1,ease:"none"},i*.35);
+      // המילה האחרונה נשארת שמנה: הגל נגמר בהדגשה ולא חוזר לאפס
+      if(i<words.length-1)tl.to(w,{fontWeight:lo,duration:1,ease:"none"},i*.35+1.2);
     });
   });
 })();`

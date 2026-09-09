@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G95 · קובייה שמסתובבת פאה-פאה בגלילה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* G95 · קובייה שמסתובבת פאה-פאה בגלילה */
+.cb{position:relative;height:300vh}
+.cb-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1500px;overflow:hidden}
+.cb-cube{position:relative;width:min(560px,80vw);aspect-ratio:16/10;transform-style:preserve-3d;will-change:transform}
+.cb-face{position:absolute;inset:0;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:22px;padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;backface-visibility:hidden;box-shadow:0 30px 70px rgba(0,0,0,.12)}
+.cb-face q{font-size:clamp(18px,2.4vw,30px);font-weight:600;line-height:1.35;quotes:none}
+.cb-face cite{font-style:normal;color:var(--muted, #6a6d85);font-size:15px}
+.cb-face b{font-size:12px;color:var(--accent, #4a3aff);letter-spacing:.14em}
+.cb-dots{position:absolute;bottom:26px;display:flex;gap:8px}
+.cb-dots i{width:8px;height:8px;border-radius:50%;background:var(--line, #e4e4ee)}
+.cb-dots i.on{background:var(--accent, #4a3aff)}
+@media(max-width:767px){.cb{height:240vh}.cb-cube{aspect-ratio:4/5}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="cb">
+  <div class="cb-pin"><div class="cb-cube">
+    <div class="cb-face"><b>01</b><q>האתר מסביר את העסק טוב יותר ממני.</q><cite>מיכל אדר, סטודיו לעיצוב פנים</cite></div>
+    <div class="cb-face"><b>02</b><q>תוך שבועיים קיבלנו יותר פניות מחצי השנה שלפני.</q><cite>ד"ר נועה לוי, קליניקה</cite></div>
+    <div class="cb-face"><b>03</b><q>הפעם הראשונה שמישהו שאל מה הלקוח צריך.</q><cite>רועי ברק, עורך דין</cite></div>
+    <div class="cb-face"><b>04</b><q>המספרים שכנעו את השותף שלי.</q><cite>אייל כהן, חנות אונליין</cite></div>
+  </div><div class="cb-dots"><i class="on"></i><i></i><i></i><i></i></div></div>
+</div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const cube=document.querySelector(".cb-cube"),faces=gsap.utils.toArray(".cb-face"),dots=gsap.utils.toArray(".cb-dots i");
+  function place(){const d=cube.offsetWidth/2;faces.forEach((f,i)=>gsap.set(f,{rotateY:i*90,z:d}));gsap.set(cube,{z:-d});}
+  place();addEventListener("resize",place);
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const tl=gsap.timeline({scrollTrigger:{trigger:".cb",start:"top top",end:"bottom bottom",scrub:.6,onUpdate(s){const k=Math.min(3,Math.round(s.progress*3));dots.forEach((d,i)=>d.classList.toggle("on",i===k));}}});
+  // RTL: הפאה הבאה מגיעה משמאל, לכן הקובייה מסתובבת חיובית
+  for(let i=1;i<4;i++)tl.to(cube,{rotateY:i*90,duration:1,ease:"power2.inOut"},i-1+.2);
+})();
+</script>
+</body>
+</html>

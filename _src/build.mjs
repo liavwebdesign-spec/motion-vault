@@ -113,6 +113,9 @@ const USES = {
   g73: ["text", "hover", "nav"], g74: ["text", "hero"], g75: ["ambient", "hero"], g76: ["hover", "media", "cards"], g77: ["text", "hero"],
   g78: ["nav", "feedback"], g79: ["media", "process", "cards"], g80: ["text", "hero"], g81: ["hero", "media", "hover"], g82: ["media", "cards"],
   g83: ["ambient", "hero"], g84: ["hero", "process"], g85: ["cards", "hover"], g86: ["process", "feedback"], g87: ["text"], g88: ["text", "hero"],
+  // גל 20 (9.9.2026): גלילה מיוחדת
+  g89: ["hero", "text", "media"], g90: ["media", "process"], g91: ["text", "hero"], g92: ["cards", "text"], g93: ["media", "process"],
+  g94: ["media", "process"], g95: ["cards", "text"], g96: ["cards"], g97: ["media", "hero"], g98: ["media", "cards"],
 };
 
 // רכיבי UI: הסינון השלישי של האינדקס. לכל מהלך אפשר לסמן כמה, והסימון מצטבר.
@@ -296,6 +299,7 @@ const ELEMS = {
   g72: ["card","sect"],
   g73: ["head","nav"], g74: ["head"], g75: ["sect","head"], g76: ["cursor","img","list"], g77: ["head"], g78: ["btn","page"], g79: ["img","sect","list"], g80: ["head"],
   g81: ["sect","img","cursor"], g82: ["list","img"], g83: ["btn","head"], g84: ["sect","page"], g85: ["card","list","cursor"], g86: ["list","img"], g87: ["head"], g88: ["head"],
+  g89: ["head","sect","img"], g90: ["img","sect","list"], g91: ["head","sect"], g92: ["card","sect"], g93: ["img","sect"], g94: ["img","sect"], g95: ["card","sect"], g96: ["card","list"], g97: ["img","sect"], g98: ["list","img"],
   fluid: ["sect","page"],
 };
 
@@ -370,6 +374,7 @@ const FIT = {
   g71: ["L","S"],
   g72: ["L","S"],
   g73: ["S"], g74: ["S"], g75: ["L","S"], g76: ["S"], g77: ["L","S"], g78: ["L","S"], g79: ["L","S"], g80: ["L","S"], g81: ["L","S"], g82: ["S"], g83: ["S"], g84: ["S"], g85: ["L","S"], g86: ["L","S"], g87: ["L","S"], g88: ["L","S"],
+  g89: ["S"], g90: ["L","S"], g91: ["S"], g92: ["L","S"], g93: ["S"], g94: ["S"], g95: ["L","S"], g96: ["L","S"], g97: ["L","S"], g98: ["S"],
   r01: ["S"],
   r02: ["L","S"],
   r03: ["L","S"],
