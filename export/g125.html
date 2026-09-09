@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G125 · כרטיס זכוכית שמטה ומבריק בגלילה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* G125 · כרטיס זכוכית שמטה ומבריק בגלילה */
+.gc-wrap{min-height:120vh;display:grid;place-items:center;perspective:1200px;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.gc{position:relative;width:min(520px,90vw);aspect-ratio:1.586;border-radius:24px;background:linear-gradient(135deg,color-mix(in srgb,var(--ink, #16182b) 92%,var(--accent, #4a3aff)),var(--ink, #16182b));color:var(--bg, #f7f7fa);padding:clamp(18px,3vw,32px);display:flex;flex-direction:column;justify-content:space-between;
+  box-shadow:0 40px 80px rgba(0,0,0,.3);will-change:transform;transform-style:preserve-3d;overflow:hidden}
+.gc::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.35) 50%,transparent 60%);background-size:300% 100%;background-position:120% 0;pointer-events:none}
+.gc-top{display:flex;justify-content:space-between;align-items:center;font-size:13px;letter-spacing:.14em;opacity:.8}
+.gc-chip{width:44px;height:32px;border-radius:8px;background:linear-gradient(135deg,#f1d27a,#b98a2e)}
+.gc-num{font-size:clamp(18px,2.6vw,28px);letter-spacing:.14em;font-variant-numeric:tabular-nums;direction:ltr;text-align:left}
+.gc-bot{display:flex;justify-content:space-between;font-size:14px}
+.gc-bot b{display:block;font-size:11px;opacity:.6;letter-spacing:.12em;margin-bottom:2px;font-weight:500}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="gc-wrap"><div class="gc">
+  <div class="gc-top"><span>חבר מועדון</span><span class="gc-chip"></span></div>
+  <div class="gc-num">•••• •••• •••• 2026</div>
+  <div class="gc-bot"><div><b>שם</b>ליאב מצרי</div><div><b>בתוקף עד</b>12/28</div></div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const card=document.querySelector(".gc");
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const k=matchMedia("(max-width:767px)").matches?.5:1;
+  gsap.timeline({scrollTrigger:{trigger:".gc-wrap",start:"top bottom",end:"bottom top",scrub:.6}})
+    .fromTo(card,{rotateX:18*k,rotateY:-22*k},{rotateX:-14*k,rotateY:22*k,ease:"none",duration:1},0)
+    // הברק: background-position על הפסאודו לא נגיש ל-GSAP, לכן משתנה CSS על הכרטיס
+    .fromTo(card,{"--shine":"120%"},{"--shine":"-20%",ease:"none",duration:1},0);
+  const st=document.createElement("style");st.textContent=".gc::after{background-position:var(--shine,120%) 0}";document.head.appendChild(st);
+})();
+</script>
+</body>
+</html>

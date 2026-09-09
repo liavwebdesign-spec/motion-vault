@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G120 · רשימה שהפריט במרכז שלה גדל</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* G120 · רשימה שהפריט במרכז שלה גדל */
+.fe{max-width:min(760px,92vw);margin-inline:auto;padding-block:40vh}
+.fe-it{display:flex;align-items:baseline;gap:18px;padding:10px 0;transform-origin:100% 50%;will-change:transform,opacity;border-bottom:1px solid var(--line, #e4e4ee)}
+html[dir="ltr"] .fe-it{transform-origin:0 50%}
+.fe-it b{font-size:clamp(22px,3vw,40px);font-weight:800;min-width:0}
+.fe-it span{font-size:14px;color:var(--muted, #6a6d85);opacity:0;translate:0 4px;transition:opacity .3s,translate .3s}
+.fe-it.on span{opacity:1;translate:0 0}
+.fe-it i{font-style:normal;font-size:12px;color:var(--accent, #4a3aff);letter-spacing:.12em;min-width:2.4em}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="fe">
+  <div class="fe-it"><i>01</i><b>אפיון ואסטרטגיה</b><span>שיחה, מסמך, החלטות</span></div>
+  <div class="fe-it"><i>02</i><b>קופי בעברית</b><span>כל משפט עונה על שאלה</span></div>
+  <div class="fe-it"><i>03</i><b>עיצוב ממשק</b><span>מובייל קודם, תמיד</span></div>
+  <div class="fe-it"><i>04</i><b>בניית אתר</b><span>מהיר, נגיש, מדיד</span></div>
+  <div class="fe-it"><i>05</i><b>חנות אונליין</b><span>סליקה, מלאי, משלוחים</span></div>
+  <div class="fe-it"><i>06</i><b>מערכות ניהול</b><span>CRM, פורטלים, דוחות</span></div>
+  <div class="fe-it"><i>07</i><b>אוטומציות</b><span>מה שחוזר על עצמו, רץ לבד</span></div>
+  <div class="fe-it"><i>08</i><b>ליווי שוטף</b><span>חודש בחודשו, בלי התחייבות</span></div>
+  <div class="fe-it"><i>09</i><b>קמפיינים</b><span>מטא וגוגל, עם מדידה</span></div>
+  <div class="fe-it"><i>10</i><b>תחזוקה ואבטחה</b><span>עדכונים, גיבויים, שקט</span></div>
+</div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const items=gsap.utils.toArray(".fe-it");
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){items.forEach(i=>i.classList.add("on"));return;}
+  const MAX=matchMedia("(max-width:767px)").matches?1.25:1.6,R=()=>innerHeight*.35;
+  const set=items.map(el=>({el,s:gsap.quickSetter(el,"scale"),o:gsap.quickSetter(el,"opacity")}));
+  function paint(){const mid=innerHeight/2,r=R();let best=null,bd=1e9;
+    set.forEach(x=>{const b=x.el.getBoundingClientRect(),d=Math.abs(b.top+b.height/2-mid),t=Math.max(0,1-d/r);
+      x.s(1+(MAX-1)*t*t);x.o(.3+.7*t);if(d<bd){bd=d;best=x.el;}});
+    items.forEach(i=>i.classList.toggle("on",i===best));}
+  ScrollTrigger.create({trigger:".fe",start:"top bottom",end:"bottom top",onUpdate:paint,onRefresh:paint});
+  paint();
+})();
+</script>
+</body>
+</html>
