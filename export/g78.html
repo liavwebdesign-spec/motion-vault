@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G78 · חזרה למעלה עם טבעת התקדמות</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* G78 · חזרה למעלה עם טבעת התקדמות */
+.tt-body{max-width:min(720px,92vw);margin-inline:auto;padding-block:40px 30vh}
+.tt-body p{font-size:17px;line-height:1.9;color:var(--muted, #6a6d85);margin:0 0 1.4em}
+.tt-body h3{margin:1.6em 0 .4em}
+.ttop{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));inset-inline-end:24px;width:56px;height:56px;border-radius:50%;border:0;background:var(--card, #fff);color:var(--ink, #16182b);
+  box-shadow:0 10px 30px rgba(0,0,0,.14);cursor:pointer;display:grid;place-items:center;z-index:60;opacity:0;translate:0 16px;pointer-events:none;font-size:18px}
+.ttop.on{opacity:1;translate:0 0;pointer-events:auto}
+.ttop svg{position:absolute;inset:-2px;width:calc(100% + 4px);height:calc(100% + 4px);transform:rotate(-90deg)}
+.ttop circle{fill:none;stroke-width:3}
+.ttop .trk{stroke:var(--line, #e4e4ee)}
+.ttop .bar{stroke:var(--accent, #4a3aff);stroke-linecap:round}
+.ttop:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+@media(max-width:767px){.ttop{width:46px;height:46px;bottom:calc(18px + env(safe-area-inset-bottom));inset-inline-end:16px}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="tt-body">
+  <h3>למה רוב האתרים לא מביאים פניות</h3>
+  <p>כי הם נבנו כדי להיראות טוב מול הבעלים, לא כדי לענות לגולש על השאלה היחידה שיש לו: האם אתם פותרים את הבעיה שלי, וכמה זה עולה.</p>
+  <p>הגולש מגיע עם כוונה. הוא מחפש סימן שהוא במקום הנכון, ואז דרך קלה לפנות. כל מה שבדרך הוא רעש.</p>
+  <h3>מה עושים אחרת</h3>
+  <p>מתחילים מהשאלה, לא מהעיצוב. כותבים את המשפט הראשון כאילו הוא היחיד שייקרא. ואז בונים את העמוד סביבו.</p>
+  <p>מודדים כל פנייה מהיום הראשון, ומשנים רק לפי מספרים. ככה עמוד משתפר במקום להתחלף כל שנתיים.</p>
+  <h3>ומה זה דורש מכם</h3>
+  <p>שיחה אחת של אפיון, תשובות כנות לשאלות לא נעימות, ושבועיים של סבלנות. זה הכל.</p>
+  <p>בסוף יש עמוד שיודע להסביר את העסק בלעדיכם. וזה בדיוק העניין.</p>
+</div>
+<button class="ttop" aria-label="חזרה לראש העמוד"><svg viewBox="0 0 60 60" aria-hidden="true"><circle class="trk" cx="30" cy="30" r="27"/><circle class="bar" cx="30" cy="30" r="27" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/></svg>↑</button>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+(function(){
+  const btn=document.querySelector(".ttop"),bar=btn.querySelector(".bar");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // הטבעת מתמלאת לפי המסמך כולו, לא לפי הסקשן
+  gsap.to(bar,{strokeDashoffset:0,ease:"none",scrollTrigger:{trigger:document.documentElement,start:"top top",end:"bottom bottom",scrub:reduce?false:.3}});
+  ScrollTrigger.create({start:"top -80%",onToggle:s=>btn.classList.toggle("on",s.isActive)});   // מופיע אחרי מסך שלם
+  btn.addEventListener("click",()=>gsap.to(window,{scrollTo:0,duration:reduce?0:.9,ease:"power3.inOut"}));
+})();
+</script>
+</body>
+</html>

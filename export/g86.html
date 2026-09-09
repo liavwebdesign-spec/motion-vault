@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G86 · אייקוני קו שמציירים את עצמם בכניסה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G86 · אייקוני קו שמציירים את עצמם בכניסה */
+.ic{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap, clamp(16px, 1.6vw, 36px));max-width:1000px;margin-inline:auto}
+.ic-it{text-align:center;padding:26px 18px}
+.ic-it svg{width:64px;height:64px;fill:none;stroke:var(--accent, #4a3aff);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:16px}
+.ic-it h3{margin:0 0 6px;font-size:19px}
+.ic-it p{margin:0;color:var(--muted, #6a6d85);font-size:15px;line-height:1.6}
+@media(max-width:767px){.ic{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="ic">
+  <div class="ic-it"><svg viewBox="0 0 48 48"><path d="M8 34l10-10 8 8 14-16"/><path d="M30 16h10v10"/></svg><h3>תוצאות שנמדדות</h3><p>כל פנייה נספרת מהיום הראשון.</p></div>
+  <div class="ic-it"><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="16"/><path d="M24 14v10l7 4"/></svg><h3>עולה תוך שבועיים</h3><p>אפיון, עיצוב, בנייה. בלי סחבת.</p></div>
+  <div class="ic-it"><svg viewBox="0 0 48 48"><path d="M24 6l14 6v10c0 9-6 16-14 20-8-4-14-11-14-20V12z"/><path d="M17 24l5 5 9-10"/></svg><h3>מאובטח ומגובה</h3><p>SSL, גיבוי יומי, ועדכונים שוטפים.</p></div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+
+(function(){
+  const items=gsap.utils.toArray(".ic-it");
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  gsap.set(".ic-it svg path, .ic-it svg circle",{drawSVG:"0%"});
+  gsap.set(".ic-it h3, .ic-it p",{opacity:0,y:14});
+  ScrollTrigger.batch(items,{start:"top 80%",once:true,onEnter:batch=>{
+    const tl=gsap.timeline();
+    batch.forEach((it,i)=>{
+      tl.to(it.querySelectorAll("svg path, svg circle"),{drawSVG:"100%",duration:.9,ease:"power2.inOut",stagger:.15},i*.15)
+        .to(it.querySelectorAll("h3, p"),{opacity:1,y:0,duration:.5,ease:"power3.out",stagger:.08},i*.15+.5);
+    });
+  }});
+})();
+</script>
+</body>
+</html>

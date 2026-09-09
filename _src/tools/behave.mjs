@@ -104,10 +104,11 @@ const PROBE = String.raw`
         mk:(cs.maskImage||cs.webkitMaskImage||"")+"|"+(cs.maskPosition||cs.webkitMaskPosition||"")+"|"+(cs.maskSize||cs.webkitMaskSize||""),
         sd:cs.strokeDashoffset+"|"+cs.strokeDasharray, c:cs.color+"|"+cs.backgroundColor+"|"+cs.borderTopColor,
         bp:cs.backgroundPosition+"|"+cs.backgroundSize, v:cs.visibility, pb:pseudo(el,"::before"), pa:pseudo(el,"::after"),
+        fw:cs.fontWeight+"|"+cs.fontVariationSettings+"|"+cs.letterSpacing,   // פונט משתנה (g74) ומרווח אותיות הם ערוצי תנועה
         fx:cs.position==="fixed"||cs.position==="sticky"});
     }); return out;
   }
-  var CH=["t","o","cp","f","mk","sd","c","bp","v","pb","pa"];
+  var CH=["t","o","cp","f","mk","sd","c","bp","v","pb","pa","fw"];
   function diff(a,b,acc,skipGeom){
     b.forEach(function(rb,el){ var ra=a.get(el); var ch=[];
       if(!ra){ if(rb.vis)ch.push("new"); }

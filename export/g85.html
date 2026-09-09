@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G85 · זרקור על כרטיסים אחרי הסמן</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G85 · זרקור על כרטיסים אחרי הסמן */
+.sp{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:clamp(20px,3vw,40px);border-radius:var(--r, 14px);background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+.sp-card{--mx:50%;--my:50%;position:relative;border-radius:16px;padding:26px 22px;background:color-mix(in srgb,var(--bg, #f7f7fa) 6%,transparent);overflow:hidden;isolation:isolate}
+.sp-card::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:radial-gradient(220px circle at var(--mx) var(--my),color-mix(in srgb,var(--accent, #4a3aff) 90%,#fff),transparent 70%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;opacity:.5;pointer-events:none}
+.sp-card::after{content:"";position:absolute;inset:0;background:radial-gradient(300px circle at var(--mx) var(--my),color-mix(in srgb,var(--accent, #4a3aff) 18%,transparent),transparent 60%);opacity:0;transition:opacity .4s;pointer-events:none;z-index:-1}
+@media (hover:hover) and (pointer:fine){.sp:hover .sp-card::after{opacity:1}}
+.sp-card b{display:block;font-size:13px;color:color-mix(in srgb,var(--accent, #4a3aff) 45%,var(--bg, #f7f7fa));letter-spacing:.12em;margin-bottom:10px}
+.sp-card h3{margin:0 0 8px;font-size:19px}
+.sp-card p{margin:0;font-size:14.5px;line-height:1.65;opacity:.75}
+@media(max-width:767px){.sp{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="stage tight"><div class="sp">
+  <div class="sp-card"><b>01</b><h3>סנכרון בזמן אמת</h3><p>כל שינוי מופיע אצל כולם בו-זמנית, בלי רענון.</p></div>
+  <div class="sp-card"><b>02</b><h3>הרשאות לפי תפקיד</h3><p>כל אחד רואה רק את מה שהוא צריך.</p></div>
+  <div class="sp-card"><b>03</b><h3>גיבוי יומי</h3><p>שלושה עותקים, שני אזורים, אפס דאגה.</p></div>
+  <div class="sp-card"><b>04</b><h3>ממשק API פתוח</h3><p>מתחבר לכל מה שכבר יש לכם.</p></div>
+  <div class="sp-card"><b>05</b><h3>תמיכה בעברית</h3><p>אנשים, לא בוטים. בשעות העבודה שלכם.</p></div>
+  <div class="sp-card"><b>06</b><h3>ללא התחייבות</h3><p>חודש בחודשו. עוזבים מתי שרוצים.</p></div>
+</div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+(function(){
+  if(!matchMedia("(hover:hover) and (pointer:fine)").matches)return;
+  const grid=document.querySelector(".sp"),cards=gsap.utils.toArray(".sp-card");
+  const setters=cards.map(c=>({el:c,x:gsap.quickSetter(c,"--mx","px"),y:gsap.quickSetter(c,"--my","px")}));
+  grid.addEventListener("mousemove",e=>{
+    setters.forEach(s=>{const r=s.el.getBoundingClientRect();s.x(e.clientX-r.left);s.y(e.clientY-r.top);});
+  });
+})();
+</script>
+</body>
+</html>

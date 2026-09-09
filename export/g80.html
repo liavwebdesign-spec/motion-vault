@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G80 · מכונת כתיבה עם סמן</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G80 · מכונת כתיבה עם סמן */
+.tw{text-align:center;max-width:30ch;margin-inline:auto}
+.tw h2{font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));line-height:1.2;margin:0}
+.tw-slot{position:relative;display:inline-block;color:var(--accent, #4a3aff);text-align:start}
+.tw-ghost{visibility:hidden;white-space:nowrap}
+.tw-live{position:absolute;inset-inline-start:0;top:0;white-space:nowrap}
+.tw-car{display:inline-block;width:.08em;height:1em;background:currentColor;vertical-align:-.12em;margin-inline-start:.06em;animation:tw-blink 1s steps(1) infinite}
+@keyframes tw-blink{50%{opacity:0}}
+.tw-static{display:none}
+@media (prefers-reduced-motion: reduce){.tw-slot,.tw-car{display:none}.tw-static{display:inline}}
+</style>
+</head>
+<body>
+
+<div class="stage"><div class="tw"><h2>אתרים שמביאים לקוחות ל<span class="tw-slot"><span class="tw-ghost">משרדי עורכי דין</span><span class="tw-live"></span></span><span class="tw-car"></span><span class="tw-static">קליניקות, משרדי עורכי דין, חנויות</span></h2></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+(function(){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  const live=document.querySelector(".tw-live"),words=["קליניקות","משרדי עורכי דין","חנויות","סטודיו"];
+  const tl=gsap.timeline({repeat:-1});
+  words.forEach(w=>{
+    const o={n:0};
+    tl.to(o,{n:w.length,duration:w.length*.07,ease:"none",onUpdate(){live.textContent=w.slice(0,Math.round(o.n));}})
+      .to({},{duration:1.4})
+      .to(o,{n:0,duration:w.length*.035,ease:"none",onUpdate(){live.textContent=w.slice(0,Math.round(o.n));}})
+      .to({},{duration:.3});
+  });
+})();
+</script>
+</body>
+</html>
