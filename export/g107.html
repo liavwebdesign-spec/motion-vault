@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G107 · שנה דביקה שמתחלפת בציר זמן</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* G107 · שנה דביקה שמתחלפת בציר זמן */
+.yr{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,80px);max-width:min(900px,92vw);margin-inline:auto;padding-block:10vh 30vh;position:relative}
+.yr-side{position:sticky;top:0;height:100vh;display:grid;align-content:center;gap:18px}
+.yr-num{display:flex;direction:ltr;font-size:clamp(48px,7vw,110px);font-weight:900;line-height:1;font-variant-numeric:tabular-nums;color:var(--ink, #16182b)}
+.yr-d{position:relative;height:1em;width:.62em;overflow:hidden}
+.yr-d span{position:absolute;inset:0;text-align:center}
+.yr-line{position:absolute;inset-block:0;inset-inline-start:calc(clamp(48px,7vw,110px) * 2.6 + clamp(24px,5vw,80px) / 2);width:2px;background:var(--line, #e4e4ee)}
+.yr-fill{position:absolute;inset:0;background:var(--accent, #4a3aff);transform-origin:50% 0;transform:scaleY(0)}
+.yr-list{display:grid;gap:30vh;padding-block:30vh}
+.yr-ev h3{margin:0 0 8px;font-size:clamp(20px,2.4vw,32px)}
+.yr-ev p{margin:0;color:var(--muted, #6a6d85);line-height:1.7;max-width:40ch}
+@media(max-width:767px){.yr{grid-template-columns:1fr}.yr-side{height:auto;top:0;padding:14px 0;background:var(--bg, #f7f7fa);z-index:2}.yr-line{display:none}.yr-list{gap:20vh;padding-block:6vh 20vh}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="yr">
+  <div class="yr-side"><div class="yr-num" aria-live="polite"></div><p style="margin:0;color:var(--muted)">גלול לאורך השנים</p></div>
+  <div class="yr-line" aria-hidden="true"><div class="yr-fill"></div></div>
+  <div class="yr-list">
+    <div class="yr-ev" data-year="2016"><h3>מתחילים מהבית</h3><p>שולחן אחד, לקוח אחד, ואתר ראשון שעלה לאוויר.</p></div>
+    <div class="yr-ev" data-year="2019"><h3>עוברים לסטודיו</h3><p>שלושה אנשים, עשרות פרויקטים בשנה.</p></div>
+    <div class="yr-ev" data-year="2022"><h3>מערכות, לא רק אתרים</h3><p>ה-CRM הראשון שבנינו ללקוח עדיין רץ.</p></div>
+    <div class="yr-ev" data-year="2026"><h3>היום</h3><p>אתר, מערכת ואוטומציה תחת קורת גג אחת.</p></div>
+  </div>
+</div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const num=document.querySelector(".yr-num"),evs=gsap.utils.toArray(".yr-ev"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const digits=[];for(let i=0;i<4;i++){const d=document.createElement("div");d.className="yr-d";const a=document.createElement("span"),b=document.createElement("span");d.append(a,b);num.appendChild(d);digits.push({a,b,cur:""});}
+  function set(year){[...year].forEach((ch,i)=>{const d=digits[i];if(d.cur===ch)return;
+    if(d.cur===""||reduce){d.a.textContent=ch;gsap.set(d.a,{yPercent:0});gsap.set(d.b,{yPercent:100});d.cur=ch;return;}
+    const dir=+ch>+d.cur?1:-1;d.b.textContent=ch;
+    gsap.fromTo(d.b,{yPercent:100*dir},{yPercent:0,duration:.5,ease:"power3.inOut"});
+    gsap.to(d.a,{yPercent:-100*dir,duration:.5,ease:"power3.inOut",onComplete(){d.a.textContent=ch;gsap.set(d.a,{yPercent:0});gsap.set(d.b,{yPercent:100});}});
+    d.cur=ch;});}
+  set(evs[0].dataset.year);
+  evs.forEach(e=>ScrollTrigger.create({trigger:e,start:"top 60%",end:"bottom 40%",onEnter:()=>set(e.dataset.year),onEnterBack:()=>set(e.dataset.year)}));
+  gsap.to(".yr-fill",{scaleY:1,ease:"none",scrollTrigger:{trigger:".yr-list",start:"top 60%",end:"bottom 60%",scrub:reduce?false:.3}});
+})();
+</script>
+</body>
+</html>

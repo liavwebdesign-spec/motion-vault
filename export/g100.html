@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G100 · לוח שלטים מתהפך (Split-flap)</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G100 · לוח שלטים מתהפך (Split-flap) */
+.sf-wrap{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap, clamp(16px, 1.6vw, 36px));align-items:start}
+.sf-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center}
+.sf{display:flex;gap:6px;direction:rtl;perspective:800px}
+.sf-t{width:clamp(34px,4.4vw,58px);height:clamp(48px,6.2vw,82px);border-radius:8px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);display:grid;place-items:center;font-size:clamp(26px,3.4vw,46px);font-weight:800;position:relative;transform-style:preserve-3d;will-change:transform;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.sf-t::after{content:"";position:absolute;inset-inline:0;top:50%;height:1px;background:color-mix(in srgb,var(--bg, #f7f7fa) 20%,transparent)}
+.sf-steps{display:flex;flex-direction:column;gap:44vh;padding-block:36vh}
+.sf-step h3{margin:0 0 8px;font-size:clamp(22px,2.6vw,36px)}
+.sf-step p{margin:0;color:var(--muted, #6a6d85);max-width:36ch;line-height:1.7}
+@media(max-width:767px){.sf-wrap{grid-template-columns:1fr}.sf-pin{height:34vh;top:0;z-index:2;background:var(--bg, #f7f7fa)}.sf-steps{gap:28vh;padding-block:6vh 30vh}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage tight"><div class="sf-wrap">
+  <div class="sf-pin"><div class="sf" aria-live="polite" data-words="אפיון,עיצוב,פיתוח,מדידה"></div></div>
+  <div class="sf-steps">
+    <div class="sf-step"><h3>מבינים לפני שמציירים</h3><p>שיחה אחת שממפה את הלקוח, את הבעיה ואת הפעולה שהאתר צריך להוביל אליה.</p></div>
+    <div class="sf-step"><h3>מעצבים סביב משפט אחד</h3><p>כל מסך עונה על שאלה, כל כפתור מוביל למקום אחד.</p></div>
+    <div class="sf-step"><h3>בונים ובודקים</h3><p>מהיר, נגיש, ומותאם לטלפון לפני הכל.</p></div>
+    <div class="sf-step"><h3>מודדים ומשפרים</h3><p>כל פנייה נספרת. כל שינוי נבחן מול מספר.</p></div>
+  </div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const board=document.querySelector(".sf"),words=board.dataset.words.split(","),steps=gsap.utils.toArray(".sf-step");
+  const len=Math.max(...words.map(w=>w.length)),pad=w=>w.padEnd(len,"\u00a0");
+  const tiles=[];for(let i=0;i<len;i++){const t=document.createElement("span");t.className="sf-t";board.appendChild(t);tiles.push(t);}
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let cur=-1;
+  function show(k){
+    if(k===cur)return;cur=k;const w=pad(words[k]);
+    tiles.forEach((t,i)=>{
+      if(reduce){t.textContent=w[i];return;}
+      gsap.timeline({delay:i*.04})
+        .to(t,{rotateX:-90,duration:.18,ease:"power2.in",onComplete(){t.textContent=w[i];}})
+        .set(t,{rotateX:90})
+        .to(t,{rotateX:0,duration:.28,ease:"power3.out"});
+    });
+  }
+  show(0);
+  steps.forEach((s,i)=>ScrollTrigger.create({trigger:s,start:"top 60%",end:"bottom 40%",onEnter:()=>show(i),onEnterBack:()=>show(i)}));
+})();
+</script>
+</body>
+</html>

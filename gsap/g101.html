@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G101 · עדשת רנטגן שנוסעת בגלילה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.xr{position:relative;height:280vh}
+.xr-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
+.xr-fig{position:relative;width:min(900px,92vw);aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;--lx:80%;--ly:30%;--lr:16%}
+.xr-fig .ph{position:absolute;inset:0;border-radius:0;font-size:22px}
+.xr-under{background:repeating-linear-gradient(45deg,#1b2a4a 0 14px,#243766 14px 28px)}
+.xr-over{clip-path:circle(var(--lr) at var(--lx) var(--ly))}
+.xr-ring{position:absolute;left:var(--lx);top:var(--ly);width:calc(var(--lr) * 2 * 16 / 9 * 1);aspect-ratio:1;translate:-50% -50%;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.2),0 20px 50px rgba(0,0,0,.3);pointer-events:none}
+.xr-lbl{position:absolute;bottom:18px;inset-inline-start:18px;background:color-mix(in srgb,var(--bg) 92%,transparent);color:var(--ink);padding:10px 14px;border-radius:10px;font-size:14px;font-weight:600}
+@media(max-width:767px){.xr-fig{--lr:24%}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">G101</span> · עדשת רנטגן שנוסעת בגלילה</h1>
+  <span class="chip cat-gsap">GSAP</span>
+  <span class="chip">GSAP · ScrollTrigger · clip-path</span>
+  <span class="chip use">תמונות וגלריות</span><span class="chip use">תהליך ושלבים</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g101"><code>MV:g101</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>שתי גרסאות של אותה תמונה זו על זו (חוץ ופנים, לפני ואחרי, שרטוט ומוצר), ועדשה עגולה שנוסעת על פניהן עם הגלילה וחושפת את השכבה התחתונה רק בתוכה.</p>
+  <p class="when"><b>מתי משתמשים:</b> אדריכלות ושיפוצים, רפואה, מכונאות, כל "מה מתחת לפני השטח". תמונה אחת, מסלול של שלוש עד ארבע נקודות.</p>
+  <div class="mvpanel" data-mvpanel="g101"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="xr">
+  <div class="xr-pin"><div class="xr-fig">
+    <div class="ph xr-under"><span class="ph-l">מה שמתחת</span></div>
+    <div class="ph ph-c xr-over"><span class="ph-l">מה שרואים</span></div>
+    <div class="xr-ring"></div>
+    <div class="xr-lbl">גלול כדי להזיז את העדשה</div>
+  </div></div>
+</div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note">השכבה העליונה מקבלת clip-path circle עם מרכז שנע לאורך נקודות בסקראב (motion של המרכז דרך משתני CSS). במובייל העדשה גדולה יותר יחסית (34% מהרוחב) כי המסך צר.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g101.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}
+
+/* G101 · עדשת רנטגן שנוסעת בגלילה */
+.xr{position:relative;height:280vh}
+.xr-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
+.xr-fig{position:relative;width:min(900px,92vw);aspect-ratio:16/9;border-radius:var(--r, 14px);overflow:hidden;--lx:80%;--ly:30%;--lr:16%}
+.xr-fig .ph{position:absolute;inset:0;border-radius:0;font-size:22px}
+.xr-under{background:repeating-linear-gradient(45deg,#1b2a4a 0 14px,#243766 14px 28px)}
+.xr-over{clip-path:circle(var(--lr) at var(--lx) var(--ly))}
+.xr-ring{position:absolute;left:var(--lx);top:var(--ly);width:calc(var(--lr) * 2 * 16 / 9 * 1);aspect-ratio:1;translate:-50% -50%;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.2),0 20px 50px rgba(0,0,0,.3);pointer-events:none}
+.xr-lbl{position:absolute;bottom:18px;inset-inline-start:18px;background:color-mix(in srgb,var(--bg, #f7f7fa) 92%,transparent);color:var(--ink, #16182b);padding:10px 14px;border-radius:10px;font-size:14px;font-weight:600}
+@media(max-width:767px){.xr-fig{--lr:24%}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="xr"&gt;
+  &lt;div class="xr-pin"&gt;&lt;div class="xr-fig"&gt;
+    &lt;div class="ph xr-under"&gt;&lt;span class="ph-l"&gt;מה שמתחת&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="ph ph-c xr-over"&gt;&lt;span class="ph-l"&gt;מה שרואים&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="xr-ring"&gt;&lt;/div&gt;
+    &lt;div class="xr-lbl"&gt;גלול כדי להזיז את העדשה&lt;/div&gt;
+  &lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const fig=document.querySelector(".xr-fig");
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){fig.style.setProperty("--lr","40%");return;}
+  // העדשה חושפת את השכבה התחתונה: clip-path על העליונה הוא הפוך, לכן משתמשים ב-mask דרך שתי שכבות:
+  // העליונה נחתכת ל"הכל חוץ מהעיגול" באמצעות עיגול ענק פחות עיגול קטן (evenodd ב-polygon לא זמין ל-circle),
+  // ולכן במקום זה השכבה התחתונה נחתכת לעיגול ויושבת מעל. הסדר ב-DOM הפוך מהשם, וזה בכוונה.
+  const under=fig.querySelector(".xr-under"),over=fig.querySelector(".xr-over");
+  over.style.clipPath="none";under.style.zIndex=2;under.style.clipPath="circle(var(--lr) at var(--lx) var(--ly))";
+  const stops=[{x:80,y:30},{x:50,y:60},{x:22,y:35},{x:60,y:78}];
+  const o={x:80,y:30};
+  const tl=gsap.timeline({scrollTrigger:{trigger:".xr",start:"top top",end:"bottom bottom",scrub:.7},onUpdate(){fig.style.setProperty("--lx",o.x+"%");fig.style.setProperty("--ly",o.y+"%");}});
+  stops.slice(1).forEach(p=&gt;tl.to(o,{x:p.x,y:p.y,duration:1,ease:"power2.inOut"}));
+  tl.to(".xr-lbl",{opacity:0,duration:.2},0);
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g101 · עדשת רנטגן שנוסעת בגלילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g101.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g101.html\n\nמה זה עושה: שתי גרסאות של אותה תמונה זו על זו (חוץ ופנים, לפני ואחרי, שרטוט ומוצר), ועדשה עגולה שנוסעת על פניהן עם הגלילה וחושפת את השכבה התחתונה רק בתוכה.\nמתי משתמשים: אדריכלות ושיפוצים, רפואה, מכונאות, כל \"מה מתחת לפני השטח\". תמונה אחת, מסלול של שלוש עד ארבע נקודות.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n\n/* G101 · עדשת רנטגן שנוסעת בגלילה */\n.xr{position:relative;height:280vh}\n.xr-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}\n.xr-fig{position:relative;width:min(900px,92vw);aspect-ratio:16/9;border-radius:var(--r, 14px);overflow:hidden;--lx:80%;--ly:30%;--lr:16%}\n.xr-fig .ph{position:absolute;inset:0;border-radius:0;font-size:22px}\n.xr-under{background:repeating-linear-gradient(45deg,#1b2a4a 0 14px,#243766 14px 28px)}\n.xr-over{clip-path:circle(var(--lr) at var(--lx) var(--ly))}\n.xr-ring{position:absolute;left:var(--lx);top:var(--ly);width:calc(var(--lr) * 2 * 16 / 9 * 1);aspect-ratio:1;translate:-50% -50%;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.2),0 20px 50px rgba(0,0,0,.3);pointer-events:none}\n.xr-lbl{position:absolute;bottom:18px;inset-inline-start:18px;background:color-mix(in srgb,var(--bg, #f7f7fa) 92%,transparent);color:var(--ink, #16182b);padding:10px 14px;border-radius:10px;font-size:14px;font-weight:600}\n@media(max-width:767px){.xr-fig{--lr:24%}}\n\n=== HTML ===\n<div class=\"xr\">\n  <div class=\"xr-pin\"><div class=\"xr-fig\">\n    <div class=\"ph xr-under\"><span class=\"ph-l\">מה שמתחת<\/span><\/div>\n    <div class=\"ph ph-c xr-over\"><span class=\"ph-l\">מה שרואים<\/span><\/div>\n    <div class=\"xr-ring\"><\/div>\n    <div class=\"xr-lbl\">גלול כדי להזיז את העדשה<\/div>\n  <\/div><\/div>\n<\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const fig=document.querySelector(\".xr-fig\");\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){fig.style.setProperty(\"--lr\",\"40%\");return;}\n  // העדשה חושפת את השכבה התחתונה: clip-path על העליונה הוא הפוך, לכן משתמשים ב-mask דרך שתי שכבות:\n  // העליונה נחתכת ל\"הכל חוץ מהעיגול\" באמצעות עיגול ענק פחות עיגול קטן (evenodd ב-polygon לא זמין ל-circle),\n  // ולכן במקום זה השכבה התחתונה נחתכת לעיגול ויושבת מעל. הסדר ב-DOM הפוך מהשם, וזה בכוונה.\n  const under=fig.querySelector(\".xr-under\"),over=fig.querySelector(\".xr-over\");\n  over.style.clipPath=\"none\";under.style.zIndex=2;under.style.clipPath=\"circle(var(--lr) at var(--lx) var(--ly))\";\n  const stops=[{x:80,y:30},{x:50,y:60},{x:22,y:35},{x:60,y:78}];\n  const o={x:80,y:30};\n  const tl=gsap.timeline({scrollTrigger:{trigger:\".xr\",start:\"top top\",end:\"bottom bottom\",scrub:.7},onUpdate(){fig.style.setProperty(\"--lx\",o.x+\"%\");fig.style.setProperty(\"--ly\",o.y+\"%\");}});\n  stops.slice(1).forEach(p=>tl.to(o,{x:p.x,y:p.y,duration:1,ease:\"power2.inOut\"}));\n  tl.to(\".xr-lbl\",{opacity:0,duration:.2},0);\n})();\n\nהערת מימוש מהמאגר:\nהשכבה העליונה מקבלת clip-path circle עם מרכז שנע לאורך נקודות בסקראב (motion של המרכז דרך משתני CSS). במובייל העדשה גדולה יותר יחסית (34% מהרוחב) כי המסך צר.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n\n/* G101 · עדשת רנטגן שנוסעת בגלילה */\n.xr{position:relative;height:280vh}\n.xr-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}\n.xr-fig{position:relative;width:min(900px,92vw);aspect-ratio:16/9;border-radius:var(--r, 14px);overflow:hidden;--lx:80%;--ly:30%;--lr:16%}\n.xr-fig .ph{position:absolute;inset:0;border-radius:0;font-size:22px}\n.xr-under{background:repeating-linear-gradient(45deg,#1b2a4a 0 14px,#243766 14px 28px)}\n.xr-over{clip-path:circle(var(--lr) at var(--lx) var(--ly))}\n.xr-ring{position:absolute;left:var(--lx);top:var(--ly);width:calc(var(--lr) * 2 * 16 / 9 * 1);aspect-ratio:1;translate:-50% -50%;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,.2),0 20px 50px rgba(0,0,0,.3);pointer-events:none}\n.xr-lbl{position:absolute;bottom:18px;inset-inline-start:18px;background:color-mix(in srgb,var(--bg, #f7f7fa) 92%,transparent);color:var(--ink, #16182b);padding:10px 14px;border-radius:10px;font-size:14px;font-weight:600}\n@media(max-width:767px){.xr-fig{--lr:24%}}","html":"<div class=\"xr\">\n  <div class=\"xr-pin\"><div class=\"xr-fig\">\n    <div class=\"ph xr-under\"><span class=\"ph-l\">מה שמתחת<\/span><\/div>\n    <div class=\"ph ph-c xr-over\"><span class=\"ph-l\">מה שרואים<\/span><\/div>\n    <div class=\"xr-ring\"><\/div>\n    <div class=\"xr-lbl\">גלול כדי להזיז את העדשה<\/div>\n  <\/div><\/div>\n<\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const fig=document.querySelector(\".xr-fig\");\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){fig.style.setProperty(\"--lr\",\"40%\");return;}\n  // העדשה חושפת את השכבה התחתונה: clip-path על העליונה הוא הפוך, לכן משתמשים ב-mask דרך שתי שכבות:\n  // העליונה נחתכת ל\"הכל חוץ מהעיגול\" באמצעות עיגול ענק פחות עיגול קטן (evenodd ב-polygon לא זמין ל-circle),\n  // ולכן במקום זה השכבה התחתונה נחתכת לעיגול ויושבת מעל. הסדר ב-DOM הפוך מהשם, וזה בכוונה.\n  const under=fig.querySelector(\".xr-under\"),over=fig.querySelector(\".xr-over\");\n  over.style.clipPath=\"none\";under.style.zIndex=2;under.style.clipPath=\"circle(var(--lr) at var(--lx) var(--ly))\";\n  const stops=[{x:80,y:30},{x:50,y:60},{x:22,y:35},{x:60,y:78}];\n  const o={x:80,y:30};\n  const tl=gsap.timeline({scrollTrigger:{trigger:\".xr\",start:\"top top\",end:\"bottom bottom\",scrub:.7},onUpdate(){fig.style.setProperty(\"--lx\",o.x+\"%\");fig.style.setProperty(\"--ly\",o.y+\"%\");}});\n  stops.slice(1).forEach(p=>tl.to(o,{x:p.x,y:p.y,duration:1,ease:\"power2.inOut\"}));\n  tl.to(\".xr-lbl\",{opacity:0,duration:.2},0);\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · עדשת רנטגן שנוסעת בגלילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+gsap.registerPlugin(ScrollTrigger);
+(function(){
+  const fig=document.querySelector(".xr-fig");
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){fig.style.setProperty("--lr","40%");return;}
+  // העדשה חושפת את השכבה התחתונה: clip-path על העליונה הוא הפוך, לכן משתמשים ב-mask דרך שתי שכבות:
+  // העליונה נחתכת ל"הכל חוץ מהעיגול" באמצעות עיגול ענק פחות עיגול קטן (evenodd ב-polygon לא זמין ל-circle),
+  // ולכן במקום זה השכבה התחתונה נחתכת לעיגול ויושבת מעל. הסדר ב-DOM הפוך מהשם, וזה בכוונה.
+  const under=fig.querySelector(".xr-under"),over=fig.querySelector(".xr-over");
+  over.style.clipPath="none";under.style.zIndex=2;under.style.clipPath="circle(var(--lr) at var(--lx) var(--ly))";
+  const stops=[{x:80,y:30},{x:50,y:60},{x:22,y:35},{x:60,y:78}];
+  const o={x:80,y:30};
+  const tl=gsap.timeline({scrollTrigger:{trigger:".xr",start:"top top",end:"bottom bottom",scrub:.7},onUpdate(){fig.style.setProperty("--lx",o.x+"%");fig.style.setProperty("--ly",o.y+"%");}});
+  stops.slice(1).forEach(p=>tl.to(o,{x:p.x,y:p.y,duration:1,ease:"power2.inOut"}));
+  tl.to(".xr-lbl",{opacity:0,duration:.2},0);
+})();
+</script>
+</body>
+</html>

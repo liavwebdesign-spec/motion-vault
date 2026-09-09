@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G105 · מרקי שמתקבע לכותרת</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* G105 · מרקי שמתקבע לכותרת */
+.mq{position:relative;height:200vh}
+.mq-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
+.mq-track{display:flex;gap:.6em;white-space:nowrap;font-size:clamp(32px,6.5vw,92px);font-weight:800;will-change:transform;color:var(--muted, #6a6d85)}
+.mq-track span{opacity:.35;transition:opacity .4s,color .4s}
+.mq-track span.key{opacity:1;color:var(--ink, #16182b)}
+.mq-track span.key.on{color:var(--accent, #4a3aff)}
+.mq-sub{position:absolute;bottom:22vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);opacity:0;translate:0 10px}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="mq">
+  <div class="mq-pin">
+    <div class="mq-track"><span>אסטרטגיה ·</span><span>קופי ·</span><span>עיצוב ·</span><span class="key">אתר שמביא לקוחות</span><span>· פיתוח ·</span><span>מדידה ·</span><span>ליווי ·</span><span>אסטרטגיה ·</span><span>קופי ·</span><span>עיצוב ·</span></div>
+    <p class="mq-sub">זה כל מה שאנחנו עושים. גלול.</p>
+  </div>
+</div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const track=document.querySelector(".mq-track"),key=track.querySelector(".key"),pin=document.querySelector(".mq-pin");
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(track,{x:()=>pin.clientWidth/2-(key.offsetLeft+key.offsetWidth/2)});key.classList.add("on");return;}
+  // מרקי: הרצועה נעה בלולאה כל עוד לא גוללים
+  const loop=gsap.to(track,{x:"-=600",duration:8,ease:"none",repeat:-1,modifiers:{x:gsap.utils.unitize(v=>parseFloat(v)%600)}});
+  const target=()=>pin.clientWidth/2-(key.offsetLeft+key.offsetWidth/2);   // איפה x צריך להיות כדי שהמילה במרכז
+  ScrollTrigger.create({trigger:".mq",start:"top top",end:"bottom bottom",scrub:.6,onUpdate(s){
+    const p=s.progress;
+    loop.timeScale(Math.max(0,1-p*2));                                        // מאט עד עצירה בחצי הדרך
+    if(p>.5){loop.pause();const cx=gsap.getProperty(track,"x");gsap.set(track,{x:cx+(target()-cx)*gsap.utils.clamp(0,1,(p-.5)*3)});key.classList.toggle("on",p>.8);gsap.set(".mq-sub",{opacity:gsap.utils.clamp(0,1,(p-.8)*5),translate:"0 0"});}
+    else{if(loop.paused()&&p<.45)loop.play();key.classList.remove("on");gsap.set(".mq-sub",{opacity:0});}
+  }});
+})();
+</script>
+</body>
+</html>

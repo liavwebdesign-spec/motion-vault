@@ -64,7 +64,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 (function(){
   const cube=document.querySelector(".cb-cube"),faces=gsap.utils.toArray(".cb-face"),dots=gsap.utils.toArray(".cb-dots i");
-  function place(){const d=cube.offsetWidth/2;faces.forEach((f,i)=>gsap.set(f,{rotateY:i*90,z:d}));gsap.set(cube,{z:-d});}
+  function place(){const d=cube.offsetWidth/2;faces.forEach((f,i)=>{f.style.transform="rotateY("+(i*90)+"deg) translateZ("+d+"px)";});gsap.set(cube,{z:-d});}   // סיבוב ואז הזזה: gsap.set היה מסדר הפוך והפאות היו מסתובבות במקום
   place();addEventListener("resize",place);
   if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
   const tl=gsap.timeline({scrollTrigger:{trigger:".cb",start:"top top",end:"bottom bottom",scrub:.6,onUpdate(s){const k=Math.min(3,Math.round(s.progress*3));dots.forEach((d,i)=>d.classList.toggle("on",i===k));}}});
