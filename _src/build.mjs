@@ -7,11 +7,11 @@ import { portable, standalone, labelPh } from "./portable.mjs";
 import { writeCompositionsSkill, writeStylesSkill, writeAntiSkill, writeArchSkill } from "./skill.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const CATS = { comp: "קומפוזיציות", rhythm: "מקצבי עמוד", style: "שפות עיצוב", anti: "אנטי-פטרנים", arch: "ארכיטיפים", gsap: "GSAP", react: "React", behavior: "התנהגויות", css: "CSS טהור", lm: "חתימה (LM)", misc: "מסגרת" };
+const CATS = { comp: "קומפוזיציות", rhythm: "מקצבי עמוד", style: "שפות עיצוב", anti: "אנטי-פטרנים", arch: "ארכיטיפים", gsap: "GSAP", behavior: "התנהגויות", css: "CSS טהור", lm: "חתימה (LM)", misc: "מסגרת" };
 // שני אזורים, שתי שאלות שונות: "מה בונים" (תורה) ו"איך זה זז" (מהלכים).
 // ההחלטה 6.9.2026: המאגר הופך לשכבה הוויזואלית של התורה, לא לתורה שנייה.
 const AREAS = { doctrine: "תורה", moves: "מהלכים" };
-const CAT_AREA = { comp: "doctrine", rhythm: "doctrine", style: "doctrine", anti: "doctrine", arch: "doctrine", gsap: "moves", react: "moves", behavior: "moves", css: "moves", lm: "moves", misc: "moves" };
+const CAT_AREA = { comp: "doctrine", rhythm: "doctrine", style: "doctrine", anti: "doctrine", arch: "doctrine", gsap: "moves", behavior: "moves", css: "moves", lm: "moves", misc: "moves" };
 const CDN = {
   gsap: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js",
   ScrollTrigger: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js",
@@ -88,7 +88,7 @@ const USES = {
   // פורטים נייטיב (8.9.2026)
   css25: ["cards", "hover"], css26: ["ambient", "media", "hero"], css27: ["ambient", "media"], css28: ["ambient", "hero"], css29: ["ambient", "hero"],
   css30: ["text", "hero"], css31: ["ambient", "hero"], css32: ["process", "ambient"], b57: ["media", "cards"], b58: ["nav", "hover"],
-  b59: ["feedback", "cards"], b60: ["hero", "media"], b61: ["hover"],
+  b59: ["feedback", "cards"], b60: ["hero", "media"], b61: ["hover"], b62: ["media", "cards"],
   g42: ["text", "hero"], b22: ["media", "hero"],
   g43: ["media", "hover", "cards"], b23: ["nav"], b24: ["hover", "feedback"], b27: ["media", "nav", "cards"],
   g45: ["process", "numbers", "media"], b29: ["ambient", "nav"],
@@ -240,7 +240,7 @@ const ELEMS = {
   css24: ["head"],
   css25: ["card","list","btn"], css26: ["sect","img"], css27: ["sect","img"], css28: ["sect","btn"], css29: ["sect"],
   css30: ["head"], css31: ["sect","head"], css32: ["sect","card"], b57: ["list","img"], b58: ["nav","cursor"],
-  b59: ["list","card"], b60: ["img","over","btn"], b61: ["btn","cursor"],
+  b59: ["list","card"], b60: ["img","over","btn"], b61: ["btn","cursor"], b62: ["img","list","btn"],
   b34: ["list","card"],
   b35: ["sect","list"],
   b36: ["form"],
@@ -464,7 +464,7 @@ const FIT = {
   css23: ["L","S"],
   css24: ["L","S"],
   css25: ["L","S"], css26: ["S"], css27: ["L","S"], css28: ["L"], css29: ["S"], css30: ["L","S"], css31: ["L","S"], css32: ["L","S"],
-  b57: ["S"], b58: ["S"], b59: ["L","S"], b60: ["L","S"], b61: ["L","S"],
+  b57: ["S"], b58: ["S"], b59: ["L","S"], b60: ["L","S"], b61: ["L","S"], b62: ["S"],
   lm1: ["S"],
   lm3: ["S"],
   lm4: ["S"],
@@ -862,7 +862,7 @@ body.rv{margin:0;display:flex;flex-direction:column;background:var(--bg)}
 (function(){
   const ALL=${LIST}, CATS=${CATS_JSON};
   // הסדר: מהלכים קודם (הם מה שלא נשפט), ואז הדוקטרינה
-  const ORDER=["gsap","behavior","css","lm","misc","react","comp","rhythm","style","anti","arch"];
+  const ORDER=["gsap","behavior","css","lm","misc","comp","rhythm","style","anti","arch"];
   ALL.sort((a,b)=>ORDER.indexOf(a.cat)-ORDER.indexOf(b.cat));
   const $=s=>document.querySelector(s);
   const frame=$("[data-frame]"),count=$("[data-count]"),note=$("[data-note]"),ta=$("[data-ta]"),done=$("[data-done]");

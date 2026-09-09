@@ -3,7 +3,7 @@
 // transition על layout, שערי hover ו-reduced-motion). המקור מצוין ב-note לכל מהלך.
 // לא נכתבו מחדש: ScrollVelocity (יש b42), Marquee (b01), ScrollExpand (g56), AccordionGallery (b46),
 // ScrollStack (b37), BorderBeam (css12), NumberTicker (b02), BlurFade (css05), SplitText (g04/g16),
-// ושלושת ה-WebGL (MorphSlider, CircularGallery, DepthCarousel) שאינם רב-שימושיים מספיק.
+// ושני ה-WebGL (MorphSlider, CircularGallery). DepthCarousel נכתב מחדש כ-b62 (9.9.2026) בלי WebGL.
 export default [
 {
   id:"css25", cat:"css", name:"בנטו עם כוריאוגרפיית הובר", tech:"CSS · grid", status:"ממתין", runway:false,
@@ -394,6 +394,72 @@ document.querySelectorAll(".bt").forEach(el=>io.observe(el));`
     });
     zone.addEventListener("mouseleave",()=>{zone.classList.add("leave");el.style.setProperty("--x","0px");el.style.setProperty("--y","0px");});
   });
+})();`
+},
+{
+  id:"b62", cat:"behavior", name:"קרוסלת עומק תלת-ממדית", tech:"GSAP · pointer", status:"ממתין", runway:false,
+  desc:"כרטיסים על מסילה תלת-ממדית: הפעיל קדימה ובגודל מלא, השאר נסוגים לעומק ומתכהים. גרירה, חיצים, מקלדת ואוטו-פליי שנעצר במגע.",
+  when:"תיק עבודות, מוצרים נבחרים, סיפורי לקוח. שלושה עד שבעה פריטים, כשרוצים נוכחות קולנועית בלי גריד.",
+  note:"מקור: ReactBits DepthCarousel (GSAP). נכתב מחדש בלי ספריית גרירה: pointer events עם סף 40px, וכל כרטיס מקבל translateZ/x/opacity לפי המרחק מהפעיל. RTL: החץ הימני מוביל אחורה ומקש ArrowRight גם. במובייל הפרספקטיבה קטנה והכרטיסים צרים יותר כדי שהשכנים יציצו.",
+  libs:["gsap"],
+  css:`.dc{position:relative;height:clamp(360px,52vh,520px);perspective:1200px;overflow:hidden;touch-action:pan-y;cursor:grab;user-select:none}
+.dc.drag{cursor:grabbing}
+.dc-track{position:absolute;inset:0;transform-style:preserve-3d}
+.dc-card{position:absolute;top:50%;left:50%;width:min(62vw,520px);aspect-ratio:16/10;margin:calc(min(62vw,520px) * -0.3125) 0 0 calc(min(62vw,520px) * -0.5);border-radius:var(--r);overflow:hidden;will-change:transform,opacity;box-shadow:0 30px 70px rgba(0,0,0,.25)}
+.dc-card .ph{position:absolute;inset:0;border-radius:0;font-size:22px}
+.dc-cap{position:absolute;inset-inline:0;bottom:0;padding:16px 18px;background:linear-gradient(transparent,rgba(0,0,0,.55));color:#fff;font-weight:600;font-size:15px}
+.dc-nav{display:flex;justify-content:center;align-items:center;gap:14px;margin-top:18px}
+.dc-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:18px;cursor:pointer;display:grid;place-items:center}
+.dc-btn:hover{border-color:var(--ink)}
+.dc-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.dc-dots{display:flex;gap:6px}
+.dc-dots i{width:6px;height:6px;border-radius:50%;background:var(--line);transition:transform .3s cubic-bezier(.2,.6,.2,1),background-color .3s}
+.dc-dots i.on{background:var(--accent);transform:scale(1.5)}
+@media(max-width:767px){.dc{perspective:800px;height:min(60vh,420px)}.dc-card{width:74vw;margin:calc(74vw * -0.3125) 0 0 calc(74vw * -0.5)}}
+@media (prefers-reduced-motion: reduce){.dc-dots i{transition:none}}`,
+  html:`<div class="stage tight">
+<div class="dc" aria-roledescription="carousel" aria-label="פרויקטים נבחרים" tabindex="0">
+  <div class="dc-track">
+    <figure class="dc-card"><div class="ph ph-a">1</div><figcaption class="dc-cap">קליניקה פרטית, אתר תדמית</figcaption></figure>
+    <figure class="dc-card"><div class="ph ph-b">2</div><figcaption class="dc-cap">חנות אונליין, 2,000 מוצרים</figcaption></figure>
+    <figure class="dc-card"><div class="ph ph-c">3</div><figcaption class="dc-cap">משרד עורכי דין, שלוש שפות</figcaption></figure>
+    <figure class="dc-card"><div class="ph ph-d">4</div><figcaption class="dc-cap">מערכת CRM לסוכנות</figcaption></figure>
+    <figure class="dc-card"><div class="ph ph-e">5</div><figcaption class="dc-cap">דף נחיתה לקורס</figcaption></figure>
+  </div>
+</div>
+<div class="dc-nav"><button class="dc-btn dc-prev" aria-label="הקודם">→</button><div class="dc-dots" aria-hidden="true"></div><button class="dc-btn dc-next" aria-label="הבא">←</button></div>
+</div>`,
+  js:`(function(){
+  const root=document.querySelector(".dc"),cards=[...root.querySelectorAll(".dc-card")],dots=document.querySelector(".dc-dots"),n=cards.length;
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,mob=matchMedia("(max-width:767px)").matches;
+  const GAP=mob?.28:.34;   // כמה מהרוחב זז כל כרטיס הצידה; קטן במובייל כדי שהשכנים יציצו
+  let cur=0,timer=null;
+  cards.forEach(()=>dots.appendChild(document.createElement("i")));
+  function layout(animate){
+    const w=cards[0].offsetWidth;
+    cards.forEach((c,i)=>{
+      let off=i-cur; if(off>n/2)off-=n; if(off<-n/2)off+=n;      // מסילה מעגלית: הקצר מבין שני הכיוונים
+      const depth=Math.abs(off);
+      // RTL: הבא נמצא משמאל, לכן ההיסט האופקי הפוך
+      gsap.to(c,{x:-off*w*GAP,z:-depth*220,opacity:depth>2?0:1-depth*.28,scale:1-depth*.06,zIndex:n-depth,duration:animate&&!reduce?.7:0,ease:"power3.out",overwrite:true});
+      c.setAttribute("aria-hidden",off!==0);
+    });
+    [...dots.children].forEach((d,i)=>d.classList.toggle("on",i===cur));
+  }
+  function go(step){cur=(cur+step+n)%n;layout(true);restart();}
+  function restart(){clearInterval(timer);if(!reduce)timer=setInterval(()=>go(1),3800);}
+  document.querySelector(".dc-next").addEventListener("click",()=>go(1));
+  document.querySelector(".dc-prev").addEventListener("click",()=>go(-1));
+  // מקלדת: בעברית חץ שמאלה = הבא
+  root.addEventListener("keydown",e=>{if(e.key==="ArrowLeft")go(1);if(e.key==="ArrowRight")go(-1);});
+  // גרירה עם סף, בלי ספרייה
+  let x0=null;
+  root.addEventListener("pointerdown",e=>{x0=e.clientX;root.classList.add("drag");root.setPointerCapture(e.pointerId);clearInterval(timer);});
+  root.addEventListener("pointerup",e=>{if(x0===null)return;const dx=e.clientX-x0;x0=null;root.classList.remove("drag");if(Math.abs(dx)>40)go(dx<0?1:-1);else restart();});
+  root.addEventListener("pointercancel",()=>{x0=null;root.classList.remove("drag");restart();});
+  root.addEventListener("mouseenter",()=>clearInterval(timer));root.addEventListener("mouseleave",restart);
+  layout(false);restart();
+  addEventListener("resize",()=>layout(false));
 })();`
 },
 ];
