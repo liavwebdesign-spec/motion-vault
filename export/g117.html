@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G117 · גלגלות סלוט שמתייצבות בגלילה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G117 · גלגלות סלוט שמתייצבות בגלילה */
+.sl{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap, clamp(16px, 1.6vw, 36px));max-width:960px;margin-inline:auto;padding-block:10vh 20vh}
+.sl-it{text-align:center}
+.sl-reel{height:1.1em;overflow:hidden;font-size:clamp(48px,7vw,110px);font-weight:900;line-height:1.1;color:var(--ink, #16182b);font-variant-numeric:tabular-nums;
+  mask-image:linear-gradient(180deg,transparent,#000 25%,#000 75%,transparent);-webkit-mask-image:linear-gradient(180deg,transparent,#000 25%,#000 75%,transparent)}
+.sl-strip{display:flex;flex-direction:column;will-change:transform}
+.sl-strip span{height:1.1em}
+.sl-lbl{color:var(--muted, #6a6d85);font-size:15px;margin-top:8px}
+@media(max-width:767px){.sl{grid-template-columns:1fr;gap:28px}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="sl">
+  <div class="sl-it"><div class="sl-reel" data-final="12" data-suffix="+"></div><div class="sl-lbl">שנות ניסיון</div></div>
+  <div class="sl-it"><div class="sl-reel" data-final="140" data-suffix=""></div><div class="sl-lbl">פרויקטים שעלו לאוויר</div></div>
+  <div class="sl-it"><div class="sl-reel" data-final="98" data-suffix="%"></div><div class="sl-lbl">לקוחות שממליצים</div></div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const reels=gsap.utils.toArray(".sl-reel"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  reels.forEach((r,i)=>{
+    const fin=r.dataset.final,suf=r.dataset.suffix||"",strip=document.createElement("div");strip.className="sl-strip";
+    // רצועה של 12 ערכים אקראיים ואז הערך הסופי: הגלגלת נראית כאילו "עברה" על הרבה מספרים
+    const vals=[];for(let k=0;k<12;k++)vals.push(Math.floor(Math.random()*(+fin*1.6+9)));vals.push(fin);
+    vals.forEach(v=>{const s=document.createElement("span");s.textContent=v+suf;strip.appendChild(s);});
+    r.appendChild(strip);
+    if(reduce){gsap.set(strip,{yPercent:-100*(vals.length-1)/vals.length});return;}
+    gsap.fromTo(strip,{yPercent:0},{yPercent:-100*(vals.length-1)/vals.length,duration:2.2+i*.4,ease:"power4.out",
+      scrollTrigger:{trigger:".sl",start:"top 75%",once:true}});
+  });
+})();
+</script>
+</body>
+</html>

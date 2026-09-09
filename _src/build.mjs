@@ -119,6 +119,9 @@ const USES = {
   // גל 21 (9.9.2026)
   g99: ["text", "nav"], g100: ["text", "process"], g101: ["media", "process"], g102: ["hero", "process"], g103: ["text", "nav", "process"],
   g104: ["media", "cards"], g105: ["text", "hero"], g106: ["media", "ambient"], g107: ["process", "numbers"], g108: ["hero", "text", "media"],
+  // גל 22 (9.9.2026)
+  g109: ["text", "hero"], g110: ["text"], g111: ["media", "process"], g112: ["numbers", "ambient"], g113: ["cards", "media"],
+  g114: ["text", "hero"], g115: ["media", "hero"], g116: ["numbers"], g117: ["numbers"], g118: ["ambient"],
 };
 
 // רכיבי UI: הסינון השלישי של האינדקס. לכל מהלך אפשר לסמן כמה, והסימון מצטבר.
@@ -304,6 +307,7 @@ const ELEMS = {
   g81: ["sect","img","cursor"], g82: ["list","img"], g83: ["btn","head"], g84: ["sect","page"], g85: ["card","list","cursor"], g86: ["list","img"], g87: ["head"], g88: ["head"],
   g89: ["head","sect","img"], g90: ["img","sect","list"], g91: ["head","sect"], g92: ["card","sect"], g93: ["img","sect"], g94: ["img","sect"], g95: ["card","sect"], g96: ["card","list"], g97: ["img","sect"], g98: ["list","img"],
   g99: ["head","list"], g100: ["head","sect"], g101: ["img","sect"], g102: ["sect","page"], g103: ["head","sect","page"], g104: ["img","sect"], g105: ["head","sect"], g106: ["img","sect"], g107: ["head","list"], g108: ["head","img","sect"],
+  g109: ["head"], g110: ["head"], g111: ["img","sect"], g112: ["card","head"], g113: ["list","card"], g114: ["head","img"], g115: ["img","sect"], g116: ["sect","head"], g117: ["head","list"], g118: ["sect","page"],
   fluid: ["sect","page"],
 };
 
@@ -380,6 +384,7 @@ const FIT = {
   g73: ["S"], g74: ["S"], g75: ["L","S"], g76: ["S"], g77: ["L","S"], g78: ["L","S"], g79: ["L","S"], g80: ["L","S"], g81: ["L","S"], g82: ["S"], g83: ["S"], g84: ["S"], g85: ["L","S"], g86: ["L","S"], g87: ["L","S"], g88: ["L","S"],
   g89: ["S"], g90: ["L","S"], g91: ["S"], g92: ["L","S"], g93: ["S"], g94: ["S"], g95: ["L","S"], g96: ["L","S"], g97: ["L","S"], g98: ["S"],
   g99: ["S"], g100: ["L","S"], g101: ["S"], g102: ["L","S"], g103: ["L","S"], g104: ["L","S"], g105: ["S"], g106: ["S"], g107: ["S"], g108: ["S"],
+  g109: ["S"], g110: ["L","S"], g111: ["L","S"], g112: ["L","S"], g113: ["S"], g114: ["S"], g115: ["L","S"], g116: ["L","S"], g117: ["L","S"], g118: ["L","S"],
   r01: ["S"],
   r02: ["L","S"],
   r03: ["L","S"],
