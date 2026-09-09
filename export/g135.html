@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G135 · קו מפריד שמתכופף עם הגלילה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* G135 · קו מפריד שמתכופף עם הגלילה */
+.bd-sec{min-height:60vh;display:grid;place-items:center;text-align:center;padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px))}
+.bd-sec h2{margin:0 0 8px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
+.bd-sec p{margin:0;color:var(--muted, #6a6d85)}
+.bd{display:block;width:100%;height:80px;overflow:visible}
+.bd path{fill:none;stroke:var(--ink, #16182b);stroke-width:2;stroke-linecap:round;stroke-dasharray:1010;stroke-dashoffset:1010}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<section class="bd-sec"><div><h2>סקשן ראשון</h2><p>גלול מהר ותראה את הקו מתכופף.</p></div></section>
+<svg class="bd" viewBox="0 0 1000 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 Q 500 40 1000 40"/></svg>
+<section class="bd-sec"><div><h2>סקשן שני</h2><p>הקו חוזר להיות ישר כשעוצרים.</p></div></section>
+<svg class="bd" viewBox="0 0 1000 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 Q 500 40 1000 40"/></svg>
+<section class="bd-sec"><div><h2>סקשן שלישי</h2><p>אותו קו, בכל מפריד בעמוד.</p></div></section>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const paths=gsap.utils.toArray(".bd path");
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(paths,{strokeDashoffset:0});return;}
+  paths.forEach(p=>gsap.to(p,{strokeDashoffset:0,ease:"none",scrollTrigger:{trigger:p,start:"top 95%",end:"top 55%",scrub:.4}}));   // הקו נמתח כשנכנס
+  const K=matchMedia("(max-width:767px)").matches?.05:.1,LIM=60;
+  const o={y:40},set=()=>paths.forEach(p=>p.setAttribute("d","M0 40 Q 500 "+o.y+" 1000 40"));
+  const bend=gsap.quickTo(o,"y",{duration:.9,ease:"elastic.out(1,.35)",onUpdate:set});
+  ScrollTrigger.create({onUpdate:s=>{bend(40+gsap.utils.clamp(-LIM,LIM,s.getVelocity()*K));}});
+  let t;addEventListener("scroll",()=>{clearTimeout(t);t=setTimeout(()=>bend(40),100);},{passive:true});
+})();
+</script>
+</body>
+</html>

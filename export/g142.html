@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G142 · קבלה שמודפסת בגלילה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* G142 · קבלה שמודפסת בגלילה */
+.rc{position:relative;height:220vh}
+.rc-pin{position:sticky;top:0;height:100vh;display:grid;justify-items:center;align-content:start;padding-top:10vh}
+.rc-slot{width:min(420px,86vw);height:16px;border-radius:8px;background:var(--ink, #16182b);position:relative;z-index:2;box-shadow:0 8px 20px rgba(0,0,0,.2)}
+.rc-paper{width:min(380px,80vw);background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:26px 22px 40px;font-family:ui-monospace,"Courier New",monospace;font-size:14px;color:var(--ink, #16182b);margin-top:-4px;
+  clip-path:inset(0 0 100% 0);will-change:clip-path;position:relative;box-shadow:0 20px 50px rgba(0,0,0,.1)}
+.rc-paper::after{content:"";position:absolute;inset-inline:0;bottom:-8px;height:8px;background:linear-gradient(-45deg,transparent 6px,var(--card, #fff) 6px) 0 0/16px 8px,linear-gradient(45deg,transparent 6px,var(--card, #fff) 6px) 8px 0/16px 8px}
+.rc-h{text-align:center;font-weight:700;letter-spacing:.14em;margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed var(--line, #e4e4ee)}
+.rc-l{display:flex;justify-content:space-between;gap:12px;padding:6px 0}
+.rc-l.tot{border-top:1px dashed var(--line, #e4e4ee);margin-top:8px;padding-top:12px;font-weight:700;font-size:16px}
+.rc-f{text-align:center;color:var(--muted, #6a6d85);margin-top:14px;font-size:12px}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="rc">
+  <div class="rc-pin"><div class="rc-slot"></div><div class="rc-paper">
+    <div class="rc-h">אתר תדמית · חבילה מלאה</div>
+    <div class="rc-l"><span>אפיון ואסטרטגיה</span><span>כלול</span></div>
+    <div class="rc-l"><span>קופי בעברית, 6 עמודים</span><span>כלול</span></div>
+    <div class="rc-l"><span>עיצוב מובייל ודסקטופ</span><span>כלול</span></div>
+    <div class="rc-l"><span>בנייה ואנימציות</span><span>כלול</span></div>
+    <div class="rc-l"><span>טופס + חיבור לוואטסאפ</span><span>כלול</span></div>
+    <div class="rc-l"><span>חודש ליווי</span><span>כלול</span></div>
+    <div class="rc-l tot"><span>סה"כ</span><span>12,500 ש"ח</span></div>
+    <div class="rc-f">תודה שקראתם עד הסוף</div>
+  </div></div>
+</div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const paper=document.querySelector(".rc-paper");
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){paper.style.clipPath="inset(0 0 0% 0)";return;}
+  gsap.fromTo(paper,{clipPath:"inset(0 0 100% 0)"},{clipPath:"inset(0 0 0% 0)",ease:"none",scrollTrigger:{trigger:".rc",start:"top top",end:"bottom bottom",scrub:.4}});
+})();
+</script>
+</body>
+</html>

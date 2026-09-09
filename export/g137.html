@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G137 · מרכאות שנפתחות סביב הציטוט</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* G137 · מרכאות שנפתחות סביב הציטוט */
+.qq{min-height:120vh;display:grid;place-items:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.qq-box{position:relative;max-width:min(760px,92vw);text-align:center;padding:clamp(40px,8vw,90px) clamp(20px,5vw,60px)}
+.qq-m{position:absolute;font-size:clamp(90px,16vw,220px);line-height:.6;font-weight:900;color:var(--accent, #4a3aff);opacity:.9;will-change:transform;font-family:Georgia,serif}
+.qq-m.o{top:0;inset-inline-start:0}
+.qq-m.c{bottom:0;inset-inline-end:0}
+.qq-box blockquote{margin:0;font-size:clamp(20px,2.6vw,34px);font-weight:600;line-height:1.5;opacity:0;translate:0 14px}
+.qq-box cite{display:block;margin-top:18px;font-style:normal;color:var(--muted, #6a6d85);font-size:15px;opacity:0}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="qq"><div class="qq-box">
+  <span class="qq-m o" aria-hidden="true">״</span>
+  <blockquote>הפעם הראשונה שמישהו שאל אותנו מה הלקוח צריך לפני שדיבר על צבעים. האתר עלה תוך שבועיים, והפניות התחילו ביום הראשון.</blockquote>
+  <cite>רועי ברק, משרד עורכי דין</cite>
+  <span class="qq-m c" aria-hidden="true">״</span>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const box=document.querySelector(".qq-box"),o=box.querySelector(".qq-m.o"),c=box.querySelector(".qq-m.c");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce){gsap.set(".qq-box blockquote, .qq-box cite",{opacity:1,translate:"0 0"});return;}
+  const mob=matchMedia("(max-width:767px)").matches,k=mob?.5:1;
+  // מתחילים צמודים במרכז: מזיזים כל סימן מהפינה שלו אל האמצע, ובסקראב חוזרים ל-0
+  gsap.set(o,{xPercent:-140*k,yPercent:120*k});gsap.set(c,{xPercent:140*k,yPercent:-120*k});
+  gsap.timeline({scrollTrigger:{trigger:".qq",start:"top 70%",end:"center center",scrub:.6}})
+    .to([o,c],{xPercent:0,yPercent:0,duration:1,ease:"power3.out"},0)
+    .to(".qq-box blockquote",{opacity:1,translate:"0 0",duration:.6},.3)
+    .to(".qq-box cite",{opacity:1,duration:.4},.7);
+})();
+</script>
+</body>
+</html>

@@ -125,6 +125,11 @@ const USES = {
   // גל 23 (9.9.2026)
   g119: ["process"], g120: ["text", "nav"], g121: ["media", "hero"], g122: ["ambient", "hero"], g123: ["media", "ambient"],
   g124: ["cards", "numbers"], g125: ["cards", "media"], g126: ["numbers"], g127: ["hero", "ambient"], g128: ["hero", "process"],
+  // גלים 24 ו-25 (10.9.2026)
+  g129: ["cards", "process"], g130: ["hero", "media"], g131: ["text", "hero"], g132: ["numbers", "process"], g133: ["ambient", "hero"],
+  g134: ["hero", "process"], g135: ["ambient"], g136: ["media"], g137: ["text"], g138: ["media", "cards"],
+  g139: ["text", "hero"], g140: ["numbers"], g141: ["text", "process"], g142: ["numbers", "cards"], g143: ["media", "cards"],
+  g144: ["hero", "media"], g145: ["text"], g146: ["numbers"], g147: ["media"], g148: ["hero", "ambient"],
 };
 
 // רכיבי UI: הסינון השלישי של האינדקס. לכל מהלך אפשר לסמן כמה, והסימון מצטבר.
@@ -312,6 +317,8 @@ const ELEMS = {
   g99: ["head","list"], g100: ["head","sect"], g101: ["img","sect"], g102: ["sect","page"], g103: ["head","sect","page"], g104: ["img","sect"], g105: ["head","sect"], g106: ["img","sect"], g107: ["head","list"], g108: ["head","img","sect"],
   g109: ["head"], g110: ["head"], g111: ["img","sect"], g112: ["card","head"], g113: ["list","card"], g114: ["head","img"], g115: ["img","sect"], g116: ["sect","head"], g117: ["head","list"], g118: ["sect","page"],
   g119: ["img","list"], g120: ["list","head"], g121: ["img","list","sect"], g122: ["sect","head"], g123: ["img","list"], g124: ["list","card"], g125: ["card"], g126: ["card","head"], g127: ["sect","btn"], g128: ["sect","page"],
+  g129: ["card","list"], g130: ["img","sect"], g131: ["head"], g132: ["head","sect"], g133: ["sect"], g134: ["sect","page"], g135: ["sect"], g136: ["img"], g137: ["head"], g138: ["list","img"],
+  g139: ["head"], g140: ["card","head"], g141: ["list","card"], g142: ["card","list"], g143: ["list","img"], g144: ["img","sect"], g145: ["head"], g146: ["card","head"], g147: ["list","img"], g148: ["sect","page"],
   fluid: ["sect","page"],
 };
 
@@ -390,6 +397,8 @@ const FIT = {
   g99: ["S"], g100: ["L","S"], g101: ["S"], g102: ["L","S"], g103: ["L","S"], g104: ["L","S"], g105: ["S"], g106: ["S"], g107: ["S"], g108: ["S"],
   g109: ["S"], g110: ["L","S"], g111: ["L","S"], g112: ["L","S"], g113: ["S"], g114: ["S"], g115: ["L","S"], g116: ["L","S"], g117: ["L","S"], g118: ["L","S"],
   g119: ["L","S"], g120: ["S"], g121: ["S"], g122: ["S"], g123: ["L","S"], g124: ["L"], g125: ["L","S"], g126: ["L","S"], g127: ["L","S"], g128: ["L","S"],
+  g129: ["L","S"], g130: ["S"], g131: ["L","S"], g132: ["S"], g133: ["L","S"], g134: ["S"], g135: ["S"], g136: ["L","S"], g137: ["L","S"], g138: ["S"],
+  g139: ["L","S"], g140: ["L","S"], g141: ["L","S"], g142: ["L"], g143: ["S"], g144: ["L","S"], g145: ["L","S"], g146: ["L","S"], g147: ["S"], g148: ["S"],
   r01: ["S"],
   r02: ["L","S"],
   r03: ["L","S"],
