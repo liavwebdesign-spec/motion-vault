@@ -99,6 +99,7 @@ export default [
 </div></div>`
 },
 
+
 {
   id:"css28", cat:"css", name:"אדוות רקע מאחורי אלמנט", tech:"CSS · keyframes", status:"ממתין", runway:false,
   desc:"מעגלים קונצנטריים שמתרחבים ודוהים לאט מאחורי אלמנט מרכזי, כמו אבן במים. שקט מאוד, כמעט לא מורגש, ונותן לכפתור או ללוגו נוכחות.",
@@ -162,6 +163,7 @@ document.querySelectorAll(".bt").forEach(el=>io.observe(el));`
   <div class="au-txt"><h2>הפלטפורמה שמנהלת את הלקוחות בשבילכם</h2><p>לידים, הצעות מחיר, גבייה ומעקב. במקום אחד, בעברית.</p></div>
 </div></div>`
 },
+
 
 {
   id:"css32", cat:"css", name:"קרן אור שזורמת בין שני אלמנטים", tech:"CSS · SVG", status:"ממתין", runway:false,
