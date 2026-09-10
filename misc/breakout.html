@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>BREAKOUT · מסגרת הפריצה (Breakout Frame) | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.mvhud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;display:flex;gap:10px;align-items:center;background:var(--ink);color:var(--bg);font-size:13px;padding:8px 10px 8px 14px;border-radius:8px;opacity:.94}
+.mvhud button{background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}
+.bo{--g:clamp(24px,4vw,64px);--content:640px;--popout:60px;--feature:180px;display:grid;
+  grid-template-columns:[full-start] minmax(var(--g),1fr) [feature-start] minmax(0,var(--feature)) [popout-start] minmax(0,var(--popout)) [content-start] min(var(--content),100% - var(--g) * 2) [content-end] minmax(0,var(--popout)) [popout-end] minmax(0,var(--feature)) [feature-end] minmax(var(--g),1fr) [full-end];
+  row-gap:24px;padding-block:clamp(40px,6vw,96px)}
+.bo>*{grid-column:content;margin:0;position:relative}
+.bo>.popout{grid-column:popout}
+.bo>.feature{grid-column:feature}
+.bo>.full{grid-column:full}
+.bo.frame>*{outline:1px dashed color-mix(in srgb,var(--accent) 60%,transparent);outline-offset:4px}
+.bo.frame>[data-col]::after{content:attr(data-col);position:absolute;top:-16px;inset-inline-end:0;font-size:11px;color:var(--accent);background:var(--bg);padding:0 6px;letter-spacing:.08em;white-space:nowrap}
+.bo h2{font-size:var(--fs-h2);line-height:1.15;margin-top:40px}
+.bo h3{font-size:20px;line-height:1.35;margin-top:16px}
+.bo p{line-height:1.75}
+.bo .lead{color:var(--muted);font-size:19px}
+.bo blockquote{border-inline-start:3px solid var(--accent);padding:14px 22px;font-size:22px;font-weight:600;line-height:1.4;background:var(--card);border-radius:var(--r);margin-block:16px}
+.bo figure{margin-block:24px}
+.bo figure .ph{aspect-ratio:16/8;font-size:18px}
+.bo figcaption{font-size:13px;color:var(--muted);margin-top:8px}
+.bo .band{background:var(--ink);color:var(--bg);padding-block:clamp(40px,6vw,80px);margin-block:24px;row-gap:12px}
+.bo .band h3{margin:0;font-size:26px;line-height:1.25}
+.bo .band p{color:color-mix(in srgb,var(--bg) 78%,transparent);margin:0}
+.bo .band .gbtn{justify-self:start;margin-top:8px}
+@media(max-width:767px){.bo{--popout:0px;--feature:0px}.bo blockquote{font-size:19px}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">BREAKOUT</span> · מסגרת הפריצה (Breakout Frame)</h1>
+  <span class="chip cat-misc">מסגרת</span>
+  <span class="chip">CSS Grid · קווים נקובים</span>
+  <span class="chip use">טקסט וכותרות</span><span class="chip use">תמונות וגלריות</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:breakout"><code>MV:breakout</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>גריד אחד לכל עמוד הקריאה עם ארבע דרגות רוחב בשמות: content (640), popout (760), feature (1000), full. כל ילד רק אומר לאיזו דרגה הוא שייך, בלי דיבים עוטפים. במובייל הפריצות נסגרות מעצמן.</p>
+  <p class="when"><b>מתי משתמשים:</b> תוכן ארוך: מאמרים, מדריכים, בלוג, שיעורי קורס, עמודי מדיניות, עמוד שירות שמסביר. התורה: engine/breakout-frame.md.</p>
+  <div class="mvpanel" data-mvpanel="breakout"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="mvhud"><span id="bohud"></span><button id="botg" type="button">הסתר מסגרת</button></div>
+<article class="bo frame">
+  <h2 class="popout" data-col="popout · 760" style="margin-top:0">למה עמוד שמסביר צריך מסגרת אחרת מעמוד שמוכר</h2>
+  <p class="lead" data-col="content · 640">דף נחיתה הוא משפך. מאמר הוא שיחה. כשמנסים לבנות את השני עם הכלים של הראשון, מקבלים פסקאות שצפות בין סקשנים ריקים.</p>
+  <p data-col="content · 640">בעמוד קריאה יש עמודה אחת, וכל מה שהקורא צריך נמצא בה. הפריצה החוצה היא אירוע: תמונה שצריכה מקום, ציטוט שצריך משקל, רצועה שמסמנת פרק חדש. השאר נשאר בעמודה, ברוחב שנוח לעין.</p>
+  <blockquote class="popout" data-col="popout · 760">הקורא לא מרגיש את הגריד. הוא מרגיש שהעמוד יודע איפה הוא.</blockquote>
+  <p>שלוש דרגות הפריצה ממופות לסולם הרוחבים שכבר קיים במנוע. content הוא ה-measure, popout הוא ראש סקשן, feature הוא ויז'ואל הירו. אין דרגה חמישית, ואם משהו צריך 880 הוא feature.</p>
+  <figure class="feature" data-col="feature · 1000"><div class="ph ph-c"><span class="ph-l">תמונה, טבלה או וידאו: תמיד feature</span></div><figcaption>מדיה ברוחב 640 בתוך עמוד קריאה נראית כמו תמונה במייל. לכן היא תמיד פורצת.</figcaption></figure>
+  <h3>הרצועה המלאה מפעילה את הגריד מחדש</h3>
+  <p>הרקע שלה פורץ עד הקצה, אבל הכותרת והפסקה בתוכה חוזרות להתיישר לעמודת הקריאה של העמוד. ככה יש לעמוד קו אנכי אחד לאורך כל הדרך, גם כשהצבע מתחלף.</p>
+  <div class="full band bo frame" data-col="full">
+    <h3>רוצים שהמדריכים שלכם ייקראו עד הסוף?</h3>
+    <p>אותה מסגרת, אותו קו, רק הרקע השתנה. הטקסט הזה יושב בדיוק מתחת לפסקה שמעל הרצועה.</p>
+    <a class="gbtn" href="#">לשיחה קצרה</a>
+  </div>
+  <p data-col="content · 640">במובייל שתי דרגות הפריצה מתאפסות ל-0 בלי שכותבים כלום: הכותרות, הציטוטים והתמונות מתיישרים לקצה הטקסט, והרצועה נשארת מלאה. אין גלילה אופקית, אין מדרגת טאבלט.</p>
+</article>
+
+<div class="demo-note">ארבע הדרגות ממופות לסולם הרוחבים של המסגרת העריכתית ולא לערכים חדשים. רצועה מלאה שמכילה טקסט מפעילה את הגריד מחדש בתוכה (מחלקת frame גם עליה), ולכן הטקסט שלה חוזר לעמודת ה-content של העמוד: הרקע פורץ, הטקסט לא. קווי הגריד לוגיים ולכן RTL עובד בלי לגעת. ה-HUD מודד את רוחב עמודת הקריאה בפועל ומראה מתי הפריצות נסגרו.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/breakout.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}
+.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
+
+/* BREAKOUT · מסגרת הפריצה (Breakout Frame) */
+.mvhud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;display:flex;gap:10px;align-items:center;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:13px;padding:8px 10px 8px 14px;border-radius:8px;opacity:.94}
+.mvhud button{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border:0;border-radius:6px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}
+.bo{--g:clamp(24px,4vw,64px);--content:640px;--popout:60px;--feature:180px;display:grid;
+  grid-template-columns:[full-start] minmax(var(--g),1fr) [feature-start] minmax(0,var(--feature)) [popout-start] minmax(0,var(--popout)) [content-start] min(var(--content),100% - var(--g) * 2) [content-end] minmax(0,var(--popout)) [popout-end] minmax(0,var(--feature)) [feature-end] minmax(var(--g),1fr) [full-end];
+  row-gap:24px;padding-block:clamp(40px,6vw,96px)}
+.bo&gt;*{grid-column:content;margin:0;position:relative}
+.bo&gt;.popout{grid-column:popout}
+.bo&gt;.feature{grid-column:feature}
+.bo&gt;.full{grid-column:full}
+.bo.frame&gt;*{outline:1px dashed color-mix(in srgb,var(--accent, #4a3aff) 60%,transparent);outline-offset:4px}
+.bo.frame&gt;[data-col]::after{content:attr(data-col);position:absolute;top:-16px;inset-inline-end:0;font-size:11px;color:var(--accent, #4a3aff);background:var(--bg, #f7f7fa);padding:0 6px;letter-spacing:.08em;white-space:nowrap}
+.bo h2{font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));line-height:1.15;margin-top:40px}
+.bo h3{font-size:20px;line-height:1.35;margin-top:16px}
+.bo p{line-height:1.75}
+.bo .lead{color:var(--muted, #6a6d85);font-size:19px}
+.bo blockquote{border-inline-start:3px solid var(--accent, #4a3aff);padding:14px 22px;font-size:22px;font-weight:600;line-height:1.4;background:var(--card, #fff);border-radius:var(--r, 14px);margin-block:16px}
+.bo figure{margin-block:24px}
+.bo figure .ph{aspect-ratio:16/8;font-size:18px}
+.bo figcaption{font-size:13px;color:var(--muted, #6a6d85);margin-top:8px}
+.bo .band{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding-block:clamp(40px,6vw,80px);margin-block:24px;row-gap:12px}
+.bo .band h3{margin:0;font-size:26px;line-height:1.25}
+.bo .band p{color:color-mix(in srgb,var(--bg, #f7f7fa) 78%,transparent);margin:0}
+.bo .band .gbtn{justify-self:start;margin-top:8px}
+@media(max-width:767px){.bo{--popout:0px;--feature:0px}.bo blockquote{font-size:19px}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="mvhud"&gt;&lt;span id="bohud"&gt;&lt;/span&gt;&lt;button id="botg" type="button"&gt;הסתר מסגרת&lt;/button&gt;&lt;/div&gt;
+&lt;article class="bo frame"&gt;
+  &lt;h2 class="popout" data-col="popout · 760" style="margin-top:0"&gt;למה עמוד שמסביר צריך מסגרת אחרת מעמוד שמוכר&lt;/h2&gt;
+  &lt;p class="lead" data-col="content · 640"&gt;דף נחיתה הוא משפך. מאמר הוא שיחה. כשמנסים לבנות את השני עם הכלים של הראשון, מקבלים פסקאות שצפות בין סקשנים ריקים.&lt;/p&gt;
+  &lt;p data-col="content · 640"&gt;בעמוד קריאה יש עמודה אחת, וכל מה שהקורא צריך נמצא בה. הפריצה החוצה היא אירוע: תמונה שצריכה מקום, ציטוט שצריך משקל, רצועה שמסמנת פרק חדש. השאר נשאר בעמודה, ברוחב שנוח לעין.&lt;/p&gt;
+  &lt;blockquote class="popout" data-col="popout · 760"&gt;הקורא לא מרגיש את הגריד. הוא מרגיש שהעמוד יודע איפה הוא.&lt;/blockquote&gt;
+  &lt;p&gt;שלוש דרגות הפריצה ממופות לסולם הרוחבים שכבר קיים במנוע. content הוא ה-measure, popout הוא ראש סקשן, feature הוא ויז'ואל הירו. אין דרגה חמישית, ואם משהו צריך 880 הוא feature.&lt;/p&gt;
+  &lt;figure class="feature" data-col="feature · 1000"&gt;&lt;div class="ph ph-c"&gt;&lt;span class="ph-l"&gt;תמונה, טבלה או וידאו: תמיד feature&lt;/span&gt;&lt;/div&gt;&lt;figcaption&gt;מדיה ברוחב 640 בתוך עמוד קריאה נראית כמו תמונה במייל. לכן היא תמיד פורצת.&lt;/figcaption&gt;&lt;/figure&gt;
+  &lt;h3&gt;הרצועה המלאה מפעילה את הגריד מחדש&lt;/h3&gt;
+  &lt;p&gt;הרקע שלה פורץ עד הקצה, אבל הכותרת והפסקה בתוכה חוזרות להתיישר לעמודת הקריאה של העמוד. ככה יש לעמוד קו אנכי אחד לאורך כל הדרך, גם כשהצבע מתחלף.&lt;/p&gt;
+  &lt;div class="full band bo frame" data-col="full"&gt;
+    &lt;h3&gt;רוצים שהמדריכים שלכם ייקראו עד הסוף?&lt;/h3&gt;
+    &lt;p&gt;אותה מסגרת, אותו קו, רק הרקע השתנה. הטקסט הזה יושב בדיוק מתחת לפסקה שמעל הרצועה.&lt;/p&gt;
+    &lt;a class="gbtn" href="#"&gt;לשיחה קצרה&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;p data-col="content · 640"&gt;במובייל שתי דרגות הפריצה מתאפסות ל-0 בלי שכותבים כלום: הכותרות, הציטוטים והתמונות מתיישרים לקצה הטקסט, והרצועה נשארת מלאה. אין גלילה אופקית, אין מדרגת טאבלט.&lt;/p&gt;
+&lt;/article&gt;</code></pre>
+    <h3>JS</h3><pre><code>const hud=document.getElementById("bohud"),tg=document.getElementById("botg");
+tg.addEventListener("click",()=&gt;{const on=!document.querySelector(".bo").classList.contains("frame");document.querySelectorAll(".bo").forEach(b=&gt;b.classList.toggle("frame",on));tg.textContent=on?"הסתר מסגרת":"הצג מסגרת";});
+function upd(){const c=document.querySelector(".bo &gt; p.lead").getBoundingClientRect().width,p=document.querySelector(".bo &gt; blockquote").getBoundingClientRect().width;
+  hud.textContent="רוחב: "+innerWidth+"px · content: "+Math.round(c)+"px · popout: "+Math.round(p)+"px"+(Math.round(p-c)&lt;2?" (הפריצות סגורות)":"");}
+addEventListener("resize",upd);upd();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:breakout · מסגרת הפריצה (Breakout Frame)\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/misc/breakout.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/breakout.html\n\nמה זה עושה: גריד אחד לכל עמוד הקריאה עם ארבע דרגות רוחב בשמות: content (640), popout (760), feature (1000), full. כל ילד רק אומר לאיזו דרגה הוא שייך, בלי דיבים עוטפים. במובייל הפריצות נסגרות מעצמן.\nמתי משתמשים: תוכן ארוך: מאמרים, מדריכים, בלוג, שיעורי קורס, עמודי מדיניות, עמוד שירות שמסביר. התורה: engine/breakout-frame.md.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* BREAKOUT · מסגרת הפריצה (Breakout Frame) */\n.mvhud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;display:flex;gap:10px;align-items:center;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:13px;padding:8px 10px 8px 14px;border-radius:8px;opacity:.94}\n.mvhud button{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border:0;border-radius:6px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}\n.bo{--g:clamp(24px,4vw,64px);--content:640px;--popout:60px;--feature:180px;display:grid;\n  grid-template-columns:[full-start] minmax(var(--g),1fr) [feature-start] minmax(0,var(--feature)) [popout-start] minmax(0,var(--popout)) [content-start] min(var(--content),100% - var(--g) * 2) [content-end] minmax(0,var(--popout)) [popout-end] minmax(0,var(--feature)) [feature-end] minmax(var(--g),1fr) [full-end];\n  row-gap:24px;padding-block:clamp(40px,6vw,96px)}\n.bo>*{grid-column:content;margin:0;position:relative}\n.bo>.popout{grid-column:popout}\n.bo>.feature{grid-column:feature}\n.bo>.full{grid-column:full}\n.bo.frame>*{outline:1px dashed color-mix(in srgb,var(--accent, #4a3aff) 60%,transparent);outline-offset:4px}\n.bo.frame>[data-col]::after{content:attr(data-col);position:absolute;top:-16px;inset-inline-end:0;font-size:11px;color:var(--accent, #4a3aff);background:var(--bg, #f7f7fa);padding:0 6px;letter-spacing:.08em;white-space:nowrap}\n.bo h2{font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));line-height:1.15;margin-top:40px}\n.bo h3{font-size:20px;line-height:1.35;margin-top:16px}\n.bo p{line-height:1.75}\n.bo .lead{color:var(--muted, #6a6d85);font-size:19px}\n.bo blockquote{border-inline-start:3px solid var(--accent, #4a3aff);padding:14px 22px;font-size:22px;font-weight:600;line-height:1.4;background:var(--card, #fff);border-radius:var(--r, 14px);margin-block:16px}\n.bo figure{margin-block:24px}\n.bo figure .ph{aspect-ratio:16/8;font-size:18px}\n.bo figcaption{font-size:13px;color:var(--muted, #6a6d85);margin-top:8px}\n.bo .band{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding-block:clamp(40px,6vw,80px);margin-block:24px;row-gap:12px}\n.bo .band h3{margin:0;font-size:26px;line-height:1.25}\n.bo .band p{color:color-mix(in srgb,var(--bg, #f7f7fa) 78%,transparent);margin:0}\n.bo .band .gbtn{justify-self:start;margin-top:8px}\n@media(max-width:767px){.bo{--popout:0px;--feature:0px}.bo blockquote{font-size:19px}}\n\n=== HTML ===\n<div class=\"mvhud\"><span id=\"bohud\"><\/span><button id=\"botg\" type=\"button\">הסתר מסגרת<\/button><\/div>\n<article class=\"bo frame\">\n  <h2 class=\"popout\" data-col=\"popout · 760\" style=\"margin-top:0\">למה עמוד שמסביר צריך מסגרת אחרת מעמוד שמוכר<\/h2>\n  <p class=\"lead\" data-col=\"content · 640\">דף נחיתה הוא משפך. מאמר הוא שיחה. כשמנסים לבנות את השני עם הכלים של הראשון, מקבלים פסקאות שצפות בין סקשנים ריקים.<\/p>\n  <p data-col=\"content · 640\">בעמוד קריאה יש עמודה אחת, וכל מה שהקורא צריך נמצא בה. הפריצה החוצה היא אירוע: תמונה שצריכה מקום, ציטוט שצריך משקל, רצועה שמסמנת פרק חדש. השאר נשאר בעמודה, ברוחב שנוח לעין.<\/p>\n  <blockquote class=\"popout\" data-col=\"popout · 760\">הקורא לא מרגיש את הגריד. הוא מרגיש שהעמוד יודע איפה הוא.<\/blockquote>\n  <p>שלוש דרגות הפריצה ממופות לסולם הרוחבים שכבר קיים במנוע. content הוא ה-measure, popout הוא ראש סקשן, feature הוא ויז'ואל הירו. אין דרגה חמישית, ואם משהו צריך 880 הוא feature.<\/p>\n  <figure class=\"feature\" data-col=\"feature · 1000\"><div class=\"ph ph-c\"><span class=\"ph-l\">תמונה, טבלה או וידאו: תמיד feature<\/span><\/div><figcaption>מדיה ברוחב 640 בתוך עמוד קריאה נראית כמו תמונה במייל. לכן היא תמיד פורצת.<\/figcaption><\/figure>\n  <h3>הרצועה המלאה מפעילה את הגריד מחדש<\/h3>\n  <p>הרקע שלה פורץ עד הקצה, אבל הכותרת והפסקה בתוכה חוזרות להתיישר לעמודת הקריאה של העמוד. ככה יש לעמוד קו אנכי אחד לאורך כל הדרך, גם כשהצבע מתחלף.<\/p>\n  <div class=\"full band bo frame\" data-col=\"full\">\n    <h3>רוצים שהמדריכים שלכם ייקראו עד הסוף?<\/h3>\n    <p>אותה מסגרת, אותו קו, רק הרקע השתנה. הטקסט הזה יושב בדיוק מתחת לפסקה שמעל הרצועה.<\/p>\n    <a class=\"gbtn\" href=\"#\">לשיחה קצרה<\/a>\n  <\/div>\n  <p data-col=\"content · 640\">במובייל שתי דרגות הפריצה מתאפסות ל-0 בלי שכותבים כלום: הכותרות, הציטוטים והתמונות מתיישרים לקצה הטקסט, והרצועה נשארת מלאה. אין גלילה אופקית, אין מדרגת טאבלט.<\/p>\n<\/article>\n\n=== JS ===\nconst hud=document.getElementById(\"bohud\"),tg=document.getElementById(\"botg\");\ntg.addEventListener(\"click\",()=>{const on=!document.querySelector(\".bo\").classList.contains(\"frame\");document.querySelectorAll(\".bo\").forEach(b=>b.classList.toggle(\"frame\",on));tg.textContent=on?\"הסתר מסגרת\":\"הצג מסגרת\";});\nfunction upd(){const c=document.querySelector(\".bo > p.lead\").getBoundingClientRect().width,p=document.querySelector(\".bo > blockquote\").getBoundingClientRect().width;\n  hud.textContent=\"רוחב: \"+innerWidth+\"px · content: \"+Math.round(c)+\"px · popout: \"+Math.round(p)+\"px\"+(Math.round(p-c)<2?\" (הפריצות סגורות)\":\"\");}\naddEventListener(\"resize\",upd);upd();\n\nהערת מימוש מהמאגר:\nארבע הדרגות ממופות לסולם הרוחבים של המסגרת העריכתית ולא לערכים חדשים. רצועה מלאה שמכילה טקסט מפעילה את הגריד מחדש בתוכה (מחלקת frame גם עליה), ולכן הטקסט שלה חוזר לעמודת ה-content של העמוד: הרקע פורץ, הטקסט לא. קווי הגריד לוגיים ולכן RTL עובד בלי לגעת. ה-HUD מודד את רוחב עמודת הקריאה בפועל ומראה מתי הפריצות נסגרו.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* BREAKOUT · מסגרת הפריצה (Breakout Frame) */\n.mvhud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;display:flex;gap:10px;align-items:center;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:13px;padding:8px 10px 8px 14px;border-radius:8px;opacity:.94}\n.mvhud button{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border:0;border-radius:6px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}\n.bo{--g:clamp(24px,4vw,64px);--content:640px;--popout:60px;--feature:180px;display:grid;\n  grid-template-columns:[full-start] minmax(var(--g),1fr) [feature-start] minmax(0,var(--feature)) [popout-start] minmax(0,var(--popout)) [content-start] min(var(--content),100% - var(--g) * 2) [content-end] minmax(0,var(--popout)) [popout-end] minmax(0,var(--feature)) [feature-end] minmax(var(--g),1fr) [full-end];\n  row-gap:24px;padding-block:clamp(40px,6vw,96px)}\n.bo>*{grid-column:content;margin:0;position:relative}\n.bo>.popout{grid-column:popout}\n.bo>.feature{grid-column:feature}\n.bo>.full{grid-column:full}\n.bo.frame>*{outline:1px dashed color-mix(in srgb,var(--accent, #4a3aff) 60%,transparent);outline-offset:4px}\n.bo.frame>[data-col]::after{content:attr(data-col);position:absolute;top:-16px;inset-inline-end:0;font-size:11px;color:var(--accent, #4a3aff);background:var(--bg, #f7f7fa);padding:0 6px;letter-spacing:.08em;white-space:nowrap}\n.bo h2{font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));line-height:1.15;margin-top:40px}\n.bo h3{font-size:20px;line-height:1.35;margin-top:16px}\n.bo p{line-height:1.75}\n.bo .lead{color:var(--muted, #6a6d85);font-size:19px}\n.bo blockquote{border-inline-start:3px solid var(--accent, #4a3aff);padding:14px 22px;font-size:22px;font-weight:600;line-height:1.4;background:var(--card, #fff);border-radius:var(--r, 14px);margin-block:16px}\n.bo figure{margin-block:24px}\n.bo figure .ph{aspect-ratio:16/8;font-size:18px}\n.bo figcaption{font-size:13px;color:var(--muted, #6a6d85);margin-top:8px}\n.bo .band{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding-block:clamp(40px,6vw,80px);margin-block:24px;row-gap:12px}\n.bo .band h3{margin:0;font-size:26px;line-height:1.25}\n.bo .band p{color:color-mix(in srgb,var(--bg, #f7f7fa) 78%,transparent);margin:0}\n.bo .band .gbtn{justify-self:start;margin-top:8px}\n@media(max-width:767px){.bo{--popout:0px;--feature:0px}.bo blockquote{font-size:19px}}","html":"<div class=\"mvhud\"><span id=\"bohud\"><\/span><button id=\"botg\" type=\"button\">הסתר מסגרת<\/button><\/div>\n<article class=\"bo frame\">\n  <h2 class=\"popout\" data-col=\"popout · 760\" style=\"margin-top:0\">למה עמוד שמסביר צריך מסגרת אחרת מעמוד שמוכר<\/h2>\n  <p class=\"lead\" data-col=\"content · 640\">דף נחיתה הוא משפך. מאמר הוא שיחה. כשמנסים לבנות את השני עם הכלים של הראשון, מקבלים פסקאות שצפות בין סקשנים ריקים.<\/p>\n  <p data-col=\"content · 640\">בעמוד קריאה יש עמודה אחת, וכל מה שהקורא צריך נמצא בה. הפריצה החוצה היא אירוע: תמונה שצריכה מקום, ציטוט שצריך משקל, רצועה שמסמנת פרק חדש. השאר נשאר בעמודה, ברוחב שנוח לעין.<\/p>\n  <blockquote class=\"popout\" data-col=\"popout · 760\">הקורא לא מרגיש את הגריד. הוא מרגיש שהעמוד יודע איפה הוא.<\/blockquote>\n  <p>שלוש דרגות הפריצה ממופות לסולם הרוחבים שכבר קיים במנוע. content הוא ה-measure, popout הוא ראש סקשן, feature הוא ויז'ואל הירו. אין דרגה חמישית, ואם משהו צריך 880 הוא feature.<\/p>\n  <figure class=\"feature\" data-col=\"feature · 1000\"><div class=\"ph ph-c\"><span class=\"ph-l\">תמונה, טבלה או וידאו: תמיד feature<\/span><\/div><figcaption>מדיה ברוחב 640 בתוך עמוד קריאה נראית כמו תמונה במייל. לכן היא תמיד פורצת.<\/figcaption><\/figure>\n  <h3>הרצועה המלאה מפעילה את הגריד מחדש<\/h3>\n  <p>הרקע שלה פורץ עד הקצה, אבל הכותרת והפסקה בתוכה חוזרות להתיישר לעמודת הקריאה של העמוד. ככה יש לעמוד קו אנכי אחד לאורך כל הדרך, גם כשהצבע מתחלף.<\/p>\n  <div class=\"full band bo frame\" data-col=\"full\">\n    <h3>רוצים שהמדריכים שלכם ייקראו עד הסוף?<\/h3>\n    <p>אותה מסגרת, אותו קו, רק הרקע השתנה. הטקסט הזה יושב בדיוק מתחת לפסקה שמעל הרצועה.<\/p>\n    <a class=\"gbtn\" href=\"#\">לשיחה קצרה<\/a>\n  <\/div>\n  <p data-col=\"content · 640\">במובייל שתי דרגות הפריצה מתאפסות ל-0 בלי שכותבים כלום: הכותרות, הציטוטים והתמונות מתיישרים לקצה הטקסט, והרצועה נשארת מלאה. אין גלילה אופקית, אין מדרגת טאבלט.<\/p>\n<\/article>","js":"const hud=document.getElementById(\"bohud\"),tg=document.getElementById(\"botg\");\ntg.addEventListener(\"click\",()=>{const on=!document.querySelector(\".bo\").classList.contains(\"frame\");document.querySelectorAll(\".bo\").forEach(b=>b.classList.toggle(\"frame\",on));tg.textContent=on?\"הסתר מסגרת\":\"הצג מסגרת\";});\nfunction upd(){const c=document.querySelector(\".bo > p.lead\").getBoundingClientRect().width,p=document.querySelector(\".bo > blockquote\").getBoundingClientRect().width;\n  hud.textContent=\"רוחב: \"+innerWidth+\"px · content: \"+Math.round(c)+\"px · popout: \"+Math.round(p)+\"px\"+(Math.round(p-c)<2?\" (הפריצות סגורות)\":\"\");}\naddEventListener(\"resize\",upd);upd();","scripts":"","rtl":true}</script>
+</section>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מסגרת הפריצה (Breakout Frame)").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+const hud=document.getElementById("bohud"),tg=document.getElementById("botg");
+tg.addEventListener("click",()=>{const on=!document.querySelector(".bo").classList.contains("frame");document.querySelectorAll(".bo").forEach(b=>b.classList.toggle("frame",on));tg.textContent=on?"הסתר מסגרת":"הצג מסגרת";});
+function upd(){const c=document.querySelector(".bo > p.lead").getBoundingClientRect().width,p=document.querySelector(".bo > blockquote").getBoundingClientRect().width;
+  hud.textContent="רוחב: "+innerWidth+"px · content: "+Math.round(c)+"px · popout: "+Math.round(p)+"px"+(Math.round(p-c)<2?" (הפריצות סגורות)":"");}
+addEventListener("resize",upd);upd();
+</script>
+</body>
+</html>

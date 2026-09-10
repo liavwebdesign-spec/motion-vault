@@ -70,6 +70,7 @@ const USES = {
   lm1: ["ambient", "hero"], lm3: ["cards", "process"], lm4: ["cards", "process"],
   lm5: ["hero"], lm7: ["hover"], lm8: ["ambient"], lm9: ["cards", "hover"],
   fluid: ["hero", "nav"],
+  editorial: ["cards", "text", "hero"], breakout: ["text", "media"], bento: ["cards", "numbers", "media"], modular: ["text", "media", "numbers"],
   g23: ["cards", "media", "hover"], g25: ["process", "ambient"], g30: ["process", "hero"],
   css13: ["text", "hero"], css15: ["cards", "hover"],
   css16: ["media", "hover"], css17: ["nav", "feedback"],
@@ -318,6 +319,7 @@ const ELEMS = {
   g129: ["card","list"], g130: ["img","sect"], g131: ["head"], g132: ["head","sect"], g134: ["sect","page"], g135: ["sect"], g136: ["img"], g137: ["head"], g138: ["list","img"],
   g139: ["head"], g140: ["card","head"], g141: ["list","card"], g142: ["card","list"], g143: ["list","img"], g144: ["img","sect"], g145: ["head"], g146: ["card","head"], g148: ["sect","page"],
   fluid: ["sect","page"],
+  editorial: ["page","sect","card"], breakout: ["page","img"], bento: ["page","card"], modular: ["page","sect","img"],
 };
 // סוג פרויקט: שכבת סינון שלישית, עצמאית מהשתיים האחרות. לא חובה לתייג את שתיהן.
 const FIT_LABELS = { L: "דף נחיתה", S: "וואן-פייג'ר ותדמית" };
@@ -499,6 +501,7 @@ const FIT = {
   lm8: ["S"],
   lm9: ["S"],
   fluid: ["S"],
+  editorial: ["L","S"], breakout: ["S"], bento: ["L","S"], modular: ["S"],
 };
 // load all catalog modules
 const entries = [];

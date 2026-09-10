@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MODULAR · המסגרת המודולרית השוויצרית (Modular Frame)</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}
+
+/* MODULAR · המסגרת המודולרית השוויצרית (Modular Frame) */
+.mvhud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;display:flex;gap:10px;align-items:center;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:13px;padding:8px 10px 8px 14px;border-radius:8px;opacity:.94}
+.mvhud button{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border:0;border-radius:6px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}
+.md{--base:8px;max-width:1200px;margin-inline:auto;padding:96px 24px;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;row-gap:calc(var(--base) * 6);position:relative}
+.md>*{grid-column:1/-1;min-width:0}
+.md .c1-7{grid-column:1/8}.md .c8-12{grid-column:8/13;align-self:end}.md .c1-4{grid-column:1/5}.md .c6-12{grid-column:6/13}.md .c1-8{grid-column:1/9}.md .c9-12{grid-column:9/13}.md .c5-11{grid-column:5/12}.md .c1-2{grid-column:1/3}.md .c3-12{grid-column:3/13}
+.md hr{border:0;border-top:1px solid var(--line, #e4e4ee);margin:0;height:0}
+.md h2,.md h3,.md p{margin:0}
+.md .t1{font-size:72px;line-height:80px;letter-spacing:-.02em;font-weight:600}
+.md .t2{font-size:34px;line-height:40px;font-weight:600}
+.md .t3{font-size:20px;line-height:28px;font-weight:600}
+.md .lead{font-size:18px;line-height:28px;color:var(--muted, #6a6d85)}
+.md p.b{font-size:16px;line-height:28px}
+.md .meta{font-size:13px;line-height:20px;color:var(--muted, #6a6d85)}
+.md .num{font-size:13px;line-height:20px;color:var(--accent, #4a3aff);font-variant-numeric:tabular-nums}
+.md .ph{border-radius:0;font-size:16px}
+.md .r32{aspect-ratio:3/2}.md .r43{aspect-ratio:4/3}
+.md .idx{display:grid;grid-template-columns:subgrid;grid-column:1/-1;row-gap:0}
+.md .stat{display:grid;grid-template-columns:repeat(4,1fr);column-gap:24px;border-top:1px solid var(--line, #e4e4ee);padding-top:calc(var(--base) * 2)}
+.md .stat b{display:block;font-size:40px;line-height:48px;font-weight:600;letter-spacing:-.02em}
+.md .stat span{font-size:13px;line-height:20px;color:var(--muted, #6a6d85)}
+.md .block{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);padding:calc(var(--base) * 3);font-size:20px;line-height:28px;font-weight:600;align-self:start}
+.md.frame{background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--base) - 1px),color-mix(in srgb,var(--accent, #4a3aff) 22%,transparent) calc(var(--base) - 1px) var(--base))}
+.md.frame>*,.md.frame .idx>*{outline:1px dashed color-mix(in srgb,var(--accent, #4a3aff) 55%,transparent);outline-offset:-1px}
+.md.frame hr{outline:0}
+@media(max-width:1023px){.md{grid-template-columns:repeat(8,1fr);padding-block:64px}.md .c1-7{grid-column:1/6}.md .c8-12{grid-column:6/9}.md .c1-4{grid-column:1/4}.md .c6-12{grid-column:4/9}.md .c1-8{grid-column:1/6}.md .c9-12{grid-column:6/9}.md .c5-11{grid-column:3/8}.md .c1-2{grid-column:1/2}.md .c3-12{grid-column:2/9}.md .t1{font-size:56px;line-height:64px}}
+@media(max-width:767px){.md{grid-template-columns:repeat(4,1fr);column-gap:16px;padding:48px 20px;row-gap:calc(var(--base) * 4)}.md .t1{font-size:40px;line-height:48px}.md .c1-7,.md .c8-12,.md .c1-4,.md .c6-12,.md .c1-8,.md .c9-12{grid-column:1/-1}.md .c5-11{grid-column:2/5}.md .c1-2{grid-column:1/2}.md .c3-12{grid-column:2/5}.md .stat{grid-template-columns:repeat(2,1fr);row-gap:24px}.md .stat b{font-size:32px;line-height:40px}.md .t2{font-size:26px;line-height:32px}}
+</style>
+</head>
+<body>
+
+<div class="mvhud"><span id="mdhud"></span><button id="mdtg" type="button">הסתר מסגרת</button></div>
+<div class="md frame">
+  <h2 class="t1 c1-7">סטודיו לאדריכלות. עבודה שקטה, פרטים חדים.</h2>
+  <p class="lead c8-12">הליד לא באותה שורה ולא באותו רוחב כמו הכותרת. זה המתח השוויצרי: כותרת מוסטת.</p>
+  <hr>
+  <div class="idx"><span class="num c1-2">01</span><div class="c3-12"><h3 class="t3">אינדקס: הספרה בעמודה אחת, התוכן מעמודה שלוש</h3><p class="b">קו השיער מעל הוא המבנה, המספור הוא הוויז'ואל. שלוש שורות כאלה זו רשימת שירותים שלא נראית כמו רשימה.</p></div></div>
+  <hr>
+  <div class="c1-4"><h3 class="t2">טקסט מול תמונה</h3><p class="b" style="margin-top:16px">הטקסט על ארבע עמודות, התמונה משש עד שתים עשרה, ועמודה חמש נשארת ריקה. הריק הוא מה שמפריד, לא gap גדול.</p></div>
+  <div class="ph ph-c r32 c6-12"><span class="ph-l">6 עד 12</span></div>
+  <div class="ph ph-a r43 c1-8"><span class="ph-l">1 עד 8</span></div>
+  <p class="meta c9-12">תמונה עם כיתוב: הכיתוב לצד, מיושר לראש התמונה, לא מתחת. ככה העמוד לא מרגיש כמו פיד.</p>
+  <hr>
+  <div class="stat"><div><b>2011</b><span>שנת ייסוד</span></div><div><b>84</b><span>פרויקטים שנבנו</span></div><div><b>12</b><span>אנשי צוות</span></div><div><b>3</b><span>פרסים בינלאומיים</span></div></div>
+  <p class="b c5-11">פסקה מוסטת: מעמודה חמש עד אחת עשרה, אחרי בלוק רחב. off-center מכוון, והעין נחה. במובייל ההסטה נשמרת (2 עד 4) כדי שהעמוד לא יהפוך לרשימה.</p>
+  <div class="block c1-4">בלוק צבע אחד לעמוד. במקום האדום השוויצרי, ה-accent של העור.</div>
+</div>
+
+
+<script>
+const md=document.querySelector(".md"),hud=document.getElementById("mdhud"),tg=document.getElementById("mdtg");
+tg.addEventListener("click",()=>{md.classList.toggle("frame");tg.textContent=md.classList.contains("frame")?"הסתר מסגרת":"הצג מסגרת";});
+function upd(){const cols=getComputedStyle(md).gridTemplateColumns.split(" ").length,lh=parseFloat(getComputedStyle(document.querySelector(".md p.b")).lineHeight);
+  hud.textContent="רוחב: "+innerWidth+"px · "+cols+" עמודות · baseline 8 · גוף 16/"+Math.round(lh);}
+addEventListener("resize",upd);upd();
+</script>
+</body>
+</html>

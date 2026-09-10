@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>BENTO · מסגרת הבנטו (Bento Frame)</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
+
+/* BENTO · מסגרת הבנטו (Bento Frame) */
+.mvhud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;display:flex;gap:10px;align-items:center;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:13px;padding:8px 10px 8px 14px;border-radius:8px;opacity:.94}
+.mvhud button{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border:0;border-radius:6px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}
+.bn{max-width:1200px;margin-inline:auto;padding:clamp(40px,6vw,96px) 24px;display:grid;gap:clamp(48px,7vw,96px)}
+.bn-board{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(150px,17vw,220px);gap:20px}
+.bn-t{position:relative;border-radius:var(--r, 14px);background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:24px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-width:0}
+.bn-t.w2{grid-column:span 2}
+.bn-t.h2{grid-row:span 2}
+.bn-t.img{padding:0;border:0;justify-content:flex-end}
+.bn-t.img .ph{position:absolute;inset:0;border-radius:0;font-size:0}
+.bn-t.img span{position:relative;align-self:flex-start;margin:18px;color:var(--bg, #f7f7fa);background:color-mix(in srgb,var(--ink, #16182b) 70%,transparent);padding:6px 12px;border-radius:999px;font-size:13px}
+.bn-t.ink{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border:0}
+.bn-t.acc{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border:0}
+.bn-k{font-size:12px;letter-spacing:.12em;opacity:.7}
+.bn-t h3{margin:0;font-size:clamp(18px,1.6vw,24px);line-height:1.25}
+.bn-t.acc h3{font-size:clamp(24px,2.4vw,36px)}
+.bn-t p{margin:6px 0 0;font-size:14px;line-height:1.55;opacity:.82}
+.bn-num{font-size:clamp(40px,5vw,72px);font-weight:600;letter-spacing:-.02em;line-height:1}
+.bn-t .gbtn{align-self:flex-start;margin-top:14px}
+.bn-t.acc .gbtn{background:var(--accent-ink, #fff);color:var(--accent, #4a3aff)}
+.bn-t ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:14px}
+.bn-t li::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent, #4a3aff);margin-inline-end:8px;vertical-align:middle}
+.bn-breath{text-align:center;max-width:640px;margin-inline:auto;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));line-height:1.25;font-weight:300}
+.bn.frame .bn-board{outline:1px dashed var(--accent, #4a3aff);outline-offset:8px}
+.bn.frame .bn-t::after{content:attr(data-s);position:absolute;top:8px;inset-inline-end:10px;font-size:11px;color:var(--accent, #4a3aff);background:var(--bg, #f7f7fa);padding:1px 6px;border-radius:4px;letter-spacing:.08em}
+@media(max-width:767px){.bn-board{grid-template-columns:repeat(2,1fr);grid-auto-rows:auto;grid-auto-flow:dense}.bn-t{min-height:150px}.bn-t.h2{grid-row:auto}.bn-t.w2.h2{grid-column:span 2;min-height:230px}.bn-t.img{min-height:180px}}
+</style>
+</head>
+<body>
+
+<div class="mvhud"><span id="bnhud"></span><button id="bntg" type="button">הסתר מסגרת</button></div>
+<div class="bn frame">
+  <div class="bn-board">
+    <div class="bn-t acc w2 h2" data-s="2×2 · גיבור"><span class="bn-k">המערכת שלנו</span><div><h3>כל הלקוחות, כל ההצעות, כל הגבייה. מסך אחד.</h3><p>נבנה לעסקים ישראליים, בעברית, מהיום הראשון.</p><a class="gbtn" href="#">להתחיל בחינם</a></div></div>
+    <div class="bn-t img h2" data-s="1×2 · תמונה"><div class="ph ph-c"></div><span>הממשק בפועל</span></div>
+    <div class="bn-t" data-s="1×1 · מספר"><span class="bn-k">לקוחות פעילים</span><div><div class="bn-num">1,240</div><p>מאז 2023</p></div></div>
+    <div class="bn-t ink" data-s="1×1 · הצהרה"><span class="bn-k">הבטחה</span><h3>אפס גיליונות אקסל</h3></div>
+    <div class="bn-t w2" data-s="2×1 · רשימה"><span class="bn-k">מה כלול</span><ul><li>לידים מכל המקורות במקום אחד</li><li>הצעות מחיר שנחתמות בקליק</li><li>גבייה עם תזכורות אוטומטיות</li></ul></div>
+    <div class="bn-t" data-s="1×1 · מספר"><span class="bn-k">זמן הקמה</span><div><div class="bn-num">14</div><p>ימים, כולל הדרכה</p></div></div>
+    <div class="bn-t" data-s="1×1 · CTA סוגר"><span class="bn-k">רוצים לראות?</span><div><h3>הדגמה של 20 דקות</h3><a class="gbtn" href="#">לתאם</a></div></div>
+  </div>
+  <p class="bn-breath">בין שני לוחות תמיד סקשן נשימה. בנטו מתמיד מעייף בדיוק כמו מרקי מתמיד.</p>
+  <div class="bn-board">
+    <div class="bn-t w2" data-s="2×1 · ציטוט"><span class="bn-k">לקוחה</span><div><h3>"הפעם הראשונה שאני יודעת בכל רגע מי חייב לי כסף."</h3><p>מיכל אדר, סטודיו לעיצוב פנים</p></div></div>
+    <div class="bn-t" data-s="1×1 · מספר"><span class="bn-k">שביעות רצון</span><div><div class="bn-num">96%</div><p>ממליצים לחברים</p></div></div>
+    <div class="bn-t img" data-s="1×1 · תמונה"><div class="ph ph-e"></div><span>הצוות</span></div>
+  </div>
+</div>
+
+
+<script>
+const bn=document.querySelector(".bn"),hud=document.getElementById("bnhud"),tg=document.getElementById("bntg"),board=document.querySelector(".bn-board");
+tg.addEventListener("click",()=>{bn.classList.toggle("frame");tg.textContent=bn.classList.contains("frame")?"הסתר מסגרת":"הצג מסגרת";});
+function upd(){const cols=getComputedStyle(board).gridTemplateColumns.split(" ").length,u=board.querySelector(".bn-t:not(.w2):not(.h2)").getBoundingClientRect().height;
+  hud.textContent="רוחב: "+innerWidth+"px · לוח: "+cols+" עמודות · יחידת תא: "+Math.round(u)+"px";}
+addEventListener("resize",upd);upd();
+</script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>BENTO · מסגרת הבנטו (Bento Frame) | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.mvhud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;display:flex;gap:10px;align-items:center;background:var(--ink);color:var(--bg);font-size:13px;padding:8px 10px 8px 14px;border-radius:8px;opacity:.94}
+.mvhud button{background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}
+.bn{max-width:1200px;margin-inline:auto;padding:clamp(40px,6vw,96px) 24px;display:grid;gap:clamp(48px,7vw,96px)}
+.bn-board{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(150px,17vw,220px);gap:20px}
+.bn-t{position:relative;border-radius:var(--r);background:var(--card);border:1px solid var(--line);padding:24px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-width:0}
+.bn-t.w2{grid-column:span 2}
+.bn-t.h2{grid-row:span 2}
+.bn-t.img{padding:0;border:0;justify-content:flex-end}
+.bn-t.img .ph{position:absolute;inset:0;border-radius:0;font-size:0}
+.bn-t.img span{position:relative;align-self:flex-start;margin:18px;color:var(--bg);background:color-mix(in srgb,var(--ink) 70%,transparent);padding:6px 12px;border-radius:999px;font-size:13px}
+.bn-t.ink{background:var(--ink);color:var(--bg);border:0}
+.bn-t.acc{background:var(--accent);color:var(--accent-ink);border:0}
+.bn-k{font-size:12px;letter-spacing:.12em;opacity:.7}
+.bn-t h3{margin:0;font-size:clamp(18px,1.6vw,24px);line-height:1.25}
+.bn-t.acc h3{font-size:clamp(24px,2.4vw,36px)}
+.bn-t p{margin:6px 0 0;font-size:14px;line-height:1.55;opacity:.82}
+.bn-num{font-size:clamp(40px,5vw,72px);font-weight:600;letter-spacing:-.02em;line-height:1}
+.bn-t .gbtn{align-self:flex-start;margin-top:14px}
+.bn-t.acc .gbtn{background:var(--accent-ink);color:var(--accent)}
+.bn-t ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:14px}
+.bn-t li::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-inline-end:8px;vertical-align:middle}
+.bn-breath{text-align:center;max-width:640px;margin-inline:auto;font-size:var(--fs-h2);line-height:1.25;font-weight:300}
+.bn.frame .bn-board{outline:1px dashed var(--accent);outline-offset:8px}
+.bn.frame .bn-t::after{content:attr(data-s);position:absolute;top:8px;inset-inline-end:10px;font-size:11px;color:var(--accent);background:var(--bg);padding:1px 6px;border-radius:4px;letter-spacing:.08em}
+@media(max-width:767px){.bn-board{grid-template-columns:repeat(2,1fr);grid-auto-rows:auto;grid-auto-flow:dense}.bn-t{min-height:150px}.bn-t.h2{grid-row:auto}.bn-t.w2.h2{grid-column:span 2;min-height:230px}.bn-t.img{min-height:180px}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">BENTO</span> · מסגרת הבנטו (Bento Frame)</h1>
+  <span class="chip cat-misc">מסגרת</span>
+  <span class="chip">CSS Grid · לוחות של אריחים</span>
+  <span class="chip use">כרטיסים</span><span class="chip use">מספרים ונתונים</span><span class="chip use">תמונות וגלריות</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:bento"><code>MV:bento</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>העמוד בנוי מלוחות של אריחים בארבעה גדלים סגורים (1×1, 2×1, 1×2, 2×2), בתוך הקונטיינר העריכתי, עם יחידת תא אחת ומרזב אחד. גיבור אחד לכל לוח, הלוח תמיד נסגר, וכל אריח עושה דבר אחד. במובייל שתי עמודות ומפת span שנכתבת מחדש.</p>
+  <p class="when"><b>מתי משתמשים:</b> עמודי מוצר ו-SaaS, סקירת יכולות, "למה אנחנו", תיק עבודות מסכם, עמוד אפליקציה. כשהקורא סורק ולא קורא. התורה: engine/bento-frame.md.</p>
+  <div class="mvpanel" data-mvpanel="bento"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="mvhud"><span id="bnhud"></span><button id="bntg" type="button">הסתר מסגרת</button></div>
+<div class="bn frame">
+  <div class="bn-board">
+    <div class="bn-t acc w2 h2" data-s="2×2 · גיבור"><span class="bn-k">המערכת שלנו</span><div><h3>כל הלקוחות, כל ההצעות, כל הגבייה. מסך אחד.</h3><p>נבנה לעסקים ישראליים, בעברית, מהיום הראשון.</p><a class="gbtn" href="#">להתחיל בחינם</a></div></div>
+    <div class="bn-t img h2" data-s="1×2 · תמונה"><div class="ph ph-c"></div><span>הממשק בפועל</span></div>
+    <div class="bn-t" data-s="1×1 · מספר"><span class="bn-k">לקוחות פעילים</span><div><div class="bn-num">1,240</div><p>מאז 2023</p></div></div>
+    <div class="bn-t ink" data-s="1×1 · הצהרה"><span class="bn-k">הבטחה</span><h3>אפס גיליונות אקסל</h3></div>
+    <div class="bn-t w2" data-s="2×1 · רשימה"><span class="bn-k">מה כלול</span><ul><li>לידים מכל המקורות במקום אחד</li><li>הצעות מחיר שנחתמות בקליק</li><li>גבייה עם תזכורות אוטומטיות</li></ul></div>
+    <div class="bn-t" data-s="1×1 · מספר"><span class="bn-k">זמן הקמה</span><div><div class="bn-num">14</div><p>ימים, כולל הדרכה</p></div></div>
+    <div class="bn-t" data-s="1×1 · CTA סוגר"><span class="bn-k">רוצים לראות?</span><div><h3>הדגמה של 20 דקות</h3><a class="gbtn" href="#">לתאם</a></div></div>
+  </div>
+  <p class="bn-breath">בין שני לוחות תמיד סקשן נשימה. בנטו מתמיד מעייף בדיוק כמו מרקי מתמיד.</p>
+  <div class="bn-board">
+    <div class="bn-t w2" data-s="2×1 · ציטוט"><span class="bn-k">לקוחה</span><div><h3>"הפעם הראשונה שאני יודעת בכל רגע מי חייב לי כסף."</h3><p>מיכל אדר, סטודיו לעיצוב פנים</p></div></div>
+    <div class="bn-t" data-s="1×1 · מספר"><span class="bn-k">שביעות רצון</span><div><div class="bn-num">96%</div><p>ממליצים לחברים</p></div></div>
+    <div class="bn-t img" data-s="1×1 · תמונה"><div class="ph ph-e"></div><span>הצוות</span></div>
+  </div>
+</div>
+
+<div class="demo-note">ההבדל מקומפוזיציה C5: שם זה סקשן אחד בעמוד עריכתי, כאן זו שפת העמוד כולו, וכל הלוחות חולקים יחידה, מרזב ורדיוס. שכנים לעולם לא מאותו סוג, ink אחד ו-accent אחד לכל היותר בלוח, ואריח תמונה הוא התמונה עצמה עם תווית על שכבת דיו. הלוח הראשון סוגר 12 תאים, השני 4.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/bento.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
+
+/* BENTO · מסגרת הבנטו (Bento Frame) */
+.mvhud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;display:flex;gap:10px;align-items:center;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:13px;padding:8px 10px 8px 14px;border-radius:8px;opacity:.94}
+.mvhud button{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border:0;border-radius:6px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}
+.bn{max-width:1200px;margin-inline:auto;padding:clamp(40px,6vw,96px) 24px;display:grid;gap:clamp(48px,7vw,96px)}
+.bn-board{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(150px,17vw,220px);gap:20px}
+.bn-t{position:relative;border-radius:var(--r, 14px);background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:24px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-width:0}
+.bn-t.w2{grid-column:span 2}
+.bn-t.h2{grid-row:span 2}
+.bn-t.img{padding:0;border:0;justify-content:flex-end}
+.bn-t.img .ph{position:absolute;inset:0;border-radius:0;font-size:0}
+.bn-t.img span{position:relative;align-self:flex-start;margin:18px;color:var(--bg, #f7f7fa);background:color-mix(in srgb,var(--ink, #16182b) 70%,transparent);padding:6px 12px;border-radius:999px;font-size:13px}
+.bn-t.ink{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border:0}
+.bn-t.acc{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border:0}
+.bn-k{font-size:12px;letter-spacing:.12em;opacity:.7}
+.bn-t h3{margin:0;font-size:clamp(18px,1.6vw,24px);line-height:1.25}
+.bn-t.acc h3{font-size:clamp(24px,2.4vw,36px)}
+.bn-t p{margin:6px 0 0;font-size:14px;line-height:1.55;opacity:.82}
+.bn-num{font-size:clamp(40px,5vw,72px);font-weight:600;letter-spacing:-.02em;line-height:1}
+.bn-t .gbtn{align-self:flex-start;margin-top:14px}
+.bn-t.acc .gbtn{background:var(--accent-ink, #fff);color:var(--accent, #4a3aff)}
+.bn-t ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:14px}
+.bn-t li::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent, #4a3aff);margin-inline-end:8px;vertical-align:middle}
+.bn-breath{text-align:center;max-width:640px;margin-inline:auto;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));line-height:1.25;font-weight:300}
+.bn.frame .bn-board{outline:1px dashed var(--accent, #4a3aff);outline-offset:8px}
+.bn.frame .bn-t::after{content:attr(data-s);position:absolute;top:8px;inset-inline-end:10px;font-size:11px;color:var(--accent, #4a3aff);background:var(--bg, #f7f7fa);padding:1px 6px;border-radius:4px;letter-spacing:.08em}
+@media(max-width:767px){.bn-board{grid-template-columns:repeat(2,1fr);grid-auto-rows:auto;grid-auto-flow:dense}.bn-t{min-height:150px}.bn-t.h2{grid-row:auto}.bn-t.w2.h2{grid-column:span 2;min-height:230px}.bn-t.img{min-height:180px}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="mvhud"&gt;&lt;span id="bnhud"&gt;&lt;/span&gt;&lt;button id="bntg" type="button"&gt;הסתר מסגרת&lt;/button&gt;&lt;/div&gt;
+&lt;div class="bn frame"&gt;
+  &lt;div class="bn-board"&gt;
+    &lt;div class="bn-t acc w2 h2" data-s="2×2 · גיבור"&gt;&lt;span class="bn-k"&gt;המערכת שלנו&lt;/span&gt;&lt;div&gt;&lt;h3&gt;כל הלקוחות, כל ההצעות, כל הגבייה. מסך אחד.&lt;/h3&gt;&lt;p&gt;נבנה לעסקים ישראליים, בעברית, מהיום הראשון.&lt;/p&gt;&lt;a class="gbtn" href="#"&gt;להתחיל בחינם&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="bn-t img h2" data-s="1×2 · תמונה"&gt;&lt;div class="ph ph-c"&gt;&lt;/div&gt;&lt;span&gt;הממשק בפועל&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="bn-t" data-s="1×1 · מספר"&gt;&lt;span class="bn-k"&gt;לקוחות פעילים&lt;/span&gt;&lt;div&gt;&lt;div class="bn-num"&gt;1,240&lt;/div&gt;&lt;p&gt;מאז 2023&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="bn-t ink" data-s="1×1 · הצהרה"&gt;&lt;span class="bn-k"&gt;הבטחה&lt;/span&gt;&lt;h3&gt;אפס גיליונות אקסל&lt;/h3&gt;&lt;/div&gt;
+    &lt;div class="bn-t w2" data-s="2×1 · רשימה"&gt;&lt;span class="bn-k"&gt;מה כלול&lt;/span&gt;&lt;ul&gt;&lt;li&gt;לידים מכל המקורות במקום אחד&lt;/li&gt;&lt;li&gt;הצעות מחיר שנחתמות בקליק&lt;/li&gt;&lt;li&gt;גבייה עם תזכורות אוטומטיות&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;
+    &lt;div class="bn-t" data-s="1×1 · מספר"&gt;&lt;span class="bn-k"&gt;זמן הקמה&lt;/span&gt;&lt;div&gt;&lt;div class="bn-num"&gt;14&lt;/div&gt;&lt;p&gt;ימים, כולל הדרכה&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="bn-t" data-s="1×1 · CTA סוגר"&gt;&lt;span class="bn-k"&gt;רוצים לראות?&lt;/span&gt;&lt;div&gt;&lt;h3&gt;הדגמה של 20 דקות&lt;/h3&gt;&lt;a class="gbtn" href="#"&gt;לתאם&lt;/a&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;p class="bn-breath"&gt;בין שני לוחות תמיד סקשן נשימה. בנטו מתמיד מעייף בדיוק כמו מרקי מתמיד.&lt;/p&gt;
+  &lt;div class="bn-board"&gt;
+    &lt;div class="bn-t w2" data-s="2×1 · ציטוט"&gt;&lt;span class="bn-k"&gt;לקוחה&lt;/span&gt;&lt;div&gt;&lt;h3&gt;"הפעם הראשונה שאני יודעת בכל רגע מי חייב לי כסף."&lt;/h3&gt;&lt;p&gt;מיכל אדר, סטודיו לעיצוב פנים&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="bn-t" data-s="1×1 · מספר"&gt;&lt;span class="bn-k"&gt;שביעות רצון&lt;/span&gt;&lt;div&gt;&lt;div class="bn-num"&gt;96%&lt;/div&gt;&lt;p&gt;ממליצים לחברים&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div class="bn-t img" data-s="1×1 · תמונה"&gt;&lt;div class="ph ph-e"&gt;&lt;/div&gt;&lt;span&gt;הצוות&lt;/span&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>const bn=document.querySelector(".bn"),hud=document.getElementById("bnhud"),tg=document.getElementById("bntg"),board=document.querySelector(".bn-board");
+tg.addEventListener("click",()=&gt;{bn.classList.toggle("frame");tg.textContent=bn.classList.contains("frame")?"הסתר מסגרת":"הצג מסגרת";});
+function upd(){const cols=getComputedStyle(board).gridTemplateColumns.split(" ").length,u=board.querySelector(".bn-t:not(.w2):not(.h2)").getBoundingClientRect().height;
+  hud.textContent="רוחב: "+innerWidth+"px · לוח: "+cols+" עמודות · יחידת תא: "+Math.round(u)+"px";}
+addEventListener("resize",upd);upd();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:bento · מסגרת הבנטו (Bento Frame)\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/misc/bento.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/bento.html\n\nמה זה עושה: העמוד בנוי מלוחות של אריחים בארבעה גדלים סגורים (1×1, 2×1, 1×2, 2×2), בתוך הקונטיינר העריכתי, עם יחידת תא אחת ומרזב אחד. גיבור אחד לכל לוח, הלוח תמיד נסגר, וכל אריח עושה דבר אחד. במובייל שתי עמודות ומפת span שנכתבת מחדש.\nמתי משתמשים: עמודי מוצר ו-SaaS, סקירת יכולות, \"למה אנחנו\", תיק עבודות מסכם, עמוד אפליקציה. כשהקורא סורק ולא קורא. התורה: engine/bento-frame.md.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* BENTO · מסגרת הבנטו (Bento Frame) */\n.mvhud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;display:flex;gap:10px;align-items:center;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:13px;padding:8px 10px 8px 14px;border-radius:8px;opacity:.94}\n.mvhud button{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border:0;border-radius:6px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}\n.bn{max-width:1200px;margin-inline:auto;padding:clamp(40px,6vw,96px) 24px;display:grid;gap:clamp(48px,7vw,96px)}\n.bn-board{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(150px,17vw,220px);gap:20px}\n.bn-t{position:relative;border-radius:var(--r, 14px);background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:24px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-width:0}\n.bn-t.w2{grid-column:span 2}\n.bn-t.h2{grid-row:span 2}\n.bn-t.img{padding:0;border:0;justify-content:flex-end}\n.bn-t.img .ph{position:absolute;inset:0;border-radius:0;font-size:0}\n.bn-t.img span{position:relative;align-self:flex-start;margin:18px;color:var(--bg, #f7f7fa);background:color-mix(in srgb,var(--ink, #16182b) 70%,transparent);padding:6px 12px;border-radius:999px;font-size:13px}\n.bn-t.ink{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border:0}\n.bn-t.acc{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border:0}\n.bn-k{font-size:12px;letter-spacing:.12em;opacity:.7}\n.bn-t h3{margin:0;font-size:clamp(18px,1.6vw,24px);line-height:1.25}\n.bn-t.acc h3{font-size:clamp(24px,2.4vw,36px)}\n.bn-t p{margin:6px 0 0;font-size:14px;line-height:1.55;opacity:.82}\n.bn-num{font-size:clamp(40px,5vw,72px);font-weight:600;letter-spacing:-.02em;line-height:1}\n.bn-t .gbtn{align-self:flex-start;margin-top:14px}\n.bn-t.acc .gbtn{background:var(--accent-ink, #fff);color:var(--accent, #4a3aff)}\n.bn-t ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:14px}\n.bn-t li::before{content:\"\";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent, #4a3aff);margin-inline-end:8px;vertical-align:middle}\n.bn-breath{text-align:center;max-width:640px;margin-inline:auto;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));line-height:1.25;font-weight:300}\n.bn.frame .bn-board{outline:1px dashed var(--accent, #4a3aff);outline-offset:8px}\n.bn.frame .bn-t::after{content:attr(data-s);position:absolute;top:8px;inset-inline-end:10px;font-size:11px;color:var(--accent, #4a3aff);background:var(--bg, #f7f7fa);padding:1px 6px;border-radius:4px;letter-spacing:.08em}\n@media(max-width:767px){.bn-board{grid-template-columns:repeat(2,1fr);grid-auto-rows:auto;grid-auto-flow:dense}.bn-t{min-height:150px}.bn-t.h2{grid-row:auto}.bn-t.w2.h2{grid-column:span 2;min-height:230px}.bn-t.img{min-height:180px}}\n\n=== HTML ===\n<div class=\"mvhud\"><span id=\"bnhud\"><\/span><button id=\"bntg\" type=\"button\">הסתר מסגרת<\/button><\/div>\n<div class=\"bn frame\">\n  <div class=\"bn-board\">\n    <div class=\"bn-t acc w2 h2\" data-s=\"2×2 · גיבור\"><span class=\"bn-k\">המערכת שלנו<\/span><div><h3>כל הלקוחות, כל ההצעות, כל הגבייה. מסך אחד.<\/h3><p>נבנה לעסקים ישראליים, בעברית, מהיום הראשון.<\/p><a class=\"gbtn\" href=\"#\">להתחיל בחינם<\/a><\/div><\/div>\n    <div class=\"bn-t img h2\" data-s=\"1×2 · תמונה\"><div class=\"ph ph-c\"><\/div><span>הממשק בפועל<\/span><\/div>\n    <div class=\"bn-t\" data-s=\"1×1 · מספר\"><span class=\"bn-k\">לקוחות פעילים<\/span><div><div class=\"bn-num\">1,240<\/div><p>מאז 2023<\/p><\/div><\/div>\n    <div class=\"bn-t ink\" data-s=\"1×1 · הצהרה\"><span class=\"bn-k\">הבטחה<\/span><h3>אפס גיליונות אקסל<\/h3><\/div>\n    <div class=\"bn-t w2\" data-s=\"2×1 · רשימה\"><span class=\"bn-k\">מה כלול<\/span><ul><li>לידים מכל המקורות במקום אחד<\/li><li>הצעות מחיר שנחתמות בקליק<\/li><li>גבייה עם תזכורות אוטומטיות<\/li><\/ul><\/div>\n    <div class=\"bn-t\" data-s=\"1×1 · מספר\"><span class=\"bn-k\">זמן הקמה<\/span><div><div class=\"bn-num\">14<\/div><p>ימים, כולל הדרכה<\/p><\/div><\/div>\n    <div class=\"bn-t\" data-s=\"1×1 · CTA סוגר\"><span class=\"bn-k\">רוצים לראות?<\/span><div><h3>הדגמה של 20 דקות<\/h3><a class=\"gbtn\" href=\"#\">לתאם<\/a><\/div><\/div>\n  <\/div>\n  <p class=\"bn-breath\">בין שני לוחות תמיד סקשן נשימה. בנטו מתמיד מעייף בדיוק כמו מרקי מתמיד.<\/p>\n  <div class=\"bn-board\">\n    <div class=\"bn-t w2\" data-s=\"2×1 · ציטוט\"><span class=\"bn-k\">לקוחה<\/span><div><h3>\"הפעם הראשונה שאני יודעת בכל רגע מי חייב לי כסף.\"<\/h3><p>מיכל אדר, סטודיו לעיצוב פנים<\/p><\/div><\/div>\n    <div class=\"bn-t\" data-s=\"1×1 · מספר\"><span class=\"bn-k\">שביעות רצון<\/span><div><div class=\"bn-num\">96%<\/div><p>ממליצים לחברים<\/p><\/div><\/div>\n    <div class=\"bn-t img\" data-s=\"1×1 · תמונה\"><div class=\"ph ph-e\"><\/div><span>הצוות<\/span><\/div>\n  <\/div>\n<\/div>\n\n=== JS ===\nconst bn=document.querySelector(\".bn\"),hud=document.getElementById(\"bnhud\"),tg=document.getElementById(\"bntg\"),board=document.querySelector(\".bn-board\");\ntg.addEventListener(\"click\",()=>{bn.classList.toggle(\"frame\");tg.textContent=bn.classList.contains(\"frame\")?\"הסתר מסגרת\":\"הצג מסגרת\";});\nfunction upd(){const cols=getComputedStyle(board).gridTemplateColumns.split(\" \").length,u=board.querySelector(\".bn-t:not(.w2):not(.h2)\").getBoundingClientRect().height;\n  hud.textContent=\"רוחב: \"+innerWidth+\"px · לוח: \"+cols+\" עמודות · יחידת תא: \"+Math.round(u)+\"px\";}\naddEventListener(\"resize\",upd);upd();\n\nהערת מימוש מהמאגר:\nההבדל מקומפוזיציה C5: שם זה סקשן אחד בעמוד עריכתי, כאן זו שפת העמוד כולו, וכל הלוחות חולקים יחידה, מרזב ורדיוס. שכנים לעולם לא מאותו סוג, ink אחד ו-accent אחד לכל היותר בלוח, ואריח תמונה הוא התמונה עצמה עם תווית על שכבת דיו. הלוח הראשון סוגר 12 תאים, השני 4.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* BENTO · מסגרת הבנטו (Bento Frame) */\n.mvhud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;display:flex;gap:10px;align-items:center;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:13px;padding:8px 10px 8px 14px;border-radius:8px;opacity:.94}\n.mvhud button{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border:0;border-radius:6px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}\n.bn{max-width:1200px;margin-inline:auto;padding:clamp(40px,6vw,96px) 24px;display:grid;gap:clamp(48px,7vw,96px)}\n.bn-board{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(150px,17vw,220px);gap:20px}\n.bn-t{position:relative;border-radius:var(--r, 14px);background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:24px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-width:0}\n.bn-t.w2{grid-column:span 2}\n.bn-t.h2{grid-row:span 2}\n.bn-t.img{padding:0;border:0;justify-content:flex-end}\n.bn-t.img .ph{position:absolute;inset:0;border-radius:0;font-size:0}\n.bn-t.img span{position:relative;align-self:flex-start;margin:18px;color:var(--bg, #f7f7fa);background:color-mix(in srgb,var(--ink, #16182b) 70%,transparent);padding:6px 12px;border-radius:999px;font-size:13px}\n.bn-t.ink{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border:0}\n.bn-t.acc{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border:0}\n.bn-k{font-size:12px;letter-spacing:.12em;opacity:.7}\n.bn-t h3{margin:0;font-size:clamp(18px,1.6vw,24px);line-height:1.25}\n.bn-t.acc h3{font-size:clamp(24px,2.4vw,36px)}\n.bn-t p{margin:6px 0 0;font-size:14px;line-height:1.55;opacity:.82}\n.bn-num{font-size:clamp(40px,5vw,72px);font-weight:600;letter-spacing:-.02em;line-height:1}\n.bn-t .gbtn{align-self:flex-start;margin-top:14px}\n.bn-t.acc .gbtn{background:var(--accent-ink, #fff);color:var(--accent, #4a3aff)}\n.bn-t ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:14px}\n.bn-t li::before{content:\"\";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent, #4a3aff);margin-inline-end:8px;vertical-align:middle}\n.bn-breath{text-align:center;max-width:640px;margin-inline:auto;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));line-height:1.25;font-weight:300}\n.bn.frame .bn-board{outline:1px dashed var(--accent, #4a3aff);outline-offset:8px}\n.bn.frame .bn-t::after{content:attr(data-s);position:absolute;top:8px;inset-inline-end:10px;font-size:11px;color:var(--accent, #4a3aff);background:var(--bg, #f7f7fa);padding:1px 6px;border-radius:4px;letter-spacing:.08em}\n@media(max-width:767px){.bn-board{grid-template-columns:repeat(2,1fr);grid-auto-rows:auto;grid-auto-flow:dense}.bn-t{min-height:150px}.bn-t.h2{grid-row:auto}.bn-t.w2.h2{grid-column:span 2;min-height:230px}.bn-t.img{min-height:180px}}","html":"<div class=\"mvhud\"><span id=\"bnhud\"><\/span><button id=\"bntg\" type=\"button\">הסתר מסגרת<\/button><\/div>\n<div class=\"bn frame\">\n  <div class=\"bn-board\">\n    <div class=\"bn-t acc w2 h2\" data-s=\"2×2 · גיבור\"><span class=\"bn-k\">המערכת שלנו<\/span><div><h3>כל הלקוחות, כל ההצעות, כל הגבייה. מסך אחד.<\/h3><p>נבנה לעסקים ישראליים, בעברית, מהיום הראשון.<\/p><a class=\"gbtn\" href=\"#\">להתחיל בחינם<\/a><\/div><\/div>\n    <div class=\"bn-t img h2\" data-s=\"1×2 · תמונה\"><div class=\"ph ph-c\"><\/div><span>הממשק בפועל<\/span><\/div>\n    <div class=\"bn-t\" data-s=\"1×1 · מספר\"><span class=\"bn-k\">לקוחות פעילים<\/span><div><div class=\"bn-num\">1,240<\/div><p>מאז 2023<\/p><\/div><\/div>\n    <div class=\"bn-t ink\" data-s=\"1×1 · הצהרה\"><span class=\"bn-k\">הבטחה<\/span><h3>אפס גיליונות אקסל<\/h3><\/div>\n    <div class=\"bn-t w2\" data-s=\"2×1 · רשימה\"><span class=\"bn-k\">מה כלול<\/span><ul><li>לידים מכל המקורות במקום אחד<\/li><li>הצעות מחיר שנחתמות בקליק<\/li><li>גבייה עם תזכורות אוטומטיות<\/li><\/ul><\/div>\n    <div class=\"bn-t\" data-s=\"1×1 · מספר\"><span class=\"bn-k\">זמן הקמה<\/span><div><div class=\"bn-num\">14<\/div><p>ימים, כולל הדרכה<\/p><\/div><\/div>\n    <div class=\"bn-t\" data-s=\"1×1 · CTA סוגר\"><span class=\"bn-k\">רוצים לראות?<\/span><div><h3>הדגמה של 20 דקות<\/h3><a class=\"gbtn\" href=\"#\">לתאם<\/a><\/div><\/div>\n  <\/div>\n  <p class=\"bn-breath\">בין שני לוחות תמיד סקשן נשימה. בנטו מתמיד מעייף בדיוק כמו מרקי מתמיד.<\/p>\n  <div class=\"bn-board\">\n    <div class=\"bn-t w2\" data-s=\"2×1 · ציטוט\"><span class=\"bn-k\">לקוחה<\/span><div><h3>\"הפעם הראשונה שאני יודעת בכל רגע מי חייב לי כסף.\"<\/h3><p>מיכל אדר, סטודיו לעיצוב פנים<\/p><\/div><\/div>\n    <div class=\"bn-t\" data-s=\"1×1 · מספר\"><span class=\"bn-k\">שביעות רצון<\/span><div><div class=\"bn-num\">96%<\/div><p>ממליצים לחברים<\/p><\/div><\/div>\n    <div class=\"bn-t img\" data-s=\"1×1 · תמונה\"><div class=\"ph ph-e\"><\/div><span>הצוות<\/span><\/div>\n  <\/div>\n<\/div>","js":"const bn=document.querySelector(\".bn\"),hud=document.getElementById(\"bnhud\"),tg=document.getElementById(\"bntg\"),board=document.querySelector(\".bn-board\");\ntg.addEventListener(\"click\",()=>{bn.classList.toggle(\"frame\");tg.textContent=bn.classList.contains(\"frame\")?\"הסתר מסגרת\":\"הצג מסגרת\";});\nfunction upd(){const cols=getComputedStyle(board).gridTemplateColumns.split(\" \").length,u=board.querySelector(\".bn-t:not(.w2):not(.h2)\").getBoundingClientRect().height;\n  hud.textContent=\"רוחב: \"+innerWidth+\"px · לוח: \"+cols+\" עמודות · יחידת תא: \"+Math.round(u)+\"px\";}\naddEventListener(\"resize\",upd);upd();","scripts":"","rtl":true}</script>
+</section>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מסגרת הבנטו (Bento Frame)").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+const bn=document.querySelector(".bn"),hud=document.getElementById("bnhud"),tg=document.getElementById("bntg"),board=document.querySelector(".bn-board");
+tg.addEventListener("click",()=>{bn.classList.toggle("frame");tg.textContent=bn.classList.contains("frame")?"הסתר מסגרת":"הצג מסגרת";});
+function upd(){const cols=getComputedStyle(board).gridTemplateColumns.split(" ").length,u=board.querySelector(".bn-t:not(.w2):not(.h2)").getBoundingClientRect().height;
+  hud.textContent="רוחב: "+innerWidth+"px · לוח: "+cols+" עמודות · יחידת תא: "+Math.round(u)+"px";}
+addEventListener("resize",upd);upd();
+</script>
+</body>
+</html>

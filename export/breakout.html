@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>BREAKOUT · מסגרת הפריצה (Breakout Frame)</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}
+.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
+
+/* BREAKOUT · מסגרת הפריצה (Breakout Frame) */
+.mvhud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;display:flex;gap:10px;align-items:center;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:13px;padding:8px 10px 8px 14px;border-radius:8px;opacity:.94}
+.mvhud button{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border:0;border-radius:6px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}
+.bo{--g:clamp(24px,4vw,64px);--content:640px;--popout:60px;--feature:180px;display:grid;
+  grid-template-columns:[full-start] minmax(var(--g),1fr) [feature-start] minmax(0,var(--feature)) [popout-start] minmax(0,var(--popout)) [content-start] min(var(--content),100% - var(--g) * 2) [content-end] minmax(0,var(--popout)) [popout-end] minmax(0,var(--feature)) [feature-end] minmax(var(--g),1fr) [full-end];
+  row-gap:24px;padding-block:clamp(40px,6vw,96px)}
+.bo>*{grid-column:content;margin:0;position:relative}
+.bo>.popout{grid-column:popout}
+.bo>.feature{grid-column:feature}
+.bo>.full{grid-column:full}
+.bo.frame>*{outline:1px dashed color-mix(in srgb,var(--accent, #4a3aff) 60%,transparent);outline-offset:4px}
+.bo.frame>[data-col]::after{content:attr(data-col);position:absolute;top:-16px;inset-inline-end:0;font-size:11px;color:var(--accent, #4a3aff);background:var(--bg, #f7f7fa);padding:0 6px;letter-spacing:.08em;white-space:nowrap}
+.bo h2{font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));line-height:1.15;margin-top:40px}
+.bo h3{font-size:20px;line-height:1.35;margin-top:16px}
+.bo p{line-height:1.75}
+.bo .lead{color:var(--muted, #6a6d85);font-size:19px}
+.bo blockquote{border-inline-start:3px solid var(--accent, #4a3aff);padding:14px 22px;font-size:22px;font-weight:600;line-height:1.4;background:var(--card, #fff);border-radius:var(--r, 14px);margin-block:16px}
+.bo figure{margin-block:24px}
+.bo figure .ph{aspect-ratio:16/8;font-size:18px}
+.bo figcaption{font-size:13px;color:var(--muted, #6a6d85);margin-top:8px}
+.bo .band{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding-block:clamp(40px,6vw,80px);margin-block:24px;row-gap:12px}
+.bo .band h3{margin:0;font-size:26px;line-height:1.25}
+.bo .band p{color:color-mix(in srgb,var(--bg, #f7f7fa) 78%,transparent);margin:0}
+.bo .band .gbtn{justify-self:start;margin-top:8px}
+@media(max-width:767px){.bo{--popout:0px;--feature:0px}.bo blockquote{font-size:19px}}
+</style>
+</head>
+<body>
+
+<div class="mvhud"><span id="bohud"></span><button id="botg" type="button">הסתר מסגרת</button></div>
+<article class="bo frame">
+  <h2 class="popout" data-col="popout · 760" style="margin-top:0">למה עמוד שמסביר צריך מסגרת אחרת מעמוד שמוכר</h2>
+  <p class="lead" data-col="content · 640">דף נחיתה הוא משפך. מאמר הוא שיחה. כשמנסים לבנות את השני עם הכלים של הראשון, מקבלים פסקאות שצפות בין סקשנים ריקים.</p>
+  <p data-col="content · 640">בעמוד קריאה יש עמודה אחת, וכל מה שהקורא צריך נמצא בה. הפריצה החוצה היא אירוע: תמונה שצריכה מקום, ציטוט שצריך משקל, רצועה שמסמנת פרק חדש. השאר נשאר בעמודה, ברוחב שנוח לעין.</p>
+  <blockquote class="popout" data-col="popout · 760">הקורא לא מרגיש את הגריד. הוא מרגיש שהעמוד יודע איפה הוא.</blockquote>
+  <p>שלוש דרגות הפריצה ממופות לסולם הרוחבים שכבר קיים במנוע. content הוא ה-measure, popout הוא ראש סקשן, feature הוא ויז'ואל הירו. אין דרגה חמישית, ואם משהו צריך 880 הוא feature.</p>
+  <figure class="feature" data-col="feature · 1000"><div class="ph ph-c"><span class="ph-l">תמונה, טבלה או וידאו: תמיד feature</span></div><figcaption>מדיה ברוחב 640 בתוך עמוד קריאה נראית כמו תמונה במייל. לכן היא תמיד פורצת.</figcaption></figure>
+  <h3>הרצועה המלאה מפעילה את הגריד מחדש</h3>
+  <p>הרקע שלה פורץ עד הקצה, אבל הכותרת והפסקה בתוכה חוזרות להתיישר לעמודת הקריאה של העמוד. ככה יש לעמוד קו אנכי אחד לאורך כל הדרך, גם כשהצבע מתחלף.</p>
+  <div class="full band bo frame" data-col="full">
+    <h3>רוצים שהמדריכים שלכם ייקראו עד הסוף?</h3>
+    <p>אותה מסגרת, אותו קו, רק הרקע השתנה. הטקסט הזה יושב בדיוק מתחת לפסקה שמעל הרצועה.</p>
+    <a class="gbtn" href="#">לשיחה קצרה</a>
+  </div>
+  <p data-col="content · 640">במובייל שתי דרגות הפריצה מתאפסות ל-0 בלי שכותבים כלום: הכותרות, הציטוטים והתמונות מתיישרים לקצה הטקסט, והרצועה נשארת מלאה. אין גלילה אופקית, אין מדרגת טאבלט.</p>
+</article>
+
+
+<script>
+const hud=document.getElementById("bohud"),tg=document.getElementById("botg");
+tg.addEventListener("click",()=>{const on=!document.querySelector(".bo").classList.contains("frame");document.querySelectorAll(".bo").forEach(b=>b.classList.toggle("frame",on));tg.textContent=on?"הסתר מסגרת":"הצג מסגרת";});
+function upd(){const c=document.querySelector(".bo > p.lead").getBoundingClientRect().width,p=document.querySelector(".bo > blockquote").getBoundingClientRect().width;
+  hud.textContent="רוחב: "+innerWidth+"px · content: "+Math.round(c)+"px · popout: "+Math.round(p)+"px"+(Math.round(p-c)<2?" (הפריצות סגורות)":"");}
+addEventListener("resize",upd);upd();
+</script>
+</body>
+</html>
