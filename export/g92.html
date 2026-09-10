@@ -37,7 +37,7 @@ img{max-width:100%}
 .fk-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1600px;overflow:hidden}
 .fk-deck{position:relative;width:min(640px,88vw);aspect-ratio:16/9;transform-style:preserve-3d}
 .fk-card{position:absolute;inset:0;border-radius:24px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;
-  backface-visibility:hidden;transform-origin:50% 50%;box-shadow:0 30px 70px rgba(0,0,0,.14);will-change:transform}
+  backface-visibility:hidden;transform-origin:50% 0%;box-shadow:0 30px 70px rgba(0,0,0,.14);will-change:transform}
 .fk-card q{font-size:clamp(18px,2.4vw,30px);font-weight:600;line-height:1.35;quotes:none}
 .fk-card q::before{content:"״"}.fk-card q::after{content:"״"}
 .fk-card cite{font-style:normal;color:var(--muted, #6a6d85);font-size:15px}
@@ -70,6 +70,8 @@ gsap.registerPlugin(ScrollTrigger);
   const tl=gsap.timeline({scrollTrigger:{trigger:".fk",start:"top top",end:"bottom bottom",scrub:.5}});
   cards.slice(0,-1).forEach((c,i)=>{
     tl.to(c,{rotateX:-180,duration:1,ease:"power2.inOut"},i)
+      .to(c,{z:150,duration:.5,ease:"power2.out"},i)                    // מתרומם מהערימה כדי שלא יסתובב דרך הקלפים שמתחתיו
+      .to(c,{z:0,duration:.5,ease:"power2.in"},i+.5)
       .set(c,{zIndex:0},i+.5)                                           // באמצע ההיפוך הקלף עובר לתחתית הערימה
       .to(cards.slice(i+1),{y:(k)=>k*6,scale:(k)=>1-k*.02,duration:1,ease:"power2.out"},i)
       .to(".fk-hint",{opacity:0,duration:.2},0);

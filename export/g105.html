@@ -33,21 +33,23 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* G105 · מרקי שמתקבע לכותרת */
-.mq{position:relative;height:200vh}
-.mq-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
-.mq-track{display:flex;gap:.6em;white-space:nowrap;font-size:clamp(32px,6.5vw,92px);font-weight:800;will-change:transform;color:var(--muted, #6a6d85)}
-.mq-track span{opacity:.35;transition:opacity .4s,color .4s}
-.mq-track span.key{opacity:1;color:var(--ink, #16182b)}
-.mq-track span.key.on{color:var(--accent, #4a3aff)}
-.mq-sub{position:absolute;bottom:22vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);opacity:0;translate:0 10px}
+.mq{position:relative;height:220vh}
+.mq-pin{position:sticky;top:0;height:100vh;overflow:hidden}
+.mq-track{position:absolute;top:50%;inset-inline-start:0;translate:0 -50%;display:flex;direction:ltr;white-space:nowrap;font-size:clamp(30px,6vw,84px);font-weight:800;will-change:transform}
+.mq-set{display:flex;gap:.5em;padding-inline-end:.5em}
+.mq-set span{color:var(--muted, #6a6d85);opacity:.38}
+.mq-set span::after{content:"·";margin-inline-start:.5em;opacity:.5}
+.mq-set span.key{opacity:1;color:var(--ink, #16182b)}
+.mq-set span.key.on{color:var(--accent, #4a3aff)}
+.mq-sub{position:absolute;bottom:18vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);opacity:0}
 </style>
 </head>
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="mq">
   <div class="mq-pin">
-    <div class="mq-track"><span>אסטרטגיה ·</span><span>קופי ·</span><span>עיצוב ·</span><span class="key">אתר שמביא לקוחות</span><span>· פיתוח ·</span><span>מדידה ·</span><span>ליווי ·</span><span>אסטרטגיה ·</span><span>קופי ·</span><span>עיצוב ·</span></div>
-    <p class="mq-sub">זה כל מה שאנחנו עושים. גלול.</p>
+    <div class="mq-track"><div class="mq-set"><span>אסטרטגיה</span><span>קופי</span><span>עיצוב</span><span class="key">אתר שמביא לקוחות</span><span>פיתוח</span><span>מדידה</span><span>ליווי</span></div></div>
+    <p class="mq-sub">זה כל מה שאנחנו עושים.</p>
   </div>
 </div>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
@@ -57,16 +59,42 @@ img{max-width:100%}
 gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const track=document.querySelector(".mq-track"),key=track.querySelector(".key"),pin=document.querySelector(".mq-pin");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(track,{x:()=>pin.clientWidth/2-(key.offsetLeft+key.offsetWidth/2)});key.classList.add("on");return;}
-  // מרקי: הרצועה נעה בלולאה כל עוד לא גוללים
-  const loop=gsap.to(track,{x:"-=600",duration:8,ease:"none",repeat:-1,modifiers:{x:gsap.utils.unitize(v=>parseFloat(v)%600)}});
-  const target=()=>pin.clientWidth/2-(key.offsetLeft+key.offsetWidth/2);   // איפה x צריך להיות כדי שהמילה במרכז
+  const track=document.querySelector(".mq-track"),pin=document.querySelector(".mq-pin"),sub=document.querySelector(".mq-sub");
+  const base=track.querySelector(".mq-set");
+  const mid=()=>{const r=pin.getBoundingClientRect();return r.left+r.width/2;};
+  const nearest=()=>{let d=null;track.querySelectorAll(".key").forEach(k=>{const r=k.getBoundingClientRect(),v=mid()-(r.left+r.width/2);if(d===null||Math.abs(v)<Math.abs(d))d=v;});return d;};
+  let W=0,loop=null,lock=null;
+  function fill(){
+    track.querySelectorAll(".mq-set").forEach((n,i)=>{if(i)n.remove();});
+    W=base.getBoundingClientRect().width;
+    // כמה עותקים צריך כדי שהחלון תמיד יראה תוכן: מסך שלם ועוד מחזור אחד
+    const need=Math.ceil((pin.clientWidth+W)/W)+1;
+    for(let i=1;i<need;i++){const c=base.cloneNode(true);c.setAttribute("aria-hidden","true");track.appendChild(c);}
+  }
+  fill();
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){
+    gsap.set(track,{x:nearest()});track.querySelectorAll(".key").forEach(k=>k.classList.add("on"));gsap.set(sub,{opacity:1});return;
+  }
+  function build(){
+    loop&&loop.kill();lock=null;fill();gsap.set(track,{x:0});
+    loop=gsap.to(track,{x:"-="+W,duration:W/90,ease:"none",repeat:-1,
+      modifiers:{x:gsap.utils.unitize(v=>gsap.utils.wrap(-W,0,parseFloat(v)))}});
+  }
+  build();
+  ScrollTrigger.addEventListener("refresh",build);
   ScrollTrigger.create({trigger:".mq",start:"top top",end:"bottom bottom",scrub:.6,onUpdate(s){
     const p=s.progress;
-    loop.timeScale(Math.max(0,1-p*2));                                        // מאט עד עצירה בחצי הדרך
-    if(p>.5){loop.pause();const cx=gsap.getProperty(track,"x");gsap.set(track,{x:cx+(target()-cx)*gsap.utils.clamp(0,1,(p-.5)*3)});key.classList.toggle("on",p>.8);gsap.set(".mq-sub",{opacity:gsap.utils.clamp(0,1,(p-.8)*5),translate:"0 0"});}
-    else{if(loop.paused()&&p<.45)loop.play();key.classList.remove("on");gsap.set(".mq-sub",{opacity:0});}
+    if(p<.5){
+      if(lock){lock=null;loop.play();}
+      loop.timeScale(gsap.utils.clamp(0,1,(.5-p)*10));            // מאט עד עצירה מלאה בדיוק בחצי
+      track.querySelectorAll(".key").forEach(k=>k.classList.remove("on"));
+      gsap.set(sub,{opacity:0});return;
+    }
+    if(!lock){loop.pause();lock={from:gsap.getProperty(track,"x"),delta:nearest()};}
+    const t=gsap.utils.clamp(0,1,(p-.5)*2.5),e=gsap.parseEase("power3.out")(t);
+    gsap.set(track,{x:lock.from+lock.delta*e});
+    track.querySelectorAll(".key").forEach(k=>k.classList.toggle("on",t>.8));
+    gsap.set(sub,{opacity:gsap.utils.clamp(0,1,(t-.7)*3.4)});
   }});
 })();
 </script>

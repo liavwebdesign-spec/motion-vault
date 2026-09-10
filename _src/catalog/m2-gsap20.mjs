@@ -43,17 +43,17 @@ export default [
   id:"g90", cat:"gsap", name:"שכבות מוצר שמתפרקות ומתחברות", tech:"GSAP · ScrollTrigger · 3D", status:"ממתין",
   desc:"מוצר שמוצג כערימת שכבות באיזומטריה. בגלילה השכבות מתרחקות זו מזו, כל אחת מקבלת תווית, ובסוף חוזרות ומתחברות. תרשים מפורק (exploded view) חי.",
   when:"מוצר עם שכבות אמיתיות (מזרן, נעל, מכשיר, ארכיטקטורת מערכת, חבילת שירות). שלוש עד חמש שכבות.",
-  note:"כל שכבה היא div ב-preserve-3d עם translateZ שגדל בסקראב; ההטיה האיזומטרית (rotateX 58, rotateZ -32) קבועה על המכל. התוויות נדלקות כשהשכבה שלהן נפרדת. במובייל ההטיה קטנה והמרווח בין השכבות חצי, כדי שהכל ייכנס ל-390px.",
+  note:"כל שכבה היא div ב-preserve-3d עם translateZ שגדל בסקראב; ההטיה האיזומטרית (rotateX 58, rotateZ -32) קבועה על המכל. כל השכבות מתחילות בהפרש z קטן כדי שלא יהבהבו זו דרך זו, והתוויות נדלקות בתוך הטיימליין ולא במחלקה עם transition, כי תחת scrub טרנזישן מקפיץ. במובייל ההטיה קטנה והמרווח בין השכבות חצי, כדי שהכל ייכנס ל-390px.",
   libs:["gsap","ScrollTrigger"],
   css:`.ex{position:relative;height:260vh}
 .ex-pin{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:var(--gap);padding-inline:var(--gutter);overflow:hidden}
 .ex-stage{perspective:1400px;display:grid;place-items:center;height:70vh}
 .ex-stack{position:relative;width:min(34vw,380px);aspect-ratio:1;transform-style:preserve-3d;transform:rotateX(58deg) rotateZ(-32deg)}
-.ex-layer{position:absolute;inset:0;border-radius:22px;transform-style:preserve-3d;display:grid;place-items:center;color:#fff;font-weight:800;font-size:22px;box-shadow:0 30px 60px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.35)}
+.ex-layer{position:absolute;inset:0;border-radius:22px;transform-style:preserve-3d;backface-visibility:hidden;display:grid;place-items:center;color:#fff;font-weight:800;font-size:22px;box-shadow:0 30px 60px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.35);will-change:transform}
 .ex-copy h2{margin:0 0 12px;font-size:var(--fs-h2)}
 .ex-copy p{margin:0 0 22px;color:var(--muted)}
 .ex-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.ex-list li{display:flex;gap:12px;align-items:baseline;opacity:.3;transition:opacity .35s}
+.ex-list li{display:flex;gap:12px;align-items:baseline;opacity:.28}
 .ex-list li.on{opacity:1}
 .ex-list b{font-size:12px;color:var(--accent);letter-spacing:.12em;min-width:2.4em}
 @media(max-width:767px){.ex{height:200vh}.ex-pin{grid-template-columns:1fr;align-content:center;gap:10px}.ex-stage{height:44vh}.ex-stack{width:56vw;transform:rotateX(52deg) rotateZ(-28deg)}.ex-copy h2{font-size:clamp(22px,6vw,32px)}}`,
@@ -72,13 +72,16 @@ export default [
   js:`(function(){
   const layers=gsap.utils.toArray(".ex-layer"),items=gsap.utils.toArray(".ex-list li");
   if(matchMedia("(prefers-reduced-motion: reduce)").matches){items.forEach(l=>l.classList.add("on"));layers.forEach((l,i)=>gsap.set(l,{z:i*40}));return;}
-  const GAP=matchMedia("(max-width:767px)").matches?70:130;
+  const GAP=matchMedia("(max-width:767px)").matches?76:140;
+  gsap.set(layers,{z:(i)=>i*9});                              // בלי הפרש פתיחה ארבע השכבות באותו z ומהבהבות זו דרך זו
   const tl=gsap.timeline({scrollTrigger:{trigger:".ex",start:"top top",end:"bottom bottom",scrub:.5}});
   layers.forEach((l,i)=>{
-    tl.to(l,{z:i*GAP,duration:1,ease:"power2.inOut",onStart:()=>items[i].classList.add("on"),onReverseComplete:()=>items[i].classList.remove("on")},i*.25);
+    // אטימות התווית חיה בטיימליין ולא במחלקה עם transition: תחת scrub טרנזישן ומחלקה מקפיצים
+    tl.to(l,{z:i*GAP,duration:1,ease:"power2.inOut"},i*.25)
+      .to(items[i],{opacity:1,duration:.4,ease:"none"},i*.25+.2);
   });
   tl.to({},{duration:.6});                                    // רגע של שהייה במצב המפורק
-  tl.to(layers,{z:(i)=>i*10,duration:1.2,ease:"power2.inOut",stagger:{each:.08,from:"end"}});   // מתחבר חזרה מלמעלה למטה
+  tl.to(layers,{z:(i)=>i*9,duration:1.2,ease:"power2.inOut",stagger:{each:.08,from:"end"}});   // מתחבר חזרה מלמעלה למטה
 })();`
 },
 {
@@ -123,13 +126,13 @@ export default [
   id:"g92", cat:"gsap", name:"חפיסה שמתהפכת קלף אחר קלף", tech:"GSAP · ScrollTrigger · 3D", status:"ממתין",
   desc:"ערימת קלפים מוצמדת למסך. כל גלילה הופכת את הקלף העליון על צירו האופקי, חושפת את הבא, והקלף ההפוך נעלם מאחור. עדויות או יתרונות בקצב של קריאה.",
   when:"עדויות, שאלות ותשובות, ארבעה עד שישה יתרונות. כשרוצים שהקורא יעצור על כל אחד בנפרד.",
-  note:"כל קלף מתהפך ב-rotateX מ-0 ל--180 עם backface-visibility:hidden, כך שבחצי הדרך הוא נעלם והבא כבר מלא מאחוריו. סדר ה-z מתעדכן באמצע ההיפוך. במובייל הקלף גבוה ומרווח הגלילה לכל קלף קצר יותר.",
+  note:"כל קלף מתהפך ב-rotateX מ-0 ל--180 סביב הקצה העליון (transform-origin 50% 0) עם backface-visibility:hidden, כך שבחצי הדרך הוא נעלם והבא כבר מלא מאחוריו. ציר במרכז נראה שבור כי הקלף מסתובב דרך הערימה, ולכן יש גם translateZ שמרים ומחזיר. סדר ה-z מתעדכן באמצע ההיפוך. במובייל הקלף גבוה ומרווח הגלילה לכל קלף קצר יותר.",
   libs:["gsap","ScrollTrigger"],
   css:`.fk{position:relative;height:calc(100vh + var(--fk-n,4) * 70vh)}
 .fk-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1600px;overflow:hidden}
 .fk-deck{position:relative;width:min(640px,88vw);aspect-ratio:16/9;transform-style:preserve-3d}
 .fk-card{position:absolute;inset:0;border-radius:24px;background:var(--card);border:1px solid var(--line);padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;
-  backface-visibility:hidden;transform-origin:50% 50%;box-shadow:0 30px 70px rgba(0,0,0,.14);will-change:transform}
+  backface-visibility:hidden;transform-origin:50% 0%;box-shadow:0 30px 70px rgba(0,0,0,.14);will-change:transform}
 .fk-card q{font-size:clamp(18px,2.4vw,30px);font-weight:600;line-height:1.35;quotes:none}
 .fk-card q::before{content:"״"}.fk-card q::after{content:"״"}
 .fk-card cite{font-style:normal;color:var(--muted);font-size:15px}
@@ -152,41 +155,11 @@ export default [
   const tl=gsap.timeline({scrollTrigger:{trigger:".fk",start:"top top",end:"bottom bottom",scrub:.5}});
   cards.slice(0,-1).forEach((c,i)=>{
     tl.to(c,{rotateX:-180,duration:1,ease:"power2.inOut"},i)
+      .to(c,{z:150,duration:.5,ease:"power2.out"},i)                    // מתרומם מהערימה כדי שלא יסתובב דרך הקלפים שמתחתיו
+      .to(c,{z:0,duration:.5,ease:"power2.in"},i+.5)
       .set(c,{zIndex:0},i+.5)                                           // באמצע ההיפוך הקלף עובר לתחתית הערימה
       .to(cards.slice(i+1),{y:(k)=>k*6,scale:(k)=>1-k*.02,duration:1,ease:"power2.out"},i)
       .to(".fk-hint",{opacity:0,duration:.2},0);
-  });
-})();`
-},
-{
-  id:"g93", cat:"gsap", name:"מדיה שמשנה צורת חיתוך בין סקשנים", tech:"GSAP · ScrollTrigger · clip-path", status:"ממתין",
-  desc:"תמונה דביקה בצד אחד, טקסט שגולל בצד השני. בכל סקשן שנכנס התמונה משנה צורה: עיגול קטן, ריבוע מעוגל, ואז מסך מלא. אותה תמונה, שלוש נוכחויות.",
-  when:"סיפור מותג בשלושה פרקים, תהליך עבודה, מוצר שמתגלה. שלושה עד ארבעה שלבים.",
-  note:"כל הצורות הן inset() עם round, כך ש-GSAP יכול לעבור ביניהן (clip-path מתאנפש רק בין אותה פונקציה). במובייל הפריסה הופכת לעמודה: התמונה דביקה למעלה בגובה 40vh והטקסט גולל מתחתיה.",
-  libs:["gsap","ScrollTrigger"],
-  css:`.cm{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start}
-.cm-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center}
-.cm-media{width:100%;height:78vh;clip-path:inset(30% 30% round 50%);will-change:clip-path}
-.cm-media .ph{width:100%;height:100%;border-radius:0;font-size:0}
-.cm-steps{display:flex;flex-direction:column;gap:46vh;padding-block:36vh}
-.cm-step h3{margin:0 0 10px;font-size:clamp(22px,2.6vw,36px)}
-.cm-step p{margin:0;color:var(--muted);line-height:1.7;max-width:36ch}
-@media(max-width:767px){.cm{grid-template-columns:1fr}.cm-pin{height:44vh;top:0;z-index:2;background:var(--bg)}.cm-media{height:40vh}.cm-steps{gap:30vh;padding-block:8vh 30vh}}`,
-  html:`<div class="stage tight full"><div class="cm">
-  <div class="cm-pin"><div class="cm-media"><div class="ph ph-c"></div></div></div>
-  <div class="cm-steps">
-    <div class="cm-step"><h3>מתחילים מנקודה אחת</h3><p>הבעיה שהלקוח מגיע איתה. לא הלוגו, לא הצבעים.</p></div>
-    <div class="cm-step"><h3>מרחיבים למסגרת</h3><p>מבנה עמוד שעונה על השאלות בסדר שבו הן עולות.</p></div>
-    <div class="cm-step"><h3>ופותחים את כל התמונה</h3><p>אתר שלם שמדבר בקול אחד, מהכותרת ועד הפוטר.</p></div>
-  </div>
-</div></div>`,
-  js:`(function(){
-  const media=document.querySelector(".cm-media"),steps=gsap.utils.toArray(".cm-step");
-  const shapes=["inset(30% 30% round 50%)","inset(8% 8% round 32px)","inset(0% 0% round 0px)"];
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(media,{clipPath:shapes[1]});return;}
-  steps.forEach((s,i)=>{
-    ScrollTrigger.create({trigger:s,start:"top 65%",onEnter:()=>gsap.to(media,{clipPath:shapes[i],duration:.9,ease:"power3.inOut",overwrite:true}),
-      onLeaveBack:()=>gsap.to(media,{clipPath:shapes[Math.max(0,i-1)],duration:.9,ease:"power3.inOut",overwrite:true})});
   });
 })();`
 },

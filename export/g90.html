@@ -41,11 +41,11 @@ img{max-width:100%}
 .ex-pin{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:var(--gap, clamp(16px, 1.6vw, 36px));padding-inline:var(--gutter, clamp(24px, 5vw, 96px));overflow:hidden}
 .ex-stage{perspective:1400px;display:grid;place-items:center;height:70vh}
 .ex-stack{position:relative;width:min(34vw,380px);aspect-ratio:1;transform-style:preserve-3d;transform:rotateX(58deg) rotateZ(-32deg)}
-.ex-layer{position:absolute;inset:0;border-radius:22px;transform-style:preserve-3d;display:grid;place-items:center;color:#fff;font-weight:800;font-size:22px;box-shadow:0 30px 60px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.35)}
+.ex-layer{position:absolute;inset:0;border-radius:22px;transform-style:preserve-3d;backface-visibility:hidden;display:grid;place-items:center;color:#fff;font-weight:800;font-size:22px;box-shadow:0 30px 60px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.35);will-change:transform}
 .ex-copy h2{margin:0 0 12px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
 .ex-copy p{margin:0 0 22px;color:var(--muted, #6a6d85)}
 .ex-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.ex-list li{display:flex;gap:12px;align-items:baseline;opacity:.3;transition:opacity .35s}
+.ex-list li{display:flex;gap:12px;align-items:baseline;opacity:.28}
 .ex-list li.on{opacity:1}
 .ex-list b{font-size:12px;color:var(--accent, #4a3aff);letter-spacing:.12em;min-width:2.4em}
 @media(max-width:767px){.ex{height:200vh}.ex-pin{grid-template-columns:1fr;align-content:center;gap:10px}.ex-stage{height:44vh}.ex-stack{width:56vw;transform:rotateX(52deg) rotateZ(-28deg)}.ex-copy h2{font-size:clamp(22px,6vw,32px)}}
@@ -74,13 +74,16 @@ gsap.registerPlugin(ScrollTrigger);
 (function(){
   const layers=gsap.utils.toArray(".ex-layer"),items=gsap.utils.toArray(".ex-list li");
   if(matchMedia("(prefers-reduced-motion: reduce)").matches){items.forEach(l=>l.classList.add("on"));layers.forEach((l,i)=>gsap.set(l,{z:i*40}));return;}
-  const GAP=matchMedia("(max-width:767px)").matches?70:130;
+  const GAP=matchMedia("(max-width:767px)").matches?76:140;
+  gsap.set(layers,{z:(i)=>i*9});                              // בלי הפרש פתיחה ארבע השכבות באותו z ומהבהבות זו דרך זו
   const tl=gsap.timeline({scrollTrigger:{trigger:".ex",start:"top top",end:"bottom bottom",scrub:.5}});
   layers.forEach((l,i)=>{
-    tl.to(l,{z:i*GAP,duration:1,ease:"power2.inOut",onStart:()=>items[i].classList.add("on"),onReverseComplete:()=>items[i].classList.remove("on")},i*.25);
+    // אטימות התווית חיה בטיימליין ולא במחלקה עם transition: תחת scrub טרנזישן ומחלקה מקפיצים
+    tl.to(l,{z:i*GAP,duration:1,ease:"power2.inOut"},i*.25)
+      .to(items[i],{opacity:1,duration:.4,ease:"none"},i*.25+.2);
   });
   tl.to({},{duration:.6});                                    // רגע של שהייה במצב המפורק
-  tl.to(layers,{z:(i)=>i*10,duration:1.2,ease:"power2.inOut",stagger:{each:.08,from:"end"}});   // מתחבר חזרה מלמעלה למטה
+  tl.to(layers,{z:(i)=>i*9,duration:1.2,ease:"power2.inOut",stagger:{each:.08,from:"end"}});   // מתחבר חזרה מלמעלה למטה
 })();
 </script>
 </body>

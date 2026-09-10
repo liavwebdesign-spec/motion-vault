@@ -114,30 +114,6 @@ export default [
 })();`
 },
 {
-  id:"g133", cat:"gsap", name:"רצפת רשת בפרספקטיבה שנעה בגלילה", tech:"GSAP · ScrollTrigger · 3D", status:"ממתין",
-  desc:"רשת קווים שוכבת בפרספקטיבה מתחת לתוכן ונוסעת לעבר הצופה עם הגלילה, כמו כביש אינסופי. רקע טכנולוגי שזז רק כשגוללים.",
-  when:"רקע הירו באתרי טכנולוגיה, גיימינג, קורסים דיגיטליים. אחד לעמוד, תמיד מאחורי טקסט עם ניגודיות.",
-  note:"הרשת היא repeating-linear-gradient על משטח מסובב ב-rotateX, ו-background-position-y שלה בסקראב יוצר את תחושת הנסיעה. הכל על שכבה אחת. במובייל הזווית פחות אגרסיבית.",
-  libs:["gsap","ScrollTrigger"],
-  css:`.fg{position:relative;min-height:120vh;overflow:hidden;background:var(--ink);color:var(--bg);display:grid;place-items:center;perspective:600px}
-.fg-floor{position:absolute;left:-50%;right:-50%;bottom:-10%;height:70%;transform-origin:50% 100%;transform:rotateX(64deg);
-  background:repeating-linear-gradient(90deg,color-mix(in srgb,var(--accent) 45%,transparent) 0 2px,transparent 2px 80px),repeating-linear-gradient(0deg,color-mix(in srgb,var(--accent) 45%,transparent) 0 2px,transparent 2px 80px);
-  background-position:0 var(--fy,0px);mask-image:linear-gradient(180deg,transparent,#000 35%);-webkit-mask-image:linear-gradient(180deg,transparent,#000 35%)}
-.fg-glow{position:absolute;inset-inline:0;top:38%;height:30%;background:radial-gradient(ellipse at 50% 100%,color-mix(in srgb,var(--accent) 45%,transparent),transparent 70%);pointer-events:none}
-.fg-txt{position:relative;z-index:1;text-align:center;max-width:30ch;padding:24px}
-.fg-txt h2{margin:0 0 10px;font-size:var(--fs-h2)}
-.fg-txt p{margin:0;opacity:.8}
-@media(max-width:767px){.fg-floor{transform:rotateX(58deg)}}`,
-  html:`<div class="fg"><div class="fg-floor"></div><div class="fg-glow"></div>
-  <div class="fg-txt"><h2>הדור הבא של המערכת</h2><p>מהיר יותר, פשוט יותר, ובעברית מהיום הראשון.</p></div></div>`,
-  js:`(function(){
-  const floor=document.querySelector(".fg-floor");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const o={y:0};
-  gsap.to(o,{y:640,ease:"none",scrollTrigger:{trigger:".fg",start:"top bottom",end:"bottom top",scrub:.3},onUpdate(){floor.style.setProperty("--fy",o.y+"px");}});
-})();`
-},
-{
   id:"g134", cat:"gsap", name:"מעבר דרך הסקשן אל הבא", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"הסקשן הנוכחי גדל לעבר הצופה ונעלם מעבר למצלמה, והסקשן הבא מתגלה מאחוריו קטן וגדל למקומו. תחושה של לעבור דרך דלת.",
   when:"מעבר בין שני פרקים באתר חוויה, מהירו לפרק הראשון. פעם אחת בעמוד.",

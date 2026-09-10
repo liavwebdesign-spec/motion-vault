@@ -4,46 +4,14 @@
 // ומתאים להרבה עסקים. כל מהלך: מובייל מוגדר במפורש (מה קורה במגע), reduced-motion, טוקנים.
 export default [
 {
-  id:"g73", cat:"gsap", name:"טקסט מתפענח (Scramble)", tech:"GSAP · ScrambleText", status:"ממתין", runway:false,
-  desc:"כותרת או תווית שנכנסת כרעש של תווים ומתייצבת לטקסט הסופי, תו אחרי תו. בהובר על תפריט המילה מתערבבת ומתייצבת שוב.",
-  when:"תוויות ומספרים באתרי טכנולוגיה, ניווט של סטודיו, כותרת הירו אחת. לא לפסקאות.",
-  note:"ScrambleText עובד עם תווים עבריים כשמעבירים לו chars בעברית; בלי זה הרעש לטיני והמעבר צורם. במובייל אין הובר, לכן הפענוח רץ פעם אחת בכניסה למסך בלבד. reduced-motion: הטקסט מופיע גמור.",
-  libs:["gsap","ScrollTrigger","ScrambleTextPlugin"],
-  css:`.scr{text-align:center;max-width:26ch;margin-inline:auto}
-.scr-kick{display:block;font-size:13px;letter-spacing:.18em;color:var(--muted);margin-bottom:14px;font-variant-numeric:tabular-nums}
-.scr h2{font-size:var(--fs-demo);line-height:1.1;margin:0 0 30px;font-weight:800;min-height:1.1em}
-.scr-nav{display:flex;justify-content:center;gap:clamp(14px,3vw,36px);flex-wrap:wrap}
-.scr-nav a{font-weight:600;font-size:17px;color:var(--ink);padding:8px 4px;border-bottom:2px solid transparent;font-variant-ligatures:none;min-width:5ch;text-align:center}
-.scr-nav a:hover{border-color:var(--accent)}`,
-  html:`<div class="stage"><div class="scr">
-  <span class="scr-kick" data-scr="מאז 2016 · 40+ פרויקטים">·········</span>
-  <h2 data-scr="אתרים שמביאים לקוחות">····· ······· ······</h2>
-  <nav class="scr-nav"><a href="#" data-scr="עבודות">עבודות</a><a href="#" data-scr="שירותים">שירותים</a><a href="#" data-scr="אודות">אודות</a><a href="#" data-scr="צור קשר">צור קשר</a></nav>
-</div></div>`,
-  js:`(function(){
-  const HEB="אבגדהוזחטיכלמנסעפצקרשת0123456789";   // רעש בעברית, אחרת המעבר לטיני וצורם
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const items=[...document.querySelectorAll("[data-scr]")];
-  if(reduce){items.forEach(el=>el.textContent=el.dataset.scr);return;}
-  ScrollTrigger.create({trigger:".scr",start:"top 80%",once:true,onEnter(){
-    items.forEach((el,i)=>gsap.to(el,{duration:1.1,delay:i*.12,scrambleText:{text:el.dataset.scr,chars:HEB,speed:.6,revealDelay:.25}}));
-  }});
-  if(matchMedia("(hover:hover) and (pointer:fine)").matches){
-    document.querySelectorAll(".scr-nav a").forEach(a=>a.addEventListener("mouseenter",()=>{
-      gsap.to(a,{duration:.55,overwrite:true,scrambleText:{text:a.dataset.scr,chars:HEB,speed:1}});
-    }));
-  }
-})();`
-},
-{
   id:"g74", cat:"gsap", name:"משקל הפונט זורם בגלילה", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"כותרת גדולה שהמילים בה מתעבות מדק לשמן בגל שעובר משמאל לימין עם הגלילה, וחוזר. פונט משתנה עושה את זה בלי שום שכבה נוספת.",
   when:"כותרת מניפסט, משפט ערך מרכזי, פתיח לסקשן. פעם אחת בעמוד, על פונט משתנה (Heebo, Ploni Variable).",
-  note:"דורש פונט משתנה עם ציר משקל רציף. הדמו רץ על Heebo (100 עד 900). font-weight היא תכונת layout שגורמת reflow, לכן מנפישים מילה-מילה בסקראב ולא באנימציה רצה, ובמובייל הטווח קטן (300 עד 700) כדי שהשורות לא יישברו מחדש.",
+  note:"דורש פונט משתנה עם ציר משקל רציף. הדמו רץ על Heebo (100 עד 900). אסור להצהיר font-variation-settings ב-CSS: היא דורסת את font-weight, האנימציה רצה ושום דבר לא נראה. font-weight היא תכונת layout שגורמת reflow, לכן מנפישים מילה-מילה בסקראב ולא באנימציה רצה, ובמובייל הטווח קטן (300 עד 700) כדי שהשורות לא יישברו מחדש.",
   libs:["gsap","ScrollTrigger"],
   css:`.wv{max-width:min(900px,92vw);margin-inline:auto;padding-block:20vh}
 .wv h2{font-family:"Heebo",system-ui,sans-serif;font-size:clamp(34px,6vw,96px);line-height:1.15;margin:0;font-weight:200;text-align:center}
-.wv .w{display:inline-block;margin-inline:.14em;font-weight:200;font-variation-settings:"wght" 200}
+.wv .w{display:inline-block;margin-inline:.14em;font-weight:200}
 .wv-hint{text-align:center;color:var(--muted);font-size:14px;margin-top:20px}`,
   html:`<div class="stage"><div class="wv">
   <h2><span class="w">אתר</span><span class="w">טוב</span><span class="w">לא</span><span class="w">צועק.</span><br><span class="w">הוא</span><span class="w">מסביר,</span><span class="w">ואז</span><span class="w">מוכר.</span></h2>
@@ -63,37 +31,6 @@ export default [
       if(i<words.length-1)tl.to(w,{fontWeight:lo,duration:1,ease:"none"},i*.35+1.2);
     });
   });
-})();`
-},
-{
-  id:"g75", cat:"gsap", name:"בלוב רקע שמשנה צורה בגלילה", tech:"GSAP · MorphSVG", status:"ממתין",
-  desc:"צורה אורגנית אחת מאחורי ההירו שנוזלת בין שלוש צורות בזמן הגלילה, ומסתובבת לאט. רקע חי בלי וידאו ובלי WebGL.",
-  when:"רקע הירו או סקשן ערכים באתרי בריאות, טיפול, מזון, קהילה. אחד לעמוד, תמיד מאחורי טקסט עם ניגודיות מספקת.",
-  note:"MorphSVG ממפה נקודות בין שלושה path עם אותו מספר קודקודים, לכן המעבר חלק. במובייל הבלוב קטן ל-70% ומוצב בפינה כדי לא להסתיר טקסט. reduced-motion: צורה אחת קבועה.",
-  libs:["gsap","ScrollTrigger","MorphSVGPlugin"],
-  css:`.blb{position:relative;min-height:120vh;display:grid;place-items:center;overflow:hidden}
-.blb svg{position:absolute;width:min(70vw,720px);height:auto;inset-inline-start:50%;top:50%;translate:-50% -50%;z-index:0;opacity:.9;will-change:transform}
-html[dir="rtl"] .blb svg{translate:50% -50%}
-.blb path{fill:var(--accent)}
-.blb-copy{position:relative;z-index:1;text-align:center;max-width:30ch;padding:clamp(26px,4vw,48px);background:color-mix(in srgb,var(--bg) 78%,transparent);backdrop-filter:blur(14px);border-radius:24px}
-.blb-copy h2{margin:0 0 12px;font-size:var(--fs-h2)}
-.blb-copy p{margin:0;color:var(--muted)}
-@media(max-width:767px){.blb svg{width:90vw;top:30%}}`,
-  html:`<div class="blb">
-  <svg viewBox="0 0 600 600" aria-hidden="true">
-    <path class="blb-shape" d="M300 80C400 60 520 130 540 240C560 350 500 470 400 510C300 550 170 520 110 430C50 340 80 210 160 140C210 95 250 90 300 80Z"/>
-    <path class="blb-b" style="display:none" d="M320 60C440 80 540 200 520 320C500 440 400 540 280 540C160 540 60 460 60 340C60 220 130 130 220 90C260 72 290 55 320 60Z"/>
-    <path class="blb-c" style="display:none" d="M260 70C380 40 500 90 550 190C600 290 540 400 460 470C380 540 240 560 150 490C60 420 40 300 90 200C130 120 200 85 260 70Z"/>
-  </svg>
-  <div class="blb-copy"><h2>טיפול שמתאים לקצב שלך</h2><p>בלי תור של חודשיים, בלי טפסים. פגישה ראשונה תוך שבוע.</p></div>
-</div>`,
-  js:`(function(){
-  const shape=document.querySelector(".blb-shape");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  gsap.timeline({scrollTrigger:{trigger:".blb",start:"top bottom",end:"bottom top",scrub:1}})
-    .to(shape,{morphSVG:".blb-b",ease:"none"})
-    .to(shape,{morphSVG:".blb-c",ease:"none"});
-  gsap.to(".blb svg",{rotate:40,ease:"none",scrollTrigger:{trigger:".blb",start:"top bottom",end:"bottom top",scrub:1}});
 })();`
 },
 {
@@ -231,35 +168,6 @@ html[dir="rtl"] .blb svg{translate:50% -50%}
 })();`
 },
 {
-  id:"g80", cat:"gsap", name:"מכונת כתיבה עם סמן", tech:"GSAP · vanilla", status:"ממתין", runway:false,
-  desc:"משפט שנכתב אות אחרי אות עם סמן מהבהב, מוחק את הסוף ומחליף אותו במילה אחרת. שלוש חלופות בלולאה.",
-  when:"תת-כותרת בהירו שמציגה כמה קהלים או שירותים (\"אתרים ל: קליניקות / עורכי דין / חנויות\"). אחת לעמוד.",
-  note:"בלי TextPlugin: טווין על מונה שלם וחיתוך מחרוזת, כך שאין תלות נוספת. הרוחב שמור מראש (המילה הארוכה ביותר שקופה מתחת) כדי שהשורה לא תקפוץ. reduced-motion: כל החלופות מוצגות בשורה עם פסיקים.",
-  libs:["gsap"],
-  css:`.tw{text-align:center;max-width:30ch;margin-inline:auto}
-.tw h2{font-size:var(--fs-h2);line-height:1.2;margin:0}
-.tw-slot{position:relative;display:inline-block;color:var(--accent);text-align:start}
-.tw-ghost{visibility:hidden;white-space:nowrap}
-.tw-live{position:absolute;inset-inline-start:0;top:0;white-space:nowrap}
-.tw-car{display:inline-block;width:.08em;height:1em;background:currentColor;vertical-align:-.12em;margin-inline-start:.06em;animation:tw-blink 1s steps(1) infinite}
-@keyframes tw-blink{50%{opacity:0}}
-.tw-static{display:none}
-@media (prefers-reduced-motion: reduce){.tw-slot,.tw-car{display:none}.tw-static{display:inline}}`,
-  html:`<div class="stage"><div class="tw"><h2>אתרים שמביאים לקוחות ל<span class="tw-slot"><span class="tw-ghost">משרדי עורכי דין</span><span class="tw-live"></span></span><span class="tw-car"></span><span class="tw-static">קליניקות, משרדי עורכי דין, חנויות</span></h2></div></div>`,
-  js:`(function(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const live=document.querySelector(".tw-live"),words=["קליניקות","משרדי עורכי דין","חנויות","סטודיו"];
-  const tl=gsap.timeline({repeat:-1});
-  words.forEach(w=>{
-    const o={n:0};
-    tl.to(o,{n:w.length,duration:w.length*.07,ease:"none",onUpdate(){live.textContent=w.slice(0,Math.round(o.n));}})
-      .to({},{duration:1.4})
-      .to(o,{n:0,duration:w.length*.035,ease:"none",onUpdate(){live.textContent=w.slice(0,Math.round(o.n));}})
-      .to({},{duration:.3});
-  });
-})();`
-},
-{
   id:"g81", cat:"gsap", name:"פרלקס עכבר בהירו", tech:"GSAP · quickTo", status:"ממתין", runway:false,
   desc:"שכבות ההירו (רקע, תמונה, כותרת, תג צף) זזות בעדינות בכיוון הסמן, כל אחת בעומק אחר. תחושת תלת-ממד בלי שום ספרייה תלת-ממדית.",
   when:"הירו עם ויז'ואל מרכזי: מוצר, אפליקציה, דמות. דסקטופ בלבד. במובייל השכבות עומדות, או זזות מעט עם הגלילה.",
@@ -326,18 +234,18 @@ html[dir="rtl"] .blb svg{translate:50% -50%}
   id:"g83", cat:"gsap", name:"תג טקסט מעגלי שמסתובב", tech:"GSAP · timeline", status:"ממתין", runway:false,
   desc:"טקסט שרץ על מעגל סביב חץ או לוגו, מסתובב לאט כל הזמן ומאיץ עם הגלילה. תג של סטודיו, \"גלול למטה\", \"פתוח להצעות\".",
   when:"פינת הירו, ליד CTA, תג \"זמין לפרויקטים\". אחד לעמוד, 90 עד 140 פיקסלים.",
-  note:"בלי SVG textPath: כרום לא מסדר טקסט RTL על מסלול (נמדד: הטקסט לא צויר כלל), ולכן כל תו מוצב בנפרד סביב המרכז, נגד כיוון השעון כדי שייקרא נכון. הסיבוב הבסיסי הוא טיימליין אינסופי, והגלילה מוסיפה עליו timeScale זמני. במובייל: אותו דבר, קטן יותר.",
+  note:"בלי SVG textPath: כרום לא מסדר טקסט RTL על מסלול (נמדד: הטקסט לא צויר כלל), ולכן כל תו מוצב בנפרד סביב המרכז, נגד כיוון השעון כדי שייקרא נכון. את הליבה ממרכזים ב-inset:0 עם margin:auto: inset:50% יחד עם width נחשב over-constrained, וב-RTL הצד הימני מנצח והעיגול קופץ מהמרכז. הסיבוב הבסיסי הוא טיימליין אינסופי, והגלילה מוסיפה עליו timeScale זמני. במובייל: אותו דבר, קטן יותר.",
   libs:["gsap","ScrollTrigger"],
   css:`.rb-wrap{display:flex;justify-content:center;align-items:center;gap:clamp(30px,6vw,80px);flex-wrap:wrap;padding-block:40px}
-.rb{position:relative;width:clamp(96px,14vw,140px);aspect-ratio:1}
+.rb{position:relative;width:clamp(140px,18vw,190px);aspect-ratio:1;flex:none}
 .rb-ring{position:absolute;inset:0;will-change:transform}
-.rb-ring span{position:absolute;left:50%;top:0;height:50%;translate:-50% 0;transform-origin:50% 100%;font-size:clamp(11px,1.3vw,14px);font-weight:700;color:var(--ink);line-height:1}
-.rb-core{position:absolute;inset:50%;translate:-50% -50%;width:38%;aspect-ratio:1;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:20px}
+.rb-ring span{position:absolute;left:50%;top:5%;height:45%;translate:-50% 0;transform-origin:50% 100%;font-size:clamp(14px,1.7vw,18px);font-weight:700;color:var(--ink);line-height:1}
+.rb-core{position:absolute;inset:0;margin:auto;width:44%;height:44%;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:22px}
 .rb-copy{max-width:30ch}
 .rb-copy h2{margin:0 0 8px;font-size:var(--fs-h2)}
 .rb-copy p{margin:0;color:var(--muted)}`,
   html:`<div class="stage tight"><div class="rb-wrap">
-  <div class="rb" aria-label="גלול למטה"><div class="rb-ring" data-text="גלול למטה · גלול למטה · גלול למטה · " aria-hidden="true"></div><span class="rb-core">↓</span></div>
+  <div class="rb" aria-label="גלול למטה"><div class="rb-ring" data-text="גלול למטה · גלול למטה · " aria-hidden="true"></div><span class="rb-core">↓</span></div>
   <div class="rb-copy"><h2>פתוחים לפרויקטים חדשים</h2><p>שני מקומות פנויים לרבעון הקרוב.</p></div>
 </div></div>`,
   js:`(function(){
@@ -355,10 +263,11 @@ html[dir="rtl"] .blb svg{translate:50% -50%}
   id:"g84", cat:"gsap", name:"סקשן יוצא מפוקוס כשהבא נכנס", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"בזמן שהסקשן הבא עולה מלמטה, הקודם מתכווץ מעט, מתטשטש ומתכהה, כאילו הוא נשאר מאחור. מעבר עמוק בין פרקים בלי מסכות.",
   when:"בין פרקי סיפור באתר תדמית פרימיום: הירו לערכים, ערכים לעבודות. שניים עד ארבעה מעברים בעמוד.",
-  note:"הסקשן היוצא sticky וה-scale/blur/brightness שלו סקראב מול כניסת הבא. blur יקר בטלפון, ולכן במובייל יש רק scale ו-brightness. פינות מתעגלות בזמן ההתכווצות, זה מה שנותן את תחושת הכרטיס.",
+  note:"הסקשן היוצא sticky וה-scale/blur שלו סקראב מול כניסת הבא, וההחשכה היא שכבת דיו בפסאודו-אלמנט. אסור brightness: הוא מחשיך גם את הטקסט, וכרטיס בהיר עם טקסט כהה הופך לבלתי קריא, בעוד ששכבת דיו מורידה את שניהם יחד ושומרת על היחס. הרקע של המכל הוא דיו, כדי שהכרטיס המתכווץ ייסוג לתוך חושך. פינות מתעגלות בזמן ההתכווצות, זה מה שנותן את תחושת הכרטיס.",
   libs:["gsap","ScrollTrigger"],
-  css:`.df{position:relative}
+  css:`.df{position:relative;background:var(--ink)}
 .df-sec{position:sticky;top:0;min-height:100vh;display:grid;place-items:center;padding:var(--sec) var(--gutter);text-align:center;transform-origin:50% 40%;overflow:hidden}
+.df-sec::after{content:"";position:absolute;inset:0;background:var(--ink);opacity:var(--dim,0);border-radius:inherit;pointer-events:none}
 .df-sec:nth-child(1){background:var(--card);z-index:1}
 .df-sec:nth-child(2){background:var(--accent);color:var(--accent-ink);z-index:2}
 .df-sec:nth-child(3){background:var(--ink);color:var(--bg);z-index:3}
@@ -373,8 +282,10 @@ html[dir="rtl"] .blb svg{translate:50% -50%}
   if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
   const secs=gsap.utils.toArray(".df-sec"),mob=matchMedia("(max-width:767px)").matches;
   secs.slice(0,-1).forEach((sec,i)=>{
-    gsap.to(sec,{scale:.92,borderRadius:28,filter:mob?"brightness(.55)":"blur(6px) brightness(.55)",ease:"none",
-      scrollTrigger:{trigger:secs[i+1],start:"top bottom",end:"top top",scrub:.4}});
+    const tw={scale:.92,borderRadius:28,"--dim":.62,ease:"none",
+      scrollTrigger:{trigger:secs[i+1],start:"top bottom",end:"top top",scrub:.4}};
+    if(!mob)tw.filter="blur(6px)";   // blur יקר בטלפון; ההחשכה עצמה היא שכבת דיו ולא brightness
+    gsap.to(sec,tw);
   });
 })();`
 },
@@ -478,12 +389,12 @@ html[dir="rtl"] .blb svg{translate:50% -50%}
   id:"g88", cat:"gsap", name:"מילה שמתחלפת בהירו בלולאה", tech:"GSAP · timeline", status:"ממתין", runway:false,
   desc:"משפט הירו קבוע ומילה אחת בו מתחלפת כל שתי שניות: יוצאת למעלה, הבאה נכנסת מלמטה, והרוחב של השורה מתכוונן חלק. ארבע חלופות בלולאה.",
   when:"הירו של עסק שפונה לכמה קהלים או מציע כמה שירותים. אחת לעמוד, ותמיד עם מילה ראשונה שעומדת לבד אם JS לא נטען.",
-  note:"כל החלופות במארקאפ (SEO וגיבוי), רק הראשונה גלויה בלי JS. הרוחב מונפש דרך משתנה CSS ולא דרך width ישיר, כדי שהשורה לא תקפוץ. reduced-motion: החלופות מתחלפות בלי תנועה, פעם ב-3 שניות.",
+  note:"כל החלופות במארקאפ (SEO וגיבוי), רק הראשונה גלויה בלי JS. הרוחב מונפש דרך משתנה CSS ולא דרך width ישיר, כדי שהשורה לא תקפוץ. חובה justify-items:start על ה-inline-grid, אחרת כל החלופות נמתחות לרוחב הארוכה ביותר, נמדדות זהה, והרוחב לעולם לא משתנה. reduced-motion: החלופות מתחלפות בלי תנועה, פעם ב-3 שניות.",
   libs:["gsap"],
-  css:`.rw{text-align:center;max-width:36ch;margin-inline:auto}
+  css:`.rw{text-align:center;max-width:46ch;margin-inline:auto}
 .rw-keep{white-space:nowrap}
 .rw h2{font-size:var(--fs-h2);line-height:1.25;margin:0}
-.rw-slot{display:inline-grid;vertical-align:bottom;text-align:start;overflow:hidden;color:var(--accent);height:1.25em;width:var(--w,auto);transition:/* qa-allow: layout, רוחב המילה משתנה בהגדרה, scaleX היה מעוות את האותיות */width .5s cubic-bezier(.2,.6,.2,1)}
+.rw-slot{display:inline-grid;justify-items:start;vertical-align:bottom;text-align:start;overflow:hidden;color:var(--accent);height:1.25em;width:var(--w,auto);transition:/* qa-allow: layout, רוחב המילה משתנה בהגדרה, scaleX היה מעוות את האותיות */width .5s cubic-bezier(.2,.6,.2,1)}
 .rw-slot span{grid-area:1/1;white-space:nowrap;opacity:0;translate:0 100%}
 .rw-slot span:first-child{opacity:1;translate:0 0}
 @media (prefers-reduced-motion: reduce){.rw-slot{transition:none}}`,

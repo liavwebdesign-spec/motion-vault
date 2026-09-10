@@ -31,7 +31,6 @@ const CDN = {
 };
 // ספריות שאינן פלאגינים של GSAP: נטענות אבל לא נרשמות ב-registerPlugin
 const NON_GSAP = new Set(["Lenis"]);
-
 // שימושים אפשריים: הסינון השני של האינדקס. כל מהלך יכול להשתייך לכמה.
 const USES_LABELS = {
   text: "טקסט וכותרות", media: "תמונות וגלריות", cards: "כרטיסים",
@@ -110,28 +109,27 @@ const USES = {
   g69: ["media", "feedback", "hero"], g70: ["text", "nav", "process"], g71: ["media", "cards", "numbers"],
   g72: ["cards", "process", "text"],
   // גל 19 (9.9.2026)
-  g73: ["text", "hover", "nav"], g74: ["text", "hero"], g75: ["ambient", "hero"], g76: ["hover", "media", "cards"], g77: ["text", "hero"],
-  g78: ["nav", "feedback"], g79: ["media", "process", "cards"], g80: ["text", "hero"], g81: ["hero", "media", "hover"], g82: ["media", "cards"],
+  g74: ["text", "hero"], g76: ["hover", "media", "cards"], g77: ["text", "hero"],
+  g78: ["nav", "feedback"], g79: ["media", "process", "cards"], g81: ["hero", "media", "hover"], g82: ["media", "cards"],
   g83: ["ambient", "hero"], g84: ["hero", "process"], g85: ["cards", "hover"], g86: ["process", "feedback"], g87: ["text"], g88: ["text", "hero"],
   // גל 20 (9.9.2026): גלילה מיוחדת
-  g89: ["hero", "text", "media"], g90: ["media", "process"], g91: ["text", "hero"], g92: ["cards", "text"], g93: ["media", "process"],
+  g89: ["hero", "text", "media"], g90: ["media", "process"], g91: ["text", "hero"], g92: ["cards", "text"], 
   g94: ["media", "process"], g95: ["cards", "text"], g96: ["cards"], g97: ["media", "hero"], g98: ["media", "cards"],
   // גל 21 (9.9.2026)
   g99: ["text", "nav"], g100: ["text", "process"], g101: ["media", "process"], g102: ["hero", "process"], g103: ["text", "nav", "process"],
   g104: ["media", "cards"], g105: ["text", "hero"], g106: ["media", "ambient"], g107: ["process", "numbers"], g108: ["hero", "text", "media"],
   // גל 22 (9.9.2026)
-  g109: ["text", "hero"], g110: ["text"], g111: ["media", "process"], g112: ["numbers", "ambient"], g113: ["cards", "media"],
-  g114: ["text", "hero"], g115: ["media", "hero"], g116: ["numbers"], g117: ["numbers"], g118: ["ambient"],
+  g109: ["text", "hero"], g110: ["text"], g111: ["media", "process"], g112: ["numbers", "ambient"], 
+  g115: ["media", "hero"], g116: ["numbers"], g117: ["numbers"], g118: ["ambient"],
   // גל 23 (9.9.2026)
-  g119: ["process"], g120: ["text", "nav"], g121: ["media", "hero"], g122: ["ambient", "hero"], g123: ["media", "ambient"],
+  g119: ["process"], g120: ["text", "nav"], g121: ["media", "hero"], g123: ["media", "ambient"],
   g124: ["cards", "numbers"], g125: ["cards", "media"], g126: ["numbers"], g127: ["hero", "ambient"], g128: ["hero", "process"],
   // גלים 24 ו-25 (10.9.2026)
-  g129: ["cards", "process"], g130: ["hero", "media"], g131: ["text", "hero"], g132: ["numbers", "process"], g133: ["ambient", "hero"],
+  g129: ["cards", "process"], g130: ["hero", "media"], g131: ["text", "hero"], g132: ["numbers", "process"], 
   g134: ["hero", "process"], g135: ["ambient"], g136: ["media"], g137: ["text"], g138: ["media", "cards"],
   g139: ["text", "hero"], g140: ["numbers"], g141: ["text", "process"], g142: ["numbers", "cards"], g143: ["media", "cards"],
   g144: ["hero", "media"], g145: ["text"], g146: ["numbers"], g147: ["media"], g148: ["hero", "ambient"],
 };
-
 // רכיבי UI: הסינון השלישי של האינדקס. לכל מהלך אפשר לסמן כמה, והסימון מצטבר.
 const ELEMS_LABELS = {
   btn: "כפתורים ו-CTA", card: "כרטיסים וקופסאות", img: "תמונות ומדיה",
@@ -311,17 +309,16 @@ const ELEMS = {
   g70: ["head","nav","sect"],
   g71: ["img","card"],
   g72: ["card","sect"],
-  g73: ["head","nav"], g74: ["head"], g75: ["sect","head"], g76: ["cursor","img","list"], g77: ["head"], g78: ["btn","page"], g79: ["img","sect","list"], g80: ["head"],
+  g74: ["head"], g76: ["cursor","img","list"], g77: ["head"], g78: ["btn","page"], g79: ["img","sect","list"], 
   g81: ["sect","img","cursor"], g82: ["list","img"], g83: ["btn","head"], g84: ["sect","page"], g85: ["card","list","cursor"], g86: ["list","img"], g87: ["head"], g88: ["head"],
-  g89: ["head","sect","img"], g90: ["img","sect","list"], g91: ["head","sect"], g92: ["card","sect"], g93: ["img","sect"], g94: ["img","sect"], g95: ["card","sect"], g96: ["card","list"], g97: ["img","sect"], g98: ["list","img"],
+  g89: ["head","sect","img"], g90: ["img","sect","list"], g91: ["head","sect"], g92: ["card","sect"], g94: ["img","sect"], g95: ["card","sect"], g96: ["card","list"], g97: ["img","sect"], g98: ["list","img"],
   g99: ["head","list"], g100: ["head","sect"], g101: ["img","sect"], g102: ["sect","page"], g103: ["head","sect","page"], g104: ["img","sect"], g105: ["head","sect"], g106: ["img","sect"], g107: ["head","list"], g108: ["head","img","sect"],
-  g109: ["head"], g110: ["head"], g111: ["img","sect"], g112: ["card","head"], g113: ["list","card"], g114: ["head","img"], g115: ["img","sect"], g116: ["sect","head"], g117: ["head","list"], g118: ["sect","page"],
-  g119: ["img","list"], g120: ["list","head"], g121: ["img","list","sect"], g122: ["sect","head"], g123: ["img","list"], g124: ["list","card"], g125: ["card"], g126: ["card","head"], g127: ["sect","btn"], g128: ["sect","page"],
-  g129: ["card","list"], g130: ["img","sect"], g131: ["head"], g132: ["head","sect"], g133: ["sect"], g134: ["sect","page"], g135: ["sect"], g136: ["img"], g137: ["head"], g138: ["list","img"],
+  g109: ["head"], g110: ["head"], g111: ["img","sect"], g112: ["card","head"], g115: ["img","sect"], g116: ["sect","head"], g117: ["head","list"], g118: ["sect","page"],
+  g119: ["img","list"], g120: ["list","head"], g121: ["img","list","sect"], g123: ["img","list"], g124: ["list","card"], g125: ["card"], g126: ["card","head"], g127: ["sect","btn"], g128: ["sect","page"],
+  g129: ["card","list"], g130: ["img","sect"], g131: ["head"], g132: ["head","sect"], g134: ["sect","page"], g135: ["sect"], g136: ["img"], g137: ["head"], g138: ["list","img"],
   g139: ["head"], g140: ["card","head"], g141: ["list","card"], g142: ["card","list"], g143: ["list","img"], g144: ["img","sect"], g145: ["head"], g146: ["card","head"], g147: ["list","img"], g148: ["sect","page"],
   fluid: ["sect","page"],
 };
-
 // סוג פרויקט: שכבת סינון שלישית, עצמאית מהשתיים האחרות. לא חובה לתייג את שתיהן.
 const FIT_LABELS = { L: "דף נחיתה", S: "וואן-פייג'ר ותדמית" };
 const FIT = {
@@ -392,12 +389,12 @@ const FIT = {
   g70: ["L","S"],
   g71: ["L","S"],
   g72: ["L","S"],
-  g73: ["S"], g74: ["S"], g75: ["L","S"], g76: ["S"], g77: ["L","S"], g78: ["L","S"], g79: ["L","S"], g80: ["L","S"], g81: ["L","S"], g82: ["S"], g83: ["S"], g84: ["S"], g85: ["L","S"], g86: ["L","S"], g87: ["L","S"], g88: ["L","S"],
-  g89: ["S"], g90: ["L","S"], g91: ["S"], g92: ["L","S"], g93: ["S"], g94: ["S"], g95: ["L","S"], g96: ["L","S"], g97: ["L","S"], g98: ["S"],
+  g74: ["S"], g76: ["S"], g77: ["L","S"], g78: ["L","S"], g79: ["L","S"], g81: ["L","S"], g82: ["S"], g83: ["S"], g84: ["S"], g85: ["L","S"], g86: ["L","S"], g87: ["L","S"], g88: ["L","S"],
+  g89: ["S"], g90: ["L","S"], g91: ["S"], g92: ["L","S"], g94: ["S"], g95: ["L","S"], g96: ["L","S"], g97: ["L","S"], g98: ["S"],
   g99: ["S"], g100: ["L","S"], g101: ["S"], g102: ["L","S"], g103: ["L","S"], g104: ["L","S"], g105: ["S"], g106: ["S"], g107: ["S"], g108: ["S"],
-  g109: ["S"], g110: ["L","S"], g111: ["L","S"], g112: ["L","S"], g113: ["S"], g114: ["S"], g115: ["L","S"], g116: ["L","S"], g117: ["L","S"], g118: ["L","S"],
-  g119: ["L","S"], g120: ["S"], g121: ["S"], g122: ["S"], g123: ["L","S"], g124: ["L"], g125: ["L","S"], g126: ["L","S"], g127: ["L","S"], g128: ["L","S"],
-  g129: ["L","S"], g130: ["S"], g131: ["L","S"], g132: ["S"], g133: ["L","S"], g134: ["S"], g135: ["S"], g136: ["L","S"], g137: ["L","S"], g138: ["S"],
+  g109: ["S"], g110: ["L","S"], g111: ["L","S"], g112: ["L","S"], g115: ["L","S"], g116: ["L","S"], g117: ["L","S"], g118: ["L","S"],
+  g119: ["L","S"], g120: ["S"], g121: ["S"], g123: ["L","S"], g124: ["L"], g125: ["L","S"], g126: ["L","S"], g127: ["L","S"], g128: ["L","S"],
+  g129: ["L","S"], g130: ["S"], g131: ["L","S"], g132: ["S"], g134: ["S"], g135: ["S"], g136: ["L","S"], g137: ["L","S"], g138: ["S"],
   g139: ["L","S"], g140: ["L","S"], g141: ["L","S"], g142: ["L"], g143: ["S"], g144: ["L","S"], g145: ["L","S"], g146: ["L","S"], g147: ["S"], g148: ["S"],
   r01: ["S"],
   r02: ["L","S"],
@@ -503,7 +500,6 @@ const FIT = {
   lm9: ["S"],
   fluid: ["S"],
 };
-
 // load all catalog modules
 const entries = [];
 for (const f of readdirSync(join(ROOT, "_src", "catalog")).sort()) {
@@ -517,14 +513,12 @@ const missingE = entries.filter(e => !ELEMS[e.id]).map(e => e.id);
 if (missingE.length) throw new Error("entries missing ELEMS tags: " + missingE.join(", "));
 const missingF = entries.filter(e => !FIT[e.id]).map(e => e.id);
 if (missingF.length) throw new Error("entries missing FIT tags: " + missingF.join(", "));
-
 // טווח משקלים רציף ולא ערכים בדידים: קובץ אחד במקום חמישה, ומשקל שאפשר להנפיש בלי קפיצות
 const FONT = `<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">`;
 
 const LIVE = "https://liavwebdesign-spec.github.io/motion-vault";
 // שפת עיצוב יכולה לדרוש פונט משלה (Suez One לרטרו, Karantina לברוטליזם). הקישור נבנה מהשדה fonts.
 const fontLink = e => e.fonts && e.fonts.length ? `<link href="https://fonts.googleapis.com/css2?${e.fonts.map(f => "family=" + f.replace(/ /g, "+")).join("&")}&display=swap" rel="stylesheet">` : "";
-
 // ההנחיה שנדבקת לסוכן קוד. היא נושאת את כל מה שהמהלך צריך כדי לעבוד ביעד,
 // כולל הדברים שנשארים מאחור בהעתקה ידנית: כיוון המסמך, סדר הסקריפטים והרישום.
 function briefFor(e, p) {
@@ -702,7 +696,6 @@ function briefFor(e, p) {
 }
 
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-
 // הקוד עצמו נשלח כ-JSON ולא כטקסט בתוך HTML, כדי שלא יעבור שום שכבת בריחה נוספת
 // בדרך אל הלוח. כפתור הקופי מקבל בדיוק את מה שהמניפסט מכיל.
 function codePanel(e) {
@@ -818,7 +811,6 @@ ${isDoc ? BP_JS + String.fromCharCode(10) : ""}${e.js || ""}
 </body>
 </html>`;
 }
-
 // עמוד סבב סקירה (8.9.2026): 132 מהלכים מעולם לא נשפטו על ידי ליאב, כי לשפוט אותם דרש לפתוח כל
 // עמוד בנפרד. כאן: הממתינים בזה אחר זה בתוך iframe, אישור/דחייה מהמקלדת, והדוח באותו כפתור.
 // הסטטוס נשמר דרך אותה שכבת אישורים (status.js, localStorage), ולכן האינדקס והעמודים רואים אותו מיד.
@@ -1109,13 +1101,11 @@ addEventListener('pageshow',()=>{paintStatus();apply();});
 </body>
 </html>`;
 }
-
 // write everything
 for (const cat of Object.keys(CATS)) mkdirSync(join(ROOT, cat), { recursive: true });
 mkdirSync(join(ROOT, "export"), { recursive: true });
 let n = 0;
 for (const e of entries) { writeFileSync(join(ROOT, e.cat, e.id + ".html"), page(e)); n++; }
-
 // ייצוא נייד: קובץ עצמאי לכל מהלך + מניפסט מובנה לסוכן קוד
 const manifest = [];
 for (const e of entries) {

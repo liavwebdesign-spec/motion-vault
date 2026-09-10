@@ -8,13 +8,15 @@
 
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
-.mq{position:relative;height:200vh}
-.mq-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
-.mq-track{display:flex;gap:.6em;white-space:nowrap;font-size:clamp(32px,6.5vw,92px);font-weight:800;will-change:transform;color:var(--muted)}
-.mq-track span{opacity:.35;transition:opacity .4s,color .4s}
-.mq-track span.key{opacity:1;color:var(--ink)}
-.mq-track span.key.on{color:var(--accent)}
-.mq-sub{position:absolute;bottom:22vh;inset-inline:0;text-align:center;color:var(--muted);opacity:0;translate:0 10px}
+.mq{position:relative;height:220vh}
+.mq-pin{position:sticky;top:0;height:100vh;overflow:hidden}
+.mq-track{position:absolute;top:50%;inset-inline-start:0;translate:0 -50%;display:flex;direction:ltr;white-space:nowrap;font-size:clamp(30px,6vw,84px);font-weight:800;will-change:transform}
+.mq-set{display:flex;gap:.5em;padding-inline-end:.5em}
+.mq-set span{color:var(--muted);opacity:.38}
+.mq-set span::after{content:"·";margin-inline-start:.5em;opacity:.5}
+.mq-set span.key{opacity:1;color:var(--ink)}
+.mq-set span.key.on{color:var(--accent)}
+.mq-sub{position:absolute;bottom:18vh;inset-inline:0;text-align:center;color:var(--muted);opacity:0}
 </style>
 </head>
 <body>
@@ -28,7 +30,7 @@
   <button class="mvid" data-mvid="MV:g105"><code>MV:g105</code> העתק מזהה</button>
 </div></div>
 <div class="vintro">
-  <p>רצועת מילים שרצה בלי סוף, וככל שגוללים היא מאטה, המילים מתיישרות, והרצועה נעצרת בדיוק על כותרת אחת קריאה במרכז. תנועה שהופכת לאמירה.</p>
+  <p>רצועת מילים שרצה בלי סוף, וככל שגוללים היא מאטה, נעצרת, ונגררת עד שמילה אחת נוחתת בדיוק במרכז המסך. תנועה שהופכת לאמירה.</p>
   <p class="when"><b>מתי משתמשים:</b> פתיחת סקשן ערכים או שירותים: קודם השטף, אחר כך המסר. פעם אחת בעמוד.</p>
   <div class="mvpanel" data-mvpanel="g105"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
@@ -37,12 +39,12 @@
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="mq">
   <div class="mq-pin">
-    <div class="mq-track"><span>אסטרטגיה ·</span><span>קופי ·</span><span>עיצוב ·</span><span class="key">אתר שמביא לקוחות</span><span>· פיתוח ·</span><span>מדידה ·</span><span>ליווי ·</span><span>אסטרטגיה ·</span><span>קופי ·</span><span>עיצוב ·</span></div>
-    <p class="mq-sub">זה כל מה שאנחנו עושים. גלול.</p>
+    <div class="mq-track"><div class="mq-set"><span>אסטרטגיה</span><span>קופי</span><span>עיצוב</span><span class="key">אתר שמביא לקוחות</span><span>פיתוח</span><span>מדידה</span><span>ליווי</span></div></div>
+    <p class="mq-sub">זה כל מה שאנחנו עושים.</p>
   </div>
 </div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
-<div class="demo-note">שני טיימליינים: מרקי אינסופי (xPercent) שה-timeScale שלו יורד לאפס בסקראב, וכשהוא נעצר המילה המסומנת נמשכת למרכז דרך מדידה בזמן refresh. במובייל אותו דבר עם פונט קטן ומרווח קצר.</div>
+<div class="demo-note">הרצועה ממוקמת מהקצה ולא ממורכזת, והעותקים שלה נבנים ב-JS עד שהם מכסים מסך שלם ועוד מחזור, אחרת בקצה הלולאה נפתח חלל ריק. הכיוון של הפריסה ltr כדי שהשכפול ייצמד בצד הנכון, וכל מילה עדיין נקראת בעברית. הנעילה נמדדת ב-getBoundingClientRect ולא ב-offsetLeft, כי ב-RTL עם flip ההיסט הזה משקר. במובייל אותו דבר עם פונט קטן.</div>
 <section class="mvcode">
   <h2>קוד להדבקה</h2>
   <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
@@ -56,36 +58,64 @@
   </div>
   <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
     <h3>CSS</h3><pre><code>/* G105 · מרקי שמתקבע לכותרת */
-.mq{position:relative;height:200vh}
-.mq-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
-.mq-track{display:flex;gap:.6em;white-space:nowrap;font-size:clamp(32px,6.5vw,92px);font-weight:800;will-change:transform;color:var(--muted, #6a6d85)}
-.mq-track span{opacity:.35;transition:opacity .4s,color .4s}
-.mq-track span.key{opacity:1;color:var(--ink, #16182b)}
-.mq-track span.key.on{color:var(--accent, #4a3aff)}
-.mq-sub{position:absolute;bottom:22vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);opacity:0;translate:0 10px}</code></pre>
+.mq{position:relative;height:220vh}
+.mq-pin{position:sticky;top:0;height:100vh;overflow:hidden}
+.mq-track{position:absolute;top:50%;inset-inline-start:0;translate:0 -50%;display:flex;direction:ltr;white-space:nowrap;font-size:clamp(30px,6vw,84px);font-weight:800;will-change:transform}
+.mq-set{display:flex;gap:.5em;padding-inline-end:.5em}
+.mq-set span{color:var(--muted, #6a6d85);opacity:.38}
+.mq-set span::after{content:"·";margin-inline-start:.5em;opacity:.5}
+.mq-set span.key{opacity:1;color:var(--ink, #16182b)}
+.mq-set span.key.on{color:var(--accent, #4a3aff)}
+.mq-sub{position:absolute;bottom:18vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);opacity:0}</code></pre>
     <h3>HTML</h3><pre><code>&lt;div class="mq"&gt;
   &lt;div class="mq-pin"&gt;
-    &lt;div class="mq-track"&gt;&lt;span&gt;אסטרטגיה ·&lt;/span&gt;&lt;span&gt;קופי ·&lt;/span&gt;&lt;span&gt;עיצוב ·&lt;/span&gt;&lt;span class="key"&gt;אתר שמביא לקוחות&lt;/span&gt;&lt;span&gt;· פיתוח ·&lt;/span&gt;&lt;span&gt;מדידה ·&lt;/span&gt;&lt;span&gt;ליווי ·&lt;/span&gt;&lt;span&gt;אסטרטגיה ·&lt;/span&gt;&lt;span&gt;קופי ·&lt;/span&gt;&lt;span&gt;עיצוב ·&lt;/span&gt;&lt;/div&gt;
-    &lt;p class="mq-sub"&gt;זה כל מה שאנחנו עושים. גלול.&lt;/p&gt;
+    &lt;div class="mq-track"&gt;&lt;div class="mq-set"&gt;&lt;span&gt;אסטרטגיה&lt;/span&gt;&lt;span&gt;קופי&lt;/span&gt;&lt;span&gt;עיצוב&lt;/span&gt;&lt;span class="key"&gt;אתר שמביא לקוחות&lt;/span&gt;&lt;span&gt;פיתוח&lt;/span&gt;&lt;span&gt;מדידה&lt;/span&gt;&lt;span&gt;ליווי&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;p class="mq-sub"&gt;זה כל מה שאנחנו עושים.&lt;/p&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
     <h3>JS</h3><pre><code>gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const track=document.querySelector(".mq-track"),key=track.querySelector(".key"),pin=document.querySelector(".mq-pin");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(track,{x:()=&gt;pin.clientWidth/2-(key.offsetLeft+key.offsetWidth/2)});key.classList.add("on");return;}
-  // מרקי: הרצועה נעה בלולאה כל עוד לא גוללים
-  const loop=gsap.to(track,{x:"-=600",duration:8,ease:"none",repeat:-1,modifiers:{x:gsap.utils.unitize(v=&gt;parseFloat(v)%600)}});
-  const target=()=&gt;pin.clientWidth/2-(key.offsetLeft+key.offsetWidth/2);   // איפה x צריך להיות כדי שהמילה במרכז
+  const track=document.querySelector(".mq-track"),pin=document.querySelector(".mq-pin"),sub=document.querySelector(".mq-sub");
+  const base=track.querySelector(".mq-set");
+  const mid=()=&gt;{const r=pin.getBoundingClientRect();return r.left+r.width/2;};
+  const nearest=()=&gt;{let d=null;track.querySelectorAll(".key").forEach(k=&gt;{const r=k.getBoundingClientRect(),v=mid()-(r.left+r.width/2);if(d===null||Math.abs(v)&lt;Math.abs(d))d=v;});return d;};
+  let W=0,loop=null,lock=null;
+  function fill(){
+    track.querySelectorAll(".mq-set").forEach((n,i)=&gt;{if(i)n.remove();});
+    W=base.getBoundingClientRect().width;
+    // כמה עותקים צריך כדי שהחלון תמיד יראה תוכן: מסך שלם ועוד מחזור אחד
+    const need=Math.ceil((pin.clientWidth+W)/W)+1;
+    for(let i=1;i&lt;need;i++){const c=base.cloneNode(true);c.setAttribute("aria-hidden","true");track.appendChild(c);}
+  }
+  fill();
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){
+    gsap.set(track,{x:nearest()});track.querySelectorAll(".key").forEach(k=&gt;k.classList.add("on"));gsap.set(sub,{opacity:1});return;
+  }
+  function build(){
+    loop&amp;&amp;loop.kill();lock=null;fill();gsap.set(track,{x:0});
+    loop=gsap.to(track,{x:"-="+W,duration:W/90,ease:"none",repeat:-1,
+      modifiers:{x:gsap.utils.unitize(v=&gt;gsap.utils.wrap(-W,0,parseFloat(v)))}});
+  }
+  build();
+  ScrollTrigger.addEventListener("refresh",build);
   ScrollTrigger.create({trigger:".mq",start:"top top",end:"bottom bottom",scrub:.6,onUpdate(s){
     const p=s.progress;
-    loop.timeScale(Math.max(0,1-p*2));                                        // מאט עד עצירה בחצי הדרך
-    if(p&gt;.5){loop.pause();const cx=gsap.getProperty(track,"x");gsap.set(track,{x:cx+(target()-cx)*gsap.utils.clamp(0,1,(p-.5)*3)});key.classList.toggle("on",p&gt;.8);gsap.set(".mq-sub",{opacity:gsap.utils.clamp(0,1,(p-.8)*5),translate:"0 0"});}
-    else{if(loop.paused()&amp;&amp;p&lt;.45)loop.play();key.classList.remove("on");gsap.set(".mq-sub",{opacity:0});}
+    if(p&lt;.5){
+      if(lock){lock=null;loop.play();}
+      loop.timeScale(gsap.utils.clamp(0,1,(.5-p)*10));            // מאט עד עצירה מלאה בדיוק בחצי
+      track.querySelectorAll(".key").forEach(k=&gt;k.classList.remove("on"));
+      gsap.set(sub,{opacity:0});return;
+    }
+    if(!lock){loop.pause();lock={from:gsap.getProperty(track,"x"),delta:nearest()};}
+    const t=gsap.utils.clamp(0,1,(p-.5)*2.5),e=gsap.parseEase("power3.out")(t);
+    gsap.set(track,{x:lock.from+lock.delta*e});
+    track.querySelectorAll(".key").forEach(k=&gt;k.classList.toggle("on",t&gt;.8));
+    gsap.set(sub,{opacity:gsap.utils.clamp(0,1,(t-.7)*3.4)});
   }});
 })();</code></pre>
   </details>
-  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g105 · מרקי שמתקבע לכותרת\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g105.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g105.html\n\nמה זה עושה: רצועת מילים שרצה בלי סוף, וככל שגוללים היא מאטה, המילים מתיישרות, והרצועה נעצרת בדיוק על כותרת אחת קריאה במרכז. תנועה שהופכת לאמירה.\nמתי משתמשים: פתיחת סקשן ערכים או שירותים: קודם השטף, אחר כך המסר. פעם אחת בעמוד.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* G105 · מרקי שמתקבע לכותרת */\n.mq{position:relative;height:200vh}\n.mq-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}\n.mq-track{display:flex;gap:.6em;white-space:nowrap;font-size:clamp(32px,6.5vw,92px);font-weight:800;will-change:transform;color:var(--muted, #6a6d85)}\n.mq-track span{opacity:.35;transition:opacity .4s,color .4s}\n.mq-track span.key{opacity:1;color:var(--ink, #16182b)}\n.mq-track span.key.on{color:var(--accent, #4a3aff)}\n.mq-sub{position:absolute;bottom:22vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);opacity:0;translate:0 10px}\n\n=== HTML ===\n<div class=\"mq\">\n  <div class=\"mq-pin\">\n    <div class=\"mq-track\"><span>אסטרטגיה ·<\/span><span>קופי ·<\/span><span>עיצוב ·<\/span><span class=\"key\">אתר שמביא לקוחות<\/span><span>· פיתוח ·<\/span><span>מדידה ·<\/span><span>ליווי ·<\/span><span>אסטרטגיה ·<\/span><span>קופי ·<\/span><span>עיצוב ·<\/span><\/div>\n    <p class=\"mq-sub\">זה כל מה שאנחנו עושים. גלול.<\/p>\n  <\/div>\n<\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const track=document.querySelector(\".mq-track\"),key=track.querySelector(\".key\"),pin=document.querySelector(\".mq-pin\");\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){gsap.set(track,{x:()=>pin.clientWidth/2-(key.offsetLeft+key.offsetWidth/2)});key.classList.add(\"on\");return;}\n  // מרקי: הרצועה נעה בלולאה כל עוד לא גוללים\n  const loop=gsap.to(track,{x:\"-=600\",duration:8,ease:\"none\",repeat:-1,modifiers:{x:gsap.utils.unitize(v=>parseFloat(v)%600)}});\n  const target=()=>pin.clientWidth/2-(key.offsetLeft+key.offsetWidth/2);   // איפה x צריך להיות כדי שהמילה במרכז\n  ScrollTrigger.create({trigger:\".mq\",start:\"top top\",end:\"bottom bottom\",scrub:.6,onUpdate(s){\n    const p=s.progress;\n    loop.timeScale(Math.max(0,1-p*2));                                        // מאט עד עצירה בחצי הדרך\n    if(p>.5){loop.pause();const cx=gsap.getProperty(track,\"x\");gsap.set(track,{x:cx+(target()-cx)*gsap.utils.clamp(0,1,(p-.5)*3)});key.classList.toggle(\"on\",p>.8);gsap.set(\".mq-sub\",{opacity:gsap.utils.clamp(0,1,(p-.8)*5),translate:\"0 0\"});}\n    else{if(loop.paused()&&p<.45)loop.play();key.classList.remove(\"on\");gsap.set(\".mq-sub\",{opacity:0});}\n  }});\n})();\n\nהערת מימוש מהמאגר:\nשני טיימליינים: מרקי אינסופי (xPercent) שה-timeScale שלו יורד לאפס בסקראב, וכשהוא נעצר המילה המסומנת נמשכת למרכז דרך מדידה בזמן refresh. במובייל אותו דבר עם פונט קטן ומרווח קצר.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* G105 · מרקי שמתקבע לכותרת */\n.mq{position:relative;height:200vh}\n.mq-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}\n.mq-track{display:flex;gap:.6em;white-space:nowrap;font-size:clamp(32px,6.5vw,92px);font-weight:800;will-change:transform;color:var(--muted, #6a6d85)}\n.mq-track span{opacity:.35;transition:opacity .4s,color .4s}\n.mq-track span.key{opacity:1;color:var(--ink, #16182b)}\n.mq-track span.key.on{color:var(--accent, #4a3aff)}\n.mq-sub{position:absolute;bottom:22vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);opacity:0;translate:0 10px}","html":"<div class=\"mq\">\n  <div class=\"mq-pin\">\n    <div class=\"mq-track\"><span>אסטרטגיה ·<\/span><span>קופי ·<\/span><span>עיצוב ·<\/span><span class=\"key\">אתר שמביא לקוחות<\/span><span>· פיתוח ·<\/span><span>מדידה ·<\/span><span>ליווי ·<\/span><span>אסטרטגיה ·<\/span><span>קופי ·<\/span><span>עיצוב ·<\/span><\/div>\n    <p class=\"mq-sub\">זה כל מה שאנחנו עושים. גלול.<\/p>\n  <\/div>\n<\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const track=document.querySelector(\".mq-track\"),key=track.querySelector(\".key\"),pin=document.querySelector(\".mq-pin\");\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){gsap.set(track,{x:()=>pin.clientWidth/2-(key.offsetLeft+key.offsetWidth/2)});key.classList.add(\"on\");return;}\n  // מרקי: הרצועה נעה בלולאה כל עוד לא גוללים\n  const loop=gsap.to(track,{x:\"-=600\",duration:8,ease:\"none\",repeat:-1,modifiers:{x:gsap.utils.unitize(v=>parseFloat(v)%600)}});\n  const target=()=>pin.clientWidth/2-(key.offsetLeft+key.offsetWidth/2);   // איפה x צריך להיות כדי שהמילה במרכז\n  ScrollTrigger.create({trigger:\".mq\",start:\"top top\",end:\"bottom bottom\",scrub:.6,onUpdate(s){\n    const p=s.progress;\n    loop.timeScale(Math.max(0,1-p*2));                                        // מאט עד עצירה בחצי הדרך\n    if(p>.5){loop.pause();const cx=gsap.getProperty(track,\"x\");gsap.set(track,{x:cx+(target()-cx)*gsap.utils.clamp(0,1,(p-.5)*3)});key.classList.toggle(\"on\",p>.8);gsap.set(\".mq-sub\",{opacity:gsap.utils.clamp(0,1,(p-.8)*5),translate:\"0 0\"});}\n    else{if(loop.paused()&&p<.45)loop.play();key.classList.remove(\"on\");gsap.set(\".mq-sub\",{opacity:0});}\n  }});\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g105 · מרקי שמתקבע לכותרת\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g105.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g105.html\n\nמה זה עושה: רצועת מילים שרצה בלי סוף, וככל שגוללים היא מאטה, נעצרת, ונגררת עד שמילה אחת נוחתת בדיוק במרכז המסך. תנועה שהופכת לאמירה.\nמתי משתמשים: פתיחת סקשן ערכים או שירותים: קודם השטף, אחר כך המסר. פעם אחת בעמוד.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* G105 · מרקי שמתקבע לכותרת */\n.mq{position:relative;height:220vh}\n.mq-pin{position:sticky;top:0;height:100vh;overflow:hidden}\n.mq-track{position:absolute;top:50%;inset-inline-start:0;translate:0 -50%;display:flex;direction:ltr;white-space:nowrap;font-size:clamp(30px,6vw,84px);font-weight:800;will-change:transform}\n.mq-set{display:flex;gap:.5em;padding-inline-end:.5em}\n.mq-set span{color:var(--muted, #6a6d85);opacity:.38}\n.mq-set span::after{content:\"·\";margin-inline-start:.5em;opacity:.5}\n.mq-set span.key{opacity:1;color:var(--ink, #16182b)}\n.mq-set span.key.on{color:var(--accent, #4a3aff)}\n.mq-sub{position:absolute;bottom:18vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);opacity:0}\n\n=== HTML ===\n<div class=\"mq\">\n  <div class=\"mq-pin\">\n    <div class=\"mq-track\"><div class=\"mq-set\"><span>אסטרטגיה<\/span><span>קופי<\/span><span>עיצוב<\/span><span class=\"key\">אתר שמביא לקוחות<\/span><span>פיתוח<\/span><span>מדידה<\/span><span>ליווי<\/span><\/div><\/div>\n    <p class=\"mq-sub\">זה כל מה שאנחנו עושים.<\/p>\n  <\/div>\n<\/div>\n\n=== JS ===\ngsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const track=document.querySelector(\".mq-track\"),pin=document.querySelector(\".mq-pin\"),sub=document.querySelector(\".mq-sub\");\n  const base=track.querySelector(\".mq-set\");\n  const mid=()=>{const r=pin.getBoundingClientRect();return r.left+r.width/2;};\n  const nearest=()=>{let d=null;track.querySelectorAll(\".key\").forEach(k=>{const r=k.getBoundingClientRect(),v=mid()-(r.left+r.width/2);if(d===null||Math.abs(v)<Math.abs(d))d=v;});return d;};\n  let W=0,loop=null,lock=null;\n  function fill(){\n    track.querySelectorAll(\".mq-set\").forEach((n,i)=>{if(i)n.remove();});\n    W=base.getBoundingClientRect().width;\n    // כמה עותקים צריך כדי שהחלון תמיד יראה תוכן: מסך שלם ועוד מחזור אחד\n    const need=Math.ceil((pin.clientWidth+W)/W)+1;\n    for(let i=1;i<need;i++){const c=base.cloneNode(true);c.setAttribute(\"aria-hidden\",\"true\");track.appendChild(c);}\n  }\n  fill();\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){\n    gsap.set(track,{x:nearest()});track.querySelectorAll(\".key\").forEach(k=>k.classList.add(\"on\"));gsap.set(sub,{opacity:1});return;\n  }\n  function build(){\n    loop&&loop.kill();lock=null;fill();gsap.set(track,{x:0});\n    loop=gsap.to(track,{x:\"-=\"+W,duration:W/90,ease:\"none\",repeat:-1,\n      modifiers:{x:gsap.utils.unitize(v=>gsap.utils.wrap(-W,0,parseFloat(v)))}});\n  }\n  build();\n  ScrollTrigger.addEventListener(\"refresh\",build);\n  ScrollTrigger.create({trigger:\".mq\",start:\"top top\",end:\"bottom bottom\",scrub:.6,onUpdate(s){\n    const p=s.progress;\n    if(p<.5){\n      if(lock){lock=null;loop.play();}\n      loop.timeScale(gsap.utils.clamp(0,1,(.5-p)*10));            // מאט עד עצירה מלאה בדיוק בחצי\n      track.querySelectorAll(\".key\").forEach(k=>k.classList.remove(\"on\"));\n      gsap.set(sub,{opacity:0});return;\n    }\n    if(!lock){loop.pause();lock={from:gsap.getProperty(track,\"x\"),delta:nearest()};}\n    const t=gsap.utils.clamp(0,1,(p-.5)*2.5),e=gsap.parseEase(\"power3.out\")(t);\n    gsap.set(track,{x:lock.from+lock.delta*e});\n    track.querySelectorAll(\".key\").forEach(k=>k.classList.toggle(\"on\",t>.8));\n    gsap.set(sub,{opacity:gsap.utils.clamp(0,1,(t-.7)*3.4)});\n  }});\n})();\n\nהערת מימוש מהמאגר:\nהרצועה ממוקמת מהקצה ולא ממורכזת, והעותקים שלה נבנים ב-JS עד שהם מכסים מסך שלם ועוד מחזור, אחרת בקצה הלולאה נפתח חלל ריק. הכיוון של הפריסה ltr כדי שהשכפול ייצמד בצד הנכון, וכל מילה עדיין נקראת בעברית. הנעילה נמדדת ב-getBoundingClientRect ולא ב-offsetLeft, כי ב-RTL עם flip ההיסט הזה משקר. במובייל אותו דבר עם פונט קטן.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* G105 · מרקי שמתקבע לכותרת */\n.mq{position:relative;height:220vh}\n.mq-pin{position:sticky;top:0;height:100vh;overflow:hidden}\n.mq-track{position:absolute;top:50%;inset-inline-start:0;translate:0 -50%;display:flex;direction:ltr;white-space:nowrap;font-size:clamp(30px,6vw,84px);font-weight:800;will-change:transform}\n.mq-set{display:flex;gap:.5em;padding-inline-end:.5em}\n.mq-set span{color:var(--muted, #6a6d85);opacity:.38}\n.mq-set span::after{content:\"·\";margin-inline-start:.5em;opacity:.5}\n.mq-set span.key{opacity:1;color:var(--ink, #16182b)}\n.mq-set span.key.on{color:var(--accent, #4a3aff)}\n.mq-sub{position:absolute;bottom:18vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);opacity:0}","html":"<div class=\"mq\">\n  <div class=\"mq-pin\">\n    <div class=\"mq-track\"><div class=\"mq-set\"><span>אסטרטגיה<\/span><span>קופי<\/span><span>עיצוב<\/span><span class=\"key\">אתר שמביא לקוחות<\/span><span>פיתוח<\/span><span>מדידה<\/span><span>ליווי<\/span><\/div><\/div>\n    <p class=\"mq-sub\">זה כל מה שאנחנו עושים.<\/p>\n  <\/div>\n<\/div>","js":"gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const track=document.querySelector(\".mq-track\"),pin=document.querySelector(\".mq-pin\"),sub=document.querySelector(\".mq-sub\");\n  const base=track.querySelector(\".mq-set\");\n  const mid=()=>{const r=pin.getBoundingClientRect();return r.left+r.width/2;};\n  const nearest=()=>{let d=null;track.querySelectorAll(\".key\").forEach(k=>{const r=k.getBoundingClientRect(),v=mid()-(r.left+r.width/2);if(d===null||Math.abs(v)<Math.abs(d))d=v;});return d;};\n  let W=0,loop=null,lock=null;\n  function fill(){\n    track.querySelectorAll(\".mq-set\").forEach((n,i)=>{if(i)n.remove();});\n    W=base.getBoundingClientRect().width;\n    // כמה עותקים צריך כדי שהחלון תמיד יראה תוכן: מסך שלם ועוד מחזור אחד\n    const need=Math.ceil((pin.clientWidth+W)/W)+1;\n    for(let i=1;i<need;i++){const c=base.cloneNode(true);c.setAttribute(\"aria-hidden\",\"true\");track.appendChild(c);}\n  }\n  fill();\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){\n    gsap.set(track,{x:nearest()});track.querySelectorAll(\".key\").forEach(k=>k.classList.add(\"on\"));gsap.set(sub,{opacity:1});return;\n  }\n  function build(){\n    loop&&loop.kill();lock=null;fill();gsap.set(track,{x:0});\n    loop=gsap.to(track,{x:\"-=\"+W,duration:W/90,ease:\"none\",repeat:-1,\n      modifiers:{x:gsap.utils.unitize(v=>gsap.utils.wrap(-W,0,parseFloat(v)))}});\n  }\n  build();\n  ScrollTrigger.addEventListener(\"refresh\",build);\n  ScrollTrigger.create({trigger:\".mq\",start:\"top top\",end:\"bottom bottom\",scrub:.6,onUpdate(s){\n    const p=s.progress;\n    if(p<.5){\n      if(lock){lock=null;loop.play();}\n      loop.timeScale(gsap.utils.clamp(0,1,(.5-p)*10));            // מאט עד עצירה מלאה בדיוק בחצי\n      track.querySelectorAll(\".key\").forEach(k=>k.classList.remove(\"on\"));\n      gsap.set(sub,{opacity:0});return;\n    }\n    if(!lock){loop.pause();lock={from:gsap.getProperty(track,\"x\"),delta:nearest()};}\n    const t=gsap.utils.clamp(0,1,(p-.5)*2.5),e=gsap.parseEase(\"power3.out\")(t);\n    gsap.set(track,{x:lock.from+lock.delta*e});\n    track.querySelectorAll(\".key\").forEach(k=>k.classList.toggle(\"on\",t>.8));\n    gsap.set(sub,{opacity:gsap.utils.clamp(0,1,(t-.7)*3.4)});\n  }});\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
 </section>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
@@ -114,16 +144,42 @@ document.querySelector(".mvid").addEventListener("click",function(){
 })();
 gsap.registerPlugin(ScrollTrigger);
 (function(){
-  const track=document.querySelector(".mq-track"),key=track.querySelector(".key"),pin=document.querySelector(".mq-pin");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(track,{x:()=>pin.clientWidth/2-(key.offsetLeft+key.offsetWidth/2)});key.classList.add("on");return;}
-  // מרקי: הרצועה נעה בלולאה כל עוד לא גוללים
-  const loop=gsap.to(track,{x:"-=600",duration:8,ease:"none",repeat:-1,modifiers:{x:gsap.utils.unitize(v=>parseFloat(v)%600)}});
-  const target=()=>pin.clientWidth/2-(key.offsetLeft+key.offsetWidth/2);   // איפה x צריך להיות כדי שהמילה במרכז
+  const track=document.querySelector(".mq-track"),pin=document.querySelector(".mq-pin"),sub=document.querySelector(".mq-sub");
+  const base=track.querySelector(".mq-set");
+  const mid=()=>{const r=pin.getBoundingClientRect();return r.left+r.width/2;};
+  const nearest=()=>{let d=null;track.querySelectorAll(".key").forEach(k=>{const r=k.getBoundingClientRect(),v=mid()-(r.left+r.width/2);if(d===null||Math.abs(v)<Math.abs(d))d=v;});return d;};
+  let W=0,loop=null,lock=null;
+  function fill(){
+    track.querySelectorAll(".mq-set").forEach((n,i)=>{if(i)n.remove();});
+    W=base.getBoundingClientRect().width;
+    // כמה עותקים צריך כדי שהחלון תמיד יראה תוכן: מסך שלם ועוד מחזור אחד
+    const need=Math.ceil((pin.clientWidth+W)/W)+1;
+    for(let i=1;i<need;i++){const c=base.cloneNode(true);c.setAttribute("aria-hidden","true");track.appendChild(c);}
+  }
+  fill();
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){
+    gsap.set(track,{x:nearest()});track.querySelectorAll(".key").forEach(k=>k.classList.add("on"));gsap.set(sub,{opacity:1});return;
+  }
+  function build(){
+    loop&&loop.kill();lock=null;fill();gsap.set(track,{x:0});
+    loop=gsap.to(track,{x:"-="+W,duration:W/90,ease:"none",repeat:-1,
+      modifiers:{x:gsap.utils.unitize(v=>gsap.utils.wrap(-W,0,parseFloat(v)))}});
+  }
+  build();
+  ScrollTrigger.addEventListener("refresh",build);
   ScrollTrigger.create({trigger:".mq",start:"top top",end:"bottom bottom",scrub:.6,onUpdate(s){
     const p=s.progress;
-    loop.timeScale(Math.max(0,1-p*2));                                        // מאט עד עצירה בחצי הדרך
-    if(p>.5){loop.pause();const cx=gsap.getProperty(track,"x");gsap.set(track,{x:cx+(target()-cx)*gsap.utils.clamp(0,1,(p-.5)*3)});key.classList.toggle("on",p>.8);gsap.set(".mq-sub",{opacity:gsap.utils.clamp(0,1,(p-.8)*5),translate:"0 0"});}
-    else{if(loop.paused()&&p<.45)loop.play();key.classList.remove("on");gsap.set(".mq-sub",{opacity:0});}
+    if(p<.5){
+      if(lock){lock=null;loop.play();}
+      loop.timeScale(gsap.utils.clamp(0,1,(.5-p)*10));            // מאט עד עצירה מלאה בדיוק בחצי
+      track.querySelectorAll(".key").forEach(k=>k.classList.remove("on"));
+      gsap.set(sub,{opacity:0});return;
+    }
+    if(!lock){loop.pause();lock={from:gsap.getProperty(track,"x"),delta:nearest()};}
+    const t=gsap.utils.clamp(0,1,(p-.5)*2.5),e=gsap.parseEase("power3.out")(t);
+    gsap.set(track,{x:lock.from+lock.delta*e});
+    track.querySelectorAll(".key").forEach(k=>k.classList.toggle("on",t>.8));
+    gsap.set(sub,{opacity:gsap.utils.clamp(0,1,(t-.7)*3.4)});
   }});
 })();
 </script>

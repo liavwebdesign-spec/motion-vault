@@ -119,53 +119,6 @@ html[dir="ltr"] .fe-it{transform-origin:0 50%}
 })();`
 },
 {
-  id:"g122", cat:"gsap", name:"שעות היום מתחלפות בגלילה", tech:"GSAP · ScrollTrigger", status:"ממתין",
-  desc:"סקשן שהרקע שלו עובר מזריחה לצהריים ללילה ככל שגוללים: הגרדיאנט משתנה, שמש נוסעת בקשת והופכת לירח, והטקסט מתאים את עצמו. סיפור של יום שלם במסך אחד.",
-  when:"אירוח, בריאות ורווחה, שגרת יום של מוצר, \"יום בחיי\". פעם אחת בעמוד.",
-  note:"שלושה גרדיאנטים כשכבות עם opacity בסקראב (גרדיאנט לא מתאנפש ישירות), והשמש היא עיגול על מסלול קשת דרך x ו-y. הטקסט מחליף צבע בשלב הלילה. במובייל הקשת נמוכה יותר כדי שהשמש לא תסתיר טקסט.",
-  libs:["gsap","ScrollTrigger"],
-  css:`.dy{position:relative;height:300vh}
-.dy-pin{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;align-content:end;padding:0 var(--gutter) 12vh}
-.dy-sky{position:absolute;inset:0}
-.dy-sky i{position:absolute;inset:0;opacity:0}
-.dy-sky .s1{background:linear-gradient(180deg,#f7b267 0%,#f79d65 40%,#f4845f 100%);opacity:1}
-.dy-sky .s2{background:linear-gradient(180deg,#7fc8f8 0%,#bfe6ff 60%,#fff6e0 100%)}
-.dy-sky .s3{background:linear-gradient(180deg,#0b1026 0%,#1b2a4a 60%,#2b3a67 100%)}
-.dy-sun{position:absolute;width:clamp(70px,9vw,120px);aspect-ratio:1;border-radius:50%;background:#ffd166;box-shadow:0 0 60px 20px rgba(255,209,102,.45);left:10%;top:60%;will-change:transform}
-.dy-txt{position:relative;z-index:1;color:#1b1b2f;max-width:36ch}
-.dy-txt b{display:block;font-size:12px;letter-spacing:.16em;margin-bottom:8px;opacity:.75}
-.dy-txt h2{margin:0 0 10px;font-size:var(--fs-h2)}
-.dy-txt p{margin:0;line-height:1.7;opacity:.85}
-.dy-txt .l{display:none}
-.dy-pin.night .dy-txt{color:#fff}
-.dy-ground{position:absolute;inset-inline:0;bottom:0;height:9vh;background:color-mix(in srgb,#1b1b2f 85%,transparent)}
-@media(max-width:767px){.dy{height:240vh}}`,
-  html:`<div class="dy">
-  <div class="dy-pin">
-    <div class="dy-sky"><i class="s1"></i><i class="s2"></i><i class="s3"></i></div>
-    <div class="dy-sun"></div>
-    <div class="dy-ground"></div>
-    <div class="dy-txt"><b data-t="בוקר">בוקר</b><h2 data-t="היום מתחיל בשקט">היום מתחיל בשקט</h2><p data-t="קפה, אור ראשון, ושום דבר לא דחוף.">קפה, אור ראשון, ושום דבר לא דחוף.</p></div>
-  </div>
-</div>`,
-  js:`(function(){
-  const pin=document.querySelector(".dy-pin"),sun=document.querySelector(".dy-sun"),txt=document.querySelector(".dy-txt");
-  const phases=[{b:"בוקר",h:"היום מתחיל בשקט",p:"קפה, אור ראשון, ושום דבר לא דחוף."},{b:"צהריים",h:"הכל בתנועה",p:"פגישות, החלטות, וארוחה טובה באמצע."},{b:"לילה",h:"ומסיימים לאט",p:"הבריכה מוארת, והמים בדיוק בטמפרטורה."}];
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,mob=matchMedia("(max-width:767px)").matches;
-  let cur=0;function setText(k){if(k===cur)return;cur=k;const ph=phases[k];txt.querySelector("b").textContent=ph.b;txt.querySelector("h2").textContent=ph.h;txt.querySelector("p").textContent=ph.p;}
-  if(reduce)return;
-  const W=()=>pin.clientWidth,H=()=>pin.clientHeight,top=mob?.28:.14;
-  gsap.timeline({scrollTrigger:{trigger:".dy",start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true,
-      onUpdate(s){setText(s.progress<.4?0:s.progress<.75?1:2);pin.classList.toggle("night",s.progress>.7);}}})
-    // השמש: קשת מימין לשמאל (RTL: הבוקר מימין), עולה עד האמצע ויורדת
-    .fromTo(sun,{x:()=>W()*.72,y:0},{x:()=>W()*.4,y:()=>-H()*(0.6-top),duration:1,ease:"power1.out"},0)
-    .to(sun,{x:()=>W()*.06,y:()=>H()*.05,duration:1,ease:"power1.in"},1)
-    .to(".dy-sky .s2",{opacity:1,duration:.8},.3)
-    .to(".dy-sky .s3",{opacity:1,duration:.8},1.2)
-    .to(sun,{backgroundColor:"#e9edf5",boxShadow:"0 0 40px 10px rgba(233,237,245,.35)",scale:.7,duration:.6},1.3);
-})();`
-},
-{
   id:"g123", cat:"gsap", name:"מסוע אופקי שנע עם הגלילה", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"שתי שורות של תמונות או לוגואים שנעות אופקית בכיוונים מנוגדים, לא בלולאה אלא בקשר ישיר לגלילה: גוללים למטה, השורה העליונה נוסעת ימינה והתחתונה שמאלה. עוצרים, הכל עוצר.",
   when:"קיר לוגואים, גלריית פרויקטים, פס תמונות בין סקשנים. ששה עד עשרה פריטים בשורה.",
@@ -340,13 +293,14 @@ html[dir="ltr"] .fe-it{transform-origin:0 50%}
   id:"g128", cat:"gsap", name:"מגירה שנפתחת מתחת לסקשן", tech:"GSAP · ScrollTrigger · pin", status:"ממתין",
   desc:"הסקשן העליון נשאר במקום, והבא נשלף מתחתיו הצידה כמו מגירה, עד שהוא תופס את המסך והעליון נדחק החוצה. מעבר צדדי במקום עוד גלילה למטה.",
   when:"מעבר לסקשן \"הפתעה\": מבצע, פרויקט נבחר, הצעה מיוחדת. פעם אחת בעמוד.",
-  note:"שני סקשנים באותו מכל מוצמד. התחתון מתחיל מוזז ב-xPercent מלא בכיוון ההתחלה (ב-RTL נשלף מימין) עם צל שמדגיש שהוא מתחת, והעליון יוצא לצד השני עם קצת קנה מידה. במובייל אותו דבר, קצר יותר.",
+  note:"שני סקשנים באותו מכל מוצמד. התחתון מתחיל מוזז ב-xPercent מלא לכיוון שאליו הקריאה מתקדמת (בעברית משמאל) עם צל בקצה המוביל שמדגיש שהוא מתחת, והעליון נדחק לצד הנגדי עם קצת קנה מידה. הכיוון נגזר מ-direction ולא מקובע, והצל מתהפך עם html[dir=ltr]. במובייל אותו דבר, קצר יותר.",
   libs:["gsap","ScrollTrigger"],
   css:`.dr{position:relative;height:200vh}
 .dr-pin{position:sticky;top:0;height:100vh;overflow:hidden}
 .dr-a,.dr-b{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;will-change:transform}
 .dr-a{background:var(--card);z-index:2}
-.dr-b{background:var(--accent);color:var(--accent-ink);z-index:1;box-shadow:-40px 0 80px rgba(0,0,0,.25)}
+.dr-b{background:var(--accent);color:var(--accent-ink);z-index:1;box-shadow:40px 0 80px rgba(0,0,0,.25)}
+html[dir="ltr"] .dr-b{box-shadow:-40px 0 80px rgba(0,0,0,.25)}
 .dr-a h2,.dr-b h2{margin:0 0 10px;font-size:var(--fs-h2);max-width:20ch}
 .dr-a p,.dr-b p{margin:0;opacity:.8;max-width:40ch;line-height:1.7}
 .dr-hint{position:absolute;bottom:22px;inset-inline:0;text-align:center;font-size:13px;color:var(--muted)}`,
@@ -358,8 +312,9 @@ html[dir="ltr"] .fe-it{transform-origin:0 50%}
 </div>`,
   js:`(function(){
   if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(".dr-a",{opacity:0});return;}
-  const rtl=getComputedStyle(document.documentElement).direction==="rtl",s=rtl?1:-1;
-  gsap.set(".dr-b",{xPercent:100*s,zIndex:3});   // המגירה מתחילה מחוץ למסך בצד ההתחלה
+  // בעברית הפרק הבא מגיע משמאל והנוכחי נדחק ימינה, כמו דף הבא בספר עברי. ב-LTR הכל מתהפך.
+  const rtl=getComputedStyle(document.documentElement).direction==="rtl",s=rtl?-1:1;
+  gsap.set(".dr-b",{xPercent:100*s,zIndex:3});   // המגירה מתחילה מחוץ למסך בצד שאליו הקריאה מתקדמת
   gsap.timeline({scrollTrigger:{trigger:".dr",start:"top top",end:"bottom bottom",scrub:.6}})
     .to(".dr-b",{xPercent:0,duration:1,ease:"power2.inOut"},0)
     .to(".dr-a",{xPercent:-30*s,scale:.94,duration:1,ease:"power2.inOut"},0)

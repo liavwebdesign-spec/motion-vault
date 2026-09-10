@@ -154,11 +154,11 @@ export default [
   id:"g103", cat:"gsap", name:"מספר פרק ענק שמתחלף בגלילה", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"ספרה ענקית ודהויה יושבת ברקע ומחליפה ערך כשעוברים פרק: הישנה נדחפת למעלה ויוצאת, החדשה נכנסת מלמטה. הגולש תמיד יודע איפה הוא.",
   when:"עמוד שירות ארוך עם שלושה עד שישה פרקים, מדריך, תהליך. אחת לעמוד.",
-  note:"הספרות כולן במארקאפ, ערומות זו על זו ומוסתרות, וההחלפה היא yPercent עם overflow:hidden על המכל. הספרה ברקע (z-index 0, opacity .08) כך שהטקסט קריא מעליה. במובייל הספרה קטנה ויושבת בפינה במקום במרכז.",
+  note:"הספרות כולן במארקאפ, ערומות זו על זו ומוסתרות, וההחלפה היא yPercent עם overflow:hidden על המכל. למכל חייבים לתת רוחב מפורש (2.4ch): הספרות עצמן absolute ולכן לא תורמות רוחב, המכל יוצא ברוחב אפס, ו-overflow:hidden מוחק את כל הספרה. הספרה ברקע (z-index 0, opacity .08) כך שהטקסט קריא מעליה. במובייל הספרה קטנה ויושבת בפינה במקום במרכז.",
   libs:["gsap","ScrollTrigger"],
   css:`.ch{position:relative}
 .ch-num{position:sticky;top:0;height:100vh;display:grid;place-items:center;pointer-events:none;z-index:0;margin-bottom:-100vh}
-.ch-clip{height:1em;font-size:clamp(160px,34vw,520px);font-weight:900;line-height:1;overflow:hidden;position:relative;color:var(--ink);opacity:.08;font-variant-numeric:tabular-nums}
+.ch-clip{width:2.4ch;height:1em;font-size:clamp(160px,34vw,520px);font-weight:900;line-height:1;overflow:hidden;position:relative;color:var(--ink);opacity:.11;font-variant-numeric:tabular-nums}
 .ch-clip span{position:absolute;inset:0;display:block;text-align:center}
 .ch-body{position:relative;z-index:1;max-width:min(760px,92vw);margin-inline:auto;padding-block:10vh 30vh}
 .ch-sec{min-height:90vh;display:grid;align-content:center;gap:12px}
@@ -172,7 +172,7 @@ export default [
     <section class="ch-sec"><b>פרק 01</b><h2>אפיון</h2><p>מי הלקוח, מה הוא מחפש, ומה עוצר אותו. שיחה אחת, ומסמך של עמוד.</p></section>
     <section class="ch-sec"><b>פרק 02</b><h2>קופי</h2><p>המשפט הראשון נכתב כאילו הוא היחיד שייקרא. ואז כל השאר.</p></section>
     <section class="ch-sec"><b>פרק 03</b><h2>עיצוב ובנייה</h2><p>מסך אחרי מסך, מובייל קודם, ומדידה מובנית.</p></section>
-    <section class="ch-sec"><b>פרק 04</b><h2>עלייה וליווי</b><p>האתר עולה, המספרים נאספים, והשיפורים נגזרים מהם.</p></section>
+    <section class="ch-sec"><b>פרק 04</b><h2>עלייה וליווי</h2><p>האתר עולה, המספרים נאספים, והשיפורים נגזרים מהם.</p></section>
   </div>
 </div>`,
   js:`(function(){
@@ -231,37 +231,66 @@ export default [
 },
 {
   id:"g105", cat:"gsap", name:"מרקי שמתקבע לכותרת", tech:"GSAP · ScrollTrigger", status:"ממתין",
-  desc:"רצועת מילים שרצה בלי סוף, וככל שגוללים היא מאטה, המילים מתיישרות, והרצועה נעצרת בדיוק על כותרת אחת קריאה במרכז. תנועה שהופכת לאמירה.",
+  desc:"רצועת מילים שרצה בלי סוף, וככל שגוללים היא מאטה, נעצרת, ונגררת עד שמילה אחת נוחתת בדיוק במרכז המסך. תנועה שהופכת לאמירה.",
   when:"פתיחת סקשן ערכים או שירותים: קודם השטף, אחר כך המסר. פעם אחת בעמוד.",
-  note:"שני טיימליינים: מרקי אינסופי (xPercent) שה-timeScale שלו יורד לאפס בסקראב, וכשהוא נעצר המילה המסומנת נמשכת למרכז דרך מדידה בזמן refresh. במובייל אותו דבר עם פונט קטן ומרווח קצר.",
+  note:"הרצועה ממוקמת מהקצה ולא ממורכזת, והעותקים שלה נבנים ב-JS עד שהם מכסים מסך שלם ועוד מחזור, אחרת בקצה הלולאה נפתח חלל ריק. הכיוון של הפריסה ltr כדי שהשכפול ייצמד בצד הנכון, וכל מילה עדיין נקראת בעברית. הנעילה נמדדת ב-getBoundingClientRect ולא ב-offsetLeft, כי ב-RTL עם flip ההיסט הזה משקר. במובייל אותו דבר עם פונט קטן.",
   libs:["gsap","ScrollTrigger"],
-  css:`.mq{position:relative;height:200vh}
-.mq-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
-.mq-track{display:flex;gap:.6em;white-space:nowrap;font-size:clamp(32px,6.5vw,92px);font-weight:800;will-change:transform;color:var(--muted)}
-.mq-track span{opacity:.35;transition:opacity .4s,color .4s}
-.mq-track span.key{opacity:1;color:var(--ink)}
-.mq-track span.key.on{color:var(--accent)}
-.mq-sub{position:absolute;bottom:22vh;inset-inline:0;text-align:center;color:var(--muted);opacity:0;translate:0 10px}`,
+  css:`.mq{position:relative;height:220vh}
+.mq-pin{position:sticky;top:0;height:100vh;overflow:hidden}
+.mq-track{position:absolute;top:50%;inset-inline-start:0;translate:0 -50%;display:flex;direction:ltr;white-space:nowrap;font-size:clamp(30px,6vw,84px);font-weight:800;will-change:transform}
+.mq-set{display:flex;gap:.5em;padding-inline-end:.5em}
+.mq-set span{color:var(--muted);opacity:.38}
+.mq-set span::after{content:"·";margin-inline-start:.5em;opacity:.5}
+.mq-set span.key{opacity:1;color:var(--ink)}
+.mq-set span.key.on{color:var(--accent)}
+.mq-sub{position:absolute;bottom:18vh;inset-inline:0;text-align:center;color:var(--muted);opacity:0}`,
   html:`<div class="mq">
   <div class="mq-pin">
-    <div class="mq-track"><span>אסטרטגיה ·</span><span>קופי ·</span><span>עיצוב ·</span><span class="key">אתר שמביא לקוחות</span><span>· פיתוח ·</span><span>מדידה ·</span><span>ליווי ·</span><span>אסטרטגיה ·</span><span>קופי ·</span><span>עיצוב ·</span></div>
-    <p class="mq-sub">זה כל מה שאנחנו עושים. גלול.</p>
+    <div class="mq-track"><div class="mq-set"><span>אסטרטגיה</span><span>קופי</span><span>עיצוב</span><span class="key">אתר שמביא לקוחות</span><span>פיתוח</span><span>מדידה</span><span>ליווי</span></div></div>
+    <p class="mq-sub">זה כל מה שאנחנו עושים.</p>
   </div>
 </div>`,
   js:`(function(){
-  const track=document.querySelector(".mq-track"),key=track.querySelector(".key"),pin=document.querySelector(".mq-pin");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(track,{x:()=>pin.clientWidth/2-(key.offsetLeft+key.offsetWidth/2)});key.classList.add("on");return;}
-  // מרקי: הרצועה נעה בלולאה כל עוד לא גוללים
-  const loop=gsap.to(track,{x:"-=600",duration:8,ease:"none",repeat:-1,modifiers:{x:gsap.utils.unitize(v=>parseFloat(v)%600)}});
-  const target=()=>pin.clientWidth/2-(key.offsetLeft+key.offsetWidth/2);   // איפה x צריך להיות כדי שהמילה במרכז
+  const track=document.querySelector(".mq-track"),pin=document.querySelector(".mq-pin"),sub=document.querySelector(".mq-sub");
+  const base=track.querySelector(".mq-set");
+  const mid=()=>{const r=pin.getBoundingClientRect();return r.left+r.width/2;};
+  const nearest=()=>{let d=null;track.querySelectorAll(".key").forEach(k=>{const r=k.getBoundingClientRect(),v=mid()-(r.left+r.width/2);if(d===null||Math.abs(v)<Math.abs(d))d=v;});return d;};
+  let W=0,loop=null,lock=null;
+  function fill(){
+    track.querySelectorAll(".mq-set").forEach((n,i)=>{if(i)n.remove();});
+    W=base.getBoundingClientRect().width;
+    // כמה עותקים צריך כדי שהחלון תמיד יראה תוכן: מסך שלם ועוד מחזור אחד
+    const need=Math.ceil((pin.clientWidth+W)/W)+1;
+    for(let i=1;i<need;i++){const c=base.cloneNode(true);c.setAttribute("aria-hidden","true");track.appendChild(c);}
+  }
+  fill();
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){
+    gsap.set(track,{x:nearest()});track.querySelectorAll(".key").forEach(k=>k.classList.add("on"));gsap.set(sub,{opacity:1});return;
+  }
+  function build(){
+    loop&&loop.kill();lock=null;fill();gsap.set(track,{x:0});
+    loop=gsap.to(track,{x:"-="+W,duration:W/90,ease:"none",repeat:-1,
+      modifiers:{x:gsap.utils.unitize(v=>gsap.utils.wrap(-W,0,parseFloat(v)))}});
+  }
+  build();
+  ScrollTrigger.addEventListener("refresh",build);
   ScrollTrigger.create({trigger:".mq",start:"top top",end:"bottom bottom",scrub:.6,onUpdate(s){
     const p=s.progress;
-    loop.timeScale(Math.max(0,1-p*2));                                        // מאט עד עצירה בחצי הדרך
-    if(p>.5){loop.pause();const cx=gsap.getProperty(track,"x");gsap.set(track,{x:cx+(target()-cx)*gsap.utils.clamp(0,1,(p-.5)*3)});key.classList.toggle("on",p>.8);gsap.set(".mq-sub",{opacity:gsap.utils.clamp(0,1,(p-.8)*5),translate:"0 0"});}
-    else{if(loop.paused()&&p<.45)loop.play();key.classList.remove("on");gsap.set(".mq-sub",{opacity:0});}
+    if(p<.5){
+      if(lock){lock=null;loop.play();}
+      loop.timeScale(gsap.utils.clamp(0,1,(.5-p)*10));            // מאט עד עצירה מלאה בדיוק בחצי
+      track.querySelectorAll(".key").forEach(k=>k.classList.remove("on"));
+      gsap.set(sub,{opacity:0});return;
+    }
+    if(!lock){loop.pause();lock={from:gsap.getProperty(track,"x"),delta:nearest()};}
+    const t=gsap.utils.clamp(0,1,(p-.5)*2.5),e=gsap.parseEase("power3.out")(t);
+    gsap.set(track,{x:lock.from+lock.delta*e});
+    track.querySelectorAll(".key").forEach(k=>k.classList.toggle("on",t>.8));
+    gsap.set(sub,{opacity:gsap.utils.clamp(0,1,(t-.7)*3.4)});
   }});
 })();`
 },
+
 {
   id:"g106", cat:"gsap", name:"חלונות אל תמונה קבועה", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"תמונה אחת גדולה עומדת במקום מאחורי העמוד, והסקשנים שגוללים מעליה חתוכים בחלונות. דרך כל חלון רואים חלק אחר של אותה תמונה, כאילו מציצים דרך קיר.",
@@ -335,16 +364,16 @@ export default [
   id:"g108", cat:"gsap", name:"שורות כותרת שנפתחות ומגלות תמונה", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"כותרת של שתי שורות צמודות. בגלילה השורות מתרחקות זו מזו, ובמרווח שנפתח ביניהן מתגלה תמונה שגדלה עד לרוחב מלא. הטקסט הופך למסגרת.",
   when:"הירו של אתר תדמית, פתיחת פרויקט בתיק עבודות, סקשן \"מי אנחנו\". פעם אחת בעמוד.",
-  note:"השורות זזות ב-y (מעלה ומטה) והתמונה ב-scaleY מ-0 ל-1 עם transform-origin במרכז, כך שאין reflow. במובייל השורות נפתחות פחות (התמונה 40vh) והפונט נשבר לשתי שורות קצרות.",
+  note:"השורות זזות ב-y (מעלה ומטה) והתמונה ב-scaleY מ-0 ל-1 עם transform-origin במרכז, כך שאין reflow. גובה התמונה מוגבל ל-46vh בכוונה: מעבר לזה שתי השורות והכיתוב התחתון לא נכנסים למסך אחד, והכיתוב נוחת על השורה השנייה. במובייל השורות נפתחות פחות (התמונה 40vh) והפונט נשבר לשתי שורות קצרות.",
   libs:["gsap","ScrollTrigger"],
   css:`.sp2{position:relative;height:220vh}
 .sp2-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
 .sp2-stack{display:grid;justify-items:center;text-align:center;width:100%}
 .sp2-l{font-size:clamp(34px,7vw,110px);font-weight:900;line-height:1;margin:0;will-change:transform}
-.sp2-img{width:min(1100px,94vw);height:min(56vh,600px);border-radius:var(--r);overflow:hidden;transform:scaleY(0);transform-origin:50% 50%;will-change:transform;margin-block:-.1em}
+.sp2-img{width:min(1100px,94vw);height:min(46vh,470px);border-radius:var(--r);overflow:hidden;transform:scaleY(0);transform-origin:50% 50%;will-change:transform}
 .sp2-img .ph{width:100%;height:100%;border-radius:0;font-size:0}
-.sp2-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted);opacity:0}
-@media(max-width:767px){.sp2-img{height:40vh}}`,
+.sp2-cap{position:absolute;bottom:4vh;inset-inline:0;text-align:center;color:var(--muted);opacity:0}
+@media(max-width:767px){.sp2-img{height:34vh}}`,
   html:`<div class="sp2">
   <div class="sp2-pin"><div class="sp2-stack">
     <h2 class="sp2-l">בונים מקומות</h2>
@@ -361,7 +390,7 @@ export default [
   gsap.timeline({scrollTrigger:{trigger:".sp2",start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}})
     .to(lines,{y:0,duration:1,ease:"power3.inOut"},0)
     .fromTo(img,{scaleY:0},{scaleY:1,duration:1,ease:"power3.inOut"},0)
-    .to(lines,{scale:mob?.9:.8,duration:.4,ease:"power2.out"},.7)
+    .to(lines,{scale:mob?.92:.86,duration:.4,ease:"power2.out"},.7)
     .to(".sp2-cap",{opacity:1,duration:.3},.8);
 })();`
 },
