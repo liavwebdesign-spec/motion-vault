@@ -737,14 +737,31 @@ const BP_BAR = `<div class="bpbar"><span class="flabel">רוחב תצוגה:</sp
   <button class="bpbtn on" data-bp="desktop">דסקטופ</button>
   <button class="bpbtn" data-bp="tablet">טאבלט 768</button>
   <button class="bpbtn" data-bp="mobile">מובייל 375</button></div>`;
-const BP_JS = `(function(){var w=document.querySelector(".bpwrap"),bs=[].slice.call(document.querySelectorAll(".bpbtn"));
+// מתג הפונט (עמודי שפה בלבד): מחליף את גופן עמוד הייחוס ומחיל את פקטור הכיול ו-λ מ-font-calibration.md.
+// למה: כל הדמואים רצים על Heebo, והאתרים האמיתיים על פלוני, גולן ופרנק. שפה שאושרה ב-Heebo נראית
+// אחרת בפלוני. פונטים מקומיים (aaa) קיימים רק במחשב של ליאב; במכונה אחרת הכפתור מנוטרל.
+const FONTS = [
+  { id: "heebo", label: "Heebo", note: "ברירת המחדל", stack: "'Heebo',system-ui,sans-serif", fz: 1, lh: 1, local: false },
+  { id: "ploni", label: "פלוני", note: "מקומי · פקטור 1.19 · λ 0.80", stack: "'Ploni','Heebo',system-ui,sans-serif", fz: 1.19, lh: 0.80, local: true, family: "Ploni" },
+  { id: "frankre", label: "פרנק רי", note: "מקומי · פקטור 1.02 · λ 1.07", stack: "'FrankRe DL v2 AAA','Heebo',system-ui,sans-serif", fz: 1.02, lh: 1.07, local: true, family: "FrankRe DL v2 AAA" },
+  { id: "frl", label: "Frank Ruhl Libre", note: "גוגל · פקטור 0.96 · λ 1.04 (נמדד ב-canvas, לא בפרוטוקול המלא)", stack: "'Frank Ruhl Libre','Heebo',serif", fz: 0.96, lh: 1.04, local: false },
+];
+const FRL_LINK = '<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">';
+const FONT_BAR = `<div class="bpbar fontbar"><span class="flabel">פונט מכויל:</span>${FONTS.map((f, i) => `<button class="bpbtn${i ? "" : " on"}" data-font="${f.id}" title="${f.note}">${f.label}${f.local ? " <small>מקומי</small>" : ""}</button>`).join("")}</div>`;
+const FONT_JS = `(function(){var F=${JSON.stringify(FONTS)},bs=[].slice.call(document.querySelectorAll(".bpbtn[data-font]")),refs=[].slice.call(document.querySelectorAll(".ref"));
+var c=document.createElement("canvas").getContext("2d");function has(fam){c.font="40px __none__";var a=c.measureText("אבגדהוזחטי abc").width;c.font="40px '"+fam+"', __none__";return Math.abs(c.measureText("אבגדהוזחטי abc").width-a)>.5;}
+function apply(id){var f=F.filter(function(x){return x.id===id})[0]||F[0];refs.forEach(function(r){r.style.setProperty("--s-font",f.stack);r.style.setProperty("--s-fz",f.fz);r.style.setProperty("--s-lh",f.lh);});bs.forEach(function(b){b.classList.toggle("on",b.dataset.font===f.id)});try{localStorage.setItem("mv-font",f.id)}catch(e){}}
+function init(){bs.forEach(function(b){var f=F.filter(function(x){return x.id===b.dataset.font})[0];if(f.local&&!has(f.family)){b.disabled=true;b.title="לא מותקן במחשב הזה";}b.addEventListener("click",function(){apply(b.dataset.font)});});var s=null;try{s=localStorage.getItem("mv-font")}catch(e){}if(s){var b=bs.filter(function(x){return x.dataset.font===s})[0];if(b&&!b.disabled)apply(s);}}
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(init);else init();})();`;
+const BP_JS = `(function(){var w=document.querySelector(".bpwrap"),bs=[].slice.call(document.querySelectorAll(".bpbtn[data-bp]"));
 function set(v){bs.forEach(function(x){x.classList.toggle("on",x.dataset.bp===v)});w.dataset.bp=v;try{localStorage.setItem("mv-bp",v)}catch(e){}}
 bs.forEach(function(b){b.addEventListener("click",function(){set(b.dataset.bp)})});
 try{var s=localStorage.getItem("mv-bp");if(s)set(s)}catch(e){}})();`;
 
 function page(e) {
   const isDoc = e.area === "doctrine";
-  const body = labelPh(isDoc ? `${BP_BAR}\n<div class="bpwrap" data-bp="desktop">\n${e.html}\n</div>` : e.html);
+  const isStyle = e.cat === "style";
+  const body = labelPh(isDoc ? `${BP_BAR}${isStyle ? "\n" + FONT_BAR : ""}\n<div class="bpwrap" data-bp="desktop">\n${e.html}\n</div>` : e.html);
   const libs = (e.libs || []).map(l => `<script src="${CDN[l]}"></script>`).join("\n");
   const register = (e.libs || []).filter(l => l !== "gsap" && !NON_GSAP.has(l)).join(", ");
   const runway = e.runway === false ? "" : `<div class="runway">גלול למטה, הדמו מגיע ↓</div>`;
@@ -756,7 +773,7 @@ function page(e) {
 <meta name="robots" content="noindex, nofollow">
 <title>${e.id.toUpperCase()} · ${e.name} | Motion Vault</title>
 ${FONT}
-${fontLink(e)}
+${fontLink(e)}${e.cat === "style" ? FRL_LINK : ""}
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
 ${e.css || ""}
@@ -809,7 +826,7 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 })();
 ${register ? `gsap.registerPlugin(${register});` : ""}
-${isDoc ? BP_JS + String.fromCharCode(10) : ""}${e.js || ""}
+${isDoc ? BP_JS + String.fromCharCode(10) + (isStyle ? FONT_JS + String.fromCharCode(10) : "") : ""}${e.js || ""}
 </script>
 </body>
 </html>`;

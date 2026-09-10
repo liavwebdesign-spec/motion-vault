@@ -18,7 +18,7 @@ export const REF_BASE = `.cwrap{container-type:inline-size}
 .ref h1,.ref h2,.ref h3{font-family:var(--s-font-h,var(--s-font,inherit));font-weight:var(--s-wt-h,700);margin:0;line-height:1.1;color:var(--s-head,var(--s-ink))}
 .ref p{margin:0;color:var(--s-muted)}
 .ref a{color:inherit;text-decoration:none}
-.hd{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px var(--pad);background:var(--s-hd-bg,transparent);border-bottom:var(--s-hd-line,0);position:relative;z-index:2}
+.hd{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px var(--pad);background:var(--s-hd-bg,transparent);border-bottom:var(--s-hd-line,0);position:sticky;top:0;z-index:2}
 .logo{font-weight:800;font-size:18px;display:inline-flex;align-items:center;gap:8px}
 .logo::before{content:"";width:22px;height:22px;border-radius:var(--s-logo-r,6px);background:var(--s-accent);flex:none}
 .nav{display:flex;gap:22px;font-size:14.5px;font-weight:500;color:var(--s-muted)}
@@ -30,6 +30,10 @@ export const REF_BASE = `.cwrap{container-type:inline-size}
 .ctas{display:flex;gap:12px;flex-wrap:wrap}
 .ref .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:var(--s-btn-r,var(--s-r));background:var(--s-accent);color:var(--s-accent-ink);font-weight:600;font-size:15.5px;border:var(--s-btn-b,0);box-shadow:var(--s-btn-sh,none);cursor:pointer;font-family:inherit;line-height:1.2;transition:transform .2s,box-shadow .2s,background .2s}
 .ref .btn.ghost{background:var(--s-ghost-bg,transparent);color:var(--s-ghost-ink,var(--s-ink));border:var(--s-ghost-b,1px solid var(--s-line));box-shadow:none}
+.ref .btn:active{transform:scale(.98)}
+.ref .btn:focus-visible,.ref .in:focus-visible{outline:2px solid var(--s-accent-txt,var(--s-accent));outline-offset:3px}
+.ref p,.ref li{line-height:1.6}
+@media (prefers-reduced-motion:reduce){.ref *,.ref *::before,.ref *::after{transition:none!important;animation:none!important}}
 .ref .btn.sm{padding:9px 16px;font-size:14px}
 .hero-v{aspect-ratio:4/3;border-radius:var(--s-r);background:var(--s-ph);display:grid;place-items:center;color:var(--s-ph-ink);font-weight:600;position:relative;box-shadow:var(--s-card-sh,none);border:var(--s-card-b,0);overflow:hidden}
 .hv-a,.hv-b{display:block}
@@ -82,11 +86,18 @@ ${price("מורחבת", "6,000", ["חמישה עמודים", "בלוג", "חיב
 <footer class="ft"><span>© שם העסק</span><span>תנאים · פרטיות · נגישות</span></footer>
 </div>`;
 
+// כיול: כל font-size בפיקסלים או ב-clamp וכל line-height חסר-יחידה נעטפים במכפיל, כדי שמתג
+// הפונט בעמוד יוכל להחיל את פקטור הפונט (--s-fz) ואת λ (--s-lh) מ-font-calibration.md.
+// font-size:0 (ממלאי מקום) ו-font:inherit לא נוגעים.
+export const calib = (css) => css
+  .replace(/font-size:(clamp\([^)]*\)|[\d.]+px)(?=[;}!\s])/g, "font-size:calc($1 * var(--s-fz,1))")
+  .replace(/line-height:([\d.]+)(?=[;}\s])/g, "line-height:calc($1 * var(--s-lh,1))");
+
 export const sk = (o) => ({
   cat: "style", area: "doctrine", status: "מאושר", runway: false, tech: "שפת עיצוב · CSS",
   mobile: "אותה קריסה בכל השפות: הירו לעמודה אחת עם הוויז'ואל מעל, גרידים לעמודה, התפריט נעלם. השפה עצמה לא משתנה במובייל, רק הפריסה.",
   ...o,
-  css: REF_BASE + "\n" + o.css,
+  css: calib(REF_BASE + "\n" + o.css),
   html: `<div class="cwrap sk-${o.id}">${REF_HTML}</div>`,
 });
 

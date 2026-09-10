@@ -5,7 +5,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>S05 · מינימליזם עריכתי | Motion Vault</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
 .cwrap{container-type:inline-size}
@@ -181,6 +181,7 @@
   <button class="bpbtn on" data-bp="desktop">דסקטופ</button>
   <button class="bpbtn" data-bp="tablet">טאבלט 768</button>
   <button class="bpbtn" data-bp="mobile">מובייל 375</button></div>
+<div class="bpbar fontbar"><span class="flabel">פונט מכויל:</span><button class="bpbtn on" data-font="heebo" title="ברירת המחדל">Heebo</button><button class="bpbtn" data-font="ploni" title="מקומי · פקטור 1.19 · λ 0.80">פלוני <small>מקומי</small></button><button class="bpbtn" data-font="frankre" title="מקומי · פקטור 1.02 · λ 1.07">פרנק רי <small>מקומי</small></button><button class="bpbtn" data-font="frl" title="גוגל · פקטור 0.96 · λ 1.04 (נמדד ב-canvas, לא בפרוטוקול המלא)">Frank Ruhl Libre</button></div>
 <div class="bpwrap" data-bp="desktop">
 <div class="cwrap sk-s05"><div class="q">
 <header class="hd"><a class="logo"><svg class="ico" viewBox="0 0 24 24" style="color:var(--accent)"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M8 12h8M12 8v8"/></svg>שם העסק</a><nav><a>מוצר</a><a>מחירים</a><a>לקוחות</a><a>בלוג</a></nav><div class="acts"><a class="login">התחברות</a><a class="btn sm">להתחיל</a></div></header>
@@ -489,10 +490,15 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 })();
 
-(function(){var w=document.querySelector(".bpwrap"),bs=[].slice.call(document.querySelectorAll(".bpbtn"));
+(function(){var w=document.querySelector(".bpwrap"),bs=[].slice.call(document.querySelectorAll(".bpbtn[data-bp]"));
 function set(v){bs.forEach(function(x){x.classList.toggle("on",x.dataset.bp===v)});w.dataset.bp=v;try{localStorage.setItem("mv-bp",v)}catch(e){}}
 bs.forEach(function(b){b.addEventListener("click",function(){set(b.dataset.bp)})});
 try{var s=localStorage.getItem("mv-bp");if(s)set(s)}catch(e){}})();
+(function(){var F=[{"id":"heebo","label":"Heebo","note":"ברירת המחדל","stack":"'Heebo',system-ui,sans-serif","fz":1,"lh":1,"local":false},{"id":"ploni","label":"פלוני","note":"מקומי · פקטור 1.19 · λ 0.80","stack":"'Ploni','Heebo',system-ui,sans-serif","fz":1.19,"lh":0.8,"local":true,"family":"Ploni"},{"id":"frankre","label":"פרנק רי","note":"מקומי · פקטור 1.02 · λ 1.07","stack":"'FrankRe DL v2 AAA','Heebo',system-ui,sans-serif","fz":1.02,"lh":1.07,"local":true,"family":"FrankRe DL v2 AAA"},{"id":"frl","label":"Frank Ruhl Libre","note":"גוגל · פקטור 0.96 · λ 1.04 (נמדד ב-canvas, לא בפרוטוקול המלא)","stack":"'Frank Ruhl Libre','Heebo',serif","fz":0.96,"lh":1.04,"local":false}],bs=[].slice.call(document.querySelectorAll(".bpbtn[data-font]")),refs=[].slice.call(document.querySelectorAll(".ref"));
+var c=document.createElement("canvas").getContext("2d");function has(fam){c.font="40px __none__";var a=c.measureText("אבגדהוזחטי abc").width;c.font="40px '"+fam+"', __none__";return Math.abs(c.measureText("אבגדהוזחטי abc").width-a)>.5;}
+function apply(id){var f=F.filter(function(x){return x.id===id})[0]||F[0];refs.forEach(function(r){r.style.setProperty("--s-font",f.stack);r.style.setProperty("--s-fz",f.fz);r.style.setProperty("--s-lh",f.lh);});bs.forEach(function(b){b.classList.toggle("on",b.dataset.font===f.id)});try{localStorage.setItem("mv-font",f.id)}catch(e){}}
+function init(){bs.forEach(function(b){var f=F.filter(function(x){return x.id===b.dataset.font})[0];if(f.local&&!has(f.family)){b.disabled=true;b.title="לא מותקן במחשב הזה";}b.addEventListener("click",function(){apply(b.dataset.font)});});var s=null;try{s=localStorage.getItem("mv-font")}catch(e){}if(s){var b=bs.filter(function(x){return x.dataset.font===s})[0];if(b&&!b.disabled)apply(s);}}
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(init);else init();})();
 (function(){var root=document.querySelector(".sk-s05");if(!root)return;
 var rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 var hd=root.querySelector(".hd");var top=document.querySelector(".vtop");if(top&&hd)hd.style.top=top.offsetHeight+"px";
