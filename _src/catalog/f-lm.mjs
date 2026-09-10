@@ -117,6 +117,7 @@ document.querySelectorAll(".conv").forEach(el=>io.observe(el));`,
   id:"lm5", cat:"lm", name:"סולם כניסות הירו (150ms)", tech:"CSS transitions + delay", status:"ממתין",
   desc:"רכיבי ההירו נכנסים בזה אחר זה במדרגות של 150 אלפיות: לוגו, ניווט, כותרת, ליד, כפתורים.",
   when:"רגע הזהות בלבד. בשאר העמוד reveal אחיד בלי סטאגר. החריג המאושר.",
+  note:"הסולם נורה כשהסקשן נכנס למסך, לא בטעינת העמוד, ורץ שוב בכל כניסה מחדש. בהירו אמיתי זה אותו רגע, אבל בדמו הוא יושב אחרי מסלול גלילה בכוונה: כשהוא היה גלוי כבר בטעינה הוא רץ ונגמר בשנייה הראשונה, בזמן שהעין עוד על כותרת העמוד, ונראה סטטי (נמדד: 84% מהסקשן בתוך המסך בטעינה). מחלקת ה-go חייבת להתווסף אחרי הציור הראשון, אחרת אין שינוי מצב ואין טרנזישן בכלל.",
   css:`.ladder{min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding-inline:var(--gutter)}
 .lad{opacity:0;translate:0 18px;transition:opacity .6s cubic-bezier(.2,.6,.2,1),translate .6s cubic-bezier(.2,.6,.2,1)}
 .go .lad{opacity:1;translate:0 0}
@@ -138,11 +139,11 @@ document.querySelectorAll(".conv").forEach(el=>io.observe(el));`,
 // go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל
 // והרכיבים פשוט מופיעים גמורים. זאת גם הסיבה ל-void offsetHeight בהפעלה חוזרת.
 const play=()=>{lad.classList.remove("go");void lad.offsetHeight;lad.classList.add("go")};
-let started=false;const start=()=>{if(started)return;started=true;play()};
-requestAnimationFrame(()=>requestAnimationFrame(start));
-setTimeout(start,80);   // רשת ביטחון: בטאב מוסתר rAF מושהה והכותרת הייתה נשארת נעלמת
-document.querySelector(".replay").addEventListener("click",play);`,
-  runway:false
+// והפעלה על כניסה למסך ולא על טעינה: בהירו אמיתי זה אותו רגע בדיוק, אבל כשהסקשן יושב
+// באמצע עמוד ארוך הסולם רץ ונגמר לפני שמגיעים אליו, ונראה שכלום לא קרה.
+// לא מנתקים את הצופה: כשהסקשן יוצא מהמסך המחלקה מוסרת (מחוץ לעין), וכשחוזרים אליו הסולם רץ שוב.
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)play();else lad.classList.remove("go");}),{threshold:.45}).observe(lad);
+document.querySelector(".replay").addEventListener("click",play);`
 },
 
 {

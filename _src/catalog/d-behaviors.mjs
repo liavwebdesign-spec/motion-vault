@@ -126,40 +126,6 @@ const io=new IntersectionObserver(es=>{
 document.querySelectorAll(".main-cta").forEach(el=>io.observe(el));`,
   runway:false
 },
-{
-  id:"b04", cat:"behavior", name:"קרוסלת מובייל עם Peek", tech:"CSS scroll-snap", status:"מאושר",
-  desc:"גלילה אופקית עם snap רך (proximity, לא mandatory) והצצה לקלף הבא, כדי שהגולש ידע שיש עוד. בעכבר נוספת גרירה וגלגלת, אחרת בדסקטופ הרצועה נראית תקועה.",
-  when:"מחירון וכרטיסים במובייל. בדסקטופ פורשים בגריד.",
-  css:`.peek{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x proximity;padding:10px var(--gutter) 26px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
-.peek::-webkit-scrollbar{display:none}
-.peek .ph{flex:0 0 72%;max-width:340px;height:220px;scroll-snap-align:center;font-size:20px}
-.peek .spacer{flex:0 0 8%}`,
-  html:`<div class="stage tight"><div class="peek">
-<div class="ph ph-a">בסיסי</div><div class="ph ph-b">מומלץ</div><div class="ph ph-c">פרימיום</div><div class="ph ph-d">ארגוני</div>
-<div class="spacer"></div>
-</div><p class="center" style="color:var(--muted);font-size:13px">גרור עם העכבר, או גלגל למטה מעל הרצועה</p></div>`,
-  js:`(function(){
-  const el=document.querySelector(".peek");
-  // במובייל הגלילה נטיבית ועובדת. בדסקטופ אין מגע, פס הגלילה מוסתר בכוונה,
-  // והקרוסלה נראית מתה לגמרי. לכן בעכבר מוסיפים גרירה וגלגלת.
-  if(!matchMedia("(pointer:fine)").matches)return;
-  const rtl=getComputedStyle(el).direction==="rtl";
-  el.style.cursor="grab";
-  let down=false,sx=0,sl=0;
-  el.addEventListener("pointerdown",e=>{
-    down=true;sx=e.clientX;sl=el.scrollLeft;el.style.cursor="grabbing";
-    el.setPointerCapture(e.pointerId);
-  });
-  el.addEventListener("pointermove",e=>{if(down)el.scrollLeft=sl-(e.clientX-sx)});
-  const up=e=>{if(!down)return;down=false;el.style.cursor="grab";
-    try{el.releasePointerCapture(e.pointerId)}catch(_){}}; 
-  el.addEventListener("pointerup",up);el.addEventListener("pointercancel",up);
-  el.addEventListener("wheel",e=>{
-    if(Math.abs(e.deltaY)<=Math.abs(e.deltaX))return;
-    e.preventDefault();el.scrollLeft+=(rtl?-1:1)*e.deltaY;
-  },{passive:false});
-})();`, runway:false
-},
 
 
 
@@ -187,45 +153,30 @@ document.querySelectorAll(".main-cta").forEach(el=>io.observe(el));`,
   js:``, runway:false
 },
 {
-  id:"b12", cat:"behavior", name:"תמונה על בלוב", tech:"CSS border-radius אורגני", status:"מאושר",
-  desc:"ויז'ואל שיושב על צורה אורגנית בגרדיאנט במקום מלבן משעמם.",
-  when:"הירו ואודות בעורות רכים.",
-  css:`.blobw{position:relative;width:min(440px,76vw);margin-inline:auto}
-.blob{position:absolute;inset:-9%;background:linear-gradient(140deg,#d0bfff,#91d5ff);border-radius:58% 42% 55% 45%/45% 58% 42% 55%;z-index:0}
-.blobw .ph{position:relative;z-index:1;aspect-ratio:4/5;border-radius:24px;font-size:20px}`,
-  html:`<div class="stage tight"><div class="blobw"><div class="blob"></div><div class="ph ph-b">התמונה שלך</div></div></div>`,
-  js:``, runway:false
-},
-{
-  id:"b13", cat:"behavior", name:"תכשיטי צורה", tech:"CSS", status:"מאושר",
-  desc:"צורות גיאומטריות קטנות שמתבלות סקשן בלי להעמיס. אפס באזורי פעולה.",
-  when:"עורות playful וממפיס. אחת-שתיים לסקשן.",
-  css:`.jw{position:relative;padding:80px var(--gutter);text-align:center;overflow:hidden}
-.jw .j{position:absolute;z-index:0}
-.j1{width:46px;height:46px;border-radius:50%;background:#ffd43b;top:18%;inset-inline-start:16%}
-.j2{width:34px;height:34px;background:#63e6be;transform:rotate(45deg);bottom:20%;inset-inline-end:18%}
-.j3{width:0;height:0;border-inline:20px solid transparent;border-bottom:34px solid #ff8787;top:30%;inset-inline-end:30%}
-.jw h2{position:relative;z-index:1;font-size:var(--fs-h2)}`,
-  html:`<div class="jw"><span class="j j1"></span><span class="j j2"></span><span class="j j3"></span><h2>הכותרת במרכז, התכשיטים מסביב</h2></div>`,
-  js:``, runway:false
-},
-{
-  id:"b14", cat:"behavior", name:"פרלקס עדין (translate3d)", tech:"vanilla JS · rAF", status:"מאושר",
-  desc:"רקע שנע לאט מהתוכן. עומק מינימלי, ביצועים מקסימליים.",
-  when:"רקעי סקשן. במובייל מקדם חצי או כבוי.",
-  css:`.pxs{position:relative;height:70vh;overflow:hidden;border-radius:var(--r);margin-inline:var(--gutter);display:flex;align-items:center;justify-content:center}
-.pxbg{position:absolute;inset:-20% 0;background:linear-gradient(150deg,#1b2653,#3b5bdb);z-index:0}
-.pxs h2{position:relative;z-index:1;color:#fff;font-size:var(--fs-h2)}`,
-  html:`<div class="stage tight"><div class="pxs"><div class="pxbg"></div><h2>הרקע זז לאט ממני</h2></div></div>`,
-  js:`const bg=document.querySelector(".pxbg"),wrap=document.querySelector(".pxs");
+  id:"b14", cat:"behavior", name:"פרלקס עדין (translate3d)", tech:"vanilla JS · rAF", status:"ממתין",
+  desc:"הרקע נע לאט לכיוון אחד והכותרת לכיוון הנגדי, ונוצר עומק של שתי שכבות. רשת נקודות על הרקע היא מה שמאפשר לעין לראות שהוא בכלל זז.",
+  when:"רקעי סקשן, פתיח של פרק, ציטוט גדול על רקע צבע. פעם או פעמיים בעמוד.",
+  note:"פרלקס על גרדיאנט חלק הוא בזבוז: אין לעין נקודת ייחוס ולכן שום תזוזה לא נראית, וזאת בדיוק הסיבה שהגרסה הקודמת נראתה סטטית. צריך מרקם (כאן רשת נקודות), טווח אמיתי (120 פיקסלים ולא 40), ושכבה נגדית. הכל translate3d בתוך rAF יחיד, בלי ספרייה. במובייל הטווח חצי.",
+  css:`.pxs{position:relative;height:70vh;overflow:hidden;border-radius:var(--r);margin-inline:var(--gutter);display:grid;place-items:center}
+.pxbg{position:absolute;inset:-28% 0;z-index:0;will-change:transform;
+  background:radial-gradient(circle at 50% 50%,color-mix(in srgb,var(--bg) 26%,transparent) 0 2px,transparent 2.5px) 0 0/38px 38px,linear-gradient(150deg,#1b2653,#3b5bdb)}
+.pxs h2{position:relative;z-index:1;color:#fff;font-size:var(--fs-h2);text-align:center;max-width:18ch;will-change:transform}
+.pxs small{position:absolute;bottom:18px;inset-inline:0;text-align:center;color:rgba(255,255,255,.7);font-size:13px;z-index:1}`,
+  html:`<div class="stage tight"><div class="pxs"><div class="pxbg"></div><h2>הרקע נע לאט, הכותרת נעה נגדו</h2><small>גלול, ותראה את רשת הנקודות מחליקה</small></div></div>`,
+  js:`const bg=document.querySelector(".pxbg"),head=document.querySelector(".pxs h2"),wrap=document.querySelector(".pxs");
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const AMP=matchMedia("(max-width:767px)").matches?60:120;   // הטווח הישן היה 40 ולא נראה בכלל
 let tick=false;
 function frame(){tick=false;
   const r=wrap.getBoundingClientRect();
-  const p=(innerHeight-r.top)/(innerHeight+r.height);
-  bg.style.transform="translate3d(0,"+((p-.5)*80)+"px,0)";}
-addEventListener("scroll",()=>{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});
-frame();`
+  const p=(innerHeight-r.top)/(innerHeight+r.height);       // 0 לפני הכניסה, 1 אחרי היציאה
+  bg.style.transform="translate3d(0,"+((p-.5)*AMP)+"px,0)";
+  head.style.transform="translate3d(0,"+((.5-p)*AMP*.22)+"px,0)";}
+if(!reduce){addEventListener("scroll",()=>{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});frame();}
+`,
+  runway:false
 },
+
 {
   id:"b15", cat:"behavior", name:"שלדים (Skeletons)", tech:"CSS keyframes", status:"מאושר",
   desc:"מצייני טעינה בצורת התוכן עם הבהוב שמאלה-ימינה, במקום ספינר.",

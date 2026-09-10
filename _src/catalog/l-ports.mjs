@@ -76,27 +76,29 @@ export default [
   id:"css27", cat:"css", name:"לוויינים במסלול סביב מרכז", tech:"CSS · keyframes", status:"ממתין", runway:false,
   desc:"אלמנט מרכזי ושני מסלולים סביבו, שבכל אחד אייקונים מקיפים אותו במהירות וכיוון שונים. האייקונים נשארים זקופים כי הם מסתובבים נגד המסלול.",
   when:"הצגת אקוסיסטם: אינטגרציות סביב מוצר, כישורים סביב לוגו, שותפים סביב חברה. אחד לעמוד.",
-  note:"מקור: MagicUI OrbitingCircles. נכתב מחדש ב-CSS בלבד. כל לוויין מקבל זווית התחלה ב---a, והסיבוב הנגדי שומר אותו קריא.",
+  note:"מקור: MagicUI OrbitingCircles. נכתב מחדש ב-CSS בלבד. כל לוויין מקבל זווית התחלה ב---a, והסיבוב הנגדי שומר אותו קריא. בתוך העיגולים אייקוני קו ולא טקסט: מילה בעיגול של 60 פיקסלים נשברת לשתי שורות זעירות ומקשה להבין מה רואים. שם השירות יושב ב-aria-label לקוראי מסך.",
   libs:[],
   css:`.orb{position:relative;width:min(520px,90vw);aspect-ratio:1;margin-inline:auto;display:grid;place-items:center}
 .orb-core{width:96px;height:96px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-weight:800;font-size:22px;box-shadow:0 20px 50px color-mix(in srgb,var(--accent) 35%,transparent);position:relative;z-index:2}
 .orb-ring{position:absolute;inset:0;border-radius:50%;border:1px dashed var(--line);margin:auto;animation:orb-spin var(--t,22s) linear infinite}
 .orb-ring.in{width:56%;height:56%;--t:14s;animation-direction:reverse}
 .orb-ring.out{width:92%;height:92%}
-.orb-sat{position:absolute;top:50%;left:50%;width:64px;height:64px;margin:-32px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:12px;color:var(--ink);box-shadow:0 6px 18px rgba(0,0,0,.08);text-align:center;padding:4px;line-height:1.1;
+.orb-sat{position:absolute;top:50%;left:50%;width:60px;height:60px;margin:-30px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;color:var(--ink);box-shadow:0 6px 18px rgba(0,0,0,.08);
   transform:rotate(var(--a)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a)));animation:orb-counter var(--t,22s) linear infinite}
+.orb-sat svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .orb-ring.in .orb-sat{animation-direction:reverse}
 .orb-ring.in{--rad:146}.orb-ring.out{--rad:239}
-@media (max-width:520px){.orb-ring.in{--rad:110}.orb-ring.out{--rad:180}.orb-ring.out{width:88%;height:88%}}
+@media (max-width:520px){.orb-ring.in{--rad:110}.orb-ring.out{--rad:180}.orb-ring.out{width:88%;height:88%}.orb-sat{width:52px;height:52px;margin:-26px}.orb-sat svg{width:22px;height:22px}}
 @keyframes orb-spin{to{transform:rotate(360deg)}}
 @keyframes orb-counter{to{transform:rotate(calc(var(--a) + 360deg)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a) - 360deg))}}
 @media (prefers-reduced-motion: reduce){.orb-ring,.orb-sat{animation:none}}`,
   html:`<div class="stage tight"><div class="orb">
   <div class="orb-core">MV</div>
-  <div class="orb-ring in"><span class="orb-sat" style="--a:0deg">CRM</span><span class="orb-sat" style="--a:120deg">מייל</span><span class="orb-sat" style="--a:240deg">וואטסאפ</span></div>
-  <div class="orb-ring out"><span class="orb-sat" style="--a:30deg">סליקה</span><span class="orb-sat" style="--a:102deg">יומן</span><span class="orb-sat" style="--a:174deg">אנליטיקס</span><span class="orb-sat" style="--a:246deg">חשבוניות</span><span class="orb-sat" style="--a:318deg">אוטומציה</span></div>
+  <div class="orb-ring in"><span class="orb-sat" style="--a:0deg" aria-label="CRM"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5.2 5.5-5.2S14.5 16 14.5 19"/><path d="M16 5.6a3 3 0 0 1 0 5.8"/><path d="M17.5 19c0-2.2-.7-3.9-1.9-5"/></svg></span><span class="orb-sat" style="--a:120deg" aria-label="מייל"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.6 6.7 12 12.6l8.4-5.9"/></svg></span><span class="orb-sat" style="--a:240deg" aria-label="וואטסאפ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.6a8 8 0 0 1-11.9 7L4 20l1.5-3.9A8 8 0 1 1 20 11.6Z"/><path d="M9 9.4c.3 2.4 2.2 4.3 4.6 4.6"/></svg></span></div>
+  <div class="orb-ring out"><span class="orb-sat" style="--a:30deg" aria-label="סליקה"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19"/><path d="M6 14.5h4"/></svg></span><span class="orb-sat" style="--a:102deg" aria-label="יומן"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/><circle cx="8.5" cy="14" r="1.1"/></svg></span><span class="orb-sat" style="--a:174deg" aria-label="אנליטיקס"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 20v-6M12.5 20V8.5M17 20v-9"/></svg></span><span class="orb-sat" style="--a:246deg" aria-label="חשבוניות"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h9L19 8v12.5H6z"/><path d="M14.5 3.6V8H19"/><path d="M9 12.5h7M9 16h5"/></svg></span><span class="orb-sat" style="--a:318deg" aria-label="אוטומציה"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3 5 13.5h5.5L10 21l8-10.5h-5.5z"/></svg></span></div>
 </div></div>`
 },
+
 {
   id:"css28", cat:"css", name:"אדוות רקע מאחורי אלמנט", tech:"CSS · keyframes", status:"ממתין", runway:false,
   desc:"מעגלים קונצנטריים שמתרחבים ודוהים לאט מאחורי אלמנט מרכזי, כמו אבן במים. שקט מאוד, כמעט לא מורגש, ונותן לכפתור או ללוגו נוכחות.",
@@ -115,28 +117,6 @@ export default [
   <span class="rip-ring" style="--i:0"></span><span class="rip-ring" style="--i:1"></span><span class="rip-ring" style="--i:2"></span><span class="rip-ring" style="--i:3"></span>
   <span class="rip-ring" style="--i:4"></span><span class="rip-ring" style="--i:5"></span><span class="rip-ring" style="--i:6"></span><span class="rip-ring" style="--i:7"></span>
   <div class="rip-core"><h3>מוכנים להתחיל?</h3><button class="gbtn">קבעו שיחת היכרות</button></div>
-</div></div>`
-},
-{
-  id:"css29", cat:"css", name:"מטאורים חולפים ברקע", tech:"CSS · keyframes", status:"ממתין", runway:false,
-  desc:"פסי אור דקים שחוצים את הרקע באלכסון בזמנים ומהירויות אקראיים. עשרים שניות של רקע חי בלי שום JS.",
-  when:"הירו כהה של מוצר טכנולוגי, סקשן \"בקרוב\", עמוד 404. רק על רקע כהה, ורק אחד לעמוד.",
-  note:"מקור: MagicUI Meteors. נכתב מחדש ב-CSS בלבד: כל מטאור מקבל מיקום, השהיה ומשך ב-inline vars, כך שאין שני מטאורים זהים.",
-  libs:[],
-  css:`.met{position:relative;height:clamp(340px,56vh,520px);overflow:hidden;border-radius:var(--r);background:var(--ink);display:grid;place-items:center;color:var(--bg);text-align:center;padding:24px}
-.met h2{margin:0;font-size:var(--fs-h2);position:relative;z-index:1}
-.met p{margin:10px 0 0;color:color-mix(in srgb,var(--bg) 72%,transparent);position:relative;z-index:1}
-.met-s{position:absolute;top:-4px;left:var(--x);width:2px;height:2px;border-radius:50%;background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;box-shadow:0 0 0 1px rgba(255,255,255,.1);transform:rotate(215deg);
-  animation:met-fall var(--d,5s) linear infinite;animation-delay:var(--w,0s);opacity:0}
-.met-s::before{content:"";position:absolute;top:50%;transform:translateY(-50%);width:80px;height:1px;background:linear-gradient(90deg,#fff,transparent)}
-@keyframes met-fall{0%{transform:rotate(215deg) translateX(0);opacity:1}70%{opacity:1}100%{transform:rotate(215deg) translateX(-620px);opacity:0}}
-@media (prefers-reduced-motion: reduce){.met-s{animation:none;opacity:.35}}`,
-  html:`<div class="stage tight"><div class="met">
-  <span class="met-s" style="--x:8%;--d:4.2s;--w:0s"></span><span class="met-s" style="--x:22%;--d:6s;--w:1.4s"></span><span class="met-s" style="--x:35%;--d:5.1s;--w:2.6s"></span>
-  <span class="met-s" style="--x:48%;--d:7s;--w:.8s"></span><span class="met-s" style="--x:57%;--d:4.6s;--w:3.9s"></span><span class="met-s" style="--x:69%;--d:6.4s;--w:2.1s"></span>
-  <span class="met-s" style="--x:78%;--d:5.4s;--w:4.8s"></span><span class="met-s" style="--x:88%;--d:6.8s;--w:1.9s"></span><span class="met-s" style="--x:96%;--d:4.9s;--w:3.2s"></span>
-  <span class="met-s" style="--x:15%;--d:7.4s;--w:5.6s"></span><span class="met-s" style="--x:42%;--d:5.8s;--w:6.3s"></span><span class="met-s" style="--x:63%;--d:4.4s;--w:7.1s"></span>
-  <div><h2>הגרסה הבאה בדרך</h2><p>נעדכן אתכם כשהיא עולה.</p></div>
 </div></div>`
 },
 {
@@ -159,16 +139,18 @@ document.querySelectorAll(".bt").forEach(el=>io.observe(el));`
 },
 {
   id:"css31", cat:"css", name:"זוהר צפוני ברקע (בלי WebGL)", tech:"CSS · keyframes", status:"ממתין", runway:false,
-  desc:"שלושה כתמי צבע מטושטשים שנעים לאט אחד על השני ויוצרים רקע גלי רך, כמו זוהר צפוני. אפס JS, אפס WebGL, עובד בכל מכשיר.",
+  desc:"שלושה כתמי צבע מטושטשים שנעים אחד על השני במסלולים מנוגדים ויוצרים רקע גלי רך, כמו זוהר צפוני. אפס JS, אפס WebGL, עובד בכל מכשיר.",
   when:"רקע הירו באתרי טכנולוגיה ופרימיום כהים, מאחורי כותרת אחת. אחד לעמוד.",
-  note:"מקור: ReactBits Aurora (WebGL). כאן גרסת CSS: blur כבד על שלושה בלובים ב-mix-blend-mode. זולה למעבד, ובמובייל ה-blur מצטמצם כדי לא לחמם.",
+  note:"מקור: ReactBits Aurora (WebGL). כאן גרסת CSS: blur כבד על שלושה בלובים ב-mix-blend-mode. **המלכודת שהפילה את הגרסה הראשונה**: תזוזה של 18 אחוז לאורך 16 עד 21 שניות מתחת ל-blur של 70 פיקסלים נראית לעין כמו תמונה קפואה, גם כשהיא באמת רצה (נמדד: 22 פיקסלים ב-2.5 שניות). לכל בלוב יש כאן מסלול משלו בכיוון אחר, טווח של 40 עד 50 אחוז, ומחזור של 9 עד 13 שניות, ואחד מהם גם נושם באטימות. זולה למעבד, ובמובייל ה-blur מצטמצם כדי לא לחמם.",
   libs:[],
   css:`.au{position:relative;height:clamp(360px,62vh,560px);overflow:hidden;border-radius:var(--r);background:#07081a;display:grid;place-items:center;text-align:center;color:#fff;padding:24px;isolation:isolate}
-.au-b{position:absolute;width:60%;aspect-ratio:1;border-radius:50%;filter:blur(70px);opacity:.75;mix-blend-mode:screen;animation:au-move var(--t) ease-in-out infinite alternate;will-change:transform}
-.au-b.a{background:var(--accent);top:-20%;left:-10%;--t:16s}
-.au-b.b{background:#2bd4c8;bottom:-25%;right:-8%;--t:21s;animation-delay:-6s}
-.au-b.c{background:#ff5fa2;top:20%;left:35%;width:45%;--t:19s;animation-delay:-11s;opacity:.55}
-@keyframes au-move{from{transform:translate(0,0) scale(1)}to{transform:translate(18%,12%) scale(1.25)}}
+.au-b{position:absolute;width:60%;aspect-ratio:1;border-radius:50%;filter:blur(70px);opacity:.75;mix-blend-mode:screen;will-change:transform;animation:au-a var(--t) ease-in-out infinite alternate}
+.au-b.a{background:var(--accent);top:-25%;left:-15%;--t:9s}
+.au-b.b{background:#2bd4c8;bottom:-30%;right:-12%;--t:11s;animation-name:au-b2;animation-delay:-4s}
+.au-b.c{background:#ff5fa2;top:12%;left:28%;width:48%;--t:13s;animation-name:au-c2;animation-delay:-7s;opacity:.6}
+@keyframes au-a{from{transform:translate(-10%,-8%) scale(.95)}to{transform:translate(44%,28%) scale(1.35)}}
+@keyframes au-b2{from{transform:translate(12%,10%) scale(1.3)}to{transform:translate(-40%,-24%) scale(.9)}}
+@keyframes au-c2{from{transform:translate(-32%,12%) scale(1.05);opacity:.6}to{transform:translate(36%,-20%) scale(1.45);opacity:.3}}
 .au-txt{position:relative;z-index:1;max-width:30ch}
 .au-txt h2{margin:0 0 12px;font-size:var(--fs-h2)}
 .au-txt p{margin:0;color:rgba(255,255,255,.92)}
@@ -180,6 +162,7 @@ document.querySelectorAll(".bt").forEach(el=>io.observe(el));`
   <div class="au-txt"><h2>הפלטפורמה שמנהלת את הלקוחות בשבילכם</h2><p>לידים, הצעות מחיר, גבייה ומעקב. במקום אחד, בעברית.</p></div>
 </div></div>`
 },
+
 {
   id:"css32", cat:"css", name:"קרן אור שזורמת בין שני אלמנטים", tech:"CSS · SVG", status:"ממתין", runway:false,
   desc:"קו SVG מחבר שני כרטיסים, ופולס של אור זורם עליו שוב ושוב ומראה שהם מדברים. דיאגרמה שמרגישה חיה.",

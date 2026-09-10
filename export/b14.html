@@ -28,8 +28,6 @@
 body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
 img{max-width:100%}
 
-/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
-.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
 
 /* ===== הרכיב ===== */
 /* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
@@ -38,25 +36,29 @@ img{max-width:100%}
 .stage.full{padding-inline:0}
 
 /* B14 · פרלקס עדין (translate3d) */
-.pxs{position:relative;height:70vh;overflow:hidden;border-radius:var(--r, 14px);margin-inline:var(--gutter, clamp(24px, 5vw, 96px));display:flex;align-items:center;justify-content:center}
-.pxbg{position:absolute;inset:-20% 0;background:linear-gradient(150deg,#1b2653,#3b5bdb);z-index:0}
-.pxs h2{position:relative;z-index:1;color:#fff;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
+.pxs{position:relative;height:70vh;overflow:hidden;border-radius:var(--r, 14px);margin-inline:var(--gutter, clamp(24px, 5vw, 96px));display:grid;place-items:center}
+.pxbg{position:absolute;inset:-28% 0;z-index:0;will-change:transform;
+  background:radial-gradient(circle at 50% 50%,color-mix(in srgb,var(--bg, #f7f7fa) 26%,transparent) 0 2px,transparent 2.5px) 0 0/38px 38px,linear-gradient(150deg,#1b2653,#3b5bdb)}
+.pxs h2{position:relative;z-index:1;color:#fff;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));text-align:center;max-width:18ch;will-change:transform}
+.pxs small{position:absolute;bottom:18px;inset-inline:0;text-align:center;color:rgba(255,255,255,.7);font-size:13px;z-index:1}
 </style>
 </head>
 <body>
-<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
-<div class="stage tight"><div class="pxs"><div class="pxbg"></div><h2>הרקע זז לאט ממני</h2></div></div>
-<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+
+<div class="stage tight"><div class="pxs"><div class="pxbg"></div><h2>הרקע נע לאט, הכותרת נעה נגדו</h2><small>גלול, ותראה את רשת הנקודות מחליקה</small></div></div>
+
 
 <script>
-const bg=document.querySelector(".pxbg"),wrap=document.querySelector(".pxs");
+const bg=document.querySelector(".pxbg"),head=document.querySelector(".pxs h2"),wrap=document.querySelector(".pxs");
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const AMP=matchMedia("(max-width:767px)").matches?60:120;   // הטווח הישן היה 40 ולא נראה בכלל
 let tick=false;
 function frame(){tick=false;
   const r=wrap.getBoundingClientRect();
-  const p=(innerHeight-r.top)/(innerHeight+r.height);
-  bg.style.transform="translate3d(0,"+((p-.5)*80)+"px,0)";}
-addEventListener("scroll",()=>{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});
-frame();
+  const p=(innerHeight-r.top)/(innerHeight+r.height);       // 0 לפני הכניסה, 1 אחרי היציאה
+  bg.style.transform="translate3d(0,"+((p-.5)*AMP)+"px,0)";
+  head.style.transform="translate3d(0,"+((.5-p)*AMP*.22)+"px,0)";}
+if(!reduce){addEventListener("scroll",()=>{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});frame();}
 </script>
 </body>
 </html>

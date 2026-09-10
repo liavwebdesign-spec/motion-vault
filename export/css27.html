@@ -41,11 +41,12 @@ img{max-width:100%}
 .orb-ring{position:absolute;inset:0;border-radius:50%;border:1px dashed var(--line, #e4e4ee);margin:auto;animation:orb-spin var(--t,22s) linear infinite}
 .orb-ring.in{width:56%;height:56%;--t:14s;animation-direction:reverse}
 .orb-ring.out{width:92%;height:92%}
-.orb-sat{position:absolute;top:50%;left:50%;width:64px;height:64px;margin:-32px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;font-weight:700;font-size:12px;color:var(--ink, #16182b);box-shadow:0 6px 18px rgba(0,0,0,.08);text-align:center;padding:4px;line-height:1.1;
+.orb-sat{position:absolute;top:50%;left:50%;width:60px;height:60px;margin:-30px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;color:var(--ink, #16182b);box-shadow:0 6px 18px rgba(0,0,0,.08);
   transform:rotate(var(--a)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a)));animation:orb-counter var(--t,22s) linear infinite}
+.orb-sat svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .orb-ring.in .orb-sat{animation-direction:reverse}
 .orb-ring.in{--rad:146}.orb-ring.out{--rad:239}
-@media (max-width:520px){.orb-ring.in{--rad:110}.orb-ring.out{--rad:180}.orb-ring.out{width:88%;height:88%}}
+@media (max-width:520px){.orb-ring.in{--rad:110}.orb-ring.out{--rad:180}.orb-ring.out{width:88%;height:88%}.orb-sat{width:52px;height:52px;margin:-26px}.orb-sat svg{width:22px;height:22px}}
 @keyframes orb-spin{to{transform:rotate(360deg)}}
 @keyframes orb-counter{to{transform:rotate(calc(var(--a) + 360deg)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a) - 360deg))}}
 @media (prefers-reduced-motion: reduce){.orb-ring,.orb-sat{animation:none}}
@@ -55,8 +56,8 @@ img{max-width:100%}
 
 <div class="stage tight"><div class="orb">
   <div class="orb-core">MV</div>
-  <div class="orb-ring in"><span class="orb-sat" style="--a:0deg">CRM</span><span class="orb-sat" style="--a:120deg">מייל</span><span class="orb-sat" style="--a:240deg">וואטסאפ</span></div>
-  <div class="orb-ring out"><span class="orb-sat" style="--a:30deg">סליקה</span><span class="orb-sat" style="--a:102deg">יומן</span><span class="orb-sat" style="--a:174deg">אנליטיקס</span><span class="orb-sat" style="--a:246deg">חשבוניות</span><span class="orb-sat" style="--a:318deg">אוטומציה</span></div>
+  <div class="orb-ring in"><span class="orb-sat" style="--a:0deg" aria-label="CRM"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c0-3 2.5-5.2 5.5-5.2S14.5 16 14.5 19"/><path d="M16 5.6a3 3 0 0 1 0 5.8"/><path d="M17.5 19c0-2.2-.7-3.9-1.9-5"/></svg></span><span class="orb-sat" style="--a:120deg" aria-label="מייל"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M3.6 6.7 12 12.6l8.4-5.9"/></svg></span><span class="orb-sat" style="--a:240deg" aria-label="וואטסאפ"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.6a8 8 0 0 1-11.9 7L4 20l1.5-3.9A8 8 0 1 1 20 11.6Z"/><path d="M9 9.4c.3 2.4 2.2 4.3 4.6 4.6"/></svg></span></div>
+  <div class="orb-ring out"><span class="orb-sat" style="--a:30deg" aria-label="סליקה"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="5.5" width="19" height="13" rx="2.5"/><path d="M2.5 10h19"/><path d="M6 14.5h4"/></svg></span><span class="orb-sat" style="--a:102deg" aria-label="יומן"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="2.5"/><path d="M3.5 9.5h17M8 3.5v3M16 3.5v3"/><circle cx="8.5" cy="14" r="1.1"/></svg></span><span class="orb-sat" style="--a:174deg" aria-label="אנליטיקס"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 20v-6M12.5 20V8.5M17 20v-9"/></svg></span><span class="orb-sat" style="--a:246deg" aria-label="חשבוניות"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3.5h9L19 8v12.5H6z"/><path d="M14.5 3.6V8H19"/><path d="M9 12.5h7M9 16h5"/></svg></span><span class="orb-sat" style="--a:318deg" aria-label="אוטומציה"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3 5 13.5h5.5L10 21l8-10.5h-5.5z"/></svg></span></div>
 </div></div>
 
 

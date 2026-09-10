@@ -60,67 +60,59 @@ export default [
   note:"זה הכוח האמיתי של Flip: את הפריסה משנים ב-CSS בלבד, ואת האנימציה לא כותבים כלל. `nested:true` חובה כאן, כי גם הכרטיס וגם התמונה והטקסט שבתוכו זזים באותו רגע, ובלעדיו הילדים נגררים פעמיים. `absolute:true` מונע מהפריטים שנשארו במקום לקפוץ בזמן שהגריד משנה עמודות. במצב חיסכון בתנועה הפריסה עדיין מתחלפת, פשוט בלי מעבר."
 },
 {
-  id:"b46", cat:"behavior", name:"עמודות שנפתחות בהובר", tech:"GSAP · Flip", status:"ממתין",
-  desc:"שורת עמודות שרק אחת מהן פתוחה. מעבר עכבר פותח את הבאה וסוגר את הקודמת, והרוחב, התמונה והכותרת זזים יחד בתנועה אחת רציפה.",
-  when:"קטגוריות שירות, תחומי התמחות, ענפים, צוות. סקשן אחד שמציג שישה נושאים בלי לגלול ובלי לפתוח מודאל.",
-  libs:["gsap","Flip"],
+  id:"b46", cat:"behavior", name:"עמודות שנפתחות בהובר", tech:"GSAP · flex-grow", status:"ממתין",
+  desc:"שורת עמודות שרק אחת מהן פתוחה. מעבר עכבר פותח את הבאה וסוגר את הקודמת, והרוחב נע ברציפות. בעמודה סגורה הכותרת יושבת אנכית ברצועה, ובפתוחה מתחלפת בכותרת מלאה עם טקסט.",
+  when:"קטגוריות שירות, תחומי התמחות, ענפים, צוות. סקשן אחד שמציג ארבעה עד שישה נושאים בלי לגלול ובלי מודאל.",
+  libs:["gsap"],
   css:`.cx{display:flex;gap:10px;height:clamp(320px,52vh,520px);max-width:min(1120px,94vw);margin-inline:auto}
 .cx-col{position:relative;overflow:hidden;border-radius:18px;cursor:pointer;background:var(--card);border:1px solid var(--line);
-  flex:0 0 84px;display:flex;flex-direction:column;justify-content:space-between;padding:18px}
-.cx-col.open{flex:1 1 auto}
+  flex:1 1 0;min-width:76px;display:flex;flex-direction:column;justify-content:space-between;padding:18px;will-change:flex-grow}
 .cx-col .ph{position:absolute;inset:0;border-radius:0;opacity:.9;font-size:0}
-.cx-num,.cx-name,.cx-body{position:relative;z-index:1;color:#fff}
+.cx-num,.cx-tab,.cx-foot{position:relative;z-index:1;color:#fff}
 .cx-num{font-size:14px;font-variant-numeric:tabular-nums;opacity:.85}
+.cx-tab{writing-mode:vertical-rl;transform:rotate(180deg);align-self:center;font-size:16px;font-weight:800;white-space:nowrap;transition:opacity .25s}
+.cx-foot{display:flex;flex-direction:column;gap:10px;align-items:flex-start;opacity:0;transition:opacity .3s .12s}
 .cx-name{font-size:clamp(18px,2vw,30px);font-weight:800;white-space:nowrap}
-.cx-body{max-width:38ch;font-size:15px;line-height:1.65;opacity:0;transition:opacity .3s .15s}
-.cx-col.open .cx-body{opacity:.92}
-/* עמודה סגורה: הכותרת מסתובבת ונשארת קריאה ברצועה צרה */
-.cx-col:not(.open) .cx-name{transform:rotate(180deg);writing-mode:vertical-rl;font-size:16px}
-.cx-foot{display:flex;flex-direction:column;gap:10px;align-items:flex-start}
+.cx-body{max-width:38ch;font-size:15px;line-height:1.65;opacity:.92;margin:0}
+.cx-col.open .cx-tab{opacity:0}
+.cx-col.open .cx-foot{opacity:1}
+.cx-col:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 @media(max-width:760px){
-  .cx{flex-direction:column;height:auto}
-  .cx-col{flex:0 0 74px;min-height:74px}
-  .cx-col.open{flex:0 0 260px}
-  .cx-col:not(.open) .cx-name{transform:none;writing-mode:horizontal-tb}
+  .cx{flex-direction:column;height:clamp(420px,74vh,640px)}
+  .cx-col{min-width:0;min-height:62px}
+  .cx-tab{writing-mode:horizontal-tb;transform:none;align-self:flex-start}
 }
-@media (prefers-reduced-motion: reduce){.cx-body{transition:none}}`,
+@media (prefers-reduced-motion: reduce){.cx-body,.cx-foot,.cx-tab{transition:none}}`,
   html:`<div class="stage tight"><div class="cx">
-  <div class="cx-col open"><div class="ph ph-a"></div><span class="cx-num">01</span>
+  <div class="cx-col open"><div class="ph ph-a"></div><span class="cx-num">01</span><span class="cx-tab">אתרי תדמית</span>
     <div class="cx-foot"><span class="cx-name">אתרי תדמית</span><p class="cx-body">אתר שמסביר מה אתם עושים ולמי, ומוביל את המבקר לפנייה אחת ברורה.</p></div></div>
-  <div class="cx-col"><div class="ph ph-c"></div><span class="cx-num">02</span>
+  <div class="cx-col"><div class="ph ph-c"></div><span class="cx-num">02</span><span class="cx-tab">דפי נחיתה</span>
     <div class="cx-foot"><span class="cx-name">דפי נחיתה</span><p class="cx-body">עמוד יחיד ממוקד לקמפיין, עם מסר אחד וקריאה לפעולה אחת.</p></div></div>
-  <div class="cx-col"><div class="ph ph-d"></div><span class="cx-num">03</span>
+  <div class="cx-col"><div class="ph ph-d"></div><span class="cx-num">03</span><span class="cx-tab">חנויות</span>
     <div class="cx-foot"><span class="cx-name">חנויות</span><p class="cx-body">חנות שמוכרת גם בלי איש מכירות, עם מסלול קנייה קצר.</p></div></div>
-  <div class="cx-col"><div class="ph ph-e"></div><span class="cx-num">04</span>
+  <div class="cx-col"><div class="ph ph-e"></div><span class="cx-num">04</span><span class="cx-tab">מערכות</span>
     <div class="cx-foot"><span class="cx-name">מערכות</span><p class="cx-body">ממשק פנימי לניהול לקוחות, משימות ודוחות במקום גיליונות.</p></div></div>
 </div></div>`,
   js:`(function(){
   const cols=[...document.querySelectorAll(".cx-col")];
-  const names=cols.map(c=>c.querySelector(".cx-name"));
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let flip;
+  const OPEN=6,SHUT=1;
+  const grow=(i,el)=>el.classList.contains("open")?OPEN:SHUT;
+  gsap.set(cols,{flexGrow:grow});
   function open(col){
     if(col.classList.contains("open"))return;
-    if(flip)flip.kill();                       // הובר מהיר: מבטלים נסיעה שלא הספיקה להסתיים
-    const state=Flip.getState(cols);           // רק העמודות. הטקסט לא נכנס ל-Flip
     cols.forEach(c=>c.classList.toggle("open",c===col));
-    if(reduce)return;
-    flip=Flip.from(state,{duration:.6,ease:"power3.inOut"});
-    // הכותרת מחליפה כיוון כתיבה (אנכי מול אופקי) וגם גודל גופן. אין בין שני המצבים
-    // האלה מה לאינטרפל, וכשמכניסים אותה ל-Flip עם absolute היא נזרקת על המסך.
-    // לכן היא מוחלפת בהצלבה קצרה, וזה נראה נקי בכל כיוון הובר.
-    gsap.fromTo(names,{opacity:0},{opacity:1,duration:.28,ease:"power1.out",delay:.14,overwrite:true});
+    if(reduce){gsap.set(cols,{flexGrow:grow});return;}
+    // flex-grow הוא מספר ולכן GSAP מנפיש אותו ישירות, בלי Flip ובלי סגנון אינליין שנתקע.
+    // overwrite מבטל נסיעה קודמת כשעוברים מהר בין עמודות.
+    gsap.to(cols,{flexGrow:grow,duration:.55,ease:"power3.inOut",overwrite:true});
   }
-  cols.forEach(c=>{
-    c.addEventListener("mouseenter",()=>open(c));
-    c.addEventListener("click",()=>open(c));          // מגע ומקלדת
-    c.tabIndex=0;
-    c.addEventListener("focus",()=>open(c));
-  });
+  cols.forEach(c=>{c.tabIndex=0;["mouseenter","click","focus"].forEach(ev=>c.addEventListener(ev,()=>open(c)));});
 })();`,
   runway:false,
-  note:"החלק שנשבר אצל רוב מי שבונה את זה לבד הוא הכותרת: היא עוברת בין אופקי לאנכי ובין שני גדלים, ואם לא מוסיפים `props:\"fontSize\"` ל-getState היא קופצת. הרוחב עצמו לא מונפש ידנית אלא נגזר מ-flex, ולכן זה מחזיק גם כשמוסיפים עמודה חמישית. **מלכודת**: כל prop שמעבירים ל-Flip נשאר כסגנון אינליין בסוף התנועה ודורס את ה-CSS, ולכן העמודה הקודמת נשארת פתוחה למראה. לכן ה-opacity מנוהל ב-CSS בלבד. הובר לבד אינו נגיש, ולכן אותו פותח רשום גם על click ועל focus, והעמודות מקבלות tabIndex."
+  note:"הגרסה הקודמת רצה על Flip ונשברה בכל הובר מהיר: Flip משאיר את כל מה שהוא מנפיש כסגנון אינליין בסוף התנועה, ולכן העמודה הקודמת נשארה פתוחה למראה, וכותרת שמחליפה writing-mode בין אנכי לאופקי היא מעבר שאין בו מה לאינטרפל. כאן אין Flip בכלל: flex-grow הוא מספר ו-GSAP מנפיש אותו ישירות, והכותרת מוחלפת בשתי גרסאות שמצטלבות ב-opacity. הובר לבד אינו נגיש, ולכן אותו פותח רשום גם על click ועל focus. במובייל הכיוון אנכי ואותו קוד עובד על הגובה."
 },
+
 {
   id:"g47", cat:"gsap", name:"אלמנט שנוסע בין תחנות לאורך הגלילה", tech:"GSAP · Flip.fit · ScrollTrigger", status:"ממתין",
   desc:"פריט אחד שעובר בין מסגרות ריקות שפזורות לאורך העמוד: משנה מקום, גודל וזווית תוך כדי גלילה, כאילו הוא מלווה את הקורא משלב לשלב.",

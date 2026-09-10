@@ -61,12 +61,12 @@ const USES = {
   r07: ["media", "hero"], r08: ["ambient", "media"], r09: ["cards", "process"],
   r10: ["media"], r11: ["media", "cards"],
   b01: ["ambient", "nav"], b02: ["numbers"], b02b: ["media", "hover"], b03: ["nav"],
-  b04: ["cards", "nav"], b10: ["nav", "ambient"],
-  b11: ["feedback", "ambient"], b12: ["media", "hero"], b13: ["ambient"],
+  b10: ["nav", "ambient"],
+  b11: ["feedback", "ambient"], 
   b14: ["ambient"], b15: ["feedback"], b16: ["feedback"],
   css01: ["cards", "hover"], css02: ["nav", "hover", "text"], css03: ["hover"],
-  css04: ["text"], css05: ["media", "text"], css06: ["nav"], css07: ["feedback"],
-  css08: ["text", "hero"], css09: ["feedback"], css10: ["cards", "hover"], css12: ["cards", "ambient"],
+  css05: ["media", "text"], css06: ["nav"], css07: ["feedback"],
+  css08: ["text", "hero"], css09: ["feedback"], css12: ["cards", "ambient"],
   lm1: ["ambient", "hero"], lm3: ["cards", "process"], lm4: ["cards", "process"],
   lm5: ["hero"], lm7: ["hover"], lm8: ["ambient"], lm9: ["cards", "hover"],
   fluid: ["hero", "nav"],
@@ -85,7 +85,7 @@ const USES = {
   css23: ["media", "cards", "nav"],
   g40: ["process", "cards", "nav"], css24: ["text"],
   // פורטים נייטיב (8.9.2026)
-  css25: ["cards", "hover"], css26: ["ambient", "media", "hero"], css27: ["ambient", "media"], css28: ["ambient", "hero"], css29: ["ambient", "hero"],
+  css25: ["cards", "hover"], css26: ["ambient", "media", "hero"], css27: ["ambient", "media"], css28: ["ambient", "hero"], 
   css30: ["text", "hero"], css31: ["ambient", "hero"], css32: ["process", "ambient"], b57: ["media", "cards"], b58: ["nav", "hover"],
   b59: ["feedback", "cards"], b60: ["hero", "media"], b61: ["hover"], b62: ["media", "cards"],
   g42: ["text", "hero"], b22: ["media", "hero"],
@@ -128,7 +128,7 @@ const USES = {
   g129: ["cards", "process"], g130: ["hero", "media"], g131: ["text", "hero"], g132: ["numbers", "process"], 
   g134: ["hero", "process"], g135: ["ambient"], g136: ["media"], g137: ["text"], g138: ["media", "cards"],
   g139: ["text", "hero"], g140: ["numbers"], g141: ["text", "process"], g142: ["numbers", "cards"], g143: ["media", "cards"],
-  g144: ["hero", "media"], g145: ["text"], g146: ["numbers"], g147: ["media"], g148: ["hero", "ambient"],
+  g144: ["hero", "media"], g145: ["text"], g146: ["numbers"], g148: ["hero", "ambient"],
 };
 // רכיבי UI: הסינון השלישי של האינדקס. לכל מהלך אפשר לסמן כמה, והסימון מצטבר.
 const ELEMS_LABELS = {
@@ -212,11 +212,11 @@ const ELEMS = {
   b02: ["sect"],
   b02b: ["img","list"],
   b03: ["btn","nav"],
-  b04: ["list","card"],
+  
   b10: ["sect"],
   b11: ["sect"],
-  b12: ["img","sect"],
-  b13: ["sect"],
+  
+  
   b14: ["sect","img"],
   b15: ["over","card"],
   b16: ["over","page"],
@@ -236,13 +236,13 @@ const ELEMS = {
   css01: ["card","cursor"],
   css02: ["nav","head"],
   css03: ["btn"],
-  css04: ["head","over"],
+  
   css05: ["sect","head"],
   css06: ["list"],
   css07: ["over","sect"],
   css08: ["head"],
   css09: ["form","head"],
-  css10: ["card","cursor"],
+  
   css12: ["card","sect"],
   css13: ["head"],
   css15: ["card","cursor"],
@@ -253,7 +253,7 @@ const ELEMS = {
   css21: ["btn","form"],
   css23: ["list","page"],
   css24: ["head"],
-  css25: ["card","list","btn"], css26: ["sect","img"], css27: ["sect","img"], css28: ["sect","btn"], css29: ["sect"],
+  css25: ["card","list","btn"], css26: ["sect","img"], css27: ["sect","img"], css28: ["sect","btn"], 
   css30: ["head"], css31: ["sect","head"], css32: ["sect","card"], b57: ["list","img"], b58: ["nav","cursor"],
   b59: ["list","card"], b60: ["img","over","btn"], b61: ["btn","cursor"], b62: ["img","list","btn"],
   b34: ["list","card"],
@@ -316,7 +316,7 @@ const ELEMS = {
   g109: ["head"], g110: ["head"], g111: ["img","sect"], g112: ["card","head"], g115: ["img","sect"], g116: ["sect","head"], g117: ["head","list"], g118: ["sect","page"],
   g119: ["img","list"], g120: ["list","head"], g121: ["img","list","sect"], g123: ["img","list"], g124: ["list","card"], g125: ["card"], g126: ["card","head"], g127: ["sect","btn"], g128: ["sect","page"],
   g129: ["card","list"], g130: ["img","sect"], g131: ["head"], g132: ["head","sect"], g134: ["sect","page"], g135: ["sect"], g136: ["img"], g137: ["head"], g138: ["list","img"],
-  g139: ["head"], g140: ["card","head"], g141: ["list","card"], g142: ["card","list"], g143: ["list","img"], g144: ["img","sect"], g145: ["head"], g146: ["card","head"], g147: ["list","img"], g148: ["sect","page"],
+  g139: ["head"], g140: ["card","head"], g141: ["list","card"], g142: ["card","list"], g143: ["list","img"], g144: ["img","sect"], g145: ["head"], g146: ["card","head"], g148: ["sect","page"],
   fluid: ["sect","page"],
 };
 // סוג פרויקט: שכבת סינון שלישית, עצמאית מהשתיים האחרות. לא חובה לתייג את שתיהן.
@@ -395,7 +395,7 @@ const FIT = {
   g109: ["S"], g110: ["L","S"], g111: ["L","S"], g112: ["L","S"], g115: ["L","S"], g116: ["L","S"], g117: ["L","S"], g118: ["L","S"],
   g119: ["L","S"], g120: ["S"], g121: ["S"], g123: ["L","S"], g124: ["L"], g125: ["L","S"], g126: ["L","S"], g127: ["L","S"], g128: ["L","S"],
   g129: ["L","S"], g130: ["S"], g131: ["L","S"], g132: ["S"], g134: ["S"], g135: ["S"], g136: ["L","S"], g137: ["L","S"], g138: ["S"],
-  g139: ["L","S"], g140: ["L","S"], g141: ["L","S"], g142: ["L"], g143: ["S"], g144: ["L","S"], g145: ["L","S"], g146: ["L","S"], g147: ["S"], g148: ["S"],
+  g139: ["L","S"], g140: ["L","S"], g141: ["L","S"], g142: ["L"], g143: ["S"], g144: ["L","S"], g145: ["L","S"], g146: ["L","S"], g148: ["S"],
   r01: ["S"],
   r02: ["L","S"],
   r03: ["L","S"],
@@ -425,11 +425,11 @@ const FIT = {
   b02: ["L"],
   b02b: ["L","S"],
   b03: ["L"],
-  b04: ["L"],
+  
   b10: ["S"],
   b11: ["L","S"],
-  b12: ["S"],
-  b13: ["S"],
+  
+  
   b14: ["L","S"],
   b15: ["L"],
   b16: ["L"],
@@ -472,13 +472,13 @@ const FIT = {
   css01: ["L"],
   css02: ["L"],
   css03: ["L"],
-  css04: ["L","S"],
+  
   css05: ["L","S"],
   css06: ["L"],
   css07: ["L"],
   css08: ["L","S"],
   css09: ["L"],
-  css10: ["L","S"],
+  
   css12: ["S"],
   css13: ["S"],
   css15: ["S"],
@@ -489,7 +489,7 @@ const FIT = {
   css21: ["L"],
   css23: ["L","S"],
   css24: ["L","S"],
-  css25: ["L","S"], css26: ["S"], css27: ["L","S"], css28: ["L"], css29: ["S"], css30: ["L","S"], css31: ["L","S"], css32: ["L","S"],
+  css25: ["L","S"], css26: ["S"], css27: ["L","S"], css28: ["L"], css30: ["L","S"], css31: ["L","S"], css32: ["L","S"],
   b57: ["S"], b58: ["S"], b59: ["L","S"], b60: ["L","S"], b61: ["L","S"], b62: ["S"],
   lm1: ["S"],
   lm3: ["S"],

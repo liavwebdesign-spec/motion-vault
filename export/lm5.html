@@ -28,6 +28,8 @@
 body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
 img{max-width:100%}
 
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
 
 /* ===== הרכיב ===== */
 /* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
@@ -46,7 +48,7 @@ img{max-width:100%}
 </style>
 </head>
 <body>
-
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="ladder">
 <span class="kick lad l1">רגע הזהות</span>
 <h2 class="lad l2">כל שורה נכנסת 150 אלפיות אחרי קודמתה</h2>
@@ -55,16 +57,17 @@ img{max-width:100%}
 <span class="lad l5" style="font-size:13px;color:var(--muted);margin-top:12px">שורת מיקרו · אמון · בלי התחייבות</span>
 <button class="gbtn replay" style="background:var(--ink);color:var(--bg)">הפעל שוב</button>
 </div>
-
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
 
 <script>
 const lad=document.querySelector(".ladder");
 // go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל
 // והרכיבים פשוט מופיעים גמורים. זאת גם הסיבה ל-void offsetHeight בהפעלה חוזרת.
 const play=()=>{lad.classList.remove("go");void lad.offsetHeight;lad.classList.add("go")};
-let started=false;const start=()=>{if(started)return;started=true;play()};
-requestAnimationFrame(()=>requestAnimationFrame(start));
-setTimeout(start,80);   // רשת ביטחון: בטאב מוסתר rAF מושהה והכותרת הייתה נשארת נעלמת
+// והפעלה על כניסה למסך ולא על טעינה: בהירו אמיתי זה אותו רגע בדיוק, אבל כשהסקשן יושב
+// באמצע עמוד ארוך הסולם רץ ונגמר לפני שמגיעים אליו, ונראה שכלום לא קרה.
+// לא מנתקים את הצופה: כשהסקשן יוצא מהמסך המחלקה מוסרת (מחוץ לעין), וכשחוזרים אליו הסולם רץ שוב.
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)play();else lad.classList.remove("go");}),{threshold:.45}).observe(lad);
 document.querySelector(".replay").addEventListener("click",play);
 </script>
 </body>

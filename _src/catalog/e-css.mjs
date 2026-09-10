@@ -43,20 +43,6 @@ transform:translateX(101%);transition:transform .35s cubic-bezier(.2,.6,.2,1)}
   js:``, runway:false
 },
 {
-  id:"css04", cat:"css", name:"חשיפת clip בכניסה", tech:"CSS @keyframes + IO", status:"מאושר",
-  desc:"הכותרת נחשפת מתוך מסכה מלמטה כשהיא נכנסת למסך. גרסת ה-CSS הזולה של חשיפות הטקסט.",
-  when:"כותרות סקשן כשלא רוצים לטעון GSAP.",
-  css:`.clipr{font-size:var(--fs-demo);max-width:20ch;margin-inline:auto;opacity:0}
-.clipr.in{opacity:1;animation:clipIn .8s cubic-bezier(.2,.6,.2,1) both}
-@keyframes clipIn{from{clip-path:inset(100% 0 0 0);translate:0 30px}to{clip-path:inset(0 0 0 0);translate:0 0}}
-@media(prefers-reduced-motion:reduce){.clipr{opacity:1;animation:none}}`,
-  html:`<div class="stage center"><h2 class="clipr">הכותרת הזאת נחשפת מתוך מסכה</h2></div>`,
-  js:`const io=new IntersectionObserver(es=>es.forEach(e=>{
-  if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}
-}),{threshold:.3});
-document.querySelectorAll(".clipr").forEach(el=>io.observe(el));`
-},
-{
   id:"css05", cat:"css", name:"כניסת Blur-In", tech:"CSS @keyframes + IO", status:"מאושר",
   desc:"האלמנט נכנס מטושטש ומתחדד למקומו. תחושה יוקרתית בלי אף ספרייה.",
   when:"ויז'ואלים וכותרות באתרי פרימיום.",
@@ -146,23 +132,6 @@ animation:shine 3.2s linear infinite}
   i.classList.remove("shake");void i.offsetWidth;i.classList.add("shake");
   document.querySelector(".err-msg").classList.add("on");
 });`, runway:false
-},
-{
-  id:"css10", cat:"css", name:"כרטיס מתהפך (Flip)", tech:"CSS 3D transform", status:"מאושר",
-  desc:"כרטיס עם שני צדדים שמתהפך בהובר או בלחיצה.",
-  when:"צוות (תמונה/פרטים), פיצ'רים עם עומק, כרטיסי משחק.",
-  css:`.flipw{width:260px;height:330px;perspective:1100px;margin-inline:auto;cursor:pointer}
-.flip{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
-.flipw:hover .flip,.flipw.tap .flip{transform:rotateY(180deg)}
-.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
-.face.back{transform:rotateY(180deg);background:var(--ink);color:var(--bg)}
-.face.back p{color:color-mix(in srgb,var(--bg) 70%,transparent);font-size:14px;margin:0;padding-inline:24px;text-align:center}`,
-  html:`<div class="stage tight"><div class="flipw"><div class="flip">
-<div class="face ph ph-b">הצד הקדמי</div>
-<div class="face back"><h3 style="margin:0">הצד האחורי</h3><p>הובר בדסקטופ, לחיצה במובייל.</p></div>
-</div></div></div>`,
-  js:`document.querySelector(".flipw").addEventListener("click",function(){this.classList.toggle("tap")});`,
-  runway:false
 },
 
 {

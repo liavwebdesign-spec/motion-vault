@@ -8,7 +8,7 @@ export default [
   libs:["gsap","ScrollTrigger"],
   css:`.stk{padding-inline:var(--gutter);padding-block:clamp(30px,4vw,60px)}
 .stk-card{position:sticky;border-radius:22px;padding:clamp(26px,3.4vw,54px);min-height:clamp(320px,42vh,440px);
-  display:flex;flex-direction:column;justify-content:space-between;color:#fff;transform-origin:50% 0%;
+  display:flex;flex-direction:column;justify-content:space-between;color:#fff;transform-origin:50% 0%;filter:brightness(1);
   box-shadow:0 -14px 44px rgba(0,0,0,.16);margin-bottom:clamp(18px,2.4vw,40px);
   will-change:transform,filter}
 .stk-card:nth-child(1){top:clamp(70px,13vh,120px);background:var(--ink);color:var(--bg)}
@@ -41,12 +41,15 @@ export default [
     // הכרטיס נסוג לאחור בדיוק בזמן שהבא אחריו מטפס מעליו.
     // ההחשכה היא filter ולא opacity: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס
     // שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות.
-    gsap.to(card,{scale:.955,filter:"brightness(.62)",ease:"none",
-      scrollTrigger:{trigger:cards[i+1],start:"top 82%",end:"top 26%",scrub:true}});
+    // fromTo ולא to: בלי ערך התחלה מפורש GSAP קורא filter:none, מתייחס אליו כאפס,
+    // והכרטיס נצבע שחור ומתבהר. זה מה שנראה חד ומהיר. הטווח גם הוארך והוחלק.
+    gsap.fromTo(card,{filter:"brightness(1)",scale:1},
+      {scale:.955,filter:"brightness(.72)",ease:"none",
+       scrollTrigger:{trigger:cards[i+1],start:"top bottom",end:"top 30%",scrub:.5}});
   });
 })();`,
   runway:false,
-  note:"הערימה עצמה היא CSS טהור: position:sticky עם top שגדל בכמה פיקסלים לכל כרטיס, כך שנשארת מדרגה שמראה שיש עוד מתחת. ה-GSAP רק מוסיף את הכיווץ וההתעמעמות. transform-origin חייב להיות בראש הכרטיס, אחרת הכיווץ מזיז אותו כלפי מטה ונוצר רעד. **והנסיגה היא החשכה ולא שקיפות**: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות. תחת prefers-reduced-motion הערימה נשארת בלי הכיווץ."
+  note:"הערימה עצמה היא CSS טהור: position:sticky עם top שגדל בכמה פיקסלים לכל כרטיס, כך שנשארת מדרגה שמראה שיש עוד מתחת. ה-GSAP רק מוסיף את הכיווץ וההתעמעמות. transform-origin חייב להיות בראש הכרטיס, אחרת הכיווץ מזיז אותו כלפי מטה ונוצר רעד. **והנסיגה היא החשכה ולא שקיפות**: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות. **ומלכודת שנייה**: חייבים להצהיר `filter:brightness(1)` ב-CSS ולהשתמש ב-fromTo, אחרת GSAP מתחיל מ-`none`, מתייחס אליו כאפס, והכרטיס נצבע שחור ומתבהר במקום להתעמעם בהדרגה. תחת prefers-reduced-motion הערימה נשארת בלי הכיווץ."
 },
 {
   id:"b38", cat:"behavior", name:"הדר שמתחבא בגלילה וחוזר", tech:"JS · CSS transform", status:"ממתין",

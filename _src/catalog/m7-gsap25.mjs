@@ -248,36 +248,6 @@ html[dir="ltr"] .sk2-old i{transform-origin:0 50%}
 })();`
 },
 {
-  id:"g147", cat:"gsap", name:"סרט צילום שמתגלגל בגלילה", tech:"GSAP · ScrollTrigger", status:"ממתין",
-  desc:"פס פילם אנכי עם חורי משיכה בצדדים, שהפריימים בו נעים מהר מהגלילה עצמה ומתעכבים רגע כשפריים נכנס למרכז. גלריה עם אופי של חדר חושך.",
-  when:"צלמים, סרטים, אירועים, גלריית \"מאחורי הקלעים\". שישה עד עשרה פריימים.",
-  note:"הרצועה מוזזת ב-y בסקראב במהירות גבוהה מהמסמך (מקדם 1.6), עם snap רך לפריימים דרך ease בכל קטע. החורים הם רקע repeating-linear-gradient על שני הצדדים. במובייל הפילם ברוחב מלא.",
-  libs:["gsap","ScrollTrigger"],
-  css:`.fl{position:relative;height:320vh}
-.fl-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;background:#111}
-.fl-strip{width:min(420px,84vw);background:#1a1a1a;padding:0 34px;position:relative;will-change:transform}
-.fl-strip::before,.fl-strip::after{content:"";position:absolute;top:0;bottom:0;width:18px;background:repeating-linear-gradient(180deg,transparent 0 10px,#444 10px 26px,transparent 26px 40px)}
-.fl-strip::before{left:8px}.fl-strip::after{right:8px}
-.fl-f{aspect-ratio:3/2;margin:14px 0;border-radius:4px;overflow:hidden;position:relative}
-.fl-f .ph{position:absolute;inset:0;border-radius:0;font-size:18px}
-.fl-f span{position:absolute;bottom:8px;inset-inline-start:10px;font-size:11px;color:#fff;opacity:.7;letter-spacing:.1em}`,
-  html:`<div class="fl">
-  <div class="fl-pin"><div class="fl-strip">
-    <div class="fl-f"><div class="ph ph-a">1</div><span>FRAME 01</span></div><div class="fl-f"><div class="ph ph-b">2</div><span>FRAME 02</span></div>
-    <div class="fl-f"><div class="ph ph-c">3</div><span>FRAME 03</span></div><div class="fl-f"><div class="ph ph-d">4</div><span>FRAME 04</span></div>
-    <div class="fl-f"><div class="ph ph-e">5</div><span>FRAME 05</span></div><div class="fl-f"><div class="ph ph-a">6</div><span>FRAME 06</span></div>
-  </div></div>
-</div>`,
-  js:`(function(){
-  const strip=document.querySelector(".fl-strip"),frames=gsap.utils.toArray(".fl-f"),pin=document.querySelector(".fl-pin");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const yFor=i=>pin.clientHeight/2-(frames[i].offsetTop+frames[i].offsetHeight/2);   // הפריים i במרכז המסך
-  const tl=gsap.timeline({scrollTrigger:{trigger:".fl",start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
-  tl.set(strip,{y:()=>yFor(0)});
-  for(let i=1;i<frames.length;i++)tl.to(strip,{y:()=>yFor(i),duration:1,ease:"power2.inOut"},i-1+.25);   // שהייה קצרה על כל פריים
-})();`
-},
-{
   id:"g148", cat:"gsap", name:"כתם דיו שמתפשט וחושף", tech:"GSAP · ScrollTrigger · SVG mask", status:"ממתין",
   desc:"כתם דיו לא סימטרי שגדל מנקודה עד שהוא מכסה את המסך, וכל מה שבתוכו הוא הסצנה הבאה. חשיפה אורגנית במקום עיגול או פס.",
   when:"מעבר לפרק אמנותי, אתרי סטודיו, אופנה, קולינריה. פעם אחת בעמוד.",

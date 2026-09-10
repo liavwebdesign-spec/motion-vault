@@ -1,6 +1,6 @@
 {
- "generated": "2026-09-10T06:00:25.582Z",
- "count": 276,
+ "generated": "2026-09-10T06:59:39.703Z",
+ "count": 269,
  "readme": "כל כניסה כאן עומדת בפני עצמה. css נושא ברירות מחדל לכל טוקן ומהלות העזר מוטמעות בו. scripts כולל את כל תגי ה-CDN לפי הסדר. js מתחיל ב-registerPlugin. needsRtl אומר אם הרכיב מסתמך על dir=rtl.",
  "entries": [
   {
@@ -1036,25 +1036,6 @@
    "js": "const sticky=document.querySelector(\".stickycta\");let visible=new Set();\nconst io=new IntersectionObserver(es=>{\n  es.forEach(e=>{e.isIntersecting?visible.add(e.target):visible.delete(e.target)});\n  sticky.classList.toggle(\"show\",visible.size===0);\n},{rootMargin:\"-72px\"});\ndocument.querySelectorAll(\".main-cta\").forEach(el=>io.observe(el));"
   },
   {
-   "id": "b04",
-   "name": "קרוסלת מובייל עם Peek",
-   "cat": "behavior",
-   "tech": "CSS scroll-snap",
-   "desc": "גלילה אופקית עם snap רך (proximity, לא mandatory) והצצה לקלף הבא, כדי שהגולש ידע שיש עוד. בעכבר נוספת גרירה וגלגלת, אחרת בדסקטופ הרצועה נראית תקועה.",
-   "when": "מחירון וכרטיסים במובייל. בדסקטופ פורשים בגריד.",
-   "note": null,
-   "libs": [],
-   "plugins": [],
-   "scripts": [],
-   "needsRtl": false,
-   "usesVaultHelpers": true,
-   "demo": "behavior/b04.html",
-   "standalone": "export/b04.html",
-   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n.center{text-align:center}\n\n/* B04 · קרוסלת מובייל עם Peek */\n.peek{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x proximity;padding:10px var(--gutter, clamp(24px, 5vw, 96px)) 26px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}\n.peek::-webkit-scrollbar{display:none}\n.peek .ph{flex:0 0 72%;max-width:340px;height:220px;scroll-snap-align:center;font-size:20px}\n.peek .spacer{flex:0 0 8%}",
-   "html": "<div class=\"stage tight\"><div class=\"peek\">\n<div class=\"ph ph-a\"><span class=\"ph-l\">בסיסי</span></div><div class=\"ph ph-b\"><span class=\"ph-l\">מומלץ</span></div><div class=\"ph ph-c\"><span class=\"ph-l\">פרימיום</span></div><div class=\"ph ph-d\"><span class=\"ph-l\">ארגוני</span></div>\n<div class=\"spacer\"></div>\n</div><p class=\"center\" style=\"color:var(--muted);font-size:13px\">גרור עם העכבר, או גלגל למטה מעל הרצועה</p></div>",
-   "js": "(function(){\n  const el=document.querySelector(\".peek\");\n  // במובייל הגלילה נטיבית ועובדת. בדסקטופ אין מגע, פס הגלילה מוסתר בכוונה,\n  // והקרוסלה נראית מתה לגמרי. לכן בעכבר מוסיפים גרירה וגלגלת.\n  if(!matchMedia(\"(pointer:fine)\").matches)return;\n  const rtl=getComputedStyle(el).direction===\"rtl\";\n  el.style.cursor=\"grab\";\n  let down=false,sx=0,sl=0;\n  el.addEventListener(\"pointerdown\",e=>{\n    down=true;sx=e.clientX;sl=el.scrollLeft;el.style.cursor=\"grabbing\";\n    el.setPointerCapture(e.pointerId);\n  });\n  el.addEventListener(\"pointermove\",e=>{if(down)el.scrollLeft=sl-(e.clientX-sx)});\n  const up=e=>{if(!down)return;down=false;el.style.cursor=\"grab\";\n    try{el.releasePointerCapture(e.pointerId)}catch(_){}}; \n  el.addEventListener(\"pointerup\",up);el.addEventListener(\"pointercancel\",up);\n  el.addEventListener(\"wheel\",e=>{\n    if(Math.abs(e.deltaY)<=Math.abs(e.deltaX))return;\n    e.preventDefault();el.scrollLeft+=(rtl?-1:1)*e.deltaY;\n  },{passive:false});\n})();"
-  },
-  {
    "id": "b10",
    "name": "קווי שיער (Hairlines)",
    "cat": "behavior",
@@ -1093,51 +1074,13 @@
    "js": ""
   },
   {
-   "id": "b12",
-   "name": "תמונה על בלוב",
-   "cat": "behavior",
-   "tech": "CSS border-radius אורגני",
-   "desc": "ויז'ואל שיושב על צורה אורגנית בגרדיאנט במקום מלבן משעמם.",
-   "when": "הירו ואודות בעורות רכים.",
-   "note": null,
-   "libs": [],
-   "plugins": [],
-   "scripts": [],
-   "needsRtl": true,
-   "usesVaultHelpers": true,
-   "demo": "behavior/b12.html",
-   "standalone": "export/b12.html",
-   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n\n/* B12 · תמונה על בלוב */\n.blobw{position:relative;width:min(440px,76vw);margin-inline:auto}\n.blob{position:absolute;inset:-9%;background:linear-gradient(140deg,#d0bfff,#91d5ff);border-radius:58% 42% 55% 45%/45% 58% 42% 55%;z-index:0}\n.blobw .ph{position:relative;z-index:1;aspect-ratio:4/5;border-radius:24px;font-size:20px}",
-   "html": "<div class=\"stage tight\"><div class=\"blobw\"><div class=\"blob\"></div><div class=\"ph ph-b\"><span class=\"ph-l\">התמונה שלך</span></div></div></div>",
-   "js": ""
-  },
-  {
-   "id": "b13",
-   "name": "תכשיטי צורה",
-   "cat": "behavior",
-   "tech": "CSS",
-   "desc": "צורות גיאומטריות קטנות שמתבלות סקשן בלי להעמיס. אפס באזורי פעולה.",
-   "when": "עורות playful וממפיס. אחת-שתיים לסקשן.",
-   "note": null,
-   "libs": [],
-   "plugins": [],
-   "scripts": [],
-   "needsRtl": true,
-   "usesVaultHelpers": false,
-   "demo": "behavior/b13.html",
-   "standalone": "export/b13.html",
-   "css": "/* B13 · תכשיטי צורה */\n.jw{position:relative;padding:80px var(--gutter, clamp(24px, 5vw, 96px));text-align:center;overflow:hidden}\n.jw .j{position:absolute;z-index:0}\n.j1{width:46px;height:46px;border-radius:50%;background:#ffd43b;top:18%;inset-inline-start:16%}\n.j2{width:34px;height:34px;background:#63e6be;transform:rotate(45deg);bottom:20%;inset-inline-end:18%}\n.j3{width:0;height:0;border-inline:20px solid transparent;border-bottom:34px solid #ff8787;top:30%;inset-inline-end:30%}\n.jw h2{position:relative;z-index:1;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}",
-   "html": "<div class=\"jw\"><span class=\"j j1\"></span><span class=\"j j2\"></span><span class=\"j j3\"></span><h2>הכותרת במרכז, התכשיטים מסביב</h2></div>",
-   "js": ""
-  },
-  {
    "id": "b14",
    "name": "פרלקס עדין (translate3d)",
    "cat": "behavior",
    "tech": "vanilla JS · rAF",
-   "desc": "רקע שנע לאט מהתוכן. עומק מינימלי, ביצועים מקסימליים.",
-   "when": "רקעי סקשן. במובייל מקדם חצי או כבוי.",
-   "note": null,
+   "desc": "הרקע נע לאט לכיוון אחד והכותרת לכיוון הנגדי, ונוצר עומק של שתי שכבות. רשת נקודות על הרקע היא מה שמאפשר לעין לראות שהוא בכלל זז.",
+   "when": "רקעי סקשן, פתיח של פרק, ציטוט גדול על רקע צבע. פעם או פעמיים בעמוד.",
+   "note": "פרלקס על גרדיאנט חלק הוא בזבוז: אין לעין נקודת ייחוס ולכן שום תזוזה לא נראית, וזאת בדיוק הסיבה שהגרסה הקודמת נראתה סטטית. צריך מרקם (כאן רשת נקודות), טווח אמיתי (120 פיקסלים ולא 40), ושכבה נגדית. הכל translate3d בתוך rAF יחיד, בלי ספרייה. במובייל הטווח חצי.",
    "libs": [],
    "plugins": [],
    "scripts": [],
@@ -1145,9 +1088,9 @@
    "usesVaultHelpers": true,
    "demo": "behavior/b14.html",
    "standalone": "export/b14.html",
-   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B14 · פרלקס עדין (translate3d) */\n.pxs{position:relative;height:70vh;overflow:hidden;border-radius:var(--r, 14px);margin-inline:var(--gutter, clamp(24px, 5vw, 96px));display:flex;align-items:center;justify-content:center}\n.pxbg{position:absolute;inset:-20% 0;background:linear-gradient(150deg,#1b2653,#3b5bdb);z-index:0}\n.pxs h2{position:relative;z-index:1;color:#fff;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}",
-   "html": "<div class=\"stage tight\"><div class=\"pxs\"><div class=\"pxbg\"></div><h2>הרקע זז לאט ממני</h2></div></div>",
-   "js": "const bg=document.querySelector(\".pxbg\"),wrap=document.querySelector(\".pxs\");\nlet tick=false;\nfunction frame(){tick=false;\n  const r=wrap.getBoundingClientRect();\n  const p=(innerHeight-r.top)/(innerHeight+r.height);\n  bg.style.transform=\"translate3d(0,\"+((p-.5)*80)+\"px,0)\";}\naddEventListener(\"scroll\",()=>{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});\nframe();"
+   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B14 · פרלקס עדין (translate3d) */\n.pxs{position:relative;height:70vh;overflow:hidden;border-radius:var(--r, 14px);margin-inline:var(--gutter, clamp(24px, 5vw, 96px));display:grid;place-items:center}\n.pxbg{position:absolute;inset:-28% 0;z-index:0;will-change:transform;\n  background:radial-gradient(circle at 50% 50%,color-mix(in srgb,var(--bg, #f7f7fa) 26%,transparent) 0 2px,transparent 2.5px) 0 0/38px 38px,linear-gradient(150deg,#1b2653,#3b5bdb)}\n.pxs h2{position:relative;z-index:1;color:#fff;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));text-align:center;max-width:18ch;will-change:transform}\n.pxs small{position:absolute;bottom:18px;inset-inline:0;text-align:center;color:rgba(255,255,255,.7);font-size:13px;z-index:1}",
+   "html": "<div class=\"stage tight\"><div class=\"pxs\"><div class=\"pxbg\"></div><h2>הרקע נע לאט, הכותרת נעה נגדו</h2><small>גלול, ותראה את רשת הנקודות מחליקה</small></div></div>",
+   "js": "const bg=document.querySelector(\".pxbg\"),head=document.querySelector(\".pxs h2\"),wrap=document.querySelector(\".pxs\");\nconst reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\nconst AMP=matchMedia(\"(max-width:767px)\").matches?60:120;   // הטווח הישן היה 40 ולא נראה בכלל\nlet tick=false;\nfunction frame(){tick=false;\n  const r=wrap.getBoundingClientRect();\n  const p=(innerHeight-r.top)/(innerHeight+r.height);       // 0 לפני הכניסה, 1 אחרי היציאה\n  bg.style.transform=\"translate3d(0,\"+((p-.5)*AMP)+\"px,0)\";\n  head.style.transform=\"translate3d(0,\"+((.5-p)*AMP*.22)+\"px,0)\";}\nif(!reduce){addEventListener(\"scroll\",()=>{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});frame();}"
   },
   {
    "id": "b15",
@@ -1512,25 +1455,6 @@
    "js": ""
   },
   {
-   "id": "css04",
-   "name": "חשיפת clip בכניסה",
-   "cat": "css",
-   "tech": "CSS @keyframes + IO",
-   "desc": "הכותרת נחשפת מתוך מסכה מלמטה כשהיא נכנסת למסך. גרסת ה-CSS הזולה של חשיפות הטקסט.",
-   "when": "כותרות סקשן כשלא רוצים לטעון GSAP.",
-   "note": null,
-   "libs": [],
-   "plugins": [],
-   "scripts": [],
-   "needsRtl": true,
-   "usesVaultHelpers": true,
-   "demo": "css/css04.html",
-   "standalone": "export/css04.html",
-   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.center{text-align:center}\n\n/* CSS04 · חשיפת clip בכניסה */\n.clipr{font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));max-width:20ch;margin-inline:auto;opacity:0}\n.clipr.in{opacity:1;animation:clipIn .8s cubic-bezier(.2,.6,.2,1) both}\n@keyframes clipIn{from{clip-path:inset(100% 0 0 0);translate:0 30px}to{clip-path:inset(0 0 0 0);translate:0 0}}\n@media(prefers-reduced-motion:reduce){.clipr{opacity:1;animation:none}}",
-   "html": "<div class=\"stage center\"><h2 class=\"clipr\">הכותרת הזאת נחשפת מתוך מסכה</h2></div>",
-   "js": "const io=new IntersectionObserver(es=>es.forEach(e=>{\n  if(e.isIntersecting){e.target.classList.add(\"in\");io.unobserve(e.target)}\n}),{threshold:.3});\ndocument.querySelectorAll(\".clipr\").forEach(el=>io.observe(el));"
-  },
-  {
    "id": "css05",
    "name": "כניסת Blur-In",
    "cat": "css",
@@ -1624,25 +1548,6 @@
    "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* CSS09 · רעידת שגיאה */\n.err-demo{display:flex;flex-direction:column;gap:10px;align-items:center}\n.err-input{font-family:inherit;font-size:16px;padding:13px 18px;border:1px solid var(--line, #e4e4ee);border-radius:12px;width:min(320px,80vw)}\n.err-input.shake{animation:shake .35s;border-color:#d92d20}\n@keyframes shake{0%,100%{translate:0}20%{translate:8px 0}40%{translate:-8px 0}60%{translate:5px 0}80%{translate:-5px 0}}\n.err-msg{font-size:13px;color:#d92d20;opacity:0;transition:opacity .2s}\n.err-msg.on{opacity:1}",
    "html": "<div class=\"stage tight\"><div class=\"err-demo\">\n<input class=\"err-input\" placeholder=\"הקלד משהו ולחץ שלח\">\n<span class=\"err-msg\">המספר לא נראה תקין, אפשר לבדוק?</span>\n<button class=\"gbtn err-send\">שלח</button>\n</div></div>",
    "js": "document.querySelector(\".err-send\").addEventListener(\"click\",()=>{\n  const i=document.querySelector(\".err-input\");\n  i.classList.remove(\"shake\");void i.offsetWidth;i.classList.add(\"shake\");\n  document.querySelector(\".err-msg\").classList.add(\"on\");\n});"
-  },
-  {
-   "id": "css10",
-   "name": "כרטיס מתהפך (Flip)",
-   "cat": "css",
-   "tech": "CSS 3D transform",
-   "desc": "כרטיס עם שני צדדים שמתהפך בהובר או בלחיצה.",
-   "when": "צוות (תמונה/פרטים), פיצ'רים עם עומק, כרטיסי משחק.",
-   "note": null,
-   "libs": [],
-   "plugins": [],
-   "scripts": [],
-   "needsRtl": true,
-   "usesVaultHelpers": true,
-   "demo": "css/css10.html",
-   "standalone": "export/css10.html",
-   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n\n/* CSS10 · כרטיס מתהפך (Flip) */\n.flipw{width:260px;height:330px;perspective:1100px;margin-inline:auto;cursor:pointer}\n.flip{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.6,.2,1)}\n.flipw:hover .flip,.flipw.tap .flip{transform:rotateY(180deg)}\n.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:var(--r, 14px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}\n.face.back{transform:rotateY(180deg);background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}\n.face.back p{color:color-mix(in srgb,var(--bg, #f7f7fa) 70%,transparent);font-size:14px;margin:0;padding-inline:24px;text-align:center}",
-   "html": "<div class=\"stage tight\"><div class=\"flipw\"><div class=\"flip\">\n<div class=\"face ph ph-b\"><span class=\"ph-l\">הצד הקדמי</span></div>\n<div class=\"face back\"><h3 style=\"margin:0\">הצד האחורי</h3><p>הובר בדסקטופ, לחיצה במובייל.</p></div>\n</div></div></div>",
-   "js": "document.querySelector(\".flipw\").addEventListener(\"click\",function(){this.classList.toggle(\"tap\")});"
   },
   {
    "id": "css12",
@@ -1914,7 +1819,7 @@
    "tech": "CSS sticky · GSAP",
    "desc": "כל כרטיס נעצר בראש המסך והבא אחריו מטפס מעליו, בזמן שהקודם מתכווץ מעט ומתעמעם. נוצרת ערימה במקום רשימה ארוכה.",
    "when": "שירותים, חבילות, יתרונות, שלבי עבודה. מכווץ ארבעה סקשנים לאורך של אחד, ועובד מצוין גם במובייל.",
-   "note": "הערימה עצמה היא CSS טהור: position:sticky עם top שגדל בכמה פיקסלים לכל כרטיס, כך שנשארת מדרגה שמראה שיש עוד מתחת. ה-GSAP רק מוסיף את הכיווץ וההתעמעמות. transform-origin חייב להיות בראש הכרטיס, אחרת הכיווץ מזיז אותו כלפי מטה ונוצר רעד. **והנסיגה היא החשכה ולא שקיפות**: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות. תחת prefers-reduced-motion הערימה נשארת בלי הכיווץ.",
+   "note": "הערימה עצמה היא CSS טהור: position:sticky עם top שגדל בכמה פיקסלים לכל כרטיס, כך שנשארת מדרגה שמראה שיש עוד מתחת. ה-GSAP רק מוסיף את הכיווץ וההתעמעמות. transform-origin חייב להיות בראש הכרטיס, אחרת הכיווץ מזיז אותו כלפי מטה ונוצר רעד. **והנסיגה היא החשכה ולא שקיפות**: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות. **ומלכודת שנייה**: חייבים להצהיר `filter:brightness(1)` ב-CSS ולהשתמש ב-fromTo, אחרת GSAP מתחיל מ-`none`, מתייחס אליו כאפס, והכרטיס נצבע שחור ומתבהר במקום להתעמעם בהדרגה. תחת prefers-reduced-motion הערימה נשארת בלי הכיווץ.",
    "libs": [
     "gsap",
     "ScrollTrigger"
@@ -1930,9 +1835,9 @@
    "usesVaultHelpers": false,
    "demo": "behavior/b37.html",
    "standalone": "export/b37.html",
-   "css": "/* B37 · כרטיסים שנערמים בגלילה */\n.stk{padding-inline:var(--gutter, clamp(24px, 5vw, 96px));padding-block:clamp(30px,4vw,60px)}\n.stk-card{position:sticky;border-radius:22px;padding:clamp(26px,3.4vw,54px);min-height:clamp(320px,42vh,440px);\n  display:flex;flex-direction:column;justify-content:space-between;color:#fff;transform-origin:50% 0%;\n  box-shadow:0 -14px 44px rgba(0,0,0,.16);margin-bottom:clamp(18px,2.4vw,40px);\n  will-change:transform,filter}\n.stk-card:nth-child(1){top:clamp(70px,13vh,120px);background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}\n.stk-card:nth-child(2){top:calc(clamp(70px,13vh,120px) + 18px);background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.stk-card:nth-child(3){top:calc(clamp(70px,13vh,120px) + 36px);background:#0b7285}\n.stk-card:nth-child(4){top:calc(clamp(70px,13vh,120px) + 54px);background:#c2255c}\n.stk-num{font-size:13px;letter-spacing:.16em;opacity:.7}\n.stk-card h3{font-size:clamp(26px,3.4vw,52px);margin:14px 0 10px;font-weight:800;max-width:20ch}\n.stk-card p{margin:0;max-width:52ch;font-size:clamp(15px,1.4vw,18px);line-height:1.6;opacity:.86}\n.stk-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:26px;font-size:14px;opacity:.85}\n.stk-tag{border:1px solid color-mix(in srgb,currentColor 35%,transparent);border-radius:999px;padding:6px 14px}\n.stk-end{height:30vh}",
+   "css": "/* B37 · כרטיסים שנערמים בגלילה */\n.stk{padding-inline:var(--gutter, clamp(24px, 5vw, 96px));padding-block:clamp(30px,4vw,60px)}\n.stk-card{position:sticky;border-radius:22px;padding:clamp(26px,3.4vw,54px);min-height:clamp(320px,42vh,440px);\n  display:flex;flex-direction:column;justify-content:space-between;color:#fff;transform-origin:50% 0%;filter:brightness(1);\n  box-shadow:0 -14px 44px rgba(0,0,0,.16);margin-bottom:clamp(18px,2.4vw,40px);\n  will-change:transform,filter}\n.stk-card:nth-child(1){top:clamp(70px,13vh,120px);background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}\n.stk-card:nth-child(2){top:calc(clamp(70px,13vh,120px) + 18px);background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.stk-card:nth-child(3){top:calc(clamp(70px,13vh,120px) + 36px);background:#0b7285}\n.stk-card:nth-child(4){top:calc(clamp(70px,13vh,120px) + 54px);background:#c2255c}\n.stk-num{font-size:13px;letter-spacing:.16em;opacity:.7}\n.stk-card h3{font-size:clamp(26px,3.4vw,52px);margin:14px 0 10px;font-weight:800;max-width:20ch}\n.stk-card p{margin:0;max-width:52ch;font-size:clamp(15px,1.4vw,18px);line-height:1.6;opacity:.86}\n.stk-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:26px;font-size:14px;opacity:.85}\n.stk-tag{border:1px solid color-mix(in srgb,currentColor 35%,transparent);border-radius:999px;padding:6px 14px}\n.stk-end{height:30vh}",
    "html": "<div class=\"stk\">\n  <article class=\"stk-card\"><div><span class=\"stk-num\">01</span><h3>אפיון ואסטרטגיה</h3><p>מבינים את העסק, את הלקוח ואת מה שצריך לקרות באתר לפני שנוגעים בעיצוב.</p></div>\n    <div class=\"stk-foot\"><span class=\"stk-tag\">שבוע</span><span>כלול בכל חבילה</span></div></article>\n  <article class=\"stk-card\"><div><span class=\"stk-num\">02</span><h3>עיצוב שמותאם למותג</h3><p>סקיצה של עמוד הבית לאישור, ואחריה שאר העמודים באותה שפה עיצובית.</p></div>\n    <div class=\"stk-foot\"><span class=\"stk-tag\">שבוע עד שבועיים</span><span>כולל שני סבבי תיקונים</span></div></article>\n  <article class=\"stk-card\"><div><span class=\"stk-num\">03</span><h3>בנייה ובדיקות</h3><p>מרכיבים, בודקים בכל רוחב מסך, מחברים טפסים ומדידה, ומוודאים מהירות טעינה.</p></div>\n    <div class=\"stk-foot\"><span class=\"stk-tag\">שבועיים</span><span>כולל התאמה למובייל</span></div></article>\n  <article class=\"stk-card\"><div><span class=\"stk-num\">04</span><h3>עלייה לאוויר וליווי</h3><p>מפרסמים, מוודאים שהפניות מגיעות, ומלווים חודש נוסף אחרי ההשקה.</p></div>\n    <div class=\"stk-foot\"><span class=\"stk-tag\">יום</span><span>חודש ליווי כלול</span></div></article>\n  <div class=\"stk-end\"></div>\n</div>",
-   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const cards=gsap.utils.toArray(\".stk-card\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce)return;\n  cards.forEach((card,i)=>{\n    if(i===cards.length-1)return;\n    // הכרטיס נסוג לאחור בדיוק בזמן שהבא אחריו מטפס מעליו.\n    // ההחשכה היא filter ולא opacity: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס\n    // שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות.\n    gsap.to(card,{scale:.955,filter:\"brightness(.62)\",ease:\"none\",\n      scrollTrigger:{trigger:cards[i+1],start:\"top 82%\",end:\"top 26%\",scrub:true}});\n  });\n})();"
+   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const cards=gsap.utils.toArray(\".stk-card\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  if(reduce)return;\n  cards.forEach((card,i)=>{\n    if(i===cards.length-1)return;\n    // הכרטיס נסוג לאחור בדיוק בזמן שהבא אחריו מטפס מעליו.\n    // ההחשכה היא filter ולא opacity: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס\n    // שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות.\n    // fromTo ולא to: בלי ערך התחלה מפורש GSAP קורא filter:none, מתייחס אליו כאפס,\n    // והכרטיס נצבע שחור ומתבהר. זה מה שנראה חד ומהיר. הטווח גם הוארך והוחלק.\n    gsap.fromTo(card,{filter:\"brightness(1)\",scale:1},\n      {scale:.955,filter:\"brightness(.72)\",ease:\"none\",\n       scrollTrigger:{trigger:cards[i+1],start:\"top bottom\",end:\"top 30%\",scrub:.5}});\n  });\n})();"
   },
   {
    "id": "b38",
@@ -2122,28 +2027,24 @@
    "id": "b46",
    "name": "עמודות שנפתחות בהובר",
    "cat": "behavior",
-   "tech": "GSAP · Flip",
-   "desc": "שורת עמודות שרק אחת מהן פתוחה. מעבר עכבר פותח את הבאה וסוגר את הקודמת, והרוחב, התמונה והכותרת זזים יחד בתנועה אחת רציפה.",
-   "when": "קטגוריות שירות, תחומי התמחות, ענפים, צוות. סקשן אחד שמציג שישה נושאים בלי לגלול ובלי לפתוח מודאל.",
-   "note": "החלק שנשבר אצל רוב מי שבונה את זה לבד הוא הכותרת: היא עוברת בין אופקי לאנכי ובין שני גדלים, ואם לא מוסיפים `props:\"fontSize\"` ל-getState היא קופצת. הרוחב עצמו לא מונפש ידנית אלא נגזר מ-flex, ולכן זה מחזיק גם כשמוסיפים עמודה חמישית. **מלכודת**: כל prop שמעבירים ל-Flip נשאר כסגנון אינליין בסוף התנועה ודורס את ה-CSS, ולכן העמודה הקודמת נשארת פתוחה למראה. לכן ה-opacity מנוהל ב-CSS בלבד. הובר לבד אינו נגיש, ולכן אותו פותח רשום גם על click ועל focus, והעמודות מקבלות tabIndex.",
+   "tech": "GSAP · flex-grow",
+   "desc": "שורת עמודות שרק אחת מהן פתוחה. מעבר עכבר פותח את הבאה וסוגר את הקודמת, והרוחב נע ברציפות. בעמודה סגורה הכותרת יושבת אנכית ברצועה, ובפתוחה מתחלפת בכותרת מלאה עם טקסט.",
+   "when": "קטגוריות שירות, תחומי התמחות, ענפים, צוות. סקשן אחד שמציג ארבעה עד שישה נושאים בלי לגלול ובלי מודאל.",
+   "note": "הגרסה הקודמת רצה על Flip ונשברה בכל הובר מהיר: Flip משאיר את כל מה שהוא מנפיש כסגנון אינליין בסוף התנועה, ולכן העמודה הקודמת נשארה פתוחה למראה, וכותרת שמחליפה writing-mode בין אנכי לאופקי היא מעבר שאין בו מה לאינטרפל. כאן אין Flip בכלל: flex-grow הוא מספר ו-GSAP מנפיש אותו ישירות, והכותרת מוחלפת בשתי גרסאות שמצטלבות ב-opacity. הובר לבד אינו נגיש, ולכן אותו פותח רשום גם על click ועל focus. במובייל הכיוון אנכי ואותו קוד עובד על הגובה.",
    "libs": [
-    "gsap",
-    "Flip"
+    "gsap"
    ],
-   "plugins": [
-    "Flip"
-   ],
+   "plugins": [],
    "scripts": [
-    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
-    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js\"></script>"
+    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>"
    ],
    "needsRtl": true,
    "usesVaultHelpers": true,
    "demo": "behavior/b46.html",
    "standalone": "export/b46.html",
-   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n\n/* B46 · עמודות שנפתחות בהובר */\n.cx{display:flex;gap:10px;height:clamp(320px,52vh,520px);max-width:min(1120px,94vw);margin-inline:auto}\n.cx-col{position:relative;overflow:hidden;border-radius:18px;cursor:pointer;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);\n  flex:0 0 84px;display:flex;flex-direction:column;justify-content:space-between;padding:18px}\n.cx-col.open{flex:1 1 auto}\n.cx-col .ph{position:absolute;inset:0;border-radius:0;opacity:.9;font-size:0}\n.cx-num,.cx-name,.cx-body{position:relative;z-index:1;color:#fff}\n.cx-num{font-size:14px;font-variant-numeric:tabular-nums;opacity:.85}\n.cx-name{font-size:clamp(18px,2vw,30px);font-weight:800;white-space:nowrap}\n.cx-body{max-width:38ch;font-size:15px;line-height:1.65;opacity:0;transition:opacity .3s .15s}\n.cx-col.open .cx-body{opacity:.92}\n/* עמודה סגורה: הכותרת מסתובבת ונשארת קריאה ברצועה צרה */\n.cx-col:not(.open) .cx-name{transform:rotate(180deg);writing-mode:vertical-rl;font-size:16px}\n.cx-foot{display:flex;flex-direction:column;gap:10px;align-items:flex-start}\n@media(max-width:760px){\n  .cx{flex-direction:column;height:auto}\n  .cx-col{flex:0 0 74px;min-height:74px}\n  .cx-col.open{flex:0 0 260px}\n  .cx-col:not(.open) .cx-name{transform:none;writing-mode:horizontal-tb}\n}\n@media (prefers-reduced-motion: reduce){.cx-body{transition:none}}",
-   "html": "<div class=\"stage tight\"><div class=\"cx\">\n  <div class=\"cx-col open\"><div class=\"ph ph-a\"></div><span class=\"cx-num\">01</span>\n    <div class=\"cx-foot\"><span class=\"cx-name\">אתרי תדמית</span><p class=\"cx-body\">אתר שמסביר מה אתם עושים ולמי, ומוביל את המבקר לפנייה אחת ברורה.</p></div></div>\n  <div class=\"cx-col\"><div class=\"ph ph-c\"></div><span class=\"cx-num\">02</span>\n    <div class=\"cx-foot\"><span class=\"cx-name\">דפי נחיתה</span><p class=\"cx-body\">עמוד יחיד ממוקד לקמפיין, עם מסר אחד וקריאה לפעולה אחת.</p></div></div>\n  <div class=\"cx-col\"><div class=\"ph ph-d\"></div><span class=\"cx-num\">03</span>\n    <div class=\"cx-foot\"><span class=\"cx-name\">חנויות</span><p class=\"cx-body\">חנות שמוכרת גם בלי איש מכירות, עם מסלול קנייה קצר.</p></div></div>\n  <div class=\"cx-col\"><div class=\"ph ph-e\"></div><span class=\"cx-num\">04</span>\n    <div class=\"cx-foot\"><span class=\"cx-name\">מערכות</span><p class=\"cx-body\">ממשק פנימי לניהול לקוחות, משימות ודוחות במקום גיליונות.</p></div></div>\n</div></div>",
-   "js": "gsap.registerPlugin(Flip);\n\n(function(){\n  const cols=[...document.querySelectorAll(\".cx-col\")];\n  const names=cols.map(c=>c.querySelector(\".cx-name\"));\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  let flip;\n  function open(col){\n    if(col.classList.contains(\"open\"))return;\n    if(flip)flip.kill();                       // הובר מהיר: מבטלים נסיעה שלא הספיקה להסתיים\n    const state=Flip.getState(cols);           // רק העמודות. הטקסט לא נכנס ל-Flip\n    cols.forEach(c=>c.classList.toggle(\"open\",c===col));\n    if(reduce)return;\n    flip=Flip.from(state,{duration:.6,ease:\"power3.inOut\"});\n    // הכותרת מחליפה כיוון כתיבה (אנכי מול אופקי) וגם גודל גופן. אין בין שני המצבים\n    // האלה מה לאינטרפל, וכשמכניסים אותה ל-Flip עם absolute היא נזרקת על המסך.\n    // לכן היא מוחלפת בהצלבה קצרה, וזה נראה נקי בכל כיוון הובר.\n    gsap.fromTo(names,{opacity:0},{opacity:1,duration:.28,ease:\"power1.out\",delay:.14,overwrite:true});\n  }\n  cols.forEach(c=>{\n    c.addEventListener(\"mouseenter\",()=>open(c));\n    c.addEventListener(\"click\",()=>open(c));          // מגע ומקלדת\n    c.tabIndex=0;\n    c.addEventListener(\"focus\",()=>open(c));\n  });\n})();"
+   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n\n/* B46 · עמודות שנפתחות בהובר */\n.cx{display:flex;gap:10px;height:clamp(320px,52vh,520px);max-width:min(1120px,94vw);margin-inline:auto}\n.cx-col{position:relative;overflow:hidden;border-radius:18px;cursor:pointer;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);\n  flex:1 1 0;min-width:76px;display:flex;flex-direction:column;justify-content:space-between;padding:18px;will-change:flex-grow}\n.cx-col .ph{position:absolute;inset:0;border-radius:0;opacity:.9;font-size:0}\n.cx-num,.cx-tab,.cx-foot{position:relative;z-index:1;color:#fff}\n.cx-num{font-size:14px;font-variant-numeric:tabular-nums;opacity:.85}\n.cx-tab{writing-mode:vertical-rl;transform:rotate(180deg);align-self:center;font-size:16px;font-weight:800;white-space:nowrap;transition:opacity .25s}\n.cx-foot{display:flex;flex-direction:column;gap:10px;align-items:flex-start;opacity:0;transition:opacity .3s .12s}\n.cx-name{font-size:clamp(18px,2vw,30px);font-weight:800;white-space:nowrap}\n.cx-body{max-width:38ch;font-size:15px;line-height:1.65;opacity:.92;margin:0}\n.cx-col.open .cx-tab{opacity:0}\n.cx-col.open .cx-foot{opacity:1}\n.cx-col:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n@media(max-width:760px){\n  .cx{flex-direction:column;height:clamp(420px,74vh,640px)}\n  .cx-col{min-width:0;min-height:62px}\n  .cx-tab{writing-mode:horizontal-tb;transform:none;align-self:flex-start}\n}\n@media (prefers-reduced-motion: reduce){.cx-body,.cx-foot,.cx-tab{transition:none}}",
+   "html": "<div class=\"stage tight\"><div class=\"cx\">\n  <div class=\"cx-col open\"><div class=\"ph ph-a\"></div><span class=\"cx-num\">01</span><span class=\"cx-tab\">אתרי תדמית</span>\n    <div class=\"cx-foot\"><span class=\"cx-name\">אתרי תדמית</span><p class=\"cx-body\">אתר שמסביר מה אתם עושים ולמי, ומוביל את המבקר לפנייה אחת ברורה.</p></div></div>\n  <div class=\"cx-col\"><div class=\"ph ph-c\"></div><span class=\"cx-num\">02</span><span class=\"cx-tab\">דפי נחיתה</span>\n    <div class=\"cx-foot\"><span class=\"cx-name\">דפי נחיתה</span><p class=\"cx-body\">עמוד יחיד ממוקד לקמפיין, עם מסר אחד וקריאה לפעולה אחת.</p></div></div>\n  <div class=\"cx-col\"><div class=\"ph ph-d\"></div><span class=\"cx-num\">03</span><span class=\"cx-tab\">חנויות</span>\n    <div class=\"cx-foot\"><span class=\"cx-name\">חנויות</span><p class=\"cx-body\">חנות שמוכרת גם בלי איש מכירות, עם מסלול קנייה קצר.</p></div></div>\n  <div class=\"cx-col\"><div class=\"ph ph-e\"></div><span class=\"cx-num\">04</span><span class=\"cx-tab\">מערכות</span>\n    <div class=\"cx-foot\"><span class=\"cx-name\">מערכות</span><p class=\"cx-body\">ממשק פנימי לניהול לקוחות, משימות ודוחות במקום גיליונות.</p></div></div>\n</div></div>",
+   "js": "(function(){\n  const cols=[...document.querySelectorAll(\".cx-col\")];\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  const OPEN=6,SHUT=1;\n  const grow=(i,el)=>el.classList.contains(\"open\")?OPEN:SHUT;\n  gsap.set(cols,{flexGrow:grow});\n  function open(col){\n    if(col.classList.contains(\"open\"))return;\n    cols.forEach(c=>c.classList.toggle(\"open\",c===col));\n    if(reduce){gsap.set(cols,{flexGrow:grow});return;}\n    // flex-grow הוא מספר ולכן GSAP מנפיש אותו ישירות, בלי Flip ובלי סגנון אינליין שנתקע.\n    // overwrite מבטל נסיעה קודמת כשעוברים מהר בין עמודות.\n    gsap.to(cols,{flexGrow:grow,duration:.55,ease:\"power3.inOut\",overwrite:true});\n  }\n  cols.forEach(c=>{c.tabIndex=0;[\"mouseenter\",\"click\",\"focus\"].forEach(ev=>c.addEventListener(ev,()=>open(c)));});\n})();"
   },
   {
    "id": "g47",
@@ -2239,7 +2140,7 @@
    "tech": "CSS transitions + delay",
    "desc": "רכיבי ההירו נכנסים בזה אחר זה במדרגות של 150 אלפיות: לוגו, ניווט, כותרת, ליד, כפתורים.",
    "when": "רגע הזהות בלבד. בשאר העמוד reveal אחיד בלי סטאגר. החריג המאושר.",
-   "note": null,
+   "note": "הסולם נורה כשהסקשן נכנס למסך, לא בטעינת העמוד, ורץ שוב בכל כניסה מחדש. בהירו אמיתי זה אותו רגע, אבל בדמו הוא יושב אחרי מסלול גלילה בכוונה: כשהוא היה גלוי כבר בטעינה הוא רץ ונגמר בשנייה הראשונה, בזמן שהעין עוד על כותרת העמוד, ונראה סטטי (נמדד: 84% מהסקשן בתוך המסך בטעינה). מחלקת ה-go חייבת להתווסף אחרי הציור הראשון, אחרת אין שינוי מצב ואין טרנזישן בכלל.",
    "libs": [],
    "plugins": [],
    "scripts": [],
@@ -2249,7 +2150,7 @@
    "standalone": "export/lm5.html",
    "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* LM5 · סולם כניסות הירו (150ms) */\n.ladder{min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.lad{opacity:0;translate:0 18px;transition:opacity .6s cubic-bezier(.2,.6,.2,1),translate .6s cubic-bezier(.2,.6,.2,1)}\n.go .lad{opacity:1;translate:0 0}\n.go .l1{transition-delay:0ms}.go .l2{transition-delay:150ms}.go .l3{transition-delay:300ms}\n.go .l4{transition-delay:450ms}.go .l5{transition-delay:600ms}\n.ladder .kick{color:var(--accent, #4a3aff);font-weight:600;font-size:14px;letter-spacing:.14em}\n.ladder h2{font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));max-width:18ch;margin:12px 0}\n.ladder p{color:var(--muted, #6a6d85);max-width:52ch;margin:0 0 22px}\n.replay{margin-top:30px;align-self:flex-start}",
    "html": "<div class=\"ladder\">\n<span class=\"kick lad l1\">רגע הזהות</span>\n<h2 class=\"lad l2\">כל שורה נכנסת 150 אלפיות אחרי קודמתה</h2>\n<p class=\"lad l3\">הסולם שמור להירו בלבד. ככה נשמרת הטבעיות בשאר העמוד.</p>\n<div class=\"lad l4\"><button class=\"gbtn\">כפתור ראשי</button></div>\n<span class=\"lad l5\" style=\"font-size:13px;color:var(--muted);margin-top:12px\">שורת מיקרו · אמון · בלי התחייבות</span>\n<button class=\"gbtn replay\" style=\"background:var(--ink);color:var(--bg)\">הפעל שוב</button>\n</div>",
-   "js": "const lad=document.querySelector(\".ladder\");\n// go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל\n// והרכיבים פשוט מופיעים גמורים. זאת גם הסיבה ל-void offsetHeight בהפעלה חוזרת.\nconst play=()=>{lad.classList.remove(\"go\");void lad.offsetHeight;lad.classList.add(\"go\")};\nlet started=false;const start=()=>{if(started)return;started=true;play()};\nrequestAnimationFrame(()=>requestAnimationFrame(start));\nsetTimeout(start,80);   // רשת ביטחון: בטאב מוסתר rAF מושהה והכותרת הייתה נשארת נעלמת\ndocument.querySelector(\".replay\").addEventListener(\"click\",play);"
+   "js": "const lad=document.querySelector(\".ladder\");\n// go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל\n// והרכיבים פשוט מופיעים גמורים. זאת גם הסיבה ל-void offsetHeight בהפעלה חוזרת.\nconst play=()=>{lad.classList.remove(\"go\");void lad.offsetHeight;lad.classList.add(\"go\")};\n// והפעלה על כניסה למסך ולא על טעינה: בהירו אמיתי זה אותו רגע בדיוק, אבל כשהסקשן יושב\n// באמצע עמוד ארוך הסולם רץ ונגמר לפני שמגיעים אליו, ונראה שכלום לא קרה.\n// לא מנתקים את הצופה: כשהסקשן יוצא מהמסך המחלקה מוסרת (מחוץ לעין), וכשחוזרים אליו הסולם רץ שוב.\nnew IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)play();else lad.classList.remove(\"go\");}),{threshold:.45}).observe(lad);\ndocument.querySelector(\".replay\").addEventListener(\"click\",play);"
   },
   {
    "id": "lm7",
@@ -4351,7 +4252,7 @@
    "tech": "CSS · keyframes",
    "desc": "אלמנט מרכזי ושני מסלולים סביבו, שבכל אחד אייקונים מקיפים אותו במהירות וכיוון שונים. האייקונים נשארים זקופים כי הם מסתובבים נגד המסלול.",
    "when": "הצגת אקוסיסטם: אינטגרציות סביב מוצר, כישורים סביב לוגו, שותפים סביב חברה. אחד לעמוד.",
-   "note": "מקור: MagicUI OrbitingCircles. נכתב מחדש ב-CSS בלבד. כל לוויין מקבל זווית התחלה ב---a, והסיבוב הנגדי שומר אותו קריא.",
+   "note": "מקור: MagicUI OrbitingCircles. נכתב מחדש ב-CSS בלבד. כל לוויין מקבל זווית התחלה ב---a, והסיבוב הנגדי שומר אותו קריא. בתוך העיגולים אייקוני קו ולא טקסט: מילה בעיגול של 60 פיקסלים נשברת לשתי שורות זעירות ומקשה להבין מה רואים. שם השירות יושב ב-aria-label לקוראי מסך.",
    "libs": [],
    "plugins": [],
    "scripts": [],
@@ -4359,8 +4260,8 @@
    "usesVaultHelpers": true,
    "demo": "css/css27.html",
    "standalone": "export/css27.html",
-   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS27 · לוויינים במסלול סביב מרכז */\n.orb{position:relative;width:min(520px,90vw);aspect-ratio:1;margin-inline:auto;display:grid;place-items:center}\n.orb-core{width:96px;height:96px;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);display:grid;place-items:center;font-weight:800;font-size:22px;box-shadow:0 20px 50px color-mix(in srgb,var(--accent, #4a3aff) 35%,transparent);position:relative;z-index:2}\n.orb-ring{position:absolute;inset:0;border-radius:50%;border:1px dashed var(--line, #e4e4ee);margin:auto;animation:orb-spin var(--t,22s) linear infinite}\n.orb-ring.in{width:56%;height:56%;--t:14s;animation-direction:reverse}\n.orb-ring.out{width:92%;height:92%}\n.orb-sat{position:absolute;top:50%;left:50%;width:64px;height:64px;margin:-32px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;font-weight:700;font-size:12px;color:var(--ink, #16182b);box-shadow:0 6px 18px rgba(0,0,0,.08);text-align:center;padding:4px;line-height:1.1;\n  transform:rotate(var(--a)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a)));animation:orb-counter var(--t,22s) linear infinite}\n.orb-ring.in .orb-sat{animation-direction:reverse}\n.orb-ring.in{--rad:146}.orb-ring.out{--rad:239}\n@media (max-width:520px){.orb-ring.in{--rad:110}.orb-ring.out{--rad:180}.orb-ring.out{width:88%;height:88%}}\n@keyframes orb-spin{to{transform:rotate(360deg)}}\n@keyframes orb-counter{to{transform:rotate(calc(var(--a) + 360deg)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a) - 360deg))}}\n@media (prefers-reduced-motion: reduce){.orb-ring,.orb-sat{animation:none}}",
-   "html": "<div class=\"stage tight\"><div class=\"orb\">\n  <div class=\"orb-core\">MV</div>\n  <div class=\"orb-ring in\"><span class=\"orb-sat\" style=\"--a:0deg\">CRM</span><span class=\"orb-sat\" style=\"--a:120deg\">מייל</span><span class=\"orb-sat\" style=\"--a:240deg\">וואטסאפ</span></div>\n  <div class=\"orb-ring out\"><span class=\"orb-sat\" style=\"--a:30deg\">סליקה</span><span class=\"orb-sat\" style=\"--a:102deg\">יומן</span><span class=\"orb-sat\" style=\"--a:174deg\">אנליטיקס</span><span class=\"orb-sat\" style=\"--a:246deg\">חשבוניות</span><span class=\"orb-sat\" style=\"--a:318deg\">אוטומציה</span></div>\n</div></div>",
+   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS27 · לוויינים במסלול סביב מרכז */\n.orb{position:relative;width:min(520px,90vw);aspect-ratio:1;margin-inline:auto;display:grid;place-items:center}\n.orb-core{width:96px;height:96px;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);display:grid;place-items:center;font-weight:800;font-size:22px;box-shadow:0 20px 50px color-mix(in srgb,var(--accent, #4a3aff) 35%,transparent);position:relative;z-index:2}\n.orb-ring{position:absolute;inset:0;border-radius:50%;border:1px dashed var(--line, #e4e4ee);margin:auto;animation:orb-spin var(--t,22s) linear infinite}\n.orb-ring.in{width:56%;height:56%;--t:14s;animation-direction:reverse}\n.orb-ring.out{width:92%;height:92%}\n.orb-sat{position:absolute;top:50%;left:50%;width:60px;height:60px;margin:-30px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;color:var(--ink, #16182b);box-shadow:0 6px 18px rgba(0,0,0,.08);\n  transform:rotate(var(--a)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a)));animation:orb-counter var(--t,22s) linear infinite}\n.orb-sat svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}\n.orb-ring.in .orb-sat{animation-direction:reverse}\n.orb-ring.in{--rad:146}.orb-ring.out{--rad:239}\n@media (max-width:520px){.orb-ring.in{--rad:110}.orb-ring.out{--rad:180}.orb-ring.out{width:88%;height:88%}.orb-sat{width:52px;height:52px;margin:-26px}.orb-sat svg{width:22px;height:22px}}\n@keyframes orb-spin{to{transform:rotate(360deg)}}\n@keyframes orb-counter{to{transform:rotate(calc(var(--a) + 360deg)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a) - 360deg))}}\n@media (prefers-reduced-motion: reduce){.orb-ring,.orb-sat{animation:none}}",
+   "html": "<div class=\"stage tight\"><div class=\"orb\">\n  <div class=\"orb-core\">MV</div>\n  <div class=\"orb-ring in\"><span class=\"orb-sat\" style=\"--a:0deg\" aria-label=\"CRM\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"9\" cy=\"8\" r=\"3\"/><path d=\"M3.5 19c0-3 2.5-5.2 5.5-5.2S14.5 16 14.5 19\"/><path d=\"M16 5.6a3 3 0 0 1 0 5.8\"/><path d=\"M17.5 19c0-2.2-.7-3.9-1.9-5\"/></svg></span><span class=\"orb-sat\" style=\"--a:120deg\" aria-label=\"מייל\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2.5\"/><path d=\"M3.6 6.7 12 12.6l8.4-5.9\"/></svg></span><span class=\"orb-sat\" style=\"--a:240deg\" aria-label=\"וואטסאפ\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M20 11.6a8 8 0 0 1-11.9 7L4 20l1.5-3.9A8 8 0 1 1 20 11.6Z\"/><path d=\"M9 9.4c.3 2.4 2.2 4.3 4.6 4.6\"/></svg></span></div>\n  <div class=\"orb-ring out\"><span class=\"orb-sat\" style=\"--a:30deg\" aria-label=\"סליקה\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"2.5\" y=\"5.5\" width=\"19\" height=\"13\" rx=\"2.5\"/><path d=\"M2.5 10h19\"/><path d=\"M6 14.5h4\"/></svg></span><span class=\"orb-sat\" style=\"--a:102deg\" aria-label=\"יומן\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"3.5\" y=\"5\" width=\"17\" height=\"15\" rx=\"2.5\"/><path d=\"M3.5 9.5h17M8 3.5v3M16 3.5v3\"/><circle cx=\"8.5\" cy=\"14\" r=\"1.1\"/></svg></span><span class=\"orb-sat\" style=\"--a:174deg\" aria-label=\"אנליטיקס\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 20V4\"/><path d=\"M4 20h16\"/><path d=\"M8 20v-6M12.5 20V8.5M17 20v-9\"/></svg></span><span class=\"orb-sat\" style=\"--a:246deg\" aria-label=\"חשבוניות\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 3.5h9L19 8v12.5H6z\"/><path d=\"M14.5 3.6V8H19\"/><path d=\"M9 12.5h7M9 16h5\"/></svg></span><span class=\"orb-sat\" style=\"--a:318deg\" aria-label=\"אוטומציה\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M13 3 5 13.5h5.5L10 21l8-10.5h-5.5z\"/></svg></span></div>\n</div></div>",
    "js": ""
   },
   {
@@ -4380,25 +4281,6 @@
    "standalone": "export/css28.html",
    "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* CSS28 · אדוות רקע מאחורי אלמנט */\n.rip{position:relative;height:clamp(320px,50vh,480px);display:grid;place-items:center;overflow:hidden;border-radius:var(--r, 14px);background:var(--card, #fff);border:1px solid var(--line, #e4e4ee)}\n.rip-ring{position:absolute;top:50%;left:50%;width:calc(180px + var(--i) * 70px);aspect-ratio:1;border-radius:50%;border:1px solid var(--accent, #4a3aff);\n  background:color-mix(in srgb,var(--accent, #4a3aff) 6%,transparent);opacity:calc(.55 - var(--i) * .06);transform:translate(-50%,-50%) scale(1);\n  animation:rip-pulse 3.2s cubic-bezier(.2,.6,.2,1) infinite;animation-delay:calc(var(--i) * .22s)}\n@keyframes rip-pulse{50%{transform:translate(-50%,-50%) scale(.94)}}\n.rip-core{position:relative;z-index:1;text-align:center}\n.rip-core h3{margin:0 0 14px;font-size:clamp(22px,2.6vw,36px)}\n@media (prefers-reduced-motion: reduce){.rip-ring{animation:none}}",
    "html": "<div class=\"stage tight\"><div class=\"rip\">\n  <span class=\"rip-ring\" style=\"--i:0\"></span><span class=\"rip-ring\" style=\"--i:1\"></span><span class=\"rip-ring\" style=\"--i:2\"></span><span class=\"rip-ring\" style=\"--i:3\"></span>\n  <span class=\"rip-ring\" style=\"--i:4\"></span><span class=\"rip-ring\" style=\"--i:5\"></span><span class=\"rip-ring\" style=\"--i:6\"></span><span class=\"rip-ring\" style=\"--i:7\"></span>\n  <div class=\"rip-core\"><h3>מוכנים להתחיל?</h3><button class=\"gbtn\">קבעו שיחת היכרות</button></div>\n</div></div>",
-   "js": ""
-  },
-  {
-   "id": "css29",
-   "name": "מטאורים חולפים ברקע",
-   "cat": "css",
-   "tech": "CSS · keyframes",
-   "desc": "פסי אור דקים שחוצים את הרקע באלכסון בזמנים ומהירויות אקראיים. עשרים שניות של רקע חי בלי שום JS.",
-   "when": "הירו כהה של מוצר טכנולוגי, סקשן \"בקרוב\", עמוד 404. רק על רקע כהה, ורק אחד לעמוד.",
-   "note": "מקור: MagicUI Meteors. נכתב מחדש ב-CSS בלבד: כל מטאור מקבל מיקום, השהיה ומשך ב-inline vars, כך שאין שני מטאורים זהים.",
-   "libs": [],
-   "plugins": [],
-   "scripts": [],
-   "needsRtl": false,
-   "usesVaultHelpers": true,
-   "demo": "css/css29.html",
-   "standalone": "export/css29.html",
-   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS29 · מטאורים חולפים ברקע */\n.met{position:relative;height:clamp(340px,56vh,520px);overflow:hidden;border-radius:var(--r, 14px);background:var(--ink, #16182b);display:grid;place-items:center;color:var(--bg, #f7f7fa);text-align:center;padding:24px}\n.met h2{margin:0;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));position:relative;z-index:1}\n.met p{margin:10px 0 0;color:color-mix(in srgb,var(--bg, #f7f7fa) 72%,transparent);position:relative;z-index:1}\n.met-s{position:absolute;top:-4px;left:var(--x);width:2px;height:2px;border-radius:50%;background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;box-shadow:0 0 0 1px rgba(255,255,255,.1);transform:rotate(215deg);\n  animation:met-fall var(--d,5s) linear infinite;animation-delay:var(--w,0s);opacity:0}\n.met-s::before{content:\"\";position:absolute;top:50%;transform:translateY(-50%);width:80px;height:1px;background:linear-gradient(90deg,#fff,transparent)}\n@keyframes met-fall{0%{transform:rotate(215deg) translateX(0);opacity:1}70%{opacity:1}100%{transform:rotate(215deg) translateX(-620px);opacity:0}}\n@media (prefers-reduced-motion: reduce){.met-s{animation:none;opacity:.35}}",
-   "html": "<div class=\"stage tight\"><div class=\"met\">\n  <span class=\"met-s\" style=\"--x:8%;--d:4.2s;--w:0s\"></span><span class=\"met-s\" style=\"--x:22%;--d:6s;--w:1.4s\"></span><span class=\"met-s\" style=\"--x:35%;--d:5.1s;--w:2.6s\"></span>\n  <span class=\"met-s\" style=\"--x:48%;--d:7s;--w:.8s\"></span><span class=\"met-s\" style=\"--x:57%;--d:4.6s;--w:3.9s\"></span><span class=\"met-s\" style=\"--x:69%;--d:6.4s;--w:2.1s\"></span>\n  <span class=\"met-s\" style=\"--x:78%;--d:5.4s;--w:4.8s\"></span><span class=\"met-s\" style=\"--x:88%;--d:6.8s;--w:1.9s\"></span><span class=\"met-s\" style=\"--x:96%;--d:4.9s;--w:3.2s\"></span>\n  <span class=\"met-s\" style=\"--x:15%;--d:7.4s;--w:5.6s\"></span><span class=\"met-s\" style=\"--x:42%;--d:5.8s;--w:6.3s\"></span><span class=\"met-s\" style=\"--x:63%;--d:4.4s;--w:7.1s\"></span>\n  <div><h2>הגרסה הבאה בדרך</h2><p>נעדכן אתכם כשהיא עולה.</p></div>\n</div></div>",
    "js": ""
   },
   {
@@ -4425,9 +4307,9 @@
    "name": "זוהר צפוני ברקע (בלי WebGL)",
    "cat": "css",
    "tech": "CSS · keyframes",
-   "desc": "שלושה כתמי צבע מטושטשים שנעים לאט אחד על השני ויוצרים רקע גלי רך, כמו זוהר צפוני. אפס JS, אפס WebGL, עובד בכל מכשיר.",
+   "desc": "שלושה כתמי צבע מטושטשים שנעים אחד על השני במסלולים מנוגדים ויוצרים רקע גלי רך, כמו זוהר צפוני. אפס JS, אפס WebGL, עובד בכל מכשיר.",
    "when": "רקע הירו באתרי טכנולוגיה ופרימיום כהים, מאחורי כותרת אחת. אחד לעמוד.",
-   "note": "מקור: ReactBits Aurora (WebGL). כאן גרסת CSS: blur כבד על שלושה בלובים ב-mix-blend-mode. זולה למעבד, ובמובייל ה-blur מצטמצם כדי לא לחמם.",
+   "note": "מקור: ReactBits Aurora (WebGL). כאן גרסת CSS: blur כבד על שלושה בלובים ב-mix-blend-mode. **המלכודת שהפילה את הגרסה הראשונה**: תזוזה של 18 אחוז לאורך 16 עד 21 שניות מתחת ל-blur של 70 פיקסלים נראית לעין כמו תמונה קפואה, גם כשהיא באמת רצה (נמדד: 22 פיקסלים ב-2.5 שניות). לכל בלוב יש כאן מסלול משלו בכיוון אחר, טווח של 40 עד 50 אחוז, ומחזור של 9 עד 13 שניות, ואחד מהם גם נושם באטימות. זולה למעבד, ובמובייל ה-blur מצטמצם כדי לא לחמם.",
    "libs": [],
    "plugins": [],
    "scripts": [],
@@ -4435,7 +4317,7 @@
    "usesVaultHelpers": true,
    "demo": "css/css31.html",
    "standalone": "export/css31.html",
-   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS31 · זוהר צפוני ברקע (בלי WebGL) */\n.au{position:relative;height:clamp(360px,62vh,560px);overflow:hidden;border-radius:var(--r, 14px);background:#07081a;display:grid;place-items:center;text-align:center;color:#fff;padding:24px;isolation:isolate}\n.au-b{position:absolute;width:60%;aspect-ratio:1;border-radius:50%;filter:blur(70px);opacity:.75;mix-blend-mode:screen;animation:au-move var(--t) ease-in-out infinite alternate;will-change:transform}\n.au-b.a{background:var(--accent, #4a3aff);top:-20%;left:-10%;--t:16s}\n.au-b.b{background:#2bd4c8;bottom:-25%;right:-8%;--t:21s;animation-delay:-6s}\n.au-b.c{background:#ff5fa2;top:20%;left:35%;width:45%;--t:19s;animation-delay:-11s;opacity:.55}\n@keyframes au-move{from{transform:translate(0,0) scale(1)}to{transform:translate(18%,12%) scale(1.25)}}\n.au-txt{position:relative;z-index:1;max-width:30ch}\n.au-txt h2{margin:0 0 12px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}\n.au-txt p{margin:0;color:rgba(255,255,255,.92)}\n.au-txt::before{content:\"\";position:absolute;inset:-40px -60px;background:radial-gradient(closest-side,rgba(7,8,26,.55),transparent);z-index:-1;border-radius:50%}\n@media (max-width:767px){.au-b{filter:blur(44px)}}\n@media (prefers-reduced-motion: reduce){.au-b{animation:none}}",
+   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS31 · זוהר צפוני ברקע (בלי WebGL) */\n.au{position:relative;height:clamp(360px,62vh,560px);overflow:hidden;border-radius:var(--r, 14px);background:#07081a;display:grid;place-items:center;text-align:center;color:#fff;padding:24px;isolation:isolate}\n.au-b{position:absolute;width:60%;aspect-ratio:1;border-radius:50%;filter:blur(70px);opacity:.75;mix-blend-mode:screen;will-change:transform;animation:au-a var(--t) ease-in-out infinite alternate}\n.au-b.a{background:var(--accent, #4a3aff);top:-25%;left:-15%;--t:9s}\n.au-b.b{background:#2bd4c8;bottom:-30%;right:-12%;--t:11s;animation-name:au-b2;animation-delay:-4s}\n.au-b.c{background:#ff5fa2;top:12%;left:28%;width:48%;--t:13s;animation-name:au-c2;animation-delay:-7s;opacity:.6}\n@keyframes au-a{from{transform:translate(-10%,-8%) scale(.95)}to{transform:translate(44%,28%) scale(1.35)}}\n@keyframes au-b2{from{transform:translate(12%,10%) scale(1.3)}to{transform:translate(-40%,-24%) scale(.9)}}\n@keyframes au-c2{from{transform:translate(-32%,12%) scale(1.05);opacity:.6}to{transform:translate(36%,-20%) scale(1.45);opacity:.3}}\n.au-txt{position:relative;z-index:1;max-width:30ch}\n.au-txt h2{margin:0 0 12px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}\n.au-txt p{margin:0;color:rgba(255,255,255,.92)}\n.au-txt::before{content:\"\";position:absolute;inset:-40px -60px;background:radial-gradient(closest-side,rgba(7,8,26,.55),transparent);z-index:-1;border-radius:50%}\n@media (max-width:767px){.au-b{filter:blur(44px)}}\n@media (prefers-reduced-motion: reduce){.au-b{animation:none}}",
    "html": "<div class=\"stage tight\"><div class=\"au\">\n  <span class=\"au-b a\"></span><span class=\"au-b b\"></span><span class=\"au-b c\"></span>\n  <div class=\"au-txt\"><h2>הפלטפורמה שמנהלת את הלקוחות בשבילכם</h2><p>לידים, הצעות מחיר, גבייה ומעקב. במקום אחד, בעברית.</p></div>\n</div></div>",
    "js": ""
   },
@@ -6360,33 +6242,6 @@
    "css": "/* G146 · מד מהירות שהמחט שלו זזה בגלילה */\n.gg{display:grid;justify-items:center;gap:10px;padding-block:14vh 30vh;text-align:center}\n.gg svg{width:min(360px,70vw);height:auto;overflow:visible}\n.gg .arc{fill:none;stroke:var(--line, #e4e4ee);stroke-width:16;stroke-linecap:round}\n.gg .fill{fill:none;stroke:var(--accent, #4a3aff);stroke-width:16;stroke-linecap:round}\n.gg .ndl{stroke:var(--ink, #16182b);stroke-width:4;stroke-linecap:round}\n.gg .hub{fill:var(--ink, #16182b)}\n.gg-val{font-size:clamp(44px,7vw,84px);font-weight:900;line-height:1;margin-top:-40px;font-variant-numeric:tabular-nums}\n.gg-val small{font-size:.35em;font-weight:500;color:var(--muted, #6a6d85);display:block;margin-top:4px}",
    "html": "<div class=\"gg\">\n  <svg viewBox=\"0 0 200 140\" aria-label=\"ציון מהירות 98\">\n    <path class=\"arc\" d=\"M 22 128 A 88 88 0 1 1 178 128\"/>\n    <path class=\"fill\" d=\"M 22 128 A 88 88 0 1 1 178 128\" pathLength=\"100\" stroke-dasharray=\"100\" stroke-dashoffset=\"100\"/>\n    <line class=\"ndl\" x1=\"100\" y1=\"110\" x2=\"100\" y2=\"34\"/>\n    <circle class=\"hub\" cx=\"100\" cy=\"110\" r=\"8\"/>\n  </svg>\n  <div class=\"gg-val\"><span class=\"gg-n\">0</span><small>ציון מהירות טעינה</small></div>\n</div>",
    "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const fill=document.querySelector(\".gg .fill\"),ndl=document.querySelector(\".gg .ndl\"),n=document.querySelector(\".gg-n\"),TO=98;\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches,o={v:0};\n  gsap.set(ndl,{svgOrigin:\"100 110\",rotate:-120});\n  gsap.to(o,{v:TO,ease:\"power2.out\",scrollTrigger:{trigger:\".gg\",start:\"top 75%\",end:\"top 25%\",scrub:reduce?false:.5},\n    onUpdate(){gsap.set(fill,{strokeDashoffset:100-o.v});gsap.set(ndl,{svgOrigin:\"100 110\",rotate:-120+240*o.v/100});n.textContent=Math.round(o.v);}});\n})();"
-  },
-  {
-   "id": "g147",
-   "name": "סרט צילום שמתגלגל בגלילה",
-   "cat": "gsap",
-   "tech": "GSAP · ScrollTrigger",
-   "desc": "פס פילם אנכי עם חורי משיכה בצדדים, שהפריימים בו נעים מהר מהגלילה עצמה ומתעכבים רגע כשפריים נכנס למרכז. גלריה עם אופי של חדר חושך.",
-   "when": "צלמים, סרטים, אירועים, גלריית \"מאחורי הקלעים\". שישה עד עשרה פריימים.",
-   "note": "הרצועה מוזזת ב-y בסקראב במהירות גבוהה מהמסמך (מקדם 1.6), עם snap רך לפריימים דרך ease בכל קטע. החורים הם רקע repeating-linear-gradient על שני הצדדים. במובייל הפילם ברוחב מלא.",
-   "libs": [
-    "gsap",
-    "ScrollTrigger"
-   ],
-   "plugins": [
-    "ScrollTrigger"
-   ],
-   "scripts": [
-    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
-    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"></script>"
-   ],
-   "needsRtl": true,
-   "usesVaultHelpers": true,
-   "demo": "gsap/g147.html",
-   "standalone": "export/g147.html",
-   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n\n/* G147 · סרט צילום שמתגלגל בגלילה */\n.fl{position:relative;height:320vh}\n.fl-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;background:#111}\n.fl-strip{width:min(420px,84vw);background:#1a1a1a;padding:0 34px;position:relative;will-change:transform}\n.fl-strip::before,.fl-strip::after{content:\"\";position:absolute;top:0;bottom:0;width:18px;background:repeating-linear-gradient(180deg,transparent 0 10px,#444 10px 26px,transparent 26px 40px)}\n.fl-strip::before{left:8px}.fl-strip::after{right:8px}\n.fl-f{aspect-ratio:3/2;margin:14px 0;border-radius:4px;overflow:hidden;position:relative}\n.fl-f .ph{position:absolute;inset:0;border-radius:0;font-size:18px}\n.fl-f span{position:absolute;bottom:8px;inset-inline-start:10px;font-size:11px;color:#fff;opacity:.7;letter-spacing:.1em}",
-   "html": "<div class=\"fl\">\n  <div class=\"fl-pin\"><div class=\"fl-strip\">\n    <div class=\"fl-f\"><div class=\"ph ph-a\"><span class=\"ph-l\">1</span></div><span>FRAME 01</span></div><div class=\"fl-f\"><div class=\"ph ph-b\"><span class=\"ph-l\">2</span></div><span>FRAME 02</span></div>\n    <div class=\"fl-f\"><div class=\"ph ph-c\"><span class=\"ph-l\">3</span></div><span>FRAME 03</span></div><div class=\"fl-f\"><div class=\"ph ph-d\"><span class=\"ph-l\">4</span></div><span>FRAME 04</span></div>\n    <div class=\"fl-f\"><div class=\"ph ph-e\"><span class=\"ph-l\">5</span></div><span>FRAME 05</span></div><div class=\"fl-f\"><div class=\"ph ph-a\"><span class=\"ph-l\">6</span></div><span>FRAME 06</span></div>\n  </div></div>\n</div>",
-   "js": "gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const strip=document.querySelector(\".fl-strip\"),frames=gsap.utils.toArray(\".fl-f\"),pin=document.querySelector(\".fl-pin\");\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches)return;\n  const yFor=i=>pin.clientHeight/2-(frames[i].offsetTop+frames[i].offsetHeight/2);   // הפריים i במרכז המסך\n  const tl=gsap.timeline({scrollTrigger:{trigger:\".fl\",start:\"top top\",end:\"bottom bottom\",scrub:.5,invalidateOnRefresh:true}});\n  tl.set(strip,{y:()=>yFor(0)});\n  for(let i=1;i<frames.length;i++)tl.to(strip,{y:()=>yFor(i),duration:1,ease:\"power2.inOut\"},i-1+.25);   // שהייה קצרה על כל פריים\n})();"
   },
   {
    "id": "g148",
