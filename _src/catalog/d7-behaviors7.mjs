@@ -2,9 +2,9 @@
 export default [
 
 {
-  id:"b29", cat:"behavior", name:"רקע העמוד שמחליף צבע לפי הסקשן", tech:"IntersectionObserver · CSS vars", status:"ממתין",
-  desc:"כל סקשן מכריז על ערכת הצבע שלו, והרקע והטקסט של העמוד עוברים אליה במעבר רך. הצבע מחליף במקום שהסקשן יגזור אותו.",
-  when:"אתרי תדמית וסיפור מותג, עמודי מוצר ארוכים. נותן תחושת פרקים בלי קווים מפרידים ובלי סקשנים עם קצוות חדים.",
+  id:"b29", cat:"behavior", name:"רקע העמוד שמחליף צבע לפי הסקשן", tech:"IntersectionObserver · CSS vars · color-mix", status:"ממתין",
+  desc:"כל סקשן מכריז על ערכת הצבע שלו, והרקע והטקסט של העמוד עוברים אליה. שני מצבים: בקפיצה רכה כשסקשן תופס את רוב המסך, או ברצף שצמוד לגלילה, שבו הרקע נמזג מצבע לצבע בדיוק בקצב שהגולש גולל.",
+  when:"אתרי תדמית וסיפור מותג, עמודי מוצר ארוכים. נותן תחושת פרקים בלי קווים מפרידים ובלי סקשנים עם קצוות חדים. הקפיצה מתאימה לפרקים נפרדים, והרצף מתאים לעמוד שמתכהה בהדרגה (מבהיר בפתיחה לכהה ביוקרה), כמו שנראה ב-academy.shiruziel.com.",
   libs:[],
   css:`.bgz{--bg:var(--bg);--fg:var(--ink);--soft:var(--muted);
   background:var(--bg);color:var(--fg);transition:background-color .8s ease,color .8s ease}
@@ -19,7 +19,13 @@ export default [
 .bgz-rail{position:fixed;inset-inline-end:18px;top:50%;transform:translateY(-50%);z-index:20;display:grid;gap:10px}
 .bgz-rail i{display:block;width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.28;transition:opacity .4s,transform .4s}
 .bgz-rail i.on{opacity:1;transform:scale(1.5)}
-@media (prefers-reduced-motion: reduce){.bgz{transition-duration:.01ms}}`,
+/* מצב רציף: הרקע נמזג ב-JS לפי הגלילה, ולכן בלי transition עליו (אחרת הוא מפגר אחרי האצבע). הטקסט כן עם transition, כי הוא מתהפך ולא נמזג */
+.bgz.flow{transition:color .35s ease}
+.bgz-mode{position:fixed;inset-inline-start:18px;bottom:18px;z-index:20;display:flex;gap:4px;padding:4px;border-radius:999px;
+  background:color-mix(in srgb,var(--fg) 12%,transparent);backdrop-filter:blur(8px)}
+.bgz-mode button{font:inherit;font-size:14px;padding:7px 14px;border:0;border-radius:999px;background:none;color:inherit;cursor:pointer;opacity:.75}
+.bgz-mode button.on{background:var(--fg);color:var(--bg);opacity:1}
+@media (prefers-reduced-motion: reduce){.bgz,.bgz.flow{transition-duration:.01ms}}`,
   html:`<div class="bgz">
   <section class="bgz-sec" data-bg="#f7f7fa" data-fg="#16182b" data-soft="#6a6d85">
     <div><p class="bgz-tag">פרק ראשון</p><h3>מתחילים בהיר</h3><p>גלול למטה. הרקע של העמוד כולו יעבור לצבע של הסקשן הבא, בלי קו מפריד ובלי קפיצה.</p><span class="bgz-dot"></span></div>
@@ -34,6 +40,7 @@ export default [
     <div><p class="bgz-tag">פרק רביעי</p><h3>ונוחתים רך</h3><p>המעבר הוא 0.8 שניות. מהר מזה מרגיש כמו הבהוב, ואיטי מזה מרגיש כמו באג.</p><span class="bgz-dot"></span></div>
   </section>
   <nav class="bgz-rail" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></nav>
+  <div class="bgz-mode" role="group" aria-label="סוג המעבר"><button class="on" data-mode="step">בקפיצה</button><button data-mode="flow">רציף בגלילה</button></div>
 </div>`,
   js:`(function(){
   const wrap=document.querySelector(".bgz");
@@ -60,14 +67,43 @@ export default [
   }
   // ויסות לפי זמן ולא לפי requestAnimationFrame: אם פריים אחד לא מגיע, דגל של rAF נתקע דלוק
   // וכל אירועי הגלילה הבאים נבלעים. מדידה של 80 מילישניות זולה ואמינה בכל מצב.
+  // מצב רציף: המיזוג קורה רק בזמן שגבול בין שני סקשנים חוצה את הרצועה המרכזית של המסך (45% מגובהו),
+  // ובעקומת smoothstep. למה לא לאורך כל הסקשן: באמצע מיזוג של בהיר וכהה הרקע אפור בינוני, ושום צבע טקסט
+  // לא קריא עליו. ככל שהאזור האפור קצר ותלול יותר, הגולש כמעט לא קורא בתוכו.
+  function flow(){
+    const mid=innerHeight*.55,band=innerHeight*.45;
+    let k=0,t=0;
+    for(let i=0;i<secs.length-1;i++){
+      const raw=(mid-secs[i+1].getBoundingClientRect().top)/band+.5;
+      if(raw>=1){k=i+1;t=0;}else{if(raw>0){k=i;t=raw;}break;}
+    }
+    const A=secs[k],B=secs[k+1]||A,e=t*t*(3-2*t),p=(e*100).toFixed(1)+"%";
+    wrap.style.setProperty("--bg","color-mix(in srgb,"+B.dataset.bg+" "+p+","+A.dataset.bg+")");
+    // הטקסט לא נמזג אלא מתהפך בחצי הדרך: טקסט ממוזג על רקע ממוזג הוא אפור על אפור
+    const S=e<.5?A:B;
+    wrap.style.setProperty("--fg",S.dataset.fg);
+    wrap.style.setProperty("--soft",S.dataset.soft);
+    const i=secs.indexOf(S);
+    dots.forEach((d,n)=>d.classList.toggle("on",n===i));
+  }
+  let mode="step";
   let t=0;
-  const onScroll=()=>{const n=performance.now();if(n-t<80)return;t=n;pick();};
-  const io=new IntersectionObserver(pick,{threshold:[0,.2,.4,.6,.8,1]});
+  // ברצף מעדכנים בכל אירוע גלילה, אחרת הצבע מדלג במדרגות של 80 מילישניות
+  const onScroll=()=>{if(mode==="flow"){flow();return;}const n=performance.now();if(n-t<80)return;t=n;pick();};
+  const io=new IntersectionObserver(()=>mode==="step"?pick():flow(),{threshold:[0,.2,.4,.6,.8,1]});
   secs.forEach(s=>io.observe(s));
   addEventListener("scroll",onScroll,{passive:true});
+  const modeBtns=[...wrap.querySelectorAll(".bgz-mode button")];
+  modeBtns.forEach(b=>b.addEventListener("click",()=>{
+    mode=b.dataset.mode;
+    modeBtns.forEach(x=>x.classList.toggle("on",x===b));
+    wrap.classList.toggle("flow",mode==="flow");
+    last=null;
+    mode==="flow"?flow():pick();
+  }));
   pick();
 })();`,
   runway:false,
-  note:"המלכודת שנתפסה כאן בבדיקה: אם בוחרים את הסקשן לפי היחסים שמגיעים באירוע של IntersectionObserver, הצבע נתקע על הראשון, כי כל אירוע מדווח רק על מה שהשתנה. הפתרון הוא למדוד בכל בדיקה את כל הסקשנים ולבחור את זה שתופס הכי הרבה מהמסך. מלכודת שנייה: המעבר חייב לשבת על משתני CSS ברמת המעטפת ולא על כל אלמנט בנפרד, אחרת רצים עשרות טרנזישנים במקביל."
+  note:"המלכודת שנתפסה כאן בבדיקה: אם בוחרים את הסקשן לפי היחסים שמגיעים באירוע של IntersectionObserver, הצבע נתקע על הראשון, כי כל אירוע מדווח רק על מה שהשתנה. הפתרון הוא למדוד בכל בדיקה את כל הסקשנים ולבחור את זה שתופס הכי הרבה מהמסך. מלכודת שנייה: המעבר חייב לשבת על משתני CSS ברמת המעטפת ולא על כל אלמנט בנפרד, אחרת רצים עשרות טרנזישנים במקביל. במצב הרציף (נוסף 14.9.2026): הרקע נכתב כ-color-mix בין שני הסקשנים ומתעדכן בכל אירוע גלילה בלי transition, והטקסט מתהפך בחצי הדרך ולא נמזג. המיזוג מוגבל לרצועה של 45% מגובה המסך סביב הגבול, כי באמצע מעבר מבהיר לכהה אין צבע טקסט שעובר ניגודיות."
 },
 ];
