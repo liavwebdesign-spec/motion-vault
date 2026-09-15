@@ -129,7 +129,7 @@ const USES = {
   g129: ["cards", "process"], g130: ["hero", "media"], g131: ["text", "hero"], g132: ["numbers", "process"], 
   g134: ["hero", "process"], g135: ["ambient"], g136: ["media"], g137: ["text"], g138: ["media", "cards"],
   g139: ["text", "hero"], g140: ["numbers"], g141: ["text", "process"], g142: ["numbers", "cards"], g143: ["media", "cards"],
-  g144: ["hero", "media"], g145: ["text"], g146: ["numbers"], g148: ["hero", "ambient"],
+  g144: ["hero", "media"], g145: ["text"], g146: ["numbers"], g148: ["hero", "ambient"], g149: ["media", "cards"],
 };
 // רכיבי UI: הסינון השלישי של האינדקס. לכל מהלך אפשר לסמן כמה, והסימון מצטבר.
 const ELEMS_LABELS = {
@@ -317,7 +317,7 @@ const ELEMS = {
   g109: ["head"], g110: ["head"], g111: ["img","sect"], g112: ["card","head"], g115: ["img","sect"], g116: ["sect","head"], g117: ["head","list"], g118: ["sect","page"],
   g119: ["img","list"], g120: ["list","head"], g121: ["img","list","sect"], g123: ["img","list"], g124: ["list","card"], g125: ["card"], g126: ["card","head"], g127: ["sect","btn"], g128: ["sect","page"],
   g129: ["card","list"], g130: ["img","sect"], g131: ["head"], g132: ["head","sect"], g134: ["sect","page"], g135: ["sect"], g136: ["img"], g137: ["head"], g138: ["list","img"],
-  g139: ["head"], g140: ["card","head"], g141: ["list","card"], g142: ["card","list"], g143: ["list","img"], g144: ["img","sect"], g145: ["head"], g146: ["card","head"], g148: ["sect","page"],
+  g139: ["head"], g140: ["card","head"], g141: ["list","card"], g142: ["card","list"], g143: ["list","img"], g144: ["img","sect"], g145: ["head"], g146: ["card","head"], g148: ["sect","page"], g149: ["img","sect"],
   fluid: ["sect","page"],
   editorial: ["page","sect","card"], breakout: ["page","img"], bento: ["page","card"], modular: ["page","sect","img"],
 };
@@ -397,7 +397,7 @@ const FIT = {
   g109: ["S"], g110: ["L","S"], g111: ["L","S"], g112: ["L","S"], g115: ["L","S"], g116: ["L","S"], g117: ["L","S"], g118: ["L","S"],
   g119: ["L","S"], g120: ["S"], g121: ["S"], g123: ["L","S"], g124: ["L"], g125: ["L","S"], g126: ["L","S"], g127: ["L","S"], g128: ["L","S"],
   g129: ["L","S"], g130: ["S"], g131: ["L","S"], g132: ["S"], g134: ["S"], g135: ["S"], g136: ["L","S"], g137: ["L","S"], g138: ["S"],
-  g139: ["L","S"], g140: ["L","S"], g141: ["L","S"], g142: ["L"], g143: ["S"], g144: ["L","S"], g145: ["L","S"], g146: ["L","S"], g148: ["S"],
+  g139: ["L","S"], g140: ["L","S"], g141: ["L","S"], g142: ["L"], g143: ["S"], g144: ["L","S"], g145: ["L","S"], g146: ["L","S"], g148: ["S"], g149: ["L","S"],
   r01: ["S"],
   r02: ["L","S"],
   r03: ["L","S"],
