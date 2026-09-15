@@ -7,15 +7,15 @@ export default [
   when:"רשימת פרויקטים של אדריכל, יזם נדל\"ן, מעצב פנים, צלם או סטודיו. גם מקרי בוחן ומוצרים דגל. עובד כשלכל פריט יש שתי תמונות טובות (חוץ ופנים, לפני ואחרי, יום ולילה), וחוזר על עצמו כרטיס אחרי כרטיס בלי להימאס כי הוא לא נועל את הגלילה.",
   note:"ההבדל מ-g144: שם תמונה אחת נקרעת פעם אחת בעמוד עם נעילת גלילה. כאן שתי תמונות שונות, רשימה שחוזרת, ובלי נעילה. המרחק הסופי מחושב ב-JS מרוחב הטקסט ומרוחב המסך, כך שהתמונות נעצרות צמוד לטקסט ולא בורחות מהמסך ברוחבים שונים. הטווח מתחיל כשראש הכרטיס ב-62% מהמסך ולא בתחתיתו: התמונות יושבות באמצע כרטיס בגובה מסך, ולכן כשהטווח התחיל בתחתית הן כבר היו חצי פרושות ברגע שנכנסו לעין, והרגע שבו הן מכסות את הטקסט לא נראה אף פעם (נתפס בצילום). הטווח מסתיים ב-8%, וה-ease הוא power1.out, רך יותר מעקומת המקור, מאותה סיבה. במובייל אין מקום לתמונות לצד הטקסט, ולכן הן יושבות מעליו ונפרשות רק חלקית.",
   libs:["gsap","ScrollTrigger"],
-  css:`.pf{overflow-x:clip;padding-block:clamp(40px,8vh,90px)}
-.pf-head{text-align:center;max-width:52ch;margin:0 auto clamp(20px,6vh,60px);padding-inline:var(--gutter)}
+  css:`.pf{overflow-x:clip;padding-block:var(--sec)}
+.pf-head{text-align:center;max-width:52ch;margin:0 auto clamp(20px,6vh,64px);padding-inline:var(--gutter)}
 .pf-head h2{margin:0 0 12px;font-size:var(--fs-h2)}
 .pf-head p{margin:0;color:var(--muted);line-height:1.6}
-.pf-card{--iw:min(30vw,50vh);position:relative;min-height:max(100vh,calc(var(--iw) * 1.25 + 120px));display:grid;place-items:center;padding-inline:var(--gutter)}
+.pf-card{--iw:min(30vw,50vh);position:relative;min-height:max(100vh,calc(var(--iw) * 1.25 + 112px));display:grid;place-items:center;padding-inline:var(--gutter)}
 .pf-txt{position:relative;z-index:1;text-align:center;max-width:min(440px,36vw)}
-.pf-txt h3{margin:0 0 14px;font-size:clamp(28px,3vw,46px);font-weight:600}
-.pf-txt p{margin:0 0 26px;color:var(--muted);font-size:16px;line-height:1.6}
-.pf-btn{display:inline-block;border:1px solid var(--ink);color:var(--ink);padding:12px 26px;text-decoration:none;font-size:15px;transition:background-color .3s,color .3s}
+.pf-txt h3{margin:0 0 16px;font-size:clamp(28px,3vw,46px);font-weight:600}
+.pf-txt p{margin:0 0 32px;color:var(--muted);font-size:16px;line-height:1.6}
+.pf-btn{display:inline-block;border:1px solid var(--ink);color:var(--ink);padding:12px 24px;text-decoration:none;font-size:15px;transition:background-color .3s,color .3s}
 .pf-btn:hover{background:var(--ink);color:var(--bg)}
 /* שתי התמונות יושבות בדיוק באותו מקום, במרכז ומעל הטקסט. JS מזיז אותן */
 .pf-img{position:absolute;left:50%;top:50%;z-index:2;width:var(--iw);aspect-ratio:4/5;margin:calc(var(--iw) * -.625) 0 0 calc(var(--iw) * -.5);will-change:transform;
@@ -23,8 +23,9 @@ export default [
 .pf-img .ph{position:absolute;inset:0;border-radius:0;font-size:0}
 .pf-img.r{z-index:3}
 @media (max-width:767px){
-  .pf-card{--iw:min(56vw,300px);min-height:0;display:flex;flex-direction:column;align-items:center;padding-block:40px 70px}
-  .pf-stack{position:relative;width:100%;height:calc(var(--iw) * 1.25 + 30px);margin-bottom:28px}
+  /* קצב אנכי מובייל: 32 מעל ומתחת לכל כרטיס = 64 בין כרטיס לכרטיס, כמו קצב הסקשן במובייל */
+  .pf-card{--iw:min(56vw,300px);min-height:0;display:flex;flex-direction:column;align-items:center;padding-block:32px}
+  .pf-stack{position:relative;width:100%;height:calc(var(--iw) * 1.25 + 32px);margin-bottom:32px}
   .pf-txt{max-width:36ch}
 }
 @media (min-width:768px){.pf-stack{display:contents}}`,
