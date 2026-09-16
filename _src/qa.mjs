@@ -26,6 +26,28 @@ const EASE_ALLOW = new Set([
 ]);
 const normBezier = s => s.replace(/\s+/g, "").replace(/(^|,)0\./g, "$1.").replace(/(^|,)0(?=,|$)/g, "$10");
 const TOKEN_LITERALS = { "#4a3aff": "--accent", "#16182b": "--ink", "#6a6d85": "--muted", "#e4e4ee": "--line", "#f7f7fa": "--bg" };
+// 4) סולם הריווחים (design-dna/engine/spacing-and-axes.md §1). נולד מ-g149 (15.9.2026): הסולם היה כתוב ולא נאכף,
+//    וליאב תפס שישה ערכים מחוץ לו. ratchet: מהלך חדש חייב 0 חריגות; מהלך קיים לא רשאי להוסיף. baseline ב-qa-spacing-baseline.json.
+//    נבדקים margin/padding/gap בפיקסלים, כולל קצוות clamp. לא נבדקים: calc, vw/vh/em/%, וערכים עד 3px (קווי שיער). מנוס: /* qa-allow: scale */
+const SPACING_SCALE = new Set([4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 40, 48, 56, 64, 72, 88, 96, 112]);
+const SPACING_PROP = /(?:^|[;{\s])(margin(?:-[a-z]+)?|padding(?:-[a-z]+)?|gap|row-gap|column-gap)\s*:\s*([^;}]+)/g;
+export function offScale(css) {
+  const out = [];
+  for (const blk of css.split("}")) {
+    if (/qa-allow:\s*scale/.test(blk)) continue;
+    for (const m of blk.matchAll(SPACING_PROP)) {
+      const val = m[2].replace(/calc\((?:[^()]|\([^()]*\))*\)/g, " ");
+      for (const px of val.matchAll(/(-?\d+(?:\.\d+)?)px/g)) {
+        const n = Math.abs(parseFloat(px[1]));
+        if (n <= 3 || (Number.isInteger(n) && SPACING_SCALE.has(n))) continue;
+        out.push(`${m[1]}:${px[1]}px`);
+      }
+    }
+  }
+  return out;
+}
+const SPACING_BASE_PATH = join(ROOT, "_src", "qa-spacing-baseline.json");
+const spacingBase = existsSync(SPACING_BASE_PATH) ? JSON.parse(readFileSync(SPACING_BASE_PATH, "utf8")) : {};
 const LAYOUT_PROPS = /^(width|height|max-height|min-height|max-width|padding|padding-[a-z-]+|margin|margin-[a-z-]+|top|left|right|bottom|inset[a-z-]*|flex-basis|font-size|line-height)$/;
 
 for (const e of entries) {
@@ -57,6 +79,12 @@ for (const e of entries) {
       if (/background(?:-color)?\s*:\s*var\(--ink\b/.test(blk) && /(^|[;{\s])color\s*:\s*#fff\b/.test(blk)) problems.push(`${e.id}: white text on var(--ink) in "${sel}", use color:var(--bg)`);
       if (/background(?:-color|-image)?\s*:[^;]*var\(--accent\)/.test(blk) && /(^|[;{\s])color\s*:\s*#fff\b/.test(blk)) problems.push(`${e.id}: white text on var(--accent) in "${sel}", use color:var(--accent-ink)`);
     }
+  }
+  // 4) סולם הריווחים, רק במהלכים לשימוש חוזר (עורות ותורה מדגימים ולא מיובאים)
+  if (REUSABLE.has(e.cat)) {
+    const hits = offScale(css), base = spacingBase[e.id];
+    if (base === undefined && hits.length) problems.push(`${e.id}: ${hits.length} spacing values off the scale (new entry must be on scale) -> ${hits.slice(0, 6).join(", ")}`);
+    else if (base !== undefined && hits.length > base) problems.push(`${e.id}: spacing debt grew ${base} -> ${hits.length} -> ${hits.slice(0, 6).join(", ")}`);
   }
   // 3) transition על תכונות layout. grid-template-rows מותר (האקורדיון הדוקטרינרי). מנוס: /* qa-allow: layout */ באותו ערך.
   for (const m of css.matchAll(/transition\s*:\s*([^;}`]*)/g)) {

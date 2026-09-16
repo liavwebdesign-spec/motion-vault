@@ -6,7 +6,7 @@ export default [
   desc:"כל שאלה נראית כמו הודעה שנשלחה, והתשובה נכנסת כהודעת תגובה עם תמונת פרופיל. הפלוס מסתובב לאיקס, השאלה הפתוחה נצבעת בצבע המותג, ורק אחת פתוחה בכל רגע.",
   when:"סקשן שאלות נפוצות באתר של נותן שירות, קליניקה, יועץ או קורס: כל עסק שבו הלקוח קונה אדם ולא מוצר. התמונה בתגובה היא בעל העסק, וזה הופך רשימה יבשה לשיחה. באתר תאגידי או במפרט טכני עדיף האקורדיון הרגיל (b30).",
   libs:[],
-  css:`.cq{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,6vw,110px);align-items:start;max-width:min(1180px,94vw);margin-inline:auto}
+  css:`.cq{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,6vw,112px);align-items:start;max-width:min(1180px,94vw);margin-inline:auto}
 .cq-side{position:sticky;top:clamp(80px,12vh,140px)}
 .cq-side h3{font-size:clamp(30px,3.6vw,54px);line-height:1.1;margin:0 0 16px;font-weight:400}
 .cq-side h3 b{font-weight:800;display:block}
@@ -15,7 +15,7 @@ export default [
 .cq-item{display:flex;flex-direction:column;align-items:flex-start}
 /* השאלה: הודעה שנשלחה. יושבת בצד ההתחלה (ימין בעברית) עם פינה חדה אחת בצד השולח */
 .cq-q{display:inline-flex;align-items:center;gap:12px;max-width:100%;background:none;border:0;padding:4px 0;font:inherit;text-align:start;cursor:pointer;color:inherit}
-.cq-txt{padding:16px 26px;border-radius:30px 6px 30px 30px;background:var(--ink);color:var(--bg);font-size:clamp(16px,1.4vw,19px);font-weight:600;line-height:1.4;
+.cq-txt{padding:16px 24px;border-radius:30px 6px 30px 30px;background:var(--ink);color:var(--bg);font-size:clamp(16px,1.4vw,19px);font-weight:600;line-height:1.4;
   box-shadow:0 14px 30px -18px color-mix(in srgb,var(--ink) 60%,transparent);transition:background-color .3s,color .3s,transform .3s cubic-bezier(.2,.6,.2,1)}
 .cq-mark{flex:none;width:44px;height:44px;border-radius:50%;background:var(--ink);position:relative;transition:background-color .3s,transform .4s cubic-bezier(.2,.6,.2,1)}
 .cq-mark::before,.cq-mark::after{content:"";position:absolute;inset:50% 13px auto;height:2px;margin-top:-1px;border-radius:2px;background:var(--bg)}
@@ -30,7 +30,7 @@ export default [
 .cq-a{display:grid;grid-template-rows:0fr;width:100%;transition:grid-template-rows .42s cubic-bezier(.2,.6,.2,1)}
 .cq-item.open .cq-a{grid-template-rows:1fr}
 .cq-a>div{overflow:hidden}
-.cq-reply{display:flex;align-items:flex-end;gap:12px;justify-content:flex-end;padding:10px 4px 26px;
+.cq-reply{display:flex;align-items:flex-end;gap:12px;justify-content:flex-end;padding:10px 4px 28px;
   opacity:0;transform:translateY(12px) scale(.97);transform-origin:left bottom;transition:opacity .25s,transform .25s cubic-bezier(.2,.6,.2,1)}
 .cq-item.open .cq-reply{opacity:1;transform:none;transition:opacity .35s .12s,transform .45s .12s cubic-bezier(.2,.6,.2,1)}
 .cq-bub{max-width:min(560px,100%);background:var(--card);color:var(--ink);border:1px solid var(--line);padding:18px 24px;
@@ -72,7 +72,7 @@ export default [
   set(items[0],true); // השאלה הראשונה פתוחה, כדי שהגולש יבין מיד שזו שיחה ולא רשימה
 })();`,
   runway:false,
-  note:"שלוש החלטות שעושות את זה שיחה ולא אקורדיון צבוע: (1) שני צדדים. השאלה בצד ההתחלה והתשובה בצד השני, כל אחת עם פינה חדה אחת בצד הדובר. (2) תמונה אמיתית של בעל העסק בתשובה. בלי תמונה זה שוב רשימה. (3) לעטיפה של הבועה ריפוד תחתון של 26 פיקסלים: ה-overflow:hidden שמאפשר את פתיחת הגובה חותך גם את הצל, ובלי הריפוד מופיע קו חד מתחת לכל תשובה. (4) הבועה נכנסת 120 מילישניות אחרי שהשורה מתחילה להיפתח, כך שהגובה נפתח קודם והתוכן נוחת לתוכו. בלי העיכוב הבועה קופצת בתוך קופסה שעוד לא קיימת. הגובה עצמו ב-grid-template-rows מ-0fr ל-1fr, כמו ב-b30. ויתרנו במודע על נקודות הקלדה: הן נחמדות בפעם הראשונה ומעכבות את התשובה בכל פעם אחרי זה.",
+  note:"שלוש החלטות שעושות את זה שיחה ולא אקורדיון צבוע: (1) שני צדדים. השאלה בצד ההתחלה והתשובה בצד השני, כל אחת עם פינה חדה אחת בצד הדובר. (2) תמונה אמיתית של בעל העסק בתשובה. בלי תמונה זה שוב רשימה. (3) לעטיפה של הבועה ריפוד תחתון של 28 פיקסלים (ערך סולם): ה-overflow:hidden שמאפשר את פתיחת הגובה חותך גם את הצל, ובלי הריפוד מופיע קו חד מתחת לכל תשובה. (4) הבועה נכנסת 120 מילישניות אחרי שהשורה מתחילה להיפתח, כך שהגובה נפתח קודם והתוכן נוחת לתוכו. בלי העיכוב הבועה קופצת בתוך קופסה שעוד לא קיימת. הגובה עצמו ב-grid-template-rows מ-0fr ל-1fr, כמו ב-b30. ויתרנו במודע על נקודות הקלדה: הן נחמדות בפעם הראשונה ומעכבות את התשובה בכל פעם אחרי זה.",
 },
 {
   id:"b64", cat:"behavior", name:"תגיות שמצביעות על המסר המרכזי", tech:"vanilla JS · IntersectionObserver · CSS", status:"ממתין",
@@ -90,7 +90,7 @@ export default [
 /* הנדנוד על עטיפה פנימית, כדי שלא יתנגש ב-transform של הכניסה */
 .aim-bob{display:block;animation:aim-bob var(--d,5s) ease-in-out infinite alternate;animation-delay:calc(var(--i) * -900ms)}
 .aim-pill{display:block;white-space:nowrap;background:var(--accent);color:var(--accent-ink);font-weight:700;font-size:clamp(15px,1.35vw,19px);
-  padding:12px 22px;border-radius:999px;box-shadow:0 12px 26px -14px color-mix(in srgb,var(--accent) 80%,transparent);transition:transform .3s cubic-bezier(.2,.6,.2,1)}
+  padding:12px 24px;border-radius:999px;box-shadow:0 12px 26px -14px color-mix(in srgb,var(--accent) 80%,transparent);transition:transform .3s cubic-bezier(.2,.6,.2,1)}
 .aim-chip:hover .aim-pill{transform:translateY(-3px)}
 .aim-ptr{position:absolute;left:0;top:0;width:20px;height:18px;background:var(--accent);clip-path:polygon(100% 50%,0 0,22% 50%,0 100%);
   transform:translate(var(--px,0),var(--py,0)) translate(-50%,-50%) rotate(var(--a,0deg))}
@@ -158,11 +158,11 @@ export default [
 .lgm-bar{display:flex;gap:8px;justify-content:center;margin-bottom:10px}
 .lgm-bar button{font:inherit;font-size:14px;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;transition:background-color .25s,color .25s}
 .lgm-bar button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
-.lgm-strip{border-radius:var(--r);padding:clamp(26px,3.4vw,46px) clamp(18px,3vw,40px);background:var(--bg);color:var(--ink);border:1px solid var(--line);
+.lgm-strip{border-radius:var(--r);padding:clamp(24px,3.4vw,48px) clamp(18px,3vw,40px);background:var(--bg);color:var(--ink);border:1px solid var(--line);
   transition:background-color .6s cubic-bezier(.2,.6,.2,1),color .6s cubic-bezier(.2,.6,.2,1)}
 .lgm-strip[data-tone="ink"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .lgm-strip[data-tone="accent"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.lgm-strip small{display:block;text-align:center;font-size:13px;letter-spacing:.14em;opacity:.7;margin-bottom:22px}
+.lgm-strip small{display:block;text-align:center;font-size:13px;letter-spacing:.14em;opacity:.7;margin-bottom:24px}
 .lgm-row{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(16px,3vw,48px);align-items:center}
 /* הלב: הלוגו הוא מסכה, והצבע הוא currentColor. הקובץ המקורי יכול להיות בכל צבע, רק שקיפות קובעת */
 .lgm-logo{display:block;height:clamp(26px,3vw,40px);background:currentColor;opacity:.72;
@@ -171,7 +171,7 @@ export default [
 .lgm-orig{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(16px,3vw,48px);align-items:center;padding:0 clamp(18px,3vw,40px)}
 .lgm-orig img{height:clamp(22px,2.6vw,34px);width:100%;object-fit:contain}
 .lgm-cap{font-size:13px;color:var(--muted);text-align:center;margin:4px 0 0}
-@media (max-width:700px){.lgm-row,.lgm-orig{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:26px}}
+@media (max-width:700px){.lgm-row,.lgm-orig{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:24px}}
 @media (prefers-reduced-motion: reduce){.lgm-strip{transition-duration:.01ms}}`,
   html:`<div class="stage tight"><div class="lgm">
   <div class="lgm-bar" role="group" aria-label="רקע הרצועה">
