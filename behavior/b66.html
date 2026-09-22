@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B66 · מגירת מובייל עם אקורדיון וכניסה מדורגת | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.mdh{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:12px var(--gutter);min-height:64px;background:var(--card);border-bottom:1px solid var(--line)}
+.mdh-body{padding:var(--sec) var(--gutter);max-width:60ch;margin-inline:auto;color:var(--muted)}
+
+/* ---- mobile drawer (shared by b65 and b66) ---- */
+.md{position:fixed;inset:0;z-index:60;visibility:hidden;transition:visibility 0s linear .44s}
+.md.open{visibility:visible;transition-delay:0s}
+.md-scrim{position:absolute;inset:0;background:color-mix(in srgb,var(--ink) 48%,transparent);opacity:0;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}
+.md.open .md-scrim{opacity:1}
+.md-panel{position:absolute;inset-block:0;inset-inline-start:0;width:min(86vw,380px);background:var(--card);color:var(--ink);
+  display:flex;flex-direction:column;overflow:auto;padding:18px 24px 32px;box-shadow:0 0 48px color-mix(in srgb,var(--ink) 18%,transparent);
+  transform:translateX(100%);transition:transform .44s cubic-bezier(.76,0,.24,1)}
+[dir="ltr"] .md-panel{transform:translateX(-100%)}
+.md.open .md-panel{transform:none}
+.md-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.md-close{width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:none;color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:border-color .18s cubic-bezier(.2,.6,.2,1),transform .44s cubic-bezier(.76,0,.24,1)}
+.md.open .md-close{transform:rotate(90deg)}
+.md-close svg{width:18px;height:18px}
+.md-list{list-style:none;margin:0;padding:8px 0 0}
+.md-item{border-bottom:1px solid var(--line);opacity:0;transform:translateY(12px);
+  transition:opacity .18s cubic-bezier(.2,.6,.2,1),transform .18s cubic-bezier(.2,.6,.2,1)}
+.md.open .md-item{opacity:1;transform:none;transition-duration:.4s,.4s;transition-delay:calc(.14s + var(--i) * 45ms)}
+.md-link,.md-acc{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:56px;padding:12px 0;
+  font:inherit;font-size:18px;font-weight:600;color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;text-align:start;transition:color .15s cubic-bezier(.2,.6,.2,1)}
+/* chevron: physical borders on purpose, a logical inline-end flips it sideways in RTL */
+.md-acc i{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .3s cubic-bezier(.2,.6,.2,1)}
+.md-acc[aria-expanded="true"]{color:var(--accent)}
+.md-acc[aria-expanded="true"] i{transform:rotate(225deg) translateY(-2px)}
+.md-sub{display:grid;grid-template-rows:0fr;transition:grid-template-rows .32s cubic-bezier(.2,.6,.2,1)}
+.md-sub.open{grid-template-rows:1fr}
+.md-sub>div{overflow:hidden}
+.md-sub h5{margin:8px 0 4px;font-size:13px;font-weight:600;color:var(--accent)}
+.md-sub a{display:block;padding:10px 16px;font-size:15px;color:var(--muted);text-decoration:none;opacity:0;transform:translateX(8px);
+  transition:opacity .2s cubic-bezier(.2,.6,.2,1),transform .2s cubic-bezier(.2,.6,.2,1),color .15s cubic-bezier(.2,.6,.2,1)}
+[dir="ltr"] .md-sub a{transform:translateX(-8px)}
+.md-sub.open a{opacity:1;transform:none;transition-delay:calc(var(--j) * 30ms)}
+.md-sub>div>:last-child{margin-bottom:12px}
+.md-cta{margin-top:24px;opacity:0;transform:translateY(12px);transition:opacity .18s,transform .18s}
+.md.open .md-cta{opacity:1;transform:none;transition:opacity .4s cubic-bezier(.2,.6,.2,1) .42s,transform .4s cubic-bezier(.2,.6,.2,1) .42s}
+.md-cta a{display:flex;justify-content:center;align-items:center;min-height:52px;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
+@media (hover:hover) and (pointer:fine){.md-link:hover,.md-acc:hover,.md-sub a:hover{color:var(--accent)}.md-close:hover{border-color:var(--ink)}}
+.burger{width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:none;display:grid;place-content:center;gap:4px;cursor:pointer}
+.burger i{display:block;width:18px;height:2px;background:var(--ink);border-radius:2px;transition:transform .36s cubic-bezier(.76,0,.24,1),opacity .2s}
+.burger[aria-expanded="true"] i:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] i:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media (prefers-reduced-motion:reduce){.md,.md *{transition-duration:.01ms!important;transition-delay:0s!important}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">B66</span> · מגירת מובייל עם אקורדיון וכניסה מדורגת</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">CSS · JS</span>
+  <span class="chip use">ניווט ומבנה</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b66"><code>MV:b66</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>ההמבורגר הופך ל-X, המגירה נוסעת מהצד, השורות נכנסות אחת אחרי השנייה, ותת-תפריט נפתח כאקורדיון בתוך המגירה. ביציאה הכל חוזר מהר ובלי דירוג.</p>
+  <p class="when"><b>מתי משתמשים:</b> כל אתר עם יותר מחמישה פריטי תפריט או עם תת-תפריט (מגה תפריט בדסקטופ). משתלב עם כל תפריט דסקטופ: b39, b55, b65.</p>
+  <div class="mvpanel" data-mvpanel="b66"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<header class="mdh"><strong>לוגו</strong><button class="burger" type="button" aria-label="פתיחת תפריט" aria-expanded="false" aria-controls="md66"><i></i><i></i><i></i></button></header>
+
+<div class="md" id="md66">
+  <div class="md-scrim"></div>
+  <nav class="md-panel" aria-label="תפריט">
+    <div class="md-top"><strong>לוגו</strong>
+      <button class="md-close" type="button" aria-label="סגירת תפריט"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <ul class="md-list">
+      <li class="md-item"><a class="md-link" href="#">ראשי</a></li>
+      <li class="md-item"><button class="md-acc" type="button" aria-expanded="false">פתרונות ושירותים <i aria-hidden="true"></i></button>
+        <div class="md-sub"><div>
+          <h5>לעסק</h5><a href="#">תמיכת IT שוטפת</a><a href="#">ענן וגיבוי</a><a href="#">אבטחת מידע</a><a href="#">רשת ו-Wi-Fi</a>
+          <h5>לבית</h5><a href="#">נקודות רשת ו-Wi-Fi</a><a href="#">מצלמות ואזעקה</a><a href="#">בית חכם</a><a href="#">סאונד ומולטימדיה</a>
+        </div></div></li>
+      <li class="md-item"><a class="md-link" href="#">פרויקטים</a></li>
+      <li class="md-item"><a class="md-link" href="#">אודות</a></li>
+      <li class="md-item"><a class="md-link" href="#">מאמרים וטיפים</a></li>
+      <li class="md-item"><a class="md-link" href="#">צור קשר</a></li>
+    </ul>
+    <div class="md-cta"><a href="#">לקבלת הצעת מחיר</a></div>
+  </nav>
+</div>
+<div class="mdh-body"><p>לחץ על ההמבורגר, ואז על "פתרונות ושירותים" כדי לפתוח את האקורדיון. סגירה בלחיצה על הרקע, על X, או ב-Escape.</p><p style="height:120vh"></p></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note">החלק שחסר כמעט בכל אתר: אנימציית יציאה. visibility עם השהיה של משך המעבר שומר את המגירה גלויה עד שהיא יוצאת, ורק אז מסתיר; display:none במקום זה הורג את היציאה ואת הכניסה (זה מה שקרה בפרופיקס). ה-easing של הנסיעה הוא in-out, כי ease-out על נסיעה של מסך שלם נראה כמו זריקה. השורות נכנסות עם --i ב-45 מילישניות, והיציאה קצרה ובלי דירוג. נגישות: inert על הפאנל כשסגור, מלכודת פוקוס, Escape, החזרת פוקוס לכפתור, ונעילת גלילה שמחזירה את רוחב פס הגלילה. תת-התפריט נסגר כשהמגירה נסגרת, כדי שבפתיחה הבאה היא תתחיל נקייה.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b66.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* B66 · מגירת מובייל עם אקורדיון וכניסה מדורגת */
+.mdh{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:12px var(--gutter, clamp(24px, 5vw, 96px));min-height:64px;background:var(--card, #fff);border-bottom:1px solid var(--line, #e4e4ee)}
+.mdh-body{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));max-width:60ch;margin-inline:auto;color:var(--muted, #6a6d85)}
+
+/* ---- mobile drawer (shared by b65 and b66) ---- */
+.md{position:fixed;inset:0;z-index:60;visibility:hidden;transition:visibility 0s linear .44s}
+.md.open{visibility:visible;transition-delay:0s}
+.md-scrim{position:absolute;inset:0;background:color-mix(in srgb,var(--ink, #16182b) 48%,transparent);opacity:0;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}
+.md.open .md-scrim{opacity:1}
+.md-panel{position:absolute;inset-block:0;inset-inline-start:0;width:min(86vw,380px);background:var(--card, #fff);color:var(--ink, #16182b);
+  display:flex;flex-direction:column;overflow:auto;padding:18px 24px 32px;box-shadow:0 0 48px color-mix(in srgb,var(--ink, #16182b) 18%,transparent);
+  transform:translateX(100%);transition:transform .44s cubic-bezier(.76,0,.24,1)}
+[dir="ltr"] .md-panel{transform:translateX(-100%)}
+.md.open .md-panel{transform:none}
+.md-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--line, #e4e4ee)}
+.md-close{width:44px;height:44px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:none;color:var(--ink, #16182b);display:grid;place-items:center;cursor:pointer;transition:border-color .18s cubic-bezier(.2,.6,.2,1),transform .44s cubic-bezier(.76,0,.24,1)}
+.md.open .md-close{transform:rotate(90deg)}
+.md-close svg{width:18px;height:18px}
+.md-list{list-style:none;margin:0;padding:8px 0 0}
+.md-item{border-bottom:1px solid var(--line, #e4e4ee);opacity:0;transform:translateY(12px);
+  transition:opacity .18s cubic-bezier(.2,.6,.2,1),transform .18s cubic-bezier(.2,.6,.2,1)}
+.md.open .md-item{opacity:1;transform:none;transition-duration:.4s,.4s;transition-delay:calc(.14s + var(--i) * 45ms)}
+.md-link,.md-acc{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:56px;padding:12px 0;
+  font:inherit;font-size:18px;font-weight:600;color:var(--ink, #16182b);text-decoration:none;background:none;border:0;cursor:pointer;text-align:start;transition:color .15s cubic-bezier(.2,.6,.2,1)}
+/* chevron: physical borders on purpose, a logical inline-end flips it sideways in RTL */
+.md-acc i{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .3s cubic-bezier(.2,.6,.2,1)}
+.md-acc[aria-expanded="true"]{color:var(--accent, #4a3aff)}
+.md-acc[aria-expanded="true"] i{transform:rotate(225deg) translateY(-2px)}
+.md-sub{display:grid;grid-template-rows:0fr;transition:grid-template-rows .32s cubic-bezier(.2,.6,.2,1)}
+.md-sub.open{grid-template-rows:1fr}
+.md-sub&gt;div{overflow:hidden}
+.md-sub h5{margin:8px 0 4px;font-size:13px;font-weight:600;color:var(--accent, #4a3aff)}
+.md-sub a{display:block;padding:10px 16px;font-size:15px;color:var(--muted, #6a6d85);text-decoration:none;opacity:0;transform:translateX(8px);
+  transition:opacity .2s cubic-bezier(.2,.6,.2,1),transform .2s cubic-bezier(.2,.6,.2,1),color .15s cubic-bezier(.2,.6,.2,1)}
+[dir="ltr"] .md-sub a{transform:translateX(-8px)}
+.md-sub.open a{opacity:1;transform:none;transition-delay:calc(var(--j) * 30ms)}
+.md-sub&gt;div&gt;:last-child{margin-bottom:12px}
+.md-cta{margin-top:24px;opacity:0;transform:translateY(12px);transition:opacity .18s,transform .18s}
+.md.open .md-cta{opacity:1;transform:none;transition:opacity .4s cubic-bezier(.2,.6,.2,1) .42s,transform .4s cubic-bezier(.2,.6,.2,1) .42s}
+.md-cta a{display:flex;justify-content:center;align-items:center;min-height:52px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:600;text-decoration:none}
+@media (hover:hover) and (pointer:fine){.md-link:hover,.md-acc:hover,.md-sub a:hover{color:var(--accent, #4a3aff)}.md-close:hover{border-color:var(--ink, #16182b)}}
+.burger{width:44px;height:44px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:none;display:grid;place-content:center;gap:4px;cursor:pointer}
+.burger i{display:block;width:18px;height:2px;background:var(--ink, #16182b);border-radius:2px;transition:transform .36s cubic-bezier(.76,0,.24,1),opacity .2s}
+.burger[aria-expanded="true"] i:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] i:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media (prefers-reduced-motion:reduce){.md,.md *{transition-duration:.01ms!important;transition-delay:0s!important}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;header class="mdh"&gt;&lt;strong&gt;לוגו&lt;/strong&gt;&lt;button class="burger" type="button" aria-label="פתיחת תפריט" aria-expanded="false" aria-controls="md66"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/button&gt;&lt;/header&gt;
+
+&lt;div class="md" id="md66"&gt;
+  &lt;div class="md-scrim"&gt;&lt;/div&gt;
+  &lt;nav class="md-panel" aria-label="תפריט"&gt;
+    &lt;div class="md-top"&gt;&lt;strong&gt;לוגו&lt;/strong&gt;
+      &lt;button class="md-close" type="button" aria-label="סגירת תפריט"&gt;&lt;svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"&gt;&lt;path d="M18 6 6 18M6 6l12 12"/&gt;&lt;/svg&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;ul class="md-list"&gt;
+      &lt;li class="md-item"&gt;&lt;a class="md-link" href="#"&gt;ראשי&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="md-item"&gt;&lt;button class="md-acc" type="button" aria-expanded="false"&gt;פתרונות ושירותים &lt;i aria-hidden="true"&gt;&lt;/i&gt;&lt;/button&gt;
+        &lt;div class="md-sub"&gt;&lt;div&gt;
+          &lt;h5&gt;לעסק&lt;/h5&gt;&lt;a href="#"&gt;תמיכת IT שוטפת&lt;/a&gt;&lt;a href="#"&gt;ענן וגיבוי&lt;/a&gt;&lt;a href="#"&gt;אבטחת מידע&lt;/a&gt;&lt;a href="#"&gt;רשת ו-Wi-Fi&lt;/a&gt;
+          &lt;h5&gt;לבית&lt;/h5&gt;&lt;a href="#"&gt;נקודות רשת ו-Wi-Fi&lt;/a&gt;&lt;a href="#"&gt;מצלמות ואזעקה&lt;/a&gt;&lt;a href="#"&gt;בית חכם&lt;/a&gt;&lt;a href="#"&gt;סאונד ומולטימדיה&lt;/a&gt;
+        &lt;/div&gt;&lt;/div&gt;&lt;/li&gt;
+      &lt;li class="md-item"&gt;&lt;a class="md-link" href="#"&gt;פרויקטים&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="md-item"&gt;&lt;a class="md-link" href="#"&gt;אודות&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="md-item"&gt;&lt;a class="md-link" href="#"&gt;מאמרים וטיפים&lt;/a&gt;&lt;/li&gt;
+      &lt;li class="md-item"&gt;&lt;a class="md-link" href="#"&gt;צור קשר&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div class="md-cta"&gt;&lt;a href="#"&gt;לקבלת הצעת מחיר&lt;/a&gt;&lt;/div&gt;
+  &lt;/nav&gt;
+&lt;/div&gt;
+&lt;div class="mdh-body"&gt;&lt;p&gt;לחץ על ההמבורגר, ואז על "פתרונות ושירותים" כדי לפתוח את האקורדיון. סגירה בלחיצה על הרקע, על X, או ב-Escape.&lt;/p&gt;&lt;p style="height:120vh"&gt;&lt;/p&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>function drawer(root, burger){
+  const panel=root.querySelector(".md-panel"), scrim=root.querySelector(".md-scrim"), closeBtn=root.querySelector(".md-close");
+  const doc=document.documentElement; let last=null;
+  // numbering for the stagger: every top-level row and every sub link gets its own index
+  root.querySelectorAll(".md-item").forEach((el,i)=&gt;el.style.setProperty("--i",i));
+  root.querySelectorAll(".md-sub").forEach(s=&gt;s.querySelectorAll("a").forEach((a,j)=&gt;a.style.setProperty("--j",j)));
+  panel.inert=true;
+  function set(open){
+    root.classList.toggle("open",open);
+    panel.inert=!open;
+    if(burger) burger.setAttribute("aria-expanded",String(open));
+    // scroll lock without a jump: give the scrollbar width back as padding
+    const sb=innerWidth-doc.clientWidth;
+    document.body.style.overflow=open?"hidden":"";
+    document.body.style.paddingInlineEnd=open&amp;&amp;sb&gt;0?sb+"px":"";
+    if(open){last=document.activeElement;setTimeout(()=&gt;closeBtn.focus(),180);}
+    else{root.querySelectorAll(".md-sub.open").forEach(s=&gt;toggleSub(s.previousElementSibling,false)); if(last)last.focus();}
+  }
+  function toggleSub(btn,force){
+    const sub=btn.nextElementSibling, open=force!==undefined?force:!sub.classList.contains("open");
+    sub.classList.toggle("open",open); btn.setAttribute("aria-expanded",String(open));
+    sub.querySelectorAll("a").forEach(a=&gt;a.tabIndex=open?0:-1);
+  }
+  root.querySelectorAll(".md-acc").forEach(b=&gt;{toggleSub(b,false);b.addEventListener("click",()=&gt;toggleSub(b));});
+  if(burger) burger.addEventListener("click",()=&gt;set(!root.classList.contains("open")));
+  closeBtn.addEventListener("click",()=&gt;set(false));
+  scrim.addEventListener("click",()=&gt;set(false));
+  root.querySelectorAll("a").forEach(a=&gt;a.addEventListener("click",()=&gt;set(false)));
+  addEventListener("keydown",e=&gt;{
+    if(!root.classList.contains("open"))return;
+    if(e.key==="Escape"){set(false);return;}
+    if(e.key!=="Tab")return;
+    // focus trap: tab cycles inside the drawer
+    const f=[...panel.querySelectorAll("a,button")].filter(x=&gt;x.tabIndex!==-1&amp;&amp;x.offsetParent!==null);
+    const i=f.indexOf(document.activeElement);
+    const n=e.shiftKey?(i&lt;=0?f.length-1:i-1):(i===f.length-1?0:i+1);
+    e.preventDefault(); f[n].focus();
+  });
+  return set;
+}
+drawer(document.getElementById("md66"), document.querySelector(".mdh .burger"));</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b66 · מגירת מובייל עם אקורדיון וכניסה מדורגת\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b66.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b66.html\n\nמה זה עושה: ההמבורגר הופך ל-X, המגירה נוסעת מהצד, השורות נכנסות אחת אחרי השנייה, ותת-תפריט נפתח כאקורדיון בתוך המגירה. ביציאה הכל חוזר מהר ובלי דירוג.\nמתי משתמשים: כל אתר עם יותר מחמישה פריטי תפריט או עם תת-תפריט (מגה תפריט בדסקטופ). משתלב עם כל תפריט דסקטופ: b39, b55, b65.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* B66 · מגירת מובייל עם אקורדיון וכניסה מדורגת */\n.mdh{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:12px var(--gutter, clamp(24px, 5vw, 96px));min-height:64px;background:var(--card, #fff);border-bottom:1px solid var(--line, #e4e4ee)}\n.mdh-body{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));max-width:60ch;margin-inline:auto;color:var(--muted, #6a6d85)}\n\n/* ---- mobile drawer (shared by b65 and b66) ---- */\n.md{position:fixed;inset:0;z-index:60;visibility:hidden;transition:visibility 0s linear .44s}\n.md.open{visibility:visible;transition-delay:0s}\n.md-scrim{position:absolute;inset:0;background:color-mix(in srgb,var(--ink, #16182b) 48%,transparent);opacity:0;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}\n.md.open .md-scrim{opacity:1}\n.md-panel{position:absolute;inset-block:0;inset-inline-start:0;width:min(86vw,380px);background:var(--card, #fff);color:var(--ink, #16182b);\n  display:flex;flex-direction:column;overflow:auto;padding:18px 24px 32px;box-shadow:0 0 48px color-mix(in srgb,var(--ink, #16182b) 18%,transparent);\n  transform:translateX(100%);transition:transform .44s cubic-bezier(.76,0,.24,1)}\n[dir=\"ltr\"] .md-panel{transform:translateX(-100%)}\n.md.open .md-panel{transform:none}\n.md-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--line, #e4e4ee)}\n.md-close{width:44px;height:44px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:none;color:var(--ink, #16182b);display:grid;place-items:center;cursor:pointer;transition:border-color .18s cubic-bezier(.2,.6,.2,1),transform .44s cubic-bezier(.76,0,.24,1)}\n.md.open .md-close{transform:rotate(90deg)}\n.md-close svg{width:18px;height:18px}\n.md-list{list-style:none;margin:0;padding:8px 0 0}\n.md-item{border-bottom:1px solid var(--line, #e4e4ee);opacity:0;transform:translateY(12px);\n  transition:opacity .18s cubic-bezier(.2,.6,.2,1),transform .18s cubic-bezier(.2,.6,.2,1)}\n.md.open .md-item{opacity:1;transform:none;transition-duration:.4s,.4s;transition-delay:calc(.14s + var(--i) * 45ms)}\n.md-link,.md-acc{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:56px;padding:12px 0;\n  font:inherit;font-size:18px;font-weight:600;color:var(--ink, #16182b);text-decoration:none;background:none;border:0;cursor:pointer;text-align:start;transition:color .15s cubic-bezier(.2,.6,.2,1)}\n/* chevron: physical borders on purpose, a logical inline-end flips it sideways in RTL */\n.md-acc i{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .3s cubic-bezier(.2,.6,.2,1)}\n.md-acc[aria-expanded=\"true\"]{color:var(--accent, #4a3aff)}\n.md-acc[aria-expanded=\"true\"] i{transform:rotate(225deg) translateY(-2px)}\n.md-sub{display:grid;grid-template-rows:0fr;transition:grid-template-rows .32s cubic-bezier(.2,.6,.2,1)}\n.md-sub.open{grid-template-rows:1fr}\n.md-sub>div{overflow:hidden}\n.md-sub h5{margin:8px 0 4px;font-size:13px;font-weight:600;color:var(--accent, #4a3aff)}\n.md-sub a{display:block;padding:10px 16px;font-size:15px;color:var(--muted, #6a6d85);text-decoration:none;opacity:0;transform:translateX(8px);\n  transition:opacity .2s cubic-bezier(.2,.6,.2,1),transform .2s cubic-bezier(.2,.6,.2,1),color .15s cubic-bezier(.2,.6,.2,1)}\n[dir=\"ltr\"] .md-sub a{transform:translateX(-8px)}\n.md-sub.open a{opacity:1;transform:none;transition-delay:calc(var(--j) * 30ms)}\n.md-sub>div>:last-child{margin-bottom:12px}\n.md-cta{margin-top:24px;opacity:0;transform:translateY(12px);transition:opacity .18s,transform .18s}\n.md.open .md-cta{opacity:1;transform:none;transition:opacity .4s cubic-bezier(.2,.6,.2,1) .42s,transform .4s cubic-bezier(.2,.6,.2,1) .42s}\n.md-cta a{display:flex;justify-content:center;align-items:center;min-height:52px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:600;text-decoration:none}\n@media (hover:hover) and (pointer:fine){.md-link:hover,.md-acc:hover,.md-sub a:hover{color:var(--accent, #4a3aff)}.md-close:hover{border-color:var(--ink, #16182b)}}\n.burger{width:44px;height:44px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:none;display:grid;place-content:center;gap:4px;cursor:pointer}\n.burger i{display:block;width:18px;height:2px;background:var(--ink, #16182b);border-radius:2px;transition:transform .36s cubic-bezier(.76,0,.24,1),opacity .2s}\n.burger[aria-expanded=\"true\"] i:nth-child(1){transform:translateY(6px) rotate(45deg)}\n.burger[aria-expanded=\"true\"] i:nth-child(2){opacity:0}\n.burger[aria-expanded=\"true\"] i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}\n@media (prefers-reduced-motion:reduce){.md,.md *{transition-duration:.01ms!important;transition-delay:0s!important}}\n\n=== HTML ===\n<header class=\"mdh\"><strong>לוגו<\/strong><button class=\"burger\" type=\"button\" aria-label=\"פתיחת תפריט\" aria-expanded=\"false\" aria-controls=\"md66\"><i><\/i><i><\/i><i><\/i><\/button><\/header>\n\n<div class=\"md\" id=\"md66\">\n  <div class=\"md-scrim\"><\/div>\n  <nav class=\"md-panel\" aria-label=\"תפריט\">\n    <div class=\"md-top\"><strong>לוגו<\/strong>\n      <button class=\"md-close\" type=\"button\" aria-label=\"סגירת תפריט\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"><path d=\"M18 6 6 18M6 6l12 12\"/><\/svg><\/button>\n    <\/div>\n    <ul class=\"md-list\">\n      <li class=\"md-item\"><a class=\"md-link\" href=\"#\">ראשי<\/a><\/li>\n      <li class=\"md-item\"><button class=\"md-acc\" type=\"button\" aria-expanded=\"false\">פתרונות ושירותים <i aria-hidden=\"true\"><\/i><\/button>\n        <div class=\"md-sub\"><div>\n          <h5>לעסק<\/h5><a href=\"#\">תמיכת IT שוטפת<\/a><a href=\"#\">ענן וגיבוי<\/a><a href=\"#\">אבטחת מידע<\/a><a href=\"#\">רשת ו-Wi-Fi<\/a>\n          <h5>לבית<\/h5><a href=\"#\">נקודות רשת ו-Wi-Fi<\/a><a href=\"#\">מצלמות ואזעקה<\/a><a href=\"#\">בית חכם<\/a><a href=\"#\">סאונד ומולטימדיה<\/a>\n        <\/div><\/div><\/li>\n      <li class=\"md-item\"><a class=\"md-link\" href=\"#\">פרויקטים<\/a><\/li>\n      <li class=\"md-item\"><a class=\"md-link\" href=\"#\">אודות<\/a><\/li>\n      <li class=\"md-item\"><a class=\"md-link\" href=\"#\">מאמרים וטיפים<\/a><\/li>\n      <li class=\"md-item\"><a class=\"md-link\" href=\"#\">צור קשר<\/a><\/li>\n    <\/ul>\n    <div class=\"md-cta\"><a href=\"#\">לקבלת הצעת מחיר<\/a><\/div>\n  <\/nav>\n<\/div>\n<div class=\"mdh-body\"><p>לחץ על ההמבורגר, ואז על \"פתרונות ושירותים\" כדי לפתוח את האקורדיון. סגירה בלחיצה על הרקע, על X, או ב-Escape.<\/p><p style=\"height:120vh\"><\/p><\/div>\n\n=== JS ===\nfunction drawer(root, burger){\n  const panel=root.querySelector(\".md-panel\"), scrim=root.querySelector(\".md-scrim\"), closeBtn=root.querySelector(\".md-close\");\n  const doc=document.documentElement; let last=null;\n  // numbering for the stagger: every top-level row and every sub link gets its own index\n  root.querySelectorAll(\".md-item\").forEach((el,i)=>el.style.setProperty(\"--i\",i));\n  root.querySelectorAll(\".md-sub\").forEach(s=>s.querySelectorAll(\"a\").forEach((a,j)=>a.style.setProperty(\"--j\",j)));\n  panel.inert=true;\n  function set(open){\n    root.classList.toggle(\"open\",open);\n    panel.inert=!open;\n    if(burger) burger.setAttribute(\"aria-expanded\",String(open));\n    // scroll lock without a jump: give the scrollbar width back as padding\n    const sb=innerWidth-doc.clientWidth;\n    document.body.style.overflow=open?\"hidden\":\"\";\n    document.body.style.paddingInlineEnd=open&&sb>0?sb+\"px\":\"\";\n    if(open){last=document.activeElement;setTimeout(()=>closeBtn.focus(),180);}\n    else{root.querySelectorAll(\".md-sub.open\").forEach(s=>toggleSub(s.previousElementSibling,false)); if(last)last.focus();}\n  }\n  function toggleSub(btn,force){\n    const sub=btn.nextElementSibling, open=force!==undefined?force:!sub.classList.contains(\"open\");\n    sub.classList.toggle(\"open\",open); btn.setAttribute(\"aria-expanded\",String(open));\n    sub.querySelectorAll(\"a\").forEach(a=>a.tabIndex=open?0:-1);\n  }\n  root.querySelectorAll(\".md-acc\").forEach(b=>{toggleSub(b,false);b.addEventListener(\"click\",()=>toggleSub(b));});\n  if(burger) burger.addEventListener(\"click\",()=>set(!root.classList.contains(\"open\")));\n  closeBtn.addEventListener(\"click\",()=>set(false));\n  scrim.addEventListener(\"click\",()=>set(false));\n  root.querySelectorAll(\"a\").forEach(a=>a.addEventListener(\"click\",()=>set(false)));\n  addEventListener(\"keydown\",e=>{\n    if(!root.classList.contains(\"open\"))return;\n    if(e.key===\"Escape\"){set(false);return;}\n    if(e.key!==\"Tab\")return;\n    // focus trap: tab cycles inside the drawer\n    const f=[...panel.querySelectorAll(\"a,button\")].filter(x=>x.tabIndex!==-1&&x.offsetParent!==null);\n    const i=f.indexOf(document.activeElement);\n    const n=e.shiftKey?(i<=0?f.length-1:i-1):(i===f.length-1?0:i+1);\n    e.preventDefault(); f[n].focus();\n  });\n  return set;\n}\ndrawer(document.getElementById(\"md66\"), document.querySelector(\".mdh .burger\"));\n\nהערת מימוש מהמאגר:\nהחלק שחסר כמעט בכל אתר: אנימציית יציאה. visibility עם השהיה של משך המעבר שומר את המגירה גלויה עד שהיא יוצאת, ורק אז מסתיר; display:none במקום זה הורג את היציאה ואת הכניסה (זה מה שקרה בפרופיקס). ה-easing של הנסיעה הוא in-out, כי ease-out על נסיעה של מסך שלם נראה כמו זריקה. השורות נכנסות עם --i ב-45 מילישניות, והיציאה קצרה ובלי דירוג. נגישות: inert על הפאנל כשסגור, מלכודת פוקוס, Escape, החזרת פוקוס לכפתור, ונעילת גלילה שמחזירה את רוחב פס הגלילה. תת-התפריט נסגר כשהמגירה נסגרת, כדי שבפתיחה הבאה היא תתחיל נקייה.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* B66 · מגירת מובייל עם אקורדיון וכניסה מדורגת */\n.mdh{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:12px var(--gutter, clamp(24px, 5vw, 96px));min-height:64px;background:var(--card, #fff);border-bottom:1px solid var(--line, #e4e4ee)}\n.mdh-body{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));max-width:60ch;margin-inline:auto;color:var(--muted, #6a6d85)}\n\n/* ---- mobile drawer (shared by b65 and b66) ---- */\n.md{position:fixed;inset:0;z-index:60;visibility:hidden;transition:visibility 0s linear .44s}\n.md.open{visibility:visible;transition-delay:0s}\n.md-scrim{position:absolute;inset:0;background:color-mix(in srgb,var(--ink, #16182b) 48%,transparent);opacity:0;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}\n.md.open .md-scrim{opacity:1}\n.md-panel{position:absolute;inset-block:0;inset-inline-start:0;width:min(86vw,380px);background:var(--card, #fff);color:var(--ink, #16182b);\n  display:flex;flex-direction:column;overflow:auto;padding:18px 24px 32px;box-shadow:0 0 48px color-mix(in srgb,var(--ink, #16182b) 18%,transparent);\n  transform:translateX(100%);transition:transform .44s cubic-bezier(.76,0,.24,1)}\n[dir=\"ltr\"] .md-panel{transform:translateX(-100%)}\n.md.open .md-panel{transform:none}\n.md-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--line, #e4e4ee)}\n.md-close{width:44px;height:44px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:none;color:var(--ink, #16182b);display:grid;place-items:center;cursor:pointer;transition:border-color .18s cubic-bezier(.2,.6,.2,1),transform .44s cubic-bezier(.76,0,.24,1)}\n.md.open .md-close{transform:rotate(90deg)}\n.md-close svg{width:18px;height:18px}\n.md-list{list-style:none;margin:0;padding:8px 0 0}\n.md-item{border-bottom:1px solid var(--line, #e4e4ee);opacity:0;transform:translateY(12px);\n  transition:opacity .18s cubic-bezier(.2,.6,.2,1),transform .18s cubic-bezier(.2,.6,.2,1)}\n.md.open .md-item{opacity:1;transform:none;transition-duration:.4s,.4s;transition-delay:calc(.14s + var(--i) * 45ms)}\n.md-link,.md-acc{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:56px;padding:12px 0;\n  font:inherit;font-size:18px;font-weight:600;color:var(--ink, #16182b);text-decoration:none;background:none;border:0;cursor:pointer;text-align:start;transition:color .15s cubic-bezier(.2,.6,.2,1)}\n/* chevron: physical borders on purpose, a logical inline-end flips it sideways in RTL */\n.md-acc i{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .3s cubic-bezier(.2,.6,.2,1)}\n.md-acc[aria-expanded=\"true\"]{color:var(--accent, #4a3aff)}\n.md-acc[aria-expanded=\"true\"] i{transform:rotate(225deg) translateY(-2px)}\n.md-sub{display:grid;grid-template-rows:0fr;transition:grid-template-rows .32s cubic-bezier(.2,.6,.2,1)}\n.md-sub.open{grid-template-rows:1fr}\n.md-sub>div{overflow:hidden}\n.md-sub h5{margin:8px 0 4px;font-size:13px;font-weight:600;color:var(--accent, #4a3aff)}\n.md-sub a{display:block;padding:10px 16px;font-size:15px;color:var(--muted, #6a6d85);text-decoration:none;opacity:0;transform:translateX(8px);\n  transition:opacity .2s cubic-bezier(.2,.6,.2,1),transform .2s cubic-bezier(.2,.6,.2,1),color .15s cubic-bezier(.2,.6,.2,1)}\n[dir=\"ltr\"] .md-sub a{transform:translateX(-8px)}\n.md-sub.open a{opacity:1;transform:none;transition-delay:calc(var(--j) * 30ms)}\n.md-sub>div>:last-child{margin-bottom:12px}\n.md-cta{margin-top:24px;opacity:0;transform:translateY(12px);transition:opacity .18s,transform .18s}\n.md.open .md-cta{opacity:1;transform:none;transition:opacity .4s cubic-bezier(.2,.6,.2,1) .42s,transform .4s cubic-bezier(.2,.6,.2,1) .42s}\n.md-cta a{display:flex;justify-content:center;align-items:center;min-height:52px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:600;text-decoration:none}\n@media (hover:hover) and (pointer:fine){.md-link:hover,.md-acc:hover,.md-sub a:hover{color:var(--accent, #4a3aff)}.md-close:hover{border-color:var(--ink, #16182b)}}\n.burger{width:44px;height:44px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:none;display:grid;place-content:center;gap:4px;cursor:pointer}\n.burger i{display:block;width:18px;height:2px;background:var(--ink, #16182b);border-radius:2px;transition:transform .36s cubic-bezier(.76,0,.24,1),opacity .2s}\n.burger[aria-expanded=\"true\"] i:nth-child(1){transform:translateY(6px) rotate(45deg)}\n.burger[aria-expanded=\"true\"] i:nth-child(2){opacity:0}\n.burger[aria-expanded=\"true\"] i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}\n@media (prefers-reduced-motion:reduce){.md,.md *{transition-duration:.01ms!important;transition-delay:0s!important}}","html":"<header class=\"mdh\"><strong>לוגו<\/strong><button class=\"burger\" type=\"button\" aria-label=\"פתיחת תפריט\" aria-expanded=\"false\" aria-controls=\"md66\"><i><\/i><i><\/i><i><\/i><\/button><\/header>\n\n<div class=\"md\" id=\"md66\">\n  <div class=\"md-scrim\"><\/div>\n  <nav class=\"md-panel\" aria-label=\"תפריט\">\n    <div class=\"md-top\"><strong>לוגו<\/strong>\n      <button class=\"md-close\" type=\"button\" aria-label=\"סגירת תפריט\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"><path d=\"M18 6 6 18M6 6l12 12\"/><\/svg><\/button>\n    <\/div>\n    <ul class=\"md-list\">\n      <li class=\"md-item\"><a class=\"md-link\" href=\"#\">ראשי<\/a><\/li>\n      <li class=\"md-item\"><button class=\"md-acc\" type=\"button\" aria-expanded=\"false\">פתרונות ושירותים <i aria-hidden=\"true\"><\/i><\/button>\n        <div class=\"md-sub\"><div>\n          <h5>לעסק<\/h5><a href=\"#\">תמיכת IT שוטפת<\/a><a href=\"#\">ענן וגיבוי<\/a><a href=\"#\">אבטחת מידע<\/a><a href=\"#\">רשת ו-Wi-Fi<\/a>\n          <h5>לבית<\/h5><a href=\"#\">נקודות רשת ו-Wi-Fi<\/a><a href=\"#\">מצלמות ואזעקה<\/a><a href=\"#\">בית חכם<\/a><a href=\"#\">סאונד ומולטימדיה<\/a>\n        <\/div><\/div><\/li>\n      <li class=\"md-item\"><a class=\"md-link\" href=\"#\">פרויקטים<\/a><\/li>\n      <li class=\"md-item\"><a class=\"md-link\" href=\"#\">אודות<\/a><\/li>\n      <li class=\"md-item\"><a class=\"md-link\" href=\"#\">מאמרים וטיפים<\/a><\/li>\n      <li class=\"md-item\"><a class=\"md-link\" href=\"#\">צור קשר<\/a><\/li>\n    <\/ul>\n    <div class=\"md-cta\"><a href=\"#\">לקבלת הצעת מחיר<\/a><\/div>\n  <\/nav>\n<\/div>\n<div class=\"mdh-body\"><p>לחץ על ההמבורגר, ואז על \"פתרונות ושירותים\" כדי לפתוח את האקורדיון. סגירה בלחיצה על הרקע, על X, או ב-Escape.<\/p><p style=\"height:120vh\"><\/p><\/div>","js":"function drawer(root, burger){\n  const panel=root.querySelector(\".md-panel\"), scrim=root.querySelector(\".md-scrim\"), closeBtn=root.querySelector(\".md-close\");\n  const doc=document.documentElement; let last=null;\n  // numbering for the stagger: every top-level row and every sub link gets its own index\n  root.querySelectorAll(\".md-item\").forEach((el,i)=>el.style.setProperty(\"--i\",i));\n  root.querySelectorAll(\".md-sub\").forEach(s=>s.querySelectorAll(\"a\").forEach((a,j)=>a.style.setProperty(\"--j\",j)));\n  panel.inert=true;\n  function set(open){\n    root.classList.toggle(\"open\",open);\n    panel.inert=!open;\n    if(burger) burger.setAttribute(\"aria-expanded\",String(open));\n    // scroll lock without a jump: give the scrollbar width back as padding\n    const sb=innerWidth-doc.clientWidth;\n    document.body.style.overflow=open?\"hidden\":\"\";\n    document.body.style.paddingInlineEnd=open&&sb>0?sb+\"px\":\"\";\n    if(open){last=document.activeElement;setTimeout(()=>closeBtn.focus(),180);}\n    else{root.querySelectorAll(\".md-sub.open\").forEach(s=>toggleSub(s.previousElementSibling,false)); if(last)last.focus();}\n  }\n  function toggleSub(btn,force){\n    const sub=btn.nextElementSibling, open=force!==undefined?force:!sub.classList.contains(\"open\");\n    sub.classList.toggle(\"open\",open); btn.setAttribute(\"aria-expanded\",String(open));\n    sub.querySelectorAll(\"a\").forEach(a=>a.tabIndex=open?0:-1);\n  }\n  root.querySelectorAll(\".md-acc\").forEach(b=>{toggleSub(b,false);b.addEventListener(\"click\",()=>toggleSub(b));});\n  if(burger) burger.addEventListener(\"click\",()=>set(!root.classList.contains(\"open\")));\n  closeBtn.addEventListener(\"click\",()=>set(false));\n  scrim.addEventListener(\"click\",()=>set(false));\n  root.querySelectorAll(\"a\").forEach(a=>a.addEventListener(\"click\",()=>set(false)));\n  addEventListener(\"keydown\",e=>{\n    if(!root.classList.contains(\"open\"))return;\n    if(e.key===\"Escape\"){set(false);return;}\n    if(e.key!==\"Tab\")return;\n    // focus trap: tab cycles inside the drawer\n    const f=[...panel.querySelectorAll(\"a,button\")].filter(x=>x.tabIndex!==-1&&x.offsetParent!==null);\n    const i=f.indexOf(document.activeElement);\n    const n=e.shiftKey?(i<=0?f.length-1:i-1):(i===f.length-1?0:i+1);\n    e.preventDefault(); f[n].focus();\n  });\n  return set;\n}\ndrawer(document.getElementById(\"md66\"), document.querySelector(\".mdh .burger\"));","scripts":"","rtl":true}</script>
+</section>
+
+<script src="../assets/baseline.js"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מגירת מובייל עם אקורדיון וכניסה מדורגת").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+function drawer(root, burger){
+  const panel=root.querySelector(".md-panel"), scrim=root.querySelector(".md-scrim"), closeBtn=root.querySelector(".md-close");
+  const doc=document.documentElement; let last=null;
+  // numbering for the stagger: every top-level row and every sub link gets its own index
+  root.querySelectorAll(".md-item").forEach((el,i)=>el.style.setProperty("--i",i));
+  root.querySelectorAll(".md-sub").forEach(s=>s.querySelectorAll("a").forEach((a,j)=>a.style.setProperty("--j",j)));
+  panel.inert=true;
+  function set(open){
+    root.classList.toggle("open",open);
+    panel.inert=!open;
+    if(burger) burger.setAttribute("aria-expanded",String(open));
+    // scroll lock without a jump: give the scrollbar width back as padding
+    const sb=innerWidth-doc.clientWidth;
+    document.body.style.overflow=open?"hidden":"";
+    document.body.style.paddingInlineEnd=open&&sb>0?sb+"px":"";
+    if(open){last=document.activeElement;setTimeout(()=>closeBtn.focus(),180);}
+    else{root.querySelectorAll(".md-sub.open").forEach(s=>toggleSub(s.previousElementSibling,false)); if(last)last.focus();}
+  }
+  function toggleSub(btn,force){
+    const sub=btn.nextElementSibling, open=force!==undefined?force:!sub.classList.contains("open");
+    sub.classList.toggle("open",open); btn.setAttribute("aria-expanded",String(open));
+    sub.querySelectorAll("a").forEach(a=>a.tabIndex=open?0:-1);
+  }
+  root.querySelectorAll(".md-acc").forEach(b=>{toggleSub(b,false);b.addEventListener("click",()=>toggleSub(b));});
+  if(burger) burger.addEventListener("click",()=>set(!root.classList.contains("open")));
+  closeBtn.addEventListener("click",()=>set(false));
+  scrim.addEventListener("click",()=>set(false));
+  root.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>set(false)));
+  addEventListener("keydown",e=>{
+    if(!root.classList.contains("open"))return;
+    if(e.key==="Escape"){set(false);return;}
+    if(e.key!=="Tab")return;
+    // focus trap: tab cycles inside the drawer
+    const f=[...panel.querySelectorAll("a,button")].filter(x=>x.tabIndex!==-1&&x.offsetParent!==null);
+    const i=f.indexOf(document.activeElement);
+    const n=e.shiftKey?(i<=0?f.length-1:i-1):(i===f.length-1?0:i+1);
+    e.preventDefault(); f[n].focus();
+  });
+  return set;
+}
+drawer(document.getElementById("md66"), document.querySelector(".mdh .burger"));
+</script>
+</body>
+</html>

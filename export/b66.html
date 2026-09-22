@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B66 · מגירת מובייל עם אקורדיון וכניסה מדורגת</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* B66 · מגירת מובייל עם אקורדיון וכניסה מדורגת */
+.mdh{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:12px var(--gutter, clamp(24px, 5vw, 96px));min-height:64px;background:var(--card, #fff);border-bottom:1px solid var(--line, #e4e4ee)}
+.mdh-body{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));max-width:60ch;margin-inline:auto;color:var(--muted, #6a6d85)}
+
+/* ---- mobile drawer (shared by b65 and b66) ---- */
+.md{position:fixed;inset:0;z-index:60;visibility:hidden;transition:visibility 0s linear .44s}
+.md.open{visibility:visible;transition-delay:0s}
+.md-scrim{position:absolute;inset:0;background:color-mix(in srgb,var(--ink, #16182b) 48%,transparent);opacity:0;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}
+.md.open .md-scrim{opacity:1}
+.md-panel{position:absolute;inset-block:0;inset-inline-start:0;width:min(86vw,380px);background:var(--card, #fff);color:var(--ink, #16182b);
+  display:flex;flex-direction:column;overflow:auto;padding:18px 24px 32px;box-shadow:0 0 48px color-mix(in srgb,var(--ink, #16182b) 18%,transparent);
+  transform:translateX(100%);transition:transform .44s cubic-bezier(.76,0,.24,1)}
+[dir="ltr"] .md-panel{transform:translateX(-100%)}
+.md.open .md-panel{transform:none}
+.md-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--line, #e4e4ee)}
+.md-close{width:44px;height:44px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:none;color:var(--ink, #16182b);display:grid;place-items:center;cursor:pointer;transition:border-color .18s cubic-bezier(.2,.6,.2,1),transform .44s cubic-bezier(.76,0,.24,1)}
+.md.open .md-close{transform:rotate(90deg)}
+.md-close svg{width:18px;height:18px}
+.md-list{list-style:none;margin:0;padding:8px 0 0}
+.md-item{border-bottom:1px solid var(--line, #e4e4ee);opacity:0;transform:translateY(12px);
+  transition:opacity .18s cubic-bezier(.2,.6,.2,1),transform .18s cubic-bezier(.2,.6,.2,1)}
+.md.open .md-item{opacity:1;transform:none;transition-duration:.4s,.4s;transition-delay:calc(.14s + var(--i) * 45ms)}
+.md-link,.md-acc{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:56px;padding:12px 0;
+  font:inherit;font-size:18px;font-weight:600;color:var(--ink, #16182b);text-decoration:none;background:none;border:0;cursor:pointer;text-align:start;transition:color .15s cubic-bezier(.2,.6,.2,1)}
+/* chevron: physical borders on purpose, a logical inline-end flips it sideways in RTL */
+.md-acc i{width:8px;height:8px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .3s cubic-bezier(.2,.6,.2,1)}
+.md-acc[aria-expanded="true"]{color:var(--accent, #4a3aff)}
+.md-acc[aria-expanded="true"] i{transform:rotate(225deg) translateY(-2px)}
+.md-sub{display:grid;grid-template-rows:0fr;transition:grid-template-rows .32s cubic-bezier(.2,.6,.2,1)}
+.md-sub.open{grid-template-rows:1fr}
+.md-sub>div{overflow:hidden}
+.md-sub h5{margin:8px 0 4px;font-size:13px;font-weight:600;color:var(--accent, #4a3aff)}
+.md-sub a{display:block;padding:10px 16px;font-size:15px;color:var(--muted, #6a6d85);text-decoration:none;opacity:0;transform:translateX(8px);
+  transition:opacity .2s cubic-bezier(.2,.6,.2,1),transform .2s cubic-bezier(.2,.6,.2,1),color .15s cubic-bezier(.2,.6,.2,1)}
+[dir="ltr"] .md-sub a{transform:translateX(-8px)}
+.md-sub.open a{opacity:1;transform:none;transition-delay:calc(var(--j) * 30ms)}
+.md-sub>div>:last-child{margin-bottom:12px}
+.md-cta{margin-top:24px;opacity:0;transform:translateY(12px);transition:opacity .18s,transform .18s}
+.md.open .md-cta{opacity:1;transform:none;transition:opacity .4s cubic-bezier(.2,.6,.2,1) .42s,transform .4s cubic-bezier(.2,.6,.2,1) .42s}
+.md-cta a{display:flex;justify-content:center;align-items:center;min-height:52px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:600;text-decoration:none}
+@media (hover:hover) and (pointer:fine){.md-link:hover,.md-acc:hover,.md-sub a:hover{color:var(--accent, #4a3aff)}.md-close:hover{border-color:var(--ink, #16182b)}}
+.burger{width:44px;height:44px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:none;display:grid;place-content:center;gap:4px;cursor:pointer}
+.burger i{display:block;width:18px;height:2px;background:var(--ink, #16182b);border-radius:2px;transition:transform .36s cubic-bezier(.76,0,.24,1),opacity .2s}
+.burger[aria-expanded="true"] i:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger[aria-expanded="true"] i:nth-child(2){opacity:0}
+.burger[aria-expanded="true"] i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+@media (prefers-reduced-motion:reduce){.md,.md *{transition-duration:.01ms!important;transition-delay:0s!important}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<header class="mdh"><strong>לוגו</strong><button class="burger" type="button" aria-label="פתיחת תפריט" aria-expanded="false" aria-controls="md66"><i></i><i></i><i></i></button></header>
+
+<div class="md" id="md66">
+  <div class="md-scrim"></div>
+  <nav class="md-panel" aria-label="תפריט">
+    <div class="md-top"><strong>לוגו</strong>
+      <button class="md-close" type="button" aria-label="סגירת תפריט"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    </div>
+    <ul class="md-list">
+      <li class="md-item"><a class="md-link" href="#">ראשי</a></li>
+      <li class="md-item"><button class="md-acc" type="button" aria-expanded="false">פתרונות ושירותים <i aria-hidden="true"></i></button>
+        <div class="md-sub"><div>
+          <h5>לעסק</h5><a href="#">תמיכת IT שוטפת</a><a href="#">ענן וגיבוי</a><a href="#">אבטחת מידע</a><a href="#">רשת ו-Wi-Fi</a>
+          <h5>לבית</h5><a href="#">נקודות רשת ו-Wi-Fi</a><a href="#">מצלמות ואזעקה</a><a href="#">בית חכם</a><a href="#">סאונד ומולטימדיה</a>
+        </div></div></li>
+      <li class="md-item"><a class="md-link" href="#">פרויקטים</a></li>
+      <li class="md-item"><a class="md-link" href="#">אודות</a></li>
+      <li class="md-item"><a class="md-link" href="#">מאמרים וטיפים</a></li>
+      <li class="md-item"><a class="md-link" href="#">צור קשר</a></li>
+    </ul>
+    <div class="md-cta"><a href="#">לקבלת הצעת מחיר</a></div>
+  </nav>
+</div>
+<div class="mdh-body"><p>לחץ על ההמבורגר, ואז על "פתרונות ושירותים" כדי לפתוח את האקורדיון. סגירה בלחיצה על הרקע, על X, או ב-Escape.</p><p style="height:120vh"></p></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+
+<script>
+function drawer(root, burger){
+  const panel=root.querySelector(".md-panel"), scrim=root.querySelector(".md-scrim"), closeBtn=root.querySelector(".md-close");
+  const doc=document.documentElement; let last=null;
+  // numbering for the stagger: every top-level row and every sub link gets its own index
+  root.querySelectorAll(".md-item").forEach((el,i)=>el.style.setProperty("--i",i));
+  root.querySelectorAll(".md-sub").forEach(s=>s.querySelectorAll("a").forEach((a,j)=>a.style.setProperty("--j",j)));
+  panel.inert=true;
+  function set(open){
+    root.classList.toggle("open",open);
+    panel.inert=!open;
+    if(burger) burger.setAttribute("aria-expanded",String(open));
+    // scroll lock without a jump: give the scrollbar width back as padding
+    const sb=innerWidth-doc.clientWidth;
+    document.body.style.overflow=open?"hidden":"";
+    document.body.style.paddingInlineEnd=open&&sb>0?sb+"px":"";
+    if(open){last=document.activeElement;setTimeout(()=>closeBtn.focus(),180);}
+    else{root.querySelectorAll(".md-sub.open").forEach(s=>toggleSub(s.previousElementSibling,false)); if(last)last.focus();}
+  }
+  function toggleSub(btn,force){
+    const sub=btn.nextElementSibling, open=force!==undefined?force:!sub.classList.contains("open");
+    sub.classList.toggle("open",open); btn.setAttribute("aria-expanded",String(open));
+    sub.querySelectorAll("a").forEach(a=>a.tabIndex=open?0:-1);
+  }
+  root.querySelectorAll(".md-acc").forEach(b=>{toggleSub(b,false);b.addEventListener("click",()=>toggleSub(b));});
+  if(burger) burger.addEventListener("click",()=>set(!root.classList.contains("open")));
+  closeBtn.addEventListener("click",()=>set(false));
+  scrim.addEventListener("click",()=>set(false));
+  root.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>set(false)));
+  addEventListener("keydown",e=>{
+    if(!root.classList.contains("open"))return;
+    if(e.key==="Escape"){set(false);return;}
+    if(e.key!=="Tab")return;
+    // focus trap: tab cycles inside the drawer
+    const f=[...panel.querySelectorAll("a,button")].filter(x=>x.tabIndex!==-1&&x.offsetParent!==null);
+    const i=f.indexOf(document.activeElement);
+    const n=e.shiftKey?(i<=0?f.length-1:i-1):(i===f.length-1?0:i+1);
+    e.preventDefault(); f[n].focus();
+  });
+  return set;
+}
+drawer(document.getElementById("md66"), document.querySelector(".mdh .burger"));
+</script>
+</body>
+</html>
