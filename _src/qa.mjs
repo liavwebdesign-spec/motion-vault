@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const ROOT = process.argv[2];
-const CAT_DIRS = ["comp", "rhythm", "style", "anti", "arch", "gsap", "behavior", "css", "lm", "misc"];
+const CAT_DIRS = ["comp", "rhythm", "style", "anti", "arch", "gsap", "behavior", "header", "css", "lm", "misc"];
 const problems = [];
 let pages = 0;
 
@@ -60,7 +60,7 @@ for (const e of entries) {
   // 2) ערכי טוקנים כליטרלים ב-CSS: שוברים ירושת עור בפרויקט היעד.
   //    חל רק על מהלכים לשימוש חוזר. עורות (style) מגדירים צבעים בהגדרה, ועמודי הדוקטרינה
   //    (anti/arch/comp/rhythm) מדגימים ולא מיובאים, ולכן ליטרלים שם לגיטימיים.
-  const REUSABLE = new Set(["gsap", "behavior", "css", "lm", "misc"]);
+  const REUSABLE = new Set(["gsap", "behavior", "header", "css", "lm", "misc"]);
   //    מנוס: /* qa-allow: literal, סיבה */ באותו כלל. משמש כשהליטרל מזווג בכוונה למשטח ליטרלי (טקסט כהה על מחוון לבן קשיח).
   if (REUSABLE.has(e.cat)) {
     const live = css.split("}").filter(b => !/qa-allow:\s*literal/.test(b)).join("}");
@@ -143,7 +143,7 @@ for (const d of CAT_DIRS) {
 }
 
 const missingPages = entries.filter(e => {
-  const dirMap = { comp: "comp", rhythm: "rhythm", style: "style", anti: "anti", arch: "arch", gsap: "gsap", behavior: "behavior", css: "css", lm: "lm", misc: "misc" };
+  const dirMap = { comp: "comp", rhythm: "rhythm", style: "style", anti: "anti", arch: "arch", gsap: "gsap", behavior: "behavior", header: "header", css: "css", lm: "lm", misc: "misc" };
   return !existsSync(join(ROOT, dirMap[e.cat], e.id + ".html"));
 }).map(e => e.id);
 if (missingPages.length) problems.push("entries without a page: " + missingPages.join(","));

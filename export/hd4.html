@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>HD4 · הדר מינימלי צף עם תפריט מסך מלא</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* HD4 · הדר מינימלי צף עם תפריט מסך מלא */
+/* ---- demo frame (not part of the header): a scrolling mini page ---- */
+.hx{position:relative;height:min(80vh,760px);overflow:auto;overscroll-behavior:contain;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);background:var(--bg, #f7f7fa);isolation:isolate;scrollbar-width:thin}
+.hx-slot{position:sticky;top:0;height:0;z-index:20}
+.hx-hero{min-height:86%;display:flex;flex-direction:column;justify-content:flex-end;gap:16px;padding:112px var(--gutter, clamp(24px, 5vw, 96px)) 64px;
+  background:linear-gradient(160deg,color-mix(in srgb,var(--accent, #4a3aff) 34%,var(--ink, #16182b)),var(--ink, #16182b) 72%);color:var(--bg, #f7f7fa)}
+.hx-hero.is-light{background:linear-gradient(180deg,color-mix(in srgb,var(--accent, #4a3aff) 9%,var(--bg, #f7f7fa)),var(--bg, #f7f7fa));color:var(--ink, #16182b)}
+.hx-hero small{font-size:14px;font-weight:600;opacity:.8}
+.hx-hero h3{margin:0;max-width:16ch;font-size:clamp(34px,4.4vw,72px);line-height:1.02;font-weight:700}
+.hx-hero p{margin:0;max-width:44ch;font-size:17px;line-height:1.5;opacity:.82}
+.hx-sec{display:grid;grid-template-columns:1fr 1.2fr;gap:var(--gap, clamp(16px, 1.6vw, 36px));align-items:center;padding:96px var(--gutter, clamp(24px, 5vw, 96px));border-top:1px solid var(--line, #e4e4ee);scroll-margin-top:88px}
+.hx-sec h4{margin:0 0 12px;font-size:clamp(24px,2.2vw,36px);line-height:1.1}
+.hx-sec p{margin:0;max-width:40ch;font-size:16px;line-height:1.6;color:var(--muted, #6a6d85)}
+.hx-blk{aspect-ratio:4/3;border-radius:var(--r, 14px);background:color-mix(in srgb,var(--ink, #16182b) 7%,var(--bg, #f7f7fa))}
+@media (max-width:700px){.hx{height:78vh}.hx-sec{grid-template-columns:1fr;padding:64px var(--gutter, clamp(24px, 5vw, 96px))}.hx-hero{padding:112px var(--gutter, clamp(24px, 5vw, 96px)) 48px}}
+
+/* ---- shared header atoms ---- */
+.hlogo{font-weight:800;font-size:19px;white-space:nowrap;color:inherit}
+.hlink{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;font-size:15px;font-weight:500;color:inherit;opacity:.78;
+  transition:opacity .15s cubic-bezier(.2,.6,.2,1),background .18s cubic-bezier(.2,.6,.2,1)}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);
+  font-size:14px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),background .3s cubic-bezier(.2,.6,.2,1),color .3s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.hlink:hover{opacity:1}.hbtn:hover{transform:translateY(-1px)}}
+.hd .burger{display:none}
+@media (prefers-reduced-motion:reduce){.hd,.hd *{transition-duration:.01ms!important;transition-delay:0s!important}}
+.h4x{position:absolute;top:16px;inset-inline:16px;display:flex;align-items:center;justify-content:space-between;pointer-events:none;transition:transform .45s cubic-bezier(.2,.6,.2,1)}
+.h4x>*{pointer-events:auto}
+.h4x.is-hidden{transform:translateY(calc(-100% - 32px))}
+.h4-chip{display:inline-flex;align-items:center;min-height:52px;padding:0 24px;border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);font-weight:800;font-size:19px;
+  box-shadow:0 8px 24px color-mix(in srgb,var(--ink, #16182b) 12%,transparent)}
+.h4-menu{display:inline-flex;align-items:center;gap:12px;min-height:52px;padding:8px;padding-inline-start:20px;border:0;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);
+  font:inherit;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 8px 24px color-mix(in srgb,var(--ink, #16182b) 16%,transparent)}
+.h4-menu i{position:relative;width:36px;height:36px;border-radius:50%;background:var(--bg, #f7f7fa)}
+.h4-menu i::before,.h4-menu i::after{content:"";position:absolute;inset-inline:11px;height:2px;border-radius:2px;background:var(--ink, #16182b);transition:transform .3s cubic-bezier(.2,.6,.2,1)}
+.h4-menu i::before{top:14px}
+.h4-menu i::after{top:20px}
+@media (hover:hover) and (pointer:fine){.h4-menu:hover i::before{transform:translateY(-1px)}.h4-menu:hover i::after{transform:translateY(1px)}}
+.fs{position:fixed;inset:0;z-index:80;display:grid;grid-template-columns:1.4fr 1fr;align-items:end;gap:var(--gap, clamp(16px, 1.6vw, 36px));padding:112px var(--gutter, clamp(24px, 5vw, 96px)) 64px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);
+  clip-path:circle(0px at var(--cx,90%) var(--cy,48px));visibility:hidden;transition:clip-path .7s cubic-bezier(.76,0,.24,1),visibility 0s linear .7s}
+.fs.open{clip-path:circle(150vmax at var(--cx,90%) var(--cy,48px));visibility:visible;transition-delay:0s}
+.fs-links{list-style:none;margin:0;padding:0}
+.fs-links a{display:block;padding:4px 0;font-size:clamp(40px,6vw,96px);font-weight:700;line-height:1.05;color:var(--bg, #f7f7fa);opacity:0;transform:translateY(32px);
+  transition:opacity .2s cubic-bezier(.2,.6,.2,1),transform .2s cubic-bezier(.2,.6,.2,1),color .2s cubic-bezier(.2,.6,.2,1)}
+.fs.open .fs-links a{opacity:1;transform:none;transition-duration:.6s,.6s,.2s;transition-delay:calc(.25s + var(--i) * 60ms),calc(.25s + var(--i) * 60ms),0s}
+.fs-side{display:grid;gap:8px;font-size:16px;line-height:1.6;color:color-mix(in srgb,var(--bg, #f7f7fa) 72%,transparent);opacity:0;transition:opacity .2s cubic-bezier(.2,.6,.2,1)}
+.fs-side a{color:var(--bg, #f7f7fa)}
+.fs.open .fs-side{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1) .55s}
+.fs-close{position:absolute;top:16px;inset-inline-end:16px;display:inline-flex;align-items:center;gap:12px;min-height:52px;padding:8px;padding-inline-start:20px;border:0;border-radius:999px;
+  background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.fs-close svg{width:36px;height:36px;padding:8px;border-radius:50%;background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+@media (hover:hover) and (pointer:fine){.fs-links a:hover{color:color-mix(in srgb,var(--accent, #4a3aff) 45%,var(--bg, #f7f7fa))}}
+@media (max-width:700px){.fs{grid-template-columns:1fr;align-content:end;padding:112px var(--gutter, clamp(24px, 5vw, 96px)) 48px}}
+@media (prefers-reduced-motion:reduce){.fs,.fs *{transition-duration:.01ms!important;transition-delay:0s!important}}
+</style>
+</head>
+<body>
+
+<div class="hx" data-scroller tabindex="0" aria-label="דמו: עמוד שנגלל">
+  <div class="hx-slot"><header class="h4x hd"><a class="h4-chip" href="#top">לוגו</a><button class="h4-menu" type="button" aria-expanded="false" aria-controls="fs4">תפריט <i aria-hidden="true"></i></button></header></div>
+  <section class="hx-hero" id="top"><small>סטודיו לאדריכלות</small><h3>חללים שנבנים מהאור</h3><p>אין פס הדר שחוצה את הצילום. פתחו את התפריט: הוא נפרש במעגל מהכפתור, והקישורים עולים אחד אחרי השני.</p></section>
+  <section class="hx-sec" id="s1"><div><h4>גוללים למטה</h4><p>ההדר יוצא מהמסך ומפנה את כל הגובה לתוכן. אין סיבה שהוא יתפוס שבעים פיקסלים בזמן שקוראים.</p></div><div class="hx-blk"></div></section>
+  <section class="hx-sec" id="s2"><div><h4>ומתחילים לעלות</h4><p>ההדר חוזר מיד, בתנועה הראשונה למעלה, בלי לחכות שנגיע לראש העמוד. מי שגולל למעלה מחפש לאן ללכת.</p></div><div class="hx-blk"></div></section>
+  <section class="hx-sec" id="s3"><div><h4>ובראש העמוד</h4><p>שם הוא תמיד גלוי. וגם כשהתפריט פתוח, או כשמנווטים במקלדת והפוקוס בתוכו.</p></div><div class="hx-blk"></div></section>
+</div>
+<div class="fs" id="fs4" role="dialog" aria-modal="true" aria-label="תפריט">
+  <button class="fs-close" type="button">סגירה <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+  <ul class="fs-links"><li><a href="#top">ראשי</a></li><li><a href="#s1">פרויקטים</a></li><li><a href="#s2">הסטודיו</a></li><li><a href="#s3">צור קשר</a></li></ul>
+  <div class="fs-side"><span>רחוב הנביאים 12, חיפה</span><a href="#s3">04-000-0000</a><a href="#s3">hello@studio.co.il</a></div>
+</div>
+
+
+<script>
+function headroom(el,opt){
+  opt=opt||{};
+  // in the vault the page is a scrolling frame; on a real site there is no [data-scroller] and it listens to window
+  var sc=el.closest("[data-scroller]")||window, tol=opt.tol||6, last=0, raf=0;
+  function pos(){return sc===window?window.scrollY:sc.scrollTop;}
+  function upd(){
+    raf=0;
+    var y=pos(), d=y-last, top=opt.top!=null?opt.top:el.offsetHeight+24;
+    el.classList.toggle("is-scrolled",y>8);
+    if(opt.on)opt.on(y);
+    // hold: an open menu, or keyboard focus inside the header, keeps it on screen
+    var hold=el.classList.contains("menu-open")||!!el.querySelector(":focus-visible");
+    if(y<=top||hold){el.classList.remove("is-hidden");last=y;return;}
+    // tolerance: a slow trackpad drift does not flicker it; the distance accumulates until it is a real gesture
+    if(Math.abs(d)<tol)return;
+    el.classList.toggle("is-hidden",d>0);
+    last=y;
+  }
+  sc.addEventListener("scroll",function(){if(!raf)raf=requestAnimationFrame(upd);},{passive:true});
+  el.addEventListener("focusin",upd);
+  last=pos(); upd();
+  return upd;
+}
+(function(){
+  var hd=document.querySelector(".h4x"), btn=hd.querySelector(".h4-menu"), fs=document.getElementById("fs4"), close=fs.querySelector(".fs-close");
+  var links=[].slice.call(fs.querySelectorAll(".fs-links a"));
+  links.forEach(function(a,i){a.style.setProperty("--i",i);});
+  headroom(hd);
+  fs.inert=true;
+  function set(open){
+    // the circle grows from the button that opened it, wherever it is on screen
+    var r=btn.getBoundingClientRect();
+    fs.style.setProperty("--cx",(r.left+r.width/2)+"px"); fs.style.setProperty("--cy",(r.top+r.height/2)+"px");
+    fs.classList.toggle("open",open); fs.inert=!open; hd.classList.toggle("menu-open",open);
+    btn.setAttribute("aria-expanded",String(open));
+    document.body.style.overflow=open?"hidden":"";
+    if(open)setTimeout(function(){links[0].focus();},300); else btn.focus({preventScroll:true});
+  }
+  btn.addEventListener("click",function(){set(true);});
+  close.addEventListener("click",function(){set(false);});
+  links.forEach(function(a){a.addEventListener("click",function(){set(false);});});
+  addEventListener("keydown",function(e){
+    if(!fs.classList.contains("open"))return;
+    if(e.key==="Escape"){set(false);return;}
+    if(e.key!=="Tab")return;
+    var f=[].slice.call(fs.querySelectorAll("a,button")), i=f.indexOf(document.activeElement);
+    var n=e.shiftKey?(i<=0?f.length-1:i-1):(i===f.length-1?0:i+1);
+    e.preventDefault(); f[n].focus();
+  });
+})();
+</script>
+</body>
+</html>

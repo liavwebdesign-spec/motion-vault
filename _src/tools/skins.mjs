@@ -45,7 +45,7 @@ for (const f of readdirSync(join(ROOT, "_src", "catalog")).sort()) {
   const mod = await import(pathToFileURL(join(ROOT, "_src", "catalog", f)).href);
   entries.push(...mod.default);
 }
-const REUSABLE = new Set(["gsap", "behavior", "css", "lm", "misc"]);
+const REUSABLE = new Set(["gsap", "behavior", "header", "css", "lm", "misc"]);
 
 // ארבעה עורות רחוקים זה מזה בכוונה. לא "יפים", אלא כאלה שחושפים הנחות סמויות:
 // כהה (טקסט כהה קשיח נעלם), שמנת (לבן קשיח בולט), accent בהיר (לבן על accent נופל),
