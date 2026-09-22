@@ -32,7 +32,7 @@ const ALL = args.includes("--all");
 const HOVER = args.includes("--hover");
 const POS = (flag("--pos") || "0.15,0.5,0.85").split(",").map(Number);
 const VIEWS = [[1280, 800], [500, 900]];
-const MOVE_CATS = ["gsap", "behavior", "header", "css", "lm", "misc", "style", "comp", "arch", "rhythm", "anti"];
+const MOVE_CATS = ["gsap", "behavior", "header", "hero", "css", "lm", "misc", "style", "comp", "arch", "rhythm", "anti"];
 const wanted = args.filter(a => !a.startsWith("--") && a !== flag("--pos"));
 
 const CHROME = [process.env.CHROME_PATH,
@@ -147,12 +147,17 @@ figcaption{font-size:11px;color:#666;text-align:center}.err{color:#b00020;font-w
     await send("Runtime.enable", {}, sessionId);
     await send("Emulation.setDeviceMetricsOverride", { width: 1380, height: 900, deviceScaleFactor: 1, mobile: false }, sessionId);
     await send("Page.navigate", { url: pathToFileURL(join(OUT, "index.html")).href }, sessionId);
-    await send("Runtime.evaluate", { expression: `Promise.all([...document.images].map(i=>i.decode().catch(()=>0))).then(()=>document.documentElement.scrollHeight)`, awaitPromise: true, returnByValue: true }, sessionId)
-      .then(async r => {
-        const h = Math.min(Math.max(600, r.result.value || 900), 12 * 300 + 60);
-        await send("Emulation.setDeviceMetricsOverride", { width: 1380, height: h, deviceScaleFactor: 1, mobile: false }, sessionId);
-        await sleep(400);
-      });
+    // תנאי מרוץ (22.9.2026, גל ההירואים): המדידה רצה לפני שהניווט הסתיים, documentElement היה null,
+    // הערך חזר כאובייקט ריק והגובה הפך ל-NaN ("Invalid parameters"). מחכים שהגיליון באמת נטען, ומגינים על המספר.
+    let sheetH = 0;
+    for (let t = 0; t < 40 && !sheetH; t++) {
+      const r = await send("Runtime.evaluate", { expression: `(location.href.endsWith("index.html") && document.readyState === "complete" && document.documentElement) ? Promise.all([...document.images].map(i=>i.decode().catch(()=>0))).then(()=>document.documentElement.scrollHeight) : 0`, awaitPromise: true, returnByValue: true }, sessionId).catch(() => null);
+      const v = Number(r && r.result && r.result.value);
+      if (Number.isFinite(v) && v > 0) sheetH = v; else await sleep(250);
+    }
+    const h = Math.min(Math.max(600, sheetH || 900), 12 * 300 + 60);
+    await send("Emulation.setDeviceMetricsOverride", { width: 1380, height: h, deviceScaleFactor: 1, mobile: false }, sessionId);
+    await sleep(400);
     const { data } = await send("Page.captureScreenshot", { format: "png" }, sessionId);
     writeFileSync(join(OUT, "sheet.png"), Buffer.from(data, "base64"));
     await send("Target.closeTarget", { targetId });

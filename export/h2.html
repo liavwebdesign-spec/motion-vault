@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H2 · הירו טקסט וויז'ואל עם כרטיסי נתון צפים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* H2 · הירו טקסט וויז'ואל עם כרטיסי נתון צפים */
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+.rv{opacity:0;transform:translateY(18px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--i,0) * 90ms)}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}}
+.h2h{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:56px;padding:112px 28px 72px;background:var(--bg, #f7f7fa)}
+.h2-txt{display:flex;flex-direction:column;gap:20px}
+.h2h h3{margin:0;max-width:14ch;font-size:clamp(34px,3.8vw,58px);line-height:1.06;font-weight:700}
+.h2-vis{position:relative}
+.h2-blob{position:absolute;inset:-8% -6% -12% -10%;border-radius:48% 52% 42% 58%/55% 44% 56% 45%;
+  background:linear-gradient(150deg,color-mix(in srgb,var(--accent, #4a3aff) 26%,transparent),color-mix(in srgb,var(--accent, #4a3aff) 6%,transparent))}
+.h2-vis img{position:relative;display:block;width:100%;aspect-ratio:4/3.4;object-fit:cover;border-radius:24px;box-shadow:0 32px 64px color-mix(in srgb,var(--ink, #16182b) 18%,transparent)}
+.h2-card{position:absolute;z-index:2;background:var(--card, #fff);border-radius:16px;padding:16px 20px;box-shadow:0 16px 40px color-mix(in srgb,var(--ink, #16182b) 14%,transparent)}
+.h2-card b{display:block;font-size:26px;line-height:1.1}
+.h2-card span{font-size:13px;color:var(--muted, #6a6d85)}
+.h2-c1{inset-block-start:12%;inset-inline-start:-6%}
+.h2-c2{inset-block-end:10%;inset-inline-end:-4%}
+@media (max-width:860px){.h2h{grid-template-columns:1fr;gap:32px;padding:96px 20px 56px}.h2-card{display:none}.h2-blob{inset:-4%}}
+</style>
+</head>
+<body>
+
+<div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h2h" id="h2">
+    <div class="h2-txt">
+      <span class="hkick rv">מרפאת שיניים, רמת גן</span>
+      <h3 class="rv">נכנסים בחשש, יוצאים עם תוכנית</h3>
+      <p class="hlead rv">בדיקה ראשונה של 40 דקות, צילום, ותוכנית טיפול מודפסת עם מחירים. בלי הפתעות בכיסא.</p>
+      <div class="hcta rv"><a class="hbtn" href="#h2">לקביעת בדיקה</a><a class="hbtn ghost" href="#h2">המחירון שלנו</a></div>
+      <div class="hmicro rv"><span>חניה בבניין</span><span>מרדים מוסמך</span><span>הסדר עם כל הקופות</span></div>
+    </div>
+    <div class="h2-vis rv" style="--i:2"><span class="h2-blob"></span><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-a.jpg" alt="צילום מהמרפאה" loading="lazy" decoding="async">
+      <div class="h2-card h2-c1 rv" style="--i:5"><b>40 דק׳</b><span>בדיקה ראשונה</span></div>
+      <div class="h2-card h2-c2 rv" style="--i:6"><b>12 שנה</b><span>באותה כתובת</span></div>
+    </div>
+  </section>
+</div>
+
+
+<script>
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  root.querySelectorAll(".rv").forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  inView(root,function(){root.classList.add("is-in");});
+}
+enter(document.getElementById("h2"));
+</script>
+</body>
+</html>

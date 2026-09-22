@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H8 · הירו רשימת עבודות</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* H8 · הירו רשימת עבודות */
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+.rv{opacity:0;transform:translateY(18px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--i,0) * 90ms)}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}}
+.h8h{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center;padding:112px 28px 64px;background:var(--bg, #f7f7fa)}
+.h8-list{display:flex;flex-direction:column}
+.h8-row{display:flex;align-items:baseline;gap:16px;padding:18px 0;border-bottom:1px solid var(--line, #e4e4ee);cursor:pointer;transition:opacity .25s cubic-bezier(.2,.6,.2,1)}
+.h8-row b{font-size:clamp(26px,3vw,44px);line-height:1.08;font-weight:700;transition:transform .3s cubic-bezier(.2,.6,.2,1)}
+.h8-row span{font-size:14px;color:var(--muted, #6a6d85);margin-inline-start:auto;white-space:nowrap}
+.h8h h3{margin:0 0 8px;font-size:15px;font-weight:600;opacity:.7}
+@media (hover:hover) and (pointer:fine){
+  .h8-list:hover .h8-row{opacity:.45}
+  .h8-list .h8-row:hover{opacity:1}
+  .h8-row:hover b{transform:translateX(-10px)}
+  [dir="ltr"] .h8-row:hover b{transform:translateX(10px)}
+}
+.h8-vis{position:relative;aspect-ratio:3/4;border-radius:20px;overflow:hidden;background:color-mix(in srgb,var(--ink, #16182b) 6%,var(--bg, #f7f7fa))}
+.h8-vis img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .6s cubic-bezier(.2,.6,.2,1)}
+.h8-vis img.on{opacity:1;transform:none}
+@media (max-width:860px){.h8h{grid-template-columns:1fr;gap:28px;padding:96px 20px 48px}.h8-vis{aspect-ratio:4/3;order:-1}.h8-row b{font-size:26px}}
+</style>
+</head>
+<body>
+
+<div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h8h" id="h8">
+    <div>
+      <h3 class="rv">סטודיו לצילום אדריכלות, עבודות נבחרות</h3>
+      <div class="h8-list rv" style="--i:1">
+        <div class="h8-row" data-img="0" tabindex="0"><b>בית בשכונת הכרם</b><span>2026</span></div>
+        <div class="h8-row" data-img="1" tabindex="0"><b>מלון בוטיק, עכו</b><span>2025</span></div>
+        <div class="h8-row" data-img="0" tabindex="0"><b>משרדים בשרונה</b><span>2025</span></div>
+        <div class="h8-row" data-img="1" tabindex="0"><b>בית קפה, נווה צדק</b><span>2024</span></div>
+      </div>
+      <div class="hcta rv" style="--i:2;margin-top:24px"><a class="hbtn" href="#h8">לכל התיק</a></div>
+    </div>
+    <div class="h8-vis rv" style="--i:2"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-a.jpg" alt="צילום מפרויקט" loading="lazy" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-b.jpg" alt="צילום מפרויקט" loading="lazy" decoding="async"></div>
+  </section>
+</div>
+
+
+<script>
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  root.querySelectorAll(".rv").forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  inView(root,function(){root.classList.add("is-in");});
+}
+(function(){
+  var root=document.getElementById("h8"); enter(root);
+  var imgs=[].slice.call(root.querySelectorAll(".h8-vis img")), rows=[].slice.call(root.querySelectorAll(".h8-row"));
+  function show(i){imgs.forEach(function(im,k){im.classList.toggle("on",k===i);});}
+  show(0);
+  var fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
+  rows.forEach(function(r){
+    var i=+r.dataset.img;
+    if(fine)r.addEventListener("mouseenter",function(){show(i);});
+    // keyboard and touch get the same result without hover: focus, and tap
+    r.addEventListener("focus",function(){show(i);});
+    r.addEventListener("click",function(){show(i);});
+  });
+})();
+</script>
+</body>
+</html>
