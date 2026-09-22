@@ -1,4 +1,4 @@
-// גלריית אנטי-פטרנים A1-A14: כל עמוד מציג "ככה לא" מול "ככה כן" על אותו
+// גלריית אנטי-פטרנים A1-A15: כל עמוד מציג "ככה לא" מול "ככה כן" על אותו
 // בלוק ניטרלי בדיוק. המקור לכל פריט הוא לקח שכבר רשום בתורה (צ'קליסט ה-QA
 // של design-dna, קריקטורות השפות, כללי המנוע), וכאן הוא מקבל עיניים.
 //
@@ -277,5 +277,31 @@ doc({
   html: wrap("a14",
     `<div class="img"><p class="ttl">כותרת על התמונה</p><p>שורת תמיכה קצרה</p></div>`, "הטקסט במרכז, בדיוק על הכתם הבהיר. ממוצע התמונה כהה, אבל שם הוא לבן על שמנת.",
     `<div class="img"><p class="ttl">כותרת על התמונה</p><p>שורת תמיכה קצרה</p></div>`, "הטקסט ירד לצד הכהה וקיבל סקרים מקומי. הכתם הבהיר נשאר, רחוק מהמילים."),
+}),
+doc({
+  id: "a15", name: "קווים ומסגרות בכל מקום",
+  desc: "קו מעל כל טור, מסגרת לכל כרטיס, קו מתחת לכל שורה, וקו קטן לפני כל תווית. כל אחד נראה מסודר לבד, וביחד העמוד נראה כמו טבלה שנוצרה אוטומטית.",
+  when: "שורות שירותים, טורי יתרונות, כרטיסי המלצה, פוטר, תוויות סקשן. בעיקר אחרי שמורידים כרטיסים ומחליפים אותם בקווים.",
+  rule: "ליאב, 22.9.2026: שימוש יתר במסגרות ומפרידונים מזוהה עם עיצוב AI. מפרידים ברווח, במשטח ובטיפוגרפיה. קו או מסגרת רק כשהם המידע עצמו (שדה, ציר זמן, טבלה), ולכל היותר משפחה אחת לסקשן ושלוש לעמוד. נאכף ב-site-qa/qa.mjs סעיף 12.",
+  why: "קו הוא הפתרון הזול לשאלה 'איך אני מפריד את זה'. כשהוא חוזר בכל רמה, העין לא מבחינה בין הפרדה חשובה להפרדה טכנית, והקצב של העמוד נעלם מאחורי רשת.",
+  fix: "מוחקים את הקו ושואלים מה חסר. בדרך כלל רווח גדול יותר בין קבוצות, מספר גדול או משקל שמסמן התחלה, או משטח בגוון אחר לפריט הפעיל. כרטיס מקבל משטח או מסגרת, לעולם לא את שניהם.",
+  spot: "סופרים קווים במסך אחד. יותר משניים, או קו וגם הפרש משטח על אותו גבול, זה זה.",
+  css: `${AP_BASE}
+.a15 .row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.a15 .it .n{font-size:22px;font-weight:700;color:#e0701f;line-height:1}
+.a15 .it .h{font-weight:700;font-size:15px;margin:8px 0 4px}
+.a15 .it p{margin:0;font-size:13px;color:#5b5b66;line-height:1.5}
+.a15 .ey{font-size:12px;font-weight:600;color:#b9500f;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.a15 .bad .ey::before{content:"";width:22px;height:2px;background:#e0701f}
+.a15 .bad .row{border-top:1px solid #d9d9e0;padding-top:16px}
+.a15 .bad .it{border-top:1px solid #d9d9e0;padding-top:14px;border-inline-start:1px solid #ececf1;padding-inline-start:10px}
+.a15 .bad .q{border:1px solid #d9d9e0;background:#f7f7f9;border-radius:12px;padding:14px;margin-top:16px;font-size:13px}
+.a15 .good .row{gap:28px}
+.a15 .good .q{background:#f3f3f6;border-radius:12px;padding:16px;margin-top:26px;font-size:13px}`,
+  html: wrap("a15",
+    `<p class="ey">למה אנחנו</p><div class="row"><div class="it"><div class="n">01</div><p class="h">מתכננים קודם</p><p>עובדים מול האדריכל לפני שהקירות נסגרים.</p></div><div class="it"><div class="n">02</div><p class="h">נשארים אחרי</p><p>מי שהתקין הוא מי שעונה.</p></div><div class="it"><div class="n">03</div><p class="h">בודקים בשטח</p><p>הצעה לפי מה שבאמת צריך.</p></div></div><div class="q">"ענו תוך שעה, והגיעו באותו יום."</div>`,
+    "קו לפני התווית, קו מעל השורה, קו מעל כל טור, קו צד, ומסגרת וגם משטח לציטוט. חמש משפחות קו במסך אחד.",
+    `<p class="ey">למה אנחנו</p><div class="row"><div class="it"><div class="n">01</div><p class="h">מתכננים קודם</p><p>עובדים מול האדריכל לפני שהקירות נסגרים.</p></div><div class="it"><div class="n">02</div><p class="h">נשארים אחרי</p><p>מי שהתקין הוא מי שעונה.</p></div><div class="it"><div class="n">03</div><p class="h">בודקים בשטח</p><p>הצעה לפי מה שבאמת צריך.</p></div></div><div class="q">"ענו תוך שעה, והגיעו באותו יום."</div>`,
+    "אפס קווים. המספר הכתום פותח כל טור, הרווח מפריד בין הטורים, והציטוט עומד על משטח בלבד."),
 }),
 ];

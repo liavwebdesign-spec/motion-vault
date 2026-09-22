@@ -11,12 +11,12 @@ const DRAWER_CSS = `
   transform:translateX(100%);transition:transform .44s cubic-bezier(.76,0,.24,1)}
 [dir="ltr"] .md-panel{transform:translateX(-100%)}
 .md.open .md-panel{transform:none}
-.md-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--line)}
-.md-close{width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:none;color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:border-color .18s cubic-bezier(.2,.6,.2,1),transform .44s cubic-bezier(.76,0,.24,1)}
+.md-top{display:flex;align-items:center;justify-content:space-between;padding-bottom:24px}
+.md-close{width:44px;height:44px;border:0;border-radius:12px;background:color-mix(in srgb,var(--ink) 6%,transparent);color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),transform .44s cubic-bezier(.76,0,.24,1)}
 .md.open .md-close{transform:rotate(90deg)}
 .md-close svg{width:18px;height:18px}
 .md-list{list-style:none;margin:0;padding:8px 0 0}
-.md-item{border-bottom:1px solid var(--line);opacity:0;transform:translateY(12px);
+.md-item{opacity:0;transform:translateY(12px);
   transition:opacity .18s cubic-bezier(.2,.6,.2,1),transform .18s cubic-bezier(.2,.6,.2,1)}
 .md.open .md-item{opacity:1;transform:none;transition-duration:.4s,.4s;transition-delay:calc(.14s + var(--i) * 45ms)}
 .md-link,.md-acc{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:56px;padding:12px 0;
@@ -37,8 +37,8 @@ const DRAWER_CSS = `
 .md-cta{margin-top:24px;opacity:0;transform:translateY(12px);transition:opacity .18s,transform .18s}
 .md.open .md-cta{opacity:1;transform:none;transition:opacity .4s cubic-bezier(.2,.6,.2,1) .42s,transform .4s cubic-bezier(.2,.6,.2,1) .42s}
 .md-cta a{display:flex;justify-content:center;align-items:center;min-height:52px;border-radius:12px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
-@media (hover:hover) and (pointer:fine){.md-link:hover,.md-acc:hover,.md-sub a:hover{color:var(--accent)}.md-close:hover{border-color:var(--ink)}}
-.burger{width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:none;display:grid;place-content:center;gap:4px;cursor:pointer}
+@media (hover:hover) and (pointer:fine){.md-link:hover,.md-acc:hover,.md-sub a:hover{color:var(--accent)}.md-close:hover,.burger:hover{background:color-mix(in srgb,var(--ink) 12%,transparent)}}
+.burger{width:44px;height:44px;border:0;transition:background .18s cubic-bezier(.2,.6,.2,1);border-radius:12px;background:color-mix(in srgb,var(--ink) 6%,transparent);display:grid;place-content:center;gap:4px;cursor:pointer}
 .burger i{display:block;width:18px;height:2px;background:var(--ink);border-radius:2px;transition:transform .36s cubic-bezier(.76,0,.24,1),opacity .2s}
 .burger[aria-expanded="true"] i:nth-child(1){transform:translateY(6px) rotate(45deg)}
 .burger[aria-expanded="true"] i:nth-child(2){opacity:0}
@@ -110,13 +110,16 @@ const DRAWER_HTML = (idPrefix) => `
   </nav>
 </div>`;
 
+// the header family (q-headers.mjs) reuses the same drawer, so there is one mobile menu in the vault, not five
+export { DRAWER_CSS, DRAWER_JS };
+
 export default [
 {
   id:"b65", cat:"behavior", name:"הדר עם מגה תפריט בשני טורים", tech:"CSS · JS", status:"ממתין",
   desc:"פריט אחד בתפריט פותח פאנל רחב: שני טורים של קישורים עם תיאור קצר, וטור פעולה בצד. הפאנל נפרש מלמעלה והקישורים נכנסים בזה אחר זה. במובייל אותו הדר הופך לכפתור שפותח מגירה עם אקורדיון (b66).",
   when:"אתרים עם עשרה עמודי שירות ומעלה שמתחלקים לשתי קבוצות: לעסק ולבית, מוצרים ושירותים, לפי קהל או לפי תחום. מחליף תפריט של שנים עשר פריטים ששורה אחת לא מחזיקה.",
   libs:[],
-  css:`.mh{position:sticky;top:0;z-index:50;background:var(--card);border-bottom:1px solid var(--line)}
+  css:`.mh{position:sticky;top:0;z-index:50;background:var(--card);box-shadow:0 6px 20px color-mix(in srgb,var(--ink) 6%,transparent)}
 .mh-bar{display:flex;align-items:center;gap:24px;padding:12px var(--gutter);min-height:72px}
 .mh-logo{font-weight:800}
 .mh-nav{display:flex;align-items:center;gap:4px;list-style:none;margin:0 auto;padding:0}
@@ -132,14 +135,14 @@ export default [
 /* the panel hangs from the whole bar, not from the button, so it can be wide and centred */
 .mg{position:absolute;inset-inline:var(--gutter);top:100%;padding-top:10px;visibility:hidden;pointer-events:none;transition:visibility 0s linear .24s}
 .mg::before{content:"";position:absolute;inset-inline:0;top:0;height:10px}
-.mg-card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:0 24px 64px color-mix(in srgb,var(--ink) 14%,transparent);
+.mg-card{background:var(--card);border-radius:18px;box-shadow:0 24px 64px color-mix(in srgb,var(--ink) 14%,transparent);
   display:grid;grid-template-columns:1fr 1fr minmax(220px,.8fr);gap:32px;padding:28px;
   opacity:0;transform:translateY(-8px);clip-path:inset(0 0 100% 0 round 18px);
   transition:opacity .22s cubic-bezier(.2,.6,.2,1),transform .24s cubic-bezier(.2,.6,.2,1),clip-path .24s cubic-bezier(.2,.6,.2,1)}
 .mh-mega.open .mg{visibility:visible;pointer-events:auto;transition-delay:0s}
 .mh-mega.open .mg-card{opacity:1;transform:none;clip-path:inset(0 0 0 0 round 18px);transition-duration:.3s,.42s,.42s}
-.mg-col h4{display:flex;align-items:center;gap:12px;margin:0 0 8px;font-size:13px;font-weight:600;color:var(--accent)}
-.mg-col h4::after{content:"";flex:1;height:1px;background:var(--line)}
+.mg-col h4{display:flex;align-items:center;gap:12px;margin:0 0 12px;font-size:13px;font-weight:600;color:var(--accent)}
+
 .mg-link{position:relative;display:block;padding:10px 12px;padding-inline-end:40px;border-radius:12px;text-decoration:none;color:var(--ink);
   opacity:0;transform:translateY(6px);transition:opacity .2s cubic-bezier(.2,.6,.2,1),transform .2s cubic-bezier(.2,.6,.2,1),background .18s cubic-bezier(.2,.6,.2,1)}
 .mh-mega.open .mg-link{opacity:1;transform:none;transition-delay:calc(.08s + var(--i) * 28ms),calc(.08s + var(--i) * 28ms),0s}
@@ -228,7 +231,7 @@ ${DRAWER_HTML("md65")}
   desc:"ההמבורגר הופך ל-X, המגירה נוסעת מהצד, השורות נכנסות אחת אחרי השנייה, ותת-תפריט נפתח כאקורדיון בתוך המגירה. ביציאה הכל חוזר מהר ובלי דירוג.",
   when:"כל אתר עם יותר מחמישה פריטי תפריט או עם תת-תפריט (מגה תפריט בדסקטופ). משתלב עם כל תפריט דסקטופ: b39, b55, b65.",
   libs:[],
-  css:`.mdh{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:12px var(--gutter);min-height:64px;background:var(--card);border-bottom:1px solid var(--line)}
+  css:`.mdh{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:12px var(--gutter);min-height:64px;background:var(--card);box-shadow:0 6px 20px color-mix(in srgb,var(--ink) 6%,transparent)}
 .mdh-body{padding:var(--sec) var(--gutter);max-width:60ch;margin-inline:auto;color:var(--muted)}
 ${DRAWER_CSS}`,
   html:`<header class="mdh"><strong>לוגו</strong><button class="burger" type="button" aria-label="פתיחת תפריט" aria-expanded="false" aria-controls="md66"><i></i><i></i><i></i></button></header>
