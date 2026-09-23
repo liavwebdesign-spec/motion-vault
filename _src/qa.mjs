@@ -1,3 +1,4 @@
+import { homedir } from "node:os";
 import { readdirSync, readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
@@ -29,7 +30,8 @@ const TOKEN_LITERALS = { "#4a3aff": "--accent", "#16182b": "--ink", "#6a6d85": "
 // 4) סולם הריווחים (design-dna/engine/spacing-and-axes.md §1). נולד מ-g149 (15.9.2026): הסולם היה כתוב ולא נאכף,
 //    וליאב תפס שישה ערכים מחוץ לו. ratchet: מהלך חדש חייב 0 חריגות; מהלך קיים לא רשאי להוסיף. baseline ב-qa-spacing-baseline.json.
 //    נבדקים margin/padding/gap בפיקסלים, כולל קצוות clamp. לא נבדקים: calc, vw/vh/em/%, וערכים עד 3px (קווי שיער). מנוס: /* qa-allow: scale */
-const SPACING_SCALE = new Set([4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 40, 48, 56, 64, 72, 88, 96, 112]);
+const TOKENS = JSON.parse(readFileSync(join(homedir(), ".claude", "skills", "design-dna", "references", "engine", "tokens.json"), "utf8")); // one scale for the vault and the projects (23.9.2026)
+const SPACING_SCALE = new Set([...TOKENS.spacing.scale, ...TOKENS.spacing.fluidLayer]);
 const SPACING_PROP = /(?:^|[;{\s])(margin(?:-[a-z]+)?|padding(?:-[a-z]+)?|gap|row-gap|column-gap)\s*:\s*([^;}]+)/g;
 export function offScale(css) {
   const out = [];
