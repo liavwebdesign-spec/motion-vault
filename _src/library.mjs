@@ -5,7 +5,7 @@
 // The MV ids and every page URL stay exactly as they were: nothing in the skill links to this file.
 
 const ZONES = [
-  { key: "parts", label: "חלקי עמוד", cats: ["header", "hero", "comp", "footer"] },
+  { key: "parts", label: "חלקי עמוד", cats: ["header", "hero", "comp", "footer", "conv"] },
   { key: "motion", label: "תנועה", cats: ["gsap", "behavior", "css", "lm"] },
   { key: "doctrine", label: "תורה", cats: ["style", "arch", "rhythm", "misc", "anti"] },
 ];

@@ -69,7 +69,7 @@ for (const f of readdirSync(join(ROOT, "_src", "catalog")).sort()) {
   entries.push(...mod.default);
 }
 // עמודי דוקטרינה ועורות לא נבדקים על תנועה: אין להם התנהגות להוכיח
-const MOTION_CATS = new Set(["gsap", "behavior", "header", "hero", "footer", "css", "lm", "misc"]);
+const MOTION_CATS = new Set(["gsap", "behavior", "header", "hero", "footer", "conv", "css", "lm", "misc"]);
 
 // הסקריפט שרץ בתוך הדף. כותב JSON ל-#behave-result.
 const PROBE = String.raw`
@@ -283,7 +283,8 @@ const PROBE = String.raw`
 // באותו shim גם: IntersectionObserver שמדווח "נראה" מיד (בלי פריימים הוא לא יורה לעולם, וכל
 // reveal מבוסס IO נראה מת), ו-startViewTransition שמריץ את הקולבק מיד (בלי פריימים הוא
 // לעולם לא מגיע להזדמנות רינדור, ומעבר View Transitions נראה כאילו לא קרה כלום).
-const RAF_SHIM = `<script>(function(){var q=setTimeout,c=clearTimeout;window.requestAnimationFrame=function(cb){return q(function(){cb(performance.now())},16)};window.cancelAnimationFrame=function(id){c(id)};window.__rafShim=true;
+// a click that starts a download (cv5: the .ics file) stalls headless Chrome under --dump-dom; the probe counts it instead
+const RAF_SHIM = `<script>(function(){var q=setTimeout,c=clearTimeout;window.requestAnimationFrame=function(cb){return q(function(){cb(performance.now())},16)};window.cancelAnimationFrame=function(id){c(id)};window.__rafShim=true;var __ac=HTMLAnchorElement.prototype.click;HTMLAnchorElement.prototype.click=function(){if(this.hasAttribute("download")){window.__downloads=(window.__downloads||0)+1;return;}return __ac.call(this);};
 var pend=[],flushed=false;function fireIO(s,el){if(s.els.indexOf(el)<0)return;var r=el.getBoundingClientRect();s.cb([{target:el,isIntersecting:true,intersectionRatio:1,boundingClientRect:r,intersectionRect:r,rootBounds:null,time:performance.now()}],s)}
 function IO(cb){this.cb=cb;this.els=[];this.root=null;this.rootMargin="0px";this.thresholds=[0]}
 IO.prototype.observe=function(el){var s=this;if(s.els.indexOf(el)<0)s.els.push(el);if(flushed)q(function(){fireIO(s,el)},0);else pend.push([s,el])};

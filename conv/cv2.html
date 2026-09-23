@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CV2 · פס פעולה שמשנה את הפעולה לפי המקטע | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+
+.cx *{box-sizing:border-box}
+.cx{--cx-err:color-mix(in srgb,#d23b22 72%,var(--ink));font-size:16px;line-height:1.6;color:var(--ink)}
+.cx :where(a){color:inherit}
+.cx :where(h2,h3){text-wrap:balance}
+.cx :where(p,small,li){text-wrap:pretty}
+.cx :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+.cx-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border:0;border-radius:14px;
+  background:var(--accent);color:var(--accent-ink);font:inherit;font-size:16px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap;
+  transition:transform .18s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s cubic-bezier(.2,.6,.2,1)}
+.cx-btn svg{width:20px;height:20px;flex:none}
+.cx-btn:active{transform:scale(.97)}
+.cx-btn.is-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 22%,transparent)}
+@media (hover:hover) and (pointer:fine){.cx-btn:hover{transform:translateY(-1px)}.cx-btn.is-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--ink)}
+  .cx a:hover .ic-arr,.cx-btn:hover .ic-arr{transform:translateX(-4px)}}
+.ic-arr{transition:transform .2s cubic-bezier(.2,.6,.2,1)}
+[dir="ltr"] .ic-arr{rotate:180deg}
+.cx-rv{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}
+.is-in .cx-rv{opacity:1;transform:none}
+.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+/* the demo switch: lets the reviewer see every state. Not part of the component you copy. */
+.cx-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 24px;padding:6px;border-radius:14px;background:color-mix(in srgb,var(--ink) 5%,transparent);font-size:13px;width:max-content;max-width:100%}
+.cx-demo > span{padding:0 10px;font-weight:600;color:var(--muted)}
+.cx-demo button{min-height:36px;padding:0 14px;border:0;border-radius:10px;background:none;font:inherit;font-weight:600;color:var(--ink);cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),color .18s cubic-bezier(.2,.6,.2,1)}
+.cx-demo button[aria-pressed="true"]{background:var(--card);box-shadow:0 1px 3px color-mix(in srgb,var(--ink) 14%,transparent)}
+.cx-demo input{min-height:36px;padding:0 12px;border:0;border-radius:10px;background:var(--card);font:inherit;font-size:14px;color:var(--ink);width:220px}
+@media (prefers-reduced-motion:reduce){.cx *,.cx *::before,.cx *::after{transition-duration:.01ms!important;transition-delay:0s!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.cx-rv{opacity:1;transform:none}}
+.cxs{display:grid;place-items:center;padding:24px var(--gutter) 56px}
+.cx-phone{position:relative;width:min(390px,100%);height:min(78vh,760px);border-radius:40px;overflow:hidden;background:var(--bg);isolation:isolate;
+  box-shadow:0 0 0 10px var(--ink),0 32px 64px color-mix(in srgb,var(--ink) 24%,transparent);container-type:inline-size}
+.cx-scr{height:100%;overflow:auto;overscroll-behavior:contain;scrollbar-width:none}
+.cx-scr::-webkit-scrollbar{display:none}
+/* the page reserves the bar's height at its end, exactly like body padding on a real site */
+.cx-page{padding-bottom:72px}
+.cx-hero{min-height:78cqh;display:flex;flex-direction:column;justify-content:flex-end;gap:14px;padding:88px 24px 40px;
+  background:linear-gradient(170deg,color-mix(in srgb,var(--accent) 30%,var(--ink)),var(--ink) 70%);color:var(--bg)}
+.cx-hero small{font-size:13px;font-weight:600;opacity:.8}
+.cx-hero h3{margin:0;font-size:32px;line-height:1.08;font-weight:700}
+.cx-hero p{margin:0;font-size:16px;line-height:1.5;opacity:.82}
+.cx-hero .cx-btn{align-self:flex-start;margin-top:8px}
+.cx-sec{padding:56px 24px}
+.cx-sec:nth-of-type(even){background:var(--card)}
+.cx-sec small{font-size:13px;font-weight:600;color:var(--muted)}
+.cx-sec h4{margin:8px 0 12px;font-size:24px;line-height:1.15}
+.cx-sec p{margin:0;font-size:16px;line-height:1.6;color:var(--muted)}
+.cx-blk{margin-top:24px;aspect-ratio:4/3;border-radius:20px;background:color-mix(in srgb,var(--ink) 7%,var(--bg))}
+.cx-end{padding:56px 24px 40px;background:var(--ink);color:var(--bg)}
+.cx-end h4{margin:0 0 8px;font-size:26px;line-height:1.15}
+.cx-end p{margin:0 0 24px;opacity:.75}
+.cx-end input{display:block;width:100%;min-height:52px;margin-bottom:12px;padding:0 16px;border:0;border-radius:12px;background:color-mix(in srgb,var(--bg) 10%,transparent);
+  color:var(--bg);font:inherit;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--bg) 18%,transparent);transition:box-shadow .18s cubic-bezier(.2,.6,.2,1)}
+.cx-end input::placeholder{color:color-mix(in srgb,var(--bg) 55%,transparent)}
+.cx-end input:focus{outline:0;box-shadow:inset 0 0 0 2px var(--accent)}
+.cx-end .cx-btn{width:100%}
+.cx-foot{padding:24px;font-size:13px;color:var(--muted)}
+
+/* ---- the bar itself ---- */
+.mbar{position:fixed;inset-inline:0;bottom:0;z-index:40;display:flex;align-items:center;gap:8px;padding:10px 12px max(10px,env(safe-area-inset-bottom));
+  background:color-mix(in srgb,var(--card) 92%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);
+  box-shadow:0 -16px 40px color-mix(in srgb,var(--ink) 12%,transparent);
+  transform:translateY(calc(100% + 16px));transition:transform .32s cubic-bezier(.76,0,.24,1)}
+.mbar.is-on{transform:none;transition-timing-function:cubic-bezier(.2,.6,.2,1)}
+/* mobile only on a real site; inside the vault's phone it shows at any window width */
+@media (min-width:768px){.mbar{display:none}}
+.cx-phone .mbar{display:flex;position:absolute}
+.mb-go{flex:1;min-width:0}
+.mb-ic{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:14px;color:var(--ink);background:color-mix(in srgb,var(--ink) 6%,transparent);transition:transform .18s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1)}
+.mb-ic svg{width:22px;height:22px}
+.mb-ic:active{transform:scale(.94)}
+.cv2-bar .mb-go{justify-content:space-between;padding:0 20px;overflow:hidden}
+.mb-txt{display:grid;text-align:start;line-height:1.2;transition:transform .2s cubic-bezier(.2,.6,.2,1),opacity .2s cubic-bezier(.2,.6,.2,1)}
+.mb-txt small{font-size:12px;font-weight:600;opacity:.72}
+.mb-txt span{font-size:16px}
+.cv2-bar.is-swapping .mb-txt{transform:translateY(-40%);opacity:0;transition-duration:.14s}
+.cv2-bar.is-entering .mb-txt{transform:translateY(40%);opacity:0;transition:none}
+/* the first time it arrives the arrow points once, then never again */
+.cv2-bar.nudge .ic-arr{animation:cv2-nudge .8s cubic-bezier(.2,.6,.2,1) .3s 1}
+@keyframes cv2-nudge{0%,100%{transform:none}40%{transform:translateX(-6px)}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CV2</span> · פס פעולה שמשנה את הפעולה לפי המקטע</h1>
+  <span class="chip cat-conv">המרה ומצבים</span>
+  <span class="chip">CSS · JS</span>
+  <span class="chip use">ניווט ומבנה</span><span class="chip use">טעינה ופידבק</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:cv2"><code>MV:cv2</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>הכפתור בפס התחתון אומר מה הגולש רוצה במקום שבו הוא נמצא: בשירותים "לבחירת שירות", בעבודות "לפרויקט כזה אצלכם", במחירים "לבדיקת מחיר מדויק". המילים מתחלפות בתנועה קצרה, ומעליהן שם המקטע.</p>
+  <p class="when"><b>מתי משתמשים:</b> דף נחיתה ארוך או וואן-פייג'ר עם מקטעים שונים באופיים (שירותים, עבודות, מחירים, שאלות). באתר שבו כל העמוד מוביל לאותה פעולה, cv1 או b03 מספיקים.</p>
+  <div class="mvpanel" data-mvpanel="cv2"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="cx cxs" id="cv2"><div class="cx-phone" data-phone>
+<div class="cx-scr" data-scroller tabindex="0" aria-label="דמו: עמוד בטלפון, גוללים בתוכו">
+<div class="cx-page">
+  <header class="cx-hero" data-cta="לתיאום שיחה|#cv2-end|פתיחה"><small>סטודיו לעיצוב פנים</small><h3>בית שמרגיש נכון בשמונה בבוקר</h3><p>גוללים למטה: הפס מופיע ברגע שהכפתור של ההירו יוצא מהמסך.</p><a class="cx-btn" href="#cv2-end" data-cta-origin>לתיאום שיחה</a></header>
+  <section class="cx-sec" data-cta="לבחירת שירות|#cv2-end|שירותים"><small>שירותים</small><h4>תכנון מלא, מהקיר ועד הידית</h4><p>שלב אחד, איש קשר אחד, ולוח זמנים שמחזיק.</p><div class="cx-blk"></div></section><section class="cx-sec" data-cta="לפרויקט כזה אצלכם|#cv2-end|עבודות"><small>עבודות</small><h4>דירה ברמת גן, 4 חדרים</h4><p>מטבח פתוח, אחסון שלא רואים, ואור שנכנס עד הסלון.</p><div class="cx-blk"></div></section><section class="cx-sec" data-cta="לבדיקת מחיר מדויק|#cv2-end|מחירים"><small>מחירים</small><h4>שלוש חבילות, מחיר סגור מראש</h4><p>לא לפי שעה. אם משהו משתנה, מדברים לפני.</p><div class="cx-blk"></div></section>
+  <section class="cx-end" id="cv2-end" data-cta-end><h4>נתחיל בשיחה קצרה</h4><p>כאן הפס יורד: הכפתור של הסקשן לא צריך מתחרה.</p>
+    <input type="text" placeholder="שם" aria-label="שם" autocomplete="name"><input type="tel" placeholder="טלפון" aria-label="טלפון" dir="ltr" autocomplete="tel"><button class="cx-btn" type="button">שליחה</button></section>
+  <p class="cx-foot">הפוטר של האתר</p>
+</div></div>
+  <div class="mbar cv2-bar" data-mbar role="region" aria-label="הצעד הבא">
+    <a class="cx-btn mb-go" href="#cv2-end"><span class="mb-txt"><small data-where>שירותים</small><span data-lab>לבחירת שירות</span></span><svg class="ic-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7"/></svg></a>
+    <a class="mb-ic" href="tel:+972500000000" aria-label="חיוג: 050-000-0000"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a>
+  </div>
+</div></div>
+
+<div class="demo-note">הגרסה הבנאלית: אותו "צור קשר" בפס מההתחלה עד הסוף. כאן הכפתור ממשיך את המשפט שהגולש קורא, ולכן נלחץ יותר: מי שנמצא בתמחור רוצה מחיר, לא "צור קשר". כל מקטע מחזיק data-cta עם שלושה חלקים: "תווית|קישור|שם המקטע". המקטע שנבחר הוא זה שנמצא מתחת ל-45% מגובה המסך. ההחלפה היא שתי תנועות קצרות: המילים הישנות עולות ונעלמות ב-140ms, החדשות עולות מלמטה, ושם המקטע מתחלף איתן. הכפתור ברוחב קבוע ולכן לא קופץ. החץ מצביע פעם אחת בכניסה הראשונה, ולא יותר. אין aria-live על התווית במכוון: הקראה בכל גלילה מעייפת, והשם הנגיש של הקישור מתעדכן ממילא. אותם כללי תזמון כמו cv1: אחרי כפתור ההירו, לא ליד הטופס, ולא כשהמקלדת פתוחה.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/cv2.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* CV2 · פס פעולה שמשנה את הפעולה לפי המקטע */
+.cx *{box-sizing:border-box}
+.cx{--cx-err:color-mix(in srgb,#d23b22 72%,var(--ink, #16182b));font-size:16px;line-height:1.6;color:var(--ink, #16182b)}
+.cx :where(a){color:inherit}
+.cx :where(h2,h3){text-wrap:balance}
+.cx :where(p,small,li){text-wrap:pretty}
+.cx :focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px;border-radius:8px}
+.cx-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border:0;border-radius:14px;
+  background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:16px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap;
+  transition:transform .18s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s cubic-bezier(.2,.6,.2,1)}
+.cx-btn svg{width:20px;height:20px;flex:none}
+.cx-btn:active{transform:scale(.97)}
+.cx-btn.is-ghost{background:transparent;color:var(--ink, #16182b);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink, #16182b) 22%,transparent)}
+@media (hover:hover) and (pointer:fine){.cx-btn:hover{transform:translateY(-1px)}.cx-btn.is-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--ink, #16182b)}
+  .cx a:hover .ic-arr,.cx-btn:hover .ic-arr{transform:translateX(-4px)}}
+.ic-arr{transition:transform .2s cubic-bezier(.2,.6,.2,1)}
+[dir="ltr"] .ic-arr{rotate:180deg}
+.cx-rv{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}
+.is-in .cx-rv{opacity:1;transform:none}
+.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+/* the demo switch: lets the reviewer see every state. Not part of the component you copy. */
+.cx-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 24px;padding:6px;border-radius:14px;background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent);font-size:13px;width:max-content;max-width:100%}
+.cx-demo &gt; span{padding:0 10px;font-weight:600;color:var(--muted, #6a6d85)}
+.cx-demo button{min-height:36px;padding:0 14px;border:0;border-radius:10px;background:none;font:inherit;font-weight:600;color:var(--ink, #16182b);cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),color .18s cubic-bezier(.2,.6,.2,1)}
+.cx-demo button[aria-pressed="true"]{background:var(--card, #fff);box-shadow:0 1px 3px color-mix(in srgb,var(--ink, #16182b) 14%,transparent)}
+.cx-demo input{min-height:36px;padding:0 12px;border:0;border-radius:10px;background:var(--card, #fff);font:inherit;font-size:14px;color:var(--ink, #16182b);width:220px}
+@media (prefers-reduced-motion:reduce){.cx *,.cx *::before,.cx *::after{transition-duration:.01ms!important;transition-delay:0s!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.cx-rv{opacity:1;transform:none}}
+.cxs{display:grid;place-items:center;padding:24px var(--gutter, clamp(24px, 5vw, 96px)) 56px}
+.cx-phone{position:relative;width:min(390px,100%);height:min(78vh,760px);border-radius:40px;overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate;
+  box-shadow:0 0 0 10px var(--ink, #16182b),0 32px 64px color-mix(in srgb,var(--ink, #16182b) 24%,transparent);container-type:inline-size}
+.cx-scr{height:100%;overflow:auto;overscroll-behavior:contain;scrollbar-width:none}
+.cx-scr::-webkit-scrollbar{display:none}
+/* the page reserves the bar's height at its end, exactly like body padding on a real site */
+.cx-page{padding-bottom:72px}
+.cx-hero{min-height:78cqh;display:flex;flex-direction:column;justify-content:flex-end;gap:14px;padding:88px 24px 40px;
+  background:linear-gradient(170deg,color-mix(in srgb,var(--accent, #4a3aff) 30%,var(--ink, #16182b)),var(--ink, #16182b) 70%);color:var(--bg, #f7f7fa)}
+.cx-hero small{font-size:13px;font-weight:600;opacity:.8}
+.cx-hero h3{margin:0;font-size:32px;line-height:1.08;font-weight:700}
+.cx-hero p{margin:0;font-size:16px;line-height:1.5;opacity:.82}
+.cx-hero .cx-btn{align-self:flex-start;margin-top:8px}
+.cx-sec{padding:56px 24px}
+.cx-sec:nth-of-type(even){background:var(--card, #fff)}
+.cx-sec small{font-size:13px;font-weight:600;color:var(--muted, #6a6d85)}
+.cx-sec h4{margin:8px 0 12px;font-size:24px;line-height:1.15}
+.cx-sec p{margin:0;font-size:16px;line-height:1.6;color:var(--muted, #6a6d85)}
+.cx-blk{margin-top:24px;aspect-ratio:4/3;border-radius:20px;background:color-mix(in srgb,var(--ink, #16182b) 7%,var(--bg, #f7f7fa))}
+.cx-end{padding:56px 24px 40px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+.cx-end h4{margin:0 0 8px;font-size:26px;line-height:1.15}
+.cx-end p{margin:0 0 24px;opacity:.75}
+.cx-end input{display:block;width:100%;min-height:52px;margin-bottom:12px;padding:0 16px;border:0;border-radius:12px;background:color-mix(in srgb,var(--bg, #f7f7fa) 10%,transparent);
+  color:var(--bg, #f7f7fa);font:inherit;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--bg, #f7f7fa) 18%,transparent);transition:box-shadow .18s cubic-bezier(.2,.6,.2,1)}
+.cx-end input::placeholder{color:color-mix(in srgb,var(--bg, #f7f7fa) 55%,transparent)}
+.cx-end input:focus{outline:0;box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}
+.cx-end .cx-btn{width:100%}
+.cx-foot{padding:24px;font-size:13px;color:var(--muted, #6a6d85)}
+
+/* ---- the bar itself ---- */
+.mbar{position:fixed;inset-inline:0;bottom:0;z-index:40;display:flex;align-items:center;gap:8px;padding:10px 12px max(10px,env(safe-area-inset-bottom));
+  background:color-mix(in srgb,var(--card, #fff) 92%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);
+  box-shadow:0 -16px 40px color-mix(in srgb,var(--ink, #16182b) 12%,transparent);
+  transform:translateY(calc(100% + 16px));transition:transform .32s cubic-bezier(.76,0,.24,1)}
+.mbar.is-on{transform:none;transition-timing-function:cubic-bezier(.2,.6,.2,1)}
+/* mobile only on a real site; inside the vault's phone it shows at any window width */
+@media (min-width:768px){.mbar{display:none}}
+.cx-phone .mbar{display:flex;position:absolute}
+.mb-go{flex:1;min-width:0}
+.mb-ic{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:14px;color:var(--ink, #16182b);background:color-mix(in srgb,var(--ink, #16182b) 6%,transparent);transition:transform .18s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1)}
+.mb-ic svg{width:22px;height:22px}
+.mb-ic:active{transform:scale(.94)}
+.cv2-bar .mb-go{justify-content:space-between;padding:0 20px;overflow:hidden}
+.mb-txt{display:grid;text-align:start;line-height:1.2;transition:transform .2s cubic-bezier(.2,.6,.2,1),opacity .2s cubic-bezier(.2,.6,.2,1)}
+.mb-txt small{font-size:12px;font-weight:600;opacity:.72}
+.mb-txt span{font-size:16px}
+.cv2-bar.is-swapping .mb-txt{transform:translateY(-40%);opacity:0;transition-duration:.14s}
+.cv2-bar.is-entering .mb-txt{transform:translateY(40%);opacity:0;transition:none}
+/* the first time it arrives the arrow points once, then never again */
+.cv2-bar.nudge .ic-arr{animation:cv2-nudge .8s cubic-bezier(.2,.6,.2,1) .3s 1}
+@keyframes cv2-nudge{0%,100%{transform:none}40%{transform:translateX(-6px)}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="cx cxs" id="cv2"&gt;&lt;div class="cx-phone" data-phone&gt;
+&lt;div class="cx-scr" data-scroller tabindex="0" aria-label="דמו: עמוד בטלפון, גוללים בתוכו"&gt;
+&lt;div class="cx-page"&gt;
+  &lt;header class="cx-hero" data-cta="לתיאום שיחה|#cv2-end|פתיחה"&gt;&lt;small&gt;סטודיו לעיצוב פנים&lt;/small&gt;&lt;h3&gt;בית שמרגיש נכון בשמונה בבוקר&lt;/h3&gt;&lt;p&gt;גוללים למטה: הפס מופיע ברגע שהכפתור של ההירו יוצא מהמסך.&lt;/p&gt;&lt;a class="cx-btn" href="#cv2-end" data-cta-origin&gt;לתיאום שיחה&lt;/a&gt;&lt;/header&gt;
+  &lt;section class="cx-sec" data-cta="לבחירת שירות|#cv2-end|שירותים"&gt;&lt;small&gt;שירותים&lt;/small&gt;&lt;h4&gt;תכנון מלא, מהקיר ועד הידית&lt;/h4&gt;&lt;p&gt;שלב אחד, איש קשר אחד, ולוח זמנים שמחזיק.&lt;/p&gt;&lt;div class="cx-blk"&gt;&lt;/div&gt;&lt;/section&gt;&lt;section class="cx-sec" data-cta="לפרויקט כזה אצלכם|#cv2-end|עבודות"&gt;&lt;small&gt;עבודות&lt;/small&gt;&lt;h4&gt;דירה ברמת גן, 4 חדרים&lt;/h4&gt;&lt;p&gt;מטבח פתוח, אחסון שלא רואים, ואור שנכנס עד הסלון.&lt;/p&gt;&lt;div class="cx-blk"&gt;&lt;/div&gt;&lt;/section&gt;&lt;section class="cx-sec" data-cta="לבדיקת מחיר מדויק|#cv2-end|מחירים"&gt;&lt;small&gt;מחירים&lt;/small&gt;&lt;h4&gt;שלוש חבילות, מחיר סגור מראש&lt;/h4&gt;&lt;p&gt;לא לפי שעה. אם משהו משתנה, מדברים לפני.&lt;/p&gt;&lt;div class="cx-blk"&gt;&lt;/div&gt;&lt;/section&gt;
+  &lt;section class="cx-end" id="cv2-end" data-cta-end&gt;&lt;h4&gt;נתחיל בשיחה קצרה&lt;/h4&gt;&lt;p&gt;כאן הפס יורד: הכפתור של הסקשן לא צריך מתחרה.&lt;/p&gt;
+    &lt;input type="text" placeholder="שם" aria-label="שם" autocomplete="name"&gt;&lt;input type="tel" placeholder="טלפון" aria-label="טלפון" dir="ltr" autocomplete="tel"&gt;&lt;button class="cx-btn" type="button"&gt;שליחה&lt;/button&gt;&lt;/section&gt;
+  &lt;p class="cx-foot"&gt;הפוטר של האתר&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;
+  &lt;div class="mbar cv2-bar" data-mbar role="region" aria-label="הצעד הבא"&gt;
+    &lt;a class="cx-btn mb-go" href="#cv2-end"&gt;&lt;span class="mb-txt"&gt;&lt;small data-where&gt;שירותים&lt;/small&gt;&lt;span data-lab&gt;לבחירת שירות&lt;/span&gt;&lt;/span&gt;&lt;svg class="ic-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"&gt;&lt;path d="M19 12H5m7-7-7 7 7 7"/&gt;&lt;/svg&gt;&lt;/a&gt;
+    &lt;a class="mb-ic" href="tel:+972500000000" aria-label="חיוג: 050-000-0000"&gt;&lt;svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"&gt;&lt;path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/&gt;&lt;/svg&gt;&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>// the bar's whole job is timing: it appears once the hero's own button has left the screen, steps aside when the final
+// contact section is on screen (two identical buttons compete), and hides while a field has focus (the keyboard is up)
+function mbar(bar,opt){
+  opt=opt||{};
+  var ph=bar.closest("[data-phone]"), sc=ph?ph.querySelector("[data-scroller]"):window, root=ph||document;
+  var origin=root.querySelector("[data-cta-origin]"), end=root.querySelector("[data-cta-end]"), typing=false, raf=0;
+  function box(){return sc===window?{top:0,bottom:innerHeight}:sc.getBoundingClientRect();}
+  function upd(){
+    raf=0;
+    var b=box(), vh=b.bottom-b.top, o=origin&amp;&amp;origin.getBoundingClientRect(), e=end&amp;&amp;end.getBoundingClientRect();
+    var past=!o||o.bottom&lt;b.top+8, atEnd=!!e&amp;&amp;e.top&lt;b.bottom-vh*.3, on=past&amp;&amp;!atEnd&amp;&amp;!typing;
+    if(on!==bar.classList.contains("is-on")){
+      bar.classList.toggle("is-on",on);
+      // off screen it must also leave the tab order, or a keyboard user tabs into an invisible button
+      if(on)bar.removeAttribute("inert");else bar.setAttribute("inert","");
+      if(opt.change)opt.change(on);
+    }
+    if(opt.tick)opt.tick(b);
+  }
+  function req(){if(!raf)raf=requestAnimationFrame(upd);}
+  sc.addEventListener("scroll",req,{passive:true});addEventListener("resize",req);
+  root.addEventListener("focusin",function(ev){if(ev.target.matches("input,textarea,select")){typing=true;upd();}});
+  root.addEventListener("focusout",function(ev){if(ev.target.matches("input,textarea,select")){typing=false;setTimeout(upd,160);}});
+  bar.setAttribute("inert","");upd();setTimeout(upd,300);
+  return upd;
+}
+(function(){
+  var root=document.getElementById("cv2"),bar=root.querySelector("[data-mbar]"),go=bar.querySelector(".mb-go"),lab=bar.querySelector("[data-lab]"),where=bar.querySelector("[data-where]");
+  var secs=[].slice.call(root.querySelectorAll("[data-cta]")),cur=null,first=true,t=0;
+  function swap(s){
+    var p=s.getAttribute("data-cta").split("|");cur=s;go.setAttribute("href",p[1]||"#");
+    if(lab.textContent===p[0])return;
+    clearTimeout(t);bar.classList.add("is-swapping");
+    t=setTimeout(function(){
+      lab.textContent=p[0];where.textContent=p[2]||"";
+      bar.classList.remove("is-swapping");bar.classList.add("is-entering");void bar.offsetWidth;bar.classList.remove("is-entering");
+    },140);
+  }
+  mbar(bar,{
+    // the section under the upper half of the screen is the one being read
+    tick:function(b){var line=b.top+(b.bottom-b.top)*.45,pick=null;secs.forEach(function(s){var r=s.getBoundingClientRect();if(r.top&lt;=line&amp;&amp;r.bottom&gt;line)pick=s;});if(pick&amp;&amp;pick!==cur)swap(pick);},
+    change:function(on){if(on&amp;&amp;first){first=false;bar.classList.add("nudge");setTimeout(function(){bar.classList.remove("nudge");},1200);}}
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:cv2 · פס פעולה שמשנה את הפעולה לפי המקטע\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/conv/cv2.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/cv2.html\n\nמה זה עושה: הכפתור בפס התחתון אומר מה הגולש רוצה במקום שבו הוא נמצא: בשירותים \"לבחירת שירות\", בעבודות \"לפרויקט כזה אצלכם\", במחירים \"לבדיקת מחיר מדויק\". המילים מתחלפות בתנועה קצרה, ומעליהן שם המקטע.\nמתי משתמשים: דף נחיתה ארוך או וואן-פייג'ר עם מקטעים שונים באופיים (שירותים, עבודות, מחירים, שאלות). באתר שבו כל העמוד מוביל לאותה פעולה, cv1 או b03 מספיקים.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* CV2 · פס פעולה שמשנה את הפעולה לפי המקטע */\n.cx *{box-sizing:border-box}\n.cx{--cx-err:color-mix(in srgb,#d23b22 72%,var(--ink, #16182b));font-size:16px;line-height:1.6;color:var(--ink, #16182b)}\n.cx :where(a){color:inherit}\n.cx :where(h2,h3){text-wrap:balance}\n.cx :where(p,small,li){text-wrap:pretty}\n.cx :focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px;border-radius:8px}\n.cx-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border:0;border-radius:14px;\n  background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:16px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap;\n  transition:transform .18s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s cubic-bezier(.2,.6,.2,1)}\n.cx-btn svg{width:20px;height:20px;flex:none}\n.cx-btn:active{transform:scale(.97)}\n.cx-btn.is-ghost{background:transparent;color:var(--ink, #16182b);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink, #16182b) 22%,transparent)}\n@media (hover:hover) and (pointer:fine){.cx-btn:hover{transform:translateY(-1px)}.cx-btn.is-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--ink, #16182b)}\n  .cx a:hover .ic-arr,.cx-btn:hover .ic-arr{transform:translateX(-4px)}}\n.ic-arr{transition:transform .2s cubic-bezier(.2,.6,.2,1)}\n[dir=\"ltr\"] .ic-arr{rotate:180deg}\n.cx-rv{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}\n.is-in .cx-rv{opacity:1;transform:none}\n.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums}\n/* the demo switch: lets the reviewer see every state. Not part of the component you copy. */\n.cx-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 24px;padding:6px;border-radius:14px;background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent);font-size:13px;width:max-content;max-width:100%}\n.cx-demo > span{padding:0 10px;font-weight:600;color:var(--muted, #6a6d85)}\n.cx-demo button{min-height:36px;padding:0 14px;border:0;border-radius:10px;background:none;font:inherit;font-weight:600;color:var(--ink, #16182b);cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),color .18s cubic-bezier(.2,.6,.2,1)}\n.cx-demo button[aria-pressed=\"true\"]{background:var(--card, #fff);box-shadow:0 1px 3px color-mix(in srgb,var(--ink, #16182b) 14%,transparent)}\n.cx-demo input{min-height:36px;padding:0 12px;border:0;border-radius:10px;background:var(--card, #fff);font:inherit;font-size:14px;color:var(--ink, #16182b);width:220px}\n@media (prefers-reduced-motion:reduce){.cx *,.cx *::before,.cx *::after{transition-duration:.01ms!important;transition-delay:0s!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.cx-rv{opacity:1;transform:none}}\n.cxs{display:grid;place-items:center;padding:24px var(--gutter, clamp(24px, 5vw, 96px)) 56px}\n.cx-phone{position:relative;width:min(390px,100%);height:min(78vh,760px);border-radius:40px;overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate;\n  box-shadow:0 0 0 10px var(--ink, #16182b),0 32px 64px color-mix(in srgb,var(--ink, #16182b) 24%,transparent);container-type:inline-size}\n.cx-scr{height:100%;overflow:auto;overscroll-behavior:contain;scrollbar-width:none}\n.cx-scr::-webkit-scrollbar{display:none}\n/* the page reserves the bar's height at its end, exactly like body padding on a real site */\n.cx-page{padding-bottom:72px}\n.cx-hero{min-height:78cqh;display:flex;flex-direction:column;justify-content:flex-end;gap:14px;padding:88px 24px 40px;\n  background:linear-gradient(170deg,color-mix(in srgb,var(--accent, #4a3aff) 30%,var(--ink, #16182b)),var(--ink, #16182b) 70%);color:var(--bg, #f7f7fa)}\n.cx-hero small{font-size:13px;font-weight:600;opacity:.8}\n.cx-hero h3{margin:0;font-size:32px;line-height:1.08;font-weight:700}\n.cx-hero p{margin:0;font-size:16px;line-height:1.5;opacity:.82}\n.cx-hero .cx-btn{align-self:flex-start;margin-top:8px}\n.cx-sec{padding:56px 24px}\n.cx-sec:nth-of-type(even){background:var(--card, #fff)}\n.cx-sec small{font-size:13px;font-weight:600;color:var(--muted, #6a6d85)}\n.cx-sec h4{margin:8px 0 12px;font-size:24px;line-height:1.15}\n.cx-sec p{margin:0;font-size:16px;line-height:1.6;color:var(--muted, #6a6d85)}\n.cx-blk{margin-top:24px;aspect-ratio:4/3;border-radius:20px;background:color-mix(in srgb,var(--ink, #16182b) 7%,var(--bg, #f7f7fa))}\n.cx-end{padding:56px 24px 40px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}\n.cx-end h4{margin:0 0 8px;font-size:26px;line-height:1.15}\n.cx-end p{margin:0 0 24px;opacity:.75}\n.cx-end input{display:block;width:100%;min-height:52px;margin-bottom:12px;padding:0 16px;border:0;border-radius:12px;background:color-mix(in srgb,var(--bg, #f7f7fa) 10%,transparent);\n  color:var(--bg, #f7f7fa);font:inherit;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--bg, #f7f7fa) 18%,transparent);transition:box-shadow .18s cubic-bezier(.2,.6,.2,1)}\n.cx-end input::placeholder{color:color-mix(in srgb,var(--bg, #f7f7fa) 55%,transparent)}\n.cx-end input:focus{outline:0;box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}\n.cx-end .cx-btn{width:100%}\n.cx-foot{padding:24px;font-size:13px;color:var(--muted, #6a6d85)}\n\n/* ---- the bar itself ---- */\n.mbar{position:fixed;inset-inline:0;bottom:0;z-index:40;display:flex;align-items:center;gap:8px;padding:10px 12px max(10px,env(safe-area-inset-bottom));\n  background:color-mix(in srgb,var(--card, #fff) 92%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);\n  box-shadow:0 -16px 40px color-mix(in srgb,var(--ink, #16182b) 12%,transparent);\n  transform:translateY(calc(100% + 16px));transition:transform .32s cubic-bezier(.76,0,.24,1)}\n.mbar.is-on{transform:none;transition-timing-function:cubic-bezier(.2,.6,.2,1)}\n/* mobile only on a real site; inside the vault's phone it shows at any window width */\n@media (min-width:768px){.mbar{display:none}}\n.cx-phone .mbar{display:flex;position:absolute}\n.mb-go{flex:1;min-width:0}\n.mb-ic{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:14px;color:var(--ink, #16182b);background:color-mix(in srgb,var(--ink, #16182b) 6%,transparent);transition:transform .18s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1)}\n.mb-ic svg{width:22px;height:22px}\n.mb-ic:active{transform:scale(.94)}\n.cv2-bar .mb-go{justify-content:space-between;padding:0 20px;overflow:hidden}\n.mb-txt{display:grid;text-align:start;line-height:1.2;transition:transform .2s cubic-bezier(.2,.6,.2,1),opacity .2s cubic-bezier(.2,.6,.2,1)}\n.mb-txt small{font-size:12px;font-weight:600;opacity:.72}\n.mb-txt span{font-size:16px}\n.cv2-bar.is-swapping .mb-txt{transform:translateY(-40%);opacity:0;transition-duration:.14s}\n.cv2-bar.is-entering .mb-txt{transform:translateY(40%);opacity:0;transition:none}\n/* the first time it arrives the arrow points once, then never again */\n.cv2-bar.nudge .ic-arr{animation:cv2-nudge .8s cubic-bezier(.2,.6,.2,1) .3s 1}\n@keyframes cv2-nudge{0%,100%{transform:none}40%{transform:translateX(-6px)}}\n\n=== HTML ===\n<div class=\"cx cxs\" id=\"cv2\"><div class=\"cx-phone\" data-phone>\n<div class=\"cx-scr\" data-scroller tabindex=\"0\" aria-label=\"דמו: עמוד בטלפון, גוללים בתוכו\">\n<div class=\"cx-page\">\n  <header class=\"cx-hero\" data-cta=\"לתיאום שיחה|#cv2-end|פתיחה\"><small>סטודיו לעיצוב פנים<\/small><h3>בית שמרגיש נכון בשמונה בבוקר<\/h3><p>גוללים למטה: הפס מופיע ברגע שהכפתור של ההירו יוצא מהמסך.<\/p><a class=\"cx-btn\" href=\"#cv2-end\" data-cta-origin>לתיאום שיחה<\/a><\/header>\n  <section class=\"cx-sec\" data-cta=\"לבחירת שירות|#cv2-end|שירותים\"><small>שירותים<\/small><h4>תכנון מלא, מהקיר ועד הידית<\/h4><p>שלב אחד, איש קשר אחד, ולוח זמנים שמחזיק.<\/p><div class=\"cx-blk\"><\/div><\/section><section class=\"cx-sec\" data-cta=\"לפרויקט כזה אצלכם|#cv2-end|עבודות\"><small>עבודות<\/small><h4>דירה ברמת גן, 4 חדרים<\/h4><p>מטבח פתוח, אחסון שלא רואים, ואור שנכנס עד הסלון.<\/p><div class=\"cx-blk\"><\/div><\/section><section class=\"cx-sec\" data-cta=\"לבדיקת מחיר מדויק|#cv2-end|מחירים\"><small>מחירים<\/small><h4>שלוש חבילות, מחיר סגור מראש<\/h4><p>לא לפי שעה. אם משהו משתנה, מדברים לפני.<\/p><div class=\"cx-blk\"><\/div><\/section>\n  <section class=\"cx-end\" id=\"cv2-end\" data-cta-end><h4>נתחיל בשיחה קצרה<\/h4><p>כאן הפס יורד: הכפתור של הסקשן לא צריך מתחרה.<\/p>\n    <input type=\"text\" placeholder=\"שם\" aria-label=\"שם\" autocomplete=\"name\"><input type=\"tel\" placeholder=\"טלפון\" aria-label=\"טלפון\" dir=\"ltr\" autocomplete=\"tel\"><button class=\"cx-btn\" type=\"button\">שליחה<\/button><\/section>\n  <p class=\"cx-foot\">הפוטר של האתר<\/p>\n<\/div><\/div>\n  <div class=\"mbar cv2-bar\" data-mbar role=\"region\" aria-label=\"הצעד הבא\">\n    <a class=\"cx-btn mb-go\" href=\"#cv2-end\"><span class=\"mb-txt\"><small data-where>שירותים<\/small><span data-lab>לבחירת שירות<\/span><\/span><svg class=\"ic-arr\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M19 12H5m7-7-7 7 7 7\"/><\/svg><\/a>\n    <a class=\"mb-ic\" href=\"tel:+972500000000\" aria-label=\"חיוג: 050-000-0000\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z\"/><\/svg><\/a>\n  <\/div>\n<\/div><\/div>\n\n=== JS ===\n// the bar's whole job is timing: it appears once the hero's own button has left the screen, steps aside when the final\n// contact section is on screen (two identical buttons compete), and hides while a field has focus (the keyboard is up)\nfunction mbar(bar,opt){\n  opt=opt||{};\n  var ph=bar.closest(\"[data-phone]\"), sc=ph?ph.querySelector(\"[data-scroller]\"):window, root=ph||document;\n  var origin=root.querySelector(\"[data-cta-origin]\"), end=root.querySelector(\"[data-cta-end]\"), typing=false, raf=0;\n  function box(){return sc===window?{top:0,bottom:innerHeight}:sc.getBoundingClientRect();}\n  function upd(){\n    raf=0;\n    var b=box(), vh=b.bottom-b.top, o=origin&&origin.getBoundingClientRect(), e=end&&end.getBoundingClientRect();\n    var past=!o||o.bottom<b.top+8, atEnd=!!e&&e.top<b.bottom-vh*.3, on=past&&!atEnd&&!typing;\n    if(on!==bar.classList.contains(\"is-on\")){\n      bar.classList.toggle(\"is-on\",on);\n      // off screen it must also leave the tab order, or a keyboard user tabs into an invisible button\n      if(on)bar.removeAttribute(\"inert\");else bar.setAttribute(\"inert\",\"\");\n      if(opt.change)opt.change(on);\n    }\n    if(opt.tick)opt.tick(b);\n  }\n  function req(){if(!raf)raf=requestAnimationFrame(upd);}\n  sc.addEventListener(\"scroll\",req,{passive:true});addEventListener(\"resize\",req);\n  root.addEventListener(\"focusin\",function(ev){if(ev.target.matches(\"input,textarea,select\")){typing=true;upd();}});\n  root.addEventListener(\"focusout\",function(ev){if(ev.target.matches(\"input,textarea,select\")){typing=false;setTimeout(upd,160);}});\n  bar.setAttribute(\"inert\",\"\");upd();setTimeout(upd,300);\n  return upd;\n}\n(function(){\n  var root=document.getElementById(\"cv2\"),bar=root.querySelector(\"[data-mbar]\"),go=bar.querySelector(\".mb-go\"),lab=bar.querySelector(\"[data-lab]\"),where=bar.querySelector(\"[data-where]\");\n  var secs=[].slice.call(root.querySelectorAll(\"[data-cta]\")),cur=null,first=true,t=0;\n  function swap(s){\n    var p=s.getAttribute(\"data-cta\").split(\"|\");cur=s;go.setAttribute(\"href\",p[1]||\"#\");\n    if(lab.textContent===p[0])return;\n    clearTimeout(t);bar.classList.add(\"is-swapping\");\n    t=setTimeout(function(){\n      lab.textContent=p[0];where.textContent=p[2]||\"\";\n      bar.classList.remove(\"is-swapping\");bar.classList.add(\"is-entering\");void bar.offsetWidth;bar.classList.remove(\"is-entering\");\n    },140);\n  }\n  mbar(bar,{\n    // the section under the upper half of the screen is the one being read\n    tick:function(b){var line=b.top+(b.bottom-b.top)*.45,pick=null;secs.forEach(function(s){var r=s.getBoundingClientRect();if(r.top<=line&&r.bottom>line)pick=s;});if(pick&&pick!==cur)swap(pick);},\n    change:function(on){if(on&&first){first=false;bar.classList.add(\"nudge\");setTimeout(function(){bar.classList.remove(\"nudge\");},1200);}}\n  });\n})();\n\nהערת מימוש מהמאגר:\nהגרסה הבנאלית: אותו \"צור קשר\" בפס מההתחלה עד הסוף. כאן הכפתור ממשיך את המשפט שהגולש קורא, ולכן נלחץ יותר: מי שנמצא בתמחור רוצה מחיר, לא \"צור קשר\". כל מקטע מחזיק data-cta עם שלושה חלקים: \"תווית|קישור|שם המקטע\". המקטע שנבחר הוא זה שנמצא מתחת ל-45% מגובה המסך. ההחלפה היא שתי תנועות קצרות: המילים הישנות עולות ונעלמות ב-140ms, החדשות עולות מלמטה, ושם המקטע מתחלף איתן. הכפתור ברוחב קבוע ולכן לא קופץ. החץ מצביע פעם אחת בכניסה הראשונה, ולא יותר. אין aria-live על התווית במכוון: הקראה בכל גלילה מעייפת, והשם הנגיש של הקישור מתעדכן ממילא. אותם כללי תזמון כמו cv1: אחרי כפתור ההירו, לא ליד הטופס, ולא כשהמקלדת פתוחה.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* CV2 · פס פעולה שמשנה את הפעולה לפי המקטע */\n.cx *{box-sizing:border-box}\n.cx{--cx-err:color-mix(in srgb,#d23b22 72%,var(--ink, #16182b));font-size:16px;line-height:1.6;color:var(--ink, #16182b)}\n.cx :where(a){color:inherit}\n.cx :where(h2,h3){text-wrap:balance}\n.cx :where(p,small,li){text-wrap:pretty}\n.cx :focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px;border-radius:8px}\n.cx-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border:0;border-radius:14px;\n  background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:16px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap;\n  transition:transform .18s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s cubic-bezier(.2,.6,.2,1)}\n.cx-btn svg{width:20px;height:20px;flex:none}\n.cx-btn:active{transform:scale(.97)}\n.cx-btn.is-ghost{background:transparent;color:var(--ink, #16182b);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink, #16182b) 22%,transparent)}\n@media (hover:hover) and (pointer:fine){.cx-btn:hover{transform:translateY(-1px)}.cx-btn.is-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--ink, #16182b)}\n  .cx a:hover .ic-arr,.cx-btn:hover .ic-arr{transform:translateX(-4px)}}\n.ic-arr{transition:transform .2s cubic-bezier(.2,.6,.2,1)}\n[dir=\"ltr\"] .ic-arr{rotate:180deg}\n.cx-rv{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}\n.is-in .cx-rv{opacity:1;transform:none}\n.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums}\n/* the demo switch: lets the reviewer see every state. Not part of the component you copy. */\n.cx-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 24px;padding:6px;border-radius:14px;background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent);font-size:13px;width:max-content;max-width:100%}\n.cx-demo > span{padding:0 10px;font-weight:600;color:var(--muted, #6a6d85)}\n.cx-demo button{min-height:36px;padding:0 14px;border:0;border-radius:10px;background:none;font:inherit;font-weight:600;color:var(--ink, #16182b);cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),color .18s cubic-bezier(.2,.6,.2,1)}\n.cx-demo button[aria-pressed=\"true\"]{background:var(--card, #fff);box-shadow:0 1px 3px color-mix(in srgb,var(--ink, #16182b) 14%,transparent)}\n.cx-demo input{min-height:36px;padding:0 12px;border:0;border-radius:10px;background:var(--card, #fff);font:inherit;font-size:14px;color:var(--ink, #16182b);width:220px}\n@media (prefers-reduced-motion:reduce){.cx *,.cx *::before,.cx *::after{transition-duration:.01ms!important;transition-delay:0s!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.cx-rv{opacity:1;transform:none}}\n.cxs{display:grid;place-items:center;padding:24px var(--gutter, clamp(24px, 5vw, 96px)) 56px}\n.cx-phone{position:relative;width:min(390px,100%);height:min(78vh,760px);border-radius:40px;overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate;\n  box-shadow:0 0 0 10px var(--ink, #16182b),0 32px 64px color-mix(in srgb,var(--ink, #16182b) 24%,transparent);container-type:inline-size}\n.cx-scr{height:100%;overflow:auto;overscroll-behavior:contain;scrollbar-width:none}\n.cx-scr::-webkit-scrollbar{display:none}\n/* the page reserves the bar's height at its end, exactly like body padding on a real site */\n.cx-page{padding-bottom:72px}\n.cx-hero{min-height:78cqh;display:flex;flex-direction:column;justify-content:flex-end;gap:14px;padding:88px 24px 40px;\n  background:linear-gradient(170deg,color-mix(in srgb,var(--accent, #4a3aff) 30%,var(--ink, #16182b)),var(--ink, #16182b) 70%);color:var(--bg, #f7f7fa)}\n.cx-hero small{font-size:13px;font-weight:600;opacity:.8}\n.cx-hero h3{margin:0;font-size:32px;line-height:1.08;font-weight:700}\n.cx-hero p{margin:0;font-size:16px;line-height:1.5;opacity:.82}\n.cx-hero .cx-btn{align-self:flex-start;margin-top:8px}\n.cx-sec{padding:56px 24px}\n.cx-sec:nth-of-type(even){background:var(--card, #fff)}\n.cx-sec small{font-size:13px;font-weight:600;color:var(--muted, #6a6d85)}\n.cx-sec h4{margin:8px 0 12px;font-size:24px;line-height:1.15}\n.cx-sec p{margin:0;font-size:16px;line-height:1.6;color:var(--muted, #6a6d85)}\n.cx-blk{margin-top:24px;aspect-ratio:4/3;border-radius:20px;background:color-mix(in srgb,var(--ink, #16182b) 7%,var(--bg, #f7f7fa))}\n.cx-end{padding:56px 24px 40px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}\n.cx-end h4{margin:0 0 8px;font-size:26px;line-height:1.15}\n.cx-end p{margin:0 0 24px;opacity:.75}\n.cx-end input{display:block;width:100%;min-height:52px;margin-bottom:12px;padding:0 16px;border:0;border-radius:12px;background:color-mix(in srgb,var(--bg, #f7f7fa) 10%,transparent);\n  color:var(--bg, #f7f7fa);font:inherit;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--bg, #f7f7fa) 18%,transparent);transition:box-shadow .18s cubic-bezier(.2,.6,.2,1)}\n.cx-end input::placeholder{color:color-mix(in srgb,var(--bg, #f7f7fa) 55%,transparent)}\n.cx-end input:focus{outline:0;box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}\n.cx-end .cx-btn{width:100%}\n.cx-foot{padding:24px;font-size:13px;color:var(--muted, #6a6d85)}\n\n/* ---- the bar itself ---- */\n.mbar{position:fixed;inset-inline:0;bottom:0;z-index:40;display:flex;align-items:center;gap:8px;padding:10px 12px max(10px,env(safe-area-inset-bottom));\n  background:color-mix(in srgb,var(--card, #fff) 92%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);\n  box-shadow:0 -16px 40px color-mix(in srgb,var(--ink, #16182b) 12%,transparent);\n  transform:translateY(calc(100% + 16px));transition:transform .32s cubic-bezier(.76,0,.24,1)}\n.mbar.is-on{transform:none;transition-timing-function:cubic-bezier(.2,.6,.2,1)}\n/* mobile only on a real site; inside the vault's phone it shows at any window width */\n@media (min-width:768px){.mbar{display:none}}\n.cx-phone .mbar{display:flex;position:absolute}\n.mb-go{flex:1;min-width:0}\n.mb-ic{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:14px;color:var(--ink, #16182b);background:color-mix(in srgb,var(--ink, #16182b) 6%,transparent);transition:transform .18s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1)}\n.mb-ic svg{width:22px;height:22px}\n.mb-ic:active{transform:scale(.94)}\n.cv2-bar .mb-go{justify-content:space-between;padding:0 20px;overflow:hidden}\n.mb-txt{display:grid;text-align:start;line-height:1.2;transition:transform .2s cubic-bezier(.2,.6,.2,1),opacity .2s cubic-bezier(.2,.6,.2,1)}\n.mb-txt small{font-size:12px;font-weight:600;opacity:.72}\n.mb-txt span{font-size:16px}\n.cv2-bar.is-swapping .mb-txt{transform:translateY(-40%);opacity:0;transition-duration:.14s}\n.cv2-bar.is-entering .mb-txt{transform:translateY(40%);opacity:0;transition:none}\n/* the first time it arrives the arrow points once, then never again */\n.cv2-bar.nudge .ic-arr{animation:cv2-nudge .8s cubic-bezier(.2,.6,.2,1) .3s 1}\n@keyframes cv2-nudge{0%,100%{transform:none}40%{transform:translateX(-6px)}}","html":"<div class=\"cx cxs\" id=\"cv2\"><div class=\"cx-phone\" data-phone>\n<div class=\"cx-scr\" data-scroller tabindex=\"0\" aria-label=\"דמו: עמוד בטלפון, גוללים בתוכו\">\n<div class=\"cx-page\">\n  <header class=\"cx-hero\" data-cta=\"לתיאום שיחה|#cv2-end|פתיחה\"><small>סטודיו לעיצוב פנים<\/small><h3>בית שמרגיש נכון בשמונה בבוקר<\/h3><p>גוללים למטה: הפס מופיע ברגע שהכפתור של ההירו יוצא מהמסך.<\/p><a class=\"cx-btn\" href=\"#cv2-end\" data-cta-origin>לתיאום שיחה<\/a><\/header>\n  <section class=\"cx-sec\" data-cta=\"לבחירת שירות|#cv2-end|שירותים\"><small>שירותים<\/small><h4>תכנון מלא, מהקיר ועד הידית<\/h4><p>שלב אחד, איש קשר אחד, ולוח זמנים שמחזיק.<\/p><div class=\"cx-blk\"><\/div><\/section><section class=\"cx-sec\" data-cta=\"לפרויקט כזה אצלכם|#cv2-end|עבודות\"><small>עבודות<\/small><h4>דירה ברמת גן, 4 חדרים<\/h4><p>מטבח פתוח, אחסון שלא רואים, ואור שנכנס עד הסלון.<\/p><div class=\"cx-blk\"><\/div><\/section><section class=\"cx-sec\" data-cta=\"לבדיקת מחיר מדויק|#cv2-end|מחירים\"><small>מחירים<\/small><h4>שלוש חבילות, מחיר סגור מראש<\/h4><p>לא לפי שעה. אם משהו משתנה, מדברים לפני.<\/p><div class=\"cx-blk\"><\/div><\/section>\n  <section class=\"cx-end\" id=\"cv2-end\" data-cta-end><h4>נתחיל בשיחה קצרה<\/h4><p>כאן הפס יורד: הכפתור של הסקשן לא צריך מתחרה.<\/p>\n    <input type=\"text\" placeholder=\"שם\" aria-label=\"שם\" autocomplete=\"name\"><input type=\"tel\" placeholder=\"טלפון\" aria-label=\"טלפון\" dir=\"ltr\" autocomplete=\"tel\"><button class=\"cx-btn\" type=\"button\">שליחה<\/button><\/section>\n  <p class=\"cx-foot\">הפוטר של האתר<\/p>\n<\/div><\/div>\n  <div class=\"mbar cv2-bar\" data-mbar role=\"region\" aria-label=\"הצעד הבא\">\n    <a class=\"cx-btn mb-go\" href=\"#cv2-end\"><span class=\"mb-txt\"><small data-where>שירותים<\/small><span data-lab>לבחירת שירות<\/span><\/span><svg class=\"ic-arr\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M19 12H5m7-7-7 7 7 7\"/><\/svg><\/a>\n    <a class=\"mb-ic\" href=\"tel:+972500000000\" aria-label=\"חיוג: 050-000-0000\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z\"/><\/svg><\/a>\n  <\/div>\n<\/div><\/div>","js":"// the bar's whole job is timing: it appears once the hero's own button has left the screen, steps aside when the final\n// contact section is on screen (two identical buttons compete), and hides while a field has focus (the keyboard is up)\nfunction mbar(bar,opt){\n  opt=opt||{};\n  var ph=bar.closest(\"[data-phone]\"), sc=ph?ph.querySelector(\"[data-scroller]\"):window, root=ph||document;\n  var origin=root.querySelector(\"[data-cta-origin]\"), end=root.querySelector(\"[data-cta-end]\"), typing=false, raf=0;\n  function box(){return sc===window?{top:0,bottom:innerHeight}:sc.getBoundingClientRect();}\n  function upd(){\n    raf=0;\n    var b=box(), vh=b.bottom-b.top, o=origin&&origin.getBoundingClientRect(), e=end&&end.getBoundingClientRect();\n    var past=!o||o.bottom<b.top+8, atEnd=!!e&&e.top<b.bottom-vh*.3, on=past&&!atEnd&&!typing;\n    if(on!==bar.classList.contains(\"is-on\")){\n      bar.classList.toggle(\"is-on\",on);\n      // off screen it must also leave the tab order, or a keyboard user tabs into an invisible button\n      if(on)bar.removeAttribute(\"inert\");else bar.setAttribute(\"inert\",\"\");\n      if(opt.change)opt.change(on);\n    }\n    if(opt.tick)opt.tick(b);\n  }\n  function req(){if(!raf)raf=requestAnimationFrame(upd);}\n  sc.addEventListener(\"scroll\",req,{passive:true});addEventListener(\"resize\",req);\n  root.addEventListener(\"focusin\",function(ev){if(ev.target.matches(\"input,textarea,select\")){typing=true;upd();}});\n  root.addEventListener(\"focusout\",function(ev){if(ev.target.matches(\"input,textarea,select\")){typing=false;setTimeout(upd,160);}});\n  bar.setAttribute(\"inert\",\"\");upd();setTimeout(upd,300);\n  return upd;\n}\n(function(){\n  var root=document.getElementById(\"cv2\"),bar=root.querySelector(\"[data-mbar]\"),go=bar.querySelector(\".mb-go\"),lab=bar.querySelector(\"[data-lab]\"),where=bar.querySelector(\"[data-where]\");\n  var secs=[].slice.call(root.querySelectorAll(\"[data-cta]\")),cur=null,first=true,t=0;\n  function swap(s){\n    var p=s.getAttribute(\"data-cta\").split(\"|\");cur=s;go.setAttribute(\"href\",p[1]||\"#\");\n    if(lab.textContent===p[0])return;\n    clearTimeout(t);bar.classList.add(\"is-swapping\");\n    t=setTimeout(function(){\n      lab.textContent=p[0];where.textContent=p[2]||\"\";\n      bar.classList.remove(\"is-swapping\");bar.classList.add(\"is-entering\");void bar.offsetWidth;bar.classList.remove(\"is-entering\");\n    },140);\n  }\n  mbar(bar,{\n    // the section under the upper half of the screen is the one being read\n    tick:function(b){var line=b.top+(b.bottom-b.top)*.45,pick=null;secs.forEach(function(s){var r=s.getBoundingClientRect();if(r.top<=line&&r.bottom>line)pick=s;});if(pick&&pick!==cur)swap(pick);},\n    change:function(on){if(on&&first){first=false;bar.classList.add(\"nudge\");setTimeout(function(){bar.classList.remove(\"nudge\");},1200);}}\n  });\n})();","scripts":"","rtl":true}</script>
+</section>
+
+<script src="../assets/baseline.js?v=5cf8ac72"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · פס פעולה שמשנה את הפעולה לפי המקטע").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+// the bar's whole job is timing: it appears once the hero's own button has left the screen, steps aside when the final
+// contact section is on screen (two identical buttons compete), and hides while a field has focus (the keyboard is up)
+function mbar(bar,opt){
+  opt=opt||{};
+  var ph=bar.closest("[data-phone]"), sc=ph?ph.querySelector("[data-scroller]"):window, root=ph||document;
+  var origin=root.querySelector("[data-cta-origin]"), end=root.querySelector("[data-cta-end]"), typing=false, raf=0;
+  function box(){return sc===window?{top:0,bottom:innerHeight}:sc.getBoundingClientRect();}
+  function upd(){
+    raf=0;
+    var b=box(), vh=b.bottom-b.top, o=origin&&origin.getBoundingClientRect(), e=end&&end.getBoundingClientRect();
+    var past=!o||o.bottom<b.top+8, atEnd=!!e&&e.top<b.bottom-vh*.3, on=past&&!atEnd&&!typing;
+    if(on!==bar.classList.contains("is-on")){
+      bar.classList.toggle("is-on",on);
+      // off screen it must also leave the tab order, or a keyboard user tabs into an invisible button
+      if(on)bar.removeAttribute("inert");else bar.setAttribute("inert","");
+      if(opt.change)opt.change(on);
+    }
+    if(opt.tick)opt.tick(b);
+  }
+  function req(){if(!raf)raf=requestAnimationFrame(upd);}
+  sc.addEventListener("scroll",req,{passive:true});addEventListener("resize",req);
+  root.addEventListener("focusin",function(ev){if(ev.target.matches("input,textarea,select")){typing=true;upd();}});
+  root.addEventListener("focusout",function(ev){if(ev.target.matches("input,textarea,select")){typing=false;setTimeout(upd,160);}});
+  bar.setAttribute("inert","");upd();setTimeout(upd,300);
+  return upd;
+}
+(function(){
+  var root=document.getElementById("cv2"),bar=root.querySelector("[data-mbar]"),go=bar.querySelector(".mb-go"),lab=bar.querySelector("[data-lab]"),where=bar.querySelector("[data-where]");
+  var secs=[].slice.call(root.querySelectorAll("[data-cta]")),cur=null,first=true,t=0;
+  function swap(s){
+    var p=s.getAttribute("data-cta").split("|");cur=s;go.setAttribute("href",p[1]||"#");
+    if(lab.textContent===p[0])return;
+    clearTimeout(t);bar.classList.add("is-swapping");
+    t=setTimeout(function(){
+      lab.textContent=p[0];where.textContent=p[2]||"";
+      bar.classList.remove("is-swapping");bar.classList.add("is-entering");void bar.offsetWidth;bar.classList.remove("is-entering");
+    },140);
+  }
+  mbar(bar,{
+    // the section under the upper half of the screen is the one being read
+    tick:function(b){var line=b.top+(b.bottom-b.top)*.45,pick=null;secs.forEach(function(s){var r=s.getBoundingClientRect();if(r.top<=line&&r.bottom>line)pick=s;});if(pick&&pick!==cur)swap(pick);},
+    change:function(on){if(on&&first){first=false;bar.classList.add("nudge");setTimeout(function(){bar.classList.remove("nudge");},1200);}}
+  });
+})();
+</script>
+</body>
+</html>

@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const ROOT = process.argv[2];
-const CAT_DIRS = ["comp", "rhythm", "style", "anti", "arch", "gsap", "behavior", "header", "hero", "footer", "css", "lm", "misc"];
+const CAT_DIRS = ["comp", "rhythm", "style", "anti", "arch", "gsap", "behavior", "header", "hero", "footer", "conv", "css", "lm", "misc"];
 const problems = [];
 let pages = 0;
 
@@ -32,7 +32,8 @@ const TOKEN_LITERALS = { "#4a3aff": "--accent", "#16182b": "--ink", "#6a6d85": "
 //    נבדקים margin/padding/gap בפיקסלים, כולל קצוות clamp. לא נבדקים: calc, vw/vh/em/%, וערכים עד 3px (קווי שיער). מנוס: /* qa-allow: scale */
 const TOKENS = JSON.parse(readFileSync(join(homedir(), ".claude", "skills", "design-dna", "references", "engine", "tokens.json"), "utf8")); // one scale for the vault and the projects (23.9.2026)
 const SPACING_SCALE = new Set([...TOKENS.spacing.scale, ...TOKENS.spacing.fluidLayer]);
-const SPACING_PROP = /(?:^|[;{\s])(margin(?:-[a-z]+)?|padding(?:-[a-z]+)?|gap|row-gap|column-gap)\s*:\s*([^;}]+)/g;
+// (?:-[a-z]+)* and not ?: padding-inline-end and margin-block-start have two hyphens, and until 23.9.2026 they were never checked
+const SPACING_PROP = /(?:^|[;{\s])(margin(?:-[a-z]+)*|padding(?:-[a-z]+)*|gap|row-gap|column-gap)\s*:\s*([^;}]+)/g;
 export function offScale(css) {
   const out = [];
   for (const blk of css.split("}")) {
@@ -62,7 +63,7 @@ for (const e of entries) {
   // 2) ערכי טוקנים כליטרלים ב-CSS: שוברים ירושת עור בפרויקט היעד.
   //    חל רק על מהלכים לשימוש חוזר. עורות (style) מגדירים צבעים בהגדרה, ועמודי הדוקטרינה
   //    (anti/arch/comp/rhythm) מדגימים ולא מיובאים, ולכן ליטרלים שם לגיטימיים.
-  const REUSABLE = new Set(["gsap", "behavior", "header", "hero", "footer", "css", "lm", "misc"]);
+  const REUSABLE = new Set(["gsap", "behavior", "header", "hero", "footer", "conv", "css", "lm", "misc"]);
   //    מנוס: /* qa-allow: literal, סיבה */ באותו כלל. משמש כשהליטרל מזווג בכוונה למשטח ליטרלי (טקסט כהה על מחוון לבן קשיח).
   if (REUSABLE.has(e.cat)) {
     const live = css.split("}").filter(b => !/qa-allow:\s*literal/.test(b)).join("}");
@@ -108,6 +109,21 @@ for (const e of entries) {
       if (/qa-allow:\s*line/.test(k) || /drawer|mnav|menu-panel|input|button|\.hbtn|\.md-acc|\si$/i.test(sel)) continue;
       if (/(^|[;{\s])border-(?:bottom|block-end)\s*:\s*[^;]*?\b[1-9]\d*(?:\.\d+)?px/.test(body)) problems.push(`${e.id}: line under a header on "${sel}" (the edge is a shadow on scroll, not a border)`);
     }
+  }
+  // 2ג) מצבי המרה (23.9.2026): כל פריט נושא את מה שהופך אותו לשימושי ולא רק ליפה.
+  if (e.cat === "conv") {
+    const H = e.html || "";
+    if (/data-mbar/.test(H)) {
+      if (!/safe-area-inset-bottom/.test(css)) problems.push(`${e.id}: mobile bar without env(safe-area-inset-bottom) (the iPhone home bar covers it)`);
+      if (!/@media\s*\(min-width:\s*768px\)/.test(css)) problems.push(`${e.id}: mobile bar is not limited to phones (@media (min-width:768px) hides it)`);
+      if (!/inert/.test(js)) problems.push(`${e.id}: a hidden bar stays in the tab order (set inert while it is off screen)`);
+      if (!/focusin/.test(js)) problems.push(`${e.id}: the bar does not step aside while a field has focus (it sits on the keyboard)`);
+      if (!/data-cta-end/.test(H)) problems.push(`${e.id}: the bar never leaves (mark the final contact section with data-cta-end)`);
+    }
+    if (/data-thanks/.test(H) && !/sessionStorage/.test(js)) problems.push(`${e.id}: thank-you page fires the conversion on every reload (guard it with sessionStorage)`);
+    if (/data-404/.test(H) && !/href="\/"/.test(H)) problems.push(`${e.id}: 404 without a way to the home page`);
+    if (/<form/.test(H) && !/aria-live|role="alert"/.test(H)) problems.push(`${e.id}: form states are not announced (aria-live or role="alert")`);
+    if (/data-keep/.test(H) && !/localStorage/.test(js)) problems.push(`${e.id}: a failed send loses what was typed (keep a draft in localStorage)`);
   }
   // 2ב) מטריצת העורות (8.9.2026) הראתה שלושה דפוסים שנשברים אצל לקוח עם עור אחר, גם כשכל הטוקנים במקום:
   //     משטח טקסט עם background:#fff (על עור כהה: כרטיס לבן עם טקסט לבן), טקסט לבן על var(--ink)
@@ -184,7 +200,7 @@ for (const d of CAT_DIRS) {
 }
 
 const missingPages = entries.filter(e => {
-  const dirMap = { comp: "comp", rhythm: "rhythm", style: "style", anti: "anti", arch: "arch", gsap: "gsap", behavior: "behavior", header: "header", hero: "hero", footer: "footer", css: "css", lm: "lm", misc: "misc" };
+  const dirMap = { comp: "comp", rhythm: "rhythm", style: "style", anti: "anti", arch: "arch", gsap: "gsap", behavior: "behavior", header: "header", hero: "hero", footer: "footer", conv: "conv", css: "css", lm: "lm", misc: "misc" };
   return !existsSync(join(ROOT, dirMap[e.cat], e.id + ".html"));
 }).map(e => e.id);
 if (missingPages.length) problems.push("entries without a page: " + missingPages.join(","));

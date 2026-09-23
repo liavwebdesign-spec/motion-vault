@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CV8 · שליחה שלא מאבדת אף ליד | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+
+.cx *{box-sizing:border-box}
+.cx{--cx-err:color-mix(in srgb,#d23b22 72%,var(--ink));font-size:16px;line-height:1.6;color:var(--ink)}
+.cx :where(a){color:inherit}
+.cx :where(h2,h3){text-wrap:balance}
+.cx :where(p,small,li){text-wrap:pretty}
+.cx :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:8px}
+.cx-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border:0;border-radius:14px;
+  background:var(--accent);color:var(--accent-ink);font:inherit;font-size:16px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap;
+  transition:transform .18s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s cubic-bezier(.2,.6,.2,1)}
+.cx-btn svg{width:20px;height:20px;flex:none}
+.cx-btn:active{transform:scale(.97)}
+.cx-btn.is-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 22%,transparent)}
+@media (hover:hover) and (pointer:fine){.cx-btn:hover{transform:translateY(-1px)}.cx-btn.is-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--ink)}
+  .cx a:hover .ic-arr,.cx-btn:hover .ic-arr{transform:translateX(-4px)}}
+.ic-arr{transition:transform .2s cubic-bezier(.2,.6,.2,1)}
+[dir="ltr"] .ic-arr{rotate:180deg}
+.cx-rv{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}
+.is-in .cx-rv{opacity:1;transform:none}
+.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+/* the demo switch: lets the reviewer see every state. Not part of the component you copy. */
+.cx-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 24px;padding:6px;border-radius:14px;background:color-mix(in srgb,var(--ink) 5%,transparent);font-size:13px;width:max-content;max-width:100%}
+.cx-demo > span{padding:0 10px;font-weight:600;color:var(--muted)}
+.cx-demo button{min-height:36px;padding:0 14px;border:0;border-radius:10px;background:none;font:inherit;font-weight:600;color:var(--ink);cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),color .18s cubic-bezier(.2,.6,.2,1)}
+.cx-demo button[aria-pressed="true"]{background:var(--card);box-shadow:0 1px 3px color-mix(in srgb,var(--ink) 14%,transparent)}
+.cx-demo input{min-height:36px;padding:0 12px;border:0;border-radius:10px;background:var(--card);font:inherit;font-size:14px;color:var(--ink);width:220px}
+@media (prefers-reduced-motion:reduce){.cx *,.cx *::before,.cx *::after{transition-duration:.01ms!important;transition-delay:0s!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.cx-rv{opacity:1;transform:none}}
+.cxw{margin-inline:var(--gutter);border-radius:var(--r);background:var(--bg);box-shadow:0 0 0 1px var(--line);overflow:hidden;isolation:isolate}
+.cxw-in{max-width:640px;margin-inline:auto;padding:72px 24px 88px}
+@media (max-width:700px){.cxw-in{padding:48px 20px 64px}}
+.f8-h{margin:0 0 8px;font-size:clamp(26px,3.4vw,36px);line-height:1.15;font-weight:700}
+.f8-sub{margin:0 0 28px;color:var(--muted)}
+.f8 form{display:grid;gap:16px}
+.f8 label{display:grid;gap:8px;font-size:14px;font-weight:600}
+.f8 input,.f8 textarea{width:100%;min-height:52px;padding:14px 16px;border:0;border-radius:14px;background:var(--card);font:inherit;font-weight:400;color:var(--ink);resize:vertical;
+  box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 12%,transparent);transition:box-shadow .18s cubic-bezier(.2,.6,.2,1)}
+.f8 textarea{min-height:96px}
+.f8 input:focus,.f8 textarea:focus{outline:0;box-shadow:inset 0 0 0 2px var(--accent)}
+.f8-btn{justify-self:start;min-width:180px;overflow:hidden}
+.f8-btn [data-lab]{display:inline-block}
+.f8-btn [data-lab].in{animation:f8-lab .22s cubic-bezier(.2,.6,.2,1)}
+@keyframes f8-lab{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.f8-spin{display:none;width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--accent-ink) 30%,transparent);border-top:2px solid var(--accent-ink);animation:f8-spin .8s linear infinite}
+@keyframes f8-spin{to{transform:rotate(360deg)}}
+[data-state="sending"] .f8-spin{display:block}
+[data-state="sending"] .f8-btn{cursor:progress}
+.f8-ok{display:none;width:20px;height:20px}
+.f8-ok path{stroke-dasharray:24;stroke-dashoffset:24;animation:f8-draw .35s cubic-bezier(.2,.6,.2,1) .05s forwards}
+@keyframes f8-draw{to{stroke-dashoffset:0}}
+[data-state="sent"] .f8-ok{display:block}
+[data-state="sent"] .f8-btn{background:var(--ink);color:var(--bg);pointer-events:none}
+/* the panel opens by its row track, so nothing below it jumps */
+.f8-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.6,.2,1)}
+.f8-panel.is-open{grid-template-rows:1fr}
+.f8-panel > div{overflow:hidden;min-height:0}
+.f8-box{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin-top:8px;padding:18px 20px;border-radius:16px;background:color-mix(in srgb,var(--cx-err) 7%,var(--bg))}
+[data-kind="offline"] .f8-box{background:color-mix(in srgb,var(--ink) 6%,var(--bg))}
+[data-kind="ok"] .f8-box{background:color-mix(in srgb,var(--accent) 9%,var(--bg))}
+.f8-ic{grid-row:span 2;width:24px;height:24px;color:var(--cx-err)}
+[data-kind="offline"] .f8-ic{color:var(--muted)}
+[data-kind="ok"] .f8-ic{color:var(--accent)}
+.f8-ic svg{display:block;width:24px;height:24px}
+.f8-ic > span{display:none}
+[data-kind="error"] .f8-ic .i-err,[data-kind="offline"] .f8-ic .i-off,[data-kind="ok"] .f8-ic .i-ok{display:block}
+.f8-box b{font-size:16px;line-height:1.4}
+.f8-box p{margin:0;display:flex;align-items:center;gap:10px;font-size:15px;color:var(--muted)}
+.f8-ring{width:20px;height:20px;flex:none;transform:rotate(-90deg)}
+.f8-ring circle{fill:none;stroke:var(--cx-err);stroke-width:2.5;stroke-dasharray:50.3;stroke-dashoffset:0}
+.f8-ring.run circle{animation:f8-count var(--t,5s) linear forwards}
+@keyframes f8-count{to{stroke-dashoffset:50.3}}
+[data-kind="offline"] .f8-ring,[data-kind="ok"] .f8-ring,.is-final .f8-ring{display:none}
+.f8-acts{grid-column:2;display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.f8-acts .cx-btn{min-height:44px;padding:0 16px;font-size:14px}
+[data-kind="ok"] .f8-acts{display:none}
+/* waiting for the network is not an action the visitor can take: the button says so and steps back */
+[data-state="offline"] .f8-btn{background:color-mix(in srgb,var(--ink) 8%,var(--bg));color:var(--ink);cursor:default}
+/* offline: a slow breathing dot says "waiting", not "broken" */
+.f8-wait{display:none;width:8px;height:8px;border-radius:50%;background:var(--muted);animation:f8-breathe 1.6s cubic-bezier(.2,.6,.2,1) infinite}
+[data-kind="offline"] .f8-wait{display:block}
+@keyframes f8-breathe{50%{opacity:.25}}
+</style>
+</head>
+<body>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <h1><span class="vid">CV8</span> · שליחה שלא מאבדת אף ליד</h1>
+  <span class="chip cat-conv">המרה ומצבים</span>
+  <span class="chip">CSS · JS</span>
+  <span class="chip use">טעינה ופידבק</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:cv8"><code>MV:cv8</code> העתק מזהה</button>
+</div></div>
+<div class="vintro">
+  <p>כשהשליחה נכשלת, הפרטים נשארים (גם אחרי רענון), העמוד מנסה שוב לבד עם ספירה לאחור בטבעת, ומציע לשלוח את אותם פרטים בוואטסאפ בלחיצה. בלי חיבור לאינטרנט הטופס מחכה, ונשלח לבד כשהחיבור חוזר.</p>
+  <p class="when"><b>מתי משתמשים:</b> כל טופס ליד, ובמיוחד בקמפיינים ממומנים: ליד שנכשל בשליחה הוא כסף ששולם ונעלם, ואיש לא יודע. מתאים ביחד עם b32 (התוויות והאימות) או cv9.</p>
+  <div class="mvpanel" data-mvpanel="cv8"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="cx cxw"><div class="cxw-in f8" id="cv8" data-state="idle" data-keep>
+  <div class="cx-demo" role="group" aria-label="הדמיה: מה השרת עושה"><span>השרת:</span><button type="button" data-mode="ok" aria-pressed="false">עונה</button><button type="button" data-mode="fail" aria-pressed="true">נופל</button><button type="button" data-mode="offline" aria-pressed="false">אין חיבור</button></div>
+  <h2 class="f8-h">בואו נדבר על הפרויקט</h2>
+  <p class="f8-sub">שלושה פרטים, ונחזור אליכם עוד היום.</p>
+  <form novalidate>
+    <label>שם<input name="name" autocomplete="name" required value="דנה לוי"></label>
+    <label>טלפון<input name="phone" type="tel" dir="ltr" autocomplete="tel" required value="050-123-4567"></label>
+    <label>במה נוכל לעזור?<textarea name="msg" rows="3">מטבח חדש לדירה ברמת גן</textarea></label>
+    <button class="cx-btn f8-btn" type="submit"><i class="f8-spin" aria-hidden="true"></i><svg class="f8-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-lab>שליחה</span></button>
+    <div class="f8-panel" data-panel data-kind="error" aria-live="polite"><div><div class="f8-box">
+      <span class="f8-ic"><span class="i-err"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg></span><span class="i-off"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a14 14 0 0 1 18 0M6 12.5a9 9 0 0 1 12 0M9 16a4.5 4.5 0 0 1 6 0M12 19.5v.01"/></svg></span><span class="i-ok"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></span>
+      <b data-msg></b>
+      <p><svg class="f8-ring" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/></svg><i class="f8-wait" aria-hidden="true"></i><span data-sub></span></p>
+      <div class="f8-acts"><a class="cx-btn is-ghost" data-wa href="https://wa.me/972500000000" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.6-2-1-1 .8c-.9-.4-1.8-1.3-2.2-2.2l.8-1-1-2z"/></svg>לשלוח בוואטסאפ</a></div>
+    </div></div></div>
+  </form>
+</div></div>
+
+<div class="demo-note">הגרסה הבנאלית: הודעה אדומה "שגיאה, נסה שוב מאוחר יותר", ומי שכתב פסקה שלמה מוותר. כאן שום נפילה לא עולה ליד. (1) כל הקלדה נשמרת כטיוטה (localStorage), ולכן גם רענון או סוללה שנגמרה לא מוחקים. הטיוטה נמחקת רק אחרי הצלחה, ושדות רגישים לא נשמרים בה. (2) אחרי כישלון יש ניסיון חוזר אוטומטי: אחרי 5 שניות, אחר כך אחרי 10, עם טבעת שמתרוקנת וספירה במילים, והכפתור הראשי עצמו הופך ל"לשלוח עכשיו" (לא כפתור שני שעושה אותו דבר). (3) בכל שלב, "לשלוח בוואטסאפ" פותח הודעה עם אותם פרטים, כך שהגיבוי עולה לגולש לחיצה אחת. (4) בלי חיבור הטופס לא נכשל, הוא מחכה: נקודה נושמת, ושליחה עצמית באירוע online. הכפתור שומר על הרוחב שלו בכל המצבים ולא מאפשר שליחה כפולה. aria-busy בזמן השליחה, ו-aria-live על הפאנל. מתג ההדמיה לא שייך לטופס: באתר send() הוא ה-fetch שלכם.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/cv8.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* CV8 · שליחה שלא מאבדת אף ליד */
+.cx *{box-sizing:border-box}
+.cx{--cx-err:color-mix(in srgb,#d23b22 72%,var(--ink, #16182b));font-size:16px;line-height:1.6;color:var(--ink, #16182b)}
+.cx :where(a){color:inherit}
+.cx :where(h2,h3){text-wrap:balance}
+.cx :where(p,small,li){text-wrap:pretty}
+.cx :focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px;border-radius:8px}
+.cx-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border:0;border-radius:14px;
+  background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:16px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap;
+  transition:transform .18s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s cubic-bezier(.2,.6,.2,1)}
+.cx-btn svg{width:20px;height:20px;flex:none}
+.cx-btn:active{transform:scale(.97)}
+.cx-btn.is-ghost{background:transparent;color:var(--ink, #16182b);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink, #16182b) 22%,transparent)}
+@media (hover:hover) and (pointer:fine){.cx-btn:hover{transform:translateY(-1px)}.cx-btn.is-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--ink, #16182b)}
+  .cx a:hover .ic-arr,.cx-btn:hover .ic-arr{transform:translateX(-4px)}}
+.ic-arr{transition:transform .2s cubic-bezier(.2,.6,.2,1)}
+[dir="ltr"] .ic-arr{rotate:180deg}
+.cx-rv{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}
+.is-in .cx-rv{opacity:1;transform:none}
+.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+/* the demo switch: lets the reviewer see every state. Not part of the component you copy. */
+.cx-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 24px;padding:6px;border-radius:14px;background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent);font-size:13px;width:max-content;max-width:100%}
+.cx-demo &gt; span{padding:0 10px;font-weight:600;color:var(--muted, #6a6d85)}
+.cx-demo button{min-height:36px;padding:0 14px;border:0;border-radius:10px;background:none;font:inherit;font-weight:600;color:var(--ink, #16182b);cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),color .18s cubic-bezier(.2,.6,.2,1)}
+.cx-demo button[aria-pressed="true"]{background:var(--card, #fff);box-shadow:0 1px 3px color-mix(in srgb,var(--ink, #16182b) 14%,transparent)}
+.cx-demo input{min-height:36px;padding:0 12px;border:0;border-radius:10px;background:var(--card, #fff);font:inherit;font-size:14px;color:var(--ink, #16182b);width:220px}
+@media (prefers-reduced-motion:reduce){.cx *,.cx *::before,.cx *::after{transition-duration:.01ms!important;transition-delay:0s!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.cx-rv{opacity:1;transform:none}}
+.cxw{margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border-radius:var(--r, 14px);background:var(--bg, #f7f7fa);box-shadow:0 0 0 1px var(--line, #e4e4ee);overflow:hidden;isolation:isolate}
+.cxw-in{max-width:640px;margin-inline:auto;padding:72px 24px 88px}
+@media (max-width:700px){.cxw-in{padding:48px 20px 64px}}
+.f8-h{margin:0 0 8px;font-size:clamp(26px,3.4vw,36px);line-height:1.15;font-weight:700}
+.f8-sub{margin:0 0 28px;color:var(--muted, #6a6d85)}
+.f8 form{display:grid;gap:16px}
+.f8 label{display:grid;gap:8px;font-size:14px;font-weight:600}
+.f8 input,.f8 textarea{width:100%;min-height:52px;padding:14px 16px;border:0;border-radius:14px;background:var(--card, #fff);font:inherit;font-weight:400;color:var(--ink, #16182b);resize:vertical;
+  box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink, #16182b) 12%,transparent);transition:box-shadow .18s cubic-bezier(.2,.6,.2,1)}
+.f8 textarea{min-height:96px}
+.f8 input:focus,.f8 textarea:focus{outline:0;box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}
+.f8-btn{justify-self:start;min-width:180px;overflow:hidden}
+.f8-btn [data-lab]{display:inline-block}
+.f8-btn [data-lab].in{animation:f8-lab .22s cubic-bezier(.2,.6,.2,1)}
+@keyframes f8-lab{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.f8-spin{display:none;width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--accent-ink, #fff) 30%,transparent);border-top:2px solid var(--accent-ink, #fff);animation:f8-spin .8s linear infinite}
+@keyframes f8-spin{to{transform:rotate(360deg)}}
+[data-state="sending"] .f8-spin{display:block}
+[data-state="sending"] .f8-btn{cursor:progress}
+.f8-ok{display:none;width:20px;height:20px}
+.f8-ok path{stroke-dasharray:24;stroke-dashoffset:24;animation:f8-draw .35s cubic-bezier(.2,.6,.2,1) .05s forwards}
+@keyframes f8-draw{to{stroke-dashoffset:0}}
+[data-state="sent"] .f8-ok{display:block}
+[data-state="sent"] .f8-btn{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);pointer-events:none}
+/* the panel opens by its row track, so nothing below it jumps */
+.f8-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.6,.2,1)}
+.f8-panel.is-open{grid-template-rows:1fr}
+.f8-panel &gt; div{overflow:hidden;min-height:0}
+.f8-box{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin-top:8px;padding:18px 20px;border-radius:16px;background:color-mix(in srgb,var(--cx-err) 7%,var(--bg, #f7f7fa))}
+[data-kind="offline"] .f8-box{background:color-mix(in srgb,var(--ink, #16182b) 6%,var(--bg, #f7f7fa))}
+[data-kind="ok"] .f8-box{background:color-mix(in srgb,var(--accent, #4a3aff) 9%,var(--bg, #f7f7fa))}
+.f8-ic{grid-row:span 2;width:24px;height:24px;color:var(--cx-err)}
+[data-kind="offline"] .f8-ic{color:var(--muted, #6a6d85)}
+[data-kind="ok"] .f8-ic{color:var(--accent, #4a3aff)}
+.f8-ic svg{display:block;width:24px;height:24px}
+.f8-ic &gt; span{display:none}
+[data-kind="error"] .f8-ic .i-err,[data-kind="offline"] .f8-ic .i-off,[data-kind="ok"] .f8-ic .i-ok{display:block}
+.f8-box b{font-size:16px;line-height:1.4}
+.f8-box p{margin:0;display:flex;align-items:center;gap:10px;font-size:15px;color:var(--muted, #6a6d85)}
+.f8-ring{width:20px;height:20px;flex:none;transform:rotate(-90deg)}
+.f8-ring circle{fill:none;stroke:var(--cx-err);stroke-width:2.5;stroke-dasharray:50.3;stroke-dashoffset:0}
+.f8-ring.run circle{animation:f8-count var(--t,5s) linear forwards}
+@keyframes f8-count{to{stroke-dashoffset:50.3}}
+[data-kind="offline"] .f8-ring,[data-kind="ok"] .f8-ring,.is-final .f8-ring{display:none}
+.f8-acts{grid-column:2;display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.f8-acts .cx-btn{min-height:44px;padding:0 16px;font-size:14px}
+[data-kind="ok"] .f8-acts{display:none}
+/* waiting for the network is not an action the visitor can take: the button says so and steps back */
+[data-state="offline"] .f8-btn{background:color-mix(in srgb,var(--ink, #16182b) 8%,var(--bg, #f7f7fa));color:var(--ink, #16182b);cursor:default}
+/* offline: a slow breathing dot says "waiting", not "broken" */
+.f8-wait{display:none;width:8px;height:8px;border-radius:50%;background:var(--muted, #6a6d85);animation:f8-breathe 1.6s cubic-bezier(.2,.6,.2,1) infinite}
+[data-kind="offline"] .f8-wait{display:block}
+@keyframes f8-breathe{50%{opacity:.25}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="cx cxw"&gt;&lt;div class="cxw-in f8" id="cv8" data-state="idle" data-keep&gt;
+  &lt;div class="cx-demo" role="group" aria-label="הדמיה: מה השרת עושה"&gt;&lt;span&gt;השרת:&lt;/span&gt;&lt;button type="button" data-mode="ok" aria-pressed="false"&gt;עונה&lt;/button&gt;&lt;button type="button" data-mode="fail" aria-pressed="true"&gt;נופל&lt;/button&gt;&lt;button type="button" data-mode="offline" aria-pressed="false"&gt;אין חיבור&lt;/button&gt;&lt;/div&gt;
+  &lt;h2 class="f8-h"&gt;בואו נדבר על הפרויקט&lt;/h2&gt;
+  &lt;p class="f8-sub"&gt;שלושה פרטים, ונחזור אליכם עוד היום.&lt;/p&gt;
+  &lt;form novalidate&gt;
+    &lt;label&gt;שם&lt;input name="name" autocomplete="name" required value="דנה לוי"&gt;&lt;/label&gt;
+    &lt;label&gt;טלפון&lt;input name="phone" type="tel" dir="ltr" autocomplete="tel" required value="050-123-4567"&gt;&lt;/label&gt;
+    &lt;label&gt;במה נוכל לעזור?&lt;textarea name="msg" rows="3"&gt;מטבח חדש לדירה ברמת גן&lt;/textarea&gt;&lt;/label&gt;
+    &lt;button class="cx-btn f8-btn" type="submit"&gt;&lt;i class="f8-spin" aria-hidden="true"&gt;&lt;/i&gt;&lt;svg class="f8-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"&gt;&lt;path d="M5 12.5l4.5 4.5L19 7.5"/&gt;&lt;/svg&gt;&lt;span data-lab&gt;שליחה&lt;/span&gt;&lt;/button&gt;
+    &lt;div class="f8-panel" data-panel data-kind="error" aria-live="polite"&gt;&lt;div&gt;&lt;div class="f8-box"&gt;
+      &lt;span class="f8-ic"&gt;&lt;span class="i-err"&gt;&lt;svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"&gt;&lt;circle cx="12" cy="12" r="9"/&gt;&lt;path d="M12 7.5v5.5M12 16.5v.01"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span class="i-off"&gt;&lt;svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"&gt;&lt;path d="M3 9a14 14 0 0 1 18 0M6 12.5a9 9 0 0 1 12 0M9 16a4.5 4.5 0 0 1 6 0M12 19.5v.01"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span class="i-ok"&gt;&lt;svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"&gt;&lt;path d="M5 12.5l4.5 4.5L19 7.5"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;/span&gt;
+      &lt;b data-msg&gt;&lt;/b&gt;
+      &lt;p&gt;&lt;svg class="f8-ring" viewBox="0 0 20 20" aria-hidden="true"&gt;&lt;circle cx="10" cy="10" r="8"/&gt;&lt;/svg&gt;&lt;i class="f8-wait" aria-hidden="true"&gt;&lt;/i&gt;&lt;span data-sub&gt;&lt;/span&gt;&lt;/p&gt;
+      &lt;div class="f8-acts"&gt;&lt;a class="cx-btn is-ghost" data-wa href="https://wa.me/972500000000" target="_blank" rel="noopener"&gt;&lt;svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"&gt;&lt;path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/&gt;&lt;path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.6-2-1-1 .8c-.9-.4-1.8-1.3-2.2-2.2l.8-1-1-2z"/&gt;&lt;/svg&gt;לשלוח בוואטסאפ&lt;/a&gt;&lt;/div&gt;
+    &lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;/form&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  var root=document.getElementById("cv8"),form=root.querySelector("form"),btn=form.querySelector(".f8-btn"),lab=btn.querySelector("[data-lab]"),panel=root.querySelector("[data-panel]");
+  var msg=panel.querySelector("[data-msg]"),sub=panel.querySelector("[data-sub]"),ring=panel.querySelector(".f8-ring"),wa=panel.querySelector("[data-wa]");
+  var KEY="cv8-draft",mode="fail",tries=0,timer=0,busy=false,waiting=false,NL=String.fromCharCode(10);
+  // demo only: how the server behaves. On a real site send() is your fetch, and there is no switch.
+  root.querySelectorAll("[data-mode]").forEach(function(b){b.addEventListener("click",function(){
+    mode=b.getAttribute("data-mode");root.querySelectorAll("[data-mode]").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});
+    if(root.getAttribute("data-state")==="sent"){state("idle");setLab("שליחה");panel.classList.remove("is-open");}
+    if(mode!=="offline"&amp;&amp;waiting)dispatchEvent(new Event("online"));
+  });});
+  function online(){return mode==="offline"?false:navigator.onLine;}
+  function send(o){return new Promise(function(res,rej){setTimeout(function(){if(mode==="ok")res();else rej(new Error("500"));},1100);});}
+  // the draft: every keystroke is kept, so a failure, a refresh or a dead battery do not cost the lead
+  var fields=[].slice.call(form.elements).filter(function(f){return f.name;});
+  try{var d=JSON.parse(localStorage.getItem(KEY)||"{}");fields.forEach(function(f){if(d[f.name])f.value=d[f.name];});}catch(e){}
+  var st=0;form.addEventListener("input",function(){clearTimeout(st);st=setTimeout(function(){var o={};fields.forEach(function(f){o[f.name]=f.value;});try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}},300);});
+  function data(){var o={};fields.forEach(function(f){o[f.name]=f.value.trim();});return o;}
+  function state(s){root.setAttribute("data-state",s);}
+  function setLab(t){lab.classList.remove("in");void lab.offsetWidth;lab.textContent=t;lab.classList.add("in");}
+  function show(kind,m,s){panel.setAttribute("data-kind",kind);msg.textContent=m;sub.textContent=s||"";panel.classList.add("is-open");}
+  function countdown(sec){
+    clearInterval(timer);var left=sec;ring.style.setProperty("--t",sec+"s");ring.classList.remove("run");void ring.getBoundingClientRect();ring.classList.add("run");
+    sub.textContent="ננסה שוב לבד בעוד "+left+" שניות";
+    timer=setInterval(function(){left--;if(left&lt;=0){clearInterval(timer);submit();}else sub.textContent="ננסה שוב לבד בעוד "+left+" שניות";},1000);
+  }
+  function submit(){
+    if(busy)return;
+    var o=data();if(!o.name||!o.phone){form.querySelector(o.name?"[name=phone]":"[name=name]").focus();return;}
+    busy=true;clearInterval(timer);btn.style.minWidth=btn.offsetWidth+"px";
+    // WhatsApp carries the same details, so the fallback costs the visitor one tap and no retyping
+    wa.href="https://wa.me/972500000000?text="+encodeURIComponent("היי, ניסיתי לשלוח פנייה באתר ולא עבר."+NL+"שם: "+o.name+NL+"טלפון: "+o.phone+(o.msg?NL+o.msg:""));
+    if(!online()){busy=false;waiting=true;state("offline");setLab("ממתין לחיבור");show("offline","אין חיבור לאינטרנט. הפרטים שמורים.","הטופס יישלח לבד ברגע שהחיבור יחזור.");return;}
+    state("sending");setLab("שולח");panel.classList.remove("is-open");btn.setAttribute("aria-busy","true");
+    send(o).then(function(){
+      busy=false;tries=0;btn.removeAttribute("aria-busy");state("sent");setLab("נשלח");try{localStorage.removeItem(KEY);}catch(e){}
+      show("ok","קיבלנו. נחזור אליכם עוד היום.","");
+    },function(){
+      busy=false;tries++;btn.removeAttribute("aria-busy");state("error");setLab("לשלוח עכשיו");
+      if(tries&lt;3){panel.classList.remove("is-final");show("error","לא הצלחנו לשלוח. הפרטים שמורים אצלכם.","");countdown(tries===1?5:10);}
+      else{panel.classList.add("is-final");show("error","השרת לא עונה כרגע. הפרטים שמורים.","הכי מהיר עכשיו: וואטסאפ, או טלפון 050-000-0000.");}
+    });
+  }
+  form.addEventListener("submit",function(e){e.preventDefault();tries=0;submit();});
+  addEventListener("online",function(){if(waiting&amp;&amp;online()){waiting=false;submit();}});
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:cv8 · שליחה שלא מאבדת אף ליד\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/conv/cv8.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/cv8.html\n\nמה זה עושה: כשהשליחה נכשלת, הפרטים נשארים (גם אחרי רענון), העמוד מנסה שוב לבד עם ספירה לאחור בטבעת, ומציע לשלוח את אותם פרטים בוואטסאפ בלחיצה. בלי חיבור לאינטרנט הטופס מחכה, ונשלח לבד כשהחיבור חוזר.\nמתי משתמשים: כל טופס ליד, ובמיוחד בקמפיינים ממומנים: ליד שנכשל בשליחה הוא כסף ששולם ונעלם, ואיש לא יודע. מתאים ביחד עם b32 (התוויות והאימות) או cv9.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* CV8 · שליחה שלא מאבדת אף ליד */\n.cx *{box-sizing:border-box}\n.cx{--cx-err:color-mix(in srgb,#d23b22 72%,var(--ink, #16182b));font-size:16px;line-height:1.6;color:var(--ink, #16182b)}\n.cx :where(a){color:inherit}\n.cx :where(h2,h3){text-wrap:balance}\n.cx :where(p,small,li){text-wrap:pretty}\n.cx :focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px;border-radius:8px}\n.cx-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border:0;border-radius:14px;\n  background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:16px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap;\n  transition:transform .18s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s cubic-bezier(.2,.6,.2,1)}\n.cx-btn svg{width:20px;height:20px;flex:none}\n.cx-btn:active{transform:scale(.97)}\n.cx-btn.is-ghost{background:transparent;color:var(--ink, #16182b);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink, #16182b) 22%,transparent)}\n@media (hover:hover) and (pointer:fine){.cx-btn:hover{transform:translateY(-1px)}.cx-btn.is-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--ink, #16182b)}\n  .cx a:hover .ic-arr,.cx-btn:hover .ic-arr{transform:translateX(-4px)}}\n.ic-arr{transition:transform .2s cubic-bezier(.2,.6,.2,1)}\n[dir=\"ltr\"] .ic-arr{rotate:180deg}\n.cx-rv{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}\n.is-in .cx-rv{opacity:1;transform:none}\n.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums}\n/* the demo switch: lets the reviewer see every state. Not part of the component you copy. */\n.cx-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 24px;padding:6px;border-radius:14px;background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent);font-size:13px;width:max-content;max-width:100%}\n.cx-demo > span{padding:0 10px;font-weight:600;color:var(--muted, #6a6d85)}\n.cx-demo button{min-height:36px;padding:0 14px;border:0;border-radius:10px;background:none;font:inherit;font-weight:600;color:var(--ink, #16182b);cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),color .18s cubic-bezier(.2,.6,.2,1)}\n.cx-demo button[aria-pressed=\"true\"]{background:var(--card, #fff);box-shadow:0 1px 3px color-mix(in srgb,var(--ink, #16182b) 14%,transparent)}\n.cx-demo input{min-height:36px;padding:0 12px;border:0;border-radius:10px;background:var(--card, #fff);font:inherit;font-size:14px;color:var(--ink, #16182b);width:220px}\n@media (prefers-reduced-motion:reduce){.cx *,.cx *::before,.cx *::after{transition-duration:.01ms!important;transition-delay:0s!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.cx-rv{opacity:1;transform:none}}\n.cxw{margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border-radius:var(--r, 14px);background:var(--bg, #f7f7fa);box-shadow:0 0 0 1px var(--line, #e4e4ee);overflow:hidden;isolation:isolate}\n.cxw-in{max-width:640px;margin-inline:auto;padding:72px 24px 88px}\n@media (max-width:700px){.cxw-in{padding:48px 20px 64px}}\n.f8-h{margin:0 0 8px;font-size:clamp(26px,3.4vw,36px);line-height:1.15;font-weight:700}\n.f8-sub{margin:0 0 28px;color:var(--muted, #6a6d85)}\n.f8 form{display:grid;gap:16px}\n.f8 label{display:grid;gap:8px;font-size:14px;font-weight:600}\n.f8 input,.f8 textarea{width:100%;min-height:52px;padding:14px 16px;border:0;border-radius:14px;background:var(--card, #fff);font:inherit;font-weight:400;color:var(--ink, #16182b);resize:vertical;\n  box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink, #16182b) 12%,transparent);transition:box-shadow .18s cubic-bezier(.2,.6,.2,1)}\n.f8 textarea{min-height:96px}\n.f8 input:focus,.f8 textarea:focus{outline:0;box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}\n.f8-btn{justify-self:start;min-width:180px;overflow:hidden}\n.f8-btn [data-lab]{display:inline-block}\n.f8-btn [data-lab].in{animation:f8-lab .22s cubic-bezier(.2,.6,.2,1)}\n@keyframes f8-lab{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}\n.f8-spin{display:none;width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--accent-ink, #fff) 30%,transparent);border-top:2px solid var(--accent-ink, #fff);animation:f8-spin .8s linear infinite}\n@keyframes f8-spin{to{transform:rotate(360deg)}}\n[data-state=\"sending\"] .f8-spin{display:block}\n[data-state=\"sending\"] .f8-btn{cursor:progress}\n.f8-ok{display:none;width:20px;height:20px}\n.f8-ok path{stroke-dasharray:24;stroke-dashoffset:24;animation:f8-draw .35s cubic-bezier(.2,.6,.2,1) .05s forwards}\n@keyframes f8-draw{to{stroke-dashoffset:0}}\n[data-state=\"sent\"] .f8-ok{display:block}\n[data-state=\"sent\"] .f8-btn{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);pointer-events:none}\n/* the panel opens by its row track, so nothing below it jumps */\n.f8-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.6,.2,1)}\n.f8-panel.is-open{grid-template-rows:1fr}\n.f8-panel > div{overflow:hidden;min-height:0}\n.f8-box{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin-top:8px;padding:18px 20px;border-radius:16px;background:color-mix(in srgb,var(--cx-err) 7%,var(--bg, #f7f7fa))}\n[data-kind=\"offline\"] .f8-box{background:color-mix(in srgb,var(--ink, #16182b) 6%,var(--bg, #f7f7fa))}\n[data-kind=\"ok\"] .f8-box{background:color-mix(in srgb,var(--accent, #4a3aff) 9%,var(--bg, #f7f7fa))}\n.f8-ic{grid-row:span 2;width:24px;height:24px;color:var(--cx-err)}\n[data-kind=\"offline\"] .f8-ic{color:var(--muted, #6a6d85)}\n[data-kind=\"ok\"] .f8-ic{color:var(--accent, #4a3aff)}\n.f8-ic svg{display:block;width:24px;height:24px}\n.f8-ic > span{display:none}\n[data-kind=\"error\"] .f8-ic .i-err,[data-kind=\"offline\"] .f8-ic .i-off,[data-kind=\"ok\"] .f8-ic .i-ok{display:block}\n.f8-box b{font-size:16px;line-height:1.4}\n.f8-box p{margin:0;display:flex;align-items:center;gap:10px;font-size:15px;color:var(--muted, #6a6d85)}\n.f8-ring{width:20px;height:20px;flex:none;transform:rotate(-90deg)}\n.f8-ring circle{fill:none;stroke:var(--cx-err);stroke-width:2.5;stroke-dasharray:50.3;stroke-dashoffset:0}\n.f8-ring.run circle{animation:f8-count var(--t,5s) linear forwards}\n@keyframes f8-count{to{stroke-dashoffset:50.3}}\n[data-kind=\"offline\"] .f8-ring,[data-kind=\"ok\"] .f8-ring,.is-final .f8-ring{display:none}\n.f8-acts{grid-column:2;display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}\n.f8-acts .cx-btn{min-height:44px;padding:0 16px;font-size:14px}\n[data-kind=\"ok\"] .f8-acts{display:none}\n/* waiting for the network is not an action the visitor can take: the button says so and steps back */\n[data-state=\"offline\"] .f8-btn{background:color-mix(in srgb,var(--ink, #16182b) 8%,var(--bg, #f7f7fa));color:var(--ink, #16182b);cursor:default}\n/* offline: a slow breathing dot says \"waiting\", not \"broken\" */\n.f8-wait{display:none;width:8px;height:8px;border-radius:50%;background:var(--muted, #6a6d85);animation:f8-breathe 1.6s cubic-bezier(.2,.6,.2,1) infinite}\n[data-kind=\"offline\"] .f8-wait{display:block}\n@keyframes f8-breathe{50%{opacity:.25}}\n\n=== HTML ===\n<div class=\"cx cxw\"><div class=\"cxw-in f8\" id=\"cv8\" data-state=\"idle\" data-keep>\n  <div class=\"cx-demo\" role=\"group\" aria-label=\"הדמיה: מה השרת עושה\"><span>השרת:<\/span><button type=\"button\" data-mode=\"ok\" aria-pressed=\"false\">עונה<\/button><button type=\"button\" data-mode=\"fail\" aria-pressed=\"true\">נופל<\/button><button type=\"button\" data-mode=\"offline\" aria-pressed=\"false\">אין חיבור<\/button><\/div>\n  <h2 class=\"f8-h\">בואו נדבר על הפרויקט<\/h2>\n  <p class=\"f8-sub\">שלושה פרטים, ונחזור אליכם עוד היום.<\/p>\n  <form novalidate>\n    <label>שם<input name=\"name\" autocomplete=\"name\" required value=\"דנה לוי\"><\/label>\n    <label>טלפון<input name=\"phone\" type=\"tel\" dir=\"ltr\" autocomplete=\"tel\" required value=\"050-123-4567\"><\/label>\n    <label>במה נוכל לעזור?<textarea name=\"msg\" rows=\"3\">מטבח חדש לדירה ברמת גן<\/textarea><\/label>\n    <button class=\"cx-btn f8-btn\" type=\"submit\"><i class=\"f8-spin\" aria-hidden=\"true\"><\/i><svg class=\"f8-ok\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"/><\/svg><span data-lab>שליחה<\/span><\/button>\n    <div class=\"f8-panel\" data-panel data-kind=\"error\" aria-live=\"polite\"><div><div class=\"f8-box\">\n      <span class=\"f8-ic\"><span class=\"i-err\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7.5v5.5M12 16.5v.01\"/><\/svg><\/span><span class=\"i-off\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 9a14 14 0 0 1 18 0M6 12.5a9 9 0 0 1 12 0M9 16a4.5 4.5 0 0 1 6 0M12 19.5v.01\"/><\/svg><\/span><span class=\"i-ok\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"/><\/svg><\/span><\/span>\n      <b data-msg><\/b>\n      <p><svg class=\"f8-ring\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"8\"/><\/svg><i class=\"f8-wait\" aria-hidden=\"true\"><\/i><span data-sub><\/span><\/p>\n      <div class=\"f8-acts\"><a class=\"cx-btn is-ghost\" data-wa href=\"https://wa.me/972500000000\" target=\"_blank\" rel=\"noopener\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20l1.3-4A8 8 0 1 1 8 18.7z\"/><path d=\"M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.6-2-1-1 .8c-.9-.4-1.8-1.3-2.2-2.2l.8-1-1-2z\"/><\/svg>לשלוח בוואטסאפ<\/a><\/div>\n    <\/div><\/div><\/div>\n  <\/form>\n<\/div><\/div>\n\n=== JS ===\n(function(){\n  var root=document.getElementById(\"cv8\"),form=root.querySelector(\"form\"),btn=form.querySelector(\".f8-btn\"),lab=btn.querySelector(\"[data-lab]\"),panel=root.querySelector(\"[data-panel]\");\n  var msg=panel.querySelector(\"[data-msg]\"),sub=panel.querySelector(\"[data-sub]\"),ring=panel.querySelector(\".f8-ring\"),wa=panel.querySelector(\"[data-wa]\");\n  var KEY=\"cv8-draft\",mode=\"fail\",tries=0,timer=0,busy=false,waiting=false,NL=String.fromCharCode(10);\n  // demo only: how the server behaves. On a real site send() is your fetch, and there is no switch.\n  root.querySelectorAll(\"[data-mode]\").forEach(function(b){b.addEventListener(\"click\",function(){\n    mode=b.getAttribute(\"data-mode\");root.querySelectorAll(\"[data-mode]\").forEach(function(x){x.setAttribute(\"aria-pressed\",String(x===b));});\n    if(root.getAttribute(\"data-state\")===\"sent\"){state(\"idle\");setLab(\"שליחה\");panel.classList.remove(\"is-open\");}\n    if(mode!==\"offline\"&&waiting)dispatchEvent(new Event(\"online\"));\n  });});\n  function online(){return mode===\"offline\"?false:navigator.onLine;}\n  function send(o){return new Promise(function(res,rej){setTimeout(function(){if(mode===\"ok\")res();else rej(new Error(\"500\"));},1100);});}\n  // the draft: every keystroke is kept, so a failure, a refresh or a dead battery do not cost the lead\n  var fields=[].slice.call(form.elements).filter(function(f){return f.name;});\n  try{var d=JSON.parse(localStorage.getItem(KEY)||\"{}\");fields.forEach(function(f){if(d[f.name])f.value=d[f.name];});}catch(e){}\n  var st=0;form.addEventListener(\"input\",function(){clearTimeout(st);st=setTimeout(function(){var o={};fields.forEach(function(f){o[f.name]=f.value;});try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}},300);});\n  function data(){var o={};fields.forEach(function(f){o[f.name]=f.value.trim();});return o;}\n  function state(s){root.setAttribute(\"data-state\",s);}\n  function setLab(t){lab.classList.remove(\"in\");void lab.offsetWidth;lab.textContent=t;lab.classList.add(\"in\");}\n  function show(kind,m,s){panel.setAttribute(\"data-kind\",kind);msg.textContent=m;sub.textContent=s||\"\";panel.classList.add(\"is-open\");}\n  function countdown(sec){\n    clearInterval(timer);var left=sec;ring.style.setProperty(\"--t\",sec+\"s\");ring.classList.remove(\"run\");void ring.getBoundingClientRect();ring.classList.add(\"run\");\n    sub.textContent=\"ננסה שוב לבד בעוד \"+left+\" שניות\";\n    timer=setInterval(function(){left--;if(left<=0){clearInterval(timer);submit();}else sub.textContent=\"ננסה שוב לבד בעוד \"+left+\" שניות\";},1000);\n  }\n  function submit(){\n    if(busy)return;\n    var o=data();if(!o.name||!o.phone){form.querySelector(o.name?\"[name=phone]\":\"[name=name]\").focus();return;}\n    busy=true;clearInterval(timer);btn.style.minWidth=btn.offsetWidth+\"px\";\n    // WhatsApp carries the same details, so the fallback costs the visitor one tap and no retyping\n    wa.href=\"https://wa.me/972500000000?text=\"+encodeURIComponent(\"היי, ניסיתי לשלוח פנייה באתר ולא עבר.\"+NL+\"שם: \"+o.name+NL+\"טלפון: \"+o.phone+(o.msg?NL+o.msg:\"\"));\n    if(!online()){busy=false;waiting=true;state(\"offline\");setLab(\"ממתין לחיבור\");show(\"offline\",\"אין חיבור לאינטרנט. הפרטים שמורים.\",\"הטופס יישלח לבד ברגע שהחיבור יחזור.\");return;}\n    state(\"sending\");setLab(\"שולח\");panel.classList.remove(\"is-open\");btn.setAttribute(\"aria-busy\",\"true\");\n    send(o).then(function(){\n      busy=false;tries=0;btn.removeAttribute(\"aria-busy\");state(\"sent\");setLab(\"נשלח\");try{localStorage.removeItem(KEY);}catch(e){}\n      show(\"ok\",\"קיבלנו. נחזור אליכם עוד היום.\",\"\");\n    },function(){\n      busy=false;tries++;btn.removeAttribute(\"aria-busy\");state(\"error\");setLab(\"לשלוח עכשיו\");\n      if(tries<3){panel.classList.remove(\"is-final\");show(\"error\",\"לא הצלחנו לשלוח. הפרטים שמורים אצלכם.\",\"\");countdown(tries===1?5:10);}\n      else{panel.classList.add(\"is-final\");show(\"error\",\"השרת לא עונה כרגע. הפרטים שמורים.\",\"הכי מהיר עכשיו: וואטסאפ, או טלפון 050-000-0000.\");}\n    });\n  }\n  form.addEventListener(\"submit\",function(e){e.preventDefault();tries=0;submit();});\n  addEventListener(\"online\",function(){if(waiting&&online()){waiting=false;submit();}});\n})();\n\nהערת מימוש מהמאגר:\nהגרסה הבנאלית: הודעה אדומה \"שגיאה, נסה שוב מאוחר יותר\", ומי שכתב פסקה שלמה מוותר. כאן שום נפילה לא עולה ליד. (1) כל הקלדה נשמרת כטיוטה (localStorage), ולכן גם רענון או סוללה שנגמרה לא מוחקים. הטיוטה נמחקת רק אחרי הצלחה, ושדות רגישים לא נשמרים בה. (2) אחרי כישלון יש ניסיון חוזר אוטומטי: אחרי 5 שניות, אחר כך אחרי 10, עם טבעת שמתרוקנת וספירה במילים, והכפתור הראשי עצמו הופך ל\"לשלוח עכשיו\" (לא כפתור שני שעושה אותו דבר). (3) בכל שלב, \"לשלוח בוואטסאפ\" פותח הודעה עם אותם פרטים, כך שהגיבוי עולה לגולש לחיצה אחת. (4) בלי חיבור הטופס לא נכשל, הוא מחכה: נקודה נושמת, ושליחה עצמית באירוע online. הכפתור שומר על הרוחב שלו בכל המצבים ולא מאפשר שליחה כפולה. aria-busy בזמן השליחה, ו-aria-live על הפאנל. מתג ההדמיה לא שייך לטופס: באתר send() הוא ה-fetch שלכם.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* CV8 · שליחה שלא מאבדת אף ליד */\n.cx *{box-sizing:border-box}\n.cx{--cx-err:color-mix(in srgb,#d23b22 72%,var(--ink, #16182b));font-size:16px;line-height:1.6;color:var(--ink, #16182b)}\n.cx :where(a){color:inherit}\n.cx :where(h2,h3){text-wrap:balance}\n.cx :where(p,small,li){text-wrap:pretty}\n.cx :focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px;border-radius:8px}\n.cx-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border:0;border-radius:14px;\n  background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:16px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap;\n  transition:transform .18s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s cubic-bezier(.2,.6,.2,1)}\n.cx-btn svg{width:20px;height:20px;flex:none}\n.cx-btn:active{transform:scale(.97)}\n.cx-btn.is-ghost{background:transparent;color:var(--ink, #16182b);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink, #16182b) 22%,transparent)}\n@media (hover:hover) and (pointer:fine){.cx-btn:hover{transform:translateY(-1px)}.cx-btn.is-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--ink, #16182b)}\n  .cx a:hover .ic-arr,.cx-btn:hover .ic-arr{transform:translateX(-4px)}}\n.ic-arr{transition:transform .2s cubic-bezier(.2,.6,.2,1)}\n[dir=\"ltr\"] .ic-arr{rotate:180deg}\n.cx-rv{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}\n.is-in .cx-rv{opacity:1;transform:none}\n.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums}\n/* the demo switch: lets the reviewer see every state. Not part of the component you copy. */\n.cx-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 24px;padding:6px;border-radius:14px;background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent);font-size:13px;width:max-content;max-width:100%}\n.cx-demo > span{padding:0 10px;font-weight:600;color:var(--muted, #6a6d85)}\n.cx-demo button{min-height:36px;padding:0 14px;border:0;border-radius:10px;background:none;font:inherit;font-weight:600;color:var(--ink, #16182b);cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),color .18s cubic-bezier(.2,.6,.2,1)}\n.cx-demo button[aria-pressed=\"true\"]{background:var(--card, #fff);box-shadow:0 1px 3px color-mix(in srgb,var(--ink, #16182b) 14%,transparent)}\n.cx-demo input{min-height:36px;padding:0 12px;border:0;border-radius:10px;background:var(--card, #fff);font:inherit;font-size:14px;color:var(--ink, #16182b);width:220px}\n@media (prefers-reduced-motion:reduce){.cx *,.cx *::before,.cx *::after{transition-duration:.01ms!important;transition-delay:0s!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.cx-rv{opacity:1;transform:none}}\n.cxw{margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border-radius:var(--r, 14px);background:var(--bg, #f7f7fa);box-shadow:0 0 0 1px var(--line, #e4e4ee);overflow:hidden;isolation:isolate}\n.cxw-in{max-width:640px;margin-inline:auto;padding:72px 24px 88px}\n@media (max-width:700px){.cxw-in{padding:48px 20px 64px}}\n.f8-h{margin:0 0 8px;font-size:clamp(26px,3.4vw,36px);line-height:1.15;font-weight:700}\n.f8-sub{margin:0 0 28px;color:var(--muted, #6a6d85)}\n.f8 form{display:grid;gap:16px}\n.f8 label{display:grid;gap:8px;font-size:14px;font-weight:600}\n.f8 input,.f8 textarea{width:100%;min-height:52px;padding:14px 16px;border:0;border-radius:14px;background:var(--card, #fff);font:inherit;font-weight:400;color:var(--ink, #16182b);resize:vertical;\n  box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink, #16182b) 12%,transparent);transition:box-shadow .18s cubic-bezier(.2,.6,.2,1)}\n.f8 textarea{min-height:96px}\n.f8 input:focus,.f8 textarea:focus{outline:0;box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}\n.f8-btn{justify-self:start;min-width:180px;overflow:hidden}\n.f8-btn [data-lab]{display:inline-block}\n.f8-btn [data-lab].in{animation:f8-lab .22s cubic-bezier(.2,.6,.2,1)}\n@keyframes f8-lab{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}\n.f8-spin{display:none;width:18px;height:18px;border-radius:50%;box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--accent-ink, #fff) 30%,transparent);border-top:2px solid var(--accent-ink, #fff);animation:f8-spin .8s linear infinite}\n@keyframes f8-spin{to{transform:rotate(360deg)}}\n[data-state=\"sending\"] .f8-spin{display:block}\n[data-state=\"sending\"] .f8-btn{cursor:progress}\n.f8-ok{display:none;width:20px;height:20px}\n.f8-ok path{stroke-dasharray:24;stroke-dashoffset:24;animation:f8-draw .35s cubic-bezier(.2,.6,.2,1) .05s forwards}\n@keyframes f8-draw{to{stroke-dashoffset:0}}\n[data-state=\"sent\"] .f8-ok{display:block}\n[data-state=\"sent\"] .f8-btn{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);pointer-events:none}\n/* the panel opens by its row track, so nothing below it jumps */\n.f8-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s cubic-bezier(.2,.6,.2,1)}\n.f8-panel.is-open{grid-template-rows:1fr}\n.f8-panel > div{overflow:hidden;min-height:0}\n.f8-box{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin-top:8px;padding:18px 20px;border-radius:16px;background:color-mix(in srgb,var(--cx-err) 7%,var(--bg, #f7f7fa))}\n[data-kind=\"offline\"] .f8-box{background:color-mix(in srgb,var(--ink, #16182b) 6%,var(--bg, #f7f7fa))}\n[data-kind=\"ok\"] .f8-box{background:color-mix(in srgb,var(--accent, #4a3aff) 9%,var(--bg, #f7f7fa))}\n.f8-ic{grid-row:span 2;width:24px;height:24px;color:var(--cx-err)}\n[data-kind=\"offline\"] .f8-ic{color:var(--muted, #6a6d85)}\n[data-kind=\"ok\"] .f8-ic{color:var(--accent, #4a3aff)}\n.f8-ic svg{display:block;width:24px;height:24px}\n.f8-ic > span{display:none}\n[data-kind=\"error\"] .f8-ic .i-err,[data-kind=\"offline\"] .f8-ic .i-off,[data-kind=\"ok\"] .f8-ic .i-ok{display:block}\n.f8-box b{font-size:16px;line-height:1.4}\n.f8-box p{margin:0;display:flex;align-items:center;gap:10px;font-size:15px;color:var(--muted, #6a6d85)}\n.f8-ring{width:20px;height:20px;flex:none;transform:rotate(-90deg)}\n.f8-ring circle{fill:none;stroke:var(--cx-err);stroke-width:2.5;stroke-dasharray:50.3;stroke-dashoffset:0}\n.f8-ring.run circle{animation:f8-count var(--t,5s) linear forwards}\n@keyframes f8-count{to{stroke-dashoffset:50.3}}\n[data-kind=\"offline\"] .f8-ring,[data-kind=\"ok\"] .f8-ring,.is-final .f8-ring{display:none}\n.f8-acts{grid-column:2;display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}\n.f8-acts .cx-btn{min-height:44px;padding:0 16px;font-size:14px}\n[data-kind=\"ok\"] .f8-acts{display:none}\n/* waiting for the network is not an action the visitor can take: the button says so and steps back */\n[data-state=\"offline\"] .f8-btn{background:color-mix(in srgb,var(--ink, #16182b) 8%,var(--bg, #f7f7fa));color:var(--ink, #16182b);cursor:default}\n/* offline: a slow breathing dot says \"waiting\", not \"broken\" */\n.f8-wait{display:none;width:8px;height:8px;border-radius:50%;background:var(--muted, #6a6d85);animation:f8-breathe 1.6s cubic-bezier(.2,.6,.2,1) infinite}\n[data-kind=\"offline\"] .f8-wait{display:block}\n@keyframes f8-breathe{50%{opacity:.25}}","html":"<div class=\"cx cxw\"><div class=\"cxw-in f8\" id=\"cv8\" data-state=\"idle\" data-keep>\n  <div class=\"cx-demo\" role=\"group\" aria-label=\"הדמיה: מה השרת עושה\"><span>השרת:<\/span><button type=\"button\" data-mode=\"ok\" aria-pressed=\"false\">עונה<\/button><button type=\"button\" data-mode=\"fail\" aria-pressed=\"true\">נופל<\/button><button type=\"button\" data-mode=\"offline\" aria-pressed=\"false\">אין חיבור<\/button><\/div>\n  <h2 class=\"f8-h\">בואו נדבר על הפרויקט<\/h2>\n  <p class=\"f8-sub\">שלושה פרטים, ונחזור אליכם עוד היום.<\/p>\n  <form novalidate>\n    <label>שם<input name=\"name\" autocomplete=\"name\" required value=\"דנה לוי\"><\/label>\n    <label>טלפון<input name=\"phone\" type=\"tel\" dir=\"ltr\" autocomplete=\"tel\" required value=\"050-123-4567\"><\/label>\n    <label>במה נוכל לעזור?<textarea name=\"msg\" rows=\"3\">מטבח חדש לדירה ברמת גן<\/textarea><\/label>\n    <button class=\"cx-btn f8-btn\" type=\"submit\"><i class=\"f8-spin\" aria-hidden=\"true\"><\/i><svg class=\"f8-ok\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"/><\/svg><span data-lab>שליחה<\/span><\/button>\n    <div class=\"f8-panel\" data-panel data-kind=\"error\" aria-live=\"polite\"><div><div class=\"f8-box\">\n      <span class=\"f8-ic\"><span class=\"i-err\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7.5v5.5M12 16.5v.01\"/><\/svg><\/span><span class=\"i-off\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 9a14 14 0 0 1 18 0M6 12.5a9 9 0 0 1 12 0M9 16a4.5 4.5 0 0 1 6 0M12 19.5v.01\"/><\/svg><\/span><span class=\"i-ok\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"/><\/svg><\/span><\/span>\n      <b data-msg><\/b>\n      <p><svg class=\"f8-ring\" viewBox=\"0 0 20 20\" aria-hidden=\"true\"><circle cx=\"10\" cy=\"10\" r=\"8\"/><\/svg><i class=\"f8-wait\" aria-hidden=\"true\"><\/i><span data-sub><\/span><\/p>\n      <div class=\"f8-acts\"><a class=\"cx-btn is-ghost\" data-wa href=\"https://wa.me/972500000000\" target=\"_blank\" rel=\"noopener\"><svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 20l1.3-4A8 8 0 1 1 8 18.7z\"/><path d=\"M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.6-2-1-1 .8c-.9-.4-1.8-1.3-2.2-2.2l.8-1-1-2z\"/><\/svg>לשלוח בוואטסאפ<\/a><\/div>\n    <\/div><\/div><\/div>\n  <\/form>\n<\/div><\/div>","js":"(function(){\n  var root=document.getElementById(\"cv8\"),form=root.querySelector(\"form\"),btn=form.querySelector(\".f8-btn\"),lab=btn.querySelector(\"[data-lab]\"),panel=root.querySelector(\"[data-panel]\");\n  var msg=panel.querySelector(\"[data-msg]\"),sub=panel.querySelector(\"[data-sub]\"),ring=panel.querySelector(\".f8-ring\"),wa=panel.querySelector(\"[data-wa]\");\n  var KEY=\"cv8-draft\",mode=\"fail\",tries=0,timer=0,busy=false,waiting=false,NL=String.fromCharCode(10);\n  // demo only: how the server behaves. On a real site send() is your fetch, and there is no switch.\n  root.querySelectorAll(\"[data-mode]\").forEach(function(b){b.addEventListener(\"click\",function(){\n    mode=b.getAttribute(\"data-mode\");root.querySelectorAll(\"[data-mode]\").forEach(function(x){x.setAttribute(\"aria-pressed\",String(x===b));});\n    if(root.getAttribute(\"data-state\")===\"sent\"){state(\"idle\");setLab(\"שליחה\");panel.classList.remove(\"is-open\");}\n    if(mode!==\"offline\"&&waiting)dispatchEvent(new Event(\"online\"));\n  });});\n  function online(){return mode===\"offline\"?false:navigator.onLine;}\n  function send(o){return new Promise(function(res,rej){setTimeout(function(){if(mode===\"ok\")res();else rej(new Error(\"500\"));},1100);});}\n  // the draft: every keystroke is kept, so a failure, a refresh or a dead battery do not cost the lead\n  var fields=[].slice.call(form.elements).filter(function(f){return f.name;});\n  try{var d=JSON.parse(localStorage.getItem(KEY)||\"{}\");fields.forEach(function(f){if(d[f.name])f.value=d[f.name];});}catch(e){}\n  var st=0;form.addEventListener(\"input\",function(){clearTimeout(st);st=setTimeout(function(){var o={};fields.forEach(function(f){o[f.name]=f.value;});try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}},300);});\n  function data(){var o={};fields.forEach(function(f){o[f.name]=f.value.trim();});return o;}\n  function state(s){root.setAttribute(\"data-state\",s);}\n  function setLab(t){lab.classList.remove(\"in\");void lab.offsetWidth;lab.textContent=t;lab.classList.add(\"in\");}\n  function show(kind,m,s){panel.setAttribute(\"data-kind\",kind);msg.textContent=m;sub.textContent=s||\"\";panel.classList.add(\"is-open\");}\n  function countdown(sec){\n    clearInterval(timer);var left=sec;ring.style.setProperty(\"--t\",sec+\"s\");ring.classList.remove(\"run\");void ring.getBoundingClientRect();ring.classList.add(\"run\");\n    sub.textContent=\"ננסה שוב לבד בעוד \"+left+\" שניות\";\n    timer=setInterval(function(){left--;if(left<=0){clearInterval(timer);submit();}else sub.textContent=\"ננסה שוב לבד בעוד \"+left+\" שניות\";},1000);\n  }\n  function submit(){\n    if(busy)return;\n    var o=data();if(!o.name||!o.phone){form.querySelector(o.name?\"[name=phone]\":\"[name=name]\").focus();return;}\n    busy=true;clearInterval(timer);btn.style.minWidth=btn.offsetWidth+\"px\";\n    // WhatsApp carries the same details, so the fallback costs the visitor one tap and no retyping\n    wa.href=\"https://wa.me/972500000000?text=\"+encodeURIComponent(\"היי, ניסיתי לשלוח פנייה באתר ולא עבר.\"+NL+\"שם: \"+o.name+NL+\"טלפון: \"+o.phone+(o.msg?NL+o.msg:\"\"));\n    if(!online()){busy=false;waiting=true;state(\"offline\");setLab(\"ממתין לחיבור\");show(\"offline\",\"אין חיבור לאינטרנט. הפרטים שמורים.\",\"הטופס יישלח לבד ברגע שהחיבור יחזור.\");return;}\n    state(\"sending\");setLab(\"שולח\");panel.classList.remove(\"is-open\");btn.setAttribute(\"aria-busy\",\"true\");\n    send(o).then(function(){\n      busy=false;tries=0;btn.removeAttribute(\"aria-busy\");state(\"sent\");setLab(\"נשלח\");try{localStorage.removeItem(KEY);}catch(e){}\n      show(\"ok\",\"קיבלנו. נחזור אליכם עוד היום.\",\"\");\n    },function(){\n      busy=false;tries++;btn.removeAttribute(\"aria-busy\");state(\"error\");setLab(\"לשלוח עכשיו\");\n      if(tries<3){panel.classList.remove(\"is-final\");show(\"error\",\"לא הצלחנו לשלוח. הפרטים שמורים אצלכם.\",\"\");countdown(tries===1?5:10);}\n      else{panel.classList.add(\"is-final\");show(\"error\",\"השרת לא עונה כרגע. הפרטים שמורים.\",\"הכי מהיר עכשיו: וואטסאפ, או טלפון 050-000-0000.\");}\n    });\n  }\n  form.addEventListener(\"submit\",function(e){e.preventDefault();tries=0;submit();});\n  addEventListener(\"online\",function(){if(waiting&&online()){waiting=false;submit();}});\n})();","scripts":"","rtl":true}</script>
+</section>
+
+<script src="../assets/baseline.js?v=5cf8ac72"></script>
+<script src="../assets/status.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · שליחה שלא מאבדת אף ליד").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+(function(){
+  var root=document.getElementById("cv8"),form=root.querySelector("form"),btn=form.querySelector(".f8-btn"),lab=btn.querySelector("[data-lab]"),panel=root.querySelector("[data-panel]");
+  var msg=panel.querySelector("[data-msg]"),sub=panel.querySelector("[data-sub]"),ring=panel.querySelector(".f8-ring"),wa=panel.querySelector("[data-wa]");
+  var KEY="cv8-draft",mode="fail",tries=0,timer=0,busy=false,waiting=false,NL=String.fromCharCode(10);
+  // demo only: how the server behaves. On a real site send() is your fetch, and there is no switch.
+  root.querySelectorAll("[data-mode]").forEach(function(b){b.addEventListener("click",function(){
+    mode=b.getAttribute("data-mode");root.querySelectorAll("[data-mode]").forEach(function(x){x.setAttribute("aria-pressed",String(x===b));});
+    if(root.getAttribute("data-state")==="sent"){state("idle");setLab("שליחה");panel.classList.remove("is-open");}
+    if(mode!=="offline"&&waiting)dispatchEvent(new Event("online"));
+  });});
+  function online(){return mode==="offline"?false:navigator.onLine;}
+  function send(o){return new Promise(function(res,rej){setTimeout(function(){if(mode==="ok")res();else rej(new Error("500"));},1100);});}
+  // the draft: every keystroke is kept, so a failure, a refresh or a dead battery do not cost the lead
+  var fields=[].slice.call(form.elements).filter(function(f){return f.name;});
+  try{var d=JSON.parse(localStorage.getItem(KEY)||"{}");fields.forEach(function(f){if(d[f.name])f.value=d[f.name];});}catch(e){}
+  var st=0;form.addEventListener("input",function(){clearTimeout(st);st=setTimeout(function(){var o={};fields.forEach(function(f){o[f.name]=f.value;});try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}},300);});
+  function data(){var o={};fields.forEach(function(f){o[f.name]=f.value.trim();});return o;}
+  function state(s){root.setAttribute("data-state",s);}
+  function setLab(t){lab.classList.remove("in");void lab.offsetWidth;lab.textContent=t;lab.classList.add("in");}
+  function show(kind,m,s){panel.setAttribute("data-kind",kind);msg.textContent=m;sub.textContent=s||"";panel.classList.add("is-open");}
+  function countdown(sec){
+    clearInterval(timer);var left=sec;ring.style.setProperty("--t",sec+"s");ring.classList.remove("run");void ring.getBoundingClientRect();ring.classList.add("run");
+    sub.textContent="ננסה שוב לבד בעוד "+left+" שניות";
+    timer=setInterval(function(){left--;if(left<=0){clearInterval(timer);submit();}else sub.textContent="ננסה שוב לבד בעוד "+left+" שניות";},1000);
+  }
+  function submit(){
+    if(busy)return;
+    var o=data();if(!o.name||!o.phone){form.querySelector(o.name?"[name=phone]":"[name=name]").focus();return;}
+    busy=true;clearInterval(timer);btn.style.minWidth=btn.offsetWidth+"px";
+    // WhatsApp carries the same details, so the fallback costs the visitor one tap and no retyping
+    wa.href="https://wa.me/972500000000?text="+encodeURIComponent("היי, ניסיתי לשלוח פנייה באתר ולא עבר."+NL+"שם: "+o.name+NL+"טלפון: "+o.phone+(o.msg?NL+o.msg:""));
+    if(!online()){busy=false;waiting=true;state("offline");setLab("ממתין לחיבור");show("offline","אין חיבור לאינטרנט. הפרטים שמורים.","הטופס יישלח לבד ברגע שהחיבור יחזור.");return;}
+    state("sending");setLab("שולח");panel.classList.remove("is-open");btn.setAttribute("aria-busy","true");
+    send(o).then(function(){
+      busy=false;tries=0;btn.removeAttribute("aria-busy");state("sent");setLab("נשלח");try{localStorage.removeItem(KEY);}catch(e){}
+      show("ok","קיבלנו. נחזור אליכם עוד היום.","");
+    },function(){
+      busy=false;tries++;btn.removeAttribute("aria-busy");state("error");setLab("לשלוח עכשיו");
+      if(tries<3){panel.classList.remove("is-final");show("error","לא הצלחנו לשלוח. הפרטים שמורים אצלכם.","");countdown(tries===1?5:10);}
+      else{panel.classList.add("is-final");show("error","השרת לא עונה כרגע. הפרטים שמורים.","הכי מהיר עכשיו: וואטסאפ, או טלפון 050-000-0000.");}
+    });
+  }
+  form.addEventListener("submit",function(e){e.preventDefault();tries=0;submit();});
+  addEventListener("online",function(){if(waiting&&online()){waiting=false;submit();}});
+})();
+</script>
+</body>
+</html>

@@ -16,7 +16,7 @@ const OUT = join(ROOT, "assets", "thumbs");
 const args = process.argv.slice(2);
 const ALL = args.includes("--all");
 const wanted = args.filter(a => !a.startsWith("--"));
-const CATS = ["gsap", "behavior", "header", "hero", "footer", "css", "lm", "misc", "comp", "rhythm", "style", "anti", "arch"];
+const CATS = ["gsap", "behavior", "header", "hero", "footer", "conv", "css", "lm", "misc", "comp", "rhythm", "style", "anti", "arch"];
 const CHROME = [process.env.CHROME_PATH, "C:/Program Files/Google/Chrome/Application/chrome.exe",
   "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"].filter(Boolean).find(existsSync);
 if (!CHROME) { console.error("Chrome לא נמצא"); process.exit(1); }
@@ -49,7 +49,7 @@ async function connect() {
 // page gave 30 near-empty cards (23.9.2026). Now: walk down through the demo range in steps (so ScrollTrigger,
 // IntersectionObserver and the inView checks all fire), park the mouse in the middle (hover demos), capture at
 // four points and keep the richest frame. JPEG size is the richness measure: an empty frame compresses to ~2KB.
-const TOP = new Set(["style", "comp", "rhythm", "arch", "anti", "misc", "header", "hero", "footer"]);
+const TOP = new Set(["style", "comp", "rhythm", "arch", "anti", "misc", "header", "hero", "footer", "conv"]);
 const HIDE = `.vtop,.vintro,.mvcode,.mvpanel,.demo-note,.bpbar,.fontbar,h2.sr-only`;
 
 async function shoot(p) {
@@ -68,7 +68,12 @@ async function shoot(p) {
     await ev(`document.querySelectorAll(${JSON.stringify(HIDE + (top ? ",.runway" : ""))}).forEach(e=>e.style.display="none");document.documentElement.style.scrollBehavior="auto";if(window.ScrollTrigger)ScrollTrigger.refresh();0`);
     await sleep(300);
     await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 640, y: 400 }, sessionId).catch(() => {});
-    if (top) { await ev(`scrollTo(0,0);dispatchEvent(new Event("scroll"));0`); await sleep(900); writeFileSync(join(OUT, p.id + ".jpg"), await grab()); return true; }
+    if (top) {
+      await ev(`scrollTo(0,0);dispatchEvent(new Event("scroll"));0`);
+      // a phone stage (the mobile bars, conv): the thing to see appears only after the phone's own page scrolls
+      await ev(`(async()=>{const s=document.querySelector("[data-phone] [data-scroller]");if(!s)return 0;for(let y=0;y<=900;y+=120){s.scrollTop=y;s.dispatchEvent(new Event("scroll"));await new Promise(r=>setTimeout(r,40))}return 1})()`);
+      await sleep(900); writeFileSync(join(OUT, p.id + ".jpg"), await grab()); return true;
+    }
     const [a, b] = await ev(`(()=>{const r=[...document.querySelectorAll(".runway")],H=document.documentElement.scrollHeight-innerHeight;
       const a=r.length?r[0].getBoundingClientRect().bottom+scrollY:0, b=r.length>1?r[r.length-1].getBoundingClientRect().top+scrollY-innerHeight:H;
       return [Math.max(0,Math.round(a-innerHeight*.15)),Math.max(0,Math.min(H,Math.round(b)))]})()`);

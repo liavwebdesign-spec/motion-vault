@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CV2 · פס פעולה שמשנה את הפעולה לפי המקטע</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* CV2 · פס פעולה שמשנה את הפעולה לפי המקטע */
+.cx *{box-sizing:border-box}
+.cx{--cx-err:color-mix(in srgb,#d23b22 72%,var(--ink, #16182b));font-size:16px;line-height:1.6;color:var(--ink, #16182b)}
+.cx :where(a){color:inherit}
+.cx :where(h2,h3){text-wrap:balance}
+.cx :where(p,small,li){text-wrap:pretty}
+.cx :focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px;border-radius:8px}
+.cx-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 24px;border:0;border-radius:14px;
+  background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:16px;font-weight:600;text-decoration:none;cursor:pointer;white-space:nowrap;
+  transition:transform .18s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s cubic-bezier(.2,.6,.2,1)}
+.cx-btn svg{width:20px;height:20px;flex:none}
+.cx-btn:active{transform:scale(.97)}
+.cx-btn.is-ghost{background:transparent;color:var(--ink, #16182b);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink, #16182b) 22%,transparent)}
+@media (hover:hover) and (pointer:fine){.cx-btn:hover{transform:translateY(-1px)}.cx-btn.is-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--ink, #16182b)}
+  .cx a:hover .ic-arr,.cx-btn:hover .ic-arr{transform:translateX(-4px)}}
+.ic-arr{transition:transform .2s cubic-bezier(.2,.6,.2,1)}
+[dir="ltr"] .ic-arr{rotate:180deg}
+.cx-rv{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}
+.is-in .cx-rv{opacity:1;transform:none}
+.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+/* the demo switch: lets the reviewer see every state. Not part of the component you copy. */
+.cx-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 24px;padding:6px;border-radius:14px;background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent);font-size:13px;width:max-content;max-width:100%}
+.cx-demo > span{padding:0 10px;font-weight:600;color:var(--muted, #6a6d85)}
+.cx-demo button{min-height:36px;padding:0 14px;border:0;border-radius:10px;background:none;font:inherit;font-weight:600;color:var(--ink, #16182b);cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),color .18s cubic-bezier(.2,.6,.2,1)}
+.cx-demo button[aria-pressed="true"]{background:var(--card, #fff);box-shadow:0 1px 3px color-mix(in srgb,var(--ink, #16182b) 14%,transparent)}
+.cx-demo input{min-height:36px;padding:0 12px;border:0;border-radius:10px;background:var(--card, #fff);font:inherit;font-size:14px;color:var(--ink, #16182b);width:220px}
+@media (prefers-reduced-motion:reduce){.cx *,.cx *::before,.cx *::after{transition-duration:.01ms!important;transition-delay:0s!important;animation-duration:.01ms!important;animation-iteration-count:1!important}.cx-rv{opacity:1;transform:none}}
+.cxs{display:grid;place-items:center;padding:24px var(--gutter, clamp(24px, 5vw, 96px)) 56px}
+.cx-phone{position:relative;width:min(390px,100%);height:min(78vh,760px);border-radius:40px;overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate;
+  box-shadow:0 0 0 10px var(--ink, #16182b),0 32px 64px color-mix(in srgb,var(--ink, #16182b) 24%,transparent);container-type:inline-size}
+.cx-scr{height:100%;overflow:auto;overscroll-behavior:contain;scrollbar-width:none}
+.cx-scr::-webkit-scrollbar{display:none}
+/* the page reserves the bar's height at its end, exactly like body padding on a real site */
+.cx-page{padding-bottom:72px}
+.cx-hero{min-height:78cqh;display:flex;flex-direction:column;justify-content:flex-end;gap:14px;padding:88px 24px 40px;
+  background:linear-gradient(170deg,color-mix(in srgb,var(--accent, #4a3aff) 30%,var(--ink, #16182b)),var(--ink, #16182b) 70%);color:var(--bg, #f7f7fa)}
+.cx-hero small{font-size:13px;font-weight:600;opacity:.8}
+.cx-hero h3{margin:0;font-size:32px;line-height:1.08;font-weight:700}
+.cx-hero p{margin:0;font-size:16px;line-height:1.5;opacity:.82}
+.cx-hero .cx-btn{align-self:flex-start;margin-top:8px}
+.cx-sec{padding:56px 24px}
+.cx-sec:nth-of-type(even){background:var(--card, #fff)}
+.cx-sec small{font-size:13px;font-weight:600;color:var(--muted, #6a6d85)}
+.cx-sec h4{margin:8px 0 12px;font-size:24px;line-height:1.15}
+.cx-sec p{margin:0;font-size:16px;line-height:1.6;color:var(--muted, #6a6d85)}
+.cx-blk{margin-top:24px;aspect-ratio:4/3;border-radius:20px;background:color-mix(in srgb,var(--ink, #16182b) 7%,var(--bg, #f7f7fa))}
+.cx-end{padding:56px 24px 40px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+.cx-end h4{margin:0 0 8px;font-size:26px;line-height:1.15}
+.cx-end p{margin:0 0 24px;opacity:.75}
+.cx-end input{display:block;width:100%;min-height:52px;margin-bottom:12px;padding:0 16px;border:0;border-radius:12px;background:color-mix(in srgb,var(--bg, #f7f7fa) 10%,transparent);
+  color:var(--bg, #f7f7fa);font:inherit;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--bg, #f7f7fa) 18%,transparent);transition:box-shadow .18s cubic-bezier(.2,.6,.2,1)}
+.cx-end input::placeholder{color:color-mix(in srgb,var(--bg, #f7f7fa) 55%,transparent)}
+.cx-end input:focus{outline:0;box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}
+.cx-end .cx-btn{width:100%}
+.cx-foot{padding:24px;font-size:13px;color:var(--muted, #6a6d85)}
+
+/* ---- the bar itself ---- */
+.mbar{position:fixed;inset-inline:0;bottom:0;z-index:40;display:flex;align-items:center;gap:8px;padding:10px 12px max(10px,env(safe-area-inset-bottom));
+  background:color-mix(in srgb,var(--card, #fff) 92%,transparent);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);
+  box-shadow:0 -16px 40px color-mix(in srgb,var(--ink, #16182b) 12%,transparent);
+  transform:translateY(calc(100% + 16px));transition:transform .32s cubic-bezier(.76,0,.24,1)}
+.mbar.is-on{transform:none;transition-timing-function:cubic-bezier(.2,.6,.2,1)}
+/* mobile only on a real site; inside the vault's phone it shows at any window width */
+@media (min-width:768px){.mbar{display:none}}
+.cx-phone .mbar{display:flex;position:absolute}
+.mb-go{flex:1;min-width:0}
+.mb-ic{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:14px;color:var(--ink, #16182b);background:color-mix(in srgb,var(--ink, #16182b) 6%,transparent);transition:transform .18s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1)}
+.mb-ic svg{width:22px;height:22px}
+.mb-ic:active{transform:scale(.94)}
+.cv2-bar .mb-go{justify-content:space-between;padding:0 20px;overflow:hidden}
+.mb-txt{display:grid;text-align:start;line-height:1.2;transition:transform .2s cubic-bezier(.2,.6,.2,1),opacity .2s cubic-bezier(.2,.6,.2,1)}
+.mb-txt small{font-size:12px;font-weight:600;opacity:.72}
+.mb-txt span{font-size:16px}
+.cv2-bar.is-swapping .mb-txt{transform:translateY(-40%);opacity:0;transition-duration:.14s}
+.cv2-bar.is-entering .mb-txt{transform:translateY(40%);opacity:0;transition:none}
+/* the first time it arrives the arrow points once, then never again */
+.cv2-bar.nudge .ic-arr{animation:cv2-nudge .8s cubic-bezier(.2,.6,.2,1) .3s 1}
+@keyframes cv2-nudge{0%,100%{transform:none}40%{transform:translateX(-6px)}}
+</style>
+</head>
+<body>
+
+<div class="cx cxs" id="cv2"><div class="cx-phone" data-phone>
+<div class="cx-scr" data-scroller tabindex="0" aria-label="דמו: עמוד בטלפון, גוללים בתוכו">
+<div class="cx-page">
+  <header class="cx-hero" data-cta="לתיאום שיחה|#cv2-end|פתיחה"><small>סטודיו לעיצוב פנים</small><h3>בית שמרגיש נכון בשמונה בבוקר</h3><p>גוללים למטה: הפס מופיע ברגע שהכפתור של ההירו יוצא מהמסך.</p><a class="cx-btn" href="#cv2-end" data-cta-origin>לתיאום שיחה</a></header>
+  <section class="cx-sec" data-cta="לבחירת שירות|#cv2-end|שירותים"><small>שירותים</small><h4>תכנון מלא, מהקיר ועד הידית</h4><p>שלב אחד, איש קשר אחד, ולוח זמנים שמחזיק.</p><div class="cx-blk"></div></section><section class="cx-sec" data-cta="לפרויקט כזה אצלכם|#cv2-end|עבודות"><small>עבודות</small><h4>דירה ברמת גן, 4 חדרים</h4><p>מטבח פתוח, אחסון שלא רואים, ואור שנכנס עד הסלון.</p><div class="cx-blk"></div></section><section class="cx-sec" data-cta="לבדיקת מחיר מדויק|#cv2-end|מחירים"><small>מחירים</small><h4>שלוש חבילות, מחיר סגור מראש</h4><p>לא לפי שעה. אם משהו משתנה, מדברים לפני.</p><div class="cx-blk"></div></section>
+  <section class="cx-end" id="cv2-end" data-cta-end><h4>נתחיל בשיחה קצרה</h4><p>כאן הפס יורד: הכפתור של הסקשן לא צריך מתחרה.</p>
+    <input type="text" placeholder="שם" aria-label="שם" autocomplete="name"><input type="tel" placeholder="טלפון" aria-label="טלפון" dir="ltr" autocomplete="tel"><button class="cx-btn" type="button">שליחה</button></section>
+  <p class="cx-foot">הפוטר של האתר</p>
+</div></div>
+  <div class="mbar cv2-bar" data-mbar role="region" aria-label="הצעד הבא">
+    <a class="cx-btn mb-go" href="#cv2-end"><span class="mb-txt"><small data-where>שירותים</small><span data-lab>לבחירת שירות</span></span><svg class="ic-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7"/></svg></a>
+    <a class="mb-ic" href="tel:+972500000000" aria-label="חיוג: 050-000-0000"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></a>
+  </div>
+</div></div>
+
+
+<script>
+// the bar's whole job is timing: it appears once the hero's own button has left the screen, steps aside when the final
+// contact section is on screen (two identical buttons compete), and hides while a field has focus (the keyboard is up)
+function mbar(bar,opt){
+  opt=opt||{};
+  var ph=bar.closest("[data-phone]"), sc=ph?ph.querySelector("[data-scroller]"):window, root=ph||document;
+  var origin=root.querySelector("[data-cta-origin]"), end=root.querySelector("[data-cta-end]"), typing=false, raf=0;
+  function box(){return sc===window?{top:0,bottom:innerHeight}:sc.getBoundingClientRect();}
+  function upd(){
+    raf=0;
+    var b=box(), vh=b.bottom-b.top, o=origin&&origin.getBoundingClientRect(), e=end&&end.getBoundingClientRect();
+    var past=!o||o.bottom<b.top+8, atEnd=!!e&&e.top<b.bottom-vh*.3, on=past&&!atEnd&&!typing;
+    if(on!==bar.classList.contains("is-on")){
+      bar.classList.toggle("is-on",on);
+      // off screen it must also leave the tab order, or a keyboard user tabs into an invisible button
+      if(on)bar.removeAttribute("inert");else bar.setAttribute("inert","");
+      if(opt.change)opt.change(on);
+    }
+    if(opt.tick)opt.tick(b);
+  }
+  function req(){if(!raf)raf=requestAnimationFrame(upd);}
+  sc.addEventListener("scroll",req,{passive:true});addEventListener("resize",req);
+  root.addEventListener("focusin",function(ev){if(ev.target.matches("input,textarea,select")){typing=true;upd();}});
+  root.addEventListener("focusout",function(ev){if(ev.target.matches("input,textarea,select")){typing=false;setTimeout(upd,160);}});
+  bar.setAttribute("inert","");upd();setTimeout(upd,300);
+  return upd;
+}
+(function(){
+  var root=document.getElementById("cv2"),bar=root.querySelector("[data-mbar]"),go=bar.querySelector(".mb-go"),lab=bar.querySelector("[data-lab]"),where=bar.querySelector("[data-where]");
+  var secs=[].slice.call(root.querySelectorAll("[data-cta]")),cur=null,first=true,t=0;
+  function swap(s){
+    var p=s.getAttribute("data-cta").split("|");cur=s;go.setAttribute("href",p[1]||"#");
+    if(lab.textContent===p[0])return;
+    clearTimeout(t);bar.classList.add("is-swapping");
+    t=setTimeout(function(){
+      lab.textContent=p[0];where.textContent=p[2]||"";
+      bar.classList.remove("is-swapping");bar.classList.add("is-entering");void bar.offsetWidth;bar.classList.remove("is-entering");
+    },140);
+  }
+  mbar(bar,{
+    // the section under the upper half of the screen is the one being read
+    tick:function(b){var line=b.top+(b.bottom-b.top)*.45,pick=null;secs.forEach(function(s){var r=s.getBoundingClientRect();if(r.top<=line&&r.bottom>line)pick=s;});if(pick&&pick!==cur)swap(pick);},
+    change:function(on){if(on&&first){first=false;bar.classList.add("nudge");setTimeout(function(){bar.classList.remove("nudge");},1200);}}
+  });
+})();
+</script>
+</body>
+</html>
