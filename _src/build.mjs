@@ -1151,8 +1151,12 @@ writeFileSync(join(ROOT, "export", "manifest.json"), JSON.stringify({
   entries: manifest,
 }, null, 1));
 
-writeFileSync(join(ROOT, "index.html"), indexPage());
-writeFileSync(join(ROOT, "library.html"), libraryPage({ entries, CATS, FIT, FIT_LABELS, USES, USES_LABELS, ELEMS, ELEMS_LABELS, BV }));
+// 23.9.2026: Liav approved the library view ("היא מעולה כן"), so it is the home page now.
+// The old flat grid stays reachable as classic.html; library.html (the prototype URL he got) forwards with its hash.
+writeFileSync(join(ROOT, "index.html"), libraryPage({ entries, CATS, FIT, FIT_LABELS, USES, USES_LABELS, ELEMS, ELEMS_LABELS, BV }));
+writeFileSync(join(ROOT, "classic.html"), indexPage());
+writeFileSync(join(ROOT, "library.html"), `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><title>Design DNA · הספרייה</title>
+<script>location.replace("index.html"+location.hash)</script><meta http-equiv="refresh" content="0;url=index.html"></head><body><a href="index.html">לספרייה</a></body></html>`);
 writeFileSync(join(ROOT, "review.html"), reviewPage());
 // התורה נכתבת לסקיל מהקטלוג: המאגר הוא מקור האמת (6.9.2026)
 const skillTargets = [...writeCompositionsSkill(entries, ROOT), ...writeStylesSkill(entries, ROOT), ...writeAntiSkill(entries, ROOT), ...writeArchSkill(entries, ROOT)];

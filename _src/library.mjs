@@ -1,4 +1,4 @@
-// library.html: the library view of the vault (23.9.2026, Liav chose direction A).
+// The vault home page (index.html). Built 23.9.2026 as library.html after Liav chose direction A, approved the same day.
 // Why: 306 items in one flat grid, no previews, 14 mixed categories and three filter layers taking 174px sticky.
 // Now: a sidebar grouped by what you are building (page parts / motion / doctrine), preview images from
 // _src/tools/thumbs.mjs, one line per card, a slim search, status filter and the same report Liav sends me.
@@ -119,7 +119,7 @@ body{background:var(--bg)}
       <button class="lchip on" data-s="all" type="button">הכל</button><button class="lchip" data-s="pending" type="button">ממתינים<b data-n="pending"></b></button><button class="lchip" data-s="no" type="button">לא מאושרים<b data-n="no"></b></button><button class="lchip" data-s="ok" type="button">מאושרים<b data-n="ok"></b></button>
     </div></div>
     <div class="lgroup"><p>מתאים ל</p><div class="lchips" data-fits>${fits}</div></div>
-    <div class="lfoot"><a class="rev" href="review.html">סבב סקירה</a><button class="rep" type="button" data-report>העתק דוח לקלוד</button><a class="old" href="index.html">לתצוגה הישנה</a></div>
+    <div class="lfoot"><a class="rev" href="review.html">סבב סקירה</a><button class="rep" type="button" data-report>העתק דוח לקלוד</button><a class="old" href="classic.html">לתצוגה הישנה</a></div>
   </aside>
   <div class="lscrim" data-scrim></div>
   <main class="lmain">

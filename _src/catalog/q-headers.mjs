@@ -1,5 +1,5 @@
 // Headers family (22.9.2026). Liav: "every site you built had the exact same header". Eight headers for eight uses,
-// five of them floating. All share one behaviour, the doctrine default from this date: headroom. The header leaves
+// four of them floating (hd3, hd4, hd7, hd8). All share one behaviour, the doctrine default from this date: headroom. The header leaves
 // on scroll down and comes back on the first scroll up, always visible at the top, while a menu is open, and while
 // keyboard focus is inside it. Mobile menus reuse the vault drawer from p-menus.mjs (b66), so there is one drawer.
 import { DRAWER_CSS, DRAWER_JS } from "./p-menus.mjs";

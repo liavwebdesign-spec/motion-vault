@@ -44,23 +44,44 @@ async function connect() {
   ws.onmessage = e => { const m = JSON.parse(e.data); if (m.id && pending.has(m.id)) { const p = pending.get(m.id); pending.delete(m.id); m.error ? p.rej(new Error(m.error.message)) : p.res(m.result); } };
 }
 
-// where the demo "lives": doctrine pages (style, comp, arch...) read best from the top; motion demos a bit into the scroll
-const POS = cat => ["style", "comp", "rhythm", "arch", "anti", "misc", "header", "hero", "footer"].includes(cat) ? 0.02 : 0.3;
+// where the demo "lives". Doctrine and page parts (header/hero/footer, style, arch...) read best from the top.
+// Motion demos sit between two .runway spacers and many only come alive mid-scroll, so a fixed fraction of the
+// page gave 30 near-empty cards (23.9.2026). Now: walk down through the demo range in steps (so ScrollTrigger,
+// IntersectionObserver and the inView checks all fire), park the mouse in the middle (hover demos), capture at
+// four points and keep the richest frame. JPEG size is the richness measure: an empty frame compresses to ~2KB.
+const TOP = new Set(["style", "comp", "rhythm", "arch", "anti", "misc", "header", "hero", "footer"]);
+const HIDE = `.vtop,.vintro,.mvcode,.mvpanel,.demo-note,.bpbar,.fontbar,h2.sr-only`;
 
 async function shoot(p) {
   const { targetId } = await send("Target.createTarget", { url: "about:blank" });
   const { sessionId } = await send("Target.attachToTarget", { targetId, flatten: true });
+  const ev = (expression) => send("Runtime.evaluate", { expression, returnByValue: true, awaitPromise: true }, sessionId).then(r => r.result && r.result.value);
+  // clip is in document coordinates, not viewport ones: y must be the current scroll, or every frame is the page top
+  const grab = async () => { const y = await ev("scrollY"); return send("Page.captureScreenshot", { format: "jpeg", quality: 70, clip: { x: 0, y: y || 0, width: 1280, height: 800, scale: 0.4375 }, captureBeyondViewport: false }, sessionId).then(r => Buffer.from(r.data, "base64")); };
   try {
     await send("Page.enable", {}, sessionId);
     await send("Emulation.setDeviceMetricsOverride", { width: 1280, height: 800, deviceScaleFactor: 1, mobile: false }, sessionId);
     await send("Page.navigate", { url: pathToFileURL(p.file).href }, sessionId);
     await sleep(1600);
-    await send("Runtime.evaluate", { expression: `document.querySelectorAll(".vtop,.vintro,.mvcode,.mvpanel,.demo-note,.runway,.bpbar,.fontbar,h2.sr-only").forEach(e=>e.style.display="none");document.documentElement.style.scrollBehavior="auto";if(window.ScrollTrigger)ScrollTrigger.refresh();` }, sessionId);
+    const top = TOP.has(p.cat);
+    // doctrine pages have no runways: hide them too so the demo starts at the top. Motion pages keep them: they are the scroll room.
+    await ev(`document.querySelectorAll(${JSON.stringify(HIDE + (top ? ",.runway" : ""))}).forEach(e=>e.style.display="none");document.documentElement.style.scrollBehavior="auto";if(window.ScrollTrigger)ScrollTrigger.refresh();0`);
     await sleep(300);
-    await send("Runtime.evaluate", { expression: `window.scrollTo(0,Math.round(Math.max(0,document.documentElement.scrollHeight-innerHeight)*${POS(p.cat)}));window.dispatchEvent(new Event("scroll"));` }, sessionId);
-    await sleep(1100);
-    const { data } = await send("Page.captureScreenshot", { format: "jpeg", quality: 70, clip: { x: 0, y: 0, width: 1280, height: 800, scale: 0.4375 }, captureBeyondViewport: false }, sessionId);
-    writeFileSync(join(OUT, p.id + ".jpg"), Buffer.from(data, "base64"));
+    await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 640, y: 400 }, sessionId).catch(() => {});
+    if (top) { await ev(`scrollTo(0,0);dispatchEvent(new Event("scroll"));0`); await sleep(900); writeFileSync(join(OUT, p.id + ".jpg"), await grab()); return true; }
+    const [a, b] = await ev(`(()=>{const r=[...document.querySelectorAll(".runway")],H=document.documentElement.scrollHeight-innerHeight;
+      const a=r.length?r[0].getBoundingClientRect().bottom+scrollY:0, b=r.length>1?r[r.length-1].getBoundingClientRect().top+scrollY-innerHeight:H;
+      return [Math.max(0,Math.round(a-innerHeight*.15)),Math.max(0,Math.min(H,Math.round(b)))]})()`);
+    let best = null, y = 0;
+    for (const f of [0, 0.3, 0.55, 0.8]) {
+      const target = Math.round(a + Math.max(0, b - a) * f);
+      while (y < target) { y = Math.min(target, y + 350); await ev(`scrollTo(0,${y});dispatchEvent(new Event("scroll"));0`); await sleep(40); }
+      await send("Input.dispatchMouseEvent", { type: "mouseMoved", x: 640 + (f * 40), y: 400 }, sessionId).catch(() => {});
+      await sleep(900);
+      const img = await grab();
+      if (!best || img.length > best.length) best = img;
+    }
+    writeFileSync(join(OUT, p.id + ".jpg"), best);
     return true;
   } catch (e) { console.error(`  ${p.id}: ${e.message}`); return false; }
   finally { await send("Target.closeTarget", { targetId }).catch(() => {}); }
