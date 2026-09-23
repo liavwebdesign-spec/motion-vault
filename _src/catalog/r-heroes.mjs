@@ -85,8 +85,8 @@ enter(document.getElementById("h1"));`,
   note:"הוויז'ואל נחתך בקצה התחתון ולא יושב שלם, וזה מה שמזמין לגלול: העין יודעת שיש המשך. הוא נחשף ב-clip-path מלמעלה למטה ולא ב-opacity, כך שהוא מרגיש כמו וילון שנפתח ולא כמו תמונה שדולקת. הטקסט עולה לפניו בדירוג של 90 מילישניות, והוויז'ואל מאחר בכוונה ב-350, כי הוא הדבר הכבד. `text-wrap:balance` שומר על שורות מאוזנות בכותרת בעברית."
 },
 {
-  id:"h2", cat:"hero", name:"הירו טקסט וויז'ואל עם כרטיסי נתון צפים", tech:"CSS · JS", status:"ממתין", runway:false,
-  desc:"טקסט בצד אחד, תמונה מעוגלת על כתם צבע אורגני בצד השני, ושני כרטיסי נתון שצפים על התמונה ונכנסים אחרונים.",
+  id:"h2", cat:"hero", name:"הירו טקסט ותמונה עם כרטיסי נתון", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"טקסט בצד אחד, תמונה גבוהה בצד השני, ושני כרטיסי נתון שיושבים על קצוות התמונה ונכנסים אחרונים. בלי קישוט: התמונה והנתון עושים את העבודה.",
   when:"עסק שיש לו נתון אמיתי להראות (שנים, לקוחות, זמן תגובה): מערכת, שירות מקצועי, קליניקה, חברת השמה. לא כשהמספרים מומצאים, שם הם מורידים אמון.",
   libs:[],
   css:`${FRAME_CSS}
@@ -94,15 +94,13 @@ enter(document.getElementById("h1"));`,
 .h2-txt{display:flex;flex-direction:column;gap:20px}
 .h2h h3{margin:0;max-width:14ch;font-size:clamp(34px,3.8vw,58px);line-height:1.06;font-weight:700}
 .h2-vis{position:relative}
-.h2-blob{position:absolute;inset:-8% -6% -12% -10%;border-radius:48% 52% 42% 58%/55% 44% 56% 45%;
-  background:linear-gradient(150deg,color-mix(in srgb,var(--accent) 26%,transparent),color-mix(in srgb,var(--accent) 6%,transparent))}
-.h2-vis img{position:relative;display:block;width:100%;aspect-ratio:4/3.4;object-fit:cover;border-radius:24px;box-shadow:0 32px 64px color-mix(in srgb,var(--ink) 18%,transparent)}
-.h2-card{position:absolute;z-index:2;background:var(--card);border-radius:16px;padding:16px 20px;box-shadow:0 16px 40px color-mix(in srgb,var(--ink) 14%,transparent)}
+.h2-vis img{position:relative;display:block;width:100%;aspect-ratio:4/4.4;object-fit:cover;border-radius:20px}
+.h2-card{position:absolute;z-index:2;background:var(--card);border-radius:14px;padding:16px 20px;box-shadow:0 12px 32px color-mix(in srgb,var(--ink) 12%,transparent)}
 .h2-card b{display:block;font-size:26px;line-height:1.1}
 .h2-card span{font-size:13px;color:var(--muted)}
-.h2-c1{inset-block-start:12%;inset-inline-start:-6%}
-.h2-c2{inset-block-end:10%;inset-inline-end:-4%}
-@media (max-width:860px){.h2h{grid-template-columns:1fr;gap:32px;padding:96px 20px 56px}.h2-card{display:none}.h2-blob{inset:-4%}}`,
+.h2-c1{inset-block-start:14%;inset-inline-start:-32px}
+.h2-c2{inset-block-end:12%;inset-inline-end:-24px}
+@media (max-width:860px){.h2h{grid-template-columns:1fr;gap:32px;padding:96px 20px 56px}.h2-card{display:none}.h2-vis img{aspect-ratio:4/3}}`,
   html:`<div class="hf">${TOP(true)}
   <section class="h2h" id="h2">
     <div class="h2-txt">
@@ -112,7 +110,7 @@ enter(document.getElementById("h1"));`,
       <div class="hcta rv"><a class="hbtn" href="#h2">לקביעת בדיקה</a><a class="hbtn ghost" href="#h2">המחירון שלנו</a></div>
       <div class="hmicro rv"><span>חניה בבניין</span><span>מרדים מוסמך</span><span>הסדר עם כל הקופות</span></div>
     </div>
-    <div class="h2-vis rv" style="--i:2"><span class="h2-blob"></span>${IMG("demo-a.jpg", "צילום מהמרפאה")}
+    <div class="h2-vis rv" style="--i:2">${IMG("demo-a.jpg", "צילום מהמרפאה")}
       <div class="h2-card h2-c1 rv" style="--i:5"><b>40 דק׳</b><span>בדיקה ראשונה</span></div>
       <div class="h2-card h2-c2 rv" style="--i:6"><b>12 שנה</b><span>באותה כתובת</span></div>
     </div>
@@ -120,7 +118,7 @@ enter(document.getElementById("h1"));`,
 </div>`,
   js:`${REVEAL_JS}
 enter(document.getElementById("h2"));`,
-  note:"הכתם האורגני נבנה ב-border-radius עם ארבעה ערכים וציר שני (58%/45%), ולכן הוא לא עיגול ולא סגלגל סימטרי. הכרטיסים הצפים יושבים על inset לוגי (inline-start ו-inline-end), כך שהם מתהפכים לבד ב-RTL וב-LTR, ונעלמים במובייל במקום להיערם על התמונה. הם נכנסים אחרונים (--i 5 ו-6) כי הם הפרט, לא המסר."
+  note:"גרסה ראשונה ישבה על כתם צבע אורגני (blob) מאחורי התמונה, וליאב פסל אותו: נישתי ולא מתחבר (23.9.2026). עכשיו אין קישוט בכלל. התמונה גבוהה (4:4.4) כדי לאזן עמודת טקסט של חמש שורות, והכרטיסים יוצאים מקצה התמונה ב-32 וב-24 פיקסלים, מספיק כדי להיראות מונחים עליה ולא כדי לצוף באוויר. הם יושבים על inset לוגי ולכן מתהפכים לבד ב-RTL וב-LTR, נעלמים במובייל, ונכנסים אחרונים (--i 5 ו-6) כי הם הפרט, לא המסר. אם אין נתון אמיתי, בוחרים הירו אחר."
 },
 {
   id:"h3", cat:"hero", name:"הירו מדיה מלאה עם שכבת קריאות", tech:"CSS · JS · video", status:"ממתין", runway:false,

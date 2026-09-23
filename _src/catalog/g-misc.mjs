@@ -5,12 +5,12 @@ const HUD = `.mvhud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:9
 
 export default [
 {
-  id:"editorial", cat:"misc", name:"המסגרת העריכתית (ברירת המחדל)", tech:"CSS · קונטיינר 1200 + סולם רוחבים", status:"ממתין",
-  desc:"קונטיינר אחד של 1200, סולם רוחבים צרים שכל בלוק מתכנס אליו לפי תפקידו (1000, 760, 640, 460), וגרידים ייעודיים ברשימה סגורה. אין 12 עמודות, וזו הדוקטרינה. לחץ \"הצג מסגרת\" כדי לראות את הסולם על העמוד.",
-  when:"ברירת המחדל: המרה, דפי נחיתה, שירותים, חנויות, מערכות. כל מה שהקורא בא אליו כדי לפעול. התורה: engine/grid.md.",
+  id:"editorial", cat:"misc", name:"המסגרת העריכתית", tech:"CSS · קונטיינר 1300 + סולם רוחבים", status:"ממתין",
+  desc:"קונטיינר אחד של 1300, סולם רוחבים צרים שכל בלוק מתכנס אליו לפי תפקידו (1000, 760, 640, 460), וגרידים ייעודיים ברשימה סגורה. אין 12 עמודות, וזו הדוקטרינה. לחץ \"הצג מסגרת\" כדי לראות את הסולם על העמוד.",
+  when:"רק כשליאב ביקש מסגרת עריכתית (ברירת המחדל מ-22.9.2026 היא הנוזלית, MV:fluid). מתאימה כשרוצים קריאה ממוסגרת: המרה, שירותים, חנויות, מערכות. התורה: engine/grid.md.",
   note:"הסולם הוא הגריד האנכי האמיתי של העמוד: יורדים בו ככל שהתוכן מילולי יותר. מפת הקריסה קבועה: כרטיסים 3 ← 2 ← 1, split נערם עם הטקסט ראשון, מחירון הופך לקרוסלה. ה-HUD מציג את רוחב הקונטיינר בפועל ומספר עמודות הכרטיסים.",
   css:`${HUD}
-.ed-wrap{max-width:1200px;margin-inline:auto;padding-inline:24px}
+.ed-wrap{max-width:1300px;margin-inline:auto;padding-inline:24px}
 .ed [data-w]{position:relative;margin-inline:auto}
 .ed.frame [data-w]{outline:1px dashed var(--accent);outline-offset:4px}
 .ed.frame [data-w]::before{content:attr(data-w);position:absolute;top:-22px;inset-inline-start:0;font-size:11px;color:var(--accent);letter-spacing:.08em;background:var(--bg);padding:0 6px;white-space:nowrap}
@@ -36,12 +36,12 @@ export default [
     <p data-w="640 · measure, טקסט רץ">הכותרת רחבה מהליד שלה, הליד רחב מהמיקרו. זה המשפך שיוצר את התחושה העריכתית, בלי גריד של 12 עמודות.</p>
     <div class="ed-visual ph ph-a" data-w="1000 · ויז'ואל הירו">1000</div>
   </div>
-  <div class="ed-cards" data-w="1200 · Cards-3 · gap 24 · קורס 3 ← 2 ← 1">
-    <article class="ed-card"><h3>שכבה 1</h3><p>קונטיינר אחד של 1200 עם ריפוד 24. ההדר, הפוטר וכל סקשן חיים בתוכו.</p></article>
+  <div class="ed-cards" data-w="1300 · Cards-3 · gap 24 · קורס 3 ← 2 ← 1">
+    <article class="ed-card"><h3>שכבה 1</h3><p>קונטיינר אחד של 1300 עם ריפוד 24. ההדר, הפוטר וכל סקשן חיים בתוכו.</p></article>
     <article class="ed-card"><h3>שכבה 2</h3><p>סולם רוחבים צרים: 1000, 980, 820, 760, 720, 640, 560, 460. בוחרים, לא ממציאים.</p></article>
     <article class="ed-card"><h3>שכבה 3</h3><p>שבעה גרידים ייעודיים ברשימה סגורה, כל אחד עם gap ו-align קבועים ומפת קריסה משלו.</p></article>
   </div>
-  <div class="ed-split" data-w="1200 · Split · gap 56 · במובייל טקסט ראשון">
+  <div class="ed-split" data-w="1300 · Split · gap 56 · במובייל טקסט ראשון">
     <div class="txt" data-w="460 · טקסט בתא"><h3>תוכן צר מהתא שלו</h3><p>הגריד נותן את המבנה, הסולם נותן את הנשימה. בתוך תא של split הטקסט מוגבל ל-460, לא ממלאים תא עד הקצה.</p></div>
     <div class="ph ph-c">ויז'ואל</div>
   </div>
@@ -49,7 +49,7 @@ export default [
   js:`const ed=document.querySelector(".ed"),hud=document.getElementById("edhud"),tg=document.getElementById("edtg"),cards=document.querySelector(".ed-cards");
 tg.addEventListener("click",()=>{ed.classList.toggle("frame");tg.textContent=ed.classList.contains("frame")?"הסתר מסגרת":"הצג מסגרת";});
 function upd(){const cols=getComputedStyle(cards).gridTemplateColumns.split(" ").length;
-  hud.textContent="רוחב: "+innerWidth+"px · קונטיינר: "+Math.min(1200,innerWidth-48)+"px · כרטיסים: "+cols+(cols===1?" עמודה":" עמודות");}
+  hud.textContent="רוחב: "+innerWidth+"px · קונטיינר: "+Math.min(1300,innerWidth-48)+"px · כרטיסים: "+cols+(cols===1?" עמודה":" עמודות");}
 addEventListener("resize",upd);upd();`,
   runway:false
 },
@@ -146,7 +146,7 @@ addEventListener("resize",upd);upd();`,
   when:"עמודי מוצר ו-SaaS, סקירת יכולות, \"למה אנחנו\", תיק עבודות מסכם, עמוד אפליקציה. כשהקורא סורק ולא קורא. התורה: engine/bento-frame.md.",
   note:"ההבדל מקומפוזיציה C5: שם זה סקשן אחד בעמוד עריכתי, כאן זו שפת העמוד כולו, וכל הלוחות חולקים יחידה, מרזב ורדיוס. שכנים לעולם לא מאותו סוג, ink אחד ו-accent אחד לכל היותר בלוח, ואריח תמונה הוא התמונה עצמה עם תווית על שכבת דיו. הלוח הראשון סוגר 12 תאים, השני 4.",
   css:`${HUD}
-.bn{max-width:1200px;margin-inline:auto;padding:clamp(40px,6vw,96px) 24px;display:grid;gap:clamp(48px,7vw,96px)}
+.bn{max-width:1300px;margin-inline:auto;padding:clamp(40px,6vw,96px) 24px;display:grid;gap:clamp(48px,7vw,96px)}
 .bn-board{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(150px,17vw,220px);gap:20px}
 .bn-t{position:relative;border-radius:var(--r);background:var(--card);border:1px solid var(--line);padding:24px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;min-width:0}
 .bn-t.w2{grid-column:span 2}
@@ -200,7 +200,7 @@ addEventListener("resize",upd);upd();`,
   when:"סטודיו, אדריכלים, צלמים, מוסדות תרבות, מותגי עיצוב ואופנה, B2B פרימיום טיפוגרפי. כשהעמוד צריך להיראות כמו דוח שנתי, לא כמו דף נחיתה. התורה: engine/modular-frame.md.",
   note:"זה החריג היחיד שבו 12 עמודות הן הדוקטרינה, כי ההנחה אסימטרית וכל בלוק מתחיל ונגמר בקו עמודה מוצהר. כל גובה שורה כפולה של 4 וכל ריווח כפולה של 8, ולכן הטקסט נוחת על שכבת ה-baseline. במובייל ארבע עמודות והאסימטריה נשמרת בפסקה המוסטת ובאינדקס.",
   css:`${HUD}
-.md{--base:8px;max-width:1200px;margin-inline:auto;padding:96px 24px;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;row-gap:calc(var(--base) * 6);position:relative}
+.md{--base:8px;max-width:1300px;margin-inline:auto;padding:96px 24px;display:grid;grid-template-columns:repeat(12,1fr);column-gap:24px;row-gap:calc(var(--base) * 6);position:relative}
 .md>*{grid-column:1/-1;min-width:0}
 .md .c1-7{grid-column:1/8}.md .c8-12{grid-column:8/13;align-self:end}.md .c1-4{grid-column:1/5}.md .c6-12{grid-column:6/13}.md .c1-8{grid-column:1/9}.md .c9-12{grid-column:9/13}.md .c5-11{grid-column:5/12}.md .c1-2{grid-column:1/3}.md .c3-12{grid-column:3/13}
 .md hr{border:0;border-top:1px solid var(--line);margin:0;height:0}

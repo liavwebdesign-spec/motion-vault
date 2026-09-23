@@ -107,14 +107,13 @@ img{max-width:100%}
   }
   function open(n,from){
     opener=from;show(n);lb.classList.add("on");
-    // נעילת גלילה בלי קפיצה: מחזירים את רוחב פס הגלילה כריפוד
-    document.body.style.paddingInlineEnd=(innerWidth-document.documentElement.clientWidth)+"px";
-    document.body.style.overflow="hidden";
+    // נעילת גלילה (תוקן 23.9.2026): על <html> עם scrollbar-gutter, לא overflow על body וריפוד שבעברית נופל שמאלה
+    document.documentElement.style.scrollbarGutter="stable"; document.documentElement.style.overflow="hidden";
     closeBtn.focus();
   }
   function close(){
     lb.classList.remove("on");
-    document.body.style.overflow="";document.body.style.paddingInlineEnd="";
+    document.documentElement.style.overflow="";document.documentElement.style.scrollbarGutter="";
     if(opener)opener.focus();
   }
   thumbs.forEach((b,n)=>b.addEventListener("click",()=>open(n,b)));

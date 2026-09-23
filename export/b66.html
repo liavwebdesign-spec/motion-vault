@@ -121,10 +121,12 @@ function drawer(root, burger){
     root.classList.toggle("open",open);
     panel.inert=!open;
     if(burger) burger.setAttribute("aria-expanded",String(open));
-    // scroll lock without a jump: give the scrollbar width back as padding
-    const sb=innerWidth-doc.clientWidth;
-    document.body.style.overflow=open?"hidden":"";
-    document.body.style.paddingInlineEnd=open&&sb>0?sb+"px":"";
+    // scroll lock without a jump (fixed 23.9.2026): lock the real scroller, <html>, and keep the scrollbar's
+    // space reserved with scrollbar-gutter. The old way (overflow on body + padding-inline-end) failed twice:
+    // with overflow-x:clip on html the body lock never reaches the viewport, and in RTL inline-end is the LEFT side,
+    // so the whole header jumped and grew a margin on the left.
+    doc.style.scrollbarGutter=open?"stable":"";
+    doc.style.overflow=open?"hidden":"";
     if(open){last=document.activeElement;setTimeout(()=>closeBtn.focus(),180);}
     else{root.querySelectorAll(".md-sub.open").forEach(s=>toggleSub(s.previousElementSibling,false)); if(last)last.focus();}
   }

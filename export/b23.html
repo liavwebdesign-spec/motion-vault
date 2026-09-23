@@ -90,10 +90,8 @@ img{max-width:100%}
     btn.setAttribute("aria-expanded",String(v));
     ov.setAttribute("aria-hidden",String(!v));
     btn.querySelector(".nv-label").textContent=v?"סגירה":"תפריט";
-    // נעילת גלילה בלי קפיצה: מחזירים את רוחב פס הגלילה כריפוד
-    const sb=window.innerWidth-root.clientWidth;
-    document.body.style.overflow=v?"hidden":"";
-    document.body.style.paddingInlineEnd=v?sb+"px":"";
+    // נעילת גלילה (תוקן 23.9.2026): על <html> עם scrollbar-gutter, לא overflow על body וריפוד שבעברית נופל שמאלה
+    root.style.scrollbarGutter=v?"stable":""; root.style.overflow=v?"hidden":"";
     if(v){lastFocus=document.activeElement;setTimeout(()=>links[0].focus(),260);}
     else if(lastFocus)lastFocus.focus();
   }

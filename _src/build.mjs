@@ -62,8 +62,7 @@ const USES = {
   r10: ["media"], r11: ["media", "cards"],
   b01: ["ambient", "nav"], b02: ["numbers"], b02b: ["media", "hover"], b03: ["nav"],
   b10: ["nav", "ambient"],
-  b11: ["feedback", "ambient"], 
-  b14: ["ambient"], b15: ["feedback"], b16: ["feedback"],
+  b11: ["feedback", "ambient"], b15: ["feedback"], b16: ["feedback"],
   css01: ["cards", "hover"], css02: ["nav", "hover", "text"], css03: ["hover"],
   css05: ["media", "text"], css06: ["nav"], css07: ["feedback"],
   css08: ["text", "hero"], css09: ["feedback"], css12: ["cards", "ambient"],
@@ -112,7 +111,7 @@ const USES = {
   // גל 19 (9.9.2026)
   g74: ["text", "hero"], g76: ["hover", "media", "cards"], g77: ["text", "hero"],
   g78: ["nav", "feedback"], g79: ["media", "process", "cards"], g81: ["hero", "media", "hover"], g82: ["media", "cards"],
-  g83: ["ambient", "hero"], g84: ["hero", "process"], g85: ["cards", "hover"], g86: ["process", "feedback"], g87: ["text"], g88: ["text", "hero"],
+  g83: ["ambient", "hero"], g84: ["hero", "process"], g85: ["cards", "hover"], g86: ["process", "feedback"], g87: ["text"],
   // גל 20 (9.9.2026): גלילה מיוחדת
   g89: ["hero", "text", "media"], g90: ["media", "process"], g91: ["text", "hero"], g92: ["cards", "text"], 
   g94: ["media", "process"], g95: ["cards", "text"], g96: ["cards"], g97: ["media", "hero"], g98: ["media", "cards"],
@@ -216,9 +215,6 @@ const ELEMS = {
   
   b10: ["sect"],
   b11: ["sect"],
-  
-  
-  b14: ["sect","img"],
   b15: ["over","card"],
   b16: ["over","page"],
   b17: ["over","nav"],
@@ -315,7 +311,7 @@ const ELEMS = {
   g71: ["img","card"],
   g72: ["card","sect"],
   g74: ["head"], g76: ["cursor","img","list"], g77: ["head"], g78: ["btn","page"], g79: ["img","sect","list"], 
-  g81: ["sect","img","cursor"], g82: ["list","img"], g83: ["btn","head"], g84: ["sect","page"], g85: ["card","list","cursor"], g86: ["list","img"], g87: ["head"], g88: ["head"],
+  g81: ["sect","img","cursor"], g82: ["list","img"], g83: ["btn","head"], g84: ["sect","page"], g85: ["card","list","cursor"], g86: ["list","img"], g87: ["head"],
   g89: ["head","sect","img"], g90: ["img","sect","list"], g91: ["head","sect"], g92: ["card","sect"], g94: ["img","sect"], g95: ["card","sect"], g96: ["card","list"], g97: ["img","sect"], g98: ["list","img"],
   g99: ["head","list"], g100: ["head","sect"], g101: ["img","sect"], g102: ["sect","page"], g103: ["head","sect","page"], g104: ["img","sect"], g105: ["head","sect"], g106: ["img","sect"], g107: ["head","list"], g108: ["head","img","sect"],
   g109: ["head"], g110: ["head"], g111: ["img","sect"], g112: ["card","head"], g115: ["img","sect"], g116: ["sect","head"], g117: ["head","list"], g118: ["sect","page"],
@@ -395,7 +391,7 @@ const FIT = {
   g70: ["L","S"],
   g71: ["L","S"],
   g72: ["L","S"],
-  g74: ["S"], g76: ["S"], g77: ["L","S"], g78: ["L","S"], g79: ["L","S"], g81: ["L","S"], g82: ["S"], g83: ["S"], g84: ["S"], g85: ["L","S"], g86: ["L","S"], g87: ["L","S"], g88: ["L","S"],
+  g74: ["S"], g76: ["S"], g77: ["L","S"], g78: ["L","S"], g79: ["L","S"], g81: ["L","S"], g82: ["S"], g83: ["S"], g84: ["S"], g85: ["L","S"], g86: ["L","S"], g87: ["L","S"],
   g89: ["S"], g90: ["L","S"], g91: ["S"], g92: ["L","S"], g94: ["S"], g95: ["L","S"], g96: ["L","S"], g97: ["L","S"], g98: ["S"],
   g99: ["S"], g100: ["L","S"], g101: ["S"], g102: ["L","S"], g103: ["L","S"], g104: ["L","S"], g105: ["S"], g106: ["S"], g107: ["S"], g108: ["S"],
   g109: ["S"], g110: ["L","S"], g111: ["L","S"], g112: ["L","S"], g115: ["L","S"], g116: ["L","S"], g117: ["L","S"], g118: ["L","S"],
@@ -434,9 +430,6 @@ const FIT = {
   
   b10: ["S"],
   b11: ["L","S"],
-  
-  
-  b14: ["L","S"],
   b15: ["L"],
   b16: ["L"],
   b17: ["S"],

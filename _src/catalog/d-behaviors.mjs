@@ -153,31 +153,6 @@ document.querySelectorAll(".main-cta").forEach(el=>io.observe(el));`,
   js:``, runway:false
 },
 {
-  id:"b14", cat:"behavior", name:"פרלקס עדין (translate3d)", tech:"vanilla JS · rAF", status:"ממתין",
-  desc:"הרקע נע לאט לכיוון אחד והכותרת לכיוון הנגדי, ונוצר עומק של שתי שכבות. רשת נקודות על הרקע היא מה שמאפשר לעין לראות שהוא בכלל זז.",
-  when:"רקעי סקשן, פתיח של פרק, ציטוט גדול על רקע צבע. פעם או פעמיים בעמוד.",
-  note:"פרלקס על גרדיאנט חלק הוא בזבוז: אין לעין נקודת ייחוס ולכן שום תזוזה לא נראית, וזאת בדיוק הסיבה שהגרסה הקודמת נראתה סטטית. צריך מרקם (כאן רשת נקודות), טווח אמיתי (120 פיקסלים ולא 40), ושכבה נגדית. הכל translate3d בתוך rAF יחיד, בלי ספרייה. במובייל הטווח חצי.",
-  css:`.pxs{position:relative;height:70vh;overflow:hidden;border-radius:var(--r);margin-inline:var(--gutter);display:grid;place-items:center}
-.pxbg{position:absolute;inset:-28% 0;z-index:0;will-change:transform;
-  background:radial-gradient(circle at 50% 50%,color-mix(in srgb,var(--bg) 26%,transparent) 0 2px,transparent 2.5px) 0 0/38px 38px,linear-gradient(150deg,#1b2653,#3b5bdb)}
-.pxs h2{position:relative;z-index:1;color:#fff;font-size:var(--fs-h2);text-align:center;max-width:18ch;will-change:transform}
-.pxs small{position:absolute;bottom:18px;inset-inline:0;text-align:center;color:rgba(255,255,255,.7);font-size:13px;z-index:1}`,
-  html:`<div class="stage tight"><div class="pxs"><div class="pxbg"></div><h2>הרקע נע לאט, הכותרת נעה נגדו</h2><small>גלול, ותראה את רשת הנקודות מחליקה</small></div></div>`,
-  js:`const bg=document.querySelector(".pxbg"),head=document.querySelector(".pxs h2"),wrap=document.querySelector(".pxs");
-const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-const AMP=matchMedia("(max-width:767px)").matches?60:120;   // הטווח הישן היה 40 ולא נראה בכלל
-let tick=false;
-function frame(){tick=false;
-  const r=wrap.getBoundingClientRect();
-  const p=(innerHeight-r.top)/(innerHeight+r.height);       // 0 לפני הכניסה, 1 אחרי היציאה
-  bg.style.transform="translate3d(0,"+((p-.5)*AMP)+"px,0)";
-  head.style.transform="translate3d(0,"+((.5-p)*AMP*.22)+"px,0)";}
-if(!reduce){addEventListener("scroll",()=>{if(!tick){tick=true;requestAnimationFrame(frame)}},{passive:true});frame();}
-`,
-  runway:false
-},
-
-{
   id:"b15", cat:"behavior", name:"שלדים (Skeletons)", tech:"CSS keyframes", status:"מאושר",
   desc:"מצייני טעינה בצורת התוכן עם הבהוב שמאלה-ימינה, במקום ספינר.",
   when:"מערכות ודשבורדים בזמן טעינת דאטה.",

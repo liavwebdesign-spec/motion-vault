@@ -137,7 +137,7 @@ function headroom(el,opt){
     fs.style.setProperty("--cx",(r.left+r.width/2)+"px"); fs.style.setProperty("--cy",(r.top+r.height/2)+"px");
     fs.classList.toggle("open",open); fs.inert=!open; hd.classList.toggle("menu-open",open);
     btn.setAttribute("aria-expanded",String(open));
-    document.body.style.overflow=open?"hidden":"";
+    var de=document.documentElement; de.style.scrollbarGutter=open?"stable":""; de.style.overflow=open?"hidden":"";
     if(open)setTimeout(function(){links[0].focus();},300); else btn.focus({preventScroll:true});
   }
   btn.addEventListener("click",function(){set(true);});

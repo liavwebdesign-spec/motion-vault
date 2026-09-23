@@ -231,32 +231,53 @@ export default [
 })();`
 },
 {
-  id:"g83", cat:"gsap", name:"תג טקסט מעגלי שמסתובב", tech:"GSAP · timeline", status:"ממתין", runway:false,
-  desc:"טקסט שרץ על מעגל סביב חץ או לוגו, מסתובב לאט כל הזמן ומאיץ עם הגלילה. תג של סטודיו, \"גלול למטה\", \"פתוח להצעות\".",
-  when:"פינת הירו, ליד CTA, תג \"זמין לפרויקטים\". אחד לעמוד, 90 עד 140 פיקסלים.",
-  note:"בלי SVG textPath: כרום לא מסדר טקסט RTL על מסלול (נמדד: הטקסט לא צויר כלל), ולכן כל תו מוצב בנפרד סביב המרכז, נגד כיוון השעון כדי שייקרא נכון. את הליבה ממרכזים ב-inset:0 עם margin:auto: inset:50% יחד עם width נחשב over-constrained, וב-RTL הצד הימני מנצח והעיגול קופץ מהמרכז. הסיבוב הבסיסי הוא טיימליין אינסופי, והגלילה מוסיפה עליו timeScale זמני. במובייל: אותו דבר, קטן יותר.",
+  id:"g83", cat:"gsap", name:"תג טקסט מעגלי שמסתובב", tech:"GSAP · ScrollTrigger", status:"ממתין", runway:false,
+  desc:"תג עגול שהוא קישור: טקסט שרץ על המעגל סביב חץ פעולה, מסתובב לאט, מאיץ כשגוללים ובריחוף, ונרגע בחזרה. האותיות מפוזרות לפי הרוחב האמיתי שלהן, כך שהמרווח ביניהן אחיד.",
+  when:"ליד CTA או בפינת הירו: \"זמינים לפרויקטים\", \"שיחת היכרות\", \"לתיק העבודות\". אחד לעמוד, 120 עד 170 פיקסלים. לא כרמז גלילה (\"גלול למטה\" הוא תג AI אסור, SKILL 11ב).",
+  note:"שלושה דברים תוקנו בעבודה החוזרת (23.9.2026). (1) פיזור לפי רוחב: בגרסה הקודמת כל תו קיבל אותה זווית, ולכן י' ורווח תפסו כמו מ' וש', והמעגל נראה מגמגם. עכשיו כל תו נמדד אחרי שהפונט נטען, והזווית שלו יחסית לרוחב שלו, כך שהמרווח האופטי אחיד והטקסט ממלא את המעגל בדיוק. (2) התוכן: \"גלול למטה\" עם חץ למטה הוא תג AI אסור; התג הוא קישור עם חץ פעולה אלכסוני. (3) התנועה: בסיס של 18 שניות לסיבוב, גלילה ממופה ל-timeScale עד פי 3, ריחוף (רק בעכבר) מאיץ לפי 2.5 ומזיז את החץ, והכל חוזר ל-1 בעקומה ולא בקפיצה. בלי SVG textPath: כרום לא מצייר טקסט RTL על מסלול. התווים מתקדמים נגד כיוון השעון כדי שהעברית תיקרא נכון בראש העיגול. ב-reduced-motion התג סטטי.",
   libs:["gsap","ScrollTrigger"],
-  css:`.rb-wrap{display:flex;justify-content:center;align-items:center;gap:clamp(30px,6vw,80px);flex-wrap:wrap;padding-block:40px}
-.rb{position:relative;width:clamp(140px,18vw,190px);aspect-ratio:1;flex:none}
+  css:`.rb-wrap{display:flex;justify-content:center;align-items:center;gap:clamp(32px,6vw,88px);flex-wrap:wrap;padding-block:40px}
+.rb{position:relative;display:block;width:clamp(128px,14vw,168px);aspect-ratio:1;flex:none;color:var(--ink);text-decoration:none;border-radius:50%}
 .rb-ring{position:absolute;inset:0;will-change:transform}
-.rb-ring span{position:absolute;left:50%;top:5%;height:45%;translate:-50% 0;transform-origin:50% 100%;font-size:clamp(14px,1.7vw,18px);font-weight:700;color:var(--ink);line-height:1}
-.rb-core{position:absolute;inset:0;margin:auto;width:44%;height:44%;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-size:22px}
-.rb-copy{max-width:30ch}
+.rb-ring span{position:absolute;left:50%;top:9%;height:41%;translate:-50% 0;transform-origin:50% 100%;font-size:clamp(14px,1.25vw,17px);font-weight:600;line-height:1;white-space:pre}
+.rb-core{position:absolute;inset:0;margin:auto;width:46%;height:46%;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;
+  transition:background .3s cubic-bezier(.2,.6,.2,1)}
+.rb-core svg{width:36%;height:36%;transition:transform .45s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.rb:hover .rb-core{background:var(--accent);color:var(--accent-ink)}.rb:hover .rb-core svg{transform:translate(-3px,-3px) rotate(-8deg)}}
+/* the arrow points forward: up-left in Hebrew, mirrored to up-right in English */
+[dir="ltr"] .rb-core svg{transform:scaleX(-1)}
+[dir="ltr"] .rb:hover .rb-core svg{transform:scaleX(-1) translate(-3px,-3px) rotate(-8deg)}
+.rb:focus-visible{outline:2px solid var(--accent);outline-offset:6px}
+.rb-copy{max-width:32ch}
 .rb-copy h2{margin:0 0 8px;font-size:var(--fs-h2)}
 .rb-copy p{margin:0;color:var(--muted)}`,
   html:`<div class="stage tight"><div class="rb-wrap">
-  <div class="rb" aria-label="גלול למטה"><div class="rb-ring" data-text="גלול למטה · גלול למטה · " aria-hidden="true"></div><span class="rb-core">↓</span></div>
-  <div class="rb-copy"><h2>פתוחים לפרויקטים חדשים</h2><p>שני מקומות פנויים לרבעון הקרוב.</p></div>
+  <a class="rb" href="#" aria-label="זמינים לפרויקטים: לשיחת היכרות"><span class="rb-ring" data-text="זמינים לפרויקטים · שיחת היכרות · " aria-hidden="true"></span><span class="rb-core"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 17 7 7M7 16V7h9"/></svg></span></a>
+  <div class="rb-copy"><h2>פתוחים לפרויקטים חדשים</h2><p>שני מקומות פנויים לרבעון הקרוב. התג הוא הקישור: עברו עליו עם העכבר, או גללו.</p></div>
 </div></div>`,
   js:`(function(){
-  // בלי SVG textPath: כרום לא מסדר טקסט RTL על מסלול, ולכן כל תו מוצב בנפרד סביב המרכז.
-  // עברית נקראת מימין לשמאל, ולכן התווים מתקדמים נגד כיוון השעון (זווית יורדת) כדי שיקראו נכון בראש העיגול.
-  const ring=document.querySelector(".rb-ring"),chars=[...ring.dataset.text],step=360/chars.length;
-  chars.forEach((ch,i)=>{const s=document.createElement("span");s.textContent=ch===" "?" ":ch;s.style.transform="rotate("+(-i*step)+"deg)";ring.appendChild(s);});
+  const badge=document.querySelector(".rb"), ring=badge.querySelector(".rb-ring"), text=ring.dataset.text;
+  function layout(){
+    ring.textContent="";
+    const spans=[...text].map(ch=>{const s=document.createElement("span");s.textContent=ch;ring.appendChild(s);return s;});
+    // each glyph gets an angle proportional to its real width, so the optical spacing is even and the text fills the ring
+    const w=spans.map(s=>s.getBoundingClientRect().width||4), total=w.reduce((a,b)=>a+b,0);
+    let acc=0;
+    spans.forEach((s,i)=>{s.style.transform="rotate("+(-(acc+w[i]/2)/total*360)+"deg)";acc+=w[i];});
+  }
+  (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(layout);
   if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const spin=gsap.to(ring,{rotate:-360,duration:14,ease:"none",repeat:-1});
-  // גלילה מאיצה זמנית: מהירות הגלילה ממופה ל-timeScale וחוזרת ל-1
-  ScrollTrigger.create({onUpdate:s=>{gsap.to(spin,{timeScale:1+Math.min(4,Math.abs(s.getVelocity())/400),duration:.2,overwrite:true,onComplete(){gsap.to(spin,{timeScale:1,duration:1.2});}});}});
+  const spin=gsap.to(ring,{rotate:-360,duration:18,ease:"none",repeat:-1});
+  let hover=1, scroll=1;
+  const apply=()=>gsap.to(spin,{timeScale:Math.max(hover,scroll),duration:.5,ease:"power2.out",overwrite:true});
+  ScrollTrigger.create({onUpdate:s=>{
+    scroll=1+Math.min(2,Math.abs(s.getVelocity())/600); apply();
+    clearTimeout(badge._t); badge._t=setTimeout(()=>{scroll=1;apply();},180);
+  }});
+  if(matchMedia("(hover:hover) and (pointer:fine)").matches){
+    badge.addEventListener("mouseenter",()=>{hover=2.5;apply();});
+    badge.addEventListener("mouseleave",()=>{hover=1;apply();});
+  }
 })();`
 },
 {
@@ -383,38 +404,6 @@ export default [
         .to(bar,{scaleX:0,duration:.5,ease:"power3.inOut"});           // הפס יוצא שמאלה וחושף
     });
   }});
-})();`
-},
-{
-  id:"g88", cat:"gsap", name:"מילה שמתחלפת בהירו בלולאה", tech:"GSAP · timeline", status:"ממתין", runway:false,
-  desc:"משפט הירו קבוע ומילה אחת בו מתחלפת כל שתי שניות: יוצאת למעלה, הבאה נכנסת מלמטה, והרוחב של השורה מתכוונן חלק. ארבע חלופות בלולאה.",
-  when:"הירו של עסק שפונה לכמה קהלים או מציע כמה שירותים. אחת לעמוד, ותמיד עם מילה ראשונה שעומדת לבד אם JS לא נטען.",
-  note:"כל החלופות במארקאפ (SEO וגיבוי), רק הראשונה גלויה בלי JS. הרוחב מונפש דרך משתנה CSS ולא דרך width ישיר, כדי שהשורה לא תקפוץ. חובה justify-items:start על ה-inline-grid, אחרת כל החלופות נמתחות לרוחב הארוכה ביותר, נמדדות זהה, והרוחב לעולם לא משתנה. reduced-motion: החלופות מתחלפות בלי תנועה, פעם ב-3 שניות.",
-  libs:["gsap"],
-  css:`.rw{text-align:center;max-width:46ch;margin-inline:auto}
-.rw-keep{white-space:nowrap}
-.rw h2{font-size:var(--fs-h2);line-height:1.25;margin:0}
-.rw-slot{display:inline-grid;justify-items:start;vertical-align:bottom;text-align:start;overflow:hidden;color:var(--accent);height:1.25em;width:var(--w,auto);transition:/* qa-allow: layout, רוחב המילה משתנה בהגדרה, scaleX היה מעוות את האותיות */width .5s cubic-bezier(.2,.6,.2,1)}
-.rw-slot span{grid-area:1/1;white-space:nowrap;opacity:0;translate:0 100%}
-.rw-slot span:first-child{opacity:1;translate:0 0}
-@media (prefers-reduced-motion: reduce){.rw-slot{transition:none}}`,
-  html:`<div class="stage"><div class="rw"><h2>אנחנו בונים אתרים <span class="rw-keep">ל<span class="rw-slot"><span>קליניקות</span><span>משרדי עורכי דין</span><span>חנויות אונליין</span><span>סטודיו לעיצוב</span></span></span><br>שמביאים פניות, לא רק מחמאות.</h2></div></div>`,
-  js:`(function(){
-  const slot=document.querySelector(".rw-slot"),words=gsap.utils.toArray(".rw-slot span");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const widths=words.map(w=>w.getBoundingClientRect().width);
-  slot.style.setProperty("--w",widths[0]+"px");
-  let i=0;
-  function next(){
-    const cur=words[i],nx=words[(i+1)%words.length];i=(i+1)%words.length;
-    slot.style.setProperty("--w",widths[i]+"px");
-    if(reduce){gsap.set(cur,{opacity:0});gsap.set(nx,{opacity:1,translate:"0 0"});return;}
-    gsap.timeline()
-      .to(cur,{translate:"0 -100%",opacity:0,duration:.5,ease:"power3.in"},0)
-      .fromTo(nx,{translate:"0 100%",opacity:0},{translate:"0 0",opacity:1,duration:.55,ease:"power3.out"},.25);
-  }
-  setTimeout(next,900); setInterval(next,reduce?3000:2200);   // החלפה ראשונה מהר, אחר כך בקצב קריאה
-  addEventListener("resize",()=>{words.forEach((w,k)=>widths[k]=w.getBoundingClientRect().width);slot.style.setProperty("--w",widths[i]+"px");});
 })();`
 },
 ];
