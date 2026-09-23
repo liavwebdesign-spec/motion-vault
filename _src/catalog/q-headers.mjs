@@ -1,4 +1,4 @@
-// Headers family (22.9.2026). Liav: "every site you built had the exact same header". Eight headers for eight uses,
+// Headers family (22.9.2026; hd9 23.9.2026). Liav: "every site you built had the exact same header". Eight headers for eight uses,
 // four of them floating (hd3, hd4, hd7, hd8). All share one behaviour, the doctrine default from this date: headroom. The header leaves
 // on scroll down and comes back on the first scroll up, always visible at the top, while a menu is open, and while
 // keyboard focus is inside it. Mobile menus reuse the vault drawer from p-menus.mjs (b66), so there is one drawer.
@@ -413,5 +413,32 @@ ${GLASS(".h8-card", 88)}
   hd.addEventListener("keydown",function(e){if(e.key==="Escape"&&hd.classList.contains("menu-open")){set(false);t.focus();}});
 })();`,
   note:"הגדילה היא grid-template-rows מ-0fr ל-1fr, האקורדיון הדוקטרינרי, ולא max-height: הגובה האמיתי של התוכן, בלי מספר קסם. הרדיוס יורד מ-30 (קפסולה) ל-24 (כרטיס) באותו זמן, וזה מה שגורם לזה להיראות כמו אובייקט אחד שמשנה צורה ולא כמו פאנל שנפתח מתחתיו. הקישורים נכנסים אחרי שהכרטיס התחיל לגדול (השהיה של 120 מילישניות), והיציאה מהירה ובלי דירוג. כשהתפריט פתוח ההדר לא יוצא בגלילה (menu-open)."
-}
+},
+{
+  id:"hd9", cat:"header", name:"גלולה צפה ששקופה מעל ההירו ונצבעת בלבן בגלילה", tech:"CSS · JS · backdrop-filter", status:"ממתין", runway:false,
+  desc:"קפסולה צפה בלי שום מילוי בראש העמוד: לוגו וקישורים בהירים ישירות על ההירו. בגלילה הראשונה היא מתמלאת בלבן עם זכוכית וצל, הטקסט מתהפך לכהה, והיא מתכווצת מעט. גוללים למטה והיא יוצאת, עולים והיא חוזרת.",
+  when:"הירו כהה או צילומי מלא: וידאו רקע, צילום אווירה, מותג עם נוכחות. כשרוצים שהמסך הראשון יהיה כולו ויז'ואל, בלי פס שמסתיר אותו, ועדיין הדר ברור ברגע שהתוכן הבהיר מתחיל. לא להירו בהיר, שם טקסט בהיר על רקע בהיר לא נקרא (שם hd3).",
+  libs:[],
+  css:`${BASE_CSS}
+.h9x{position:absolute;top:16px;inset-inline:0;margin-inline:auto;width:min(880px,calc(100% - 32px));display:flex;align-items:center;gap:16px;padding:8px;padding-inline-start:24px;
+  border-radius:999px;isolation:isolate;color:var(--bg);--hy:0px;--hs:1;transform:translateY(var(--hy)) scale(var(--hs));
+  transition:transform .45s cubic-bezier(.2,.6,.2,1),color .3s cubic-bezier(.2,.6,.2,1)}
+.h9x::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;background:transparent;box-shadow:none;
+  transition:background .35s cubic-bezier(.2,.6,.2,1),box-shadow .35s cubic-bezier(.2,.6,.2,1),backdrop-filter .35s cubic-bezier(.2,.6,.2,1),-webkit-backdrop-filter .35s cubic-bezier(.2,.6,.2,1)}
+.h9x.is-scrolled{--hs:.97;color:var(--ink)}
+.h9x.is-scrolled::before{background:color-mix(in srgb,#fff 94%,transparent);backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);
+  box-shadow:0 14px 36px color-mix(in srgb,var(--ink) 16%,transparent)}
+.h9x.is-hidden{--hy:calc(-100% - 32px)}
+.h9x nav{display:flex;gap:2px;margin-inline:auto}
+.h9x .hlink{opacity:.86}
+.h9x .hbtn{border-radius:999px}
+.h9x .burger{border-radius:999px;background:color-mix(in srgb,currentColor 12%,transparent)}
+.h9x .burger i{background:currentColor}
+@media (hover:hover) and (pointer:fine){.h9x .hlink:hover{opacity:1;background:color-mix(in srgb,currentColor 10%,transparent)}}
+@media (max-width:900px){.h9x{padding-inline-start:20px}.h9x nav,.h9x .hbtn{display:none}.h9x .burger{display:grid;margin-inline-start:auto}}`,
+  html:frame(`<header class="h9x hd"><a class="hlogo" href="#top">לוגו</a><nav aria-label="ראשי">${NAV}</nav><a class="hbtn" href="#s3">לקבלת הצעה</a>${BURGER("md-h9")}</header>`,
+    hero(false, "מערכות תקשורת לעסקים ולבתים", "המסך הראשון כולו ויז'ואל, וההדר מחכה לגלילה", "בראש העמוד הקפסולה בלי מילוי, והטקסט בהיר על ההירו. גללו: היא מתמלאת בלבן, הטקסט מתהפך לכהה, והיא מתכווצת מעט. גוללים עוד והיא יוצאת, עולים והיא חוזרת."), DRAWER("md-h9")),
+  js:withDrawer(".h9x", "md-h9"),
+  note:"נבנה בפרופיקס (23.9.2026), על הירו עם וידאו. שלושה מצבים על אותו אלמנט: שקוף (ברירת מחדל), is-scrolled (מילוי לבן, טקסט כהה, --hs לכיווץ) ו-is-hidden (headroom, --hy). המילוי יושב על ::before, כך שהטקסט מתהפך בלי קפיצה ו-backdrop-filter לא כולא ילדים fixed. בפרויקט אמיתי עם לוגו כתמונה: שני קבצים באותו תא גריד, בהיר וכהה, ומחליפים ביניהם ב-opacity לפי is-scrolled. ושני מקרים שבהם ההדר לבן מההתחלה: עמודים בלי הירו (body:not(:has(.hero))), וכשמגה תפריט פתוח (:has(.is-open)), כי פס שקוף מעל כרטיס לבן נראה שבור."
+},
 ];
