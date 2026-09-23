@@ -77,9 +77,37 @@ for (const e of entries) {
     if (!/href="[^"]*accessibility/.test(H)) problems.push(`${e.id}: footer without a link to the accessibility statement`);
     if (!/liavmatzri\.co\.il/.test(H)) problems.push(`${e.id}: footer without Liav's credit line (site-planning, 12.8.2026)`);
     if (!/data-year/.test(H)) problems.push(`${e.id}: footer year is hard-coded, use data-year`);
-    for (const m of H.matchAll(/<a[^>]*href="tel:[^"]*"[^>]*>/g)) if (!/dir="ltr"/.test(m[0])) problems.push(`${e.id}: tel: link without dir="ltr" (the number flips in RTL)`);
-    if (/border-(top|bottom)\s*:\s*[1-9]/.test(css.split("}").filter(k => !/qa-allow:\s*line/.test(k)).join("}"))) problems.push(`${e.id}: separator line in a footer (no lines: separate with space and surface)`);
+    const blocks = css.split("}").map(k => ({ sel: (k.split("{")[0] || "").trim().split("\n").pop().trim(), body: k.split("{").slice(1).join("{"), raw: k }));
+    for (const m of H.matchAll(/<a[^>]*href="tel:[^"]*"[^>]*>/g)) {
+      if (!/dir="ltr"/.test(m[0])) problems.push(`${e.id}: tel: link without dir="ltr" (the number flips in RTL)`);
+      // dir="ltr" alone still lets the number's neutral characters join the Hebrew run around it: isolate it (23.9.2026, doctrine audit)
+      const cls = ((m[0].match(/class="([^"]*)"/) || [])[1] || "").split(/\s+/).filter(Boolean);
+      const bidi = /unicode-bidi\s*:\s*(isolate|plaintext)/;
+      const isolated = bidi.test(m[0]) || blocks.some(k => bidi.test(k.body) && (/href\^?="tel:/.test(k.sel) || cls.some(c => k.sel.split(/[\s,>+~]+/).some(part => part.split(/(?=[.#:[])/).includes("." + c)))));
+      if (!isolated) problems.push(`${e.id}: tel: link without unicode-bidi:isolate`);
+    }
+    // lines: every border shorthand that draws (not only border-top/bottom), border-block, <hr>, and the inset-shadow hairline.
+    // Fields, buttons and the demo frame (.fx) are outlines of a control, not separators. Widened 23.9.2026 after the doctrine
+    // audit found the old check saw only border-top/bottom.
+    if (/<hr[\s>/]/.test(H)) problems.push(`${e.id}: <hr> in a footer (no lines: separate with space and surface)`);
+    for (const k of blocks) {
+      if (/qa-allow:\s*line/.test(k.raw) || /\.fx\b|input|button|select|textarea|iframe|\.ft-btn/.test(k.sel)) continue;
+      const draws = /(^|[;{\s])border(?:-top|-bottom|-block(?:-start|-end)?)?\s*:\s*[^;]*?(?:\b[1-9]\d*(?:\.\d+)?|\.\d*[1-9])px/.test(k.body)
+        || /box-shadow\s*:\s*inset\s+0\s+-?[1-9]\d*px\s+0/.test(k.body);
+      if (draws) problems.push(`${e.id}: separator line in a footer on "${k.sel}" (no lines: separate with space and surface)`);
+    }
     if (!/footer[^{]*a[^{]*\{[^}]*transition|\.ftw a\{[^}]*transition/.test(css)) problems.push(`${e.id}: footer links without a hover transition (motion.md)`);
+  }
+  // 2א') הדר: בלי קו תחתון. הגבול בין ההדר לעמוד הוא צל שנדלק בגלילה (storeos-quiet, library/headers.md).
+  //      hd1, hd2 ו-hd5 ציירו 1px עד 23.9.2026 ואף בדיקה לא ראתה. תפריטי המגירה (DRAWER) ושדות פטורים: שם קו מפריד בין פריטים.
+  if (e.cat === "header") {
+    for (const k of css.split("}")) {
+      const sel = (k.split("{")[0] || "").trim().split("\n").pop().trim(), body = k.split("{").slice(1).join("{");
+      // only the line UNDER the header: a full border is the outline of a floating pill (hd3, hd4...), and the chevron
+      // of the drawer accordion (.md-acc i) is drawn with two borders
+      if (/qa-allow:\s*line/.test(k) || /drawer|mnav|menu-panel|input|button|\.hbtn|\.md-acc|\si$/i.test(sel)) continue;
+      if (/(^|[;{\s])border-(?:bottom|block-end)\s*:\s*[^;]*?\b[1-9]\d*(?:\.\d+)?px/.test(body)) problems.push(`${e.id}: line under a header on "${sel}" (the edge is a shadow on scroll, not a border)`);
+    }
   }
   // 2ב) מטריצת העורות (8.9.2026) הראתה שלושה דפוסים שנשברים אצל לקוח עם עור אחר, גם כשכל הטוקנים במקום:
   //     משטח טקסט עם background:#fff (על עור כהה: כרטיס לבן עם טקסט לבן), טקסט לבן על var(--ink)

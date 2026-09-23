@@ -102,13 +102,13 @@ const GLASS = (sel, fill = 80) => `${sel}::before{content:"";position:absolute;i
 export default [
 {
   id:"hd1", cat:"header", name:"הדר קלאסי: שקוף על ההירו, אטום בגלילה", tech:"CSS · JS", status:"ממתין", runway:false,
-  desc:"לוגו, ניווט וכפתור. על ההירו הוא שקוף ובצבע בהיר, ובגלילה הראשונה מקבל משטח וקו תחתון ומתהפך לכהה. גוללים למטה והוא יוצא, עולים והוא חוזר.",
+  desc:"לוגו, ניווט וכפתור. על ההירו הוא שקוף ובצבע בהיר, ובגלילה הראשונה מקבל משטח וצל רך ומתהפך לכהה. גוללים למטה והוא יוצא, עולים והוא חוזר.",
   when:"ברירת המחדל לאתרי תדמית ושירותים עם הירו כהה או צילומי. הוא ההדר שהיה בכל האתרים עד עכשיו, ולכן הוא נבחר רק כשאין סיבה לאחר: עסק מוכר, קהל שמרני, תוכן שהוא העיקר.",
   libs:[],
   css:`${BASE_CSS}
 .h1x{position:absolute;inset-inline:0;top:0;display:flex;align-items:center;gap:32px;padding:16px var(--gutter);color:var(--bg);isolation:isolate;
   transition:transform .4s cubic-bezier(.2,.6,.2,1),color .3s cubic-bezier(.2,.6,.2,1)}
-.h1x::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--card);border-bottom:1px solid var(--line);opacity:0;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}
+.h1x::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--card);box-shadow:0 8px 24px color-mix(in srgb,var(--ink) 8%,transparent);opacity:0;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}
 .h1x.is-scrolled{color:var(--ink)}
 .h1x.is-scrolled::before{opacity:1}
 .h1x.is-hidden{transform:translateY(-100%)}
@@ -131,7 +131,7 @@ export default [
   css:`${BASE_CSS}
 .h2x{position:absolute;inset-inline:0;top:0;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:24px;padding:16px var(--gutter);color:var(--ink);isolation:isolate;
   transition:transform .4s cubic-bezier(.2,.6,.2,1)}
-.h2x::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--card);border-bottom:1px solid var(--line);opacity:0;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}
+.h2x::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--card);box-shadow:0 8px 24px color-mix(in srgb,var(--ink) 8%,transparent);opacity:0;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}
 .h2x.is-scrolled::before{opacity:1}
 .h2x.is-hidden{transform:translateY(-100%)}
 .h2x nav{display:flex;gap:4px}
@@ -258,7 +258,7 @@ ${GLASS(".h3x", 78)}
 .h5-lang{margin-inline-start:auto;display:flex;gap:4px}
 .h5-lang a{padding:4px 8px;border-radius:6px}
 .h5-lang a[aria-current]{background:color-mix(in srgb,var(--bg) 16%,transparent);opacity:1}
-.h5-main{display:flex;align-items:center;gap:32px;padding:12px var(--gutter);background:var(--card);border-bottom:1px solid var(--line);color:var(--ink);transition:box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.h5-main{display:flex;align-items:center;gap:32px;padding:12px var(--gutter);background:var(--card);color:var(--ink);transition:box-shadow .3s cubic-bezier(.2,.6,.2,1)}
 .h5x.is-scrolled .h5-main{box-shadow:0 8px 24px color-mix(in srgb,var(--ink) 8%,transparent)}
 .h5-main nav{display:flex;gap:4px;margin-inline-start:auto}
 @media (max-width:900px){.h5-util .h5-hide{display:none}.h5-main nav,.h5-main .hbtn{display:none}.h5-main .burger{display:grid;margin-inline-start:auto}}`,
