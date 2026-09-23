@@ -5,6 +5,7 @@
 //   3. behave <ids>     (משהו זז? משהו ברח? שגיאת JS?)
 //   4. skins  <ids>     (ניגודיות בארבעה עורות)
 //   5. shots  <ids>     (שלושה מצבי גלילה בדסקטופ ובמובייל, ושגיאות קונסולה)
+//   6. thumbs <ids>     (תמונת הכרטיס בספרייה, library.html)
 // ובסוף מדפיס את נתיב גיליון הצילומים. **לא מראים לליאב מהלך שהגיליון שלו לא נצפה.**
 //
 // שימוש:  node _src/tools/gate.mjs g129 g130        (מזהים שהשתנו)
@@ -35,4 +36,6 @@ const sel = all ? [] : ids;
 step("behave", "behave.mjs", sel);
 step("skins", "skins.mjs", [...sel, "--no-shots"]);
 step("shots", "shots.mjs", [...(all ? ["--all"] : ids), ...(args.includes("--hover") ? ["--hover"] : [])]);
+// the library card image (library.html) is refreshed for exactly what the gate just checked
+step("thumbs", "thumbs.mjs", all ? ["--all"] : ids);
 console.log("\ngate: עבר. עכשיו מסתכלים על הגיליון לפני שמראים לליאב.");

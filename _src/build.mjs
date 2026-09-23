@@ -4,6 +4,7 @@ import { writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { portable, standalone, labelPh } from "./portable.mjs";
+import { libraryPage } from "./library.mjs";
 import { readFileSync as __rf } from "node:fs";
 import { createHash as __ch } from "node:crypto";
 // baseline.js carries a content hash (23.9.2026): after syncing a review report, browsers kept the old file and old statuses won
@@ -1151,6 +1152,7 @@ writeFileSync(join(ROOT, "export", "manifest.json"), JSON.stringify({
 }, null, 1));
 
 writeFileSync(join(ROOT, "index.html"), indexPage());
+writeFileSync(join(ROOT, "library.html"), libraryPage({ entries, CATS, FIT, FIT_LABELS, USES, USES_LABELS, ELEMS, ELEMS_LABELS, BV }));
 writeFileSync(join(ROOT, "review.html"), reviewPage());
 // התורה נכתבת לסקיל מהקטלוג: המאגר הוא מקור האמת (6.9.2026)
 const skillTargets = [...writeCompositionsSkill(entries, ROOT), ...writeStylesSkill(entries, ROOT), ...writeAntiSkill(entries, ROOT), ...writeArchSkill(entries, ROOT)];
