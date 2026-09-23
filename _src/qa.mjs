@@ -137,7 +137,7 @@ for (const d of CAT_DIRS) {
     if (!html.includes("assets/vault.css")) problems.push(`${id}: stylesheet missing`);
     if (!html.includes("data-mvid")) problems.push(`${id}: MV-ID button missing`);
     for (const m of html.matchAll(/(?:src|href)="(\.\.\/[^"]+)"/g)) {
-      if (!existsSync(join(ROOT, d, m[1]))) problems.push(`${id}: missing asset ${m[1]}`);
+      if (!existsSync(join(ROOT, d, m[1].split(/[?#]/)[0]))) problems.push(`${id}: missing asset ${m[1]}`); // ?v= cache-busting is not part of the file name
     }
   }
 }

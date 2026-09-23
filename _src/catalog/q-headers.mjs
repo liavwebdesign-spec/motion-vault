@@ -277,28 +277,60 @@ ${HR_JS}
   note:"שלושה מצבים על transform אחד: בראש העמוד הכל גלוי, is-scrolled מזיז את ההדר למעלה בדיוק בגובה הפס העליון (נמדד ב-JS ונשמר ב---ub), ו-is-hidden מוציא את כולו. כך הפס העליון לא מקבל אנימציית גובה משלו ואין תזוזת עמוד. בחירת השפה מסומנת ב-aria-current ובכל קישור lang, כדי שקורא מסך יבטא את EN ואת РУ נכון."
 },
 {
-  id:"hd6", cat:"header", name:"הדר איים צפים", tech:"CSS · JS · backdrop-filter", status:"ממתין", runway:false,
-  desc:"שלושה איים נפרדים במקום פס: הלוגו בצד אחד, הניווט באמצע, הפעולה בצד השני, כל אחד בזכוכית משלו. כשגוללים למטה הם יוצאים אחד אחרי השני, וכשעולים הם חוזרים באותו סדר.",
-  when:"סוכנות, סטודיו דיגיטלי, מוצר, מותג צעיר, אירועים. אתר שרוצה אישיות בלי לצעוק. מתאים גם על הירו צילומי מלא, כי הצילום נראה בין האיים.",
+  id:"hd6", cat:"header", name:"הדר עם שורת הודעה", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"שורה דקה מעל ההדר עם הודעה אחת או שתיים מתחלפות: מבצע, הרשמה שנפתחה, זמני משלוח. בגלילה הראשונה השורה מתקפלת והניווט נשאר, ובהמשך הכל יוצא וחוזר כרגיל. אפשר לסגור אותה, והיא זוכרת שנסגרה.",
+  when:"חנות, עסק עם קמפיין פעיל, אירוע או הרשמה עם תאריך, עסק עם הודעה עונתית (שעות חג, משלוח חינם). לא כקישוט קבוע: כשאין מה להודיע, השורה לא קיימת וזה hd1, hd3 או hd8.",
   libs:[],
   css:`${BASE_CSS}
-.h6x{position:absolute;top:16px;inset-inline:16px;display:grid;grid-template-columns:1fr auto 1fr;align-items:start;gap:12px;pointer-events:none}
-.h6x .isl{pointer-events:auto;position:relative;isolation:isolate;display:flex;align-items:center;min-height:52px;padding:4px;border-radius:16px;color:var(--ink);
-  transition:transform .45s cubic-bezier(.2,.6,.2,1) calc(var(--k) * 45ms)}
-${GLASS(".h6x .isl", 82)}
-.h6x.is-scrolled .isl::before{background:color-mix(in srgb,var(--card) 94%,transparent)}
-.h6x.is-hidden .isl{transform:translateY(calc(-100% - 32px))}
-/* .h6x .isl sets padding:4px at higher specificity, so the logo island needs the same weight */
-.h6x .h6-logo{justify-self:start;padding:0 20px}
-.h6-nav{gap:2px}
-.h6-end{justify-self:end;gap:4px}
-.h6x .hbtn{border-radius:12px}
-@media (hover:hover) and (pointer:fine){.h6x .hlink:hover{background:color-mix(in srgb,var(--ink) 6%,transparent)}}
-@media (max-width:900px){.h6x{grid-template-columns:1fr auto}.h6x .h6-nav,.h6-end .hbtn{display:none}.h6x .burger{display:grid;border:0}}`,
-  html:frame(`<header class="h6x hd"><a class="isl h6-logo hlogo" href="#top" style="--k:0">לוגו</a><nav class="isl h6-nav" aria-label="ראשי" style="--k:1">${NAV}</nav><div class="isl h6-end" style="--k:2"><a class="hbtn" href="#s3">בואו נדבר</a>${BURGER("md-h6")}</div></header>`,
-    hero(false, "סוכנות לחוויות דיגיטליות", "מותגים שאנשים זוכרים", "שלושה איים ולא פס אחד, והצילום נושם ביניהם. גללו למטה והם יוצאים בדירוג קטן, עלו והם חוזרים."), DRAWER("md-h6")),
-  js:withDrawer(".h6x", "md-h6"),
-  note:"ההדר עצמו שקוף ועם pointer-events:none, והאיים מחזירים לעצמם את הלחיצה. הגריד 1fr auto 1fr מחזיק את אי הניווט במרכז האמיתי. הדירוג הוא transition-delay לפי --k, 45 מילישניות בין אי לאי, באותו סדר ביציאה ובחזרה, קצר מספיק כדי שלא ירגיש כמו המתנה. במובייל נשארים שני איים: לוגו, והמבורגר בתוך אי הפעולה."
+.h6x{position:absolute;inset-inline:0;top:0;isolation:isolate;--ub:40px;--off:0px;transform:translateY(var(--off));transition:transform .4s cubic-bezier(.2,.6,.2,1)}
+/* the bar folds away (scrolled or dismissed) by moving the whole header up by its height: no height animation, no page shift */
+.h6x.is-scrolled,.h6x.is-dismissed{--off:calc(var(--ub) * -1)}
+.h6x.is-hidden{--off:-100%}
+.h6-bar{position:relative;display:flex;align-items:center;justify-content:center;min-height:40px;padding:0 56px;background:var(--accent);color:var(--accent-ink);font-size:14px;font-weight:600;overflow:hidden}
+.h6-msgs{position:relative;display:grid;min-height:40px;align-items:center;text-align:center}
+.h6-msg{grid-area:1/1;display:flex;align-items:center;justify-content:center;gap:8px;opacity:0;transform:translateY(100%);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .4s cubic-bezier(.2,.6,.2,1)}
+.h6-msg.on{opacity:1;transform:none}
+.h6-msg.out{opacity:0;transform:translateY(-100%)}
+.h6-msg a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+.h6-close{position:absolute;inset-inline-end:12px;top:50%;margin-top:-16px;width:32px;height:32px;border:0;border-radius:8px;background:none;color:inherit;display:grid;place-items:center;cursor:pointer;opacity:.8;transition:opacity .15s cubic-bezier(.2,.6,.2,1),background .15s cubic-bezier(.2,.6,.2,1)}
+.h6-close svg{width:16px;height:16px}
+@media (hover:hover) and (pointer:fine){.h6-close:hover{opacity:1;background:color-mix(in srgb,var(--accent-ink) 14%,transparent)}}
+.h6-main{display:flex;align-items:center;gap:32px;padding:12px var(--gutter);background:var(--card);color:var(--ink);transition:box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.h6x.is-scrolled .h6-main{box-shadow:0 8px 24px color-mix(in srgb,var(--ink) 8%,transparent)}
+.h6-main nav{display:flex;gap:4px;margin-inline-start:auto}
+@media (max-width:900px){.h6-bar{padding:0 48px;font-size:13px}.h6-msg .h6-long{display:none}.h6-main nav,.h6-main .hbtn{display:none}.h6-main .burger{display:grid;margin-inline-start:auto}}`,
+  html:frame(`<header class="h6x hd"><div class="h6-bar" role="region" aria-label="הודעה"><div class="h6-msgs"><p class="h6-msg on" style="margin:0">משלוח חינם בהזמנה מעל 300 ש״ח<span class="h6-long">, עד סוף החודש</span> · <a href="#s1">לקולקציה</a></p><p class="h6-msg" style="margin:0" aria-hidden="true">סדנת קדרות חדשה נפתחת ב-5.10 · <a href="#s2">להרשמה</a></p></div><button class="h6-close" type="button" aria-label="סגירת ההודעה">${X_SVG}</button></div><div class="h6-main"><a class="hlogo" href="#top">לוגו</a><nav aria-label="ראשי">${NAV}</nav><a class="hbtn" href="#s3">לחנות</a>${BURGER("md-h6")}</div></header>`,
+    hero(true, "סטודיו לקרמיקה, יפו", "כלים שנעשו ביד, לשולחן של כל יום", "השורה העליונה מתחלפת בין שתי הודעות. גללו: היא מתקפלת ראשונה והניווט נשאר. סגרו אותה ב-X, והיא לא תחזור גם אחרי רענון."), DRAWER("md-h6")),
+  js:`${DRAWER_JS}
+${HR_JS}
+(function(){
+  var hd=document.querySelector(".h6x"), bar=hd.querySelector(".h6-bar"), msgs=[].slice.call(hd.querySelectorAll(".h6-msg"));
+  // the version key changes when the message changes, so a new announcement shows again to people who closed the old one
+  var KEY="h6-dismissed-v1";
+  function measure(){hd.style.setProperty("--ub",bar.offsetHeight+"px");}
+  measure(); addEventListener("resize",measure);
+  try{if(localStorage.getItem(KEY))hd.classList.add("is-dismissed");}catch(e){}
+  hd.querySelector(".h6-close").addEventListener("click",function(){
+    hd.classList.add("is-dismissed");
+    try{localStorage.setItem(KEY,"1");}catch(e){}
+    hd.querySelector(".hlogo").focus({preventScroll:true});
+  });
+  // rotation: one message at a time, every 5s; paused while hovered or focused, and not at all under reduced motion
+  var i=0, paused=false, reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  bar.addEventListener("mouseenter",function(){paused=true;}); bar.addEventListener("mouseleave",function(){paused=false;});
+  bar.addEventListener("focusin",function(){paused=true;}); bar.addEventListener("focusout",function(){paused=false;});
+  if(msgs.length>1&&!reduce)setInterval(function(){
+    if(paused||hd.classList.contains("is-dismissed"))return;
+    var cur=msgs[i], nx=msgs[(i+1)%msgs.length];
+    cur.classList.remove("on"); cur.classList.add("out"); cur.setAttribute("aria-hidden","true");
+    nx.classList.remove("out"); nx.classList.add("on"); nx.removeAttribute("aria-hidden");
+    setTimeout(function(){cur.classList.remove("out");},450);
+    i=(i+1)%msgs.length;
+  },5000);
+  headroom(hd);
+  drawer(document.getElementById("md-h6"), hd.querySelector(".burger"));
+})();`,
+  note:"הכיוון החדש של hd6 (23.9.2026), אחרי שהאיים הצפים נפסלו כנישתיים. שלושה מצבים על transform אחד, דרך --off: בראש העמוד הכל גלוי; בגלילה או אחרי סגירה ההדר זז למעלה בדיוק בגובה השורה (נמדד ב-JS), ולכן אין אנימציית גובה ואין תזוזת עמוד; ו-is-hidden מוציא את כולו. הסגירה נשמרת ב-localStorage עם מפתח גרסה: הודעה חדשה מקבלת מפתח חדש ותופיע שוב. ההחלפה בין הודעות היא החלקה אנכית כל 5 שניות, נעצרת בריחוף ובפוקוס (WCAG 2.2.2), ולא רצה ב-reduced-motion. אחרי סגירה הפוקוס עובר ללוגו, כדי שמשתמש מקלדת לא יישאר על כפתור שנעלם. השורה בצבע המותג עם accent-ink, ולכן היא עוברת ניגודיות בכל עור."
 },
 {
   id:"hd7", cat:"header", name:"הדר נחיתה צף: לוגו, טלפון וכפתור אחד", tech:"CSS · JS", status:"ממתין", runway:false,

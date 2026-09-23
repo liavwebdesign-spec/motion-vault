@@ -4,6 +4,10 @@ import { writeFileSync, mkdirSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { portable, standalone, labelPh } from "./portable.mjs";
+import { readFileSync as __rf } from "node:fs";
+import { createHash as __ch } from "node:crypto";
+// baseline.js carries a content hash (23.9.2026): after syncing a review report, browsers kept the old file and old statuses won
+const BV = __ch("sha1").update(__rf(new URL("../assets/baseline.js", import.meta.url))).digest("hex").slice(0, 8);
 import { writeCompositionsSkill, writeStylesSkill, writeAntiSkill, writeArchSkill } from "./skill.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -803,7 +807,7 @@ ${runwayEnd}
 ${e.note ? `<div class="demo-note">${e.note}</div>` : ""}
 ${codePanel(e)}
 ${libs}
-<script src="../assets/baseline.js"></script>
+<script src="../assets/baseline.js?v=${BV}"></script>
 <script src="../assets/status.js"></script>
 <script>
 if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
@@ -898,7 +902,7 @@ body.rv{margin:0;display:flex;flex-direction:column;background:var(--bg)}
 <div class="rv-note" data-note><small>מה לא עובד? (נכנס לדוח)</small><textarea rows="1" data-ta placeholder="לדוגמה: הכרטיסים קופצים בכניסה, הטקסט נחתך במובייל..."></textarea></div>
 <iframe class="rv-frame" data-frame title="דמו"></iframe>
 <div class="rv-done" hidden data-done><h2>אין מה לסקור בסינון הזה</h2><p class="rv-desc" style="margin-inline:auto">כל המהלכים שנבחרו כבר מסומנים. אפשר לעבור ל"הכל" כדי לבדוק שוב, או להעתיק את הדוח.</p></div>
-<script src="assets/baseline.js"></script>
+<script src="assets/baseline.js?v=${BV}"></script>
 <script src="assets/status.js"></script>
 <script>
 (function(){
@@ -1035,7 +1039,7 @@ ${FONT}
 <div class="vgrid">
 ${cards}
 </div>
-<script src="assets/baseline.js"></script>
+<script src="assets/baseline.js?v=${BV}"></script>
 <script src="assets/status.js"></script>
 <script>
 const LIST=${REPORT_LIST};
