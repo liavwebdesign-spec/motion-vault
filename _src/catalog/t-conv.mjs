@@ -63,8 +63,9 @@ const PHONE_CSS = `
   box-shadow:0 0 0 10px var(--ink),0 32px 64px color-mix(in srgb,var(--ink) 24%,transparent);container-type:inline-size}
 .cx-scr{height:100%;overflow:auto;overscroll-behavior:contain;scrollbar-width:none}
 .cx-scr::-webkit-scrollbar{display:none}
-/* the page reserves the bar's height at its end, exactly like body padding on a real site */
-.cx-page{padding-bottom:72px}
+/* the bar's room is made inside the footer, never as padding under it: padding on body shows as a band of the page
+   colour below a dark footer (Profix, 23.9.2026) */
+.cx-page{padding-bottom:0}
 .cx-hero{min-height:78cqh;display:flex;flex-direction:column;justify-content:flex-end;gap:14px;padding:88px 24px 40px;
   background:linear-gradient(170deg,color-mix(in srgb,var(--accent) 30%,var(--ink)),var(--ink) 70%);color:var(--bg)}
 .cx-hero small{font-size:13px;font-weight:600;opacity:.8}
@@ -85,7 +86,7 @@ const PHONE_CSS = `
 .cx-end input::placeholder{color:color-mix(in srgb,var(--bg) 55%,transparent)}
 .cx-end input:focus{outline:0;box-shadow:inset 0 0 0 2px var(--accent)}
 .cx-end .cx-btn{width:100%}
-.cx-foot{padding:24px;font-size:13px;color:var(--muted)}
+.cx-foot{padding:24px 24px calc(24px + 72px);font-size:13px;color:var(--muted)}
 
 /* ---- the bar itself ---- */
 .mbar{position:fixed;inset-inline:0;bottom:0;z-index:40;display:flex;align-items:center;gap:8px;padding:10px 12px max(10px,env(safe-area-inset-bottom));
