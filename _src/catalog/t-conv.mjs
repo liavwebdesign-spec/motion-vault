@@ -358,7 +358,8 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
   try{n=q.get("name")||sessionStorage.getItem("lead-name")||"";}catch(e){}
   n=(n||root.getAttribute("data-demo-name")||"").trim().split(" ")[0];
   if(n)root.querySelector("[data-name]").textContent=n;else root.querySelector("[data-name-wrap]").remove();
-  var d=new Date();root.querySelector("[data-now]").textContent=d.getHours()+":"+(d.getMinutes()<10?"0":"")+d.getMinutes();
+  // 24h, both parts padded: after midnight "0:01" read as a glitch (Pitch QA, 24.9.2026)
+  var d=new Date(),p2=function(v){return (v<10?"0":"")+v;};root.querySelector("[data-now]").textContent=p2(d.getHours())+":"+p2(d.getMinutes());
   // the progress track fills from the first marker to the current one
   var ol=root.querySelector(".ty-steps"),now=ol.querySelector(".is-now > i"),first=ol.querySelector("li > i");
   function fill(){ol.style.setProperty("--fill",(now.getBoundingClientRect().top-first.getBoundingClientRect().top)+"px");}
