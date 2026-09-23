@@ -178,7 +178,7 @@ sk({
   desc: "משטחי זכוכית חצי-שקופים מטושטשים מעל רקע צבעוני עשיר. פרימיום, שכבות, Apple.",
   when: "דפי נחיתה, פינטק, קריפטו, דשבורדים מודרניים, פרימיום.",
   no: "מעל רקע לבן או חלש. הזכוכית נעלמת. חייבים רקע עשיר.",
-  recipe: `רקע: gradient עשיר (2-3 עצירות) או תמונה או blobs צבעוניים
+  recipe: `רקע: gradient עשיר (2-3 עצירות) או תמונה (לא blobs: נפסלו כנישתיים, 23.9.2026)
 זכוכית: background: rgba(255,255,255,.12-.18); backdrop-filter: blur(18-28px);
         border: 1px solid rgba(255,255,255,.2); box-shadow: 0 8px 32px rgba(0,0,0,.12); radius 16-24
 שכבתיות: 2-3 עומקי זכוכית שונים (blur ושקיפות שונים). זה מה שיוצר את העומק`,
@@ -213,13 +213,13 @@ sk({
 צל החימר: box-shadow: 0 12px 24px rgba(של-צבע-הרקע,.35),
           inset 0 -8px 12px rgba(0,0,0,.12), inset 0 6px 10px rgba(255,255,255,.5)
 פלטה: 3-4 פסטלים חיים (אפרסק, מנטה, לילך, שמיים) על רקע שמנת`,
-  apply: "כפתורים וכרטיסים מנופחים; הירו עם בלוב או צורה אורגנית; אייקונים עבים מעוגלים filled; טפסים שקועים-רכים; תמונות בתוך מסגרות חימר מעוגלות מאוד.",
-  sig: "CTA מנופח שמתכווץ בלחיצה (scale .97) · בלובים אורגניים ברקע · כרטיס עם בטן (הצל הפנימי התחתון הכהה).",
+  apply: "כפתורים וכרטיסים מנופחים; הירו עם תמונה במסגרת חימר מעוגלת (לא בלוב, 23.9.2026); אייקונים עבים מעוגלים filled; טפסים שקועים-רכים; תמונות בתוך מסגרות חימר מעוגלות מאוד.",
+  sig: "CTA מנופח שמתכווץ בלחיצה (scale .97) · כרטיס עם בטן (הצל הפנימי התחתון הכהה).",
   avoid: "פסטלים חיוורים או עכורים. החימר חייב רוויה וחיים · עיגול-יתר של בלוקי טקסט ארוכים · שימוש בעסק שדורש רצינות.",
   qa: ["radius 24 ומעלה על האלמנטים הבולטים", "scale-on-press עם transition", "טקסט כהה AA על כל פסטל"],
   engine: "ריווח נדיב, הצורות רעבות לאוויר; היררכיית משקלים נשמרת.",
   agent: "עצב בסגנון קליימורפיזם: כרטיסים מנופחים עם פינות עגולות מאוד, צל פנימי עליון בהיר ותחתון כהה, פלטה פסטלית רוויה וחיה.",
-  note: "בדמו: ארבעה פסטלים (אפרסק, מנטה, שמיים, לילך) על שמנת, כל צל בצבע הרקע של אותו כרטיס, הוויז'ואל בהירו הוא בלוב. Varela Round לכותרות כי החימר דורש פונט מעוגל.",
+  note: "בדמו: ארבעה פסטלים (אפרסק, מנטה, שמיים, לילך) על שמנת, כל צל בצבע הרקע של אותו כרטיס, הוויז'ואל בהירו הוא מסגרת חימר מעוגלת (עד 23.9.2026 היה בלוב, ונפסל כנישתי). Varela Round לכותרות כי החימר דורש פונט מעוגל.",
   fonts: ["Varela Round"],
   css: `.sk-s04 .ref{--s-bg:#FFF6EC;--s-surface:#FFD9C2;--s-ink:#2D2438;--s-muted:#5A4E6B;--s-line:transparent;--s-accent:#FF7A59;--s-accent-ink:#fff;--s-accent-txt:#D2532F;--s-r:30px;--s-btn-r:999px;--s-ph:#C9F0DF;--s-ph-ink:#2D2438;--s-font-h:"Varela Round",inherit;--s-wt-h:700;
  --s-card-b:0;--s-card-sh:0 12px 24px rgba(255,150,110,.35),inset 0 -8px 12px rgba(0,0,0,.12),inset 0 6px 10px rgba(255,255,255,.5);
@@ -233,9 +233,9 @@ sk({
 .sk-s04 .price:not(.hi){background:#FFEFE3}
 .sk-s04 .price.hi{--s-card-sh:0 14px 28px rgba(140,107,255,.4),inset 0 -8px 12px rgba(0,0,0,.15),inset 0 6px 10px rgba(255,255,255,.4)}
 .sk-s04 .fbox{--s-card-sh:0 12px 24px rgba(160,130,255,.3),inset 0 -8px 12px rgba(0,0,0,.1),inset 0 6px 10px rgba(255,255,255,.5)}
-.sk-s04 .hero-v{border-radius:62% 38% 46% 54%/48% 60% 40% 52%;box-shadow:var(--s-card-sh);overflow:visible}
+.sk-s04 .hero-v{border-radius:40px;box-shadow:var(--s-card-sh);overflow:visible}
 .sk-s04 .hv-a{position:absolute;width:38%;height:38%;inset-inline-end:8%;top:10%;border-radius:50%;background:#FFD93D;box-shadow:inset 0 -6px 10px rgba(0,0,0,.12),inset 0 5px 8px rgba(255,255,255,.6)}
-.sk-s04 .hv-b{position:absolute;width:30%;height:30%;inset-inline-start:12%;bottom:12%;border-radius:45% 55% 60% 40%/55% 45% 55% 45%;background:#8C6BFF;box-shadow:inset 0 -6px 10px rgba(0,0,0,.15),inset 0 5px 8px rgba(255,255,255,.4)}
+.sk-s04 .hv-b{position:absolute;width:30%;height:30%;inset-inline-start:12%;bottom:12%;border-radius:24px;background:#8C6BFF;box-shadow:inset 0 -6px 10px rgba(0,0,0,.15),inset 0 5px 8px rgba(255,255,255,.4)}
 .sk-s04 .ft{border-top:0}
 .sk-s04 .tag{background:#FFD93D;color:#2D2438}
 .sk-s04 .in::placeholder{color:#8A7A9B}`,
