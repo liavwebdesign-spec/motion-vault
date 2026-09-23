@@ -54,6 +54,9 @@ img{max-width:100%}
   font-size:14px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),background .3s cubic-bezier(.2,.6,.2,1),color .3s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
 @media (hover:hover) and (pointer:fine){.hlink:hover{opacity:1}.hbtn:hover{transform:translateY(-1px)}}
 .hd .burger{display:none}
+/* a hidden header takes its shadow with it: the shadow reaches past the header's own edge (up to 56px on the floating
+   ones), and translateY(-100%) left it as a grey band on every light screen while scrolling down (Profix audit, 23.9.2026) */
+.hd.is-hidden,.hd.is-hidden::before,.hd.is-hidden > *,.hd.is-hidden > *::before{box-shadow:none!important}
 @media (prefers-reduced-motion:reduce){.hd,.hd *{transition-duration:.01ms!important;transition-delay:0s!important}}
 .h7x{position:absolute;top:16px;inset-inline:0;margin-inline:auto;width:min(1120px,calc(100% - 32px));display:flex;align-items:center;gap:12px;padding:8px;padding-inline-start:24px;
   border-radius:18px;isolation:isolate;color:var(--ink, #16182b);transition:transform .45s cubic-bezier(.2,.6,.2,1)}
