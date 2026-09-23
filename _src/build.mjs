@@ -11,11 +11,11 @@ const BV = __ch("sha1").update(__rf(new URL("../assets/baseline.js", import.meta
 import { writeCompositionsSkill, writeStylesSkill, writeAntiSkill, writeArchSkill } from "./skill.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const CATS = { comp: "קומפוזיציות", rhythm: "מקצבי עמוד", style: "שפות עיצוב", anti: "אנטי-פטרנים", arch: "ארכיטיפים", gsap: "GSAP", behavior: "התנהגויות", header: "הדרים", hero: "הירו", css: "CSS טהור", lm: "חתימה (LM)", misc: "מסגרת" };
+const CATS = { comp: "קומפוזיציות", rhythm: "מקצבי עמוד", style: "שפות עיצוב", anti: "אנטי-פטרנים", arch: "ארכיטיפים", gsap: "GSAP", behavior: "התנהגויות", header: "הדרים", hero: "הירו", footer: "פוטרים", css: "CSS טהור", lm: "חתימה (LM)", misc: "מסגרת" };
 // שני אזורים, שתי שאלות שונות: "מה בונים" (תורה) ו"איך זה זז" (מהלכים).
 // ההחלטה 6.9.2026: המאגר הופך לשכבה הוויזואלית של התורה, לא לתורה שנייה.
 const AREAS = { doctrine: "תורה", moves: "מהלכים" };
-const CAT_AREA = { comp: "doctrine", rhythm: "doctrine", style: "doctrine", anti: "doctrine", arch: "doctrine", gsap: "moves", behavior: "moves", header: "moves", hero: "moves", css: "moves", lm: "moves", misc: "moves" };
+const CAT_AREA = { comp: "doctrine", rhythm: "doctrine", style: "doctrine", anti: "doctrine", arch: "doctrine", gsap: "moves", behavior: "moves", header: "moves", hero: "moves", footer: "moves", css: "moves", lm: "moves", misc: "moves" };
 const CDN = {
   gsap: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js",
   ScrollTrigger: "https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js",
@@ -97,7 +97,7 @@ const USES = {
   g45: ["process", "numbers", "media"], b29: ["ambient", "nav"],
   b30: ["nav", "text"], b31: ["cards", "media", "nav"], b32: ["feedback", "text"], b33: ["media", "cards"],
   b34: ["cards", "media", "nav"], b35: ["process", "nav"], b36: ["feedback", "process", "text"],
-  b37: ["cards", "process"], b38: ["nav"], b39: ["nav"], b65: ["nav"], b66: ["nav"], hd1: ["nav"], hd2: ["nav"], hd3: ["nav"], hd4: ["nav"], hd5: ["nav"], hd6: ["nav"], hd7: ["nav"], hd8: ["nav"], h1: ["hero","text"], h2: ["hero","media","numbers"], h3: ["hero","media"], h4: ["hero","media"], h5: ["hero","text"], h6: ["hero","cards","numbers"], h7: ["hero","process"], h8: ["hero","media","hover"], b40: ["nav", "ambient"],
+  b37: ["cards", "process"], b38: ["nav"], b39: ["nav"], b65: ["nav"], b66: ["nav"], hd1: ["nav"], hd2: ["nav"], hd3: ["nav"], hd4: ["nav"], hd5: ["nav"], hd6: ["nav"], hd7: ["nav"], hd8: ["nav"], h1: ["hero","text"], h2: ["hero","media","numbers"], h3: ["hero","media"], h4: ["hero","media"], h5: ["hero","text"], h6: ["hero","cards","numbers"], h7: ["hero","process"], h8: ["hero","media","hover"], ft1: ["nav","text"], ft2: ["nav","numbers"], ft3: ["nav"], ft4: ["media","nav"], ft5: ["nav","feedback"], ft6: ["nav"], ft7: ["nav","feedback"], ft8: ["nav","ambient"], ft9: ["nav","cards"], ft10: ["nav","numbers"], b40: ["nav", "ambient"],
   g46: ["numbers", "process"],
   b41: ["process", "media", "cards"], b42: ["ambient", "nav"], b43: ["numbers", "feedback"], b44: ["numbers", "cards"],
   b45: ["cards", "media", "nav"], b46: ["cards", "hover", "media"], g47: ["process", "media", "hero"],
@@ -266,7 +266,7 @@ const ELEMS = {
   b65: ["nav","over"],
   b66: ["nav","over"],
   hd1: ["nav","over"], hd2: ["nav","over"], hd3: ["nav","over"], hd4: ["nav","over"], hd5: ["nav","over"], hd6: ["nav","over"], hd7: ["nav","btn"], hd8: ["nav","over"],
-  h1: ["sect","head","btn","img"], h2: ["sect","head","img","card"], h3: ["sect","head","img","btn"], h4: ["sect","head","img"], h5: ["sect","head","btn"], h6: ["sect","card","img"], h7: ["sect","head","btn","form"], h8: ["sect","list","img","head"],
+  h1: ["sect","head","btn","img"], h2: ["sect","head","img","card"], h3: ["sect","head","img","btn"], h4: ["sect","head","img"], h5: ["sect","head","btn"], h6: ["sect","card","img"], h7: ["sect","head","btn","form"], h8: ["sect","list","img","head"], ft1: ["sect","head","btn"], ft2: ["sect","list","btn"], ft3: ["sect","list","nav"], ft4: ["sect","img","btn"], ft5: ["sect","form","list"], ft6: ["sect"], ft7: ["sect","form"], ft8: ["sect","list"], ft9: ["sect","card","nav"], ft10: ["sect","list"],
   b40: ["nav","sect"],
   b41: ["sect","list","img"],
   b42: ["list","sect"],
@@ -458,7 +458,7 @@ const FIT = {
   b65: ["S"],
   b66: ["L", "S"],
   hd1: ["S"], hd2: ["S"], hd3: ["L","S"], hd4: ["S"], hd5: ["S"], hd6: ["L","S"], hd7: ["L"], hd8: ["L","S"],
-  h1: ["L","S"], h2: ["L","S"], h3: ["S"], h4: ["S"], h5: ["S"], h6: ["L","S"], h7: ["L","S"], h8: ["S"],
+  h1: ["L","S"], h2: ["L","S"], h3: ["S"], h4: ["S"], h5: ["S"], h6: ["L","S"], h7: ["L","S"], h8: ["S"], ft1: ["S"], ft2: ["S"], ft3: ["S"], ft4: ["S"], ft5: ["S"], ft6: ["L"], ft7: ["L","S"], ft8: ["S"], ft9: ["S"], ft10: ["L","S"],
   b40: ["L","S"],
   b41: ["L","S"],
   b42: ["S"],
@@ -908,7 +908,7 @@ body.rv{margin:0;display:flex;flex-direction:column;background:var(--bg)}
 (function(){
   const ALL=${LIST}, CATS=${CATS_JSON};
   // הסדר: מהלכים קודם (הם מה שלא נשפט), ואז הדוקטרינה
-  const ORDER=["gsap","behavior","header","hero","css","lm","misc","comp","rhythm","style","anti","arch"];
+  const ORDER=["gsap","behavior","header","hero","footer","css","lm","misc","comp","rhythm","style","anti","arch"];
   ALL.sort((a,b)=>ORDER.indexOf(a.cat)-ORDER.indexOf(b.cat));
   const $=s=>document.querySelector(s);
   const frame=$("[data-frame]"),count=$("[data-count]"),note=$("[data-note]"),ta=$("[data-ta]"),done=$("[data-done]");

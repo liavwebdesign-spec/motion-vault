@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const ROOT = process.argv[2];
-const CAT_DIRS = ["comp", "rhythm", "style", "anti", "arch", "gsap", "behavior", "header", "hero", "css", "lm", "misc"];
+const CAT_DIRS = ["comp", "rhythm", "style", "anti", "arch", "gsap", "behavior", "header", "hero", "footer", "css", "lm", "misc"];
 const problems = [];
 let pages = 0;
 
@@ -60,13 +60,24 @@ for (const e of entries) {
   // 2) ערכי טוקנים כליטרלים ב-CSS: שוברים ירושת עור בפרויקט היעד.
   //    חל רק על מהלכים לשימוש חוזר. עורות (style) מגדירים צבעים בהגדרה, ועמודי הדוקטרינה
   //    (anti/arch/comp/rhythm) מדגימים ולא מיובאים, ולכן ליטרלים שם לגיטימיים.
-  const REUSABLE = new Set(["gsap", "behavior", "header", "hero", "css", "lm", "misc"]);
+  const REUSABLE = new Set(["gsap", "behavior", "header", "hero", "footer", "css", "lm", "misc"]);
   //    מנוס: /* qa-allow: literal, סיבה */ באותו כלל. משמש כשהליטרל מזווג בכוונה למשטח ליטרלי (טקסט כהה על מחוון לבן קשיח).
   if (REUSABLE.has(e.cat)) {
     const live = css.split("}").filter(b => !/qa-allow:\s*literal/.test(b)).join("}");
     for (const [hex, tok] of Object.entries(TOKEN_LITERALS)) {
       if (new RegExp(hex, "i").test(live)) problems.push(`${e.id}: token literal ${hex} in CSS, use var(${tok})`);
     }
+  }
+  // 2א) רשימת החובה של פוטר (23.9.2026): חוקי הפוטר ישבו בחמישה קבצים, ובכל פרויקט נשכח אחר. כל פוטר במאגר עומד בכולם.
+  if (e.cat === "footer") {
+    const H = e.html || "";
+    if (!/href="[^"]*privacy/.test(H)) problems.push(`${e.id}: footer without a link to the privacy policy`);
+    if (!/href="[^"]*accessibility/.test(H)) problems.push(`${e.id}: footer without a link to the accessibility statement`);
+    if (!/liavmatzri\.co\.il/.test(H)) problems.push(`${e.id}: footer without Liav's credit line (site-planning, 12.8.2026)`);
+    if (!/data-year/.test(H)) problems.push(`${e.id}: footer year is hard-coded, use data-year`);
+    for (const m of H.matchAll(/<a[^>]*href="tel:[^"]*"[^>]*>/g)) if (!/dir="ltr"/.test(m[0])) problems.push(`${e.id}: tel: link without dir="ltr" (the number flips in RTL)`);
+    if (/border-(top|bottom)\s*:\s*[1-9]/.test(css.split("}").filter(k => !/qa-allow:\s*line/.test(k)).join("}"))) problems.push(`${e.id}: separator line in a footer (no lines: separate with space and surface)`);
+    if (!/footer[^{]*a[^{]*\{[^}]*transition|\.ftw a\{[^}]*transition/.test(css)) problems.push(`${e.id}: footer links without a hover transition (motion.md)`);
   }
   // 2ב) מטריצת העורות (8.9.2026) הראתה שלושה דפוסים שנשברים אצל לקוח עם עור אחר, גם כשכל הטוקנים במקום:
   //     משטח טקסט עם background:#fff (על עור כהה: כרטיס לבן עם טקסט לבן), טקסט לבן על var(--ink)
@@ -143,7 +154,7 @@ for (const d of CAT_DIRS) {
 }
 
 const missingPages = entries.filter(e => {
-  const dirMap = { comp: "comp", rhythm: "rhythm", style: "style", anti: "anti", arch: "arch", gsap: "gsap", behavior: "behavior", header: "header", hero: "hero", css: "css", lm: "lm", misc: "misc" };
+  const dirMap = { comp: "comp", rhythm: "rhythm", style: "style", anti: "anti", arch: "arch", gsap: "gsap", behavior: "behavior", header: "header", hero: "hero", footer: "footer", css: "css", lm: "lm", misc: "misc" };
   return !existsSync(join(ROOT, dirMap[e.cat], e.id + ".html"));
 }).map(e => e.id);
 if (missingPages.length) problems.push("entries without a page: " + missingPages.join(","));

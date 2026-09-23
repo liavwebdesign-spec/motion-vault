@@ -69,7 +69,7 @@ for (const f of readdirSync(join(ROOT, "_src", "catalog")).sort()) {
   entries.push(...mod.default);
 }
 // עמודי דוקטרינה ועורות לא נבדקים על תנועה: אין להם התנהגות להוכיח
-const MOTION_CATS = new Set(["gsap", "behavior", "header", "hero", "css", "lm", "misc"]);
+const MOTION_CATS = new Set(["gsap", "behavior", "header", "hero", "footer", "css", "lm", "misc"]);
 
 // הסקריפט שרץ בתוך הדף. כותב JSON ל-#behave-result.
 const PROBE = String.raw`

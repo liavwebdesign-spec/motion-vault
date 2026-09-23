@@ -25,7 +25,7 @@ const flag = n => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : nul
 const PROJECT = args.includes("--project");
 const target = args.find(a => !a.startsWith("--") && a !== flag("--sel"));
 if (!target) { console.error("studio: תן מזהה במאגר, קובץ או URL"); process.exit(1); }
-const STYLE_DIRS = ["style", "comp", "arch", "gsap", "behavior", "header", "hero", "css", "lm", "misc", "rhythm", "anti"];
+const STYLE_DIRS = ["style", "comp", "arch", "gsap", "behavior", "header", "hero", "footer", "css", "lm", "misc", "rhythm", "anti"];
 let url, name = target, sel = flag("--sel");
 if (/^https?:/.test(target)) url = target;
 else if (existsSync(target)) { url = pathToFileURL(resolve(target)).href; name = basename(target, ".html"); }

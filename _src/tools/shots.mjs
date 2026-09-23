@@ -32,7 +32,7 @@ const ALL = args.includes("--all");
 const HOVER = args.includes("--hover");
 const POS = (flag("--pos") || "0.15,0.5,0.85").split(",").map(Number);
 const VIEWS = [[1280, 800], [500, 900]];
-const MOVE_CATS = ["gsap", "behavior", "header", "hero", "css", "lm", "misc", "style", "comp", "arch", "rhythm", "anti"];
+const MOVE_CATS = ["gsap", "behavior", "header", "hero", "footer", "css", "lm", "misc", "style", "comp", "arch", "rhythm", "anti"];
 const wanted = args.filter(a => !a.startsWith("--") && a !== flag("--pos"));
 
 const CHROME = [process.env.CHROME_PATH,
