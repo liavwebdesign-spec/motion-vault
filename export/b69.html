@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B69 · ערימת כרטיסים להחלקה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
+
+/* B69 · ערימת כרטיסים להחלקה */
+.sk{max-width:min(1100px,94vw);margin-inline:auto;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(32px,5vw,96px);align-items:center}
+.sk-head{grid-row:span 2}
+.sk-head h2{margin:0 0 12px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
+.sk-head p{margin:0;color:var(--muted, #6a6d85)}
+.sk-deck{position:relative;height:clamp(280px,26vw,330px);outline:none}
+.sk-deck:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:12px;border-radius:24px}
+.sk-card{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(24px,2.6vw,40px);border-radius:24px;background:var(--card, #fff);color:var(--ink, #16182b);
+  box-shadow:0 24px 48px -28px color-mix(in srgb,var(--ink, #16182b) 45%,transparent);cursor:grab;touch-action:pan-y;user-select:none;will-change:transform}
+.sk-card:active{cursor:grabbing}
+/* עומק בגוון ולא בשקיפות: כרטיס שקוף הראה את האווטאר של הכרטיס שמתחתיו */
+.sk-card::after{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--bg, #f7f7fa);opacity:var(--dim,0);pointer-events:none}
+.sk-q{margin:0;font-size:clamp(19px,1.6vw,24px);line-height:1.5;font-weight:500}
+.sk-who{display:flex;align-items:center;gap:14px}
+.sk-av{flex:none;width:48px;height:48px;border-radius:50%}
+.sk-who b{display:block;font-size:17px}
+.sk-who small{color:var(--muted, #6a6d85);font-size:14px}
+.sk-ctrl{display:flex;align-items:center;justify-content:center;gap:24px}
+.sk-ctrl button{width:48px;height:48px;border:0;border-radius:50%;background:var(--card, #fff);color:var(--ink, #16182b);display:grid;place-items:center;cursor:pointer;
+  box-shadow:0 10px 24px -14px color-mix(in srgb,var(--ink, #16182b) 50%,transparent);transition:transform .2s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.sk-ctrl button:hover{transform:translateY(-2px)}}
+.sk-ctrl button:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+.sk-ctrl svg{width:20px;height:20px}
+.sk-count{min-width:72px;text-align:center;font-size:15px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}
+.sk-count b{display:inline-block;color:var(--ink, #16182b)}
+.sk-count b.roll{animation:sk-roll .35s cubic-bezier(.2,.6,.2,1)}
+@keyframes sk-roll{from{transform:translateY(60%);opacity:0}to{transform:none;opacity:1}}
+@media (max-width:767px){.sk{grid-template-columns:1fr}.sk-head{grid-row:auto}.sk-deck{height:340px}}
+@media (prefers-reduced-motion: reduce){.sk-count b.roll{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="stage tight"><section class="sk" aria-label="המלצות">
+  <header class="sk-head"><h2>מה אומרים עלינו</h2><p>גררו את הכרטיס הצידה, או השתמשו בחצים.</p></header>
+  <div class="sk-deck" tabindex="0" role="group" aria-roledescription="ערימת כרטיסים" aria-label="המלצות, חמש בסך הכל">
+    <article class="sk-card" data-i="0"><p class="sk-q">"חזרו אלינו באותו יום, הגיעו בזמן, והשאירו את הבית נקי יותר ממה שהיה. זה נדיר."</p><footer class="sk-who"><span class="sk-av ph ph-a" aria-hidden="true"></span><span><b>מיכל ברק</b><small>דירת גן, רמת גן</small></span></footer></article>
+    <article class="sk-card" data-i="1"><p class="sk-q">"הסבירו כל שלב בשפה שאפשר להבין, ולא הייתה אף הפתעה בחשבון בסוף."</p><footer class="sk-who"><span class="sk-av ph ph-b" aria-hidden="true"></span><span><b>יוסי אלון</b><small>משרד, תל אביב</small></span></footer></article>
+    <article class="sk-card" data-i="2"><p class="sk-q">"הם ראו בתוכנית דברים שהאדריכל פספס, וחסכו לנו תיקון יקר אחרי הכניסה."</p><footer class="sk-who"><span class="sk-av ph ph-c" aria-hidden="true"></span><span><b>נועה פרץ</b><small>בית פרטי, מודיעין</small></span></footer></article>
+    <article class="sk-card" data-i="3"><p class="sk-q">"שלוש הצעות מחיר, וזו הייתה היחידה שפירטה מה בדיוק כלול. בחרנו בהם בגלל זה."</p><footer class="sk-who"><span class="sk-av ph ph-d" aria-hidden="true"></span><span><b>אבי שמש</b><small>פנטהאוז, חיפה</small></span></footer></article>
+    <article class="sk-card" data-i="4"><p class="sk-q">"חצי שנה אחרי, התקשרנו עם שאלה קטנה. ענו תוך שעה, ובאו לתקן בלי לשאול אם זה באחריות."</p><footer class="sk-who"><span class="sk-av ph ph-e" aria-hidden="true"></span><span><b>רותם כהן</b><small>דירה, גבעתיים</small></span></footer></article>
+  </div>
+  <div class="sk-ctrl">
+    <button class="sk-prev" type="button" aria-label="להמלצה הקודמת"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    <span class="sk-count" dir="ltr" aria-live="polite"><b>01</b> / 05</span>
+    <button class="sk-next" type="button" aria-label="להמלצה הבאה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+  </div>
+</section></div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+(function(){
+  const deck=document.querySelector(".sk-deck"),num=document.querySelector(".sk-count b");
+  const cards=[...deck.querySelectorAll(".sk-card")],n=cards.length;
+  const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let order=cards.slice(),busy=false; // order[0] הוא הכרטיס העליון
+  const pad=v=>String(v).padStart(2,"0");
+  function layout(animate){
+    order.forEach((c,k)=>{
+      const d=Math.min(k,3);
+      gsap.set(c,{zIndex:n-k});
+      c.inert=k!==0; // רק העליון נגיש: השאר הם עומק, לא תוכן
+      const v={x:0,y:d*16,scale:1-d*.05,rotation:k===0?0:(k%2?-1:1)*d*1.4,opacity:k>3?0:1,"--dim":d*.26};
+      if(animate&&!reduced)gsap.to(c,Object.assign({duration:.5,ease:"power3.out",overwrite:true},v));
+      else gsap.set(c,v);
+    });
+    const t=pad(Number(order[0].dataset.i)+1);
+    if(num.textContent!==t){num.textContent=t;num.classList.remove("roll");void num.offsetWidth;num.classList.add("roll");}
+  }
+  // dir: -1 שמאלה, 1 ימינה. העליון עף, נכנס לסוף, והשאר עולים
+  function next(dir){
+    if(busy)return;const c=order[0];
+    if(reduced){order.push(order.shift());layout(false);return;}
+    busy=true;
+    gsap.to(c,{x:dir*deck.offsetWidth*1.15,y:"+=24",rotation:dir*14,opacity:0,duration:.36,ease:"power2.in",overwrite:true,onComplete:()=>{
+      order.push(order.shift());gsap.set(c,{x:0,rotation:0,opacity:0});layout(true);busy=false;}});
+  }
+  // הקודם חוזר מאותו צד שאליו העליון עף, כך שהכיוון נשאר עקבי
+  function prev(dir){
+    if(busy)return;const c=order.pop();order.unshift(c);
+    if(!reduced)gsap.set(c,{x:dir*deck.offsetWidth*1.15,rotation:dir*14,opacity:0});
+    layout(true);
+  }
+  document.querySelector(".sk-next").addEventListener("click",()=>next(-1));
+  document.querySelector(".sk-prev").addEventListener("click",()=>prev(-1));
+  deck.addEventListener("keydown",e=>{
+    if(e.key==="ArrowLeft"){e.preventDefault();next(-1);} // בעברית, קדימה הוא שמאלה
+    if(e.key==="ArrowRight"){e.preventDefault();prev(-1);}
+  });
+  let drag=null;
+  deck.addEventListener("pointerdown",e=>{
+    const c=order[0];if(busy||e.button!==0||!c.contains(e.target))return;
+    drag={c,x0:e.clientX,y0:e.clientY,t0:performance.now(),dx:0,moved:false};
+    try{c.setPointerCapture(e.pointerId);}catch(err){}
+  });
+  deck.addEventListener("pointermove",e=>{
+    if(!drag)return;const dx=e.clientX-drag.x0,dy=e.clientY-drag.y0;
+    if(!drag.moved&&Math.abs(dy)>Math.abs(dx)&&Math.abs(dy)>8){drag=null;return;} // גלילה אנכית מנצחת
+    drag.moved=true;drag.dx=dx;
+    gsap.set(drag.c,{x:dx,rotation:gsap.utils.clamp(-12,12,dx*.05)});
+  });
+  function release(){
+    if(!drag)return;const d=drag;drag=null;
+    const v=d.dx/Math.max(1,performance.now()-d.t0);
+    if(Math.abs(d.dx)>110||Math.abs(v)>.7)next(d.dx<0?-1:1);
+    else gsap.to(d.c,{x:0,rotation:0,duration:.45,ease:"power3.out"});
+  }
+  deck.addEventListener("pointerup",release);
+  deck.addEventListener("pointercancel",release);
+  layout(false);
+})();
+</script>
+</body>
+</html>

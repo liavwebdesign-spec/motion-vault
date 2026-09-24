@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G150 · אקורדיון שנפתח בגלילה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}
+.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}
+.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
+.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
+.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
+
+/* G150 · אקורדיון שנפתח בגלילה */
+.sa{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px))}
+.sa-head{max-width:52ch;margin:0 0 clamp(32px,4vw,64px)}
+.sa-head h2{margin:0 0 12px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
+.sa-head p{margin:0;color:var(--muted, #6a6d85)}
+.sa-pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(32px,5vw,96px);align-items:center;min-height:min(80vh,700px)}
+.sa-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.sa-item{padding-block:16px}
+.sa-q{display:flex;align-items:baseline;gap:16px;width:100%;padding:0;border:0;background:none;font:inherit;color:inherit;text-align:start;cursor:pointer}
+.sa-q:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:6px;border-radius:6px}
+.sa-n{flex:none;width:24px;font-size:15px;font-weight:600;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums;transition:color .35s}
+.sa-t{font-size:clamp(22px,2vw,34px);font-weight:600;line-height:1.15;color:color-mix(in srgb,var(--ink, #16182b) 40%,var(--bg, #f7f7fa));transition:color .4s cubic-bezier(.2,.6,.2,1)}
+.sa-item.on .sa-t{color:var(--ink, #16182b)}
+.sa-item.on .sa-n{color:var(--ink, #16182b)}
+/* הפס הוא המידע (כמה נשאר מהשלב), לא קישוט: הוא קיים רק מתחת לשלב הפתוח. מתחת לכל שלב הוא היה ארבעה קווים ברצף */
+.sa-bar{display:block;height:2px;margin-top:12px;margin-inline-start:40px;border-radius:2px;overflow:hidden;background:transparent;transition:background-color .4s}
+.sa-item.on .sa-bar{background:color-mix(in srgb,var(--ink, #16182b) 10%,transparent)}
+.sa-bar i{display:block;height:100%;background:var(--accent, #4a3aff);transform:scaleX(0);transform-origin:right;transition:transform .6s cubic-bezier(.2,.6,.2,1),opacity .3s}
+.sa-item.on .sa-bar i{transform:scaleX(1)}
+.sa-item:not(.on) .sa-bar i{opacity:0}
+.sa-p{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.6,.2,1)}
+.sa-item.on .sa-p{grid-template-rows:1fr}
+.sa-p>div{overflow:hidden}
+.sa-p p{margin:0;padding-top:12px;padding-inline-start:40px;max-width:46ch;color:var(--muted, #6a6d85);font-size:17px;line-height:1.6;opacity:0;transform:translateY(8px);transition:opacity .2s,transform .2s}
+.sa-item.on .sa-p p{opacity:1;transform:none;transition:opacity .4s .15s,transform .5s .15s cubic-bezier(.2,.6,.2,1)}
+.sa-thumb{display:none}
+.sa-media{position:relative;width:100%;aspect-ratio:4/5;max-height:min(72vh,640px);border-radius:24px;overflow:hidden;justify-self:center}
+.sa-img{position:absolute;inset:0;border-radius:0;clip-path:inset(100% 0 0 0);transform:scale(1.08);transition:clip-path .7s cubic-bezier(.76,0,.24,1),transform 1s cubic-bezier(.2,.6,.2,1)}
+.sa-img.was{clip-path:inset(0);transform:none;z-index:1}
+.sa-img.on{clip-path:inset(0);transform:none;z-index:2}
+@media (max-width:1023px){
+  .sa-pin{grid-template-columns:1fr;min-height:0}
+  .sa-media{display:none}
+  .sa-thumb{display:block;height:200px;margin:16px 0 8px;margin-inline-start:40px;border-radius:16px}
+}
+@media (prefers-reduced-motion: reduce){.sa-p,.sa-p p,.sa-img,.sa-t,.sa-n,.sa-bar i{transition-duration:.01ms;transition-delay:0s}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<section class="sa">
+  <header class="sa-head"><h2>מהשיחה הראשונה ועד המפתח</h2><p>ארבעה שלבים, וכל אחד נפתח כשמגיעים אליו.</p></header>
+  <div class="sa-pin">
+    <ol class="sa-list">
+      <li class="sa-item"><button class="sa-q" type="button" aria-expanded="false" aria-controls="sa-p1"><span class="sa-n">01</span><span class="sa-t">פגישת היכרות</span></button><span class="sa-bar" aria-hidden="true"><i></i></span>
+        <div class="sa-p" id="sa-p1"><div><p>באים אליכם הביתה, מקשיבים איך אתם חיים ביום רגיל, ומודדים. יוצאים עם רשימת צרכים ותקציב שמוסכם על כולם.</p><div class="sa-thumb ph ph-a"></div></div></div></li>
+      <li class="sa-item"><button class="sa-q" type="button" aria-expanded="false" aria-controls="sa-p2"><span class="sa-n">02</span><span class="sa-t">תכנון והדמיה</span></button><span class="sa-bar" aria-hidden="true"><i></i></span>
+        <div class="sa-p" id="sa-p2"><div><p>תוכנית עבודה, חומרים ותאורה, והדמיה של כל חדר. משנים כמה שצריך, עד שאתם רואים את עצמכם גרים שם.</p><div class="sa-thumb ph ph-b"></div></div></div></li>
+      <li class="sa-item"><button class="sa-q" type="button" aria-expanded="false" aria-controls="sa-p3"><span class="sa-n">03</span><span class="sa-t">ביצוע בשטח</span></button><span class="sa-bar" aria-hidden="true"><i></i></span>
+        <div class="sa-p" id="sa-p3"><div><p>מנהלת פרויקט אחת מולכם ומול כל בעלי המקצוע. עדכון בכל שבוע, עם תמונות ולוח זמנים.</p><div class="sa-thumb ph ph-c"></div></div></div></li>
+      <li class="sa-item"><button class="sa-q" type="button" aria-expanded="false" aria-controls="sa-p4"><span class="sa-n">04</span><span class="sa-t">מסירה ואחריות</span></button><span class="sa-bar" aria-hidden="true"><i></i></span>
+        <div class="sa-p" id="sa-p4"><div><p>עוברים יחד על כל פרט לפני שנכנסים. שנה של אחריות, ומספר טלפון אחד לכל שאלה.</p><div class="sa-thumb ph ph-d"></div></div></div></li>
+    </ol>
+    <div class="sa-media" aria-hidden="true"><div class="sa-img ph ph-a"></div><div class="sa-img ph ph-b"></div><div class="sa-img ph ph-c"></div><div class="sa-img ph ph-d"></div></div>
+  </div>
+</section>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  gsap.registerPlugin(ScrollTrigger);
+  const root=document.querySelector(".sa"),items=[...root.querySelectorAll(".sa-item")],imgs=[...root.querySelectorAll(".sa-img")];
+  const bars=items.map(it=>it.querySelector(".sa-bar i")),n=items.length;
+  let cur=-1,st=null;
+  function show(i){
+    if(i===cur)return;const prev=cur;cur=i;
+    items.forEach((it,k)=>{it.classList.toggle("on",k===i);it.querySelector(".sa-q").setAttribute("aria-expanded",String(k===i));});
+    // התמונה הקודמת נשארת מתחת, כדי שהחדשה נחשפת מעליה ולא מעל חור
+    imgs.forEach((im,k)=>{im.classList.toggle("on",k===i);im.classList.toggle("was",k===prev);});
+  }
+  items.forEach((it,i)=>it.querySelector(".sa-q").addEventListener("click",()=>{
+    if(!st){show(i);return;}
+    // במצב נעול, לחיצה גוללת לאמצע הקטע של השלב, והגלילה עצמה פותחת אותו
+    const y=st.start+(st.end-st.start)*(i+.5)/n;
+    window.scrollTo({top:y,behavior:"smooth"});
+  }));
+  const mm=gsap.matchMedia();
+  mm.add("(min-width:1024px) and (prefers-reduced-motion: no-preference)",()=>{
+    st=ScrollTrigger.create({trigger:root.querySelector(".sa-pin"),start:"center center",end:"+="+(n*55)+"%",pin:true,anticipatePin:1,
+      onUpdate:self=>{
+        const p=self.progress*n;
+        show(Math.min(n-1,Math.floor(p)));
+        bars.forEach((b,k)=>gsap.set(b,{scaleX:gsap.utils.clamp(0,1,p-k),transition:"none"}));
+      }});
+    return()=>{st=null;gsap.set(bars,{clearProps:"transform,transition"});};
+  });
+  show(0);
+})();
+</script>
+</body>
+</html>

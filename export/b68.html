@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B68 · רשת נקודות שנדלקת סביב הסמן</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* B68 · רשת נקודות שנדלקת סביב הסמן */
+.dg{position:relative;isolation:isolate;overflow:hidden;min-height:min(86vh,760px);display:grid;align-items:center;padding:clamp(48px,6vw,112px) var(--gutter, clamp(24px, 5vw, 96px));background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+.dg-cv{position:absolute;inset:0;z-index:-1;width:100%;height:100%;touch-action:pan-y}
+.dg-in{position:relative;max-width:40ch}
+/* שכבת כהות רכה מאחורי הטקסט: נקודה בהירה אף פעם לא יושבת מתחת למילה */
+.dg-in::before{content:"";position:absolute;inset:-48px -64px;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,color-mix(in srgb,var(--ink, #16182b) 90%,transparent),transparent)}
+.dg-k{margin:0 0 16px;font-size:15px;font-weight:600;color:color-mix(in srgb,var(--bg, #f7f7fa) 70%,transparent)}
+.dg h2{margin:0 0 16px;font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));line-height:1.05}
+.dg-lead{margin:0 0 32px;font-size:18px;line-height:1.6;color:color-mix(in srgb,var(--bg, #f7f7fa) 78%,transparent)}
+.dg-btn{display:inline-flex;padding:14px 28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:700;transition:transform .2s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.dg-btn:hover{transform:translateY(-2px)}}
+.dg-btn:focus-visible{outline:2px solid var(--bg, #f7f7fa);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<section class="dg">
+  <canvas class="dg-cv" aria-hidden="true"></canvas>
+  <div class="dg-in">
+    <p class="dg-k">סטודיו לפיתוח מוצרים</p>
+    <h2>תשתית שקטה, מוצר שמרגישים</h2>
+    <p class="dg-lead">אנחנו בונים מערכות שעובדות בלי שתשימו לב אליהן. הזיזו את העכבר על הרקע, או לחצו עליו.</p>
+    <a class="dg-btn" href="#">לשיחת היכרות</a>
+  </div>
+</section>
+
+
+<script>
+(function(){
+  const sec=document.querySelector(".dg"),cv=sec.querySelector(".dg-cv"),ctx=cv.getContext("2d");
+  const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const GAP=24,R=170,BASE=1.2,LEVELS=12;
+  let W=0,H=0,dots=[],shades=[],base="#fff",running=false,visible=false,raf=0,frames=0;
+  const P={x:0,y:0,tx:0,ty:0,in:false,init:false},ripples=[];
+  // הצבעים נקראים מהעור בזמן ריצה, כך שהרשת יורשת כל ערכת צבע ולא נכתבת בקוד
+  const probe=document.createElement("canvas").getContext("2d");
+  function hex(c){probe.fillStyle="#000";probe.fillStyle=c;const h=probe.fillStyle;if(h[0]!=="#")return [255,255,255];return [1,3,5].map(k=>parseInt(h.slice(k,k+2),16));}
+  function colors(){
+    const cs=getComputedStyle(sec),a=hex(cs.color),b=hex(cs.getPropertyValue("--accent").trim()||cs.color);
+    base="rgb("+a.join(",")+")";
+    shades=[];for(let l=0;l<=LEVELS;l++){const t=l/LEVELS;shades.push("rgb("+a.map((v,k)=>Math.round(v+(b[k]-v)*t)).join(",")+")");}
+  }
+  function build(){
+    const dpr=Math.min(2,devicePixelRatio||1);W=sec.clientWidth;H=sec.clientHeight;
+    cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+    const cols=Math.ceil(W/GAP)+1,rows=Math.ceil(H/GAP)+1,ox=(W-(cols-1)*GAP)/2,oy=(H-(rows-1)*GAP)/2;
+    dots=[];for(let y=0;y<rows;y++)for(let x=0;x<cols;x++)dots.push({x:ox+x*GAP,y:oy+y*GAP,e:0});
+    colors();
+    if(reduced){staticFrame();}else{draw(performance.now());}
+  }
+  function paint(){
+    ctx.clearRect(0,0,W,H);
+    for(const d of dots){
+      const e=d.e,dx=d.x-P.x,dy=d.y-P.y,dist=Math.hypot(dx,dy)||1,push=e*7;
+      ctx.globalAlpha=.16+e*.8;ctx.fillStyle=e>.03?shades[Math.round(e*LEVELS)]:base;
+      ctx.beginPath();ctx.arc(d.x+dx/dist*push,d.y+dy/dist*push,BASE+e*2.4,0,6.2832);ctx.fill();
+    }
+    ctx.globalAlpha=1;
+  }
+  function staticFrame(){P.x=W*.66;P.y=H*.45;dots.forEach(d=>{let k=Math.max(0,1-Math.hypot(d.x-P.x,d.y-P.y)/(R*1.6));d.e=k*k*.5;});paint();}
+  function draw(t){
+    let tx,ty,amp=1;
+    if(P.in){tx=P.tx;ty=P.ty;}
+    else{const s=t/1000;tx=W*(.64+.2*Math.sin(s*.37));ty=H*(.5+.3*Math.sin(s*.53+1));amp=.55;} // משוטטת לבד כשאין סמן
+    if(!P.init){P.x=tx;P.y=ty;P.init=true;}
+    P.x+=(tx-P.x)*.16;P.y+=(ty-P.y)*.16;
+    for(let r=ripples.length-1;r>=0;r--)if(t-ripples[r].t0>1400)ripples.splice(r,1);
+    const reach=Math.max(W,H)*.9;
+    for(const d of dots){
+      const dist=Math.hypot(d.x-P.x,d.y-P.y);
+      let k=Math.max(0,1-dist/R);k=k*k*(3-2*k)*amp;
+      for(const rp of ripples){const age=(t-rp.t0)/1400,off=Math.abs(Math.hypot(d.x-rp.x,d.y-rp.y)-age*reach);if(off<28)k=Math.max(k,(1-off/28)*(1-age));}
+      d.e=Math.max(k,d.e*.9); // השובל: כל נקודה דועכת לאט במקום לכבות
+    }
+    paint();
+    if(++frames%90===0)colors();
+  }
+  function loop(t){draw(t);raf=running?requestAnimationFrame(loop):0;}
+  function run(on){running=on&&!reduced&&visible&&!document.hidden;if(running&&!raf)raf=requestAnimationFrame(loop);}
+  const local=e=>{const b=sec.getBoundingClientRect();return [e.clientX-b.left,e.clientY-b.top];};
+  sec.addEventListener("pointermove",e=>{if(e.pointerType==="touch")return;const p=local(e);P.tx=p[0];P.ty=p[1];P.in=true;});
+  sec.addEventListener("pointerleave",()=>{P.in=false;});
+  sec.addEventListener("pointerdown",e=>{if(reduced)return;const p=local(e);ripples.push({x:p[0],y:p[1],t0:performance.now()});});
+  new ResizeObserver(build).observe(sec);
+  new IntersectionObserver(es=>{visible=es[0].isIntersecting;run(true);}).observe(sec);
+  document.addEventListener("visibilitychange",()=>run(true));
+  build();
+})();
+</script>
+</body>
+</html>

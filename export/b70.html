@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B70 · כפתור שיתוף שנפרש</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B70 · כפתור שיתוף שנפרש */
+.sh{max-width:min(760px,94vw);margin-inline:auto;display:grid;gap:clamp(24px,3vw,40px)}
+.sh-post{padding:clamp(24px,3vw,48px);border-radius:24px;background:var(--card, #fff);box-shadow:0 24px 48px -32px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}
+.sh-k{margin:0 0 12px;font-size:14px;font-weight:600;color:var(--muted, #6a6d85)}
+.sh-post h3{margin:0 0 12px;font-size:clamp(24px,2.2vw,34px);line-height:1.2}
+.sh-post p{margin:0;color:var(--muted, #6a6d85);line-height:1.6}
+.sh-row{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:32px}
+.shr{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
+.shr-btn{position:relative;display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 20px;border:0;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font:inherit;font-weight:700;cursor:pointer;
+  transition:transform .2s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.shr-btn:hover{transform:translateY(-2px)}}
+.shr-btn:focus-visible,.shr-it:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+.shr-btn svg{flex:none;width:20px;height:20px;transition:transform .35s cubic-bezier(.76,0,.24,1),opacity .2s}
+.shr-x{position:absolute;inset-inline-start:14px;opacity:0;transform:rotate(-90deg) scale(.6)}
+.shr.open .shr-ic{opacity:0;transform:rotate(90deg) scale(.6)}
+.shr.open .shr-x{opacity:1;transform:none}
+.shr-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.shr-list li{position:relative;opacity:0;transform:translateX(24px) scale(.6);transition:opacity .15s,transform .15s}
+.shr.open .shr-list li{opacity:1;transform:none;transition:opacity .3s calc(var(--i) * 50ms),transform .45s calc(var(--i) * 50ms) cubic-bezier(.2,.6,.2,1)}
+.shr-it{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--ink, #16182b) 7%,transparent);color:var(--ink, #16182b);cursor:pointer;
+  transition:background-color .25s,color .25s,transform .25s cubic-bezier(.2,.6,.2,1)}
+.shr-it svg{width:20px;height:20px}
+/* צבע הרשת בריחוף. וואטסאפ בגוון הכהה שלו: הירוק הבהיר עם אייקון לבן לא עובר ניגודיות */
+@media (hover:hover) and (pointer:fine){.shr-it:hover{background:var(--c);color:#fff;transform:translateY(-3px)} /* qa-allow: white, אייקון לבן על צבע רשת קבוע */}
+.shr-it:focus-visible{background:var(--c);color:#fff}
+.shr-it.me:hover,.shr-it.me:focus-visible,.shr-it.me.done{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+.shr-it.done{background:var(--c);color:#fff}
+.shr-tip{position:absolute;left:50%;bottom:calc(100% + 10px);translate:-50% 0;white-space:nowrap;padding:6px 10px;border-radius:8px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:13px;
+  opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .2s,transform .2s}
+.shr-it:hover+.shr-tip,.shr-it:focus-visible+.shr-tip{opacity:1;transform:none}
+.shr-c .shr-btn{width:48px;padding:0;justify-content:center}
+.shr-c .shr-lbl{display:none}
+.shr-c .shr-x{inset-inline-start:auto}
+.sh-note{margin:0;font-size:14px;color:var(--muted, #6a6d85);min-height:20px}
+.sh-alt{display:flex;align-items:center;gap:16px;color:var(--muted, #6a6d85);font-size:15px}
+@media (prefers-reduced-motion: reduce){.shr-list li,.shr.open .shr-list li,.shr-btn svg,.shr-it,.shr-tip{transition-duration:.01ms;transition-delay:0s}}
+</style>
+</head>
+<body>
+
+<div class="stage tight"><div class="sh">
+  <article class="sh-post">
+    <p class="sh-k">מדריך · שש דקות קריאה</p>
+    <h3>איך בוחרים צבעים לאתר עסקי בלי להסתבך</h3>
+    <p>שלושה צבעים, תפקיד אחד לכל צבע, ובדיקה אחת לפני שמאשרים. המדריך המלא עם דוגמאות מאתרים אמיתיים.</p>
+    <div class="sh-row"><div class="shr" data-title="איך בוחרים צבעים לאתר עסקי"></div></div>
+  </article>
+  <div class="sh-alt"><div class="shr shr-c" data-title="איך בוחרים צבעים לאתר עסקי"></div><span>גרסה קומפקטית, לסרגל כלים או לכרטיס מוצר</span></div>
+  <p class="sh-note" role="status" aria-live="polite"></p>
+</div></div>
+
+
+<script>
+(function(){
+  const I={
+    share:'<circle cx="18" cy="5.5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M8.2 10.9l7.6-4.2M8.2 13.1l7.6 4.2"/>',
+    x:'<path d="M6 6l12 12M18 6L6 18"/>',
+    wa:'<path d="M12 3.2a8.8 8.8 0 0 0-7.6 13.3L3.3 20.8l4.4-1.1A8.8 8.8 0 1 0 12 3.2z"/><path d="M9.1 8.6c.2-.4.5-.5.8-.5h.5c.2 0 .4.1.5.4l.7 1.6c.1.2 0 .5-.1.6l-.5.6c.4.9 1.2 1.7 2.1 2.2l.6-.5c.2-.2.4-.2.6-.1l1.6.7c.3.1.4.3.4.5v.5c0 .4-.2.7-.5.9-.6.4-1.5.5-2.6.1-1.9-.7-3.6-2.4-4.3-4.3-.4-1.1-.3-2 .2-2.6z" fill="currentColor" stroke="none"/>',
+    fb:'<path d="M14 8.2h2V5h-2.6C11 5 10 6.6 10 9v2H8v3h2v7h3v-7h2.4l.6-3h-3V9.4c0-.8.3-1.2 1-1.2z" fill="currentColor" stroke="none"/>',
+    li:'<path d="M6.5 9H4v11h2.5zM5.2 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM20 13.7c0-3-1.6-4.9-4.1-4.9-1.3 0-2.2.6-2.7 1.3V9h-2.4v11h2.5v-5.8c0-1.4.6-2.4 1.8-2.4s1.6.9 1.6 2.4V20H20z" fill="currentColor" stroke="none"/>',
+    tw:'<path d="M4 4l7 9.2L4.3 20H6l5.9-6 4.5 6H20l-7.3-9.7L19 4h-1.7l-5.4 5.5L7.7 4z" fill="currentColor" stroke="none"/>',
+    mail:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M4 7l8 6 8-6"/>',
+    link:'<path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/>',
+    ok:'<path d="M5 12.5l4.2 4L19 7"/>'
+  };
+  const svg=(p,cls)=>'<svg'+(cls?' class="'+cls+'"':'')+' viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>';
+  const E=encodeURIComponent;
+  const NETS=[
+    {k:"wa",l:"וואטסאפ",c:"#128C7E",u:(t,u)=>"https://wa.me/?text="+E(t+" "+u)},
+    {k:"fb",l:"פייסבוק",c:"#1877F2",u:(t,u)=>"https://www.facebook.com/sharer/sharer.php?u="+E(u)},
+    {k:"li",l:"לינקדאין",c:"#0A66C2",u:(t,u)=>"https://www.linkedin.com/sharing/share-offsite/?url="+E(u)},
+    {k:"tw",l:"X",c:"#000",u:(t,u)=>"https://x.com/intent/post?text="+E(t)+"&url="+E(u)},
+    {k:"mail",l:"מייל",me:true,u:(t,u)=>"mailto:?subject="+E(t)+"&body="+E(u)},
+    {k:"link",l:"העתקת קישור",me:true}
+  ];
+  const note=document.querySelector(".sh-note");
+  const coarse=matchMedia("(pointer: coarse)").matches;
+  let seq=0;
+  document.querySelectorAll(".shr").forEach(box=>{
+    const title=box.dataset.title||document.title,url=location.href.split("#")[0],id="shr-l"+(++seq);
+    box.innerHTML='<button class="shr-btn" type="button" aria-expanded="false" aria-controls="'+id+'">'+svg(I.share,"shr-ic")+svg(I.x,"shr-x")+'<span class="shr-lbl">שתפו</span></button><ul class="shr-list" id="'+id+'"></ul>';
+    if(box.classList.contains("shr-c"))box.querySelector(".shr-btn").setAttribute("aria-label","שיתוף");
+    const btn=box.querySelector(".shr-btn"),list=box.querySelector(".shr-list");
+    NETS.forEach((n,i)=>{
+      const li=document.createElement("li");li.style.setProperty("--i",i);
+      const el=document.createElement(n.u?"a":"button");
+      el.className="shr-it"+(n.me?" me":"");el.style.setProperty("--c",n.c||"var(--ink)");el.setAttribute("aria-label",n.l);
+      if(n.u){el.href=n.u(title,url);if(n.k!=="mail"){el.target="_blank";el.rel="noopener noreferrer";}}else el.type="button";
+      el.innerHTML=svg(I[n.k]);
+      li.appendChild(el);li.insertAdjacentHTML("beforeend",'<span class="shr-tip" aria-hidden="true">'+n.l+'</span>');list.appendChild(li);
+      el.addEventListener("click",e=>{
+        if(n.k==="link"){copy(url,el);return;}
+        if(n.k==="mail")return; // mailto נפתח בתוכנת המייל, בלי חלון
+        e.preventDefault();window.open(el.href,"_blank","noopener,noreferrer,width=640,height=580");setTimeout(()=>set(false),250);
+      });
+    });
+    list.inert=true;
+    function set(open){
+      box.classList.toggle("open",open);btn.setAttribute("aria-expanded",String(open));list.inert=!open;
+      if(open)list.querySelector(".shr-it").focus({preventScroll:true});
+    }
+    btn.addEventListener("click",()=>{
+      // בטלפון: חלון השיתוף של המכשיר, שם כבר נמצאות האפליקציות שהגולש באמת משתמש בהן
+      if(coarse&&navigator.share){navigator.share({title:title,url:url}).catch(()=>{});return;}
+      set(!box.classList.contains("open"));
+    });
+    box.addEventListener("keydown",e=>{if(e.key==="Escape"&&box.classList.contains("open")){set(false);btn.focus();}});
+    document.addEventListener("pointerdown",e=>{if(box.classList.contains("open")&&!box.contains(e.target))set(false);});
+  });
+  function copy(text,el){
+    const done=()=>{
+      el.classList.add("done");el.innerHTML=svg(I.ok);note.textContent="הקישור הועתק";
+      setTimeout(()=>{el.classList.remove("done");el.innerHTML=svg(I.link);note.textContent="";},1800);
+    };
+    if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(text).then(done,fallback);else fallback();
+    function fallback(){const ta=document.createElement("textarea");ta.value=text;ta.style.position="fixed";ta.style.opacity="0";document.body.appendChild(ta);ta.select();try{document.execCommand("copy");done();}catch(err){}ta.remove();}
+  }
+})();
+</script>
+</body>
+</html>
