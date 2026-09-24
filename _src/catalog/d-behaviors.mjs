@@ -48,21 +48,22 @@ export default [
 .cnum{font-size:clamp(48px,4vw,96px);font-weight:700}
 .cnums small{display:block;color:var(--muted);font-size:15px;text-align:center}`,
   html:`<div class="stage tight center"><div class="cnums">
-<div><span class="cnum" data-count="340" data-suffix="+">0</span><small>לקוחות</small></div>
-<div><span class="cnum" data-count="97" data-suffix="%">0</span><small>שביעות רצון</small></div>
-<div><span class="cnum" data-count="12" data-suffix="">0</span><small>שנות ניסיון</small></div>
+<div><span class="cnum" data-count="340" data-suffix="+">340+</span><small>לקוחות</small></div>
+<div><span class="cnum" data-count="97" data-suffix="%">97%</span><small>שביעות רצון</small></div>
+<div><span class="cnum" data-count="12" data-suffix="">12</span><small>שנות ניסיון</small></div>
 </div></div>`,
-  js:`const io=new IntersectionObserver(es=>{es.forEach(e=>{
+  js:`// the markup holds the real number, so without the script it is simply there; the script sets 0 and counts.
+// It counts with reduced motion too: a changing number is text, not movement (engine/motion.md 4; fixed 24.9.2026)
+const io=new IntersectionObserver(es=>{es.forEach(e=>{
   if(!e.isIntersecting)return;
   const el=e.target,to=+el.dataset.count,sfx=el.dataset.suffix||"";let t0=null;
   function step(ts){if(!t0)t0=ts;const p=Math.min((ts-t0)/900,1);
     el.textContent=Math.round(to*(1-Math.pow(1-p,3)))+sfx;
     if(p<1)requestAnimationFrame(step);}
-  if(!matchMedia("(prefers-reduced-motion: reduce)").matches)requestAnimationFrame(step);
-  else el.textContent=to+sfx;
+  requestAnimationFrame(step);
   io.unobserve(el);
 })},{threshold:.6});
-document.querySelectorAll(".cnum").forEach(el=>io.observe(el));`
+document.querySelectorAll(".cnum").forEach(el=>{el.textContent="0"+(el.dataset.suffix||"");io.observe(el);});`
 },
 {
   id:"b02b", cat:"behavior", name:"Hotspots על תמונה עם רשימה מסונכרנת", tech:"CSS + GSAP pop", status:"מאושר",
