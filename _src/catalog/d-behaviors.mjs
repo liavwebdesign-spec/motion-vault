@@ -93,7 +93,7 @@ document.querySelectorAll(".cnum").forEach(el=>{el.textContent="0"+(el.dataset.s
   <div class="hs-row" data-i="3"><b>3</b>חדר שינה ראשי</div>
 </div>
 </div></div>`,
-  js:`gsap.to(".hs-dot",{opacity:1,scale:1,ease:"back.out(2.4)",duration:.5,stagger:.12,
+  js:`gsap.to(".hs-dot",{opacity:1,scale:1,ease:"power3.out",duration:.5,stagger:.12,
   scrollTrigger:{trigger:".hs-img",start:"top 70%"}});
 function sync(i,on){
   document.querySelectorAll('[data-i="'+i+'"]').forEach(el=>{

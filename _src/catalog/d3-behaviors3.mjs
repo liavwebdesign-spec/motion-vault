@@ -95,7 +95,7 @@ export default [
       if(el.textContent===c)return;
       gsap.timeline({delay:i*0.06})
         .to(el,{yPercent:-110,autoAlpha:0,duration:.22,ease:"power2.in",onComplete:()=>el.textContent=c})
-        .fromTo(el,{yPercent:110,autoAlpha:0},{yPercent:0,autoAlpha:1,duration:.34,ease:"back.out(2)"});
+        .fromTo(el,{yPercent:110,autoAlpha:0},{yPercent:0,autoAlpha:1,duration:.34,ease:"power3.out"});
     });
   }
   function apply(next){

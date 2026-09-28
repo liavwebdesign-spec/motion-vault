@@ -59,13 +59,13 @@ gsap.registerPlugin(ScrollTrigger);
 (function(){
   const hud=document.querySelector(".hud"),num=hud.querySelector("b");
   let shown=false;
-  function show(){if(shown)return;shown=true;gsap.fromTo(hud,{scale:.97,autoAlpha:0},{scale:1,autoAlpha:1,duration:.16,ease:"back.out(20)"});}
+  function show(){if(shown)return;shown=true;gsap.fromTo(hud,{scale:.97,autoAlpha:0},{scale:1,autoAlpha:1,duration:.16,ease:"power2.out"});}
   function hide(){if(!shown)return;shown=false;gsap.to(hud,{scale:.97,autoAlpha:0,duration:.16,ease:"expo.in"});}
   function setNum(n){
     if(num.textContent===n)return;
     gsap.timeline().to(num,{yPercent:-60,autoAlpha:0,duration:.14,ease:"power2.in",onComplete:()=>num.textContent=n})
-      .fromTo(num,{yPercent:60},{yPercent:0,autoAlpha:1,duration:.22,ease:"back.out(3)"});
-    gsap.fromTo(hud,{scale:.96},{scale:1,duration:.3,ease:"back.out(6)"});
+      .fromTo(num,{yPercent:60},{yPercent:0,autoAlpha:1,duration:.22,ease:"power3.out"});
+    gsap.fromTo(hud,{scale:.96},{scale:1,duration:.3,ease:"power3.out"});
   }
   // נראות: טריגר אחד על כל האזור. מספר: טריגר לכל סקשן. כך התג לא נתקע גלוי בקפיצות גלילה.
   ScrollTrigger.create({trigger:".hud-wrap",start:"top center",end:"bottom center",

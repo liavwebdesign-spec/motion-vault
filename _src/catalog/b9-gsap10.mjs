@@ -43,7 +43,7 @@ export default [
   tl.fromTo("#geoPath",{drawSVG:"0% 0%"},{drawSVG:"0% 100%",ease:"none",duration:1},0);
   // כל תחנה נדלקת ברגע שהקו עובר לידה
   stops.forEach(s=>{
-    tl.to(s,{opacity:1,y:0,duration:.12,ease:"back.out(2)"},+s.dataset.p);
+    tl.to(s,{opacity:1,y:0,duration:.12,ease:"power3.out"},+s.dataset.p);
   });
 })();`,
   note:"המיקומים של התחנות באחוזים מעל אותו viewBox, ולכן הכל נשאר מיושר בכל רוחב מסך בלי חישוב ב-JS. ה-data-p הוא המקום בטיימליין שבו התחנה נדלקת, והוא מכוון לרגע שבו קצה הקו מגיע אליה. בפרויקט אמיתי מחליפים את ה-path בקו שמצויר לפי המפה של האזור."
