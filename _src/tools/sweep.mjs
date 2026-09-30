@@ -116,7 +116,9 @@ window.__all.forEach(function(e,i){if(window.__seen.get(i))return;var r=clipRect
     if(s.clipPath&&s.clipPath!=="none"&&/inset\\((4[5-9]|[5-9]\\d|100)%/.test(s.clipPath))vis=false;}
   // covered: a preloader or panel that never lifts leaves the text opaque but unreachable. elementFromPoint skips
   // pointer-events:none, so decorative layers over text do not count as covering it.
-  if(vis&&op>.5){var c=document.elementFromPoint(Math.min(W-1,Math.max(0,r.left+r.width/2)),r.top+r.height/2);if(c&&!e.contains(c)&&!c.contains(e))vis=false;}
+  // a label with pointer-events:none is skipped by elementFromPoint itself, so the element under it would read as
+  // "covering" it (g126, b32 labels, 30.9.2026): no occlusion test for those
+  if(vis&&op>.5&&getComputedStyle(e).pointerEvents!=="none"){var c=document.elementFromPoint(Math.min(W-1,Math.max(0,r.left+r.width/2)),r.top+r.height/2);if(c&&!e.contains(c)&&!c.contains(e))vis=false;}
   if(vis&&op>.5)window.__seen.set(i,true);else if(!window.__seen.has(i))window.__seen.set(i,false);});})()`;
 const NEVER = `(function(){${DESC}var out=[];window.__seen.forEach(function(v,i){if(!v){var e=window.__all[i];out.push(__d(e)+" «"+e.textContent.trim().slice(0,30)+"»");}});return out.slice(0,8);})()`;
 // small targets and tiny text at phone width
