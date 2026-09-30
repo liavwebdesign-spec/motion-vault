@@ -12,7 +12,9 @@ export default [
 /* הריווח בין הקבוצות יושב על כל קבוצה בצד הפנימי, ולכן גם התפר וגם הסגירה זהים */
 .marq-set{display:flex;gap:56px;padding-inline-end:56px}
 .marq-track span{font-weight:800;font-size:22px;color:var(--muted);opacity:.75;white-space:nowrap}
-@keyframes marq{from{transform:translateX(0)}to{transform:translateX(var(--marq-shift,50%))}}`,
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(var(--marq-shift,50%))}}
+/* תנועה מופחתת: הרצועה עומדת. הובר הוא העצירה היחידה, ובמגע ובמקלדת הוא לא קיים (WCAG 2.2.2) */
+@media (prefers-reduced-motion: reduce){.marq-track{animation:none}}`,
   html:`<div class="stage tight full"><div class="marq" aria-hidden="true"><div class="marq-track">
 <div class="marq-set"><span>אמינות</span><span>·</span><span>מקצועיות</span><span>·</span><span>שירות</span><span>·</span><span>ניסיון</span><span>·</span></div>
 </div></div></div>`,
@@ -38,7 +40,8 @@ export default [
   // מדידה לפני שהפונט נטען נותנת רוחב קטן יותר, וההזזה יוצאת קצרה מקבוצה שלמה: קפיצה בכל סיבוב
   if(document.fonts)document.fonts.ready.then(()=>all.forEach(build));
   let t;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>all.forEach(build),200);});
-})();`, runway:false
+})();`, runway:false,
+  note:"הרצועה כולה aria-hidden, כי קורא מסך היה מקריא את כל העותקים. כשהיא נושאת מידע אמיתי (לוגואים של לקוחות, נקודות אמון), מוסיפים לידה רשימה מוסתרת ויזואלית (<ul class=\"sr-only\"><li>אמינות</li>...</ul>), והרצועה עצמה נשארת aria-hidden. בתנועה מופחתת הרצועה עומדת."
 },
 {
   id:"b02", cat:"behavior", name:"Count-Up (מספר שסופר)", tech:"vanilla JS · IntersectionObserver", status:"מאושר",
@@ -72,20 +75,25 @@ document.querySelectorAll(".cnum").forEach(el=>{el.textContent="0"+(el.dataset.s
   libs:["gsap","ScrollTrigger"],
   css:`.hs-wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:var(--gap);padding-inline:var(--gutter);align-items:start}
 .hs-img{position:relative;aspect-ratio:4/3;border-radius:var(--r);font-size:20px}
-.hs-dot{position:absolute;width:34px;height:34px;border-radius:50%;background:#f4c660;color:var(--ink);font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid #fff;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:transform .2s;opacity:0;scale:.3}
-.hs-dot:hover{transform:scale(1.15)}
-.hs-tip{position:absolute;bottom:130%;inset-inline-start:50%;translate:50% 0;background:var(--ink);color:var(--bg);font-size:13px;padding:8px 14px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
+/* הנקודות גלויות ב-CSS; GSAP רק מקפיץ אותן פנימה דרך המשתנה --pop. כך בלי הספרייה הן פשוט שם.
+   הכניסה על התכונה scale וההובר על transform: שני ערוצים נפרדים, ולכן ה-transition של ההובר לא רודף אחרי הכניסה */
+.hs-dot{position:absolute;width:34px;height:34px;border-radius:50%;background:#f4c660;color:var(--ink);font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;border:3px solid #fff;box-shadow:0 4px 14px rgba(0,0,0,.25);scale:var(--pop,1);transition:transform .2s cubic-bezier(.2,.6,.2,1)}
+.hs-dot:hover,.hs-dot.on{transform:scale(1.15)}
+/* left+translate ולא inset-inline-start: המרכוז זהה בעברית ונכון גם באתר LTR */
+.hs-tip{position:absolute;bottom:130%;left:50%;translate:-50% 0;background:var(--ink);color:var(--bg);font-size:13px;padding:8px 14px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .2s}
 .hs-dot:hover .hs-tip{opacity:1}
 .hs-list{display:flex;flex-direction:column;gap:10px}
 .hs-row{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;transition:border-color .2s,background .2s}
-.hs-row.on{border-color:#f4c660;background:#fffaf0}
+/* הרקע נגזר מהכרטיס: בעור בהיר כמעט זהה לשמנת הקודמת, ובעור כהה הטקסט הבהיר נשאר קריא */
+.hs-row.on{border-color:#f4c660;background:color-mix(in srgb,#f4c660 12%,var(--card))}
+@media (prefers-reduced-motion: reduce){.hs-dot{transition:none}}
 .hs-row b{width:28px;height:28px;border-radius:50%;background:#f4c660;color:var(--ink);display:flex;align-items:center;justify-content:center;font-size:14px;flex:none}
 @media(max-width:767px){.hs-wrap{grid-template-columns:1fr}.hs-dot{display:none}}`,
   html:`<div class="stage tight"><div class="hs-wrap">
 <div class="hs-img ph ph-c">תמונת הנכס
-  <div class="hs-dot" data-i="1" style="top:24%;inset-inline-start:30%">1<span class="hs-tip">מטבח מרווח עם אי</span></div>
-  <div class="hs-dot" data-i="2" style="top:56%;inset-inline-start:62%">2<span class="hs-tip">סלון עם יציאה למרפסת</span></div>
-  <div class="hs-dot" data-i="3" style="top:74%;inset-inline-start:22%">3<span class="hs-tip">חדר שינה ראשי</span></div>
+  <div class="hs-dot" aria-hidden="true" data-i="1" style="top:24%;inset-inline-start:30%">1<span class="hs-tip">מטבח מרווח עם אי</span></div>
+  <div class="hs-dot" aria-hidden="true" data-i="2" style="top:56%;inset-inline-start:62%">2<span class="hs-tip">סלון עם יציאה למרפסת</span></div>
+  <div class="hs-dot" aria-hidden="true" data-i="3" style="top:74%;inset-inline-start:22%">3<span class="hs-tip">חדר שינה ראשי</span></div>
 </div>
 <div class="hs-list">
   <div class="hs-row" data-i="1"><b>1</b>מטבח מרווח עם אי</div>
@@ -93,27 +101,40 @@ document.querySelectorAll(".cnum").forEach(el=>{el.textContent="0"+(el.dataset.s
   <div class="hs-row" data-i="3"><b>3</b>חדר שינה ראשי</div>
 </div>
 </div></div>`,
-  js:`gsap.to(".hs-dot",{opacity:1,scale:1,ease:"power3.out",duration:.5,stagger:.12,
-  scrollTrigger:{trigger:".hs-img",start:"top 70%"}});
-function sync(i,on){
-  document.querySelectorAll('[data-i="'+i+'"]').forEach(el=>{
-    if(el.classList.contains("hs-row"))el.classList.toggle("on",on);
-    else el.style.transform=on?"scale(1.15)":"";
+  js:`(function(){
+  // הכניסה המונפשת רק כש-GSAP נטען ורק בלי העדפת תנועה מופחתת. בלי הספרייה הנקודות כבר גלויות,
+  // והסנכרון בין נקודה לשורה (למטה) לא תלוי בה
+  if(window.gsap&&window.ScrollTrigger){
+    gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+      // --pop ולא scale של GSAP: GSAP כותב transform, וזה הערוץ של ההובר
+      gsap.fromTo(".hs-dot",{"--pop":.3,opacity:0},{"--pop":1,opacity:1,ease:"power3.out",duration:.5,stagger:.12,
+        scrollTrigger:{trigger:".hs-img",start:"top 70%"}});
+    });
+  }
+  function sync(i,on){
+    document.querySelectorAll('[data-i="'+i+'"]').forEach(el=>el.classList.toggle("on",on));
+  }
+  document.querySelectorAll("[data-i]").forEach(el=>{
+    el.addEventListener("mouseenter",()=>sync(el.dataset.i,true));
+    el.addEventListener("mouseleave",()=>sync(el.dataset.i,false));
   });
-}
-document.querySelectorAll("[data-i]").forEach(el=>{
-  el.addEventListener("mouseenter",()=>sync(el.dataset.i,true));
-  el.addEventListener("mouseleave",()=>sync(el.dataset.i,false));
-});`
+})();`,
+  note:"הנקודות aria-hidden, כי הרשימה נושאת את אותו מידע וקורא מסך היה שומע כל פריט פעמיים. הן גלויות ב-CSS ו-GSAP רק מקפיץ אותן פנימה, ולכן גם כשהספרייה חסומה הן שם והסנכרון עם הרשימה עובד. הכניסה מונפשת דרך המשתנה --pop שיושב על התכונה scale, וההגדלה בהובר על transform: אם שניהם על אותה תכונה, ה-transition של ההובר רודף אחרי הכניסה והיא נמרחת."
 },
 {
   id:"b03", cat:"behavior", name:"CTA דביק חכם", tech:"vanilla JS · IntersectionObserver", status:"מאושר",
   desc:"כפתור צף שמופיע רק כשאף CTA ראשי לא נמצא על המסך, ונעלם כשיש.",
   when:"עמודים ארוכים. במובייל בר תחתון מלא עם safe-area.",
   css:`.cta-hero{padding:60px var(--gutter);text-align:center}
-.stickycta{position:fixed;bottom:24px;inset-inline-start:24px;z-index:80;opacity:0;translate:0 12px;pointer-events:none;transition:opacity .24s,translate .24s}
-.stickycta.show{opacity:1;translate:0 0;pointer-events:auto}
-.stickycta .gbtn{box-shadow:0 8px 24px rgba(74,58,255,.35)}
+/* visibility ולא רק שקיפות: כפתור שקוף שנשאר בסדר ה-Tab גונב את הפוקוס בלי שרואים אותו.
+   visibility מתעכב בסגירה עד שהדהייה נגמרת, ומשתחרר מיד בפתיחה */
+.stickycta{position:fixed;bottom:24px;inset-inline-start:24px;z-index:80;opacity:0;translate:0 12px;pointer-events:none;visibility:hidden;transition:opacity .24s,translate .24s,visibility 0s .24s}
+.stickycta.show{opacity:1;translate:0 0;pointer-events:auto;visibility:visible;transition-delay:0s}
+.stickycta .gbtn{box-shadow:0 8px 24px color-mix(in srgb,var(--accent) 35%,transparent)}
+/* בטלפון: בר תחתון מלא עם safe-area, כמו ב-when ובתורה (motion.md 6) */
+@media (max-width:767px){.stickycta{inset-inline:0;bottom:0;padding:8px 16px calc(8px + env(safe-area-inset-bottom));background:var(--card);border-top:1px solid var(--line)}
+  .stickycta .gbtn{width:100%;min-height:56px;box-shadow:none}}
+@media (prefers-reduced-motion: reduce){.stickycta{translate:0 0;transition:none}}
 .filler{height:120vh;display:flex;align-items:center;justify-content:center;color:var(--muted)}`,
   html:`<div class="cta-hero"><button class="gbtn main-cta">הכפתור הראשי (כשאני נראה, הצף נעלם)</button></div>
 <div class="filler">גלול. כשהכפתור הראשי ייצא מהמסך, יופיע כפתור צף</div>
@@ -158,34 +179,43 @@ document.querySelectorAll(".main-cta").forEach(el=>io.observe(el));`,
   desc:"מצייני טעינה בצורת התוכן עם הבהוב שמאלה-ימינה, במקום ספינר.",
   when:"מערכות ודשבורדים בזמן טעינת דאטה.",
   css:`.sk-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:22px;max-width:420px;margin-inline:auto;display:flex;flex-direction:column;gap:12px}
-.sk{background:linear-gradient(90deg,#ececf4 25%,var(--bg) 50%,#ececf4 75%);background-size:200% 100%;animation:sk 1.4s infinite;border-radius:8px}
+/* צבע הלוחות נגזר מהטוקנים: בעור בהיר כמעט זהה לאפור הקודם, ובעור כהה לוחות כהים ולא בהירים */
+.sk{--sk:color-mix(in srgb,var(--ink) 7%,var(--card));background:linear-gradient(90deg,var(--sk) 25%,var(--bg) 50%,var(--sk) 75%);background-size:200% 100%;animation:sk 1.4s infinite;border-radius:8px}
 @keyframes sk{from{background-position:200% 0}to{background-position:-200% 0}}
+.sk-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media(prefers-reduced-motion:reduce){.sk{animation:none}}`,
-  html:`<div class="stage tight"><div class="sk-card">
+  html:`<div class="stage tight"><div class="sk-card" role="status"><span class="sk-sr">טוען תוכן</span>
 <div class="sk" style="height:120px"></div>
 <div class="sk" style="height:18px;width:70%"></div>
 <div class="sk" style="height:14px"></div>
 <div class="sk" style="height:14px;width:85%"></div>
 </div></div>`,
-  js:``, runway:false
+  js:``, runway:false,
+  note:"השלד נושא role=\"status\" עם טקסט מוסתר «טוען תוכן», כי בלי זה קורא מסך לא יודע שמשהו בטעינה. בפרויקט שמים גם aria-busy=\"true\" על האזור שנטען ומורידים אותו כשהתוכן מגיע. צבע הלוחות נגזר מ-var(--ink) ומ-var(--card), ולכן הוא מתהפך נכון בעור כהה."
 },
 {
   id:"b16", cat:"behavior", name:"Toast (הודעה קופצת)", tech:"CSS transitions · vanilla JS", status:"מאושר",
-  desc:"הודעת אישור קטנה שעולה מהפינה, נשארת שלוש שניות ונעלמת.",
+  desc:"הודעת אישור קטנה שעולה מתחתית המסך, נשארת שלוש שניות ונעלמת.",
   when:"אחרי שליחת טופס, העתקה, שמירה.",
-  css:`.toast{position:fixed;bottom:24px;inset-inline-start:50%;translate:-50% 20px;background:var(--ink);color:var(--bg);padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;transition:opacity .24s,translate .24s;z-index:95;display:flex;gap:10px;align-items:center}
-html[dir="rtl"] .toast{translate:50% 20px}
-.toast.on{opacity:1;translate:-50% 0}
-html[dir="rtl"] .toast.on{translate:50% 0}
-.toast b{color:#12b76a}`,
+  css:`/* left+translate ממרכזים זהה בעברית ובאנגלית, בלי כלל נפרד ל-RTL. visibility מוציא את ההודעה מסדר הקריאה כשהיא סגורה */
+.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;translate:-50% 20px;background:var(--ink);color:var(--bg);padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;visibility:hidden;transition:opacity .24s,translate .24s,visibility 0s .24s;z-index:95;display:flex;gap:10px;align-items:center}
+.toast.on{opacity:1;translate:-50% 0;visibility:visible;transition-delay:0s}
+.toast b{color:#12b76a}
+@media (prefers-reduced-motion: reduce){.toast{translate:-50% 0}}`,
   html:`<div class="stage tight center"><button class="gbtn show-t">שלח טופס (דמו)</button></div>
-<div class="toast"><b>✓</b>קיבלנו! נחזור אליכם היום</div>`,
-  js:`let tmr;
-document.querySelector(".show-t").addEventListener("click",()=>{
-  const t=document.querySelector(".toast");
-  t.classList.add("on");clearTimeout(tmr);
-  tmr=setTimeout(()=>t.classList.remove("on"),3000);
-});`,
-  runway:false
+<div class="toast" role="status" aria-live="polite"><b aria-hidden="true">✓</b><span class="toast-msg"></span></div>`,
+  js:`(function(){
+  // הטקסט נכתב לתוך אזור ה-live רק ברגע ההצגה: כך קורא מסך מודיע עליו, והוא לא יושב בדף כשההודעה סגורה
+  const t=document.querySelector(".toast"),msg=t.querySelector(".toast-msg");
+  let tmr,clr;
+  document.querySelector(".show-t").addEventListener("click",()=>{
+    clearTimeout(tmr);clearTimeout(clr);
+    msg.textContent="קיבלנו! נחזור אליכם היום";
+    t.classList.add("on");
+    tmr=setTimeout(()=>{t.classList.remove("on");clr=setTimeout(()=>msg.textContent="",300);},3000);
+  });
+})();`,
+  runway:false,
+  note:"ההודעה יושבת באזור role=\"status\" עם aria-live=\"polite\", והטקסט נכתב לתוכו רק ברגע ההצגה, אחרת קורא מסך לא מודיע עליה בכלל. כשהיא סגורה היא visibility:hidden ולא רק שקופה, כדי שלא תיקרא בדפדוף. המרחק מהתחתית כולל את safe-area של האייפון."
 }
 ];

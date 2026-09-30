@@ -16,7 +16,7 @@ export default [
 .tsw-cap p{margin:0;opacity:.85;font-size:16px}
 .tsw-tabs{position:relative;display:inline-flex;gap:4px;padding:5px;border-radius:999px;background:rgba(255,255,255,.14);backdrop-filter:blur(10px)}
 .tsw-ind{position:absolute;top:5px;bottom:5px;left:0;border-radius:999px;background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;transition:/* qa-allow: layout, גלולה שמשנה רוחב בין טאבים; scaleX מעוות את הקצוות */transform .45s cubic-bezier(.2,.6,.2,1),width .45s cubic-bezier(.2,.6,.2,1);z-index:0}
-.tsw-tab{position:relative;z-index:1;border:0;background:none;font:inherit;font-size:15px;font-weight:600;color:#fff;padding:11px 22px;border-radius:999px;cursor:pointer;transition:color .3s;white-space:nowrap}
+.tsw-tab{position:relative;z-index:1;border:0;background:none;font:inherit;font-size:15px;font-weight:600;color:#fff;padding:12px 22px;border-radius:999px;cursor:pointer;transition:color .3s;white-space:nowrap}
 .tsw-tab[aria-selected="true"]{color:#16182b /* qa-allow: literal, על המחוון הלבן הקשיח גם הטקסט קשיח */}
 @media (prefers-reduced-motion: reduce){.tsw-ind,.tsw-media .ph{transition-duration:.01ms}}`,
   html:`<div class="stage full" style="padding-block:0"><div class="tsw">
@@ -24,12 +24,12 @@ export default [
     <div class="ph ph-a on"></div><div class="ph ph-c"></div><div class="ph ph-e"></div>
   </div>
   <div class="tsw-in">
-    <div class="tsw-cap"><h3>נדל"ן</h3><p>אתרי תדמית לחברות תיווך ויזמות, עם דגש על אמון ועל נכסים.</p></div>
+    <div class="tsw-cap" role="tabpanel" id="tsw-panel"><h3>נדל"ן</h3><p>אתרי תדמית לחברות תיווך ויזמות, עם דגש על אמון ועל נכסים.</p></div>
     <div class="tsw-tabs" role="tablist" aria-label="תחומים">
       <span class="tsw-ind" aria-hidden="true"></span>
-      <button class="tsw-tab" role="tab" aria-selected="true" data-i="0" data-t="נדל&quot;ן" data-d="אתרי תדמית לחברות תיווך ויזמות, עם דגש על אמון ועל נכסים.">נדל"ן</button>
-      <button class="tsw-tab" role="tab" aria-selected="false" data-i="1" data-t="קליניקות" data-d="עמודים שקטים ומדויקים שמייצרים פניות בלי להיראות מסחריים.">קליניקות</button>
-      <button class="tsw-tab" role="tab" aria-selected="false" data-i="2" data-t="חנויות" data-d="חנויות שמוכרות: מסלול קנייה קצר, ודף מוצר שעונה על התנגדויות.">חנויות</button>
+      <button class="tsw-tab" role="tab" aria-selected="true" aria-controls="tsw-panel" data-i="0" data-t="נדל&quot;ן" data-d="אתרי תדמית לחברות תיווך ויזמות, עם דגש על אמון ועל נכסים.">נדל"ן</button>
+      <button class="tsw-tab" role="tab" aria-selected="false" aria-controls="tsw-panel" tabindex="-1" data-i="1" data-t="קליניקות" data-d="עמודים שקטים ומדויקים שמייצרים פניות בלי להיראות מסחריים.">קליניקות</button>
+      <button class="tsw-tab" role="tab" aria-selected="false" aria-controls="tsw-panel" tabindex="-1" data-i="2" data-t="חנויות" data-d="חנויות שמוכרות: מסלול קנייה קצר, ודף מוצר שעונה על התנגדויות.">חנויות</button>
     </div>
   </div>
 </div></div>`,
@@ -44,7 +44,8 @@ export default [
     ind.style.transform="translateX("+(a.left-b.left)+"px)";
   }
   function select(btn){
-    tabs.forEach(t=>t.setAttribute("aria-selected",String(t===btn)));
+    // roving tabindex: רק הטאב הפעיל בסדר ה-Tab, והחצים עוברים בין הטאבים
+    tabs.forEach(t=>{t.setAttribute("aria-selected",String(t===btn));t.tabIndex=t===btn?0:-1;});
     shots.forEach((s,i)=>s.classList.toggle("on",i===+btn.dataset.i));
     cap.querySelector("h3").textContent=btn.dataset.t;
     cap.querySelector("p").textContent=btn.dataset.d;
@@ -57,6 +58,8 @@ export default [
     let n=null;
     if(e.key==="ArrowLeft")n=tabs[(i+1)%tabs.length];      // בעברית חץ שמאלה מתקדם
     if(e.key==="ArrowRight")n=tabs[(i-1+tabs.length)%tabs.length];
+    if(e.key==="Home")n=tabs[0];
+    if(e.key==="End")n=tabs[tabs.length-1];
     if(n){e.preventDefault();n.focus();select(n);}
   });
   const start=()=>select(tabs[0]);
@@ -65,6 +68,6 @@ export default [
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(start);
 })();`,
   runway:false,
-  note:"המחוון ממוקם לפי מדידה חיה של הכפתור הפעיל, ולכן הוא נוחת נכון גם בעברית וגם אחרי שינוי רוחב או טעינת פונט. חצי המקלדת הפוכים בכוונה: בעברית חץ שמאלה הוא הבא בתור. התמונה הנכנסת מתחילה בהגדלה קלה וחוזרת ל-1, וזה מה שנותן את תחושת ההחלפה במקום הבהוב."
+  note:"המחוון ממוקם לפי מדידה חיה של הכפתור הפעיל, ולכן הוא נוחת נכון גם בעברית וגם אחרי שינוי רוחב או טעינת פונט. חצי המקלדת הפוכים בכוונה: בעברית חץ שמאלה הוא הבא בתור. רק הטאב הפעיל נמצא בסדר ה-Tab, כך ש-Tab אחד יוצא מהרכיב, ו-Home ו-End קופצים לקצוות. התמונה הנכנסת מתחילה בהגדלה קלה וחוזרת ל-1, וזה מה שנותן את תחושת ההחלפה במקום הבהוב."
 }
 ];
