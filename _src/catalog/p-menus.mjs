@@ -64,12 +64,17 @@ function drawer(root, burger){
     doc.style.scrollbarGutter=open?"stable":"";
     doc.style.overflow=open?"hidden":"";
     if(open){last=document.activeElement;setTimeout(()=>closeBtn.focus(),180);}
-    else{root.querySelectorAll(".md-sub.open").forEach(s=>toggleSub(s.previousElementSibling,false)); if(last)last.focus();}
+    else{
+      root.querySelectorAll(".md-sub.open").forEach(s=>toggleSub(s.previousElementSibling,false));
+      // Safari does not focus a button on click, so activeElement at opening can be <body>: fall back to the burger
+      const to=(last&&last!==document.body)?last:burger; if(to)to.focus({preventScroll:true});
+    }
   }
   function toggleSub(btn,force){
     const sub=btn.nextElementSibling, open=force!==undefined?force:!sub.classList.contains("open");
     sub.classList.toggle("open",open); btn.setAttribute("aria-expanded",String(open));
-    sub.querySelectorAll("a").forEach(a=>a.tabIndex=open?0:-1);
+    // inert, not tabIndex: a closed accordion keeps its links out of the tab order AND away from a screen reader
+    sub.inert=!open;
   }
   root.querySelectorAll(".md-acc").forEach(b=>{toggleSub(b,false);b.addEventListener("click",()=>toggleSub(b));});
   if(burger) burger.addEventListener("click",()=>set(!root.classList.contains("open")));
@@ -81,7 +86,7 @@ function drawer(root, burger){
     if(e.key==="Escape"){set(false);return;}
     if(e.key!=="Tab")return;
     // focus trap: tab cycles inside the drawer
-    const f=[...panel.querySelectorAll("a,button")].filter(x=>x.tabIndex!==-1&&x.offsetParent!==null);
+    const f=[...panel.querySelectorAll("a,button")].filter(x=>!x.closest("[inert]")&&x.offsetParent!==null);
     const i=f.indexOf(document.activeElement);
     const n=e.shiftKey?(i<=0?f.length-1:i-1):(i===f.length-1?0:i+1);
     e.preventDefault(); f[n].focus();
@@ -90,16 +95,16 @@ function drawer(root, burger){
 }`;
 
 const DRAWER_HTML = (idPrefix) => `
-<div class="md" id="${idPrefix}">
+<div class="md" id="${idPrefix}" role="dialog" aria-modal="true" aria-label="תפריט">
   <div class="md-scrim"></div>
-  <nav class="md-panel" aria-label="תפריט">
+  <nav class="md-panel" aria-label="ניווט ראשי">
     <div class="md-top"><strong>לוגו</strong>
       <button class="md-close" type="button" aria-label="סגירת תפריט"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
     </div>
     <ul class="md-list">
       <li class="md-item"><a class="md-link" href="#">ראשי</a></li>
-      <li class="md-item"><button class="md-acc" type="button" aria-expanded="false">פתרונות ושירותים <i aria-hidden="true"></i></button>
-        <div class="md-sub"><div>
+      <li class="md-item"><button class="md-acc" type="button" aria-expanded="false" aria-controls="${idPrefix}-sub">פתרונות ושירותים <i aria-hidden="true"></i></button>
+        <div class="md-sub" id="${idPrefix}-sub"><div>
           <h5>לעסק</h5><a href="#">תמיכת IT שוטפת</a><a href="#">ענן וגיבוי</a><a href="#">אבטחת מידע</a><a href="#">רשת ו-Wi-Fi</a>
           <h5>לבית</h5><a href="#">נקודות רשת ו-Wi-Fi</a><a href="#">מצלמות ואזעקה</a><a href="#">בית חכם</a><a href="#">סאונד ומולטימדיה</a>
         </div></div></li>
@@ -119,7 +124,7 @@ export default [
 {
   id:"b65", cat:"behavior", name:"הדר עם מגה תפריט בשני טורים", tech:"CSS · JS", status:"ממתין",
   desc:"פריט אחד בתפריט פותח פאנל רחב: שני טורים של קישורים עם תיאור קצר, וטור פעולה בצד. הפאנל נפרש מלמעלה והקישורים נכנסים בזה אחר זה. במובייל אותו הדר הופך לכפתור שפותח מגירה עם אקורדיון (b66).",
-  when:"אתרים עם עשרה עמודי שירות ומעלה שמתחלקים לשתי קבוצות: לעסק ולבית, מוצרים ושירותים, לפי קהל או לפי תחום. מחליף תפריט של שנים עשר פריטים ששורה אחת לא מחזיקה.",
+  when:"אתרים עם שמונה עמודי שירות ומעלה שמתחלקים לשתי קבוצות: לעסק ולבית, מוצרים ושירותים, לפי קהל או לפי תחום. מחליף תפריט של שנים עשר פריטים ששורה אחת לא מחזיקה.",
   libs:[],
   css:`.mh{position:sticky;top:0;z-index:50;background:var(--card);box-shadow:0 6px 20px color-mix(in srgb,var(--ink) 6%,transparent)}
 .mh-bar{display:flex;align-items:center;gap:24px;padding:12px var(--gutter);min-height:72px}
@@ -215,18 +220,29 @@ ${DRAWER_HTML("md65")}
     if(v&&focusFirst)setTimeout(()=>links[0].focus(),60);
   }
   set(false);
-  trig.addEventListener("click",()=>set(!li.classList.contains("open")));
+  trig.addEventListener("click",e=>{
+    const open=li.classList.contains("open");
+    // the hover already opened it: a mouse click on the same button confirms, it does not snap the panel shut
+    // under the pointer. Leaving with the mouse closes it as before; Enter and Space (detail 0) still toggle.
+    if(open&&fine&&e.detail&&li.matches(":hover"))return;
+    set(!open);
+  });
   // hover intent: a short delay to open, a longer one to close, so crossing the gap never snaps it shut
   if(fine){
     li.addEventListener("mouseenter",()=>{clearTimeout(tClose);tOpen=setTimeout(()=>set(true),70);});
     li.addEventListener("mouseleave",()=>{clearTimeout(tOpen);tClose=setTimeout(()=>set(false),180);});
   }
   trig.addEventListener("keydown",e=>{if(e.key==="ArrowDown"){e.preventDefault();set(true,true);}});
-  li.addEventListener("keydown",e=>{if(e.key==="Escape"&&li.classList.contains("open")){set(false);trig.focus();}});
+  // Escape anywhere closes it, also when it was opened by hover and focus is elsewhere (WCAG 1.4.13);
+  // focus goes back to the button only if it was inside the panel
+  document.addEventListener("keydown",e=>{
+    if(e.key!=="Escape"||!li.classList.contains("open"))return;
+    const had=li.contains(document.activeElement); set(false); if(had)trig.focus();
+  });
   li.addEventListener("focusout",e=>{if(!li.contains(e.relatedTarget))set(false);});
   document.addEventListener("click",e=>{if(!li.contains(e.target))set(false);});
 })();`,
-  note:"שלושה דברים שמבדילים אותו מדרופדאון: הפאנל תלוי מכל ההדר ולא מהכפתור (inset-inline של המרזב), ולכן הוא רחב וממורכז ולא נחתך בקצה. יש גשר שקוף של 10 פיקסלים מעל הפאנל, והשהיית סגירה של 180 מילישניות מול 70 לפתיחה, כך שמעבר עכבר אלכסוני לא סוגר אותו. והכניסה היא clip-path מלמעלה עם קישורים מדורגים ב-28 מילישניות, והיציאה קצרה ובלי דירוג: יוצאים מהר יותר משנכנסים. נגישות: aria-expanded, חץ למטה פותח ומתמקד בקישור הראשון, Escape מחזיר את הפוקוס לכפתור, ויציאת פוקוס סוגרת. בסגור הקישורים tabIndex=-1. במגע אין hover, רק לחיצה."
+  note:"שלושה דברים שמבדילים אותו מדרופדאון: הפאנל תלוי מכל ההדר ולא מהכפתור (inset-inline של המרזב), ולכן הוא רחב וממורכז ולא נחתך בקצה. יש גשר שקוף של 10 פיקסלים מעל הפאנל, והשהיית סגירה של 180 מילישניות מול 70 לפתיחה, כך שמעבר עכבר אלכסוני לא סוגר אותו. והכניסה היא clip-path מלמעלה עם קישורים מדורגים ב-28 מילישניות, והיציאה קצרה ובלי דירוג: יוצאים מהר יותר משנכנסים. לחיצה בעכבר על כפתור שהריחוף כבר פתח משאירה את הפאנל פתוח, כי זו הפעולה הטבעית של מי שריחף ולחץ; יציאת העכבר סוגרת כרגיל. נגישות: aria-expanded, חץ למטה פותח ומתמקד בקישור הראשון, Escape סוגר מכל מקום (גם פאנל שנפתח בריחוף, WCAG 1.4.13) ומחזיר את הפוקוס לכפתור אם הוא היה בפנים, ויציאת פוקוס סוגרת. בסגור הקישורים tabIndex=-1. במגע אין hover, רק לחיצה."
 },
 {
   id:"b66", cat:"behavior", name:"מגירת מובייל עם אקורדיון וכניסה מדורגת", tech:"CSS · JS", status:"ממתין",
@@ -241,6 +257,6 @@ ${DRAWER_HTML("md66")}
 <div class="mdh-body"><p>לחץ על ההמבורגר, ואז על "פתרונות ושירותים" כדי לפתוח את האקורדיון. סגירה בלחיצה על הרקע, על X, או ב-Escape.</p><p style="height:120vh"></p></div>`,
   js:`${DRAWER_JS}
 drawer(document.getElementById("md66"), document.querySelector(".mdh .burger"));`,
-  note:"החלק שחסר כמעט בכל אתר: אנימציית יציאה. visibility עם השהיה של משך המעבר שומר את המגירה גלויה עד שהיא יוצאת, ורק אז מסתיר; display:none במקום זה הורג את היציאה ואת הכניסה (זה מה שקרה בפרופיקס). ה-easing של הנסיעה הוא in-out, כי ease-out על נסיעה של מסך שלם נראה כמו זריקה. השורות נכנסות עם --i ב-45 מילישניות, והיציאה קצרה ובלי דירוג. נגישות: inert על הפאנל כשסגור, מלכודת פוקוס, Escape, החזרת פוקוס לכפתור, ונעילת גלילה שמחזירה את רוחב פס הגלילה. תת-התפריט נסגר כשהמגירה נסגרת, כדי שבפתיחה הבאה היא תתחיל נקייה."
+  note:"החלק שחסר כמעט בכל אתר: אנימציית יציאה. visibility עם השהיה של משך המעבר שומר את המגירה גלויה עד שהיא יוצאת, ורק אז מסתיר; display:none במקום זה הורג את היציאה ואת הכניסה (זה מה שקרה בפרופיקס). ה-easing של הנסיעה הוא in-out, כי ease-out על נסיעה של מסך שלם נראה כמו זריקה. השורות נכנסות עם --i ב-45 מילישניות, והיציאה קצרה ובלי דירוג. נגישות: המגירה מוצהרת כדיאלוג (role=dialog עם aria-modal), inert על הפאנל כשסגור ועל אקורדיון סגור (כך שגם קורא מסך לא מגיע לקישורים שלא רואים), מלכודת פוקוס, Escape, החזרת פוקוס לכפתור (ולהמבורגר כשהדפדפן לא נתן לו פוקוס בלחיצה, כמו בספארי), ונעילת גלילה שמחזירה את רוחב פס הגלילה. תת-התפריט נסגר כשהמגירה נסגרת, כדי שבפתיחה הבאה היא תתחיל נקייה."
 }
 ];

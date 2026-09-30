@@ -48,13 +48,19 @@ const FRAME_CSS = `
 @media (max-width:700px){.hx{height:78vh}.hx-sec{grid-template-columns:1fr;padding:64px var(--gutter)}.hx-hero{padding:112px var(--gutter) 48px}}
 
 /* ---- shared header atoms ---- */
-.hlogo{font-weight:800;font-size:19px;white-space:nowrap;color:inherit}
-.hlink{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;font-size:15px;font-weight:500;color:inherit;opacity:.78;
+/* the logo link is 44px tall like every other control in the row; the rows centre their items, so nothing moves */
+.hlogo{display:inline-flex;align-items:center;justify-content:center;min-height:44px;font-weight:800;font-size:19px;white-space:nowrap;color:inherit;text-decoration:none}
+.hlink{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;font-size:15px;font-weight:500;color:inherit;text-decoration:none;opacity:.78;
   transition:opacity .15s cubic-bezier(.2,.6,.2,1),background .18s cubic-bezier(.2,.6,.2,1)}
-.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border-radius:12px;background:var(--accent);color:var(--accent-ink);
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border-radius:12px;background:var(--accent);color:var(--accent-ink);text-decoration:none;
   font-size:14px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),background .3s cubic-bezier(.2,.6,.2,1),color .3s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
 @media (hover:hover) and (pointer:fine){.hlink:hover{opacity:1}.hbtn:hover{transform:translateY(-1px)}}
-.hd .burger{display:none}
+/* color:inherit: a button does not inherit colour by default, so currentColor lines were browser black on a dark hero (hd1, hd9) */
+.hd .burger{display:none;color:inherit}
+/* skip link: the first Tab stop on the page, out of sight until it has focus. On a real site it points at <main> */
+.hskip{position:absolute;inset-inline-start:16px;top:-64px;z-index:30;display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:10px;
+  background:var(--ink);color:var(--bg);font-size:15px;font-weight:600;text-decoration:none}
+.hskip:focus{top:16px}
 /* a hidden header takes its shadow with it: the shadow reaches past the header's own edge (up to 56px on the floating
    ones), and translateY(-100%) left it as a grey band on every light screen while scrolling down (Profix audit, 23.9.2026) */
 .hd.is-hidden,.hd.is-hidden::before,.hd.is-hidden > *,.hd.is-hidden > *::before{box-shadow:none!important}
@@ -71,27 +77,27 @@ const hero = (light, kicker, title, text) => `
   <section class="hx-hero${light ? " is-light" : ""}" id="top"><small>${kicker}</small><h3>${title}</h3><p>${text}</p></section>`;
 
 const frame = (header, heroHtml, after = "") => `<div class="hx" data-scroller tabindex="0" aria-label="דמו: עמוד שנגלל">
-  <div class="hx-slot">${header}</div>${heroHtml}${SECTIONS}
+  <div class="hx-slot"><a class="hskip" href="#top">דלג לתוכן</a>${header}</div>${heroHtml}${SECTIONS}
 </div>${after}`;
 
 const X_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>`;
 const PHONE_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>`;
 const BURGER = id => `<button class="burger" type="button" aria-label="פתיחת תפריט" aria-expanded="false" aria-controls="${id}"><i></i><i></i><i></i></button>`;
 const NAV = `<a class="hlink" href="#s1">שירותים</a><a class="hlink" href="#s2">פרויקטים</a><a class="hlink" href="#s3">אודות</a><a class="hlink" href="#s3">צור קשר</a>`;
-const DRAWER = id => `
-<div class="md" id="${id}"><div class="md-scrim"></div>
-  <nav class="md-panel" aria-label="תפריט">
-    <div class="md-top"><strong>לוגו</strong><button class="md-close" type="button" aria-label="סגירת תפריט">${X_SVG}</button></div>
+// the drawer carries the same logo, links and CTA as the header it belongs to (on a phone it IS that header's menu)
+const NAV_LINKS = [["#top", "ראשי"], ["#s1", "שירותים"], ["#s2", "פרויקטים"], ["#s3", "אודות"], ["#s3", "צור קשר"]];
+const DRAWER = (id, { logo = "לוגו", links = NAV_LINKS, cta = "לתיאום שיחה" } = {}) => `
+<div class="md" id="${id}" role="dialog" aria-modal="true" aria-label="תפריט"><div class="md-scrim"></div>
+  <nav class="md-panel" aria-label="ניווט ראשי">
+    <div class="md-top"><strong>${logo}</strong><button class="md-close" type="button" aria-label="סגירת תפריט">${X_SVG}</button></div>
     <ul class="md-list">
-      <li class="md-item"><a class="md-link" href="#top">ראשי</a></li>
-      <li class="md-item"><a class="md-link" href="#s1">שירותים</a></li>
-      <li class="md-item"><a class="md-link" href="#s2">פרויקטים</a></li>
-      <li class="md-item"><a class="md-link" href="#s3">אודות</a></li>
-      <li class="md-item"><a class="md-link" href="#s3">צור קשר</a></li>
+${links.map(([href, t]) => `      <li class="md-item"><a class="md-link" href="${href}">${t}</a></li>`).join("\n")}
     </ul>
-    <div class="md-cta"><a href="#s3">לתיאום שיחה</a></div>
+    <div class="md-cta"><a href="#s3">${cta}</a></div>
   </nav>
 </div>`;
+// the page opening and the skip link, shared by every header's note
+const NOTE_TAIL = " פתיחת העמוד (motion.md 2): ההדר יורד ראשון, 18 פיקסלים ושקיפות ב-0.7 שניות, והכניסה יושבת על העוטף הדביק (.hx-slot) ולא על .hd, כי ה-transform של .hd שייך ל-headroom. בהפחתת תנועה אין פתיחה. קישור \"דלג לתוכן\" יושב ראשון בעוטף ומוסתר עד שמגיעים אליו ב-Tab; באתר אמיתי הוא מוביל ל-main.";
 const withDrawer = (sel, id) => `${DRAWER_JS}
 ${HR_JS}
 headroom(document.querySelector("${sel}"));
@@ -118,13 +124,14 @@ export default [
 .h1x nav{display:flex;gap:4px;margin-inline-start:auto}
 .h1x .hbtn{background:var(--bg);color:var(--ink)}
 .h1x.is-scrolled .hbtn{background:var(--accent);color:var(--accent-ink)}
-.h1x .burger{border-color:currentColor}
+/* the burger chip follows the header colour: light on the dark hero, ink once is-scrolled paints the surface */
+.h1x .burger{background:color-mix(in srgb,currentColor 12%,transparent)}
 .h1x .burger i{background:currentColor}
 @media (max-width:900px){.h1x nav,.h1x .hbtn{display:none}.h1x .burger{display:grid;margin-inline-start:auto}}`,
   html:frame(`<header class="h1x hd"><a class="hlogo" href="#top">לוגו</a><nav aria-label="ראשי">${NAV}</nav><a class="hbtn" href="#s3">לתיאום שיחה</a>${BURGER("md-h1")}</header>`,
     hero(false, "משרד לייעוץ עסקי", "מסדרים לכם את המספרים, ואת השקט", "גללו בתוך המסגרת: ההדר מקבל משטח בגלילה הראשונה, יוצא כשממשיכים למטה, וחוזר בתנועה הראשונה למעלה."), DRAWER("md-h1")),
   js:withDrawer(".h1x", "md-h1"),
-  note:"שני מצבים ושתי התנהגויות, והם בלתי תלויים: is-scrolled (משטח, מעל 8 פיקסלים) ו-is-hidden (headroom). המשטח יושב על ::before ומופיע בשקיפות, כך שהטקסט מתהפך מבהיר לכהה בלי קפיצה. ההסתרה היא translateY בלבד, בלי שינוי גובה, ולכן אין תזוזת עמוד. סף של 6 פיקסלים מצטבר מונע ריצוד בגלילת טראקפד איטית, ובראש העמוד (עד גובה ההדר ועוד 24) הוא תמיד גלוי."
+  note:"שני מצבים ושתי התנהגויות, והם בלתי תלויים: is-scrolled (משטח, מעל 8 פיקסלים) ו-is-hidden (headroom). המשטח יושב על ::before ומופיע בשקיפות, כך שהטקסט מתהפך מבהיר לכהה בלי קפיצה. ההסתרה היא translateY בלבד, בלי שינוי גובה, ולכן אין תזוזת עמוד. סף של 6 פיקסלים מצטבר מונע ריצוד בגלילת טראקפד איטית, ובראש העמוד (עד גובה ההדר ועוד 24) הוא תמיד גלוי." + NOTE_TAIL
 },
 {
   id:"hd2", cat:"header", name:"הדר מפוצל: הלוגו במרכז, הניווט בצדדים", tech:"CSS · JS", status:"ממתין", runway:false,
@@ -141,15 +148,16 @@ export default [
 .h2x .hlogo{font-size:26px;font-weight:700;text-align:center}
 .h2-end{display:flex;align-items:center;justify-content:flex-end;gap:8px}
 .h2x .hbtn{background:none;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
-.h2-call{display:none;width:44px;height:44px;border-radius:12px;place-items:center;box-shadow:inset 0 0 0 1px var(--line)}
+.h2-call{display:none;width:44px;height:44px;border-radius:12px;place-items:center;color:inherit;text-decoration:none;box-shadow:inset 0 0 0 1px var(--line)}
 .h2-call svg{width:18px;height:18px}
 @media (hover:hover) and (pointer:fine){.h2x .hbtn:hover{background:var(--ink);color:var(--bg)}}
-/* mobile: the burger lives inside nav, so hide the links, never the nav itself */
-@media (max-width:900px){.h2x{grid-template-columns:44px 1fr 44px}.h2x .hlink,.h2x .hbtn{display:none}.h2x .burger{display:grid}.h2-call{display:grid}}`,
-  html:frame(`<header class="h2x hd"><nav aria-label="ראשי">${BURGER("md-h2")}<a class="hlink" href="#s1">פרויקטים</a><a class="hlink" href="#s2">הסטודיו</a><a class="hlink" href="#s3">תהליך</a></nav><a class="hlogo" href="#top">נוף</a><div class="h2-end"><a class="hlink" href="#s3">יומן</a><a class="hbtn" href="#s3">לפגישת היכרות</a><a class="h2-call" href="#s3" aria-label="התקשרו">${PHONE_SVG}</a></div></header>`,
-    hero(true, "סטודיו לעיצוב פנים", "בית שמרגיש נכון בשמונה בבוקר", "הלוגו במרכז נותן לשם את הבמה. גללו ובדקו שההדר יוצא וחוזר, ושבמובייל הלוגו נשאר ממורכז בין ההמבורגר לכפתור השיחה."), DRAWER("md-h2")),
+/* mobile: the burger lives inside nav, so hide the links, never the nav itself. The second nav holds only "יומן", so it goes */
+@media (max-width:900px){.h2x{grid-template-columns:44px 1fr 44px}.h2x .hlink,.h2x .hbtn{display:none}.h2x .burger{display:grid}.h2-call{display:grid}.h2-end nav{display:none}}`,
+  html:frame(`<header class="h2x hd"><nav aria-label="ראשי">${BURGER("md-h2")}<a class="hlink" href="#s1">פרויקטים</a><a class="hlink" href="#s2">הסטודיו</a><a class="hlink" href="#s3">תהליך</a></nav><a class="hlogo" href="#top">נוף</a><div class="h2-end"><nav aria-label="משני"><a class="hlink" href="#s3">יומן</a></nav><a class="hbtn" href="#s3">לפגישת היכרות</a><a class="h2-call" href="#s3" aria-label="התקשרו">${PHONE_SVG}</a></div></header>`,
+    hero(true, "סטודיו לעיצוב פנים", "בית שמרגיש נכון בשמונה בבוקר", "הלוגו במרכז נותן לשם את הבמה. גללו ובדקו שההדר יוצא וחוזר, ושבמובייל הלוגו נשאר ממורכז בין ההמבורגר לכפתור השיחה."),
+    DRAWER("md-h2", { logo: "נוף", links: [["#top", "ראשי"], ["#s1", "פרויקטים"], ["#s2", "הסטודיו"], ["#s3", "תהליך"], ["#s3", "יומן"]], cta: "לפגישת היכרות" })),
   js:withDrawer(".h2x", "md-h2"),
-  note:"הגריד 1fr auto 1fr הוא מה שמחזיק את הלוגו במרכז האמיתי של המסך גם כשהצדדים לא שווים באורכם; flex עם space-between היה מזיז אותו לצד הקצר. במובייל העמודות הופכות ל-44px 1fr 44px: המבורגר, לוגו, כפתור שיחה, והלוגו עדיין באמצע. ההמבורגר יושב בתוך ה-nav כדי שיירש את המיקום בצד הנכון ב-RTL וב-LTR בלי חוק נוסף."
+  note:"הגריד 1fr auto 1fr הוא מה שמחזיק את הלוגו במרכז האמיתי של המסך גם כשהצדדים לא שווים באורכם; flex עם space-between היה מזיז אותו לצד הקצר. במובייל העמודות הופכות ל-44px 1fr 44px: המבורגר, לוגו, כפתור שיחה, והלוגו עדיין באמצע. ההמבורגר יושב בתוך ה-nav כדי שיירש את המיקום בצד הנכון ב-RTL וב-LTR בלי חוק נוסף." + NOTE_TAIL
 },
 {
   id:"hd3", cat:"header", name:"הדר גלולה צפה", tech:"CSS · JS · backdrop-filter", status:"ממתין", runway:false,
@@ -169,9 +177,9 @@ ${GLASS(".h3x", 78)}
 @media (hover:hover) and (pointer:fine){.h3x .hlink:hover{background:color-mix(in srgb,var(--ink) 6%,transparent)}}
 @media (max-width:900px){.h3x{padding-inline-start:20px}.h3x nav,.h3x .hbtn{display:none}.h3x .burger{display:grid;margin-inline-start:auto}}`,
   html:frame(`<header class="h3x hd"><a class="hlogo" href="#top">לוגו</a><nav aria-label="ראשי">${NAV}</nav><a class="hbtn" href="#s3">להתחיל</a>${BURGER("md-h3")}</header>`,
-    hero(false, "פלטפורמה לניהול משמרות", "כל המשמרות במקום אחד, בלי אקסל", "הקפסולה לא נוגעת בקצוות, ולכן היא לא מרגישה כמו פס של תבנית. גללו: היא מתכווצת ב-3 אחוזים ומקבלת צל, ואז יוצאת."), DRAWER("md-h3")),
+    hero(false, "פלטפורמה לניהול משמרות", "כל המשמרות במקום אחד, בלי אקסל", "הקפסולה לא נוגעת בקצוות, ולכן היא לא מרגישה כמו פס של תבנית. גללו: היא מתכווצת ב-3 אחוזים ומקבלת צל, ואז יוצאת."), DRAWER("md-h3", { cta: "להתחיל" })),
   js:withDrawer(".h3x", "md-h3"),
-  note:"שתי תנועות על אותו transform, דרך שני משתנים: --hs לכיווץ (is-scrolled) ו---hy להסתרה (is-hidden). כך הן לא דורסות זו את זו ועוברות באותה עקומה. הכיווץ הוא scale ולא שינוי רוחב או ריפוד, כי רוחב וריפוד הם layout. הזכוכית על ::before: backdrop-filter על ההדר עצמו היה כולא בתוכו כל אלמנט fixed. ההסתרה היא 100% ועוד 32 פיקסלים, כי הקפסולה מתחילה 16 פיקסלים מתחת לקצה וצריכה לצאת עם הצל שלה."
+  note:"שתי תנועות על אותו transform, דרך שני משתנים: --hs לכיווץ (is-scrolled) ו---hy להסתרה (is-hidden). כך הן לא דורסות זו את זו ועוברות באותה עקומה. הכיווץ הוא scale ולא שינוי רוחב או ריפוד, כי רוחב וריפוד הם layout. הזכוכית על ::before: backdrop-filter על ההדר עצמו היה כולא בתוכו כל אלמנט fixed. ההסתרה היא 100% ועוד 32 פיקסלים, כי הקפסולה מתחילה 16 פיקסלים מתחת לקצה וצריכה לצאת עם הצל שלה." + NOTE_TAIL
 },
 {
   id:"hd4", cat:"header", name:"הדר מינימלי צף עם תפריט מסך מלא", tech:"CSS · JS · clip-path", status:"ממתין", runway:false,
@@ -182,7 +190,7 @@ ${GLASS(".h3x", 78)}
 .h4x{position:absolute;top:16px;inset-inline:16px;display:flex;align-items:center;justify-content:space-between;pointer-events:none;transition:transform .45s cubic-bezier(.2,.6,.2,1)}
 .h4x>*{pointer-events:auto}
 .h4x.is-hidden{transform:translateY(calc(-100% - 32px))}
-.h4-chip{display:inline-flex;align-items:center;min-height:52px;padding:0 24px;border-radius:999px;background:var(--card);color:var(--ink);font-weight:800;font-size:19px;
+.h4-chip{display:inline-flex;align-items:center;min-height:52px;padding:0 24px;border-radius:999px;background:var(--card);color:var(--ink);text-decoration:none;font-weight:800;font-size:19px;
   box-shadow:0 8px 24px color-mix(in srgb,var(--ink) 12%,transparent)}
 .h4-menu{display:inline-flex;align-items:center;gap:12px;min-height:52px;padding:8px;padding-inline-start:20px;border:0;border-radius:999px;background:var(--ink);color:var(--bg);
   font:inherit;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 8px 24px color-mix(in srgb,var(--ink) 16%,transparent)}
@@ -195,11 +203,11 @@ ${GLASS(".h3x", 78)}
   clip-path:circle(0px at var(--cx,90%) var(--cy,48px));visibility:hidden;transition:clip-path .7s cubic-bezier(.76,0,.24,1),visibility 0s linear .7s}
 .fs.open{clip-path:circle(150vmax at var(--cx,90%) var(--cy,48px));visibility:visible;transition-delay:0s}
 .fs-links{list-style:none;margin:0;padding:0}
-.fs-links a{display:block;padding:4px 0;font-size:clamp(40px,6vw,96px);font-weight:700;line-height:1.05;color:var(--bg);opacity:0;transform:translateY(32px);
+.fs-links a{display:block;padding:4px 0;font-size:clamp(40px,6vw,96px);font-weight:700;line-height:1.05;color:var(--bg);text-decoration:none;opacity:0;transform:translateY(32px);
   transition:opacity .2s cubic-bezier(.2,.6,.2,1),transform .2s cubic-bezier(.2,.6,.2,1),color .2s cubic-bezier(.2,.6,.2,1)}
 .fs.open .fs-links a{opacity:1;transform:none;transition-duration:.6s,.6s,.2s;transition-delay:calc(.25s + var(--i) * 60ms),calc(.25s + var(--i) * 60ms),0s}
 .fs-side{display:grid;gap:8px;font-size:16px;line-height:1.6;color:color-mix(in srgb,var(--bg) 72%,transparent);opacity:0;transition:opacity .2s cubic-bezier(.2,.6,.2,1)}
-.fs-side a{color:var(--bg)}
+.fs-side a{color:var(--bg);text-decoration:none}
 .fs.open .fs-side{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1) .55s}
 .fs-close{position:absolute;top:16px;inset-inline-end:16px;display:inline-flex;align-items:center;gap:12px;min-height:52px;padding:8px;padding-inline-start:20px;border:0;border-radius:999px;
   background:var(--bg);color:var(--ink);font:inherit;font-size:15px;font-weight:600;cursor:pointer}
@@ -243,7 +251,7 @@ ${GLASS(".h3x", 78)}
     e.preventDefault(); f[n].focus();
   });
 })();`,
-  note:"שני האלמנטים צפים בתוך הדר שקוף שעליו pointer-events:none, כך שהשטח ביניהם לא חוסם לחיצות על התוכן. המעגל נפרש ב-clip-path מנקודת המרכז של הכפתור שנמדדת בכל פתיחה, ולכן הוא יוצא מהמקום הנכון גם אחרי גלילה. ה-easing הוא in-out כי זו תנועה על פני כל המסך. היציאה קצרה והקישורים בלי דירוג. נגישות: role=dialog עם aria-modal, inert כשסגור, מלכודת פוקוס, Escape, והחזרת הפוקוס לכפתור."
+  note:"שני האלמנטים צפים בתוך הדר שקוף שעליו pointer-events:none, כך שהשטח ביניהם לא חוסם לחיצות על התוכן. המעגל נפרש ב-clip-path מנקודת המרכז של הכפתור שנמדדת בכל פתיחה, ולכן הוא יוצא מהמקום הנכון גם אחרי גלילה. ה-easing הוא in-out כי זו תנועה על פני כל המסך. היציאה קצרה והקישורים בלי דירוג. נגישות: role=dialog עם aria-modal, inert כשסגור, מלכודת פוקוס, Escape, והחזרת הפוקוס לכפתור." + NOTE_TAIL
 },
 {
   id:"hd5", cat:"header", name:"הדר בשתי קומות: פס פרטים ופס ניווט", tech:"CSS · JS", status:"ממתין", runway:false,
@@ -254,9 +262,18 @@ ${GLASS(".h3x", 78)}
 .h5x{position:absolute;inset-inline:0;top:0;isolation:isolate;--ub:40px;transition:transform .4s cubic-bezier(.2,.6,.2,1)}
 .h5x.is-scrolled{transform:translateY(calc(var(--ub) * -1))}
 .h5x.is-hidden{transform:translateY(-100%)}
+/* keyboard focus on a link in the folded bar brings the bar back, so the focus ring is never off screen */
+.h5x.is-scrolled:has(.h5-util :focus-visible){transform:none}
 .h5-util{display:flex;align-items:center;gap:24px;min-height:40px;padding:0 var(--gutter);background:var(--ink);color:var(--bg);font-size:13px}
 .h5-util a,.h5-util span{color:inherit;opacity:.85}
-.h5-util a{display:inline-flex;align-items:center;gap:8px}
+.h5-util a{position:relative;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+/* hit areas on the phone without moving anything: the phone link's own box grows past 24px (padding, cancelled by a negative
+   margin) and ::after takes the hit area to the bar's height; the language chips keep their 26px pill and get the same */
+.h5-util>a{padding-block:4px;margin-block:-4px}
+.h5-util>a::after{content:"";position:absolute;inset:-8px -4px}
+/* a solid ring hugs the link; the default auto ring also wrapped the invisible hit area */
+.h5-util a:focus-visible{outline:2px solid currentColor;outline-offset:2px;border-radius:6px}
+.h5-lang a::after{content:"";position:absolute;inset:-7px -2px}
 .h5-util svg{width:14px;height:14px}
 .h5-lang{margin-inline-start:auto;display:flex;gap:4px}
 .h5-lang a{padding:4px 8px;border-radius:6px}
@@ -265,8 +282,8 @@ ${GLASS(".h3x", 78)}
 .h5x.is-scrolled .h5-main{box-shadow:0 8px 24px color-mix(in srgb,var(--ink) 8%,transparent)}
 .h5-main nav{display:flex;gap:4px;margin-inline-start:auto}
 @media (max-width:900px){.h5-util .h5-hide{display:none}.h5-main nav,.h5-main .hbtn{display:none}.h5-main .burger{display:grid;margin-inline-start:auto}}`,
-  html:frame(`<header class="h5x hd"><div class="h5-util"><a href="#s3">${PHONE_SVG}03-000-0000</a><span class="h5-hide">א׳ עד ה׳, 8:30 עד 18:00</span><span class="h5-hide">דרך מנחם בגין 132, תל אביב</span><nav class="h5-lang" aria-label="שפה"><a href="#top" aria-current="true">עב</a><a href="#top" lang="en">EN</a><a href="#top" lang="ru">РУ</a></nav></div><div class="h5-main"><a class="hlogo" href="#top">לוגו</a><nav aria-label="ראשי">${NAV}</nav><a class="hbtn" href="#s3">לייעוץ ראשוני</a>${BURGER("md-h5")}</div></header>`,
-    hero(true, "משרד עורכי דין לדיני משפחה", "שקט מול מה שנראה כמו סוף העולם", "הטלפון והשעות גלויים למי שנכנס. גללו: הפס העליון מתקפל קודם, הניווט נשאר, ורק בהמשך הכל יוצא."), DRAWER("md-h5")),
+  html:frame(`<header class="h5x hd"><div class="h5-util"><a href="#s3">${PHONE_SVG}03-000-0000</a><span class="h5-hide">א׳ עד ה׳, 8:30 עד 18:00</span><span class="h5-hide">דרך מנחם בגין 132, תל אביב</span><nav class="h5-lang" aria-label="שפה"><a href="#top" hreflang="he" aria-current="true">עב</a><a href="#top" lang="en" hreflang="en">EN</a><a href="#top" lang="ru" hreflang="ru">РУ</a></nav></div><div class="h5-main"><a class="hlogo" href="#top">לוגו</a><nav aria-label="ראשי">${NAV}</nav><a class="hbtn" href="#s3">לייעוץ ראשוני</a>${BURGER("md-h5")}</div></header>`,
+    hero(true, "משרד עורכי דין לדיני משפחה", "שקט מול מה שנראה כמו סוף העולם", "הטלפון והשעות גלויים למי שנכנס. גללו: הפס העליון מתקפל קודם, הניווט נשאר, ורק בהמשך הכל יוצא."), DRAWER("md-h5", { cta: "לייעוץ ראשוני" })),
   js:`${DRAWER_JS}
 ${HR_JS}
 (function(){
@@ -277,7 +294,7 @@ ${HR_JS}
   headroom(hd);
   drawer(document.getElementById("md-h5"), hd.querySelector(".burger"));
 })();`,
-  note:"שלושה מצבים על transform אחד: בראש העמוד הכל גלוי, is-scrolled מזיז את ההדר למעלה בדיוק בגובה הפס העליון (נמדד ב-JS ונשמר ב---ub), ו-is-hidden מוציא את כולו. כך הפס העליון לא מקבל אנימציית גובה משלו ואין תזוזת עמוד. בחירת השפה מסומנת ב-aria-current ובכל קישור lang, כדי שקורא מסך יבטא את EN ואת РУ נכון."
+  note:"שלושה מצבים על transform אחד: בראש העמוד הכל גלוי, is-scrolled מזיז את ההדר למעלה בדיוק בגובה הפס העליון (נמדד ב-JS ונשמר ב---ub), ו-is-hidden מוציא את כולו. כך הפס העליון לא מקבל אנימציית גובה משלו ואין תזוזת עמוד. בחירת השפה מסומנת ב-aria-current, ובכל קישור lang (כדי שקורא מסך יבטא את EN ואת РУ נכון) ו-hreflang (בשביל מנועי החיפוש). בטלפון הקישורים בפס מקבלים שטח לחיצה בגובה הפס בלי לזוז, וכשהפס מקופל ופוקוס מקלדת נוחת בו, הוא חוזר למסך." + NOTE_TAIL
 },
 {
   id:"hd6", cat:"header", name:"הדר עם שורת הודעה", tech:"CSS · JS", status:"ממתין", runway:false,
@@ -289,12 +306,21 @@ ${HR_JS}
 /* the bar folds away (scrolled or dismissed) by moving the whole header up by its height: no height animation, no page shift */
 .h6x.is-scrolled,.h6x.is-dismissed{--off:calc(var(--ub) * -1)}
 .h6x.is-hidden{--off:-100%}
+/* keyboard focus on the folded bar brings it back on screen */
+.h6x.is-scrolled:not(.is-dismissed):has(.h6-bar :focus-visible){--off:0px}
 .h6-bar{position:relative;display:flex;align-items:center;justify-content:center;min-height:40px;padding:0 56px;background:var(--accent);color:var(--accent-ink);font-size:14px;font-weight:600;overflow:hidden}
 .h6-msgs{position:relative;display:grid;min-height:40px;align-items:center;text-align:center}
-.h6-msg{grid-area:1/1;display:flex;align-items:center;justify-content:center;gap:8px;opacity:0;transform:translateY(100%);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .4s cubic-bezier(.2,.6,.2,1)}
+/* inline flow, not flex: flex with gap made every text run its own item (a space before the comma, a lone dot on a line of its own) */
+.h6-msg{grid-area:1/1;display:block;padding-block:6px;line-height:1.35;text-wrap:balance;opacity:0;transform:translateY(100%);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .4s cubic-bezier(.2,.6,.2,1)}
 .h6-msg.on{opacity:1;transform:none}
 .h6-msg.out{opacity:0;transform:translateY(-100%)}
-.h6-msg a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+/* the link's box passes 24px in any font (inline-block with padding, cancelled by a negative margin, so the line does not grow)
+   and ::after takes the hit area to ~44px */
+.h6-msg a{position:relative;display:inline-block;padding-block:4px;margin-block:-4px;color:inherit;text-decoration:underline;text-underline-offset:3px}
+.h6-msg a::after{content:"";position:absolute;inset:-8px -6px}
+.h6-msg a:focus-visible{outline:2px solid currentColor;outline-offset:1px;border-radius:2px}
+/* the close button keeps its 32px look and gets a 44px hit area */
+.h6-close::after{content:"";position:absolute;inset:-6px}
 .h6-close{position:absolute;inset-inline-end:12px;top:50%;margin-top:-16px;width:32px;height:32px;border:0;border-radius:8px;background:none;color:inherit;display:grid;place-items:center;cursor:pointer;opacity:.8;transition:opacity .15s cubic-bezier(.2,.6,.2,1),background .15s cubic-bezier(.2,.6,.2,1)}
 .h6-close svg{width:16px;height:16px}
 @media (hover:hover) and (pointer:fine){.h6-close:hover{opacity:1;background:color-mix(in srgb,var(--accent-ink) 14%,transparent)}}
@@ -302,8 +328,8 @@ ${HR_JS}
 .h6x.is-scrolled .h6-main{box-shadow:0 8px 24px color-mix(in srgb,var(--ink) 8%,transparent)}
 .h6-main nav{display:flex;gap:4px;margin-inline-start:auto}
 @media (max-width:900px){.h6-bar{padding:0 48px;font-size:13px}.h6-msg .h6-long{display:none}.h6-main nav,.h6-main .hbtn{display:none}.h6-main .burger{display:grid;margin-inline-start:auto}}`,
-  html:frame(`<header class="h6x hd"><div class="h6-bar" role="region" aria-label="הודעה"><div class="h6-msgs"><p class="h6-msg on" style="margin:0">משלוח חינם בהזמנה מעל 300 ש״ח<span class="h6-long">, עד סוף החודש</span> · <a href="#s1">לקולקציה</a></p><p class="h6-msg" style="margin:0" aria-hidden="true">סדנת קדרות חדשה נפתחת ב-5.10 · <a href="#s2">להרשמה</a></p></div><button class="h6-close" type="button" aria-label="סגירת ההודעה">${X_SVG}</button></div><div class="h6-main"><a class="hlogo" href="#top">לוגו</a><nav aria-label="ראשי">${NAV}</nav><a class="hbtn" href="#s3">לחנות</a>${BURGER("md-h6")}</div></header>`,
-    hero(true, "סטודיו לקרמיקה, יפו", "כלים שנעשו ביד, לשולחן של כל יום", "השורה העליונה מתחלפת בין שתי הודעות. גללו: היא מתקפלת ראשונה והניווט נשאר. סגרו אותה ב-X, והיא לא תחזור גם אחרי רענון."), DRAWER("md-h6")),
+  html:frame(`<header class="h6x hd"><div class="h6-bar" role="region" aria-label="הודעה"><div class="h6-msgs"><p class="h6-msg on" style="margin:0">משלוח חינם בהזמנה מעל 300 ש״ח<span class="h6-long">, עד סוף החודש</span> ·&nbsp;<a href="#s1">לקולקציה</a></p><p class="h6-msg" style="margin:0" inert>סדנת קדרות חדשה נפתחת ב-5.10 ·&nbsp;<a href="#s2">להרשמה</a></p></div><button class="h6-close" type="button" aria-label="סגירת ההודעה">${X_SVG}</button></div><div class="h6-main"><a class="hlogo" href="#top">לוגו</a><nav aria-label="ראשי">${NAV}</nav><a class="hbtn" href="#s3">לחנות</a>${BURGER("md-h6")}</div></header>`,
+    hero(true, "סטודיו לקרמיקה, יפו", "כלים שנעשו ביד, לשולחן של כל יום", "השורה העליונה מתחלפת בין שתי הודעות. גללו: היא מתקפלת ראשונה והניווט נשאר. סגרו אותה ב-X, והיא לא תחזור גם אחרי רענון."), DRAWER("md-h6", { cta: "לחנות" })),
   js:`${DRAWER_JS}
 ${HR_JS}
 (function(){
@@ -312,9 +338,10 @@ ${HR_JS}
   var KEY="h6-dismissed-v1";
   function measure(){hd.style.setProperty("--ub",bar.offsetHeight+"px");}
   measure(); addEventListener("resize",measure);
-  try{if(localStorage.getItem(KEY))hd.classList.add("is-dismissed");}catch(e){}
+  // a closed bar sits above the screen: inert keeps its link and button out of the tab order
+  try{if(localStorage.getItem(KEY)){hd.classList.add("is-dismissed");bar.inert=true;}}catch(e){}
   hd.querySelector(".h6-close").addEventListener("click",function(){
-    hd.classList.add("is-dismissed");
+    hd.classList.add("is-dismissed"); bar.inert=true;
     try{localStorage.setItem(KEY,"1");}catch(e){}
     hd.querySelector(".hlogo").focus({preventScroll:true});
   });
@@ -325,15 +352,16 @@ ${HR_JS}
   if(msgs.length>1&&!reduce)setInterval(function(){
     if(paused||hd.classList.contains("is-dismissed"))return;
     var cur=msgs[i], nx=msgs[(i+1)%msgs.length];
-    cur.classList.remove("on"); cur.classList.add("out"); cur.setAttribute("aria-hidden","true");
-    nx.classList.remove("out"); nx.classList.add("on"); nx.removeAttribute("aria-hidden");
+    // inert, not aria-hidden: aria-hidden on a message with a link still let Tab land on the invisible link
+    cur.classList.remove("on"); cur.classList.add("out"); cur.inert=true;
+    nx.classList.remove("out"); nx.classList.add("on"); nx.inert=false;
     setTimeout(function(){cur.classList.remove("out");},450);
     i=(i+1)%msgs.length;
   },5000);
   headroom(hd);
   drawer(document.getElementById("md-h6"), hd.querySelector(".burger"));
 })();`,
-  note:"הכיוון החדש של hd6 (23.9.2026), אחרי שהאיים הצפים נפסלו כנישתיים. שלושה מצבים על transform אחד, דרך --off: בראש העמוד הכל גלוי; בגלילה או אחרי סגירה ההדר זז למעלה בדיוק בגובה השורה (נמדד ב-JS), ולכן אין אנימציית גובה ואין תזוזת עמוד; ו-is-hidden מוציא את כולו. הסגירה נשמרת ב-localStorage עם מפתח גרסה: הודעה חדשה מקבלת מפתח חדש ותופיע שוב. ההחלפה בין הודעות היא החלקה אנכית כל 5 שניות, נעצרת בריחוף ובפוקוס (WCAG 2.2.2), ולא רצה ב-reduced-motion. אחרי סגירה הפוקוס עובר ללוגו, כדי שמשתמש מקלדת לא יישאר על כפתור שנעלם. השורה בצבע המותג עם accent-ink, ולכן היא עוברת ניגודיות בכל עור."
+  note:"הכיוון החדש של hd6 (23.9.2026), אחרי שהאיים הצפים נפסלו כנישתיים. שלושה מצבים על transform אחד, דרך --off: בראש העמוד הכל גלוי; בגלילה או אחרי סגירה ההדר זז למעלה בדיוק בגובה השורה (נמדד ב-JS), ולכן אין אנימציית גובה ואין תזוזת עמוד; ו-is-hidden מוציא את כולו. הסגירה נשמרת ב-localStorage עם מפתח גרסה: הודעה חדשה מקבלת מפתח חדש ותופיע שוב. ההחלפה בין הודעות היא החלקה אנכית כל 5 שניות, נעצרת בריחוף ובפוקוס (WCAG 2.2.2), ולא רצה ב-reduced-motion. ההודעה המוסתרת והשורה הסגורה מקבלות inert ולא aria-hidden, כדי שה-Tab לא ינחת על קישור שלא רואים. אחרי סגירה הפוקוס עובר ללוגו, כדי שמשתמש מקלדת לא יישאר על כפתור שנעלם. ההודעה זורמת כטקסט רגיל ולא כ-flex, כך שבטלפון היא נשברת לשתי שורות מאוזנות והנקודה נשארת צמודה לקישור. השורה בצבע המותג עם accent-ink, ולכן היא עוברת ניגודיות בכל עור." + NOTE_TAIL
 },
 {
   id:"hd7", cat:"header", name:"הדר נחיתה צף: לוגו, טלפון וכפתור אחד", tech:"CSS · JS", status:"ממתין", runway:false,
@@ -345,7 +373,10 @@ ${HR_JS}
   border-radius:18px;isolation:isolate;color:var(--ink);transition:transform .45s cubic-bezier(.2,.6,.2,1)}
 ${GLASS(".h7x", 88)}
 .h7x.is-hidden{transform:translateY(calc(-100% - 32px))}
-.h7-tel{margin-inline-start:auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border-radius:12px;font-weight:600;font-size:15px;direction:ltr}
+/* direction:ltr sits on the number only: on the link itself it turned margin-inline-start into margin-left, and in Hebrew the phone
+   stuck to the logo instead of grouping with the button */
+.h7-tel{margin-inline-start:auto;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;border-radius:12px;color:inherit;text-decoration:none;font-weight:600;font-size:15px}
+.h7-tel span{direction:ltr;unicode-bidi:isolate}
 .h7-tel svg{width:18px;height:18px}
 .h7x .hbtn{background:none;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
 .h7x.is-past .hbtn{background:var(--accent);color:var(--accent-ink);box-shadow:inset 0 0 0 1.5px var(--accent)}
@@ -358,7 +389,7 @@ ${GLASS(".h7x", 88)}
   // the button fills only once the hero (with its own big CTA) has left the screen: two filled buttons compete
   headroom(hd,{on:function(y){hd.classList.toggle("is-past",y>heroEl.offsetHeight-hd.offsetHeight);}});
 })();`,
-  note:"המצב is-past נגזר מגובה ההירו פחות גובה ההדר, באותו מאזין גלילה של ה-headroom (הפרמטר on), בלי מאזין נוסף. הטלפון כתוב ב-direction:ltr כדי שהמספר לא יתהפך, ובמובייל נשאר ממנו רק האייקון עם aria-label שמכיל את המספר. במובייל כדאי לזווג אותו עם CTA דביק בתחתית (motion.md), כי כשההדר יוצא הכפתור שלו יוצא איתו."
+  note:"המצב is-past נגזר מגובה ההירו פחות גובה ההדר, באותו מאזין גלילה של ה-headroom (הפרמטר on), בלי מאזין נוסף. המספר עטוף ב-span עם direction:ltr ו-unicode-bidi:isolate כדי שלא יתהפך (על הקישור עצמו direction:ltr הופך את margin-inline-start לשוליים משמאל, והטלפון נדבק ללוגו), ובמובייל נשאר ממנו רק האייקון עם aria-label שמכיל את המספר. במובייל כדאי לזווג אותו עם CTA דביק בתחתית (motion.md), כי כשההדר יוצא הכפתור שלו יוצא איתו." + NOTE_TAIL
 },
 {
   id:"hd8", cat:"header", name:"הדר קפסולה שנפתחת לתפריט", tech:"CSS · JS · grid-template-rows", status:"ממתין", runway:false,
@@ -384,11 +415,16 @@ ${GLASS(".h8-card", 88)}
 .h8x.menu-open .h8-panel{grid-template-rows:1fr}
 .h8-panel>div{overflow:hidden}
 .h8-in{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;padding:8px 24px 24px}
-.h8-links a{display:block;padding:6px 0;font-size:clamp(24px,2.6vw,32px);font-weight:700;line-height:1.15;opacity:0;transform:translateY(12px);
+.h8-links a{display:block;padding:6px 0;font-size:clamp(24px,2.6vw,32px);font-weight:700;line-height:1.15;color:inherit;text-decoration:none;opacity:0;transform:translateY(12px);
   transition:opacity .15s cubic-bezier(.2,.6,.2,1),transform .15s cubic-bezier(.2,.6,.2,1),color .15s cubic-bezier(.2,.6,.2,1)}
 .h8x.menu-open .h8-links a{opacity:1;transform:none;transition-duration:.4s,.4s,.15s;transition-delay:calc(.12s + var(--i) * 45ms),calc(.12s + var(--i) * 45ms),0s}
 .h8-side{display:flex;flex-direction:column;justify-content:flex-end;gap:8px;font-size:15px;line-height:1.5;color:var(--muted);opacity:0;transition:opacity .15s cubic-bezier(.2,.6,.2,1)}
-.h8-side a{color:var(--ink)}
+.h8-side a{color:var(--ink);text-decoration:none}
+/* the phone link was 23px tall: padding grows its box past 24px and the negative margin keeps the column exactly where it was;
+   ::after takes the hit area to about 47px */
+.h8-side a:not(.hbtn){position:relative;padding-block:4px;margin-block:-4px}
+.h8-side a:not(.hbtn)::after{content:"";position:absolute;inset:-8px 0}
+.h8-side a:not(.hbtn):focus-visible{outline:2px solid currentColor;outline-offset:2px;border-radius:4px}
 /* one CTA on screen: on desktop it lives in the bar, on mobile the bar drops it and the card carries it */
 .h8-side .hbtn{display:none;color:var(--accent-ink)}
 .h8x.menu-open .h8-side{opacity:1;transition:opacity .4s cubic-bezier(.2,.6,.2,1) .3s}
@@ -414,8 +450,18 @@ ${GLASS(".h8-card", 88)}
   links.forEach(function(a){a.addEventListener("click",function(){set(false);});});
   document.addEventListener("click",function(e){if(!hd.contains(e.target))set(false);});
   hd.addEventListener("keydown",function(e){if(e.key==="Escape"&&hd.classList.contains("menu-open")){set(false);t.focus();}});
+  // Tab past the last link: the card closes instead of staying open over the page
+  var tab=false;
+  hd.addEventListener("keydown",function(e){if(e.key==="Tab"){tab=true;setTimeout(function(){tab=false;},0);}});
+  hd.addEventListener("focusout",function(e){
+    if(!hd.classList.contains("menu-open"))return;
+    // with no next stop on the page relatedTarget is null, so the Tab key itself is the signal. A click inside the card is not:
+    // it moves focus to a focusable ancestor at most (the demo's scroller), which is why an ancestor does not count as "out"
+    var to=e.relatedTarget;
+    if(to?!hd.contains(to)&&!to.contains(hd):tab)set(false);
+  });
 })();`,
-  note:"הגדילה היא grid-template-rows מ-0fr ל-1fr, האקורדיון הדוקטרינרי, ולא max-height: הגובה האמיתי של התוכן, בלי מספר קסם. הרדיוס יורד מ-30 (קפסולה) ל-24 (כרטיס) באותו זמן, וזה מה שגורם לזה להיראות כמו אובייקט אחד שמשנה צורה ולא כמו פאנל שנפתח מתחתיו. הקישורים נכנסים אחרי שהכרטיס התחיל לגדול (השהיה של 120 מילישניות), והיציאה מהירה ובלי דירוג. כשהתפריט פתוח ההדר לא יוצא בגלילה (menu-open)."
+  note:"הגדילה היא grid-template-rows מ-0fr ל-1fr, האקורדיון הדוקטרינרי, ולא max-height: הגובה האמיתי של התוכן, בלי מספר קסם. הרדיוס יורד מ-30 (קפסולה) ל-24 (כרטיס) באותו זמן, וזה מה שגורם לזה להיראות כמו אובייקט אחד שמשנה צורה ולא כמו פאנל שנפתח מתחתיו. הקישורים נכנסים אחרי שהכרטיס התחיל לגדול (השהיה של 120 מילישניות), והיציאה מהירה ובלי דירוג. כשהתפריט פתוח ההדר לא יוצא בגלילה (menu-open), וכשפוקוס המקלדת יוצא מההדר הכרטיס נסגר." + NOTE_TAIL
 },
 {
   id:"hd9", cat:"header", name:"גלולה צפה ששקופה מעל ההירו ונצבעת בלבן בגלילה", tech:"CSS · JS · backdrop-filter", status:"ממתין", runway:false,
@@ -440,8 +486,8 @@ ${GLASS(".h8-card", 88)}
 @media (hover:hover) and (pointer:fine){.h9x .hlink:hover{opacity:1;background:color-mix(in srgb,currentColor 10%,transparent)}}
 @media (max-width:900px){.h9x{padding-inline-start:20px}.h9x nav,.h9x .hbtn{display:none}.h9x .burger{display:grid;margin-inline-start:auto}}`,
   html:frame(`<header class="h9x hd"><a class="hlogo" href="#top">לוגו</a><nav aria-label="ראשי">${NAV}</nav><a class="hbtn" href="#s3">לקבלת הצעה</a>${BURGER("md-h9")}</header>`,
-    hero(false, "מערכות תקשורת לעסקים ולבתים", "המסך הראשון כולו ויז'ואל, וההדר מחכה לגלילה", "בראש העמוד הקפסולה בלי מילוי, והטקסט בהיר על ההירו. גללו: היא מתמלאת בלבן, הטקסט מתהפך לכהה, והיא מתכווצת מעט. גוללים עוד והיא יוצאת, עולים והיא חוזרת."), DRAWER("md-h9")),
+    hero(false, "מערכות תקשורת לעסקים ולבתים", "המסך הראשון כולו ויז'ואל, וההדר מחכה לגלילה", "בראש העמוד הקפסולה בלי מילוי, והטקסט בהיר על ההירו. גללו: היא מתמלאת בלבן, הטקסט מתהפך לכהה, והיא מתכווצת מעט. גוללים עוד והיא יוצאת, עולים והיא חוזרת."), DRAWER("md-h9", { cta: "לקבלת הצעה" })),
   js:withDrawer(".h9x", "md-h9"),
-  note:"נבנה בפרופיקס (23.9.2026), על הירו עם וידאו. שלושה מצבים על אותו אלמנט: שקוף (ברירת מחדל), is-scrolled (מילוי לבן, טקסט כהה, --hs לכיווץ) ו-is-hidden (headroom, --hy). המילוי יושב על ::before, כך שהטקסט מתהפך בלי קפיצה ו-backdrop-filter לא כולא ילדים fixed. בפרויקט אמיתי עם לוגו כתמונה: שני קבצים באותו תא גריד, בהיר וכהה, ומחליפים ביניהם ב-opacity לפי is-scrolled. ושני מקרים שבהם ההדר לבן מההתחלה: עמודים בלי הירו (body:not(:has(.hero))), וכשמגה תפריט פתוח (:has(.is-open)), כי פס שקוף מעל כרטיס לבן נראה שבור."
+  note:"נבנה בפרופיקס (23.9.2026), על הירו עם וידאו. שלושה מצבים על אותו אלמנט: שקוף (ברירת מחדל), is-scrolled (מילוי לבן, טקסט כהה, --hs לכיווץ) ו-is-hidden (headroom, --hy). המילוי יושב על ::before, כך שהטקסט מתהפך בלי קפיצה ו-backdrop-filter לא כולא ילדים fixed. בפרויקט אמיתי עם לוגו כתמונה: שני קבצים באותו תא גריד, בהיר וכהה, ומחליפים ביניהם ב-opacity לפי is-scrolled. ושני מקרים שבהם ההדר לבן מההתחלה: עמודים בלי הירו (body:not(:has(.hero))), וכשמגה תפריט פתוח (:has(.is-open)), כי פס שקוף מעל כרטיס לבן נראה שבור." + NOTE_TAIL
 },
 ];
