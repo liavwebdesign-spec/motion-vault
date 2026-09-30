@@ -40,12 +40,14 @@ img{max-width:100%}
 
 /* B19 · כרטיס וידאו שמתנגן בהובר */
 .vgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap, clamp(16px, 1.6vw, 36px));padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
-.vcardx{position:relative;border-radius:var(--r, 14px);overflow:hidden;background:#0f1020;aspect-ratio:16/10;cursor:pointer}
+/* margin:0: ל-<figure> יש שוליים של הדפדפן (40px מכל צד), והכרטיס יוצא צר מהעמודה עם רווח ענק בגריד */
+.vcardx{position:relative;margin:0;border-radius:var(--r, 14px);overflow:hidden;background:#0f1020;aspect-ratio:16/10}
+@media (hover:none){.vcardx{cursor:pointer}}
 .vcardx img,.vcardx video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
 .vcardx video{opacity:0;transition:opacity .3s ease}
 .vcardx.playing video{opacity:1}
 .vcardx figcaption{position:absolute;inset-inline:0;bottom:0;padding:14px 16px;color:#fff;font-size:14px;font-weight:500;background:linear-gradient(transparent,rgba(0,0,0,.6));z-index:2}
-.vcardx .badge{position:absolute;top:12px;inset-inline-end:12px;z-index:2;background:rgba(255,255,255,.92);color:#111;border-radius:999px;padding:5px 12px;font-size:11px;letter-spacing:.08em}
+.vcardx .badge{position:absolute;top:12px;inset-inline-end:12px;z-index:2;background:rgba(255,255,255,.92);color:#111;border-radius:999px;padding:5px 12px;font-size:12px;letter-spacing:0}
 @media(max-width:767px){.vgrid{grid-template-columns:1fr}}
 </style>
 </head>

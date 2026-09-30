@@ -55,6 +55,7 @@ img{max-width:100%}
 .rb-arrow{transition:transform .42s cubic-bezier(.2,.6,.2,1)}
 .rb:hover .rb-arrow{transform:translateX(-5px)}
 .rb-demo{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.rb-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media (prefers-reduced-motion: reduce){.rb-ch,.rb-arrow{transition:none}}
 </style>
 </head>
@@ -73,7 +74,10 @@ img{max-width:100%}
   document.querySelectorAll("[data-rb]").forEach(el=>{
     const text=el.textContent.trim();
     el.textContent="";
-    el.setAttribute("aria-label",text);
+    // הטקסט האמיתי ב-span מוסתר ויזואלית ולא ב-aria-label: aria-label על span בלי role אסור ב-ARIA 1.2,
+    // וחלק מקוראי המסך מתעלמים ממנו
+    const sr=document.createElement("span");
+    sr.className="rb-sr";sr.textContent=text;el.appendChild(sr);
     // שתי שכבות זהות: העליונה יוצאת, התחתונה נכנסת
     ["a","b"].forEach(k=>{
       const row=document.createElement("span");
@@ -82,7 +86,7 @@ img{max-width:100%}
       [...text].forEach((c,i)=>{
         const s=document.createElement("span");
         s.className="rb-ch";
-        s.style.setProperty("--i",k==="a"?i:i);
+        s.style.setProperty("--i",i);
         s.textContent=c===" "?"\u00a0":c;
         row.appendChild(s);
       });

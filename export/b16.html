@@ -40,26 +40,31 @@ img{max-width:100%}
 .center{text-align:center}
 
 /* B16 · Toast (הודעה קופצת) */
-.toast{position:fixed;bottom:24px;inset-inline-start:50%;translate:-50% 20px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;transition:opacity .24s,translate .24s;z-index:95;display:flex;gap:10px;align-items:center}
-html[dir="rtl"] .toast{translate:50% 20px}
-.toast.on{opacity:1;translate:-50% 0}
-html[dir="rtl"] .toast.on{translate:50% 0}
+/* left+translate ממרכזים זהה בעברית ובאנגלית, בלי כלל נפרד ל-RTL. visibility מוציא את ההודעה מסדר הקריאה כשהיא סגורה */
+.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;translate:-50% 20px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;visibility:hidden;transition:opacity .24s,translate .24s,visibility 0s .24s;z-index:95;display:flex;gap:10px;align-items:center}
+.toast.on{opacity:1;translate:-50% 0;visibility:visible;transition-delay:0s}
 .toast b{color:#12b76a}
+@media (prefers-reduced-motion: reduce){.toast{translate:-50% 0}}
 </style>
 </head>
 <body>
 
 <div class="stage tight center"><button class="gbtn show-t">שלח טופס (דמו)</button></div>
-<div class="toast"><b>✓</b>קיבלנו! נחזור אליכם היום</div>
+<div class="toast" role="status" aria-live="polite"><b aria-hidden="true">✓</b><span class="toast-msg"></span></div>
 
 
 <script>
-let tmr;
-document.querySelector(".show-t").addEventListener("click",()=>{
-  const t=document.querySelector(".toast");
-  t.classList.add("on");clearTimeout(tmr);
-  tmr=setTimeout(()=>t.classList.remove("on"),3000);
-});
+(function(){
+  // הטקסט נכתב לתוך אזור ה-live רק ברגע ההצגה: כך קורא מסך מודיע עליו, והוא לא יושב בדף כשההודעה סגורה
+  const t=document.querySelector(".toast"),msg=t.querySelector(".toast-msg");
+  let tmr,clr;
+  document.querySelector(".show-t").addEventListener("click",()=>{
+    clearTimeout(tmr);clearTimeout(clr);
+    msg.textContent="קיבלנו! נחזור אליכם היום";
+    t.classList.add("on");
+    tmr=setTimeout(()=>{t.classList.remove("on");clr=setTimeout(()=>msg.textContent="",300);},3000);
+  });
+})();
 </script>
 </body>
 </html>

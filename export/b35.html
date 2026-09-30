@@ -46,16 +46,20 @@ img{max-width:100%}
   position:relative;max-width:min(780px,92vw);margin-inline:auto;padding-inline-start:var(--vt-pad)}
 .vt-rail{position:absolute;inset-block:14px 10px;width:2px;background:var(--line, #e4e4ee);border-radius:2px;
   inset-inline-start:calc(var(--vt-x) + var(--vt-dot)/2 - 1px)}
-.vt-fill{position:absolute;inset-block-start:0;inset-inline:0;height:0;background:var(--accent, #4a3aff);border-radius:2px}
+/* מצב הבסיס הוא הציר השלם: קו מלא וכל השלבים דלוקים. כך הוא נראה בתנועה מופחתת וכשהספרייה חסומה.
+   המצב הכבוי חי רק תחת .vt-live, שהסקריפט מוסיף כשהוא באמת מנפיש */
+.vt-fill{position:absolute;inset-block-start:0;inset-inline:0;height:100%;background:var(--accent, #4a3aff);border-radius:2px}
 .vt-step{position:relative;padding-block:clamp(18px,2.4vw,34px)}
 .vt-dot{position:absolute;inset-inline-start:calc(var(--vt-pad) * -1 + var(--vt-x));top:calc(clamp(18px,2.4vw,34px) + 2px);
-  width:var(--vt-dot);height:var(--vt-dot);border-radius:50%;background:var(--card, #fff);border:2px solid var(--line, #e4e4ee);
-  display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--muted, #6a6d85);transition:background .35s,border-color .35s,color .35s}
-.vt-step.on .vt-dot{background:var(--accent, #4a3aff);border-color:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
-.vt-step h3{margin:0 0 6px;font-size:clamp(19px,2vw,26px);color:var(--muted, #6a6d85);transition:color .35s}
-.vt-step.on h3{color:var(--ink, #16182b)}
+  width:var(--vt-dot);height:var(--vt-dot);border-radius:50%;background:var(--accent, #4a3aff);border:2px solid var(--accent, #4a3aff);
+  display:grid;place-items:center;font-size:13px;font-weight:700;color:var(--accent-ink, #fff);transition:background .35s,border-color .35s,color .35s}
+.vt-live .vt-step:not(.on) .vt-dot{background:var(--card, #fff);border-color:var(--line, #e4e4ee);color:var(--muted, #6a6d85)}
+.vt-step h3{margin:0 0 6px;font-size:clamp(19px,2vw,26px);color:var(--ink, #16182b);transition:color .35s}
+.vt-live .vt-step:not(.on) h3{color:var(--muted, #6a6d85)}
+/* רגע ההדלקה של .vt-live: בלי transition, אחרת השלבים שעוד לא הגיע אליהם הקו נכבים בדהייה מול העיניים בטעינה */
+.vt-init .vt-dot,.vt-init h3{transition:none}
 .vt-step p{margin:0;color:var(--muted, #6a6d85);font-size:16px;line-height:1.65;max-width:56ch}
-.vt-when{display:inline-block;margin-top:8px;font-size:12px;letter-spacing:.08em;color:var(--muted, #6a6d85);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:4px 11px}
+.vt-when{display:inline-block;margin-top:8px;font-size:12px;letter-spacing:0;color:var(--muted, #6a6d85);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:4px 11px}
 </style>
 </head>
 <body>
@@ -75,14 +79,19 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  // בלי הספרייה הציר נשאר במצב הבסיס שלו: שלם ודלוק
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;
   const wrap=document.querySelector(".vt"),fill=document.querySelector(".vt-fill"),steps=gsap.utils.toArray(".vt-step");
-  const rail=document.querySelector(".vt-rail");
-  gsap.to(fill,{height:"100%",ease:"none",
-    scrollTrigger:{trigger:wrap,start:"top 62%",end:"bottom 72%",scrub:.6}});
-  steps.forEach(s=>{
-    ScrollTrigger.create({trigger:s,start:"top 66%",end:"bottom 40%",
-      onToggle:self=>s.classList.toggle("on",self.isActive),
-      onEnter:()=>s.classList.add("on")});
+  // רק בלי העדפת תנועה מופחתת; שם הציר מוצג שלם וסטטי (מצב הבסיס ב-CSS)
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    wrap.classList.add("vt-live","vt-init");
+    requestAnimationFrame(()=>requestAnimationFrame(()=>wrap.classList.remove("vt-init")));
+    gsap.fromTo(fill,{height:0},{height:"100%",ease:"none",
+      scrollTrigger:{trigger:wrap,start:"top 62%",end:"bottom 72%",scrub:.6}});
+    // שלב נדלק כשהקו מגיע אליו ונשאר דלוק כשהקו ממשיך; נכבה רק כשגוללים חזרה מעליו
+    steps.forEach(s=>ScrollTrigger.create({trigger:s,start:"top 66%",
+      onEnter:()=>s.classList.add("on"),onLeaveBack:()=>s.classList.remove("on")}));
+    return ()=>{wrap.classList.remove("vt-live");steps.forEach(s=>s.classList.remove("on"));};
   });
 })();
 </script>

@@ -41,17 +41,19 @@ img{max-width:100%}
 .faq{max-width:min(760px,92vw);margin-inline:auto;border-top:1px solid var(--line, #e4e4ee)}
 .faq-item{border-bottom:1px solid var(--line, #e4e4ee)}
 .faq-q{width:100%;display:flex;align-items:center;gap:16px;background:none;border:0;font:inherit;font-size:clamp(16px,1.6vw,21px);
-  font-weight:600;color:var(--ink, #16182b);text-align:start;padding:clamp(18px,2vw,26px) 4px;cursor:pointer}
-.faq-q:hover{color:var(--accent, #4a3aff)}
+  font-weight:600;color:var(--ink, #16182b);text-align:start;padding:clamp(18px,2vw,26px) 4px;cursor:pointer;transition:color .15s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.faq-q:hover{color:var(--accent, #4a3aff)}}
 .faq-ic{margin-inline-start:auto;flex:none;width:22px;height:22px;position:relative}
-.faq-ic::before,.faq-ic::after{content:"";position:absolute;background:currentColor;border-radius:2px;transition:transform .35s cubic-bezier(.2,.6,.2,1),opacity .25s}
+.faq-ic::before,.faq-ic::after{content:"";position:absolute;background:currentColor;border-radius:2px;transition:transform .2s cubic-bezier(.2,.6,.2,1),opacity .2s}
 .faq-ic::before{inset-inline:0;top:10px;height:2px}
 .faq-ic::after{inset-block:0;left:10px;width:2px}
 .faq-item.open .faq-ic::after{transform:rotate(90deg);opacity:0}
-/* grid-template-rows מ-0fr ל-1fr נותן פתיחה לגובה האמיתי בלי למדוד פיקסלים ב-JS */
-.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .42s cubic-bezier(.2,.6,.2,1)}
+/* grid-template-rows מ-0fr ל-1fr נותן פתיחה לגובה האמיתי בלי למדוד פיקסלים ב-JS. 0.24s לפי טבלת התזמונים (motion.md 3) */
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .24s cubic-bezier(.2,.6,.2,1)}
 .faq-item.open .faq-a{grid-template-rows:1fr}
-.faq-a>div{overflow:hidden}
+/* visibility מוציא תשובה סגורה מעץ הנגישות ומסדר ה-Tab. בסגירה הוא מתעכב עד סוף הקיפול, כך שהאנימציה לא משתנה */
+.faq-a>div{overflow:hidden;visibility:hidden;transition:visibility 0s .24s}
+.faq-item.open .faq-a>div{visibility:visible;transition-delay:0s}
 .faq-a p{margin:0;padding:0 4px clamp(20px,2.2vw,30px);color:var(--muted, #6a6d85);font-size:16px;line-height:1.7;max-width:62ch}
 @media (prefers-reduced-motion: reduce){.faq-a{transition-duration:.01ms}}
 </style>
@@ -74,8 +76,9 @@ img{max-width:100%}
 (function(){
   const items=[...document.querySelectorAll(".faq-item")];
   const SINGLE=true; // רק אחת פתוחה בכל רגע. שנה ל-false אם רוצים לאפשר כמה
-  items.forEach(item=>{
-    const btn=item.querySelector(".faq-q");
+  items.forEach((item,n)=>{
+    const btn=item.querySelector(".faq-q"),a=item.querySelector(".faq-a");
+    a.id=a.id||"faq-a-"+n;btn.setAttribute("aria-controls",a.id);
     btn.addEventListener("click",()=>{
       const open=item.classList.contains("open");
       if(SINGLE)items.forEach(o=>{o.classList.remove("open");o.querySelector(".faq-q").setAttribute("aria-expanded","false");});

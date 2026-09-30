@@ -8,11 +8,11 @@
 
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
-.toast{position:fixed;bottom:24px;inset-inline-start:50%;translate:-50% 20px;background:var(--ink);color:var(--bg);padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;transition:opacity .24s,translate .24s;z-index:95;display:flex;gap:10px;align-items:center}
-html[dir="rtl"] .toast{translate:50% 20px}
-.toast.on{opacity:1;translate:-50% 0}
-html[dir="rtl"] .toast.on{translate:50% 0}
+/* left+translate ממרכזים זהה בעברית ובאנגלית, בלי כלל נפרד ל-RTL. visibility מוציא את ההודעה מסדר הקריאה כשהיא סגורה */
+.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;translate:-50% 20px;background:var(--ink);color:var(--bg);padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;visibility:hidden;transition:opacity .24s,translate .24s,visibility 0s .24s;z-index:95;display:flex;gap:10px;align-items:center}
+.toast.on{opacity:1;translate:-50% 0;visibility:visible;transition-delay:0s}
 .toast b{color:#12b76a}
+@media (prefers-reduced-motion: reduce){.toast{translate:-50% 0}}
 </style>
 </head>
 <body>
@@ -29,7 +29,7 @@ html[dir="rtl"] .toast.on{translate:50% 0}
   <button class="vtray" type="button" data-tray="b16">+ לסל הפרויקט</button>
 </div></div>
 <div class="vintro">
-  <p>הודעת אישור קטנה שעולה מהפינה, נשארת שלוש שניות ונעלמת.</p>
+  <p>הודעת אישור קטנה שעולה מתחתית המסך, נשארת שלוש שניות ונעלמת.</p>
   <p class="when"><b>מתי משתמשים:</b> אחרי שליחת טופס, העתקה, שמירה.</p>
   <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · אתר תדמית · וואן-פייג'ר · חנות · פורטפוליו וסטודיו</dd></div><div><dt>בסקשן</dt><dd>סגירה, טופס וקשר · מוצר וקטלוג</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>שכבת בסיס, בלי הגבלה</dd></div><div><dt>מתי לא</dt><dd>לא לשגיאה או למידע שחייבים לקרוא; אלה נשארים במקום, ליד השדה או הכפתור.</dd></div></dl>
   <div class="mvpanel" data-mvpanel="b16"></div>
@@ -38,12 +38,12 @@ html[dir="rtl"] .toast.on{translate:50% 0}
 <h2 class="sr-only">הדמו</h2>
 
 <div class="stage tight center"><button class="gbtn show-t">שלח טופס (דמו)</button></div>
-<div class="toast"><b>✓</b>קיבלנו! נחזור אליכם היום</div>
+<div class="toast" role="status" aria-live="polite"><b aria-hidden="true">✓</b><span class="toast-msg"></span></div>
 
-
+<div class="demo-note">ההודעה יושבת באזור role="status" עם aria-live="polite", והטקסט נכתב לתוכו רק ברגע ההצגה, אחרת קורא מסך לא מודיע עליה בכלל. כשהיא סגורה היא visibility:hidden ולא רק שקופה, כדי שלא תיקרא בדפדוף. המרחק מהתחתית כולל את safe-area של האייפון.</div>
 <section class="mvcode">
   <h2>קוד להדבקה</h2>
-  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
   <div class="mvcode-bar">
     <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
     <button class="cp" data-cp="css">CSS</button>
@@ -61,25 +61,30 @@ html[dir="rtl"] .toast.on{translate:50% 0}
 .center{text-align:center}
 
 /* B16 · Toast (הודעה קופצת) */
-.toast{position:fixed;bottom:24px;inset-inline-start:50%;translate:-50% 20px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;transition:opacity .24s,translate .24s;z-index:95;display:flex;gap:10px;align-items:center}
-html[dir="rtl"] .toast{translate:50% 20px}
-.toast.on{opacity:1;translate:-50% 0}
-html[dir="rtl"] .toast.on{translate:50% 0}
-.toast b{color:#12b76a}</code></pre>
+/* left+translate ממרכזים זהה בעברית ובאנגלית, בלי כלל נפרד ל-RTL. visibility מוציא את ההודעה מסדר הקריאה כשהיא סגורה */
+.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;translate:-50% 20px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;visibility:hidden;transition:opacity .24s,translate .24s,visibility 0s .24s;z-index:95;display:flex;gap:10px;align-items:center}
+.toast.on{opacity:1;translate:-50% 0;visibility:visible;transition-delay:0s}
+.toast b{color:#12b76a}
+@media (prefers-reduced-motion: reduce){.toast{translate:-50% 0}}</code></pre>
     <h3>HTML</h3><pre><code>&lt;div class="stage tight center"&gt;&lt;button class="gbtn show-t"&gt;שלח טופס (דמו)&lt;/button&gt;&lt;/div&gt;
-&lt;div class="toast"&gt;&lt;b&gt;✓&lt;/b&gt;קיבלנו! נחזור אליכם היום&lt;/div&gt;</code></pre>
-    <h3>JS</h3><pre><code>let tmr;
-document.querySelector(".show-t").addEventListener("click",()=&gt;{
-  const t=document.querySelector(".toast");
-  t.classList.add("on");clearTimeout(tmr);
-  tmr=setTimeout(()=&gt;t.classList.remove("on"),3000);
-});</code></pre>
+&lt;div class="toast" role="status" aria-live="polite"&gt;&lt;b aria-hidden="true"&gt;✓&lt;/b&gt;&lt;span class="toast-msg"&gt;&lt;/span&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  // הטקסט נכתב לתוך אזור ה-live רק ברגע ההצגה: כך קורא מסך מודיע עליו, והוא לא יושב בדף כשההודעה סגורה
+  const t=document.querySelector(".toast"),msg=t.querySelector(".toast-msg");
+  let tmr,clr;
+  document.querySelector(".show-t").addEventListener("click",()=&gt;{
+    clearTimeout(tmr);clearTimeout(clr);
+    msg.textContent="קיבלנו! נחזור אליכם היום";
+    t.classList.add("on");
+    tmr=setTimeout(()=&gt;{t.classList.remove("on");clr=setTimeout(()=&gt;msg.textContent="",300);},3000);
+  });
+})();</code></pre>
   </details>
-  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b16 · Toast (הודעה קופצת)\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b16.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b16.html\n\nמה זה עושה: הודעת אישור קטנה שעולה מהפינה, נשארת שלוש שניות ונעלמת.\nמתי משתמשים: אחרי שליחת טופס, העתקה, שמירה.\nסוג אתר: דף נחיתה · אתר תדמית · וואן-פייג'ר · חנות · פורטפוליו וסטודיו\nבסקשן: סגירה, טופס וקשר · מוצר וקטלוג\nאופי: גם באתר שקט\nתפקיד ומינון: שכבת בסיס, בלי הגבלה\nמתי לא: לא לשגיאה או למידע שחייבים לקרוא; אלה נשארים במקום, ליד השדה או הכפתור.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n.center{text-align:center}\n\n/* B16 · Toast (הודעה קופצת) */\n.toast{position:fixed;bottom:24px;inset-inline-start:50%;translate:-50% 20px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;transition:opacity .24s,translate .24s;z-index:95;display:flex;gap:10px;align-items:center}\nhtml[dir=\"rtl\"] .toast{translate:50% 20px}\n.toast.on{opacity:1;translate:-50% 0}\nhtml[dir=\"rtl\"] .toast.on{translate:50% 0}\n.toast b{color:#12b76a}\n\n=== HTML ===\n<div class=\"stage tight center\"><button class=\"gbtn show-t\">שלח טופס (דמו)<\/button><\/div>\n<div class=\"toast\"><b>✓<\/b>קיבלנו! נחזור אליכם היום<\/div>\n\n=== JS ===\nlet tmr;\ndocument.querySelector(\".show-t\").addEventListener(\"click\",()=>{\n  const t=document.querySelector(\".toast\");\n  t.classList.add(\"on\");clearTimeout(tmr);\n  tmr=setTimeout(()=>t.classList.remove(\"on\"),3000);\n});\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n.center{text-align:center}\n\n/* B16 · Toast (הודעה קופצת) */\n.toast{position:fixed;bottom:24px;inset-inline-start:50%;translate:-50% 20px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;transition:opacity .24s,translate .24s;z-index:95;display:flex;gap:10px;align-items:center}\nhtml[dir=\"rtl\"] .toast{translate:50% 20px}\n.toast.on{opacity:1;translate:-50% 0}\nhtml[dir=\"rtl\"] .toast.on{translate:50% 0}\n.toast b{color:#12b76a}","html":"<div class=\"stage tight center\"><button class=\"gbtn show-t\">שלח טופס (דמו)<\/button><\/div>\n<div class=\"toast\"><b>✓<\/b>קיבלנו! נחזור אליכם היום<\/div>","js":"let tmr;\ndocument.querySelector(\".show-t\").addEventListener(\"click\",()=>{\n  const t=document.querySelector(\".toast\");\n  t.classList.add(\"on\");clearTimeout(tmr);\n  tmr=setTimeout(()=>t.classList.remove(\"on\"),3000);\n});","scripts":"","rtl":true}</script>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b16 · Toast (הודעה קופצת)\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b16.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b16.html\n\nמה זה עושה: הודעת אישור קטנה שעולה מתחתית המסך, נשארת שלוש שניות ונעלמת.\nמתי משתמשים: אחרי שליחת טופס, העתקה, שמירה.\nסוג אתר: דף נחיתה · אתר תדמית · וואן-פייג'ר · חנות · פורטפוליו וסטודיו\nבסקשן: סגירה, טופס וקשר · מוצר וקטלוג\nאופי: גם באתר שקט\nתפקיד ומינון: שכבת בסיס, בלי הגבלה\nמתי לא: לא לשגיאה או למידע שחייבים לקרוא; אלה נשארים במקום, ליד השדה או הכפתור.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n.center{text-align:center}\n\n/* B16 · Toast (הודעה קופצת) */\n/* left+translate ממרכזים זהה בעברית ובאנגלית, בלי כלל נפרד ל-RTL. visibility מוציא את ההודעה מסדר הקריאה כשהיא סגורה */\n.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;translate:-50% 20px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;visibility:hidden;transition:opacity .24s,translate .24s,visibility 0s .24s;z-index:95;display:flex;gap:10px;align-items:center}\n.toast.on{opacity:1;translate:-50% 0;visibility:visible;transition-delay:0s}\n.toast b{color:#12b76a}\n@media (prefers-reduced-motion: reduce){.toast{translate:-50% 0}}\n\n=== HTML ===\n<div class=\"stage tight center\"><button class=\"gbtn show-t\">שלח טופס (דמו)<\/button><\/div>\n<div class=\"toast\" role=\"status\" aria-live=\"polite\"><b aria-hidden=\"true\">✓<\/b><span class=\"toast-msg\"><\/span><\/div>\n\n=== JS ===\n(function(){\n  // הטקסט נכתב לתוך אזור ה-live רק ברגע ההצגה: כך קורא מסך מודיע עליו, והוא לא יושב בדף כשההודעה סגורה\n  const t=document.querySelector(\".toast\"),msg=t.querySelector(\".toast-msg\");\n  let tmr,clr;\n  document.querySelector(\".show-t\").addEventListener(\"click\",()=>{\n    clearTimeout(tmr);clearTimeout(clr);\n    msg.textContent=\"קיבלנו! נחזור אליכם היום\";\n    t.classList.add(\"on\");\n    tmr=setTimeout(()=>{t.classList.remove(\"on\");clr=setTimeout(()=>msg.textContent=\"\",300);},3000);\n  });\n})();\n\nהערת מימוש מהמאגר:\nההודעה יושבת באזור role=\"status\" עם aria-live=\"polite\", והטקסט נכתב לתוכו רק ברגע ההצגה, אחרת קורא מסך לא מודיע עליה בכלל. כשהיא סגורה היא visibility:hidden ולא רק שקופה, כדי שלא תיקרא בדפדוף. המרחק מהתחתית כולל את safe-area של האייפון.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n.center{text-align:center}\n\n/* B16 · Toast (הודעה קופצת) */\n/* left+translate ממרכזים זהה בעברית ובאנגלית, בלי כלל נפרד ל-RTL. visibility מוציא את ההודעה מסדר הקריאה כשהיא סגורה */\n.toast{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));left:50%;translate:-50% 20px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding:13px 26px;border-radius:12px;font-size:15px;opacity:0;visibility:hidden;transition:opacity .24s,translate .24s,visibility 0s .24s;z-index:95;display:flex;gap:10px;align-items:center}\n.toast.on{opacity:1;translate:-50% 0;visibility:visible;transition-delay:0s}\n.toast b{color:#12b76a}\n@media (prefers-reduced-motion: reduce){.toast{translate:-50% 0}}","html":"<div class=\"stage tight center\"><button class=\"gbtn show-t\">שלח טופס (דמו)<\/button><\/div>\n<div class=\"toast\" role=\"status\" aria-live=\"polite\"><b aria-hidden=\"true\">✓<\/b><span class=\"toast-msg\"><\/span><\/div>","js":"(function(){\n  // הטקסט נכתב לתוך אזור ה-live רק ברגע ההצגה: כך קורא מסך מודיע עליו, והוא לא יושב בדף כשההודעה סגורה\n  const t=document.querySelector(\".toast\"),msg=t.querySelector(\".toast-msg\");\n  let tmr,clr;\n  document.querySelector(\".show-t\").addEventListener(\"click\",()=>{\n    clearTimeout(tmr);clearTimeout(clr);\n    msg.textContent=\"קיבלנו! נחזור אליכם היום\";\n    t.classList.add(\"on\");\n    tmr=setTimeout(()=>{t.classList.remove(\"on\");clr=setTimeout(()=>msg.textContent=\"\",300);},3000);\n  });\n})();","scripts":"","rtl":false}</script>
 </section>
 <nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="b15.html" rel="prev"><small>→ הקודם</small><b>שלדים (Skeletons)</b></a><a href="b17.html" rel="next"><small>הבא ←</small><b>תג HUD: מה על המסך עכשיו</b></a></nav>
 
-<script src="../assets/baseline.js?v=f9f52e7e"></script>
+<script src="../assets/baseline.js?v=bf86d9a3"></script>
 <script src="../assets/status.js"></script>
 <script src="../assets/tray.js"></script>
 <script>
@@ -104,12 +109,17 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 })();
 
-let tmr;
-document.querySelector(".show-t").addEventListener("click",()=>{
-  const t=document.querySelector(".toast");
-  t.classList.add("on");clearTimeout(tmr);
-  tmr=setTimeout(()=>t.classList.remove("on"),3000);
-});
+(function(){
+  // הטקסט נכתב לתוך אזור ה-live רק ברגע ההצגה: כך קורא מסך מודיע עליו, והוא לא יושב בדף כשההודעה סגורה
+  const t=document.querySelector(".toast"),msg=t.querySelector(".toast-msg");
+  let tmr,clr;
+  document.querySelector(".show-t").addEventListener("click",()=>{
+    clearTimeout(tmr);clearTimeout(clr);
+    msg.textContent="קיבלנו! נחזור אליכם היום";
+    t.classList.add("on");
+    tmr=setTimeout(()=>{t.classList.remove("on");clr=setTimeout(()=>msg.textContent="",300);},3000);
+  });
+})();
 </script>
 </body>
 </html>

@@ -50,7 +50,8 @@ img{max-width:100%}
 .gl{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
 .gl button{border:0;padding:0;background:none;cursor:zoom-in;border-radius:10px;overflow:hidden;aspect-ratio:1;position:relative}
 .gl .ph{position:absolute;inset:0;border-radius:0;font-size:22px;transition:transform .5s cubic-bezier(.2,.6,.2,1)}
-.gl button:hover .ph{transform:scale(1.06)}
+/* הזום רק בעכבר (אחרת נתקע אחרי נגיעה) ורק בלי העדפת תנועה מופחתת */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion: no-preference){.gl button:hover .ph{transform:scale(1.06)}}
 .lb{position:fixed;inset:0;z-index:80;background:rgba(10,10,16,.92);display:none;place-items:center;padding:clamp(16px,4vw,48px)}
 .lb.on{display:grid}
 .lb-stage{position:relative;width:min(1000px,92vw);aspect-ratio:3/2;border-radius:14px;overflow:hidden}
@@ -92,7 +93,7 @@ img{max-width:100%}
   <button class="lb-close" aria-label="סגירה">✕</button>
   <button class="lb-arrow lb-prev" aria-label="הקודמת">→</button>
   <button class="lb-arrow lb-next" aria-label="הבאה">←</button>
-  <span class="lb-count"></span>
+  <span class="lb-count" aria-live="polite"></span>
 </div>
 
 
@@ -102,20 +103,25 @@ img{max-width:100%}
   const lb=document.querySelector(".lb"),shots=[...lb.querySelectorAll(".lb-stage .ph")];
   const count=lb.querySelector(".lb-count"),closeBtn=lb.querySelector(".lb-close");
   let i=0,opener=null;
+  const root=document.documentElement;
+  const focusables=[closeBtn,lb.querySelector(".lb-prev"),lb.querySelector(".lb-next")];
   function show(n){
     i=(n+shots.length)%shots.length;
-    shots.forEach((s,k)=>s.classList.toggle("on",k===i));
+    // רק התמונה הנוכחית בעץ הנגישות; המונה מוכרז בכל מעבר (aria-live)
+    shots.forEach((s,k)=>{s.classList.toggle("on",k===i);s.setAttribute("aria-hidden",String(k!==i));});
     count.textContent=(i+1)+" / "+shots.length;
   }
   function open(n,from){
     opener=from;show(n);lb.classList.add("on");
     // נעילת גלילה (תוקן 23.9.2026): על <html> עם scrollbar-gutter, לא overflow על body וריפוד שבעברית נופל שמאלה
-    document.documentElement.style.scrollbarGutter="stable"; document.documentElement.style.overflow="hidden";
+    root.style.scrollbarGutter="stable"; root.style.overflow="hidden";
+    // השכבה fixed לא מכסה את המרזב, ובלי זה נשארת בצד רצועה בצבע העמוד ברוחב פס הגלילה
+    root.style.backgroundColor=getComputedStyle(lb).backgroundColor;
     closeBtn.focus();
   }
   function close(){
     lb.classList.remove("on");
-    document.documentElement.style.overflow="";document.documentElement.style.scrollbarGutter="";
+    root.style.overflow="";root.style.scrollbarGutter="";root.style.backgroundColor="";
     if(opener)opener.focus();
   }
   thumbs.forEach((b,n)=>b.addEventListener("click",()=>open(n,b)));
@@ -129,6 +135,12 @@ img{max-width:100%}
     // בעברית חץ שמאלה מתקדם לתמונה הבאה
     if(e.key==="ArrowLeft")show(i+1);
     if(e.key==="ArrowRight")show(i-1);
+    // מלכודת פוקוס: Tab מסתובב בין שלושת הכפתורים ולא בורח אל הגריד שמאחורי השכבה
+    if(e.key==="Tab"){
+      const k=focusables.indexOf(document.activeElement);
+      e.preventDefault();
+      focusables[(k+(e.shiftKey?-1:1)+focusables.length)%focusables.length].focus();
+    }
   });
 })();
 </script>

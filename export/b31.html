@@ -62,36 +62,43 @@ img{max-width:100%}
   display:grid;place-items:center;transition:background .25s,opacity .25s}
 .tq-nav:hover{background:#eceaff}
 .tq-nav[disabled]{opacity:.35;cursor:default}
-.tq-dots{display:flex;gap:8px}
-.tq-dots button{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:var(--line, #e4e4ee);cursor:pointer;transition:/* qa-allow: layout, נקודה של 8px שנמתחת ל-24 */width .3s,background .3s}
-.tq-dots button.on{width:24px;border-radius:999px;background:var(--accent, #4a3aff)}
+/* הכפתור הוא אזור לחיצה של 24x44 והנקודה מצוירת בתוכו (::before), כך שהמראה נשאר 8px והפעילה 24px */
+.tq-dots{display:flex;gap:0}
+.tq-dots button{position:relative;width:24px;height:44px;padding:0;border:0;background:none;cursor:pointer;transition:/* qa-allow: layout, הנקודה הפעילה נמתחת מ-8 ל-24 */width .3s}
+.tq-dots button::before{content:"";position:absolute;inset-block:18px;inset-inline:8px;border-radius:999px;background:var(--line, #e4e4ee);transition:background .3s}
+.tq-dots button.on{width:40px}
+.tq-dots button.on::before{background:var(--accent, #4a3aff)}
 </style>
 </head>
 <body>
 
 <div class="stage tight"><div class="tq">
-  <div class="tq-track">
-    <article class="tq-card"><div class="tq-stars">★★★★★</div><p>הגיעו עם שאלות שלא חשבנו עליהן, ובסוף קיבלנו אתר שמביא פניות כל שבוע. התהליך היה מסודר ובלי הפתעות.</p><div class="tq-who"><span class="tq-av ph ph-a"><span class="ph-l">א</span></span><div><b>אורית לוי</b><span>מנכ"לית, חברת ייעוץ</span></div></div></article>
-    <article class="tq-card"><div class="tq-stars">★★★★★</div><p>שלושה ספקים לפניהם לא הצליחו. כאן הבינו את העסק שלי תוך פגישה אחת, וזה הורגש בכל שורה באתר.</p><div class="tq-who"><span class="tq-av ph ph-c"><span class="ph-l">ד</span></span><div><b>דני כהן</b><span>בעלים, מוסך</span></div></div></article>
-    <article class="tq-card"><div class="tq-stars">★★★★★</div><p>הכי אהבתי שלא נעלמו אחרי העלייה לאוויר. כל שאלה נענתה, וגם חודשיים אחרי עדיין מלווים.</p><div class="tq-who"><span class="tq-av ph ph-d"><span class="ph-l">מ</span></span><div><b>מיכל ברק</b><span>מנהלת שיווק</span></div></div></article>
-    <article class="tq-card"><div class="tq-stars">★★★★★</div><p>העלינו את האתר ותוך שבועיים ראינו הבדל בכמות הפניות. ההשקעה החזירה את עצמה מהר.</p><div class="tq-who"><span class="tq-av ph ph-e"><span class="ph-l">י</span></span><div><b>יוסי אדרי</b><span>בעלים, קליניקה</span></div></div></article>
+  <div class="tq-track" tabindex="0" role="region" aria-label="המלצות לקוחות">
+    <article class="tq-card"><div class="tq-stars" role="img" aria-label="5 מתוך 5 כוכבים">★★★★★</div><p>הגיעו עם שאלות שלא חשבנו עליהן, ובסוף קיבלנו אתר שמביא פניות כל שבוע. התהליך היה מסודר ובלי הפתעות.</p><div class="tq-who"><span class="tq-av ph ph-a"><span class="ph-l">א</span></span><div><b>אורית לוי</b><span>מנכ"לית, חברת ייעוץ</span></div></div></article>
+    <article class="tq-card"><div class="tq-stars" role="img" aria-label="5 מתוך 5 כוכבים">★★★★★</div><p>שלושה ספקים לפניהם לא הצליחו. כאן הבינו את העסק שלי תוך פגישה אחת, וזה הורגש בכל שורה באתר.</p><div class="tq-who"><span class="tq-av ph ph-c"><span class="ph-l">ד</span></span><div><b>דני כהן</b><span>בעלים, מוסך</span></div></div></article>
+    <article class="tq-card"><div class="tq-stars" role="img" aria-label="5 מתוך 5 כוכבים">★★★★★</div><p>הכי אהבתי שלא נעלמו אחרי העלייה לאוויר. כל שאלה נענתה, וגם חודשיים אחרי עדיין מלווים.</p><div class="tq-who"><span class="tq-av ph ph-d"><span class="ph-l">מ</span></span><div><b>מיכל ברק</b><span>מנהלת שיווק</span></div></div></article>
+    <article class="tq-card"><div class="tq-stars" role="img" aria-label="5 מתוך 5 כוכבים">★★★★★</div><p>העלינו את האתר ותוך שבועיים ראינו הבדל בכמות הפניות. ההשקעה החזירה את עצמה מהר.</p><div class="tq-who"><span class="tq-av ph ph-e"><span class="ph-l">י</span></span><div><b>יוסי אדרי</b><span>בעלים, קליניקה</span></div></div></article>
   </div>
   <div class="tq-bar">
     <button class="tq-nav prev" aria-label="הקודם">→</button>
-    <div class="tq-dots" role="tablist" aria-label="מעבר בין המלצות"></div>
+    <div class="tq-dots" role="group" aria-label="מעבר בין המלצות"></div>
     <button class="tq-nav next" aria-label="הבא">←</button>
   </div>
 </div></div>
 
 
 <script>
-(function(){
-  const track=document.querySelector(".tq-track"),cards=[...track.children];
-  const dots=document.querySelector(".tq-dots"),prev=document.querySelector(".prev"),next=document.querySelector(".next");
+// כל סליידר בעמוד מנוהל בנפרד, עם סלקטורים בתוך השורש שלו: שני סליידרים, או כל .prev אחר באתר, לא מתנגשים
+document.querySelectorAll(".tq").forEach(root=>{
+  const track=root.querySelector(".tq-track"),cards=[...track.children];
+  const dots=root.querySelector(".tq-dots"),prev=root.querySelector(".tq-nav.prev"),next=root.querySelector(".tq-nav.next");
+  // בתנועה מופחתת החצים והנקודות קופצים לכרטיס בלי החלקה
+  const beh=()=>matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth";
+  const go=c=>c.scrollIntoView({behavior:beh(),block:"nearest",inline:"start"});
   cards.forEach((c,i)=>{
     const b=document.createElement("button");
-    b.setAttribute("role","tab");b.setAttribute("aria-label","המלצה "+(i+1));
-    b.addEventListener("click",()=>c.scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"}));
+    b.type="button";b.setAttribute("aria-label","המלצה "+(i+1)+" מתוך "+cards.length);
+    b.addEventListener("click",()=>go(c));
     dots.appendChild(b);
   });
   const buttons=[...dots.children];
@@ -113,21 +120,20 @@ img{max-width:100%}
     // בסוף המסלול מסמנים את האחרון גם אם הוא לא הגיע לשפת ההתחלה,
     // כי כשמוצגים כמה כרטיסים במקביל אי אפשר להביא אותו לשם
     const i=atEnd()?cards.length-1:current();
-    buttons.forEach((b,n)=>b.classList.toggle("on",n===i));
+    buttons.forEach((b,n)=>{b.classList.toggle("on",n===i);n===i?b.setAttribute("aria-current","true"):b.removeAttribute("aria-current");});
     prev.disabled=atStart();next.disabled=atEnd();
   }
   track.addEventListener("scroll",sync,{passive:true});
-  prev.addEventListener("click",()=>cards[Math.max(0,current()-1)].scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"}));
-  next.addEventListener("click",()=>cards[Math.min(cards.length-1,current()+1)].scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"}));
+  prev.addEventListener("click",()=>go(cards[Math.max(0,current()-1)]));
+  next.addEventListener("click",()=>go(cards[Math.min(cards.length-1,current()+1)]));
   // גרירה בעכבר. במגע הדפדפן כבר עושה את זה לבד ולכן לא נוגעים.
   let down=false,sx=0,sl=0;
   track.addEventListener("pointerdown",e=>{if(e.pointerType!=="mouse")return;down=true;sx=e.clientX;sl=track.scrollLeft;track.classList.add("drag");});
   track.addEventListener("pointermove",e=>{if(!down)return;track.scrollLeft=sl-(e.clientX-sx);});
-  const up=()=>{if(!down)return;down=false;track.classList.remove("drag");
-    cards[current()].scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"});};
+  const up=()=>{if(!down)return;down=false;track.classList.remove("drag");go(cards[current()]);};
   ["pointerup","pointerleave","pointercancel"].forEach(ev=>track.addEventListener(ev,up));
   sync();
-})();
+});
 </script>
 </body>
 </html>

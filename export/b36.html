@@ -57,21 +57,26 @@ html[dir="rtl"] .ms-bar i{transform-origin:100% 50%}
   background:var(--bg, #f7f7fa);transition:border-color .22s,background .22s}
 .ms-opt:hover{border-color:var(--accent, #4a3aff)}
 .ms-opt input{accent-color:var(--accent, #4a3aff);width:18px;height:18px;flex:none}
-.ms-opt.sel{border-color:var(--accent, #4a3aff);background:#eceaff}
+/* בטלפון העיגול עצמו 24px, סף המגע המינימלי; כל השורה ממילא לחיצה דרך ה-label */
+@media (max-width:767px){.ms-opt input{width:24px;height:24px}}
+/* נגזר מה-accent ומהכרטיס: בעור בהיר כמעט זהה לסגול הקודם, ובעור כהה הטקסט הבהיר נשאר קריא */
+.ms-opt.sel{border-color:var(--accent, #4a3aff);background:color-mix(in srgb,var(--accent, #4a3aff) 10%,var(--card, #fff))}
 .ms-field input{width:100%;font:inherit;font-size:16px;padding:15px 16px;border:1px solid var(--line, #e4e4ee);border-radius:14px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}
 .ms-field input:focus{outline:0;border-color:var(--accent, #4a3aff)}
 .ms-err{font-size:13px;color:#c2255c;margin-top:8px;display:none}
 .ms-err.on{display:block}
 .ms-nav{display:flex;gap:10px;margin-top:24px}
 .ms-nav button{flex:1;min-height:50px;border-radius:999px;border:0;font:inherit;font-weight:600;font-size:16px;cursor:pointer}
-.ms-back{background:var(--bg, #f7f7fa);border:1px solid var(--line, #e4e4ee)!important;color:var(--ink, #16182b);flex:0 0 auto;padding-inline:22px}
+/* .ms-nav .ms-back ולא .ms-back: הכלל .ms-nav button חזק ממנו, ו«חזרה» יצא רחב כמו «המשך» */
+.ms-nav .ms-back{flex:0 0 auto;padding-inline:22px;background:var(--bg, #f7f7fa);border:1px solid var(--line, #e4e4ee);color:var(--ink, #16182b)}
 .ms-next{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
 .ms-sum{list-style:none;margin:0 0 4px;padding:0;display:grid;gap:8px}
 .ms-sum li{display:flex;justify-content:space-between;gap:16px;font-size:15px;border-bottom:1px dashed var(--line, #e4e4ee);padding-bottom:8px}
 .ms-sum b{font-weight:600}
 .ms-done{text-align:center;padding:10px 0}
 .ms-done .ok{width:56px;height:56px;border-radius:50%;background:#2b8a3e;color:#fff;display:grid;place-items:center;font-size:26px;margin:0 auto 14px}
-@media (prefers-reduced-motion: reduce){.ms-step.on{animation:none}}
+/* גם .ms-step.back.on: הוא ספציפי יותר מ-.ms-step.on, ובלעדיו ההחלקה אחורה רצה גם בתנועה מופחתת */
+@media (prefers-reduced-motion: reduce){.ms-step.on,.ms-step.back.on{animation:none}}
 </style>
 </head>
 <body>
@@ -80,27 +85,27 @@ html[dir="rtl"] .ms-bar i{transform-origin:100% 50%}
   <div class="ms-top"><div class="ms-bar"><i></i></div><span class="ms-num"></span></div>
   <div class="ms-view">
     <section class="ms-step on" data-key="סוג הפרויקט">
-      <h3>מה אתם צריכים?</h3><p class="sub">אפשר לבחור אחד</p>
-      <div class="ms-opts">
+      <h3 id="ms-h1">מה אתם צריכים?</h3><p class="sub">אפשר לבחור אחד</p>
+      <div class="ms-opts" role="radiogroup" aria-labelledby="ms-h1">
         <label class="ms-opt"><input type="radio" name="type" value="אתר תדמית"><span>אתר תדמית</span></label>
         <label class="ms-opt"><input type="radio" name="type" value="דף נחיתה"><span>דף נחיתה</span></label>
         <label class="ms-opt"><input type="radio" name="type" value="חנות אונליין"><span>חנות אונליין</span></label>
-      </div><p class="ms-err">צריך לבחור אפשרות אחת</p>
+      </div><p class="ms-err" role="alert">צריך לבחור אפשרות אחת</p>
     </section>
     <section class="ms-step" data-key="תקציב">
-      <h3>מה טווח התקציב?</h3><p class="sub">זה עוזר להתאים הצעה מדויקת</p>
-      <div class="ms-opts">
+      <h3 id="ms-h2">מה טווח התקציב?</h3><p class="sub">זה עוזר להתאים הצעה מדויקת</p>
+      <div class="ms-opts" role="radiogroup" aria-labelledby="ms-h2">
         <label class="ms-opt"><input type="radio" name="budget" value="עד 8,000"><span>עד 8,000 ש"ח</span></label>
         <label class="ms-opt"><input type="radio" name="budget" value="8,000 עד 15,000"><span>8,000 עד 15,000 ש"ח</span></label>
         <label class="ms-opt"><input type="radio" name="budget" value="מעל 15,000"><span>מעל 15,000 ש"ח</span></label>
-      </div><p class="ms-err">צריך לבחור טווח</p>
+      </div><p class="ms-err" role="alert">צריך לבחור טווח</p>
     </section>
     <section class="ms-step" data-key="פרטים">
       <h3>איך חוזרים אליכם?</h3><p class="sub">שם וטלפון, וזהו</p>
       <div class="ms-opts">
-        <div class="ms-field"><input type="text" name="name" placeholder="שם מלא" autocomplete="name"></div>
-        <div class="ms-field"><input type="tel" name="phone" placeholder="טלפון" autocomplete="tel"></div>
-      </div><p class="ms-err">צריך שם וטלפון תקין</p>
+        <div class="ms-field"><input type="text" name="name" placeholder="שם מלא" aria-label="שם מלא" autocomplete="name"></div>
+        <div class="ms-field"><input type="tel" name="phone" placeholder="טלפון" aria-label="טלפון" autocomplete="tel"></div>
+      </div><p class="ms-err" role="alert">צריך שם וטלפון תקין</p>
     </section>
     <section class="ms-step" data-key="סיכום">
       <h3>רגע לפני ששולחים</h3><p class="sub">אפשר לחזור ולתקן כל שלב</p>
@@ -121,7 +126,8 @@ html[dir="rtl"] .ms-bar i{transform-origin:100% 50%}
   const bar=form.querySelector(".ms-bar i"),num=form.querySelector(".ms-num");
   const back=form.querySelector(".ms-back"),next=form.querySelector(".ms-next");
   const sum=form.querySelector(".ms-sum");
-  const last=steps.length-1;      // מסך התודה
+  // מסך התודה מזוהה לפי המחלקה ולא לפי מיקום, כך ששלב שיתווסף אחריו לא ישבור את הספירה
+  const last=steps.findIndex(s=>s.classList.contains("ms-done-step"));
   const review=last-1;            // מסך הסיכום
   let i=0;
   form.querySelectorAll(".ms-opt input").forEach(inp=>{
@@ -144,9 +150,10 @@ html[dir="rtl"] .ms-bar i{transform-origin:100% 50%}
     steps.slice(0,review).forEach(s=>{
       const r=s.querySelector('input[type=radio]:checked');
       const txt=r?r.value:[...s.querySelectorAll('input')].map(f=>f.value).filter(Boolean).join(" · ");
-      const li=document.createElement("li");
-      li.innerHTML='<span>'+s.dataset.key+'</span><b>'+(txt||"")+'</b>';
-      sum.appendChild(li);
+      // textContent ולא innerHTML: מה שהגולש הקליד לא מתפרש כ-HTML (שם עם < לא שובר את הסיכום, ותגית לא רצה)
+      const li=document.createElement("li"),k=document.createElement("span"),v=document.createElement("b");
+      k.textContent=s.dataset.key;v.textContent=txt||"";
+      li.append(k,v);sum.appendChild(li);
     });
   }
   function show(n,dir){
@@ -157,17 +164,20 @@ html[dir="rtl"] .ms-bar i{transform-origin:100% 50%}
     i=n;
     bar.style.transform="scaleX("+(Math.min(i,review)/review).toFixed(3)+")";   // transform ולא width: לא מחולל layout
     num.textContent=i<last?("שלב "+(i+1)+" מתוך "+(review+1)):"";
-    back.style.visibility=(i===0||i===last)?"hidden":"visible";
+    // hidden ולא visibility: בשלב הראשון «המשך» מתפרס לכל הרוחב ולא נשאר לידו חור בגודל כפתור
+    back.hidden=(i===0||i===last);
     next.textContent=i===review?"שליחה":"המשך";
     form.querySelector(".ms-nav").style.display=i===last?"none":"flex";
     if(i===review)paintSummary();
+    // קורא מסך שומע שהשלב התחלף: הפוקוס עובר לכותרת השלב (לא בטעינה, כדי לא לקפוץ לטופס)
+    if(dir!==0){const h=s.querySelector("h3");h.tabIndex=-1;h.focus({preventScroll:true});}
   }
   next.addEventListener("click",()=>{
     if(i<review&&!valid(i)){steps[i].querySelector(".ms-err").classList.add("on");return;}
     show(Math.min(i+1,last),1);
   });
   back.addEventListener("click",()=>show(Math.max(0,i-1),-1));
-  show(0,1);
+  show(0,0);
 })();
 </script>
 </body>
