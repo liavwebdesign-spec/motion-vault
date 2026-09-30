@@ -46,6 +46,7 @@ img{max-width:100%}
 .sf{display:flex;gap:6px;direction:rtl;perspective:800px}
 .sf-t{width:clamp(34px,4.4vw,58px);height:clamp(48px,6.2vw,82px);border-radius:8px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);display:grid;place-items:center;font-size:clamp(26px,3.4vw,46px);font-weight:800;position:relative;transform-style:preserve-3d;will-change:transform;box-shadow:0 8px 20px rgba(0,0,0,.18)}
 .sf-t::after{content:"";position:absolute;inset-inline:0;top:50%;height:1px;background:color-mix(in srgb,var(--bg, #f7f7fa) 20%,transparent)}
+.sf-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .sf-steps{display:flex;flex-direction:column;gap:44vh;padding-block:36vh}
 .sf-step h3{margin:0 0 8px;font-size:clamp(22px,2.6vw,36px)}
 .sf-step p{margin:0;color:var(--muted, #6a6d85);max-width:36ch;line-height:1.7}
@@ -70,15 +71,16 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const board=document.querySelector(".sf"),words=board.dataset.words.split(","),steps=gsap.utils.toArray(".sf-step");
+  const board=document.querySelector(".sf"),words=board.dataset.words.split(","),steps=[...document.querySelectorAll(".sf-step")];
   const len=Math.max(...words.map(w=>w.length)),pad=w=>w.padEnd(len,"\u00a0");
-  const tiles=[];for(let i=0;i<len;i++){const t=document.createElement("span");t.className="sf-t";board.appendChild(t);tiles.push(t);}
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let cur=-1;
+  // קורא מסך שומע את המילה השלמה מה-span הנסתר, ולא אותיות בודדות מכל לוחית בזמן אחר
+  const sr=document.createElement("span");sr.className="sf-sr";board.appendChild(sr);
+  const tiles=[];for(let i=0;i<len;i++){const t=document.createElement("span");t.className="sf-t";t.setAttribute("aria-hidden","true");board.appendChild(t);tiles.push(t);}
+  let flip=false,cur=-1;   // flip נדלק רק ב-gsap.matchMedia כשהתנועה מותרת
   function show(k){
-    if(k===cur)return;cur=k;const w=pad(words[k]);
+    if(k===cur)return;cur=k;const w=pad(words[k]);sr.textContent=words[k];
     tiles.forEach((t,i)=>{
-      if(reduce){t.textContent=w[i];return;}
+      if(!flip){t.textContent=w[i];return;}
       gsap.timeline({delay:i*.04})
         .to(t,{rotateX:-90,duration:.18,ease:"power2.in",onComplete(){t.textContent=w[i];}})
         .set(t,{rotateX:90})
@@ -86,6 +88,8 @@ if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
     });
   }
   show(0);
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;   // בלי הספרייה הלוח מציג את המילה הראשונה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{flip=true;return ()=>{flip=false;};});   // בהפחתת תנועה האותיות מתחלפות בלי היפוך
   steps.forEach((s,i)=>ScrollTrigger.create({trigger:s,start:"top 60%",end:"bottom 40%",onEnter:()=>show(i),onEnterBack:()=>show(i)}));
 })();
 </script>

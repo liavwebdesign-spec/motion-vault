@@ -36,17 +36,23 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* G92 · חפיסה שמתהפכת קלף אחר קלף */
-.fk{position:relative;height:calc(100vh + var(--fk-n,4) * 70vh)}
-.fk-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1600px;overflow:hidden}
-.fk-deck{position:relative;width:min(640px,88vw);aspect-ratio:16/9;transform-style:preserve-3d}
-.fk-card{position:absolute;inset:0;border-radius:24px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;
-  backface-visibility:hidden;transform-origin:50% 0%;box-shadow:0 30px 70px rgba(0,0,0,.14);will-change:transform}
+.fk{position:relative}
+.fk-pin{display:grid;place-items:center;perspective:1600px;padding-block:10vh}
+.fk-deck{position:relative;width:min(640px,88vw);display:grid;gap:16px;transform-style:preserve-3d}
+.fk-card{position:relative;border-radius:24px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;
+  backface-visibility:hidden;transform-origin:50% 0%;box-shadow:0 30px 70px rgba(0,0,0,.14)}
 .fk-card q{font-size:clamp(18px,2.4vw,30px);font-weight:600;line-height:1.35;quotes:none}
 .fk-card q::before{content:"״"}.fk-card q::after{content:"״"}
 .fk-card cite{font-style:normal;color:var(--muted, #6a6d85);font-size:15px}
 .fk-card b{font-size:12px;color:var(--accent, #4a3aff);letter-spacing:.14em}
-.fk-hint{position:absolute;bottom:22px;font-size:13px;color:var(--muted, #6a6d85)}
-@media(max-width:767px){.fk-deck{aspect-ratio:4/5}.fk{height:calc(100vh + var(--fk-n,4) * 55vh)}}
+.fk-hint{position:absolute;bottom:22px;font-size:13px;color:var(--muted, #6a6d85);display:none}
+/* הערימה וההצמדה: רק תחת .mv-on. בלעדיו הקלפים הם רשימה */
+.fk.mv-on{height:calc(100vh + var(--fk-n,4) * 70vh)}
+.fk.mv-on .fk-pin{position:sticky;top:0;height:100vh;padding-block:0;overflow:hidden}
+.fk.mv-on .fk-deck{display:block;aspect-ratio:16/9}
+.fk.mv-on .fk-card{position:absolute;inset:0;will-change:transform}
+.fk.mv-on .fk-hint{display:block}
+@media(max-width:767px){.fk.mv-on .fk-deck{aspect-ratio:4/5}.fk.mv-on{height:calc(100vh + var(--fk-n,4) * 55vh)}}
 </style>
 </head>
 <body>
@@ -66,18 +72,21 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const cards=gsap.utils.toArray(".fk-card"),n=cards.length;
-  document.querySelector(".fk").style.setProperty("--fk-n",n-1);
-  cards.forEach((c,i)=>gsap.set(c,{zIndex:n-i,y:i*6,scale:1-i*.02}));   // ערימה: כל קלף מציץ מעט מתחת לקודם
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(cards,{position:"relative",y:0,scale:1,marginBottom:16});document.querySelector(".fk-pin").style.height="auto";return;}
-  const tl=gsap.timeline({scrollTrigger:{trigger:".fk",start:"top top",end:"bottom bottom",scrub:.5}});
-  cards.slice(0,-1).forEach((c,i)=>{
-    tl.to(c,{rotateX:-180,duration:1,ease:"power2.inOut"},i)
-      .to(c,{z:150,duration:.5,ease:"power2.out"},i)                    // מתרומם מהערימה כדי שלא יסתובב דרך הקלפים שמתחתיו
-      .to(c,{z:0,duration:.5,ease:"power2.in"},i+.5)
-      .set(c,{zIndex:0},i+.5)                                           // באמצע ההיפוך הקלף עובר לתחתית הערימה
-      .to(cards.slice(i+1),{y:(k)=>k*6,scale:(k)=>1-k*.02,duration:1,ease:"power2.out"},i)
-      .to(".fk-hint",{opacity:0,duration:.2},0);
+  if(typeof gsap==="undefined")return;   // בלי הספרייה הקלפים עומדים זה מתחת לזה
+  const root=document.querySelector(".fk"),cards=gsap.utils.toArray(".fk-card"),n=cards.length;
+  root.style.setProperty("--fk-n",n-1);
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    cards.forEach((c,i)=>gsap.set(c,{zIndex:n-i,y:i*6,scale:1-i*.02}));   // ערימה: כל קלף מציץ מעט מתחת לקודם
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5}});
+    tl.to(".fk-hint",{opacity:0,duration:.2,ease:"none"},0);
+    cards.slice(0,-1).forEach((c,i)=>{
+      // rotateX חיובי: הקלף מתהפך לכיוון הצופה ומעל הקצה העליון, ולא עובר דרך הקלפים שמתחתיו
+      tl.to(c,{rotateX:180,duration:1,ease:"power2.inOut"},i)
+        .set(c,{zIndex:0},i+.5)                                           // באמצע ההיפוך הקלף עובר לתחתית הערימה
+        .to(cards.slice(i+1),{y:(k)=>k*6,scale:(k)=>1-k*.02,duration:1,ease:"power2.out"},i);
+    });
+    return ()=>root.classList.remove("mv-on");
   });
 })();
 </script>

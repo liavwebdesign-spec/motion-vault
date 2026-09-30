@@ -36,15 +36,20 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* G102 · תריסים: פסים שעולים בין סקשנים */
-.bl{position:relative;height:220vh}
-.bl-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-.bl-a,.bl-b{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px}
+.bl{position:relative}
+.bl-pin{position:relative}
+.bl-a,.bl-b{position:relative;min-height:60vh;display:grid;place-items:center;text-align:center;padding:24px}
 .bl-a{background:var(--card, #fff)}
-.bl-b{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);opacity:0}
+.bl-b{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
 .bl-a h2,.bl-b h2{margin:0 0 10px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
 .bl-a p,.bl-b p{margin:0;opacity:.75;max-width:40ch}
-.bl-strips{position:absolute;inset:0;display:flex;pointer-events:none}
+.bl-strips{position:absolute;inset:0;display:none;pointer-events:none}
 .bl-strips i{flex:1;background:var(--accent, #4a3aff);transform:scaleY(0);transform-origin:50% 100%;will-change:transform}
+/* הווילון וההצמדה: רק תחת .mv-on. בלעדיו שני הסקשנים עומדים זה אחר זה */
+.bl.mv-on{height:220vh}
+.bl.mv-on .bl-pin{position:sticky;top:0;height:100vh;overflow:hidden}
+.bl.mv-on .bl-a,.bl.mv-on .bl-b{position:absolute;inset:0;min-height:0}
+.bl.mv-on .bl-strips{display:flex}
 @media(max-width:767px){.bl-strips i:nth-child(n+6){display:none}}
 </style>
 </head>
@@ -64,13 +69,18 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const strips=gsap.utils.toArray(".bl-strips i");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(".bl-b",{opacity:1});return;}
-  gsap.timeline({scrollTrigger:{trigger:".bl",start:"top top",end:"bottom bottom",scrub:.5}})
-    .to(strips,{scaleY:1,duration:1,ease:"power3.inOut",stagger:.08})           // עולים מלמטה ומכסים
-    .set(".bl-b",{opacity:1}).set(".bl-a",{opacity:0})                           // מאחורי הווילון מחליפים
-    .set(strips,{transformOrigin:"50% 0%"})
-    .to(strips,{scaleY:0,duration:1,ease:"power3.inOut",stagger:.08},"+=.2");    // יורדים מלמעלה וחושפים
+  if(typeof gsap==="undefined")return;   // בלי הספרייה שני הסקשנים עומדים זה אחר זה
+  const root=document.querySelector(".bl"),strips=gsap.utils.toArray(".bl-strips i");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    gsap.set(".bl-b",{autoAlpha:0});   // autoAlpha ולא opacity: שכבה שקופה מעל הראשון הייתה בולעת כל לחיצה עליו
+    gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5}})
+      .to(strips,{scaleY:1,duration:1,ease:"power3.inOut",stagger:.08})           // עולים מלמטה ומכסים
+      .set(".bl-b",{autoAlpha:1}).set(".bl-a",{autoAlpha:0})                           // מאחורי הווילון מחליפים
+      .set(strips,{transformOrigin:"50% 0%"})
+      .to(strips,{scaleY:0,duration:1,ease:"power3.inOut",stagger:.08},"+=.2");    // נאספים למעלה וחושפים
+    return ()=>root.classList.remove("mv-on");
+  });
 })();
 </script>
 </body>

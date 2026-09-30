@@ -36,13 +36,20 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* G99 · גליל טקסט תלת-ממדי */
-.cyl{position:relative;height:260vh}
-.cyl-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1100px;overflow:hidden}
-.cyl-drum{position:relative;width:min(900px,92vw);height:1.2em;font-size:clamp(26px,4.6vw,64px);font-weight:800;transform-style:preserve-3d;will-change:transform}
-.cyl-line{position:absolute;inset:0;display:flex;align-items:baseline;justify-content:center;gap:.5em;white-space:nowrap;backface-visibility:hidden;color:var(--ink, #16182b)}
-.cyl-line small{font-size:.38em;font-weight:500;color:var(--accent, #4a3aff);margin-inline-start:.6em;letter-spacing:.1em}
-.cyl-fade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,var(--bg, #f7f7fa) 0%,transparent 30%,transparent 70%,var(--bg, #f7f7fa) 100%)}
-@media(max-width:767px){.cyl{height:200vh}.cyl-pin{perspective:700px}}
+.cyl{position:relative}
+.cyl-pin{position:relative;display:grid;place-items:center;padding-block:10vh;overflow:hidden}
+.cyl-drum{position:relative;width:min(900px,92vw);display:grid;gap:.25em;font-size:clamp(26px,4.6vw,64px);font-weight:800}
+.cyl-line{display:flex;align-items:baseline;justify-content:center;gap:.5em;white-space:nowrap;color:var(--ink, #16182b)}
+.cyl-line small{font-size:max(12px,.38em);font-weight:500;color:var(--accent, #4a3aff);margin-inline-start:.6em;letter-spacing:.1em}
+/* הדעיכה ביחידות של גופן הגליל: 7em מכסים את שלוש השורות מעל ומתחת בכל רוחב; השורות הסמוכות למרכז נשארות חדות */
+.cyl-fade{position:absolute;inset-inline:0;top:50%;height:7em;translate:0 -50%;font-size:clamp(26px,4.6vw,64px);pointer-events:none;display:none;background:linear-gradient(180deg,var(--bg, #f7f7fa) 8%,transparent 34%,transparent 66%,var(--bg, #f7f7fa) 92%)}
+/* הגליל וההצמדה: רק תחת .mv-on. בלעדיו השורות הן רשימה */
+.cyl.mv-on{height:260vh}
+.cyl.mv-on .cyl-pin{position:sticky;top:0;height:100vh;padding-block:0;perspective:1100px}
+.cyl.mv-on .cyl-drum{display:block;height:1.2em;transform-style:preserve-3d;will-change:transform}
+.cyl.mv-on .cyl-line{position:absolute;inset:0;backface-visibility:hidden}
+.cyl.mv-on .cyl-fade{display:block}
+@media(max-width:767px){.cyl.mv-on{height:200vh}.cyl.mv-on .cyl-pin{perspective:700px}}
 </style>
 </head>
 <body>
@@ -60,18 +67,22 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const drum=document.querySelector(".cyl-drum"),lines=gsap.utils.toArray(".cyl-line"),n=lines.length;
-  // לא גליל מלא של 360: קשת של 30 מעלות לשורה, כך שרואים רק שלוש מעל ושלוש מתחת והן לא נערמות.
-  // הרדיוס נגזר מגובה השורה כדי ששורות סמוכות לא יחפפו.
-  const step=matchMedia("(max-width:767px)").matches?26:30;
-  // לא דרך gsap.set: GSAP מסדר תמיד הזזה לפני סיבוב, ואז השורה רק מסתובבת במקום ב-z קבוע.
-  // כאן חייבים rotateX ואז translateZ, כלומר מחרוזת transform ידנית.
-  function place(){const h=drum.offsetHeight,r=(h*1.15)/(2*Math.tan(step*Math.PI/360));lines.forEach((l,i)=>{l.style.transform="rotateX("+(i*step)+"deg) translateZ("+r+"px)";});gsap.set(drum,{z:-r});}
-  place();addEventListener("resize",place);
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  // כל שורה עוצרת רגע בחזית: ease לכל צעד במקום סיבוב ליניארי
-  const tl=gsap.timeline({scrollTrigger:{trigger:".cyl",start:"top top",end:"bottom bottom",scrub:.6}});
-  for(let i=1;i<n;i++)tl.to(drum,{rotateX:-i*step,duration:1,ease:"power2.inOut"},i-1+.15);
+  if(typeof gsap==="undefined")return;   // בלי הספרייה השורות עומדות כרשימה
+  const root=document.querySelector(".cyl"),drum=root.querySelector(".cyl-drum"),lines=gsap.utils.toArray(".cyl-line"),n=lines.length;
+  gsap.matchMedia().add({mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)",desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    root.classList.add("mv-on");
+    // לא גליל מלא של 360: קשת של 30 מעלות לשורה, כך שרואים רק שלוש מעל ושלוש מתחת והן לא נערמות.
+    // הרדיוס נגזר מגובה השורה כדי ששורות סמוכות לא יחפפו.
+    const step=ctx.conditions.mob?26:30;
+    // לא דרך gsap.set: GSAP מסדר תמיד הזזה לפני סיבוב, ואז השורה רק מסתובבת במקום ב-z קבוע.
+    // כאן חייבים rotateX ואז translateZ, כלומר מחרוזת transform ידנית.
+    function place(){const h=drum.offsetHeight,r=(h*1.15)/(2*Math.tan(step*Math.PI/360));lines.forEach((l,i)=>{l.style.transform="rotateX("+(i*step)+"deg) translateZ("+r+"px)";});gsap.set(drum,{z:-r});}
+    place();ScrollTrigger.addEventListener("refreshInit",place);
+    // כל שורה עוצרת רגע בחזית: ease לכל צעד במקום סיבוב ליניארי
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}});
+    for(let i=1;i<n;i++)tl.to(drum,{rotateX:-i*step,duration:1,ease:"power2.inOut"},i-1+.15);
+    return ()=>{ScrollTrigger.removeEventListener("refreshInit",place);lines.forEach(l=>l.style.transform="");root.classList.remove("mv-on");};
+  });
 })();
 </script>
 </body>

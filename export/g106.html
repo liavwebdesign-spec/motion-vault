@@ -60,11 +60,14 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const wins=gsap.utils.toArray(".wn-win");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  // התמונה בכל חלון מוזזת במינוס המיקום של החלון על המסך, ולכן נראית קבועה ביחס לחלון הדפדפן
-  wins.forEach(w=>{const img=w.querySelector(".wn-img");
-    ScrollTrigger.create({trigger:w,start:"top bottom",end:"bottom top",scrub:true,onUpdate(){const r=w.getBoundingClientRect();gsap.set(img,{x:-r.left,y:-r.top});},onRefresh(){const r=w.getBoundingClientRect();gsap.set(img,{x:-r.left,y:-r.top});}});
+  if(typeof gsap==="undefined")return;   // בלי הספרייה כל חלון מראה את הפינה של התמונה, בלי תנועה
+  const wins=gsap.utils.toArray(".wn-win"),imgs=wins.map(w=>w.querySelector(".wn-img"));
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    // התמונה בכל חלון מוזזת במינוס המיקום של החלון על המסך, ולכן נראית קבועה ביחס לחלון הדפדפן
+    wins.forEach((w,i)=>{const img=imgs[i],pos=()=>{const r=w.getBoundingClientRect();gsap.set(img,{x:-r.left,y:-r.top});};
+      ScrollTrigger.create({trigger:w,start:"top bottom",end:"bottom top",scrub:true,onUpdate:pos,onRefresh:pos});
+    });
+    return ()=>gsap.set(imgs,{clearProps:"transform"});   // ההזזות נכתבות בקולבקים, מחוץ לקונטקסט, ולכן מנקים ידנית
   });
 })();
 </script>

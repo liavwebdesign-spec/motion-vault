@@ -48,7 +48,7 @@ img{max-width:100%}
 .pv-tint{position:absolute;inset:14%;border-radius:inherit;border-radius:40% 40% 46% 46% / 50% 50% 40% 40%;mix-blend-mode:multiply;opacity:0}
 .pv-steps{display:flex;flex-direction:column;gap:40vh;padding-block:36vh}
 .pv-step{display:grid;gap:8px}
-.pv-step i{width:22px;height:22px;border-radius:50%;border:2px solid var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee)}
+.pv-step i{width:22px;height:22px;border-radius:50%;border:2px solid var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee);margin-inline-start:1px}
 .pv-step h3{margin:0;font-size:clamp(22px,2.6vw,36px)}
 .pv-step p{margin:0;color:var(--muted, #6a6d85);line-height:1.7;max-width:36ch}
 .pv-step b{font-size:20px}
@@ -74,12 +74,14 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה המוצר אפור וכל השלבים גלויים
   const tints=gsap.utils.toArray(".pv-tint"),steps=gsap.utils.toArray(".pv-step");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let speed=0;   // 1 רק ב-gsap.matchMedia כשהתנועה מותרת; בהפחתת תנועה הגוון מתחלף מיד
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{speed=1;return ()=>{speed=0;};});
   let cur=-1;
   function show(k){ if(k===cur)return;cur=k;
-    tints.forEach((t,i)=>gsap.to(t,{opacity:i===k?.85:0,duration:reduce?0:.7,ease:"power2.inOut",overwrite:true}));
-    steps.forEach((s,i)=>gsap.to(s,{opacity:i===k?1:.35,duration:reduce?0:.4,overwrite:true}));
+    tints.forEach((t,i)=>gsap.to(t,{opacity:i===k?.85:0,duration:.7*speed,ease:"power2.inOut",overwrite:true}));
+    steps.forEach((s,i)=>gsap.to(s,{opacity:i===k?1:.35,duration:.4*speed,overwrite:true}));
   }
   show(0);
   steps.forEach((s,i)=>ScrollTrigger.create({trigger:s,start:"top 60%",end:"bottom 40%",onEnter:()=>show(i),onEnterBack:()=>show(i)}));

@@ -73,13 +73,16 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה הכרטיסים עומדים זקופים
   const cards=gsap.utils.toArray(".tb-card");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const ang=matchMedia("(max-width:767px)").matches?28:48;
-  gsap.set(cards,{rotateX:ang,y:60,opacity:.35});
-  ScrollTrigger.batch(cards,{start:"top 88%",end:"top 45%",scrub:.6,onEnter:b=>{},   // batch כאן רק כדי לקבץ את הכרטיסים לפי שורה
-    onEnter:batch=>gsap.to(batch,{rotateX:0,y:0,opacity:1,stagger:.1,duration:.8,ease:"power3.out",overwrite:true}),
-    onLeaveBack:batch=>gsap.to(batch,{rotateX:ang,y:60,opacity:.35,stagger:.05,duration:.5,ease:"power3.in",overwrite:true})});
+  gsap.matchMedia().add({mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)",desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const ang=ctx.conditions.mob?28:48;
+    gsap.set(cards,{rotateX:ang,y:60,opacity:.35});
+    // batch מקבץ את הכרטיסים שנכנסים יחד (שורה) ומריץ עליהם tween עם stagger. הוא לא תומך ב-scrub או ב-end
+    ScrollTrigger.batch(cards,{start:"top 88%",
+      onEnter:batch=>gsap.to(batch,{rotateX:0,y:0,opacity:1,stagger:.1,duration:.8,ease:"power3.out",overwrite:true}),
+      onLeaveBack:batch=>gsap.to(batch,{rotateX:ang,y:60,opacity:.35,stagger:.05,duration:.5,ease:"power3.in",overwrite:true})});
+  });
 })();
 </script>
 </body>

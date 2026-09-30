@@ -40,13 +40,17 @@ img{max-width:100%}
 .ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
 
 /* G108 · שורות כותרת שנפתחות ומגלות תמונה */
-.sp2{position:relative;height:220vh}
+.sp2{position:relative}
 .sp2-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
-.sp2-stack{display:grid;justify-items:center;text-align:center;width:100%}
-.sp2-l{font-size:clamp(34px,7vw,110px);font-weight:900;line-height:1;margin:0;will-change:transform}
-.sp2-img{width:min(1100px,94vw);height:min(46vh,470px);border-radius:var(--r, 14px);overflow:hidden;transform:scaleY(0);transform-origin:50% 50%;will-change:transform}
+.sp2-stack{display:grid;justify-items:center;text-align:center;width:100%;row-gap:clamp(6px,1.2vh,14px)}
+.sp2-l{font-size:clamp(34px,7vw,110px);font-weight:900;line-height:1;margin:0}
+.sp2-img{width:min(1100px,94vw);height:min(46vh,470px);border-radius:var(--r, 14px);overflow:hidden}
 .sp2-img .ph{width:100%;height:100%;border-radius:0;font-size:0}
-.sp2-cap{position:absolute;bottom:4vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);opacity:0}
+.sp2-cap{position:absolute;bottom:4vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85)}
+/* גובה המסע: רק תחת .mv-on. בלעדיו התמונה פתוחה והכיתוב גלוי */
+.sp2.mv-on{height:220vh}
+.sp2.mv-on .sp2-l{will-change:transform}
+.sp2.mv-on .sp2-img{will-change:clip-path}
 @media(max-width:767px){.sp2-img{height:34vh}}
 </style>
 </head>
@@ -66,16 +70,22 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const img=document.querySelector(".sp2-img"),lines=gsap.utils.toArray(".sp2-l");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(img,{scaleY:1});gsap.set(".sp2-cap",{opacity:1});return;}
-  const mob=matchMedia("(max-width:767px)").matches;
-  // התמונה תופסת מקום בגריד גם כשהיא scaleY(0), ולכן השורות מתחילות צמודות דרך y ונפתחות ל-0
-  gsap.set(lines[0],{y:()=>img.offsetHeight/2});gsap.set(lines[1],{y:()=>-img.offsetHeight/2});
-  gsap.timeline({scrollTrigger:{trigger:".sp2",start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}})
-    .to(lines,{y:0,duration:1,ease:"power3.inOut"},0)
-    .fromTo(img,{scaleY:0},{scaleY:1,duration:1,ease:"power3.inOut"},0)
-    .to(lines,{scale:mob?.92:.86,duration:.4,ease:"power2.out"},.7)
-    .to(".sp2-cap",{opacity:1,duration:.3},.8);
+  if(typeof gsap==="undefined")return;   // בלי הספרייה התמונה פתוחה והכיתוב גלוי
+  const root=document.querySelector(".sp2"),stack=root.querySelector(".sp2-stack"),img=root.querySelector(".sp2-img"),lines=gsap.utils.toArray(".sp2-l");
+  gsap.matchMedia().add({mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)",desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    root.classList.add("mv-on");
+    const rad=getComputedStyle(img).borderRadius;
+    // התמונה תופסת מקום בגריד גם כשהיא סגורה, ולכן השורות מתחילות צמודות דרך y (חצי תמונה ועוד ה-row-gap) ונפתחות ל-0
+    const off=()=>img.offsetHeight/2+(parseFloat(getComputedStyle(stack).rowGap)||0);
+    gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}})
+      .fromTo(lines[0],{y:()=>off()},{y:0,duration:1},0)
+      .fromTo(lines[1],{y:()=>-off()},{y:0,duration:1},0)
+      // clip-path ולא scaleY: scaleY מועך תמונה אמיתית ומותח את הפינות לאליפסה
+      .fromTo(img,{clipPath:"inset(50% 0% 50% 0% round "+rad+")"},{clipPath:"inset(0% 0% 0% 0% round "+rad+")",duration:1},0)
+      .to(lines,{scale:ctx.conditions.mob?.92:.86,duration:.4},.7)
+      .fromTo(".sp2-cap",{opacity:0},{opacity:1,duration:.3},.8);
+    return ()=>root.classList.remove("mv-on");
+  });
 })();
 </script>
 </body>

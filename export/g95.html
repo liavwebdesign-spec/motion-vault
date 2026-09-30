@@ -36,17 +36,23 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* G95 · קובייה שמסתובבת פאה-פאה בגלילה */
-.cb{position:relative;height:300vh}
-.cb-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1500px;overflow:hidden}
-.cb-cube{position:relative;width:min(560px,80vw);aspect-ratio:16/10;transform-style:preserve-3d;will-change:transform}
-.cb-face{position:absolute;inset:0;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:22px;padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;backface-visibility:hidden;box-shadow:0 30px 70px rgba(0,0,0,.12)}
+.cb{position:relative}
+.cb-pin{display:grid;place-items:center;padding-block:10vh}
+.cb-cube{position:relative;width:min(560px,80vw);display:grid;gap:16px}
+.cb-face{position:relative;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:22px;padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;box-shadow:0 30px 70px rgba(0,0,0,.12)}
 .cb-face q{font-size:clamp(18px,2.4vw,30px);font-weight:600;line-height:1.35;quotes:none}
 .cb-face cite{font-style:normal;color:var(--muted, #6a6d85);font-size:15px}
 .cb-face b{font-size:12px;color:var(--accent, #4a3aff);letter-spacing:.14em}
-.cb-dots{position:absolute;bottom:26px;display:flex;gap:8px}
+.cb-dots{position:absolute;bottom:26px;display:none;gap:8px}
 .cb-dots i{width:8px;height:8px;border-radius:50%;background:var(--line, #e4e4ee)}
 .cb-dots i.on{background:var(--accent, #4a3aff)}
-@media(max-width:767px){.cb{height:240vh}.cb-cube{aspect-ratio:4/5}}
+/* הקובייה וההצמדה: רק תחת .mv-on. בלעדיו הפאות הן רשימה */
+.cb.mv-on{height:300vh}
+.cb.mv-on .cb-pin{position:sticky;top:0;height:100vh;padding-block:0;perspective:1500px;overflow:hidden}
+.cb.mv-on .cb-cube{display:block;aspect-ratio:16/10;transform-style:preserve-3d;will-change:transform}
+.cb.mv-on .cb-face{position:absolute;inset:0;backface-visibility:hidden}
+.cb.mv-on .cb-dots{display:flex}
+@media(max-width:767px){.cb.mv-on{height:240vh}.cb.mv-on .cb-cube{aspect-ratio:4/5}}
 </style>
 </head>
 <body>
@@ -66,13 +72,19 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const cube=document.querySelector(".cb-cube"),faces=gsap.utils.toArray(".cb-face"),dots=gsap.utils.toArray(".cb-dots i");
-  function place(){const d=cube.offsetWidth/2;faces.forEach((f,i)=>{f.style.transform="rotateY("+(i*90)+"deg) translateZ("+d+"px)";});gsap.set(cube,{z:-d});}   // סיבוב ואז הזזה: gsap.set היה מסדר הפוך והפאות היו מסתובבות במקום
-  place();addEventListener("resize",place);
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const tl=gsap.timeline({scrollTrigger:{trigger:".cb",start:"top top",end:"bottom bottom",scrub:.6,onUpdate(s){const k=Math.min(3,Math.round(s.progress*3));dots.forEach((d,i)=>d.classList.toggle("on",i===k));}}});
-  // RTL: הפאה הבאה מגיעה משמאל, לכן הקובייה מסתובבת חיובית
-  for(let i=1;i<4;i++)tl.to(cube,{rotateY:i*90,duration:1,ease:"power2.inOut"},i-1+.2);
+  if(typeof gsap==="undefined")return;   // בלי הספרייה ארבע הפאות עומדות זו מתחת לזו
+  const root=document.querySelector(".cb"),cube=root.querySelector(".cb-cube"),faces=gsap.utils.toArray(".cb-face"),dots=gsap.utils.toArray(".cb-dots i");
+  // סיבוב ואז הזזה, במחרוזת ידנית: gsap.set היה מסדר הפוך והפאות היו מסתובבות במקום.
+  // -i*90: הפאה הבאה בסדר מחכה משמאל. בלי המינוס אחרי 01 הגיעה 04, ואז 03 ו-02
+  function place(){const d=cube.offsetWidth/2;faces.forEach((f,i)=>{f.style.transform="rotateY("+(-i*90)+"deg) translateZ("+d+"px)";});gsap.set(cube,{z:-d});}
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    place();addEventListener("resize",place);
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,onUpdate(s){const k=Math.min(3,Math.round(s.progress*3));dots.forEach((d,i)=>d.classList.toggle("on",i===k));}}});
+    // RTL: הפאה הבאה מגיעה משמאל, לכן הקובייה מסתובבת חיובית
+    for(let i=1;i<4;i++)tl.to(cube,{rotateY:i*90,duration:1,ease:"power2.inOut"},i-1+.2);
+    return ()=>{removeEventListener("resize",place);faces.forEach(f=>f.style.transform="");root.classList.remove("mv-on");};
+  });
 })();
 </script>
 </body>

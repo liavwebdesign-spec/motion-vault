@@ -36,7 +36,7 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* G97 · קו סריקה שהופך שלד לצבע */
-.sc{position:relative;height:220vh}
+.sc{position:relative}
 .sc-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
 .sc-frame{position:relative;width:min(760px,90vw);aspect-ratio:16/10;border-radius:18px;overflow:hidden;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);box-shadow:0 30px 70px rgba(0,0,0,.12)}
 .sc-ui{position:absolute;inset:0;padding:22px;display:grid;grid-template-columns:1fr 2fr;gap:14px}
@@ -52,9 +52,13 @@ img{max-width:100%}
 .sc-wire{filter:grayscale(1) contrast(.5);opacity:.55}
 .sc-wire i,.sc-wire .sc-chart{background:transparent!important;border:1.5px dashed var(--muted, #6a6d85)!important}
 .sc-wire .sc-chart::after{background:var(--muted, #6a6d85)}
-.sc-color{clip-path:inset(0 0 100% 0);will-change:clip-path}
-.sc-line{position:absolute;inset-inline:0;top:0;height:2px;background:var(--accent, #4a3aff);box-shadow:0 0 18px var(--accent, #4a3aff);will-change:transform}
-.sc-cap{position:absolute;bottom:26px;font-size:13px;color:var(--muted, #6a6d85)}
+.sc-line{position:absolute;inset-inline:0;top:0;height:2px;background:var(--accent, #4a3aff);box-shadow:0 0 18px var(--accent, #4a3aff);display:none}
+.sc-cap{position:absolute;bottom:26px;font-size:13px;color:var(--muted, #6a6d85);display:none}
+/* בלי .mv-on (הפחתת תנועה, ספרייה חסומה) שכבת הצבע גלויה במלואה; החיתוך מגיע מ-GSAP */
+.sc.mv-on{height:220vh}
+.sc.mv-on .sc-color{will-change:clip-path}
+.sc.mv-on .sc-line{display:block;will-change:transform}
+.sc.mv-on .sc-cap{display:block}
 @media(max-width:767px){.sc-frame{aspect-ratio:4/5}.sc-ui{grid-template-columns:1fr;grid-template-rows:auto 1fr}.sc-kpis i{height:40px}}
 </style>
 </head>
@@ -74,13 +78,17 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const frame=document.querySelector(".sc-frame"),color=document.querySelector(".sc-color"),line=document.querySelector(".sc-line");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(color,{clipPath:"inset(0 0 0% 0)"});gsap.set(line,{opacity:0});return;}
-  gsap.timeline({scrollTrigger:{trigger:".sc",start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}})
-    .fromTo(color,{clipPath:"inset(0 0 100% 0)"},{clipPath:"inset(0 0 0% 0)",ease:"none",duration:1},0)
-    .fromTo(line,{y:0},{y:()=>frame.clientHeight,ease:"none",duration:1},0)
-    .to(line,{opacity:0,duration:.05},.96)
-    .to(".sc-cap",{opacity:0,duration:.1},0);
+  if(typeof gsap==="undefined")return;   // בלי הספרייה המסך מוצג צבוע, בלי קו ובלי רמז
+  const root=document.querySelector(".sc"),frame=root.querySelector(".sc-frame"),color=root.querySelector(".sc-color"),line=root.querySelector(".sc-line");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}})
+      .fromTo(color,{clipPath:"inset(0 0 100% 0)"},{clipPath:"inset(0 0 0% 0)",duration:1},0)
+      .fromTo(line,{y:0},{y:()=>frame.clientHeight,duration:1},0)
+      .to(line,{opacity:0,duration:.05},.96)
+      .to(".sc-cap",{opacity:0,duration:.1},0);
+    return ()=>root.classList.remove("mv-on");
+  });
 })();
 </script>
 </body>

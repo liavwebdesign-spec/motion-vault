@@ -40,25 +40,28 @@ img{max-width:100%}
 .ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
 
 /* G89 · מעבר דרך הכותרת (Zoom Through) */
-.zt{position:relative;height:230vh}
+.zt{position:relative}
 .zt-pin{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--ink, #16182b)}
 .zt-scene{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--bg, #f7f7fa);padding:24px}
 .zt-scene .ph{position:absolute;inset:0;border-radius:0;opacity:.55;font-size:0}
 .zt-scene div{position:relative;max-width:30ch}
 .zt-scene h3{margin:0 0 10px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
 .zt-scene p{margin:0;opacity:.85}
-.zt-front{position:absolute;inset:0;width:100%;height:100%}
+/* המסכה, הרמז וגובה המסע קיימים רק תחת .mv-on. בלעדיו (הפחתת תנועה, ספרייה חסומה) רואים את הסצנה */
+.zt-front{position:absolute;inset:0;width:100%;height:100%;display:none;pointer-events:none}
 .zt-front rect{fill:var(--bg, #f7f7fa)}
 .zt-front text{font-weight:900;font-size:120px;fill:#000;font-family:inherit}
-.zt-hint{position:absolute;bottom:26px;inset-inline:0;text-align:center;font-size:13px;color:var(--muted, #6a6d85)}
-@media(max-width:767px){.zt{height:180vh}.zt-front text{font-size:150px}}
+.zt-hint{position:absolute;bottom:26px;inset-inline:0;text-align:center;font-size:13px;color:var(--muted, #6a6d85);display:none}
+.zt.mv-on{height:230vh}
+.zt.mv-on .zt-front,.zt.mv-on .zt-hint{display:block}
+@media(max-width:767px){.zt.mv-on{height:180vh}.zt-front text{font-size:88px}}
 </style>
 </head>
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="zt">
   <div class="zt-pin">
-    <div class="zt-scene"><div class="ph ph-b"></div><div><h3>ברוכים הבאים פנימה</h3><p>מה שמאחורי השם: שיטה, צוות, ותוצאות שאפשר למדוד.</p></div></div>
+    <div class="zt-scene"><div class="ph ph-b"></div><div class="zt-copy"><h3>ברוכים הבאים פנימה</h3><p>מה שמאחורי השם: שיטה, צוות, ותוצאות שאפשר למדוד.</p></div></div>
     <svg class="zt-front" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs><mask id="zt-m"><rect width="1000" height="600" fill="#fff"/><g class="zt-hole"><text x="500" y="345" text-anchor="middle" direction="rtl">סטודיו</text></g></mask></defs>
       <rect width="1000" height="600" mask="url(#zt-m)"/>
@@ -73,12 +76,19 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(".zt-front",{opacity:0});return;}
-  const mob=matchMedia("(max-width:767px)").matches;
-  gsap.timeline({scrollTrigger:{trigger:".zt",start:"top top",end:"bottom bottom",scrub:.6}})
-    .to(".zt-hole",{scale:mob?26:40,transformOrigin:"50% 50%",ease:"power2.in",duration:1})   // GSAP מתעלם מ-transform-origin של CSS ב-SVG, חייבים לתת לו את המרכז
-    .to(".zt-hint",{opacity:0,duration:.1},0)
-    .to(".zt-front",{opacity:0,duration:.15},.85);   // בסוף המסע המסכה נעלמת לגמרי, כדי שלא יישאר קצה
+  if(typeof gsap==="undefined")return;   // בלי הספרייה המסכה לא נדלקת ורואים את הסצנה
+  const root=document.querySelector(".zt");
+  gsap.matchMedia().add({mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)",desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    root.classList.add("mv-on");
+    gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}})
+      // power2.in ולא none: גודל נתפס ביחס, ובלי ההאצה החור נפתח בבת אחת בתחילת הגלילה.
+      // GSAP מתעלם מ-transform-origin של CSS ב-SVG, חייבים לתת לו את המרכז. במובייל הגופן 88 ולא 120, ולכן scale גדול יותר
+      .to(".zt-hole",{scale:ctx.conditions.mob?44:40,transformOrigin:"50% 50%",ease:"power2.in",duration:1})
+      .to(".zt-hint",{opacity:0,duration:.1},0)
+      .fromTo(".zt-copy",{opacity:0},{opacity:1,duration:.25},.6)   // הטקסט הלבן לא מציץ כשברים דרך חורי האותיות בפתיחה
+      .to(".zt-front",{autoAlpha:0,duration:.15},.85);   // בסוף המסע המסכה נעלמת לגמרי (autoAlpha: גם visibility, כדי שלא תבלע לחיצות על הסצנה)
+    return ()=>root.classList.remove("mv-on");
+  });
 })();
 </script>
 </body>

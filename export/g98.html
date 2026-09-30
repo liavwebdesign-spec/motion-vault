@@ -73,13 +73,15 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה האריחים מראים את הפנים
   const tiles=gsap.utils.toArray(".fw-tile");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const cols=matchMedia("(max-width:767px)").matches?2:4;
-  gsap.set(tiles,{rotateY:180});
-  gsap.to(tiles,{rotateY:0,ease:"power2.inOut",duration:1,
-    stagger:{grid:[Math.ceil(tiles.length/cols),cols],from:"start",axis:null,amount:1.4},   // גל אלכסוני מהפינה הראשונה (ימין למעלה ב-RTL)
-    scrollTrigger:{trigger:".fw",start:"top 75%",end:"bottom 60%",scrub:.6}});
+  gsap.matchMedia().add({mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)",desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const cols=ctx.conditions.mob?2:4;   // כמו העמודות ב-CSS: הגל נבנה מחדש בגבול 767
+    gsap.set(tiles,{rotateY:180});
+    gsap.to(tiles,{rotateY:0,ease:"none",duration:1,
+      stagger:{grid:[Math.ceil(tiles.length/cols),cols],from:"start",axis:null,amount:1.4},   // גל אלכסוני מהפינה הראשונה (ימין למעלה ב-RTL)
+      scrollTrigger:{trigger:".fw",start:"top 75%",end:"bottom 60%",scrub:.6}});
+  });
 })();
 </script>
 </body>

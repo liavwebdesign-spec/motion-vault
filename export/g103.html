@@ -40,6 +40,7 @@ img{max-width:100%}
 .ch-num{position:sticky;top:0;height:100vh;display:grid;place-items:center;pointer-events:none;z-index:0;margin-bottom:-100vh}
 .ch-clip{width:2.4ch;height:1em;font-size:clamp(160px,34vw,520px);font-weight:900;line-height:1;overflow:hidden;position:relative;color:var(--ink, #16182b);opacity:.11;font-variant-numeric:tabular-nums}
 .ch-clip span{position:absolute;inset:0;display:block;text-align:center}
+.ch:not(.mv-on) .ch-clip span+span{display:none}   /* בלי הספרייה נשארת רק הספרה הראשונה, ולא ארבע ערומות זו על זו */
 .ch-body{position:relative;z-index:1;max-width:min(760px,92vw);margin-inline:auto;padding-block:10vh 30vh}
 .ch-sec{min-height:90vh;display:grid;align-content:center;gap:12px}
 .ch-sec b{font-size:12px;color:var(--accent, #4a3aff);letter-spacing:.14em}
@@ -66,13 +67,16 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה נשארת הספרה הראשונה, והפרקים ממוספרים בעצמם
   const nums=gsap.utils.toArray(".ch-clip span"),secs=gsap.utils.toArray(".ch-sec");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelector(".ch").classList.add("mv-on");
+  let roll=false;   // נדלק רק ב-gsap.matchMedia כשהתנועה מותרת; בהפחתת תנועה הספרה מתחלפת בלי גלגול
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{roll=true;return ()=>{roll=false;};});
   gsap.set(nums,{yPercent:100});gsap.set(nums[0],{yPercent:0});
   let cur=0;
   function go(k){
     if(k===cur)return;const dir=k>cur?1:-1,prev=cur;cur=k;
-    if(reduce){gsap.set(nums[prev],{yPercent:100});gsap.set(nums[k],{yPercent:0});return;}
+    if(!roll){gsap.set(nums[prev],{yPercent:100});gsap.set(nums[k],{yPercent:0});return;}
     gsap.to(nums[prev],{yPercent:-100*dir,duration:.6,ease:"power3.inOut"});
     gsap.fromTo(nums[k],{yPercent:100*dir},{yPercent:0,duration:.6,ease:"power3.inOut"});
   }

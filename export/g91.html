@@ -36,20 +36,25 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* G91 · טקסט שנוסע במנהרה לעומק */
-.tn{position:relative;height:320vh}
-.tn-pin{position:sticky;top:0;height:100vh;overflow:hidden;perspective:900px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);display:grid;place-items:center}
-.tn-space{position:absolute;inset:0;transform-style:preserve-3d;display:grid;place-items:center}
-.tn-line{position:absolute;font-size:clamp(28px,5vw,72px);font-weight:800;white-space:nowrap;will-change:transform,opacity;text-align:center;padding-inline:20px}
-.tn-line small{display:block;font-size:.4em;font-weight:500;opacity:.7;margin-top:.3em}
+.tn{position:relative}
+.tn-pin{position:relative;min-height:100vh;overflow:hidden;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);display:grid;place-items:center;padding-block:10vh}
+.tn-space{position:relative;display:grid;place-items:center;gap:3vh}
+.tn-line{font-size:clamp(28px,5vw,72px);font-weight:800;text-align:center;padding-inline:20px;text-wrap:balance}
+.tn-line small{display:block;font-size:max(12px,.4em);font-weight:500;opacity:.7;margin-top:.3em}
 .tn-glow{position:absolute;inset:30%;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent, #4a3aff) 45%,transparent),transparent);filter:blur(40px)}
-@media(max-width:767px){.tn{height:260vh}.tn-pin{perspective:600px}}
+/* המנהרה: רק תחת .mv-on. בלעדיו השורות הן רשימה רגילה */
+.tn.mv-on{height:320vh}
+.tn.mv-on .tn-pin{position:sticky;top:0;height:100vh;min-height:0;padding-block:0;perspective:900px}
+.tn.mv-on .tn-space{position:absolute;inset:0;transform-style:preserve-3d}
+.tn.mv-on .tn-line{position:absolute;white-space:nowrap;will-change:transform,opacity}
+@media(max-width:767px){.tn.mv-on{height:260vh}.tn.mv-on .tn-pin{perspective:600px}}
 </style>
 </head>
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="tn">
   <div class="tn-pin"><div class="tn-glow"></div><div class="tn-space">
-    <div class="tn-line">אנחנו לא בונים אתרים.<small>שורה ראשונה</small></div>
+    <div class="tn-line">אנחנו לא בונים אתרים.<small>מה שאנחנו מאמינים בו</small></div>
     <div class="tn-line">אנחנו בונים דרך להגיע אליכם.</div>
     <div class="tn-line">בלי רעש. בלי קישוטים.</div>
     <div class="tn-line">רק מה שמזיז לקוח לפעולה.</div>
@@ -63,18 +68,24 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const lines=gsap.utils.toArray(".tn-line"),STEP=matchMedia("(max-width:767px)").matches?700:1000;
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){lines.forEach((l,i)=>gsap.set(l,{position:"static",marginBottom:20}));return;}
-  lines.forEach((l,i)=>gsap.set(l,{z:-i*STEP,opacity:i===0?1:0}));
-  const total=(lines.length-1)*STEP+STEP*.6;
-  const tl=gsap.timeline({scrollTrigger:{trigger:".tn",start:"top top",end:"bottom bottom",scrub:.7}});
-  tl.to(lines,{z:"+="+total,ease:"none",duration:1},0);
-  // השקיפות יושבת באותו טיימליין ולא ב-onUpdate נפרד, כך שהיא נכונה גם בסקראב לאחור וגם בקפיצה.
-  // לכל שורה: מופיעה כשהיא במרחק 1.2 צעדים, מלאה מ-0.4 צעד, ונעלמת כשהיא חולפת על פני המצלמה.
-  const at=(i,z)=>Math.max(0,(z+i*STEP)/total);   // הזמן (0..1) שבו השורה i מגיעה לעומק z
-  lines.forEach((l,i)=>{
-    if(i>0)tl.fromTo(l,{opacity:0},{opacity:1,duration:Math.max(.001,at(i,-STEP*.4)-at(i,-STEP*1.2)),ease:"none"},at(i,-STEP*1.2));
-    tl.to(l,{opacity:0,duration:Math.max(.001,at(i,300)-at(i,100)),ease:"none"},at(i,100));
+  if(typeof gsap==="undefined")return;   // בלי הספרייה השורות עומדות זו מתחת לזו
+  const root=document.querySelector(".tn"),lines=gsap.utils.toArray(".tn-line");
+  gsap.matchMedia().add({mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)",desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    root.classList.add("mv-on");
+    const STEP=ctx.conditions.mob?700:1000;
+    lines.forEach((l,i)=>gsap.set(l,{z:-i*STEP,opacity:i===0?1:0}));
+    const total=(lines.length-1)*STEP+STEP*.6;
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.7}});
+    tl.to(lines,{z:"+="+total,ease:"none",duration:1},0);
+    // השקיפות יושבת באותו טיימליין ולא ב-onUpdate נפרד, כך שהיא נכונה גם בסקראב לאחור וגם בקפיצה.
+    // לכל שורה: מתחילה להופיע רק כשהקודמת כבר באמצע הדעיכה (עומק 200 מעבר למצלמה), מלאה מ-0.4 צעד, ונעלמת כשהיא חולפת על פני המצלמה.
+    // (כשההופעה התחילה במרחק קבוע של 1.2 צעדים, בטלפון שתי השורות נכתבו זו על זו באמצע המסך)
+    const at=(i,z)=>Math.max(0,(z+i*STEP)/total),IN=200-STEP;   // at: הזמן (0..1) שבו השורה i מגיעה לעומק z
+    lines.forEach((l,i)=>{
+      if(i>0)tl.fromTo(l,{opacity:0},{opacity:1,duration:Math.max(.001,at(i,-STEP*.4)-at(i,IN)),ease:"none"},at(i,IN));
+      tl.to(l,{opacity:0,duration:Math.max(.001,at(i,300)-at(i,100)),ease:"none"},at(i,100));
+    });
+    return ()=>root.classList.remove("mv-on");
   });
 })();
 </script>

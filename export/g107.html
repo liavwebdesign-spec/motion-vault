@@ -38,7 +38,13 @@ img{max-width:100%}
 /* G107 · שנה דביקה שמתחלפת בציר זמן */
 .yr{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,80px);max-width:min(900px,92vw);margin-inline:auto;padding-block:10vh 30vh;position:relative}
 .yr-side{position:sticky;top:0;height:100vh;display:grid;align-content:center;gap:18px}
-.yr-num{display:flex;direction:ltr;font-size:clamp(48px,7vw,110px);font-weight:900;line-height:1;font-variant-numeric:tabular-nums;color:var(--ink, #16182b)}
+.yr-num{display:flex;direction:ltr;justify-self:start;font-size:clamp(48px,7vw,110px);font-weight:900;line-height:1;font-variant-numeric:tabular-nums;color:var(--ink, #16182b)}
+/* השנה של כל אירוע: גלויה כשאין מונה (ספרייה חסומה), ונסתרת מהעין אבל לא מקורא מסך כשיש */
+.yr-y{display:block;font-size:14px;font-weight:700;color:var(--accent, #4a3aff);letter-spacing:.1em;margin-bottom:6px}
+.yr.mv-on .yr-y{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.yr:not(.mv-on){grid-template-columns:1fr}
+.yr:not(.mv-on) .yr-side,.yr:not(.mv-on) .yr-line{display:none}
+.yr:not(.mv-on) .yr-list{gap:6vh;padding-block:0}
 .yr-d{position:relative;height:1em;width:.62em;overflow:hidden}
 .yr-d span{position:absolute;inset:0;text-align:center}
 .yr-line{position:absolute;inset-block:0;inset-inline-start:calc(clamp(48px,7vw,110px) * 2.6 + clamp(24px,5vw,80px) / 2);width:2px;background:var(--line, #e4e4ee)}
@@ -52,13 +58,13 @@ img{max-width:100%}
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="yr">
-  <div class="yr-side"><div class="yr-num" aria-live="polite"></div><p style="margin:0;color:var(--muted)">גלול לאורך השנים</p></div>
+  <div class="yr-side"><div class="yr-num" aria-hidden="true"></div><p style="margin:0;color:var(--muted)">גלול לאורך השנים</p></div>
   <div class="yr-line" aria-hidden="true"><div class="yr-fill"></div></div>
   <div class="yr-list">
-    <div class="yr-ev" data-year="2016"><h3>מתחילים מהבית</h3><p>שולחן אחד, לקוח אחד, ואתר ראשון שעלה לאוויר.</p></div>
-    <div class="yr-ev" data-year="2019"><h3>עוברים לסטודיו</h3><p>שלושה אנשים, עשרות פרויקטים בשנה.</p></div>
-    <div class="yr-ev" data-year="2022"><h3>מערכות, לא רק אתרים</h3><p>ה-CRM הראשון שבנינו ללקוח עדיין רץ.</p></div>
-    <div class="yr-ev" data-year="2026"><h3>היום</h3><p>אתר, מערכת ואוטומציה תחת קורת גג אחת.</p></div>
+    <div class="yr-ev" data-year="2016"><b class="yr-y">2016</b><h3>מתחילים מהבית</h3><p>שולחן אחד, לקוח אחד, ואתר ראשון שעלה לאוויר.</p></div>
+    <div class="yr-ev" data-year="2019"><b class="yr-y">2019</b><h3>עוברים לסטודיו</h3><p>שלושה אנשים, עשרות פרויקטים בשנה.</p></div>
+    <div class="yr-ev" data-year="2022"><b class="yr-y">2022</b><h3>מערכות, לא רק אתרים</h3><p>ה-CRM הראשון שבנינו ללקוח עדיין רץ.</p></div>
+    <div class="yr-ev" data-year="2026"><b class="yr-y">2026</b><h3>היום</h3><p>אתר, מערכת ואוטומציה תחת קורת גג אחת.</p></div>
   </div>
 </div>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
@@ -68,17 +74,26 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const num=document.querySelector(".yr-num"),evs=gsap.utils.toArray(".yr-ev"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(typeof gsap==="undefined")return;   // בלי הספרייה כל אירוע מציג את השנה שלו, בלי המונה הדביק
+  const root=document.querySelector(".yr"),num=root.querySelector(".yr-num"),evs=gsap.utils.toArray(".yr-ev");
+  root.classList.add("mv-on");
+  let roll=false;   // נדלק רק ב-gsap.matchMedia כשהתנועה מותרת; בהפחתת תנועה הספרות מתחלפות בלי גלגול
+  const mm=gsap.matchMedia();
+  mm.add("(prefers-reduced-motion: no-preference)",()=>{
+    roll=true;
+    gsap.to(".yr-fill",{scaleY:1,ease:"none",scrollTrigger:{trigger:".yr-list",start:"top 60%",end:"bottom 60%",scrub:.3}});
+    return ()=>{roll=false;};
+  });
+  mm.add("(prefers-reduced-motion: reduce)",()=>{gsap.set(".yr-fill",{scaleY:1});});   // הקו מלא, בלי אנימציה
   const digits=[];for(let i=0;i<4;i++){const d=document.createElement("div");d.className="yr-d";const a=document.createElement("span"),b=document.createElement("span");d.append(a,b);num.appendChild(d);digits.push({a,b,cur:""});}
   function set(year){[...year].forEach((ch,i)=>{const d=digits[i];if(d.cur===ch)return;
-    if(d.cur===""||reduce){d.a.textContent=ch;gsap.set(d.a,{yPercent:0});gsap.set(d.b,{yPercent:100});d.cur=ch;return;}
+    if(d.cur===""||!roll){d.a.textContent=ch;gsap.set(d.a,{yPercent:0});gsap.set(d.b,{yPercent:100});d.cur=ch;return;}
     const dir=+ch>+d.cur?1:-1;d.b.textContent=ch;
     gsap.fromTo(d.b,{yPercent:100*dir},{yPercent:0,duration:.5,ease:"power3.inOut"});
     gsap.to(d.a,{yPercent:-100*dir,duration:.5,ease:"power3.inOut",onComplete(){d.a.textContent=ch;gsap.set(d.a,{yPercent:0});gsap.set(d.b,{yPercent:100});}});
     d.cur=ch;});}
   set(evs[0].dataset.year);
   evs.forEach(e=>ScrollTrigger.create({trigger:e,start:"top 60%",end:"bottom 40%",onEnter:()=>set(e.dataset.year),onEnterBack:()=>set(e.dataset.year)}));
-  gsap.to(".yr-fill",{scaleY:1,ease:"none",scrollTrigger:{trigger:".yr-list",start:"top 60%",end:"bottom 60%",scrub:reduce?false:.3}});
 })();
 </script>
 </body>
