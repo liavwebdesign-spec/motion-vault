@@ -14,22 +14,29 @@ export default [
 .ck p{margin:0 0 16px;font-size:14.5px;line-height:1.65;color:var(--muted)}
 .ck p a{color:var(--accent)}
 .ck-row{display:flex;gap:8px;flex-wrap:wrap}
-.ck-btn{font-family:inherit;font-size:14px;padding:11px 18px;border-radius:999px;cursor:pointer;border:1px solid var(--line);
+.ck-btn{font-family:inherit;font-size:14px;min-height:44px;padding:11px 18px;border-radius:999px;cursor:pointer;border:1px solid var(--line);
   background:var(--bg);color:var(--ink)}
 .ck-btn.main{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 .ck-btn.link{border-color:transparent;background:none;color:var(--muted);text-decoration:underline;padding-inline:8px}
 .ck-prefs{margin:4px 0 16px;display:grid;gap:2px}
+/* display:grid גובר על התכונה hidden, ובלי השורה הזאת הפאנל פתוח כבר בהופעה הראשונה */
+.ck-prefs[hidden]{display:none}
 .ck-pref{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-top:1px solid var(--line)}
 .ck-pref strong{display:block;font-size:14.5px;font-weight:600}
 .ck-pref span{display:block;font-size:13px;color:var(--muted);line-height:1.55;margin-top:2px}
 .ck-sw{flex:none;width:44px;height:26px;border-radius:999px;background:#d5d5e0;border:0;cursor:pointer;padding:0;
   position:relative;transition:background .2s}
-.ck-sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;
+/* אזור לחיצה של 44 פיקסלים בלי לשנות את המראה (::after תפוס לידית) */
+.ck-sw::before{content:"";position:absolute;inset:-9px -4px}
+/* הידית מתחילה בצד ההתחלה. בעברית כבוי הוא ידית בימין ודלוק הוא ידית בשמאל, כמו בממשקי הטלפון בעברית */
+.ck-sw::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:20px;height:20px;border-radius:50%;background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;
   transition:transform .22s cubic-bezier(.2,.6,.2,1)}
 .ck-sw[aria-checked="true"]{background:var(--accent)}
 .ck-sw[aria-checked="true"]::after{transform:translateX(18px)}
+[dir="rtl"] .ck-sw[aria-checked="true"]::after{transform:translateX(-18px)}
 .ck-sw[disabled]{opacity:.55;cursor:not-allowed}
-.ck-reopen{position:fixed;inset-inline-start:16px;bottom:16px;z-index:69;font-family:inherit;font-size:13px;
+/* הכפתור הצף בצד הסוף, כמו כל הכפתורים הצפים בתורה. בפרויקט עם כפתור נגישות או וואטסאפ מרימים את bottom מעליו */
+.ck-reopen{position:fixed;inset-inline-end:16px;bottom:16px;z-index:69;font-family:inherit;font-size:13px;
   padding:9px 15px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
 .ck-reopen[hidden]{display:none}
 .ck-state{max-width:min(620px,94vw);margin-inline:auto;text-align:center;color:var(--muted);font-size:15px;line-height:1.8}
@@ -51,10 +58,10 @@ export default [
       <div><strong>שיווק</strong><span>מאפשרות להתאים מודעות ולמדוד קמפיינים.</span></div></div>
   </div>
   <div class="ck-row">
-    <button class="ck-btn main" data-act="all">מאשר הכל</button>
+    <button class="ck-btn main" data-act="all">אישור הכל</button>
     <button class="ck-btn" data-act="necessary">רק ההכרחיות</button>
     <button class="ck-btn link" data-act="prefs">הגדרות</button>
-    <button class="ck-btn main" data-act="save" hidden>שמור בחירה</button>
+    <button class="ck-btn main" data-act="save" hidden>שמירת הבחירה</button>
   </div>
 </div>`,
   js:`(function(){
@@ -62,20 +69,24 @@ export default [
   const bar=document.querySelector(".ck"),prefs=bar.querySelector(".ck-prefs"),reopen=document.querySelector(".ck-reopen");
   const btn=a=>bar.querySelector('[data-act="'+a+'"]');
   const switches=[...bar.querySelectorAll(".ck-sw[data-cat]")];
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const rm=matchMedia("(prefers-reduced-motion: reduce)");
+  // בלי GSAP (CDN חסום) או בהפחתת תנועה הבאנר מופיע ונעלם בלי מעבר, אבל עובד במלואו
+  const still=()=>typeof gsap==="undefined"||rm.matches;
   const read=()=>{try{const v=JSON.parse(localStorage.getItem(KEY));return v&&v.v===VER?v:null;}catch(e){return null;}};
   const write=cats=>{try{localStorage.setItem(KEY,JSON.stringify({v:VER,ts:Date.now(),cats:cats}));}catch(e){}};
   function open(){
     bar.hidden=false;reopen.hidden=true;
-    if(reduce){gsap.set(bar,{y:0,opacity:1});return;}
+    if(still()){if(typeof gsap!=="undefined")gsap.set(bar,{clearProps:"transform,opacity"});return;}
     gsap.fromTo(bar,{y:40,opacity:0},{y:0,opacity:1,duration:.45,ease:"power3.out"});
   }
   function close(cats){
     write(cats);
     // כאן מפעילים בפועל את מה שאושר: טעינת סקריפט מדידה, פיקסל וכו'
     document.dispatchEvent(new CustomEvent("consent",{detail:cats}));
-    const done=()=>{bar.hidden=true;prefs.hidden=true;btn("save").hidden=true;reopen.hidden=false;};
-    if(reduce)return done();
+    // אם הפוקוס היה בתוך הבאנר, הוא עובר לכפתור שמחזיר אותו ולא נופל ל-body
+    const had=bar.contains(document.activeElement);
+    const done=()=>{bar.hidden=true;prefs.hidden=true;btn("save").hidden=true;reopen.hidden=false;if(had)reopen.focus();};
+    if(still())return done();
     gsap.to(bar,{y:30,opacity:0,duration:.3,ease:"power2.in",onComplete:done});
   }
   const chosen=()=>({necessary:true,
@@ -89,13 +100,15 @@ export default [
   btn("save").addEventListener("click",()=>close(chosen()));
   btn("prefs").addEventListener("click",()=>{
     prefs.hidden=false;btn("save").hidden=false;btn("prefs").hidden=true;
-    if(!reduce)gsap.from(prefs,{height:0,opacity:0,duration:.35,ease:"power2.out"});
+    // הגובה נפתח מאפס ומנוקה בסוף: גובה קבוע באינליין היה חותך טקסט אחרי שינוי רוחב או פונט
+    if(!still()){prefs.style.overflow="hidden";gsap.from(prefs,{height:0,opacity:0,duration:.35,ease:"power2.out",clearProps:"height,opacity,overflow"});}
     switches[0].focus();
   });
   reopen.addEventListener("click",()=>{
     const cur=read();
     if(cur)switches.forEach((sw,i)=>sw.setAttribute("aria-checked",String(!!cur.cats[i?"marketing":"analytics"])));
     prefs.hidden=false;btn("save").hidden=false;btn("prefs").hidden=true;open();
+    switches[0].focus();
   });
   addEventListener("keydown",e=>{if(e.key==="Escape"&&!bar.hidden&&read())close(read().cats);});
   const saved=read();
@@ -103,7 +116,7 @@ export default [
   else setTimeout(open,600);   // רגע קצר לפני שקופצים, כדי שהעמוד ייטען קודם
 })();`,
   runway:false,
-  note:"שלושה דברים שהופכים באנר עוגיות מקישוט לרכיב אמיתי: \"רק ההכרחיות\" חייב להיות באותה בולטות כמו \"מאשר הכל\" ולא קישור קטן בצד, הבחירה חייבת להיות ניתנת לשינוי אחרי שסגרו (ומכאן הכפתור הקטן שנשאר בפינה), והמתגים בנויים כ-`role=\"switch\"` עם `aria-checked` ולא כ-div, כדי שקורא מסך יידע מה מסומן. השמירה כוללת מספר גרסה, כך שאם משנים קטגוריות אפשר לבקש הסכמה מחדש בלי למחוק ידנית. הרכיב משדר אירוע `consent` במקום להפעיל סקריפטים בעצמו, וזו נקודת החיבור לגוגל טאג מנג'ר."
+  note:"שלושה דברים שהופכים באנר עוגיות מקישוט לרכיב אמיתי: \"רק ההכרחיות\" חייב להיות באותה בולטות כמו \"אישור הכל\" ולא קישור קטן בצד, הבחירה חייבת להיות ניתנת לשינוי אחרי שסגרו (ומכאן הכפתור הקטן שנשאר בפינה), והמתגים בנויים כ-`role=\"switch\"` עם `aria-checked` ולא כ-div, כדי שקורא מסך יידע מה מסומן. השמירה כוללת מספר גרסה, כך שאם משנים קטגוריות אפשר לבקש הסכמה מחדש בלי למחוק ידנית. הרכיב משדר אירוע `consent` במקום להפעיל סקריפטים בעצמו, וזו נקודת החיבור לגוגל טאג מנג'ר. **מלכודת שנתפסה כאן**: `display:grid` על פאנל ההגדרות גובר על התכונה `hidden`, והפאנל היה פתוח כבר בהופעה הראשונה (בטלפון כמעט חצי מסך); לכן `.ck-prefs[hidden]{display:none}`. אחרי בחירה הפוקוס עובר לכפתור הקטן שמחזיר את ההגדרות, ובפתיחה מחדש הוא נכנס למתג הראשון. המתגים ב-RTL: כבוי הוא ידית בימין ודלוק הוא ידית בשמאל. בהפחתת תנועה, וגם כש-GSAP לא נטען, הבאנר עובד במלואו בלי מעברים."
 },
 {
   id:"g48", cat:"gsap", name:"פסקה שנצבעת מילה-מילה בגלילה", tech:"GSAP · ScrollTrigger scrub", status:"ממתין",
@@ -112,7 +125,8 @@ export default [
   libs:["gsap","ScrollTrigger"],
   css:`.hl{max-width:min(880px,92vw);margin-inline:auto;padding-block:34vh}
 .hl p{margin:0;font-size:clamp(24px,3.4vw,46px);line-height:1.5;font-weight:600}
-.hl .w{color:var(--muted);transition:none;position:relative;display:inline-block}
+/* צבע ההתחלה נגזר מהדיו ומהרקע של הפרויקט, כך שהוא שומר על 3:1 ומעלה בכל עור (ולא תלוי בכמה כהה --muted) */
+.hl .w{color:color-mix(in srgb,var(--ink) 62%,var(--bg,#fff));transition:none;position:relative;display:inline-block}
 /* ההדגשה נפתחת מאחורי המילה. בעברית היא נפתחת מימין, מתחילת המילה */
 .hl .mk{position:relative;z-index:0;display:inline-block;padding-inline:.14em;border-radius:.16em}
 .hl .mk::before{content:"";position:absolute;inset:0;border-radius:.16em;background:var(--accent);
@@ -121,6 +135,8 @@ export default [
   html:`<div class="hl"><p id="hl-src">אנחנו לא בונים אתרים יפים. אנחנו בונים אתרים שמביאים פניות. ההבדל הוא לא בעיצוב אלא בסדר: קודם מבינים את הלקוח, אחר כך כותבים, ורק בסוף פותחים כלי עיצוב.</p></div>
 <p class="hl-foot">גלול לאט. כל מילה נצבעת בתורה.</p>`,
   js:`(function(){
+  // בלי GSAP (CDN חסום) הפסקה נשארת שלמה בצבע הטקסט הרגיל
+  if(typeof gsap==="undefined")return;
   const p=document.getElementById("hl-src");
   const MARK=["פניות","בסדר","הלקוח"];          // מילות המפתח שיקבלו הדגשה
   const bare=w=>w.replace(/[.,:;!?"'׳״]/g,"");   // סימני פיסוק נדבקים למילה ושוברים השוואה
@@ -145,22 +161,34 @@ export default [
     return s;
   });
   const STEP=.35;
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){
+  const mm=gsap.matchMedia();
+  mm.add("(prefers-reduced-motion: reduce)",()=>{
     gsap.set(spans,{color:"var(--ink)"});
-    gsap.set(marks.map(m=>m.mk),{color:"#fff","--fill":1});
-    return;
-  }
-  const tl=gsap.timeline({scrollTrigger:{trigger:".hl",start:"top 78%",end:"bottom 62%",scrub:.4}});
-  tl.to(spans,{color:"var(--ink)",duration:.4,stagger:STEP,ease:"none"},0);
-  // ההדגשה של כל מילת מפתח נפתחת בדיוק בזמן שהמילה שלה נצבעת
-  marks.forEach(m=>{
-    const at=m.i*STEP;
-    tl.fromTo(m.mk,{"--fill":0},{"--fill":1,duration:.4,ease:"power2.out"},at)
-      .to(m.mk,{color:"#fff",duration:.25},at+.1);
+    gsap.set(marks.map(m=>m.mk),{color:"var(--accent-ink)","--fill":1});
+  });
+  mm.add("(prefers-reduced-motion: no-preference)",()=>{
+    // GSAP לא מפענח את color(srgb ...) שהדפדפן מחזיר ל-color-mix, והטווין היה קופץ ללבן ואז מחשיך.
+    // לכן צבע ההתחלה מחושב פעם אחת ומומר ל-rgb
+    const probe=document.createElement("span");
+    probe.style.color="color-mix(in srgb, var(--ink) 62%, var(--bg, #fff))";
+    p.appendChild(probe);
+    const c=getComputedStyle(probe).color;
+    probe.remove();
+    const START=c.indexOf("color(")===0?"rgb("+c.match(/[\\d.]+/g).slice(0,3).map(v=>Math.round(v*255))+")":c;
+    gsap.set(spans,{color:START});
+    const tl=gsap.timeline({scrollTrigger:{trigger:".hl",start:"top 78%",end:"bottom 62%",scrub:.4}});
+    tl.to(spans,{color:"var(--ink)",duration:.4,stagger:STEP,ease:"none"},0);
+    // ההדגשה של כל מילת מפתח נפתחת בדיוק בזמן שהמילה שלה נצבעת, והטקסט שעליה מתהפך באמצע הפתיחה:
+    // חלון המעבר קצר מחצי מילה, כך שאין רגע של מילה אפורה על גוש צבע מלא
+    marks.forEach(m=>{
+      const at=m.i*STEP;
+      tl.fromTo(m.mk,{"--fill":0},{"--fill":1,duration:.15,ease:"none"},at)
+        .to(m.mk,{color:"var(--accent-ink)",duration:.04,ease:"none"},at+.08);
+    });
   });
 })();`,
   runway:true,
-  note:"ההדגשה חייבת להיות פסאודו-אלמנט מאחורי המילה ולא רקע על אותו אלמנט, אחרת אי אפשר להנפיש אותה בנפרד מצבע הטקסט. בעברית ה-transform-origin הוא right, כך שהצבע נפתח מהתחלת המילה. הפיצול הוא למילים בלבד: פיצול לאותיות בעברית שובר ניקוד ומייצר ג'יבריש בקורא מסך. ה-stagger הוא שמייצר את תחושת הקריאה, וה-scrub הקצר מונע תחושה שהטקסט רודף אחרי הגלילה."
+  note:"ההדגשה חייבת להיות פסאודו-אלמנט מאחורי המילה ולא רקע על אותו אלמנט, אחרת אי אפשר להנפיש אותה בנפרד מצבע הטקסט. בעברית ה-transform-origin הוא right, כך שהצבע נפתח מהתחלת המילה. הפיצול הוא למילים בלבד: פיצול לאותיות בעברית שובר ניקוד ומייצר ג'יבריש בקורא מסך. ה-stagger הוא שמייצר את תחושת הקריאה, וה-scrub הקצר מונע תחושה שהטקסט רודף אחרי הגלילה. **צבעים**: הטקסט על ההדגשה הוא var(--accent-ink) ולא לבן קבוע, כי בעור עם accent בהיר לבן על צהוב לא קריא; והוא מתהפך באמצע פתיחת ההדגשה, אחרת יש רגע של מילה אפורה על גוש צבע מלא. צבע ההתחלה הוא color-mix של הדיו והרקע (62 אחוז דיו), כך שהוא קריא בכל עור, אבל GSAP לא מפענח את הערך המחושב שלו (color(srgb ...)), ולכן הסקריפט ממיר אותו ל-rgb לפני הטווין. בלי GSAP הפסקה מוצגת שלמה בצבע הטקסט הרגיל."
 },
 {
   id:"b52", cat:"behavior", name:"הירו שמתקפל לתפריט דביק", tech:"GSAP · ScrollTrigger · sticky", status:"ממתין",
@@ -168,8 +196,11 @@ export default [
   when:"עמוד בית, עמוד שירות, תיק עבודות. פותר את המעבר המגושם בין הירו לתפריט הדביק, ונותן לגלילה הראשונה תחושת כוונה.",
   libs:["gsap","ScrollTrigger"],
   css:`.fu-scope{--fu-h:100vh}
-.fu-mask{position:sticky;top:0;z-index:60;height:var(--fu-h);overflow:hidden;background:var(--ink);
+/* בלי GSAP ובהפחתת תנועה ההירו הוא בלוק רגיל בגובה מסך והתוכן מתחתיו.
+   הדביקות והקיפול קיימים רק תחת .is-live, אחרת הירו דביק בגובה מסך מלא מכסה את כל העמוד */
+.fu-mask{position:relative;z-index:60;height:var(--fu-h);overflow:hidden;background:var(--ink);
   border-radius:0 0 var(--fu-r,0px) var(--fu-r,0px)}
+.fu-scope.is-live .fu-mask{position:sticky;top:0}
 .fu-media{position:absolute;inset:0;border-radius:0;font-size:0}
 .fu-inner{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr;padding:18px clamp(16px,3vw,34px)}
 .fu-nav{display:flex;align-items:center;justify-content:space-between;gap:16px;color:#fff;height:56px}
@@ -205,23 +236,30 @@ export default [
   </div>
 </div>`,
   js:`(function(){
+  if(typeof gsap==="undefined")return;
   const scope=document.querySelector(".fu-scope"),nav=scope.querySelector(".fu-nav"),title=scope.querySelector(".fu-title");
-  let tl;
-  function build(){
-    if(tl){tl.scrollTrigger&&tl.scrollTrigger.kill();tl.kill();gsap.set([scope,title],{clearProps:"all"});}
-    // הגובה הסופי נמדד מהתפריט האמיתי, כדי שלא יהיה מספר קסם בקוד
-    const navH=nav.offsetHeight+36;
-    scope.style.setProperty("--fu-bar",navH+"px");   // גם ה-CSS צריך את המידה הזאת
-    gsap.set(scope,{"--fu-h":"100vh","--fu-r":"0px"});
-    tl=gsap.timeline({scrollTrigger:{trigger:scope,start:"top top",end:"+=100%",scrub:.8}});
-    tl.to(scope,{"--fu-h":navH+"px","--fu-r":"22px",ease:"none"},0)
-      .to(title,{opacity:0,y:-30,ease:"none"},0);
-  }
-  build();
-  let t;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>{build();ScrollTrigger.refresh();},200);});
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    scope.classList.add("is-live");
+    let tl;
+    const kill=()=>{if(tl){tl.scrollTrigger&&tl.scrollTrigger.kill();tl.kill();tl=null;}gsap.set([scope,title],{clearProps:"all"});};
+    function build(){
+      kill();
+      // הגובה הסופי נמדד מהתפריט האמיתי, כדי שלא יהיה מספר קסם בקוד
+      const navH=nav.offsetHeight+36;
+      scope.style.setProperty("--fu-bar",navH+"px");   // גם ה-CSS צריך את המידה הזאת
+      gsap.set(scope,{"--fu-h":"100vh","--fu-r":"0px"});
+      tl=gsap.timeline({scrollTrigger:{trigger:scope,start:"top top",end:"+=100%",scrub:.6}});
+      tl.to(scope,{"--fu-h":navH+"px","--fu-r":"22px",ease:"none"},0)
+        .to(title,{opacity:0,y:-30,ease:"none"},0);
+    }
+    build();
+    let t;const onResize=()=>{clearTimeout(t);t=setTimeout(()=>{build();ScrollTrigger.refresh();},200);};
+    addEventListener("resize",onResize);
+    return ()=>{clearTimeout(t);removeEventListener("resize",onResize);kill();scope.classList.remove("is-live");};
+  });
 })();`,
   runway:true,
-  note:"הטריק הוא שאין שני אלמנטים: התפריט חי בתוך הירו מהרגע הראשון, והירו הוא זה שמתכווץ סביבו. `overflow:hidden` על המסכה הוא מה שגורם לתמונה להיחתך במקום להתכווץ, וזה מה שמייצר את תחושת הקיפול. **שתי הכרעות מבנה**: הדביקות היא `position:sticky` על מעטפת שעוטפת את כל תוכן העמוד, ולכן הרצועה נשארת למעלה עד הסוף בלי `position:fixed`; וכל מה שהמסכה מאבדת בגובה עובר למרווח משלים, אחרת העמוד היה מתקצר תוך כדי הגלילה והתנועה הייתה מקרטעת. ניסיון לעשות את זה עם `pin` נשבר: ScrollTrigger מניח טרנספורם על האלמנט המוצמד, וטרנספורם על אב שובר `position:fixed` של צאצא."
+  note:"הטריק הוא שאין שני אלמנטים: התפריט חי בתוך הירו מהרגע הראשון, והירו הוא זה שמתכווץ סביבו. `overflow:hidden` על המסכה הוא מה שגורם לתמונה להיחתך במקום להתכווץ, וזה מה שמייצר את תחושת הקיפול. **שתי הכרעות מבנה**: הדביקות היא `position:sticky` על מעטפת שעוטפת את כל תוכן העמוד, ולכן הרצועה נשארת למעלה עד הסוף בלי `position:fixed`; וכל מה שהמסכה מאבדת בגובה עובר למרווח משלים, אחרת העמוד היה מתקצר תוך כדי הגלילה והתנועה הייתה מקרטעת. ניסיון לעשות את זה עם `pin` נשבר: ScrollTrigger מניח טרנספורם על האלמנט המוצמד, וטרנספורם על אב שובר `position:fixed` של צאצא. בטלפון הקישורים מוסתרים, ובפרויקט מכניסים לתוך `.fu-nav` את כפתור המגירה (MV:b66), אחרת הרצועה המקופלת נשארת עם לוגו בלבד. בהפחתת תנועה, וגם כש-GSAP לא נטען, ההירו הוא בלוק רגיל בגובה מסך והתוכן מתחתיו: הדביקות והקיפול יושבים תחת `.is-live` שהסקריפט מוסיף, כי הירו דביק בגובה מסך מלא שלא מתקפל היה מכסה את כל העמוד."
 },
 {
   id:"b53", cat:"behavior", name:"מילים שמתעבות לפי קרבת הסמן", tech:"Variable font · GSAP ticker", status:"ממתין",
@@ -236,24 +274,30 @@ export default [
 .vf-menu .vw{font-size:clamp(17px,2vw,26px)}
 /* הרכיב מכריז על הפונט המשתנה בעצמו: בסטאק של האתר יכול לשבת פונט סטטי, ואז לציר אין משמעות */
 .vf-title,.vf-menu,.vw{font-family:Heebo,system-ui,sans-serif}
-.vw{display:inline-block;font-variation-settings:"wght" 400;will-change:font-variation-settings}
+/* כל מילה משריינת את הרוחב שלה במשקל המקסימלי (עותק נסתר בגובה אפס), כך שמילה שמתעבה
+   לא מרחיבה את השורה, לא דוחפת את השכנות ולא שוברת את הכותרת לשורה נוספת */
+.vw{display:inline-flex;flex-direction:column;align-items:center;font-variation-settings:"wght" 400;will-change:font-variation-settings}
+.vw::after{content:attr(data-w);height:0;overflow:hidden;visibility:hidden;font-variation-settings:"wght" 800;font-weight:800}
+/* אזור לחיצה גבוה יותר בלי לשנות את הפריסה: הריפוד מתקזז במרווח שלילי */
+.vf-menu a{color:inherit;text-decoration:none;padding-block:8px;margin-block:-8px}
+.vf-menu a:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
 .vf-hint{text-align:center;color:var(--muted);font-size:14px;padding-top:26px}
 @media(hover:none){.vf-hint::after{content:" (במגע האפקט כבוי, והטקסט נשאר במשקל הרגיל)"}}`,
   html:`<div class="stage tight"><div class="vf">
   <h2 class="vf-title" data-vf>אנחנו בונים אתרים שאנשים זוכרים</h2>
-  <nav class="vf-menu"><span data-vf>עבודות</span><span data-vf>שירותים</span><span data-vf>תהליך</span><span data-vf>אודות</span><span data-vf>צור קשר</span></nav>
+  <nav class="vf-menu"><a href="#" data-vf>עבודות</a><a href="#" data-vf>שירותים</a><a href="#" data-vf>תהליך</a><a href="#" data-vf>אודות</a><a href="#" data-vf>צור קשר</a></nav>
   <p class="vf-hint">הזז את העכבר מעל הטקסט.</p>
 </div></div>`,
   js:`(function(){
   const MIN=300,MAX=800,RADIUS=260;
-  if(matchMedia("(hover:none)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  if(typeof gsap==="undefined"||matchMedia("(hover:none)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
   const items=[];
   document.querySelectorAll("[data-vf]").forEach(el=>{
     // פיצול למילים בלבד: בעברית פיצול לאותיות שובר ניקוד ומייצר ג'יבריש בקורא מסך
     const parts=el.textContent.trim().split(/\\s+/);
     el.textContent="";
     parts.forEach((w,i)=>{
-      const s=document.createElement("span");s.className="vw";s.textContent=w;
+      const s=document.createElement("span");s.className="vw";s.textContent=w;s.dataset.w=w;
       el.appendChild(s);
       if(i<parts.length-1)el.appendChild(document.createTextNode(" "));
       items.push({el:s,cur:400,target:400});
@@ -266,7 +310,8 @@ export default [
   addEventListener("scroll",measure,{passive:true});
   addEventListener("resize",measure);
   addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;});
-  addEventListener("mouseleave",()=>{mx=my=-9999;});
+  // mouseleave על window לא נורה אף פעם; על documentElement הוא נורה כשהסמן יוצא מהחלון
+  document.documentElement.addEventListener("mouseleave",()=>{mx=my=-9999;});
   // ticker אחד לכל המילים: זול בהרבה מטוויין נפרד לכל אחת, ומייצר תנועה רציפה
   gsap.ticker.add(()=>{
     for(let i=0;i<items.length;i++){
@@ -274,14 +319,17 @@ export default [
       const d=Math.hypot(mx-b.x,my-b.y);
       const f=Math.max(0,1-d/RADIUS);
       items[i].target=MIN+(MAX-MIN)*(f*f);        // ריבוע: הדעיכה מהירה יותר, וזה מרגיש מגנטי
-      items[i].cur+=(items[i].target-items[i].cur)*.14;
-      const v=items[i].cur.toFixed(0);
+      const c=items[i].cur+(items[i].target-items[i].cur)*.14;
+      // מילה שכבר התייצבה לא נכתבת שוב: בלי זה ה-ticker כותב סגנון לכל המילים בכל פריים, לנצח
+      if(Math.abs(c-items[i].cur)<.05)continue;
+      items[i].cur=c;
+      const v=c.toFixed(0);
       items[i].el.style.fontVariationSettings='"wght" '+v;
       items[i].el.style.fontWeight=v;      // נפילה רכה: בפונט סטטי לפחות מקבלים מדרגות
     }
   });
 })();`,
   runway:false,
-  note:"זה עובד רק עם פונט משתנה שיש לו ציר wght רציף, ורק אם הוא באמת זה שמצויר. **המלכודת שנתפסה כאן**: בסטאק של האתר ישב פונט סטטי לפני Heebo, ולכן `font-variation-settings` נכתב כסגנון אבל לא שינה כלום. לכן הרכיב מצהיר על משפחת הפונט בעצמו, ו-Heebo נטען בטווח `wght@100..900` ולא בערכים בדידים. שני דברים חשובים לביצועים: מודדים את מיקומי המילים פעם אחת ולא בכל פריים, ומשתמשים ב-ticker אחד במקום בטוויין לכל מילה. הדעיכה בריבוע היא מה שנותן את התחושה המגנטית; דעיכה לינארית מרגישה כמו זרקור. במגע האפקט כבוי לגמרי, כי אין שם סמן."
+  note:"זה עובד רק עם פונט משתנה שיש לו ציר wght רציף, ורק אם הוא באמת זה שמצויר. **המלכודת שנתפסה כאן**: בסטאק של האתר ישב פונט סטטי לפני Heebo, ולכן `font-variation-settings` נכתב כסגנון אבל לא שינה כלום. לכן הרכיב מצהיר על משפחת הפונט בעצמו, ו-Heebo נטען בטווח `wght@100..900` ולא בערכים בדידים. שני דברים חשובים לביצועים: מודדים את מיקומי המילים פעם אחת ולא בכל פריים, ומשתמשים ב-ticker אחד במקום בטוויין לכל מילה. הדעיכה בריבוע היא מה שנותן את התחושה המגנטית; דעיכה לינארית מרגישה כמו זרקור. **מלכודת שנייה**: מילה שמתעבה נעשית רחבה יותר, ובלי הגנה השכנות זזות הצידה, ובכותרת שבקושי נכנסת בשורה אחת היא נשברת לשתיים וכל העמוד קופץ. לכן כל מילה משריינת את הרוחב שלה במשקל המקסימלי דרך עותק נסתר בגובה אפס (`::after` עם `attr(data-w)`), והפריסה לא זזה בכלל. מילה שהתייצבה לא נכתבת שוב בכל פריים. פריטי התפריט הם קישורים אמיתיים, כך שהקוד שמועתק לפרויקט מלמד תפריט נגיש במקלדת. במגע האפקט כבוי לגמרי, כי אין שם סמן."
 },
 ];

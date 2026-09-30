@@ -10,18 +10,22 @@ export default [
 .geo-head{text-align:center;padding-inline:var(--gutter);margin-bottom:clamp(30px,4vw,60px)}
 .geo-head h3{font-size:clamp(28px,3.6vw,60px);margin:0 0 10px;font-weight:800}
 .geo-head p{margin:0;color:var(--muted)}
-.geo-wrap{position:relative;width:min(1100px,94vw);margin-inline:auto}
+.geo-wrap{position:relative;width:min(1100px,100% - 2*var(--gutter));margin-inline:auto}
 .geo-wrap svg{width:100%;height:auto;overflow:visible;display:block}
 .geo-line{fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round}
-.geo-stop{position:absolute;transform:translate(-50%,-50%);text-align:center;opacity:0}
-.geo-dot{width:11px;height:11px;border-radius:50%;background:var(--ink);margin-inline:auto;position:relative}
+/* כל תחנה היא עמודה ברוחב אפס שהשפה שלה יושבת בדיוק על הנקודה במסלול, והתוכן ממורכז סביבה.
+   כך מרכז הנקודה על הקו בלי translate: ה-transform נשאר פנוי ל-GSAP (y של הכניסה). */
+.geo-stop,.geo-home{position:absolute;width:0;display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:calc(11px / -2)}
+.geo-home{margin-top:calc(16px / -2)}
+.geo-dot{flex:none;width:11px;height:11px;border-radius:50%;background:var(--ink);position:relative}
 .geo-dot::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px solid color-mix(in srgb,var(--ink) 28%,transparent)}
+/* רקע בצבע הסקשן מאחורי התוויות: הקו עובר מתחתן ולא חוצה אותן */
+.geo-name,.geo-min{width:max-content;padding-inline:.3em;border-radius:4px;background:var(--card)}
 .geo-name{font-size:clamp(13px,1.1vw,16px);font-weight:700;margin-top:12px;white-space:nowrap}
 .geo-min{font-size:12px;color:var(--muted);letter-spacing:.06em;white-space:nowrap}
-.geo-home{position:absolute;transform:translate(-50%,-50%);text-align:center}
 .geo-home .geo-dot{width:16px;height:16px;background:var(--accent)}
 .geo-home .geo-name{color:var(--accent);font-size:clamp(14px,1.2vw,18px)}
-@media(max-width:767px){.geo-name{font-size:12px}.geo-min{font-size:11px}}`,
+@media(max-width:767px){.geo-name{font-size:12px}.geo-min{font-size:12px}}`,
   html:`<div class="geo">
   <div class="geo-head"><h3>הכל במרחק נסיעה קצרה</h3><p>גלול, והקו יסמן את מה שיש מסביב</p></div>
   <div class="geo-wrap">
@@ -36,16 +40,20 @@ export default [
   </div>
 </div>`,
   js:`(function(){
-  const stops=gsap.utils.toArray(".geo-stop");
-  gsap.set(stops,{opacity:0,y:14});
-  const tl=gsap.timeline({scrollTrigger:{trigger:".geo-wrap",start:"top 78%",end:"bottom 62%",scrub:.8}});
-  // הקו נמתח מהקצה הימני שמאלה, ככיוון הקריאה: ה-path מוגדר כך שנקודת ההתחלה שלו בימין
-  tl.fromTo("#geoPath",{drawSVG:"0% 0%"},{drawSVG:"0% 100%",ease:"none",duration:1},0);
-  // כל תחנה נדלקת ברגע שהקו עובר לידה
-  stops.forEach(s=>{
-    tl.to(s,{opacity:1,y:0,duration:.12,ease:"power3.out"},+s.dataset.p);
+  if(typeof gsap==="undefined")return;
+  // בהפחתת תנועה (וגם בלי GSAP) הקו מצויר מלא וכל התחנות גלויות מההתחלה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const stops=gsap.utils.toArray(".geo-stop");
+    gsap.set(stops,{opacity:0,y:14});
+    const tl=gsap.timeline({scrollTrigger:{trigger:".geo-wrap",start:"top 78%",end:"bottom 62%",scrub:.6}});
+    // הקו נמתח מהקצה הימני שמאלה, ככיוון הקריאה: ה-path מוגדר כך שנקודת ההתחלה שלו בימין
+    tl.fromTo("#geoPath",{drawSVG:"0% 0%"},{drawSVG:"0% 100%",ease:"none",duration:1},0);
+    // כל תחנה נדלקת ברגע שהקו עובר לידה
+    stops.forEach(s=>{
+      tl.to(s,{opacity:1,y:0,duration:.12,ease:"power3.out"},+s.dataset.p);
+    });
   });
 })();`,
-  note:"המיקומים של התחנות באחוזים מעל אותו viewBox, ולכן הכל נשאר מיושר בכל רוחב מסך בלי חישוב ב-JS. ה-data-p הוא המקום בטיימליין שבו התחנה נדלקת, והוא מכוון לרגע שבו קצה הקו מגיע אליה. בפרויקט אמיתי מחליפים את ה-path בקו שמצויר לפי המפה של האזור."
+  note:"המיקומים של התחנות באחוזים מעל אותו viewBox, ולכן הכל נשאר מיושר בכל רוחב מסך בלי חישוב ב-JS. כל תחנה היא עמודה ברוחב אפס שהשפה שלה יושבת על הנקודה במסלול, והתוכן ממורכז סביבה ב-flex: מרכז הנקודה יושב על הקו, וה-transform נשאר פנוי ל-GSAP (translate(-50%,-50%) היה ממרכז את כל בלוק התווית ולא את הנקודה). לתוויות יש רקע בצבע הסקשן כדי שהקו לא יחצה אותן. ה-data-p הוא המקום בטיימליין שבו התחנה נדלקת, והוא מכוון לרגע שבו קצה הקו מגיע אליה. בפרויקט אמיתי מחליפים את ה-path בקו שמצויר לפי המפה של האזור. בהפחתת תנועה וכש-GSAP לא נטען, הקו מלא וכל התחנות גלויות."
 },
 ];
