@@ -56,9 +56,10 @@ export function withFallbacks(css) {
 
 // עוטף טקסט חשוף שיושב ישירות בתוך אלמנט .ph ב-span.ph-l. רץ בזמן בנייה, לא בקטלוג,
 // כדי שלא לגעת ב-183 מקומות ידנית ושכל כניסה חדשה תקבל את זה אוטומטית.
+// ph and not ph-l: \b sees the dash as a boundary, so a label already wrapped in the catalog got wrapped twice (g23, 30.9.2026)
 export function labelPh(html) {
   return html.replace(
-    /(<(div|span)\b[^>]*\bclass="[^"]*\bph\b[^"]*"[^>]*>)([^<]+?)(<\/\2>)/g,
+    /(<(div|span)\b[^>]*\bclass="[^"]*(?<![\w-])ph(?![\w-])[^"]*"[^>]*>)([^<]+?)(<\/\2>)/g,
     (m, open, tag, text, close) => text.trim() ? `${open}<span class="ph-l">${text.trim()}</span>${close}` : m
   );
 }
