@@ -4,21 +4,24 @@ export default [
 {
   id:"g109", cat:"gsap", name:"כותרת שמתפרקת לעומקים", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"מילות הכותרת נראות שורה רגילה, אבל בגלילה כל מילה נעה בקצב אחר, כאילו היא יושבת בעומק אחר. פרלקס בתוך משפט אחד.",
-  when:"כותרת הירו או כותרת סקשן דרמטית באתרי סטודיו ואופנה. אחת לעמוד, ארבע עד שבע מילים.",
-  note:"כל מילה מקבלת data-depth, וה-y שלה בסקראב הוא מכפלה של העומק, כך שהמילים נפרדות ומתאחדות סביב אמצע המסך. בלי pin, זול. במובייל העומק מוכפל ב-0.4 כדי שהשורות לא יתנגשו.",
+  when:"כותרת הירו או כותרת סקשן דרמטית באתרי סטודיו ואופנה. אחת לעמוד, ארבע עד שבע מילים שנכנסות בשורה אחת.",
+  note:"כל מילה מקבלת data-depth, וה-y שלה בסקראב הוא מכפלה של העומק, כך שהמילים נפרדות ומתאחדות סביב אמצע המסך. בלי pin, זול. המהלך בנוי לכותרת בשורה אחת (white-space:nowrap מ-768 ומעלה). במובייל הכותרת נשברת לכמה שורות ולכן בלי תזוזה: מילים משורות שונות מתנגשות. בהפחתת תנועה, וכש-GSAP לא נטען, הכותרת עומדת במקום.",
   libs:["gsap","ScrollTrigger"],
   css:`.dp{min-height:120vh;display:grid;place-items:center;padding-inline:var(--gutter)}
-.dp h2{font-size:clamp(34px,7vw,110px);line-height:1.1;margin:0;text-align:center;font-weight:900;max-width:14ch}
-.dp .w{display:inline-block;margin-inline:.14em;will-change:transform}
-.dp .w.ac{color:var(--accent)}`,
+.dp h2{font-size:clamp(28px,5.2vw,92px);line-height:1.1;margin:0;text-align:center;font-weight:900;white-space:nowrap}
+.dp .w{display:inline-block;margin-inline:.14em}
+.dp .w.ac{color:var(--accent)}
+@media(max-width:767px){.dp h2{white-space:normal;max-width:14ch;font-size:34px}}`,
   html:`<div class="dp"><h2><span class="w" data-depth="1.4">אתרים</span> <span class="w" data-depth="-.8">שנבנים</span> <span class="w ac" data-depth="2">סביב</span> <span class="w" data-depth="-1.6">פעולה</span> <span class="w" data-depth=".6">אחת</span></h2></div>`,
   js:`(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הכותרת פשוט עומדת
   const words=gsap.utils.toArray(".dp .w");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const k=matchMedia("(max-width:767px)").matches?24:60;
-  words.forEach(w=>{const d=+w.dataset.depth||1;
-    // מ-y חיובי ל-y שלילי דרך אפס באמצע הסקשן: המילים נפגשות לשורה אחת בדיוק כשהכותרת במרכז
-    gsap.fromTo(w,{y:d*k*1.6},{y:-d*k*1.6,ease:"none",scrollTrigger:{trigger:".dp",start:"top bottom",end:"bottom top",scrub:.5}});
+  // רק מ-768 ומעלה, שם הכותרת בשורה אחת. בטלפון היא נשברת לשלוש שורות, ומילים משורות שונות היו עולות זו על זו
+  gsap.matchMedia().add("(min-width: 768px) and (prefers-reduced-motion: no-preference)",()=>{
+    words.forEach(w=>{const d=+w.dataset.depth||1;
+      // מ-y חיובי ל-y שלילי דרך אפס באמצע הסקשן: המילים נפגשות לשורה אחת בדיוק כשהכותרת במרכז
+      gsap.fromTo(w,{y:d*96},{y:-d*96,ease:"none",scrollTrigger:{trigger:".dp",start:"top bottom",end:"bottom top",scrub:.5}});
+    });
   });
 })();`
 },
@@ -26,34 +29,48 @@ export default [
   id:"g110", cat:"gsap", name:"טקסט שנכתב עם הגלילה", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"פסקה שמופיעה אות אחרי אות בקצב הגלילה, עם סמן שמסמן איפה הכתיבה נמצאת. גוללים לאט, קוראים לאט. חוזרים למעלה, הטקסט נמחק.",
   when:"משפט מפתח או פסקת מניפסט שרוצים שייקראו עד הסוף. עד 220 תווים, פעם אחת בעמוד.",
-  note:"האותיות מפוצלות ל-span (בעברית בלי ניקוד זה בטוח: אין ליגטורות), ורק opacity משתנה, לכן אין reflow. הסמן הוא span שקופץ אחרי האות האחרונה הגלויה. במובייל אותו דבר עם פונט קטן יותר.",
+  note:"האותיות מפוצלות ל-span (בעברית בלי ניקוד זה בטוח: אין ליגטורות) בתוך מילים שלא נשברות, ורק opacity משתנה. הסמן הוא ::after על האות האחרונה הגלויה, ולכן אין reflow ואין מילה שנחתכת בין שורות. הטקסט כתוב ב-HTML כפסקה רגילה: קורא מסך מקבל אותו שלם (העותק המפוצל מוסתר ממנו), ובלי JS או כש-GSAP לא נטען הוא פשוט גלוי. בהפחתת תנועה הוא גלוי ובלי הצמדה. במובייל אותו דבר עם פונט קטן יותר.",
   libs:["gsap","ScrollTrigger"],
   css:`.tw2{position:relative;height:220vh}
 .tw2-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;padding-inline:var(--gutter)}
 .tw2 p{max-width:30ch;margin:0;font-size:clamp(24px,3.2vw,46px);font-weight:600;line-height:1.5;text-align:center}
-.tw2 p span{opacity:.12}
-.tw2 p span.on{opacity:1}
-.tw2 p i{display:inline-block;width:.08em;height:1em;background:var(--accent);vertical-align:-.15em;margin-inline-start:.04em;animation:tw2-b 1s steps(1) infinite}
+.tw2 p .w{white-space:nowrap}
+.tw2 p .c{opacity:.12}
+.tw2 p .c.on{opacity:1}
+.tw2 p .c.cur{position:relative}
+.tw2 p .c.cur::after{content:"";position:absolute;inset-inline-end:-.06em;top:.12em;width:.08em;height:1em;background:var(--accent);animation:tw2-b 1s steps(1) infinite}
+.tw2 p .c.cur.pre::after{inset-inline-end:auto;inset-inline-start:-.1em}
+.tw2 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @keyframes tw2-b{50%{opacity:0}}
-@media (prefers-reduced-motion: reduce){.tw2 p span{opacity:1}.tw2 p i{display:none}}`,
-  html:`<div class="tw2"><div class="tw2-pin"><p data-text="אנחנו לא מוכרים אתר. אנחנו מוכרים את הרגע שבו מישהו קורא, מבין, ומרים טלפון."></p></div></div>`,
+@media (prefers-reduced-motion: reduce){.tw2{height:auto}.tw2-pin{position:static;height:auto;min-height:70vh}}`,
+  html:`<div class="tw2"><div class="tw2-pin"><p>אנחנו לא מוכרים אתר. אנחנו מוכרים את הרגע שבו מישהו קורא, מבין, ומרים טלפון.</p></div></div>`,
   js:`(function(){
-  const p=document.querySelector(".tw2 p"),text=p.dataset.text;
-  const spans=[...text].map(ch=>{const s=document.createElement("span");s.textContent=ch;p.appendChild(s);return s;});
-  const car=document.createElement("i");p.appendChild(car);
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const o={n:0};
-  gsap.to(o,{n:spans.length,ease:"none",scrollTrigger:{trigger:".tw2",start:"top top",end:"bottom bottom",scrub:.4},
-    onUpdate(){const k=Math.round(o.n);spans.forEach((s,i)=>s.classList.toggle("on",i<k));
-      // הסמן זז אחרי האות האחרונה הגלויה
-      const last=spans[Math.max(0,k-1)];if(k>0)last.after(car);else p.prepend(car);}});
+  if(typeof gsap==="undefined")return;      // בלי GSAP הפסקה נשארת טקסט רגיל
+  const tw=document.querySelector(".tw2"),p=tw.querySelector("p"),text=p.textContent.trim();
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    // עותק שלם לקורא מסך, ועותק מפוצל לעין: כל מילה עוטפת את האותיות שלה ולא נשברת באמצע
+    const sr=document.createElement("span"),vis=document.createElement("span"),chars=[];
+    sr.className="sr-only";sr.textContent=text;vis.setAttribute("aria-hidden","true");
+    text.split(" ").forEach((word,i)=>{if(i)vis.append(" ");
+      const w=document.createElement("span");w.className="w";
+      [...word].forEach(ch=>{const c=document.createElement("span");c.className="c";c.textContent=ch;w.appendChild(c);chars.push(c);});
+      vis.appendChild(w);});
+    p.textContent="";p.append(sr,vis);
+    const o={n:0};let last=-1;
+    function paint(){const k=Math.round(o.n);if(k===last)return;last=k;
+      // הסמן יושב אחרי האות האחרונה הגלויה; לפני שהכתיבה מתחילה הוא מחכה לפני האות הראשונה
+      chars.forEach((c,i)=>{c.classList.toggle("on",i<k);c.classList.toggle("cur",k?i===k-1:!i);c.classList.toggle("pre",!k&&!i);});}
+    gsap.to(o,{n:chars.length,ease:"none",onUpdate:paint,scrollTrigger:{trigger:tw,start:"top top",end:"bottom bottom",scrub:.4}});
+    paint();
+    return()=>{p.textContent=text;};
+  });
 })();`
 },
 {
   id:"g111", cat:"gsap", name:"מסך טלפון מוצמד עם מסכים שמתחלפים", tech:"GSAP · ScrollTrigger · pin", status:"ממתין",
   desc:"מסגרת טלפון נשארת במקום, ובזמן שהטקסט גולל לצידה המסכים בתוכה מתחלפים: כל פיצ'ר מקבל מסך משלו שנכנס מלמטה. עמוד אפליקציה קלאסי.",
   when:"אפליקציה, מערכת, כל מוצר עם מסכים. שלושה עד חמישה פיצ'רים.",
-  note:"המסכים ערומים בתוך המסגרת ומוזזים ב-yPercent, כך שאין reflow. במובייל הטלפון מוצמד למעלה בגובה 46vh והטקסט גולל מתחת, כמו בשאר מהלכי הצמדה במאגר.",
+  note:"המסכים ערומים בתוך המסגרת ומוזזים ב-yPercent, כך שאין reflow. במובייל הטלפון מוצמד למעלה בגובה 46vh והטקסט גולל מתחת, כמו בשאר מהלכי הצמדה במאגר, והצל שלו קצר כדי שלא ייפול על הטקסט. בהפחתת תנועה המסך מתחלף מיד, בלי החלקה. כש-GSAP לא נטען הטלפון מראה את המסך הראשון וכל השלבים בטקסט מלא (העמעום של שלב לא פעיל רק תחת המחלקה pm-live שהסקריפט מוסיף).",
   libs:["gsap","ScrollTrigger"],
   css:`.pm{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start;max-width:1000px;margin-inline:auto}
 .pm-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center}
@@ -66,12 +83,13 @@ export default [
 .pm-s i.mid{height:64px}
 .pm-s b{font-size:15px;color:var(--ink)}
 .pm-steps{display:flex;flex-direction:column;gap:44vh;padding-block:36vh}
-.pm-step{opacity:.3;transition:opacity .4s}
-.pm-step.on{opacity:1}
+.pm:not(.pm-live) .pm-s+.pm-s{display:none}
+.pm-live .pm-step{opacity:.3;transition:opacity .4s}
+.pm-live .pm-step.on{opacity:1}
 .pm-step b{display:block;font-size:12px;color:var(--accent);letter-spacing:.14em;margin-bottom:8px}
 .pm-step h3{margin:0 0 8px;font-size:clamp(22px,2.6vw,36px)}
 .pm-step p{margin:0;color:var(--muted);line-height:1.7;max-width:36ch}
-@media(max-width:767px){.pm{grid-template-columns:1fr}.pm-pin{height:46vh;top:0;z-index:2;background:var(--bg)}.pm-phone{width:min(40vw,190px)}.pm-steps{gap:26vh;padding-block:6vh 30vh}}`,
+@media(max-width:767px){.pm{grid-template-columns:1fr}.pm-pin{height:46vh;top:0;z-index:2;background:var(--bg)}.pm-phone{width:min(40vw,190px);box-shadow:0 14px 28px rgba(0,0,0,.18)}.pm-steps{gap:26vh;padding-block:6vh 30vh}}`,
   html:`<div class="stage tight"><div class="pm">
   <div class="pm-pin"><div class="pm-phone"><div class="pm-screen">
     <div class="pm-s"><b>היום</b><i class="big"></i><i></i><i></i><i class="mid"></i></div>
@@ -85,29 +103,36 @@ export default [
   </div>
 </div></div>`,
   js:`(function(){
-  const screens=gsap.utils.toArray(".pm-s"),steps=gsap.utils.toArray(".pm-step"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  screens.forEach((s,i)=>gsap.set(s,{yPercent:i?100:0}));
-  let cur=0;
-  function go(k){if(k===cur)return;const dir=k>cur?1:-1,prev=cur;cur=k;
-    steps.forEach((s,i)=>s.classList.toggle("on",i===k));
-    if(reduce){gsap.set(screens[prev],{yPercent:100});gsap.set(screens[k],{yPercent:0});return;}
-    gsap.to(screens[prev],{yPercent:-100*dir,duration:.6,ease:"power3.inOut"});
-    gsap.fromTo(screens[k],{yPercent:100*dir},{yPercent:0,duration:.6,ease:"power3.inOut"});}
-  steps[0].classList.add("on");
-  steps.forEach((s,i)=>ScrollTrigger.create({trigger:s,start:"top 60%",end:"bottom 40%",onEnter:()=>go(i),onEnterBack:()=>go(i)}));
+  if(typeof gsap==="undefined")return;      // בלי GSAP: המסך הראשון בטלפון, וכל השלבים בטקסט מלא
+  const pm=document.querySelector(".pm"),screens=gsap.utils.toArray(".pm-s"),steps=gsap.utils.toArray(".pm-step");
+  gsap.matchMedia().add({go:"(prefers-reduced-motion: no-preference)",rm:"(prefers-reduced-motion: reduce)"},ctx=>{
+    const rm=ctx.conditions.rm;let cur=0;
+    pm.classList.add("pm-live");
+    screens.forEach((s,i)=>gsap.set(s,{yPercent:i?100:0}));
+    steps.forEach((s,i)=>s.classList.toggle("on",!i));
+    function go(k){if(k===cur)return;const dir=k>cur?1:-1,prev=cur;cur=k;
+      steps.forEach((s,i)=>s.classList.toggle("on",i===k));
+      // הפחתת תנועה: המסך מתחלף מיד, בלי החלקה
+      if(rm){gsap.set(screens[prev],{yPercent:100});gsap.set(screens[k],{yPercent:0});return;}
+      gsap.to(screens[prev],{yPercent:-100*dir,duration:.6,ease:"power3.inOut",overwrite:true});
+      gsap.fromTo(screens[k],{yPercent:100*dir},{yPercent:0,duration:.6,ease:"power3.inOut",overwrite:true});}
+    steps.forEach((s,i)=>ScrollTrigger.create({trigger:s,start:"top 60%",end:"bottom 40%",onEnter:()=>go(i),onEnterBack:()=>go(i)}));
+    return()=>{pm.classList.remove("pm-live");steps.forEach(s=>s.classList.remove("on"));gsap.set(screens,{clearProps:"transform"});};
+  });
 })();`
 },
 {
   id:"g112", cat:"gsap", name:"מפלס שעולה: מילוי גלי בגלילה", tech:"GSAP · ScrollTrigger · SVG", status:"ממתין",
   desc:"מכל עגול שמתמלא בנוזל ככל שגוללים, עם גל שמתנדנד על פני השטח ומספר שעולה יחד עם המפלס. יעד, אחוז השלמה, שביעות רצון.",
   when:"נתון אחד שהוא אחוז: שביעות רצון, יעד גיוס, אחוז לקוחות חוזרים. אחד לסקשן.",
-  note:"הגל הוא path ב-SVG שרוחבו כפול מהמכל ונע אופקית בלולאה (CSS keyframes), והגובה שלו הוא y בסקראב. המספר מתעדכן מאותו progress. במובייל המכל קטן ל-60vw.",
+  note:"הגל הוא path ב-SVG שרוחבו כפול מהמכל ונע אופקית בלולאה (CSS keyframes), והגובה שלו הוא y בסקראב: פני הגל יושבים ב-y=40 מתוך 200, ולכן 0% הוא הזזה של 160 למטה ו-100% הוא 40 למעלה, והמפלס תואם למספר. המספר מתעדכן מאותו progress, והערך הסופי כתוב ב-HTML (בלי JS, כש-GSAP לא נטען ובהפחתת תנועה רואים מיד את המפלס והמספר הסופיים). שפת הזכוכית היא ::after מעל הנוזל. במובייל המכל קטן ל-60vw.",
   libs:["gsap","ScrollTrigger"],
   css:`.lq-wrap{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,80px);align-items:center;max-width:900px;margin-inline:auto;padding-block:20vh 30vh}
-.lq{position:relative;width:min(300px,60vw);aspect-ratio:1;border-radius:50%;background:var(--card);border:1px solid var(--line);overflow:hidden;box-shadow:inset 0 0 0 10px var(--bg)}
+.lq{position:relative;width:min(300px,60vw);aspect-ratio:1;border-radius:50%;background:var(--card);border:1px solid var(--line);overflow:hidden}
+.lq::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 10px var(--bg);pointer-events:none;z-index:1}
 .lq svg{position:absolute;left:0;top:0;width:200%;height:100%;will-change:transform;animation:lq-drift 5s linear infinite}
 .lq path{fill:var(--accent);opacity:.9}
-.lq-num{position:absolute;inset:0;display:flex;direction:ltr;align-items:center;justify-content:center;gap:.04em;font-size:clamp(44px,7vw,84px);font-weight:900;color:var(--ink);font-variant-numeric:tabular-nums;text-shadow:0 1px 0 var(--card)}
+.lq-num{position:absolute;inset:0;z-index:2;display:flex;direction:ltr;align-items:center;justify-content:center;gap:.04em;font-size:clamp(44px,7vw,84px);font-weight:900;color:var(--ink);font-variant-numeric:tabular-nums;text-shadow:0 1px 0 var(--card)}
 .lq-num small{font-size:.5em;font-weight:800}
 @keyframes lq-drift{to{transform:translateX(-50%)}}
 .lq-txt h2{margin:0 0 10px;font-size:var(--fs-h2)}
@@ -115,44 +140,52 @@ export default [
 @media(max-width:767px){.lq-wrap{grid-template-columns:1fr;justify-items:center;text-align:center}}
 @media (prefers-reduced-motion: reduce){.lq svg{animation:none}}`,
   html:`<div class="stage"><div class="lq-wrap">
-  <div class="lq" role="img" aria-label="94 אחוז שביעות רצון">
+  <div class="lq" role="img" aria-label="94 אחוז מהלקוחות חוזרים">
     <svg viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true"><g class="lq-wave"><path d="M0 40 Q 50 20 100 40 T 200 40 T 300 40 T 400 40 V 400 H 0 Z"/></g></svg>
-    <div class="lq-num"><span class="lq-val">0</span><small>%</small></div>
+    <div class="lq-num"><span class="lq-val">94</span><small>%</small></div>
   </div>
   <div class="lq-txt"><h2>94% מהלקוחות חוזרים</h2><p>לא כי הם חייבים. כי כשמשהו עובד, ממשיכים איתו.</p></div>
 </div></div>`,
   js:`(function(){
-  const wave=document.querySelector(".lq-wave"),val=document.querySelector(".lq-val"),TARGET=94;
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const o={p:0};
-  // המפלס: הגל יושב ב-y=40 מתוך 200 בגובה ה-SVG, ולכן 0% = הזזה של 200 למטה ו-100% = 0
-  gsap.set(wave,{y:200});
-  gsap.to(o,{p:1,ease:"none",scrollTrigger:{trigger:".lq",start:"top 85%",end:"top 25%",scrub:reduce?false:.5},
-    onUpdate(){const lvl=o.p*TARGET/100;gsap.set(wave,{y:200-lvl*200});val.textContent=Math.round(o.p*TARGET);}});
+  const wave=document.querySelector(".lq-wave"),val=document.querySelector(".lq-val"),TARGET=+val.textContent;
+  // המפלס: פני הגל יושבים ב-y=40 מתוך 200, ולכן 0% = הזזה של 160 למטה ו-100% = 40 למעלה
+  const level=p=>160-p*200;
+  // בלי GSAP: המפלס הסופי נכתב ישר ל-SVG, והמספר הסופי כבר ב-HTML
+  if(typeof gsap==="undefined"){wave.setAttribute("transform","translate(0 "+level(TARGET/100)+")");return;}
+  gsap.matchMedia().add({go:"(prefers-reduced-motion: no-preference)",rm:"(prefers-reduced-motion: reduce)"},ctx=>{
+    if(ctx.conditions.rm){gsap.set(wave,{y:level(TARGET/100)});val.textContent=TARGET;return;}
+    const o={p:0};
+    gsap.set(wave,{y:level(0)});val.textContent="0";
+    gsap.to(o,{p:1,ease:"none",scrollTrigger:{trigger:".lq",start:"top 85%",end:"top 25%",scrub:.5},
+      onUpdate(){gsap.set(wave,{y:level(o.p*TARGET/100)});val.textContent=Math.round(o.p*TARGET);}});
+    return()=>{val.textContent=TARGET;};
+  });
 })();`
 },
 {
   id:"g115", cat:"gsap", name:"מחשב נייד שנפתח בגלילה", tech:"GSAP · ScrollTrigger · 3D", status:"ממתין",
   desc:"מחשב נייד סגור שהמכסה שלו נפתח ככל שגוללים, והמסך נדלק ומראה את המוצר. המחשב מתרומם קלות לזווית צפייה.",
   when:"מערכת, SaaS, דשבורד, כל מוצר שחי במסך גדול. הירו או סקשן הדגמה, פעם אחת.",
-  note:"המכסה מסתובב סביב הציר התחתון (transform-origin bottom, rotateX מ--88 ל-0) בפרספקטיבה, והמסך שבפנים נדלק (opacity) אחרי 40% מהפתיחה. במובייל המחשב צר יותר ומופיע מלמעלה עם זווית קטנה.",
+  note:"המכסה מסתובב סביב הציר התחתון (transform-origin bottom, rotateX מ--88 ל-0) בפרספקטיבה, והמסך שבפנים נדלק (opacity) אחרי 40% מהפתיחה. הסקראב ליניארי (ease none): הגלילה היא העקומה. במובייל המחשב 80vw, הפרספקטיבה ארוכה יותר כדי שהמכסה הסגור לא יחרוג מהמסך, והזווית קטנה. בהפחתת תנועה, וכש-GSAP לא נטען, המחשב פתוח והמסך דלוק מההתחלה (בהפחתת תנועה גם בלי הצמדה).",
   libs:["gsap","ScrollTrigger"],
   css:`.lp{position:relative;height:200vh}
 .lp-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1600px;overflow:hidden}
 .lp-dev{position:relative;width:min(760px,88vw);transform-style:preserve-3d;will-change:transform}
 .lp-lid{position:relative;aspect-ratio:16/10;border-radius:18px 18px 4px 4px;background:var(--ink);padding:14px;transform-origin:50% 100%;transform-style:preserve-3d;will-change:transform;box-shadow:0 30px 80px rgba(0,0,0,.3)}
 .lp-scr{width:100%;height:100%;border-radius:10px;background:#0c0d16;overflow:hidden;position:relative}
-.lp-ui{position:absolute;inset:0;padding:6%;display:grid;grid-template-columns:1fr 3fr;gap:3%;opacity:0}
+.lp-ui{position:absolute;inset:0;padding:6%;display:grid;grid-template-columns:1fr 3fr;gap:3%}
 .lp-ui i{display:block;border-radius:6px;background:rgba(255,255,255,.08)}
 .lp-ui .side{display:grid;gap:8%;align-content:start}
-.lp-ui .side i{height:10%}
-.lp-ui .side i:first-child{background:var(--accent);height:16%}
+.lp-ui .side i{height:clamp(6px,1.1vw,12px)}
+.lp-ui .side i:first-child{background:var(--accent);height:clamp(10px,1.8vw,20px)}
 .lp-ui .main{display:grid;grid-template-rows:1fr 2fr;gap:6%}
 .lp-ui .main i:last-child{background:linear-gradient(180deg,transparent 60%,color-mix(in srgb,var(--accent) 35%,transparent))}
 .lp-base{height:18px;border-radius:0 0 16px 16px;background:linear-gradient(180deg,#2a2d3f,#15172a);position:relative}
 .lp-base::after{content:"";position:absolute;top:0;left:50%;translate:-50% 0;width:18%;height:5px;border-radius:0 0 6px 6px;background:#0c0d16}
 .lp-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted);font-size:14px}
-@media(max-width:767px){.lp{height:160vh}.lp-pin{perspective:1000px}}`,
+.lp:not(.lp-live) .lp-cap{display:none}
+@media(max-width:767px){.lp{height:160vh}.lp-pin{perspective:2000px}.lp-dev{width:80vw}}
+@media (prefers-reduced-motion: reduce){.lp{height:auto}.lp-pin{position:static;height:auto;padding-block:12vh}}`,
   html:`<div class="lp">
   <div class="lp-pin"><div class="lp-dev">
     <div class="lp-lid"><div class="lp-scr"><div class="lp-ui"><div class="side"><i></i><i></i><i></i><i></i></div><div class="main"><i></i><i></i></div></div></div></div>
@@ -160,76 +193,92 @@ export default [
   </div><p class="lp-cap">גלול כדי לפתוח</p></div>
 </div>`,
   js:`(function(){
-  const lid=document.querySelector(".lp-lid"),dev=document.querySelector(".lp-dev");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(".lp-ui",{opacity:1});return;}
-  const mob=matchMedia("(max-width:767px)").matches;
-  gsap.set(lid,{rotateX:-88});gsap.set(dev,{rotateX:mob?8:14,y:40});
-  gsap.timeline({scrollTrigger:{trigger:".lp",start:"top top",end:"bottom bottom",scrub:.6}})
-    .to(lid,{rotateX:0,duration:1,ease:"power2.inOut"},0)
-    .to(dev,{rotateX:mob?2:4,y:0,duration:1,ease:"power2.inOut"},0)
-    .to(".lp-ui",{opacity:1,duration:.4},.4)
-    .to(".lp-cap",{opacity:0,duration:.2},0);
+  if(typeof gsap==="undefined")return;      // בלי GSAP המחשב פתוח והמסך דלוק
+  const lp=document.querySelector(".lp"),lid=lp.querySelector(".lp-lid"),dev=lp.querySelector(".lp-dev"),ui=lp.querySelector(".lp-ui"),cap=lp.querySelector(".lp-cap");
+  gsap.matchMedia().add({desk:"(min-width: 768px) and (prefers-reduced-motion: no-preference)",mob:"(max-width: 767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const mob=ctx.conditions.mob;
+    lp.classList.add("lp-live");
+    gsap.set(lid,{rotateX:-88});gsap.set(dev,{rotateX:mob?8:14,y:40});gsap.set(ui,{opacity:0});
+    // סקראב: הגלילה היא העקומה, ולכן ease none
+    gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:lp,start:"top top",end:"bottom bottom",scrub:.6}})
+      .to(lid,{rotateX:0,duration:1},0)
+      .to(dev,{rotateX:mob?2:4,y:0,duration:1},0)
+      .to(ui,{opacity:1,duration:.4},.4)
+      .to(cap,{opacity:0,duration:.2},0);
+    return()=>lp.classList.remove("lp-live");
+  });
 })();`
 },
 {
   id:"g116", cat:"gsap", name:"יחס שמשתנה בגלילה", tech:"GSAP · ScrollTrigger · clip-path", status:"ממתין",
   desc:"שני משטחים צבעוניים שמייצגים יחס: לפני ואחרי, אנחנו מול השוק, שתי אפשרויות. בגלילה הגבול ביניהם זז והמספרים משתנים יחד איתו.",
   when:"נתון השוואתי אחד חזק: מ-20% ל-80%, חצי מהזמן, פי שלושה. אחד לעמוד.",
-  note:"שכבה אחת מלאה מאחור ושכבה שנייה עם clip-path inset מצד אחד, בסקראב. המספרים מחושבים מאותו progress. אין שינוי רוחב אמיתי, לכן אין reflow. במובייל שני המשטחים זה מעל זה והגבול אופקי.",
+  note:"שכבה אחת מלאה מאחור ושכבה שנייה עם clip-path inset מצד אחד, בסקראב ליניארי (ease none). המספרים מחושבים מאותו progress. אין שינוי רוחב אמיתי, לכן אין reflow. המספר והתווית של הצד הקטן (20%) נכנסים בתוכו בכל רוחב מ-360 עד 1920, ולכן הצד הקטן לא יורד מ-20%. במובייל שני המשטחים זה מעל זה והגבול אופקי. בהפחתת תנועה מוצג מיד המצב של אחרי, בלי הצמדה; כש-GSAP לא נטען, המצב של לפני.",
   libs:["gsap","ScrollTrigger"],
   css:`.rt{position:relative;height:200vh}
 .rt-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;padding-inline:var(--gutter)}
 .rt-box{position:relative;width:min(1000px,100%);height:min(56vh,520px);border-radius:var(--r);overflow:hidden;--p:20%}
-.rt-a,.rt-b{position:absolute;inset:0;display:grid;align-content:center;padding:clamp(20px,4vw,48px)}
+.rt-a,.rt-b{position:absolute;inset:0;display:grid;align-content:center;padding:clamp(16px,2.4vw,32px)}
 .rt-a{background:var(--card);border:1px solid var(--line);color:var(--ink);justify-items:end}
 .rt-b{background:var(--accent);color:var(--accent-ink);clip-path:inset(0 0 0 calc(100% - var(--p)));justify-items:start}
-.rt-box b{font-size:clamp(48px,9vw,140px);font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
-.rt-box small{font-size:clamp(14px,1.4vw,18px);opacity:.8;margin-top:8px}
-@media(max-width:767px){.rt-b{clip-path:inset(calc(100% - var(--p)) 0 0 0)}.rt-a{align-content:start}.rt-b{align-content:end}}`,
+.rt-box b{font-size:clamp(40px,7vw,104px);font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.rt-box small{font-size:clamp(14px,1.4vw,18px);opacity:.8;margin-top:8px;max-width:12ch}
+@media(max-width:767px){.rt-box{height:min(72vh,580px)}.rt-box small{max-width:none}.rt-b{clip-path:inset(calc(100% - var(--p)) 0 0 0)}.rt-a{align-content:start}.rt-b{align-content:end}}
+@media (prefers-reduced-motion: reduce){.rt{height:auto}.rt-pin{position:static;height:auto;padding-block:12vh}}`,
   html:`<div class="rt">
   <div class="rt-pin"><div class="rt-box" role="img" aria-label="מ-20 אחוז פניות ל-80 אחוז">
     <div class="rt-a"><b><span class="rt-na">80</span>%</b><small>מהגולשים עזבו בלי לפנות</small></div>
-    <div class="rt-b"><b><span class="rt-nb">20</span>%</b><small>פנו אחרי האתר החדש</small></div>
+    <div class="rt-b"><b><span class="rt-nb">20</span>%</b><small>מהגולשים פנו</small></div>
   </div></div>
 </div>`,
   js:`(function(){
-  const box=document.querySelector(".rt-box"),na=document.querySelector(".rt-na"),nb=document.querySelector(".rt-nb");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const o={p:20};
-  gsap.to(o,{p:80,ease:"power2.inOut",scrollTrigger:{trigger:".rt",start:"top top",end:"bottom bottom",scrub:reduce?false:.5},
-    onUpdate(){box.style.setProperty("--p",o.p+"%");nb.textContent=Math.round(o.p);na.textContent=Math.round(100-o.p);}});
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר המצב של לפני, קריא
+  const box=document.querySelector(".rt-box"),na=box.querySelector(".rt-na"),nb=box.querySelector(".rt-nb");
+  const paint=p=>{box.style.setProperty("--p",p+"%");nb.textContent=Math.round(p);na.textContent=Math.round(100-p);};
+  gsap.matchMedia().add({go:"(prefers-reduced-motion: no-preference)",rm:"(prefers-reduced-motion: reduce)"},ctx=>{
+    // הפחתת תנועה: המצב של אחרי, מיד ובלי הצמדה (ה-CSS מבטל את ה-sticky)
+    if(ctx.conditions.rm){paint(80);return()=>paint(20);}
+    const o={p:20};
+    // סקראב: הגלילה היא העקומה, ולכן ease none
+    gsap.to(o,{p:80,ease:"none",onUpdate:()=>paint(o.p),scrollTrigger:{trigger:".rt",start:"top top",end:"bottom bottom",scrub:.5}});
+  });
 })();`
 },
 {
   id:"g117", cat:"gsap", name:"גלגלות סלוט שמתייצבות בגלילה", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"שלושה מספרים או מילים על גלגלות אנכיות שמסתובבות מהר כשהסקשן נכנס, ומתייצבות אחת אחרי השנייה על הערך הנכון. \"במספרים\" עם דרמה.",
   when:"סקשן מספרים: שנות ניסיון, פרויקטים, לקוחות. שלושה עד ארבעה ערכים. פעם אחת בעמוד.",
-  note:"כל גלגלת היא רצועה של ערכים שמוזזת ב-yPercent עד לערך הסופי (שיושב אחרון ברצועה), עם ease out ארוך וסטאגר בין הגלגלות. הרצועה נבנית ב-JS מהערך הסופי ומכמה ערכי ביניים. במובייל הגלגלות בעמודה.",
+  note:"כל גלגלת היא רצועה של ערכים שמוזזת ב-yPercent עד לערך הסופי (שיושב אחרון ברצועה), עם ease out ארוך (power3.out) וסטאגר בין הגלגלות. הערך הסופי כתוב ב-HTML, והרצועה נבנית ב-JS ממנו ומכמה ערכי ביניים (באחוזים עד 99). קורא מסך מקבל רק את הערך הסופי: הרצועה aria-hidden. בלי JS, בהפחתת תנועה וכש-GSAP לא נטען מוצג הערך הסופי כטקסט. במובייל הגלגלות בעמודה.",
   libs:["gsap","ScrollTrigger"],
   css:`.sl{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);max-width:960px;margin-inline:auto;padding-block:10vh 20vh}
 .sl-it{text-align:center}
-.sl-reel{height:1.1em;overflow:hidden;font-size:clamp(48px,7vw,110px);font-weight:900;line-height:1.1;color:var(--ink);font-variant-numeric:tabular-nums;
-  mask-image:linear-gradient(180deg,transparent,#000 25%,#000 75%,transparent);-webkit-mask-image:linear-gradient(180deg,transparent,#000 25%,#000 75%,transparent)}
+.sl-reel{height:1.3em;overflow:hidden;font-size:clamp(48px,7vw,110px);font-weight:900;line-height:1.3;color:var(--ink);font-variant-numeric:tabular-nums;
+  mask-image:linear-gradient(180deg,transparent,#000 14%,#000 86%,transparent);-webkit-mask-image:linear-gradient(180deg,transparent,#000 14%,#000 86%,transparent)}
 .sl-strip{display:flex;flex-direction:column;will-change:transform}
-.sl-strip span{height:1.1em}
+.sl-strip span{height:1.3em}
+.sl .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 .sl-lbl{color:var(--muted);font-size:15px;margin-top:8px}
 @media(max-width:767px){.sl{grid-template-columns:1fr;gap:28px}}`,
   html:`<div class="stage"><div class="sl">
-  <div class="sl-it"><div class="sl-reel" data-final="12" data-suffix="+"></div><div class="sl-lbl">שנות ניסיון</div></div>
-  <div class="sl-it"><div class="sl-reel" data-final="140" data-suffix=""></div><div class="sl-lbl">פרויקטים שעלו לאוויר</div></div>
-  <div class="sl-it"><div class="sl-reel" data-final="98" data-suffix="%"></div><div class="sl-lbl">לקוחות שממליצים</div></div>
+  <div class="sl-it"><div class="sl-reel" data-final="12" data-suffix="+">12+</div><div class="sl-lbl">שנות ניסיון</div></div>
+  <div class="sl-it"><div class="sl-reel" data-final="140" data-suffix="">140</div><div class="sl-lbl">פרויקטים שעלו לאוויר</div></div>
+  <div class="sl-it"><div class="sl-reel" data-final="98" data-suffix="%">98%</div><div class="sl-lbl">לקוחות שממליצים</div></div>
 </div></div>`,
   js:`(function(){
-  const reels=gsap.utils.toArray(".sl-reel"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  reels.forEach((r,i)=>{
-    const fin=r.dataset.final,suf=r.dataset.suffix||"",strip=document.createElement("div");strip.className="sl-strip";
-    // רצועה של 12 ערכים אקראיים ואז הערך הסופי: הגלגלת נראית כאילו "עברה" על הרבה מספרים
-    const vals=[];for(let k=0;k<12;k++)vals.push(Math.floor(Math.random()*(+fin*1.6+9)));vals.push(fin);
-    vals.forEach(v=>{const s=document.createElement("span");s.textContent=v+suf;strip.appendChild(s);});
-    r.appendChild(strip);
-    if(reduce){gsap.set(strip,{yPercent:-100*(vals.length-1)/vals.length});return;}
-    gsap.fromTo(strip,{yPercent:0},{yPercent:-100*(vals.length-1)/vals.length,duration:2.2+i*.4,ease:"power4.out",
-      scrollTrigger:{trigger:".sl",start:"top 75%",once:true}});
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר הערך הסופי שכתוב ב-HTML
+  const reels=gsap.utils.toArray(".sl-reel");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    reels.forEach((r,i)=>{
+      const fin=r.dataset.final,suf=r.dataset.suffix||"",strip=document.createElement("div"),sr=document.createElement("span");
+      strip.className="sl-strip";strip.setAttribute("aria-hidden","true");sr.className="sr-only";sr.textContent=fin+suf;
+      // רצועה של 12 ערכים אקראיים ואז הערך הסופי: הגלגלת נראית כאילו "עברה" על הרבה מספרים. אחוזים לא עוברים את 99
+      const vals=[];for(let k=0;k<12;k++)vals.push(suf==="%"?Math.floor(Math.random()*100):Math.floor(Math.random()*(+fin*1.6+9)));vals.push(fin);
+      vals.forEach(v=>{const s=document.createElement("span");s.textContent=v+suf;strip.appendChild(s);});
+      r.textContent="";r.append(sr,strip);
+      gsap.fromTo(strip,{yPercent:0},{yPercent:-100*(vals.length-1)/vals.length,duration:2.2+i*.4,ease:"power3.out",
+        scrollTrigger:{trigger:".sl",start:"top 75%",once:true}});
+    });
+    return()=>reels.forEach(r=>{r.textContent=r.dataset.final+(r.dataset.suffix||"");});
   });
 })();`
 },
@@ -237,7 +286,7 @@ export default [
   id:"g118", cat:"gsap", name:"אלכסון צבע שמסתובב מאחורי העמוד", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"משטח צבע ענק ואלכסוני שיושב מאחורי כמה סקשנים ומסתובב לאט עם הגלילה, כך שהגבול בין הצבעים חוצה את התוכן בזווית אחרת בכל רגע. רקע שנושם בלי להסיח.",
   when:"אתרי מותג עם צבע חזק, עמודי קמפיין, סקשני ביניים ארוכים. אחד לעמוד, מאחורי שניים עד ארבעה סקשנים.",
-  note:"המשטח sticky בגובה המסך, גדול פי 1.6 מהמסך כדי שהסיבוב לא יחשוף פינות, ומסתובב מ--14 ל-14 מעלות בסקראב. הטקסט מעליו שומר ניגודיות כי כל סקשן מגדיר צבע טקסט לפי הצד שלו. במובייל הזווית קטנה (8 מעלות).",
+  note:"המשטח sticky בגובה המסך, גדול פי 1.6 מהמסך כדי שהסיבוב לא יחשוף פינות, ומסתובב מ--14 ל-14 מעלות בסקראב. דורש ש---ink ו---accent יהיו שניהם כהים מספיק לטקסט בהיר, כי הטקסט חוצה את הגבול (בעיקר בטלפון). בעור עם accent בהיר: כל הסקשנים color:var(--bg) ו-accent מוכהה בחצי שלו, או לא להשתמש. במובייל הזווית קטנה (8 מעלות). בהפחתת תנועה, וכש-GSAP לא נטען, המשטח עומד ישר.",
   libs:["gsap","ScrollTrigger"],
   css:`.dg{position:relative}
 .dg-bg{position:sticky;top:0;height:100vh;margin-bottom:-100vh;overflow:hidden;z-index:0;pointer-events:none}
@@ -256,9 +305,11 @@ export default [
   </div>
 </div>`,
   js:`(function(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const a=matchMedia("(max-width:767px)").matches?8:14;
-  gsap.fromTo(".dg-pane",{rotate:-a},{rotate:a,ease:"none",scrollTrigger:{trigger:".dg",start:"top top",end:"bottom bottom",scrub:.8}});
+  if(typeof gsap==="undefined")return;      // בלי GSAP המשטח עומד ישר
+  gsap.matchMedia().add({desk:"(min-width: 768px) and (prefers-reduced-motion: no-preference)",mob:"(max-width: 767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const a=ctx.conditions.mob?8:14;
+    gsap.fromTo(".dg-pane",{rotate:-a},{rotate:a,ease:"none",scrollTrigger:{trigger:".dg",start:"top top",end:"bottom bottom",scrub:.8}});
+  });
 })();`
 },
 ];
