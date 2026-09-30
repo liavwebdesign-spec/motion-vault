@@ -50,13 +50,20 @@ img{max-width:100%}
 @container (max-width:767px){.ap{grid-template-columns:1fr}}
 .a11 .demo{align-items:flex-start;justify-content:center}
 .a11 .btn{cursor:pointer;box-shadow:0 0 0 rgba(74,58,255,0)}
-.a11 .btn:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(74,58,255,.35);background:#4a3aff}
-.a11 .good .btn{transition:transform .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s,background .2s}
+.a11 .good .btn{transition:transform .2s var(--ease,cubic-bezier(.2,.6,.2,1)),box-shadow .2s var(--ease,cubic-bezier(.2,.6,.2,1)),background .2s var(--ease,cubic-bezier(.2,.6,.2,1))}
+/* שער ההובר במגע (motion.md): בלי השער ההובר נתקע בטלפון אחרי נגיעה */
+@media (hover:hover) and (pointer:fine){.a11 .btn:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(74,58,255,.35);background:#4a3aff}}
+.a11 .btn:focus-visible{transform:translateY(-3px);box-shadow:0 10px 22px rgba(74,58,255,.35);background:#4a3aff;outline:2px solid #4a3aff;outline-offset:3px}
+/* במגע אין הובר: הדמו מחליף מצב לבד, בקפיצה ב"ככה לא" ובמעבר ב"ככה כן" */
+@media (hover:none) and (prefers-reduced-motion:no-preference){.a11 .btn{animation:a11d 2.4s infinite}.a11 .bad .btn{animation-timing-function:steps(1,end)}.a11 .good .btn{animation-timing-function:var(--ease,cubic-bezier(.2,.6,.2,1))}}
+@keyframes a11d{0%,40%{transform:none;box-shadow:0 0 0 rgba(74,58,255,0);background:#16182b}50%,90%{transform:translateY(-3px);box-shadow:0 10px 22px rgba(74,58,255,.35);background:#4a3aff}}
+/* הפחתת תנועה: הצבע והצל עדיין מתחלפים, בלי תזוזה */
+@media (prefers-reduced-motion:reduce){.a11 .btn:hover,.a11 .btn:focus-visible{transform:none}}
 </style>
 </head>
 <body>
 
-<div class="cwrap a11"><div class="ap"><div class="pane bad"><span class="lbl">ככה לא</span><div class="demo"><p class="ttl">העבירו עכבר</p><span class="btn">כפתור שקופץ</span></div><p class="cap">אין transition. הכפתור מופיע במצב החדש בלי לעבור אליו, ובעזיבה חוזר בקפיצה.</p></div><div class="pane good"><span class="lbl">ככה כן</span><div class="demo"><p class="ttl">העבירו עכבר</p><span class="btn">כפתור שעובר</span></div><p class="cap">transition .2s על הבסיס, לא על :hover. גם הכניסה וגם היציאה חלקות.</p></div></div></div>
+<div class="cwrap a11"><div class="ap"><div class="pane bad"><span class="lbl">ככה לא</span><div class="demo"><p class="ttl">העבירו עכבר</p><span class="btn" tabindex="0">כפתור שקופץ</span></div><p class="cap">אין transition. הכפתור מופיע במצב החדש בלי לעבור אליו, ובעזיבה חוזר בקפיצה. בטלפון הדמו מתחלף לבד.</p></div><div class="pane good"><span class="lbl">ככה כן</span><div class="demo"><p class="ttl">העבירו עכבר</p><span class="btn" tabindex="0">כפתור שעובר</span></div><p class="cap">transition .2s על הבסיס, לא על :hover, וההובר בתוך שער המגע. גם הכניסה וגם היציאה חלקות. בטלפון הדמו מתחלף לבד.</p></div></div></div>
 
 
 
