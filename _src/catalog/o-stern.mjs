@@ -5,7 +5,7 @@ export default [
   id:"g149", cat:"gsap", name:"שתי תמונות שנפרשות לצדדים וחושפות את הפרויקט", tech:"GSAP · ScrollTrigger scrub", status:"ממתין",
   desc:"בכל כרטיס פרויקט שתי תמונות לאורך מונחות זו על זו במרכז ומסתירות את הטקסט. כשהכרטיס נכנס למסך הן נפרשות לצדדים עם הטיה קלה, כמו שתי תמונות שמזיזים על שולחן, ובאמצע נחשפים שם הפרויקט, התיאור והכפתור.",
   when:"רשימת פרויקטים של אדריכל, יזם נדל\"ן, מעצב פנים, צלם או סטודיו. גם מקרי בוחן ומוצרים דגל. עובד כשלכל פריט יש שתי תמונות טובות (חוץ ופנים, לפני ואחרי, יום ולילה), וחוזר על עצמו כרטיס אחרי כרטיס בלי להימאס כי הוא לא נועל את הגלילה.",
-  note:"ההבדל מ-g144: שם תמונה אחת נקרעת פעם אחת בעמוד עם נעילת גלילה. כאן שתי תמונות שונות, רשימה שחוזרת, ובלי נעילה. המרחק הסופי מחושב ב-JS מרוחב הטקסט ומרוחב המסך, כך שהתמונות נעצרות צמוד לטקסט ולא בורחות מהמסך ברוחבים שונים. הטווח מתחיל כשראש הכרטיס ב-62% מהמסך ולא בתחתיתו: התמונות יושבות באמצע כרטיס בגובה מסך, ולכן כשהטווח התחיל בתחתית הן כבר היו חצי פרושות ברגע שנכנסו לעין, והרגע שבו הן מכסות את הטקסט לא נראה אף פעם (נתפס בצילום). הטווח מסתיים ב-8%, וה-ease הוא power1.out, רך יותר מעקומת המקור, מאותה סיבה. במובייל אין מקום לתמונות לצד הטקסט, ולכן הן יושבות מעליו ונפרשות רק חלקית.",
+  note:"ההבדל מ-g144: שם תמונה אחת נקרעת פעם אחת בעמוד עם נעילת גלילה. כאן שתי תמונות שונות, רשימה שחוזרת, ובלי נעילה. המרחק הסופי מחושב ב-JS מרוחב הטקסט ומרוחב המסך, כך שהתמונות נעצרות צמוד לטקסט ולא בורחות מהמסך ברוחבים שונים. הטווח מתחיל כשראש הכרטיס ב-62% מהמסך ולא בתחתיתו: התמונות יושבות באמצע כרטיס בגובה מסך, ולכן כשהטווח התחיל בתחתית הן כבר היו חצי פרושות ברגע שנכנסו לעין, והרגע שבו הן מכסות את הטקסט לא נראה אף פעם (נתפס בצילום). הטווח מסתיים ב-8%, וה-ease הוא power1.out, רך יותר מעקומת המקור, מאותה סיבה. המרחק מתחשב גם בהטיה של 6 מעלות: הפינה של תמונה מוטה בולטת החוצה, ובלי זה היא נחתכת בקצה המסך. במובייל אין מקום לתמונות לצד הטקסט, ולכן הן יושבות מתחתיו ונפרשות רק חלקית. בלי GSAP ובהפחתת תנועה התמונות כבר פרושות, והטקסט גלוי ביניהן.",
   libs:["gsap","ScrollTrigger"],
   css:`.pf{overflow-x:clip;padding-block:var(--sec)}
 .pf-head{text-align:center;max-width:52ch;margin:0 auto clamp(20px,6vh,64px);padding-inline:var(--gutter)}
@@ -25,7 +25,7 @@ export default [
 @media (max-width:767px){
   /* קצב אנכי מובייל: 32 מעל ומתחת לכל כרטיס = 64 בין כרטיס לכרטיס, כמו קצב הסקשן במובייל */
   .pf-card{--iw:min(56vw,300px);min-height:0;display:flex;flex-direction:column;align-items:center;padding-block:32px}
-  .pf-stack{position:relative;width:100%;height:calc(var(--iw) * 1.25 + 32px);margin-bottom:32px}
+  .pf-stack{position:relative;width:100%;height:calc(var(--iw) * 1.25 + 32px);margin-block:16px 32px}
   .pf-txt{max-width:36ch}
 }
 @media (min-width:768px){.pf-stack{display:contents}}`,
@@ -45,25 +45,33 @@ export default [
   </article>
 </section>`,
   js:`(function(){
-  gsap.registerPlugin(ScrollTrigger);
-  const cards=gsap.utils.toArray(".pf-card");
+  const cards=[...document.querySelectorAll(".pf-card")];
   const mobile=()=>matchMedia("(max-width:767px)").matches;
-  // המרחק שבו התמונה נעצרת: צמוד לטקסט בדסקטופ, בלי לחרוג מהמסך. במובייל חלקי, כי התמונות מעל הטקסט
+  // המרחק שבו התמונה נעצרת: צמוד לטקסט בדסקטופ, בלי לחרוג מהמסך. במובייל חלקי, כי התמונות מתחת לטקסט
   function spread(card){
     const img=card.querySelector(".pf-img"),txt=card.querySelector(".pf-txt");
     const iw=img.offsetWidth,vw=innerWidth;
     if(mobile())return Math.min(vw*.5-iw*.5-12,iw*.42);
-    return Math.min(txt.offsetWidth*.5+iw*.5+40,vw*.5-iw*.5-16);
+    // התמונה מוטה ב-6 מעלות והפינה שלה בולטת החוצה: מורידים את הבליטה, אחרת היא נחתכת בקצה המסך
+    const ov=iw*1.25*.5*Math.sin(6*Math.PI/180);
+    return Math.min(txt.offsetWidth*.5+iw*.5+40,vw*.5-iw*.5-16-ov);
   }
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){
-    cards.forEach(c=>{const d=spread(c);gsap.set(c.querySelector(".pf-img.l"),{x:-d,rotate:-6});gsap.set(c.querySelector(".pf-img.r"),{x:d,rotate:6});});
-    return;
-  }
-  cards.forEach(card=>{
-    const rot=mobile()?3:6;
-    gsap.timeline({scrollTrigger:{trigger:card,start:"top 62%",end:"top 8%",scrub:.5,invalidateOnRefresh:true}})
-      .fromTo(card.querySelector(".pf-img.l"),{x:0,rotate:0},{x:()=>-spread(card),rotate:-rot,ease:"power1.out"},0)
-      .fromTo(card.querySelector(".pf-img.r"),{x:0,rotate:0},{x:()=>spread(card),rotate:rot,ease:"power1.out"},0);
+  // מצב סטטי (בלי GSAP ובהפחתת תנועה): התמונות פרושות והטקסט גלוי ביניהן. transform ישיר, בלי ספרייה
+  const open=()=>cards.forEach(c=>{const d=spread(c),r=mobile()?3:6;
+    c.querySelector(".pf-img.l").style.transform="translateX("+(-d)+"px) rotate("+(-r)+"deg)";
+    c.querySelector(".pf-img.r").style.transform="translateX("+d+"px) rotate("+r+"deg)";});
+  const close=()=>cards.forEach(c=>c.querySelectorAll(".pf-img").forEach(i=>i.style.transform=""));
+  if(typeof gsap==="undefined"){open();addEventListener("resize",open);return;}
+  gsap.registerPlugin(ScrollTrigger);
+  const mm=gsap.matchMedia();
+  mm.add("(prefers-reduced-motion: reduce)",()=>{open();addEventListener("resize",open);return()=>{removeEventListener("resize",open);close();};});
+  mm.add({desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)",mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const rot=ctx.conditions.mob?3:6;
+    cards.forEach(card=>{
+      gsap.timeline({scrollTrigger:{trigger:card,start:"top 62%",end:"top 8%",scrub:.5,invalidateOnRefresh:true}})
+        .fromTo(card.querySelector(".pf-img.l"),{x:0,rotate:0},{x:()=>-spread(card),rotate:-rot,ease:"power1.out"},0)
+        .fromTo(card.querySelector(".pf-img.r"),{x:0,rotate:0},{x:()=>spread(card),rotate:rot,ease:"power1.out"},0);
+    });
   });
 })();`
 },
