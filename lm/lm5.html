@@ -9,14 +9,22 @@
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
 .ladder{min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding-inline:var(--gutter)}
-.lad{opacity:0;translate:0 18px;transition:opacity .6s cubic-bezier(.2,.6,.2,1),translate .6s cubic-bezier(.2,.6,.2,1)}
+.lad{transition:opacity .6s cubic-bezier(.2,.6,.2,1),translate .6s cubic-bezier(.2,.6,.2,1)}
+/* מוסתר רק כשהסקריפט רץ: בלי JS ההירו גלוי ולא ריק */
+.js .lad{opacity:0;translate:0 18px}
 .go .lad{opacity:1;translate:0 0}
+/* הפעלה חוזרת: רגע בלי מעבר, כדי שהחזרה לאפס תהיה מיידית ולא תבטל את הכניסה */
+.snap .lad{transition:none}
 .go .l1{transition-delay:0ms}.go .l2{transition-delay:150ms}.go .l3{transition-delay:300ms}
-.go .l4{transition-delay:450ms}.go .l5{transition-delay:600ms}
-.ladder .kick{color:var(--accent);font-weight:600;font-size:14px;letter-spacing:.14em}
+.go .l4,.go .l5{transition-delay:450ms}
+.ladder .kick{color:var(--accent);font-weight:600;font-size:14px}
 .ladder h2{font-size:var(--fs-demo);max-width:18ch;margin:12px 0}
 .ladder p{color:var(--muted);max-width:52ch;margin:0 0 22px}
 .replay{margin-top:30px;align-self:flex-start}
+@media (prefers-reduced-motion: reduce){
+  .js .lad{opacity:1;translate:none;transition:none}
+  .replay{display:none}
+}
 </style>
 </head>
 <body>
@@ -50,7 +58,7 @@
 <button class="gbtn replay" style="background:var(--ink);color:var(--bg)">הפעל שוב</button>
 </div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
-<div class="demo-note">הסולם נורה כשהסקשן נכנס למסך, לא בטעינת העמוד, ורץ שוב בכל כניסה מחדש. בהירו אמיתי זה אותו רגע, אבל בדמו הוא יושב אחרי מסלול גלילה בכוונה: כשהוא היה גלוי כבר בטעינה הוא רץ ונגמר בשנייה הראשונה, בזמן שהעין עוד על כותרת העמוד, ונראה סטטי (נמדד: 84% מהסקשן בתוך המסך בטעינה). מחלקת ה-go חייבת להתווסף אחרי הציור הראשון, אחרת אין שינוי מצב ואין טרנזישן בכלל.</div>
+<div class="demo-note">הסולם נורה כשהסקשן נכנס למסך, לא בטעינת העמוד, ורץ שוב בכל כניסה מחדש. בהירו אמיתי זה אותו רגע, אבל בדמו הוא יושב אחרי מסלול גלילה בכוונה: כשהוא היה גלוי כבר בטעינה הוא רץ ונגמר בשנייה הראשונה, בזמן שהעין עוד על כותרת העמוד, ונראה סטטי (נמדד: 84% מהסקשן בתוך המסך בטעינה). מחלקת ה-go חייבת להתווסף אחרי הציור הראשון, אחרת אין שינוי מצב ואין טרנזישן בכלל. המחלקה מוסרת רק כשהסקשן יצא לגמרי (threshold 0), כך ששורה שעוד על המסך לא דוהה בזמן שגוללים הלאה. כפתור ההפעלה החוזרת מבטל רגע את המעבר (.snap), כדי שהסולם באמת יתחיל מאפס ולא יתהפך באמצע. שורת המיקרו נכנסת יחד עם הכפתור שהיא שייכת לו, ולכן הקסקדה כולה 450 אלפיות, בתוך תקציב הסטאגר. המצב המוסתר חי רק תחת <code>html.js</code>; בהירו אמיתי השער הוא <code>html.open-anim</code> מראש העמוד עם failsafe של 2.5 שניות ב-CSS (engine/motion.md 2), כדי שסקריפט שנכשל לא ישאיר מסך ראשון ריק. בהפחתת תנועה כל השורות גלויות מההתחלה.</div>
 <section class="mvcode">
   <h2>קוד להדבקה</h2>
   <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
@@ -68,14 +76,22 @@
 
 /* LM5 · סולם כניסות הירו (150ms) */
 .ladder{min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
-.lad{opacity:0;translate:0 18px;transition:opacity .6s cubic-bezier(.2,.6,.2,1),translate .6s cubic-bezier(.2,.6,.2,1)}
+.lad{transition:opacity .6s cubic-bezier(.2,.6,.2,1),translate .6s cubic-bezier(.2,.6,.2,1)}
+/* מוסתר רק כשהסקריפט רץ: בלי JS ההירו גלוי ולא ריק */
+.js .lad{opacity:0;translate:0 18px}
 .go .lad{opacity:1;translate:0 0}
+/* הפעלה חוזרת: רגע בלי מעבר, כדי שהחזרה לאפס תהיה מיידית ולא תבטל את הכניסה */
+.snap .lad{transition:none}
 .go .l1{transition-delay:0ms}.go .l2{transition-delay:150ms}.go .l3{transition-delay:300ms}
-.go .l4{transition-delay:450ms}.go .l5{transition-delay:600ms}
-.ladder .kick{color:var(--accent, #4a3aff);font-weight:600;font-size:14px;letter-spacing:.14em}
+.go .l4,.go .l5{transition-delay:450ms}
+.ladder .kick{color:var(--accent, #4a3aff);font-weight:600;font-size:14px}
 .ladder h2{font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));max-width:18ch;margin:12px 0}
 .ladder p{color:var(--muted, #6a6d85);max-width:52ch;margin:0 0 22px}
-.replay{margin-top:30px;align-self:flex-start}</code></pre>
+.replay{margin-top:30px;align-self:flex-start}
+@media (prefers-reduced-motion: reduce){
+  .js .lad{opacity:1;translate:none;transition:none}
+  .replay{display:none}
+}</code></pre>
     <h3>HTML</h3><pre><code>&lt;div class="ladder"&gt;
 &lt;span class="kick lad l1"&gt;רגע הזהות&lt;/span&gt;
 &lt;h2 class="lad l2"&gt;כל שורה נכנסת 150 אלפיות אחרי קודמתה&lt;/h2&gt;
@@ -84,21 +100,31 @@
 &lt;span class="lad l5" style="font-size:13px;color:var(--muted);margin-top:12px"&gt;שורת מיקרו · אמון · בלי התחייבות&lt;/span&gt;
 &lt;button class="gbtn replay" style="background:var(--ink);color:var(--bg)"&gt;הפעל שוב&lt;/button&gt;
 &lt;/div&gt;</code></pre>
-    <h3>JS</h3><pre><code>const lad=document.querySelector(".ladder");
-// go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל
-// והרכיבים פשוט מופיעים גמורים. זאת גם הסיבה ל-void offsetHeight בהפעלה חוזרת.
-const play=()=&gt;{lad.classList.remove("go");void lad.offsetHeight;lad.classList.add("go")};
-// והפעלה על כניסה למסך ולא על טעינה: בהירו אמיתי זה אותו רגע בדיוק, אבל כשהסקשן יושב
-// באמצע עמוד ארוך הסולם רץ ונגמר לפני שמגיעים אליו, ונראה שכלום לא קרה.
-// לא מנתקים את הצופה: כשהסקשן יוצא מהמסך המחלקה מוסרת (מחוץ לעין), וכשחוזרים אליו הסולם רץ שוב.
-new IntersectionObserver(es=&gt;es.forEach(e=&gt;{if(e.isIntersecting)play();else lad.classList.remove("go");}),{threshold:.45}).observe(lad);
-document.querySelector(".replay").addEventListener("click",play);</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const lad=document.querySelector(".ladder");
+  // בלי IntersectionObserver לא מסתירים בכלל (השער html.js), והשורות פשוט גלויות
+  if(!("IntersectionObserver" in window))return;
+  document.documentElement.classList.add("js");
+  // go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל
+  // והרכיבים פשוט מופיעים גמורים. בהפעלה חוזרת snap מבטל רגע את המעבר: בלי זה הסרת go מתחילה
+  // דהייה מ-1 ל-0, וההוספה המיידית מבטלת אותה לפני שמשהו זז, והכפתור לא עושה כלום.
+  const play=()=&gt;{lad.classList.remove("go");lad.classList.add("snap");void lad.offsetHeight;lad.classList.remove("snap");lad.classList.add("go")};
+  // והפעלה על כניסה למסך ולא על טעינה: בהירו אמיתי זה אותו רגע בדיוק, אבל כשהסקשן יושב
+  // באמצע עמוד ארוך הסולם רץ ונגמר לפני שמגיעים אליו, ונראה שכלום לא קרה.
+  // רץ כש-45% מהסקשן גלוי, ו-go מוסר רק כשהסקשן יצא לגמרי: אחרת השורות התחתונות, כולל הכפתור,
+  // דהו כשהן עוד על המסך. כשחוזרים אליו הסולם רץ שוב.
+  new IntersectionObserver(es=&gt;es.forEach(e=&gt;{
+    if(e.intersectionRatio&gt;=.45){if(!lad.classList.contains("go"))play();}
+    else if(!e.isIntersecting)lad.classList.remove("go");
+  }),{threshold:[0,.45]}).observe(lad);
+  document.querySelector(".replay").addEventListener("click",play);
+})();</code></pre>
   </details>
-  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:lm5 · סולם כניסות הירו (150ms)\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/lm/lm5.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/lm5.html\n\nמה זה עושה: רכיבי ההירו נכנסים בזה אחר זה במדרגות של 150 אלפיות: לוגו, ניווט, כותרת, ליד, כפתורים.\nמתי משתמשים: רגע הזהות בלבד. בשאר העמוד reveal אחיד בלי סטאגר. החריג המאושר.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית · חנות · פורטפוליו וסטודיו\nבסקשן: הירו\nאופי: גם באתר שקט\nתפקיד ומינון: שכבת בסיס, פעם אחת בעמוד\nמתי לא: רק בהירו ופעם אחת; בשאר העמוד reveal אחיד בלי סטאגר.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* LM5 · סולם כניסות הירו (150ms) */\n.ladder{min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.lad{opacity:0;translate:0 18px;transition:opacity .6s cubic-bezier(.2,.6,.2,1),translate .6s cubic-bezier(.2,.6,.2,1)}\n.go .lad{opacity:1;translate:0 0}\n.go .l1{transition-delay:0ms}.go .l2{transition-delay:150ms}.go .l3{transition-delay:300ms}\n.go .l4{transition-delay:450ms}.go .l5{transition-delay:600ms}\n.ladder .kick{color:var(--accent, #4a3aff);font-weight:600;font-size:14px;letter-spacing:.14em}\n.ladder h2{font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));max-width:18ch;margin:12px 0}\n.ladder p{color:var(--muted, #6a6d85);max-width:52ch;margin:0 0 22px}\n.replay{margin-top:30px;align-self:flex-start}\n\n=== HTML ===\n<div class=\"ladder\">\n<span class=\"kick lad l1\">רגע הזהות<\/span>\n<h2 class=\"lad l2\">כל שורה נכנסת 150 אלפיות אחרי קודמתה<\/h2>\n<p class=\"lad l3\">הסולם שמור להירו בלבד. ככה נשמרת הטבעיות בשאר העמוד.<\/p>\n<div class=\"lad l4\"><button class=\"gbtn\">כפתור ראשי<\/button><\/div>\n<span class=\"lad l5\" style=\"font-size:13px;color:var(--muted);margin-top:12px\">שורת מיקרו · אמון · בלי התחייבות<\/span>\n<button class=\"gbtn replay\" style=\"background:var(--ink);color:var(--bg)\">הפעל שוב<\/button>\n<\/div>\n\n=== JS ===\nconst lad=document.querySelector(\".ladder\");\n// go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל\n// והרכיבים פשוט מופיעים גמורים. זאת גם הסיבה ל-void offsetHeight בהפעלה חוזרת.\nconst play=()=>{lad.classList.remove(\"go\");void lad.offsetHeight;lad.classList.add(\"go\")};\n// והפעלה על כניסה למסך ולא על טעינה: בהירו אמיתי זה אותו רגע בדיוק, אבל כשהסקשן יושב\n// באמצע עמוד ארוך הסולם רץ ונגמר לפני שמגיעים אליו, ונראה שכלום לא קרה.\n// לא מנתקים את הצופה: כשהסקשן יוצא מהמסך המחלקה מוסרת (מחוץ לעין), וכשחוזרים אליו הסולם רץ שוב.\nnew IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)play();else lad.classList.remove(\"go\");}),{threshold:.45}).observe(lad);\ndocument.querySelector(\".replay\").addEventListener(\"click\",play);\n\nהערת מימוש מהמאגר:\nהסולם נורה כשהסקשן נכנס למסך, לא בטעינת העמוד, ורץ שוב בכל כניסה מחדש. בהירו אמיתי זה אותו רגע, אבל בדמו הוא יושב אחרי מסלול גלילה בכוונה: כשהוא היה גלוי כבר בטעינה הוא רץ ונגמר בשנייה הראשונה, בזמן שהעין עוד על כותרת העמוד, ונראה סטטי (נמדד: 84% מהסקשן בתוך המסך בטעינה). מחלקת ה-go חייבת להתווסף אחרי הציור הראשון, אחרת אין שינוי מצב ואין טרנזישן בכלל.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* LM5 · סולם כניסות הירו (150ms) */\n.ladder{min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.lad{opacity:0;translate:0 18px;transition:opacity .6s cubic-bezier(.2,.6,.2,1),translate .6s cubic-bezier(.2,.6,.2,1)}\n.go .lad{opacity:1;translate:0 0}\n.go .l1{transition-delay:0ms}.go .l2{transition-delay:150ms}.go .l3{transition-delay:300ms}\n.go .l4{transition-delay:450ms}.go .l5{transition-delay:600ms}\n.ladder .kick{color:var(--accent, #4a3aff);font-weight:600;font-size:14px;letter-spacing:.14em}\n.ladder h2{font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));max-width:18ch;margin:12px 0}\n.ladder p{color:var(--muted, #6a6d85);max-width:52ch;margin:0 0 22px}\n.replay{margin-top:30px;align-self:flex-start}","html":"<div class=\"ladder\">\n<span class=\"kick lad l1\">רגע הזהות<\/span>\n<h2 class=\"lad l2\">כל שורה נכנסת 150 אלפיות אחרי קודמתה<\/h2>\n<p class=\"lad l3\">הסולם שמור להירו בלבד. ככה נשמרת הטבעיות בשאר העמוד.<\/p>\n<div class=\"lad l4\"><button class=\"gbtn\">כפתור ראשי<\/button><\/div>\n<span class=\"lad l5\" style=\"font-size:13px;color:var(--muted);margin-top:12px\">שורת מיקרו · אמון · בלי התחייבות<\/span>\n<button class=\"gbtn replay\" style=\"background:var(--ink);color:var(--bg)\">הפעל שוב<\/button>\n<\/div>","js":"const lad=document.querySelector(\".ladder\");\n// go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל\n// והרכיבים פשוט מופיעים גמורים. זאת גם הסיבה ל-void offsetHeight בהפעלה חוזרת.\nconst play=()=>{lad.classList.remove(\"go\");void lad.offsetHeight;lad.classList.add(\"go\")};\n// והפעלה על כניסה למסך ולא על טעינה: בהירו אמיתי זה אותו רגע בדיוק, אבל כשהסקשן יושב\n// באמצע עמוד ארוך הסולם רץ ונגמר לפני שמגיעים אליו, ונראה שכלום לא קרה.\n// לא מנתקים את הצופה: כשהסקשן יוצא מהמסך המחלקה מוסרת (מחוץ לעין), וכשחוזרים אליו הסולם רץ שוב.\nnew IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)play();else lad.classList.remove(\"go\");}),{threshold:.45}).observe(lad);\ndocument.querySelector(\".replay\").addEventListener(\"click\",play);","scripts":"","rtl":true}</script>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:lm5 · סולם כניסות הירו (150ms)\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/lm/lm5.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/lm5.html\n\nמה זה עושה: רכיבי ההירו נכנסים בזה אחר זה במדרגות של 150 אלפיות: לוגו, ניווט, כותרת, ליד, כפתורים.\nמתי משתמשים: רגע הזהות בלבד. בשאר העמוד reveal אחיד בלי סטאגר. החריג המאושר.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית · חנות · פורטפוליו וסטודיו\nבסקשן: הירו\nאופי: גם באתר שקט\nתפקיד ומינון: שכבת בסיס, פעם אחת בעמוד\nמתי לא: רק בהירו ופעם אחת; בשאר העמוד reveal אחיד בלי סטאגר.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* LM5 · סולם כניסות הירו (150ms) */\n.ladder{min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.lad{transition:opacity .6s cubic-bezier(.2,.6,.2,1),translate .6s cubic-bezier(.2,.6,.2,1)}\n/* מוסתר רק כשהסקריפט רץ: בלי JS ההירו גלוי ולא ריק */\n.js .lad{opacity:0;translate:0 18px}\n.go .lad{opacity:1;translate:0 0}\n/* הפעלה חוזרת: רגע בלי מעבר, כדי שהחזרה לאפס תהיה מיידית ולא תבטל את הכניסה */\n.snap .lad{transition:none}\n.go .l1{transition-delay:0ms}.go .l2{transition-delay:150ms}.go .l3{transition-delay:300ms}\n.go .l4,.go .l5{transition-delay:450ms}\n.ladder .kick{color:var(--accent, #4a3aff);font-weight:600;font-size:14px}\n.ladder h2{font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));max-width:18ch;margin:12px 0}\n.ladder p{color:var(--muted, #6a6d85);max-width:52ch;margin:0 0 22px}\n.replay{margin-top:30px;align-self:flex-start}\n@media (prefers-reduced-motion: reduce){\n  .js .lad{opacity:1;translate:none;transition:none}\n  .replay{display:none}\n}\n\n=== HTML ===\n<div class=\"ladder\">\n<span class=\"kick lad l1\">רגע הזהות<\/span>\n<h2 class=\"lad l2\">כל שורה נכנסת 150 אלפיות אחרי קודמתה<\/h2>\n<p class=\"lad l3\">הסולם שמור להירו בלבד. ככה נשמרת הטבעיות בשאר העמוד.<\/p>\n<div class=\"lad l4\"><button class=\"gbtn\">כפתור ראשי<\/button><\/div>\n<span class=\"lad l5\" style=\"font-size:13px;color:var(--muted);margin-top:12px\">שורת מיקרו · אמון · בלי התחייבות<\/span>\n<button class=\"gbtn replay\" style=\"background:var(--ink);color:var(--bg)\">הפעל שוב<\/button>\n<\/div>\n\n=== JS ===\n(function(){\n  const lad=document.querySelector(\".ladder\");\n  // בלי IntersectionObserver לא מסתירים בכלל (השער html.js), והשורות פשוט גלויות\n  if(!(\"IntersectionObserver\" in window))return;\n  document.documentElement.classList.add(\"js\");\n  // go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל\n  // והרכיבים פשוט מופיעים גמורים. בהפעלה חוזרת snap מבטל רגע את המעבר: בלי זה הסרת go מתחילה\n  // דהייה מ-1 ל-0, וההוספה המיידית מבטלת אותה לפני שמשהו זז, והכפתור לא עושה כלום.\n  const play=()=>{lad.classList.remove(\"go\");lad.classList.add(\"snap\");void lad.offsetHeight;lad.classList.remove(\"snap\");lad.classList.add(\"go\")};\n  // והפעלה על כניסה למסך ולא על טעינה: בהירו אמיתי זה אותו רגע בדיוק, אבל כשהסקשן יושב\n  // באמצע עמוד ארוך הסולם רץ ונגמר לפני שמגיעים אליו, ונראה שכלום לא קרה.\n  // רץ כש-45% מהסקשן גלוי, ו-go מוסר רק כשהסקשן יצא לגמרי: אחרת השורות התחתונות, כולל הכפתור,\n  // דהו כשהן עוד על המסך. כשחוזרים אליו הסולם רץ שוב.\n  new IntersectionObserver(es=>es.forEach(e=>{\n    if(e.intersectionRatio>=.45){if(!lad.classList.contains(\"go\"))play();}\n    else if(!e.isIntersecting)lad.classList.remove(\"go\");\n  }),{threshold:[0,.45]}).observe(lad);\n  document.querySelector(\".replay\").addEventListener(\"click\",play);\n})();\n\nהערת מימוש מהמאגר:\nהסולם נורה כשהסקשן נכנס למסך, לא בטעינת העמוד, ורץ שוב בכל כניסה מחדש. בהירו אמיתי זה אותו רגע, אבל בדמו הוא יושב אחרי מסלול גלילה בכוונה: כשהוא היה גלוי כבר בטעינה הוא רץ ונגמר בשנייה הראשונה, בזמן שהעין עוד על כותרת העמוד, ונראה סטטי (נמדד: 84% מהסקשן בתוך המסך בטעינה). מחלקת ה-go חייבת להתווסף אחרי הציור הראשון, אחרת אין שינוי מצב ואין טרנזישן בכלל. המחלקה מוסרת רק כשהסקשן יצא לגמרי (threshold 0), כך ששורה שעוד על המסך לא דוהה בזמן שגוללים הלאה. כפתור ההפעלה החוזרת מבטל רגע את המעבר (.snap), כדי שהסולם באמת יתחיל מאפס ולא יתהפך באמצע. שורת המיקרו נכנסת יחד עם הכפתור שהיא שייכת לו, ולכן הקסקדה כולה 450 אלפיות, בתוך תקציב הסטאגר. המצב המוסתר חי רק תחת `html.js`; בהירו אמיתי השער הוא `html.open-anim` מראש העמוד עם failsafe של 2.5 שניות ב-CSS (engine/motion.md 2), כדי שסקריפט שנכשל לא ישאיר מסך ראשון ריק. בהפחתת תנועה כל השורות גלויות מההתחלה.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* LM5 · סולם כניסות הירו (150ms) */\n.ladder{min-height:70vh;display:flex;flex-direction:column;justify-content:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.lad{transition:opacity .6s cubic-bezier(.2,.6,.2,1),translate .6s cubic-bezier(.2,.6,.2,1)}\n/* מוסתר רק כשהסקריפט רץ: בלי JS ההירו גלוי ולא ריק */\n.js .lad{opacity:0;translate:0 18px}\n.go .lad{opacity:1;translate:0 0}\n/* הפעלה חוזרת: רגע בלי מעבר, כדי שהחזרה לאפס תהיה מיידית ולא תבטל את הכניסה */\n.snap .lad{transition:none}\n.go .l1{transition-delay:0ms}.go .l2{transition-delay:150ms}.go .l3{transition-delay:300ms}\n.go .l4,.go .l5{transition-delay:450ms}\n.ladder .kick{color:var(--accent, #4a3aff);font-weight:600;font-size:14px}\n.ladder h2{font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));max-width:18ch;margin:12px 0}\n.ladder p{color:var(--muted, #6a6d85);max-width:52ch;margin:0 0 22px}\n.replay{margin-top:30px;align-self:flex-start}\n@media (prefers-reduced-motion: reduce){\n  .js .lad{opacity:1;translate:none;transition:none}\n  .replay{display:none}\n}","html":"<div class=\"ladder\">\n<span class=\"kick lad l1\">רגע הזהות<\/span>\n<h2 class=\"lad l2\">כל שורה נכנסת 150 אלפיות אחרי קודמתה<\/h2>\n<p class=\"lad l3\">הסולם שמור להירו בלבד. ככה נשמרת הטבעיות בשאר העמוד.<\/p>\n<div class=\"lad l4\"><button class=\"gbtn\">כפתור ראשי<\/button><\/div>\n<span class=\"lad l5\" style=\"font-size:13px;color:var(--muted);margin-top:12px\">שורת מיקרו · אמון · בלי התחייבות<\/span>\n<button class=\"gbtn replay\" style=\"background:var(--ink);color:var(--bg)\">הפעל שוב<\/button>\n<\/div>","js":"(function(){\n  const lad=document.querySelector(\".ladder\");\n  // בלי IntersectionObserver לא מסתירים בכלל (השער html.js), והשורות פשוט גלויות\n  if(!(\"IntersectionObserver\" in window))return;\n  document.documentElement.classList.add(\"js\");\n  // go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל\n  // והרכיבים פשוט מופיעים גמורים. בהפעלה חוזרת snap מבטל רגע את המעבר: בלי זה הסרת go מתחילה\n  // דהייה מ-1 ל-0, וההוספה המיידית מבטלת אותה לפני שמשהו זז, והכפתור לא עושה כלום.\n  const play=()=>{lad.classList.remove(\"go\");lad.classList.add(\"snap\");void lad.offsetHeight;lad.classList.remove(\"snap\");lad.classList.add(\"go\")};\n  // והפעלה על כניסה למסך ולא על טעינה: בהירו אמיתי זה אותו רגע בדיוק, אבל כשהסקשן יושב\n  // באמצע עמוד ארוך הסולם רץ ונגמר לפני שמגיעים אליו, ונראה שכלום לא קרה.\n  // רץ כש-45% מהסקשן גלוי, ו-go מוסר רק כשהסקשן יצא לגמרי: אחרת השורות התחתונות, כולל הכפתור,\n  // דהו כשהן עוד על המסך. כשחוזרים אליו הסולם רץ שוב.\n  new IntersectionObserver(es=>es.forEach(e=>{\n    if(e.intersectionRatio>=.45){if(!lad.classList.contains(\"go\"))play();}\n    else if(!e.isIntersecting)lad.classList.remove(\"go\");\n  }),{threshold:[0,.45]}).observe(lad);\n  document.querySelector(\".replay\").addEventListener(\"click\",play);\n})();","scripts":"","rtl":true}</script>
 </section>
 <nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="lm4.html" rel="prev"><small>→ הקודם</small><b>ערימה דביקה מדורגת</b></a><a href="lm7.html" rel="next"><small>הבא ←</small><b>אוצר ההובר: לחיצה / הרמה / צמיחה</b></a></nav>
 
-<script src="../assets/baseline.js?v=bd3d04f5"></script>
+<script src="../assets/baseline.js?v=22f33b1a"></script>
 <script src="../assets/status.js"></script>
 <script src="../assets/tray.js"></script>
 <script>
@@ -123,15 +149,25 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 })();
 
-const lad=document.querySelector(".ladder");
-// go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל
-// והרכיבים פשוט מופיעים גמורים. זאת גם הסיבה ל-void offsetHeight בהפעלה חוזרת.
-const play=()=>{lad.classList.remove("go");void lad.offsetHeight;lad.classList.add("go")};
-// והפעלה על כניסה למסך ולא על טעינה: בהירו אמיתי זה אותו רגע בדיוק, אבל כשהסקשן יושב
-// באמצע עמוד ארוך הסולם רץ ונגמר לפני שמגיעים אליו, ונראה שכלום לא קרה.
-// לא מנתקים את הצופה: כשהסקשן יוצא מהמסך המחלקה מוסרת (מחוץ לעין), וכשחוזרים אליו הסולם רץ שוב.
-new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)play();else lad.classList.remove("go");}),{threshold:.45}).observe(lad);
-document.querySelector(".replay").addEventListener("click",play);
+(function(){
+  const lad=document.querySelector(".ladder");
+  // בלי IntersectionObserver לא מסתירים בכלל (השער html.js), והשורות פשוט גלויות
+  if(!("IntersectionObserver" in window))return;
+  document.documentElement.classList.add("js");
+  // go חייב להתווסף אחרי הציור הראשון. אם הוא כבר במארקאפ אין שינוי מצב, ולכן אין טרנזישן בכלל
+  // והרכיבים פשוט מופיעים גמורים. בהפעלה חוזרת snap מבטל רגע את המעבר: בלי זה הסרת go מתחילה
+  // דהייה מ-1 ל-0, וההוספה המיידית מבטלת אותה לפני שמשהו זז, והכפתור לא עושה כלום.
+  const play=()=>{lad.classList.remove("go");lad.classList.add("snap");void lad.offsetHeight;lad.classList.remove("snap");lad.classList.add("go")};
+  // והפעלה על כניסה למסך ולא על טעינה: בהירו אמיתי זה אותו רגע בדיוק, אבל כשהסקשן יושב
+  // באמצע עמוד ארוך הסולם רץ ונגמר לפני שמגיעים אליו, ונראה שכלום לא קרה.
+  // רץ כש-45% מהסקשן גלוי, ו-go מוסר רק כשהסקשן יצא לגמרי: אחרת השורות התחתונות, כולל הכפתור,
+  // דהו כשהן עוד על המסך. כשחוזרים אליו הסולם רץ שוב.
+  new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.intersectionRatio>=.45){if(!lad.classList.contains("go"))play();}
+    else if(!e.isIntersecting)lad.classList.remove("go");
+  }),{threshold:[0,.45]}).observe(lad);
+  document.querySelector(".replay").addEventListener("click",play);
+})();
 </script>
 </body>
 </html>

@@ -40,10 +40,15 @@ img{max-width:100%}
 
 /* LM9 · צל מוזח קשיח + רדיוס חד-צדדי */
 .craft{display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));justify-content:center;flex-wrap:wrap}
-.hard{background:var(--card, #fff);border:2px solid var(--ink, #16182b);border-radius:14px;padding:30px;box-shadow:8px 8px 0 #f49e40;max-width:240px;transition:transform .25s,box-shadow .25s}
-.hard:hover{transform:translate(-3px,-3px);box-shadow:12px 12px 0 #f49e40}
+/* --hard-c: צבע המותג של הפרויקט. הכתום הוא רק ברירת המחדל של הדמו */
+.hard{background:var(--card, #fff);border:2px solid var(--ink, #16182b);border-radius:14px;padding:30px;box-shadow:8px 8px 0 var(--hard-c,#f49e40);max-width:240px;
+  transition:transform .25s cubic-bezier(.2,.6,.2,1),box-shadow .25s cubic-bezier(.2,.6,.2,1)}
+/* רק עם עכבר אמיתי, אחרת במגע הכרטיס נשאר קפוץ. בהפחתת תנועה רק הצל גדל */
+@media (hover:hover) and (pointer:fine){.hard:hover{box-shadow:12px 12px 0 var(--hard-c,#f49e40)}}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){.hard:hover{transform:translate(-3px,-3px)}}
 .oneside{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding:30px;border-radius:40px 40px 0 0;max-width:240px}
-.oneside2{background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:30px;border-radius:0 0 60px 0;max-width:240px}
+/* פינה לוגית: בעברית התחתונה הימנית, ובאתר LTR היא מתהפכת לבד לשמאלית */
+.oneside2{background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:30px;border-radius:0;border-end-start-radius:60px;max-width:240px}
 .craft h3{margin:0 0 6px;font-size:17px}.craft p{margin:0;font-size:13.5px;color:var(--muted, #6a6d85)}
 .oneside p{color:color-mix(in srgb,var(--bg, #f7f7fa) 70%,transparent)}
 </style>
@@ -53,7 +58,7 @@ img{max-width:100%}
 <div class="stage tight"><div class="craft">
 <div class="hard"><h3>צל מוזח קשיח</h3><p>תמיד 45 מעלות, תמיד צבע מותג, בלי blur. עבור עליי.</p></div>
 <div class="oneside"><h3>רדיוס עליון בלבד</h3><p>40 40 0 0. שובר את המלבניות בלי אפקט.</p></div>
-<div class="oneside2"><h3>פינה אחת בלבד</h3><p>0 0 60 0. אסימטריה מכוונת.</p></div>
+<div class="oneside2"><h3>פינה אחת בלבד</h3><p>רק התחתונה בצד ההתחלה. אסימטריה מכוונת.</p></div>
 </div></div>
 
 

@@ -45,15 +45,16 @@ img{max-width:100%}
 .aim-disc{position:absolute;left:50%;top:50%;width:min(56vh,460px,70vw);aspect-ratio:1;border-radius:50%;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);
   display:grid;place-items:center;text-align:center;padding:9%;box-sizing:border-box;translate:-50% -50%;
   transform:scale(.55);opacity:0;transition:transform .9s cubic-bezier(.2,.6,.2,1),opacity .5s}
-.aim-disc p{margin:0;font-size:clamp(22px,2.6vw,38px);line-height:1.2;font-weight:400}
+.aim-disc p{margin:0;font-size:clamp(22px,2.6vw,38px);line-height:1.2;font-weight:400;text-wrap:balance}
 .aim-disc b{display:block;font-weight:800;color:color-mix(in srgb,var(--accent, #4a3aff) 55%,var(--bg, #f7f7fa))}
 .aim-chip{position:absolute;left:var(--x);top:var(--y);translate:-50% -50%;transition:transform .8s cubic-bezier(.2,.6,.2,1),opacity .4s;
   transform:translate(var(--fx,0),var(--fy,0)) scale(.4);opacity:0;transition-delay:calc(var(--i) * 70ms + 250ms)}
 /* הנדנוד על עטיפה פנימית, כדי שלא יתנגש ב-transform של הכניסה */
+.aim-chips{list-style:none;margin:0;padding:0}
 .aim-bob{display:block;animation:aim-bob var(--d,5s) ease-in-out infinite alternate;animation-delay:calc(var(--i) * -900ms)}
+/* בלי הובר: התגיות אינן לחיצות, ותזוזה בהובר משדרת "לחיץ" */
 .aim-pill{display:block;white-space:nowrap;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:700;font-size:clamp(15px,1.35vw,19px);
-  padding:12px 24px;border-radius:999px;box-shadow:0 12px 26px -14px color-mix(in srgb,var(--accent, #4a3aff) 80%,transparent);transition:transform .3s cubic-bezier(.2,.6,.2,1)}
-.aim-chip:hover .aim-pill{transform:translateY(-3px)}
+  padding:12px 24px;border-radius:999px;box-shadow:0 12px 26px -14px color-mix(in srgb,var(--accent, #4a3aff) 80%,transparent)}
 .aim-ptr{position:absolute;left:0;top:0;width:20px;height:18px;background:var(--accent, #4a3aff);clip-path:polygon(100% 50%,0 0,22% 50%,0 100%);
   transform:translate(var(--px,0),var(--py,0)) translate(-50%,-50%) rotate(var(--a,0deg))}
 .aim.in .aim-disc{transform:scale(1);opacity:1}
@@ -74,13 +75,13 @@ img{max-width:100%}
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="stage tight"><div class="aim">
   <div class="aim-disc"><p>אתר שלא רק נראה טוב<b>אלא מביא לקוחות</b></p></div>
-  <ul class="aim-chips" style="list-style:none;margin:0;padding:0">
+  <ul class="aim-chips">
     <li class="aim-chip" style="--i:0;--x:24%;--y:22%;--mx:26%;--my:8%;--d:5.2s"><span class="aim-bob"><span class="aim-pill">אסטרטגיה</span></span><i class="aim-ptr"></i></li>
     <li class="aim-chip" style="--i:1;--x:17%;--y:50%;--mx:74%;--my:8%;--d:6.1s"><span class="aim-bob"><span class="aim-pill">קופי שממיר</span></span><i class="aim-ptr"></i></li>
-    <li class="aim-chip" style="--i:2;--x:25%;--y:78%;--mx:50%;--my:15%;--d:5.6s"><span class="aim-bob"><span class="aim-pill">עיצוב</span></span><i class="aim-ptr"></i></li>
+    <li class="aim-chip" style="--i:2;--x:25%;--y:78%;--mx:50%;--my:20%;--d:5.6s"><span class="aim-bob"><span class="aim-pill">עיצוב</span></span><i class="aim-ptr"></i></li>
     <li class="aim-chip" style="--i:3;--x:76%;--y:21%;--mx:26%;--my:92%;--d:6.4s"><span class="aim-bob"><span class="aim-pill">פיתוח</span></span><i class="aim-ptr"></i></li>
     <li class="aim-chip" style="--i:4;--x:83%;--y:52%;--mx:74%;--my:92%;--d:5s"><span class="aim-bob"><span class="aim-pill">אנימציה</span></span><i class="aim-ptr"></i></li>
-    <li class="aim-chip" style="--i:5;--x:75%;--y:80%;--mx:50%;--my:85%;--d:5.8s"><span class="aim-bob"><span class="aim-pill">קידום בגוגל</span></span><i class="aim-ptr"></i></li>
+    <li class="aim-chip" style="--i:5;--x:75%;--y:80%;--mx:50%;--my:80%;--d:5.8s"><span class="aim-bob"><span class="aim-pill">קידום בגוגל</span></span><i class="aim-ptr"></i></li>
   </ul>
 </div></div>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>

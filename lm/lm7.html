@@ -9,13 +9,30 @@
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
 .hv{display:flex;gap:var(--gap);justify-content:center;flex-wrap:wrap;align-items:center}
-.hv .ph{width:220px;height:150px;font-size:15px;cursor:pointer}
-.press{transition:transform .3s cubic-bezier(.2,.6,.2,1)}
-.press:hover{transform:scale(.97)}
-.liftd{transition:transform .35s cubic-bezier(.2,.6,.2,1),box-shadow .35s}
-.liftd:hover{transform:translate(-6px,-6px);box-shadow:10px 10px 24px rgba(22,24,43,.15)}
-.grow{transition:transform .3s cubic-bezier(.2,.6,.2,1)}
-.grow:hover{transform:scale(1.06) rotate(2deg)}
+.hv .ph{width:220px;height:150px;font-size:15px;text-decoration:none}
+/* משפחת ההובר של שכבת הבסיס (engine/motion.md 3). משפחה אחת לאלמנט.
+   לונגהנדס ולא transition מקוצר, כדי לא לדרוס את המעבר של האלמנט עצמו. מעבר נוסף של המארח נכנס לאותה רשימה */
+.press{transition-property:transform;transition-duration:.3s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}
+.liftd{transition-property:transform,box-shadow,border-color;transition-duration:.4s,.3s,.3s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}
+.grow{transition-property:transform,background-color,border-color,box-shadow,color;transition-duration:.3s,.18s,.18s,.18s,.18s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}
+/* צל וגבול: גם בהפחתת תנועה. הגבול נצבע רק בכרטיס שיש לו גבול, ומתכהה בגוון המשטח, לא במבטא */
+@media (hover:hover) and (pointer:fine){
+  .liftd:hover{box-shadow:0 14px 32px rgba(22,24,43,.14);border-color:color-mix(in srgb,var(--line),var(--ink) 22%)}
+}
+.liftd:focus-visible{box-shadow:0 14px 32px rgba(22,24,43,.14);border-color:color-mix(in srgb,var(--line),var(--ink) 22%)}
+/* תזוזה: רק עם עכבר אמיתי (במגע ההובר נתקע) ורק כשתנועה מותרת */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .press:hover{transform:scale(.97)}
+  .liftd:hover{transform:translateY(-5px)}
+  .grow:hover{transform:scale(1.06)}
+}
+/* המקבילה למקלדת, ולחיצת הכפתור (0.12 שנייה) */
+@media (prefers-reduced-motion:no-preference){
+  .press:focus-visible{transform:scale(.97)}
+  .liftd:focus-visible{transform:translateY(-5px)}
+  .grow:focus-visible{transform:scale(1.06)}
+  .grow:active{transform:scale(.98);transition-duration:.12s,.18s,.18s,.18s,.18s}
+}
 </style>
 </head>
 <body>
@@ -32,8 +49,8 @@
   <button class="vtray" type="button" data-tray="lm7">+ לסל הפרויקט</button>
 </div></div>
 <div class="vintro">
-  <p>שלוש משפחות ההובר: כרטיס מדיה נלחץ פנימה (0.97), כרטיס תוכן מתרומם אלכסונית, ו-CTA צומח עם סיבוב קטן. משפחה אחת לאלמנט, לעולם לא שתיים.</p>
-  <p class="when"><b>מתי משתמשים:</b> כל אתר. הבחירה לפי סוג האלמנט.</p>
+  <p>שלוש משפחות ההובר של שכבת הבסיס: מדיה נלחצת פנימה (0.97), כרטיס תוכן מתרומם 5 פיקסלים למעלה עם צל עמוק יותר, ו-CTA צומח. משפחה אחת לאלמנט, לעולם לא שתיים.</p>
+  <p class="when"><b>מתי משתמשים:</b> כל אתר, גם שקט: זו משפחת ההובר של שכבת הבסיס (engine/motion.md 2 ו-3). הבחירה לפי סוג האלמנט, ורק על מה שבאמת לחיץ.</p>
   <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית · חנות · פורטפוליו וסטודיו</dd></div><div><dt>בסקשן</dt><dd>כל העמוד</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>שכבת בסיס, בלי הגבלה</dd></div><div><dt>מתי לא</dt><dd>לא שתי משפחות על אותו אלמנט, ולא הובר על אלמנט שאינו לחיץ.</dd></div></dl>
   <div class="mvpanel" data-mvpanel="lm7"></div>
   <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
@@ -41,12 +58,12 @@
 <h2 class="sr-only">הדמו</h2>
 
 <div class="stage tight"><div class="hv">
-<div class="ph ph-c press"><span class="ph-l">מדיה: לחיצה פנימה</span></div>
-<div class="ph ph-a liftd"><span class="ph-l">תוכן: הרמה אלכסונית</span></div>
-<button class="gbtn grow">CTA: צמיחה + סיבוב</button>
+<a class="ph ph-c press" href="#"><span class="ph-l">מדיה: נלחצת פנימה</span></a>
+<a class="ph ph-a liftd" href="#"><span class="ph-l">כרטיס תוכן: מתרומם</span></a>
+<button class="gbtn grow">CTA: צומח</button>
 </div></div>
 
-
+<div class="demo-note">זהה לטבלת התזמונים ב-engine/motion.md 3. (1) כל תזוזה בתוך <code>@media (hover:hover) and (pointer:fine)</code>: במסך מגע הנגיעה נתקעת במצב hover, והכרטיס נשאר באוויר עד הנגיעה הבאה. (2) פוקוס מקלדת (<code>:focus-visible</code>) מקבל אותה תגובה, כי מי שמגיע בטאב לא רואה הובר. (3) בהפחתת תנועה אין תזוזה בכלל; הצל והגבול עדיין משתנים. (4) בלי <code>transition</code> מקוצר: הוא דורס את המעבר שכבר יש לאלמנט, למשל הכהיית הרקע של הכפתור, והמאוחר בקובץ מנצח. לכן המתכון כתוב בלונגהנדס, והרשימה כוללת את מה שהטבלה נותנת לכל סוג (כפתור: רקע, גבול, צל וצבע ב-0.18; כרטיס: טרנספורם 0.4, צל וגבול 0.3). מעבר נוסף שיש למארח נכנס לאותה רשימה. (5) הגבול משתנה רק בכרטיס שיש לו גבול, כי בכרטיס בלי גבול אין מה לצבוע, ומתכהה בגוון המשטח, לעולם לא במבטא. (6) ההרמה ב-transform ולא ב-translate: ה-reveal של שכבת הבסיס מנפיש את translate עם fill, והוא היה דורס את ההרמה בכל כרטיס שנחשף בגלילה. עד 30.9.2026 הכרטיס התרומם באלכסון (6 על 6) וה-CTA גם הסתובב; ההרמה האנכית היא ברירת המחדל של התורה בכל עור.</div>
 <section class="mvcode">
   <h2>קוד להדבקה</h2>
   <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
@@ -54,7 +71,7 @@
     <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
     <button class="cp" data-cp="css">CSS</button>
     <button class="cp" data-cp="html">HTML</button>
-    
+    <button class="cp" data-cp="js">JS</button>
     
     <a class="cp cp-link" href="../export/lm7.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
   </div>
@@ -71,25 +88,42 @@
 
 /* LM7 · אוצר ההובר: לחיצה / הרמה / צמיחה */
 .hv{display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));justify-content:center;flex-wrap:wrap;align-items:center}
-.hv .ph{width:220px;height:150px;font-size:15px;cursor:pointer}
-.press{transition:transform .3s cubic-bezier(.2,.6,.2,1)}
-.press:hover{transform:scale(.97)}
-.liftd{transition:transform .35s cubic-bezier(.2,.6,.2,1),box-shadow .35s}
-.liftd:hover{transform:translate(-6px,-6px);box-shadow:10px 10px 24px rgba(22,24,43,.15)}
-.grow{transition:transform .3s cubic-bezier(.2,.6,.2,1)}
-.grow:hover{transform:scale(1.06) rotate(2deg)}</code></pre>
+.hv .ph{width:220px;height:150px;font-size:15px;text-decoration:none}
+/* משפחת ההובר של שכבת הבסיס (engine/motion.md 3). משפחה אחת לאלמנט.
+   לונגהנדס ולא transition מקוצר, כדי לא לדרוס את המעבר של האלמנט עצמו. מעבר נוסף של המארח נכנס לאותה רשימה */
+.press{transition-property:transform;transition-duration:.3s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}
+.liftd{transition-property:transform,box-shadow,border-color;transition-duration:.4s,.3s,.3s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}
+.grow{transition-property:transform,background-color,border-color,box-shadow,color;transition-duration:.3s,.18s,.18s,.18s,.18s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}
+/* צל וגבול: גם בהפחתת תנועה. הגבול נצבע רק בכרטיס שיש לו גבול, ומתכהה בגוון המשטח, לא במבטא */
+@media (hover:hover) and (pointer:fine){
+  .liftd:hover{box-shadow:0 14px 32px rgba(22,24,43,.14);border-color:color-mix(in srgb,var(--line, #e4e4ee),var(--ink, #16182b) 22%)}
+}
+.liftd:focus-visible{box-shadow:0 14px 32px rgba(22,24,43,.14);border-color:color-mix(in srgb,var(--line, #e4e4ee),var(--ink, #16182b) 22%)}
+/* תזוזה: רק עם עכבר אמיתי (במגע ההובר נתקע) ורק כשתנועה מותרת */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .press:hover{transform:scale(.97)}
+  .liftd:hover{transform:translateY(-5px)}
+  .grow:hover{transform:scale(1.06)}
+}
+/* המקבילה למקלדת, ולחיצת הכפתור (0.12 שנייה) */
+@media (prefers-reduced-motion:no-preference){
+  .press:focus-visible{transform:scale(.97)}
+  .liftd:focus-visible{transform:translateY(-5px)}
+  .grow:focus-visible{transform:scale(1.06)}
+  .grow:active{transform:scale(.98);transition-duration:.12s,.18s,.18s,.18s,.18s}
+}</code></pre>
     <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="hv"&gt;
-&lt;div class="ph ph-c press"&gt;&lt;span class="ph-l"&gt;מדיה: לחיצה פנימה&lt;/span&gt;&lt;/div&gt;
-&lt;div class="ph ph-a liftd"&gt;&lt;span class="ph-l"&gt;תוכן: הרמה אלכסונית&lt;/span&gt;&lt;/div&gt;
-&lt;button class="gbtn grow"&gt;CTA: צמיחה + סיבוב&lt;/button&gt;
+&lt;a class="ph ph-c press" href="#"&gt;&lt;span class="ph-l"&gt;מדיה: נלחצת פנימה&lt;/span&gt;&lt;/a&gt;
+&lt;a class="ph ph-a liftd" href="#"&gt;&lt;span class="ph-l"&gt;כרטיס תוכן: מתרומם&lt;/span&gt;&lt;/a&gt;
+&lt;button class="gbtn grow"&gt;CTA: צומח&lt;/button&gt;
 &lt;/div&gt;&lt;/div&gt;</code></pre>
-    
+    <h3>JS</h3><pre><code>document.querySelectorAll('.hv a[href="#"]').forEach(a=&gt;a.addEventListener("click",e=&gt;e.preventDefault()));</code></pre>
   </details>
-  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:lm7 · אוצר ההובר: לחיצה / הרמה / צמיחה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/lm/lm7.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/lm7.html\n\nמה זה עושה: שלוש משפחות ההובר: כרטיס מדיה נלחץ פנימה (0.97), כרטיס תוכן מתרומם אלכסונית, ו-CTA צומח עם סיבוב קטן. משפחה אחת לאלמנט, לעולם לא שתיים.\nמתי משתמשים: כל אתר. הבחירה לפי סוג האלמנט.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית · חנות · פורטפוליו וסטודיו\nבסקשן: כל העמוד\nאופי: גם באתר שקט\nתפקיד ומינון: שכבת בסיס, בלי הגבלה\nמתי לא: לא שתי משפחות על אותו אלמנט, ולא הובר על אלמנט שאינו לחיץ.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* LM7 · אוצר ההובר: לחיצה / הרמה / צמיחה */\n.hv{display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));justify-content:center;flex-wrap:wrap;align-items:center}\n.hv .ph{width:220px;height:150px;font-size:15px;cursor:pointer}\n.press{transition:transform .3s cubic-bezier(.2,.6,.2,1)}\n.press:hover{transform:scale(.97)}\n.liftd{transition:transform .35s cubic-bezier(.2,.6,.2,1),box-shadow .35s}\n.liftd:hover{transform:translate(-6px,-6px);box-shadow:10px 10px 24px rgba(22,24,43,.15)}\n.grow{transition:transform .3s cubic-bezier(.2,.6,.2,1)}\n.grow:hover{transform:scale(1.06) rotate(2deg)}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"hv\">\n<div class=\"ph ph-c press\"><span class=\"ph-l\">מדיה: לחיצה פנימה<\/span><\/div>\n<div class=\"ph ph-a liftd\"><span class=\"ph-l\">תוכן: הרמה אלכסונית<\/span><\/div>\n<button class=\"gbtn grow\">CTA: צמיחה + סיבוב<\/button>\n<\/div><\/div>\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* LM7 · אוצר ההובר: לחיצה / הרמה / צמיחה */\n.hv{display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));justify-content:center;flex-wrap:wrap;align-items:center}\n.hv .ph{width:220px;height:150px;font-size:15px;cursor:pointer}\n.press{transition:transform .3s cubic-bezier(.2,.6,.2,1)}\n.press:hover{transform:scale(.97)}\n.liftd{transition:transform .35s cubic-bezier(.2,.6,.2,1),box-shadow .35s}\n.liftd:hover{transform:translate(-6px,-6px);box-shadow:10px 10px 24px rgba(22,24,43,.15)}\n.grow{transition:transform .3s cubic-bezier(.2,.6,.2,1)}\n.grow:hover{transform:scale(1.06) rotate(2deg)}","html":"<div class=\"stage tight\"><div class=\"hv\">\n<div class=\"ph ph-c press\"><span class=\"ph-l\">מדיה: לחיצה פנימה<\/span><\/div>\n<div class=\"ph ph-a liftd\"><span class=\"ph-l\">תוכן: הרמה אלכסונית<\/span><\/div>\n<button class=\"gbtn grow\">CTA: צמיחה + סיבוב<\/button>\n<\/div><\/div>","js":"","scripts":"","rtl":false}</script>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:lm7 · אוצר ההובר: לחיצה / הרמה / צמיחה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/lm/lm7.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/lm7.html\n\nמה זה עושה: שלוש משפחות ההובר של שכבת הבסיס: מדיה נלחצת פנימה (0.97), כרטיס תוכן מתרומם 5 פיקסלים למעלה עם צל עמוק יותר, ו-CTA צומח. משפחה אחת לאלמנט, לעולם לא שתיים.\nמתי משתמשים: כל אתר, גם שקט: זו משפחת ההובר של שכבת הבסיס (engine/motion.md 2 ו-3). הבחירה לפי סוג האלמנט, ורק על מה שבאמת לחיץ.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית · חנות · פורטפוליו וסטודיו\nבסקשן: כל העמוד\nאופי: גם באתר שקט\nתפקיד ומינון: שכבת בסיס, בלי הגבלה\nמתי לא: לא שתי משפחות על אותו אלמנט, ולא הובר על אלמנט שאינו לחיץ.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* LM7 · אוצר ההובר: לחיצה / הרמה / צמיחה */\n.hv{display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));justify-content:center;flex-wrap:wrap;align-items:center}\n.hv .ph{width:220px;height:150px;font-size:15px;text-decoration:none}\n/* משפחת ההובר של שכבת הבסיס (engine/motion.md 3). משפחה אחת לאלמנט.\n   לונגהנדס ולא transition מקוצר, כדי לא לדרוס את המעבר של האלמנט עצמו. מעבר נוסף של המארח נכנס לאותה רשימה */\n.press{transition-property:transform;transition-duration:.3s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}\n.liftd{transition-property:transform,box-shadow,border-color;transition-duration:.4s,.3s,.3s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}\n.grow{transition-property:transform,background-color,border-color,box-shadow,color;transition-duration:.3s,.18s,.18s,.18s,.18s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}\n/* צל וגבול: גם בהפחתת תנועה. הגבול נצבע רק בכרטיס שיש לו גבול, ומתכהה בגוון המשטח, לא במבטא */\n@media (hover:hover) and (pointer:fine){\n  .liftd:hover{box-shadow:0 14px 32px rgba(22,24,43,.14);border-color:color-mix(in srgb,var(--line, #e4e4ee),var(--ink, #16182b) 22%)}\n}\n.liftd:focus-visible{box-shadow:0 14px 32px rgba(22,24,43,.14);border-color:color-mix(in srgb,var(--line, #e4e4ee),var(--ink, #16182b) 22%)}\n/* תזוזה: רק עם עכבר אמיתי (במגע ההובר נתקע) ורק כשתנועה מותרת */\n@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){\n  .press:hover{transform:scale(.97)}\n  .liftd:hover{transform:translateY(-5px)}\n  .grow:hover{transform:scale(1.06)}\n}\n/* המקבילה למקלדת, ולחיצת הכפתור (0.12 שנייה) */\n@media (prefers-reduced-motion:no-preference){\n  .press:focus-visible{transform:scale(.97)}\n  .liftd:focus-visible{transform:translateY(-5px)}\n  .grow:focus-visible{transform:scale(1.06)}\n  .grow:active{transform:scale(.98);transition-duration:.12s,.18s,.18s,.18s,.18s}\n}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"hv\">\n<a class=\"ph ph-c press\" href=\"#\"><span class=\"ph-l\">מדיה: נלחצת פנימה<\/span><\/a>\n<a class=\"ph ph-a liftd\" href=\"#\"><span class=\"ph-l\">כרטיס תוכן: מתרומם<\/span><\/a>\n<button class=\"gbtn grow\">CTA: צומח<\/button>\n<\/div><\/div>\n\n=== JS ===\ndocument.querySelectorAll('.hv a[href=\"#\"]').forEach(a=>a.addEventListener(\"click\",e=>e.preventDefault()));\n\nהערת מימוש מהמאגר:\nזהה לטבלת התזמונים ב-engine/motion.md 3. (1) כל תזוזה בתוך `@media (hover:hover) and (pointer:fine)`: במסך מגע הנגיעה נתקעת במצב hover, והכרטיס נשאר באוויר עד הנגיעה הבאה. (2) פוקוס מקלדת (`:focus-visible`) מקבל אותה תגובה, כי מי שמגיע בטאב לא רואה הובר. (3) בהפחתת תנועה אין תזוזה בכלל; הצל והגבול עדיין משתנים. (4) בלי `transition` מקוצר: הוא דורס את המעבר שכבר יש לאלמנט, למשל הכהיית הרקע של הכפתור, והמאוחר בקובץ מנצח. לכן המתכון כתוב בלונגהנדס, והרשימה כוללת את מה שהטבלה נותנת לכל סוג (כפתור: רקע, גבול, צל וצבע ב-0.18; כרטיס: טרנספורם 0.4, צל וגבול 0.3). מעבר נוסף שיש למארח נכנס לאותה רשימה. (5) הגבול משתנה רק בכרטיס שיש לו גבול, כי בכרטיס בלי גבול אין מה לצבוע, ומתכהה בגוון המשטח, לעולם לא במבטא. (6) ההרמה ב-transform ולא ב-translate: ה-reveal של שכבת הבסיס מנפיש את translate עם fill, והוא היה דורס את ההרמה בכל כרטיס שנחשף בגלילה. עד 30.9.2026 הכרטיס התרומם באלכסון (6 על 6) וה-CTA גם הסתובב; ההרמה האנכית היא ברירת המחדל של התורה בכל עור.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* LM7 · אוצר ההובר: לחיצה / הרמה / צמיחה */\n.hv{display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));justify-content:center;flex-wrap:wrap;align-items:center}\n.hv .ph{width:220px;height:150px;font-size:15px;text-decoration:none}\n/* משפחת ההובר של שכבת הבסיס (engine/motion.md 3). משפחה אחת לאלמנט.\n   לונגהנדס ולא transition מקוצר, כדי לא לדרוס את המעבר של האלמנט עצמו. מעבר נוסף של המארח נכנס לאותה רשימה */\n.press{transition-property:transform;transition-duration:.3s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}\n.liftd{transition-property:transform,box-shadow,border-color;transition-duration:.4s,.3s,.3s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}\n.grow{transition-property:transform,background-color,border-color,box-shadow,color;transition-duration:.3s,.18s,.18s,.18s,.18s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}\n/* צל וגבול: גם בהפחתת תנועה. הגבול נצבע רק בכרטיס שיש לו גבול, ומתכהה בגוון המשטח, לא במבטא */\n@media (hover:hover) and (pointer:fine){\n  .liftd:hover{box-shadow:0 14px 32px rgba(22,24,43,.14);border-color:color-mix(in srgb,var(--line, #e4e4ee),var(--ink, #16182b) 22%)}\n}\n.liftd:focus-visible{box-shadow:0 14px 32px rgba(22,24,43,.14);border-color:color-mix(in srgb,var(--line, #e4e4ee),var(--ink, #16182b) 22%)}\n/* תזוזה: רק עם עכבר אמיתי (במגע ההובר נתקע) ורק כשתנועה מותרת */\n@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){\n  .press:hover{transform:scale(.97)}\n  .liftd:hover{transform:translateY(-5px)}\n  .grow:hover{transform:scale(1.06)}\n}\n/* המקבילה למקלדת, ולחיצת הכפתור (0.12 שנייה) */\n@media (prefers-reduced-motion:no-preference){\n  .press:focus-visible{transform:scale(.97)}\n  .liftd:focus-visible{transform:translateY(-5px)}\n  .grow:focus-visible{transform:scale(1.06)}\n  .grow:active{transform:scale(.98);transition-duration:.12s,.18s,.18s,.18s,.18s}\n}","html":"<div class=\"stage tight\"><div class=\"hv\">\n<a class=\"ph ph-c press\" href=\"#\"><span class=\"ph-l\">מדיה: נלחצת פנימה<\/span><\/a>\n<a class=\"ph ph-a liftd\" href=\"#\"><span class=\"ph-l\">כרטיס תוכן: מתרומם<\/span><\/a>\n<button class=\"gbtn grow\">CTA: צומח<\/button>\n<\/div><\/div>","js":"document.querySelectorAll('.hv a[href=\"#\"]').forEach(a=>a.addEventListener(\"click\",e=>e.preventDefault()));","scripts":"","rtl":false}</script>
 </section>
 <nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="lm5.html" rel="prev"><small>→ הקודם</small><b>סולם כניסות הירו (150ms)</b></a><a href="lm8.html" rel="next"><small>הבא ←</small><b>מרקי מוטה ונגרר</b></a></nav>
 
-<script src="../assets/baseline.js?v=bd3d04f5"></script>
+<script src="../assets/baseline.js?v=22f33b1a"></script>
 <script src="../assets/status.js"></script>
 <script src="../assets/tray.js"></script>
 <script>
@@ -114,7 +148,7 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 })();
 
-
+document.querySelectorAll('.hv a[href="#"]').forEach(a=>a.addEventListener("click",e=>e.preventDefault()));
 </script>
 </body>
 </html>

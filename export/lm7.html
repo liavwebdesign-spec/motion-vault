@@ -45,24 +45,43 @@ img{max-width:100%}
 
 /* LM7 · אוצר ההובר: לחיצה / הרמה / צמיחה */
 .hv{display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));justify-content:center;flex-wrap:wrap;align-items:center}
-.hv .ph{width:220px;height:150px;font-size:15px;cursor:pointer}
-.press{transition:transform .3s cubic-bezier(.2,.6,.2,1)}
-.press:hover{transform:scale(.97)}
-.liftd{transition:transform .35s cubic-bezier(.2,.6,.2,1),box-shadow .35s}
-.liftd:hover{transform:translate(-6px,-6px);box-shadow:10px 10px 24px rgba(22,24,43,.15)}
-.grow{transition:transform .3s cubic-bezier(.2,.6,.2,1)}
-.grow:hover{transform:scale(1.06) rotate(2deg)}
+.hv .ph{width:220px;height:150px;font-size:15px;text-decoration:none}
+/* משפחת ההובר של שכבת הבסיס (engine/motion.md 3). משפחה אחת לאלמנט.
+   לונגהנדס ולא transition מקוצר, כדי לא לדרוס את המעבר של האלמנט עצמו. מעבר נוסף של המארח נכנס לאותה רשימה */
+.press{transition-property:transform;transition-duration:.3s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}
+.liftd{transition-property:transform,box-shadow,border-color;transition-duration:.4s,.3s,.3s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}
+.grow{transition-property:transform,background-color,border-color,box-shadow,color;transition-duration:.3s,.18s,.18s,.18s,.18s;transition-timing-function:cubic-bezier(.2,.6,.2,1)}
+/* צל וגבול: גם בהפחתת תנועה. הגבול נצבע רק בכרטיס שיש לו גבול, ומתכהה בגוון המשטח, לא במבטא */
+@media (hover:hover) and (pointer:fine){
+  .liftd:hover{box-shadow:0 14px 32px rgba(22,24,43,.14);border-color:color-mix(in srgb,var(--line, #e4e4ee),var(--ink, #16182b) 22%)}
+}
+.liftd:focus-visible{box-shadow:0 14px 32px rgba(22,24,43,.14);border-color:color-mix(in srgb,var(--line, #e4e4ee),var(--ink, #16182b) 22%)}
+/* תזוזה: רק עם עכבר אמיתי (במגע ההובר נתקע) ורק כשתנועה מותרת */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .press:hover{transform:scale(.97)}
+  .liftd:hover{transform:translateY(-5px)}
+  .grow:hover{transform:scale(1.06)}
+}
+/* המקבילה למקלדת, ולחיצת הכפתור (0.12 שנייה) */
+@media (prefers-reduced-motion:no-preference){
+  .press:focus-visible{transform:scale(.97)}
+  .liftd:focus-visible{transform:translateY(-5px)}
+  .grow:focus-visible{transform:scale(1.06)}
+  .grow:active{transform:scale(.98);transition-duration:.12s,.18s,.18s,.18s,.18s}
+}
 </style>
 </head>
 <body>
 
 <div class="stage tight"><div class="hv">
-<div class="ph ph-c press"><span class="ph-l">מדיה: לחיצה פנימה</span></div>
-<div class="ph ph-a liftd"><span class="ph-l">תוכן: הרמה אלכסונית</span></div>
-<button class="gbtn grow">CTA: צמיחה + סיבוב</button>
+<a class="ph ph-c press" href="#"><span class="ph-l">מדיה: נלחצת פנימה</span></a>
+<a class="ph ph-a liftd" href="#"><span class="ph-l">כרטיס תוכן: מתרומם</span></a>
+<button class="gbtn grow">CTA: צומח</button>
 </div></div>
 
 
-
+<script>
+document.querySelectorAll('.hv a[href="#"]').forEach(a=>a.addEventListener("click",e=>e.preventDefault()));
+</script>
 </body>
 </html>

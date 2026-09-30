@@ -41,18 +41,23 @@ img{max-width:100%}
 /* LM10 · לוגואים שמקבלים את צבע הרקע */
 .lgm{display:grid;gap:14px;max-width:min(1180px,94vw);margin-inline:auto}
 .lgm-bar{display:flex;gap:8px;justify-content:center;margin-bottom:10px}
-.lgm-bar button{font:inherit;font-size:14px;padding:8px 16px;border-radius:999px;border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);color:var(--ink, #16182b);cursor:pointer;transition:background-color .25s,color .25s}
-.lgm-bar button.on{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border-color:var(--ink, #16182b)}
+/* 44 פיקסלים: יעד נגיעה נוח בטלפון. המצב הנבחר נקרא מ-aria-pressed, כך שגם קורא מסך יודע מה פעיל */
+.lgm-bar button{font:inherit;font-size:14px;min-height:44px;padding:8px 16px;border-radius:999px;border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);color:var(--ink, #16182b);cursor:pointer;
+  transition:background-color .25s cubic-bezier(.2,.6,.2,1),color .25s cubic-bezier(.2,.6,.2,1),border-color .25s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.lgm-bar button[aria-pressed="false"]:hover{border-color:color-mix(in srgb,var(--line, #e4e4ee),var(--ink, #16182b) 30%)}}
+.lgm-bar button[aria-pressed="true"]{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border-color:var(--ink, #16182b)}
 .lgm-strip{border-radius:var(--r, 14px);padding:clamp(24px,3.4vw,48px) clamp(18px,3vw,40px);background:var(--bg, #f7f7fa);color:var(--ink, #16182b);border:1px solid var(--line, #e4e4ee);
-  transition:background-color .6s cubic-bezier(.2,.6,.2,1),color .6s cubic-bezier(.2,.6,.2,1)}
+  transition:background-color .6s cubic-bezier(.2,.6,.2,1),color .6s cubic-bezier(.2,.6,.2,1),border-color .6s cubic-bezier(.2,.6,.2,1)}
 .lgm-strip[data-tone="ink"]{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border-color:var(--ink, #16182b)}
 .lgm-strip[data-tone="accent"]{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border-color:var(--accent, #4a3aff)}
-.lgm-strip small{display:block;text-align:center;font-size:13px;letter-spacing:.14em;opacity:.7;margin-bottom:24px}
+.lgm-strip small{display:block;text-align:center;font-size:13px;opacity:.7;margin-bottom:24px}
 .lgm-row{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(16px,3vw,48px);align-items:center}
 /* הלב: הלוגו הוא מסכה, והצבע הוא currentColor. הקובץ המקורי יכול להיות בכל צבע, רק שקיפות קובעת */
 .lgm-logo{display:block;height:clamp(26px,3vw,40px);background:currentColor;opacity:.72;
-  -webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat;transition:opacity .3s}
-.lgm-logo:hover{opacity:1}
+  -webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}
+/* לוגו שאינו קישור לא מקבל הובר (אין פעולה, אין פידבק). כשהלוגו הוא קישור: */
+@media (hover:hover) and (pointer:fine){.lgm-row a:hover>.lgm-logo{opacity:1}}
+.lgm-row a:focus-visible>.lgm-logo{opacity:1}
 .lgm-orig{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(16px,3vw,48px);align-items:center;padding:0 clamp(18px,3vw,40px)}
 .lgm-orig img{height:clamp(22px,2.6vw,34px);width:100%;object-fit:contain}
 .lgm-cap{font-size:13px;color:var(--muted, #6a6d85);text-align:center;margin:4px 0 0}
@@ -64,7 +69,7 @@ img{max-width:100%}
 
 <div class="stage tight"><div class="lgm">
   <div class="lgm-bar" role="group" aria-label="רקע הרצועה">
-    <button class="on" data-tone="bg">רקע בהיר</button><button data-tone="ink">רקע כהה</button><button data-tone="accent">צבע המותג</button>
+    <button type="button" aria-pressed="true" data-tone="bg">רקע בהיר</button><button type="button" aria-pressed="false" data-tone="ink">רקע כהה</button><button type="button" aria-pressed="false" data-tone="accent">צבע המותג</button>
   </div>
   <p class="lgm-cap">הקבצים המקוריים, כל אחד בצבע אחר:</p>
   <div class="lgm-orig" aria-hidden="true"></div>
@@ -97,7 +102,7 @@ img{max-width:100%}
   const strip=document.querySelector(".lgm-strip"),btns=[...document.querySelectorAll(".lgm-bar button")];
   btns.forEach(b=>b.addEventListener("click",()=>{
     strip.dataset.tone=b.dataset.tone;
-    btns.forEach(x=>x.classList.toggle("on",x===b));
+    btns.forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
   }));
 })();
 </script>
