@@ -49,6 +49,32 @@ h2{font-size:var(--fs-h2);margin:0}
 .vintro{padding:clamp(28px,3vw,56px) var(--gutter) 0;max-width:900px}
 .vintro p{color:var(--muted);margin:8px 0 0;max-width:75ch}
 .vintro .when b{color:var(--ink);font-weight:500}
+/* "איפה ומתי" (30.9.2026): סוג אתר, סקשן, אופי, תפקיד ומינון, מתי לא. מקור אחד: _src/place.json */
+.vplace{display:grid;grid-template-columns:max-content 1fr;gap:6px 20px;margin:16px 0 0;padding:16px 20px;max-width:75ch;border-radius:12px;background:var(--card);box-shadow:0 0 0 1px var(--line);font-size:15px;line-height:1.5}
+.vplace div{display:contents}
+.vplace dt{color:var(--muted)}
+.vplace dd{margin:0;color:var(--ink)}
+@media (max-width:560px){.vplace{grid-template-columns:1fr;gap:2px}.vplace dd{margin-bottom:8px}}
+/* הקודם והבא באותה קטגוריה: חצים קטנים בפס העליון, ושמות מלאים בסוף העמוד */
+.vpn{display:inline-flex;align-items:center;gap:4px}
+.vpn a{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:15px;color:var(--muted);transition:color .18s,border-color .18s}
+.vpn a:hover{color:var(--accent);border-color:var(--accent)}
+.vpn-n{font-size:12px;color:var(--muted);min-width:44px;text-align:center;font-variant-numeric:tabular-nums}
+.vpn-foot{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:48px var(--gutter) 64px}
+.vpn-foot a{display:grid;gap:4px;padding:20px 24px;border-radius:14px;background:var(--card);box-shadow:0 0 0 1px var(--line);transition:box-shadow .18s}
+.vpn-foot a[rel="next"]{text-align:end}
+.vpn-foot a:hover{box-shadow:0 0 0 1.5px var(--accent)}
+.vpn-foot small{font-size:13px;color:var(--muted)}
+.vpn-foot b{font-size:16px;font-weight:600}
+@media (max-width:560px){.vpn-foot{grid-template-columns:1fr}.vpn-foot a[rel="next"]{text-align:start}}
+/* סל הפרויקט (assets/tray.js) */
+.vtray{display:inline-flex;align-items:center;min-height:36px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:#fff;font-family:inherit;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;transition:background .18s,color .18s,border-color .18s}
+.vtray:hover{border-color:var(--accent);color:var(--accent)}
+.vtray.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+/* בטלפון הפס העליון גבוה (כ-240 פיקסלים: כותרת, צ'יפים, כפתורים), ודביק הוא הסתיר שליש מהדמו בזמן הגלילה */
+@media (max-width:767px){.vtop{position:relative}}
+/* בתוך סבב הסקירה (iframe) הפס העליון והפתיח כפולים לפס של הסבב, והאישור נעשה שם */
+.in-frame .vtop,.in-frame .vintro{display:none}
 
 /* demo area */
 .runway{height:38vh;display:flex;align-items:center;justify-content:center;color:#66697a;font-size:14px}

@@ -90,7 +90,8 @@ export function portable(e, CDN, NON_GSAP) {
 
   const scripts = libs.map(l => `<script src="${CDN[l]}"></script>`);
   const jsParts = [];
-  if (plugins.length) jsParts.push(`gsap.registerPlugin(${plugins.join(", ")});`);
+  // guarded: an office network that blocks the CDN must not kill the rest of the script (b34, b02b, 30.9.2026)
+  if (plugins.length) jsParts.push(`if (typeof gsap !== "undefined") gsap.registerPlugin(${plugins.join(", ")});`);
   jsParts.push((e.js || "").trim());
   const js = jsParts.filter(Boolean).join("\n\n");
 
@@ -128,6 +129,8 @@ export function standalone(e, CDN, NON_GSAP) {
 ${tokens}
 }
 *{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
 body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
 img{max-width:100%}
 ${runwayCss}

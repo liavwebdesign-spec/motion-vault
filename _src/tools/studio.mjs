@@ -44,7 +44,7 @@ const send = (method, params = {}, sessionId) => new Promise((res, rej) => { con
 // ---------- סקריפט המדידה: רץ בתוך העמוד ומחזיר את 30 הסעיפים ----------
 const MEASURE = `(function(SEL, PROJECT){
   const isVault=!!document.querySelector(".vtop");
-  document.querySelectorAll(".vtop,.vintro,.mvcode,.mvpanel,.demo-note,.bpbar,.runway").forEach(e=>e.style.display="none");
+  document.querySelectorAll(".vtop,.vintro,.mvcode,.vpn-foot,.mvpanel,.demo-note,.bpbar,.runway").forEach(e=>e.style.display="none");
   const root=document.querySelector(SEL)||(isVault?(document.querySelector(".bpwrap")||document.querySelector(".ref")):null)||document.body;
   const cs=el=>getComputedStyle(el);
   const px=v=>parseFloat(v)||0;

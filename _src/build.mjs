@@ -10,6 +10,7 @@ import { createHash as __ch } from "node:crypto";
 // baseline.js carries a content hash (23.9.2026): after syncing a review report, browsers kept the old file and old statuses won
 const BV = __ch("sha1").update(__rf(new URL("../assets/baseline.js", import.meta.url))).digest("hex").slice(0, 8);
 import { writeCompositionsSkill, writeStylesSkill, writeAntiSkill, writeArchSkill } from "./skill.mjs";
+import { SITES, SECS, TONES, ROLES, doseLabel, loadPlace, validatePlace } from "./place.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CATS = { comp: "קומפוזיציות", rhythm: "מקצבי עמוד", style: "שפות עיצוב", anti: "אנטי-פטרנים", arch: "ארכיטיפים", gsap: "GSAP", behavior: "התנהגויות", header: "הדרים", hero: "הירו", footer: "פוטרים", conv: "המרה ומצבים", css: "CSS טהור", lm: "חתימה (LM)", misc: "מסגרת" };
@@ -526,6 +527,31 @@ const missingE = entries.filter(e => !ELEMS[e.id]).map(e => e.id);
 if (missingE.length) throw new Error("entries missing ELEMS tags: " + missingE.join(", "));
 const missingF = entries.filter(e => !FIT[e.id]).map(e => e.id);
 if (missingF.length) throw new Error("entries missing FIT tags: " + missingF.join(", "));
+// "איפה ומתי" (place.mjs): ערך מחוץ לאוצר המילים עוצר את הבנייה; פריט בלי תיוג רק מדווח עד שסבב ה-QA יסיים
+const PLACE = loadPlace(import.meta.url);
+const badPlace = validatePlace(PLACE, new Set(entries.map(e => e.id)));
+if (badPlace.length) throw new Error("place.json: " + badPlace.join("; "));
+const untagged = entries.filter(e => !PLACE[e.id]).map(e => e.id);
+if (untagged.length) console.log(`place: ${untagged.length} פריטים עוד בלי "איפה ומתי"`);
+// השורות של "איפה ומתי" לעמוד הפריט, להנחיה לסוכן ולמניפסט: אותו מקור לכולם
+function placeRows(e) {
+  const p = PLACE[e.id];
+  if (!p) return [];
+  const R = [];
+  if (p.sites && p.sites.length) R.push(["סוג אתר", p.sites.map(s => SITES[s]).join(" · ")]);
+  if (p.secs && p.secs.length) R.push(["בסקשן", p.secs.map(s => SECS[s]).join(" · ")]);
+  if (p.tone) R.push(["אופי", TONES[p.tone]]);
+  if (p.role || p.dose != null) R.push(["תפקיד ומינון", [p.role && ROLES[p.role], p.dose != null && doseLabel(p.dose)].filter(Boolean).join(", ")]);
+  if (p.not) R.push(["מתי לא", p.not]);
+  return R;
+}
+// "הקודם" ו"הבא" בתוך אותה קטגוריה, בסדר של הקטלוג
+const SIBS = {};
+for (const e of entries) (SIBS[e.cat] = SIBS[e.cat] || []).push(e);
+// by number, not by catalog file: the files are waves (b10-gsap11 sorts before b2-gsap3), so g22 was followed by g46.
+// Ids without a number (the frames) keep their catalog order.
+const idKey = id => { const m = /(\d+)([a-z]*)$/.exec(id); return m ? [Number(m[1]), m[2]] : null; };
+for (const L of Object.values(SIBS)) if (L.every(e => idKey(e.id))) L.sort((a, b) => { const x = idKey(a.id), y = idKey(b.id); return x[0] - y[0] || x[1].localeCompare(y[1]); });
 // טווח משקלים רציף ולא ערכים בדידים: קובץ אחד במקום חמישה, ומשקל שאפשר להנפיש בלי קפיצות
 const FONT = `<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">`;
 
@@ -534,6 +560,8 @@ const LIVE = "https://liavwebdesign-spec.github.io/motion-vault";
 const fontLink = e => e.fonts && e.fonts.length ? `<link href="https://fonts.googleapis.com/css2?${e.fonts.map(f => "family=" + f.replace(/ /g, "+")).join("&")}&display=swap" rel="stylesheet">` : "";
 // ההנחיה שנדבקת לסוכן קוד. היא נושאת את כל מה שהמהלך צריך כדי לעבוד ביעד,
 // כולל הדברים שנשארים מאחור בהעתקה ידנית: כיוון המסמך, סדר הסקריפטים והרישום.
+// "איפה ומתי" נכנס להנחיה, כדי שסוכן שמייבא את הפריט יידע גם איפה הוא יושב ומתי לא
+const placeBrief = (L, e) => placeRows(e).forEach(([k, v]) => L.push(`${k}: ${v}`));
 function briefFor(e, p) {
   const L = [];
   // תורה: התדריך הוא על פריסה, לא על סקריפטים. אין GSAP, אין המרת React מיוחדת.
@@ -543,6 +571,7 @@ function briefFor(e, p) {
     L.push("");
     L.push(`מה זה: ${e.desc}`);
     L.push(`איפה זה קורה: ${e.when}`);
+    placeBrief(L, e);
     L.push(`החוק: ${e.rule}`);
     L.push(`למה זה רע: ${e.why}`);
     L.push(`התיקון: ${e.fix}`);
@@ -563,6 +592,7 @@ function briefFor(e, p) {
     L.push("");
     L.push(`מה זה: ${e.desc}`);
     L.push(`מתאים ל: ${e.when}`);
+    placeBrief(L, e);
     L.push(`מקצב עמוד: ${e.rhythm}`);
     if (e.mobile) L.push(`מובייל: ${e.mobile}`);
     if (e.note) L.push(`הערה: ${e.note}`);
@@ -592,6 +622,7 @@ function briefFor(e, p) {
     L.push(`מהות: ${e.desc}`);
     L.push(`מתאים ל: ${e.when}`);
     L.push(`לא מתאים ל: ${e.no}`);
+    placeBrief(L, e);
     L.push("");
     L.push("מתכון הטוקנים:");
     L.push(e.recipe);
@@ -623,6 +654,7 @@ function briefFor(e, p) {
     L.push("");
     L.push(`מבנה: ${e.desc}`);
     L.push(`מתאים ל: ${e.when}`);
+    placeBrief(L, e);
     if (e.mobile) L.push(`קריסת מובייל: ${e.mobile}`);
     if (e.note) L.push(`הערה: ${e.note.replace(/\*\*/g, "")}`);
     L.push("");
@@ -645,6 +677,7 @@ function briefFor(e, p) {
   L.push("");
   L.push(`מה זה עושה: ${e.desc}`);
   L.push(`מתי משתמשים: ${e.when}`);
+  placeBrief(L, e);
   L.push("");
   L.push("כללי הטמעה:");
   L.push("1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.");
@@ -768,6 +801,16 @@ function set(v){bs.forEach(function(x){x.classList.toggle("on",x.dataset.bp===v)
 bs.forEach(function(b){b.addEventListener("click",function(){set(b.dataset.bp)})});
 try{var s=localStorage.getItem("mv-bp");if(s)set(s)}catch(e){}})();`;
 
+// ההערה בתחתית עמוד הפריט נכתבת בקטלוג במרקדאון קל (**הדגשה**, `קוד`), ועד 30.9.2026 הוצגה עם הכוכביות והגרשיים.
+// ההנחיה לסוכן ממשיכה לקבל את הטקסט הגולמי (שם הכוכביות מוסרות, ראו briefFor).
+const noteHtml = s => String(s).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/`([^`]+)`/g, (m, c) => `<code>${c.replace(/</g, "&lt;")}</code>`);
+// "איפה ומתי" בעמוד הפריט, מתחת ל"מתי משתמשים"
+const placeHtml = e => { const R = placeRows(e); return R.length ? `<dl class="vplace">${R.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("")}</dl>` : ""; };
+// "הקודם" ו"הבא" באותה קטגוריה (30.9.2026): עד עכשיו כל מעבר בין פריטים היה דרך הספרייה
+function sibs(e) {
+  const L = SIBS[e.cat], i = L.indexOf(e);
+  return { prev: L[(i - 1 + L.length) % L.length], next: L[(i + 1) % L.length], n: i + 1, of: L.length };
+}
 function page(e) {
   const isDoc = e.area === "doctrine";
   const isStyle = e.cat === "style";
@@ -790,18 +833,22 @@ ${e.css || ""}
 </style>
 </head>
 <body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
 <div class="vtop"><div class="vtop-in">
-  <a class="vback" href="../index.html">→ לכל המאגר</a>
+  <a class="vback" href="../index.html#c=${e.cat}">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="${sibs(e).prev.id}.html" rel="prev" title="הקודם: ${esc(sibs(e).prev.name)}">→<span class="sr-only">הקודם</span></a><span class="vpn-n">${sibs(e).n}/${sibs(e).of}</span><a href="${sibs(e).next.id}.html" rel="next" title="הבא: ${esc(sibs(e).next.name)}">←<span class="sr-only">הבא</span></a></nav>
   <h1><span class="vid">${e.id.toUpperCase()}</span> · ${e.name}</h1>
   <span class="chip cat-${e.cat}">${CATS[e.cat]}</span>
   <span class="chip">${e.tech}</span>
   ${(USES[e.id] || []).map(u => `<span class="chip use">${USES_LABELS[u]}</span>`).join("")}
   <span class="chip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:${e.id}"><code>MV:${e.id}</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="${e.id}">+ לסל הפרויקט</button>
 </div></div>
 <div class="vintro">
   <p>${e.desc}</p>
   <p class="when"><b>מתי משתמשים:</b> ${e.when}</p>
+  ${placeHtml(e)}
   <div class="mvpanel" data-mvpanel="${e.id}"></div>
   <p class="inherit-note">${e.cat === "style" ? STYLE_NOTE : e.cat === "anti" ? ANTI_NOTE : e.cat === "arch" ? ARCH_NOTE : isDoc ? DOC_NOTE : MOVE_NOTE}</p>
 </div>
@@ -809,11 +856,13 @@ ${e.css || ""}
 ${runway}
 ${body}
 ${runwayEnd}
-${e.note ? `<div class="demo-note">${e.note}</div>` : ""}
+${e.note ? `<div class="demo-note">${noteHtml(e.note)}</div>` : ""}
 ${codePanel(e)}
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="${sibs(e).prev.id}.html" rel="prev"><small>→ הקודם</small><b>${esc(sibs(e).prev.name)}</b></a><a href="${sibs(e).next.id}.html" rel="next"><small>הבא ←</small><b>${esc(sibs(e).next.name)}</b></a></nav>
 ${libs}
 <script src="../assets/baseline.js?v=${BV}"></script>
 <script src="../assets/status.js"></script>
+<script src="../assets/tray.js"></script>
 <script>
 if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
 document.querySelector(".mvid").addEventListener("click",function(){
@@ -835,7 +884,7 @@ document.querySelector(".mvid").addEventListener("click",function(){
     });
   });
 })();
-${register ? `gsap.registerPlugin(${register});` : ""}
+${register ? `if (typeof gsap !== "undefined") gsap.registerPlugin(${register});` : ""}
 ${isDoc ? BP_JS + String.fromCharCode(10) + (isStyle ? FONT_JS + String.fromCharCode(10) : "") : ""}${e.js || ""}
 </script>
 </body>
@@ -863,7 +912,7 @@ body.rv{margin:0;display:flex;flex-direction:column;background:var(--bg)}
 .rv-count{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
 .rv-title{font-size:15px;font-weight:600;display:flex;gap:8px;align-items:center;min-width:0}
 .rv-title .vid{font-size:12px}
-.rv-desc{font-size:13px;color:var(--muted);max-width:60ch;line-height:1.45}
+.rv-desc{font-size:13px;color:var(--muted);max-width:120ch;line-height:1.45}
 .rv-acts{display:flex;gap:8px;align-items:center;margin-inline-start:auto;flex-wrap:wrap}
 .rv-nav{font-family:inherit;font-size:13px;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:#fff;cursor:pointer}
 .rv-nav:hover{border-color:var(--ink)}
@@ -1142,7 +1191,7 @@ for (const e of entries) {
   const p = portable(e, CDN, NON_GSAP);
   manifest.push({
     id: e.id, name: e.name, cat: e.cat, tech: e.tech,
-    desc: e.desc, when: e.when, note: e.note || null,
+    desc: e.desc, when: e.when, note: e.note || null, place: PLACE[e.id] || null,
     libs: p.libs, plugins: p.plugins, scripts: p.scripts,
     needsRtl: p.needsRtl, usesVaultHelpers: p.helpers,
     demo: `${e.cat}/${e.id}.html`, standalone: `export/${e.id}.html`,
@@ -1151,13 +1200,14 @@ for (const e of entries) {
 }
 writeFileSync(join(ROOT, "export", "manifest.json"), JSON.stringify({
   generated: new Date().toISOString(), count: manifest.length,
-  readme: "כל כניסה כאן עומדת בפני עצמה. css נושא ברירות מחדל לכל טוקן ומהלות העזר מוטמעות בו. scripts כולל את כל תגי ה-CDN לפי הסדר. js מתחיל ב-registerPlugin. needsRtl אומר אם הרכיב מסתמך על dir=rtl.",
+  place: { sites: SITES, secs: SECS, tones: TONES, roles: ROLES, dose: "1, 2, 3 = כמה פעמים בעמוד; 0 = בלי הגבלה" },
+  readme: "כל כניסה כאן עומדת בפני עצמה. place אומר איפה נכון להשתמש בפריט (סוג אתר, סקשן, אופי, תפקיד, מינון, מתי לא). css נושא ברירות מחדל לכל טוקן ומהלות העזר מוטמעות בו. scripts כולל את כל תגי ה-CDN לפי הסדר. js מתחיל ברישום הפלאגינים, מוגן למקרה שהספרייה לא נטענה. needsRtl אומר אם הרכיב מסתמך על dir=rtl.",
   entries: manifest,
 }, null, 1));
 
 // 23.9.2026: Liav approved the library view ("היא מעולה כן"), so it is the home page now.
 // The old flat grid stays reachable as classic.html; library.html (the prototype URL he got) forwards with its hash.
-writeFileSync(join(ROOT, "index.html"), libraryPage({ entries, CATS, FIT, FIT_LABELS, USES, USES_LABELS, ELEMS, ELEMS_LABELS, BV }));
+writeFileSync(join(ROOT, "index.html"), libraryPage({ entries: Object.values(SIBS).flat(), CATS, FIT, FIT_LABELS, USES, USES_LABELS, ELEMS, ELEMS_LABELS, BV, PLACE, SITES, SECS }));
 writeFileSync(join(ROOT, "classic.html"), indexPage());
 writeFileSync(join(ROOT, "library.html"), `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><title>Design DNA · הספרייה</title>
 <script>location.replace("index.html"+location.hash)</script><meta http-equiv="refresh" content="0;url=index.html"></head><body><a href="index.html">לספרייה</a></body></html>`);

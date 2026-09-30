@@ -50,7 +50,7 @@ async function connect() {
 // IntersectionObserver and the inView checks all fire), park the mouse in the middle (hover demos), capture at
 // four points and keep the richest frame. JPEG size is the richness measure: an empty frame compresses to ~2KB.
 const TOP = new Set(["style", "comp", "rhythm", "arch", "anti", "misc", "header", "hero", "footer", "conv"]);
-const HIDE = `.vtop,.vintro,.mvcode,.mvpanel,.demo-note,.bpbar,.fontbar,h2.sr-only`;
+const HIDE = `.vtop,.vintro,.mvcode,.vpn-foot,.mvpanel,.demo-note,.bpbar,.fontbar,h2.sr-only`;
 
 async function shoot(p) {
   const { targetId } = await send("Target.createTarget", { url: "about:blank" });

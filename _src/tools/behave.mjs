@@ -79,7 +79,7 @@ const PROBE = String.raw`
   window.addEventListener("error",function(e){ if(e.target&&e.target.tagName==="SCRIPT"){window.__scriptFails++;errs.push("script failed: "+(e.target.src||"").split("/").pop());} else errs.push(String(e.message||e.type)); },true);
   window.addEventListener("unhandledrejection",function(e){errs.push("rejection:"+String(e.reason&&e.reason.message||e.reason))});
   var demo=document.querySelector(".stage")||document.body;
-  var CHROME=".vtop,.vintro,.mvcode,.demo-note,.mvpanel,#se-bar,.runway";
+  var CHROME=".vtop,.vintro,.mvcode,.vpn-foot,.demo-note,.mvpanel,#se-bar,.runway";
   var tele={hovered:0,hovClass:0,dragged:0,wheeled:0,scrolledBoxes:0};
   function isChrome(el){ return el===window.__sentinel||el.closest(CHROME)||el.tagName==="SCRIPT"||el.tagName==="STYLE"; }
   function idOf(el){ return el.tagName.toLowerCase()+(el.id?"#"+el.id:"")+(el.className&&typeof el.className==="string"?"."+el.className.replace(/\b__hov\b/,"").trim().split(/\s+/).filter(Boolean).slice(0,2).join("."):""); }

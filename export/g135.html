@@ -25,6 +25,8 @@
   --r: 14px;
 }
 *{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
 body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
 img{max-width:100%}
 
@@ -51,7 +53,7 @@ img{max-width:100%}
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script>
-gsap.registerPlugin(ScrollTrigger);
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
   const paths=gsap.utils.toArray(".bd path");
