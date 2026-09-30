@@ -10,7 +10,7 @@
 // לבן יכול להיעלם על כהה. ה-QA הסטטי תופס ליטרלים של טוקני המאגר בלבד, לא כל ליטרל.
 //
 // מגבלה מוצהרת: רקע גרדיאנט או תמונה לא נמדד (כמו בדטקטור impeccable). פלייסהולדרים (.ph)
-// מוחרגים כי הם מכוונים. הפונט בצילומים הוא Ploni מקומי, לא Heebo מהרשת (אין רשת).
+// מוחרגים כי הם מכוונים. הפונט בצילומים הוא Google Sans מהמאגר, לא Heebo מהרשת (אין רשת).
 //
 // שימוש:  node _src/tools/skins.mjs              (הכל)
 //         node _src/tools/skins.mjs b30 css02    (מזהים)
@@ -56,9 +56,9 @@ const SKINS = {
   sun:   { label: "accent בהיר",    vars: { "--bg": "#ffffff", "--card": "#f6f7fb", "--ink": "#101216", "--muted": "#5b6070", "--line": "#dfe2ea", "--accent": "#ffd23f", "--accent-ink": "#141414" } },
   mono:  { label: "מונוכרום כהה",   vars: { "--bg": "#111111", "--card": "#1a1a1a", "--ink": "#ffffff", "--muted": "#bdbdbd", "--line": "#333333", "--accent": "#ffffff", "--accent-ink": "#111111" } },
 };
-const FONT_CSS = `@font-face{font-family:"Ploni";src:url("${pathToFileURL(join(ROOT, "assets", "fonts", "ploni-regular-aaa.woff2")).href}") format("woff2");font-weight:400}
-@font-face{font-family:"Ploni";src:url("${pathToFileURL(join(ROOT, "assets", "fonts", "ploni-bold-aaa.woff2")).href}") format("woff2");font-weight:700}
-body{font-family:"Ploni",system-ui,sans-serif!important}`;
+// the vault font since 30.9.2026 (Ploni, a paid font, left the public repo)
+const FONT_CSS = `@font-face{font-family:"Google Sans";src:url("${pathToFileURL(join(ROOT, "assets", "fonts", "google-sans.woff2")).href}") format("woff2");font-weight:400 700;size-adjust:80%}
+body{font-family:"Google Sans",system-ui,sans-serif!important}`;
 
 // rAF על setTimeout ו-IO מיידי, כמו ב-behave.mjs: בלי זה כניסות מבוססות גלילה נשארות שקופות בצילום
 const SHIM = `<script>(function(){var q=setTimeout;window.requestAnimationFrame=function(cb){return q(function(){cb(performance.now())},16)};window.cancelAnimationFrame=clearTimeout;

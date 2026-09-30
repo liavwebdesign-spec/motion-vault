@@ -269,7 +269,7 @@ const PROBE = String.raw`
     var probeCss=getComputedStyle(document.body).fontFamily;
     var res={elements:elements,moved:moved,movedEls:movedEls,anyTransition:anyTransition,scrollTriggers:st0,clicked:clicked,errors:errs,overflow:overflow(),vw:innerWidth,vh:innerHeight,
       gsap:typeof window.gsap!=="undefined",st:typeof window.ScrollTrigger!=="undefined",ready:document.readyState,
-      scriptsFailed:window.__scriptFails||0,cssApplied:/Ploni|Heebo/i.test(probeCss),t:Math.round(performance.now()),clickedEl:window.__clickedEl||null,
+      scriptsFailed:window.__scriptFails||0,cssApplied:/Google Sans|Ploni|Heebo/i.test(probeCss),t:Math.round(performance.now()),clickedEl:window.__clickedEl||null,
       rafFrames:window.__raf,sentinelOpacity:sentinelAtEnd,probes:tele,snapshots:snaps.length};
     var s=document.createElement("script"); s.type="application/json"; s.id="behave-result"; s.textContent=JSON.stringify(res); document.body.appendChild(s);
   }
