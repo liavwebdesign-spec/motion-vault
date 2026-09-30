@@ -5,15 +5,17 @@
 // עם שם הסקשן והקומפוזיציה המומלצת לו. זה מה שצריך כדי להשוות מקצבים
 // זה מול זה בעין, בלי לבנות חמישה עמודים מלאים.
 
+// שם הקומפוזיציה בכל בלוק הוא המידע העיקרי של התווים, ולכן 13px בלי שקיפות (30.9.2026):
+// small של 14 יצא 11.67 ובשקיפות .65 ירד ל-2.5:1 על בלוק האוויר. ההבדל מהשם נשאר במשקל, בגודל ובמיקום.
 const BASE = `.cwrap{container-type:inline-size}
 .cstage{--pad:clamp(20px,4cqi,64px);padding:clamp(36px,5cqi,80px) var(--pad)}
 .score{display:flex;flex-direction:column;gap:12px;max-width:760px;margin-inline:auto}
 .rb{border-radius:var(--r);display:flex;align-items:center;justify-content:space-between;padding:0 22px;font-weight:600;font-size:14px}
-.rb small{font-weight:500;color:inherit;opacity:.65}
+.rb small{font-size:13px;font-weight:500;color:inherit}
 .rich{min-height:clamp(110px,16cqi,180px);background:#eef0ff;color:#2b3a99}
-.mid{min-height:clamp(84px,12cqi,120px);background:#fff;border:1px solid var(--line);color:var(--ink)}
+.mid{min-height:clamp(84px,12cqi,120px);background:var(--card);border:1px solid var(--line);color:var(--ink)}
 .air{min-height:clamp(60px,9cqi,84px);background:#fafafd;border:1px dashed var(--line);color:var(--muted)}
-.cta{min-height:clamp(96px,14cqi,130px);background:var(--ink);color:#fff}
+.cta{min-height:clamp(96px,14cqi,130px);background:var(--ink);color:var(--bg)}
 .hero{min-height:clamp(120px,18cqi,200px);background:linear-gradient(160deg,#3b5bdb,#748ffc);color:#fff}`;
 
 const doc = (o) => ({ cat: "rhythm", area: "doctrine", status: "מאושר", runway: false, tech: "מקצב עמוד", ...o });
@@ -36,10 +38,13 @@ doc({
   desc:"הצפיפות והעוצמה עולות לקראת ה-CTA הסופי: פתיחה אוורירית, אמצע עשיר בהוכחות, סגירה אינטנסיבית.",
   when:"דפי נחיתה ומכירה.",
   mobile:"המקצב נשמר.",
-  note:"הסגירה חייבת להיות הסקשן הצפוף ביותר בעמוד, אחרת הקרשנדו נשבר בדיוק ברגע שהוא נועד להגיע אליו.",
-  css:BASE,
+  note:"הסגירה חייבת להיות הסקשן הצפוף ביותר בעמוד, אחרת הקרשנדו נשבר בדיוק ברגע שהוא נועד להגיע אליו. וההירו שקט: אם הוא הבלוק הרועש בעמוד, העקומה יורדת במקום לעלות.",
+  // התווים עצמם הם הכלל: הירו בהיר ונמוך, סגירה הגבוהה והכהה מכולם (30.9.2026: ההירו היה הבלוק הרועש והסגירה קטנה מהבלוקים שלפניה)
+  css:`${BASE}
+.score .rb.calm{min-height:clamp(84px,12cqi,120px);background:linear-gradient(160deg,#dbe4ff,#edf2ff);color:#2b3a99}
+.score .rb.peak{min-height:clamp(150px,22cqi,240px)}`,
   html:`<div class="cwrap cstage"><div class="score">
-${blk("hero","הירו אוורירי","C14 או C7")}${blk("air","הצהרה","C14")}${blk("mid","הבעיה","C1")}${blk("rich","הפתרון","C3")}${blk("rich","הוכחות","C5 + C13")}${blk("rich","מחירים","C4 או C16")}${blk("cta","סגירה אינטנסיבית","C9 + CTA")}
+${blk("hero calm","הירו אוורירי","C14 או C7")}${blk("air","הצהרה","C14")}${blk("mid","הבעיה","C1")}${blk("rich","הפתרון","C3")}${blk("rich","הוכחות","C5 + C13")}${blk("rich","מחירים","C4 או C16")}${blk("cta peak","סגירה אינטנסיבית","C9 + CTA")}
 </div></div>`
 }),
 doc({
