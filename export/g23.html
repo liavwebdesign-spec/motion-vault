@@ -47,7 +47,8 @@ img{max-width:100%}
 /* G23 · Flip: פריט קופץ לגריד וחזרה */
 .flip-zone{padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
 .flip-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;position:relative;overflow:hidden}
-.flip-item{height:120px;cursor:pointer;font-size:15px}
+.flip-item{height:120px;cursor:pointer;border:0;padding:0;font-family:inherit;font-size:15px}
+.flip-item:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
 .flip-item.big{grid-column:1/-1;height:320px;font-size:26px}
 @media(max-width:767px){.flip-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
@@ -56,8 +57,8 @@ img{max-width:100%}
 
 <div class="stage tight flip-zone"><p class="center" style="color:var(--muted);font-size:14px;margin-top:0">לחץ על כרטיס כדי להגדיל אותו, ולחץ שוב כדי להחזיר</p>
 <div class="flip-grid">
-<div class="flip-item ph ph-a"><span class="ph-l">1</span></div><div class="flip-item ph ph-b"><span class="ph-l">2</span></div>
-<div class="flip-item ph ph-c"><span class="ph-l">3</span></div><div class="flip-item ph ph-d"><span class="ph-l">4</span></div>
+<button type="button" class="flip-item ph ph-a" aria-expanded="false"><span class="ph-l"><span>1</span></span></button><button type="button" class="flip-item ph ph-b" aria-expanded="false"><span class="ph-l"><span>2</span></span></button>
+<button type="button" class="flip-item ph ph-c" aria-expanded="false"><span class="ph-l"><span>3</span></span></button><button type="button" class="flip-item ph ph-d" aria-expanded="false"><span class="ph-l"><span>4</span></span></button>
 </div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -65,21 +66,31 @@ img{max-width:100%}
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(Flip);
 
+(function(){
 const grid=document.querySelector(".flip-grid");
-const items=[...document.querySelectorAll(".flip-item")];
+const items=[...grid.querySelectorAll(".flip-item")];
+const rm=matchMedia("(prefers-reduced-motion: reduce)");
 const D=.55,E="power2.inOut";
 let busy=false;
 
+// החלפת המצב עצמה: רצה תמיד, גם בהפחתת תנועה וגם כש-GSAP לא נטען (CDN חסום). רק המעבר מותנה.
+function swap(item){
+  items.forEach(b=>{if(b!==item)b.classList.remove("big")});
+  item.classList.toggle("big");
+  items.forEach(b=>b.setAttribute("aria-expanded",b.classList.contains("big")));
+}
+
 items.forEach(item=>{
   item.addEventListener("click",()=>{
-    if(busy)return; busy=true;
+    if(busy)return;
+    if(typeof Flip==="undefined"||rm.matches){swap(item);return;}
+    busy=true;
 
     const state=Flip.getState(items);
     const h0=grid.getBoundingClientRect().height;
     const fs0=items.map(el=>getComputedStyle(el).fontSize);
 
-    items.forEach(b=>{if(b!==item)b.classList.remove("big")});
-    item.classList.toggle("big");
+    swap(item);
 
     const h1=grid.getBoundingClientRect().height;
     const fs1=items.map(el=>getComputedStyle(el).fontSize);
@@ -99,6 +110,7 @@ items.forEach(item=>{
     Flip.from(state,{duration:D,ease:E,absolute:true,onComplete:()=>{busy=false}});
   });
 });
+})();
 </script>
 </body>
 </html>

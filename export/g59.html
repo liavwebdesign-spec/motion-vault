@@ -40,16 +40,21 @@ img{max-width:100%}
 .ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
 
 /* G59 · כרטיסים שמתקרבים מהעומק בגלילה */
-.dp{height:340vh;position:relative}
-.dp-stick{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center;
-  perspective:900px;perspective-origin:50% 50%}
-.dp-card{position:absolute;width:min(420px,84vw);border-radius:20px;background:var(--card, #fff);
-  border:1px solid var(--line, #e4e4ee);padding:clamp(20px,2.6vw,34px);box-shadow:0 24px 60px rgba(20,20,40,.14);
-  will-change:transform,opacity,filter}
+/* בלי תנועה (וגם בלי JS) הכרטיסים הם טור רגיל שכולו נקרא. הבמה התלת-ממדית קיימת רק תחת .is-live */
+.dp{position:relative}
+.dp-stick{display:grid;gap:24px;justify-items:center;padding-block:var(--sec, clamp(120px, 12vw, 260px))}
+.dp-card{position:relative;width:min(420px,84vw);border-radius:20px;background:var(--card, #fff);
+  border:1px solid var(--line, #e4e4ee);padding:clamp(20px,2.6vw,34px);box-shadow:0 24px 60px rgba(20,20,40,.14)}
 .dp-card .ph{aspect-ratio:16/9;border-radius:12px;font-size:0;margin-bottom:16px}
 .dp-card h4{margin:0 0 8px;font-size:clamp(19px,2vw,26px)}
 .dp-card p{margin:0;color:var(--muted, #6a6d85);font-size:15.5px;line-height:1.7}
-.dp-num{position:absolute;top:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:14px;z-index:3}
+.dp-num{margin:0;text-align:center;color:var(--muted, #6a6d85);font-size:14px}
+.dp.is-live{height:340vh}
+.dp.is-live .dp-stick{position:sticky;top:0;height:100vh;overflow:hidden;place-items:center;gap:0;padding-block:0;
+  perspective:900px;perspective-origin:50% 50%}
+.dp.is-live .dp-card{position:absolute;will-change:transform,opacity,filter}
+/* ההנחיה מתחת לכרטיסים, לא מעליהם */
+.dp.is-live .dp-num{position:absolute;top:8vh;inset-inline:0;z-index:0}
 .dp-after{padding:14vh var(--gutter, clamp(24px, 5vw, 96px));max-width:min(680px,92vw);margin-inline:auto;text-align:center;
   color:var(--muted, #6a6d85);font-size:17px;line-height:1.9}
 </style>
@@ -75,20 +80,29 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;
+  const sec=document.querySelector(".dp");
   const cards=gsap.utils.toArray(".dp-card");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce){gsap.set(cards,{position:"relative",opacity:1,marginBottom:24});return;}
-  const FAR=-1400, NEAR=460, SLOT=.6, DUR=.9;
-  const tl=gsap.timeline({scrollTrigger:{trigger:".dp",start:"top top",end:"bottom bottom",scrub:.6}});
-  cards.forEach((c,i)=>{
-    // כל כרטיס תופס פרק זמן משלו, והפרקים חופפים כדי שתמיד יהיה משהו על המסך.
-    // כל ה-fromTo מציירים את מצב ההתחלה מיד, ולכן כולם מתחילים רחוק ושקופים.
-    tl.fromTo(c,{z:FAR,opacity:0,filter:"blur(14px)"},
-      {z:NEAR,opacity:1,filter:"blur(0px)",ease:"none",duration:DUR},i*SLOT)
-      // האטימות עולה מהר יותר מהמרחק, אחרת יש רגע שבו הכרטיס הבא עוד שקוף והקודם כבר יצא
-      .to(c,{opacity:1,duration:DUR*.4,ease:"none"},i*SLOT);
-    // האחרון נשאר, כדי שסוף הסקשן לא יהיה מסך ריק
-    if(i<cards.length-1)tl.to(c,{opacity:0,ease:"none",duration:.25},i*SLOT+DUR*.86);
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    sec.classList.add("is-live");
+    const FAR=-1400, NEAR=460, SLOT=.6, DUR=.9;
+    // בלי preserve-3d הכרטיסים מצוירים לפי סדר ה-DOM ולא לפי העומק, והרחוק שמגיע היה מצויר מעל הקרוב שחולף.
+    // כרטיס מוקדם תמיד קרוב יותר מהבא אחריו, ולכן z-index יורד לפי הסדר
+    gsap.set(cards,{zIndex:i=>cards.length-i});
+    const tl=gsap.timeline({scrollTrigger:{trigger:sec,start:"top top",end:"bottom bottom",scrub:.6}});
+    cards.forEach((c,i)=>{
+      const t=i*SLOT,last=i===cards.length-1;
+      // שלב 1: מגיע מרחוק ונעשה חד בדיוק כשהוא בגודל הטבעי (z:0).
+      // כל ה-fromTo מציירים את מצב ההתחלה מיד, ולכן כולם מחכים רחוק ושקופים.
+      // autoAlpha ולא opacity: כרטיס שקוף מקבל visibility:hidden ולא חוסם לחיצה על הכרטיס שמאחוריו
+      tl.fromTo(c,{z:FAR,autoAlpha:0,filter:"blur(14px)"},
+        {z:0,autoAlpha:1,filter:"blur(0px)",ease:"none",duration:DUR*.4},t);
+      // שלב 2: אחרי עצירה בגודל הטבעי, מספיק ארוכה כדי לקרוא, הוא חולף קדימה ודוהה. האחרון נשאר במקום
+      if(!last)tl.to(c,{z:NEAR,autoAlpha:0,ease:"none",duration:DUR*.28},t+DUR*.72);
+    });
+    // רגע של מנוחה בסוף: הכרטיס האחרון חד ושלם לפני שהסקשן משתחרר
+    tl.to({},{duration:DUR*.4});
+    return ()=>sec.classList.remove("is-live");
   });
 })();
 </script>

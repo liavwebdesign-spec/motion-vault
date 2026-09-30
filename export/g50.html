@@ -43,7 +43,9 @@ img{max-width:100%}
 .pt-page p{color:var(--muted, #6a6d85);font-size:17px;line-height:1.8;max-width:44ch;margin:0 auto 24px}
 .pt-nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 .pt-nav a{padding:11px 20px;border-radius:999px;border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);
-  color:var(--ink, #16182b);text-decoration:none;font-size:15px}
+  color:var(--ink, #16182b);text-decoration:none;font-size:15px;transition:background .18s,border-color .18s,color .18s}
+@media(hover:hover) and (pointer:fine){.pt-nav a:not(.on):hover{border-color:var(--ink, #16182b)}}
+.pt-nav a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
 .pt-nav a.on{background:var(--ink, #16182b);border-color:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
 /* הוילון: ארבע רצועות שעולות בהפרש קטן, כך שהכיסוי מרגיש כמו תנועה ולא כמו מסך שנדלק */
 .pt-curtain{position:fixed;inset:0;z-index:90;pointer-events:none;display:grid;grid-template-columns:repeat(4,1fr)}
@@ -59,7 +61,7 @@ img{max-width:100%}
     <h3>אתרי תדמית</h3>
     <p>לחץ על אחד הקישורים. הוילון עולה, התוכן מתחלף מאחוריו, והוילון יורד.</p>
     <nav class="pt-nav">
-      <a href="#" data-t="אתרי תדמית" class="on">אתרי תדמית</a>
+      <a href="#" data-t="אתרי תדמית" class="on" aria-current="page">אתרי תדמית</a>
       <a href="#" data-t="דפי נחיתה">דפי נחיתה</a>
       <a href="#" data-t="חנויות">חנויות</a>
       <a href="#" data-t="צור קשר">צור קשר</a>
@@ -72,10 +74,13 @@ img{max-width:100%}
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script>
 (function(){
-  const bars=gsap.utils.toArray(".pt-curtain i"),label=document.querySelector(".pt-label");
+  const links=[...document.querySelectorAll(".pt-nav a")];
   const view=document.querySelector("#pt-view");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const D=reduce?0:.5;
+  const rm=matchMedia("(prefers-reduced-motion: reduce)");
+  const G=typeof gsap!=="undefined";
+  const bars=G?gsap.utils.toArray(".pt-curtain i"):[],label=document.querySelector(".pt-label");
+  const D=.5;
+  let busy=false;
   function cover(text){
     label.textContent=text;                      // קודם הטקסט, אחר כך החשיפה. אחרת רואים לרגע את השם הקודם
     return gsap.timeline()
@@ -88,19 +93,24 @@ img{max-width:100%}
       .to(bars,{yPercent:-202,duration:D,ease:"power3.inOut",stagger:.05},"-="+D*.2)
       .set(bars,{yPercent:101});     // מחזירים למטה בלי אנימציה, מוכנים למעבר הבא
   }
-  document.querySelectorAll(".pt-nav a").forEach(a=>{
+  links.forEach(a=>{
     a.addEventListener("click",e=>{
       e.preventDefault();
-      if(a.classList.contains("on"))return;
-      document.querySelectorAll(".pt-nav a").forEach(x=>x.classList.toggle("on",x===a));
+      // לחיצה נוספת באמצע מעבר לא בונה וילון שני שמתחרה על אותן רצועות
+      if(busy||a.classList.contains("on"))return;
+      links.forEach(x=>{x.classList.toggle("on",x===a);if(x===a)x.setAttribute("aria-current","page");else x.removeAttribute("aria-current");});
+      // בהפחתת תנועה (וכש-GSAP לא נטען) התוכן מתחלף מיד, בלי וילון ובלי הבהוב של רצועות
+      if(!G||rm.matches){view.querySelector("h3").textContent=a.dataset.t;return;}
+      busy=true;
       gsap.timeline()
         .add(cover(a.dataset.t))
         // כאן, מתחת לוילון, מחליפים תוכן. באתר אמיתי: location.href=a.href
         .add(()=>{view.querySelector("h3").textContent=a.dataset.t;scrollTo(0,0);})
-        .add(reveal());
+        .add(reveal())
+        .add(()=>{busy=false;});
     });
   });
-  gsap.set(bars,{yPercent:101});
+  if(G)gsap.set(bars,{yPercent:101});
 })();
 </script>
 </body>

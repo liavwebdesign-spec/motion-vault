@@ -55,7 +55,7 @@ img{max-width:100%}
 .oc-head{text-align:center;max-width:44ch;margin:0 auto clamp(24px,4vw,46px)}
 .oc-head h3{font-size:clamp(24px,3.4vw,44px);margin:0 0 10px}
 .oc-head p{color:var(--muted, #6a6d85);font-size:17px;line-height:1.8;margin:0}
-@media(max-width:700px){.oc{grid-template-columns:1fr 1fr}.oc-col:nth-child(3){display:none}}
+@media(max-width:767px){.oc{grid-template-columns:1fr 1fr}.oc-col:nth-child(3){display:none}}
 </style>
 </head>
 <body>
@@ -74,13 +74,14 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  // רק במסכים שיש בהם מקום לתנועה. במובייל זה מייצר חורים בפריסה
-  gsap.matchMedia().add("(min-width: 700px) and (prefers-reduced-motion: no-preference)",()=>{
+  if(typeof gsap==="undefined")return;
+  // רק במסכים שיש בהם מקום לתנועה (מ-768, נקודת השבירה של המנוע). במובייל זה מייצר חורים בפריסה
+  gsap.matchMedia().add("(min-width: 768px) and (prefers-reduced-motion: no-preference)",()=>{
     const cols=gsap.utils.toArray(".oc-col");
     const tw=cols.map((col,i)=>{
       const dir=i%2?1:-1;                       // אי-זוגית יורדת, זוגית עולה
       return gsap.fromTo(col,{yPercent:6*dir},{yPercent:-6*dir,ease:"none",
-        scrollTrigger:{trigger:".oc",start:"top bottom",end:"bottom top",scrub:1.2}});
+        scrollTrigger:{trigger:".oc",start:"top bottom",end:"bottom top",scrub:.6}});
     });
     return ()=>tw.forEach(t=>{t.scrollTrigger&&t.scrollTrigger.kill();t.kill();});
   });

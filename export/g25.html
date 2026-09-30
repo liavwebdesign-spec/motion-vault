@@ -43,14 +43,15 @@ img{max-width:100%}
 .mp-wrap{width:min(720px,86vw);margin-inline:auto;position:relative}
 .mp-wrap svg{width:100%;height:auto;overflow:visible}
 .mp-path{fill:none;stroke:#d5d5e2;stroke-width:2;stroke-dasharray:6 8}
-.mp-ship{position:absolute;top:0;left:0;width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent, #4a3aff),#c2255c);display:flex;align-items:center;justify-content:center;color:var(--accent-ink, #fff);font-size:18px}
+.mp-ship{position:absolute;top:0;left:0;width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent, #4a3aff),#c2255c);display:flex;align-items:center;justify-content:center;color:var(--accent-ink, #fff)}
+.mp-ship svg{width:20px;height:20px;display:block}
 </style>
 </head>
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="stage"><div class="mp-wrap">
-<svg viewBox="0 0 700 260"><path class="mp-path" id="mpp" d="M30,200 C150,40 280,240 400,110 S620,60 670,180"/></svg>
-<div class="mp-ship">✈</div>
+<svg viewBox="0 0 700 260"><path class="mp-path" id="mpp" d="M670,180 C620,60 520,-20 400,110 C280,240 150,40 30,200"/></svg>
+<div class="mp-ship" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5l16 7-16 7 4-7z" fill="currentColor"/></svg></div>
 </div></div>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -59,10 +60,23 @@ img{max-width:100%}
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
 
-gsap.to(".mp-ship",{
-  motionPath:{path:"#mpp",align:"#mpp",alignOrigin:[.5,.5],autoRotate:true},
-  ease:"none",
-  scrollTrigger:{trigger:".mp-wrap",start:"top 80%",end:"top 20%",scrub:1}});
+(function(){
+  if(typeof gsap==="undefined")return;
+  // האייקון הוא SVG שהחרטום שלו מצביע ימינה ב-0 מעלות, ולכן autoRotate מכוון אותו בדיוק לכיוון הנסיעה
+  const path={path:"#mpp",align:"#mpp",alignOrigin:[.5,.5],autoRotate:true};
+  const mm=gsap.matchMedia();
+  mm.add("(prefers-reduced-motion: no-preference)",()=>{
+    gsap.to(".mp-ship",{motionPath:path,ease:"none",
+      // invalidateOnRefresh: אחרי שינוי רוחב המסלול מחושב מחדש, אחרת האייקון עוזב את הקו
+      scrollTrigger:{trigger:".mp-wrap",start:"top 80%",end:"top 20%",scrub:.6,invalidateOnRefresh:true}});
+  });
+  mm.add("(prefers-reduced-motion: reduce)",()=>{
+    // בלי תנועה האייקון יושב בסוף המסלול, כמו אחרי הנסיעה
+    const put=()=>gsap.set(".mp-ship",{motionPath:Object.assign({start:1,end:1},path)});
+    put();addEventListener("resize",put);
+    return ()=>removeEventListener("resize",put);
+  });
+})();
 </script>
 </body>
 </html>

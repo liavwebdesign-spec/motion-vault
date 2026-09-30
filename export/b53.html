@@ -46,7 +46,13 @@ img{max-width:100%}
 .vf-menu .vw{font-size:clamp(17px,2vw,26px)}
 /* הרכיב מכריז על הפונט המשתנה בעצמו: בסטאק של האתר יכול לשבת פונט סטטי, ואז לציר אין משמעות */
 .vf-title,.vf-menu,.vw{font-family:Heebo,system-ui,sans-serif}
-.vw{display:inline-block;font-variation-settings:"wght" 400;will-change:font-variation-settings}
+/* כל מילה משריינת את הרוחב שלה במשקל המקסימלי (עותק נסתר בגובה אפס), כך שמילה שמתעבה
+   לא מרחיבה את השורה, לא דוחפת את השכנות ולא שוברת את הכותרת לשורה נוספת */
+.vw{display:inline-flex;flex-direction:column;align-items:center;font-variation-settings:"wght" 400;will-change:font-variation-settings}
+.vw::after{content:attr(data-w);height:0;overflow:hidden;visibility:hidden;font-variation-settings:"wght" 800;font-weight:800}
+/* אזור לחיצה גבוה יותר בלי לשנות את הפריסה: הריפוד מתקזז במרווח שלילי */
+.vf-menu a{color:inherit;text-decoration:none;padding-block:8px;margin-block:-8px}
+.vf-menu a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:4px;border-radius:4px}
 .vf-hint{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding-top:26px}
 @media(hover:none){.vf-hint::after{content:" (במגע האפקט כבוי, והטקסט נשאר במשקל הרגיל)"}}
 </style>
@@ -55,7 +61,7 @@ img{max-width:100%}
 
 <div class="stage tight"><div class="vf">
   <h2 class="vf-title" data-vf>אנחנו בונים אתרים שאנשים זוכרים</h2>
-  <nav class="vf-menu"><span data-vf>עבודות</span><span data-vf>שירותים</span><span data-vf>תהליך</span><span data-vf>אודות</span><span data-vf>צור קשר</span></nav>
+  <nav class="vf-menu"><a href="#" data-vf>עבודות</a><a href="#" data-vf>שירותים</a><a href="#" data-vf>תהליך</a><a href="#" data-vf>אודות</a><a href="#" data-vf>צור קשר</a></nav>
   <p class="vf-hint">הזז את העכבר מעל הטקסט.</p>
 </div></div>
 
@@ -63,14 +69,14 @@ img{max-width:100%}
 <script>
 (function(){
   const MIN=300,MAX=800,RADIUS=260;
-  if(matchMedia("(hover:none)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  if(typeof gsap==="undefined"||matchMedia("(hover:none)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
   const items=[];
   document.querySelectorAll("[data-vf]").forEach(el=>{
     // פיצול למילים בלבד: בעברית פיצול לאותיות שובר ניקוד ומייצר ג'יבריש בקורא מסך
     const parts=el.textContent.trim().split(/\s+/);
     el.textContent="";
     parts.forEach((w,i)=>{
-      const s=document.createElement("span");s.className="vw";s.textContent=w;
+      const s=document.createElement("span");s.className="vw";s.textContent=w;s.dataset.w=w;
       el.appendChild(s);
       if(i<parts.length-1)el.appendChild(document.createTextNode(" "));
       items.push({el:s,cur:400,target:400});
@@ -83,7 +89,8 @@ img{max-width:100%}
   addEventListener("scroll",measure,{passive:true});
   addEventListener("resize",measure);
   addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY;});
-  addEventListener("mouseleave",()=>{mx=my=-9999;});
+  // mouseleave על window לא נורה אף פעם; על documentElement הוא נורה כשהסמן יוצא מהחלון
+  document.documentElement.addEventListener("mouseleave",()=>{mx=my=-9999;});
   // ticker אחד לכל המילים: זול בהרבה מטוויין נפרד לכל אחת, ומייצר תנועה רציפה
   gsap.ticker.add(()=>{
     for(let i=0;i<items.length;i++){
@@ -91,8 +98,11 @@ img{max-width:100%}
       const d=Math.hypot(mx-b.x,my-b.y);
       const f=Math.max(0,1-d/RADIUS);
       items[i].target=MIN+(MAX-MIN)*(f*f);        // ריבוע: הדעיכה מהירה יותר, וזה מרגיש מגנטי
-      items[i].cur+=(items[i].target-items[i].cur)*.14;
-      const v=items[i].cur.toFixed(0);
+      const c=items[i].cur+(items[i].target-items[i].cur)*.14;
+      // מילה שכבר התייצבה לא נכתבת שוב: בלי זה ה-ticker כותב סגנון לכל המילים בכל פריים, לנצח
+      if(Math.abs(c-items[i].cur)<.05)continue;
+      items[i].cur=c;
+      const v=c.toFixed(0);
       items[i].el.style.fontVariationSettings='"wght" '+v;
       items[i].el.style.fontWeight=v;      // נפילה רכה: בפונט סטטי לפחות מקבלים מדרגות
     }

@@ -40,8 +40,11 @@ img{max-width:100%}
 
 /* B52 · הירו שמתקפל לתפריט דביק */
 .fu-scope{--fu-h:100vh}
-.fu-mask{position:sticky;top:0;z-index:60;height:var(--fu-h);overflow:hidden;background:var(--ink, #16182b);
+/* בלי GSAP ובהפחתת תנועה ההירו הוא בלוק רגיל בגובה מסך והתוכן מתחתיו.
+   הדביקות והקיפול קיימים רק תחת .is-live, אחרת הירו דביק בגובה מסך מלא מכסה את כל העמוד */
+.fu-mask{position:relative;z-index:60;height:var(--fu-h);overflow:hidden;background:var(--ink, #16182b);
   border-radius:0 0 var(--fu-r,0px) var(--fu-r,0px)}
+.fu-scope.is-live .fu-mask{position:sticky;top:0}
 .fu-media{position:absolute;inset:0;border-radius:0;font-size:0}
 .fu-inner{position:absolute;inset:0;display:grid;grid-template-rows:auto 1fr;padding:18px clamp(16px,3vw,34px)}
 .fu-nav{display:flex;align-items:center;justify-content:space-between;gap:16px;color:#fff;height:56px}
@@ -87,20 +90,27 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;
   const scope=document.querySelector(".fu-scope"),nav=scope.querySelector(".fu-nav"),title=scope.querySelector(".fu-title");
-  let tl;
-  function build(){
-    if(tl){tl.scrollTrigger&&tl.scrollTrigger.kill();tl.kill();gsap.set([scope,title],{clearProps:"all"});}
-    // הגובה הסופי נמדד מהתפריט האמיתי, כדי שלא יהיה מספר קסם בקוד
-    const navH=nav.offsetHeight+36;
-    scope.style.setProperty("--fu-bar",navH+"px");   // גם ה-CSS צריך את המידה הזאת
-    gsap.set(scope,{"--fu-h":"100vh","--fu-r":"0px"});
-    tl=gsap.timeline({scrollTrigger:{trigger:scope,start:"top top",end:"+=100%",scrub:.8}});
-    tl.to(scope,{"--fu-h":navH+"px","--fu-r":"22px",ease:"none"},0)
-      .to(title,{opacity:0,y:-30,ease:"none"},0);
-  }
-  build();
-  let t;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>{build();ScrollTrigger.refresh();},200);});
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    scope.classList.add("is-live");
+    let tl;
+    const kill=()=>{if(tl){tl.scrollTrigger&&tl.scrollTrigger.kill();tl.kill();tl=null;}gsap.set([scope,title],{clearProps:"all"});};
+    function build(){
+      kill();
+      // הגובה הסופי נמדד מהתפריט האמיתי, כדי שלא יהיה מספר קסם בקוד
+      const navH=nav.offsetHeight+36;
+      scope.style.setProperty("--fu-bar",navH+"px");   // גם ה-CSS צריך את המידה הזאת
+      gsap.set(scope,{"--fu-h":"100vh","--fu-r":"0px"});
+      tl=gsap.timeline({scrollTrigger:{trigger:scope,start:"top top",end:"+=100%",scrub:.6}});
+      tl.to(scope,{"--fu-h":navH+"px","--fu-r":"22px",ease:"none"},0)
+        .to(title,{opacity:0,y:-30,ease:"none"},0);
+    }
+    build();
+    let t;const onResize=()=>{clearTimeout(t);t=setTimeout(()=>{build();ScrollTrigger.refresh();},200);};
+    addEventListener("resize",onResize);
+    return ()=>{clearTimeout(t);removeEventListener("resize",onResize);kill();scope.classList.remove("is-live");};
+  });
 })();
 </script>
 </body>

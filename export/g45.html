@@ -40,18 +40,22 @@ html,body{overflow-x:clip}
 .geo-head{text-align:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px));margin-bottom:clamp(30px,4vw,60px)}
 .geo-head h3{font-size:clamp(28px,3.6vw,60px);margin:0 0 10px;font-weight:800}
 .geo-head p{margin:0;color:var(--muted, #6a6d85)}
-.geo-wrap{position:relative;width:min(1100px,94vw);margin-inline:auto}
+.geo-wrap{position:relative;width:min(1100px,100% - 2*var(--gutter, clamp(24px, 5vw, 96px)));margin-inline:auto}
 .geo-wrap svg{width:100%;height:auto;overflow:visible;display:block}
 .geo-line{fill:none;stroke:var(--ink, #16182b);stroke-width:2;stroke-linecap:round}
-.geo-stop{position:absolute;transform:translate(-50%,-50%);text-align:center;opacity:0}
-.geo-dot{width:11px;height:11px;border-radius:50%;background:var(--ink, #16182b);margin-inline:auto;position:relative}
+/* כל תחנה היא עמודה ברוחב אפס שהשפה שלה יושבת בדיוק על הנקודה במסלול, והתוכן ממורכז סביבה.
+   כך מרכז הנקודה על הקו בלי translate: ה-transform נשאר פנוי ל-GSAP (y של הכניסה). */
+.geo-stop,.geo-home{position:absolute;width:0;display:flex;flex-direction:column;align-items:center;text-align:center;margin-top:calc(11px / -2)}
+.geo-home{margin-top:calc(16px / -2)}
+.geo-dot{flex:none;width:11px;height:11px;border-radius:50%;background:var(--ink, #16182b);position:relative}
 .geo-dot::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px solid color-mix(in srgb,var(--ink, #16182b) 28%,transparent)}
+/* רקע בצבע הסקשן מאחורי התוויות: הקו עובר מתחתן ולא חוצה אותן */
+.geo-name,.geo-min{width:max-content;padding-inline:.3em;border-radius:4px;background:var(--card, #fff)}
 .geo-name{font-size:clamp(13px,1.1vw,16px);font-weight:700;margin-top:12px;white-space:nowrap}
 .geo-min{font-size:12px;color:var(--muted, #6a6d85);letter-spacing:.06em;white-space:nowrap}
-.geo-home{position:absolute;transform:translate(-50%,-50%);text-align:center}
 .geo-home .geo-dot{width:16px;height:16px;background:var(--accent, #4a3aff)}
 .geo-home .geo-name{color:var(--accent, #4a3aff);font-size:clamp(14px,1.2vw,18px)}
-@media(max-width:767px){.geo-name{font-size:12px}.geo-min{font-size:11px}}
+@media(max-width:767px){.geo-name{font-size:12px}.geo-min{font-size:12px}}
 </style>
 </head>
 <body>
@@ -77,14 +81,18 @@ html,body{overflow-x:clip}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
 
 (function(){
-  const stops=gsap.utils.toArray(".geo-stop");
-  gsap.set(stops,{opacity:0,y:14});
-  const tl=gsap.timeline({scrollTrigger:{trigger:".geo-wrap",start:"top 78%",end:"bottom 62%",scrub:.8}});
-  // הקו נמתח מהקצה הימני שמאלה, ככיוון הקריאה: ה-path מוגדר כך שנקודת ההתחלה שלו בימין
-  tl.fromTo("#geoPath",{drawSVG:"0% 0%"},{drawSVG:"0% 100%",ease:"none",duration:1},0);
-  // כל תחנה נדלקת ברגע שהקו עובר לידה
-  stops.forEach(s=>{
-    tl.to(s,{opacity:1,y:0,duration:.12,ease:"power3.out"},+s.dataset.p);
+  if(typeof gsap==="undefined")return;
+  // בהפחתת תנועה (וגם בלי GSAP) הקו מצויר מלא וכל התחנות גלויות מההתחלה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const stops=gsap.utils.toArray(".geo-stop");
+    gsap.set(stops,{opacity:0,y:14});
+    const tl=gsap.timeline({scrollTrigger:{trigger:".geo-wrap",start:"top 78%",end:"bottom 62%",scrub:.6}});
+    // הקו נמתח מהקצה הימני שמאלה, ככיוון הקריאה: ה-path מוגדר כך שנקודת ההתחלה שלו בימין
+    tl.fromTo("#geoPath",{drawSVG:"0% 0%"},{drawSVG:"0% 100%",ease:"none",duration:1},0);
+    // כל תחנה נדלקת ברגע שהקו עובר לידה
+    stops.forEach(s=>{
+      tl.to(s,{opacity:1,y:0,duration:.12,ease:"power3.out"},+s.dataset.p);
+    });
   });
 })();
 </script>

@@ -64,13 +64,15 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;
   const word=document.querySelector(".tm-word");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce)return;
-  gsap.timeline({scrollTrigger:{trigger:".tm",start:"top top",end:"bottom bottom",scrub:.5}})
-    // הרקע הוא מה שנע, לא הטקסט: האותיות נשארות במקום והחלון שלהן מראה חלק אחר
-    .fromTo(word,{backgroundPosition:"0% 50%"},{backgroundPosition:"100% 50%",ease:"none"},0)
-    .fromTo(word,{scale:.86,letterSpacing:"0.04em"},{scale:1,letterSpacing:"-0.02em",ease:"none"},0);
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    gsap.timeline({scrollTrigger:{trigger:".tm",start:"top top",end:"bottom bottom",scrub:.5}})
+      // הרקע הוא מה שנע, לא הטקסט: האותיות נשארות במקום והחלון שלהן מראה חלק אחר
+      .fromTo(word,{backgroundPosition:"0% 50%"},{backgroundPosition:"100% 50%",ease:"none"},0)
+      // scale בלבד: ריווח אותיות מונפש היה פורס את הטקסט מחדש בכל פריים של גלילה
+      .fromTo(word,{scale:.86},{scale:1,ease:"none"},0);
+  });
 })();
 </script>
 </body>

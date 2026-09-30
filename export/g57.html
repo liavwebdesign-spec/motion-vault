@@ -42,17 +42,25 @@ img{max-width:100%}
 .ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
 
 /* G57 · גלגל תמונות שמסתובב בגלילה */
-.wh{height:300vh;position:relative}
-.wh-stick{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center}
-.wh-title{position:absolute;top:12vh;inset-inline:0;text-align:center;pointer-events:none;z-index:2}
+/* בלי תנועה (וגם בלי JS) הפריטים הם גריד רגיל שכולו על המסך. הגלגל, הבמה הדביקה ו-300vh של גלילה קיימים רק תחת .is-live */
+.wh{position:relative}
+.wh-stick{padding-block:var(--sec, clamp(120px, 12vw, 260px))}
+.wh-title{text-align:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px));margin-bottom:32px}
 .wh-title h3{margin:0;font-size:clamp(24px,3.4vw,46px)}
 .wh-title p{margin:8px 0 0;color:var(--muted, #6a6d85);font-size:15px}
+.wh-wheel{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.wh-item{position:relative;aspect-ratio:3/4}
+.wh.is-live{height:300vh}
+.wh.is-live .wh-stick{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center;padding-block:0}
+.wh.is-live .wh-title{position:absolute;top:12vh;inset-inline:0;margin:0;pointer-events:none;z-index:2}
 /* הגלגל גדול מהמסך בכוונה: רואים רק את הקשת העליונה שלו */
-.wh-wheel{position:absolute;top:58vh;left:50%;width:min(190vh,190vw);aspect-ratio:1;
+.wh.is-live .wh-wheel{display:block;padding:0;position:absolute;top:58vh;left:50%;width:min(190vh,190vw);aspect-ratio:1;
   transform:translate(-50%,0);will-change:transform}
-.wh-item{position:absolute;top:0;left:50%;width:clamp(120px,15vh,220px);aspect-ratio:3/4;
+.wh.is-live .wh-item{position:absolute;top:0;left:50%;width:clamp(120px,15vh,220px);
   margin-inline-start:calc(clamp(120px,15vh,220px) / -2);
   transform-origin:50% calc(min(190vh,190vw) / 2)}
+/* בטלפון הגלגל רחב מהמסך לפי הגובה: הקשת שטוחה יותר, שלושה כרטיסים על המסך, והתוויות לא נחתכות זו על זו */
+@media(max-width:767px){.wh.is-live .wh-wheel{width:190vh}.wh.is-live .wh-item{transform-origin:50% 95vh}}
 /* שכבה פנימית אחת שמסובבת-נגד. סיבוב נפרד של התמונה ושל התווית מסובב כל אחת
    סביב מרכז אחר, והתווית שיושבת בתחתית נשברת החוצה מהמסגרת. */
 .wh-inner{position:absolute;inset:0;border-radius:14px;overflow:hidden;will-change:transform}
@@ -86,29 +94,30 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const wheel=document.querySelector(".wh-wheel");
+  if(typeof gsap==="undefined")return;
+  const sec=document.querySelector(".wh"),wheel=sec.querySelector(".wh-wheel");
   const items=gsap.utils.toArray(".wh-item");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
   const SPREAD=13;                                   // מעלות בין פריט לפריט
   const START=(items.length-1)*SPREAD/2;
-
-  const angles=items.map((el,i)=>{
-    const a=-START+i*SPREAD;
-    gsap.set(el,{rotation:a});
-    return a;
-  });
-
-  if(reduce){items.forEach((el,i)=>gsap.set(el.querySelector(".wh-inner"),{rotation:-angles[i]}));return;}
-
-  // ההטיה האמיתית של פריט היא הזווית שלו על הגלגל ועוד סיבוב הגלגל עצמו, וזה משתנה
-  // לאורך כל הגלילה. סיבוב-נגד סטטי מיישר אותו רק בנקודה אחת ומטה אותו בכל השאר,
-  // ולכן שני הסיבובים יושבים על אותו טיימליין ומתקזזים בכל רגע.
-  const tl=gsap.timeline({scrollTrigger:{trigger:".wh",start:"top top",end:"bottom bottom",scrub:.7}});
-  tl.fromTo(wheel,{rotation:START},{rotation:-START,ease:"none",duration:1},0);
-  items.forEach((el,i)=>{
-    const a=angles[i];
-    tl.fromTo(el.querySelector(".wh-inner"),
-      {rotation:-(a+START)},{rotation:-(a-START),ease:"none",duration:1},0);
+  // בהפחתת תנועה אין גלגל בכלל: ה-CSS בלי .is-live מציג את הפריטים כגריד
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    sec.classList.add("is-live");
+    const angles=items.map((el,i)=>{
+      const a=-START+i*SPREAD;
+      gsap.set(el,{rotation:a});
+      return a;
+    });
+    // ההטיה האמיתית של פריט היא הזווית שלו על הגלגל ועוד סיבוב הגלגל עצמו, וזה משתנה
+    // לאורך כל הגלילה. סיבוב-נגד סטטי מיישר אותו רק בנקודה אחת ומטה אותו בכל השאר,
+    // ולכן שני הסיבובים יושבים על אותו טיימליין ומתקזזים בכל רגע.
+    const tl=gsap.timeline({scrollTrigger:{trigger:sec,start:"top top",end:"bottom bottom",scrub:.6}});
+    tl.fromTo(wheel,{rotation:START},{rotation:-START,ease:"none",duration:1},0);
+    items.forEach((el,i)=>{
+      const a=angles[i];
+      tl.fromTo(el.querySelector(".wh-inner"),
+        {rotation:-(a+START)},{rotation:-(a-START),ease:"none",duration:1},0);
+    });
+    return ()=>sec.classList.remove("is-live");
   });
 })();
 </script>

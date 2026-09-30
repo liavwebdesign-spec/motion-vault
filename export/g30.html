@@ -43,8 +43,12 @@ img{max-width:100%}
 
 /* G30 · סקשנים ננעלים עם Snap */
 .snapw{overflow:hidden;transition:all 0s !important}
-.snapc{display:flex;width:300vw}
-.snapp{width:100vw;height:100vh;display:flex;align-items:center;justify-content:center;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));font-weight:700;color:#fff}
+/* בלי GSAP ובהפחתת תנועה הפרקים נערמים זה מתחת לזה ונקראים בגלילה רגילה.
+   הרצועה האופקית נבנית רק כשהסקריפט רץ ומוסיף .is-live */
+.snapc{display:flex;flex-direction:column}
+.snapp{width:100%;min-height:70vh;display:flex;align-items:center;justify-content:center;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));font-weight:700;color:#fff}
+.snapw.is-live .snapc{flex-direction:row;width:300vw}
+.snapw.is-live .snapp{width:100vw;height:100vh;min-height:0;flex:none}
 </style>
 </head>
 <body>
@@ -60,11 +64,20 @@ img{max-width:100%}
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-// עמוד עברי: הרצועה מתחילה מהקצה הימני והגלישה יוצאת שמאלה, ולכן x חיובי.
-// המצלמה נעה שמאלה בתוך התוכן, בדיוק ככיוון הקריאה. באתר אנגלי מוסיפים מינוס.
-gsap.to(".snapc",{x:()=>document.querySelector(".snapc").scrollWidth-innerWidth,ease:"none",
-  scrollTrigger:{trigger:".snapw",start:"top top",end:"+=2400",scrub:.6,pin:true,anticipatePin:1,
-    invalidateOnRefresh:true,snap:{snapTo:1/2,duration:.4,ease:"power1.inOut"}}});
+(function(){
+  if(typeof gsap==="undefined")return;
+  const wrap=document.querySelector(".snapw"),track=wrap.querySelector(".snapc");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    wrap.classList.add("is-live");
+    // עמוד עברי: הרצועה מתחילה מהקצה הימני והגלישה יוצאת שמאלה, ולכן x חיובי.
+    // המצלמה נעה שמאלה בתוך התוכן, בדיוק ככיוון הקריאה. באתר אנגלי מוסיפים מינוס.
+    gsap.to(track,{x:()=>track.scrollWidth-innerWidth,ease:"none",
+      // שני מסכים של גלילה לשני מעברים, בכל גודל מסך (התקציב: עד 2.5 מסכים לסצנה מוצמדת)
+      scrollTrigger:{trigger:wrap,start:"top top",end:()=>"+="+Math.round(innerHeight*2),scrub:.6,pin:true,anticipatePin:1,
+        invalidateOnRefresh:true,snap:{snapTo:1/2,duration:.4,ease:"power2.inOut"}}});
+    return ()=>wrap.classList.remove("is-live");
+  });
+})();
 </script>
 </body>
 </html>

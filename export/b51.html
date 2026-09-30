@@ -46,22 +46,29 @@ img{max-width:100%}
 .ck p{margin:0 0 16px;font-size:14.5px;line-height:1.65;color:var(--muted, #6a6d85)}
 .ck p a{color:var(--accent, #4a3aff)}
 .ck-row{display:flex;gap:8px;flex-wrap:wrap}
-.ck-btn{font-family:inherit;font-size:14px;padding:11px 18px;border-radius:999px;cursor:pointer;border:1px solid var(--line, #e4e4ee);
+.ck-btn{font-family:inherit;font-size:14px;min-height:44px;padding:11px 18px;border-radius:999px;cursor:pointer;border:1px solid var(--line, #e4e4ee);
   background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}
 .ck-btn.main{background:var(--ink, #16182b);border-color:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
 .ck-btn.link{border-color:transparent;background:none;color:var(--muted, #6a6d85);text-decoration:underline;padding-inline:8px}
 .ck-prefs{margin:4px 0 16px;display:grid;gap:2px}
+/* display:grid גובר על התכונה hidden, ובלי השורה הזאת הפאנל פתוח כבר בהופעה הראשונה */
+.ck-prefs[hidden]{display:none}
 .ck-pref{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-top:1px solid var(--line, #e4e4ee)}
 .ck-pref strong{display:block;font-size:14.5px;font-weight:600}
 .ck-pref span{display:block;font-size:13px;color:var(--muted, #6a6d85);line-height:1.55;margin-top:2px}
 .ck-sw{flex:none;width:44px;height:26px;border-radius:999px;background:#d5d5e0;border:0;cursor:pointer;padding:0;
   position:relative;transition:background .2s}
-.ck-sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;
+/* אזור לחיצה של 44 פיקסלים בלי לשנות את המראה (::after תפוס לידית) */
+.ck-sw::before{content:"";position:absolute;inset:-9px -4px}
+/* הידית מתחילה בצד ההתחלה. בעברית כבוי הוא ידית בימין ודלוק הוא ידית בשמאל, כמו בממשקי הטלפון בעברית */
+.ck-sw::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:20px;height:20px;border-radius:50%;background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;
   transition:transform .22s cubic-bezier(.2,.6,.2,1)}
 .ck-sw[aria-checked="true"]{background:var(--accent, #4a3aff)}
 .ck-sw[aria-checked="true"]::after{transform:translateX(18px)}
+[dir="rtl"] .ck-sw[aria-checked="true"]::after{transform:translateX(-18px)}
 .ck-sw[disabled]{opacity:.55;cursor:not-allowed}
-.ck-reopen{position:fixed;inset-inline-start:16px;bottom:16px;z-index:69;font-family:inherit;font-size:13px;
+/* הכפתור הצף בצד הסוף, כמו כל הכפתורים הצפים בתורה. בפרויקט עם כפתור נגישות או וואטסאפ מרימים את bottom מעליו */
+.ck-reopen{position:fixed;inset-inline-end:16px;bottom:16px;z-index:69;font-family:inherit;font-size:13px;
   padding:9px 15px;border-radius:999px;border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);color:var(--muted, #6a6d85);cursor:pointer}
 .ck-reopen[hidden]{display:none}
 .ck-state{max-width:min(620px,94vw);margin-inline:auto;text-align:center;color:var(--muted, #6a6d85);font-size:15px;line-height:1.8}
@@ -87,10 +94,10 @@ img{max-width:100%}
       <div><strong>שיווק</strong><span>מאפשרות להתאים מודעות ולמדוד קמפיינים.</span></div></div>
   </div>
   <div class="ck-row">
-    <button class="ck-btn main" data-act="all">מאשר הכל</button>
+    <button class="ck-btn main" data-act="all">אישור הכל</button>
     <button class="ck-btn" data-act="necessary">רק ההכרחיות</button>
     <button class="ck-btn link" data-act="prefs">הגדרות</button>
-    <button class="ck-btn main" data-act="save" hidden>שמור בחירה</button>
+    <button class="ck-btn main" data-act="save" hidden>שמירת הבחירה</button>
   </div>
 </div>
 
@@ -101,20 +108,24 @@ img{max-width:100%}
   const bar=document.querySelector(".ck"),prefs=bar.querySelector(".ck-prefs"),reopen=document.querySelector(".ck-reopen");
   const btn=a=>bar.querySelector('[data-act="'+a+'"]');
   const switches=[...bar.querySelectorAll(".ck-sw[data-cat]")];
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const rm=matchMedia("(prefers-reduced-motion: reduce)");
+  // בלי GSAP (CDN חסום) או בהפחתת תנועה הבאנר מופיע ונעלם בלי מעבר, אבל עובד במלואו
+  const still=()=>typeof gsap==="undefined"||rm.matches;
   const read=()=>{try{const v=JSON.parse(localStorage.getItem(KEY));return v&&v.v===VER?v:null;}catch(e){return null;}};
   const write=cats=>{try{localStorage.setItem(KEY,JSON.stringify({v:VER,ts:Date.now(),cats:cats}));}catch(e){}};
   function open(){
     bar.hidden=false;reopen.hidden=true;
-    if(reduce){gsap.set(bar,{y:0,opacity:1});return;}
+    if(still()){if(typeof gsap!=="undefined")gsap.set(bar,{clearProps:"transform,opacity"});return;}
     gsap.fromTo(bar,{y:40,opacity:0},{y:0,opacity:1,duration:.45,ease:"power3.out"});
   }
   function close(cats){
     write(cats);
     // כאן מפעילים בפועל את מה שאושר: טעינת סקריפט מדידה, פיקסל וכו'
     document.dispatchEvent(new CustomEvent("consent",{detail:cats}));
-    const done=()=>{bar.hidden=true;prefs.hidden=true;btn("save").hidden=true;reopen.hidden=false;};
-    if(reduce)return done();
+    // אם הפוקוס היה בתוך הבאנר, הוא עובר לכפתור שמחזיר אותו ולא נופל ל-body
+    const had=bar.contains(document.activeElement);
+    const done=()=>{bar.hidden=true;prefs.hidden=true;btn("save").hidden=true;reopen.hidden=false;if(had)reopen.focus();};
+    if(still())return done();
     gsap.to(bar,{y:30,opacity:0,duration:.3,ease:"power2.in",onComplete:done});
   }
   const chosen=()=>({necessary:true,
@@ -128,13 +139,15 @@ img{max-width:100%}
   btn("save").addEventListener("click",()=>close(chosen()));
   btn("prefs").addEventListener("click",()=>{
     prefs.hidden=false;btn("save").hidden=false;btn("prefs").hidden=true;
-    if(!reduce)gsap.from(prefs,{height:0,opacity:0,duration:.35,ease:"power2.out"});
+    // הגובה נפתח מאפס ומנוקה בסוף: גובה קבוע באינליין היה חותך טקסט אחרי שינוי רוחב או פונט
+    if(!still()){prefs.style.overflow="hidden";gsap.from(prefs,{height:0,opacity:0,duration:.35,ease:"power2.out",clearProps:"height,opacity,overflow"});}
     switches[0].focus();
   });
   reopen.addEventListener("click",()=>{
     const cur=read();
     if(cur)switches.forEach((sw,i)=>sw.setAttribute("aria-checked",String(!!cur.cats[i?"marketing":"analytics"])));
     prefs.hidden=false;btn("save").hidden=false;btn("prefs").hidden=true;open();
+    switches[0].focus();
   });
   addEventListener("keydown",e=>{if(e.key==="Escape"&&!bar.hidden&&read())close(read().cats);});
   const saved=read();

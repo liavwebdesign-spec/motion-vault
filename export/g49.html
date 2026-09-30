@@ -36,14 +36,18 @@ img{max-width:100%}
 .vs{position:relative;height:320vh}
 .vs-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden;background:#0e0f16}
 .vs-video{width:min(92vw,960px);border-radius:var(--r, 14px);display:block}
-.vs-cap{position:absolute;inset-inline:0;bottom:11vh;text-align:center;color:#fff;pointer-events:none}
+/* שכבת קריאות מתחת לכיתוב: בצילום אמיתי בהיר הטקסט הלבן לא נשען על הווידאו */
+.vs-cap{position:absolute;inset-inline:0;bottom:11vh;padding-block:24px;text-align:center;color:#fff;pointer-events:none;
+  background:linear-gradient(transparent,rgba(0,0,0,.45) 40%,transparent)}
+.vs-cap b,.vs-cap span{pointer-events:auto}
 .vs-cap b{display:block;font-size:clamp(22px,3.4vw,42px);margin-bottom:6px}
 .vs-cap span{font-size:15px;opacity:.75}
 /* מוטבע ומעוגל. רצועה בגובה 4 פיקסלים שנמתחת מקצה לקצה המסך נקראת כקו מפריד תועה
    ולא כמד התקדמות, במיוחד כשהיא ריקה בתחילת הגלילה. */
 .vs-bar{position:absolute;inset-inline:clamp(16px,6vw,80px);bottom:clamp(14px,2.5vh,26px);
   height:5px;border-radius:999px;overflow:hidden;background:rgba(255,255,255,.14)}
-.vs-bar i{display:block;height:100%;width:0;border-radius:999px;background:var(--accent, #4a3aff)}
+/* המילוי נחשף ב-clip-path ולא ב-width, כדי שכל עדכון גלילה לא יהיה layout. בעמוד עברי הוא מתמלא מימין */
+.vs-bar i{display:block;height:100%;width:100%;border-radius:999px;background:var(--accent, #4a3aff);clip-path:inset(0 0 0 100% round 999px)}
 .vs-after{padding:14vh var(--gutter, clamp(24px, 5vw, 96px));max-width:min(680px,92vw);margin-inline:auto;text-align:center;color:var(--muted, #6a6d85);font-size:17px;line-height:1.9}
 </style>
 </head>
@@ -52,7 +56,7 @@ img{max-width:100%}
 <div class="vs">
   <div class="vs-stick">
     <video class="vs-video" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/scrub.mp4" poster="https://liavwebdesign-spec.github.io/motion-vault/assets/media/scrub.jpg"
-           muted playsinline preload="auto" aria-label="הדגמה: וידאו שמתקדם עם הגלילה"></video>
+           muted playsinline preload="metadata" aria-label="הדגמה: וידאו שמתקדם עם הגלילה"></video>
     <div class="vs-cap"><b>הגלילה היא הנגן</b><span>גלול למטה ולמעלה. הסרטון עוקב.</span></div>
     <div class="vs-bar"><i></i></div>
   </div>
@@ -66,14 +70,18 @@ if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
   const v=document.querySelector(".vs-video"),bar=document.querySelector(".vs-bar i");
+  // הקובץ כבד בכוונה (כל פריים keyframe), ולכן הוא יורד במלואו רק כשהסקשן מתקרב למסך
+  if("IntersectionObserver" in window)new IntersectionObserver(([e],o)=>{if(e.isIntersecting){v.preload="auto";o.disconnect();}},{rootMargin:"100% 0px"}).observe(v);
+  else v.preload="auto";
+  if(typeof gsap==="undefined")return;
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let target=0,current=0,dur=0,ready=false;
+  let target=0,current=0,dur=0,ready=false,st=null;
   function start(){
-    dur=v.duration||0; if(!dur)return;
+    dur=v.duration||0; if(!dur||st)return;
     ready=true;
-    ScrollTrigger.create({
+    st=ScrollTrigger.create({
       trigger:".vs",start:"top top",end:"bottom bottom",scrub:true,
-      onUpdate:self=>{target=self.progress*dur;bar.style.width=(self.progress*100).toFixed(1)+"%";}
+      onUpdate:self=>{target=self.progress*dur;bar.style.clipPath="inset(0 0 0 "+((1-self.progress)*100).toFixed(1)+"% round 999px)";}
     });
     ScrollTrigger.refresh();
   }

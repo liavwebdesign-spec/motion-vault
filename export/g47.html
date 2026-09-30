@@ -43,7 +43,8 @@ img{max-width:100%}
 .jf-hint{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding-bottom:10px}
 .jf-step{min-height:88vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(20px,4vw,60px);
   max-width:min(1080px,94vw);margin-inline:auto}
-.jf-step:nth-child(even){direction:rtl}
+/* זיגזג: בשלבים הזוגיים הטקסט עובר לצד השני. order ולא direction, שבעמוד RTL לא משנה כלום */
+.jf-step:nth-child(even) .jf-copy{order:2}
 .jf-copy h3{margin:0 0 10px;font-size:clamp(22px,2.8vw,40px)}
 .jf-copy p{margin:0;color:var(--muted, #6a6d85);font-size:17px;line-height:1.7;max-width:42ch}
 .jf-num{font-size:13px;color:var(--accent, #4a3aff);font-weight:700;letter-spacing:.08em;margin-bottom:8px}
@@ -51,11 +52,13 @@ img{max-width:100%}
 .jf-step:nth-child(2) .jf-zone{width:min(52%,220px)}
 .jf-step:nth-child(3) .jf-zone{width:min(88%,380px)}
 .jf-step:nth-child(4) .jf-zone{width:min(46%,190px)}
-/* הנוסע יושב מחוץ לזרימה אבל בתוך אותו קונטקסט גלילה של התחנות, ו-Flip.fit מציב אותו על התחנה הנוכחית */
+/* הנוסע יושב מחוץ לזרימה אבל בתוך אותו קונטקסט גלילה של התחנות, ו-Flip.fit מציב אותו על התחנה הנוכחית.
+   הוא מוסתר עד שה-JS מציב אותו: בלי JS ובהפחתת תנועה המסגרות עצמן גלויות */
 .jf-wrap{position:relative}
-.jf-trav{position:absolute;top:0;left:0;width:340px;aspect-ratio:1;border-radius:22px;
+.jf-trav{position:absolute;top:0;left:0;width:340px;aspect-ratio:1;border-radius:22px;visibility:hidden;
   z-index:2;pointer-events:none;display:grid;place-items:center;font-size:40px;box-shadow:0 24px 60px rgba(20,20,40,.22)}
 @media(max-width:760px){.jf-step{grid-template-columns:1fr;gap:24px;min-height:auto;padding-block:14vh}
+  .jf-step:nth-child(even) .jf-copy{order:0}
   .jf-zone,.jf-step:nth-child(2) .jf-zone,.jf-step:nth-child(3) .jf-zone,.jf-step:nth-child(4) .jf-zone{width:min(62%,240px)}}
 </style>
 </head>
@@ -65,16 +68,16 @@ img{max-width:100%}
 <div class="jf-wrap">
   <section class="jf-step"><div class="jf-copy"><div class="jf-num">שלב 01</div><h3>שיחת אפיון</h3>
     <p>מבינים את העסק, את הלקוח ואת מה שצריך לקרות באתר, לפני שנוגעים בעיצוב.</p></div>
-    <div class="ph jf-zone ph-a" style="opacity:0"></div></section>
+    <div class="ph jf-zone ph-a"></div></section>
   <section class="jf-step"><div class="jf-copy"><div class="jf-num">שלב 02</div><h3>קופי ומבנה</h3>
     <p>כותבים את המסרים ובונים את סדר הסקשנים, כך שכל גלילה עונה על השאלה הבאה.</p></div>
-    <div class="ph jf-zone ph-a" style="opacity:0"></div></section>
+    <div class="ph jf-zone ph-a"></div></section>
   <section class="jf-step"><div class="jf-copy"><div class="jf-num">שלב 03</div><h3>עיצוב ופיתוח</h3>
     <p>הופכים את המבנה לאתר חי, מהיר, שנראה נכון בכל מסך.</p></div>
-    <div class="ph jf-zone ph-a" style="opacity:0"></div></section>
+    <div class="ph jf-zone ph-a"></div></section>
   <section class="jf-step"><div class="jf-copy"><div class="jf-num">שלב 04</div><h3>עלייה ומדידה</h3>
     <p>מחברים מעקב, עולים לאוויר, ובודקים מה עובד במקום לנחש.</p></div>
-    <div class="ph jf-zone ph-a" style="opacity:0"></div></section>
+    <div class="ph jf-zone ph-a"></div></section>
   <div class="ph jf-trav ph-a"><span class="ph-l">◆</span></div>
 </div>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
@@ -85,27 +88,37 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(Flip, ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined"||typeof Flip==="undefined")return;
   const trav=document.querySelector(".jf-trav");
   const zones=gsap.utils.toArray(".jf-zone");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce){zones.forEach(z=>z.style.opacity=1);trav.style.display="none";return;}
-  let tl;
-  function build(){
-    if(tl){tl.scrollTrigger&&tl.scrollTrigger.kill();tl.kill();gsap.set(trav,{clearProps:"all"});}
-    Flip.fit(trav,zones[0]);                       // מתחילים מוצמדים לתחנה הראשונה
-    tl=gsap.timeline({scrollTrigger:{
-      trigger:zones[0],start:"center center",
-      endTrigger:zones[zones.length-1],end:"center center",scrub:.6
-    }});
-    zones.slice(1).forEach((z,i)=>{
-      // המשך הנסיעה נמדד במרחק אמיתי בין התחנות, ולכן הקצב אחיד
-      const dist=z.getBoundingClientRect().top-zones[i].getBoundingClientRect().top;
-      const last=i===zones.length-2;                 // בתחנה האחרונה מתיישרים, כדי שהסיום ייראה מכוון
-      tl.add(Flip.fit(trav,z,{duration:Math.abs(dist)||1,ease:"power2.inOut",rotate:last?0:(i%2?8:-8)}));
-    });
-  }
-  build();
-  let t;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>{build();ScrollTrigger.refresh();},250);});
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    let tl,alive=true;
+    const kill=()=>{if(tl){tl.scrollTrigger&&tl.scrollTrigger.kill();tl.kill();tl=null;}gsap.set(trav,{clearProps:"all"});};
+    function build(){
+      kill();
+      gsap.set(zones,{opacity:0});                  // המסגרות משמשות רק כמדידה
+      // scale:true: הגודל עובר ב-transform ולא ב-width/height, אחרת כל פריים של גלילה הוא layout
+      Flip.fit(trav,zones[0],{scale:true});         // מתחילים מוצמדים לתחנה הראשונה
+      tl=gsap.timeline({scrollTrigger:{
+        trigger:zones[0],start:"center center",
+        endTrigger:zones[zones.length-1],end:"center center",scrub:.6
+      }});
+      zones.slice(1).forEach((z,i)=>{
+        // המשך הנסיעה נמדד במרחק אמיתי בין התחנות, ולכן הקצב אחיד
+        const dist=z.getBoundingClientRect().top-zones[i].getBoundingClientRect().top;
+        const last=i===zones.length-2;                 // בתחנה האחרונה מתיישרים, כדי שהסיום ייראה מכוון
+        tl.add(Flip.fit(trav,z,{duration:Math.abs(dist)||1,ease:"power2.inOut",rotate:last?0:(i%2?8:-8),scale:true}));
+      });
+      gsap.set(trav,{visibility:"visible"});
+    }
+    build();
+    const rebuild=()=>{if(!alive)return;build();ScrollTrigger.refresh();};
+    let t;const onResize=()=>{clearTimeout(t);t=setTimeout(rebuild,250);};
+    addEventListener("resize",onResize);
+    // פונט שנטען אחרי הבנייה משנה את גובה השלבים, ולכן בונים שוב
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(rebuild);
+    return ()=>{alive=false;clearTimeout(t);removeEventListener("resize",onResize);kill();gsap.set(zones,{clearProps:"opacity"});};
+  });
 })();
 </script>
 </body>

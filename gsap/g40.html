@@ -9,14 +9,17 @@
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
 html,body{overflow-x:clip}
-.hz{overflow:hidden;background:#0f1020;color:#fff}
-.hz-track{display:flex;align-items:center;gap:clamp(48px,11vw,220px);width:max-content;padding-inline:24vw 10vw;height:100vh}
+.hz{overflow:hidden;background:#0f1020;color:#fff;transition:all 0s}
+/* בלי תנועה (וגם בלי JS) התחנות נשברות לשורות וכולן על המסך. המסלול האופקי קיים רק תחת .is-live */
+.hz-track{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:64px clamp(48px,11vw,220px);padding:var(--sec) var(--gutter)}
+.hz.is-live .hz-track{flex-wrap:nowrap;justify-content:flex-start;width:max-content;padding-block:0;padding-inline:24vw 10vw;height:100vh}
 .hz-item{flex:0 0 auto;text-align:center;will-change:transform}
 .hz-num{font-size:13px;letter-spacing:.16em;color:#8d8fb0;margin-bottom:14px}
 .hz-item h3{font-size:clamp(26px,2.6vw,46px);margin:0 0 10px;font-weight:800}
 .hz-item p{margin:0 auto;max-width:32ch;color:#b9bad0;font-size:15px;line-height:1.6}
 .hz-card{width:min(420px,74vw);aspect-ratio:4/3;margin-inline:auto;margin-bottom:22px;font-size:26px}
-.hz-scrub{width:120px;height:120px;flex:0 0 auto;border-radius:26px;background:linear-gradient(140deg,#c6ff4a,var(--accent));display:grid;place-items:center;font-size:34px;color:#0f1020}
+.hz-scrub{display:none;width:120px;height:120px;flex:0 0 auto;border-radius:26px;background:linear-gradient(140deg,#c6ff4a,var(--accent));place-items:center;font-size:34px;color:#0f1020}
+.hz.is-live .hz-scrub{display:grid}
 .hz-lead{flex:0 0 min(760px,82vw)}
 .hz-lead h2{font-size:clamp(34px,4vw,72px);margin:0 0 12px;font-weight:800;line-height:1.1}
 .hz-lead p{color:#b9bad0;margin:0;font-size:16px}
@@ -46,14 +49,14 @@ html,body{overflow-x:clip}
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="hz"><div class="hz-track">
   <div class="hz-lead"><h2>ארבע תחנות, גלילה אחת</h2><p>גלול למטה. המסלול זז הצידה, וכל תחנה נכנסת ברגע שהיא מגיעה לאזור הצפייה.</p></div>
-  <div class="hz-item"><div class="hz-card ph ph-a"><span class="ph-l">1</span></div><div class="hz-num">תחנה 01</div><h3>הכירות</h3><p>מבינים את המצב הקיים ואת מה שצריך לקרות.</p></div>
+  <div class="hz-item"><div class="hz-card ph ph-a"><span class="ph-l">1</span></div><div class="hz-num">תחנה 01</div><h3>היכרות</h3><p>מבינים את המצב הקיים ואת מה שצריך לקרות.</p></div>
   <div class="hz-item"><div class="hz-card ph ph-b"><span class="ph-l">2</span></div><div class="hz-num">תחנה 02</div><h3>אפיון</h3><p>מגדירים מבנה, תוכן והיררכיה לפני שנוגעים בעיצוב.</p></div>
   <div class="hz-scrub" aria-hidden="true">✦</div>
   <div class="hz-item"><div class="hz-card ph ph-c"><span class="ph-l">3</span></div><div class="hz-num">תחנה 03</div><h3>בנייה</h3><p>מרכיבים את העמוד ובודקים אותו בכל רוחב מסך.</p></div>
   <div class="hz-item"><div class="hz-card ph ph-d"><span class="ph-l">4</span></div><div class="hz-num">תחנה 04</div><h3>עלייה לאוויר</h3><p>מפרסמים, מודדים ומתקנים לפי מה שקורה באמת.</p></div>
 </div></div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
-<div class="demo-note"><b>כיוון:</b> הרצועה נשארת RTL, התחנה הראשונה בימין, ו-x חיובי. המצלמה נעה שמאלה בתוך התוכן וכל תחנה נכנסת דרך שפת המסך השמאלית, ככיוון הקריאה בעברית. באתר אנגלי הופכים את הסימן ומודדים את השפה השמאלית של הפריט במקום הימנית.<br><b>למה לא containerAnimation:</b> זו הדרך הרשמית לתלות אנימציות במיקום אופקי, אבל היא מודדת נכון רק כשהרצועה מתחילה בקצה השמאלי. בתוך קונטיינר RTL ילד עם width:max-content שרחב מהמסך מתיישר לקצה הימני והגלישה יוצאת שמאלה, כלומר נקודת האפס שלו היא כבר סוף הרצועה, וכל המדידות יוצאות מוזזות באורך מסלול שלם. זו התנהגות פריסה של הדפדפן ולא באג ב-GSAP. לכן כאן כל פריט מקבל את מצבו מהמיקום החי שלו על המסך, שיטה שעובדת בשני הכיוונים ולא תלויה בפרשנות של left ו-right.</div>
+<div class="demo-note"><b>כיוון:</b> הרצועה נשארת RTL, התחנה הראשונה בימין, ו-x חיובי. המצלמה נעה שמאלה בתוך התוכן וכל תחנה נכנסת דרך שפת המסך השמאלית, ככיוון הקריאה בעברית. באתר אנגלי הופכים את הסימן ומודדים את השפה השמאלית של הפריט במקום הימנית.<br><b>למה לא containerAnimation:</b> זו הדרך הרשמית לתלות אנימציות במיקום אופקי, אבל היא מודדת נכון רק כשהרצועה מתחילה בקצה השמאלי. בתוך קונטיינר RTL ילד עם width:max-content שרחב מהמסך מתיישר לקצה הימני והגלישה יוצאת שמאלה, כלומר נקודת האפס שלו היא כבר סוף הרצועה, וכל המדידות יוצאות מוזזות באורך מסלול שלם. זו התנהגות פריסה של הדפדפן ולא באג ב-GSAP. לכן כאן כל פריט מקבל את מצבו מהמיקום החי שלו על המסך, שיטה שעובדת בשני הכיוונים ולא תלויה בפרשנות של left ו-right.<br><b>ביצועים:</b> המיקומים נמדדים פעם אחת בכל רענון ונשמרים, ובגלילה עצמה נכתבים רק ערכים (quickSetter), בלי שום קריאת layout. אורך הסצנה מוגבל ל-2.4 מסכים.<br><b>בלי תנועה:</b> בהפחתת תנועה, וגם כש-GSAP לא נטען, אין נעילה: התחנות נשברות לשורות וכולן על המסך, כי המסלול האופקי קיים רק תחת .is-live שהסקריפט מוסיף.</div>
 <section class="mvcode">
   <h2>קוד להדבקה</h2>
   <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
@@ -76,20 +79,23 @@ html,body{overflow-x:clip}
 
 /* G40 · סצנה אופקית שכל אלמנט בה מתעורר בתורו */
 html,body{overflow-x:clip}
-.hz{overflow:hidden;background:#0f1020;color:#fff}
-.hz-track{display:flex;align-items:center;gap:clamp(48px,11vw,220px);width:max-content;padding-inline:24vw 10vw;height:100vh}
+.hz{overflow:hidden;background:#0f1020;color:#fff;transition:all 0s}
+/* בלי תנועה (וגם בלי JS) התחנות נשברות לשורות וכולן על המסך. המסלול האופקי קיים רק תחת .is-live */
+.hz-track{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:64px clamp(48px,11vw,220px);padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px))}
+.hz.is-live .hz-track{flex-wrap:nowrap;justify-content:flex-start;width:max-content;padding-block:0;padding-inline:24vw 10vw;height:100vh}
 .hz-item{flex:0 0 auto;text-align:center;will-change:transform}
 .hz-num{font-size:13px;letter-spacing:.16em;color:#8d8fb0;margin-bottom:14px}
 .hz-item h3{font-size:clamp(26px,2.6vw,46px);margin:0 0 10px;font-weight:800}
 .hz-item p{margin:0 auto;max-width:32ch;color:#b9bad0;font-size:15px;line-height:1.6}
 .hz-card{width:min(420px,74vw);aspect-ratio:4/3;margin-inline:auto;margin-bottom:22px;font-size:26px}
-.hz-scrub{width:120px;height:120px;flex:0 0 auto;border-radius:26px;background:linear-gradient(140deg,#c6ff4a,var(--accent, #4a3aff));display:grid;place-items:center;font-size:34px;color:#0f1020}
+.hz-scrub{display:none;width:120px;height:120px;flex:0 0 auto;border-radius:26px;background:linear-gradient(140deg,#c6ff4a,var(--accent, #4a3aff));place-items:center;font-size:34px;color:#0f1020}
+.hz.is-live .hz-scrub{display:grid}
 .hz-lead{flex:0 0 min(760px,82vw)}
 .hz-lead h2{font-size:clamp(34px,4vw,72px);margin:0 0 12px;font-weight:800;line-height:1.1}
 .hz-lead p{color:#b9bad0;margin:0;font-size:16px}</code></pre>
     <h3>HTML</h3><pre><code>&lt;div class="hz"&gt;&lt;div class="hz-track"&gt;
   &lt;div class="hz-lead"&gt;&lt;h2&gt;ארבע תחנות, גלילה אחת&lt;/h2&gt;&lt;p&gt;גלול למטה. המסלול זז הצידה, וכל תחנה נכנסת ברגע שהיא מגיעה לאזור הצפייה.&lt;/p&gt;&lt;/div&gt;
-  &lt;div class="hz-item"&gt;&lt;div class="hz-card ph ph-a"&gt;&lt;span class="ph-l"&gt;1&lt;/span&gt;&lt;/div&gt;&lt;div class="hz-num"&gt;תחנה 01&lt;/div&gt;&lt;h3&gt;הכירות&lt;/h3&gt;&lt;p&gt;מבינים את המצב הקיים ואת מה שצריך לקרות.&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="hz-item"&gt;&lt;div class="hz-card ph ph-a"&gt;&lt;span class="ph-l"&gt;1&lt;/span&gt;&lt;/div&gt;&lt;div class="hz-num"&gt;תחנה 01&lt;/div&gt;&lt;h3&gt;היכרות&lt;/h3&gt;&lt;p&gt;מבינים את המצב הקיים ואת מה שצריך לקרות.&lt;/p&gt;&lt;/div&gt;
   &lt;div class="hz-item"&gt;&lt;div class="hz-card ph ph-b"&gt;&lt;span class="ph-l"&gt;2&lt;/span&gt;&lt;/div&gt;&lt;div class="hz-num"&gt;תחנה 02&lt;/div&gt;&lt;h3&gt;אפיון&lt;/h3&gt;&lt;p&gt;מגדירים מבנה, תוכן והיררכיה לפני שנוגעים בעיצוב.&lt;/p&gt;&lt;/div&gt;
   &lt;div class="hz-scrub" aria-hidden="true"&gt;✦&lt;/div&gt;
   &lt;div class="hz-item"&gt;&lt;div class="hz-card ph ph-c"&gt;&lt;span class="ph-l"&gt;3&lt;/span&gt;&lt;/div&gt;&lt;div class="hz-num"&gt;תחנה 03&lt;/div&gt;&lt;h3&gt;בנייה&lt;/h3&gt;&lt;p&gt;מרכיבים את העמוד ובודקים אותו בכל רוחב מסך.&lt;/p&gt;&lt;/div&gt;
@@ -98,51 +104,66 @@ html,body{overflow-x:clip}
     <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const track=document.querySelector(".hz-track");
+  if(typeof gsap==="undefined")return;
+  const hz=document.querySelector(".hz");
+  const track=hz.querySelector(".hz-track");
   const items=gsap.utils.toArray(".hz-item");
-  const spinner=document.querySelector(".hz-scrub");
-  const dist=()=&gt;Math.max(1,track.scrollWidth-window.innerWidth);
+  const spinner=hz.querySelector(".hz-scrub");
   const clamp=gsap.utils.clamp(0,1);
 
-  // הרצועה יושבת ב-RTL: הפריט הראשון בימין, והגלישה יוצאת שמאלה.
-  // לכן x חיובי, והמצלמה נעה שמאלה בתוך התוכן, ככיוון הקריאה בעברית.
-  let origin=0; // המיקום של שפת הרצועה על המסך כשהיא בנקודת ההתחלה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    hz.classList.add("is-live");
+    // הרצועה יושבת ב-RTL: הפריט הראשון בימין, והגלישה יוצאת שמאלה.
+    // לכן x חיובי, והמצלמה נעה שמאלה בתוך התוכן, ככיוון הקריאה בעברית.
+    const setX=gsap.quickSetter(track,"x","px");
+    const setY=items.map(it=&gt;gsap.quickSetter(it,"y","px"));
+    const setRot=gsap.quickSetter(spinner,"rotation","deg");
 
-  function measure(){
-    origin=track.getBoundingClientRect().left-(gsap.getProperty(track,"x")||0);
-  }
+    // כל המידות נמדדות פעם אחת בכל רענון ונשמרות. בגלילה עצמה אין שום קריאת layout.
+    let dist=1,vw=1,right0=[],w=[],sRight0=0,sW=0,lastX=0;
+    function measure(){
+      dist=Math.max(1,track.scrollWidth-window.innerWidth);
+      vw=window.innerWidth;
+      // השפה הימנית של כל פריט על המסך כשהרצועה בנקודת ההתחלה (x=0)
+      right0=items.map(it=&gt;it.getBoundingClientRect().right-lastX);
+      w=items.map(it=&gt;it.offsetWidth);
+      const r=spinner.getBoundingClientRect();
+      sW=spinner.offsetWidth;
+      sRight0=(r.left+r.right)/2+sW/2-lastX;
+    }
 
-  // כל פריט מקבל את המצב שלו מהמיקום שלו על המסך ברגע הנתון.
-  // בעברית הפריט נכנס דרך שפת המסך השמאלית, ולכן מודדים את השפה הימנית שלו.
-  function paint(progress){
-    const x=dist()*progress;
-    gsap.set(track,{x:x});
-    const vw=window.innerWidth;
-    items.forEach(item=&gt;{
-      // כמה מהפריט כבר חצה את שפת המסך השמאלית. אחד = הוא כולו בפנים.
-      const right=origin+item.offsetLeft+item.offsetWidth+x;
-      const f=clamp(right/item.offsetWidth);
-      gsap.set(item,{autoAlpha:f,y:70*(1-f)});
+    // כל פריט מקבל את המצב שלו מהמיקום שלו על המסך ברגע הנתון.
+    // בעברית הפריט נכנס דרך שפת המסך השמאלית, ולכן מודדים את השפה הימנית שלו.
+    function paint(progress){
+      const x=dist*progress;
+      lastX=x;setX(x);
+      items.forEach((item,i)=&gt;{
+        // כמה מהפריט כבר חצה את שפת המסך השמאלית. אחד = הוא כולו בפנים.
+        const f=clamp((right0[i]+x)/w[i]);
+        item.style.opacity=f;item.style.visibility=f&gt;0?"":"hidden";
+        setY[i](70*(1-f));
+      });
+      setRot(270*clamp((sRight0+x)/(vw+sW)));
+    }
+
+    const st=ScrollTrigger.create({
+      // עד 2.4 מסכים: paint עובד לפי progress, ולכן קיצור המסלול לא שובר את החשבון
+      trigger:track,pin:hz,start:"top top",end:()=&gt;"+="+Math.min(Math.max(1,track.scrollWidth-window.innerWidth),window.innerHeight*2.4),
+      anticipatePin:1,invalidateOnRefresh:true,
+      onRefresh:self=&gt;{measure();paint(self.progress);},
+      onUpdate:self=&gt;paint(self.progress)
     });
-    const sRight=origin+spinner.offsetLeft+spinner.offsetWidth+x;
-    gsap.set(spinner,{rotation:270*clamp(sRight/(vw+spinner.offsetWidth))});
-  }
-
-  ScrollTrigger.create({
-    trigger:track,pin:track.parentNode,start:"top top",end:()=&gt;"+="+dist(),
-    anticipatePin:1,invalidateOnRefresh:true,
-    onRefresh:self=&gt;{measure();paint(self.progress);},
-    onUpdate:self=&gt;paint(self.progress)
+    measure();paint(st.progress);
+    return ()=&gt;{hz.classList.remove("is-live");gsap.set([track,spinner].concat(items),{clearProps:"all"});};
   });
-  measure();paint(0);
 })();</code></pre>
   </details>
-  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g40 · סצנה אופקית שכל אלמנט בה מתעורר בתורו\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g40.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g40.html\n\nמה זה עושה: סקשן שננעל למסך והתוכן גולש הצידה, אבל הפעם כל פריט בתוך המסלול מקבל טריגר משלו לפי המיקום האופקי שלו: הוא נכנס כשהוא מגיע לאזור הצפייה, ולא כשהסקשן כולו נכנס. אלמנט אחד בפנים גם מסתובב בסקראב משלו.\nמתי משתמשים: סיפור אופקי עם תחנות: מסע לקוח, ציר זמן, שלבי תהליך. זה מה שהופך גלילה צידית מרצועה שזזה לסצנה שמתרחשת. ההבדל מ-MV:g01 הוא בדיוק זה.\nסוג אתר: אתר תדמית · פורטפוליו וסטודיו · וואן-פייג'ר\nבסקשן: תהליך ושלבים · אודות וצוות\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא כשיש יותר משש תחנות או טקסט ארוך בכל תחנה; שם עדיף תהליך אנכי.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n\n/* G40 · סצנה אופקית שכל אלמנט בה מתעורר בתורו */\nhtml,body{overflow-x:clip}\n.hz{overflow:hidden;background:#0f1020;color:#fff}\n.hz-track{display:flex;align-items:center;gap:clamp(48px,11vw,220px);width:max-content;padding-inline:24vw 10vw;height:100vh}\n.hz-item{flex:0 0 auto;text-align:center;will-change:transform}\n.hz-num{font-size:13px;letter-spacing:.16em;color:#8d8fb0;margin-bottom:14px}\n.hz-item h3{font-size:clamp(26px,2.6vw,46px);margin:0 0 10px;font-weight:800}\n.hz-item p{margin:0 auto;max-width:32ch;color:#b9bad0;font-size:15px;line-height:1.6}\n.hz-card{width:min(420px,74vw);aspect-ratio:4/3;margin-inline:auto;margin-bottom:22px;font-size:26px}\n.hz-scrub{width:120px;height:120px;flex:0 0 auto;border-radius:26px;background:linear-gradient(140deg,#c6ff4a,var(--accent, #4a3aff));display:grid;place-items:center;font-size:34px;color:#0f1020}\n.hz-lead{flex:0 0 min(760px,82vw)}\n.hz-lead h2{font-size:clamp(34px,4vw,72px);margin:0 0 12px;font-weight:800;line-height:1.1}\n.hz-lead p{color:#b9bad0;margin:0;font-size:16px}\n\n=== HTML ===\n<div class=\"hz\"><div class=\"hz-track\">\n  <div class=\"hz-lead\"><h2>ארבע תחנות, גלילה אחת<\/h2><p>גלול למטה. המסלול זז הצידה, וכל תחנה נכנסת ברגע שהיא מגיעה לאזור הצפייה.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-a\"><span class=\"ph-l\">1<\/span><\/div><div class=\"hz-num\">תחנה 01<\/div><h3>הכירות<\/h3><p>מבינים את המצב הקיים ואת מה שצריך לקרות.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-b\"><span class=\"ph-l\">2<\/span><\/div><div class=\"hz-num\">תחנה 02<\/div><h3>אפיון<\/h3><p>מגדירים מבנה, תוכן והיררכיה לפני שנוגעים בעיצוב.<\/p><\/div>\n  <div class=\"hz-scrub\" aria-hidden=\"true\">✦<\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-c\"><span class=\"ph-l\">3<\/span><\/div><div class=\"hz-num\">תחנה 03<\/div><h3>בנייה<\/h3><p>מרכיבים את העמוד ובודקים אותו בכל רוחב מסך.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-d\"><span class=\"ph-l\">4<\/span><\/div><div class=\"hz-num\">תחנה 04<\/div><h3>עלייה לאוויר<\/h3><p>מפרסמים, מודדים ומתקנים לפי מה שקורה באמת.<\/p><\/div>\n<\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const track=document.querySelector(\".hz-track\");\n  const items=gsap.utils.toArray(\".hz-item\");\n  const spinner=document.querySelector(\".hz-scrub\");\n  const dist=()=>Math.max(1,track.scrollWidth-window.innerWidth);\n  const clamp=gsap.utils.clamp(0,1);\n\n  // הרצועה יושבת ב-RTL: הפריט הראשון בימין, והגלישה יוצאת שמאלה.\n  // לכן x חיובי, והמצלמה נעה שמאלה בתוך התוכן, ככיוון הקריאה בעברית.\n  let origin=0; // המיקום של שפת הרצועה על המסך כשהיא בנקודת ההתחלה\n\n  function measure(){\n    origin=track.getBoundingClientRect().left-(gsap.getProperty(track,\"x\")||0);\n  }\n\n  // כל פריט מקבל את המצב שלו מהמיקום שלו על המסך ברגע הנתון.\n  // בעברית הפריט נכנס דרך שפת המסך השמאלית, ולכן מודדים את השפה הימנית שלו.\n  function paint(progress){\n    const x=dist()*progress;\n    gsap.set(track,{x:x});\n    const vw=window.innerWidth;\n    items.forEach(item=>{\n      // כמה מהפריט כבר חצה את שפת המסך השמאלית. אחד = הוא כולו בפנים.\n      const right=origin+item.offsetLeft+item.offsetWidth+x;\n      const f=clamp(right/item.offsetWidth);\n      gsap.set(item,{autoAlpha:f,y:70*(1-f)});\n    });\n    const sRight=origin+spinner.offsetLeft+spinner.offsetWidth+x;\n    gsap.set(spinner,{rotation:270*clamp(sRight/(vw+spinner.offsetWidth))});\n  }\n\n  ScrollTrigger.create({\n    trigger:track,pin:track.parentNode,start:\"top top\",end:()=>\"+=\"+dist(),\n    anticipatePin:1,invalidateOnRefresh:true,\n    onRefresh:self=>{measure();paint(self.progress);},\n    onUpdate:self=>paint(self.progress)\n  });\n  measure();paint(0);\n})();\n\nהערת מימוש מהמאגר:\n<b>כיוון:<\/b> הרצועה נשארת RTL, התחנה הראשונה בימין, ו-x חיובי. המצלמה נעה שמאלה בתוך התוכן וכל תחנה נכנסת דרך שפת המסך השמאלית, ככיוון הקריאה בעברית. באתר אנגלי הופכים את הסימן ומודדים את השפה השמאלית של הפריט במקום הימנית.<br><b>למה לא containerAnimation:<\/b> זו הדרך הרשמית לתלות אנימציות במיקום אופקי, אבל היא מודדת נכון רק כשהרצועה מתחילה בקצה השמאלי. בתוך קונטיינר RTL ילד עם width:max-content שרחב מהמסך מתיישר לקצה הימני והגלישה יוצאת שמאלה, כלומר נקודת האפס שלו היא כבר סוף הרצועה, וכל המדידות יוצאות מוזזות באורך מסלול שלם. זו התנהגות פריסה של הדפדפן ולא באג ב-GSAP. לכן כאן כל פריט מקבל את מצבו מהמיקום החי שלו על המסך, שיטה שעובדת בשני הכיוונים ולא תלויה בפרשנות של left ו-right.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n\n/* G40 · סצנה אופקית שכל אלמנט בה מתעורר בתורו */\nhtml,body{overflow-x:clip}\n.hz{overflow:hidden;background:#0f1020;color:#fff}\n.hz-track{display:flex;align-items:center;gap:clamp(48px,11vw,220px);width:max-content;padding-inline:24vw 10vw;height:100vh}\n.hz-item{flex:0 0 auto;text-align:center;will-change:transform}\n.hz-num{font-size:13px;letter-spacing:.16em;color:#8d8fb0;margin-bottom:14px}\n.hz-item h3{font-size:clamp(26px,2.6vw,46px);margin:0 0 10px;font-weight:800}\n.hz-item p{margin:0 auto;max-width:32ch;color:#b9bad0;font-size:15px;line-height:1.6}\n.hz-card{width:min(420px,74vw);aspect-ratio:4/3;margin-inline:auto;margin-bottom:22px;font-size:26px}\n.hz-scrub{width:120px;height:120px;flex:0 0 auto;border-radius:26px;background:linear-gradient(140deg,#c6ff4a,var(--accent, #4a3aff));display:grid;place-items:center;font-size:34px;color:#0f1020}\n.hz-lead{flex:0 0 min(760px,82vw)}\n.hz-lead h2{font-size:clamp(34px,4vw,72px);margin:0 0 12px;font-weight:800;line-height:1.1}\n.hz-lead p{color:#b9bad0;margin:0;font-size:16px}","html":"<div class=\"hz\"><div class=\"hz-track\">\n  <div class=\"hz-lead\"><h2>ארבע תחנות, גלילה אחת<\/h2><p>גלול למטה. המסלול זז הצידה, וכל תחנה נכנסת ברגע שהיא מגיעה לאזור הצפייה.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-a\"><span class=\"ph-l\">1<\/span><\/div><div class=\"hz-num\">תחנה 01<\/div><h3>הכירות<\/h3><p>מבינים את המצב הקיים ואת מה שצריך לקרות.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-b\"><span class=\"ph-l\">2<\/span><\/div><div class=\"hz-num\">תחנה 02<\/div><h3>אפיון<\/h3><p>מגדירים מבנה, תוכן והיררכיה לפני שנוגעים בעיצוב.<\/p><\/div>\n  <div class=\"hz-scrub\" aria-hidden=\"true\">✦<\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-c\"><span class=\"ph-l\">3<\/span><\/div><div class=\"hz-num\">תחנה 03<\/div><h3>בנייה<\/h3><p>מרכיבים את העמוד ובודקים אותו בכל רוחב מסך.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-d\"><span class=\"ph-l\">4<\/span><\/div><div class=\"hz-num\">תחנה 04<\/div><h3>עלייה לאוויר<\/h3><p>מפרסמים, מודדים ומתקנים לפי מה שקורה באמת.<\/p><\/div>\n<\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const track=document.querySelector(\".hz-track\");\n  const items=gsap.utils.toArray(\".hz-item\");\n  const spinner=document.querySelector(\".hz-scrub\");\n  const dist=()=>Math.max(1,track.scrollWidth-window.innerWidth);\n  const clamp=gsap.utils.clamp(0,1);\n\n  // הרצועה יושבת ב-RTL: הפריט הראשון בימין, והגלישה יוצאת שמאלה.\n  // לכן x חיובי, והמצלמה נעה שמאלה בתוך התוכן, ככיוון הקריאה בעברית.\n  let origin=0; // המיקום של שפת הרצועה על המסך כשהיא בנקודת ההתחלה\n\n  function measure(){\n    origin=track.getBoundingClientRect().left-(gsap.getProperty(track,\"x\")||0);\n  }\n\n  // כל פריט מקבל את המצב שלו מהמיקום שלו על המסך ברגע הנתון.\n  // בעברית הפריט נכנס דרך שפת המסך השמאלית, ולכן מודדים את השפה הימנית שלו.\n  function paint(progress){\n    const x=dist()*progress;\n    gsap.set(track,{x:x});\n    const vw=window.innerWidth;\n    items.forEach(item=>{\n      // כמה מהפריט כבר חצה את שפת המסך השמאלית. אחד = הוא כולו בפנים.\n      const right=origin+item.offsetLeft+item.offsetWidth+x;\n      const f=clamp(right/item.offsetWidth);\n      gsap.set(item,{autoAlpha:f,y:70*(1-f)});\n    });\n    const sRight=origin+spinner.offsetLeft+spinner.offsetWidth+x;\n    gsap.set(spinner,{rotation:270*clamp(sRight/(vw+spinner.offsetWidth))});\n  }\n\n  ScrollTrigger.create({\n    trigger:track,pin:track.parentNode,start:\"top top\",end:()=>\"+=\"+dist(),\n    anticipatePin:1,invalidateOnRefresh:true,\n    onRefresh:self=>{measure();paint(self.progress);},\n    onUpdate:self=>paint(self.progress)\n  });\n  measure();paint(0);\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g40 · סצנה אופקית שכל אלמנט בה מתעורר בתורו\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g40.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g40.html\n\nמה זה עושה: סקשן שננעל למסך והתוכן גולש הצידה, אבל הפעם כל פריט בתוך המסלול מקבל טריגר משלו לפי המיקום האופקי שלו: הוא נכנס כשהוא מגיע לאזור הצפייה, ולא כשהסקשן כולו נכנס. אלמנט אחד בפנים גם מסתובב בסקראב משלו.\nמתי משתמשים: סיפור אופקי עם תחנות: מסע לקוח, ציר זמן, שלבי תהליך. זה מה שהופך גלילה צידית מרצועה שזזה לסצנה שמתרחשת. ההבדל מ-MV:g01 הוא בדיוק זה.\nסוג אתר: אתר תדמית · פורטפוליו וסטודיו · וואן-פייג'ר\nבסקשן: תהליך ושלבים · אודות וצוות\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא כשיש יותר משש תחנות או טקסט ארוך בכל תחנה; שם עדיף תהליך אנכי.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n\n/* G40 · סצנה אופקית שכל אלמנט בה מתעורר בתורו */\nhtml,body{overflow-x:clip}\n.hz{overflow:hidden;background:#0f1020;color:#fff;transition:all 0s}\n/* בלי תנועה (וגם בלי JS) התחנות נשברות לשורות וכולן על המסך. המסלול האופקי קיים רק תחת .is-live */\n.hz-track{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:64px clamp(48px,11vw,220px);padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px))}\n.hz.is-live .hz-track{flex-wrap:nowrap;justify-content:flex-start;width:max-content;padding-block:0;padding-inline:24vw 10vw;height:100vh}\n.hz-item{flex:0 0 auto;text-align:center;will-change:transform}\n.hz-num{font-size:13px;letter-spacing:.16em;color:#8d8fb0;margin-bottom:14px}\n.hz-item h3{font-size:clamp(26px,2.6vw,46px);margin:0 0 10px;font-weight:800}\n.hz-item p{margin:0 auto;max-width:32ch;color:#b9bad0;font-size:15px;line-height:1.6}\n.hz-card{width:min(420px,74vw);aspect-ratio:4/3;margin-inline:auto;margin-bottom:22px;font-size:26px}\n.hz-scrub{display:none;width:120px;height:120px;flex:0 0 auto;border-radius:26px;background:linear-gradient(140deg,#c6ff4a,var(--accent, #4a3aff));place-items:center;font-size:34px;color:#0f1020}\n.hz.is-live .hz-scrub{display:grid}\n.hz-lead{flex:0 0 min(760px,82vw)}\n.hz-lead h2{font-size:clamp(34px,4vw,72px);margin:0 0 12px;font-weight:800;line-height:1.1}\n.hz-lead p{color:#b9bad0;margin:0;font-size:16px}\n\n=== HTML ===\n<div class=\"hz\"><div class=\"hz-track\">\n  <div class=\"hz-lead\"><h2>ארבע תחנות, גלילה אחת<\/h2><p>גלול למטה. המסלול זז הצידה, וכל תחנה נכנסת ברגע שהיא מגיעה לאזור הצפייה.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-a\"><span class=\"ph-l\">1<\/span><\/div><div class=\"hz-num\">תחנה 01<\/div><h3>היכרות<\/h3><p>מבינים את המצב הקיים ואת מה שצריך לקרות.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-b\"><span class=\"ph-l\">2<\/span><\/div><div class=\"hz-num\">תחנה 02<\/div><h3>אפיון<\/h3><p>מגדירים מבנה, תוכן והיררכיה לפני שנוגעים בעיצוב.<\/p><\/div>\n  <div class=\"hz-scrub\" aria-hidden=\"true\">✦<\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-c\"><span class=\"ph-l\">3<\/span><\/div><div class=\"hz-num\">תחנה 03<\/div><h3>בנייה<\/h3><p>מרכיבים את העמוד ובודקים אותו בכל רוחב מסך.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-d\"><span class=\"ph-l\">4<\/span><\/div><div class=\"hz-num\">תחנה 04<\/div><h3>עלייה לאוויר<\/h3><p>מפרסמים, מודדים ומתקנים לפי מה שקורה באמת.<\/p><\/div>\n<\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;\n  const hz=document.querySelector(\".hz\");\n  const track=hz.querySelector(\".hz-track\");\n  const items=gsap.utils.toArray(\".hz-item\");\n  const spinner=hz.querySelector(\".hz-scrub\");\n  const clamp=gsap.utils.clamp(0,1);\n\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    hz.classList.add(\"is-live\");\n    // הרצועה יושבת ב-RTL: הפריט הראשון בימין, והגלישה יוצאת שמאלה.\n    // לכן x חיובי, והמצלמה נעה שמאלה בתוך התוכן, ככיוון הקריאה בעברית.\n    const setX=gsap.quickSetter(track,\"x\",\"px\");\n    const setY=items.map(it=>gsap.quickSetter(it,\"y\",\"px\"));\n    const setRot=gsap.quickSetter(spinner,\"rotation\",\"deg\");\n\n    // כל המידות נמדדות פעם אחת בכל רענון ונשמרות. בגלילה עצמה אין שום קריאת layout.\n    let dist=1,vw=1,right0=[],w=[],sRight0=0,sW=0,lastX=0;\n    function measure(){\n      dist=Math.max(1,track.scrollWidth-window.innerWidth);\n      vw=window.innerWidth;\n      // השפה הימנית של כל פריט על המסך כשהרצועה בנקודת ההתחלה (x=0)\n      right0=items.map(it=>it.getBoundingClientRect().right-lastX);\n      w=items.map(it=>it.offsetWidth);\n      const r=spinner.getBoundingClientRect();\n      sW=spinner.offsetWidth;\n      sRight0=(r.left+r.right)/2+sW/2-lastX;\n    }\n\n    // כל פריט מקבל את המצב שלו מהמיקום שלו על המסך ברגע הנתון.\n    // בעברית הפריט נכנס דרך שפת המסך השמאלית, ולכן מודדים את השפה הימנית שלו.\n    function paint(progress){\n      const x=dist*progress;\n      lastX=x;setX(x);\n      items.forEach((item,i)=>{\n        // כמה מהפריט כבר חצה את שפת המסך השמאלית. אחד = הוא כולו בפנים.\n        const f=clamp((right0[i]+x)/w[i]);\n        item.style.opacity=f;item.style.visibility=f>0?\"\":\"hidden\";\n        setY[i](70*(1-f));\n      });\n      setRot(270*clamp((sRight0+x)/(vw+sW)));\n    }\n\n    const st=ScrollTrigger.create({\n      // עד 2.4 מסכים: paint עובד לפי progress, ולכן קיצור המסלול לא שובר את החשבון\n      trigger:track,pin:hz,start:\"top top\",end:()=>\"+=\"+Math.min(Math.max(1,track.scrollWidth-window.innerWidth),window.innerHeight*2.4),\n      anticipatePin:1,invalidateOnRefresh:true,\n      onRefresh:self=>{measure();paint(self.progress);},\n      onUpdate:self=>paint(self.progress)\n    });\n    measure();paint(st.progress);\n    return ()=>{hz.classList.remove(\"is-live\");gsap.set([track,spinner].concat(items),{clearProps:\"all\"});};\n  });\n})();\n\nהערת מימוש מהמאגר:\n<b>כיוון:<\/b> הרצועה נשארת RTL, התחנה הראשונה בימין, ו-x חיובי. המצלמה נעה שמאלה בתוך התוכן וכל תחנה נכנסת דרך שפת המסך השמאלית, ככיוון הקריאה בעברית. באתר אנגלי הופכים את הסימן ומודדים את השפה השמאלית של הפריט במקום הימנית.<br><b>למה לא containerAnimation:<\/b> זו הדרך הרשמית לתלות אנימציות במיקום אופקי, אבל היא מודדת נכון רק כשהרצועה מתחילה בקצה השמאלי. בתוך קונטיינר RTL ילד עם width:max-content שרחב מהמסך מתיישר לקצה הימני והגלישה יוצאת שמאלה, כלומר נקודת האפס שלו היא כבר סוף הרצועה, וכל המדידות יוצאות מוזזות באורך מסלול שלם. זו התנהגות פריסה של הדפדפן ולא באג ב-GSAP. לכן כאן כל פריט מקבל את מצבו מהמיקום החי שלו על המסך, שיטה שעובדת בשני הכיוונים ולא תלויה בפרשנות של left ו-right.<br><b>ביצועים:<\/b> המיקומים נמדדים פעם אחת בכל רענון ונשמרים, ובגלילה עצמה נכתבים רק ערכים (quickSetter), בלי שום קריאת layout. אורך הסצנה מוגבל ל-2.4 מסכים.<br><b>בלי תנועה:<\/b> בהפחתת תנועה, וגם כש-GSAP לא נטען, אין נעילה: התחנות נשברות לשורות וכולן על המסך, כי המסלול האופקי קיים רק תחת .is-live שהסקריפט מוסיף.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n\n/* G40 · סצנה אופקית שכל אלמנט בה מתעורר בתורו */\nhtml,body{overflow-x:clip}\n.hz{overflow:hidden;background:#0f1020;color:#fff;transition:all 0s}\n/* בלי תנועה (וגם בלי JS) התחנות נשברות לשורות וכולן על המסך. המסלול האופקי קיים רק תחת .is-live */\n.hz-track{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:64px clamp(48px,11vw,220px);padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px))}\n.hz.is-live .hz-track{flex-wrap:nowrap;justify-content:flex-start;width:max-content;padding-block:0;padding-inline:24vw 10vw;height:100vh}\n.hz-item{flex:0 0 auto;text-align:center;will-change:transform}\n.hz-num{font-size:13px;letter-spacing:.16em;color:#8d8fb0;margin-bottom:14px}\n.hz-item h3{font-size:clamp(26px,2.6vw,46px);margin:0 0 10px;font-weight:800}\n.hz-item p{margin:0 auto;max-width:32ch;color:#b9bad0;font-size:15px;line-height:1.6}\n.hz-card{width:min(420px,74vw);aspect-ratio:4/3;margin-inline:auto;margin-bottom:22px;font-size:26px}\n.hz-scrub{display:none;width:120px;height:120px;flex:0 0 auto;border-radius:26px;background:linear-gradient(140deg,#c6ff4a,var(--accent, #4a3aff));place-items:center;font-size:34px;color:#0f1020}\n.hz.is-live .hz-scrub{display:grid}\n.hz-lead{flex:0 0 min(760px,82vw)}\n.hz-lead h2{font-size:clamp(34px,4vw,72px);margin:0 0 12px;font-weight:800;line-height:1.1}\n.hz-lead p{color:#b9bad0;margin:0;font-size:16px}","html":"<div class=\"hz\"><div class=\"hz-track\">\n  <div class=\"hz-lead\"><h2>ארבע תחנות, גלילה אחת<\/h2><p>גלול למטה. המסלול זז הצידה, וכל תחנה נכנסת ברגע שהיא מגיעה לאזור הצפייה.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-a\"><span class=\"ph-l\">1<\/span><\/div><div class=\"hz-num\">תחנה 01<\/div><h3>היכרות<\/h3><p>מבינים את המצב הקיים ואת מה שצריך לקרות.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-b\"><span class=\"ph-l\">2<\/span><\/div><div class=\"hz-num\">תחנה 02<\/div><h3>אפיון<\/h3><p>מגדירים מבנה, תוכן והיררכיה לפני שנוגעים בעיצוב.<\/p><\/div>\n  <div class=\"hz-scrub\" aria-hidden=\"true\">✦<\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-c\"><span class=\"ph-l\">3<\/span><\/div><div class=\"hz-num\">תחנה 03<\/div><h3>בנייה<\/h3><p>מרכיבים את העמוד ובודקים אותו בכל רוחב מסך.<\/p><\/div>\n  <div class=\"hz-item\"><div class=\"hz-card ph ph-d\"><span class=\"ph-l\">4<\/span><\/div><div class=\"hz-num\">תחנה 04<\/div><h3>עלייה לאוויר<\/h3><p>מפרסמים, מודדים ומתקנים לפי מה שקורה באמת.<\/p><\/div>\n<\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;\n  const hz=document.querySelector(\".hz\");\n  const track=hz.querySelector(\".hz-track\");\n  const items=gsap.utils.toArray(\".hz-item\");\n  const spinner=hz.querySelector(\".hz-scrub\");\n  const clamp=gsap.utils.clamp(0,1);\n\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    hz.classList.add(\"is-live\");\n    // הרצועה יושבת ב-RTL: הפריט הראשון בימין, והגלישה יוצאת שמאלה.\n    // לכן x חיובי, והמצלמה נעה שמאלה בתוך התוכן, ככיוון הקריאה בעברית.\n    const setX=gsap.quickSetter(track,\"x\",\"px\");\n    const setY=items.map(it=>gsap.quickSetter(it,\"y\",\"px\"));\n    const setRot=gsap.quickSetter(spinner,\"rotation\",\"deg\");\n\n    // כל המידות נמדדות פעם אחת בכל רענון ונשמרות. בגלילה עצמה אין שום קריאת layout.\n    let dist=1,vw=1,right0=[],w=[],sRight0=0,sW=0,lastX=0;\n    function measure(){\n      dist=Math.max(1,track.scrollWidth-window.innerWidth);\n      vw=window.innerWidth;\n      // השפה הימנית של כל פריט על המסך כשהרצועה בנקודת ההתחלה (x=0)\n      right0=items.map(it=>it.getBoundingClientRect().right-lastX);\n      w=items.map(it=>it.offsetWidth);\n      const r=spinner.getBoundingClientRect();\n      sW=spinner.offsetWidth;\n      sRight0=(r.left+r.right)/2+sW/2-lastX;\n    }\n\n    // כל פריט מקבל את המצב שלו מהמיקום שלו על המסך ברגע הנתון.\n    // בעברית הפריט נכנס דרך שפת המסך השמאלית, ולכן מודדים את השפה הימנית שלו.\n    function paint(progress){\n      const x=dist*progress;\n      lastX=x;setX(x);\n      items.forEach((item,i)=>{\n        // כמה מהפריט כבר חצה את שפת המסך השמאלית. אחד = הוא כולו בפנים.\n        const f=clamp((right0[i]+x)/w[i]);\n        item.style.opacity=f;item.style.visibility=f>0?\"\":\"hidden\";\n        setY[i](70*(1-f));\n      });\n      setRot(270*clamp((sRight0+x)/(vw+sW)));\n    }\n\n    const st=ScrollTrigger.create({\n      // עד 2.4 מסכים: paint עובד לפי progress, ולכן קיצור המסלול לא שובר את החשבון\n      trigger:track,pin:hz,start:\"top top\",end:()=>\"+=\"+Math.min(Math.max(1,track.scrollWidth-window.innerWidth),window.innerHeight*2.4),\n      anticipatePin:1,invalidateOnRefresh:true,\n      onRefresh:self=>{measure();paint(self.progress);},\n      onUpdate:self=>paint(self.progress)\n    });\n    measure();paint(st.progress);\n    return ()=>{hz.classList.remove(\"is-live\");gsap.set([track,spinner].concat(items),{clearProps:\"all\"});};\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
 </section>
 <nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g39.html" rel="prev"><small>→ הקודם</small><b>טקסט מתעקל על קשת בגלילה</b></a><a href="g42.html" rel="next"><small>הבא ←</small><b>קו מצויר ביד מתחת לכותרת</b></a></nav>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-<script src="../assets/baseline.js?v=2d22b6b5"></script>
+<script src="../assets/baseline.js?v=f9f52e7e"></script>
 <script src="../assets/status.js"></script>
 <script src="../assets/tray.js"></script>
 <script>
@@ -168,43 +189,58 @@ document.querySelector(".mvid").addEventListener("click",function(){
 })();
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 (function(){
-  const track=document.querySelector(".hz-track");
+  if(typeof gsap==="undefined")return;
+  const hz=document.querySelector(".hz");
+  const track=hz.querySelector(".hz-track");
   const items=gsap.utils.toArray(".hz-item");
-  const spinner=document.querySelector(".hz-scrub");
-  const dist=()=>Math.max(1,track.scrollWidth-window.innerWidth);
+  const spinner=hz.querySelector(".hz-scrub");
   const clamp=gsap.utils.clamp(0,1);
 
-  // הרצועה יושבת ב-RTL: הפריט הראשון בימין, והגלישה יוצאת שמאלה.
-  // לכן x חיובי, והמצלמה נעה שמאלה בתוך התוכן, ככיוון הקריאה בעברית.
-  let origin=0; // המיקום של שפת הרצועה על המסך כשהיא בנקודת ההתחלה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    hz.classList.add("is-live");
+    // הרצועה יושבת ב-RTL: הפריט הראשון בימין, והגלישה יוצאת שמאלה.
+    // לכן x חיובי, והמצלמה נעה שמאלה בתוך התוכן, ככיוון הקריאה בעברית.
+    const setX=gsap.quickSetter(track,"x","px");
+    const setY=items.map(it=>gsap.quickSetter(it,"y","px"));
+    const setRot=gsap.quickSetter(spinner,"rotation","deg");
 
-  function measure(){
-    origin=track.getBoundingClientRect().left-(gsap.getProperty(track,"x")||0);
-  }
+    // כל המידות נמדדות פעם אחת בכל רענון ונשמרות. בגלילה עצמה אין שום קריאת layout.
+    let dist=1,vw=1,right0=[],w=[],sRight0=0,sW=0,lastX=0;
+    function measure(){
+      dist=Math.max(1,track.scrollWidth-window.innerWidth);
+      vw=window.innerWidth;
+      // השפה הימנית של כל פריט על המסך כשהרצועה בנקודת ההתחלה (x=0)
+      right0=items.map(it=>it.getBoundingClientRect().right-lastX);
+      w=items.map(it=>it.offsetWidth);
+      const r=spinner.getBoundingClientRect();
+      sW=spinner.offsetWidth;
+      sRight0=(r.left+r.right)/2+sW/2-lastX;
+    }
 
-  // כל פריט מקבל את המצב שלו מהמיקום שלו על המסך ברגע הנתון.
-  // בעברית הפריט נכנס דרך שפת המסך השמאלית, ולכן מודדים את השפה הימנית שלו.
-  function paint(progress){
-    const x=dist()*progress;
-    gsap.set(track,{x:x});
-    const vw=window.innerWidth;
-    items.forEach(item=>{
-      // כמה מהפריט כבר חצה את שפת המסך השמאלית. אחד = הוא כולו בפנים.
-      const right=origin+item.offsetLeft+item.offsetWidth+x;
-      const f=clamp(right/item.offsetWidth);
-      gsap.set(item,{autoAlpha:f,y:70*(1-f)});
+    // כל פריט מקבל את המצב שלו מהמיקום שלו על המסך ברגע הנתון.
+    // בעברית הפריט נכנס דרך שפת המסך השמאלית, ולכן מודדים את השפה הימנית שלו.
+    function paint(progress){
+      const x=dist*progress;
+      lastX=x;setX(x);
+      items.forEach((item,i)=>{
+        // כמה מהפריט כבר חצה את שפת המסך השמאלית. אחד = הוא כולו בפנים.
+        const f=clamp((right0[i]+x)/w[i]);
+        item.style.opacity=f;item.style.visibility=f>0?"":"hidden";
+        setY[i](70*(1-f));
+      });
+      setRot(270*clamp((sRight0+x)/(vw+sW)));
+    }
+
+    const st=ScrollTrigger.create({
+      // עד 2.4 מסכים: paint עובד לפי progress, ולכן קיצור המסלול לא שובר את החשבון
+      trigger:track,pin:hz,start:"top top",end:()=>"+="+Math.min(Math.max(1,track.scrollWidth-window.innerWidth),window.innerHeight*2.4),
+      anticipatePin:1,invalidateOnRefresh:true,
+      onRefresh:self=>{measure();paint(self.progress);},
+      onUpdate:self=>paint(self.progress)
     });
-    const sRight=origin+spinner.offsetLeft+spinner.offsetWidth+x;
-    gsap.set(spinner,{rotation:270*clamp(sRight/(vw+spinner.offsetWidth))});
-  }
-
-  ScrollTrigger.create({
-    trigger:track,pin:track.parentNode,start:"top top",end:()=>"+="+dist(),
-    anticipatePin:1,invalidateOnRefresh:true,
-    onRefresh:self=>{measure();paint(self.progress);},
-    onUpdate:self=>paint(self.progress)
+    measure();paint(st.progress);
+    return ()=>{hz.classList.remove("is-live");gsap.set([track,spinner].concat(items),{clearProps:"all"});};
   });
-  measure();paint(0);
 })();
 </script>
 </body>

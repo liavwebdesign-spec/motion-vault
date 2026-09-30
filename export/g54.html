@@ -47,6 +47,9 @@ img{max-width:100%}
 .ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
 
 /* G54 · גריד מפוזר שמתכנס בגלילה */
+html,body{overflow-x:clip}
+/* הכרטיסים המפוזרים מגיעים מעבר לשולי המסך: הסקשן עצמו חותך אותם לרוחב, גם בעמוד שאין בו clip על body */
+.cv-zone{overflow-x:clip}
 .cv-head{text-align:center;max-width:44ch;margin:0 auto clamp(30px,5vw,60px)}
 .cv-head h3{font-size:clamp(26px,3.6vw,48px);margin:0 0 10px}
 .cv-head p{color:var(--muted, #6a6d85);font-size:17px;line-height:1.8;margin:0}
@@ -64,7 +67,7 @@ img{max-width:100%}
 </head>
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
-<div class="stage"><div class="cv-head"><h3>קיר העבודות</h3>
+<div class="stage cv-zone"><div class="cv-head"><h3>קיר העבודות</h3>
   <p>גלול לאט. הכרטיסים מגיעים מהחלל ומתיישבים לגריד, ובגלילה אחורה חוזרים להתפזר.</p></div>
 <div class="cv">
   <div class="ph cv-item ph-a"></div><div class="ph cv-item ph-c"></div><div class="ph cv-item ph-d"></div><div class="ph cv-item ph-e"></div>
@@ -78,6 +81,7 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;
   const grid=document.querySelector(".cv");
   const items=gsap.utils.toArray(".cv-item");
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;

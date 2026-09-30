@@ -39,12 +39,16 @@ img{max-width:100%}
 /* G56 · מדיה שנפתחת לרוחב מלא בגלילה */
 .ex{height:260vh;position:relative}
 .ex-stick{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--bg, #f7f7fa)}
+/* ב-CSS המצב הסופי (מסך מלא): בלי JS ובהפחתת תנועה רואים את הסצנה הפתוחה. הכרטיס הקטן מוצב ב-GSAP */
 .ex-media{position:absolute;inset:0;font-size:0;border-radius:0;
-  clip-path:inset(22% 26% 22% 26% round 26px)}
-.ex-cap{position:absolute;inset:0;display:grid;place-items:center;text-align:center;pointer-events:none;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
-.ex-cap h3{margin:0;color:#fff;font-size:clamp(28px,5.5vw,74px);line-height:1.1;max-width:16ch;
+  clip-path:inset(0% 0% 0% 0% round 0px)}
+.ex-cap{position:absolute;inset:0;z-index:1;display:grid;place-items:center;text-align:center;pointer-events:none;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+/* שכבת קריאות מאחורי הטקסט הלבן: המדיה יכולה להיות בהירה בכל מקום */
+.ex-cap::before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(closest-side,rgba(0,0,0,.4),transparent);opacity:var(--s,1)}
+.ex-cap h3,.ex-cap p{margin-inline:auto;pointer-events:auto}
+.ex-cap h3{margin-block:0;color:#fff;font-size:clamp(28px,5.5vw,74px);line-height:1.1;max-width:16ch;
   text-shadow:0 4px 30px rgba(0,0,0,.35)}
-.ex-cap p{margin:14px 0 0;color:#fff;opacity:0;font-size:clamp(15px,1.6vw,20px);max-width:40ch}
+.ex-cap p{margin-block:14px 0;color:#fff;font-size:clamp(15px,1.6vw,20px);max-width:40ch}
 .ex-after{padding:14vh var(--gutter, clamp(24px, 5vw, 96px));max-width:min(680px,92vw);margin-inline:auto;text-align:center;
   color:var(--muted, #6a6d85);font-size:17px;line-height:1.9}
 </style>
@@ -63,16 +67,22 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const media=document.querySelector(".ex-media"),h=document.querySelector(".ex-cap h3"),p=document.querySelector(".ex-cap p");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce){gsap.set(media,{clipPath:"inset(0% 0% 0% 0% round 0px)"});gsap.set(p,{opacity:1});return;}
-  gsap.timeline({scrollTrigger:{trigger:".ex",start:"top top",end:"bottom bottom",scrub:.6}})
-    // clip-path ולא scale: התוכן לא נמתח ולא מטשטש, רק החלון שדרכו רואים אותו גדל
-    // משכים מפורשים: בלי זה הפתיחה מסתיימת בשליש הראשון של הגלילה והשאר ריק
-    .fromTo(media,{clipPath:"inset(22% 26% 22% 26% round 26px)"},
-                  {clipPath:"inset(0% 0% 0% 0% round 0px)",duration:1,ease:"none"},0)
-    .to(h,{scale:1.08,opacity:0,duration:.45,ease:"none"},0)
-    .to(p,{opacity:1,duration:.3,ease:"none"},.68);
+  if(typeof gsap==="undefined")return;
+  const media=document.querySelector(".ex-media"),cap=document.querySelector(".ex-cap"),h=cap.querySelector("h3"),p=cap.querySelector("p");
+  // בהפחתת תנועה אין מה לעשות: ה-CSS כבר מציג את הסצנה הפתוחה, את שני הטקסטים ואת שכבת הקריאות
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    gsap.set(p,{opacity:0});
+    gsap.set(cap,{"--s":0});
+    gsap.timeline({scrollTrigger:{trigger:".ex",start:"top top",end:"bottom bottom",scrub:.6}})
+      // clip-path ולא scale: התוכן לא נמתח ולא מטשטש, רק החלון שדרכו רואים אותו גדל
+      // משכים מפורשים: בלי זה הפתיחה מסתיימת בשליש הראשון של הגלילה והשאר ריק
+      .fromTo(media,{clipPath:"inset(22% 26% 22% 26% round 26px)"},
+                    {clipPath:"inset(0% 0% 0% 0% round 0px)",duration:1,ease:"none"},0)
+      .to(h,{scale:1.08,opacity:0,duration:.45,ease:"none"},0)
+      // שכבת הקריאות עולה יחד עם משפט ההמשך
+      .to(cap,{"--s":1,duration:.3,ease:"none"},.68)
+      .to(p,{opacity:1,duration:.3,ease:"none"},.68);
+  });
 })();
 </script>
 </body>

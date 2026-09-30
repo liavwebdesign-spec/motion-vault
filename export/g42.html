@@ -47,7 +47,11 @@ img{max-width:100%}
 .hd-mark path{fill:none;stroke:var(--accent, #4a3aff);stroke-width:7;stroke-linecap:round;vector-effect:non-scaling-stroke}
 .hd-mark.warm path{stroke:#e8590c}
 .hd-arrow{display:block;width:min(240px,50vw);height:70px;margin:26px auto 0;overflow:visible}
-.hd-arrow path{fill:none;stroke:var(--muted, #6a6d85);stroke-width:3;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.hd-arrow path{fill:none;stroke:var(--muted, #6a6d85);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+/* המקף נמדד בפיקסלים של המסך (--len, מה-JS), כי vector-effect מצייר אותו כך. --p הוא החלק המצויר.
+   הפיקסל הנוסף בהיסט מונע נקודה בתחילת הקו לפני שהציור מתחיל (מקף באורך אפס עם קצה עגול).
+   בלי JS --len לא מוגדר, הערך לא תקף, והקו מצויר מלא */
+.hd-mark path,.hd-arrow path{stroke-dasharray:calc(var(--len)*1px) calc(var(--len)*1px);stroke-dashoffset:calc((var(--len)*(1 - var(--p,1)) + 1)*1px)}
 .hd-note{text-align:center;font-size:16px;font-weight:500;color:var(--muted, #6a6d85);margin-top:6px}
 </style>
 </head>
@@ -59,19 +63,39 @@ img{max-width:100%}
 <div class="stage"><p class="hd-wrap">המחיר מתחיל ב<span class="hd-mark circle warm"><span>2,900</span>
 <svg viewBox="0 0 300 120" preserveAspectRatio="none" aria-hidden="true"><path d="M262,26 C226,6 96,2 46,22 C-4,44 6,92 62,106 C132,122 268,112 288,80 C300,58 286,34 250,22"/></svg>
 </span> ש"ח בלבד.</p>
-<svg class="hd-arrow" viewBox="0 0 240 70" aria-hidden="true"><path d="M228,10 C196,44 150,60 96,58 M96,58 L118,40 M96,58 L120,66"/></svg>
+<svg class="hd-arrow" viewBox="0 0 240 70" aria-hidden="true"><path d="M228,10 C196,44 150,60 96,58 L118,40 L96,58 L120,66"/></svg>
 <p class="hd-note">גם החץ מצויר ביד</p></div>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/DrawSVGPlugin.min.js"></script>
 <script>
-if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-gsap.utils.toArray(".hd-mark svg path, .hd-arrow path").forEach(p=>{
-  gsap.fromTo(p,{drawSVG:"0% 0%"},{drawSVG:"0% 100%",duration:.75,ease:"power2.inOut",
-    scrollTrigger:{trigger:p.closest(".stage"),start:"top 62%",toggleActions:"play none none none"}});
-});
+(function(){
+  if(typeof gsap==="undefined")return;
+  const paths=gsap.utils.toArray(".hd-mark svg path, .hd-arrow path");
+  // האורך של הקו כפי שהוא מצויר על המסך: דוגמים את ה-path ומכפילים במטריצה של ה-SVG.
+  // כל path חייב להיות רצוף, בלי M באמצע: הדפדפן מתחיל את המקף מחדש בכל תת-מסלול,
+  // וראש החץ היה מצויר שלם באמצע האנימציה, מנותק מהקו. לכן ראש החץ ממשיך את אותו קו (הלוך וחזור על כנף אחת).
+  const screenLen=p=>{
+    const m=p.getScreenCTM(),L=p.getTotalLength();
+    let s=0,a=null;
+    for(let i=0;i<=256;i++){
+      const q=p.getPointAtLength(L*i/256),x=m.a*q.x+m.c*q.y,y=m.b*q.x+m.d*q.y;
+      if(a)s+=Math.hypot(x-a[0],y-a[1]);
+      a=[x,y];
+    }
+    // הדגימה מקצרת פינות חדות (ראש החץ), ולכן מעגלים למעלה עם מרווח: אורך קצר מהאמיתי היה משאיר קצה לא מצויר
+    return Math.ceil(s*1.02)+4;
+  };
+  const size=()=>paths.forEach(p=>p.style.setProperty("--len",screenLen(p)));
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    size();addEventListener("resize",size);
+    paths.forEach(p=>gsap.fromTo(p,{"--p":0},{"--p":1,duration:.75,ease:"power2.inOut",
+      scrollTrigger:{trigger:p.ownerSVGElement,start:"top 80%",toggleActions:"play none none none"}}));
+    return ()=>{removeEventListener("resize",size);paths.forEach(p=>p.style.removeProperty("--len"));};
+  });
+})();
 </script>
 </body>
 </html>

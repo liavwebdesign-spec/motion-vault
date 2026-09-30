@@ -36,8 +36,11 @@ img{max-width:100%}
 /* ===== הרכיב ===== */
 /* G35 · טקסט ענק זורם על גל בגלילה */
 html,body{overflow-x:clip}
-.wave{height:100vh;display:flex;align-items:center;overflow:hidden;background:var(--bg, #f7f7fa);border-block:1px solid var(--line, #e4e4ee)}
-.wave-track{white-space:nowrap;font-size:clamp(72px,14vw,240px);font-weight:800;line-height:1;padding-inline:var(--gutter, clamp(24px, 5vw, 96px));will-change:transform}
+/* בלי תנועה (וגם בלי JS) המשפט נשבר לשורות וכולו נקרא. השורה הרחבה והנעילה קיימות רק תחת .is-live */
+.wave{display:flex;align-items:center;overflow:hidden;background:var(--bg, #f7f7fa);border-block:1px solid var(--line, #e4e4ee);padding-block:var(--sec, clamp(120px, 12vw, 260px))}
+.wave-track{font-size:clamp(44px,9vw,140px);font-weight:800;line-height:1.1;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.wave.is-live{height:100vh;padding-block:0}
+.wave.is-live .wave-track{white-space:nowrap;font-size:clamp(72px,14vw,240px);line-height:1;will-change:transform}
 .wave-track .word{display:inline-block;will-change:transform}
 </style>
 </head>
@@ -52,13 +55,18 @@ html,body{overflow-x:clip}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger, SplitText);
 
 (function(){
+  if(typeof gsap==="undefined"||typeof SplitText==="undefined")return;
   const track=document.querySelector(".wave-track"),sec=document.querySelector(".wave");
-  const split=SplitText.create(track,{type:"words",wordsClass:"word"});
-  const words=split.words;
-  const dist=()=>Math.max(0,track.scrollWidth-sec.clientWidth);
-  const tl=gsap.timeline({scrollTrigger:{trigger:sec,start:"top top",end:"+=220%",pin:true,scrub:1,invalidateOnRefresh:true}});
-  tl.fromTo(track,{x:0},{x:()=>dist(),ease:"none"},0);
-  tl.fromTo(words,{y:i=>Math.sin(i*1.1)*70,rotation:i=>Math.sin(i*1.1)*9},{y:i=>Math.sin(i*1.1+Math.PI)*70,rotation:i=>Math.sin(i*1.1+Math.PI)*9,ease:"none"},0);
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    sec.classList.add("is-live");
+    const split=SplitText.create(track,{type:"words",wordsClass:"word"});
+    const words=split.words;
+    const dist=()=>Math.max(0,track.scrollWidth-sec.clientWidth);
+    const tl=gsap.timeline({scrollTrigger:{trigger:sec,start:"top top",end:"+=220%",pin:true,scrub:.6,invalidateOnRefresh:true}});
+    tl.fromTo(track,{x:0},{x:()=>dist(),ease:"none"},0);
+    tl.fromTo(words,{y:i=>Math.sin(i*1.1)*70,rotation:i=>Math.sin(i*1.1)*9},{y:i=>Math.sin(i*1.1+Math.PI)*70,rotation:i=>Math.sin(i*1.1+Math.PI)*9,ease:"none"},0);
+    return ()=>{split.revert();sec.classList.remove("is-live");};
+  });
 })();
 </script>
 </body>

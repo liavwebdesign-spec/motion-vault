@@ -37,7 +37,8 @@ img{max-width:100%}
 /* G48 · פסקה שנצבעת מילה-מילה בגלילה */
 .hl{max-width:min(880px,92vw);margin-inline:auto;padding-block:34vh}
 .hl p{margin:0;font-size:clamp(24px,3.4vw,46px);line-height:1.5;font-weight:600}
-.hl .w{color:var(--muted, #6a6d85);transition:none;position:relative;display:inline-block}
+/* צבע ההתחלה נגזר מהדיו ומהרקע של הפרויקט, כך שהוא שומר על 3:1 ומעלה בכל עור (ולא תלוי בכמה כהה --muted) */
+.hl .w{color:color-mix(in srgb,var(--ink, #16182b) 62%,var(--bg,#fff));transition:none;position:relative;display:inline-block}
 /* ההדגשה נפתחת מאחורי המילה. בעברית היא נפתחת מימין, מתחילת המילה */
 .hl .mk{position:relative;z-index:0;display:inline-block;padding-inline:.14em;border-radius:.16em}
 .hl .mk::before{content:"";position:absolute;inset:0;border-radius:.16em;background:var(--accent, #4a3aff);
@@ -56,6 +57,8 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  // בלי GSAP (CDN חסום) הפסקה נשארת שלמה בצבע הטקסט הרגיל
+  if(typeof gsap==="undefined")return;
   const p=document.getElementById("hl-src");
   const MARK=["פניות","בסדר","הלקוח"];          // מילות המפתח שיקבלו הדגשה
   const bare=w=>w.replace(/[.,:;!?"'׳״]/g,"");   // סימני פיסוק נדבקים למילה ושוברים השוואה
@@ -80,18 +83,30 @@ if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
     return s;
   });
   const STEP=.35;
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){
+  const mm=gsap.matchMedia();
+  mm.add("(prefers-reduced-motion: reduce)",()=>{
     gsap.set(spans,{color:"var(--ink)"});
-    gsap.set(marks.map(m=>m.mk),{color:"#fff","--fill":1});
-    return;
-  }
-  const tl=gsap.timeline({scrollTrigger:{trigger:".hl",start:"top 78%",end:"bottom 62%",scrub:.4}});
-  tl.to(spans,{color:"var(--ink)",duration:.4,stagger:STEP,ease:"none"},0);
-  // ההדגשה של כל מילת מפתח נפתחת בדיוק בזמן שהמילה שלה נצבעת
-  marks.forEach(m=>{
-    const at=m.i*STEP;
-    tl.fromTo(m.mk,{"--fill":0},{"--fill":1,duration:.4,ease:"power2.out"},at)
-      .to(m.mk,{color:"#fff",duration:.25},at+.1);
+    gsap.set(marks.map(m=>m.mk),{color:"var(--accent-ink)","--fill":1});
+  });
+  mm.add("(prefers-reduced-motion: no-preference)",()=>{
+    // GSAP לא מפענח את color(srgb ...) שהדפדפן מחזיר ל-color-mix, והטווין היה קופץ ללבן ואז מחשיך.
+    // לכן צבע ההתחלה מחושב פעם אחת ומומר ל-rgb
+    const probe=document.createElement("span");
+    probe.style.color="color-mix(in srgb, var(--ink) 62%, var(--bg, #fff))";
+    p.appendChild(probe);
+    const c=getComputedStyle(probe).color;
+    probe.remove();
+    const START=c.indexOf("color(")===0?"rgb("+c.match(/[\d.]+/g).slice(0,3).map(v=>Math.round(v*255))+")":c;
+    gsap.set(spans,{color:START});
+    const tl=gsap.timeline({scrollTrigger:{trigger:".hl",start:"top 78%",end:"bottom 62%",scrub:.4}});
+    tl.to(spans,{color:"var(--ink)",duration:.4,stagger:STEP,ease:"none"},0);
+    // ההדגשה של כל מילת מפתח נפתחת בדיוק בזמן שהמילה שלה נצבעת, והטקסט שעליה מתהפך באמצע הפתיחה:
+    // חלון המעבר קצר מחצי מילה, כך שאין רגע של מילה אפורה על גוש צבע מלא
+    marks.forEach(m=>{
+      const at=m.i*STEP;
+      tl.fromTo(m.mk,{"--fill":0},{"--fill":1,duration:.15,ease:"none"},at)
+        .to(m.mk,{color:"var(--accent-ink)",duration:.04,ease:"none"},at+.08);
+    });
   });
 })();
 </script>
