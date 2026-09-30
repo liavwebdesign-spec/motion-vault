@@ -13,6 +13,7 @@ export default [
 .bn-scr{height:100%;overflow:auto;overscroll-behavior:contain;scrollbar-width:none}
 .bn-scr::-webkit-scrollbar{display:none}
 .bn-sec{padding:32px 24px 40px}
+.bn-sec:focus{outline:none} /* יעד פוקוס אחרי בחירת קישור, לא פקד */
 .bn-sec:first-child{padding-top:56px}
 .bn-sec:last-child{padding-bottom:112px}
 .bn-sec h3{margin:0 0 8px;font-size:26px;line-height:1.15}
@@ -23,7 +24,10 @@ export default [
 .bn.open .bn-scrim{opacity:1;pointer-events:auto}
 /* משטח אחד: clip-path חותך ממנו את הגלולה בתחתית. הצל על ההורה, כי clip-path חותך גם צל */
 .bn-nav{--pw:204px;--ph:56px;position:absolute;inset-inline:16px;bottom:16px;z-index:5;
-  filter:drop-shadow(0 14px 22px color-mix(in srgb,var(--ink) 30%,transparent));transition:transform .45s cubic-bezier(.2,.6,.2,1)}
+  filter:drop-shadow(0 14px 22px color-mix(in srgb,var(--ink) 30%,transparent));transition:transform .45s cubic-bezier(.2,.6,.2,1);pointer-events:none}
+/* הקופסה של התפריט בגובה הכרטיס הפתוח גם כשהוא סגור, ושקופה היא עדיין תופסת לחיצות וגלגלת מעל חצי המסך התחתון.
+   בסגור רק הגלולה לחיצה, בפתוח כל הכרטיס */
+.bn-bar-in,.bn.open .bn-sheet{pointer-events:auto}
 .bn.hide .bn-nav{transform:translateY(calc(var(--ph) + 24px))}
 .bn-sheet{background:var(--ink);color:var(--bg);border-radius:28px;
   clip-path:inset(calc(100% - var(--ph)) calc(50% - var(--pw) / 2) 0 round 28px);transition:clip-path .5s cubic-bezier(.76,0,.24,1)}
@@ -87,19 +91,24 @@ export default [
   const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isOpen=()=>root.classList.contains("open");
   card.inert=true;
-  function set(open){
+  // to: לאן הפוקוס עובר בסגירה. בלי יעד, ורק אם הפוקוס היה בתוך הכרטיס, הוא חוזר לכפתור:
+  // inert על הכרטיס מפיל את הפוקוס ל-body, ומשתמש מקלדת היה מתחיל שוב מראש העמוד
+  function set(open,to){
+    const had=card.contains(document.activeElement);
     root.classList.toggle("open",open);root.classList.remove("hide");
     btn.setAttribute("aria-expanded",String(open));
     btn.setAttribute("aria-label",open?"סגירת התפריט":"פתיחת התפריט");
     card.inert=!open;scr.inert=open; // בזמן שהתפריט פתוח, הדף מתחת לא נגיש ולא לחיץ
     if(open)(links.find(a=>a.hasAttribute("aria-current"))||links[0]).focus({preventScroll:true});
+    else if(to||had)(to||btn).focus({preventScroll:true});
   }
   btn.addEventListener("click",()=>set(!isOpen()));
-  scrim.addEventListener("click",()=>set(false));
-  root.addEventListener("keydown",e=>{if(e.key==="Escape"&&isOpen()){set(false);btn.focus();}});
+  scrim.addEventListener("click",()=>set(false,btn));
+  root.addEventListener("keydown",e=>{if(e.key==="Escape"&&isOpen())set(false,btn);});
   links.concat(cta).forEach(a=>a.addEventListener("click",e=>{
     const t=root.querySelector(a.getAttribute("href"));if(!t)return;
-    e.preventDefault();set(false);
+    // הפוקוס עובר לסקשן שנבחר, כך שה-Tab הבא ממשיך משם
+    e.preventDefault();t.tabIndex=-1;set(false,t);
     scr.scrollTo({top:t.offsetTop,behavior:reduced?"auto":"smooth"});
   }));
   // שם הסקשן הנוכחי בגלולה, וסימון הקישור שלו בכרטיס
@@ -124,7 +133,7 @@ export default [
   },{passive:true});
 })();`,
   runway:false,
-  note:"החלטות שעושות את זה שימושי ולא רק יפה: (1) משטח אחד שנחתך ב-clip-path, ולא שתי קופסאות שמתחלפות. לכן הגלולה ממש נמתחת לכרטיס, ושום דבר לא קופץ. inset עם round נותן פינות עגולות לכל אורך המעבר. (2) הצל יושב על ההורה כ-drop-shadow, כי clip-path חותך box-shadow. (3) הקישורים בכרטיס סגור מקבלים inert: הם קיימים ב-DOM אבל לא בסדר ה-Tab. כשהכרטיס פתוח, הדף שמתחת מקבל inert והכהות סוגרת בלחיצה, ו-Escape מחזיר את הפוקוס לכפתור. (4) שם הסקשן מתחלף ב-IntersectionObserver עם שוליים של 40/55 אחוז, כך שהוא משתנה כשהסקשן באמת במרכז ולא כשנוגעים בו. (5) הגלולה יורדת רק אחרי 80 פיקסלים של גלילה ובקפיצה של יותר משישה, כדי שלא תרעד. בסוף העמוד היא חוזרת תמיד, כי שם הגולש מחפש מה לעשות הלאה. באתר אמיתי: הגלולה position:fixed ביחס לחלון, והגלילה על window במקום על .bn-scr.",
+  note:"החלטות שעושות את זה שימושי ולא רק יפה: (1) משטח אחד שנחתך ב-clip-path, ולא שתי קופסאות שמתחלפות. לכן הגלולה ממש נמתחת לכרטיס, ושום דבר לא קופץ. inset עם round נותן פינות עגולות לכל אורך המעבר. (2) הצל יושב על ההורה כ-drop-shadow, כי clip-path חותך box-shadow. (3) הקישורים בכרטיס סגור מקבלים inert: הם קיימים ב-DOM אבל לא בסדר ה-Tab. כשהכרטיס פתוח, הדף שמתחת מקבל inert והכהות סוגרת בלחיצה. Escape ולחיצה על הכהות מחזירים את הפוקוס לכפתור, ובחירת קישור מעבירה אותו לסקשן שנבחר: inert על כרטיס שהפוקוס בתוכו מפיל את הפוקוס ל-body, ומשתמש מקלדת היה מתחיל שוב מראש העמוד. (4) שם הסקשן מתחלף ב-IntersectionObserver עם שוליים של 40/55 אחוז, כך שהוא משתנה כשהסקשן באמת במרכז ולא כשנוגעים בו. (5) הגלולה יורדת רק אחרי 80 פיקסלים של גלילה ובקפיצה של יותר משישה, כדי שלא תרעד. בסוף העמוד היא חוזרת תמיד, כי שם הגולש מחפש מה לעשות הלאה. באתר אמיתי: הגלולה position:fixed ביחס לחלון, והגלילה על window במקום על .bn-scr.",
 },
 {
   id:"g150", cat:"gsap", name:"אקורדיון שנפתח בגלילה", tech:"GSAP · ScrollTrigger pin", status:"מאושר-עין",
@@ -138,7 +147,7 @@ export default [
 .sa-pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(32px,5vw,96px);align-items:center;min-height:min(80vh,700px)}
 .sa-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .sa-item{padding-block:16px}
-.sa-q{display:flex;align-items:baseline;gap:16px;width:100%;padding:0;border:0;background:none;font:inherit;color:inherit;text-align:start;cursor:pointer}
+.sa-q{display:flex;align-items:baseline;gap:16px;width:100%;padding:10px 0;margin-block:-10px;border:0;background:none;font:inherit;color:inherit;text-align:start;cursor:pointer}
 .sa-q:focus-visible{outline:2px solid var(--accent);outline-offset:6px;border-radius:6px}
 .sa-n{flex:none;width:24px;font-size:15px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;transition:color .35s}
 .sa-t{font-size:clamp(22px,2vw,34px);font-weight:600;line-height:1.15;color:color-mix(in srgb,var(--ink) 40%,var(--bg));transition:color .4s cubic-bezier(.2,.6,.2,1)}
@@ -183,7 +192,6 @@ export default [
   </div>
 </section>`,
   js:`(function(){
-  gsap.registerPlugin(ScrollTrigger);
   const root=document.querySelector(".sa"),items=[...root.querySelectorAll(".sa-item")],imgs=[...root.querySelectorAll(".sa-img")];
   const bars=items.map(it=>it.querySelector(".sa-bar i")),n=items.length;
   let cur=-1,st=null;
@@ -199,6 +207,9 @@ export default [
     const y=st.start+(st.end-st.start)*(i+.5)/n;
     window.scrollTo({top:y,behavior:"smooth"});
   }));
+  // בלי GSAP (CDN חסום) זה אקורדיון רגיל בלחיצה. קודם registerPlugin היה השורה הראשונה, נפל, ואף שלב לא נפתח
+  if(typeof gsap==="undefined"){show(0);return;}
+  gsap.registerPlugin(ScrollTrigger);
   const mm=gsap.matchMedia();
   mm.add("(min-width:1024px) and (prefers-reduced-motion: no-preference)",()=>{
     st=ScrollTrigger.create({trigger:root.querySelector(".sa-pin"),start:"center center",end:"+="+(n*55)+"%",pin:true,anticipatePin:1,
@@ -212,7 +223,7 @@ export default [
   show(0);
 })();`,
   runway:true,
-  note:"הנעילה מתוקצבת: 55 אחוז מגובה המסך לכל שלב, כלומר 2.2 מסכים לארבעה שלבים, מתחת לתקרה של 2.5 בקצב העמוד (engine/spacing-and-axes.md). השלב הפעיל נקבע מהתקדמות הנעילה, והפתיחה עצמה היא transition של CSS (grid-template-rows מ-0fr ל-1fr) ולא scrub, כדי שטקסט לא ייקרא כשהוא חצי פתוח. רק הפס קשור ישירות לגלילה, ולכן הוא מקבל transition:none בזמן הנעילה. במובייל ובתנועה מופחתת אין נעילה: זה אקורדיון רגיל, והתמונה עוברת לתוך כל שלב (sa-thumb), כי אין עמודה שנייה לשים אותה בה. הכפתורים נשארים כפתורים עם aria-expanded בשני המצבים, כך שגם במצב הנעול אפשר להגיע לכל שלב במקלדת.",
+  note:"הנעילה מתוקצבת: 55 אחוז מגובה המסך לכל שלב, כלומר 2.2 מסכים לארבעה שלבים, מתחת לתקרה של 2.5 בקצב העמוד (engine/spacing-and-axes.md). השלב הפעיל נקבע מהתקדמות הנעילה, והפתיחה עצמה היא transition של CSS (grid-template-rows מ-0fr ל-1fr) ולא scrub, כדי שטקסט לא ייקרא כשהוא חצי פתוח. רק הפס קשור ישירות לגלילה, ולכן הוא מקבל transition:none בזמן הנעילה. במובייל, בתנועה מופחתת וכש-GSAP לא נטען אין נעילה: זה אקורדיון רגיל, והתמונה עוברת לתוך כל שלב (sa-thumb), כי אין עמודה שנייה לשים אותה בה. הכפתורים נשארים כפתורים עם aria-expanded בשני המצבים, כך שגם במצב הנעול אפשר להגיע לכל שלב במקלדת.",
 },
 {
   id:"b68", cat:"behavior", name:"רשת נקודות שנדלקת סביב הסמן", tech:"Canvas · pointer", status:"מאושר-עין",
@@ -334,6 +345,10 @@ export default [
 .sk-count b.roll{animation:sk-roll .35s cubic-bezier(.2,.6,.2,1)}
 @keyframes sk-roll{from{transform:translateY(60%);opacity:0}to{transform:none;opacity:1}}
 @media (max-width:767px){.sk{grid-template-columns:1fr}.sk-head{grid-row:auto}.sk-deck{height:340px}}
+/* בלי GSAP (CDN חסום): רשימת המלצות רגילה. בלי זה הכרטיסים נערמים באותו מקום, רק האחרון נראה, והחצים לא עובדים */
+.sk.sk-list .sk-deck{height:auto;display:grid;gap:16px}
+.sk.sk-list .sk-card{position:relative;inset:auto;cursor:auto}
+.sk.sk-list .sk-ctrl{display:none}
 @media (prefers-reduced-motion: reduce){.sk-count b.roll{animation:none}}`,
   html:`<div class="stage tight"><section class="sk" aria-label="המלצות">
   <header class="sk-head"><h2>מה אומרים עלינו</h2><p>גררו את הכרטיס הצידה, או השתמשו בחצים.</p></header>
@@ -351,6 +366,7 @@ export default [
   </div>
 </section></div>`,
   js:`(function(){
+  if(typeof gsap==="undefined"){document.querySelector(".sk").classList.add("sk-list");return;}   // בלי GSAP: רשימה רגילה
   const deck=document.querySelector(".sk-deck"),num=document.querySelector(".sk-count b");
   const cards=[...deck.querySelectorAll(".sk-card")],n=cards.length;
   const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -411,7 +427,7 @@ export default [
   layout(false);
 })();`,
   runway:false,
-  note:"(1) רק הכרטיס העליון נגיש (inert על השאר), וה-live region הוא המונה, כך שקורא מסך שומע \"02\" ולא חמש המלצות בבת אחת. (2) touch-action:pan-y על הכרטיס, וההחלטה אם זו גרירה או גלילה נופלת בשמונת הפיקסלים הראשונים: אם התנועה אנכית, הגרירה משתחררת והדף נגלל. בלי זה, ערימה בטלפון לוכדת את הגלילה. (3) הסף הוא מרחק (110 פיקסלים) או מהירות (0.7 פיקסל למילישנייה), כך שגם הטלה קצרה ומהירה עובדת. (4) היציאה ב-power2.in, כי זו יציאה (motion.md: ease-in רק ליציאות), והעלייה של השאר ב-power3.out. (5) החץ הקודם מחזיר כרטיס מהצד שאליו החץ הבא זורק, כך שהערימה מרגישה כמו חפיסה אחת ולא שני כיוונים.",
+  note:"(1) רק הכרטיס העליון נגיש (inert על השאר), וה-live region הוא המונה, כך שקורא מסך שומע \"02\" ולא חמש המלצות בבת אחת. (2) touch-action:pan-y על הכרטיס, וההחלטה אם זו גרירה או גלילה נופלת בשמונת הפיקסלים הראשונים: אם התנועה אנכית, הגרירה משתחררת והדף נגלל. בלי זה, ערימה בטלפון לוכדת את הגלילה. (3) הסף הוא מרחק (110 פיקסלים) או מהירות (0.7 פיקסל למילישנייה), כך שגם הטלה קצרה ומהירה עובדת. (4) היציאה ב-power2.in, כי זו יציאה (motion.md: ease-in רק ליציאות), והעלייה של השאר ב-power3.out. (5) החץ הקודם מחזיר כרטיס מהצד שאליו החץ הבא זורק, כך שהערימה מרגישה כמו חפיסה אחת ולא שני כיוונים. (6) כש-GSAP לא נטען (CDN חסום) הערימה הופכת לרשימת המלצות רגילה בלי חצים, כדי שכל ההמלצות נקראות ולא רק האחרונה.",
 },
 {
   id:"g151", cat:"gsap", name:"קרוסלה על קשת", tech:"GSAP · ticker · pointer", status:"מאושר-עין",
@@ -458,7 +474,7 @@ export default [
   <div class="ac-cap" aria-live="polite"><b class="ac-t"></b><span class="ac-m"></span></div>
   <div class="ac-ctrl">
     <button class="ac-prev" type="button" aria-label="לפרויקט הקודם"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-    <button class="ac-play" type="button" aria-pressed="true" aria-label="עצירת ההתקדמות האוטומטית"><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
+    <button class="ac-play" type="button" aria-pressed="true" aria-label="התקדמות אוטומטית"><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
     <button class="ac-next" type="button" aria-label="לפרויקט הבא"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
   </div>
 </section>`,
@@ -466,6 +482,12 @@ export default [
   const root=document.querySelector(".ac"),stage=root.querySelector(".ac-stage"),cards=[...root.querySelectorAll(".ac-card")],n=cards.length;
   const cap=root.querySelector(".ac-cap"),capT=root.querySelector(".ac-t"),capM=root.querySelector(".ac-m"),play=root.querySelector(".ac-play");
   const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // בלי GSAP (CDN חסום) הקשת עובדת בלי מעברים: המיקום נקבע ישר ב-style, ומעבר בין כרטיסים הוא קפיצה
+  const G=typeof gsap!=="undefined"?gsap:{
+    set:(el,v)=>{el.style.transform="translate("+v.x+"px,"+v.y+"px) rotate("+v.rotation+"deg) scale("+v.scale+")";el.style.opacity=v.opacity;el.style.zIndex=v.zIndex;},
+    to:(o,v)=>{o.pos=v.pos;if(v.onUpdate)v.onUpdate();if(v.onComplete)v.onComplete();return {kill(){}};},
+    delayedCall:(t,f)=>{const id=setTimeout(f,t*1000);return {kill(){clearTimeout(id);}};}
+  };
   const S={pos:0};let R=900,step=.2,vis=2.6,active=-1,tween=null,auto=null,userPaused=reduced,hover=false,inView=false;
   const wrap=v=>{v=((v%n)+n)%n;return v>n/2?v-n:v;};
   function measure(){
@@ -476,7 +498,7 @@ export default [
     cards.forEach((c,i)=>{
       const rel=wrap(i-S.pos),a=rel*step,far=Math.abs(rel);
       // בעברית הכרטיס הבא יושב משמאל, ולכן x הפוך
-      gsap.set(c,{x:-Math.sin(a)*R,y:R*(1-Math.cos(a)),rotation:-a*57.2958,scale:1+.07*Math.max(0,1-far),
+      G.set(c,{x:-Math.sin(a)*R,y:R*(1-Math.cos(a)),rotation:-a*57.2958,scale:1+.07*Math.max(0,1-far),
         opacity:far>vis?0:Math.min(1,vis-far+.35),zIndex:100-Math.round(far*10)});
     });
     const i=((Math.round(S.pos)%n)+n)%n;
@@ -488,21 +510,21 @@ export default [
   }
   function go(target,dur){
     if(tween)tween.kill();
-    tween=gsap.to(S,{pos:target,duration:reduced?.01:(dur||.9),ease:dur?"power3.out":"power3.inOut",onUpdate:render,onComplete:schedule});
+    tween=G.to(S,{pos:target,duration:reduced?.01:(dur||.9),ease:dur?"power3.out":"power3.inOut",onUpdate:render,onComplete:schedule});
   }
   const step1=d=>go(Math.round(S.pos)+d);
   // עצירות אוטומטיות: רק כשהקשת על המסך, בלי ריחוף, בלי פוקוס, ורק אם הגולש לא עצר
   function schedule(){
     if(auto)auto.kill();auto=null;
     if(userPaused||hover||!inView||document.hidden||root.contains(document.activeElement))return;
-    auto=gsap.delayedCall(3.4,()=>step1(1));
+    auto=G.delayedCall(3.4,()=>step1(1));
   }
   function stop(){if(auto)auto.kill();auto=null;}
   root.querySelector(".ac-next").addEventListener("click",()=>{stop();step1(1);});
   root.querySelector(".ac-prev").addEventListener("click",()=>{stop();step1(-1);});
   play.addEventListener("click",()=>{
+    // כפתור מתג: התווית קבועה והמצב נאמר ב-aria-pressed ("התקדמות אוטומטית, לחוץ")
     userPaused=!userPaused;play.setAttribute("aria-pressed",String(!userPaused));
-    play.setAttribute("aria-label",userPaused?"הפעלת ההתקדמות האוטומטית":"עצירת ההתקדמות האוטומטית");
     if(userPaused)stop();else schedule();
   });
   stage.addEventListener("keydown",e=>{
@@ -541,11 +563,11 @@ export default [
   new ResizeObserver(measure).observe(stage);
   new IntersectionObserver(es=>{inView=es[0].isIntersecting;if(inView)schedule();else stop();},{threshold:.4}).observe(stage);
   document.addEventListener("visibilitychange",()=>{if(document.hidden)stop();else schedule();});
-  if(reduced){play.setAttribute("aria-pressed","false");play.setAttribute("aria-label","הפעלת ההתקדמות האוטומטית");}
+  if(reduced)play.setAttribute("aria-pressed","false");
   measure();
 })();`,
   runway:false,
-  note:"(1) המצב כולו הוא מספר אחד, pos, וכל כרטיס מחושב ממנו: זווית על הקשת, מיקום, הטיה ושקיפות. לכן גרירה, חצים, מקלדת והתקדמות אוטומטית לא מתנגשים: כולם רק מזיזים את pos. (2) התנופה מחושבת מהמהירות בסוף הגרירה ומעוגלת לכרטיס שלם, כך שהקשת לעולם לא נעצרת בין שני כרטיסים. (3) התקדמות אוטומטית היא עצירות כל 3.4 שניות ולא סחיפה רציפה, כדי שאפשר יהיה לקרוא את הכותרת. היא נעצרת בריחוף, בפוקוס, בגרירה, מחוץ למסך ובלשונית נסתרת, ויש כפתור עצירה (WCAG 2.2.2: תנועה אוטומטית של יותר מחמש שניות). בתנועה מופחתת היא כבויה מההתחלה. (4) רק הכרטיס שבמרכז חשוף לקורא מסך, והכותרת שמתחת היא ה-live region.",
+  note:"(1) המצב כולו הוא מספר אחד, pos, וכל כרטיס מחושב ממנו: זווית על הקשת, מיקום, הטיה ושקיפות. לכן גרירה, חצים, מקלדת והתקדמות אוטומטית לא מתנגשים: כולם רק מזיזים את pos. (2) התנופה מחושבת מהמהירות בסוף הגרירה ומעוגלת לכרטיס שלם, כך שהקשת לעולם לא נעצרת בין שני כרטיסים. (3) התקדמות אוטומטית היא עצירות כל 3.4 שניות ולא סחיפה רציפה, כדי שאפשר יהיה לקרוא את הכותרת. היא נעצרת בריחוף, בפוקוס, בגרירה, מחוץ למסך ובלשונית נסתרת, ויש כפתור עצירה (WCAG 2.2.2: תנועה אוטומטית של יותר מחמש שניות). בתנועה מופחתת היא כבויה מההתחלה. (4) רק הכרטיס שבמרכז חשוף לקורא מסך, והכותרת שמתחת היא ה-live region. כפתור העצירה הוא מתג: התווית קבועה (\"התקדמות אוטומטית\") והמצב נאמר ב-aria-pressed. (5) כש-GSAP לא נטען (CDN חסום) הקשת עדיין עובדת: שלוש הפעולות שהיא צריכה ממנו (set, to, delayedCall) מוחלפות בגיבוי קטן, והמעבר בין כרטיסים הוא קפיצה במקום גלישה.",
 },
 {
   id:"b70", cat:"behavior", name:"כפתור שיתוף שנפרש", tech:"CSS · JS · Web Share API", status:"מאושר-עין",
@@ -568,6 +590,7 @@ export default [
 .shr.open .shr-ic{opacity:0;transform:rotate(90deg) scale(.6)}
 .shr.open .shr-x{opacity:1;transform:none}
 .shr-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.shr-list[hidden]{display:none} /* סגורה לא תופסת מקום: בלי זה נשאר חור של שורת עיגולים שקופה */
 .shr-list li{position:relative;opacity:0;transform:translateX(24px) scale(.6);transition:opacity .15s,transform .15s}
 .shr.open .shr-list li{opacity:1;transform:none;transition:opacity .3s calc(var(--i) * 50ms),transform .45s calc(var(--i) * 50ms) cubic-bezier(.2,.6,.2,1)}
 .shr-it{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink);cursor:pointer;
@@ -640,18 +663,29 @@ export default [
         e.preventDefault();window.open(el.href,"_blank","noopener,noreferrer,width=640,height=580");setTimeout(()=>set(false),250);
       });
     });
-    list.inert=true;
+    list.hidden=true;list.inert=true;
+    // פתיחה: קודם מציגים את השורה (hidden), ורק בפריים הבא מוסיפים open כדי שהמעבר ירוץ ממצב סגור.
+    // סגירה: המעבר רץ, ואחריו השורה מוסתרת שוב ולא תופסת מקום
+    let hideT=0;
+    const isOpen=()=>btn.getAttribute("aria-expanded")==="true"; // המצב, גם בפריים שבו open עוד לא נוסף
     function set(open){
-      box.classList.toggle("open",open);btn.setAttribute("aria-expanded",String(open));list.inert=!open;
-      if(open)list.querySelector(".shr-it").focus({preventScroll:true});
+      btn.setAttribute("aria-expanded",String(open));list.inert=!open;clearTimeout(hideT);
+      if(open){
+        list.hidden=false;
+        requestAnimationFrame(()=>requestAnimationFrame(()=>{if(isOpen())box.classList.add("open");}));
+        list.querySelector(".shr-it").focus({preventScroll:true});
+      }else{
+        box.classList.remove("open");
+        hideT=setTimeout(()=>{if(!isOpen())list.hidden=true;},200);
+      }
     }
     btn.addEventListener("click",()=>{
       // בטלפון: חלון השיתוף של המכשיר, שם כבר נמצאות האפליקציות שהגולש באמת משתמש בהן
       if(coarse&&navigator.share){navigator.share({title:title,url:url}).catch(()=>{});return;}
-      set(!box.classList.contains("open"));
+      set(!isOpen());
     });
-    box.addEventListener("keydown",e=>{if(e.key==="Escape"&&box.classList.contains("open")){set(false);btn.focus();}});
-    document.addEventListener("pointerdown",e=>{if(box.classList.contains("open")&&!box.contains(e.target))set(false);});
+    box.addEventListener("keydown",e=>{if(e.key==="Escape"&&isOpen()){set(false);btn.focus();}});
+    document.addEventListener("pointerdown",e=>{if(isOpen()&&!box.contains(e.target))set(false);});
   });
   function copy(text,el){
     const done=()=>{
@@ -663,6 +697,6 @@ export default [
   }
 })();`,
   runway:false,
-  note:"(1) לחיצה ולא ריחוף: בטלפון אין ריחוף, ובמחשב שורה שנפתחת כשעוברים ליד הכפתור מבהילה. (2) בטלפון (pointer:coarse) עם navigator.share, הכפתור פותח את חלון השיתוף של המכשיר, כי שם כבר נמצאות האפליקציות שהגולש משתמש בהן, כולל וואטסאפ. השורה היא הגיבוי במחשב. (3) כל רשת נפתחת בחלון קטן (window.open עם noopener), והקישור עצמו אמיתי, כך שגם בלי JS הוא עובד. מייל פותח את תוכנת המייל. (4) העיגולים בשורה סגורה מקבלים inert, Escape סוגר ומחזיר פוקוס לכפתור, ולחיצה מחוץ לשורה סוגרת. (5) צבעי הרשתות קבועים ואינם מהעור, כי זה הצבע שהעין מזהה. וואטסאפ בגוון הכהה #128C7E, כי אייקון לבן על הירוק המוכר #25D366 הוא 2:1 בלבד. מייל והעתקה בצבע הדיו של העור. (6) העתקה עם navigator.clipboard, ובלי הקשר מאובטח גיבוי ב-execCommand. ההודעה \"הקישור הועתק\" ב-live region, והאייקון הופך לוי לשתי שניות.",
+  note:"(1) לחיצה ולא ריחוף: בטלפון אין ריחוף, ובמחשב שורה שנפתחת כשעוברים ליד הכפתור מבהילה. (2) בטלפון (pointer:coarse) עם navigator.share, הכפתור פותח את חלון השיתוף של המכשיר, כי שם כבר נמצאות האפליקציות שהגולש משתמש בהן, כולל וואטסאפ. השורה היא הגיבוי במחשב. (3) כל רשת נפתחת בחלון קטן (window.open עם noopener), והקישור עצמו אמיתי, כך שגם בלי JS הוא עובד. מייל פותח את תוכנת המייל. (4) השורה הסגורה מוסתרת (hidden) ולא תופסת מקום: שקופה בלבד היא השאירה חור ליד הכפתור, ובטלפון שורה ריקה שלמה. בפתיחה היא מוצגת ורק בפריים הבא נפתחת, כדי שהמעבר ירוץ, ובסגירה היא מוסתרת אחרי המעבר. Escape סוגר ומחזיר פוקוס לכפתור, ולחיצה מחוץ לשורה סוגרת. (5) צבעי הרשתות קבועים ואינם מהעור, כי זה הצבע שהעין מזהה. וואטסאפ בגוון הכהה #128C7E, כי אייקון לבן על הירוק המוכר #25D366 הוא 2:1 בלבד. מייל והעתקה בצבע הדיו של העור. (6) העתקה עם navigator.clipboard, ובלי הקשר מאובטח גיבוי ב-execCommand. ההודעה \"הקישור הועתק\" ב-live region, והאייקון הופך לוי לשתי שניות.",
 },
 ];
