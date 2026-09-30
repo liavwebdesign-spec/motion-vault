@@ -36,13 +36,17 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* G134 · מעבר דרך הסקשן אל הבא */
-.zt2{position:relative;height:200vh}
-.zt2-pin{position:sticky;top:0;height:100vh;overflow:hidden;perspective:1000px}
-.zt2-a,.zt2-b{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;will-change:transform,opacity}
-.zt2-a{background:var(--card, #fff);z-index:2}
-.zt2-b{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);opacity:0}
+/* בלי GSAP ובהפחתת תנועה: שני סקשנים רגילים זה אחרי זה. ההצמדה והשכבות רק כשהמהלך רץ (.gsap-live) */
+.zt2{position:relative}
+.zt2-a,.zt2-b{display:grid;place-items:center;text-align:center;padding:24px;min-height:100vh}
+.zt2-a{background:var(--card, #fff)}
+.zt2-b{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
 .zt2-a h2,.zt2-b h2{margin:0 0 10px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));max-width:20ch}
 .zt2-a p,.zt2-b p{margin:0;opacity:.75;max-width:40ch;line-height:1.7}
+.zt2.gsap-live{height:200vh}
+.zt2.gsap-live .zt2-pin{position:sticky;top:0;height:100vh;overflow:hidden;perspective:1000px}
+.zt2.gsap-live .zt2-a,.zt2.gsap-live .zt2-b{position:absolute;inset:0;min-height:0;will-change:transform,opacity}
+.zt2.gsap-live .zt2-a{z-index:2}
 </style>
 </head>
 <body>
@@ -60,11 +64,19 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(".zt2-a",{opacity:0});gsap.set(".zt2-b",{opacity:1});return;}
-  const mob=matchMedia("(max-width:767px)").matches;
-  gsap.timeline({scrollTrigger:{trigger:".zt2",start:"top top",end:"bottom bottom",scrub:.6}})
-    .to(".zt2-a",{scale:mob?1.8:2.4,opacity:0,duration:1,ease:"power2.in"},0)
-    .fromTo(".zt2-b",{scale:.6,opacity:0},{scale:1,opacity:1,duration:1,ease:"power2.out"},.15);
+  if(typeof gsap==="undefined")return;      // בלי GSAP שני הסקשנים זה אחרי זה
+  const root=document.querySelector(".zt2"),a=root.querySelector(".zt2-a"),b=root.querySelector(".zt2-b");
+  // בהפחתת תנועה אף תנאי לא מתקיים, והסקשנים נשארים זה אחרי זה
+  gsap.matchMedia().add({desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)",mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    root.classList.add("gsap-live");
+    gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}})
+      .to(a,{scale:ctx.conditions.mob?1.8:2.4,opacity:0,duration:1,ease:"power2.in"},0)
+      .fromTo(b,{scale:.6,opacity:0},{scale:1,opacity:1,duration:1,ease:"power2.out"},.15)
+      // הטקסט היוצא נעלם לפני שהנכנס מופיע: באמצע רגע בלי טקסט, כמו מעבר בדלת, ולא טקסט על טקסט
+      .to(a.firstElementChild,{opacity:0,duration:.3,ease:"none"},.1)
+      .fromTo(b.firstElementChild,{opacity:0},{opacity:1,duration:.3,ease:"none"},.55);
+    return()=>root.classList.remove("gsap-live");
+  });
 })();
 </script>
 </body>

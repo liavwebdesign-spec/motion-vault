@@ -40,14 +40,19 @@ img{max-width:100%}
 .ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
 
 /* G148 · כתם דיו שמתפשט וחושף */
-.ink{position:relative;height:200vh}
-.ink-pin{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--bg, #f7f7fa);display:grid;place-items:center}
-.ink-a{position:relative;z-index:1;text-align:center;max-width:30ch;padding:24px}
+/* בלי GSAP ובהפחתת תנועה: שתי הסצנות זו אחרי זו, בלי מסכה. ההצמדה והכתם רק כשהמהלך רץ (.gsap-live) */
+.ink{position:relative}
+.ink-pin{background:var(--bg, #f7f7fa)}
+.ink-a{position:relative;z-index:1;text-align:center;max-width:30ch;padding:24px;min-height:100vh;display:grid;place-content:center;margin-inline:auto}
 .ink-a h2{margin:0 0 8px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
 .ink-a p{margin:0;color:var(--muted, #6a6d85)}
-.ink-b{position:absolute;inset:0;z-index:2;display:grid;place-items:center;text-align:center;color:var(--bg, #f7f7fa);background:var(--ink, #16182b);mask:url(#ink-m);-webkit-mask:url(#ink-m);padding:24px}
+.ink-b{position:relative;min-height:100vh;display:grid;place-items:center;text-align:center;color:var(--bg, #f7f7fa);background:var(--ink, #16182b);padding:24px}
+.ink.gsap-live{height:200vh}
+.ink.gsap-live .ink-pin{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center}
+.ink.gsap-live .ink-a{min-height:0;display:block;margin:0}
+.ink.gsap-live .ink-b{position:absolute;inset:0;z-index:2;min-height:0;mask:url(#ink-m);-webkit-mask:url(#ink-m)}
 .ink-b .ph{position:absolute;inset:0;border-radius:0;opacity:.35;font-size:0}
-.ink-b div{position:relative;max-width:30ch}
+.ink-b>div:not(.ph){position:relative;max-width:30ch}
 .ink-b h2{margin:0 0 8px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
 .ink-b p{margin:0;opacity:.85}
 .ink-svg{position:absolute;width:0;height:0}
@@ -56,7 +61,7 @@ img{max-width:100%}
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="ink">
-  <svg class="ink-svg" aria-hidden="true"><defs><mask id="ink-m" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox"><path class="ink-blob" fill="#fff" d="M.5 .42 C.56 .38 .63 .4 .64 .47 C.65 .53 .6 .58 .54 .59 C.48 .6 .41 .57 .4 .5 C.39 .45 .44 .43 .5 .42 Z"/></mask></defs></svg>
+  <svg class="ink-svg" aria-hidden="true"><defs><mask id="ink-m" maskUnits="objectBoundingBox" maskContentUnits="objectBoundingBox"><path class="ink-blob" fill="#fff" d="M.5 .42 C.56 .38 .63 .4 .64 .47 C.65 .53 .6 .58 .54 .59 C.48 .6 .41 .57 .4 .5 C.39 .45 .44 .46 .5 .42 Z"/></mask></defs></svg>
   <div class="ink-pin">
     <div class="ink-a"><h2>לפני הדיו</h2><p>עמוד שקט, ואז משהו מתפשט.</p></div>
     <div class="ink-b"><div class="ph ph-b"></div><div><h2>ומה שנחשף</h2><p>הפרק האמנותי של האתר, בצבעים שלו.</p></div></div>
@@ -69,12 +74,20 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const blob=document.querySelector(".ink-blob");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(blob,{scale:30,transformOrigin:"50% 50%"});return;}
-  const mob=matchMedia("(max-width:767px)").matches;
-  gsap.set(blob,{scale:.05,transformOrigin:"50% 50%",x:mob?0:.18,y:mob?0:-.12});   // יחידות objectBoundingBox: 1 = כל המכל
-  gsap.timeline({scrollTrigger:{trigger:".ink",start:"top top",end:"bottom bottom",scrub:.6}})
-    .to(blob,{scale:30,ease:"power2.in",duration:1});
+  if(typeof gsap==="undefined")return;      // בלי GSAP שתי הסצנות זו אחרי זו
+  const root=document.querySelector(".ink"),blob=root.querySelector(".ink-blob");
+  // בהפחתת תנועה אף תנאי לא מתקיים: הסצנות נשארות זו אחרי זו
+  gsap.matchMedia().add({desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)",mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    root.classList.add("gsap-live");
+    const mob=ctx.conditions.mob;
+    gsap.set(blob,{scale:.05,transformOrigin:"50% 50%",x:mob?0:.18,y:mob?0:-.12});   // יחידות objectBoundingBox: 1 = כל המכל
+    // המסכה לא חוסמת לחיצות: עד שהכתם מכסה את רוב המסך, הסצנה הראשונה היא זו שמקבלת אותן
+    const b=root.querySelector(".ink-b");
+    gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,onUpdate:s=>{b.style.pointerEvents=s.progress>.7?"":"none";}}})
+      .to(blob,{scale:30,ease:"power2.in",duration:1});
+    b.style.pointerEvents="none";
+    return()=>{root.classList.remove("gsap-live");b.style.pointerEvents="";};
+  });
 })();
 </script>
 </body>

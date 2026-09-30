@@ -36,13 +36,17 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* G142 · קבלה שמודפסת בגלילה */
-.rc{position:relative;height:220vh}
-.rc-pin{position:sticky;top:0;height:100vh;display:grid;justify-items:center;align-content:start;padding-top:10vh}
+/* בלי GSAP ובהפחתת תנועה: הקבלה גלויה כולה, בלי נעילה. הנעילה והחיתוך רק כשהמהלך רץ (.gsap-live) */
+.rc{position:relative}
+.rc-pin{display:grid;justify-items:center;align-content:start;padding-block:48px}
+.rc.gsap-live{height:220vh}
+.rc.gsap-live .rc-pin{position:sticky;top:0;height:100vh;padding-block:10vh 0}
 .rc-slot{width:min(420px,86vw);height:16px;border-radius:8px;background:var(--ink, #16182b);position:relative;z-index:2;box-shadow:0 8px 20px rgba(0,0,0,.2)}
 .rc-paper{width:min(380px,80vw);background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:26px 22px 40px;font-family:ui-monospace,"Courier New",monospace;font-size:14px;color:var(--ink, #16182b);margin-top:-4px;
-  clip-path:inset(0 0 100% 0);will-change:clip-path;position:relative;box-shadow:0 20px 50px rgba(0,0,0,.1)}
+  position:relative;box-shadow:0 20px 50px rgba(0,0,0,.1)}
+.rc.gsap-live .rc-paper{will-change:clip-path}
 .rc-paper::after{content:"";position:absolute;inset-inline:0;bottom:-8px;height:8px;background:linear-gradient(-45deg,transparent 6px,var(--card, #fff) 6px) 0 0/16px 8px,linear-gradient(45deg,transparent 6px,var(--card, #fff) 6px) 8px 0/16px 8px}
-.rc-h{text-align:center;font-weight:700;letter-spacing:.14em;margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed var(--line, #e4e4ee)}
+.rc-h{text-align:center;font-weight:700;margin-bottom:14px;padding-bottom:12px;border-bottom:1px dashed var(--line, #e4e4ee)}
 .rc-l{display:flex;justify-content:space-between;gap:12px;padding:6px 0}
 .rc-l.tot{border-top:1px dashed var(--line, #e4e4ee);margin-top:8px;padding-top:12px;font-weight:700;font-size:16px}
 .rc-f{text-align:center;color:var(--muted, #6a6d85);margin-top:14px;font-size:12px}
@@ -70,9 +74,14 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const paper=document.querySelector(".rc-paper");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){paper.style.clipPath="inset(0 0 0% 0)";return;}
-  gsap.fromTo(paper,{clipPath:"inset(0 0 100% 0)"},{clipPath:"inset(0 0 0% 0)",ease:"none",scrollTrigger:{trigger:".rc",start:"top top",end:"bottom bottom",scrub:.4}});
+  if(typeof gsap==="undefined")return;      // בלי GSAP הקבלה גלויה כולה
+  const root=document.querySelector(".rc"),paper=root.querySelector(".rc-paper");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("gsap-live");
+    // הסוף ב-3%- ולא ב-0: inset(0) חותך גם את שן המסור שיושבת מתחת לקופסה
+    gsap.fromTo(paper,{clipPath:"inset(0 0 100% 0)"},{clipPath:"inset(0 0 -3% 0)",ease:"none",scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.4}});
+    return()=>root.classList.remove("gsap-live");
+  });
 })();
 </script>
 </body>

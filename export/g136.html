@@ -42,19 +42,29 @@ img{max-width:100%}
 .ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}
 
 /* G136 · שתי תמונות שמתמזגות לאחת */
-.dv{position:relative;height:200vh}
-.dv-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center}
-.dv-fig{position:relative;width:min(900px,92vw);aspect-ratio:16/9;border-radius:var(--r, 14px);overflow:hidden}
-.dv-fig .ph{position:absolute;inset:0;border-radius:0;font-size:24px;will-change:transform,opacity}
-.dv-lbl{position:absolute;top:16px;inset-inline-start:16px;background:color-mix(in srgb,var(--bg, #f7f7fa) 92%,transparent);color:var(--ink, #16182b);padding:8px 14px;border-radius:999px;font-size:14px;font-weight:600;z-index:2}
+/* בלי GSAP ובהפחתת תנועה: לפני ואחרי זו לצד זו, כל אחת עם תווית. השכבות והנעילה רק כשהמהלך רץ (.gsap-live) */
+.dv{position:relative}
+.dv-pin{padding-block:48px}
+.dv-fig{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px;width:min(900px,92vw);margin-inline:auto}
+.dv-fig .ph{position:relative;aspect-ratio:16/9;font-size:24px}
+.dv-before{order:-1}
+.dv-fig .ph::after,.dv-lbl{position:absolute;top:16px;inset-inline-start:16px;background:color-mix(in srgb,var(--bg, #f7f7fa) 92%,transparent);color:var(--ink, #16182b);padding:8px 14px;border-radius:999px;font-size:14px;font-weight:600;z-index:2}
+.dv-fig .ph::after{content:attr(data-label)}
+.dv-lbl{display:none}
+.dv.gsap-live{height:200vh}
+.dv.gsap-live .dv-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;padding-block:0}
+.dv.gsap-live .dv-fig{display:block;position:relative;aspect-ratio:16/9;border-radius:var(--r, 14px);overflow:hidden}
+.dv.gsap-live .dv-fig .ph{position:absolute;inset:0;border-radius:0;will-change:transform,opacity}
+.dv.gsap-live .dv-fig .ph::after{content:none}
+.dv.gsap-live .dv-lbl{display:block}
 </style>
 </head>
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="dv">
   <div class="dv-pin"><div class="dv-fig">
-    <div class="ph ph-d dv-after"><span class="ph-l">אחרי</span></div>
-    <div class="ph ph-e dv-before"><span class="ph-l">לפני</span></div>
+    <div class="ph ph-d dv-after" data-label="אחרי"><span class="ph-l">אחרי</span></div>
+    <div class="ph ph-e dv-before" data-label="לפני"><span class="ph-l">לפני</span></div>
     <span class="dv-lbl">לפני</span>
   </div></div>
 </div>
@@ -65,11 +75,16 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const before=document.querySelector(".dv-before"),after=document.querySelector(".dv-after"),lbl=document.querySelector(".dv-lbl");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(before,{opacity:0});lbl.textContent="אחרי";return;}
-  gsap.timeline({scrollTrigger:{trigger:".dv",start:"top top",end:"bottom bottom",scrub:.6,onUpdate(s){lbl.textContent=s.progress>.5?"אחרי":"לפני";}}})
-    .to(before,{opacity:0,scale:1.12,ease:"power2.inOut",duration:1},0)
-    .fromTo(after,{scale:1.08},{scale:1,ease:"power2.inOut",duration:1},0);
+  if(typeof gsap==="undefined")return;      // בלי GSAP שתי התמונות זו לצד זו
+  const root=document.querySelector(".dv"),before=root.querySelector(".dv-before"),after=root.querySelector(".dv-after"),lbl=root.querySelector(".dv-lbl");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("gsap-live");
+    // באמצע מתחלפת התווית, והשכבה העליונה (שכבר כמעט שקופה) מפסיקה לתפוס לחיצות שמיועדות ל"אחרי"
+    gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,onUpdate(s){const late=s.progress>.5;lbl.textContent=late?"אחרי":"לפני";before.style.pointerEvents=late?"none":"";}}})
+      .to(before,{opacity:0,scale:1.12,ease:"power2.inOut",duration:1},0)
+      .fromTo(after,{scale:1.08},{scale:1,ease:"power2.inOut",duration:1},0);
+    return()=>{root.classList.remove("gsap-live");lbl.textContent="לפני";before.style.pointerEvents="";};
+  });
 })();
 </script>
 </body>

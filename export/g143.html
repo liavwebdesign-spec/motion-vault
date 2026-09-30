@@ -43,8 +43,11 @@ img{max-width:100%}
 .ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
 
 /* G143 · פסים אופקיים שנפתחים בגלילה */
-.ac2{position:relative;height:260vh}
-.ac2-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center}
+/* בלי GSAP ובהפחתת תנועה: ארבעה פסים שווים במסך אחד. הנעילה רק כשהמהלך רץ (.gsap-live) */
+.ac2{position:relative}
+.ac2-pin{position:relative;height:100vh;display:grid;place-items:center}
+.ac2.gsap-live{height:260vh}
+.ac2.gsap-live .ac2-pin{position:sticky;top:0}
 .ac2-stack{display:flex;flex-direction:column;gap:8px;width:min(1000px,92vw);height:78vh}
 .ac2-p{flex:1 1 0;min-height:0;position:relative;border-radius:16px;overflow:hidden;display:flex;align-items:flex-end}
 .ac2-p .ph{position:absolute;inset:0;border-radius:0;font-size:0}
@@ -69,11 +72,15 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const panels=gsap.utils.toArray(".ac2-p"),n=panels.length;
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  gsap.set(panels,{flexGrow:1});gsap.set(panels[0],{flexGrow:6});
-  const tl=gsap.timeline({scrollTrigger:{trigger:".ac2",start:"top top",end:"bottom bottom",scrub:.6}});
-  for(let i=1;i<n;i++){tl.to(panels[i-1],{flexGrow:1,duration:1,ease:"power2.inOut"},i-1+.2).to(panels[i],{flexGrow:6,duration:1,ease:"power2.inOut"},i-1+.2);}
+  if(typeof gsap==="undefined")return;      // בלי GSAP ארבעה פסים שווים
+  const root=document.querySelector(".ac2"),panels=gsap.utils.toArray(".ac2-p"),n=panels.length;
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("gsap-live");
+    gsap.set(panels,{flexGrow:1});gsap.set(panels[0],{flexGrow:6});
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}});
+    for(let i=1;i<n;i++){tl.to(panels[i-1],{flexGrow:1,duration:1,ease:"power2.inOut"},i-1+.2).to(panels[i],{flexGrow:6,duration:1,ease:"power2.inOut"},i-1+.2);}
+    return()=>root.classList.remove("gsap-live");
+  });
 })();
 </script>
 </body>

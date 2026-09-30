@@ -36,14 +36,19 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* G129 · מדרגות כרטיסים שנבנות בגלילה */
-.st{position:relative;height:240vh}
-.st-pin{position:sticky;top:0;height:100vh;display:grid;place-items:end center;perspective:1200px;overflow:hidden;padding-bottom:10vh}
-.st-stage{position:relative;width:min(760px,90vw);height:60vh;transform-style:preserve-3d}
-.st-card{position:absolute;inset-inline:0;bottom:0;height:42%;border-radius:18px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:22px 24px;display:grid;align-content:start;gap:6px;box-shadow:0 30px 60px rgba(0,0,0,.14);will-change:transform;transform-origin:50% 100%}
-.st-card b{font-size:12px;color:var(--accent, #4a3aff);letter-spacing:.14em}
+/* בלי GSAP ובהפחתת תנועה: רשימת כרטיסים רגילה. הבמה הדביקה והמדרגות רק כשהמהלך רץ (.gsap-live) */
+.st{position:relative}
+.st-pin{padding-block:48px}
+.st-stage{display:grid;gap:12px;width:min(760px,90vw);margin-inline:auto}
+.st-card{border-radius:18px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:22px 24px;display:grid;align-content:start;gap:6px;box-shadow:0 12px 30px rgba(0,0,0,.08)}
+.st-card b{font-size:12px;color:var(--accent, #4a3aff)}
 .st-card h3{margin:0;font-size:clamp(18px,2.2vw,28px)}
 .st-card p{margin:0;color:var(--muted, #6a6d85);font-size:14px}
-@media(max-width:767px){.st{height:200vh}.st-stage{height:64vh}}
+.st.gsap-live{height:240vh}
+.st.gsap-live .st-pin{position:sticky;top:0;height:100vh;display:grid;place-items:end center;perspective:1200px;overflow:hidden;padding-block:0 10vh}
+.st.gsap-live .st-stage{display:block;position:relative;height:60vh;transform-style:preserve-3d;margin:0}
+.st.gsap-live .st-card{position:absolute;inset-inline:0;bottom:0;height:42%;box-shadow:0 30px 60px rgba(0,0,0,.14);will-change:transform;transform-origin:50% 100%}
+@media(max-width:767px){.st.gsap-live{height:200vh}.st.gsap-live .st-stage{height:64vh}}
 </style>
 </head>
 <body>
@@ -63,12 +68,18 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const cards=gsap.utils.toArray(".st-card"),n=cards.length;
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){cards.forEach((c,i)=>gsap.set(c,{y:-i*90,z:-i*80}));return;}
-  const mob=matchMedia("(max-width:767px)").matches,dy=mob?78:104,dz=mob?70:110;
-  gsap.set(cards,{y:220,opacity:0,zIndex:(i)=>n-i});
-  const tl=gsap.timeline({scrollTrigger:{trigger:".st",start:"top top",end:"bottom bottom",scrub:.6}});
-  cards.forEach((c,i)=>tl.to(c,{y:-i*dy,z:-i*dz,opacity:1,duration:1,ease:"power3.out"},i*.35));
+  if(typeof gsap==="undefined")return;      // בלי GSAP הכרטיסים הם רשימה רגילה
+  const root=document.querySelector(".st"),cards=gsap.utils.toArray(".st-card"),n=cards.length;
+  // בהפחתת תנועה אף תנאי לא מתקיים, הפונקציה לא רצה, ונשארת הרשימה הסטטית
+  gsap.matchMedia().add({desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)",mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    root.classList.add("gsap-live");
+    // המדרגה גבוהה מהתוכן של כרטיס אחרי הקטנת הפרספקטיבה, אחרת הכרטיס שלפניו מסתיר את התיאור
+    const mob=ctx.conditions.mob,dy=mob?118:136,dz=mob?70:110;
+    gsap.set(cards,{y:220,opacity:0,zIndex:i=>n-i});
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}});
+    cards.forEach((c,i)=>tl.to(c,{y:-i*dy,z:-i*dz,opacity:1,duration:1,ease:"power3.out"},i*.35));
+    return()=>root.classList.remove("gsap-live");
+  });
 })();
 </script>
 </body>

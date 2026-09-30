@@ -47,9 +47,11 @@ img{max-width:100%}
 /* B49 · טאבים שמתקדמים לבד עם פס זמן */
 .at{max-width:min(1020px,94vw);margin-inline:auto}
 .at-links{display:flex;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--line, #e4e4ee);margin-bottom:clamp(20px,3vw,34px)}
-.at-btn{position:relative;border:0;background:none;font:inherit;font-size:16px;color:var(--muted, #6a6d85);
-  padding:12px 4px 16px;margin-inline-end:20px;cursor:pointer;transition:color .25s}
+.at-btn{position:relative;border:0;background:none;font:inherit;font-size:16px;color:var(--muted, #6a6d85);min-width:44px;
+  padding:12px 4px 16px;margin-inline-end:20px;cursor:pointer;transition:color .18s}
 .at-btn.on{color:var(--ink, #16182b);font-weight:600}
+@media (hover:hover) and (pointer:fine){.at-btn:hover{color:var(--ink, #16182b)}}
+.at-btn:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px;border-radius:4px}
 .at-bar{position:absolute;bottom:-1px;right:0;height:2px;width:0;background:var(--accent, #4a3aff);border-radius:2px}
 .at-panel{display:none;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,50px);align-items:center}
 .at-panel.on{display:grid}
@@ -58,25 +60,26 @@ img{max-width:100%}
 .at-panel ul{margin:16px 0 0;padding:0;list-style:none;display:grid;gap:8px;color:var(--muted, #6a6d85);font-size:15px}
 .at-panel li::before{content:"✓";color:#2b8a3e;font-weight:700;margin-inline-end:8px}
 .at-media{aspect-ratio:4/3;font-size:30px}
-@media(max-width:760px){.at-panel.on{grid-template-columns:1fr}.at-links{overflow-x:auto;flex-wrap:nowrap}}
+/* בטלפון ארבעת הטאבים נכנסים בשורה אחת, כולם על המסך. שורה נגללת רק מחמישה טאבים */
+@media(max-width:760px){.at-panel.on{grid-template-columns:1fr}.at-btn{margin-inline-end:14px}}
 </style>
 </head>
 <body>
 
 <div class="stage tight"><div class="at">
-  <div class="at-links">
-    <button class="at-btn on">אפיון<i class="at-bar"></i></button>
-    <button class="at-btn">קופי<i class="at-bar"></i></button>
-    <button class="at-btn">עיצוב<i class="at-bar"></i></button>
-    <button class="at-btn">מדידה<i class="at-bar"></i></button>
+  <div class="at-links" role="tablist" aria-label="שלבי העבודה">
+    <button class="at-btn on" role="tab" id="at-t1" aria-controls="at-p1" aria-selected="true">אפיון<i class="at-bar"></i></button>
+    <button class="at-btn" role="tab" id="at-t2" aria-controls="at-p2" aria-selected="false" tabindex="-1">קופי<i class="at-bar"></i></button>
+    <button class="at-btn" role="tab" id="at-t3" aria-controls="at-p3" aria-selected="false" tabindex="-1">עיצוב<i class="at-bar"></i></button>
+    <button class="at-btn" role="tab" id="at-t4" aria-controls="at-p4" aria-selected="false" tabindex="-1">מדידה<i class="at-bar"></i></button>
   </div>
-  <div class="at-panel on"><div><h4>מתחילים בהבנה</h4><p>שיחה אחת שממפה את העסק, את הלקוח ואת מה שצריך לקרות באתר.</p>
+  <div class="at-panel on" role="tabpanel" id="at-p1" aria-labelledby="at-t1"><div><h4>מתחילים בהבנה</h4><p>שיחה אחת שממפה את העסק, את הלקוח ואת מה שצריך לקרות באתר.</p>
     <ul><li>מיפוי קהל ומסרים</li><li>מבנה עמודים</li></ul></div><div class="ph at-media ph-a"><span class="ph-l">1</span></div></div>
-  <div class="at-panel"><div><h4>כותבים לפני שמעצבים</h4><p>הטקסט קובע את המבנה, ולא להפך. כל סקשן עונה על השאלה הבאה בתור.</p>
+  <div class="at-panel" role="tabpanel" id="at-p2" aria-labelledby="at-t2"><div><h4>כותבים לפני שמעצבים</h4><p>הטקסט קובע את המבנה, ולא להפך. כל סקשן עונה על השאלה הבאה בתור.</p>
     <ul><li>כותרות שמדברות ללקוח</li><li>קריאה לפעולה אחת</li></ul></div><div class="ph at-media ph-c"><span class="ph-l">2</span></div></div>
-  <div class="at-panel"><div><h4>שפה אחת בכל עמוד</h4><p>מערכת צבעים, טיפוגרפיה וריווח שחוזרת בכל מקום, כך שהאתר מרגיש שלם.</p>
+  <div class="at-panel" role="tabpanel" id="at-p3" aria-labelledby="at-t3"><div><h4>שפה אחת בכל עמוד</h4><p>מערכת צבעים, טיפוגרפיה וריווח שחוזרת בכל מקום, כך שהאתר מרגיש שלם.</p>
     <ul><li>מערכת עיצוב</li><li>התאמה לכל מסך</li></ul></div><div class="ph at-media ph-d"><span class="ph-l">3</span></div></div>
-  <div class="at-panel"><div><h4>יודעים מה עובד</h4><p>מחברים מעקב לפני העלייה לאוויר, ומשפרים לפי נתונים במקום לפי תחושה.</p>
+  <div class="at-panel" role="tabpanel" id="at-p4" aria-labelledby="at-t4"><div><h4>יודעים מה עובד</h4><p>מחברים מעקב לפני העלייה לאוויר, ומשפרים לפי נתונים במקום לפי תחושה.</p>
     <ul><li>מעקב המרות</li><li>דוח חודשי</li></ul></div><div class="ph at-media ph-e"><span class="ph-l">4</span></div></div>
 </div></div>
 
@@ -87,30 +90,46 @@ if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
   const DUR=5;
-  const btns=[...document.querySelectorAll(".at-btn")],panels=[...document.querySelectorAll(".at-panel")];
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let i=0,timer,running=false;
-  function show(n){
+  const at=document.querySelector(".at");
+  const btns=[...at.querySelectorAll(".at-btn")],panels=[...at.querySelectorAll(".at-panel")];
+  const G=typeof gsap!=="undefined";   // בלי הספרייה אלה טאבים רגילים בלחיצה, בלי פס ובלי התקדמות
+  let i=0,timer=null,running=false,auto=true,motion=false;
+  function show(n,focus){
     i=n;
-    btns.forEach((b,k)=>b.classList.toggle("on",k===n));
+    btns.forEach((b,k)=>{b.classList.toggle("on",k===n);b.setAttribute("aria-selected",String(k===n));b.tabIndex=k===n?0:-1;});
     panels.forEach((p,k)=>p.classList.toggle("on",k===n));
-    if(!reduce)gsap.fromTo(panels[n],{opacity:0,y:18},{opacity:1,y:0,duration:.5,ease:"power2.out"});
-    if(timer)timer.kill();
-    gsap.set(".at-bar",{width:0});
-    if(reduce||!running)return;
+    if(focus)btns[n].focus();
+    if(!G)return;
+    if(motion)gsap.fromTo(panels[n],{opacity:0,y:18},{opacity:1,y:0,duration:.5,ease:"power2.out",overwrite:true});
+    if(timer){timer.kill();timer=null;}
+    gsap.set(at.querySelectorAll(".at-bar"),{width:0});
+    // מי שבחר טאב לקח שליטה: מכאן אין התקדמות אוטומטית (WCAG 2.2.2), גם במגע וגם בריחוף
+    if(!motion||!running||!auto)return;
     // הפס הוא השעון: כשהוא מגיע לסוף עוברים לטאב הבא
     timer=gsap.to(btns[n].querySelector(".at-bar"),{width:"100%",duration:DUR,ease:"none",
       onComplete:()=>show((n+1)%btns.length)});
+    if(at.matches(":hover")||at.contains(document.activeElement))timer.pause();
   }
-  btns.forEach((b,k)=>b.addEventListener("click",()=>show(k)));
-  const at=document.querySelector(".at");
+  btns.forEach((b,k)=>b.addEventListener("click",()=>{auto=false;show(k);}));
+  // מקלדת לפי תבנית הטאבים: חצים בין הטאבים (בעברית שמאלה זה הבא), Home ו-End לקצוות
+  at.querySelector(".at-links").addEventListener("keydown",e=>{
+    const n=btns.length,m={ArrowLeft:i+1,ArrowRight:i-1,Home:0,End:n-1}[e.key];
+    if(m===undefined)return;
+    e.preventDefault();auto=false;show((m+n)%n,true);
+  });
   at.addEventListener("mouseenter",()=>timer&&timer.pause());
-  at.addEventListener("mouseleave",()=>timer&&timer.resume());
+  at.addEventListener("mouseleave",()=>{if(timer&&!at.contains(document.activeElement))timer.resume();});
   at.addEventListener("focusin",()=>timer&&timer.pause());
-  // מתחילים רק כשהסקשן על המסך, אחרת הטאבים "בוזבזו" לפני שהמבקר הגיע
-  ScrollTrigger.create({trigger:at,start:"top 75%",end:"bottom 25%",
-    onToggle:self=>{running=self.isActive;if(self.isActive)show(i);else if(timer)timer.pause();}});
-  show(0);
+  at.addEventListener("focusout",e=>{if(!at.contains(e.relatedTarget)&&!at.matches(":hover")&&timer)timer.resume();});
+  if(!G)return;
+  // הפחתת תנועה: טאבים רגילים לחלוטין, בלי כניסה ובלי התקדמות אוטומטית
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    motion=true;
+    // מתחילים רק כשהסקשן על המסך, אחרת הטאבים "בוזבזו" לפני שהמבקר הגיע
+    ScrollTrigger.create({trigger:at,start:"top 75%",end:"bottom 25%",
+      onToggle:self=>{running=self.isActive;if(self.isActive)show(i);else if(timer)timer.pause();}});
+    return ()=>{motion=false;running=false;if(timer){timer.kill();timer=null;}gsap.set(at.querySelectorAll(".at-bar"),{width:0});};
+  });
 })();
 </script>
 </body>

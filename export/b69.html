@@ -72,6 +72,10 @@ img{max-width:100%}
 .sk-count b.roll{animation:sk-roll .35s cubic-bezier(.2,.6,.2,1)}
 @keyframes sk-roll{from{transform:translateY(60%);opacity:0}to{transform:none;opacity:1}}
 @media (max-width:767px){.sk{grid-template-columns:1fr}.sk-head{grid-row:auto}.sk-deck{height:340px}}
+/* בלי GSAP (CDN חסום): רשימת המלצות רגילה. בלי זה הכרטיסים נערמים באותו מקום, רק האחרון נראה, והחצים לא עובדים */
+.sk.sk-list .sk-deck{height:auto;display:grid;gap:16px}
+.sk.sk-list .sk-card{position:relative;inset:auto;cursor:auto}
+.sk.sk-list .sk-ctrl{display:none}
 @media (prefers-reduced-motion: reduce){.sk-count b.roll{animation:none}}
 </style>
 </head>
@@ -96,6 +100,7 @@ img{max-width:100%}
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script>
 (function(){
+  if(typeof gsap==="undefined"){document.querySelector(".sk").classList.add("sk-list");return;}   // בלי GSAP: רשימה רגילה
   const deck=document.querySelector(".sk-deck"),num=document.querySelector(".sk-count b");
   const cards=[...deck.querySelectorAll(".sk-card")],n=cards.length;
   const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;

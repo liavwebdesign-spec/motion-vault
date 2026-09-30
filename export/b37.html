@@ -35,14 +35,15 @@ img{max-width:100%}
 /* ===== הרכיב ===== */
 /* B37 · כרטיסים שנערמים בגלילה */
 .stk{padding-inline:var(--gutter, clamp(24px, 5vw, 96px));padding-block:clamp(30px,4vw,60px)}
-.stk-card{position:sticky;border-radius:22px;padding:clamp(26px,3.4vw,54px);min-height:clamp(320px,42vh,440px);
+/* המדרגה נגזרת מ---i שכתוב על כל כרטיס, ולכן גם כרטיס חמישי ושישי נדבקים, בלי JS */
+.stk-card{position:sticky;top:calc(clamp(70px,13vh,120px) + var(--i,0) * 18px);border-radius:22px;padding:clamp(26px,3.4vw,54px);min-height:clamp(320px,42vh,440px);
   display:flex;flex-direction:column;justify-content:space-between;color:#fff;transform-origin:50% 0%;filter:brightness(1);
   box-shadow:0 -14px 44px rgba(0,0,0,.16);margin-bottom:clamp(18px,2.4vw,40px);
   will-change:transform,filter}
-.stk-card:nth-child(1){top:clamp(70px,13vh,120px);background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
-.stk-card:nth-child(2){top:calc(clamp(70px,13vh,120px) + 18px);background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
-.stk-card:nth-child(3){top:calc(clamp(70px,13vh,120px) + 36px);background:#0b7285}
-.stk-card:nth-child(4){top:calc(clamp(70px,13vh,120px) + 54px);background:#c2255c}
+.stk-card:nth-child(1){background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+.stk-card:nth-child(2){background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.stk-card:nth-child(3){background:#0b7285}
+.stk-card:nth-child(4){background:#c2255c}
 .stk-num{font-size:13px;letter-spacing:.16em;opacity:.7}
 .stk-card h3{font-size:clamp(26px,3.4vw,52px);margin:14px 0 10px;font-weight:800;max-width:20ch}
 .stk-card p{margin:0;max-width:52ch;font-size:clamp(15px,1.4vw,18px);line-height:1.6;opacity:.86}
@@ -54,13 +55,13 @@ img{max-width:100%}
 <body>
 
 <div class="stk">
-  <article class="stk-card"><div><span class="stk-num">01</span><h3>אפיון ואסטרטגיה</h3><p>מבינים את העסק, את הלקוח ואת מה שצריך לקרות באתר לפני שנוגעים בעיצוב.</p></div>
+  <article class="stk-card" style="--i:0"><div><span class="stk-num">01</span><h3>אפיון ואסטרטגיה</h3><p>מבינים את העסק, את הלקוח ואת מה שצריך לקרות באתר לפני שנוגעים בעיצוב.</p></div>
     <div class="stk-foot"><span class="stk-tag">שבוע</span><span>כלול בכל חבילה</span></div></article>
-  <article class="stk-card"><div><span class="stk-num">02</span><h3>עיצוב שמותאם למותג</h3><p>סקיצה של עמוד הבית לאישור, ואחריה שאר העמודים באותה שפה עיצובית.</p></div>
+  <article class="stk-card" style="--i:1"><div><span class="stk-num">02</span><h3>עיצוב שמותאם למותג</h3><p>סקיצה של עמוד הבית לאישור, ואחריה שאר העמודים באותה שפה עיצובית.</p></div>
     <div class="stk-foot"><span class="stk-tag">שבוע עד שבועיים</span><span>כולל שני סבבי תיקונים</span></div></article>
-  <article class="stk-card"><div><span class="stk-num">03</span><h3>בנייה ובדיקות</h3><p>מרכיבים, בודקים בכל רוחב מסך, מחברים טפסים ומדידה, ומוודאים מהירות טעינה.</p></div>
+  <article class="stk-card" style="--i:2"><div><span class="stk-num">03</span><h3>בנייה ובדיקות</h3><p>מרכיבים, בודקים בכל רוחב מסך, מחברים טפסים ומדידה, ומוודאים מהירות טעינה.</p></div>
     <div class="stk-foot"><span class="stk-tag">שבועיים</span><span>כולל התאמה למובייל</span></div></article>
-  <article class="stk-card"><div><span class="stk-num">04</span><h3>עלייה לאוויר וליווי</h3><p>מפרסמים, מוודאים שהפניות מגיעות, ומלווים חודש נוסף אחרי ההשקה.</p></div>
+  <article class="stk-card" style="--i:3"><div><span class="stk-num">04</span><h3>עלייה לאוויר וליווי</h3><p>מפרסמים, מוודאים שהפניות מגיעות, ומלווים חודש נוסף אחרי ההשקה.</p></div>
     <div class="stk-foot"><span class="stk-tag">יום</span><span>חודש ליווי כלול</span></div></article>
   <div class="stk-end"></div>
 </div>
@@ -71,19 +72,21 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה נשארת הערימה של CSS, בלי הכיווץ
   const cards=gsap.utils.toArray(".stk-card");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce)return;
-  cards.forEach((card,i)=>{
-    if(i===cards.length-1)return;
-    // הכרטיס נסוג לאחור בדיוק בזמן שהבא אחריו מטפס מעליו.
-    // ההחשכה היא filter ולא opacity: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס
-    // שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות.
-    // fromTo ולא to: בלי ערך התחלה מפורש GSAP קורא filter:none, מתייחס אליו כאפס,
-    // והכרטיס נצבע שחור ומתבהר. זה מה שנראה חד ומהיר. הטווח גם הוארך והוחלק.
-    gsap.fromTo(card,{filter:"brightness(1)",scale:1},
-      {scale:.955,filter:"brightness(.72)",ease:"none",
-       scrollTrigger:{trigger:cards[i+1],start:"top bottom",end:"top 30%",scrub:.5}});
+  // הפחתת תנועה: הערימה נשארת (היא CSS), רק בלי הכיווץ וההחשכה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    cards.forEach((card,i)=>{
+      if(i===cards.length-1)return;
+      // הכרטיס נסוג לאחור בדיוק בזמן שהבא אחריו מטפס מעליו.
+      // ההחשכה היא filter ולא opacity: כרטיס חצי שקוף מראה דרכו את הצבע של הכרטיס
+      // שמתחתיו, והערימה יוצאת עכורה במקום להיראות כמו שכבות אטומות.
+      // fromTo ולא to: בלי ערך התחלה מפורש GSAP קורא filter:none, מתייחס אליו כאפס,
+      // והכרטיס נצבע שחור ומתבהר. זה מה שנראה חד ומהיר. הטווח גם הוארך והוחלק.
+      gsap.fromTo(card,{filter:"brightness(1)",scale:1},
+        {scale:.955,filter:"brightness(.72)",ease:"none",
+         scrollTrigger:{trigger:cards[i+1],start:"top bottom",end:"top 30%",scrub:.5}});
+    });
   });
 })();
 </script>

@@ -36,9 +36,11 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* B42 · מרקי שמגיב למהירות הגלילה */
-.vm{overflow:hidden;border-block:1px solid var(--line, #e4e4ee);background:var(--card, #fff);padding-block:clamp(16px,2vw,30px)}
+/* direction:ltr על המכולה: בעמוד עברי רצועה ברוחב max-content מתיישרת לימין, והלופ פותח חור ריק בצד.
+   row-reverse מחזיר את סדר הקריאה: הפריט הראשון ב-HTML יושב בימין, וקורא מסך שומע את הסדר הרגיל */
+.vm{overflow:hidden;direction:ltr;border-block:1px solid var(--line, #e4e4ee);background:var(--card, #fff);padding-block:clamp(16px,2vw,30px)}
 .vm+.vm{border-top:0}
-.vm-track{display:flex;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}
+.vm-track{display:flex;flex-direction:row-reverse;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}
 .vm-track span{font-size:clamp(26px,4vw,66px);font-weight:800;white-space:nowrap;color:var(--ink, #16182b)}
 .vm-track span.o{color:transparent;-webkit-text-stroke:1px var(--muted, #6a6d85)}
 .vm.alt .vm-track span{font-size:clamp(18px,2vw,30px);font-weight:600;color:var(--muted, #6a6d85)}
@@ -49,11 +51,11 @@ img{max-width:100%}
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="vm"><div class="vm-track">
   <span>אתרי תדמית</span><span class="o">דפי נחיתה</span><span>חנויות</span><span class="o">מערכות</span>
-  <span>אתרי תדמית</span><span class="o">דפי נחיתה</span><span>חנויות</span><span class="o">מערכות</span>
+  <span aria-hidden="true">אתרי תדמית</span><span class="o" aria-hidden="true">דפי נחיתה</span><span aria-hidden="true">חנויות</span><span class="o" aria-hidden="true">מערכות</span>
 </div></div>
 <div class="vm alt"><div class="vm-track">
   <span>אפיון</span><span>קופי</span><span>עיצוב</span><span>פיתוח</span><span>מדידה</span><span>ליווי</span>
-  <span>אפיון</span><span>קופי</span><span>עיצוב</span><span>פיתוח</span><span>מדידה</span><span>ליווי</span>
+  <span aria-hidden="true">אפיון</span><span aria-hidden="true">קופי</span><span aria-hidden="true">עיצוב</span><span aria-hidden="true">פיתוח</span><span aria-hidden="true">מדידה</span><span aria-hidden="true">ליווי</span>
 </div></div>
 <p class="vm-note">גלול מהר ולאט, ואז גלול אחורה. הרצועה מגיבה.</p>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
@@ -63,32 +65,62 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  document.querySelectorAll(".vm").forEach((wrap,idx)=>{
-    const track=wrap.querySelector(".vm-track");
-    const half=track.scrollWidth/2;
-    // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס
-    const loop=gsap.fromTo(track,{x:-half},{x:0,duration:14+idx*4,ease:"none",repeat:-1});
-    if(reduce){loop.pause();return;}
-    const skewTo=gsap.quickTo(track,"skewX",{duration:.4,ease:"power3"});
-    let scale=1;
-    ScrollTrigger.create({
-      onUpdate:self=>{
-        const v=self.getVelocity();
-        const dir=v>0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה
-        const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה
-        scale=dir*boost;
-        loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד
-        skewTo(gsap.utils.clamp(-8,8,-v/260));
-      }
+  const wraps=[...document.querySelectorAll(".vm")];
+  // עותקים עד שהרצועה לפחות פי 2 מהמסך הרחב ביותר של המכשיר, אחרת בצד אחד נפתח חור ריק.
+  // בלי ספרייה, כדי שגם רצועה עומדת (הפחתת תנועה, CDN חסום) תהיה מלאה עד הקצה.
+  // העותקים מוסתרים מקורא מסך, כדי שהמילים לא יוקראו שוב ושוב
+  const units=wraps.map(wrap=>{
+    const track=wrap.querySelector(".vm-track"),unit=[...track.children];
+    const need=Math.max(innerWidth,screen.width||0)*2+200;
+    while(track.scrollWidth<need)unit.forEach(k=>{const c=k.cloneNode(true);c.setAttribute("aria-hidden","true");track.appendChild(c);});
+    return unit.length;
+  });
+  if(typeof gsap==="undefined")return;   // בלי הספרייה הרצועה עומדת, מלאה עד הקצה
+  // הפחתת תנועה: אין לולאה. הרצועה עומדת במקום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const offs=[];   // מה שצריך לנתק כשההעדפה משתנה להפחתת תנועה (טווינים וטריגרים מתנקים לבד)
+    wraps.forEach((wrap,idx)=>{
+      const track=wrap.querySelector(".vm-track");
+      const all=track.children;
+      // אורך הלופ הוא המרחק המדויק בין הפריט הראשון לראשון של החצי השני, כולל הרווח שבתפר.
+      // בפונקציה, כדי שיימדד מחדש אחרי שינוי גודל (הגופן גדל עם רוחב המסך)
+      const half=()=>Math.abs(all[0].offsetLeft-all[all.length/2].offsetLeft);
+      // המשך נגזר מאורך הלופ: מהירות בסיס 110 ו-90 פיקסלים לשנייה (השורה השנייה איטית יותר), לא פחות מ-90
+      // כמו שהתורה דורשת (qa-checklist 13ב). קודם 14 שניות לעותק, 20 עד 85 פיקסלים לשנייה לפי הרוחב (30.9.2026)
+      const dur=half()/(idx?90:110);
+      // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס
+      const loop=gsap.fromTo(track,{x:()=>-half()},{x:0,duration:dur,ease:"none",repeat:-1,
+        // גלילה אחורה מריצה את הלופ הפוך. בלי זה, כשהוא מגיע לתחילתו הוא נעצר לתמיד
+        onReverseComplete(){loop.totalTime(loop.rawTime()+loop.duration()*100);}});
+      const skewTo=gsap.quickTo(track,"skewX",{duration:.4,ease:"power3"});
+      let scale=1;
+      ScrollTrigger.create({
+        onUpdate:self=>{
+          const v=self.getVelocity();
+          const dir=v>0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה
+          const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה
+          scale=dir*boost;
+          loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד
+          skewTo(gsap.utils.clamp(-8,8,-v/260));
+        }
+      });
+      // רצה רק כשהרצועה על המסך. לפי progress ולא isActive, שעדיין לא מוגדר בריענון הראשון
+      const run=s=>(s.progress>0&&s.progress<1)?loop.resume():loop.pause();
+      ScrollTrigger.create({trigger:wrap,start:"top bottom",end:"bottom top",onToggle:run,onRefresh:run});
+      // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.
+      const tick=()=>{
+        const base=Math.sign(scale)||1;
+        if(Math.abs(scale-base)<.02)return;
+        scale+=(base-scale)*.05;
+        loop.timeScale(scale);
+      };
+      gsap.ticker.add(tick);
+      // שינוי גודל: הגופן והרווח גדלים עם המסך, ולכן מודדים את אורך הלופ מחדש
+      let t;const onResize=()=>{clearTimeout(t);t=setTimeout(()=>loop.invalidate(),150);};
+      addEventListener("resize",onResize);
+      offs.push(()=>{gsap.ticker.remove(tick);removeEventListener("resize",onResize);clearTimeout(t);});
     });
-    // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.
-    gsap.ticker.add(()=>{
-      const base=Math.sign(scale)||1;
-      if(Math.abs(scale-base)<.02)return;
-      scale+=(base-scale)*.05;
-      loop.timeScale(scale);
-    });
+    return ()=>offs.forEach(f=>f());
   });
 })();
 </script>

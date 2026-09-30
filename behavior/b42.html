@@ -8,9 +8,11 @@
 
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
-.vm{overflow:hidden;border-block:1px solid var(--line);background:var(--card);padding-block:clamp(16px,2vw,30px)}
+/* direction:ltr על המכולה: בעמוד עברי רצועה ברוחב max-content מתיישרת לימין, והלופ פותח חור ריק בצד.
+   row-reverse מחזיר את סדר הקריאה: הפריט הראשון ב-HTML יושב בימין, וקורא מסך שומע את הסדר הרגיל */
+.vm{overflow:hidden;direction:ltr;border-block:1px solid var(--line);background:var(--card);padding-block:clamp(16px,2vw,30px)}
 .vm+.vm{border-top:0}
-.vm-track{display:flex;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}
+.vm-track{display:flex;flex-direction:row-reverse;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}
 .vm-track span{font-size:clamp(26px,4vw,66px);font-weight:800;white-space:nowrap;color:var(--ink)}
 .vm-track span.o{color:transparent;-webkit-text-stroke:1px var(--muted)}
 .vm.alt .vm-track span{font-size:clamp(18px,2vw,30px);font-weight:600;color:var(--muted)}
@@ -31,7 +33,7 @@
   <button class="vtray" type="button" data-tray="b42">+ לסל הפרויקט</button>
 </div></div>
 <div class="vintro">
-  <p>רצועה שזורמת לבד, מאיצה כשגוללים מהר, מתהפכת בכיוון כשגוללים אחורה, ומתעוותת קלות לפי המהירות. חוזרת לזרימה רגילה כשעוצרים.</p>
+  <p>רצועה שזורמת לבד, מאיצה כשגוללים מהר, מתהפכת בכיוון כשגוללים אחורה, ומתעוותת קלות לפי המהירות. כשעוצרים היא חוזרת לקצב הבסיס, בכיוון של הגלילה האחרונה.</p>
   <p class="when"><b>מתי משתמשים:</b> רצועת לוגואים, פס אמון, כותרות ענק, שמות שירותים. שדרוג ישיר של מרקי רגיל: הוא מרגיש חי במקום לולאה מכנית.</p>
   <dl class="vplace"><div><dt>סוג אתר</dt><dd>פורטפוליו וסטודיו · אתר תדמית · וואן-פייג'ר</dd></div><div><dt>בסקשן</dt><dd>מספרים ולקוחות · נשימה ומעבר</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>משרת תוכן, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>מידע שחייבים לקרוא, כמו מחירים או תנאים, או כשכבר יש רצועה נעה אחרת בעמוד.</dd></div></dl>
   <div class="mvpanel" data-mvpanel="b42"></div>
@@ -41,18 +43,18 @@
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
 <div class="vm"><div class="vm-track">
   <span>אתרי תדמית</span><span class="o">דפי נחיתה</span><span>חנויות</span><span class="o">מערכות</span>
-  <span>אתרי תדמית</span><span class="o">דפי נחיתה</span><span>חנויות</span><span class="o">מערכות</span>
+  <span aria-hidden="true">אתרי תדמית</span><span class="o" aria-hidden="true">דפי נחיתה</span><span aria-hidden="true">חנויות</span><span class="o" aria-hidden="true">מערכות</span>
 </div></div>
 <div class="vm alt"><div class="vm-track">
   <span>אפיון</span><span>קופי</span><span>עיצוב</span><span>פיתוח</span><span>מדידה</span><span>ליווי</span>
-  <span>אפיון</span><span>קופי</span><span>עיצוב</span><span>פיתוח</span><span>מדידה</span><span>ליווי</span>
+  <span aria-hidden="true">אפיון</span><span aria-hidden="true">קופי</span><span aria-hidden="true">עיצוב</span><span aria-hidden="true">פיתוח</span><span aria-hidden="true">מדידה</span><span aria-hidden="true">ליווי</span>
 </div></div>
 <p class="vm-note">גלול מהר ולאט, ואז גלול אחורה. הרצועה מגיבה.</p>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
-<div class="demo-note">getVelocity מחזיר פיקסלים לשנייה עם סימן שמעיד על הכיוון, ומכאן שני האפקטים: timeScale שלילי מהפך את הלולאה, ו-clamp מונע האצה מטורפת בגלילת מגע. חובה להחזיר את הקצב לבסיס אחרי הדחיפה, אחרת הרצועה נשארת מהירה לנצח. ה-skew מוגבל לשמונה מעלות: מעבר לזה הטקסט נעשה לא קריא.</div>
+<div class="demo-note">getVelocity מחזיר פיקסלים לשנייה עם סימן שמעיד על הכיוון, ומכאן שני האפקטים: timeScale שלילי מהפך את הלולאה, ו-clamp מונע האצה מטורפת בגלילת מגע. חובה להחזיר את הקצב לבסיס אחרי הדחיפה, אחרת הרצועה נשארת מהירה לנצח. ה-skew מוגבל לשמונה מעלות: מעבר לזה הטקסט נעשה לא קריא. <b>שלוש מלכודות שנמדדו</b>: בעמוד עברי המכולה חייבת <code>direction:ltr</code>, אחרת הרצועה מתיישרת לימין ונפתח חור ריק בצד (עד 888 פיקסלים ב-1280), ו-<code>row-reverse</code> מחזיר את סדר הקריאה; הרצועה משוכפלת עד שהיא לפחות פי 2 מרוחב המסך; ו-<code>onReverseComplete</code> מקפיץ את הלופ קדימה, אחרת אחרי גלילה אחורה הוא מגיע לתחילתו ונעצר לתמיד. הלופ רץ רק כשהרצועה על המסך, ובהפחתת תנועה היא עומדת במקום.</div>
 <section class="mvcode">
   <h2>קוד להדבקה</h2>
-  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
   <div class="mvcode-bar">
     <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
     <button class="cp" data-cp="css">CSS</button>
@@ -63,60 +65,92 @@
   </div>
   <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
     <h3>CSS</h3><pre><code>/* B42 · מרקי שמגיב למהירות הגלילה */
-.vm{overflow:hidden;border-block:1px solid var(--line, #e4e4ee);background:var(--card, #fff);padding-block:clamp(16px,2vw,30px)}
+/* direction:ltr על המכולה: בעמוד עברי רצועה ברוחב max-content מתיישרת לימין, והלופ פותח חור ריק בצד.
+   row-reverse מחזיר את סדר הקריאה: הפריט הראשון ב-HTML יושב בימין, וקורא מסך שומע את הסדר הרגיל */
+.vm{overflow:hidden;direction:ltr;border-block:1px solid var(--line, #e4e4ee);background:var(--card, #fff);padding-block:clamp(16px,2vw,30px)}
 .vm+.vm{border-top:0}
-.vm-track{display:flex;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}
+.vm-track{display:flex;flex-direction:row-reverse;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}
 .vm-track span{font-size:clamp(26px,4vw,66px);font-weight:800;white-space:nowrap;color:var(--ink, #16182b)}
 .vm-track span.o{color:transparent;-webkit-text-stroke:1px var(--muted, #6a6d85)}
 .vm.alt .vm-track span{font-size:clamp(18px,2vw,30px);font-weight:600;color:var(--muted, #6a6d85)}
 .vm-note{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding:18px var(--gutter, clamp(24px, 5vw, 96px)) 0}</code></pre>
     <h3>HTML</h3><pre><code>&lt;div class="vm"&gt;&lt;div class="vm-track"&gt;
   &lt;span&gt;אתרי תדמית&lt;/span&gt;&lt;span class="o"&gt;דפי נחיתה&lt;/span&gt;&lt;span&gt;חנויות&lt;/span&gt;&lt;span class="o"&gt;מערכות&lt;/span&gt;
-  &lt;span&gt;אתרי תדמית&lt;/span&gt;&lt;span class="o"&gt;דפי נחיתה&lt;/span&gt;&lt;span&gt;חנויות&lt;/span&gt;&lt;span class="o"&gt;מערכות&lt;/span&gt;
+  &lt;span aria-hidden="true"&gt;אתרי תדמית&lt;/span&gt;&lt;span class="o" aria-hidden="true"&gt;דפי נחיתה&lt;/span&gt;&lt;span aria-hidden="true"&gt;חנויות&lt;/span&gt;&lt;span class="o" aria-hidden="true"&gt;מערכות&lt;/span&gt;
 &lt;/div&gt;&lt;/div&gt;
 &lt;div class="vm alt"&gt;&lt;div class="vm-track"&gt;
   &lt;span&gt;אפיון&lt;/span&gt;&lt;span&gt;קופי&lt;/span&gt;&lt;span&gt;עיצוב&lt;/span&gt;&lt;span&gt;פיתוח&lt;/span&gt;&lt;span&gt;מדידה&lt;/span&gt;&lt;span&gt;ליווי&lt;/span&gt;
-  &lt;span&gt;אפיון&lt;/span&gt;&lt;span&gt;קופי&lt;/span&gt;&lt;span&gt;עיצוב&lt;/span&gt;&lt;span&gt;פיתוח&lt;/span&gt;&lt;span&gt;מדידה&lt;/span&gt;&lt;span&gt;ליווי&lt;/span&gt;
+  &lt;span aria-hidden="true"&gt;אפיון&lt;/span&gt;&lt;span aria-hidden="true"&gt;קופי&lt;/span&gt;&lt;span aria-hidden="true"&gt;עיצוב&lt;/span&gt;&lt;span aria-hidden="true"&gt;פיתוח&lt;/span&gt;&lt;span aria-hidden="true"&gt;מדידה&lt;/span&gt;&lt;span aria-hidden="true"&gt;ליווי&lt;/span&gt;
 &lt;/div&gt;&lt;/div&gt;
 &lt;p class="vm-note"&gt;גלול מהר ולאט, ואז גלול אחורה. הרצועה מגיבה.&lt;/p&gt;</code></pre>
     <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  document.querySelectorAll(".vm").forEach((wrap,idx)=&gt;{
-    const track=wrap.querySelector(".vm-track");
-    const half=track.scrollWidth/2;
-    // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס
-    const loop=gsap.fromTo(track,{x:-half},{x:0,duration:14+idx*4,ease:"none",repeat:-1});
-    if(reduce){loop.pause();return;}
-    const skewTo=gsap.quickTo(track,"skewX",{duration:.4,ease:"power3"});
-    let scale=1;
-    ScrollTrigger.create({
-      onUpdate:self=&gt;{
-        const v=self.getVelocity();
-        const dir=v&gt;0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה
-        const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה
-        scale=dir*boost;
-        loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד
-        skewTo(gsap.utils.clamp(-8,8,-v/260));
-      }
+  const wraps=[...document.querySelectorAll(".vm")];
+  // עותקים עד שהרצועה לפחות פי 2 מהמסך הרחב ביותר של המכשיר, אחרת בצד אחד נפתח חור ריק.
+  // בלי ספרייה, כדי שגם רצועה עומדת (הפחתת תנועה, CDN חסום) תהיה מלאה עד הקצה.
+  // העותקים מוסתרים מקורא מסך, כדי שהמילים לא יוקראו שוב ושוב
+  const units=wraps.map(wrap=&gt;{
+    const track=wrap.querySelector(".vm-track"),unit=[...track.children];
+    const need=Math.max(innerWidth,screen.width||0)*2+200;
+    while(track.scrollWidth&lt;need)unit.forEach(k=&gt;{const c=k.cloneNode(true);c.setAttribute("aria-hidden","true");track.appendChild(c);});
+    return unit.length;
+  });
+  if(typeof gsap==="undefined")return;   // בלי הספרייה הרצועה עומדת, מלאה עד הקצה
+  // הפחתת תנועה: אין לולאה. הרצועה עומדת במקום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    const offs=[];   // מה שצריך לנתק כשההעדפה משתנה להפחתת תנועה (טווינים וטריגרים מתנקים לבד)
+    wraps.forEach((wrap,idx)=&gt;{
+      const track=wrap.querySelector(".vm-track");
+      const all=track.children;
+      // אורך הלופ הוא המרחק המדויק בין הפריט הראשון לראשון של החצי השני, כולל הרווח שבתפר.
+      // בפונקציה, כדי שיימדד מחדש אחרי שינוי גודל (הגופן גדל עם רוחב המסך)
+      const half=()=&gt;Math.abs(all[0].offsetLeft-all[all.length/2].offsetLeft);
+      // המשך נגזר מאורך הלופ: מהירות בסיס 110 ו-90 פיקסלים לשנייה (השורה השנייה איטית יותר), לא פחות מ-90
+      // כמו שהתורה דורשת (qa-checklist 13ב). קודם 14 שניות לעותק, 20 עד 85 פיקסלים לשנייה לפי הרוחב (30.9.2026)
+      const dur=half()/(idx?90:110);
+      // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס
+      const loop=gsap.fromTo(track,{x:()=&gt;-half()},{x:0,duration:dur,ease:"none",repeat:-1,
+        // גלילה אחורה מריצה את הלופ הפוך. בלי זה, כשהוא מגיע לתחילתו הוא נעצר לתמיד
+        onReverseComplete(){loop.totalTime(loop.rawTime()+loop.duration()*100);}});
+      const skewTo=gsap.quickTo(track,"skewX",{duration:.4,ease:"power3"});
+      let scale=1;
+      ScrollTrigger.create({
+        onUpdate:self=&gt;{
+          const v=self.getVelocity();
+          const dir=v&gt;0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה
+          const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה
+          scale=dir*boost;
+          loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד
+          skewTo(gsap.utils.clamp(-8,8,-v/260));
+        }
+      });
+      // רצה רק כשהרצועה על המסך. לפי progress ולא isActive, שעדיין לא מוגדר בריענון הראשון
+      const run=s=&gt;(s.progress&gt;0&amp;&amp;s.progress&lt;1)?loop.resume():loop.pause();
+      ScrollTrigger.create({trigger:wrap,start:"top bottom",end:"bottom top",onToggle:run,onRefresh:run});
+      // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.
+      const tick=()=&gt;{
+        const base=Math.sign(scale)||1;
+        if(Math.abs(scale-base)&lt;.02)return;
+        scale+=(base-scale)*.05;
+        loop.timeScale(scale);
+      };
+      gsap.ticker.add(tick);
+      // שינוי גודל: הגופן והרווח גדלים עם המסך, ולכן מודדים את אורך הלופ מחדש
+      let t;const onResize=()=&gt;{clearTimeout(t);t=setTimeout(()=&gt;loop.invalidate(),150);};
+      addEventListener("resize",onResize);
+      offs.push(()=&gt;{gsap.ticker.remove(tick);removeEventListener("resize",onResize);clearTimeout(t);});
     });
-    // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.
-    gsap.ticker.add(()=&gt;{
-      const base=Math.sign(scale)||1;
-      if(Math.abs(scale-base)&lt;.02)return;
-      scale+=(base-scale)*.05;
-      loop.timeScale(scale);
-    });
+    return ()=&gt;offs.forEach(f=&gt;f());
   });
 })();</code></pre>
   </details>
-  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b42 · מרקי שמגיב למהירות הגלילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b42.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b42.html\n\nמה זה עושה: רצועה שזורמת לבד, מאיצה כשגוללים מהר, מתהפכת בכיוון כשגוללים אחורה, ומתעוותת קלות לפי המהירות. חוזרת לזרימה רגילה כשעוצרים.\nמתי משתמשים: רצועת לוגואים, פס אמון, כותרות ענק, שמות שירותים. שדרוג ישיר של מרקי רגיל: הוא מרגיש חי במקום לולאה מכנית.\nסוג אתר: פורטפוליו וסטודיו · אתר תדמית · וואן-פייג'ר\nבסקשן: מספרים ולקוחות · נשימה ומעבר\nאופי: רק באתר חוויתי\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: מידע שחייבים לקרוא, כמו מחירים או תנאים, או כשכבר יש רצועה נעה אחרת בעמוד.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* B42 · מרקי שמגיב למהירות הגלילה */\n.vm{overflow:hidden;border-block:1px solid var(--line, #e4e4ee);background:var(--card, #fff);padding-block:clamp(16px,2vw,30px)}\n.vm+.vm{border-top:0}\n.vm-track{display:flex;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}\n.vm-track span{font-size:clamp(26px,4vw,66px);font-weight:800;white-space:nowrap;color:var(--ink, #16182b)}\n.vm-track span.o{color:transparent;-webkit-text-stroke:1px var(--muted, #6a6d85)}\n.vm.alt .vm-track span{font-size:clamp(18px,2vw,30px);font-weight:600;color:var(--muted, #6a6d85)}\n.vm-note{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding:18px var(--gutter, clamp(24px, 5vw, 96px)) 0}\n\n=== HTML ===\n<div class=\"vm\"><div class=\"vm-track\">\n  <span>אתרי תדמית<\/span><span class=\"o\">דפי נחיתה<\/span><span>חנויות<\/span><span class=\"o\">מערכות<\/span>\n  <span>אתרי תדמית<\/span><span class=\"o\">דפי נחיתה<\/span><span>חנויות<\/span><span class=\"o\">מערכות<\/span>\n<\/div><\/div>\n<div class=\"vm alt\"><div class=\"vm-track\">\n  <span>אפיון<\/span><span>קופי<\/span><span>עיצוב<\/span><span>פיתוח<\/span><span>מדידה<\/span><span>ליווי<\/span>\n  <span>אפיון<\/span><span>קופי<\/span><span>עיצוב<\/span><span>פיתוח<\/span><span>מדידה<\/span><span>ליווי<\/span>\n<\/div><\/div>\n<p class=\"vm-note\">גלול מהר ולאט, ואז גלול אחורה. הרצועה מגיבה.<\/p>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  document.querySelectorAll(\".vm\").forEach((wrap,idx)=>{\n    const track=wrap.querySelector(\".vm-track\");\n    const half=track.scrollWidth/2;\n    // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס\n    const loop=gsap.fromTo(track,{x:-half},{x:0,duration:14+idx*4,ease:\"none\",repeat:-1});\n    if(reduce){loop.pause();return;}\n    const skewTo=gsap.quickTo(track,\"skewX\",{duration:.4,ease:\"power3\"});\n    let scale=1;\n    ScrollTrigger.create({\n      onUpdate:self=>{\n        const v=self.getVelocity();\n        const dir=v>0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה\n        const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה\n        scale=dir*boost;\n        loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד\n        skewTo(gsap.utils.clamp(-8,8,-v/260));\n      }\n    });\n    // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.\n    gsap.ticker.add(()=>{\n      const base=Math.sign(scale)||1;\n      if(Math.abs(scale-base)<.02)return;\n      scale+=(base-scale)*.05;\n      loop.timeScale(scale);\n    });\n  });\n})();\n\nהערת מימוש מהמאגר:\ngetVelocity מחזיר פיקסלים לשנייה עם סימן שמעיד על הכיוון, ומכאן שני האפקטים: timeScale שלילי מהפך את הלולאה, ו-clamp מונע האצה מטורפת בגלילת מגע. חובה להחזיר את הקצב לבסיס אחרי הדחיפה, אחרת הרצועה נשארת מהירה לנצח. ה-skew מוגבל לשמונה מעלות: מעבר לזה הטקסט נעשה לא קריא.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* B42 · מרקי שמגיב למהירות הגלילה */\n.vm{overflow:hidden;border-block:1px solid var(--line, #e4e4ee);background:var(--card, #fff);padding-block:clamp(16px,2vw,30px)}\n.vm+.vm{border-top:0}\n.vm-track{display:flex;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}\n.vm-track span{font-size:clamp(26px,4vw,66px);font-weight:800;white-space:nowrap;color:var(--ink, #16182b)}\n.vm-track span.o{color:transparent;-webkit-text-stroke:1px var(--muted, #6a6d85)}\n.vm.alt .vm-track span{font-size:clamp(18px,2vw,30px);font-weight:600;color:var(--muted, #6a6d85)}\n.vm-note{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding:18px var(--gutter, clamp(24px, 5vw, 96px)) 0}","html":"<div class=\"vm\"><div class=\"vm-track\">\n  <span>אתרי תדמית<\/span><span class=\"o\">דפי נחיתה<\/span><span>חנויות<\/span><span class=\"o\">מערכות<\/span>\n  <span>אתרי תדמית<\/span><span class=\"o\">דפי נחיתה<\/span><span>חנויות<\/span><span class=\"o\">מערכות<\/span>\n<\/div><\/div>\n<div class=\"vm alt\"><div class=\"vm-track\">\n  <span>אפיון<\/span><span>קופי<\/span><span>עיצוב<\/span><span>פיתוח<\/span><span>מדידה<\/span><span>ליווי<\/span>\n  <span>אפיון<\/span><span>קופי<\/span><span>עיצוב<\/span><span>פיתוח<\/span><span>מדידה<\/span><span>ליווי<\/span>\n<\/div><\/div>\n<p class=\"vm-note\">גלול מהר ולאט, ואז גלול אחורה. הרצועה מגיבה.<\/p>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  document.querySelectorAll(\".vm\").forEach((wrap,idx)=>{\n    const track=wrap.querySelector(\".vm-track\");\n    const half=track.scrollWidth/2;\n    // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס\n    const loop=gsap.fromTo(track,{x:-half},{x:0,duration:14+idx*4,ease:\"none\",repeat:-1});\n    if(reduce){loop.pause();return;}\n    const skewTo=gsap.quickTo(track,\"skewX\",{duration:.4,ease:\"power3\"});\n    let scale=1;\n    ScrollTrigger.create({\n      onUpdate:self=>{\n        const v=self.getVelocity();\n        const dir=v>0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה\n        const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה\n        scale=dir*boost;\n        loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד\n        skewTo(gsap.utils.clamp(-8,8,-v/260));\n      }\n    });\n    // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.\n    gsap.ticker.add(()=>{\n      const base=Math.sign(scale)||1;\n      if(Math.abs(scale-base)<.02)return;\n      scale+=(base-scale)*.05;\n      loop.timeScale(scale);\n    });\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":false}</script>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b42 · מרקי שמגיב למהירות הגלילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b42.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b42.html\n\nמה זה עושה: רצועה שזורמת לבד, מאיצה כשגוללים מהר, מתהפכת בכיוון כשגוללים אחורה, ומתעוותת קלות לפי המהירות. כשעוצרים היא חוזרת לקצב הבסיס, בכיוון של הגלילה האחרונה.\nמתי משתמשים: רצועת לוגואים, פס אמון, כותרות ענק, שמות שירותים. שדרוג ישיר של מרקי רגיל: הוא מרגיש חי במקום לולאה מכנית.\nסוג אתר: פורטפוליו וסטודיו · אתר תדמית · וואן-פייג'ר\nבסקשן: מספרים ולקוחות · נשימה ומעבר\nאופי: רק באתר חוויתי\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: מידע שחייבים לקרוא, כמו מחירים או תנאים, או כשכבר יש רצועה נעה אחרת בעמוד.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* B42 · מרקי שמגיב למהירות הגלילה */\n/* direction:ltr על המכולה: בעמוד עברי רצועה ברוחב max-content מתיישרת לימין, והלופ פותח חור ריק בצד.\n   row-reverse מחזיר את סדר הקריאה: הפריט הראשון ב-HTML יושב בימין, וקורא מסך שומע את הסדר הרגיל */\n.vm{overflow:hidden;direction:ltr;border-block:1px solid var(--line, #e4e4ee);background:var(--card, #fff);padding-block:clamp(16px,2vw,30px)}\n.vm+.vm{border-top:0}\n.vm-track{display:flex;flex-direction:row-reverse;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}\n.vm-track span{font-size:clamp(26px,4vw,66px);font-weight:800;white-space:nowrap;color:var(--ink, #16182b)}\n.vm-track span.o{color:transparent;-webkit-text-stroke:1px var(--muted, #6a6d85)}\n.vm.alt .vm-track span{font-size:clamp(18px,2vw,30px);font-weight:600;color:var(--muted, #6a6d85)}\n.vm-note{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding:18px var(--gutter, clamp(24px, 5vw, 96px)) 0}\n\n=== HTML ===\n<div class=\"vm\"><div class=\"vm-track\">\n  <span>אתרי תדמית<\/span><span class=\"o\">דפי נחיתה<\/span><span>חנויות<\/span><span class=\"o\">מערכות<\/span>\n  <span aria-hidden=\"true\">אתרי תדמית<\/span><span class=\"o\" aria-hidden=\"true\">דפי נחיתה<\/span><span aria-hidden=\"true\">חנויות<\/span><span class=\"o\" aria-hidden=\"true\">מערכות<\/span>\n<\/div><\/div>\n<div class=\"vm alt\"><div class=\"vm-track\">\n  <span>אפיון<\/span><span>קופי<\/span><span>עיצוב<\/span><span>פיתוח<\/span><span>מדידה<\/span><span>ליווי<\/span>\n  <span aria-hidden=\"true\">אפיון<\/span><span aria-hidden=\"true\">קופי<\/span><span aria-hidden=\"true\">עיצוב<\/span><span aria-hidden=\"true\">פיתוח<\/span><span aria-hidden=\"true\">מדידה<\/span><span aria-hidden=\"true\">ליווי<\/span>\n<\/div><\/div>\n<p class=\"vm-note\">גלול מהר ולאט, ואז גלול אחורה. הרצועה מגיבה.<\/p>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const wraps=[...document.querySelectorAll(\".vm\")];\n  // עותקים עד שהרצועה לפחות פי 2 מהמסך הרחב ביותר של המכשיר, אחרת בצד אחד נפתח חור ריק.\n  // בלי ספרייה, כדי שגם רצועה עומדת (הפחתת תנועה, CDN חסום) תהיה מלאה עד הקצה.\n  // העותקים מוסתרים מקורא מסך, כדי שהמילים לא יוקראו שוב ושוב\n  const units=wraps.map(wrap=>{\n    const track=wrap.querySelector(\".vm-track\"),unit=[...track.children];\n    const need=Math.max(innerWidth,screen.width||0)*2+200;\n    while(track.scrollWidth<need)unit.forEach(k=>{const c=k.cloneNode(true);c.setAttribute(\"aria-hidden\",\"true\");track.appendChild(c);});\n    return unit.length;\n  });\n  if(typeof gsap===\"undefined\")return;   // בלי הספרייה הרצועה עומדת, מלאה עד הקצה\n  // הפחתת תנועה: אין לולאה. הרצועה עומדת במקום\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    const offs=[];   // מה שצריך לנתק כשההעדפה משתנה להפחתת תנועה (טווינים וטריגרים מתנקים לבד)\n    wraps.forEach((wrap,idx)=>{\n      const track=wrap.querySelector(\".vm-track\");\n      const all=track.children;\n      // אורך הלופ הוא המרחק המדויק בין הפריט הראשון לראשון של החצי השני, כולל הרווח שבתפר.\n      // בפונקציה, כדי שיימדד מחדש אחרי שינוי גודל (הגופן גדל עם רוחב המסך)\n      const half=()=>Math.abs(all[0].offsetLeft-all[all.length/2].offsetLeft);\n      // המשך נגזר מאורך הלופ: מהירות בסיס 110 ו-90 פיקסלים לשנייה (השורה השנייה איטית יותר), לא פחות מ-90\n      // כמו שהתורה דורשת (qa-checklist 13ב). קודם 14 שניות לעותק, 20 עד 85 פיקסלים לשנייה לפי הרוחב (30.9.2026)\n      const dur=half()/(idx?90:110);\n      // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס\n      const loop=gsap.fromTo(track,{x:()=>-half()},{x:0,duration:dur,ease:\"none\",repeat:-1,\n        // גלילה אחורה מריצה את הלופ הפוך. בלי זה, כשהוא מגיע לתחילתו הוא נעצר לתמיד\n        onReverseComplete(){loop.totalTime(loop.rawTime()+loop.duration()*100);}});\n      const skewTo=gsap.quickTo(track,\"skewX\",{duration:.4,ease:\"power3\"});\n      let scale=1;\n      ScrollTrigger.create({\n        onUpdate:self=>{\n          const v=self.getVelocity();\n          const dir=v>0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה\n          const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה\n          scale=dir*boost;\n          loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד\n          skewTo(gsap.utils.clamp(-8,8,-v/260));\n        }\n      });\n      // רצה רק כשהרצועה על המסך. לפי progress ולא isActive, שעדיין לא מוגדר בריענון הראשון\n      const run=s=>(s.progress>0&&s.progress<1)?loop.resume():loop.pause();\n      ScrollTrigger.create({trigger:wrap,start:\"top bottom\",end:\"bottom top\",onToggle:run,onRefresh:run});\n      // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.\n      const tick=()=>{\n        const base=Math.sign(scale)||1;\n        if(Math.abs(scale-base)<.02)return;\n        scale+=(base-scale)*.05;\n        loop.timeScale(scale);\n      };\n      gsap.ticker.add(tick);\n      // שינוי גודל: הגופן והרווח גדלים עם המסך, ולכן מודדים את אורך הלופ מחדש\n      let t;const onResize=()=>{clearTimeout(t);t=setTimeout(()=>loop.invalidate(),150);};\n      addEventListener(\"resize\",onResize);\n      offs.push(()=>{gsap.ticker.remove(tick);removeEventListener(\"resize\",onResize);clearTimeout(t);});\n    });\n    return ()=>offs.forEach(f=>f());\n  });\n})();\n\nהערת מימוש מהמאגר:\ngetVelocity מחזיר פיקסלים לשנייה עם סימן שמעיד על הכיוון, ומכאן שני האפקטים: timeScale שלילי מהפך את הלולאה, ו-clamp מונע האצה מטורפת בגלילת מגע. חובה להחזיר את הקצב לבסיס אחרי הדחיפה, אחרת הרצועה נשארת מהירה לנצח. ה-skew מוגבל לשמונה מעלות: מעבר לזה הטקסט נעשה לא קריא. שלוש מלכודות שנמדדו: בעמוד עברי המכולה חייבת `direction:ltr`, אחרת הרצועה מתיישרת לימין ונפתח חור ריק בצד (עד 888 פיקסלים ב-1280), ו-`row-reverse` מחזיר את סדר הקריאה; הרצועה משוכפלת עד שהיא לפחות פי 2 מרוחב המסך; ו-`onReverseComplete` מקפיץ את הלופ קדימה, אחרת אחרי גלילה אחורה הוא מגיע לתחילתו ונעצר לתמיד. הלופ רץ רק כשהרצועה על המסך, ובהפחתת תנועה היא עומדת במקום.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* B42 · מרקי שמגיב למהירות הגלילה */\n/* direction:ltr על המכולה: בעמוד עברי רצועה ברוחב max-content מתיישרת לימין, והלופ פותח חור ריק בצד.\n   row-reverse מחזיר את סדר הקריאה: הפריט הראשון ב-HTML יושב בימין, וקורא מסך שומע את הסדר הרגיל */\n.vm{overflow:hidden;direction:ltr;border-block:1px solid var(--line, #e4e4ee);background:var(--card, #fff);padding-block:clamp(16px,2vw,30px)}\n.vm+.vm{border-top:0}\n.vm-track{display:flex;flex-direction:row-reverse;gap:clamp(28px,4vw,64px);width:max-content;will-change:transform}\n.vm-track span{font-size:clamp(26px,4vw,66px);font-weight:800;white-space:nowrap;color:var(--ink, #16182b)}\n.vm-track span.o{color:transparent;-webkit-text-stroke:1px var(--muted, #6a6d85)}\n.vm.alt .vm-track span{font-size:clamp(18px,2vw,30px);font-weight:600;color:var(--muted, #6a6d85)}\n.vm-note{text-align:center;color:var(--muted, #6a6d85);font-size:14px;padding:18px var(--gutter, clamp(24px, 5vw, 96px)) 0}","html":"<div class=\"vm\"><div class=\"vm-track\">\n  <span>אתרי תדמית<\/span><span class=\"o\">דפי נחיתה<\/span><span>חנויות<\/span><span class=\"o\">מערכות<\/span>\n  <span aria-hidden=\"true\">אתרי תדמית<\/span><span class=\"o\" aria-hidden=\"true\">דפי נחיתה<\/span><span aria-hidden=\"true\">חנויות<\/span><span class=\"o\" aria-hidden=\"true\">מערכות<\/span>\n<\/div><\/div>\n<div class=\"vm alt\"><div class=\"vm-track\">\n  <span>אפיון<\/span><span>קופי<\/span><span>עיצוב<\/span><span>פיתוח<\/span><span>מדידה<\/span><span>ליווי<\/span>\n  <span aria-hidden=\"true\">אפיון<\/span><span aria-hidden=\"true\">קופי<\/span><span aria-hidden=\"true\">עיצוב<\/span><span aria-hidden=\"true\">פיתוח<\/span><span aria-hidden=\"true\">מדידה<\/span><span aria-hidden=\"true\">ליווי<\/span>\n<\/div><\/div>\n<p class=\"vm-note\">גלול מהר ולאט, ואז גלול אחורה. הרצועה מגיבה.<\/p>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const wraps=[...document.querySelectorAll(\".vm\")];\n  // עותקים עד שהרצועה לפחות פי 2 מהמסך הרחב ביותר של המכשיר, אחרת בצד אחד נפתח חור ריק.\n  // בלי ספרייה, כדי שגם רצועה עומדת (הפחתת תנועה, CDN חסום) תהיה מלאה עד הקצה.\n  // העותקים מוסתרים מקורא מסך, כדי שהמילים לא יוקראו שוב ושוב\n  const units=wraps.map(wrap=>{\n    const track=wrap.querySelector(\".vm-track\"),unit=[...track.children];\n    const need=Math.max(innerWidth,screen.width||0)*2+200;\n    while(track.scrollWidth<need)unit.forEach(k=>{const c=k.cloneNode(true);c.setAttribute(\"aria-hidden\",\"true\");track.appendChild(c);});\n    return unit.length;\n  });\n  if(typeof gsap===\"undefined\")return;   // בלי הספרייה הרצועה עומדת, מלאה עד הקצה\n  // הפחתת תנועה: אין לולאה. הרצועה עומדת במקום\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    const offs=[];   // מה שצריך לנתק כשההעדפה משתנה להפחתת תנועה (טווינים וטריגרים מתנקים לבד)\n    wraps.forEach((wrap,idx)=>{\n      const track=wrap.querySelector(\".vm-track\");\n      const all=track.children;\n      // אורך הלופ הוא המרחק המדויק בין הפריט הראשון לראשון של החצי השני, כולל הרווח שבתפר.\n      // בפונקציה, כדי שיימדד מחדש אחרי שינוי גודל (הגופן גדל עם רוחב המסך)\n      const half=()=>Math.abs(all[0].offsetLeft-all[all.length/2].offsetLeft);\n      // המשך נגזר מאורך הלופ: מהירות בסיס 110 ו-90 פיקסלים לשנייה (השורה השנייה איטית יותר), לא פחות מ-90\n      // כמו שהתורה דורשת (qa-checklist 13ב). קודם 14 שניות לעותק, 20 עד 85 פיקסלים לשנייה לפי הרוחב (30.9.2026)\n      const dur=half()/(idx?90:110);\n      // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס\n      const loop=gsap.fromTo(track,{x:()=>-half()},{x:0,duration:dur,ease:\"none\",repeat:-1,\n        // גלילה אחורה מריצה את הלופ הפוך. בלי זה, כשהוא מגיע לתחילתו הוא נעצר לתמיד\n        onReverseComplete(){loop.totalTime(loop.rawTime()+loop.duration()*100);}});\n      const skewTo=gsap.quickTo(track,\"skewX\",{duration:.4,ease:\"power3\"});\n      let scale=1;\n      ScrollTrigger.create({\n        onUpdate:self=>{\n          const v=self.getVelocity();\n          const dir=v>0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה\n          const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה\n          scale=dir*boost;\n          loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד\n          skewTo(gsap.utils.clamp(-8,8,-v/260));\n        }\n      });\n      // רצה רק כשהרצועה על המסך. לפי progress ולא isActive, שעדיין לא מוגדר בריענון הראשון\n      const run=s=>(s.progress>0&&s.progress<1)?loop.resume():loop.pause();\n      ScrollTrigger.create({trigger:wrap,start:\"top bottom\",end:\"bottom top\",onToggle:run,onRefresh:run});\n      // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.\n      const tick=()=>{\n        const base=Math.sign(scale)||1;\n        if(Math.abs(scale-base)<.02)return;\n        scale+=(base-scale)*.05;\n        loop.timeScale(scale);\n      };\n      gsap.ticker.add(tick);\n      // שינוי גודל: הגופן והרווח גדלים עם המסך, ולכן מודדים את אורך הלופ מחדש\n      let t;const onResize=()=>{clearTimeout(t);t=setTimeout(()=>loop.invalidate(),150);};\n      addEventListener(\"resize\",onResize);\n      offs.push(()=>{gsap.ticker.remove(tick);removeEventListener(\"resize\",onResize);clearTimeout(t);});\n    });\n    return ()=>offs.forEach(f=>f());\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
 </section>
 <nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="b41.html" rel="prev"><small>→ הקודם</small><b>סקשן מוצמד שהתוכן בו מתחלף בגלילה</b></a><a href="b43.html" rel="next"><small>הבא ←</small><b>מחשבון עם סליידר וגרף חי</b></a></nav>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-<script src="../assets/baseline.js?v=d1dd0eb3"></script>
+<script src="../assets/baseline.js?v=367bac96"></script>
 <script src="../assets/status.js"></script>
 <script src="../assets/tray.js"></script>
 <script>
@@ -142,32 +176,62 @@ document.querySelector(".mvid").addEventListener("click",function(){
 })();
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 (function(){
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  document.querySelectorAll(".vm").forEach((wrap,idx)=>{
-    const track=wrap.querySelector(".vm-track");
-    const half=track.scrollWidth/2;
-    // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס
-    const loop=gsap.fromTo(track,{x:-half},{x:0,duration:14+idx*4,ease:"none",repeat:-1});
-    if(reduce){loop.pause();return;}
-    const skewTo=gsap.quickTo(track,"skewX",{duration:.4,ease:"power3"});
-    let scale=1;
-    ScrollTrigger.create({
-      onUpdate:self=>{
-        const v=self.getVelocity();
-        const dir=v>0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה
-        const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה
-        scale=dir*boost;
-        loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד
-        skewTo(gsap.utils.clamp(-8,8,-v/260));
-      }
+  const wraps=[...document.querySelectorAll(".vm")];
+  // עותקים עד שהרצועה לפחות פי 2 מהמסך הרחב ביותר של המכשיר, אחרת בצד אחד נפתח חור ריק.
+  // בלי ספרייה, כדי שגם רצועה עומדת (הפחתת תנועה, CDN חסום) תהיה מלאה עד הקצה.
+  // העותקים מוסתרים מקורא מסך, כדי שהמילים לא יוקראו שוב ושוב
+  const units=wraps.map(wrap=>{
+    const track=wrap.querySelector(".vm-track"),unit=[...track.children];
+    const need=Math.max(innerWidth,screen.width||0)*2+200;
+    while(track.scrollWidth<need)unit.forEach(k=>{const c=k.cloneNode(true);c.setAttribute("aria-hidden","true");track.appendChild(c);});
+    return unit.length;
+  });
+  if(typeof gsap==="undefined")return;   // בלי הספרייה הרצועה עומדת, מלאה עד הקצה
+  // הפחתת תנועה: אין לולאה. הרצועה עומדת במקום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const offs=[];   // מה שצריך לנתק כשההעדפה משתנה להפחתת תנועה (טווינים וטריגרים מתנקים לבד)
+    wraps.forEach((wrap,idx)=>{
+      const track=wrap.querySelector(".vm-track");
+      const all=track.children;
+      // אורך הלופ הוא המרחק המדויק בין הפריט הראשון לראשון של החצי השני, כולל הרווח שבתפר.
+      // בפונקציה, כדי שיימדד מחדש אחרי שינוי גודל (הגופן גדל עם רוחב המסך)
+      const half=()=>Math.abs(all[0].offsetLeft-all[all.length/2].offsetLeft);
+      // המשך נגזר מאורך הלופ: מהירות בסיס 110 ו-90 פיקסלים לשנייה (השורה השנייה איטית יותר), לא פחות מ-90
+      // כמו שהתורה דורשת (qa-checklist 13ב). קודם 14 שניות לעותק, 20 עד 85 פיקסלים לשנייה לפי הרוחב (30.9.2026)
+      const dur=half()/(idx?90:110);
+      // עמוד עברי: הרצועה זורמת ימינה, ולכן מתחילים במינוס וחוזרים לאפס
+      const loop=gsap.fromTo(track,{x:()=>-half()},{x:0,duration:dur,ease:"none",repeat:-1,
+        // גלילה אחורה מריצה את הלופ הפוך. בלי זה, כשהוא מגיע לתחילתו הוא נעצר לתמיד
+        onReverseComplete(){loop.totalTime(loop.rawTime()+loop.duration()*100);}});
+      const skewTo=gsap.quickTo(track,"skewX",{duration:.4,ease:"power3"});
+      let scale=1;
+      ScrollTrigger.create({
+        onUpdate:self=>{
+          const v=self.getVelocity();
+          const dir=v>0?1:-1;                                   // כיוון הגלילה קובע את כיוון הזרימה
+          const boost=gsap.utils.clamp(1,6,1+Math.abs(v)/900);  // מהירות מוסיפה דחיפה, עם תקרה
+          scale=dir*boost;
+          loop.timeScale(scale);                                // השמה ישירה, מגיבה מיד
+          skewTo(gsap.utils.clamp(-8,8,-v/260));
+        }
+      });
+      // רצה רק כשהרצועה על המסך. לפי progress ולא isActive, שעדיין לא מוגדר בריענון הראשון
+      const run=s=>(s.progress>0&&s.progress<1)?loop.resume():loop.pause();
+      ScrollTrigger.create({trigger:wrap,start:"top bottom",end:"bottom top",onToggle:run,onRefresh:run});
+      // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.
+      const tick=()=>{
+        const base=Math.sign(scale)||1;
+        if(Math.abs(scale-base)<.02)return;
+        scale+=(base-scale)*.05;
+        loop.timeScale(scale);
+      };
+      gsap.ticker.add(tick);
+      // שינוי גודל: הגופן והרווח גדלים עם המסך, ולכן מודדים את אורך הלופ מחדש
+      let t;const onResize=()=>{clearTimeout(t);t=setTimeout(()=>loop.invalidate(),150);};
+      addEventListener("resize",onResize);
+      offs.push(()=>{gsap.ticker.remove(tick);removeEventListener("resize",onResize);clearTimeout(t);});
     });
-    // דעיכה חזרה לקצב הבסיס. בלי זה הרצועה נשארת מהירה לנצח אחרי גלילה חדה.
-    gsap.ticker.add(()=>{
-      const base=Math.sign(scale)||1;
-      if(Math.abs(scale-base)<.02)return;
-      scale+=(base-scale)*.05;
-      loop.timeScale(scale);
-    });
+    return ()=>offs.forEach(f=>f());
   });
 })();
 </script>

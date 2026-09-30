@@ -51,6 +51,7 @@ img{max-width:100%}
 .bn-scr{height:100%;overflow:auto;overscroll-behavior:contain;scrollbar-width:none}
 .bn-scr::-webkit-scrollbar{display:none}
 .bn-sec{padding:32px 24px 40px}
+.bn-sec:focus{outline:none} /* יעד פוקוס אחרי בחירת קישור, לא פקד */
 .bn-sec:first-child{padding-top:56px}
 .bn-sec:last-child{padding-bottom:112px}
 .bn-sec h3{margin:0 0 8px;font-size:26px;line-height:1.15}
@@ -61,7 +62,10 @@ img{max-width:100%}
 .bn.open .bn-scrim{opacity:1;pointer-events:auto}
 /* משטח אחד: clip-path חותך ממנו את הגלולה בתחתית. הצל על ההורה, כי clip-path חותך גם צל */
 .bn-nav{--pw:204px;--ph:56px;position:absolute;inset-inline:16px;bottom:16px;z-index:5;
-  filter:drop-shadow(0 14px 22px color-mix(in srgb,var(--ink, #16182b) 30%,transparent));transition:transform .45s cubic-bezier(.2,.6,.2,1)}
+  filter:drop-shadow(0 14px 22px color-mix(in srgb,var(--ink, #16182b) 30%,transparent));transition:transform .45s cubic-bezier(.2,.6,.2,1);pointer-events:none}
+/* הקופסה של התפריט בגובה הכרטיס הפתוח גם כשהוא סגור, ושקופה היא עדיין תופסת לחיצות וגלגלת מעל חצי המסך התחתון.
+   בסגור רק הגלולה לחיצה, בפתוח כל הכרטיס */
+.bn-bar-in,.bn.open .bn-sheet{pointer-events:auto}
 .bn.hide .bn-nav{transform:translateY(calc(var(--ph) + 24px))}
 .bn-sheet{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border-radius:28px;
   clip-path:inset(calc(100% - var(--ph)) calc(50% - var(--pw) / 2) 0 round 28px);transition:clip-path .5s cubic-bezier(.76,0,.24,1)}
@@ -132,19 +136,24 @@ img{max-width:100%}
   const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isOpen=()=>root.classList.contains("open");
   card.inert=true;
-  function set(open){
+  // to: לאן הפוקוס עובר בסגירה. בלי יעד, ורק אם הפוקוס היה בתוך הכרטיס, הוא חוזר לכפתור:
+  // inert על הכרטיס מפיל את הפוקוס ל-body, ומשתמש מקלדת היה מתחיל שוב מראש העמוד
+  function set(open,to){
+    const had=card.contains(document.activeElement);
     root.classList.toggle("open",open);root.classList.remove("hide");
     btn.setAttribute("aria-expanded",String(open));
     btn.setAttribute("aria-label",open?"סגירת התפריט":"פתיחת התפריט");
     card.inert=!open;scr.inert=open; // בזמן שהתפריט פתוח, הדף מתחת לא נגיש ולא לחיץ
     if(open)(links.find(a=>a.hasAttribute("aria-current"))||links[0]).focus({preventScroll:true});
+    else if(to||had)(to||btn).focus({preventScroll:true});
   }
   btn.addEventListener("click",()=>set(!isOpen()));
-  scrim.addEventListener("click",()=>set(false));
-  root.addEventListener("keydown",e=>{if(e.key==="Escape"&&isOpen()){set(false);btn.focus();}});
+  scrim.addEventListener("click",()=>set(false,btn));
+  root.addEventListener("keydown",e=>{if(e.key==="Escape"&&isOpen())set(false,btn);});
   links.concat(cta).forEach(a=>a.addEventListener("click",e=>{
     const t=root.querySelector(a.getAttribute("href"));if(!t)return;
-    e.preventDefault();set(false);
+    // הפוקוס עובר לסקשן שנבחר, כך שה-Tab הבא ממשיך משם
+    e.preventDefault();t.tabIndex=-1;set(false,t);
     scr.scrollTo({top:t.offsetTop,behavior:reduced?"auto":"smooth"});
   }));
   // שם הסקשן הנוכחי בגלולה, וסימון הקישור שלו בכרטיס

@@ -50,7 +50,7 @@ img{max-width:100%}
 .sa-pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(32px,5vw,96px);align-items:center;min-height:min(80vh,700px)}
 .sa-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .sa-item{padding-block:16px}
-.sa-q{display:flex;align-items:baseline;gap:16px;width:100%;padding:0;border:0;background:none;font:inherit;color:inherit;text-align:start;cursor:pointer}
+.sa-q{display:flex;align-items:baseline;gap:16px;width:100%;padding:10px 0;margin-block:-10px;border:0;background:none;font:inherit;color:inherit;text-align:start;cursor:pointer}
 .sa-q:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:6px;border-radius:6px}
 .sa-n{flex:none;width:24px;font-size:15px;font-weight:600;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums;transition:color .35s}
 .sa-t{font-size:clamp(22px,2vw,34px);font-weight:600;line-height:1.15;color:color-mix(in srgb,var(--ink, #16182b) 40%,var(--bg, #f7f7fa));transition:color .4s cubic-bezier(.2,.6,.2,1)}
@@ -105,7 +105,6 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  gsap.registerPlugin(ScrollTrigger);
   const root=document.querySelector(".sa"),items=[...root.querySelectorAll(".sa-item")],imgs=[...root.querySelectorAll(".sa-img")];
   const bars=items.map(it=>it.querySelector(".sa-bar i")),n=items.length;
   let cur=-1,st=null;
@@ -121,6 +120,9 @@ if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
     const y=st.start+(st.end-st.start)*(i+.5)/n;
     window.scrollTo({top:y,behavior:"smooth"});
   }));
+  // בלי GSAP (CDN חסום) זה אקורדיון רגיל בלחיצה. קודם registerPlugin היה השורה הראשונה, נפל, ואף שלב לא נפתח
+  if(typeof gsap==="undefined"){show(0);return;}
+  gsap.registerPlugin(ScrollTrigger);
   const mm=gsap.matchMedia();
   mm.add("(min-width:1024px) and (prefers-reduced-motion: no-preference)",()=>{
     st=ScrollTrigger.create({trigger:root.querySelector(".sa-pin"),start:"center center",end:"+="+(n*55)+"%",pin:true,anticipatePin:1,

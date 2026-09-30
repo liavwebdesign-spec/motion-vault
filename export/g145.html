@@ -39,6 +39,10 @@ img{max-width:100%}
 .fw2{min-height:150vh;display:grid;place-items:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
 .fw2 h2{font-size:clamp(28px,5vw,72px);font-weight:800;line-height:1.3;margin:0;text-align:center;max-width:22ch}
 .fw2 .w{display:inline-block;margin-inline:.14em;will-change:transform,opacity}
+/* מצב סטטי (בלי GSAP ובהפחתת תנועה): המשפט שלם, המיותר מחוק, המסר צבוע. כשהמהלך רץ (.gsap-live) המילים נופלות במקום */
+.fw2 .w:not(.keep){color:var(--muted, #6a6d85);text-decoration:line-through;text-decoration-thickness:.06em}
+.fw2 .keep{color:var(--accent, #4a3aff)}
+.fw2.gsap-live .w{color:inherit;text-decoration:none}
 </style>
 </head>
 <body>
@@ -51,13 +55,21 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP המשפט שלם, המיותר מחוק
+  const root=document.querySelector(".fw2"),h=root.querySelector("h2");
   const drop=gsap.utils.toArray(".fw2 .w:not(.keep)"),keep=gsap.utils.toArray(".fw2 .keep");
   const accent=getComputedStyle(document.documentElement).getPropertyValue("--accent").trim()||"#4a3aff";
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(drop,{opacity:0});gsap.set(keep,{color:accent});return;}
-  const dy=matchMedia("(max-width:767px)").matches?240:420;
-  gsap.timeline({scrollTrigger:{trigger:".fw2",start:"top 60%",end:"bottom 60%",scrub:.6}})
-    .to(drop,{y:dy,rotate:()=>gsap.utils.random(-40,40),opacity:0,duration:1,ease:"power2.in",stagger:{each:.12,from:"random"}})
-    .to(keep,{color:accent,duration:.4},"-=.3");
+  // בהפחתת תנועה אף תנאי לא מתקיים: נשאר המצב הסטטי
+  gsap.matchMedia().add({desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)",mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    root.classList.add("gsap-live");
+    const dy=ctx.conditions.mob?240:420;
+    // הטווח על הכותרת: היא נכנסת שלמה, נקראת רגע (הטווין הריק), ורק אז המילים נופלות. המסר נצבע כשהיא עוד במסך
+    gsap.timeline({scrollTrigger:{trigger:h,start:"center 55%",end:"center 20%",scrub:.6}})
+      .to({},{duration:.5})
+      .to(drop,{y:dy,rotate:()=>gsap.utils.random(-40,40),opacity:0,duration:1,ease:"power2.in",stagger:{each:.12,from:"random"}})
+      .to(keep,{color:accent,duration:.4},"-=.3");
+    return()=>root.classList.remove("gsap-live");
+  });
 })();
 </script>
 </body>

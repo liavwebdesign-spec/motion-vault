@@ -55,6 +55,7 @@ img{max-width:100%}
 .shr.open .shr-ic{opacity:0;transform:rotate(90deg) scale(.6)}
 .shr.open .shr-x{opacity:1;transform:none}
 .shr-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.shr-list[hidden]{display:none} /* סגורה לא תופסת מקום: בלי זה נשאר חור של שורת עיגולים שקופה */
 .shr-list li{position:relative;opacity:0;transform:translateX(24px) scale(.6);transition:opacity .15s,transform .15s}
 .shr.open .shr-list li{opacity:1;transform:none;transition:opacity .3s calc(var(--i) * 50ms),transform .45s calc(var(--i) * 50ms) cubic-bezier(.2,.6,.2,1)}
 .shr-it{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--ink, #16182b) 7%,transparent);color:var(--ink, #16182b);cursor:pointer;
@@ -134,18 +135,29 @@ img{max-width:100%}
         e.preventDefault();window.open(el.href,"_blank","noopener,noreferrer,width=640,height=580");setTimeout(()=>set(false),250);
       });
     });
-    list.inert=true;
+    list.hidden=true;list.inert=true;
+    // פתיחה: קודם מציגים את השורה (hidden), ורק בפריים הבא מוסיפים open כדי שהמעבר ירוץ ממצב סגור.
+    // סגירה: המעבר רץ, ואחריו השורה מוסתרת שוב ולא תופסת מקום
+    let hideT=0;
+    const isOpen=()=>btn.getAttribute("aria-expanded")==="true"; // המצב, גם בפריים שבו open עוד לא נוסף
     function set(open){
-      box.classList.toggle("open",open);btn.setAttribute("aria-expanded",String(open));list.inert=!open;
-      if(open)list.querySelector(".shr-it").focus({preventScroll:true});
+      btn.setAttribute("aria-expanded",String(open));list.inert=!open;clearTimeout(hideT);
+      if(open){
+        list.hidden=false;
+        requestAnimationFrame(()=>requestAnimationFrame(()=>{if(isOpen())box.classList.add("open");}));
+        list.querySelector(".shr-it").focus({preventScroll:true});
+      }else{
+        box.classList.remove("open");
+        hideT=setTimeout(()=>{if(!isOpen())list.hidden=true;},200);
+      }
     }
     btn.addEventListener("click",()=>{
       // בטלפון: חלון השיתוף של המכשיר, שם כבר נמצאות האפליקציות שהגולש באמת משתמש בהן
       if(coarse&&navigator.share){navigator.share({title:title,url:url}).catch(()=>{});return;}
-      set(!box.classList.contains("open"));
+      set(!isOpen());
     });
-    box.addEventListener("keydown",e=>{if(e.key==="Escape"&&box.classList.contains("open")){set(false);btn.focus();}});
-    document.addEventListener("pointerdown",e=>{if(box.classList.contains("open")&&!box.contains(e.target))set(false);});
+    box.addEventListener("keydown",e=>{if(e.key==="Escape"&&isOpen()){set(false);btn.focus();}});
+    document.addEventListener("pointerdown",e=>{if(isOpen()&&!box.contains(e.target))set(false);});
   });
   function copy(text,el){
     const done=()=>{

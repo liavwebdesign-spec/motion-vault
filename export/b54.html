@@ -47,13 +47,16 @@ img{max-width:100%}
 
 /* B54 · הובר שנכנס מהכיוון שממנו בא הסמן */
 .da{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap, clamp(16px, 1.6vw, 36px));max-width:min(1020px,94vw);margin-inline:auto}
-.da-card{position:relative;overflow:hidden;border-radius:16px;aspect-ratio:4/3;cursor:pointer;
-  border:1px solid var(--line, #e4e4ee);background:var(--card, #fff)}
+.da-card{display:block;position:relative;overflow:hidden;border-radius:16px;aspect-ratio:4/3;cursor:pointer;
+  border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);color:inherit;text-decoration:none}
 .da-card:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:3px}
 .da-bg{position:absolute;inset:0;border-radius:0;font-size:0}
-.da-name{position:absolute;inset-inline-start:16px;bottom:14px;z-index:2;color:#fff;font-weight:700;font-size:18px;
+/* השם יושב מתחת לשכבה (z-index 0 מול 1): כשהשכבה פתוחה היא מכסה אותו, ורואים כותרת אחת ולא שתיים */
+.da-name{position:absolute;inset-inline-start:16px;bottom:14px;z-index:0;color:#fff;font-weight:700;font-size:18px;
   text-shadow:0 2px 12px rgba(0,0,0,.45)}
-.da-over{position:absolute;inset:0;z-index:1;background:rgba(74,58,255,.92);color:#fff;
+/* צבע השכבה מהטוקן, כדי שבפרויקט היא תקבל את צבע המותג ולא את הסגול של המאגר.
+   אטום ולא 92%, אחרת השם שמתחתיה מבצבץ דרכה כצל חיוור */
+.da-over{position:absolute;inset:0;z-index:1;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);
   display:grid;place-content:center;text-align:center;padding:18px;gap:8px}
 .da-over strong{font-size:20px}
 .da-over span{font-size:14px;opacity:.9;max-width:24ch;line-height:1.6}
@@ -66,18 +69,18 @@ img{max-width:100%}
 
 <div class="stage tight">
 <div class="da">
-  <article class="da-card" tabindex="0"><div class="ph da-bg ph-a"></div><span class="da-name">אתרי תדמית</span>
-    <div class="da-over"><strong>אתרי תדמית</strong><span>אתר שמסביר מה אתם עושים ומוביל לפנייה אחת ברורה.</span></div></article>
-  <article class="da-card" tabindex="0"><div class="ph da-bg ph-c"></div><span class="da-name">דפי נחיתה</span>
-    <div class="da-over"><strong>דפי נחיתה</strong><span>עמוד יחיד ממוקד לקמפיין, עם מסר אחד וקריאה אחת.</span></div></article>
-  <article class="da-card" tabindex="0"><div class="ph da-bg ph-d"></div><span class="da-name">חנויות</span>
-    <div class="da-over"><strong>חנויות</strong><span>חנות שמוכרת גם בלי איש מכירות, עם מסלול קנייה קצר.</span></div></article>
-  <article class="da-card" tabindex="0"><div class="ph da-bg ph-e"></div><span class="da-name">מערכות</span>
-    <div class="da-over"><strong>מערכות</strong><span>ממשק לניהול לקוחות, משימות ודוחות במקום גיליונות.</span></div></article>
-  <article class="da-card" tabindex="0"><div class="ph da-bg ph-b"></div><span class="da-name">מיתוג</span>
-    <div class="da-over"><strong>מיתוג</strong><span>שפה חזותית אחת שחוזרת בכל נקודת מגע.</span></div></article>
-  <article class="da-card" tabindex="0"><div class="ph da-bg ph-f"></div><span class="da-name">ליווי</span>
-    <div class="da-over"><strong>ליווי</strong><span>אחזקה, מדידה ושיפור אחרי העלייה לאוויר.</span></div></article>
+  <a class="da-card" href="#"><div class="ph da-bg ph-a"></div><span class="da-name" aria-hidden="true">אתרי תדמית</span>
+    <div class="da-over"><strong>אתרי תדמית</strong><span>אתר שמסביר מה אתם עושים ומוביל לפנייה אחת ברורה.</span></div></a>
+  <a class="da-card" href="#"><div class="ph da-bg ph-c"></div><span class="da-name" aria-hidden="true">דפי נחיתה</span>
+    <div class="da-over"><strong>דפי נחיתה</strong><span>עמוד יחיד ממוקד לקמפיין, עם מסר אחד וקריאה אחת.</span></div></a>
+  <a class="da-card" href="#"><div class="ph da-bg ph-d"></div><span class="da-name" aria-hidden="true">חנויות</span>
+    <div class="da-over"><strong>חנויות</strong><span>חנות שמוכרת גם בלי איש מכירות, עם מסלול קנייה קצר.</span></div></a>
+  <a class="da-card" href="#"><div class="ph da-bg ph-e"></div><span class="da-name" aria-hidden="true">מערכות</span>
+    <div class="da-over"><strong>מערכות</strong><span>ממשק לניהול לקוחות, משימות ודוחות במקום גיליונות.</span></div></a>
+  <a class="da-card" href="#"><div class="ph da-bg ph-b"></div><span class="da-name" aria-hidden="true">מיתוג</span>
+    <div class="da-over"><strong>מיתוג</strong><span>שפה חזותית אחת שחוזרת בכל נקודת מגע.</span></div></a>
+  <a class="da-card" href="#"><div class="ph da-bg ph-f"></div><span class="da-name" aria-hidden="true">ליווי</span>
+    <div class="da-over"><strong>ליווי</strong><span>אחזקה, מדידה ושיפור אחרי העלייה לאוויר.</span></div></a>
 </div>
 <p class="da-hint">העבר עכבר מלמעלה, מהצד ומלמטה. השכבה נכנסת משם.</p>
 </div>
@@ -85,8 +88,12 @@ img{max-width:100%}
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script>
 (function(){
+  // דמו: לכרטיסים אין יעד, ולכן הלחיצה לא קופצת לראש העמוד. בפרויקט זה קישור אמיתי
+  document.querySelectorAll(".da-card").forEach(c=>c.addEventListener("click",e=>e.preventDefault()));
+  if(typeof gsap==="undefined")return;   // בלי הספרייה השכבות פשוט גלויות, עם השם והתיאור של כל כרטיס
   const OFF=101;
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // בהפחתת תנועה השכבה מופיעה ונעלמת מיד, בלי החלקה. נבדק בכל הובר, כך ששינוי ההעדפה נתפס
+  const dur=()=>matchMedia("(prefers-reduced-motion: reduce)").matches?0:.42;
   // 0=למעלה 1=ימין 2=למטה 3=שמאל, בקואורדינטות פיזיות
   const VEC=[{x:0,y:-OFF},{x:OFF,y:0},{x:0,y:OFF},{x:-OFF,y:0}];
   function edge(el,e){
@@ -101,9 +108,9 @@ img{max-width:100%}
     const over=card.querySelector(".da-over");
     gsap.set(over,{xPercent:0,yPercent:OFF});
     const show=v=>{gsap.killTweensOf(over);
-      gsap.fromTo(over,{xPercent:v.x,yPercent:v.y},{xPercent:0,yPercent:0,duration:reduce?0:.42,ease:"power3.out"});};
+      gsap.fromTo(over,{xPercent:v.x,yPercent:v.y},{xPercent:0,yPercent:0,duration:dur(),ease:"power3.out"});};
     const hide=v=>{gsap.killTweensOf(over);
-      gsap.to(over,{xPercent:v.x,yPercent:v.y,duration:reduce?0:.42,ease:"power3.in"});};
+      gsap.to(over,{xPercent:v.x,yPercent:v.y,duration:dur(),ease:"power3.in"});};
     card.addEventListener("mouseenter",e=>show(VEC[edge(card,e)]));
     card.addEventListener("mouseleave",e=>hide(VEC[edge(card,e)]));
     card.addEventListener("focus",()=>show(VEC[0]));      // מקלדת: תמיד מלמעלה

@@ -12,14 +12,19 @@
   display:flex;gap:4px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:5px;
   box-shadow:0 10px 30px rgba(20,20,40,.1)}
 .pn a{position:relative;overflow:hidden;border-radius:999px;padding:9px 18px;font-size:14px;color:var(--muted);
-  text-decoration:none;white-space:nowrap;transition:color .25s}
-.pn a.on{color:#fff}
-.pn-fill{position:absolute;inset:0;background:var(--accent);border-radius:999px;z-index:-1}
+  text-decoration:none;white-space:nowrap;transition:color .15s}
+/* המילוי בגוון בהיר והטקסט כהה: כך התווית קריאה בכל שלב של המילוי, גם כשהוא מכסה רק חלק מהגלולה.
+   מילוי מלא בצבע המבטא עם טקסט לבן השאיר את התווית לבנה על לבן בחצי הראשון של כל סקשן */
+.pn a.on{color:var(--ink)}
+@media (hover:hover) and (pointer:fine){.pn a:hover{color:var(--ink)}}
+.pn a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pn-fill{position:absolute;inset:0;background:color-mix(in srgb,var(--accent) 22%,var(--card));z-index:-1}
 .pn a span{position:relative;z-index:1}
 .pn-sec{min-height:96vh;display:grid;place-items:center;text-align:center;padding-inline:var(--gutter);scroll-margin-top:90px}
 .pn-sec h3{margin:0;font-size:clamp(30px,6vw,78px)}
 .pn-sec p{margin:14px auto 0;color:var(--muted);max-width:46ch;font-size:17px;line-height:1.7}
-@media(max-width:640px){.pn{width:calc(100% - 24px);justify-content:space-between}.pn a{padding:9px 10px;font-size:13px}}
+@media(max-width:640px){.pn{width:calc(100% - 24px);justify-content:space-between}
+  .pn a{padding:0 10px;font-size:13px;min-height:44px;display:inline-flex;align-items:center}}
 </style>
 </head>
 <body>
@@ -44,8 +49,8 @@
 </div>
 <h2 class="sr-only">הדמו</h2>
 <div class="runway">גלול למטה, הדמו מגיע ↓</div>
-<nav class="pn">
-  <a href="#pn1" class="on"><span>שירותים</span><i class="pn-fill"></i></a>
+<nav class="pn" aria-label="ניווט בעמוד">
+  <a href="#pn1"><span>שירותים</span><i class="pn-fill"></i></a>
   <a href="#pn2"><span>תהליך</span><i class="pn-fill"></i></a>
   <a href="#pn3"><span>מחירים</span><i class="pn-fill"></i></a>
   <a href="#pn4"><span>שאלות</span><i class="pn-fill"></i></a>
@@ -55,7 +60,7 @@
 <section class="pn-sec" id="pn3"><div><h3>מחירים</h3><p>שלוש חבילות, טווח ברור, בלי הפתעות בסוף.</p></div></section>
 <section class="pn-sec" id="pn4"><div><h3>שאלות</h3><p>כל מה שנשאלנו עשר פעמים, מרוכז במקום אחד.</p></div></section>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
-<div class="demo-note">ההבדל מ"קישור פעיל" רגיל הוא שהמילוי הוא scrub ולא מצב בינארי, ולכן רואים גם כמה נשאר מהסקשן. <b>המלכודת בעברית</b>: המימוש המקורי מחליק את המילוי מ-xPercent שלילי, כלומר משמאל, וזה מרגיש הפוך. בעברית מתחילים ב-101, נכנסים לאפס ויוצאים למינוס. <code>onLeaveBack</code> חובה, אחרת בגלילה כלפי מעלה המילוי נשאר תקוע מלא. הסקשנים מקבלים scroll-margin כדי שהעוגן לא ייעצר מתחת לתפריט הצף.</div>
+<div class="demo-note">ההבדל מ"קישור פעיל" רגיל הוא שהמילוי הוא scrub ולא מצב בינארי, ולכן רואים גם כמה נשאר מהסקשן. <b>המלכודת בעברית</b>: המימוש המקורי מחליק את המילוי מ-xPercent שלילי, כלומר משמאל, וזה מרגיש הפוך. בעברית מתחילים ב-101, נכנסים לאפס ויוצאים למינוס. <code>onLeaveBack</code> חובה, אחרת בגלילה כלפי מעלה המילוי נשאר תקוע מלא, ו-<code>overwrite:true</code> בכל טווין ו-set של המילוי, אחרת בגלילה מהירה הלוך וחזור טווין היציאה ממשיך לרוץ והקישור נשאר "פעיל" עם מילוי ריק. <b>המילוי בגוון בהיר והטקסט כהה</b>, כך שהתווית קריאה בכל שלב; מילוי מלא במבטא עם טקסט לבן השאיר אותה לבנה על לבן בחצי הראשון של כל סקשן. המצב הפעיל נגזר מהגלילה גם בטעינה (<code>onRefresh</code>), ולא ממחלקה שכתובה ב-HTML. התפריט מופיע רק כשהסקשנים על המסך, לפי טריגר אחד על כל האזור. בעמוד עם הדר קבוע, התפריט יושב מתחתיו: top בגובה ההדר ועוד 12 פיקסלים. הקוד מודד את זה לבד (כאן זה שורת הכותרת של המאגר), והגלילה בלחיצה עוצרת מתחת לשניהם. הסקשנים מקבלים scroll-margin כדי שהעוגן לא ייעצר מתחת לתפריט הצף. בהפחתת תנועה הפריט של הסקשן הנוכחי מלא והשאר ריקים, בלי מילוי מתקדם ובלי החלקות.</div>
 <section class="mvcode">
   <h2>קוד להדבקה</h2>
   <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
@@ -73,16 +78,21 @@
   display:flex;gap:4px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:5px;
   box-shadow:0 10px 30px rgba(20,20,40,.1)}
 .pn a{position:relative;overflow:hidden;border-radius:999px;padding:9px 18px;font-size:14px;color:var(--muted, #6a6d85);
-  text-decoration:none;white-space:nowrap;transition:color .25s}
-.pn a.on{color:#fff}
-.pn-fill{position:absolute;inset:0;background:var(--accent, #4a3aff);border-radius:999px;z-index:-1}
+  text-decoration:none;white-space:nowrap;transition:color .15s}
+/* המילוי בגוון בהיר והטקסט כהה: כך התווית קריאה בכל שלב של המילוי, גם כשהוא מכסה רק חלק מהגלולה.
+   מילוי מלא בצבע המבטא עם טקסט לבן השאיר את התווית לבנה על לבן בחצי הראשון של כל סקשן */
+.pn a.on{color:var(--ink, #16182b)}
+@media (hover:hover) and (pointer:fine){.pn a:hover{color:var(--ink, #16182b)}}
+.pn a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.pn-fill{position:absolute;inset:0;background:color-mix(in srgb,var(--accent, #4a3aff) 22%,var(--card, #fff));z-index:-1}
 .pn a span{position:relative;z-index:1}
 .pn-sec{min-height:96vh;display:grid;place-items:center;text-align:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px));scroll-margin-top:90px}
 .pn-sec h3{margin:0;font-size:clamp(30px,6vw,78px)}
 .pn-sec p{margin:14px auto 0;color:var(--muted, #6a6d85);max-width:46ch;font-size:17px;line-height:1.7}
-@media(max-width:640px){.pn{width:calc(100% - 24px);justify-content:space-between}.pn a{padding:9px 10px;font-size:13px}}</code></pre>
-    <h3>HTML</h3><pre><code>&lt;nav class="pn"&gt;
-  &lt;a href="#pn1" class="on"&gt;&lt;span&gt;שירותים&lt;/span&gt;&lt;i class="pn-fill"&gt;&lt;/i&gt;&lt;/a&gt;
+@media(max-width:640px){.pn{width:calc(100% - 24px);justify-content:space-between}
+  .pn a{padding:0 10px;font-size:13px;min-height:44px;display:inline-flex;align-items:center}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;nav class="pn" aria-label="ניווט בעמוד"&gt;
+  &lt;a href="#pn1"&gt;&lt;span&gt;שירותים&lt;/span&gt;&lt;i class="pn-fill"&gt;&lt;/i&gt;&lt;/a&gt;
   &lt;a href="#pn2"&gt;&lt;span&gt;תהליך&lt;/span&gt;&lt;i class="pn-fill"&gt;&lt;/i&gt;&lt;/a&gt;
   &lt;a href="#pn3"&gt;&lt;span&gt;מחירים&lt;/span&gt;&lt;i class="pn-fill"&gt;&lt;/i&gt;&lt;/a&gt;
   &lt;a href="#pn4"&gt;&lt;span&gt;שאלות&lt;/span&gt;&lt;i class="pn-fill"&gt;&lt;/i&gt;&lt;/a&gt;
@@ -94,37 +104,67 @@
     <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 (function(){
-  const links=[...document.querySelectorAll(".pn a")];
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  links.forEach(link=&gt;{
-    const sec=document.querySelector(link.getAttribute("href"));
-    const fill=link.querySelector(".pn-fill");
-    if(!sec||!fill)return;
-    // עמוד עברי: המילוי נכנס מימין ויוצא שמאלה, בכיוון הקריאה
-    gsap.set(fill,{xPercent:101});
-    ScrollTrigger.create({
-      trigger:sec,start:"top center",end:"bottom center",scrub:true,
-      onUpdate:self=&gt;{
-        gsap.set(fill,{xPercent:101-self.progress*101});
-        link.classList.toggle("on",self.progress&gt;.08);
-      },
-      onLeave:()=&gt;{gsap.to(fill,{xPercent:-101,duration:.3,ease:"power3.inOut"});link.classList.remove("on");},
-      onLeaveBack:()=&gt;{gsap.to(fill,{xPercent:101,duration:.3,ease:"power3.inOut"});link.classList.remove("on");}
-    });
-    link.addEventListener("click",e=&gt;{
-      e.preventDefault();
-      gsap.to(window,{duration:reduce?0:.8,ease:"power2.inOut",scrollTo:{y:sec,offsetY:70}});
+  const nav=document.querySelector(".pn");
+  // בעמוד עם הדר דביק או קבוע בראש המסך, התפריט יושב 12 פיקסלים מתחתיו ולא עליו
+  const under=()=&gt;{let b=0;[...document.body.children].forEach(e=&gt;{if(e===nav)return;const s=getComputedStyle(e),h=e.offsetHeight;
+    if((s.position==="sticky"||s.position==="fixed")&amp;&amp;parseFloat(s.top)===0&amp;&amp;s.visibility!=="hidden"&amp;&amp;h&lt;200)b=Math.max(b,h);});
+    nav.style.top=(b?b+12:16)+"px";};
+  under();addEventListener("resize",under);
+  if(typeof gsap==="undefined")return;   // בלי הספרייה הקישורים הם עוגנים רגילים
+  const links=[...nav.querySelectorAll("a")];
+  const secs=links.map(l=&gt;document.querySelector(l.getAttribute("href")));
+  const mark=(link,on)=&gt;{link.classList.toggle("on",on);on?link.setAttribute("aria-current","true"):link.removeAttribute("aria-current");};
+  // conditions: אותו קוד לשני המצבים. בהפחתת תנועה אין מילוי מתקדם ואין החלקות:
+  // הפריט של הסקשן הנוכחי מלא, השאר ריקים, והתפריט מופיע ונעלם בלי דהייה
+  gsap.matchMedia().add({motion:"(prefers-reduced-motion: no-preference)",reduce:"(prefers-reduced-motion: reduce)"},ctx=&gt;{
+    const reduce=ctx.conditions.reduce;
+    // התפריט מופיע רק כשהסקשנים על המסך. טריגר אחד על כל האזור, לא הצטברות של טריגרים לכל סקשן,
+    // אחרת הוא נתקע גלוי אחרי קפיצת גלילה. בלי זה הוא יושב על ההדר של העמוד מהשנייה הראשונה
+    // המצב נגזר מ-progress ולא מ-isActive, שעדיין לא מוגדר בריענון הראשון
+    const inside=s=&gt;s.progress&gt;0&amp;&amp;s.progress&lt;1;
+    gsap.set(nav,{autoAlpha:0});
+    ScrollTrigger.create({trigger:secs[0],start:"top 85%",endTrigger:secs[secs.length-1],end:"bottom 15%",
+      onToggle:s=&gt;gsap.to(nav,{autoAlpha:s.isActive?1:0,duration:reduce?0:.25,overwrite:true}),
+      onRefresh:s=&gt;gsap.set(nav,{autoAlpha:inside(s)?1:0,overwrite:true})});
+    links.forEach((link,k)=&gt;{
+      const sec=secs[k],fill=link.querySelector(".pn-fill");
+      if(!sec||!fill)return;
+      // עמוד עברי: המילוי נכנס מימין ויוצא שמאלה, בכיוון הקריאה
+      const paint=(self,refresh)=&gt;{
+        const p=self.progress,on=inside(self)&amp;&amp;p&gt;.08;
+        mark(link,on);
+        // overwrite: בגלילה מהירה הלוך וחזור, טווין היציאה של onLeaveBack המשיך לרוץ מעל ה-set,
+        // והקישור נשאר "פעיל" עם מילוי ריק
+        if(inside(self))gsap.set(fill,{xPercent:reduce?(on?0:101):101-p*101,overwrite:true});
+        // מחוץ לסקשן היציאה שייכת ל-onLeave ול-onLeaveBack; רק בטעינה מציבים ישר את מצב הסוף
+        else if(refresh)gsap.set(fill,{xPercent:p&gt;=1?-101:101,overwrite:true});
+      };
+      gsap.set(fill,{xPercent:101});
+      ScrollTrigger.create({
+        trigger:sec,start:"top center",end:"bottom center",
+        onUpdate:s=&gt;paint(s,false),
+        // בטעינה ובריענון באמצע העמוד המצב נגזר מהגלילה בפועל, ולא ממחלקה שכתובה ב-HTML
+        onRefresh:s=&gt;paint(s,true),
+        onLeave:()=&gt;{gsap.to(fill,{xPercent:-101,duration:reduce?0:.3,ease:"power3.inOut",overwrite:true});mark(link,false);},
+        onLeaveBack:()=&gt;{gsap.to(fill,{xPercent:101,duration:reduce?0:.3,ease:"power3.inOut",overwrite:true});mark(link,false);}
+      });
     });
   });
+  links.forEach((link,k)=&gt;link.addEventListener("click",e=&gt;{
+    if(!secs[k]||!window.ScrollToPlugin)return;
+    e.preventDefault();
+    const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+    gsap.to(window,{duration:reduce?0:.8,ease:"power2.inOut",scrollTo:{y:secs[k],offsetY:nav.offsetTop+nav.offsetHeight+16},overwrite:true});
+  }));
 })();</code></pre>
   </details>
-  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b48 · ניווט עם התקדמות לפי סקשן\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b48.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b48.html\n\nמה זה עושה: תפריט עוגנים צף שבו הפריט של הסקשן הנוכחי מתמלא בהדרגה תוך כדי הגלילה בו, ומתרוקן כשעוברים הלאה. אין הבהוב של \"פעיל\" או \"לא פעיל\".\nמתי משתמשים: עמוד נחיתה ארוך, עמוד שירות, מסמך תנאים, מדריך. המבקר יודע כל הזמן איפה הוא ברצף וכמה נשאר, וזה מוריד נטישה באמצע.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית\nבסקשן: הדר וניווט · מאמר ותוכן ארוך\nאופי: גם באתר שקט\nתפקיד ומינון: שכבת בסיס, פעם אחת בעמוד\nמתי לא: עמוד עם פחות משלושה סקשנים ארוכים, או אתר שההדר הקבוע שלו כבר מחזיק את הניווט.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* B48 · ניווט עם התקדמות לפי סקשן */\n.pn{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:60;\n  display:flex;gap:4px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:5px;\n  box-shadow:0 10px 30px rgba(20,20,40,.1)}\n.pn a{position:relative;overflow:hidden;border-radius:999px;padding:9px 18px;font-size:14px;color:var(--muted, #6a6d85);\n  text-decoration:none;white-space:nowrap;transition:color .25s}\n.pn a.on{color:#fff}\n.pn-fill{position:absolute;inset:0;background:var(--accent, #4a3aff);border-radius:999px;z-index:-1}\n.pn a span{position:relative;z-index:1}\n.pn-sec{min-height:96vh;display:grid;place-items:center;text-align:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px));scroll-margin-top:90px}\n.pn-sec h3{margin:0;font-size:clamp(30px,6vw,78px)}\n.pn-sec p{margin:14px auto 0;color:var(--muted, #6a6d85);max-width:46ch;font-size:17px;line-height:1.7}\n@media(max-width:640px){.pn{width:calc(100% - 24px);justify-content:space-between}.pn a{padding:9px 10px;font-size:13px}}\n\n=== HTML ===\n<nav class=\"pn\">\n  <a href=\"#pn1\" class=\"on\"><span>שירותים<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn2\"><span>תהליך<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn3\"><span>מחירים<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn4\"><span>שאלות<\/span><i class=\"pn-fill\"><\/i><\/a>\n<\/nav>\n<section class=\"pn-sec\" id=\"pn1\"><div><h3>שירותים<\/h3><p>מה אנחנו עושים ולמי זה מתאים, בלי רשימת באזזוורדס.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn2\"><div><h3>תהליך<\/h3><p>ארבעה שלבים מהשיחה הראשונה ועד העלייה לאוויר.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn3\"><div><h3>מחירים<\/h3><p>שלוש חבילות, טווח ברור, בלי הפתעות בסוף.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn4\"><div><h3>שאלות<\/h3><p>כל מה שנשאלנו עשר פעמים, מרוכז במקום אחד.<\/p><\/div><\/section>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);\n\n(function(){\n  const links=[...document.querySelectorAll(\".pn a\")];\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  links.forEach(link=>{\n    const sec=document.querySelector(link.getAttribute(\"href\"));\n    const fill=link.querySelector(\".pn-fill\");\n    if(!sec||!fill)return;\n    // עמוד עברי: המילוי נכנס מימין ויוצא שמאלה, בכיוון הקריאה\n    gsap.set(fill,{xPercent:101});\n    ScrollTrigger.create({\n      trigger:sec,start:\"top center\",end:\"bottom center\",scrub:true,\n      onUpdate:self=>{\n        gsap.set(fill,{xPercent:101-self.progress*101});\n        link.classList.toggle(\"on\",self.progress>.08);\n      },\n      onLeave:()=>{gsap.to(fill,{xPercent:-101,duration:.3,ease:\"power3.inOut\"});link.classList.remove(\"on\");},\n      onLeaveBack:()=>{gsap.to(fill,{xPercent:101,duration:.3,ease:\"power3.inOut\"});link.classList.remove(\"on\");}\n    });\n    link.addEventListener(\"click\",e=>{\n      e.preventDefault();\n      gsap.to(window,{duration:reduce?0:.8,ease:\"power2.inOut\",scrollTo:{y:sec,offsetY:70}});\n    });\n  });\n})();\n\nהערת מימוש מהמאגר:\nההבדל מ\"קישור פעיל\" רגיל הוא שהמילוי הוא scrub ולא מצב בינארי, ולכן רואים גם כמה נשאר מהסקשן. המלכודת בעברית: המימוש המקורי מחליק את המילוי מ-xPercent שלילי, כלומר משמאל, וזה מרגיש הפוך. בעברית מתחילים ב-101, נכנסים לאפס ויוצאים למינוס. `onLeaveBack` חובה, אחרת בגלילה כלפי מעלה המילוי נשאר תקוע מלא. הסקשנים מקבלים scroll-margin כדי שהעוגן לא ייעצר מתחת לתפריט הצף.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  import { ScrollToPlugin } from \"gsap/ScrollToPlugin\";\n  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* B48 · ניווט עם התקדמות לפי סקשן */\n.pn{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:60;\n  display:flex;gap:4px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:5px;\n  box-shadow:0 10px 30px rgba(20,20,40,.1)}\n.pn a{position:relative;overflow:hidden;border-radius:999px;padding:9px 18px;font-size:14px;color:var(--muted, #6a6d85);\n  text-decoration:none;white-space:nowrap;transition:color .25s}\n.pn a.on{color:#fff}\n.pn-fill{position:absolute;inset:0;background:var(--accent, #4a3aff);border-radius:999px;z-index:-1}\n.pn a span{position:relative;z-index:1}\n.pn-sec{min-height:96vh;display:grid;place-items:center;text-align:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px));scroll-margin-top:90px}\n.pn-sec h3{margin:0;font-size:clamp(30px,6vw,78px)}\n.pn-sec p{margin:14px auto 0;color:var(--muted, #6a6d85);max-width:46ch;font-size:17px;line-height:1.7}\n@media(max-width:640px){.pn{width:calc(100% - 24px);justify-content:space-between}.pn a{padding:9px 10px;font-size:13px}}","html":"<nav class=\"pn\">\n  <a href=\"#pn1\" class=\"on\"><span>שירותים<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn2\"><span>תהליך<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn3\"><span>מחירים<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn4\"><span>שאלות<\/span><i class=\"pn-fill\"><\/i><\/a>\n<\/nav>\n<section class=\"pn-sec\" id=\"pn1\"><div><h3>שירותים<\/h3><p>מה אנחנו עושים ולמי זה מתאים, בלי רשימת באזזוורדס.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn2\"><div><h3>תהליך<\/h3><p>ארבעה שלבים מהשיחה הראשונה ועד העלייה לאוויר.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn3\"><div><h3>מחירים<\/h3><p>שלוש חבילות, טווח ברור, בלי הפתעות בסוף.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn4\"><div><h3>שאלות<\/h3><p>כל מה שנשאלנו עשר פעמים, מרוכז במקום אחד.<\/p><\/div><\/section>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);\n\n(function(){\n  const links=[...document.querySelectorAll(\".pn a\")];\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  links.forEach(link=>{\n    const sec=document.querySelector(link.getAttribute(\"href\"));\n    const fill=link.querySelector(\".pn-fill\");\n    if(!sec||!fill)return;\n    // עמוד עברי: המילוי נכנס מימין ויוצא שמאלה, בכיוון הקריאה\n    gsap.set(fill,{xPercent:101});\n    ScrollTrigger.create({\n      trigger:sec,start:\"top center\",end:\"bottom center\",scrub:true,\n      onUpdate:self=>{\n        gsap.set(fill,{xPercent:101-self.progress*101});\n        link.classList.toggle(\"on\",self.progress>.08);\n      },\n      onLeave:()=>{gsap.to(fill,{xPercent:-101,duration:.3,ease:\"power3.inOut\"});link.classList.remove(\"on\");},\n      onLeaveBack:()=>{gsap.to(fill,{xPercent:101,duration:.3,ease:\"power3.inOut\"});link.classList.remove(\"on\");}\n    });\n    link.addEventListener(\"click\",e=>{\n      e.preventDefault();\n      gsap.to(window,{duration:reduce?0:.8,ease:\"power2.inOut\",scrollTo:{y:sec,offsetY:70}});\n    });\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js\"><\/script>","rtl":true}</script>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b48 · ניווט עם התקדמות לפי סקשן\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b48.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b48.html\n\nמה זה עושה: תפריט עוגנים צף שבו הפריט של הסקשן הנוכחי מתמלא בהדרגה תוך כדי הגלילה בו, ומתרוקן כשעוברים הלאה. אין הבהוב של \"פעיל\" או \"לא פעיל\".\nמתי משתמשים: עמוד נחיתה ארוך, עמוד שירות, מסמך תנאים, מדריך. המבקר יודע כל הזמן איפה הוא ברצף וכמה נשאר, וזה מוריד נטישה באמצע.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית\nבסקשן: הדר וניווט · מאמר ותוכן ארוך\nאופי: גם באתר שקט\nתפקיד ומינון: שכבת בסיס, פעם אחת בעמוד\nמתי לא: עמוד עם פחות משלושה סקשנים ארוכים, או אתר שההדר הקבוע שלו כבר מחזיק את הניווט.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* B48 · ניווט עם התקדמות לפי סקשן */\n.pn{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:60;\n  display:flex;gap:4px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:5px;\n  box-shadow:0 10px 30px rgba(20,20,40,.1)}\n.pn a{position:relative;overflow:hidden;border-radius:999px;padding:9px 18px;font-size:14px;color:var(--muted, #6a6d85);\n  text-decoration:none;white-space:nowrap;transition:color .15s}\n/* המילוי בגוון בהיר והטקסט כהה: כך התווית קריאה בכל שלב של המילוי, גם כשהוא מכסה רק חלק מהגלולה.\n   מילוי מלא בצבע המבטא עם טקסט לבן השאיר את התווית לבנה על לבן בחצי הראשון של כל סקשן */\n.pn a.on{color:var(--ink, #16182b)}\n@media (hover:hover) and (pointer:fine){.pn a:hover{color:var(--ink, #16182b)}}\n.pn a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n.pn-fill{position:absolute;inset:0;background:color-mix(in srgb,var(--accent, #4a3aff) 22%,var(--card, #fff));z-index:-1}\n.pn a span{position:relative;z-index:1}\n.pn-sec{min-height:96vh;display:grid;place-items:center;text-align:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px));scroll-margin-top:90px}\n.pn-sec h3{margin:0;font-size:clamp(30px,6vw,78px)}\n.pn-sec p{margin:14px auto 0;color:var(--muted, #6a6d85);max-width:46ch;font-size:17px;line-height:1.7}\n@media(max-width:640px){.pn{width:calc(100% - 24px);justify-content:space-between}\n  .pn a{padding:0 10px;font-size:13px;min-height:44px;display:inline-flex;align-items:center}}\n\n=== HTML ===\n<nav class=\"pn\" aria-label=\"ניווט בעמוד\">\n  <a href=\"#pn1\"><span>שירותים<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn2\"><span>תהליך<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn3\"><span>מחירים<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn4\"><span>שאלות<\/span><i class=\"pn-fill\"><\/i><\/a>\n<\/nav>\n<section class=\"pn-sec\" id=\"pn1\"><div><h3>שירותים<\/h3><p>מה אנחנו עושים ולמי זה מתאים, בלי רשימת באזזוורדס.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn2\"><div><h3>תהליך<\/h3><p>ארבעה שלבים מהשיחה הראשונה ועד העלייה לאוויר.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn3\"><div><h3>מחירים<\/h3><p>שלוש חבילות, טווח ברור, בלי הפתעות בסוף.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn4\"><div><h3>שאלות<\/h3><p>כל מה שנשאלנו עשר פעמים, מרוכז במקום אחד.<\/p><\/div><\/section>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);\n\n(function(){\n  const nav=document.querySelector(\".pn\");\n  // בעמוד עם הדר דביק או קבוע בראש המסך, התפריט יושב 12 פיקסלים מתחתיו ולא עליו\n  const under=()=>{let b=0;[...document.body.children].forEach(e=>{if(e===nav)return;const s=getComputedStyle(e),h=e.offsetHeight;\n    if((s.position===\"sticky\"||s.position===\"fixed\")&&parseFloat(s.top)===0&&s.visibility!==\"hidden\"&&h<200)b=Math.max(b,h);});\n    nav.style.top=(b?b+12:16)+\"px\";};\n  under();addEventListener(\"resize\",under);\n  if(typeof gsap===\"undefined\")return;   // בלי הספרייה הקישורים הם עוגנים רגילים\n  const links=[...nav.querySelectorAll(\"a\")];\n  const secs=links.map(l=>document.querySelector(l.getAttribute(\"href\")));\n  const mark=(link,on)=>{link.classList.toggle(\"on\",on);on?link.setAttribute(\"aria-current\",\"true\"):link.removeAttribute(\"aria-current\");};\n  // conditions: אותו קוד לשני המצבים. בהפחתת תנועה אין מילוי מתקדם ואין החלקות:\n  // הפריט של הסקשן הנוכחי מלא, השאר ריקים, והתפריט מופיע ונעלם בלי דהייה\n  gsap.matchMedia().add({motion:\"(prefers-reduced-motion: no-preference)\",reduce:\"(prefers-reduced-motion: reduce)\"},ctx=>{\n    const reduce=ctx.conditions.reduce;\n    // התפריט מופיע רק כשהסקשנים על המסך. טריגר אחד על כל האזור, לא הצטברות של טריגרים לכל סקשן,\n    // אחרת הוא נתקע גלוי אחרי קפיצת גלילה. בלי זה הוא יושב על ההדר של העמוד מהשנייה הראשונה\n    // המצב נגזר מ-progress ולא מ-isActive, שעדיין לא מוגדר בריענון הראשון\n    const inside=s=>s.progress>0&&s.progress<1;\n    gsap.set(nav,{autoAlpha:0});\n    ScrollTrigger.create({trigger:secs[0],start:\"top 85%\",endTrigger:secs[secs.length-1],end:\"bottom 15%\",\n      onToggle:s=>gsap.to(nav,{autoAlpha:s.isActive?1:0,duration:reduce?0:.25,overwrite:true}),\n      onRefresh:s=>gsap.set(nav,{autoAlpha:inside(s)?1:0,overwrite:true})});\n    links.forEach((link,k)=>{\n      const sec=secs[k],fill=link.querySelector(\".pn-fill\");\n      if(!sec||!fill)return;\n      // עמוד עברי: המילוי נכנס מימין ויוצא שמאלה, בכיוון הקריאה\n      const paint=(self,refresh)=>{\n        const p=self.progress,on=inside(self)&&p>.08;\n        mark(link,on);\n        // overwrite: בגלילה מהירה הלוך וחזור, טווין היציאה של onLeaveBack המשיך לרוץ מעל ה-set,\n        // והקישור נשאר \"פעיל\" עם מילוי ריק\n        if(inside(self))gsap.set(fill,{xPercent:reduce?(on?0:101):101-p*101,overwrite:true});\n        // מחוץ לסקשן היציאה שייכת ל-onLeave ול-onLeaveBack; רק בטעינה מציבים ישר את מצב הסוף\n        else if(refresh)gsap.set(fill,{xPercent:p>=1?-101:101,overwrite:true});\n      };\n      gsap.set(fill,{xPercent:101});\n      ScrollTrigger.create({\n        trigger:sec,start:\"top center\",end:\"bottom center\",\n        onUpdate:s=>paint(s,false),\n        // בטעינה ובריענון באמצע העמוד המצב נגזר מהגלילה בפועל, ולא ממחלקה שכתובה ב-HTML\n        onRefresh:s=>paint(s,true),\n        onLeave:()=>{gsap.to(fill,{xPercent:-101,duration:reduce?0:.3,ease:\"power3.inOut\",overwrite:true});mark(link,false);},\n        onLeaveBack:()=>{gsap.to(fill,{xPercent:101,duration:reduce?0:.3,ease:\"power3.inOut\",overwrite:true});mark(link,false);}\n      });\n    });\n  });\n  links.forEach((link,k)=>link.addEventListener(\"click\",e=>{\n    if(!secs[k]||!window.ScrollToPlugin)return;\n    e.preventDefault();\n    const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n    gsap.to(window,{duration:reduce?0:.8,ease:\"power2.inOut\",scrollTo:{y:secs[k],offsetY:nav.offsetTop+nav.offsetHeight+16},overwrite:true});\n  }));\n})();\n\nהערת מימוש מהמאגר:\nההבדל מ\"קישור פעיל\" רגיל הוא שהמילוי הוא scrub ולא מצב בינארי, ולכן רואים גם כמה נשאר מהסקשן. המלכודת בעברית: המימוש המקורי מחליק את המילוי מ-xPercent שלילי, כלומר משמאל, וזה מרגיש הפוך. בעברית מתחילים ב-101, נכנסים לאפס ויוצאים למינוס. `onLeaveBack` חובה, אחרת בגלילה כלפי מעלה המילוי נשאר תקוע מלא, ו-`overwrite:true` בכל טווין ו-set של המילוי, אחרת בגלילה מהירה הלוך וחזור טווין היציאה ממשיך לרוץ והקישור נשאר \"פעיל\" עם מילוי ריק. המילוי בגוון בהיר והטקסט כהה, כך שהתווית קריאה בכל שלב; מילוי מלא במבטא עם טקסט לבן השאיר אותה לבנה על לבן בחצי הראשון של כל סקשן. המצב הפעיל נגזר מהגלילה גם בטעינה (`onRefresh`), ולא ממחלקה שכתובה ב-HTML. התפריט מופיע רק כשהסקשנים על המסך, לפי טריגר אחד על כל האזור. בעמוד עם הדר קבוע, התפריט יושב מתחתיו: top בגובה ההדר ועוד 12 פיקסלים. הקוד מודד את זה לבד (כאן זה שורת הכותרת של המאגר), והגלילה בלחיצה עוצרת מתחת לשניהם. הסקשנים מקבלים scroll-margin כדי שהעוגן לא ייעצר מתחת לתפריט הצף. בהפחתת תנועה הפריט של הסקשן הנוכחי מלא והשאר ריקים, בלי מילוי מתקדם ובלי החלקות.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  import { ScrollToPlugin } from \"gsap/ScrollToPlugin\";\n  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* B48 · ניווט עם התקדמות לפי סקשן */\n.pn{position:fixed;top:16px;left:50%;transform:translateX(-50%);z-index:60;\n  display:flex;gap:4px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:999px;padding:5px;\n  box-shadow:0 10px 30px rgba(20,20,40,.1)}\n.pn a{position:relative;overflow:hidden;border-radius:999px;padding:9px 18px;font-size:14px;color:var(--muted, #6a6d85);\n  text-decoration:none;white-space:nowrap;transition:color .15s}\n/* המילוי בגוון בהיר והטקסט כהה: כך התווית קריאה בכל שלב של המילוי, גם כשהוא מכסה רק חלק מהגלולה.\n   מילוי מלא בצבע המבטא עם טקסט לבן השאיר את התווית לבנה על לבן בחצי הראשון של כל סקשן */\n.pn a.on{color:var(--ink, #16182b)}\n@media (hover:hover) and (pointer:fine){.pn a:hover{color:var(--ink, #16182b)}}\n.pn a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n.pn-fill{position:absolute;inset:0;background:color-mix(in srgb,var(--accent, #4a3aff) 22%,var(--card, #fff));z-index:-1}\n.pn a span{position:relative;z-index:1}\n.pn-sec{min-height:96vh;display:grid;place-items:center;text-align:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px));scroll-margin-top:90px}\n.pn-sec h3{margin:0;font-size:clamp(30px,6vw,78px)}\n.pn-sec p{margin:14px auto 0;color:var(--muted, #6a6d85);max-width:46ch;font-size:17px;line-height:1.7}\n@media(max-width:640px){.pn{width:calc(100% - 24px);justify-content:space-between}\n  .pn a{padding:0 10px;font-size:13px;min-height:44px;display:inline-flex;align-items:center}}","html":"<nav class=\"pn\" aria-label=\"ניווט בעמוד\">\n  <a href=\"#pn1\"><span>שירותים<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn2\"><span>תהליך<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn3\"><span>מחירים<\/span><i class=\"pn-fill\"><\/i><\/a>\n  <a href=\"#pn4\"><span>שאלות<\/span><i class=\"pn-fill\"><\/i><\/a>\n<\/nav>\n<section class=\"pn-sec\" id=\"pn1\"><div><h3>שירותים<\/h3><p>מה אנחנו עושים ולמי זה מתאים, בלי רשימת באזזוורדס.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn2\"><div><h3>תהליך<\/h3><p>ארבעה שלבים מהשיחה הראשונה ועד העלייה לאוויר.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn3\"><div><h3>מחירים<\/h3><p>שלוש חבילות, טווח ברור, בלי הפתעות בסוף.<\/p><\/div><\/section>\n<section class=\"pn-sec\" id=\"pn4\"><div><h3>שאלות<\/h3><p>כל מה שנשאלנו עשר פעמים, מרוכז במקום אחד.<\/p><\/div><\/section>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);\n\n(function(){\n  const nav=document.querySelector(\".pn\");\n  // בעמוד עם הדר דביק או קבוע בראש המסך, התפריט יושב 12 פיקסלים מתחתיו ולא עליו\n  const under=()=>{let b=0;[...document.body.children].forEach(e=>{if(e===nav)return;const s=getComputedStyle(e),h=e.offsetHeight;\n    if((s.position===\"sticky\"||s.position===\"fixed\")&&parseFloat(s.top)===0&&s.visibility!==\"hidden\"&&h<200)b=Math.max(b,h);});\n    nav.style.top=(b?b+12:16)+\"px\";};\n  under();addEventListener(\"resize\",under);\n  if(typeof gsap===\"undefined\")return;   // בלי הספרייה הקישורים הם עוגנים רגילים\n  const links=[...nav.querySelectorAll(\"a\")];\n  const secs=links.map(l=>document.querySelector(l.getAttribute(\"href\")));\n  const mark=(link,on)=>{link.classList.toggle(\"on\",on);on?link.setAttribute(\"aria-current\",\"true\"):link.removeAttribute(\"aria-current\");};\n  // conditions: אותו קוד לשני המצבים. בהפחתת תנועה אין מילוי מתקדם ואין החלקות:\n  // הפריט של הסקשן הנוכחי מלא, השאר ריקים, והתפריט מופיע ונעלם בלי דהייה\n  gsap.matchMedia().add({motion:\"(prefers-reduced-motion: no-preference)\",reduce:\"(prefers-reduced-motion: reduce)\"},ctx=>{\n    const reduce=ctx.conditions.reduce;\n    // התפריט מופיע רק כשהסקשנים על המסך. טריגר אחד על כל האזור, לא הצטברות של טריגרים לכל סקשן,\n    // אחרת הוא נתקע גלוי אחרי קפיצת גלילה. בלי זה הוא יושב על ההדר של העמוד מהשנייה הראשונה\n    // המצב נגזר מ-progress ולא מ-isActive, שעדיין לא מוגדר בריענון הראשון\n    const inside=s=>s.progress>0&&s.progress<1;\n    gsap.set(nav,{autoAlpha:0});\n    ScrollTrigger.create({trigger:secs[0],start:\"top 85%\",endTrigger:secs[secs.length-1],end:\"bottom 15%\",\n      onToggle:s=>gsap.to(nav,{autoAlpha:s.isActive?1:0,duration:reduce?0:.25,overwrite:true}),\n      onRefresh:s=>gsap.set(nav,{autoAlpha:inside(s)?1:0,overwrite:true})});\n    links.forEach((link,k)=>{\n      const sec=secs[k],fill=link.querySelector(\".pn-fill\");\n      if(!sec||!fill)return;\n      // עמוד עברי: המילוי נכנס מימין ויוצא שמאלה, בכיוון הקריאה\n      const paint=(self,refresh)=>{\n        const p=self.progress,on=inside(self)&&p>.08;\n        mark(link,on);\n        // overwrite: בגלילה מהירה הלוך וחזור, טווין היציאה של onLeaveBack המשיך לרוץ מעל ה-set,\n        // והקישור נשאר \"פעיל\" עם מילוי ריק\n        if(inside(self))gsap.set(fill,{xPercent:reduce?(on?0:101):101-p*101,overwrite:true});\n        // מחוץ לסקשן היציאה שייכת ל-onLeave ול-onLeaveBack; רק בטעינה מציבים ישר את מצב הסוף\n        else if(refresh)gsap.set(fill,{xPercent:p>=1?-101:101,overwrite:true});\n      };\n      gsap.set(fill,{xPercent:101});\n      ScrollTrigger.create({\n        trigger:sec,start:\"top center\",end:\"bottom center\",\n        onUpdate:s=>paint(s,false),\n        // בטעינה ובריענון באמצע העמוד המצב נגזר מהגלילה בפועל, ולא ממחלקה שכתובה ב-HTML\n        onRefresh:s=>paint(s,true),\n        onLeave:()=>{gsap.to(fill,{xPercent:-101,duration:reduce?0:.3,ease:\"power3.inOut\",overwrite:true});mark(link,false);},\n        onLeaveBack:()=>{gsap.to(fill,{xPercent:101,duration:reduce?0:.3,ease:\"power3.inOut\",overwrite:true});mark(link,false);}\n      });\n    });\n  });\n  links.forEach((link,k)=>link.addEventListener(\"click\",e=>{\n    if(!secs[k]||!window.ScrollToPlugin)return;\n    e.preventDefault();\n    const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n    gsap.to(window,{duration:reduce?0:.8,ease:\"power2.inOut\",scrollTo:{y:secs[k],offsetY:nav.offsetTop+nav.offsetHeight+16},overwrite:true});\n  }));\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js\"><\/script>","rtl":true}</script>
 </section>
 <nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="b47.html" rel="prev"><small>→ הקודם</small><b>סליידר השוואה לפני ואחרי</b></a><a href="b49.html" rel="next"><small>הבא ←</small><b>טאבים שמתקדמים לבד עם פס זמן</b></a></nav>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollToPlugin.min.js"></script>
-<script src="../assets/baseline.js?v=d1dd0eb3"></script>
+<script src="../assets/baseline.js?v=367bac96"></script>
 <script src="../assets/status.js"></script>
 <script src="../assets/tray.js"></script>
 <script>
@@ -150,28 +190,58 @@ document.querySelector(".mvid").addEventListener("click",function(){
 })();
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 (function(){
-  const links=[...document.querySelectorAll(".pn a")];
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  links.forEach(link=>{
-    const sec=document.querySelector(link.getAttribute("href"));
-    const fill=link.querySelector(".pn-fill");
-    if(!sec||!fill)return;
-    // עמוד עברי: המילוי נכנס מימין ויוצא שמאלה, בכיוון הקריאה
-    gsap.set(fill,{xPercent:101});
-    ScrollTrigger.create({
-      trigger:sec,start:"top center",end:"bottom center",scrub:true,
-      onUpdate:self=>{
-        gsap.set(fill,{xPercent:101-self.progress*101});
-        link.classList.toggle("on",self.progress>.08);
-      },
-      onLeave:()=>{gsap.to(fill,{xPercent:-101,duration:.3,ease:"power3.inOut"});link.classList.remove("on");},
-      onLeaveBack:()=>{gsap.to(fill,{xPercent:101,duration:.3,ease:"power3.inOut"});link.classList.remove("on");}
-    });
-    link.addEventListener("click",e=>{
-      e.preventDefault();
-      gsap.to(window,{duration:reduce?0:.8,ease:"power2.inOut",scrollTo:{y:sec,offsetY:70}});
+  const nav=document.querySelector(".pn");
+  // בעמוד עם הדר דביק או קבוע בראש המסך, התפריט יושב 12 פיקסלים מתחתיו ולא עליו
+  const under=()=>{let b=0;[...document.body.children].forEach(e=>{if(e===nav)return;const s=getComputedStyle(e),h=e.offsetHeight;
+    if((s.position==="sticky"||s.position==="fixed")&&parseFloat(s.top)===0&&s.visibility!=="hidden"&&h<200)b=Math.max(b,h);});
+    nav.style.top=(b?b+12:16)+"px";};
+  under();addEventListener("resize",under);
+  if(typeof gsap==="undefined")return;   // בלי הספרייה הקישורים הם עוגנים רגילים
+  const links=[...nav.querySelectorAll("a")];
+  const secs=links.map(l=>document.querySelector(l.getAttribute("href")));
+  const mark=(link,on)=>{link.classList.toggle("on",on);on?link.setAttribute("aria-current","true"):link.removeAttribute("aria-current");};
+  // conditions: אותו קוד לשני המצבים. בהפחתת תנועה אין מילוי מתקדם ואין החלקות:
+  // הפריט של הסקשן הנוכחי מלא, השאר ריקים, והתפריט מופיע ונעלם בלי דהייה
+  gsap.matchMedia().add({motion:"(prefers-reduced-motion: no-preference)",reduce:"(prefers-reduced-motion: reduce)"},ctx=>{
+    const reduce=ctx.conditions.reduce;
+    // התפריט מופיע רק כשהסקשנים על המסך. טריגר אחד על כל האזור, לא הצטברות של טריגרים לכל סקשן,
+    // אחרת הוא נתקע גלוי אחרי קפיצת גלילה. בלי זה הוא יושב על ההדר של העמוד מהשנייה הראשונה
+    // המצב נגזר מ-progress ולא מ-isActive, שעדיין לא מוגדר בריענון הראשון
+    const inside=s=>s.progress>0&&s.progress<1;
+    gsap.set(nav,{autoAlpha:0});
+    ScrollTrigger.create({trigger:secs[0],start:"top 85%",endTrigger:secs[secs.length-1],end:"bottom 15%",
+      onToggle:s=>gsap.to(nav,{autoAlpha:s.isActive?1:0,duration:reduce?0:.25,overwrite:true}),
+      onRefresh:s=>gsap.set(nav,{autoAlpha:inside(s)?1:0,overwrite:true})});
+    links.forEach((link,k)=>{
+      const sec=secs[k],fill=link.querySelector(".pn-fill");
+      if(!sec||!fill)return;
+      // עמוד עברי: המילוי נכנס מימין ויוצא שמאלה, בכיוון הקריאה
+      const paint=(self,refresh)=>{
+        const p=self.progress,on=inside(self)&&p>.08;
+        mark(link,on);
+        // overwrite: בגלילה מהירה הלוך וחזור, טווין היציאה של onLeaveBack המשיך לרוץ מעל ה-set,
+        // והקישור נשאר "פעיל" עם מילוי ריק
+        if(inside(self))gsap.set(fill,{xPercent:reduce?(on?0:101):101-p*101,overwrite:true});
+        // מחוץ לסקשן היציאה שייכת ל-onLeave ול-onLeaveBack; רק בטעינה מציבים ישר את מצב הסוף
+        else if(refresh)gsap.set(fill,{xPercent:p>=1?-101:101,overwrite:true});
+      };
+      gsap.set(fill,{xPercent:101});
+      ScrollTrigger.create({
+        trigger:sec,start:"top center",end:"bottom center",
+        onUpdate:s=>paint(s,false),
+        // בטעינה ובריענון באמצע העמוד המצב נגזר מהגלילה בפועל, ולא ממחלקה שכתובה ב-HTML
+        onRefresh:s=>paint(s,true),
+        onLeave:()=>{gsap.to(fill,{xPercent:-101,duration:reduce?0:.3,ease:"power3.inOut",overwrite:true});mark(link,false);},
+        onLeaveBack:()=>{gsap.to(fill,{xPercent:101,duration:reduce?0:.3,ease:"power3.inOut",overwrite:true});mark(link,false);}
+      });
     });
   });
+  links.forEach((link,k)=>link.addEventListener("click",e=>{
+    if(!secs[k]||!window.ScrollToPlugin)return;
+    e.preventDefault();
+    const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+    gsap.to(window,{duration:reduce?0:.8,ease:"power2.inOut",scrollTo:{y:secs[k],offsetY:nav.offsetTop+nav.offsetHeight+16},overwrite:true});
+  }));
 })();
 </script>
 </body>

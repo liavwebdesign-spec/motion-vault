@@ -40,14 +40,20 @@ img{max-width:100%}
 .ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}
 
 /* G130 · צמצם מצלמה שנפתח בגלילה */
-.ir{position:relative;height:200vh}
-.ir-pin{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--ink, #16182b);display:grid;place-items:center}
-.ir-img{position:absolute;inset:0;will-change:clip-path}
+/* בלי GSAP ובהפחתת תנועה: הירו רגיל, התמונה מלאה. הנעילה, הטבעת וההנחיה רק כשהמהלך רץ (.gsap-live) */
+.ir{position:relative}
+.ir-pin{position:relative;height:100vh;overflow:hidden;background:var(--ink, #16182b);display:grid;place-items:center}
+.ir.gsap-live{height:200vh}
+.ir.gsap-live .ir-pin{position:sticky;top:0}
+.ir-img{position:absolute;inset:0}
+.ir.gsap-live .ir-img{will-change:clip-path}
 .ir-img .ph{position:absolute;inset:0;border-radius:0;font-size:0}
-.ir-ring{position:absolute;width:min(60vmin,520px);aspect-ratio:1;border-radius:50%;border:1px solid color-mix(in srgb,var(--bg, #f7f7fa) 25%,transparent);pointer-events:none}
+.ir-ring{display:none;position:absolute;width:min(60vmin,520px);aspect-ratio:1;border-radius:50%;border:1px solid color-mix(in srgb,var(--bg, #f7f7fa) 25%,transparent);pointer-events:none}
+.ir.gsap-live .ir-ring{display:block}
 .ir-txt{position:relative;z-index:1;text-align:center;color:#fff;text-shadow:0 2px 30px rgba(0,0,0,.5)}
 .ir-txt h2{margin:0 0 8px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
-.ir-txt p{margin:0;opacity:.85}
+.ir-txt p{display:none;margin:0;opacity:.85}
+.ir.gsap-live .ir-txt p{display:block}
 </style>
 </head>
 <body>
@@ -63,15 +69,24 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const img=document.querySelector(".ir-img");
-  const poly=r=>{const pts=[];for(let i=0;i<8;i++){const a=Math.PI/8+i*Math.PI/4;pts.push((50+Math.cos(a)*r).toFixed(2)+"% "+(50+Math.sin(a)*r).toFixed(2)+"%");}return "polygon("+pts.join(",")+")";};
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){img.style.clipPath=poly(90);return;}
-  const o={r:4};
-  gsap.set(img,{clipPath:poly(4)});
-  gsap.timeline({scrollTrigger:{trigger:".ir",start:"top top",end:"bottom bottom",scrub:.5},onUpdate(){img.style.clipPath=poly(o.r);}})
-    .to(o,{r:matchMedia("(max-width:767px)").matches?120:90,ease:"power2.in",duration:1})
-    .to(".ir-ring",{scale:2.4,opacity:0,duration:.8},0)
-    .to(".ir-txt p",{opacity:0,duration:.2},0);
+  if(typeof gsap==="undefined")return;      // בלי GSAP התמונה מלאה, כמו הירו רגיל
+  const root=document.querySelector(".ir"),img=root.querySelector(".ir-img");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("gsap-live");
+    // מתומן סדיר בפיקסלים. r הוא אחוז מחצי האלכסון: ב-100 המעגל החסום שלו עובר את פינות המסך.
+    // היעד 125, כך שהתמונה מלאה כבר בכ-90% מהגלילה ונשארת רגע מלאה לפני שהנעילה משתחררת
+    let W=1,H=1;const o={r:4};
+    const draw=()=>{const R=o.r/100*Math.hypot(W,H)/2/Math.cos(Math.PI/8),pts=[];
+      for(let i=0;i<8;i++){const a=Math.PI/8+i*Math.PI/4;pts.push((W/2+Math.cos(a)*R).toFixed(1)+"px "+(H/2+Math.sin(a)*R).toFixed(1)+"px");}
+      img.style.clipPath="polygon("+pts.join(",")+")";};
+    const measure=()=>{W=img.offsetWidth;H=img.offsetHeight;draw();};   // נמדד ב-refresh, לא בכל פריים
+    measure();ScrollTrigger.addEventListener("refreshInit",measure);
+    gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5},onUpdate:draw})
+      .to(o,{r:125,ease:"power2.in",duration:1})
+      .to(".ir-ring",{scale:2.4,opacity:0,duration:.8},0)
+      .to(".ir-txt p",{opacity:0,duration:.2},0);
+    return()=>{ScrollTrigger.removeEventListener("refreshInit",measure);img.style.clipPath="";root.classList.remove("gsap-live");};
+  });
 })();
 </script>
 </body>

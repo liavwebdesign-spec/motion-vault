@@ -78,10 +78,23 @@ img{max-width:100%}
 (function(){
   const page=document.querySelector(".rvf-page"),footer=document.querySelector(".rvf-footer");
   // השוליים בתחתית העמוד שווים לגובה הפוטר. נמדד ומתעדכן בשינוי גודל.
-  function fit(){page.style.marginBottom=footer.offsetHeight+"px";}
+  // פוטר שגבוה מהמסך (עמודות שנערמות בטלפון, טלפון לרוחב) חוזר לזרימה רגילה:
+  // כשהוא קבוע ל-bottom:0 החלק העליון שלו לא נחשף אף פעם.
+  function fit(){
+    footer.style.position="";
+    const fits=footer.offsetHeight<=innerHeight;
+    footer.style.position=fits?"":"relative";
+    page.style.marginBottom=fits?footer.offsetHeight+"px":"0px";
+  }
   fit();
   addEventListener("resize",fit);
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);
+  // קישור בפוטר שמקבל פוקוס מקלדת בזמן שהעמוד עדיין מכסה אותו: גוללים עד שהפוטר נחשף כולו
+  footer.addEventListener("focusin",()=>{
+    if(footer.style.position)return;
+    const top=scrollY+page.getBoundingClientRect().bottom-(innerHeight-footer.offsetHeight);
+    if(scrollY<top-2)scrollTo({top:top});
+  });
 })();
 </script>
 </body>

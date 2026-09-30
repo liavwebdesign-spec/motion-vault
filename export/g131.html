@@ -39,7 +39,7 @@ img{max-width:100%}
 .lt{min-height:140vh;display:grid;place-items:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
 .lt h2{margin:0;font-size:clamp(56px,14vw,220px);font-weight:900;line-height:1;text-align:center;
   color:transparent;-webkit-text-stroke:1.5px color-mix(in srgb,var(--ink, #16182b) 40%,transparent);
-  background:linear-gradient(0deg,var(--accent, #4a3aff) 0 50%,transparent 50% 100%) 0 var(--lvl,0%) / 100% 200% no-repeat;
+  background:linear-gradient(0deg,var(--accent, #4a3aff) 0 50%,transparent 50% 100%) 0 var(--lvl,100%) / 100% 200% no-repeat;
   -webkit-background-clip:text;background-clip:text}
 .lt p{text-align:center;color:var(--muted, #6a6d85);margin:14px 0 0}
 </style>
@@ -54,10 +54,12 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הכותרת מלאה (--lvl ברירת מחדל 100%)
   const h=document.querySelector(".lt h2");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){h.style.setProperty("--lvl","100%");return;}
-  const o={l:0};
-  gsap.to(o,{l:100,ease:"none",scrollTrigger:{trigger:".lt",start:"top 70%",end:"bottom 60%",scrub:.5},onUpdate(){h.style.setProperty("--lvl",o.l+"%");}});
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    // הטווח על הכותרת עצמה, לא על העוטף בגובה 140vh: מלאה כשהיא באמצע המסך ולא רק כשהיא יוצאת למעלה
+    gsap.fromTo(h,{"--lvl":"0%"},{"--lvl":"100%",ease:"none",scrollTrigger:{trigger:h,start:"top 90%",end:"center 45%",scrub:.5}});
+  });
 })();
 </script>
 </body>

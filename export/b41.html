@@ -47,10 +47,13 @@ img{max-width:100%}
 .ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}
 
 /* B41 · סקשן מוצמד שהתוכן בו מתחלף בגלילה */
+/* בלי הספרייה, בהפחתת תנועה או במסך נמוך מדי: פריסה סטטית, כל הפריטים פתוחים והמדיה דביקה לצידם.
+   ההצמדה, הקיפול והכותרות האפורות יושבים תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת */
 .ss{position:relative}
 .ss-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,4vw,70px);align-items:start;
   padding-inline:var(--gutter, clamp(24px, 5vw, 96px));max-width:1180px;margin-inline:auto}
 .ss-media{position:sticky;top:16vh;aspect-ratio:4/3;border-radius:var(--r, 14px);overflow:hidden}
+.ss.mv-on .ss-media{position:relative;top:auto}
 .ss-media .ph{position:absolute;inset:0;border-radius:0;font-size:38px;opacity:0;transform:scale(1.05);
   transition:opacity .55s ease,transform .9s cubic-bezier(.2,.6,.2,1)}
 .ss-media .ph.on{opacity:1;transform:none}
@@ -59,18 +62,17 @@ img{max-width:100%}
 .ss-item:last-child{border-bottom:1px solid var(--line, #e4e4ee)}
 .ss-head{display:flex;align-items:center;gap:14px}
 .ss-idx{font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}
-.ss-item h3{margin:0;font-size:clamp(19px,2.1vw,30px);color:var(--muted, #6a6d85);transition:color .35s}
-.ss-item.on h3{color:var(--ink, #16182b)}
-.ss-body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.6,.2,1)}
-.ss-item.on .ss-body{grid-template-rows:1fr}
+.ss-item h3{margin:0;font-size:clamp(19px,2.1vw,30px);color:var(--ink, #16182b);transition:color .35s}
+.ss.mv-on .ss-item:not(.on) h3{color:var(--muted, #6a6d85)}
+.ss-body{display:grid;grid-template-rows:1fr;transition:grid-template-rows .5s cubic-bezier(.2,.6,.2,1)}
+.ss.mv-on .ss-item:not(.on) .ss-body{grid-template-rows:0fr}
 .ss-body>div{overflow:hidden}
 .ss-body p{margin:12px 0 0;color:var(--muted, #6a6d85);font-size:16px;line-height:1.7;max-width:46ch}
-.ss-mobile{display:none}
+/* בטלפון התמונה עוברת מעל הרשימה, ונשארת מחוץ לפריט: כך מעבר בין פריטים מזיז רק שורת טקסט ולא תמונה שלמה */
 @media(max-width:860px){
   .ss-grid{grid-template-columns:1fr}
-  .ss-media{display:none}
-  .ss-mobile{display:block;aspect-ratio:16/10;border-radius:var(--r, 14px);overflow:hidden;margin-top:14px;position:relative}
-  .ss-mobile .ph{position:absolute;inset:0;border-radius:0;font-size:26px}
+  .ss-media{position:relative;top:auto;aspect-ratio:16/10}
+  .ss-media .ph{font-size:26px}
 }
 @media (prefers-reduced-motion: reduce){.ss-body,.ss-media .ph{transition-duration:.01ms}}
 </style>
@@ -78,22 +80,18 @@ img{max-width:100%}
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="stage"><div class="ss"><div class="ss-grid">
-  <div class="ss-media">
+  <div class="ss-media" aria-hidden="true">
     <div class="ph ph-a on"><span class="ph-l">1</span></div><div class="ph ph-c"><span class="ph-l">2</span></div><div class="ph ph-d"><span class="ph-l">3</span></div><div class="ph ph-e"><span class="ph-l">4</span></div>
   </div>
   <div class="ss-list">
-    <div class="ss-item on" data-i="0"><div class="ss-head"><span class="ss-idx">01</span><h3>אפיון לפני עיצוב</h3></div>
-      <div class="ss-body"><div><p>מתחילים בהבנה של העסק ושל הלקוח, ורק אחר כך פותחים כלי עיצוב. זה השלב שקובע אם האתר יביא פניות.</p>
-      <div class="ss-mobile"><div class="ph ph-a"><span class="ph-l">1</span></div></div></div></div></div>
+    <div class="ss-item" data-i="0"><div class="ss-head"><span class="ss-idx">01</span><h3>אפיון לפני עיצוב</h3></div>
+      <div class="ss-body"><div><p>מתחילים בהבנה של העסק ושל הלקוח, ורק אחר כך פותחים כלי עיצוב. זה השלב שקובע אם האתר יביא פניות.</p></div></div></div>
     <div class="ss-item" data-i="1"><div class="ss-head"><span class="ss-idx">02</span><h3>קופי שמדבר אל הלקוח</h3></div>
-      <div class="ss-body"><div><p>כל כותרת עונה על שאלה אמיתית שיש למי שנחת בעמוד, במקום לתאר את העסק מבפנים.</p>
-      <div class="ss-mobile"><div class="ph ph-c"><span class="ph-l">2</span></div></div></div></div></div>
+      <div class="ss-body"><div><p>כל כותרת עונה על שאלה אמיתית שיש למי שנחת בעמוד, במקום לתאר את העסק מבפנים.</p></div></div></div>
     <div class="ss-item" data-i="2"><div class="ss-head"><span class="ss-idx">03</span><h3>עיצוב בשפה אחת</h3></div>
-      <div class="ss-body"><div><p>מערכת אחת של צבעים, טיפוגרפיה וריווח שחוזרת בכל עמוד, כך שהאתר מרגיש שלם ולא אוסף מסכים.</p>
-      <div class="ss-mobile"><div class="ph ph-d"><span class="ph-l">3</span></div></div></div></div></div>
+      <div class="ss-body"><div><p>מערכת אחת של צבעים, טיפוגרפיה וריווח שחוזרת בכל עמוד, כך שהאתר מרגיש שלם ולא אוסף מסכים.</p></div></div></div>
     <div class="ss-item" data-i="3"><div class="ss-head"><span class="ss-idx">04</span><h3>מדידה מהיום הראשון</h3></div>
-      <div class="ss-body"><div><p>מחברים מעקב לפני העלייה לאוויר, כדי שנדע מה עובד במקום לנחש חודש אחרי.</p>
-      <div class="ss-mobile"><div class="ph ph-e"><span class="ph-l">4</span></div></div></div></div></div>
+      <div class="ss-body"><div><p>מחברים מעקב לפני העלייה לאוויר, כדי שנדע מה עובד במקום לנחש חודש אחרי.</p></div></div></div>
   </div>
 </div></div></div>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
@@ -103,15 +101,30 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה נשארת הפריסה הסטטית: כל הפריטים פתוחים
+  const root=document.querySelector(".ss");
   const items=gsap.utils.toArray(".ss-item");
-  const shots=[...document.querySelectorAll(".ss-media .ph")];
+  const shots=gsap.utils.toArray(".ss-media .ph");
+  const n=items.length;
+  let cur=-1;
   function activate(i){
-    items.forEach((it,n)=>it.classList.toggle("on",n===i));
-    shots.forEach((s,n)=>s.classList.toggle("on",n===i));
+    if(i===cur)return;cur=i;
+    items.forEach((it,k)=>it.classList.toggle("on",k===i));
+    shots.forEach((s,k)=>s.classList.toggle("on",k===i));
   }
-  items.forEach((item,i)=>{
-    ScrollTrigger.create({trigger:item,start:"top 62%",end:"bottom 45%",
-      onToggle:self=>{if(self.isActive)activate(i);}});
+  // כל פריט מקבל חלק שווה מהגלילה המוצמדת (חצי מסך לפריט), כך שיש זמן לקרוא לפני המעבר
+  const at=self=>activate(Math.min(n-1,Math.floor(self.progress*n)));
+  // ההצמדה רק כשהתנועה מותרת ורק כשהסקשן נכנס במסך: בדסקטופ מ-520 גובה, בטלפון (שם התמונה
+  // מעל הרשימה) מ-680. מתחת לזה, למשל טלפון לרוחב, נשארת הפריסה הסטטית
+  const Q="(prefers-reduced-motion: no-preference) and (min-width: 861px) and (min-height: 520px),"+
+          "(prefers-reduced-motion: no-preference) and (max-width: 860px) and (min-height: 680px)";
+  gsap.matchMedia().add(Q,()=>{
+    root.classList.add("mv-on");
+    activate(0);
+    // center center: התוכן יושב באמצע המסך לאורך כל ההצמדה, בלי תלות בריפוד של הסקשן
+    ScrollTrigger.create({trigger:root,start:"center center",end:"+="+(n*50)+"%",
+      pin:true,anticipatePin:1,onUpdate:at,onRefresh:at});
+    return ()=>{root.classList.remove("mv-on");cur=-1;activate(0);};
   });
 })();
 </script>

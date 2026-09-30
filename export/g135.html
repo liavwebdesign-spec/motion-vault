@@ -40,15 +40,15 @@ img{max-width:100%}
 .bd-sec h2{margin:0 0 8px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
 .bd-sec p{margin:0;color:var(--muted, #6a6d85)}
 .bd{display:block;width:100%;height:80px;overflow:visible}
-.bd path{fill:none;stroke:var(--ink, #16182b);stroke-width:2;stroke-linecap:round;stroke-dasharray:1010;stroke-dashoffset:1010}
+.bd path{fill:none;stroke:var(--ink, #16182b);stroke-width:2;stroke-linecap:round}
 </style>
 </head>
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <section class="bd-sec"><div><h2>סקשן ראשון</h2><p>גלול מהר ותראה את הקו מתכופף.</p></div></section>
-<svg class="bd" viewBox="0 0 1000 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 Q 500 40 1000 40"/></svg>
+<svg class="bd" viewBox="0 0 1000 80" preserveAspectRatio="none" aria-hidden="true"><path d="M1000 40 Q 500 40 0 40"/></svg>
 <section class="bd-sec"><div><h2>סקשן שני</h2><p>הקו חוזר להיות ישר כשעוצרים.</p></div></section>
-<svg class="bd" viewBox="0 0 1000 80" preserveAspectRatio="none" aria-hidden="true"><path d="M0 40 Q 500 40 1000 40"/></svg>
+<svg class="bd" viewBox="0 0 1000 80" preserveAspectRatio="none" aria-hidden="true"><path d="M1000 40 Q 500 40 0 40"/></svg>
 <section class="bd-sec"><div><h2>סקשן שלישי</h2><p>אותו קו, בכל מפריד בעמוד.</p></div></section>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -57,14 +57,25 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הקו ישר ומלא
   const paths=gsap.utils.toArray(".bd path");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(paths,{strokeDashoffset:0});return;}
-  paths.forEach(p=>gsap.to(p,{strokeDashoffset:0,ease:"none",scrollTrigger:{trigger:p,start:"top 95%",end:"top 55%",scrub:.4}}));   // הקו נמתח כשנכנס
-  const K=matchMedia("(max-width:767px)").matches?.05:.1,LIM=60;
-  const o={y:40},set=()=>paths.forEach(p=>p.setAttribute("d","M0 40 Q 500 "+o.y+" 1000 40"));
-  const bend=gsap.quickTo(o,"y",{duration:.9,ease:"elastic.out(1,.35)",onUpdate:set});
-  ScrollTrigger.create({onUpdate:s=>{bend(40+gsap.utils.clamp(-LIM,LIM,s.getVelocity()*K));}});
-  let t;addEventListener("scroll",()=>{clearTimeout(t);t=setTimeout(()=>bend(40),100);},{passive:true});
+  // הקו מתחיל בתחילת השורה: בעמוד עברי מימין (x=1000), באנגלי משמאל
+  const A=getComputedStyle(paths[0].ownerSVGElement).direction==="rtl"?1000:0,B=1000-A;
+  const o={y:40},draw=()=>paths.forEach(p=>p.setAttribute("d","M"+A+" 40 Q 500 "+o.y+" "+B+" 40"));
+  draw();
+  // בהפחתת תנועה אף תנאי לא מתקיים: הקו נשאר ישר ומלא
+  gsap.matchMedia().add({desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)",mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const K=ctx.conditions.mob?.05:.1,LIM=60;
+    paths.forEach(p=>gsap.fromTo(p,{strokeDasharray:1010,strokeDashoffset:1010},{strokeDashoffset:0,ease:"none",scrollTrigger:{trigger:p,start:"top 95%",end:"top 55%",scrub:.4}}));   // הקו נמתח כשנכנס
+    const bend=gsap.quickTo(o,"y",{duration:.3,ease:"power3.out",onUpdate:draw});
+    // כשעוצרים: חצייה אחת קטנה של הקו הישר, ואז מנוחה. שני צעדים, לא elastic
+    let t,back=null;
+    const settle=()=>{const d=o.y-40;bend(40-d*.12);back=gsap.delayedCall(.25,()=>bend(40));};
+    ScrollTrigger.create({onUpdate:s=>{if(back){back.kill();back=null;}bend(40+gsap.utils.clamp(-LIM,LIM,s.getVelocity()*K));}});
+    const onScroll=()=>{clearTimeout(t);t=setTimeout(settle,100);};
+    addEventListener("scroll",onScroll,{passive:true});
+    return()=>{removeEventListener("scroll",onScroll);clearTimeout(t);o.y=40;draw();};
+  });
 })();
 </script>
 </body>

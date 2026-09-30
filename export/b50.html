@@ -46,8 +46,11 @@ img{max-width:100%}
 .tt[data-theme="dark"]{--tt-bg:#111219;--tt-ink:#f2f2f7;--tt-mut:#a2a5bb;--tt-card:#1b1d27;--tt-line:#2c2f3d}
 .tt-top{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}
 .tt-top h3{margin:0;font-size:clamp(20px,2.4vw,32px)}
-.tt-btn{position:relative;z-index:2;display:inline-flex;align-items:center;gap:9px;border:1px solid var(--tt-line);
-  background:var(--tt-card);color:var(--tt-ink);font:inherit;font-size:14px;padding:10px 16px;border-radius:999px;cursor:pointer}
+.tt-btn{position:relative;z-index:2;display:inline-flex;align-items:center;gap:9px;border:1px solid var(--tt-line);min-height:44px;
+  background:var(--tt-card);color:var(--tt-ink);font:inherit;font-size:14px;padding:10px 16px;border-radius:999px;cursor:pointer;
+  transition:border-color .18s}
+@media (hover:hover) and (pointer:fine){.tt-btn:hover{border-color:var(--tt-mut)}}
+.tt-btn:focus-visible{outline:2px solid var(--tt-ink);outline-offset:2px}
 .tt-ico{font-size:15px;line-height:1}
 .tt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .tt-card{background:var(--tt-card);border:1px solid var(--tt-line);border-radius:14px;padding:18px;
@@ -65,7 +68,7 @@ img{max-width:100%}
 <div class="stage tight"><div class="tt">
   <div class="tt-top">
     <h3>מצב תצוגה</h3>
-    <button class="tt-btn" aria-pressed="false"><span class="tt-ico">🌙</span><span class="tt-lbl">מצב כהה</span></button>
+    <button class="tt-btn" type="button"><span class="tt-ico" aria-hidden="true">🌙</span><span class="tt-lbl">מצב כהה</span></button>
   </div>
   <div class="tt-grid">
     <div class="tt-card"><h4>קריאה ארוכה</h4><p>מאמרים ומדריכים נוחים יותר לעין בלילה.</p></div>
@@ -79,21 +82,22 @@ img{max-width:100%}
 (function(){
   const root=document.querySelector(".tt"),btn=root.querySelector(".tt-btn");
   const ico=btn.querySelector(".tt-ico"),lbl=btn.querySelector(".tt-lbl");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
   const KEY="mv-tt-theme";
   let saved=null;try{saved=localStorage.getItem(KEY);}catch(e){}
   // ברירת המחדל היא ההגדרה של המכשיר, והבחירה של המשתמש גוברת עליה
   let dark=saved?saved==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
+  // התווית אומרת מה הלחיצה תעשה, ולכן אין aria-pressed: "מצב בהיר, לחוץ" נשמע כאילו הבהיר פעיל
   function paint(){
     root.dataset.theme=dark?"dark":"light";
-    btn.setAttribute("aria-pressed",String(dark));
     ico.textContent=dark?"☀️":"🌙";
     lbl.textContent=dark?"מצב בהיר":"מצב כהה";
-    try{localStorage.setItem(KEY,dark?"dark":"light");}catch(e){}
   }
+  // שומרים רק בחירה של הגולש. שמירה בטעינה הייתה מקפיאה את ברירת המחדל של המכשיר:
+  // מי שעובר אחר כך למצב כהה במכשיר היה נשאר בבהיר
+  function flip(){dark=!dark;paint();try{localStorage.setItem(KEY,dark?"dark":"light");}catch(e){}}
   paint();
   btn.addEventListener("click",()=>{
-    if(reduce){dark=!dark;paint();return;}
+    if(typeof gsap==="undefined"||matchMedia("(prefers-reduced-motion: reduce)").matches){flip();return;}
     const b=btn.getBoundingClientRect(),r=root.getBoundingClientRect();
     const cx=b.left+b.width/2-r.left,cy=b.top+b.height/2-r.top;
     // רדיוס שמכסה בוודאות את הפינה הרחוקה ביותר
@@ -105,7 +109,7 @@ img{max-width:100%}
     root.appendChild(wave);
     gsap.timeline({onComplete:()=>wave.remove()})
       .to(wave,{scale:1,duration:.45,ease:"power2.out"})
-      .add(()=>{dark=!dark;paint();})              // מחליפים ערכה מתחת לגל, לא לפניו
+      .add(flip)                                   // מחליפים ערכה מתחת לגל, לא לפניו
       .to(wave,{opacity:0,duration:.35,ease:"power1.out"},"+=0.05");
   });
 })();

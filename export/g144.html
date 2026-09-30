@@ -40,13 +40,17 @@ img{max-width:100%}
 .ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}
 
 /* G144 · תמונה שנקרעת לשניים וחושפת טקסט */
-.tr{position:relative;height:200vh}
-.tr-pin{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center;background:var(--ink, #16182b)}
-.tr-half{position:absolute;inset:0;will-change:transform}
+/* בלי GSAP ובהפחתת תנועה: מצב הסוף, הכותרת על הרקע. הנעילה ושני החצאים רק כשהמהלך רץ (.gsap-live) */
+.tr{position:relative}
+.tr-pin{position:relative;height:100vh;overflow:hidden;display:grid;place-items:center;background:var(--ink, #16182b)}
+.tr.gsap-live{height:200vh}
+.tr.gsap-live .tr-pin{position:sticky;top:0}
+.tr-half{display:none;position:absolute;inset:0;will-change:transform}
+.tr.gsap-live .tr-half{display:block}
 .tr-half .ph{position:absolute;inset:0;border-radius:0;font-size:0}
-.tr-half.l{clip-path:polygon(0 0,50% 0,48% 8%,53% 16%,47% 24%,52% 32%,48% 40%,53% 48%,47% 56%,52% 64%,48% 72%,53% 80%,47% 88%,52% 96%,50% 100%,0 100%)}
-.tr-half.r{clip-path:polygon(50% 0,100% 0,100% 100%,50% 100%,52% 96%,47% 88%,53% 80%,48% 72%,52% 64%,47% 56%,53% 48%,48% 40%,52% 32%,47% 24%,53% 16%,48% 8%)}
-.tr-txt{position:relative;text-align:center;color:var(--bg, #f7f7fa);max-width:26ch;padding:24px;opacity:0;scale:.9}
+.tr-half.l{clip-path:polygon(0 0,50.25% 0,48.25% 8%,53.25% 16%,47.25% 24%,52.25% 32%,48.25% 40%,53.25% 48%,47.25% 56%,52.25% 64%,48.25% 72%,53.25% 80%,47.25% 88%,52.25% 96%,50.25% 100%,0 100%)}
+.tr-half.r{clip-path:polygon(49.75% 0,100% 0,100% 100%,49.75% 100%,51.75% 96%,46.75% 88%,52.75% 80%,47.75% 72%,51.75% 64%,46.75% 56%,52.75% 48%,47.75% 40%,51.75% 32%,46.75% 24%,52.75% 16%,47.75% 8%)}
+.tr-txt{position:relative;text-align:center;color:var(--bg, #f7f7fa);max-width:26ch;padding:24px}
 .tr-txt h2{margin:0 0 8px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
 .tr-txt p{margin:0;opacity:.8}
 </style>
@@ -67,12 +71,18 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(".tr-half",{opacity:0});gsap.set(".tr-txt",{opacity:1,scale:1});return;}
-  const d=matchMedia("(max-width:767px)").matches?60:100;
-  gsap.timeline({scrollTrigger:{trigger:".tr",start:"top top",end:"bottom bottom",scrub:.6}})
-    .to(".tr-half.l",{xPercent:-d,rotate:-3,duration:1,ease:"power2.in"},0)
-    .to(".tr-half.r",{xPercent:d,rotate:3,duration:1,ease:"power2.in"},0)
-    .to(".tr-txt",{opacity:1,scale:1,duration:.6,ease:"power3.out"},.35);
+  if(typeof gsap==="undefined")return;      // בלי GSAP הכותרת גלויה על הרקע
+  const root=document.querySelector(".tr");
+  // בהפחתת תנועה אף תנאי לא מתקיים: נשאר מצב הסוף
+  gsap.matchMedia().add({desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)",mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    root.classList.add("gsap-live");
+    const d=ctx.conditions.mob?60:100;
+    gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}})
+      .to(".tr-half.l",{xPercent:-d,rotate:-3,duration:1,ease:"power2.in"},0)
+      .to(".tr-half.r",{xPercent:d,rotate:3,duration:1,ease:"power2.in"},0)
+      .fromTo(".tr-txt",{opacity:0,scale:.9},{opacity:1,scale:1,duration:.6,ease:"power3.out"},.35);
+    return()=>root.classList.remove("gsap-live");
+  });
 })();
 </script>
 </body>

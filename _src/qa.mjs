@@ -61,9 +61,9 @@ for (const e of entries) {
     if (!EASE_ALLOW.has(k)) problems.push(`${e.id}: easing outside doctrine -> cubic-bezier(${m[1]}) (allowed: signed .2,.6,.2,1 or in-out .76,0,.24,1)`);
   }
   // GSAP eases: back/elastic/bounce are banned (engine/motion.md, 23.9.2026). The cubic-bezier check above never saw them, and
-  // six approved moves carried one (28.9.2026). g135 is the one open question: its spring is the move itself, awaiting Liav.
+  // six approved moves carried one (28.9.2026). g135 (a string) now settles with two power steps, no exception left.
   for (const m of js.matchAll(/(back|elastic|bounce)\.(out|in|inOut)\b/g))
-    if (e.id !== "g135") problems.push(`${e.id}: banned GSAP ease ${m[0]} (engine/motion.md: no back, elastic or bounce; use power2/power3)`);
+    problems.push(`${e.id}: banned GSAP ease ${m[0]} (engine/motion.md: no back, elastic or bounce; use power2/power3)`);
   // 2) ערכי טוקנים כליטרלים ב-CSS: שוברים ירושת עור בפרויקט היעד.
   //    חל רק על מהלכים לשימוש חוזר. עורות (style) מגדירים צבעים בהגדרה, ועמודי הדוקטרינה
   //    (anti/arch/comp/rhythm) מדגימים ולא מיובאים, ולכן ליטרלים שם לגיטימיים.
