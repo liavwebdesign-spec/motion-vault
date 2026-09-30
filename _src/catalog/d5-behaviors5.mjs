@@ -6,7 +6,8 @@ export default [
   when:"כמעט כל אתר תדמית. במובייל זו ברירת המחדל, ובדסקטופ זו בחירה עיצובית שמפנה מקום לכותרת ולתוכן.",
   libs:[],
   css:`.nv-bar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:16px var(--gutter);background:color-mix(in srgb,var(--bg) 86%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.nv-toggle{display:flex;align-items:center;gap:10px;background:none;border:0;font:inherit;font-size:15px;cursor:pointer;color:var(--ink);padding:6px}
+/* 44px גובה לחיצה, וה-margin השלילי משאיר את ההדר באותו גובה */
+.nv-toggle{display:flex;align-items:center;gap:10px;background:none;border:0;font:inherit;font-size:15px;cursor:pointer;color:var(--ink);padding:6px;min-height:44px;margin-block:-6px}
 .nv-burger{width:26px;height:14px;position:relative;display:block}
 .nv-burger i{position:absolute;inset-inline:0;height:2px;background:var(--ink);border-radius:2px;transition:transform .4s cubic-bezier(.2,.6,.2,1),opacity .25s}
 .nv-burger i:nth-child(1){top:0}.nv-burger i:nth-child(2){top:6px}.nv-burger i:nth-child(3){top:12px}
@@ -16,7 +17,8 @@ export default [
 .nv-overlay{position:fixed;inset:0;z-index:29;background:var(--ink);color:var(--bg);display:grid;align-content:center;gap:6px;padding:12vh var(--gutter) 8vh;
   clip-path:inset(0 0 100% 0);transition:clip-path .62s cubic-bezier(.76,0,.24,1);visibility:hidden}
 .nv-open .nv-overlay{clip-path:inset(0 0 0 0);visibility:visible}
-.nv-link{display:block;font-size:clamp(34px,6vw,86px);font-weight:800;line-height:1.1;color:var(--bg);text-decoration:none;
+/* justify-self:start: הקישור ברוחב המילה ולא לכל רוחב השכבה, כך שטבעת הפוקוס עוטפת את המילה ולחיצה בשטח ריק לא מנווטת */
+.nv-link{display:block;justify-self:start;font-size:clamp(34px,6vw,86px);font-weight:800;line-height:1.1;color:var(--bg);text-decoration:none;
   opacity:0;transform:translateY(28px);transition:opacity .5s,transform .5s;transition-delay:0s}
 .nv-open .nv-link{opacity:1;transform:none}
 .nv-open .nv-link:nth-child(1){transition-delay:.18s}
@@ -24,17 +26,21 @@ export default [
 .nv-open .nv-link:nth-child(3){transition-delay:.32s}
 .nv-open .nv-link:nth-child(4){transition-delay:.39s}
 .nv-link span{display:inline-block;transition:transform .35s cubic-bezier(.2,.6,.2,1),color .35s}
-/* הזזה בכיוון הקריאה: ב-RTL שמאלה, ב-LTR ימינה */
-.nv-link:hover span{transform:translateX(-14px);color:var(--accent)}
-[dir="ltr"] .nv-link:hover span{transform:translateX(14px)}
+/* הזזה בכיוון הקריאה: ב-RTL שמאלה, ב-LTR ימינה. רק במכשיר עם עכבר, אחרת היא נתקעת אחרי נגיעה */
+@media (hover:hover) and (pointer:fine){
+  .nv-link:hover span{transform:translateX(-14px);color:var(--accent)}
+  [dir="ltr"] .nv-link:hover span{transform:translateX(14px)}
+}
 .nv-link small{font-size:14px;font-weight:500;opacity:.55;margin-inline-start:14px;vertical-align:middle}
 .nv-foot{margin-top:8vh;display:flex;gap:22px;flex-wrap:wrap;font-size:14px;color:var(--bg);opacity:0;transition:opacity .5s .5s}
 .nv-foot span{opacity:.62}
 .nv-open .nv-foot{opacity:1}
-/* עמוד כהה: הפוכים. השכבה מקבלת את הרקע של העמוד והטקסט את הדיו, בלי צבע קשיח */
-@media (prefers-color-scheme: dark){.nv-overlay{background:var(--bg);color:var(--ink)}.nv-link,.nv-foot{color:var(--ink)}}
+/* אתר עם מצב כהה משלו: הפוכים, לפי המצב של האתר ולא לפי מערכת ההפעלה של הגולש.
+   (prefers-color-scheme נתן לגולש עם מחשב כהה שכבה בהירה באתר בהיר, במקום השכבה הכהה שאושרה) */
+[data-theme="dark"] .nv-overlay{background:var(--bg);color:var(--ink)}
+[data-theme="dark"] .nv-link,[data-theme="dark"] .nv-foot{color:var(--ink)}
 .nv-body{padding:var(--sec) var(--gutter);max-width:60ch;margin-inline:auto;color:var(--muted)}
-@media (prefers-reduced-motion: reduce){.nv-overlay,.nv-link,.nv-foot{transition-duration:.01ms!important}}`,
+@media (prefers-reduced-motion: reduce){.nv-overlay,.nv-link,.nv-link span,.nv-foot{transition-duration:.01ms!important}}`,
   html:`<header class="nv-bar">
   <strong>לוגו</strong>
   <button class="nv-toggle" aria-expanded="false" aria-controls="nvmenu"><span class="nv-label">תפריט</span><span class="nv-burger" aria-hidden="true"><i></i><i></i><i></i></span></button>
@@ -46,7 +52,7 @@ export default [
   <a class="nv-link" href="#"><span>יצירת קשר</span><small>04</small></a>
   <div class="nv-foot"><span>info@example.com</span><span>03-1234567</span><span>אינסטגרם</span></div>
 </nav>
-<div class="nv-body"><p>גלול קצת, ואז פתח את התפריט. הגלילה מאחור ננעלת בלי שהעמוד יקפוץ, כי רוחב פס הגלילה מוחזר כריפוד.</p><p style="height:150vh"></p><p>סוף העמוד.</p></div>`,
+<div class="nv-body"><p>גלול קצת, ואז פתח את התפריט. הגלילה מאחור ננעלת בלי שהעמוד יקפוץ.</p><p style="height:150vh"></p><p>סוף העמוד.</p></div>`,
   js:`(function(){
   const btn=document.querySelector(".nv-toggle"),ov=document.querySelector(".nv-overlay"),root=document.documentElement;
   const links=[...ov.querySelectorAll(".nv-link")];
@@ -59,6 +65,8 @@ export default [
     btn.querySelector(".nv-label").textContent=v?"סגירה":"תפריט";
     // נעילת גלילה (תוקן 23.9.2026): על <html> עם scrollbar-gutter, לא overflow על body וריפוד שבעברית נופל שמאלה
     root.style.scrollbarGutter=v?"stable":""; root.style.overflow=v?"hidden":"";
+    // השכבה fixed לא מכסה את המרזב ששומר scrollbar-gutter, ובלי זה נשארת בצד רצועה בהירה ברוחב פס הגלילה
+    root.style.backgroundColor=v?getComputedStyle(ov).backgroundColor:"";
     if(v){lastFocus=document.activeElement;setTimeout(()=>links[0].focus(),260);}
     else if(lastFocus)lastFocus.focus();
   }
@@ -76,7 +84,7 @@ export default [
   });
 })();`,
   runway:false,
-  note:"שלושה דברים שבדרך כלל שוכחים: נעילת הגלילה חייבת להחזיר את רוחב פס הגלילה כריפוד אחרת העמוד קופץ ברגע הפתיחה, aria-expanded ו-aria-hidden חייבים להתעדכן, והטאב חייב להיתפס בתוך השכבה. ה-clip-path נותן פתיחה שנפרשת מלמעלה למטה במקום דהייה סתמית."
+  note:"שלושה דברים שבדרך כלל שוכחים: נעילת הגלילה יושבת על <html> עם scrollbar-gutter:stable, כדי שהעמוד לא יקפוץ ברגע הפתיחה, והמרזב נצבע בצבע השכבה; aria-expanded ו-aria-hidden חייבים להתעדכן; והטאב חייב להיתפס בתוך השכבה. ה-clip-path נותן פתיחה שנפרשת מלמעלה למטה במקום דהייה סתמית. צבע השכבה תלוי במצב של האתר ([data-theme=\"dark\"]) ולא במצב של מערכת ההפעלה."
 },
 {
   id:"b24", cat:"behavior", name:"כפתור שהאותיות בו מתחלפות בהובר", tech:"CSS transform · JS split", status:"ממתין",
@@ -99,6 +107,7 @@ export default [
 .rb-arrow{transition:transform .42s cubic-bezier(.2,.6,.2,1)}
 .rb:hover .rb-arrow{transform:translateX(-5px)}
 .rb-demo{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.rb-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media (prefers-reduced-motion: reduce){.rb-ch,.rb-arrow{transition:none}}`,
   html:`<div class="stage tight center"><div class="rb-demo">
   <button class="rb accent"><span class="rb-txt" data-rb>קבעו שיחה</span><span class="rb-arrow" aria-hidden="true">←</span></button>
@@ -110,7 +119,10 @@ export default [
   document.querySelectorAll("[data-rb]").forEach(el=>{
     const text=el.textContent.trim();
     el.textContent="";
-    el.setAttribute("aria-label",text);
+    // הטקסט האמיתי ב-span מוסתר ויזואלית ולא ב-aria-label: aria-label על span בלי role אסור ב-ARIA 1.2,
+    // וחלק מקוראי המסך מתעלמים ממנו
+    const sr=document.createElement("span");
+    sr.className="rb-sr";sr.textContent=text;el.appendChild(sr);
     // שתי שכבות זהות: העליונה יוצאת, התחתונה נכנסת
     ["a","b"].forEach(k=>{
       const row=document.createElement("span");
@@ -119,7 +131,7 @@ export default [
       [...text].forEach((c,i)=>{
         const s=document.createElement("span");
         s.className="rb-ch";
-        s.style.setProperty("--i",k==="a"?i:i);
+        s.style.setProperty("--i",i);
         s.textContent=c===" "?"\\u00a0":c;
         row.appendChild(s);
       });
@@ -128,6 +140,6 @@ export default [
   });
 })();`,
   runway:false,
-  note:"הטקסט האמיתי נשמר ב-aria-label ושתי השכבות מסומנות aria-hidden, אחרת קורא מסך היה מקריא את המילה פעמיים. ההשהיה המדורגת היא 22 מילישניות לאות: מעל 30 זה מתחיל להרגיש איטי, ומתחת ל-15 האפקט נעלם."
+  note:"הטקסט האמיתי נשמר ב-span מוסתר ויזואלית (.rb-sr) ושתי השכבות מסומנות aria-hidden, אחרת קורא מסך היה מקריא את המילה פעמיים. ההשהיה המדורגת היא 22 מילישניות לאות: מעל 30 זה מתחיל להרגיש איטי, ומתחת ל-15 האפקט נעלם."
 }
 ];

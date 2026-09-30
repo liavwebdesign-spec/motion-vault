@@ -9,17 +9,19 @@ export default [
   css:`.faq{max-width:min(760px,92vw);margin-inline:auto;border-top:1px solid var(--line)}
 .faq-item{border-bottom:1px solid var(--line)}
 .faq-q{width:100%;display:flex;align-items:center;gap:16px;background:none;border:0;font:inherit;font-size:clamp(16px,1.6vw,21px);
-  font-weight:600;color:var(--ink);text-align:start;padding:clamp(18px,2vw,26px) 4px;cursor:pointer}
-.faq-q:hover{color:var(--accent)}
+  font-weight:600;color:var(--ink);text-align:start;padding:clamp(18px,2vw,26px) 4px;cursor:pointer;transition:color .15s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.faq-q:hover{color:var(--accent)}}
 .faq-ic{margin-inline-start:auto;flex:none;width:22px;height:22px;position:relative}
-.faq-ic::before,.faq-ic::after{content:"";position:absolute;background:currentColor;border-radius:2px;transition:transform .35s cubic-bezier(.2,.6,.2,1),opacity .25s}
+.faq-ic::before,.faq-ic::after{content:"";position:absolute;background:currentColor;border-radius:2px;transition:transform .2s cubic-bezier(.2,.6,.2,1),opacity .2s}
 .faq-ic::before{inset-inline:0;top:10px;height:2px}
 .faq-ic::after{inset-block:0;left:10px;width:2px}
 .faq-item.open .faq-ic::after{transform:rotate(90deg);opacity:0}
-/* grid-template-rows מ-0fr ל-1fr נותן פתיחה לגובה האמיתי בלי למדוד פיקסלים ב-JS */
-.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .42s cubic-bezier(.2,.6,.2,1)}
+/* grid-template-rows מ-0fr ל-1fr נותן פתיחה לגובה האמיתי בלי למדוד פיקסלים ב-JS. 0.24s לפי טבלת התזמונים (motion.md 3) */
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .24s cubic-bezier(.2,.6,.2,1)}
 .faq-item.open .faq-a{grid-template-rows:1fr}
-.faq-a>div{overflow:hidden}
+/* visibility מוציא תשובה סגורה מעץ הנגישות ומסדר ה-Tab. בסגירה הוא מתעכב עד סוף הקיפול, כך שהאנימציה לא משתנה */
+.faq-a>div{overflow:hidden;visibility:hidden;transition:visibility 0s .24s}
+.faq-item.open .faq-a>div{visibility:visible;transition-delay:0s}
 .faq-a p{margin:0;padding:0 4px clamp(20px,2.2vw,30px);color:var(--muted);font-size:16px;line-height:1.7;max-width:62ch}
 @media (prefers-reduced-motion: reduce){.faq-a{transition-duration:.01ms}}`,
   html:`<div class="stage tight"><div class="faq">
@@ -35,8 +37,9 @@ export default [
   js:`(function(){
   const items=[...document.querySelectorAll(".faq-item")];
   const SINGLE=true; // רק אחת פתוחה בכל רגע. שנה ל-false אם רוצים לאפשר כמה
-  items.forEach(item=>{
-    const btn=item.querySelector(".faq-q");
+  items.forEach((item,n)=>{
+    const btn=item.querySelector(".faq-q"),a=item.querySelector(".faq-a");
+    a.id=a.id||"faq-a-"+n;btn.setAttribute("aria-controls",a.id);
     btn.addEventListener("click",()=>{
       const open=item.classList.contains("open");
       if(SINGLE)items.forEach(o=>{o.classList.remove("open");o.querySelector(".faq-q").setAttribute("aria-expanded","false");});
@@ -46,7 +49,7 @@ export default [
   });
 })();`,
   runway:false,
-  note:"הסוד הוא grid-template-rows מ-0fr ל-1fr: זו הדרך היחידה לקבל מעבר חלק לגובה אמיתי בלי למדוד scrollHeight ובלי לקבע max-height מומצא. הכפתור נושא aria-expanded והתשובה יושבת בתוך div עם overflow:hidden, אחרת הטקסט מציץ החוצה באמצע האנימציה."
+  note:"הסוד הוא grid-template-rows מ-0fr ל-1fr: זו הדרך היחידה לקבל מעבר חלק לגובה אמיתי בלי למדוד scrollHeight ובלי לקבע max-height מומצא. הכפתור נושא aria-expanded ו-aria-controls, והתשובה יושבת בתוך div עם overflow:hidden, אחרת הטקסט מציץ החוצה באמצע האנימציה. אותו div מקבל visibility:hidden כשהתשובה סגורה, אחרת קורא מסך מקריא את כל התשובות הסגורות וקישור בתוכן מקבל פוקוס; בסגירה ה-visibility מתעכב עד סוף הקיפול."
 },
 {
   id:"b31", cat:"behavior", name:"סליידר המלצות עם גרירה, חצים ונקודות", tech:"CSS scroll-snap · JS", status:"ממתין",
@@ -71,29 +74,36 @@ export default [
   display:grid;place-items:center;transition:background .25s,opacity .25s}
 .tq-nav:hover{background:#eceaff}
 .tq-nav[disabled]{opacity:.35;cursor:default}
-.tq-dots{display:flex;gap:8px}
-.tq-dots button{width:8px;height:8px;padding:0;border:0;border-radius:50%;background:var(--line);cursor:pointer;transition:/* qa-allow: layout, נקודה של 8px שנמתחת ל-24 */width .3s,background .3s}
-.tq-dots button.on{width:24px;border-radius:999px;background:var(--accent)}`,
+/* הכפתור הוא אזור לחיצה של 24x44 והנקודה מצוירת בתוכו (::before), כך שהמראה נשאר 8px והפעילה 24px */
+.tq-dots{display:flex;gap:0}
+.tq-dots button{position:relative;width:24px;height:44px;padding:0;border:0;background:none;cursor:pointer;transition:/* qa-allow: layout, הנקודה הפעילה נמתחת מ-8 ל-24 */width .3s}
+.tq-dots button::before{content:"";position:absolute;inset-block:18px;inset-inline:8px;border-radius:999px;background:var(--line);transition:background .3s}
+.tq-dots button.on{width:40px}
+.tq-dots button.on::before{background:var(--accent)}`,
   html:`<div class="stage tight"><div class="tq">
-  <div class="tq-track">
-    <article class="tq-card"><div class="tq-stars">★★★★★</div><p>הגיעו עם שאלות שלא חשבנו עליהן, ובסוף קיבלנו אתר שמביא פניות כל שבוע. התהליך היה מסודר ובלי הפתעות.</p><div class="tq-who"><span class="tq-av ph ph-a">א</span><div><b>אורית לוי</b><span>מנכ"לית, חברת ייעוץ</span></div></div></article>
-    <article class="tq-card"><div class="tq-stars">★★★★★</div><p>שלושה ספקים לפניהם לא הצליחו. כאן הבינו את העסק שלי תוך פגישה אחת, וזה הורגש בכל שורה באתר.</p><div class="tq-who"><span class="tq-av ph ph-c">ד</span><div><b>דני כהן</b><span>בעלים, מוסך</span></div></div></article>
-    <article class="tq-card"><div class="tq-stars">★★★★★</div><p>הכי אהבתי שלא נעלמו אחרי העלייה לאוויר. כל שאלה נענתה, וגם חודשיים אחרי עדיין מלווים.</p><div class="tq-who"><span class="tq-av ph ph-d">מ</span><div><b>מיכל ברק</b><span>מנהלת שיווק</span></div></div></article>
-    <article class="tq-card"><div class="tq-stars">★★★★★</div><p>העלינו את האתר ותוך שבועיים ראינו הבדל בכמות הפניות. ההשקעה החזירה את עצמה מהר.</p><div class="tq-who"><span class="tq-av ph ph-e">י</span><div><b>יוסי אדרי</b><span>בעלים, קליניקה</span></div></div></article>
+  <div class="tq-track" tabindex="0" role="region" aria-label="המלצות לקוחות">
+    <article class="tq-card"><div class="tq-stars" role="img" aria-label="5 מתוך 5 כוכבים">★★★★★</div><p>הגיעו עם שאלות שלא חשבנו עליהן, ובסוף קיבלנו אתר שמביא פניות כל שבוע. התהליך היה מסודר ובלי הפתעות.</p><div class="tq-who"><span class="tq-av ph ph-a">א</span><div><b>אורית לוי</b><span>מנכ"לית, חברת ייעוץ</span></div></div></article>
+    <article class="tq-card"><div class="tq-stars" role="img" aria-label="5 מתוך 5 כוכבים">★★★★★</div><p>שלושה ספקים לפניהם לא הצליחו. כאן הבינו את העסק שלי תוך פגישה אחת, וזה הורגש בכל שורה באתר.</p><div class="tq-who"><span class="tq-av ph ph-c">ד</span><div><b>דני כהן</b><span>בעלים, מוסך</span></div></div></article>
+    <article class="tq-card"><div class="tq-stars" role="img" aria-label="5 מתוך 5 כוכבים">★★★★★</div><p>הכי אהבתי שלא נעלמו אחרי העלייה לאוויר. כל שאלה נענתה, וגם חודשיים אחרי עדיין מלווים.</p><div class="tq-who"><span class="tq-av ph ph-d">מ</span><div><b>מיכל ברק</b><span>מנהלת שיווק</span></div></div></article>
+    <article class="tq-card"><div class="tq-stars" role="img" aria-label="5 מתוך 5 כוכבים">★★★★★</div><p>העלינו את האתר ותוך שבועיים ראינו הבדל בכמות הפניות. ההשקעה החזירה את עצמה מהר.</p><div class="tq-who"><span class="tq-av ph ph-e">י</span><div><b>יוסי אדרי</b><span>בעלים, קליניקה</span></div></div></article>
   </div>
   <div class="tq-bar">
     <button class="tq-nav prev" aria-label="הקודם">→</button>
-    <div class="tq-dots" role="tablist" aria-label="מעבר בין המלצות"></div>
+    <div class="tq-dots" role="group" aria-label="מעבר בין המלצות"></div>
     <button class="tq-nav next" aria-label="הבא">←</button>
   </div>
 </div></div>`,
-  js:`(function(){
-  const track=document.querySelector(".tq-track"),cards=[...track.children];
-  const dots=document.querySelector(".tq-dots"),prev=document.querySelector(".prev"),next=document.querySelector(".next");
+  js:`// כל סליידר בעמוד מנוהל בנפרד, עם סלקטורים בתוך השורש שלו: שני סליידרים, או כל .prev אחר באתר, לא מתנגשים
+document.querySelectorAll(".tq").forEach(root=>{
+  const track=root.querySelector(".tq-track"),cards=[...track.children];
+  const dots=root.querySelector(".tq-dots"),prev=root.querySelector(".tq-nav.prev"),next=root.querySelector(".tq-nav.next");
+  // בתנועה מופחתת החצים והנקודות קופצים לכרטיס בלי החלקה
+  const beh=()=>matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth";
+  const go=c=>c.scrollIntoView({behavior:beh(),block:"nearest",inline:"start"});
   cards.forEach((c,i)=>{
     const b=document.createElement("button");
-    b.setAttribute("role","tab");b.setAttribute("aria-label","המלצה "+(i+1));
-    b.addEventListener("click",()=>c.scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"}));
+    b.type="button";b.setAttribute("aria-label","המלצה "+(i+1)+" מתוך "+cards.length);
+    b.addEventListener("click",()=>go(c));
     dots.appendChild(b);
   });
   const buttons=[...dots.children];
@@ -115,22 +125,21 @@ export default [
     // בסוף המסלול מסמנים את האחרון גם אם הוא לא הגיע לשפת ההתחלה,
     // כי כשמוצגים כמה כרטיסים במקביל אי אפשר להביא אותו לשם
     const i=atEnd()?cards.length-1:current();
-    buttons.forEach((b,n)=>b.classList.toggle("on",n===i));
+    buttons.forEach((b,n)=>{b.classList.toggle("on",n===i);n===i?b.setAttribute("aria-current","true"):b.removeAttribute("aria-current");});
     prev.disabled=atStart();next.disabled=atEnd();
   }
   track.addEventListener("scroll",sync,{passive:true});
-  prev.addEventListener("click",()=>cards[Math.max(0,current()-1)].scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"}));
-  next.addEventListener("click",()=>cards[Math.min(cards.length-1,current()+1)].scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"}));
+  prev.addEventListener("click",()=>go(cards[Math.max(0,current()-1)]));
+  next.addEventListener("click",()=>go(cards[Math.min(cards.length-1,current()+1)]));
   // גרירה בעכבר. במגע הדפדפן כבר עושה את זה לבד ולכן לא נוגעים.
   let down=false,sx=0,sl=0;
   track.addEventListener("pointerdown",e=>{if(e.pointerType!=="mouse")return;down=true;sx=e.clientX;sl=track.scrollLeft;track.classList.add("drag");});
   track.addEventListener("pointermove",e=>{if(!down)return;track.scrollLeft=sl-(e.clientX-sx);});
-  const up=()=>{if(!down)return;down=false;track.classList.remove("drag");
-    cards[current()].scrollIntoView({behavior:"smooth",block:"nearest",inline:"start"});};
+  const up=()=>{if(!down)return;down=false;track.classList.remove("drag");go(cards[current()]);};
   ["pointerup","pointerleave","pointercancel"].forEach(ev=>track.addEventListener(ev,up));
   sync();
-})();`,
+});`,
   runway:false,
-  note:"בנוי על גלילה נטיבית עם scroll-snap ולא על טרנספורמים, ולכן במובייל זה חלק לגמרי, עובד עם אינרציית המערכת, ונשאר נגיש למקלדת. בזמן גרירה בעכבר מכבים את ה-snap ומחזירים אותו בשחרור, אחרת הדפדפן נלחם בגרירה. הכיוון נגזר ממדידת מרכזים ולכן זהה בעברית ובאנגלית."
+  note:"בנוי על גלילה נטיבית עם scroll-snap ולא על טרנספורמים, ולכן במובייל זה חלק לגמרי, עובד עם אינרציית המערכת, ונשאר נגיש למקלדת: המסלול מקבל פוקוס עם שם, והחצים של המקלדת גוללים אותו. בזמן גרירה בעכבר מכבים את ה-snap ומחזירים אותו בשחרור, אחרת הדפדפן נלחם בגרירה. הכרטיס הנוכחי נקבע לפי שפת ההתחלה שלו מול שפת ההתחלה של המסלול (בעברית הימנית), ולכן זה זהה בעברית ובאנגלית. הנקודות הן כפתורים רגילים עם «המלצה 2 מתוך 4» ו-aria-current על הנוכחית, ואזור הלחיצה של כל אחת 24x44 גם כשהנקודה עצמה 8px."
 },
 ];

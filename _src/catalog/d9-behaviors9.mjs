@@ -11,15 +11,21 @@ export default [
   border:1px solid var(--line);border-radius:12px;padding:26px 16px 10px;transition:border-color .25s,box-shadow .25s}
 .ff-field textarea{min-height:120px;resize:vertical}
 .ff-field input:focus,.ff-field textarea:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px rgba(74,58,255,.13)}
+/* נקודת הכיווץ בצד ההתחלה: בעברית ימין. עם 0 0 התווית הצפה בורחת שמאלה מקצה השדה */
 .ff-field label{position:absolute;inset-inline-start:17px;top:17px;color:var(--muted);font-size:16px;pointer-events:none;
-  transform-origin:0 0;transition:transform .22s cubic-bezier(.2,.6,.2,1),color .22s}
+  transform-origin:100% 0;transition:transform .22s cubic-bezier(.2,.6,.2,1),color .22s}
+[dir="ltr"] .ff-field label{transform-origin:0 0}
+/* אימייל נכתב משמאל לימין (אחרת הנקודה וה-@ קופצים בזמן ההקלדה), אבל מיושר לימין כמו שאר השדות */
+.ff-field input[type=email]{text-align:right}
+[dir="ltr"] .ff-field input[type=email]{text-align:left}
 /* התווית עולה כשהשדה בפוקוס או כשיש בו תוכן. placeholder ריק הוא התנאי לזיהוי */
 .ff-field input:focus+label,.ff-field textarea:focus+label,
 .ff-field input:not(:placeholder-shown)+label,.ff-field textarea:not(:placeholder-shown)+label{transform:translateY(-11px) scale(.78)}
 .ff-field input:focus+label,.ff-field textarea:focus+label{color:var(--accent)}
-.ff-err{display:block;font-size:13px;color:#c2255c;margin-top:6px;height:0;opacity:0;transition:opacity .25s}
+/* visibility ולא רק שקיפות: הודעה שקופה עדיין נקראת בדפדוף גם כשהכל תקין */
+.ff-err{display:block;font-size:13px;color:#c2255c;margin-top:6px;height:0;opacity:0;visibility:hidden;transition:opacity .25s,visibility 0s .25s}
 .ff-field.bad input,.ff-field.bad textarea{border-color:#c2255c;animation:ffshake .34s}
-.ff-field.bad .ff-err{height:auto;opacity:1}
+.ff-field.bad .ff-err{height:auto;opacity:1;visibility:visible;transition-delay:0s}
 @keyframes ffshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 .ff-btn{position:relative;min-height:54px;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:600;
   font-size:17px;cursor:pointer;overflow:hidden;transition:background .3s}
@@ -33,16 +39,18 @@ export default [
 .ff-spin{width:17px;height:17px;border-radius:50%;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;animation:ffspin .7s linear infinite;display:inline-block}
 @keyframes ffspin{to{transform:rotate(360deg)}}
 .ff-note{font-size:13px;color:var(--muted);text-align:center}
-@media (prefers-reduced-motion: reduce){.ff-field.bad input{animation:none}.ff-spin{animation-duration:2s}}`,
+.ff-status{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media (prefers-reduced-motion: reduce){.ff-field.bad input,.ff-field.bad textarea{animation:none}.ff-spin{animation-duration:2s}}`,
   html:`<div class="stage tight"><form class="ff" novalidate>
-  <div class="ff-field"><input type="text" id="ffn" placeholder=" " autocomplete="name"><label for="ffn">שם מלא</label><small class="ff-err">צריך שם כדי לדעת למי לחזור</small></div>
-  <div class="ff-field"><input type="email" id="ffe" placeholder=" " autocomplete="email"><label for="ffe">אימייל</label><small class="ff-err">כתובת האימייל לא נראית תקינה</small></div>
-  <div class="ff-field"><textarea id="ffm" placeholder=" "></textarea><label for="ffm">במה נוכל לעזור?</label><small class="ff-err">כמה מילים יעזרו לנו להתכונן</small></div>
-  <button class="ff-btn" type="submit"><span class="s1">שליחה</span><span class="s2"><i class="ff-spin"></i></span><span class="s3">נשלח, נחזור אליך</span></button>
+  <div class="ff-field"><input type="text" id="ffn" placeholder=" " autocomplete="name"><label for="ffn">שם מלא</label><small class="ff-err" id="ffn-err">צריך שם כדי לדעת למי לחזור</small></div>
+  <div class="ff-field"><input type="email" id="ffe" dir="ltr" placeholder=" " autocomplete="email"><label for="ffe">אימייל</label><small class="ff-err" id="ffe-err">כתובת האימייל לא נראית תקינה</small></div>
+  <div class="ff-field"><textarea id="ffm" placeholder=" "></textarea><label for="ffm">במה נוכל לעזור?</label><small class="ff-err" id="ffm-err">כמה מילים יעזרו לנו להתכונן</small></div>
+  <button class="ff-btn" type="submit"><span class="s1">שליחה</span><span class="s2" aria-hidden="true"><i class="ff-spin"></i></span><span class="s3" aria-hidden="true">נשלח, נחזור אליך</span></button>
+  <p class="ff-status" role="status"></p>
   <p class="ff-note">הדגמה בלבד. שום דבר לא נשלח לשום מקום.</p>
 </form></div>`,
   js:`(function(){
-  const form=document.querySelector(".ff"),btn=form.querySelector(".ff-btn");
+  const form=document.querySelector(".ff"),btn=form.querySelector(".ff-btn"),status=form.querySelector(".ff-status");
   const fields=[...form.querySelectorAll(".ff-field")];
   function bad(f){
     const el=f.querySelector("input,textarea");
@@ -50,23 +58,33 @@ export default [
     if(el.type==="email")return !/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test(v);
     return v.length<2;
   }
+  // מצב השגיאה גם לקורא מסך: aria-invalid, והודעת השגיאה מחוברת לשדה רק כשהיא באמת מוצגת
+  // (aria-describedby מקריא גם הודעה מוסתרת, ולכן הוא לא יושב בשדה כל הזמן)
+  function mark(f,b){
+    f.classList.toggle("bad",b);
+    const el=f.querySelector("input,textarea"),err=f.querySelector(".ff-err");
+    el.setAttribute("aria-invalid",String(b));
+    if(b)el.setAttribute("aria-describedby",err.id);else el.removeAttribute("aria-describedby");
+  }
   fields.forEach(f=>{
     const el=f.querySelector("input,textarea");
     // מסירים את השגיאה ברגע שמתקנים, לא רק בשליחה הבאה
-    el.addEventListener("input",()=>{if(f.classList.contains("bad")&&!bad(f))f.classList.remove("bad");});
-    el.addEventListener("blur",()=>{if(el.value.trim())f.classList.toggle("bad",bad(f));});
+    el.addEventListener("input",()=>{if(f.classList.contains("bad")&&!bad(f))mark(f,false);});
+    el.addEventListener("blur",()=>{if(el.value.trim())mark(f,bad(f));});
   });
   form.addEventListener("submit",e=>{
     e.preventDefault();
+    // לחיצה כפולה לא שולחת פעמיים
+    if(btn.classList.contains("load")||btn.classList.contains("done"))return;
     let first=null;
-    fields.forEach(f=>{const b=bad(f);f.classList.toggle("bad",b);if(b&&!first)first=f;});
+    fields.forEach(f=>{const b=bad(f);mark(f,b);if(b&&!first)first=f;});
     if(first){first.querySelector("input,textarea").focus();return;}
     btn.classList.add("load");
-    setTimeout(()=>{btn.classList.remove("load");btn.classList.add("done");},1400);
+    setTimeout(()=>{btn.classList.remove("load");btn.classList.add("done");status.textContent="נשלח, נחזור אליך";},1400);
   });
 })();`,
   runway:false,
-  note:"התווית הצפה עובדת בלי JS בזכות :placeholder-shown, ולכן חובה placeholder של רווח בודד בכל שדה. השגיאה מנוקה תוך כדי הקלדה ולא רק בשליחה הבאה, וזה ההבדל בין טופס שמעצבן לטופס שעוזר. הכפתור מחזיק שלושה מצבים באותו רוחב כדי שלא יקפוץ, ובפרודקשן מוסיפים גם aria-live להודעת ההצלחה."
+  note:"התווית הצפה עובדת בלי JS בזכות :placeholder-shown, ולכן חובה placeholder של רווח בודד בכל שדה, ובעברית היא מתכווצת לכיוון הימין (transform-origin:100% 0). השגיאה מנוקה תוך כדי הקלדה ולא רק בשליחה הבאה, וזה ההבדל בין טופס שמעצבן לטופס שעוזר. שדה עם שגיאה מקבל aria-invalid וההודעה מחוברת אליו ב-aria-describedby רק כשהיא מוצגת. הכפתור מחזיק שלושה מצבים באותו רוחב כדי שלא יקפוץ; מצבי הטעינה וההצלחה aria-hidden כדי ששם הכפתור יישאר «שליחה», וההצלחה מוכרזת ב-p מוסתר עם role=\"status\". שדה האימייל dir=\"ltr\", כדי שהנקודה וה-@ לא יקפצו בזמן ההקלדה."
 },
 {
   id:"b33", cat:"behavior", name:"גלריה עם לייטבוקס", tech:"JS · dialog", status:"ממתין",
@@ -76,7 +94,8 @@ export default [
   css:`.gl{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding-inline:var(--gutter)}
 .gl button{border:0;padding:0;background:none;cursor:zoom-in;border-radius:10px;overflow:hidden;aspect-ratio:1;position:relative}
 .gl .ph{position:absolute;inset:0;border-radius:0;font-size:22px;transition:transform .5s cubic-bezier(.2,.6,.2,1)}
-.gl button:hover .ph{transform:scale(1.06)}
+/* הזום רק בעכבר (אחרת נתקע אחרי נגיעה) ורק בלי העדפת תנועה מופחתת */
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion: no-preference){.gl button:hover .ph{transform:scale(1.06)}}
 .lb{position:fixed;inset:0;z-index:80;background:rgba(10,10,16,.92);display:none;place-items:center;padding:clamp(16px,4vw,48px)}
 .lb.on{display:grid}
 .lb-stage{position:relative;width:min(1000px,92vw);aspect-ratio:3/2;border-radius:14px;overflow:hidden}
@@ -114,27 +133,32 @@ export default [
   <button class="lb-close" aria-label="סגירה">✕</button>
   <button class="lb-arrow lb-prev" aria-label="הקודמת">→</button>
   <button class="lb-arrow lb-next" aria-label="הבאה">←</button>
-  <span class="lb-count"></span>
+  <span class="lb-count" aria-live="polite"></span>
 </div>`,
   js:`(function(){
   const thumbs=[...document.querySelectorAll(".gl button")];
   const lb=document.querySelector(".lb"),shots=[...lb.querySelectorAll(".lb-stage .ph")];
   const count=lb.querySelector(".lb-count"),closeBtn=lb.querySelector(".lb-close");
   let i=0,opener=null;
+  const root=document.documentElement;
+  const focusables=[closeBtn,lb.querySelector(".lb-prev"),lb.querySelector(".lb-next")];
   function show(n){
     i=(n+shots.length)%shots.length;
-    shots.forEach((s,k)=>s.classList.toggle("on",k===i));
+    // רק התמונה הנוכחית בעץ הנגישות; המונה מוכרז בכל מעבר (aria-live)
+    shots.forEach((s,k)=>{s.classList.toggle("on",k===i);s.setAttribute("aria-hidden",String(k!==i));});
     count.textContent=(i+1)+" / "+shots.length;
   }
   function open(n,from){
     opener=from;show(n);lb.classList.add("on");
     // נעילת גלילה (תוקן 23.9.2026): על <html> עם scrollbar-gutter, לא overflow על body וריפוד שבעברית נופל שמאלה
-    document.documentElement.style.scrollbarGutter="stable"; document.documentElement.style.overflow="hidden";
+    root.style.scrollbarGutter="stable"; root.style.overflow="hidden";
+    // השכבה fixed לא מכסה את המרזב, ובלי זה נשארת בצד רצועה בצבע העמוד ברוחב פס הגלילה
+    root.style.backgroundColor=getComputedStyle(lb).backgroundColor;
     closeBtn.focus();
   }
   function close(){
     lb.classList.remove("on");
-    document.documentElement.style.overflow="";document.documentElement.style.scrollbarGutter="";
+    root.style.overflow="";root.style.scrollbarGutter="";root.style.backgroundColor="";
     if(opener)opener.focus();
   }
   thumbs.forEach((b,n)=>b.addEventListener("click",()=>open(n,b)));
@@ -148,9 +172,15 @@ export default [
     // בעברית חץ שמאלה מתקדם לתמונה הבאה
     if(e.key==="ArrowLeft")show(i+1);
     if(e.key==="ArrowRight")show(i-1);
+    // מלכודת פוקוס: Tab מסתובב בין שלושת הכפתורים ולא בורח אל הגריד שמאחורי השכבה
+    if(e.key==="Tab"){
+      const k=focusables.indexOf(document.activeElement);
+      e.preventDefault();
+      focusables[(k+(e.shiftKey?-1:1)+focusables.length)%focusables.length].focus();
+    }
   });
 })();`,
   runway:false,
-  note:"שלושה דברים שהופכים לייטבוקס מצעצוע לרכיב אמיתי: נעילת גלילה שמחזירה את רוחב פס הגלילה כריפוד כדי שהעמוד לא יקפוץ, החזרת הפוקוס לתמונה שממנה נפתח אחרי הסגירה, וחצי מקלדת הפוכים בעברית. בפרודקשן מוסיפים loading=\"lazy\" לתמונות הגריד ומחליפים לגרסה גדולה רק בפתיחה."
+  note:"ארבעה דברים שהופכים לייטבוקס מצעצוע לרכיב אמיתי: נעילת גלילה על <html> עם scrollbar-gutter:stable כדי שהעמוד לא יקפוץ, והמרזב נצבע בצבע הרקע של הלייטבוקס; מלכודת פוקוס, כך ש-Tab מסתובב בין הסגירה והחצים ולא בורח אל הגריד שמאחור; החזרת הפוקוס לתמונה שממנה נפתח אחרי הסגירה; וחצי מקלדת הפוכים בעברית. המונה מוכרז בכל מעבר (aria-live). בפרודקשן כל תמונה גדולה היא <img> עם alt, מוסיפים loading=\"lazy\" לתמונות הגריד ומחליפים לגרסה גדולה רק בפתיחה."
 },
 ];

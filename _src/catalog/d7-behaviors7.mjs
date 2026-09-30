@@ -6,7 +6,8 @@ export default [
   desc:"כל סקשן מכריז על ערכת הצבע שלו, והרקע והטקסט של העמוד עוברים אליה. שני מצבים: בקפיצה רכה כשסקשן תופס את רוב המסך, או ברצף שצמוד לגלילה, שבו הרקע נמזג מצבע לצבע בדיוק בקצב שהגולש גולל.",
   when:"אתרי תדמית וסיפור מותג, עמודי מוצר ארוכים. נותן תחושת פרקים בלי קווים מפרידים ובלי סקשנים עם קצוות חדים. הקפיצה מתאימה לפרקים נפרדים, והרצף מתאים לעמוד שמתכהה בהדרגה (מבהיר בפתיחה לכהה ביוקרה), כמו שנראה ב-academy.shiruziel.com.",
   libs:[],
-  css:`.bgz{--bg:var(--bg);--fg:var(--ink);--soft:var(--muted);
+  css:`/* --bg לא מוגדר כאן: העטיפה יורשת את --bg של העמוד עד שהסקריפט מחליף. --bg:var(--bg) הוא מעגל, והערך פסול */
+.bgz{--fg:var(--ink);--soft:var(--muted);
   background:var(--bg);color:var(--fg);transition:background-color .8s ease,color .8s ease}
 .bgz-sec{min-height:92vh;display:grid;place-items:center;text-align:center;padding:8vh var(--gutter)}
 /* place-items:center ממרכז את העטיפה, אבל בתוכה כל בלוק עם max-width נצמד לצד ההתחלה.
@@ -14,7 +15,7 @@ export default [
 .bgz-sec h3{font-size:clamp(30px,4.4vw,72px);margin:0 auto 14px;font-weight:800;max-width:18ch}
 .bgz-sec p{margin:0 auto;max-width:46ch;color:var(--soft);font-size:17px;line-height:1.6}
 .bgz-sec>div{display:grid;justify-items:center}
-.bgz-tag{font-size:12px;letter-spacing:.18em;margin-bottom:18px;opacity:.6}
+.bgz-tag{font-size:12px;letter-spacing:0;margin-bottom:18px;opacity:.6}
 .bgz-dot{width:10px;height:10px;border-radius:50%;background:currentColor;margin:26px auto 0;opacity:.4}
 .bgz-rail{position:fixed;inset-inline-end:18px;top:50%;transform:translateY(-50%);z-index:20;display:grid;gap:10px}
 .bgz-rail i{display:block;width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.28;transition:opacity .4s,transform .4s}
@@ -25,6 +26,10 @@ export default [
   background:color-mix(in srgb,var(--fg) 12%,transparent);backdrop-filter:blur(8px)}
 .bgz-mode button{font:inherit;font-size:14px;padding:7px 14px;border:0;border-radius:999px;background:none;color:inherit;cursor:pointer;opacity:.75}
 .bgz-mode button.on{background:var(--fg);color:var(--bg);opacity:1}
+/* הנקודות והמתג fixed, ולכן מוצגים רק כשהעטיפה חוצה את אמצע המסך. אחרת הם צפים מעל הפוטר ומעל כל סקשן אחר */
+.bgz-rail,.bgz-mode{transition:opacity .3s,visibility .3s}
+.bgz:not(.in) .bgz-rail,.bgz:not(.in) .bgz-mode{opacity:0;visibility:hidden}
+@media (max-width:767px){.bgz-rail{inset-inline-end:6px}}
 @media (prefers-reduced-motion: reduce){.bgz,.bgz.flow{transition-duration:.01ms}}`,
   html:`<div class="bgz">
   <section class="bgz-sec" data-bg="#f7f7fa" data-fg="#16182b" data-soft="#6a6d85">
@@ -46,6 +51,8 @@ export default [
   const wrap=document.querySelector(".bgz");
   const secs=[...wrap.querySelectorAll(".bgz-sec")];
   const dots=[...wrap.querySelectorAll(".bgz-rail i")];
+  // הנקודות והמתג רק כשהעטיפה חוצה את הרצועה שבאמצע המסך
+  new IntersectionObserver(([e])=>wrap.classList.toggle("in",e.isIntersecting),{rootMargin:"-45% 0px -45% 0px"}).observe(wrap);
   function apply(sec){
     wrap.style.setProperty("--bg",sec.dataset.bg);
     wrap.style.setProperty("--fg",sec.dataset.fg);
@@ -104,6 +111,6 @@ export default [
   pick();
 })();`,
   runway:false,
-  note:"המלכודת שנתפסה כאן בבדיקה: אם בוחרים את הסקשן לפי היחסים שמגיעים באירוע של IntersectionObserver, הצבע נתקע על הראשון, כי כל אירוע מדווח רק על מה שהשתנה. הפתרון הוא למדוד בכל בדיקה את כל הסקשנים ולבחור את זה שתופס הכי הרבה מהמסך. מלכודת שנייה: המעבר חייב לשבת על משתני CSS ברמת המעטפת ולא על כל אלמנט בנפרד, אחרת רצים עשרות טרנזישנים במקביל. במצב הרציף (נוסף 14.9.2026): הרקע נכתב כ-color-mix בין שני הסקשנים ומתעדכן בכל אירוע גלילה בלי transition, והטקסט מתהפך בחצי הדרך ולא נמזג. המיזוג מוגבל לרצועה של 45% מגובה המסך סביב הגבול, כי באמצע מעבר מבהיר לכהה אין צבע טקסט שעובר ניגודיות."
+  note:"המלכודת שנתפסה כאן בבדיקה: אם בוחרים את הסקשן לפי היחסים שמגיעים באירוע של IntersectionObserver, הצבע נתקע על הראשון, כי כל אירוע מדווח רק על מה שהשתנה. הפתרון הוא למדוד בכל בדיקה את כל הסקשנים ולבחור את זה שתופס הכי הרבה מהמסך. מלכודת שנייה: המעבר חייב לשבת על משתני CSS ברמת המעטפת ולא על כל אלמנט בנפרד, אחרת רצים עשרות טרנזישנים במקביל. במצב הרציף (נוסף 14.9.2026): הרקע נכתב כ-color-mix בין שני הסקשנים ומתעדכן בכל אירוע גלילה בלי transition, והטקסט מתהפך בחצי הדרך ולא נמזג. המיזוג מוגבל לרצועה של 45% מגובה המסך סביב הגבול, כי באמצע מעבר מבהיר לכהה אין צבע טקסט שעובר ניגודיות. פס הנקודות fixed, ולכן מוצג רק כשהעטיפה חוצה את אמצע המסך; אחרת הוא צף מעל הפוטר. המתג .bgz-mode קיים רק בדמו: בפרויקט בוחרים מצב אחד (mode='step' או 'flow') ומוחקים את המתג."
 },
 ];

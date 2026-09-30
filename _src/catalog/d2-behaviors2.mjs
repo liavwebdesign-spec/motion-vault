@@ -7,9 +7,10 @@ export default [
   libs:["gsap","ScrollTrigger"],
   css:`.hud-sec{min-height:80vh;display:grid;place-items:center;border-top:1px solid var(--line);font-size:clamp(28px,3vw,52px);font-weight:700;color:var(--muted)}
 .hud-sec:nth-child(odd){background:var(--card)}
-.hud{position:fixed;bottom:22px;left:22px;z-index:60;display:flex;align-items:center;gap:12px;background:#111;color:#fff;border-radius:999px;padding:10px 16px;font-size:12px;letter-spacing:.14em;opacity:0;visibility:hidden}
+/* בלי ריווח אותיות על העברית («על המסך»); רק המספר מקבל ריווח */
+.hud{position:fixed;bottom:22px;left:22px;z-index:60;display:flex;align-items:center;gap:12px;background:#111;color:#fff;border-radius:999px;padding:10px 16px;font-size:12px;letter-spacing:0;opacity:0;visibility:hidden}
 .hud i{width:6px;height:6px;border-radius:50%;background:#c6ff4a}
-.hud b{font-variant-numeric:tabular-nums;font-weight:600;display:inline-block;min-width:3ch;text-align:left;direction:ltr}`,
+.hud b{font-variant-numeric:tabular-nums;font-weight:600;display:inline-block;min-width:3ch;text-align:left;direction:ltr;letter-spacing:.08em}`,
   html:`<div class="hud-wrap">
   <section class="hud-sec" data-n="001">סקשן ראשון</section>
   <section class="hud-sec" data-n="002">סקשן שני</section>
@@ -17,24 +18,37 @@ export default [
   <section class="hud-sec" data-n="004">סקשן רביעי</section>
   <section class="hud-sec" data-n="005">סקשן חמישי</section>
 </div>
-<div class="hud" aria-live="polite">על המסך <i></i> <b>000</b></div>`,
+<div class="hud" aria-hidden="true">על המסך <i></i> <b>000</b></div>`,
   js:`(function(){
+  // בלי הספרייה התג פשוט לא מופיע: הוא אינדיקטור בלבד, והכותרות עצמן נושאות את המידע
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;
   const hud=document.querySelector(".hud"),num=hud.querySelector("b");
   let shown=false;
-  function show(){if(shown)return;shown=true;gsap.fromTo(hud,{scale:.97,autoAlpha:0},{scale:1,autoAlpha:1,duration:.16,ease:"power2.out"});}
-  function hide(){if(!shown)return;shown=false;gsap.to(hud,{scale:.97,autoAlpha:0,duration:.16,ease:"expo.in"});}
-  function setNum(n){
-    if(num.textContent===n)return;
-    gsap.timeline().to(num,{yPercent:-60,autoAlpha:0,duration:.14,ease:"power2.in",onComplete:()=>num.textContent=n})
-      .fromTo(num,{yPercent:60},{yPercent:0,autoAlpha:1,duration:.22,ease:"power3.out"});
-    gsap.fromTo(hud,{scale:.96},{scale:1,duration:.3,ease:"power3.out"});
-  }
-  // נראות: טריגר אחד על כל האזור. מספר: טריגר לכל סקשן. כך התג לא נתקע גלוי בקפיצות גלילה.
-  ScrollTrigger.create({trigger:".hud-wrap",start:"top center",end:"bottom center",
-    onToggle:self=>self.isActive?show():hide()});
-  gsap.utils.toArray(".hud-sec").forEach(s=>ScrollTrigger.create({trigger:s,start:"top center",end:"bottom center",
-    onToggle:self=>{if(self.isActive)setNum(s.dataset.n);}}));
-})();`
+  // שני ענפים באותו matchMedia: בתנועה מופחתת התג מופיע, נעלם ומחליף מספר בלי קפיצה ובלי גלגול
+  gsap.matchMedia().add({full:"(prefers-reduced-motion: no-preference)",still:"(prefers-reduced-motion: reduce)"},ctx=>{
+    const still=ctx.conditions.still;
+    shown=false;gsap.set(hud,{autoAlpha:0,scale:1});gsap.set(num,{yPercent:0,autoAlpha:1});
+    function show(){if(shown)return;shown=true;
+      if(still){gsap.set(hud,{autoAlpha:1});return;}
+      gsap.fromTo(hud,{scale:.97,autoAlpha:0},{scale:1,autoAlpha:1,duration:.16,ease:"power2.out"});}
+    function hide(){if(!shown)return;shown=false;
+      if(still){gsap.set(hud,{autoAlpha:0});return;}
+      gsap.to(hud,{scale:.97,autoAlpha:0,duration:.16,ease:"power2.in"});}
+    function setNum(n){
+      if(num.textContent===n)return;
+      if(still){num.textContent=n;return;}
+      gsap.timeline().to(num,{yPercent:-60,autoAlpha:0,duration:.14,ease:"power2.in",onComplete:()=>num.textContent=n})
+        .fromTo(num,{yPercent:60},{yPercent:0,autoAlpha:1,duration:.22,ease:"power3.out"});
+      gsap.fromTo(hud,{scale:.96},{scale:1,duration:.3,ease:"power3.out"});
+    }
+    // נראות: טריגר אחד על כל האזור. מספר: טריגר לכל סקשן. כך התג לא נתקע גלוי בקפיצות גלילה.
+    ScrollTrigger.create({trigger:".hud-wrap",start:"top center",end:"bottom center",
+      onToggle:self=>self.isActive?show():hide()});
+    gsap.utils.toArray(".hud-sec").forEach(s=>ScrollTrigger.create({trigger:s,start:"top center",end:"bottom center",
+      onToggle:self=>{if(self.isActive)setNum(s.dataset.n);}}));
+  });
+})();`,
+  note:"התג aria-hidden: הוא מתחלף בכל סקשן, וקורא מסך היה מקריא «על המסך 003» בכל גלילה בלי מידע חדש, כי הכותרות עצמן כבר נקראות. בתנועה מופחתת התג מופיע ומחליף מספר בלי קפיצה ובלי גלגול. בלי GSAP הוא לא מופיע בכלל, וזה בכוונה: אינדיקטור שלא מתעדכן גרוע מאינדיקטור חסר."
 },
 {
   id:"b18", cat:"behavior", name:"הדר שמחליף ערכת צבע לפי הסקשן", tech:"GSAP · ScrollTrigger", status:"ממתין",
@@ -61,10 +75,17 @@ export default [
 </div>`,
   js:`(function(){
   const head=document.querySelector(".th-head");
+  const secs=[...document.querySelectorAll(".th-sec")];
   const h=()=>head.offsetHeight;
-  gsap.utils.toArray(".th-sec").forEach(s=>ScrollTrigger.create({trigger:s,start:()=>"top "+h()*0.6,end:()=>"bottom "+h()*0.6,
+  // בלי הספרייה (רשת ארגונית שחוסמת CDN): אותה מדידה בגלילה פשוטה, כדי שהלוגו לא יישאר כהה על סקשן כהה
+  if(typeof ScrollTrigger==="undefined"){
+    const upd=()=>{const y=h()*0.6,s=secs.find(x=>{const r=x.getBoundingClientRect();return r.top<=y&&r.bottom>y;});
+      if(s)head.dataset.theme=s.dataset.theme;};
+    addEventListener("scroll",upd,{passive:true});upd();return;
+  }
+  secs.forEach(s=>ScrollTrigger.create({trigger:s,start:()=>"top "+h()*0.6,end:()=>"bottom "+h()*0.6,
     onToggle:self=>{if(self.isActive)head.dataset.theme=s.dataset.theme;}}));
 })();`,
-  note:"ההדר כאן sticky בתוך הדמו כדי לא להתנגש בסרגל של המאגר. בפרויקט אמיתי הוא fixed, והחישוב זהה."
+  note:"ההדר כאן sticky בתוך הדמו כדי לא להתנגש בסרגל של המאגר. בפרויקט אמיתי הוא fixed, והחישוב זהה. כשהספרייה חסומה אותה מדידה רצה על אירוע גלילה פשוט, כך שההדר נשאר קריא גם בלי GSAP."
 },
 ];
