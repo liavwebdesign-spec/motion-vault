@@ -37,8 +37,8 @@ doc({
   fix: ".centered p, .centered .lead { margin-inline: auto }",
   spot: "השורה האחרונה של הפסקה. אם היא קצרה, מיד רואים איפה הקופסה באמת יושבת.",
   css: `${AP_BASE}
-.a01 .c{text-align:center}
-.a01 .c p:not(.ttl){max-width:300px;margin:0;font-size:14px;line-height:1.5;color:#3c3f57;outline:1px dashed #c3c5d6;outline-offset:6px}
+.a01 .c{text-align:center;display:flex;flex-direction:column;gap:16px}
+.a01 .c p:not(.ttl){max-width:min(300px,72%);margin:0;font-size:14px;line-height:1.5;color:#3c3f57;outline:1px dashed #c3c5d6;outline-offset:6px}
 .a01 .good .c p:not(.ttl){margin-inline:auto}`,
   html: wrap("a01",
     `<div class="c"><p class="ttl">כותרת ממורכזת</p><p>${PARA}</p></div>`, "הפסקה מוגבלת ל-300px ודבוקה לימין. הטקסט ממורכז בתוכה, ולכן השורה האחרונה מסגירה את הקופסה.",
@@ -63,7 +63,7 @@ doc({
   id: "a03", name: "עמוד שכולו צמוד-ימין",
   desc: "כל הסקשנים מיושרים לאותו צד. אין נשימה, אין טקס, הגלילה מונוטונית.",
   when: "עמודים ארוכים, במיוחד כשכל הסקשנים נבנו מאותה תבנית.",
-  rule: "צ'קליסט 3 (סיני, 12.8.2026): ציר היישור מגוון בין סקשנים. סקשנים ממורכזים (תהליך, FAQ, סוגר) חייבים להיות ממורכזים באמת.",
+  rule: "צ'קליסט 3 (סיני, 12.8.2026): ציר היישור מגוון בין סקשנים. סקשנים ממורכזים (תהליך, סוגר, משפט מסכם) חייבים להיות ממורכזים באמת. FAQ וטפסים מיושרים (spacing-and-axes.md 5).",
   why: "יישור אחיד הופך את העמוד לרשימה. גיוון הצירים הוא מה שנותן לגלילה מקצב.",
   fix: "מערכת הצירים של המנוע: טקס ממורכז, קריאה מיושרת, ראש-לפי-גוף, ולסירוגין.",
   spot: "מקטינים את העמוד ל-25% ומסתכלים על הצללית. אם כל הבלוקים מתחילים מאותו קו, זה זה.",
@@ -82,7 +82,7 @@ doc({
   when: "רשימות מאפיינים בוליאניים: נדל\"ן, מפרטים, חבילות.",
   rule: "צ'קליסט 10ג (סיני, 17.8.2026): מצב שלילי חייב להיקרא גם בלי להשוות למצב חיובי לידו. סיגנל כפול לפחות.",
   why: "גבול מקווקו הוא הבדל עדין מדי, ובמובייל הוא נעלם. הקורא מפרש \"אין מחסן\" כמאפיין שיש.",
-  fix: "קו-חוצה על הטקסט + סימן ✕ בצבע ההדגשה + אייקון מעומעם. שלושה סיגנלים, כל אחד מספיק לבד.",
+  fix: "קו-חוצה על הטקסט + סימן ✕ באדום של שגיאה (לא במבטא, שהוא לפעולה) + אייקון מעומעם. שלושה סיגנלים, כל אחד מספיק לבד.",
   spot: "מכסים את שאר הצ'יפים ומסתכלים על השלילי לבד. אם הוא נראה כמו \"יש\", נכשל.",
   css: `${AP_BASE}
 .a04 .chips{display:flex;flex-wrap:wrap;gap:8px}
@@ -99,10 +99,10 @@ doc({
 }),
 doc({
   id: "a05", name: "אייקון ענק, טקסט זעיר",
-  desc: "צ'יפ עם אייקון 28px וטקסט 12px. הטקסט נראה מנופח או מגומד, והצ'יפ לא קריא בזום 100%.",
+  desc: "צ'יפ עם אייקון 28px וטקסט 11px. הטקסט נראה מנופח או מגומד, והצ'יפ לא קריא בזום 100%.",
   when: "צ'יפים, תגים, שורות מאפיינים עם אייקון.",
   rule: "צ'קליסט 10ד: אייקון 24px מול טקסט 15px, לא הפוך. בודקים כל צ'יפ בזום 100%.",
-  why: "היחס הטבעי בין אייקון לטקסט הוא 1.5 לכל היותר. מעבר לזה האייקון הופך לכותרת והטקסט לכיתוב.",
+  why: "היחס הטבעי בין גובה האייקון לגודל הטקסט הוא עד 1.6 (24 מול 15). מעבר לזה האייקון הופך לכותרת והטקסט לכיתוב.",
   fix: "אייקון 20-24px, טקסט 14-15px, gap 8px, ושניהם על אותו קו אמצע.",
   spot: "אם צריך להתקרב כדי לקרוא את הטקסט אבל האייקון נראה מרחוק, היחס שבור.",
   css: `${AP_BASE}
@@ -126,10 +126,12 @@ doc({
   css: `${AP_BASE}
 .a06 .close{border-radius:12px 12px 0 0;padding:36px 20px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;overflow:hidden}
 .a06 .close .btn{position:relative;z-index:1}.a06 .close .ttl{position:relative;z-index:1}
+.a06 .demo{gap:0}
 .a06 .foot{background:#16182b;color:#9a9db8;font-size:12px;padding:14px 20px;border-radius:0 0 12px 12px}
 .a06 .bad .close{background:#fff;border:1px solid var(--line,#e4e4ee);border-bottom:0}
 .a06 .good .close{color:#fff;background:radial-gradient(60% 80% at 30% 20%,#5f7cff 0,#26306b 60%,#16182b 100%)}
-.a06 .good .close::after{content:"";position:absolute;inset:auto 0 0;height:60%;background:linear-gradient(to top,#16182b 0,rgba(22,24,43,0) 100%)}`,
+.a06 .good .close::after{content:"";position:absolute;inset:auto 0 0;height:60%;background:linear-gradient(to top,#16182b 0,rgba(22,24,43,0) 100%)}
+.a06 .good .btn{background:#fff;color:#16182b}`,
   html: wrap("a06",
     `<div class="close"><p class="ttl">מוכנים להתחיל?</p><span class="btn">לשיחה קצרה</span></div><div class="foot">© שם העסק · תנאים · פרטיות</div>`, "כותרת, כפתור, לבן. הסגירה נראית כמו עוד פסקה.",
     `<div class="close"><p class="ttl">מוכנים להתחיל?</p><span class="btn">לשיחה קצרה</span></div><div class="foot">© שם העסק · תנאים · פרטיות</div>`, "שכבת תמונה (כאן גרדיאנט כממלא מקום) וסקרים שמתחיל בדיוק בצבע הפוטר. אין תפר."),
@@ -144,10 +146,11 @@ doc({
   spot: "אם פריט אחד ברשימה נראה כאילו אפשר לדלג עליו, זה בדיוק הפריט שרצו להדגיש.",
   css: `${AP_BASE}
 .a07 .li{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;border:1px solid var(--line,#e4e4ee);font-size:14px;position:relative}
-.a07 .li b{width:28px;height:28px;border-radius:50%;background:#d9a32b;color:#fff;display:grid;place-items:center;font-size:13px;flex:none}
+.a07 .li b{width:28px;height:28px;border-radius:50%;background:#d9a32b;color:#16182b;display:grid;place-items:center;font-size:13px;flex:none}
 .a07 .bad .li.warn b{background:#c3c5d6}
 .a07 .good .li.warn{border-inline-start:4px solid #d0342c;padding-inline-start:10px}
-.a07 .good .li.warn::before{content:"שימו לב · ";font-weight:700;color:#d0342c;order:2}`,
+.a07 .good .li.warn::before{content:"שימו לב · ";font-weight:700;color:#d0342c;order:1}
+.a07 .good .li.warn span{order:2}`,
   html: wrap("a07",
     `<div class="li"><b>1</b>בדיקת זכויות בנייה</div><div class="li"><b>2</b>הערכת שווי</div><div class="li warn"><b>3</b>אישור ועדה מקומית</div><div class="li"><b>4</b>חתימה על חוזה</div>`, "שלב 3 הוא הקריטי, וקיבל עיגול אפור. הקורא מדלג עליו.",
     `<div class="li"><b>1</b>בדיקת זכויות בנייה</div><div class="li"><b>2</b>הערכת שווי</div><div class="li warn"><b>3</b><span>אישור ועדה מקומית</span></div><div class="li"><b>4</b>חתימה על חוזה</div>`, "פס צד אדום ותווית. המספור זהה בכל הארבעה."),
@@ -163,8 +166,8 @@ doc({
   css: `${AP_BASE}
 .a08 .box{position:relative;isolation:isolate;padding:22px;border-radius:12px;border:1px solid var(--line,#e4e4ee);min-height:170px;display:flex;flex-direction:column;gap:8px}
 .a08 .box p{margin:0;font-size:14px;line-height:1.5;color:#3c3f57;max-width:34ch}
-.a08 .deco{position:absolute;width:150px;height:150px;border-radius:50%;background:#ffb4a0;inset-inline-end:-20px;top:-20px}
-.a08 .good .deco{z-index:0;opacity:.7}
+.a08 .deco{position:absolute;width:150px;height:150px;border-radius:50%;background:#ffb4a0;inset-inline-start:48px;top:-24px}
+.a08 .good .deco{z-index:0}
 .a08 .good .box .ttl,.a08 .good .box p{position:relative;z-index:1}`,
   html: wrap("a08",
     `<div class="box"><p class="ttl">כותרת של כרטיס</p><p>${PARA}</p><span class="deco"></span></div>`, "העיגול נוסף אחרון ב-DOM ואין לו z-index. הוא יושב על הכותרת.",
@@ -186,7 +189,7 @@ doc({
 .a09 .good .glass .tx{background:rgba(255,255,255,.5)}
 .a09 .good .glass .ttl{color:#fff}`,
   html: wrap("a09",
-    `<div class="stage"><div class="glass"><p class="ttl">כרטיס זכוכית</p><div class="tx l"></div><div class="tx m"></div></div></div>`, "blur 18 על רקע לבן-שבור. רואים גבול, לא זכוכית.",
+    `<div class="stage"><div class="glass"><p class="ttl">כרטיס זכוכית</p><div class="tx l"></div><div class="tx m"></div></div></div>`, "blur 18 על רקע לבן-שבור. הזכוכית נעלמת: נשארו רק הכותרת והקווים.",
     `<div class="stage"><div class="glass"><p class="ttl">כרטיס זכוכית</p><div class="tx l"></div><div class="tx m"></div></div></div>`, "אותו כרטיס בדיוק מעל רקע עשיר. עכשיו יש מה לטשטש."),
 }),
 doc({
@@ -195,7 +198,7 @@ doc({
   when: "כל פרויקט בשפה קיצונית.",
   rule: "קריקטורת ברוטליזם (S7): או-או. radius 0 בכל מקום, אף צל עם blur.",
   why: "שפה קיצונית עובדת רק כשהיא עקבית. פרט מרוכך אחד הופך את כל הגולמיות ל\"לא ידעו לעגל\".",
-  fix: "radius:0, box-shadow ללא blur (5px 5px 0 #000), ו-hover שמזיז את הצל במקום לרכך אותו.",
+  fix: "radius:0, box-shadow ללא blur (6px 6px 0 #000), ו-hover שמזיז את הצל במקום לרכך אותו.",
   spot: "פינה אחת. אם היא עגולה, כל השאר לא ברוטליזם.",
   css: `${AP_BASE}
 .a10 .card{border:3px solid #000;padding:20px;display:flex;flex-direction:column;gap:10px;background:#fff;width:80%}
@@ -218,11 +221,18 @@ doc({
   css: `${AP_BASE}
 .a11 .demo{align-items:flex-start;justify-content:center}
 .a11 .btn{cursor:pointer;box-shadow:0 0 0 rgba(74,58,255,0)}
-.a11 .btn:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(74,58,255,.35);background:#4a3aff}
-.a11 .good .btn{transition:transform .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s,background .2s}`,
+.a11 .good .btn{transition:transform .2s var(--ease,cubic-bezier(.2,.6,.2,1)),box-shadow .2s var(--ease,cubic-bezier(.2,.6,.2,1)),background .2s var(--ease,cubic-bezier(.2,.6,.2,1))}
+/* שער ההובר במגע (motion.md): בלי השער ההובר נתקע בטלפון אחרי נגיעה */
+@media (hover:hover) and (pointer:fine){.a11 .btn:hover{transform:translateY(-3px);box-shadow:0 10px 22px rgba(74,58,255,.35);background:#4a3aff}}
+.a11 .btn:focus-visible{transform:translateY(-3px);box-shadow:0 10px 22px rgba(74,58,255,.35);background:#4a3aff;outline:2px solid #4a3aff;outline-offset:3px}
+/* במגע אין הובר: הדמו מחליף מצב לבד, בקפיצה ב"ככה לא" ובמעבר ב"ככה כן" */
+@media (hover:none) and (prefers-reduced-motion:no-preference){.a11 .btn{animation:a11d 2.4s infinite}.a11 .bad .btn{animation-timing-function:steps(1,end)}.a11 .good .btn{animation-timing-function:var(--ease,cubic-bezier(.2,.6,.2,1))}}
+@keyframes a11d{0%,40%{transform:none;box-shadow:0 0 0 rgba(74,58,255,0);background:#16182b}50%,90%{transform:translateY(-3px);box-shadow:0 10px 22px rgba(74,58,255,.35);background:#4a3aff}}
+/* הפחתת תנועה: הצבע והצל עדיין מתחלפים, בלי תזוזה */
+@media (prefers-reduced-motion:reduce){.a11 .btn:hover,.a11 .btn:focus-visible{transform:none}}`,
   html: wrap("a11",
-    `<p class="ttl">העבירו עכבר</p><span class="btn">כפתור שקופץ</span>`, "אין transition. הכפתור מופיע במצב החדש בלי לעבור אליו, ובעזיבה חוזר בקפיצה.",
-    `<p class="ttl">העבירו עכבר</p><span class="btn">כפתור שעובר</span>`, "transition .2s על הבסיס, לא על :hover. גם הכניסה וגם היציאה חלקות."),
+    `<p class="ttl">העבירו עכבר</p><span class="btn" tabindex="0">כפתור שקופץ</span>`, "אין transition. הכפתור מופיע במצב החדש בלי לעבור אליו, ובעזיבה חוזר בקפיצה. בטלפון הדמו מתחלף לבד.",
+    `<p class="ttl">העבירו עכבר</p><span class="btn" tabindex="0">כפתור שעובר</span>`, "transition .2s על הבסיס, לא על :hover, וההובר בתוך שער המגע. גם הכניסה וגם היציאה חלקות. בטלפון הדמו מתחלף לבד."),
 }),
 doc({
   id: "a12", name: "ריווח אותיות חיובי בעברית",
@@ -230,7 +240,7 @@ doc({
   when: "כל טקסט רץ. מותר רק על כותרות לטיניות קטנות באותיות גדולות.",
   rule: "צ'קליסט 7: אין letter-spacing חיובי על טקסט רץ.",
   why: "אותיות עבריות בנויות להיצמד. מרווח נוסף שובר את צורת המילה והקריאה מאטה.",
-  fix: "letter-spacing:0 על כל טקסט רץ. בכותרות גדולות מותר שלילי עדין (-.01em).",
+  fix: "letter-spacing:0 על כל טקסט רץ. בכותרות מעל 40px ריווח שלילי עדין, 0.01em עד 0.025em (רף הסטודיו 4), חוץ מפונט צר (fonts.md).",
   spot: "מילים של שתיים-שלוש אותיות. אם הן נראות כמו ראשי תיבות, יש ריווח.",
   css: `${AP_BASE}
 .a12 p.t{margin:0;font-size:15px;line-height:1.6;color:#3c3f57}
@@ -249,7 +259,7 @@ doc({
   spot: "צילום העמוד ב-25%. אם שלושה בלוקים רצופים נראים זהים, נכשל.",
   css: `${AP_BASE}
 .a13 .sec{border:1px solid var(--line,#e4e4ee);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:6px}
-.a13 .sec small{font-size:11px;font-weight:700;color:#6a6d85}
+.a13 .sec small{font-size:12px;font-weight:700;color:#6a6d85}
 .a13 .g{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .a13 .g i{display:block;height:30px;background:#dfe0ea;border-radius:5px}
 .a13 .zz{display:grid;grid-template-columns:1fr 1fr;gap:6px}
@@ -258,7 +268,7 @@ doc({
 .a13 .band{height:30px;border-radius:5px;background:#16182b}`,
   html: wrap("a13",
     `<div class="sec"><small>יתרונות · C4</small><div class="g"><i></i><i></i><i></i></div></div><div class="sec"><small>שירותים · C4</small><div class="g"><i></i><i></i><i></i></div></div><div class="sec"><small>למה אנחנו · C4</small><div class="g"><i></i><i></i><i></i></div></div>`, "שלושה גרידים ברצף. אי אפשר לדעת איפה נגמר סקשן ומתחיל הבא.",
-    `<div class="sec"><small>יתרונות · C4</small><div class="g"><i></i><i></i><i></i></div></div><div class="sec"><small>שירותים · C3 זיגזג</small><div class="zz"><i></i><div class="t"><div class="tx m"></div><div class="tx l"></div></div></div></div><div class="sec"><small>למה אנחנו · C10 פס</small><div class="band"></div></div>`, "גריד, זיגזג, פס. כל סקשן מודיע על עצמו בצורה שלו."),
+    `<div class="sec"><small>יתרונות · C4</small><div class="g"><i></i><i></i><i></i></div></div><div class="sec"><small>שירותים · C3 זיגזג</small><div class="zz"><i></i><div class="t"><div class="tx m"></div><div class="tx l"></div></div></div><div class="zz"><div class="t"><div class="tx m"></div><div class="tx l"></div></div><i></i></div></div><div class="sec"><small>למה אנחנו · C10 פס</small><div class="band"></div></div>`, "גריד, זיגזג, פס. כל סקשן מודיע על עצמו בצורה שלו."),
 }),
 doc({
   id: "a14", name: "טקסט על הנקודה הבהירה",
@@ -266,10 +276,10 @@ doc({
   when: "הירו עם תמונה, כרטיס עם תמונת רקע, סקשן CTA.",
   rule: "צ'קליסט 9: AA לכל צמד, טקסט על ויז'ואל נבדק על הנקודה הבהירה. בגלסמורפיזם: על הנקודה הבהירה מאחורי הזכוכית.",
   why: "תמונות לא אחידות. ממוצע כהה עם כתם בהיר אחד מתחת לכותרת = שתי מילים שנעלמות.",
-  fix: "סקרים מקומי מתחת לטקסט, או הזזת הטקסט לצד הכהה, או תמונה אחרת. ומודדים על הפיקסל הבהיר ביותר בקופסת הטקסט.",
+  fix: "סקרים מקומי מתחת לטקסט, או הזזת הטקסט לצד הכהה, או תמונה אחרת. ומודדים על הפיקסל הבהיר ביותר בקופסת הטקסט. נמדד ב-image-contrast.mjs (צ'קליסט 13יט).",
   spot: "מכסים את התמונה חוץ מהאזור שמתחת לטקסט, ומסתכלים על הפיקסל הבהיר ביותר שם.",
   css: `${AP_BASE}
-.a14 .img{border-radius:12px;min-height:190px;position:relative;padding:22px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;color:#fff;overflow:hidden;background:radial-gradient(45% 55% at 70% 35%,#fff3d6 0,#e8b86a 30%,#3b2a1e 75%)}
+.a14 .img{border-radius:12px;min-height:190px;position:relative;padding:22px;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;color:#fff;overflow:hidden;background:radial-gradient(45% 55% at 50% 42%,#fff3d6 0,#e8b86a 30%,#3b2a1e 75%)}
 .a14 .img .ttl{position:relative;z-index:1;color:#fff}
 .a14 .img p{position:relative;z-index:1;margin:0;font-size:14px;color:#fff}
 .a14 .bad .img{justify-content:center;align-items:center;text-align:center}
@@ -291,13 +301,14 @@ doc({
 .a15 .it .n{font-size:22px;font-weight:700;color:#e0701f;line-height:1}
 .a15 .it .h{font-weight:700;font-size:15px;margin:8px 0 4px}
 .a15 .it p{margin:0;font-size:13px;color:#5b5b66;line-height:1.5}
-.a15 .ey{font-size:12px;font-weight:600;color:#b9500f;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.a15 .ey{font-size:12px;font-weight:600;color:#6a6d85;display:flex;align-items:center;gap:8px;margin-bottom:10px}
 .a15 .bad .ey::before{content:"";width:22px;height:2px;background:#e0701f}
 .a15 .bad .row{border-top:1px solid #d9d9e0;padding-top:16px}
 .a15 .bad .it{border-top:1px solid #d9d9e0;padding-top:14px;border-inline-start:1px solid #ececf1;padding-inline-start:10px}
 .a15 .bad .q{border:1px solid #d9d9e0;background:#f7f7f9;border-radius:12px;padding:14px;margin-top:16px;font-size:13px}
 .a15 .good .row{gap:28px}
-.a15 .good .q{background:#f3f3f6;border-radius:12px;padding:16px;margin-top:26px;font-size:13px}`,
+.a15 .good .q{background:#f3f3f6;border-radius:12px;padding:16px;margin-top:26px;font-size:13px}
+@container (max-width:480px){.a15 .row{grid-template-columns:1fr}}`,
   html: wrap("a15",
     `<p class="ey">למה אנחנו</p><div class="row"><div class="it"><div class="n">01</div><p class="h">מתכננים קודם</p><p>עובדים מול האדריכל לפני שהקירות נסגרים.</p></div><div class="it"><div class="n">02</div><p class="h">נשארים אחרי</p><p>מי שהתקין הוא מי שעונה.</p></div><div class="it"><div class="n">03</div><p class="h">בודקים בשטח</p><p>הצעה לפי מה שבאמת צריך.</p></div></div><div class="q">"ענו תוך שעה, והגיעו באותו יום."</div>`,
     "קו לפני התווית, קו מעל השורה, קו מעל כל טור, קו צד, ומסגרת וגם משטח לציטוט. חמש משפחות קו במסך אחד.",
