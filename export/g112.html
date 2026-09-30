@@ -41,10 +41,11 @@ img{max-width:100%}
 
 /* G112 · מפלס שעולה: מילוי גלי בגלילה */
 .lq-wrap{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,80px);align-items:center;max-width:900px;margin-inline:auto;padding-block:20vh 30vh}
-.lq{position:relative;width:min(300px,60vw);aspect-ratio:1;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);overflow:hidden;box-shadow:inset 0 0 0 10px var(--bg, #f7f7fa)}
+.lq{position:relative;width:min(300px,60vw);aspect-ratio:1;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);overflow:hidden}
+.lq::after{content:"";position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 10px var(--bg, #f7f7fa);pointer-events:none;z-index:1}
 .lq svg{position:absolute;left:0;top:0;width:200%;height:100%;will-change:transform;animation:lq-drift 5s linear infinite}
 .lq path{fill:var(--accent, #4a3aff);opacity:.9}
-.lq-num{position:absolute;inset:0;display:flex;direction:ltr;align-items:center;justify-content:center;gap:.04em;font-size:clamp(44px,7vw,84px);font-weight:900;color:var(--ink, #16182b);font-variant-numeric:tabular-nums;text-shadow:0 1px 0 var(--card, #fff)}
+.lq-num{position:absolute;inset:0;z-index:2;display:flex;direction:ltr;align-items:center;justify-content:center;gap:.04em;font-size:clamp(44px,7vw,84px);font-weight:900;color:var(--ink, #16182b);font-variant-numeric:tabular-nums;text-shadow:0 1px 0 var(--card, #fff)}
 .lq-num small{font-size:.5em;font-weight:800}
 @keyframes lq-drift{to{transform:translateX(-50%)}}
 .lq-txt h2{margin:0 0 10px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
@@ -56,9 +57,9 @@ img{max-width:100%}
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="stage"><div class="lq-wrap">
-  <div class="lq" role="img" aria-label="94 אחוז שביעות רצון">
+  <div class="lq" role="img" aria-label="94 אחוז מהלקוחות חוזרים">
     <svg viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true"><g class="lq-wave"><path d="M0 40 Q 50 20 100 40 T 200 40 T 300 40 T 400 40 V 400 H 0 Z"/></g></svg>
-    <div class="lq-num"><span class="lq-val">0</span><small>%</small></div>
+    <div class="lq-num"><span class="lq-val">94</span><small>%</small></div>
   </div>
   <div class="lq-txt"><h2>94% מהלקוחות חוזרים</h2><p>לא כי הם חייבים. כי כשמשהו עובד, ממשיכים איתו.</p></div>
 </div></div>
@@ -69,13 +70,19 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const wave=document.querySelector(".lq-wave"),val=document.querySelector(".lq-val"),TARGET=94;
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const o={p:0};
-  // המפלס: הגל יושב ב-y=40 מתוך 200 בגובה ה-SVG, ולכן 0% = הזזה של 200 למטה ו-100% = 0
-  gsap.set(wave,{y:200});
-  gsap.to(o,{p:1,ease:"none",scrollTrigger:{trigger:".lq",start:"top 85%",end:"top 25%",scrub:reduce?false:.5},
-    onUpdate(){const lvl=o.p*TARGET/100;gsap.set(wave,{y:200-lvl*200});val.textContent=Math.round(o.p*TARGET);}});
+  const wave=document.querySelector(".lq-wave"),val=document.querySelector(".lq-val"),TARGET=+val.textContent;
+  // המפלס: פני הגל יושבים ב-y=40 מתוך 200, ולכן 0% = הזזה של 160 למטה ו-100% = 40 למעלה
+  const level=p=>160-p*200;
+  // בלי GSAP: המפלס הסופי נכתב ישר ל-SVG, והמספר הסופי כבר ב-HTML
+  if(typeof gsap==="undefined"){wave.setAttribute("transform","translate(0 "+level(TARGET/100)+")");return;}
+  gsap.matchMedia().add({go:"(prefers-reduced-motion: no-preference)",rm:"(prefers-reduced-motion: reduce)"},ctx=>{
+    if(ctx.conditions.rm){gsap.set(wave,{y:level(TARGET/100)});val.textContent=TARGET;return;}
+    const o={p:0};
+    gsap.set(wave,{y:level(0)});val.textContent="0";
+    gsap.to(o,{p:1,ease:"none",scrollTrigger:{trigger:".lq",start:"top 85%",end:"top 25%",scrub:.5},
+      onUpdate(){gsap.set(wave,{y:level(o.p*TARGET/100)});val.textContent=Math.round(o.p*TARGET);}});
+    return()=>{val.textContent=TARGET;};
+  });
 })();
 </script>
 </body>

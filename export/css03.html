@@ -41,11 +41,14 @@ img{max-width:100%}
 /* CSS03 · מילוי כפתור מהצד */
 .fill-btn{position:relative;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;
 min-height:52px;padding-inline:34px;border-radius:999px;border:2px solid var(--ink, #16182b);background:transparent;
-color:var(--ink, #16182b);font-weight:600;font-size:16px;cursor:pointer;font-family:inherit;z-index:0;transition:color .35s}
+color:var(--ink, #16182b);font-weight:600;font-size:16px;cursor:pointer;font-family:inherit;z-index:0;transition:color .35s cubic-bezier(.2,.6,.2,1)}
 .fill-btn::before{content:"";position:absolute;inset:0;background:var(--ink, #16182b);z-index:-1;
 transform:translateX(101%);transition:transform .35s cubic-bezier(.2,.6,.2,1)}
-.fill-btn:hover{color:#fff}
-.fill-btn:hover::before{transform:translateX(0)}
+:where(html[dir="ltr"]) .fill-btn::before{transform:translateX(-101%)}
+.fill-btn:focus-visible{color:var(--bg, #f7f7fa);outline:2px solid var(--ink, #16182b);outline-offset:3px}
+.fill-btn:focus-visible::before{transform:translateX(0)}
+@media (hover:hover) and (pointer:fine){.fill-btn:hover{color:var(--bg, #f7f7fa)}.fill-btn:hover::before{transform:translateX(0)}}
+@media (prefers-reduced-motion:reduce){.fill-btn,.fill-btn::before{transition:none}}
 </style>
 </head>
 <body>

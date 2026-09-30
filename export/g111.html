@@ -51,12 +51,13 @@ img{max-width:100%}
 .pm-s i.mid{height:64px}
 .pm-s b{font-size:15px;color:var(--ink, #16182b)}
 .pm-steps{display:flex;flex-direction:column;gap:44vh;padding-block:36vh}
-.pm-step{opacity:.3;transition:opacity .4s}
-.pm-step.on{opacity:1}
+.pm:not(.pm-live) .pm-s+.pm-s{display:none}
+.pm-live .pm-step{opacity:.3;transition:opacity .4s}
+.pm-live .pm-step.on{opacity:1}
 .pm-step b{display:block;font-size:12px;color:var(--accent, #4a3aff);letter-spacing:.14em;margin-bottom:8px}
 .pm-step h3{margin:0 0 8px;font-size:clamp(22px,2.6vw,36px)}
 .pm-step p{margin:0;color:var(--muted, #6a6d85);line-height:1.7;max-width:36ch}
-@media(max-width:767px){.pm{grid-template-columns:1fr}.pm-pin{height:46vh;top:0;z-index:2;background:var(--bg, #f7f7fa)}.pm-phone{width:min(40vw,190px)}.pm-steps{gap:26vh;padding-block:6vh 30vh}}
+@media(max-width:767px){.pm{grid-template-columns:1fr}.pm-pin{height:46vh;top:0;z-index:2;background:var(--bg, #f7f7fa)}.pm-phone{width:min(40vw,190px);box-shadow:0 14px 28px rgba(0,0,0,.18)}.pm-steps{gap:26vh;padding-block:6vh 30vh}}
 </style>
 </head>
 <body>
@@ -80,16 +81,22 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const screens=gsap.utils.toArray(".pm-s"),steps=gsap.utils.toArray(".pm-step"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  screens.forEach((s,i)=>gsap.set(s,{yPercent:i?100:0}));
-  let cur=0;
-  function go(k){if(k===cur)return;const dir=k>cur?1:-1,prev=cur;cur=k;
-    steps.forEach((s,i)=>s.classList.toggle("on",i===k));
-    if(reduce){gsap.set(screens[prev],{yPercent:100});gsap.set(screens[k],{yPercent:0});return;}
-    gsap.to(screens[prev],{yPercent:-100*dir,duration:.6,ease:"power3.inOut"});
-    gsap.fromTo(screens[k],{yPercent:100*dir},{yPercent:0,duration:.6,ease:"power3.inOut"});}
-  steps[0].classList.add("on");
-  steps.forEach((s,i)=>ScrollTrigger.create({trigger:s,start:"top 60%",end:"bottom 40%",onEnter:()=>go(i),onEnterBack:()=>go(i)}));
+  if(typeof gsap==="undefined")return;      // בלי GSAP: המסך הראשון בטלפון, וכל השלבים בטקסט מלא
+  const pm=document.querySelector(".pm"),screens=gsap.utils.toArray(".pm-s"),steps=gsap.utils.toArray(".pm-step");
+  gsap.matchMedia().add({go:"(prefers-reduced-motion: no-preference)",rm:"(prefers-reduced-motion: reduce)"},ctx=>{
+    const rm=ctx.conditions.rm;let cur=0;
+    pm.classList.add("pm-live");
+    screens.forEach((s,i)=>gsap.set(s,{yPercent:i?100:0}));
+    steps.forEach((s,i)=>s.classList.toggle("on",!i));
+    function go(k){if(k===cur)return;const dir=k>cur?1:-1,prev=cur;cur=k;
+      steps.forEach((s,i)=>s.classList.toggle("on",i===k));
+      // הפחתת תנועה: המסך מתחלף מיד, בלי החלקה
+      if(rm){gsap.set(screens[prev],{yPercent:100});gsap.set(screens[k],{yPercent:0});return;}
+      gsap.to(screens[prev],{yPercent:-100*dir,duration:.6,ease:"power3.inOut",overwrite:true});
+      gsap.fromTo(screens[k],{yPercent:100*dir},{yPercent:0,duration:.6,ease:"power3.inOut",overwrite:true});}
+    steps.forEach((s,i)=>ScrollTrigger.create({trigger:s,start:"top 60%",end:"bottom 40%",onEnter:()=>go(i),onEnterBack:()=>go(i)}));
+    return()=>{pm.classList.remove("pm-live");steps.forEach(s=>s.classList.remove("on"));gsap.set(screens,{clearProps:"transform"});};
+  });
 })();
 </script>
 </body>

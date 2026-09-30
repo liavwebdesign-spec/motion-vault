@@ -36,11 +36,12 @@ img{max-width:100%}
 /* ===== הרכיב ===== */
 /* G120 · רשימה שהפריט במרכז שלה גדל */
 .fe{max-width:min(760px,92vw);margin-inline:auto;padding-block:40vh}
-.fe-it{display:flex;align-items:baseline;gap:18px;padding:10px 0;transform-origin:100% 50%;will-change:transform,opacity;border-bottom:1px solid var(--line, #e4e4ee)}
-html[dir="ltr"] .fe-it{transform-origin:0 50%}
-.fe-it b{font-size:clamp(22px,3vw,40px);font-weight:800;min-width:0}
-.fe-it span{font-size:14px;color:var(--muted, #6a6d85);opacity:0;translate:0 4px;transition:opacity .3s,translate .3s}
-.fe-it.on span{opacity:1;translate:0 0}
+.fe-it{display:flex;align-items:baseline;gap:18px;padding:10px 0;will-change:opacity;border-bottom:1px solid var(--line, #e4e4ee)}
+.fe-it b{display:inline-block;font-size:clamp(22px,3vw,40px);font-weight:800;min-width:0;transform-origin:100% 50%}
+html[dir="ltr"] .fe-it b{transform-origin:0 50%}
+.fe-it span{font-size:14px;color:var(--muted, #6a6d85);transition:opacity .3s,translate .3s}
+.fe-live .fe-it span{opacity:0;translate:0 4px}
+.fe-live .fe-it.on span{opacity:1;translate:0 0}
 .fe-it i{font-style:normal;font-size:12px;color:var(--accent, #4a3aff);letter-spacing:.12em;min-width:2.4em}
 </style>
 </head>
@@ -65,16 +66,26 @@ html[dir="ltr"] .fe-it{transform-origin:0 50%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const items=gsap.utils.toArray(".fe-it");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){items.forEach(i=>i.classList.add("on"));return;}
-  const MAX=matchMedia("(max-width:767px)").matches?1.25:1.6,R=()=>innerHeight*.35;
-  const set=items.map(el=>({el,s:gsap.quickSetter(el,"scale"),o:gsap.quickSetter(el,"opacity")}));
-  function paint(){const mid=innerHeight/2,r=R();let best=null,bd=1e9;
-    set.forEach(x=>{const b=x.el.getBoundingClientRect(),d=Math.abs(b.top+b.height/2-mid),t=Math.max(0,1-d/r);
-      x.s(1+(MAX-1)*t*t);x.o(.3+.7*t);if(d<bd){bd=d;best=x.el;}});
-    items.forEach(i=>i.classList.toggle("on",i===best));}
-  ScrollTrigger.create({trigger:".fe",start:"top bottom",end:"bottom top",onUpdate:paint,onRefresh:paint});
-  paint();
+  if(typeof gsap==="undefined")return;      // בלי GSAP כל הפריטים מלאים וכל התיאורים גלויים
+  const fe=document.querySelector(".fe"),items=gsap.utils.toArray(".fe-it");
+  gsap.matchMedia().add({desk:"(min-width: 768px) and (prefers-reduced-motion: no-preference)",mob:"(max-width: 767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const MAX=ctx.conditions.mob?1.15:1.35,dir=getComputedStyle(fe).direction==="rtl"?-1:1;
+    fe.classList.add("fe-live");
+    // רק הכותרת גדלה (scaleX ו-scaleY: quickSetter עם scale לא כותב transform ב-GSAP 3.13).
+    // התיאור שאחריה זז ברוחב שנוסף לה, ולכן לא עולה עליה
+    const set=items.map(el=>{const b=el.querySelector("b"),s=el.querySelector("span");
+      return {el,b,sx:gsap.quickSetter(b,"scaleX"),sy:gsap.quickSetter(b,"scaleY"),tx:gsap.quickSetter(s,"x","px"),o:gsap.quickSetter(el,"opacity"),y:0,w:0};});
+    // המיקומים נמדדים ב-refresh ולא בכל פריים (ה-transform על הכותרת לא משנה את הפריסה)
+    function measure(){set.forEach(x=>{const r=x.el.getBoundingClientRect();x.y=r.top+scrollY+r.height/2;x.w=x.b.offsetWidth;});}
+    function paint(){const mid=scrollY+innerHeight/2,r=innerHeight*.35;let best=null,bd=1e9;
+      set.forEach(x=>{const d=Math.abs(x.y-mid),t=Math.max(0,1-d/r),s=1+(MAX-1)*t*t;
+        x.sx(s);x.sy(s);x.tx(dir*(s-1)*x.w);x.o(.3+.7*t);if(d<bd){bd=d;best=x.el;}});
+      items.forEach(i=>i.classList.toggle("on",i===best));}
+    ScrollTrigger.create({trigger:fe,start:"top bottom",end:"bottom top",onUpdate:paint,onRefresh:()=>{measure();paint();}});
+    measure();paint();
+    return()=>{fe.classList.remove("fe-live");items.forEach(i=>i.classList.remove("on"));
+      gsap.set(items,{clearProps:"opacity"});gsap.set(fe.querySelectorAll(".fe-it b,.fe-it span"),{clearProps:"transform"});};
+  });
 })();
 </script>
 </body>

@@ -8,15 +8,20 @@
 
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
-.dr{position:relative;height:200vh}
-.dr-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-.dr-a,.dr-b{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;will-change:transform}
-.dr-a{background:var(--card);z-index:2}
-.dr-b{background:var(--accent);color:var(--accent-ink);z-index:1;box-shadow:40px 0 80px rgba(0,0,0,.25)}
-html[dir="ltr"] .dr-b{box-shadow:-40px 0 80px rgba(0,0,0,.25)}
+.dr{position:relative}
+.dr-a,.dr-b{position:relative;display:grid;place-items:center;text-align:center;padding:24px;min-height:70vh}
+.dr-a{background:var(--card)}
+.dr-b{background:var(--accent);color:var(--accent-ink)}
+.dr-live{height:200vh}
+.dr-live .dr-pin{position:sticky;top:0;height:100vh;overflow:hidden}
+.dr-live .dr-a,.dr-live .dr-b{position:absolute;inset:0;min-height:0;will-change:transform}
+.dr-live .dr-a{z-index:2}
+.dr-live .dr-b{z-index:3;box-shadow:40px 0 80px rgba(0,0,0,.25)}
+html[dir="ltr"] .dr-live .dr-b{box-shadow:-40px 0 80px rgba(0,0,0,.25)}
 .dr-a h2,.dr-b h2{margin:0 0 10px;font-size:var(--fs-h2);max-width:20ch}
 .dr-a p,.dr-b p{margin:0;opacity:.8;max-width:40ch;line-height:1.7}
 .dr-hint{position:absolute;bottom:22px;inset-inline:0;text-align:center;font-size:13px;color:var(--muted)}
+.dr:not(.dr-live) .dr-hint{display:none}
 </style>
 </head>
 <body>
@@ -33,7 +38,7 @@ html[dir="ltr"] .dr-b{box-shadow:-40px 0 80px rgba(0,0,0,.25)}
   <button class="vtray" type="button" data-tray="g128">+ לסל הפרויקט</button>
 </div></div>
 <div class="vintro">
-  <p>הסקשן העליון נשאר במקום, והבא נשלף מתחתיו הצידה כמו מגירה, עד שהוא תופס את המסך והעליון נדחק החוצה. מעבר צדדי במקום עוד גלילה למטה.</p>
+  <p>הסקשן העליון נדחק הצידה, והבא נכנס מהצד ומונח מעליו כמו דף, עד שהוא תופס את המסך. מעבר צדדי במקום עוד גלילה למטה.</p>
   <p class="when"><b>מתי משתמשים:</b> מעבר לסקשן "הפתעה": מבצע, פרויקט נבחר, הצעה מיוחדת. פעם אחת בעמוד.</p>
   <dl class="vplace"><div><dt>סוג אתר</dt><dd>אתר תדמית · דף נחיתה · וואן-פייג'ר</dd></div><div><dt>בסקשן</dt><dd>בעיה ויתרונות · נשימה ומעבר · עבודות וגלריה</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא לסקשן שמכיל טופס או מחירים, ולא בעמוד שיש בו כבר שתי הצמדות.</dd></div></dl>
   <div class="mvpanel" data-mvpanel="g128"></div>
@@ -48,7 +53,7 @@ html[dir="ltr"] .dr-b{box-shadow:-40px 0 80px rgba(0,0,0,.25)}
   </div>
 </div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
-<div class="demo-note">שני סקשנים באותו מכל מוצמד. התחתון מתחיל מוזז ב-xPercent מלא לכיוון שאליו הקריאה מתקדמת (בעברית משמאל) עם צל בקצה המוביל שמדגיש שהוא מתחת, והעליון נדחק לצד הנגדי עם קצת קנה מידה. הכיוון נגזר מ-direction ולא מקובע, והצל מתהפך עם html[dir=ltr]. במובייל אותו דבר, קצר יותר.</div>
+<div class="demo-note">שני סקשנים באותו מכל מוצמד. הבא מתחיל מוזז ב-xPercent מלא לכיוון שאליו הקריאה מתקדמת (בעברית משמאל) עם צל בקצה המוביל שנופל על הסקשן העליון, והעליון נדחק לצד הנגדי עם קצת קנה מידה. הסקראב ליניארי (ease none). הכיוון נגזר מ-direction ולא מקובע, והצל מתהפך עם html[dir=ltr]. במובייל אותו דבר. ההצמדה והשכבות זו על זו רק תחת המחלקה dr-live שהסקריפט מוסיף: בהפחתת תנועה, וכש-GSAP לא נטען, שני הסקשנים עומדים זה מתחת לזה.</div>
 <section class="mvcode">
   <h2>קוד להדבקה</h2>
   <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
@@ -62,15 +67,20 @@ html[dir="ltr"] .dr-b{box-shadow:-40px 0 80px rgba(0,0,0,.25)}
   </div>
   <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
     <h3>CSS</h3><pre><code>/* G128 · מגירה שנפתחת מתחת לסקשן */
-.dr{position:relative;height:200vh}
-.dr-pin{position:sticky;top:0;height:100vh;overflow:hidden}
-.dr-a,.dr-b{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;will-change:transform}
-.dr-a{background:var(--card, #fff);z-index:2}
-.dr-b{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);z-index:1;box-shadow:40px 0 80px rgba(0,0,0,.25)}
-html[dir="ltr"] .dr-b{box-shadow:-40px 0 80px rgba(0,0,0,.25)}
+.dr{position:relative}
+.dr-a,.dr-b{position:relative;display:grid;place-items:center;text-align:center;padding:24px;min-height:70vh}
+.dr-a{background:var(--card, #fff)}
+.dr-b{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.dr-live{height:200vh}
+.dr-live .dr-pin{position:sticky;top:0;height:100vh;overflow:hidden}
+.dr-live .dr-a,.dr-live .dr-b{position:absolute;inset:0;min-height:0;will-change:transform}
+.dr-live .dr-a{z-index:2}
+.dr-live .dr-b{z-index:3;box-shadow:40px 0 80px rgba(0,0,0,.25)}
+html[dir="ltr"] .dr-live .dr-b{box-shadow:-40px 0 80px rgba(0,0,0,.25)}
 .dr-a h2,.dr-b h2{margin:0 0 10px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));max-width:20ch}
 .dr-a p,.dr-b p{margin:0;opacity:.8;max-width:40ch;line-height:1.7}
-.dr-hint{position:absolute;bottom:22px;inset-inline:0;text-align:center;font-size:13px;color:var(--muted, #6a6d85)}</code></pre>
+.dr-hint{position:absolute;bottom:22px;inset-inline:0;text-align:center;font-size:13px;color:var(--muted, #6a6d85)}
+.dr:not(.dr-live) .dr-hint{display:none}</code></pre>
     <h3>HTML</h3><pre><code>&lt;div class="dr"&gt;
   &lt;div class="dr-pin"&gt;
     &lt;section class="dr-a"&gt;&lt;div&gt;&lt;h2&gt;העבודה השוטפת&lt;/h2&gt;&lt;p&gt;אתרים, מערכות, ליווי. מה שאנחנו עושים כל יום.&lt;/p&gt;&lt;/div&gt;&lt;p class="dr-hint"&gt;גלול, יש עוד משהו&lt;/p&gt;&lt;/section&gt;
@@ -80,22 +90,28 @@ html[dir="ltr"] .dr-b{box-shadow:-40px 0 80px rgba(0,0,0,.25)}
     <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(".dr-a",{opacity:0});return;}
-  // בעברית הפרק הבא מגיע משמאל והנוכחי נדחק ימינה, כמו דף הבא בספר עברי. ב-LTR הכל מתהפך.
-  const rtl=getComputedStyle(document.documentElement).direction==="rtl",s=rtl?-1:1;
-  gsap.set(".dr-b",{xPercent:100*s,zIndex:3});   // המגירה מתחילה מחוץ למסך בצד שאליו הקריאה מתקדמת
-  gsap.timeline({scrollTrigger:{trigger:".dr",start:"top top",end:"bottom bottom",scrub:.6}})
-    .to(".dr-b",{xPercent:0,duration:1,ease:"power2.inOut"},0)
-    .to(".dr-a",{xPercent:-30*s,scale:.94,duration:1,ease:"power2.inOut"},0)
-    .to(".dr-hint",{opacity:0,duration:.15},0);
+  if(typeof gsap==="undefined")return;      // בלי GSAP שני הסקשנים זה מתחת לזה
+  const dr=document.querySelector(".dr");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    dr.classList.add("dr-live");
+    // בעברית הפרק הבא מגיע משמאל והנוכחי נדחק ימינה, כמו דף הבא בספר עברי. ב-LTR הכל מתהפך.
+    const s=getComputedStyle(dr).direction==="rtl"?-1:1;
+    gsap.set(".dr-b",{xPercent:100*s});   // המגירה מתחילה מחוץ למסך בצד שאליו הקריאה מתקדמת
+    // סקראב: הגלילה היא העקומה, ולכן ease none
+    gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:dr,start:"top top",end:"bottom bottom",scrub:.6}})
+      .to(".dr-b",{xPercent:0,duration:1},0)
+      .to(".dr-a",{xPercent:-30*s,scale:.94,duration:1},0)
+      .to(".dr-hint",{opacity:0,duration:.15},0);
+    return()=&gt;dr.classList.remove("dr-live");
+  });
 })();</code></pre>
   </details>
-  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g128 · מגירה שנפתחת מתחת לסקשן\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g128.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g128.html\n\nמה זה עושה: הסקשן העליון נשאר במקום, והבא נשלף מתחתיו הצידה כמו מגירה, עד שהוא תופס את המסך והעליון נדחק החוצה. מעבר צדדי במקום עוד גלילה למטה.\nמתי משתמשים: מעבר לסקשן \"הפתעה\": מבצע, פרויקט נבחר, הצעה מיוחדת. פעם אחת בעמוד.\nסוג אתר: אתר תדמית · דף נחיתה · וואן-פייג'ר\nבסקשן: בעיה ויתרונות · נשימה ומעבר · עבודות וגלריה\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא לסקשן שמכיל טופס או מחירים, ולא בעמוד שיש בו כבר שתי הצמדות.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* G128 · מגירה שנפתחת מתחת לסקשן */\n.dr{position:relative;height:200vh}\n.dr-pin{position:sticky;top:0;height:100vh;overflow:hidden}\n.dr-a,.dr-b{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;will-change:transform}\n.dr-a{background:var(--card, #fff);z-index:2}\n.dr-b{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);z-index:1;box-shadow:40px 0 80px rgba(0,0,0,.25)}\nhtml[dir=\"ltr\"] .dr-b{box-shadow:-40px 0 80px rgba(0,0,0,.25)}\n.dr-a h2,.dr-b h2{margin:0 0 10px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));max-width:20ch}\n.dr-a p,.dr-b p{margin:0;opacity:.8;max-width:40ch;line-height:1.7}\n.dr-hint{position:absolute;bottom:22px;inset-inline:0;text-align:center;font-size:13px;color:var(--muted, #6a6d85)}\n\n=== HTML ===\n<div class=\"dr\">\n  <div class=\"dr-pin\">\n    <section class=\"dr-a\"><div><h2>העבודה השוטפת<\/h2><p>אתרים, מערכות, ליווי. מה שאנחנו עושים כל יום.<\/p><\/div><p class=\"dr-hint\">גלול, יש עוד משהו<\/p><\/section>\n    <section class=\"dr-b\"><div><h2>ומשהו שלא סיפרנו<\/h2><p>חבילת פתיחה לעסקים חדשים: אתר ראשון במחיר שמאפשר להתחיל.<\/p><\/div><\/section>\n  <\/div>\n<\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){gsap.set(\".dr-a\",{opacity:0});return;}\n  // בעברית הפרק הבא מגיע משמאל והנוכחי נדחק ימינה, כמו דף הבא בספר עברי. ב-LTR הכל מתהפך.\n  const rtl=getComputedStyle(document.documentElement).direction===\"rtl\",s=rtl?-1:1;\n  gsap.set(\".dr-b\",{xPercent:100*s,zIndex:3});   // המגירה מתחילה מחוץ למסך בצד שאליו הקריאה מתקדמת\n  gsap.timeline({scrollTrigger:{trigger:\".dr\",start:\"top top\",end:\"bottom bottom\",scrub:.6}})\n    .to(\".dr-b\",{xPercent:0,duration:1,ease:\"power2.inOut\"},0)\n    .to(\".dr-a\",{xPercent:-30*s,scale:.94,duration:1,ease:\"power2.inOut\"},0)\n    .to(\".dr-hint\",{opacity:0,duration:.15},0);\n})();\n\nהערת מימוש מהמאגר:\nשני סקשנים באותו מכל מוצמד. התחתון מתחיל מוזז ב-xPercent מלא לכיוון שאליו הקריאה מתקדמת (בעברית משמאל) עם צל בקצה המוביל שמדגיש שהוא מתחת, והעליון נדחק לצד הנגדי עם קצת קנה מידה. הכיוון נגזר מ-direction ולא מקובע, והצל מתהפך עם html[dir=ltr]. במובייל אותו דבר, קצר יותר.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* G128 · מגירה שנפתחת מתחת לסקשן */\n.dr{position:relative;height:200vh}\n.dr-pin{position:sticky;top:0;height:100vh;overflow:hidden}\n.dr-a,.dr-b{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:24px;will-change:transform}\n.dr-a{background:var(--card, #fff);z-index:2}\n.dr-b{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);z-index:1;box-shadow:40px 0 80px rgba(0,0,0,.25)}\nhtml[dir=\"ltr\"] .dr-b{box-shadow:-40px 0 80px rgba(0,0,0,.25)}\n.dr-a h2,.dr-b h2{margin:0 0 10px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));max-width:20ch}\n.dr-a p,.dr-b p{margin:0;opacity:.8;max-width:40ch;line-height:1.7}\n.dr-hint{position:absolute;bottom:22px;inset-inline:0;text-align:center;font-size:13px;color:var(--muted, #6a6d85)}","html":"<div class=\"dr\">\n  <div class=\"dr-pin\">\n    <section class=\"dr-a\"><div><h2>העבודה השוטפת<\/h2><p>אתרים, מערכות, ליווי. מה שאנחנו עושים כל יום.<\/p><\/div><p class=\"dr-hint\">גלול, יש עוד משהו<\/p><\/section>\n    <section class=\"dr-b\"><div><h2>ומשהו שלא סיפרנו<\/h2><p>חבילת פתיחה לעסקים חדשים: אתר ראשון במחיר שמאפשר להתחיל.<\/p><\/div><\/section>\n  <\/div>\n<\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(matchMedia(\"(prefers-reduced-motion: reduce)\").matches){gsap.set(\".dr-a\",{opacity:0});return;}\n  // בעברית הפרק הבא מגיע משמאל והנוכחי נדחק ימינה, כמו דף הבא בספר עברי. ב-LTR הכל מתהפך.\n  const rtl=getComputedStyle(document.documentElement).direction===\"rtl\",s=rtl?-1:1;\n  gsap.set(\".dr-b\",{xPercent:100*s,zIndex:3});   // המגירה מתחילה מחוץ למסך בצד שאליו הקריאה מתקדמת\n  gsap.timeline({scrollTrigger:{trigger:\".dr\",start:\"top top\",end:\"bottom bottom\",scrub:.6}})\n    .to(\".dr-b\",{xPercent:0,duration:1,ease:\"power2.inOut\"},0)\n    .to(\".dr-a\",{xPercent:-30*s,scale:.94,duration:1,ease:\"power2.inOut\"},0)\n    .to(\".dr-hint\",{opacity:0,duration:.15},0);\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g128 · מגירה שנפתחת מתחת לסקשן\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g128.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g128.html\n\nמה זה עושה: הסקשן העליון נדחק הצידה, והבא נכנס מהצד ומונח מעליו כמו דף, עד שהוא תופס את המסך. מעבר צדדי במקום עוד גלילה למטה.\nמתי משתמשים: מעבר לסקשן \"הפתעה\": מבצע, פרויקט נבחר, הצעה מיוחדת. פעם אחת בעמוד.\nסוג אתר: אתר תדמית · דף נחיתה · וואן-פייג'ר\nבסקשן: בעיה ויתרונות · נשימה ומעבר · עבודות וגלריה\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא לסקשן שמכיל טופס או מחירים, ולא בעמוד שיש בו כבר שתי הצמדות.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* G128 · מגירה שנפתחת מתחת לסקשן */\n.dr{position:relative}\n.dr-a,.dr-b{position:relative;display:grid;place-items:center;text-align:center;padding:24px;min-height:70vh}\n.dr-a{background:var(--card, #fff)}\n.dr-b{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.dr-live{height:200vh}\n.dr-live .dr-pin{position:sticky;top:0;height:100vh;overflow:hidden}\n.dr-live .dr-a,.dr-live .dr-b{position:absolute;inset:0;min-height:0;will-change:transform}\n.dr-live .dr-a{z-index:2}\n.dr-live .dr-b{z-index:3;box-shadow:40px 0 80px rgba(0,0,0,.25)}\nhtml[dir=\"ltr\"] .dr-live .dr-b{box-shadow:-40px 0 80px rgba(0,0,0,.25)}\n.dr-a h2,.dr-b h2{margin:0 0 10px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));max-width:20ch}\n.dr-a p,.dr-b p{margin:0;opacity:.8;max-width:40ch;line-height:1.7}\n.dr-hint{position:absolute;bottom:22px;inset-inline:0;text-align:center;font-size:13px;color:var(--muted, #6a6d85)}\n.dr:not(.dr-live) .dr-hint{display:none}\n\n=== HTML ===\n<div class=\"dr\">\n  <div class=\"dr-pin\">\n    <section class=\"dr-a\"><div><h2>העבודה השוטפת<\/h2><p>אתרים, מערכות, ליווי. מה שאנחנו עושים כל יום.<\/p><\/div><p class=\"dr-hint\">גלול, יש עוד משהו<\/p><\/section>\n    <section class=\"dr-b\"><div><h2>ומשהו שלא סיפרנו<\/h2><p>חבילת פתיחה לעסקים חדשים: אתר ראשון במחיר שמאפשר להתחיל.<\/p><\/div><\/section>\n  <\/div>\n<\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP שני הסקשנים זה מתחת לזה\n  const dr=document.querySelector(\".dr\");\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    dr.classList.add(\"dr-live\");\n    // בעברית הפרק הבא מגיע משמאל והנוכחי נדחק ימינה, כמו דף הבא בספר עברי. ב-LTR הכל מתהפך.\n    const s=getComputedStyle(dr).direction===\"rtl\"?-1:1;\n    gsap.set(\".dr-b\",{xPercent:100*s});   // המגירה מתחילה מחוץ למסך בצד שאליו הקריאה מתקדמת\n    // סקראב: הגלילה היא העקומה, ולכן ease none\n    gsap.timeline({defaults:{ease:\"none\"},scrollTrigger:{trigger:dr,start:\"top top\",end:\"bottom bottom\",scrub:.6}})\n      .to(\".dr-b\",{xPercent:0,duration:1},0)\n      .to(\".dr-a\",{xPercent:-30*s,scale:.94,duration:1},0)\n      .to(\".dr-hint\",{opacity:0,duration:.15},0);\n    return()=>dr.classList.remove(\"dr-live\");\n  });\n})();\n\nהערת מימוש מהמאגר:\nשני סקשנים באותו מכל מוצמד. הבא מתחיל מוזז ב-xPercent מלא לכיוון שאליו הקריאה מתקדמת (בעברית משמאל) עם צל בקצה המוביל שנופל על הסקשן העליון, והעליון נדחק לצד הנגדי עם קצת קנה מידה. הסקראב ליניארי (ease none). הכיוון נגזר מ-direction ולא מקובע, והצל מתהפך עם html[dir=ltr]. במובייל אותו דבר. ההצמדה והשכבות זו על זו רק תחת המחלקה dr-live שהסקריפט מוסיף: בהפחתת תנועה, וכש-GSAP לא נטען, שני הסקשנים עומדים זה מתחת לזה.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* G128 · מגירה שנפתחת מתחת לסקשן */\n.dr{position:relative}\n.dr-a,.dr-b{position:relative;display:grid;place-items:center;text-align:center;padding:24px;min-height:70vh}\n.dr-a{background:var(--card, #fff)}\n.dr-b{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.dr-live{height:200vh}\n.dr-live .dr-pin{position:sticky;top:0;height:100vh;overflow:hidden}\n.dr-live .dr-a,.dr-live .dr-b{position:absolute;inset:0;min-height:0;will-change:transform}\n.dr-live .dr-a{z-index:2}\n.dr-live .dr-b{z-index:3;box-shadow:40px 0 80px rgba(0,0,0,.25)}\nhtml[dir=\"ltr\"] .dr-live .dr-b{box-shadow:-40px 0 80px rgba(0,0,0,.25)}\n.dr-a h2,.dr-b h2{margin:0 0 10px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));max-width:20ch}\n.dr-a p,.dr-b p{margin:0;opacity:.8;max-width:40ch;line-height:1.7}\n.dr-hint{position:absolute;bottom:22px;inset-inline:0;text-align:center;font-size:13px;color:var(--muted, #6a6d85)}\n.dr:not(.dr-live) .dr-hint{display:none}","html":"<div class=\"dr\">\n  <div class=\"dr-pin\">\n    <section class=\"dr-a\"><div><h2>העבודה השוטפת<\/h2><p>אתרים, מערכות, ליווי. מה שאנחנו עושים כל יום.<\/p><\/div><p class=\"dr-hint\">גלול, יש עוד משהו<\/p><\/section>\n    <section class=\"dr-b\"><div><h2>ומשהו שלא סיפרנו<\/h2><p>חבילת פתיחה לעסקים חדשים: אתר ראשון במחיר שמאפשר להתחיל.<\/p><\/div><\/section>\n  <\/div>\n<\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP שני הסקשנים זה מתחת לזה\n  const dr=document.querySelector(\".dr\");\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    dr.classList.add(\"dr-live\");\n    // בעברית הפרק הבא מגיע משמאל והנוכחי נדחק ימינה, כמו דף הבא בספר עברי. ב-LTR הכל מתהפך.\n    const s=getComputedStyle(dr).direction===\"rtl\"?-1:1;\n    gsap.set(\".dr-b\",{xPercent:100*s});   // המגירה מתחילה מחוץ למסך בצד שאליו הקריאה מתקדמת\n    // סקראב: הגלילה היא העקומה, ולכן ease none\n    gsap.timeline({defaults:{ease:\"none\"},scrollTrigger:{trigger:dr,start:\"top top\",end:\"bottom bottom\",scrub:.6}})\n      .to(\".dr-b\",{xPercent:0,duration:1},0)\n      .to(\".dr-a\",{xPercent:-30*s,scale:.94,duration:1},0)\n      .to(\".dr-hint\",{opacity:0,duration:.15},0);\n    return()=>dr.classList.remove(\"dr-live\");\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
 </section>
 <nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g127.html" rel="prev"><small>→ הקודם</small><b>מעבר לכהה בגלילה: עיגול שגדל ומחליף ערכה</b></a><a href="g129.html" rel="next"><small>הבא ←</small><b>מדרגות כרטיסים שנבנות בגלילה</b></a></nav>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-<script src="../assets/baseline.js?v=bf86d9a3"></script>
+<script src="../assets/baseline.js?v=bd3d04f5"></script>
 <script src="../assets/status.js"></script>
 <script src="../assets/tray.js"></script>
 <script>
@@ -121,14 +137,20 @@ document.querySelector(".mvid").addEventListener("click",function(){
 })();
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 (function(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(".dr-a",{opacity:0});return;}
-  // בעברית הפרק הבא מגיע משמאל והנוכחי נדחק ימינה, כמו דף הבא בספר עברי. ב-LTR הכל מתהפך.
-  const rtl=getComputedStyle(document.documentElement).direction==="rtl",s=rtl?-1:1;
-  gsap.set(".dr-b",{xPercent:100*s,zIndex:3});   // המגירה מתחילה מחוץ למסך בצד שאליו הקריאה מתקדמת
-  gsap.timeline({scrollTrigger:{trigger:".dr",start:"top top",end:"bottom bottom",scrub:.6}})
-    .to(".dr-b",{xPercent:0,duration:1,ease:"power2.inOut"},0)
-    .to(".dr-a",{xPercent:-30*s,scale:.94,duration:1,ease:"power2.inOut"},0)
-    .to(".dr-hint",{opacity:0,duration:.15},0);
+  if(typeof gsap==="undefined")return;      // בלי GSAP שני הסקשנים זה מתחת לזה
+  const dr=document.querySelector(".dr");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    dr.classList.add("dr-live");
+    // בעברית הפרק הבא מגיע משמאל והנוכחי נדחק ימינה, כמו דף הבא בספר עברי. ב-LTR הכל מתהפך.
+    const s=getComputedStyle(dr).direction==="rtl"?-1:1;
+    gsap.set(".dr-b",{xPercent:100*s});   // המגירה מתחילה מחוץ למסך בצד שאליו הקריאה מתקדמת
+    // סקראב: הגלילה היא העקומה, ולכן ease none
+    gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:dr,start:"top top",end:"bottom bottom",scrub:.6}})
+      .to(".dr-b",{xPercent:0,duration:1},0)
+      .to(".dr-a",{xPercent:-30*s,scale:.94,duration:1},0)
+      .to(".dr-hint",{opacity:0,duration:.15},0);
+    return()=>dr.classList.remove("dr-live");
+  });
 })();
 </script>
 </body>

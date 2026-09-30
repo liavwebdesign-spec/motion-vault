@@ -43,7 +43,9 @@ img{max-width:100%}
 /* CSS16 · זום פנימי בהובר */
 .zoomc{width:min(380px,80vw);margin-inline:auto;border-radius:var(--r, 14px);overflow:hidden;cursor:pointer}
 .zoomc .ph{aspect-ratio:16/10;font-size:19px;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
-.zoomc:hover .ph{transform:scale(1.07)}
+.zoomc:is(:focus-visible,:has(:focus-visible)) .ph{transform:scale(1.07)}
+@media (hover:hover) and (pointer:fine){.zoomc:hover .ph{transform:scale(1.07)}}
+@media (prefers-reduced-motion:reduce){.zoomc .ph,.zoomc:hover .ph,.zoomc:is(:focus-visible,:has(:focus-visible)) .ph{transform:none;transition:none}}
 </style>
 </head>
 <body>

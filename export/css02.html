@@ -39,16 +39,19 @@ img{max-width:100%}
 
 /* CSS02 · קו תחתון שנמתח (RTL-נכון) */
 .ul-row{display:flex;gap:40px;justify-content:center;font-weight:500;font-size:18px}
-.ulink{position:relative;padding-bottom:4px;cursor:pointer}
+.ulink{position:relative;padding-bottom:4px;cursor:pointer;color:inherit;text-decoration:none}
+.ulink::before{content:"";position:absolute;inset:-8px -4px} /* שטח לחיצה של 44 פיקסלים בטלפון, בלי לשנות את המראה */
 .ulink::after{content:"";position:absolute;bottom:0;inset-inline:0;height:2px;background:var(--accent, #4a3aff);
-transform:scaleX(0);transform-origin:right;transition:transform .3s cubic-bezier(.2,.6,.2,1)}
+transform:scaleX(0);transform-origin:right;transition:transform .16s cubic-bezier(.2,.6,.2,1)}
 html[dir="ltr"] .ulink::after{transform-origin:left}
-.ulink:hover::after{transform:scaleX(1)}
+.ulink:focus-visible::after{transform:scaleX(1)}
+@media (hover:hover) and (pointer:fine){.ulink:hover::after{transform:scaleX(1)}}
+@media (prefers-reduced-motion:reduce){.ulink::after{transition:none}}
 </style>
 </head>
 <body>
 
-<div class="stage tight"><div class="ul-row"><span class="ulink">אודות</span><span class="ulink">שירותים</span><span class="ulink">פרויקטים</span><span class="ulink">צור קשר</span></div></div>
+<div class="stage tight"><nav class="ul-row" aria-label="ניווט לדוגמה"><a class="ulink" href="#">אודות</a><a class="ulink" href="#">שירותים</a><a class="ulink" href="#">פרויקטים</a><a class="ulink" href="#">צור קשר</a></nav></div>
 
 
 

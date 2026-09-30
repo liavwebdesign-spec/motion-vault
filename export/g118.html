@@ -62,9 +62,11 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const a=matchMedia("(max-width:767px)").matches?8:14;
-  gsap.fromTo(".dg-pane",{rotate:-a},{rotate:a,ease:"none",scrollTrigger:{trigger:".dg",start:"top top",end:"bottom bottom",scrub:.8}});
+  if(typeof gsap==="undefined")return;      // בלי GSAP המשטח עומד ישר
+  gsap.matchMedia().add({desk:"(min-width: 768px) and (prefers-reduced-motion: no-preference)",mob:"(max-width: 767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const a=ctx.conditions.mob?8:14;
+    gsap.fromTo(".dg-pane",{rotate:-a},{rotate:a,ease:"none",scrollTrigger:{trigger:".dg",start:"top top",end:"bottom bottom",scrub:.8}});
+  });
 })();
 </script>
 </body>

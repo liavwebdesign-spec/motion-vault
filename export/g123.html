@@ -63,11 +63,23 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const D=()=>innerWidth*(matchMedia("(max-width:767px)").matches?.4:.3);
-  // RTL: שורה ראשונה מתחילה מוזזת שמאלה ונוסעת ימינה; השנייה הפוך
-  gsap.fromTo(".cv-row.r1",{x:()=>-D()},{x:()=>D(),ease:"none",scrollTrigger:{trigger:".cv-belt",start:"top bottom",end:"bottom top",scrub:.4,invalidateOnRefresh:true}});
-  gsap.fromTo(".cv-row.r2",{x:()=>D()},{x:()=>-D(),ease:"none",scrollTrigger:{trigger:".cv-belt",start:"top bottom",end:"bottom top",scrub:.4,invalidateOnRefresh:true}});
+  if(typeof gsap==="undefined")return;      // בלי GSAP השורות עומדות
+  const belt=document.querySelector(".cv-belt"),rows=gsap.utils.toArray(".cv-row");
+  gsap.matchMedia().add({desk:"(min-width: 768px) and (prefers-reduced-motion: no-preference)",mob:"(max-width: 767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const D=()=>innerWidth*(ctx.conditions.mob?.4:.3);
+    // השורות צמודות לקצה שבו הן מתחילות (ימין ב-RTL). כל שורה נעה בין 0 לבין 2D בכיוון שמרחיק מהקצה הזה,
+    // כך שהקצה לא נחשף; העותקים ממלאים את הצד השני עד שהשורה ארוכה מהמסך ועוד המסלול
+    const s=getComputedStyle(belt).direction==="rtl"?1:-1;
+    function fill(){rows.forEach(r=>{r.querySelectorAll("[data-clone]").forEach(c=>c.remove());
+      const base=[...r.children],need=innerWidth*1.14+2*D()+(r.classList.contains("r2")?innerWidth*.12:0);let i=0;
+      while(r.scrollWidth<need&&i<base.length*4){const c=base[i++%base.length].cloneNode(true);c.setAttribute("data-clone","");c.setAttribute("aria-hidden","true");r.appendChild(c);}});}
+    fill();ScrollTrigger.addEventListener("refreshInit",fill);
+    const st={trigger:belt,start:"top bottom",end:"bottom top",scrub:.4,invalidateOnRefresh:true};
+    // RTL: השורה הראשונה נוסעת ימינה והשנייה שמאלה, כמו קודם
+    gsap.fromTo(".cv-row.r1",{x:0},{x:()=>s*2*D(),ease:"none",scrollTrigger:st});
+    gsap.fromTo(".cv-row.r2",{x:()=>s*2*D()},{x:0,ease:"none",scrollTrigger:{...st}});
+    return()=>{ScrollTrigger.removeEventListener("refreshInit",fill);belt.querySelectorAll("[data-clone]").forEach(c=>c.remove());};
+  });
 })();
 </script>
 </body>

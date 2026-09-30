@@ -36,9 +36,10 @@ img{max-width:100%}
 /* ===== הרכיב ===== */
 /* G109 · כותרת שמתפרקת לעומקים */
 .dp{min-height:120vh;display:grid;place-items:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
-.dp h2{font-size:clamp(34px,7vw,110px);line-height:1.1;margin:0;text-align:center;font-weight:900;max-width:14ch}
-.dp .w{display:inline-block;margin-inline:.14em;will-change:transform}
+.dp h2{font-size:clamp(28px,5.2vw,92px);line-height:1.1;margin:0;text-align:center;font-weight:900;white-space:nowrap}
+.dp .w{display:inline-block;margin-inline:.14em}
 .dp .w.ac{color:var(--accent, #4a3aff)}
+@media(max-width:767px){.dp h2{white-space:normal;max-width:14ch;font-size:34px}}
 </style>
 </head>
 <body>
@@ -51,12 +52,14 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הכותרת פשוט עומדת
   const words=gsap.utils.toArray(".dp .w");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const k=matchMedia("(max-width:767px)").matches?24:60;
-  words.forEach(w=>{const d=+w.dataset.depth||1;
-    // מ-y חיובי ל-y שלילי דרך אפס באמצע הסקשן: המילים נפגשות לשורה אחת בדיוק כשהכותרת במרכז
-    gsap.fromTo(w,{y:d*k*1.6},{y:-d*k*1.6,ease:"none",scrollTrigger:{trigger:".dp",start:"top bottom",end:"bottom top",scrub:.5}});
+  // רק מ-768 ומעלה, שם הכותרת בשורה אחת. בטלפון היא נשברת לשלוש שורות, ומילים משורות שונות היו עולות זו על זו
+  gsap.matchMedia().add("(min-width: 768px) and (prefers-reduced-motion: no-preference)",()=>{
+    words.forEach(w=>{const d=+w.dataset.depth||1;
+      // מ-y חיובי ל-y שלילי דרך אפס באמצע הסקשן: המילים נפגשות לשורה אחת בדיוק כשהכותרת במרכז
+      gsap.fromTo(w,{y:d*96},{y:-d*96,ease:"none",scrollTrigger:{trigger:".dp",start:"top bottom",end:"bottom top",scrub:.5}});
+    });
   });
 })();
 </script>

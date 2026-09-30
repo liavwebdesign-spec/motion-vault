@@ -47,9 +47,9 @@ img{max-width:100%}
 .lg svg{width:100%;height:auto;overflow:visible;display:block}
 .lg-grid line{stroke:var(--line, #e4e4ee);stroke-width:1}
 .lg-line{fill:none;stroke:var(--accent, #4a3aff);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.lg-fill{fill:url(#lg-g);opacity:0}
+.lg-fill{fill:url(#lg-g)}
 .lg-dot{fill:var(--accent, #4a3aff);stroke:var(--card, #fff);stroke-width:4}
-.lg-val{position:absolute;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:14px;font-weight:700;padding:6px 10px;border-radius:8px;translate:-50% -140%;pointer-events:none;font-variant-numeric:tabular-nums;white-space:nowrap}
+.lg-val{position:absolute;left:0;top:0;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:14px;font-weight:700;padding:6px 10px;border-radius:8px;pointer-events:none;font-variant-numeric:tabular-nums;white-space:nowrap}
 .lg-ax{display:flex;justify-content:space-between;font-size:12px;color:var(--muted, #6a6d85);margin-top:10px}
 </style>
 </head>
@@ -58,15 +58,15 @@ img{max-width:100%}
 <div class="stage"><div class="lg">
   <h2>פניות בחודש, לפני ואחרי</h2><p>אותו עסק, אותו תקציב פרסום. רק האתר השתנה.</p>
   <div class="lg-box">
-    <svg viewBox="0 0 800 300" aria-label="גרף פניות">
+    <svg viewBox="0 0 800 300" role="img" aria-label="גרף פניות בחודש: מ-12 בינואר ל-118 בדצמבר, קפיצה אחרי עליית האתר החדש">
       <defs><linearGradient id="lg-g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity=".25"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>
       <g class="lg-grid"><line x1="0" y1="75" x2="800" y2="75"/><line x1="0" y1="150" x2="800" y2="150"/><line x1="0" y1="225" x2="800" y2="225"/><line x1="0" y1="300" x2="800" y2="300"/></g>
       <path class="lg-fill" d="M0 250 C 100 245, 160 240, 240 236 C 320 232, 380 228, 420 200 C 470 165, 520 120, 600 90 C 680 60, 740 40, 800 30 V 300 H 0 Z"/>
       <path class="lg-line" d="M0 250 C 100 245, 160 240, 240 236 C 320 232, 380 228, 420 200 C 470 165, 520 120, 600 90 C 680 60, 740 40, 800 30"/>
-      <circle class="lg-dot" r="7" cx="0" cy="250"/>
+      <circle class="lg-dot" r="7" cx="800" cy="30"/>
     </svg>
-    <div class="lg-val">12</div>
-    <div class="lg-ax" dir="rtl"><span>ינואר</span><span>האתר החדש עלה</span><span>דצמבר</span></div>
+    <div class="lg-val">118</div>
+    <div class="lg-ax" dir="ltr"><span>ינואר</span><span>האתר החדש עלה</span><span>דצמבר</span></div>
   </div>
 </div></div>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
@@ -77,21 +77,36 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
 
 (function(){
-  const box=document.querySelector(".lg-box"),svg=box.querySelector("svg"),line=svg.querySelector(".lg-line"),dot=svg.querySelector(".lg-dot"),val=box.querySelector(".lg-val");
-  const L=line.getTotalLength(),MIN=12,MAX=118;
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const o={p:reduce?1:0};
-  function paint(){const pt=line.getPointAtLength(L*o.p);dot.setAttribute("cx",pt.x);dot.setAttribute("cy",pt.y);
-    // מיקום התווית: מקואורדינטות SVG לפיקסלים של הקופסה
-    const r=svg.getBoundingClientRect(),b=box.getBoundingClientRect();val.style.left=(r.left-b.left+pt.x/800*r.width)+"px";val.style.top=(r.top-b.top+pt.y/300*r.height)+"px";
-    val.textContent=Math.round(MIN+(MAX-MIN)*Math.pow(o.p,1.6));}
-  gsap.set(line,{drawSVG:reduce?"100%":"0%"});
-  if(reduce){gsap.set(".lg-fill",{opacity:1});paint();return;}
-  gsap.timeline({onUpdate:paint,scrollTrigger:{trigger:".lg-box",start:"top 80%",end:"top 25%",scrub:.5,onRefresh:paint}})
-    .to(line,{drawSVG:"100%",ease:"none",duration:1},0)
-    .to(o,{p:1,ease:"none",duration:1},0)
-    .to(".lg-fill",{opacity:1,duration:.3},.7);
-  paint();
+  const box=document.querySelector(".lg-box"),svg=box.querySelector("svg"),line=svg.querySelector(".lg-line"),fill=svg.querySelector(".lg-fill"),dot=svg.querySelector(".lg-dot"),val=box.querySelector(".lg-val");
+  const L=line.getTotalLength(),MIN=12,MAX=118,o={p:1};
+  let geo=null;
+  // נמדד ב-refresh ולא בכל פריים: מיקום ה-SVG בקופסה, ורוחב התווית בערך הרחב ביותר
+  function measure(){const r=svg.getBoundingClientRect(),b=box.getBoundingClientRect(),t=val.textContent;val.textContent=MAX;
+    geo={ox:r.left-b.left,oy:r.top-b.top,w:r.width,h:r.height,bw:b.width,lw:val.offsetWidth,lh:val.offsetHeight};val.textContent=t;
+    // עובי קבוע על המסך: מפצים ביחידות SVG כשה-SVG מתכווץ. לא vector-effect, שמשבש את DrawSVG
+    const k=800/r.width;line.style.strokeWidth=3*k+"px";dot.setAttribute("r",7*k);dot.style.strokeWidth=4*k+"px";}
+  function paint(){if(!geo)measure();const pt=line.getPointAtLength(L*o.p);
+    dot.setAttribute("cx",pt.x);dot.setAttribute("cy",pt.y);
+    // השטח מתחת לקו נחשף עד הנקודה, לא לפניה
+    fill.style.clipPath="inset(0 "+(100-pt.x/8)+"% 0 0)";
+    // הערך נגזר מגובה הנקודה: y=250 הוא 12, y=30 הוא 118
+    val.textContent=Math.round(MIN+(250-pt.y)/220*(MAX-MIN));
+    // התווית ב-transform, בתוך גבולות הקופסה; מעל הנקודה, או מתחתיה כשאין מקום
+    const x=Math.min(Math.max(geo.ox+pt.x/800*geo.w,geo.lw/2+4),geo.bw-geo.lw/2-4),y=geo.oy+pt.y/300*geo.h;
+    val.style.transform="translate("+x+"px,"+y+"px) translate(-50%,"+(y-geo.lh*1.4>4?-140:40)+"%)";}
+  const redo=()=>{geo=null;paint();};
+  // בלי GSAP: הגרף מלא, והתווית על הערך האחרון
+  if(typeof gsap==="undefined"){paint();addEventListener("resize",redo);return;}
+  gsap.matchMedia().add({go:"(prefers-reduced-motion: no-preference)",rm:"(prefers-reduced-motion: reduce)"},ctx=>{
+    if(ctx.conditions.rm){o.p=1;ScrollTrigger.create({trigger:box,onRefresh:redo});redo();return;}
+    o.p=0;
+    gsap.set(line,{drawSVG:"0%"});
+    gsap.timeline({onUpdate:paint,scrollTrigger:{trigger:box,start:"top 80%",end:"top 25%",scrub:.5,onRefresh:redo}})
+      .to(line,{drawSVG:"100%",ease:"none",duration:1},0)
+      .to(o,{p:1,ease:"none",duration:1},0);
+    redo();
+    return()=>{o.p=1;};
+  });
 })();
 </script>
 </body>

@@ -38,16 +38,20 @@ img{max-width:100%}
 .tw2{position:relative;height:220vh}
 .tw2-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
 .tw2 p{max-width:30ch;margin:0;font-size:clamp(24px,3.2vw,46px);font-weight:600;line-height:1.5;text-align:center}
-.tw2 p span{opacity:.12}
-.tw2 p span.on{opacity:1}
-.tw2 p i{display:inline-block;width:.08em;height:1em;background:var(--accent, #4a3aff);vertical-align:-.15em;margin-inline-start:.04em;animation:tw2-b 1s steps(1) infinite}
+.tw2 p .w{white-space:nowrap}
+.tw2 p .c{opacity:.12}
+.tw2 p .c.on{opacity:1}
+.tw2 p .c.cur{position:relative}
+.tw2 p .c.cur::after{content:"";position:absolute;inset-inline-end:-.06em;top:.12em;width:.08em;height:1em;background:var(--accent, #4a3aff);animation:tw2-b 1s steps(1) infinite}
+.tw2 p .c.cur.pre::after{inset-inline-end:auto;inset-inline-start:-.1em}
+.tw2 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @keyframes tw2-b{50%{opacity:0}}
-@media (prefers-reduced-motion: reduce){.tw2 p span{opacity:1}.tw2 p i{display:none}}
+@media (prefers-reduced-motion: reduce){.tw2{height:auto}.tw2-pin{position:static;height:auto;min-height:70vh}}
 </style>
 </head>
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
-<div class="tw2"><div class="tw2-pin"><p data-text="אנחנו לא מוכרים אתר. אנחנו מוכרים את הרגע שבו מישהו קורא, מבין, ומרים טלפון."></p></div></div>
+<div class="tw2"><div class="tw2-pin"><p>אנחנו לא מוכרים אתר. אנחנו מוכרים את הרגע שבו מישהו קורא, מבין, ומרים טלפון.</p></div></div>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
@@ -55,15 +59,25 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const p=document.querySelector(".tw2 p"),text=p.dataset.text;
-  const spans=[...text].map(ch=>{const s=document.createElement("span");s.textContent=ch;p.appendChild(s);return s;});
-  const car=document.createElement("i");p.appendChild(car);
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const o={n:0};
-  gsap.to(o,{n:spans.length,ease:"none",scrollTrigger:{trigger:".tw2",start:"top top",end:"bottom bottom",scrub:.4},
-    onUpdate(){const k=Math.round(o.n);spans.forEach((s,i)=>s.classList.toggle("on",i<k));
-      // הסמן זז אחרי האות האחרונה הגלויה
-      const last=spans[Math.max(0,k-1)];if(k>0)last.after(car);else p.prepend(car);}});
+  if(typeof gsap==="undefined")return;      // בלי GSAP הפסקה נשארת טקסט רגיל
+  const tw=document.querySelector(".tw2"),p=tw.querySelector("p"),text=p.textContent.trim();
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    // עותק שלם לקורא מסך, ועותק מפוצל לעין: כל מילה עוטפת את האותיות שלה ולא נשברת באמצע
+    const sr=document.createElement("span"),vis=document.createElement("span"),chars=[];
+    sr.className="sr-only";sr.textContent=text;vis.setAttribute("aria-hidden","true");
+    text.split(" ").forEach((word,i)=>{if(i)vis.append(" ");
+      const w=document.createElement("span");w.className="w";
+      [...word].forEach(ch=>{const c=document.createElement("span");c.className="c";c.textContent=ch;w.appendChild(c);chars.push(c);});
+      vis.appendChild(w);});
+    p.textContent="";p.append(sr,vis);
+    const o={n:0};let last=-1;
+    function paint(){const k=Math.round(o.n);if(k===last)return;last=k;
+      // הסמן יושב אחרי האות האחרונה הגלויה; לפני שהכתיבה מתחילה הוא מחכה לפני האות הראשונה
+      chars.forEach((c,i)=>{c.classList.toggle("on",i<k);c.classList.toggle("cur",k?i===k-1:!i);c.classList.toggle("pre",!k&&!i);});}
+    gsap.to(o,{n:chars.length,ease:"none",onUpdate:paint,scrollTrigger:{trigger:tw,start:"top top",end:"bottom bottom",scrub:.4}});
+    paint();
+    return()=>{p.textContent=text;};
+  });
 })();
 </script>
 </body>

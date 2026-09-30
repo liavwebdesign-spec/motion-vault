@@ -40,17 +40,19 @@ img{max-width:100%}
 .lp-dev{position:relative;width:min(760px,88vw);transform-style:preserve-3d;will-change:transform}
 .lp-lid{position:relative;aspect-ratio:16/10;border-radius:18px 18px 4px 4px;background:var(--ink, #16182b);padding:14px;transform-origin:50% 100%;transform-style:preserve-3d;will-change:transform;box-shadow:0 30px 80px rgba(0,0,0,.3)}
 .lp-scr{width:100%;height:100%;border-radius:10px;background:#0c0d16;overflow:hidden;position:relative}
-.lp-ui{position:absolute;inset:0;padding:6%;display:grid;grid-template-columns:1fr 3fr;gap:3%;opacity:0}
+.lp-ui{position:absolute;inset:0;padding:6%;display:grid;grid-template-columns:1fr 3fr;gap:3%}
 .lp-ui i{display:block;border-radius:6px;background:rgba(255,255,255,.08)}
 .lp-ui .side{display:grid;gap:8%;align-content:start}
-.lp-ui .side i{height:10%}
-.lp-ui .side i:first-child{background:var(--accent, #4a3aff);height:16%}
+.lp-ui .side i{height:clamp(6px,1.1vw,12px)}
+.lp-ui .side i:first-child{background:var(--accent, #4a3aff);height:clamp(10px,1.8vw,20px)}
 .lp-ui .main{display:grid;grid-template-rows:1fr 2fr;gap:6%}
 .lp-ui .main i:last-child{background:linear-gradient(180deg,transparent 60%,color-mix(in srgb,var(--accent, #4a3aff) 35%,transparent))}
 .lp-base{height:18px;border-radius:0 0 16px 16px;background:linear-gradient(180deg,#2a2d3f,#15172a);position:relative}
 .lp-base::after{content:"";position:absolute;top:0;left:50%;translate:-50% 0;width:18%;height:5px;border-radius:0 0 6px 6px;background:#0c0d16}
 .lp-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:14px}
-@media(max-width:767px){.lp{height:160vh}.lp-pin{perspective:1000px}}
+.lp:not(.lp-live) .lp-cap{display:none}
+@media(max-width:767px){.lp{height:160vh}.lp-pin{perspective:2000px}.lp-dev{width:80vw}}
+@media (prefers-reduced-motion: reduce){.lp{height:auto}.lp-pin{position:static;height:auto;padding-block:12vh}}
 </style>
 </head>
 <body>
@@ -68,15 +70,20 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const lid=document.querySelector(".lp-lid"),dev=document.querySelector(".lp-dev");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(".lp-ui",{opacity:1});return;}
-  const mob=matchMedia("(max-width:767px)").matches;
-  gsap.set(lid,{rotateX:-88});gsap.set(dev,{rotateX:mob?8:14,y:40});
-  gsap.timeline({scrollTrigger:{trigger:".lp",start:"top top",end:"bottom bottom",scrub:.6}})
-    .to(lid,{rotateX:0,duration:1,ease:"power2.inOut"},0)
-    .to(dev,{rotateX:mob?2:4,y:0,duration:1,ease:"power2.inOut"},0)
-    .to(".lp-ui",{opacity:1,duration:.4},.4)
-    .to(".lp-cap",{opacity:0,duration:.2},0);
+  if(typeof gsap==="undefined")return;      // בלי GSAP המחשב פתוח והמסך דלוק
+  const lp=document.querySelector(".lp"),lid=lp.querySelector(".lp-lid"),dev=lp.querySelector(".lp-dev"),ui=lp.querySelector(".lp-ui"),cap=lp.querySelector(".lp-cap");
+  gsap.matchMedia().add({desk:"(min-width: 768px) and (prefers-reduced-motion: no-preference)",mob:"(max-width: 767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const mob=ctx.conditions.mob;
+    lp.classList.add("lp-live");
+    gsap.set(lid,{rotateX:-88});gsap.set(dev,{rotateX:mob?8:14,y:40});gsap.set(ui,{opacity:0});
+    // סקראב: הגלילה היא העקומה, ולכן ease none
+    gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:lp,start:"top top",end:"bottom bottom",scrub:.6}})
+      .to(lid,{rotateX:0,duration:1},0)
+      .to(dev,{rotateX:mob?2:4,y:0,duration:1},0)
+      .to(ui,{opacity:1,duration:.4},.4)
+      .to(cap,{opacity:0,duration:.2},0);
+    return()=>lp.classList.remove("lp-live");
+  });
 })();
 </script>
 </body>

@@ -42,30 +42,34 @@ img{max-width:100%}
 .acc-item{border-bottom:1px solid var(--line, #e4e4ee)}
 .acc-q{width:100%;display:flex;justify-content:space-between;align-items:center;background:none;border:0;color:inherit;
 font-family:inherit;font-size:17px;font-weight:600;padding-block:20px;cursor:pointer;text-align:start}
-.acc-q .chev{transition:rotate .2s}
+.acc-q .chev{transition:rotate .2s cubic-bezier(.2,.6,.2,1)}
 .acc-item.open .chev{rotate:180deg}
-.acc-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.2,.6,.2,1)}
+.acc-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .24s cubic-bezier(.2,.6,.2,1)}
 .acc-item.open .acc-a{grid-template-rows:1fr}
-.acc-a>div{overflow:hidden;color:var(--muted, #6a6d85);max-width:60ch}
+.acc-a>div{overflow:hidden;color:var(--muted, #6a6d85);max-width:60ch;visibility:hidden;transition:visibility 0s .24s}
+.acc-item.open .acc-a>div{visibility:visible;transition:visibility 0s}
 .acc-a p{margin:0 0 20px}
+@media (prefers-reduced-motion:reduce){.acc-a,.acc-a>div,.acc-q .chev{transition:none}}
 </style>
 </head>
 <body>
 
 <div class="stage tight"><div class="acc">
-<div class="acc-item open"><button class="acc-q">איך זה עובד בלי JS למדידת גובה?<span class="chev">▾</span></button>
+<div class="acc-item open"><button class="acc-q" aria-expanded="true">איך זה עובד בלי JS למדידת גובה?<span class="chev" aria-hidden="true">▾</span></button>
 <div class="acc-a"><div><p>grid-template-rows עובר מ-0fr ל-1fr, והדפדפן עושה את כל העבודה.</p></div></div></div>
-<div class="acc-item"><button class="acc-q">וזה עובד בכל הדפדפנים?<span class="chev">▾</span></button>
+<div class="acc-item"><button class="acc-q" aria-expanded="false">וזה עובד בכל הדפדפנים?<span class="chev" aria-hidden="true">▾</span></button>
 <div class="acc-a"><div><p>כן, כל הדפדפנים המודרניים תומכים במעבר על fr.</p></div></div></div>
-<div class="acc-item"><button class="acc-q">מה עם נגישות?<span class="chev">▾</span></button>
-<div class="acc-a"><div><p>הכפתור אמיתי, מקלדת עובדת, והתוכן נשאר ב-DOM.</p></div></div></div>
+<div class="acc-item"><button class="acc-q" aria-expanded="false">מה עם נגישות?<span class="chev" aria-hidden="true">▾</span></button>
+<div class="acc-a"><div><p>הכפתור אמיתי ומדווח אם הוא פתוח, מקלדת עובדת, ותשובה סגורה מוסתרת גם מקורא מסך.</p></div></div></div>
 </div></div>
 
 
 <script>
-document.querySelectorAll(".acc-q").forEach(q=>q.addEventListener("click",()=>{
-  q.closest(".acc-item").classList.toggle("open");
-}));
+document.querySelectorAll(".acc-q").forEach(q=>{
+  const it=q.closest(".acc-item");
+  q.setAttribute("aria-expanded",it.classList.contains("open"));
+  q.addEventListener("click",()=>q.setAttribute("aria-expanded",it.classList.toggle("open")));
+});
 </script>
 </body>
 </html>

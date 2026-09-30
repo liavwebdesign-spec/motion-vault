@@ -45,14 +45,15 @@ img{max-width:100%}
 
 /* G121 · יציאה מזום: מתמונה אחת לפסיפס שלם */
 .zo{position:relative;height:260vh}
-.zo-pin{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;place-items:center;background:var(--ink, #16182b)}
-.zo-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;width:min(1100px,92vw);will-change:transform}
+.zo-pin{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;grid-template-rows:1fr auto;place-items:center;padding-block:4vh;background:var(--ink, #16182b)}
+.zo-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;width:min(1100px,92vw,calc((100vh - 220px) * 1.9))}
 .zo-grid .ph{aspect-ratio:1;font-size:16px;border-radius:12px}
 .zo-grid .ph.hero{outline:3px solid var(--accent, #4a3aff);outline-offset:-3px}
-.zo-cap{position:absolute;bottom:6vh;inset-inline:0;text-align:center;color:var(--bg, #f7f7fa);opacity:0}
+.zo-cap{position:relative;z-index:1;padding-top:2vh;text-align:center;color:var(--bg, #f7f7fa)}
 .zo-cap h2{margin:0 0 6px;font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
 .zo-cap p{margin:0;opacity:.75}
-@media(max-width:767px){.zo-grid{grid-template-columns:repeat(3,1fr);gap:6px}}
+@media(max-width:767px){.zo-grid{grid-template-columns:repeat(3,1fr);gap:6px;width:min(92vw,56vh)}.zo-grid .ph:nth-child(n+13){display:none}}
+@media (prefers-reduced-motion: reduce){.zo{height:auto}.zo-pin{position:static;height:auto;min-height:100vh}}
 </style>
 </head>
 <body>
@@ -71,18 +72,27 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const grid=document.querySelector(".zo-grid"),hero=grid.querySelector(".hero"),pin=document.querySelector(".zo-pin");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(".zo-cap",{opacity:1});return;}
-  // המדידה נעשית ב-onRefreshInit, כשהגריד נקי מטרנספורם. לא בתוך פונקציית ערך של הטווין:
-  // gsap.set על אותו אלמנט באמצע בניית הטווין שיבש את מטמון הטרנספורם (scale רק לרוחב, נמדד).
-  let start=8;
-  function measure(){gsap.set(grid,{clearProps:"transform"});const g=grid.getBoundingClientRect(),h=hero.getBoundingClientRect();
-    grid.style.transformOrigin=(h.left-g.left+h.width/2)+"px "+(h.top-g.top+h.height/2)+"px";
-    start=Math.max(pin.clientWidth/h.width,pin.clientHeight/h.height)*1.05;}
-  measure();
-  const tl=gsap.timeline({scrollTrigger:{trigger:".zo",start:"top top",end:"bottom bottom",scrub:.7,invalidateOnRefresh:true,onRefreshInit:measure}});
-  tl.fromTo(grid,{scale:()=>start},{scale:1,duration:1,ease:"power2.inOut"})
-    .to(".zo-cap",{opacity:1,duration:.2},.75);
+  if(typeof gsap==="undefined")return;      // בלי GSAP רואים את הפסיפס והכיתוב
+  const grid=document.querySelector(".zo-grid"),hero=grid.querySelector(".hero"),pin=document.querySelector(".zo-pin"),cap=pin.querySelector(".zo-cap");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    // המדידה נעשית ב-onRefreshInit, כשהגריד נקי מטרנספורם. לא בתוך פונקציית ערך של הטווין:
+    // gsap.set על אותו אלמנט באמצע בניית הטווין שיבש את מטמון הטרנספורם (scale רק לרוחב, נמדד).
+    let start=8;
+    function measure(){gsap.set(grid,{clearProps:"transform"});const g=grid.getBoundingClientRect(),h=hero.getBoundingClientRect(),p=pin.getBoundingClientRect();
+      grid.style.transformOrigin=(h.left-g.left+h.width/2)+"px "+(h.top-g.top+h.height/2)+"px";
+      // התמונה לא במרכז המסך: הקנה נמדד מהמרחק של המרכז שלה לקצה הרחוק, בשני הצירים
+      const cx=h.left+h.width/2-p.left,cy=h.top+h.height/2-p.top;
+      start=Math.max(Math.max(cx,p.width-cx)/(h.width/2),Math.max(cy,p.height-cy)/(h.height/2))*1.12;}
+    measure();
+    gsap.set(cap,{opacity:0});
+    // סקראב ליניארי על הלוגריתם של הקנה (scale = start^(1-t)): כל קטע גלילה מרחיק את המצלמה באותו יחס.
+    // זה ה-ease none של זום. דרך ease ולא דרך onUpdate על אובייקט עזר, כי refresh משחזר את ההתקדמות בלי קולבקים
+    const logZoom=t=>start>1?(start-Math.pow(start,1-t))/(start-1):t;
+    gsap.timeline({scrollTrigger:{trigger:".zo",start:"top top",end:"bottom bottom",scrub:.7,invalidateOnRefresh:true,onRefreshInit:measure}})
+      // 12% ראשונים של הגלילה: התמונה הפותחת נשארת על כל המסך, ורק אז המצלמה מתרחקת
+      .fromTo(grid,{scale:()=>start},{scale:1,duration:.88,ease:logZoom},.12)
+      .to(cap,{opacity:1,duration:.12,ease:"none"},.86);
+  });
 })();
 </script>
 </body>
