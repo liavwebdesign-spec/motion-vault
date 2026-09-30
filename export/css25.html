@@ -43,6 +43,7 @@ img{max-width:100%}
 .bn-card{position:relative;overflow:hidden;border-radius:var(--r, 14px);background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);padding:24px;display:flex;flex-direction:column;justify-content:flex-end;min-height:220px;isolation:isolate}
 .bn-card.wide{grid-column:span 2}
 .bn-ic{width:44px;height:44px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);display:grid;place-items:center;font-weight:800;margin-bottom:auto;transform-origin:top right;transition:transform .5s cubic-bezier(.2,.6,.2,1)}
+html[dir="ltr"] .bn-ic{transform-origin:top left}
 .bn-body{transition:transform .5s cubic-bezier(.2,.6,.2,1)}
 .bn-body h3{margin:0 0 6px;font-size:clamp(18px,1.8vw,24px)}
 .bn-body p{margin:0;color:var(--muted, #6a6d85);font-size:15px;line-height:1.55;max-width:38ch}
@@ -51,12 +52,13 @@ img{max-width:100%}
 .bn-cta::after{content:"←"}
 .bn-card::after{content:"";position:absolute;inset:0;background:var(--ink, #16182b);opacity:0;transition:opacity .4s;z-index:-1;pointer-events:none}
 @media (hover:hover) and (pointer:fine){
-  .bn-card:hover .bn-body{transform:translateY(-38px)}
-  .bn-card:hover .bn-ic{transform:scale(.78)}
-  .bn-card:hover .bn-cta{transform:none;opacity:1}
+  .bn-card:hover .bn-body,.bn-card:focus-within .bn-body{transform:translateY(-38px)}
+  .bn-card:hover .bn-ic,.bn-card:focus-within .bn-ic{transform:scale(.78)}
+  .bn-card:hover .bn-cta,.bn-card:focus-within .bn-cta{transform:none;opacity:1}
   .bn-card:hover::after{opacity:.04}
 }
-@media (hover:none){.bn-cta{position:static;transform:none;opacity:1;margin-top:14px;padding-block:0}}
+/* everything that is not a real mouse (touch, TV, pen tablet reporting hover:hover + pointer:coarse): the link is always shown */
+@media not all and (hover:hover) and (pointer:fine){.bn-cta{position:static;transform:none;opacity:1;margin-top:14px;padding-block:0}}
 @media (max-width:767px){.bn{grid-template-columns:1fr}.bn-card.wide{grid-column:auto}}
 @media (prefers-reduced-motion: reduce){.bn-body,.bn-ic,.bn-cta,.bn-card::after{transition:none}}
 </style>

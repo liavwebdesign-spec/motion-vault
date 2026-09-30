@@ -45,11 +45,11 @@ img{max-width:100%}
 .hv{max-width:900px;margin-inline:auto}
 .hv-thumb{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;border-radius:var(--r, 14px);overflow:hidden;cursor:pointer;background:none;font:inherit}
 .hv-thumb .ph{position:absolute;inset:0;font-size:18px;border-radius:0;align-items:flex-end;justify-content:flex-start;padding:22px}
-.hv-play{position:absolute;inset:0;display:grid;place-items:center}
+.hv-play{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
 .hv-play span{width:84px;height:84px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;color:var(--ink, #16182b);font-size:26px;box-shadow:0 12px 40px rgba(0,0,0,.25);transition:transform .35s cubic-bezier(.2,.6,.2,1)}
 @media (hover:hover) and (pointer:fine){.hv-thumb:hover .hv-play span{transform:scale(1.08)}}
 .hv-thumb:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:4px}
-.hv-modal{position:fixed;inset:0;z-index:50;display:none;place-items:center;padding:24px;background:rgba(10,10,20,0);transition:background-color .4s}
+.hv-modal{position:fixed;inset:0;z-index:1000;display:none;place-items:center;padding:24px;background:rgba(10,10,20,0);transition:background-color .4s}
 .hv-modal.on{display:grid}.hv-modal.in{background:rgba(10,10,20,.82)}
 .hv-frame{width:min(1100px,100%);aspect-ratio:16/9;border-radius:var(--r, 14px);overflow:hidden;background:#000;transform-origin:top left;box-shadow:0 30px 80px rgba(0,0,0,.4)}
 .hv-frame video{width:100%;height:100%;display:block;object-fit:cover}
@@ -64,7 +64,7 @@ img{max-width:100%}
   <button class="hv-thumb" aria-label="נגן סרטון תדמית"><div class="ph ph-b"><span class="ph-l">סרטון תדמית</span></div><div class="hv-play"><span>▶</span></div></button>
 </div>
 <div class="hv-modal" role="dialog" aria-modal="true" aria-label="סרטון תדמית">
-  <div class="hv-frame"><video data-src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-a.mp4" playsinline controls muted></video></div>
+  <div class="hv-frame"><video data-src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-a.mp4" playsinline controls></video></div>
   <button class="hv-close" aria-label="סגור">✕</button>
 </div></div>
 
@@ -72,24 +72,33 @@ img{max-width:100%}
 <script>
 (function(){
   const btn=document.querySelector(".hv-thumb"),modal=document.querySelector(".hv-modal"),frame=modal.querySelector(".hv-frame"),video=frame.querySelector("video"),close=modal.querySelector(".hv-close");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,E="cubic-bezier(.2,.6,.2,1)";
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches,E="cubic-bezier(.2,.6,.2,1)",root=document.documentElement;
+  // מחוץ לכל הקשר ערימה: הדר דביק לא יכסה את הסגירה, ו-transform על אב לא ישבור את position:fixed
+  document.body.appendChild(modal);
   function open(){
     if(!video.src)video.src=video.dataset.src;
     const a=btn.getBoundingClientRect();modal.classList.add("on");
     const b=frame.getBoundingClientRect();
     if(!reduce){frame.animate([{transform:"translate("+(a.left-b.left)+"px,"+(a.top-b.top)+"px) scale("+(a.width/b.width)+","+(a.height/b.height)+")"},{transform:"none"}],{duration:520,easing:E});}
     requestAnimationFrame(()=>modal.classList.add("in"));
-    video.play().catch(()=>{});close.focus();
+    // הלחיצה של הגולש מתירה קול; אם הדפדפן בכל זאת חוסם, מנגנים מושתק
+    video.muted=false;video.play().catch(()=>{video.muted=true;video.play().catch(()=>{});});
+    close.focus();
+    root.style.overflow="hidden";root.style.scrollbarGutter="stable";   // הדף מתחת לא נגלל, והרוחב לא קופץ
     document.addEventListener("keydown",onKey);
   }
   function shut(){
     video.pause();modal.classList.remove("in");
     const a=btn.getBoundingClientRect(),b=frame.getBoundingClientRect();
     const anim=reduce?null:frame.animate([{transform:"none"},{transform:"translate("+(a.left-b.left)+"px,"+(a.top-b.top)+"px) scale("+(a.width/b.width)+","+(a.height/b.height)+")"}],{duration:420,easing:E});
-    (anim?anim.finished:Promise.resolve()).then(()=>{modal.classList.remove("on");btn.focus();});
+    (anim?anim.finished:Promise.resolve()).then(()=>{modal.classList.remove("on");root.style.overflow="";root.style.scrollbarGutter="";btn.focus();});
     document.removeEventListener("keydown",onKey);
   }
-  function onKey(e){if(e.key==="Escape")shut();}
+  function onKey(e){
+    if(e.key==="Escape"){shut();return;}
+    // מלכודת פוקוס: aria-modal מחייב ש-Tab יישאר בתוך הדיאלוג
+    if(e.key==="Tab"){const f=[video,close],i=f.indexOf(document.activeElement);e.preventDefault();f[(i+(e.shiftKey?-1:1)+f.length)%f.length].focus();}
+  }
   btn.addEventListener("click",open);close.addEventListener("click",shut);
   modal.addEventListener("click",e=>{if(e.target===modal)shut();});
 })();

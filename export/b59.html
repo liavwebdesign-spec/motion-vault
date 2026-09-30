@@ -48,12 +48,20 @@ img{max-width:100%}
 .al-t{display:flex;flex-direction:column;gap:2px;min-width:0}
 .al-t b{font-size:15px}.al-t span{font-size:13px;color:var(--muted, #6a6d85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .al-time{margin-inline-start:auto;font-size:12px;color:var(--muted, #6a6d85);flex:none}
-@media (prefers-reduced-motion: reduce){.al-item.enter{animation:none}}
+.al-ctrl{display:flex;justify-content:center;margin-top:16px}
+.al-play{width:44px;height:44px;border-radius:50%;border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);color:var(--ink, #16182b);cursor:pointer;display:grid;place-items:center;transition:border-color .18s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.al-play:hover{border-color:var(--ink, #16182b)}}
+.al-play:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.al-play svg{width:16px;height:16px}
+.al-play .i-play,.al-play[aria-pressed="false"] .i-pause{display:none}
+.al-play[aria-pressed="false"] .i-play{display:block}
+@media (prefers-reduced-motion: reduce){.al-item.enter{animation:none}.al-play{transition:none}}
 </style>
 </head>
 <body>
 
-<div class="stage tight"><div class="al" aria-live="polite"></div></div>
+<div class="stage tight"><div class="al" role="log" aria-live="off" aria-label="פעילות אחרונה"></div>
+<div class="al-ctrl"><button class="al-play" type="button" aria-pressed="true" aria-label="עצירת העדכון האוטומטי"><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button></div></div>
 
 
 <script>
@@ -73,7 +81,18 @@ img{max-width:100%}
     el.addEventListener("animationend",()=>el.classList.remove("enter"),{once:true});
   }
   add();add();add();
-  setInterval(add,2200);
+  // הלולאה רק כשלא עצרו אותה בכפתור, כשהרשימה על המסך, לא בריחוף ולא בלשונית מוסתרת. בתנועה מופחתת מתחילים עצורים
+  const play=document.querySelector(".al-play");
+  let t=null,seen=false,paused=reduce;
+  const run=()=>{if(!t&&seen&&!paused&&!document.hidden&&!list.matches(":hover"))t=setInterval(add,2200);},stop=()=>{clearInterval(t);t=null;};
+  // WCAG 2.2.2: עדכון אוטומטי שנמשך יותר מחמש שניות חייב כפתור עצירה גלוי; ריחוף ויציאה מהמסך לא מספיקים
+  const setPlay=()=>{play.setAttribute("aria-pressed",String(!paused));play.setAttribute("aria-label",paused?"הפעלת העדכון האוטומטי":"עצירת העדכון האוטומטי");};
+  play.addEventListener("click",()=>{paused=!paused;setPlay();paused?stop():run();});
+  setPlay();
+  if("IntersectionObserver" in window)new IntersectionObserver(es=>{seen=es[es.length-1].isIntersecting;seen?run():stop();}).observe(list);
+  else{seen=true;run();}
+  list.addEventListener("mouseenter",stop);list.addEventListener("mouseleave",run);
+  document.addEventListener("visibilitychange",()=>document.hidden?stop():run());
 })();
 </script>
 </body>

@@ -8,11 +8,14 @@
 
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
-.mg-wrap{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;padding-block:40px}
-.mg{position:relative;padding:40px}
+.mg-wrap{display:flex;justify-content:center;align-items:center;gap:24px;flex-wrap:wrap;padding-block:88px}
+/* demo only: with a real mouse the 40px pull zones must not meet, so the items sit 88px apart; on touch the effect is off */
+@media (hover:hover) and (pointer:fine){.mg-wrap{gap:88px}}
+.mg{display:inline-block;vertical-align:middle}
 .mg .gbtn,.mg .mg-ic{translate:var(--x,0) var(--y,0);transition:translate .25s cubic-bezier(.2,.6,.2,1)}
 .mg.leave .gbtn,.mg.leave .mg-ic{transition-duration:.6s}
-.mg-ic{width:56px;height:56px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-weight:700;color:var(--ink)}
+.mg-ic{width:56px;height:56px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;font-weight:700;color:var(--ink);text-decoration:none}
+.mg-ic:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 @media (prefers-reduced-motion: reduce){.mg .gbtn,.mg .mg-ic{transition:none;translate:none}}
 </style>
 </head>
@@ -30,7 +33,7 @@
   <button class="vtray" type="button" data-tray="b61">+ לסל הפרויקט</button>
 </div></div>
 <div class="vintro">
-  <p>כפתור שנמשך בעדינות לעבר הסמן כשהוא מתקרב, וחוזר למקומו כשהסמן מתרחק. תזוזה של כמה פיקסלים, מספיק כדי להרגיש שהכפתור "רוצה" שילחצו עליו.</p>
+  <p>כפתור שנמשך בעדינות לעבר הסמן כשהוא מתקרב, עד שליש מהמרחק, וחוזר למקומו כשהסמן מתרחק. מספיק כדי להרגיש שהכפתור "רוצה" שילחצו עליו.</p>
   <p class="when"><b>מתי משתמשים:</b> CTA ראשי אחד בעמוד, אייקונים חברתיים, לוגו בהדר. דסקטופ בלבד, ולעולם לא על טקסט רץ.</p>
   <dl class="vplace"><div><dt>סוג אתר</dt><dd>פורטפוליו וסטודיו · אתר תדמית · דף נחיתה</dd></div><div><dt>בסקשן</dt><dd>סגירה, טופס וקשר · הירו · פוטר</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>משרת תוכן, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא על קישורים בתוך טקסט ולא על יותר מ-CTA אחד בעמוד; במגע ובתנועה מופחתת הוא כבוי.</dd></div></dl>
   <div class="mvpanel" data-mvpanel="b61"></div>
@@ -40,11 +43,11 @@
 
 <div class="stage tight"><div class="mg-wrap">
   <div class="mg"><button class="gbtn">בואו נדבר</button></div>
-  <div class="mg"><span class="mg-ic">in</span></div>
-  <div class="mg"><span class="mg-ic">ig</span></div>
+  <div class="mg"><a class="mg-ic" href="#" aria-label="לינקדאין">in</a></div>
+  <div class="mg"><a class="mg-ic" href="#" aria-label="אינסטגרם">ig</a></div>
 </div></div>
 
-<div class="demo-note">מקור: ReactBits Magnet. נכתב מחדש: המרחק נמדד מהמרכז, המשיכה היא שבר מהמרחק (לא מיקום מוחלט), על translate בלבד, וחזרה עם טרנזישן ארוך יותר מהמשיכה.</div>
+<div class="demo-note">מקור: ReactBits Magnet. נכתב מחדש: המרחק נמדד מהמרכז, המשיכה היא שבר מהמרחק (לא מיקום מוחלט), על translate בלבד, וחזרה עם טרנזישן ארוך יותר מהמשיכה. אזור המשיכה (40 פיקסלים סביב האלמנט) מחושב ב-JS מתוך תנועת העכבר במסמך, ולא כ-padding סביב הכפתור: כך העטיפה .mg צמודה לכפתור ולא מזיזה את הפריסה כשעוטפים בה CTA קיים, ואין שכבה שקופה שחוסמת לחיצות על קישור סמוך. במגע ובתנועה מופחתת הסקריפט לא רץ בכלל.</div>
 <section class="mvcode">
   <h2>קוד להדבקה</h2>
   <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
@@ -64,36 +67,46 @@
 .gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
 
 /* B61 · משיכה מגנטית לעבר הסמן */
-.mg-wrap{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;padding-block:40px}
-.mg{position:relative;padding:40px}
+.mg-wrap{display:flex;justify-content:center;align-items:center;gap:24px;flex-wrap:wrap;padding-block:88px}
+/* demo only: with a real mouse the 40px pull zones must not meet, so the items sit 88px apart; on touch the effect is off */
+@media (hover:hover) and (pointer:fine){.mg-wrap{gap:88px}}
+.mg{display:inline-block;vertical-align:middle}
 .mg .gbtn,.mg .mg-ic{translate:var(--x,0) var(--y,0);transition:translate .25s cubic-bezier(.2,.6,.2,1)}
 .mg.leave .gbtn,.mg.leave .mg-ic{transition-duration:.6s}
-.mg-ic{width:56px;height:56px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;font-weight:700;color:var(--ink, #16182b)}
+.mg-ic{width:56px;height:56px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;font-weight:700;color:var(--ink, #16182b);text-decoration:none}
+.mg-ic:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
 @media (prefers-reduced-motion: reduce){.mg .gbtn,.mg .mg-ic{transition:none;translate:none}}</code></pre>
     <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="mg-wrap"&gt;
   &lt;div class="mg"&gt;&lt;button class="gbtn"&gt;בואו נדבר&lt;/button&gt;&lt;/div&gt;
-  &lt;div class="mg"&gt;&lt;span class="mg-ic"&gt;in&lt;/span&gt;&lt;/div&gt;
-  &lt;div class="mg"&gt;&lt;span class="mg-ic"&gt;ig&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="mg"&gt;&lt;a class="mg-ic" href="#" aria-label="לינקדאין"&gt;in&lt;/a&gt;&lt;/div&gt;
+  &lt;div class="mg"&gt;&lt;a class="mg-ic" href="#" aria-label="אינסטגרם"&gt;ig&lt;/a&gt;&lt;/div&gt;
 &lt;/div&gt;&lt;/div&gt;</code></pre>
     <h3>JS</h3><pre><code>(function(){
   if(!matchMedia("(hover:hover) and (pointer:fine)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const PULL=.35;   // כמה מהמרחק הכפתור עובר לעבר הסמן. 1 = דבוק לסמן, זה כבר לא אלגנטי
-  document.querySelectorAll(".mg").forEach(zone=&gt;{
-    const el=zone.firstElementChild;
-    zone.addEventListener("mousemove",e=&gt;{
-      const r=zone.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);
-      zone.classList.remove("leave");
-      el.style.setProperty("--x",(dx*PULL).toFixed(1)+"px");el.style.setProperty("--y",(dy*PULL).toFixed(1)+"px");
+  const PULL=.35,REACH=40;   // PULL: כמה מהמרחק הכפתור עובר לעבר הסמן (1 = דבוק לסמן, כבר לא אלגנטי). REACH: אזור המשיכה סביב האלמנט
+  const zones=[...document.querySelectorAll(".mg")].map(z=&gt;({z,el:z.firstElementChild,on:false}));
+  let x=-1e5,y=-1e5,raf=0;
+  function tick(){
+    raf=0;
+    zones.forEach(o=&gt;{
+      const r=o.z.getBoundingClientRect();   // העטיפה לא זזה, רק הילד, לכן המלבן שלה הוא מקום המנוחה
+      if(x&gt;r.left-REACH&amp;&amp;x&lt;r.right+REACH&amp;&amp;y&gt;r.top-REACH&amp;&amp;y&lt;r.bottom+REACH){
+        o.on=true;o.z.classList.remove("leave");
+        o.el.style.setProperty("--x",((x-(r.left+r.width/2))*PULL).toFixed(1)+"px");o.el.style.setProperty("--y",((y-(r.top+r.height/2))*PULL).toFixed(1)+"px");
+      }else if(o.on){o.on=false;o.z.classList.add("leave");o.el.style.setProperty("--x","0px");o.el.style.setProperty("--y","0px");}
     });
-    zone.addEventListener("mouseleave",()=&gt;{zone.classList.add("leave");el.style.setProperty("--x","0px");el.style.setProperty("--y","0px");});
-  });
+  }
+  const req=()=&gt;{if(!raf)raf=requestAnimationFrame(tick);};
+  document.addEventListener("mousemove",e=&gt;{x=e.clientX;y=e.clientY;req();},{passive:true});
+  document.addEventListener("mouseleave",()=&gt;{x=y=-1e5;req();});
+  addEventListener("scroll",req,{passive:true});   // גלילה בלי תזוזת עכבר משנה את המרחק
 })();</code></pre>
   </details>
-  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b61 · משיכה מגנטית לעבר הסמן\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b61.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b61.html\n\nמה זה עושה: כפתור שנמשך בעדינות לעבר הסמן כשהוא מתקרב, וחוזר למקומו כשהסמן מתרחק. תזוזה של כמה פיקסלים, מספיק כדי להרגיש שהכפתור \"רוצה\" שילחצו עליו.\nמתי משתמשים: CTA ראשי אחד בעמוד, אייקונים חברתיים, לוגו בהדר. דסקטופ בלבד, ולעולם לא על טקסט רץ.\nסוג אתר: פורטפוליו וסטודיו · אתר תדמית · דף נחיתה\nבסקשן: סגירה, טופס וקשר · הירו · פוטר\nאופי: רק באתר חוויתי\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא על קישורים בתוך טקסט ולא על יותר מ-CTA אחד בעמוד; במגע ובתנועה מופחתת הוא כבוי.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* B61 · משיכה מגנטית לעבר הסמן */\n.mg-wrap{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;padding-block:40px}\n.mg{position:relative;padding:40px}\n.mg .gbtn,.mg .mg-ic{translate:var(--x,0) var(--y,0);transition:translate .25s cubic-bezier(.2,.6,.2,1)}\n.mg.leave .gbtn,.mg.leave .mg-ic{transition-duration:.6s}\n.mg-ic{width:56px;height:56px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;font-weight:700;color:var(--ink, #16182b)}\n@media (prefers-reduced-motion: reduce){.mg .gbtn,.mg .mg-ic{transition:none;translate:none}}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"mg-wrap\">\n  <div class=\"mg\"><button class=\"gbtn\">בואו נדבר<\/button><\/div>\n  <div class=\"mg\"><span class=\"mg-ic\">in<\/span><\/div>\n  <div class=\"mg\"><span class=\"mg-ic\">ig<\/span><\/div>\n<\/div><\/div>\n\n=== JS ===\n(function(){\n  if(!matchMedia(\"(hover:hover) and (pointer:fine)\").matches||matchMedia(\"(prefers-reduced-motion: reduce)\").matches)return;\n  const PULL=.35;   // כמה מהמרחק הכפתור עובר לעבר הסמן. 1 = דבוק לסמן, זה כבר לא אלגנטי\n  document.querySelectorAll(\".mg\").forEach(zone=>{\n    const el=zone.firstElementChild;\n    zone.addEventListener(\"mousemove\",e=>{\n      const r=zone.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);\n      zone.classList.remove(\"leave\");\n      el.style.setProperty(\"--x\",(dx*PULL).toFixed(1)+\"px\");el.style.setProperty(\"--y\",(dy*PULL).toFixed(1)+\"px\");\n    });\n    zone.addEventListener(\"mouseleave\",()=>{zone.classList.add(\"leave\");el.style.setProperty(\"--x\",\"0px\");el.style.setProperty(\"--y\",\"0px\");});\n  });\n})();\n\nהערת מימוש מהמאגר:\nמקור: ReactBits Magnet. נכתב מחדש: המרחק נמדד מהמרכז, המשיכה היא שבר מהמרחק (לא מיקום מוחלט), על translate בלבד, וחזרה עם טרנזישן ארוך יותר מהמשיכה.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* B61 · משיכה מגנטית לעבר הסמן */\n.mg-wrap{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;padding-block:40px}\n.mg{position:relative;padding:40px}\n.mg .gbtn,.mg .mg-ic{translate:var(--x,0) var(--y,0);transition:translate .25s cubic-bezier(.2,.6,.2,1)}\n.mg.leave .gbtn,.mg.leave .mg-ic{transition-duration:.6s}\n.mg-ic{width:56px;height:56px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;font-weight:700;color:var(--ink, #16182b)}\n@media (prefers-reduced-motion: reduce){.mg .gbtn,.mg .mg-ic{transition:none;translate:none}}","html":"<div class=\"stage tight\"><div class=\"mg-wrap\">\n  <div class=\"mg\"><button class=\"gbtn\">בואו נדבר<\/button><\/div>\n  <div class=\"mg\"><span class=\"mg-ic\">in<\/span><\/div>\n  <div class=\"mg\"><span class=\"mg-ic\">ig<\/span><\/div>\n<\/div><\/div>","js":"(function(){\n  if(!matchMedia(\"(hover:hover) and (pointer:fine)\").matches||matchMedia(\"(prefers-reduced-motion: reduce)\").matches)return;\n  const PULL=.35;   // כמה מהמרחק הכפתור עובר לעבר הסמן. 1 = דבוק לסמן, זה כבר לא אלגנטי\n  document.querySelectorAll(\".mg\").forEach(zone=>{\n    const el=zone.firstElementChild;\n    zone.addEventListener(\"mousemove\",e=>{\n      const r=zone.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);\n      zone.classList.remove(\"leave\");\n      el.style.setProperty(\"--x\",(dx*PULL).toFixed(1)+\"px\");el.style.setProperty(\"--y\",(dy*PULL).toFixed(1)+\"px\");\n    });\n    zone.addEventListener(\"mouseleave\",()=>{zone.classList.add(\"leave\");el.style.setProperty(\"--x\",\"0px\");el.style.setProperty(\"--y\",\"0px\");});\n  });\n})();","scripts":"","rtl":false}</script>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b61 · משיכה מגנטית לעבר הסמן\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b61.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b61.html\n\nמה זה עושה: כפתור שנמשך בעדינות לעבר הסמן כשהוא מתקרב, עד שליש מהמרחק, וחוזר למקומו כשהסמן מתרחק. מספיק כדי להרגיש שהכפתור \"רוצה\" שילחצו עליו.\nמתי משתמשים: CTA ראשי אחד בעמוד, אייקונים חברתיים, לוגו בהדר. דסקטופ בלבד, ולעולם לא על טקסט רץ.\nסוג אתר: פורטפוליו וסטודיו · אתר תדמית · דף נחיתה\nבסקשן: סגירה, טופס וקשר · הירו · פוטר\nאופי: רק באתר חוויתי\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא על קישורים בתוך טקסט ולא על יותר מ-CTA אחד בעמוד; במגע ובתנועה מופחתת הוא כבוי.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* B61 · משיכה מגנטית לעבר הסמן */\n.mg-wrap{display:flex;justify-content:center;align-items:center;gap:24px;flex-wrap:wrap;padding-block:88px}\n/* demo only: with a real mouse the 40px pull zones must not meet, so the items sit 88px apart; on touch the effect is off */\n@media (hover:hover) and (pointer:fine){.mg-wrap{gap:88px}}\n.mg{display:inline-block;vertical-align:middle}\n.mg .gbtn,.mg .mg-ic{translate:var(--x,0) var(--y,0);transition:translate .25s cubic-bezier(.2,.6,.2,1)}\n.mg.leave .gbtn,.mg.leave .mg-ic{transition-duration:.6s}\n.mg-ic{width:56px;height:56px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;font-weight:700;color:var(--ink, #16182b);text-decoration:none}\n.mg-ic:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n@media (prefers-reduced-motion: reduce){.mg .gbtn,.mg .mg-ic{transition:none;translate:none}}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"mg-wrap\">\n  <div class=\"mg\"><button class=\"gbtn\">בואו נדבר<\/button><\/div>\n  <div class=\"mg\"><a class=\"mg-ic\" href=\"#\" aria-label=\"לינקדאין\">in<\/a><\/div>\n  <div class=\"mg\"><a class=\"mg-ic\" href=\"#\" aria-label=\"אינסטגרם\">ig<\/a><\/div>\n<\/div><\/div>\n\n=== JS ===\n(function(){\n  if(!matchMedia(\"(hover:hover) and (pointer:fine)\").matches||matchMedia(\"(prefers-reduced-motion: reduce)\").matches)return;\n  const PULL=.35,REACH=40;   // PULL: כמה מהמרחק הכפתור עובר לעבר הסמן (1 = דבוק לסמן, כבר לא אלגנטי). REACH: אזור המשיכה סביב האלמנט\n  const zones=[...document.querySelectorAll(\".mg\")].map(z=>({z,el:z.firstElementChild,on:false}));\n  let x=-1e5,y=-1e5,raf=0;\n  function tick(){\n    raf=0;\n    zones.forEach(o=>{\n      const r=o.z.getBoundingClientRect();   // העטיפה לא זזה, רק הילד, לכן המלבן שלה הוא מקום המנוחה\n      if(x>r.left-REACH&&x<r.right+REACH&&y>r.top-REACH&&y<r.bottom+REACH){\n        o.on=true;o.z.classList.remove(\"leave\");\n        o.el.style.setProperty(\"--x\",((x-(r.left+r.width/2))*PULL).toFixed(1)+\"px\");o.el.style.setProperty(\"--y\",((y-(r.top+r.height/2))*PULL).toFixed(1)+\"px\");\n      }else if(o.on){o.on=false;o.z.classList.add(\"leave\");o.el.style.setProperty(\"--x\",\"0px\");o.el.style.setProperty(\"--y\",\"0px\");}\n    });\n  }\n  const req=()=>{if(!raf)raf=requestAnimationFrame(tick);};\n  document.addEventListener(\"mousemove\",e=>{x=e.clientX;y=e.clientY;req();},{passive:true});\n  document.addEventListener(\"mouseleave\",()=>{x=y=-1e5;req();});\n  addEventListener(\"scroll\",req,{passive:true});   // גלילה בלי תזוזת עכבר משנה את המרחק\n})();\n\nהערת מימוש מהמאגר:\nמקור: ReactBits Magnet. נכתב מחדש: המרחק נמדד מהמרכז, המשיכה היא שבר מהמרחק (לא מיקום מוחלט), על translate בלבד, וחזרה עם טרנזישן ארוך יותר מהמשיכה. אזור המשיכה (40 פיקסלים סביב האלמנט) מחושב ב-JS מתוך תנועת העכבר במסמך, ולא כ-padding סביב הכפתור: כך העטיפה .mg צמודה לכפתור ולא מזיזה את הפריסה כשעוטפים בה CTA קיים, ואין שכבה שקופה שחוסמת לחיצות על קישור סמוך. במגע ובתנועה מופחתת הסקריפט לא רץ בכלל.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}\n\n/* B61 · משיכה מגנטית לעבר הסמן */\n.mg-wrap{display:flex;justify-content:center;align-items:center;gap:24px;flex-wrap:wrap;padding-block:88px}\n/* demo only: with a real mouse the 40px pull zones must not meet, so the items sit 88px apart; on touch the effect is off */\n@media (hover:hover) and (pointer:fine){.mg-wrap{gap:88px}}\n.mg{display:inline-block;vertical-align:middle}\n.mg .gbtn,.mg .mg-ic{translate:var(--x,0) var(--y,0);transition:translate .25s cubic-bezier(.2,.6,.2,1)}\n.mg.leave .gbtn,.mg.leave .mg-ic{transition-duration:.6s}\n.mg-ic{width:56px;height:56px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;font-weight:700;color:var(--ink, #16182b);text-decoration:none}\n.mg-ic:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n@media (prefers-reduced-motion: reduce){.mg .gbtn,.mg .mg-ic{transition:none;translate:none}}","html":"<div class=\"stage tight\"><div class=\"mg-wrap\">\n  <div class=\"mg\"><button class=\"gbtn\">בואו נדבר<\/button><\/div>\n  <div class=\"mg\"><a class=\"mg-ic\" href=\"#\" aria-label=\"לינקדאין\">in<\/a><\/div>\n  <div class=\"mg\"><a class=\"mg-ic\" href=\"#\" aria-label=\"אינסטגרם\">ig<\/a><\/div>\n<\/div><\/div>","js":"(function(){\n  if(!matchMedia(\"(hover:hover) and (pointer:fine)\").matches||matchMedia(\"(prefers-reduced-motion: reduce)\").matches)return;\n  const PULL=.35,REACH=40;   // PULL: כמה מהמרחק הכפתור עובר לעבר הסמן (1 = דבוק לסמן, כבר לא אלגנטי). REACH: אזור המשיכה סביב האלמנט\n  const zones=[...document.querySelectorAll(\".mg\")].map(z=>({z,el:z.firstElementChild,on:false}));\n  let x=-1e5,y=-1e5,raf=0;\n  function tick(){\n    raf=0;\n    zones.forEach(o=>{\n      const r=o.z.getBoundingClientRect();   // העטיפה לא זזה, רק הילד, לכן המלבן שלה הוא מקום המנוחה\n      if(x>r.left-REACH&&x<r.right+REACH&&y>r.top-REACH&&y<r.bottom+REACH){\n        o.on=true;o.z.classList.remove(\"leave\");\n        o.el.style.setProperty(\"--x\",((x-(r.left+r.width/2))*PULL).toFixed(1)+\"px\");o.el.style.setProperty(\"--y\",((y-(r.top+r.height/2))*PULL).toFixed(1)+\"px\");\n      }else if(o.on){o.on=false;o.z.classList.add(\"leave\");o.el.style.setProperty(\"--x\",\"0px\");o.el.style.setProperty(\"--y\",\"0px\");}\n    });\n  }\n  const req=()=>{if(!raf)raf=requestAnimationFrame(tick);};\n  document.addEventListener(\"mousemove\",e=>{x=e.clientX;y=e.clientY;req();},{passive:true});\n  document.addEventListener(\"mouseleave\",()=>{x=y=-1e5;req();});\n  addEventListener(\"scroll\",req,{passive:true});   // גלילה בלי תזוזת עכבר משנה את המרחק\n})();","scripts":"","rtl":false}</script>
 </section>
 <nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="b60.html" rel="prev"><small>→ הקודם</small><b>וידאו שנפתח מתמונת ההירו</b></a><a href="b62.html" rel="next"><small>הבא ←</small><b>קרוסלת עומק תלת-ממדית</b></a></nav>
 
-<script src="../assets/baseline.js?v=6182265c"></script>
+<script src="../assets/baseline.js?v=d1dd0eb3"></script>
 <script src="../assets/status.js"></script>
 <script src="../assets/tray.js"></script>
 <script>
@@ -120,16 +133,23 @@ document.querySelector(".mvid").addEventListener("click",function(){
 
 (function(){
   if(!matchMedia("(hover:hover) and (pointer:fine)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const PULL=.35;   // כמה מהמרחק הכפתור עובר לעבר הסמן. 1 = דבוק לסמן, זה כבר לא אלגנטי
-  document.querySelectorAll(".mg").forEach(zone=>{
-    const el=zone.firstElementChild;
-    zone.addEventListener("mousemove",e=>{
-      const r=zone.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);
-      zone.classList.remove("leave");
-      el.style.setProperty("--x",(dx*PULL).toFixed(1)+"px");el.style.setProperty("--y",(dy*PULL).toFixed(1)+"px");
+  const PULL=.35,REACH=40;   // PULL: כמה מהמרחק הכפתור עובר לעבר הסמן (1 = דבוק לסמן, כבר לא אלגנטי). REACH: אזור המשיכה סביב האלמנט
+  const zones=[...document.querySelectorAll(".mg")].map(z=>({z,el:z.firstElementChild,on:false}));
+  let x=-1e5,y=-1e5,raf=0;
+  function tick(){
+    raf=0;
+    zones.forEach(o=>{
+      const r=o.z.getBoundingClientRect();   // העטיפה לא זזה, רק הילד, לכן המלבן שלה הוא מקום המנוחה
+      if(x>r.left-REACH&&x<r.right+REACH&&y>r.top-REACH&&y<r.bottom+REACH){
+        o.on=true;o.z.classList.remove("leave");
+        o.el.style.setProperty("--x",((x-(r.left+r.width/2))*PULL).toFixed(1)+"px");o.el.style.setProperty("--y",((y-(r.top+r.height/2))*PULL).toFixed(1)+"px");
+      }else if(o.on){o.on=false;o.z.classList.add("leave");o.el.style.setProperty("--x","0px");o.el.style.setProperty("--y","0px");}
     });
-    zone.addEventListener("mouseleave",()=>{zone.classList.add("leave");el.style.setProperty("--x","0px");el.style.setProperty("--y","0px");});
-  });
+  }
+  const req=()=>{if(!raf)raf=requestAnimationFrame(tick);};
+  document.addEventListener("mousemove",e=>{x=e.clientX;y=e.clientY;req();},{passive:true});
+  document.addEventListener("mouseleave",()=>{x=y=-1e5;req();});
+  addEventListener("scroll",req,{passive:true});   // גלילה בלי תזוזת עכבר משנה את המרחק
 })();
 </script>
 </body>

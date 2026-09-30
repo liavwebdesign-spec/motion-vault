@@ -48,13 +48,16 @@ img{max-width:100%}
 .ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}
 
 /* B57 · גריד Masonry עם כניסה מונפשת */
-.ms{position:relative;max-width:1100px;margin-inline:auto}
-.ms-item{position:absolute;top:0;right:0;width:var(--w);opacity:0;translate:0 40px;transition:transform .6s cubic-bezier(.2,.6,.2,1),opacity .6s,translate .6s cubic-bezier(.2,.6,.2,1);transition-delay:var(--d,0s)}
-.ms.ready .ms-item{opacity:1;translate:0 0}
-.ms-item .ph{width:100%;height:var(--h);border-radius:var(--r, 14px);font-size:22px}
+.ms{position:relative;max-width:1100px;margin-inline:auto;columns:3 260px;column-gap:16px}
+.ms-item{break-inside:avoid;margin-bottom:16px}
+.ms-item img{display:block;width:100%;height:auto}
+.ms.ms-on{columns:auto}
+.ms-on .ms-item{position:absolute;top:0;right:0;width:var(--w);margin:0;opacity:0;translate:0 40px}
+.ms-on.ready .ms-item{opacity:1;translate:0 0;transition:transform .6s cubic-bezier(.2,.6,.2,1),opacity .6s,translate .6s cubic-bezier(.2,.6,.2,1);transition-delay:var(--d,0s)}
+.ms-item .ph{width:100%;height:var(--h,auto);border-radius:var(--r, 14px);font-size:22px}
 .ms-item.ph-l{background:none}
 @media (hover:hover) and (pointer:fine){.ms-item .ph{transition:transform .5s cubic-bezier(.2,.6,.2,1)}.ms-item:hover .ph{transform:scale(1.03)}}
-@media (prefers-reduced-motion: reduce){.ms-item{transition:none}}
+@media (prefers-reduced-motion: reduce){.ms-on .ms-item,.ms-on.ready .ms-item{transition:none;opacity:1;translate:none}}
 </style>
 </head>
 <body>
@@ -71,20 +74,30 @@ img{max-width:100%}
 <script>
 (function(){
   const grid=document.querySelector(".ms"),items=[...grid.querySelectorAll(".ms-item")],GAP=16;
+  if(!items.length||!("ResizeObserver" in window))return;   // בלי ResizeObserver נשארת פריסת ה-columns של CSS
+  grid.classList.add("ms-on");
   function layout(){
     const W=grid.clientWidth,cols=W<560?1:W<900?2:3,w=(W-GAP*(cols-1))/cols,tops=new Array(cols).fill(0);
+    items.forEach(it=>it.style.setProperty("--w",w+"px"));   // קודם כל הרוחבים, ואז קריאת גבהים אחת: בלי layout thrash
+    const hs=items.map(it=>it.offsetHeight);                  // הגובה האמיתי: תמונה, טקסט, כל תוכן
     items.forEach((it,i)=>{
-      const c=tops.indexOf(Math.min(...tops)),h=parseFloat(getComputedStyle(it).getPropertyValue("--h"));
-      it.style.setProperty("--w",w+"px");
+      const c=tops.indexOf(Math.min(...tops));
       // RTL: העמודה 0 מימין, לכן מזיזים שמאלה (ערך שלילי)
       it.style.transform="translate("+(-(c*(w+GAP)))+"px,"+tops[c]+"px)";
       it.style.setProperty("--d",(i*70)+"ms");
-      tops[c]+=h+GAP;
+      tops[c]+=hs[i]+GAP;
     });
     grid.style.height=Math.max(...tops)-GAP+"px";
   }
-  layout();requestAnimationFrame(()=>grid.classList.add("ready"));
-  new ResizeObserver(()=>layout()).observe(grid);
+  layout();
+  // גריד וכל פריט: חלון שמשתנה, תמונה שנטענת, טקסט שנשבר אחרת. מתוזמן ל-rAF כדי שהסידור לא ירוץ בתוך קולבק ה-RO
+  let raf=0;
+  const ro=new ResizeObserver(()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(layout);});
+  ro.observe(grid);items.forEach(it=>ro.observe(it));
+  // הכניסה כשהגריד מגיע למסך. בלי threshold באחוזים: גריד ארוך מהמסך לא היה מגיע אליו לעולם
+  if("IntersectionObserver" in window){
+    new IntersectionObserver((es,o)=>{if(es.some(e=>e.isIntersecting)){grid.classList.add("ready");o.disconnect();}},{rootMargin:"0px 0px -12% 0px"}).observe(grid);
+  }else grid.classList.add("ready");
 })();
 </script>
 </body>

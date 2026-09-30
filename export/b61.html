@@ -40,11 +40,14 @@ img{max-width:100%}
 .gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
 
 /* B61 · משיכה מגנטית לעבר הסמן */
-.mg-wrap{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;padding-block:40px}
-.mg{position:relative;padding:40px}
+.mg-wrap{display:flex;justify-content:center;align-items:center;gap:24px;flex-wrap:wrap;padding-block:88px}
+/* demo only: with a real mouse the 40px pull zones must not meet, so the items sit 88px apart; on touch the effect is off */
+@media (hover:hover) and (pointer:fine){.mg-wrap{gap:88px}}
+.mg{display:inline-block;vertical-align:middle}
 .mg .gbtn,.mg .mg-ic{translate:var(--x,0) var(--y,0);transition:translate .25s cubic-bezier(.2,.6,.2,1)}
 .mg.leave .gbtn,.mg.leave .mg-ic{transition-duration:.6s}
-.mg-ic{width:56px;height:56px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;font-weight:700;color:var(--ink, #16182b)}
+.mg-ic{width:56px;height:56px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;font-weight:700;color:var(--ink, #16182b);text-decoration:none}
+.mg-ic:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
 @media (prefers-reduced-motion: reduce){.mg .gbtn,.mg .mg-ic{transition:none;translate:none}}
 </style>
 </head>
@@ -52,24 +55,31 @@ img{max-width:100%}
 
 <div class="stage tight"><div class="mg-wrap">
   <div class="mg"><button class="gbtn">בואו נדבר</button></div>
-  <div class="mg"><span class="mg-ic">in</span></div>
-  <div class="mg"><span class="mg-ic">ig</span></div>
+  <div class="mg"><a class="mg-ic" href="#" aria-label="לינקדאין">in</a></div>
+  <div class="mg"><a class="mg-ic" href="#" aria-label="אינסטגרם">ig</a></div>
 </div></div>
 
 
 <script>
 (function(){
   if(!matchMedia("(hover:hover) and (pointer:fine)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const PULL=.35;   // כמה מהמרחק הכפתור עובר לעבר הסמן. 1 = דבוק לסמן, זה כבר לא אלגנטי
-  document.querySelectorAll(".mg").forEach(zone=>{
-    const el=zone.firstElementChild;
-    zone.addEventListener("mousemove",e=>{
-      const r=zone.getBoundingClientRect(),dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);
-      zone.classList.remove("leave");
-      el.style.setProperty("--x",(dx*PULL).toFixed(1)+"px");el.style.setProperty("--y",(dy*PULL).toFixed(1)+"px");
+  const PULL=.35,REACH=40;   // PULL: כמה מהמרחק הכפתור עובר לעבר הסמן (1 = דבוק לסמן, כבר לא אלגנטי). REACH: אזור המשיכה סביב האלמנט
+  const zones=[...document.querySelectorAll(".mg")].map(z=>({z,el:z.firstElementChild,on:false}));
+  let x=-1e5,y=-1e5,raf=0;
+  function tick(){
+    raf=0;
+    zones.forEach(o=>{
+      const r=o.z.getBoundingClientRect();   // העטיפה לא זזה, רק הילד, לכן המלבן שלה הוא מקום המנוחה
+      if(x>r.left-REACH&&x<r.right+REACH&&y>r.top-REACH&&y<r.bottom+REACH){
+        o.on=true;o.z.classList.remove("leave");
+        o.el.style.setProperty("--x",((x-(r.left+r.width/2))*PULL).toFixed(1)+"px");o.el.style.setProperty("--y",((y-(r.top+r.height/2))*PULL).toFixed(1)+"px");
+      }else if(o.on){o.on=false;o.z.classList.add("leave");o.el.style.setProperty("--x","0px");o.el.style.setProperty("--y","0px");}
     });
-    zone.addEventListener("mouseleave",()=>{zone.classList.add("leave");el.style.setProperty("--x","0px");el.style.setProperty("--y","0px");});
-  });
+  }
+  const req=()=>{if(!raf)raf=requestAnimationFrame(tick);};
+  document.addEventListener("mousemove",e=>{x=e.clientX;y=e.clientY;req();},{passive:true});
+  document.addEventListener("mouseleave",()=>{x=y=-1e5;req();});
+  addEventListener("scroll",req,{passive:true});   // גלילה בלי תזוזת עכבר משנה את המרחק
 })();
 </script>
 </body>

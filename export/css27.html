@@ -39,20 +39,18 @@ img{max-width:100%}
 .stage.full{padding-inline:0}
 
 /* CSS27 · לוויינים במסלול סביב מרכז */
-.orb{position:relative;width:min(520px,90vw);aspect-ratio:1;margin-inline:auto;display:grid;place-items:center}
+.orb{position:relative;width:min(520px,100%);aspect-ratio:1;margin-inline:auto;display:grid;place-items:center;container-type:inline-size}
 .orb-core{width:96px;height:96px;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);display:grid;place-items:center;font-weight:800;font-size:22px;box-shadow:0 20px 50px color-mix(in srgb,var(--accent, #4a3aff) 35%,transparent);position:relative;z-index:2}
-.orb-ring{position:absolute;inset:0;border-radius:50%;border:1px dashed var(--line, #e4e4ee);margin:auto;animation:orb-spin var(--t,22s) linear infinite}
-.orb-ring.in{width:56%;height:56%;--t:14s;animation-direction:reverse}
-.orb-ring.out{width:92%;height:92%}
+.orb-ring{position:absolute;inset:0;border-radius:50%;border:1px dashed var(--line, #e4e4ee);margin:auto}
+.orb-ring.in{width:56%;height:56%;--rad:28cqi;--t:7s}
+.orb-ring.out{width:92%;height:92%;--rad:46cqi}
 .orb-sat{position:absolute;top:50%;left:50%;width:60px;height:60px;margin:-30px;border-radius:50%;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);display:grid;place-items:center;color:var(--ink, #16182b);box-shadow:0 6px 18px rgba(0,0,0,.08);
-  transform:rotate(var(--a)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a)));animation:orb-counter var(--t,22s) linear infinite}
+  transform:rotate(var(--a)) translateX(var(--rad)) rotate(calc(-1 * var(--a)));animation:orb-counter var(--t,11s) linear infinite}
 .orb-sat svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .orb-ring.in .orb-sat{animation-direction:reverse}
-.orb-ring.in{--rad:146}.orb-ring.out{--rad:239}
-@media (max-width:520px){.orb-ring.in{--rad:110}.orb-ring.out{--rad:180}.orb-ring.out{width:88%;height:88%}.orb-sat{width:52px;height:52px;margin:-26px}.orb-sat svg{width:22px;height:22px}}
-@keyframes orb-spin{to{transform:rotate(360deg)}}
-@keyframes orb-counter{to{transform:rotate(calc(var(--a) + 360deg)) translateX(calc(var(--rad) * 1px)) rotate(calc(-1 * var(--a) - 360deg))}}
-@media (prefers-reduced-motion: reduce){.orb-ring,.orb-sat{animation:none}}
+@media (max-width:520px){.orb-ring.out{width:88%;height:88%;--rad:44cqi}.orb-sat{width:52px;height:52px;margin:-26px}.orb-sat svg{width:22px;height:22px}}
+@keyframes orb-counter{to{transform:rotate(calc(var(--a) + 360deg)) translateX(var(--rad)) rotate(calc(-1 * var(--a) - 360deg))}}
+@media (prefers-reduced-motion: reduce){.orb-sat{animation:none}}
 </style>
 </head>
 <body>

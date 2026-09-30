@@ -40,13 +40,15 @@ img{max-width:100%}
 
 /* B58 · דוק אייקונים שמתנפחים ליד הסמן */
 .dk-wrap{display:flex;justify-content:center;padding-block:60px 30px}
-.dk{display:flex;align-items:flex-end;gap:10px;padding:10px 14px;border-radius:22px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);box-shadow:0 18px 50px rgba(0,0,0,.12)}
+.dk{display:flex;align-items:flex-end;gap:10px;padding:10px calc(14px + var(--g,0px));border-radius:22px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);box-shadow:0 18px 50px rgba(0,0,0,.12);
+  transition:padding .18s cubic-bezier(.2,.6,.2,1) /* qa-allow: layout, the dock grows with its icons like the macOS dock */}
 .dk a{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font-weight:700;font-size:12px;text-decoration:none;
-  transform-origin:bottom center;transform:scale(var(--s,1));transition:transform .18s cubic-bezier(.2,.6,.2,1);position:relative}
+  transform-origin:bottom center;transform:translateX(var(--tx,0px)) scale(var(--s,1));transition:transform .18s cubic-bezier(.2,.6,.2,1);position:relative}
 .dk a::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 10px);left:50%;translate:-50% 4px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:12px;padding:5px 9px;border-radius:8px;white-space:nowrap;opacity:0;transition:opacity .2s,translate .2s;pointer-events:none}
 @media (hover:hover) and (pointer:fine){.dk a:hover::after{opacity:1;translate:-50% 0}}
 .dk a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
-@media (prefers-reduced-motion: reduce){.dk a{transition:none}}
+@media (max-width:420px){.dk{gap:6px;padding:8px calc(10px + var(--g,0px))}.dk a{width:44px;height:44px}}
+@media (prefers-reduced-motion: reduce){.dk,.dk a{transition:none}}
 </style>
 </head>
 <body>
@@ -61,14 +63,17 @@ img{max-width:100%}
   if(!matchMedia("(hover:hover) and (pointer:fine)").matches)return;
   const dock=document.querySelector(".dk"),icons=[...dock.querySelectorAll("a")],RANGE=140,MAX=1.7;
   function paint(x){
-    icons.forEach(a=>{
-      const r=a.getBoundingClientRect(),d=Math.abs(x-(r.left+r.width/2));
-      const s=d>RANGE?1:1+(MAX-1)*Math.cos((d/RANGE)*Math.PI/2);   // קוסינוס: רך במרכז, מתאפס בקצה הטווח
-      a.style.setProperty("--s",s.toFixed(3));
-    });
+    // מרכז הפריסה של כל אייקון: המלבן על המסך פחות ההזזה הנוכחית (גם באמצע טרנזישן). ה-scale מהמרכז-תחתית לא מזיז אותו לרוחב
+    const c=icons.map(a=>{const r=a.getBoundingClientRect();return r.left+r.width/2-new DOMMatrixReadOnly(getComputedStyle(a).transform).m41;});
+    const s=c.map(v=>{const d=Math.abs(x-v);return d>RANGE?1:1+(MAX-1)*Math.cos((d/RANGE)*Math.PI/2);});   // קוסינוס: רך במרכז, מתאפס בקצה הטווח
+    const W=icons[0].offsetWidth,ex=s.map(v=>(v-1)*W),G=ex.reduce((a,b)=>a+b,0);
+    // דחיפת השכנים: כל אייקון זז בחצי מהגדילה שלו ועוד כל מה שגדל לפניו (לפי מיקום פיזי, משמאל לימין), והשורה נשארת ממורכזת
+    const ord=c.map((v,i)=>i).sort((i,j)=>c[i]-c[j]);let acc=0;
+    ord.forEach(i=>{icons[i].style.setProperty("--tx",(acc+ex[i]/2-G/2).toFixed(1)+"px");icons[i].style.setProperty("--s",s[i].toFixed(3));acc+=ex[i];});
+    dock.style.setProperty("--g",(G/2).toFixed(1)+"px");
   }
   dock.addEventListener("mousemove",e=>paint(e.clientX));
-  dock.addEventListener("mouseleave",()=>icons.forEach(a=>a.style.setProperty("--s",1)));
+  dock.addEventListener("mouseleave",()=>{icons.forEach(a=>{a.style.setProperty("--s",1);a.style.setProperty("--tx","0px");});dock.style.setProperty("--g","0px");});
 })();
 </script>
 </body>

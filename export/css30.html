@@ -42,23 +42,28 @@ img{max-width:100%}
 
 /* CSS30 · מילים שמתבהרות מהערפל */
 .bt{max-width:22ch;margin-inline:auto;text-align:center;font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));font-weight:800;line-height:1.15}
-.bt .w{display:inline-block;margin-inline:.12em;opacity:0;filter:blur(10px);translate:0 14px;
+.bt .w{display:inline-block}
+.bt-on .w{opacity:0;filter:blur(10px);translate:0 14px}
+.bt-on.in .w{opacity:1;filter:blur(0);translate:0 0;
   transition:opacity .7s cubic-bezier(.2,.6,.2,1),filter .7s cubic-bezier(.2,.6,.2,1),translate .7s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i) * 90ms)}
-.bt.in .w{opacity:1;filter:blur(0);translate:0 0}
-.bt-sub{text-align:center;color:var(--muted, #6a6d85);margin-top:18px;opacity:0;transition:opacity .6s .7s}
-.bt.in + .bt-sub{opacity:1}
-@media (prefers-reduced-motion: reduce){.bt .w{transition:none;opacity:1;filter:none;translate:none}.bt-sub{transition:none;opacity:1}}
+.bt-sub{text-align:center;color:var(--muted, #6a6d85);margin-top:18px}
+.bt-on + .bt-sub{opacity:0}
+.bt-on.in + .bt-sub{opacity:1;transition:opacity .6s .7s}
+@media (prefers-reduced-motion: reduce){.bt-on .w{transition:none;opacity:1;filter:none;translate:none}.bt-on + .bt-sub{transition:none;opacity:1}}
 </style>
 </head>
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
-<div class="stage"><h2 class="bt"><span class="w" style="--i:0">אתר</span><span class="w" style="--i:1">שמביא</span><span class="w" style="--i:2">לקוחות,</span><span class="w" style="--i:3">לא</span><span class="w" style="--i:4">רק</span><span class="w" style="--i:5">מחמאות.</span></h2>
+<div class="stage"><h2 class="bt"><span class="w" style="--i:0">אתר</span> <span class="w" style="--i:1">שמביא</span> <span class="w" style="--i:2">לקוחות,</span> <span class="w" style="--i:3">לא</span> <span class="w" style="--i:4">רק</span> <span class="w" style="--i:5">מחמאות.</span></h2>
 <p class="bt-sub">כל עמוד נבנה סביב פעולה אחת שהגולש אמור לעשות.</p></div>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
 
 <script>
-const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)} }),{threshold:.4});
-document.querySelectorAll(".bt").forEach(el=>io.observe(el));
+(function(){
+  if(!("IntersectionObserver" in window))return;   // בלי IO לא מסתירים כלום: הכותרת נשארת גלויה
+  const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)} }),{threshold:.4});
+  document.querySelectorAll(".bt").forEach(el=>{el.classList.add("bt-on");io.observe(el);});
+})();
 </script>
 </body>
 </html>
