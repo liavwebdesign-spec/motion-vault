@@ -41,7 +41,8 @@ const ATOMS_CSS = `
 [dir="ltr"] .ic-arr{rotate:180deg}
 .cx-rv{opacity:0;transform:translateY(16px);transition:opacity .5s ${E},transform .5s ${E};transition-delay:calc(var(--i,0) * 80ms)}
 .is-in .cx-rv{opacity:1;transform:none}
-.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+/* a time or a phone number never breaks between rows ("050-000" on one, "0000" on the next, at 500) */
+.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums;white-space:nowrap}
 /* the demo switch: lets the reviewer see every state. Not part of the component you copy. */
 .cx-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 24px;padding:6px;border-radius:14px;background:color-mix(in srgb,var(--ink) 5%,transparent);font-size:13px;width:max-content;max-width:100%}
 .cx-demo > span{padding:0 10px;font-weight:600;color:var(--muted)}
@@ -104,17 +105,24 @@ const PHONE_CSS = `
 
 // ---- shared scripts ----
 const MBAR_JS = `
-// the bar's whole job is timing: it appears once the hero's own button has left the screen, steps aside when the final
-// contact section is on screen (two identical buttons compete), and hides while a field has focus (the keyboard is up)
+// the bar's whole job is timing: it appears once the hero's own button has left the screen, steps aside while the contact
+// section is on screen (two identical buttons compete), over the footer, and over any other button for the same action
+// (data-cta-same), and hides while a field has focus (the keyboard is up). Every stop is checked at both edges, so once the
+// visitor has scrolled past a form in the middle of the page, the bar comes back for everything after it.
 function mbar(bar,opt){
   opt=opt||{};
   var ph=bar.closest("[data-phone]"), sc=ph?ph.querySelector("[data-scroller]"):window, root=ph||document;
-  var origin=root.querySelector("[data-cta-origin]"), end=root.querySelector("[data-cta-end]"), typing=false, raf=0;
+  var origin=root.querySelector("[data-cta-origin]"), typing=false, raf=0;
+  var stops=[].slice.call(root.querySelectorAll("[data-cta-end],[data-cta-same],footer"));
   function box(){return sc===window?{top:0,bottom:innerHeight}:sc.getBoundingClientRect();}
+  // a contact section counts once it fills the lower third and until it leaves the top tenth; a footer or a button
+  // counts the moment any of it is on screen, because that is exactly where the bar would sit on it
+  function seen(el,b,vh){var r=el.getBoundingClientRect(),big=el.hasAttribute("data-cta-end");
+    return big?r.top<b.bottom-vh*.3&&r.bottom>b.top+vh*.1:r.top<b.bottom&&r.bottom>b.top;}
   function upd(){
     raf=0;
-    var b=box(), vh=b.bottom-b.top, o=origin&&origin.getBoundingClientRect(), e=end&&end.getBoundingClientRect();
-    var past=!o||o.bottom<b.top+8, atEnd=!!e&&e.top<b.bottom-vh*.3, on=past&&!atEnd&&!typing;
+    var b=box(), vh=b.bottom-b.top, o=origin&&origin.getBoundingClientRect();
+    var past=!o||o.bottom<b.top+8, atEnd=stops.some(function(s){return seen(s,b,vh);}), on=past&&!atEnd&&!typing;
     if(on!==bar.classList.contains("is-on")){
       bar.classList.toggle("is-on",on);
       // off screen it must also leave the tab order, or a keyboard user tabs into an invisible button
@@ -135,7 +143,8 @@ const HOURS_JS = `
 var DAYS=["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"], DSHORT=["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","ש׳"];
 var MONTHS=["בינואר","בפברואר","במרץ","באפריל","במאי","ביוני","ביולי","באוגוסט","בספטמבר","באוקטובר","בנובמבר","בדצמבר"];
 function hoursOf(el){try{return JSON.parse(el.getAttribute("data-hours"));}catch(e){return {"0":[9,18],"1":[9,18],"2":[9,18],"3":[9,18],"4":[9,18],"5":[9,13],"6":null};}}
-function hm(m){var h=Math.floor(m/60),mm=m%60;return h+":"+(mm<10?"0":"")+mm;}
+// both parts padded: "09:15", never "9:15" (conversion.md, the thank-you page rule)
+function hm(m){var h=Math.floor(m/60),mm=m%60;return (h<10?"0":"")+h+":"+(mm<10?"0":"")+mm;}
 function minsOf(d){return d.getHours()*60+d.getMinutes();}
 function dayWord(from,to){var a=new Date(from),b=new Date(to);a.setHours(0,0,0,0);b.setHours(0,0,0,0);var n=Math.round((b-a)/864e5);return n===0?"היום":n===1?"מחר":"ביום "+DAYS[b.getDay()];}
 // open now until X, or closed and when it opens next
@@ -160,8 +169,13 @@ function replyBy(H,now,sla){
 
 const IN_JS = `
 function inView(el,f){
-  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0){off();f();}}
-  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);}
+  var done=false,io=null;
+  function go(){if(done)return;done=true;off();f();}
+  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0)go();}
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(io)io.disconnect();}
+  // the observer also catches a layout change that brings the block on screen with no scroll event;
+  // the scroll check stays for where the observer is late or missing
+  if("IntersectionObserver" in window){io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting;}))go();},{rootMargin:"0px 0px -10% 0px"});io.observe(el);}
   addEventListener("scroll",chk,{passive:true});addEventListener("resize",chk);requestAnimationFrame(chk);setTimeout(chk,300);
 }`;
 
@@ -177,15 +191,17 @@ const LEV_JS = `
 function lev(a,b){var m=a.length,n=b.length,d=[],i,j;for(i=0;i<=m;i++)d[i]=[i];for(j=0;j<=n;j++)d[0][j]=j;
   for(i=1;i<=m;i++)for(j=1;j<=n;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d;}`;
 
-// a short page for the phone. sec() takes an optional data-cta for cv2.
+// a short page for the phone. sec() takes an optional data-cta for cv2. The form sits in the middle of the page (after:
+// the sections below it), so the demo shows the bar coming back once the form is behind, and leaving again at the footer.
 const sec = (small, title, text, cta) => `<section class="cx-sec"${cta ? ` data-cta="${cta}"` : ""}><small>${small}</small><h4>${title}</h4><p>${text}</p><div class="cx-blk"></div></section>`;
-const phonePage = (id, heroCta, sections) => `<div class="cx-scr" data-scroller tabindex="0" aria-label="דמו: עמוד בטלפון, גוללים בתוכו">
+const phonePage = (id, heroCta, sections, after = "") => `<div class="cx-scr" data-scroller tabindex="0" aria-label="דמו: עמוד בטלפון, גוללים בתוכו">
 <div class="cx-page">
   <header class="cx-hero"${heroCta ? ` data-cta="${heroCta}"` : ""}><small>סטודיו לעיצוב פנים</small><h3>בית שמרגיש נכון בשמונה בבוקר</h3><p>גוללים למטה: הפס מופיע ברגע שהכפתור של ההירו יוצא מהמסך.</p><a class="cx-btn" href="#${id}-end" data-cta-origin>לתיאום שיחה</a></header>
   ${sections}
-  <section class="cx-end" id="${id}-end" data-cta-end><h4>נתחיל בשיחה קצרה</h4><p>כאן הפס יורד: הכפתור של הסקשן לא צריך מתחרה.</p>
+  <section class="cx-end" id="${id}-end" data-cta-end><h4>נתחיל בשיחה קצרה</h4><p>כאן הפס יורד: הכפתור של הסקשן לא צריך מתחרה. ממשיכים לגלול, והוא חוזר.</p>
     <input type="text" placeholder="שם" aria-label="שם" autocomplete="name"><input type="tel" placeholder="טלפון" aria-label="טלפון" dir="ltr" autocomplete="tel"><button class="cx-btn" type="button">שליחה</button></section>
-  <p class="cx-foot">הפוטר של האתר</p>
+  ${after}
+  <footer class="cx-foot">הפוטר של האתר. גם כאן הפס יורד.</footer>
 </div></div>`;
 
 export default [
@@ -220,7 +236,8 @@ export default [
 .mb-sheet b{display:block;font-size:15px;line-height:1.3}
 .mb-sheet small{display:block;font-size:13px;line-height:1.4;color:var(--muted)}`,
   html:`<div class="cx cxs" id="cv1"><div class="cx-phone" data-phone>
-${phonePage("cv1", "", sec("שירותים", "תכנון מלא, מהקיר ועד הידית", "שלב אחד, איש קשר אחד, ולוח זמנים שמחזיק.") + sec("עבודות", "דירה ברמת גן, 4 חדרים", "מטבח פתוח, אחסון שלא רואים, ואור שנכנס עד הסלון.") + sec("תהליך", "שלושה מפגשים עד תוכנית", "סיור, קונספט, תוכנית עבודה. בלי הפתעות בדרך."))}
+${phonePage("cv1", "", sec("שירותים", "תכנון מלא, מהקיר ועד הידית", "שלב אחד, איש קשר אחד, ולוח זמנים שמחזיק.") + sec("עבודות", "דירה ברמת גן, 4 חדרים", "מטבח פתוח, אחסון שלא רואים, ואור שנכנס עד הסלון."),
+  sec("תהליך", "שלושה מפגשים עד תוכנית", "סיור, קונספט, תוכנית עבודה. בלי הפתעות בדרך.") + sec("שאלות", "כמה זמן לוקח פרויקט?", "דירה של ארבעה חדרים: בערך שלושה חודשים מהסיור ועד המסירה."))}
   <div class="mbar cv1-bar" data-mbar data-hours='${HOURS}' role="region" aria-label="יצירת קשר מהירה">
     <a class="cx-btn mb-go" href="#cv1-end">השאירו פרטים</a>
     <button class="mb-talk" type="button" aria-expanded="false" aria-controls="cv1-sheet"><i class="mb-dot" aria-hidden="true"></i>דברו איתנו</button>
@@ -259,7 +276,7 @@ ${phonePage("cv1", "", sec("שירותים", "תכנון מלא, מהקיר וע
   sheet.querySelector("[data-wa]").href="https://wa.me/972500000000?text="+encodeURIComponent("היי, הגעתי מהאתר ("+page+") ואשמח לשמוע פרטים");
   mbar(bar,{change:function(on){if(!on)open(false);}});
 })();`,
-  note:"הגרסה הבנאלית היא פס עם שלושה כפתורים צמודים (התקשר, וואטסאפ, השאר פרטים) שמופיע מהשנייה הראשונה ומכסה את הטופס בתחתית. כאן יש כפתור ראשי אחד, והערוצים מחכים מאחורי \"דברו איתנו\" עם מה שהגולש באמת שואל: כמה מהר עונים, והאם פתוח עכשיו (נקודה ירוקה, או \"נפתח מחר ב-9:00\"). הפס מופיע רק אחרי שהכפתור של ההירו יצא מהמסך, יורד כשסקשן הטופס על המסך, ויורד כשיש פוקוס בשדה כי המקלדת פתוחה. כשהוא מוסתר הוא inert, כדי שמקלדת לא תיכנס לכפתור שאי אפשר לראות. הוואטסאפ נפתח עם שם העמוד. באתר: position:fixed, safe-area לאייפון, ו-padding-bottom לגוף העמוד בגובה הפס. שעות הפעילות ב-data-hours.",
+  note:"הגרסה הבנאלית היא פס עם שלושה כפתורים צמודים (התקשר, וואטסאפ, השאר פרטים) שמופיע מהשנייה הראשונה ומכסה את הטופס בתחתית. כאן יש כפתור ראשי אחד, והערוצים מחכים מאחורי \"דברו איתנו\" עם מה שהגולש באמת שואל: כמה מהר עונים, והאם פתוח עכשיו (נקודה ירוקה, או \"נפתח מחר ב-09:00\"). הפס מופיע רק אחרי שהכפתור של ההירו יצא מהמסך, יורד כשסקשן הטופס על המסך (data-cta-end), ויורד גם על הפוטר ועל כל כפתור לאותה פעולה (data-cta-same). כל עצירה נבדקת בשני הקצוות: כשהטופס באמצע העמוד, מי שגולל אחריו מקבל את הפס בחזרה, וכך הדמו בנוי. הוא יורד גם כשיש פוקוס בשדה, כי המקלדת פתוחה. כשהוא מוסתר הוא inert, כדי שמקלדת לא תיכנס לכפתור שאי אפשר לראות. הוואטסאפ נפתח עם שם העמוד. באתר: position:fixed, safe-area לאייפון, והמקום לפס נפתח ב-padding-bottom של הפוטר, לא על body: ריפוד על body מופיע כפס בצבע העמוד מתחת לפוטר כהה. שעות הפעילות ב-data-hours.",
 },
 {
   id:"cv2", cat:"conv", name:"פס פעולה שמשנה את הפעולה לפי המקטע", tech:"CSS · JS", status:"ממתין", runway:false,
@@ -277,7 +294,8 @@ ${phonePage("cv1", "", sec("שירותים", "תכנון מלא, מהקיר וע
 .cv2-bar.nudge .ic-arr{animation:cv2-nudge .8s ${E} .3s 1}
 @keyframes cv2-nudge{0%,100%{transform:none}40%{transform:translateX(-6px)}}`,
   html:`<div class="cx cxs" id="cv2"><div class="cx-phone" data-phone>
-${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירותים", "תכנון מלא, מהקיר ועד הידית", "שלב אחד, איש קשר אחד, ולוח זמנים שמחזיק.", "לבחירת שירות|#cv2-end|שירותים") + sec("עבודות", "דירה ברמת גן, 4 חדרים", "מטבח פתוח, אחסון שלא רואים, ואור שנכנס עד הסלון.", "לפרויקט כזה אצלכם|#cv2-end|עבודות") + sec("מחירים", "שלוש חבילות, מחיר סגור מראש", "לא לפי שעה. אם משהו משתנה, מדברים לפני.", "לבדיקת מחיר מדויק|#cv2-end|מחירים"))}
+${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירותים", "תכנון מלא, מהקיר ועד הידית", "שלב אחד, איש קשר אחד, ולוח זמנים שמחזיק.", "לבחירת שירות|#cv2-end|שירותים") + sec("עבודות", "דירה ברמת גן, 4 חדרים", "מטבח פתוח, אחסון שלא רואים, ואור שנכנס עד הסלון.", "לפרויקט כזה אצלכם|#cv2-end|עבודות"),
+  sec("מחירים", "שלוש חבילות, מחיר סגור מראש", "לא לפי שעה. אם משהו משתנה, מדברים לפני.", "לבדיקת מחיר מדויק|#cv2-end|מחירים") + sec("שאלות", "כמה זמן לוקח פרויקט?", "דירה של ארבעה חדרים: בערך שלושה חודשים מהסיור ועד המסירה.", "לשאול אותנו|#cv2-end|שאלות"))}
   <div class="mbar cv2-bar" data-mbar role="region" aria-label="הצעד הבא">
     <a class="cx-btn mb-go" href="#cv2-end"><span class="mb-txt"><small data-where>שירותים</small><span data-lab>לבחירת שירות</span></span>${I.arrow}</a>
     <a class="mb-ic" href="tel:+972500000000" aria-label="חיוג: 050-000-0000">${I.tel}</a>
@@ -302,7 +320,7 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
     change:function(on){if(on&&first){first=false;bar.classList.add("nudge");setTimeout(function(){bar.classList.remove("nudge");},1200);}}
   });
 })();`,
-  note:"הגרסה הבנאלית: אותו \"צור קשר\" בפס מההתחלה עד הסוף. כאן הכפתור ממשיך את המשפט שהגולש קורא, ולכן נלחץ יותר: מי שנמצא בתמחור רוצה מחיר, לא \"צור קשר\". כל מקטע מחזיק data-cta עם שלושה חלקים: \"תווית|קישור|שם המקטע\". המקטע שנבחר הוא זה שנמצא מתחת ל-45% מגובה המסך. ההחלפה היא שתי תנועות קצרות: המילים הישנות עולות ונעלמות ב-140ms, החדשות עולות מלמטה, ושם המקטע מתחלף איתן. הכפתור ברוחב קבוע ולכן לא קופץ. החץ מצביע פעם אחת בכניסה הראשונה, ולא יותר. אין aria-live על התווית במכוון: הקראה בכל גלילה מעייפת, והשם הנגיש של הקישור מתעדכן ממילא. אותם כללי תזמון כמו cv1: אחרי כפתור ההירו, לא ליד הטופס, ולא כשהמקלדת פתוחה.",
+  note:"הגרסה הבנאלית: אותו \"צור קשר\" בפס מההתחלה עד הסוף. כאן הכפתור ממשיך את המשפט שהגולש קורא, ולכן נלחץ יותר: מי שנמצא בתמחור רוצה מחיר, לא \"צור קשר\". כל מקטע מחזיק data-cta עם שלושה חלקים: \"תווית|קישור|שם המקטע\". המקטע שנבחר הוא זה שנמצא מתחת ל-45% מגובה המסך. ההחלפה היא שתי תנועות קצרות: המילים הישנות עולות ונעלמות ב-140ms, החדשות עולות מלמטה, ושם המקטע מתחלף איתן. הכפתור ברוחב קבוע ולכן לא קופץ. החץ מצביע פעם אחת בכניסה הראשונה, ולא יותר. אין aria-live על התווית במכוון: הקראה בכל גלילה מעייפת, והשם הנגיש של הקישור מתעדכן ממילא. אותם כללי תזמון כמו cv1: אחרי כפתור ההירו, לא ליד הטופס, ויורד גם על הפוטר ועל כל כפתור לאותה פעולה (data-cta-same), ולא כשהמקלדת פתוחה. אחרי טופס באמצע העמוד הפס חוזר, עם הפעולה של המקטע שבו הגולש נמצא.",
 },
 {
   id:"cv3", cat:"conv", name:"עמוד תודה עם ציר \"מה קורה עכשיו\"", tech:"CSS · JS", status:"ממתין", runway:false,
@@ -346,16 +364,17 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
   <p class="ty-lead cx-rv" style="--i:1">ככה זה ממשיך מכאן, כדי שלא תצטרכו לנחש:</p>
   <ol class="ty-steps cx-rv" style="--i:2">
     <li class="is-done"><i>${I.check}</i><div><b>קיבלנו את הפנייה</b><small>היום, <span class="cx-t" data-now>14:32</span></small></div></li>
-    <li class="is-now"><i></i><div><b>שיחה קצרה איתך</b><small>בדרך כלל תוך שעתיים, בשעות הפעילות. נתקשר מ-<span class="cx-t" dir="ltr">050-000-0000</span>, כדאי לשמור אותו.</small></div></li>
+    <li class="is-now"><i></i><div><b>שיחה קצרה איתכם</b><small>בדרך כלל תוך שעתיים, בשעות הפעילות. נתקשר מ-<span class="cx-t" dir="ltr">050-000-0000</span>, כדאי לשמור אותו.</small></div></li>
     <li><i></i><div><b>הצעה מסודרת במייל</b><small>אחרי השיחה, בתוך יום עבודה</small></div></li>
   </ol>
   <div class="ty-more cx-rv" style="--i:3"><small>בינתיים, אם בא לכם</small><div><a href="#cv3">איך אנחנו עובדים ${I.arrow}</a><a href="#cv3">פרויקטים אחרונים ${I.arrow}</a></div></div>
 </div></div>`,
   js:`${IN_JS}${LEAD_JS}
 (function(){
-  var root=document.getElementById("cv3"),q=new URLSearchParams(location.search),n="";
-  // the name: from ?name= (the form redirects with it) or from what the form stored; on a real site no demo fallback
-  try{n=q.get("name")||sessionStorage.getItem("lead-name")||"";}catch(e){}
+  var root=document.getElementById("cv3"),n="";
+  // the name: only from what the form stored in sessionStorage, never from ?name= in the address. The page address goes
+  // as is to analytics and to the pixel (page_location), and a lead's name must not. On a real site no demo fallback.
+  try{n=sessionStorage.getItem("lead-name")||"";}catch(e){}
   n=(n||root.getAttribute("data-demo-name")||"").trim().split(" ")[0];
   if(n)root.querySelector("[data-name]").textContent=n;else root.querySelector("[data-name-wrap]").remove();
   // 24h, both parts padded: after midnight "0:01" read as a glitch (Pitch QA, 24.9.2026)
@@ -366,11 +385,11 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
   fill();addEventListener("resize",fill);
   inView(root,function(){root.classList.add("is-in");fireLead();});
 })();`,
-  note:"הגרסה הבנאלית: \"תודה! נחזור אליך בהקדם\" על מסך ריק. הרגע שאחרי השליחה הוא הרגע שבו הגולש הכי קשוב, והעמוד עונה על שלוש השאלות שיש לו: שזה עבר (וי שמצטייר, והשעה המדויקת), מה קורה עכשיו (הצעד הנוכחי מסומן בשתי טבעות רכות ואז נעצר), ומאיזה מספר יתקשרו, כי שיחה ממספר לא מוכר היא הסיבה הנפוצה לליד שלא עונה. הציר מתמלא עד הצעד הנוכחי. השם מגיע מ-?name= או מ-sessionStorage שהטופס שמר, רק השם הפרטי. אירוע ההמרה (dataLayer generate_lead ו-fbq Lead) נורה פעם אחת בסשן, ולכן רענון או חזרה אחורה לא סופרים ליד כפול. באתר: noindex לעמוד הזה, והטופס מפנה אליו רק אחרי תשובה מוצלחת מהשרת.",
+  note:"הגרסה הבנאלית: \"תודה! נחזור אליך בהקדם\" על מסך ריק. הרגע שאחרי השליחה הוא הרגע שבו הגולש הכי קשוב, והעמוד עונה על שלוש השאלות שיש לו: שזה עבר (וי שמצטייר, והשעה המדויקת), מה קורה עכשיו (הצעד הנוכחי מסומן בשתי טבעות רכות ואז נעצר), ומאיזה מספר יתקשרו, כי שיחה ממספר לא מוכר היא הסיבה הנפוצה לליד שלא עונה. הציר מתמלא עד הצעד הנוכחי. השם מגיע מ-sessionStorage שהטופס שמר (lead-name), רק השם הפרטי, ולא מהכתובת: כתובת העמוד נשלחת כמו שהיא לאנליטיקס ולפיקסל, ושם של ליד לא יוצא לשם. אירוע ההמרה (dataLayer generate_lead ו-fbq Lead) נורה פעם אחת בסשן, ולכן רענון או חזרה אחורה לא סופרים ליד כפול. באתר: noindex לעמוד הזה, והטופס מפנה אליו רק אחרי תשובה מוצלחת מהשרת.",
 },
 {
   id:"cv4", cat:"conv", name:"עמוד תודה עם זמן חזרה אמיתי", tech:"CSS · JS", status:"ממתין", runway:false,
-  desc:"במקום \"נחזור בהקדם\", העמוד מחשב מתי באמת: \"נחזור אליך היום עד 16:30\", \"מחר עד 11:00\", או \"ביום ראשון עד 11:00\", לפי שעות הפעילות וזמן התגובה של העסק. רצועת שבוע מראה את היום, וסמן זז ממנו אל יום החזרה.",
+  desc:"במקום \"נחזור בהקדם\", העמוד מחשב מתי באמת: \"נחזור אליכם היום עד 16:30\", \"מחר עד 11:00\", או \"ביום ראשון עד 11:00\", לפי שעות הפעילות וזמן התגובה של העסק. רצועת שבוע מראה את היום, וסמן זז ממנו אל יום החזרה.",
   when:"עסק עם שעות פעילות קבועות ולידים שמגיעים גם בערב ובסופ\"ש: שירות מקצועי, מרפאה, משרד. זו ההבטחה שמורידה את הלחץ להתקשר לעוד שלושה ספקים באותו ערב.",
   libs:[],
   css:`${ATOMS_CSS}${FRAME_CSS}
@@ -397,14 +416,23 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
   html:`<div class="cx cxw"><div class="cxw-in" id="cv4" data-thanks data-hours='${HOURS}' data-sla="120">
   <div class="cx-demo" role="group" aria-label="הדמיה: מתי נשלח הטופס"><span>נשלח ב:</span><button type="button" data-at="now" aria-pressed="true">עכשיו</button><button type="button" data-at="4,17,30" aria-pressed="false">חמישי 17:30</button><button type="button" data-at="5,14,0" aria-pressed="false">שישי 14:00</button><button type="button" data-at="6,21,0" aria-pressed="false">מוצאי שבת</button></div>
   <p class="t4-ok cx-rv">${I.check}הפנייה התקבלה</p>
-  <h2 class="t4-h cx-rv" style="--i:1">נחזור אליך <b data-when>היום עד 16:30</b></h2>
-  <p class="t4-why cx-rv" style="--i:2">לפי שעות הפעילות: ראשון עד חמישי <span class="cx-t">9:00</span> עד <span class="cx-t">18:00</span>, שישי עד <span class="cx-t">13:00</span>. תוך שעתיים עבודה, לא יותר.</p>
+  <h2 class="t4-h cx-rv" style="--i:1">נחזור אליכם <b data-when>היום עד 16:30</b></h2>
+  <p class="t4-why cx-rv" style="--i:2">לפי שעות הפעילות: ראשון עד חמישי <span class="cx-t">09:00</span> עד <span class="cx-t">18:00</span>, שישי <span class="cx-t">09:00</span> עד <span class="cx-t">13:00</span>. תוך שעתיים עבודה, לא יותר.</p>
   <div class="t4-week cx-rv" style="--i:3" data-week aria-hidden="true"><span class="t4-pin">נחזור</span></div>
   <div class="t4-act cx-rv" style="--i:4"><a class="cx-btn is-ghost" data-wa href="https://wa.me/972500000000">${I.wa}צריכים מהר יותר? וואטסאפ</a><small>בשעות הפעילות עונים שם תוך דקות</small></div>
 </div></div>`,
   js:`${IN_JS}${LEAD_JS}${HOURS_JS}
 (function(){
   var root=document.getElementById("cv4"),H=hoursOf(root),sla=+root.getAttribute("data-sla")||120,week=root.querySelector("[data-week]"),pin=week.querySelector(".t4-pin"),when=root.querySelector("[data-when]"),at=null;
+  // the hours sentence is built from the same data-hours and data-sla as the promise, so the two can never disagree
+  (function(){
+    var why=root.querySelector(".t4-why"),i=0,first=true;why.textContent="לפי שעות הפעילות: ";
+    function w(v){why.appendChild(document.createTextNode(v));}
+    function t(v){var s=document.createElement("span");s.className="cx-t";s.textContent=v;why.appendChild(s);}
+    while(i<7){var s=H[i];if(!s){i++;continue;}var j=i;while(j<6&&H[j+1]&&H[j+1][0]===s[0]&&H[j+1][1]===s[1])j++;
+      w((first?"":", ")+(i===j?DAYS[i]:DAYS[i]+" עד "+DAYS[j])+" ");t(hm(s[0]*60));w(" עד ");t(hm(s[1]*60));first=false;i=j+1;}
+    w(". תוך "+(sla===60?"שעת עבודה":sla===120?"שעתיים עבודה":sla%60===0?sla/60+" שעות עבודה":sla+" דקות עבודה")+", לא יותר.");
+  })();
   function render(now,animate){
     var r=replyBy(H,now,sla),txt=dayWord(now,r)+" עד "+hm(minsOf(r));
     if(animate&&when.textContent!==txt){when.classList.add("is-out");setTimeout(function(){when.textContent=txt;when.classList.remove("is-out");},200);}else when.textContent=txt;
@@ -430,7 +458,7 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
   render(new Date(),false);
   inView(root,function(){root.classList.add("is-in");fireLead();});
 })();`,
-  note:"הגרסה הבנאלית מבטיחה \"בהקדם\", ומי ששולח ביום חמישי בערב מבין שמישהו יחזור אליו אולי ביום ראשון. אז הוא ממשיך לחפש ספקים באותו ערב. כאן ההבטחה מחושבת: זמן התגובה (data-sla, בדקות) נספר רק בתוך שעות הפעילות (data-hours), ומתעגל כלפי מעלה לרבע שעה. כך, שעתיים מחמישי ב-17:30 הן \"ביום ראשון עד 10:30\". רצועת השבוע מראה ימים סגורים בדהייה, והסמן יוצא מהיום והולך אל יום החזרה בתנועה אחת. כפתור ההדמיה בראש העמוד לא שייך לעמוד האמיתי: הוא מאפשר לראות את החישוב בשעות שונות. ההמרה נורית פעם אחת בסשן, כמו ב-cv3.",
+  note:"הגרסה הבנאלית מבטיחה \"בהקדם\", ומי ששולח ביום חמישי בערב מבין שמישהו יחזור אליו אולי ביום ראשון. אז הוא ממשיך לחפש ספקים באותו ערב. כאן ההבטחה מחושבת: זמן התגובה (data-sla, בדקות) נספר רק בתוך שעות הפעילות (data-hours), ומתעגל כלפי מעלה לרבע שעה. כך, שעתיים מחמישי ב-17:30 הן \"מחר עד 10:30\" (שישי פתוח עד 13:00), ושעתיים משישי ב-12:30 הן \"ביום ראשון עד 10:30\". השעות מודפסות בשתי ספרות (09:00), והמשפט על שעות הפעילות נבנה מאותם נתונים, כך שהוא לא יכול לסתור את ההבטחה. רצועת השבוע מראה ימים סגורים בדהייה, והסמן יוצא מהיום והולך אל יום החזרה בתנועה אחת. כפתור ההדמיה בראש העמוד לא שייך לעמוד האמיתי: הוא מאפשר לראות את החישוב בשעות שונות. ההמרה נורית פעם אחת בסשן, כמו ב-cv3.",
 },
 {
   id:"cv5", cat:"conv", name:"עמוד תודה עם הכנה לשיחה ותזכורת ביומן", tech:"CSS · JS · ICS", status:"ממתין", runway:false,
@@ -480,7 +508,7 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
       <li><label><input type="checkbox" data-k="refs"><span class="t5-box">${I.check}</span><span><b>שלוש תמונות שאהבתם</b><small>מפינטרסט, מאינסטגרם, מכל מקום</small></span></label></li>
       <li><label><input type="checkbox" data-k="budget"><span class="t5-box">${I.check}</span><span><b>טווח תקציב בערך</b><small>לא צריך מדויק, רק כדי שנדבר על מה שאפשרי</small></span></label></li>
     </ul>
-    <div class="t5-ready" aria-live="polite"><p data-ready>הכל מוכן. נתראה ביום שני ב-10:00.</p></div>
+    <div class="t5-ready"><p data-ready aria-live="polite"></p></div>
   </div>
 </div></div>`,
   js:`${IN_JS}${LEAD_JS}${HOURS_JS}
@@ -492,17 +520,21 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
   root.querySelector("[data-mon]").textContent=SHORTMON[start.getMonth()];root.querySelector("[data-day]").textContent=start.getDate();
   root.querySelector("[data-date]").textContent="יום "+DAYS[start.getDay()]+", "+start.getDate()+" "+MONTHS[start.getMonth()];
   root.querySelector("[data-time]").textContent=tm+" עד "+hm(minsOf(end));
-  root.querySelector("[data-ready]").textContent="הכל מוכן. נתראה "+dayWord(new Date(),start)+" ב-"+tm+".";
-  function p2(n){return (n<10?"0":"")+n;}
-  function stamp(d){return d.getFullYear()+p2(d.getMonth()+1)+p2(d.getDate())+"T"+p2(d.getHours())+p2(d.getMinutes())+"00";}
+  // the "all set" line is written only when the third box is ticked: a live region that already holds its text says nothing
+  var READY="הכל מוכן. נתראה "+dayWord(new Date(),start)+" ב-"+tm+".",readyP=root.querySelector("[data-ready]");
+  // the calendar gets the moment in UTC: it is the same instant the page shows, in whatever time zone the visitor is
+  function utc(d){return d.toISOString().replace(/[-:]/g,"").replace(/[.][0-9]{3}/,"");}
   var title="שיחת היכרות עם הסטודיו",det="הקישור לשיחה יגיע במייל. להכין: תוכנית, שלוש תמונות, טווח תקציב.";
-  root.querySelector("[data-gcal]").href="https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(title)+"&dates="+stamp(start)+"/"+stamp(end)+"&ctz=Asia/Jerusalem&details="+encodeURIComponent(det);
-  // one file that Outlook, Apple Calendar and Android all open, with a reminder 15 minutes before
+  root.querySelector("[data-gcal]").href="https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(title)+"&dates="+utc(start)+"/"+utc(end)+"&details="+encodeURIComponent(det);
+  // one file that Outlook, Apple Calendar and Android all open, with a reminder 15 minutes before.
+  // RFC 5545: commas and semicolons in text are escaped, and a line longer than 75 bytes is folded (Hebrew is 2 bytes a letter)
+  function esc(s){return s.replace(/([\\\\,;])/g,"\\\\$1");}
+  function fold(line){var out="",n=0,enc=new TextEncoder();Array.from(line).forEach(function(ch){var b=enc.encode(ch).length;if(n+b>75){out+=String.fromCharCode(13,10)+" ";n=1;}out+=ch;n+=b;});return out;}
   root.querySelector("[data-ics]").addEventListener("click",function(){
     var NL=String.fromCharCode(13,10),now=new Date();
-    var ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//site//conv//HE","BEGIN:VEVENT","UID:"+now.getTime()+"@site","DTSTAMP:"+stamp(now),
-      "DTSTART;TZID=Asia/Jerusalem:"+stamp(start),"DTEND;TZID=Asia/Jerusalem:"+stamp(end),"SUMMARY:"+title,"DESCRIPTION:"+det,
-      "BEGIN:VALARM","TRIGGER:-PT15M","ACTION:DISPLAY","DESCRIPTION:"+title,"END:VALARM","END:VEVENT","END:VCALENDAR"].join(NL);
+    var ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//site//conv//HE","BEGIN:VEVENT","UID:"+now.getTime()+"@site","DTSTAMP:"+utc(now),
+      "DTSTART:"+utc(start),"DTEND:"+utc(end),"SUMMARY:"+esc(title),"DESCRIPTION:"+esc(det),
+      "BEGIN:VALARM","TRIGGER:-PT15M","ACTION:DISPLAY","DESCRIPTION:"+esc(title),"END:VALARM","END:VEVENT","END:VCALENDAR"].map(fold).join(NL);
     var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([ics],{type:"text/calendar;charset=utf-8"}));a.download="meeting.ics";document.body.appendChild(a);a.click();
     setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
   });
@@ -511,16 +543,18 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
   var boxes=[].slice.call(root.querySelectorAll("[data-k]")),done=root.querySelector("[data-done]"),ready=root.querySelector(".t5-ready");
   function count(bump){var n=boxes.filter(function(b){return b.checked;}).length;
     if(bump&&done.textContent!==String(n)){done.classList.remove("bump");void done.offsetWidth;done.classList.add("bump");setTimeout(function(){done.classList.remove("bump");},250);}
-    done.textContent=n;ready.classList.toggle("is-on",n===boxes.length);}
+    var all=n===boxes.length;done.textContent=n;ready.classList.toggle("is-on",all);
+    // the text arrives with the third tick (so it is announced) and leaves after the row has closed
+    if(all)readyP.textContent=READY;else setTimeout(function(){if(!ready.classList.contains("is-on"))readyP.textContent="";},360);}
   boxes.forEach(function(b){b.checked=!!saved[b.getAttribute("data-k")];b.addEventListener("change",function(){saved[b.getAttribute("data-k")]=b.checked;try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}count(true);});});
   count(false);
   inView(root,function(){root.classList.add("is-in");fireLead();});
 })();`,
-  note:"הגרסה הבנאלית: \"הפגישה נקבעה, תודה\". הבעיה עם פגישה שנקבעה היא לא ההמרה אלא ההגעה: אנשים שוכחים, ומגיעים לשיחה בלי מה שצריך, ואז היא ארוכה פי שניים. כאן ההוספה ליומן היא לחיצה אחת: לגוגל דרך קישור, ולאאוטלוק ולאייפון דרך קובץ ICS שנבנה בדפדפן, עם אזור הזמן של ישראל ותזכורת רבע שעה לפני. רשימת ההכנה נשמרת (localStorage), כי חוזרים ללשונית הזו בערב שלפני. בכל סימון המונה קופץ ו-V מצטייר, וכשכל השלושה מסומנים נפתחת שורה \"הכל מוכן\" (aria-live). השעה מגיעה מ-?slot= שהטופס שולח, ובדמו זה יום העבודה הבא ב-10:00. ההמרה נורית פעם אחת בסשן.",
+  note:"הגרסה הבנאלית: \"הפגישה נקבעה, תודה\". הבעיה עם פגישה שנקבעה היא לא ההמרה אלא ההגעה: אנשים שוכחים, ומגיעים לשיחה בלי מה שצריך, ואז היא ארוכה פי שניים. כאן ההוספה ליומן היא לחיצה אחת: לגוגל דרך קישור, ולאאוטלוק ולאייפון דרך קובץ ICS שנבנה בדפדפן, עם תזכורת רבע שעה לפני. השעה נשלחת ליומן ב-UTC, אותו רגע שהעמוד מציג, כך שהיא נכונה גם אצל מי שהדפדפן שלו לא בשעון ישראל; בקובץ הפסיקים מוסלשים והשורות הארוכות מקופלות, כמו שהתקן (RFC 5545) דורש. רשימת ההכנה נשמרת (localStorage), כי חוזרים ללשונית הזו בערב שלפני. בכל סימון המונה קופץ ו-V מצטייר, וכשכל השלושה מסומנים נפתחת שורה \"הכל מוכן\", שנכתבת רק ברגע הזה לתוך aria-live כדי שקורא מסך יקריא אותה. השעה מגיעה מ-?slot= שהטופס שולח, ובדמו זה יום העבודה הבא ב-10:00. ההמרה נורית פעם אחת בסשן.",
 },
 {
-  id:"cv6", cat:"conv", name:"404 שמנחש לאן רצית להגיע", tech:"CSS · JS", status:"ממתין", runway:false,
-  desc:"העמוד קורא את הכתובת השבורה ומשווה אותה לעמודי האתר: \"התכוונת לעיצוב מטבחים?\", עם האותיות שתוקנו מסומנות. מתחת חיפוש שמסנן את עמודי האתר תוך כדי הקלדה, עם ניווט במקלדת.",
+  id:"cv6", cat:"conv", name:"404 שמנחש לאן רציתם להגיע", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"העמוד קורא את הכתובת השבורה ומשווה אותה לעמודי האתר: \"התכוונתם לעיצוב מטבחים?\", עם האותיות שתוקנו מסומנות. מתחת חיפוש שמסנן את עמודי האתר תוך כדי הקלדה, עם ניווט במקלדת.",
   when:"כל אתר עם יותר מעשרה עמודים, ובמיוחד אחרי מעבר מאתר ישן (וורדפרס, וויקס) כשכתובות ישנות עדיין מסתובבות בגוגל ובוואטסאפ.",
   libs:[],
   css:`${ATOMS_CSS}${FRAME_CSS}
@@ -544,7 +578,9 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
 .nf-s input:focus{outline:0;box-shadow:inset 0 0 0 2px var(--accent)}
 .nf-list{list-style:none;margin:0 0 32px;padding:0;display:grid;gap:2px}
 .nf-list a{display:flex;align-items:baseline;justify-content:space-between;gap:16px;min-height:48px;padding:12px 16px;border-radius:12px;text-decoration:none;transition:background .15s ${E}}
-.nf-list a:focus-visible,.nf-list a:hover{background:var(--card);outline:0}
+.nf-list a:hover{background:var(--card)}
+/* walking the results with the arrows: the row in focus needs a ring, a white row on a near-white page is 1.06:1 */
+.nf-list a:focus-visible{background:var(--card);outline:2px solid var(--accent);outline-offset:-2px}
 .nf-list a span{font-weight:600}
 .nf-list a small{font-size:13px;color:var(--muted);unicode-bidi:isolate}
 .nf-list mark{background:color-mix(in srgb,var(--accent) 18%,transparent);color:inherit;border-radius:3px}
@@ -554,11 +590,11 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
   html:`<div class="cx cxw"><div class="cxw-in" id="cv6" data-404 data-demo>
   <label class="cx-demo"><span>הדמיה, כתובת שבורה:</span><input type="text" dir="ltr" value="/servises/kichen" data-path aria-label="כתובת לבדיקה"></label>
   <p class="nf-code cx-rv"><span>שגיאה 404</span><code dir="ltr" data-shown>/servises/kichen</code></p>
-  <h2 class="nf-h cx-rv" style="--i:1" data-h>הכתובת הזו לא קיימת, אבל נראה שחיפשת משהו קרוב</h2>
-  <a class="nf-guess cx-rv" style="--i:2" data-guess href="#cv6"><small>אולי חיפשת</small><b data-gt>עיצוב מטבחים</b><code dir="ltr" data-gu>/services/kitchen</code>${I.arrow}</a>
+  <h2 class="nf-h cx-rv" style="--i:1" data-h>הכתובת הזו לא קיימת, אבל נראה שחיפשתם משהו קרוב</h2>
+  <a class="nf-guess cx-rv" style="--i:2" data-guess href="#cv6"><small>אולי חיפשתם</small><b data-gt>עיצוב מטבחים</b><code dir="ltr" data-gu>/services/kitchen</code>${I.arrow}</a>
   <label class="nf-s cx-rv" style="--i:3"><span>או חפשו בעמודי האתר</span>${I.search}<input type="search" placeholder="מטבח, מחירים, צור קשר..." data-q aria-controls="cv6-list" autocomplete="off"></label>
   <ul class="nf-list cx-rv" style="--i:3" id="cv6-list" data-list></ul>
-  <p class="nf-empty" data-empty hidden>אין עמוד כזה. כתבו לנו מה חיפשתם ונכוון אתכם.</p>
+  <div role="status"><p class="nf-empty" data-empty hidden>אין עמוד כזה. כתבו לנו מה חיפשתם ונכוון אתכם.</p></div>
   <div class="nf-out cx-rv" style="--i:4"><a class="cx-btn is-ghost" href="/">לעמוד הבית</a><a class="cx-btn is-ghost" href="https://wa.me/972500000000">${I.wa}לשאול אותנו</a></div>
 </div></div>`,
   js:`${IN_JS}${LEV_JS}
@@ -600,7 +636,7 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
       guess.hidden=false;guess.href=best.u;guess.querySelector("[data-gt]").textContent=best.t;
       var gu=guess.querySelector("[data-gu]");gu.textContent="";
       marked(p,best.u).forEach(function(c){var n=c[1]?document.createElement("mark"):document.createTextNode(c[0]);if(c[1])n.textContent=c[0];gu.appendChild(n);});
-      h.textContent="הכתובת הזו לא קיימת, אבל נראה שחיפשת משהו קרוב";
+      h.textContent="הכתובת הזו לא קיימת, אבל נראה שחיפשתם משהו קרוב";
     }else{guess.hidden=true;h.textContent="הכתובת הזו לא קיימת. בואו נמצא את מה שחיפשתם";}
   }
   // results are built with text nodes only: the query is user input and never becomes HTML
@@ -628,7 +664,7 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
   run();filter();
   inView(root,function(){root.classList.add("is-in");});
 })();`,
-  note:"הגרסה הבנאלית: \"404, העמוד לא נמצא\" עם ציור של אסטרונאוט וכפתור לדף הבית. רוב הכתובות השבורות הן שגיאת הקלדה או כתובת מהאתר הקודם, והעמוד יודע את זה. הוא משווה את הכתובת לכל עמודי האתר (מרחק עריכה על הכתובת המלאה ועל המקטע האחרון), ואם יש קרוב מספיק מציע אותו כקישור גדול. האותיות שתוקנו מסומנות, והגולש רואה מיד למה זה אותו עמוד. החיפוש מסנן תוך כדי הקלדה ומסמן את מה שהתאים. חץ למטה נכנס לתוצאות, חץ למעלה חוזר לשדה, ו-Escape חוזר. התוצאות נבנות בצמתי טקסט בלבד, כי השאילתה היא קלט משתמש. באתר: רשימת העמודים נוצרת מהנתיבים בבנייה, השרת מחזיר סטטוס 404 אמיתי (לא 200), וכתובות ישנות שידועות מראש מקבלות הפניית 301 ולא מגיעות לכאן בכלל. שדה ההדמיה לא שייך לעמוד.",
+  note:"הגרסה הבנאלית: \"404, העמוד לא נמצא\" עם ציור של אסטרונאוט וכפתור לדף הבית. רוב הכתובות השבורות הן שגיאת הקלדה או כתובת מהאתר הקודם, והעמוד יודע את זה. הוא משווה את הכתובת לכל עמודי האתר (מרחק עריכה על הכתובת המלאה ועל המקטע האחרון), ואם יש קרוב מספיק מציע אותו כקישור גדול. האותיות שתוקנו מסומנות, והגולש רואה מיד למה זה אותו עמוד. החיפוש מסנן תוך כדי הקלדה ומסמן את מה שהתאים. חץ למטה נכנס לתוצאות, חץ למעלה חוזר לשדה, ו-Escape חוזר, והשורה בפוקוס מסומנת בטבעת ולא רק ברקע. \"אין עמוד כזה\" יושב בתוך role=status, כך שקורא מסך מודיע כשהחיפוש לא מצא. התוצאות נבנות בצמתי טקסט בלבד, כי השאילתה היא קלט משתמש. באתר: רשימת העמודים נוצרת מהנתיבים בבנייה, השרת מחזיר סטטוס 404 אמיתי (לא 200), וכתובות ישנות שידועות מראש מקבלות הפניית 301 ולא מגיעות לכאן בכלל. שדה ההדמיה לא שייך לעמוד.",
 },
 {
   id:"cv7", cat:"conv", name:"404 עם שביל חזרה ודיווח על הקישור", tech:"CSS · JS", status:"ממתין", runway:false,
@@ -640,8 +676,10 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
 .t7-sub{margin:0 0 24px;color:var(--muted)}
 .t7-trail{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 48px;padding:0;list-style:none}
 .t7-trail li{display:flex;align-items:center;gap:6px}
-.t7-trail li + li::before{content:"‹";color:var(--muted);font-size:18px}
-[dir="ltr"] .t7-trail li + li::before{content:"›"}
+/* the separators are decoration: an empty alt text keeps screen readers from saying "angle bracket";
+   the plain value comes first, for browsers that do not know the alt syntax */
+.t7-trail li + li::before{content:"‹";content:"‹" / "";color:var(--muted);font-size:18px}
+[dir="ltr"] .t7-trail li + li::before{content:"›";content:"›" / ""}
 .t7-c{position:relative;display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border-radius:999px;background:var(--card);font-size:15px;font-weight:600;text-decoration:none;
   transition:background .18s ${E},color .18s ${E}}
 a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent)}
@@ -650,8 +688,8 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
 /* the strike is drawn in the reading direction of the address (left to right), after the trail has settled */
 .t7-bad::after{content:"";position:absolute;left:12px;right:12px;top:50%;height:2px;border-radius:2px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .45s ${E} .5s}
 .is-in .t7-bad::after{transform:scaleX(1)}
-.t7-fix::before{content:"←";margin-inline-end:6px;opacity:.8}
-[dir="ltr"] .t7-fix::before{content:"→"}
+.t7-fix::before{content:"←";content:"←" / "";margin-inline-end:6px;opacity:.8}
+[dir="ltr"] .t7-fix::before{content:"→";content:"→" / ""}
 .t7-fix{background:var(--accent);color:var(--accent-ink);opacity:0;transform:translateX(8px);transition:opacity .3s ${E} .95s,transform .3s ${E} .95s,background .18s ${E}}
 .is-in .t7-fix{opacity:1;transform:none}
 .t7-skip{color:var(--muted);background:transparent;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent);unicode-bidi:isolate}
@@ -663,6 +701,7 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
 .t7-grid b svg{width:18px;height:18px}
 @media (hover:hover) and (pointer:fine){.t7-grid a:hover{transform:translateY(-2px);box-shadow:0 14px 32px color-mix(in srgb,var(--ink) 10%,transparent)}}
 .t7-rep{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;padding:20px;border-radius:18px;background:color-mix(in srgb,var(--ink) 4%,transparent)}
+.t7-rep[hidden]{display:none}
 .t7-rep p{flex:1 1 240px;margin:0;font-size:15px;color:var(--muted)}
 .t7-rep .cx-btn{min-height:48px;font-size:15px;overflow:hidden}
 .t7-rep .cx-btn span{display:inline-flex;align-items:center;gap:8px;transition:transform .25s ${E},opacity .25s ${E}}
@@ -670,20 +709,24 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
 .t7-rep .cx-btn span svg{width:18px;height:18px}
 .t7-rep .is-sent span:first-child{opacity:0;transform:translateY(-100%)}
 .t7-rep .is-sent span + span{opacity:1;transform:none}
-.t7-rep .is-sent{background:var(--ink);color:var(--bg);pointer-events:none}`,
-  html:`<div class="cx cxw"><div class="cxw-in" id="cv7" data-404 data-demo-path="/services/kitchen-desing/2024" data-report-url="">
+.t7-rep .is-sent{background:var(--ink);color:var(--bg);pointer-events:none}
+/* read by screen readers only: the live report line, and "not found:" before the broken part of the trail.
+   Its own rule, so the component does not depend on a page-level .sr-only */
+.t7-said{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media (pointer:coarse),(max-width:760px){.t7-c{min-height:44px}}`,
+  html:`<div class="cx cxw"><div class="cxw-in" id="cv7" data-404 data-demo data-demo-path="/services/kitchen-desing/2024" data-report-url="">
   <h2 class="t7-h cx-rv">העמוד הזה עבר, או שמעולם לא היה</h2>
   <p class="t7-sub cx-rv" style="--i:1">חלק מהדרך כן קיים. אפשר לחזור לנקודה האחרונה שעובדת:</p>
   <ol class="t7-trail cx-rv" style="--i:2" data-trail aria-label="הכתובת שביקשתם, חלק אחרי חלק"></ol>
   <div class="t7-top cx-rv" style="--i:3"><h3>מה שרוב האנשים מחפשים כאן</h3><div class="t7-grid">
-    <a href="/services/kitchen"><i style="--k:4"></i><b>עיצוב מטבחים ${I.arrow}</b></a>
+    <a href="/services/kitchen-design"><i style="--k:4"></i><b>עיצוב מטבחים ${I.arrow}</b></a>
     <a href="/projects"><i style="--k:2"></i><b>פרויקטים ${I.arrow}</b></a>
     <a href="/pricing"><i style="--k:3"></i><b>מחירים ${I.arrow}</b></a>
     <a href="/contact"><i style="--k:1"></i><b>צור קשר ${I.arrow}</b></a>
   </div></div>
   <div class="t7-rep cx-rv" style="--i:4"><p>הגעתם לכאן מקישור באתר או בהודעה? לחיצה אחת ונדע לתקן אותו.</p>
     <button class="cx-btn is-ghost" type="button" data-report><span>${I.alert}לדווח על הקישור</span><span aria-hidden="true">${I.check}תודה, נתקן</span></button>
-    <span class="sr-only" aria-live="polite" data-said></span></div>
+    <span class="t7-said" aria-live="polite" data-said></span></div>
   <p class="cx-rv" style="--i:5;margin:32px 0 0"><a class="cx-btn" href="/">לעמוד הבית ${I.arrow}</a></p>
 </div></div>`,
   js:`${IN_JS}${LEV_JS}
@@ -698,7 +741,9 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
     var next=(acc?acc+"/":"")+s.toLowerCase();
     if(broken){chip("span","t7-skip",s);return;}
     if(MAP[next]){chip("a","",MAP[next],"/"+next);acc=next;return;}
-    broken=true;var bad=chip("span","t7-bad",s);bad.setAttribute("aria-label","לא קיים: "+s);
+    broken=true;var bad=chip("span","t7-bad",s);
+    // an aria-label on a plain span is not read: the "not found" goes in as hidden text before the part
+    var said=document.createElement("span");said.className="t7-said";said.textContent="לא קיים: ";bad.prepend(said);
     // the nearest sibling under the last part that worked
     var best=null,bs=1;Object.keys(MAP).forEach(function(k){if(k.indexOf(acc?acc+"/":"")!==0||k.split("/").length!==next.split("/").length)return;
       var t=k.split("/").pop(),d=lev(s.toLowerCase(),t),r=d[s.length][t.length]/Math.max(s.length,t.length);if(r<bs){bs=r;best=k;}});
@@ -707,6 +752,8 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
   });
   // the report: path and where the visitor came from. sendBeacon survives the visitor leaving the page right after.
   var btn=root.querySelector("[data-report]"),said=root.querySelector("[data-said]"),url=root.getAttribute("data-report-url");
+  // no endpoint wired and not the vault demo: no button at all, never a "thanks" for a report that went nowhere
+  if(!url&&!root.hasAttribute("data-demo"))root.querySelector(".t7-rep").hidden=true;
   btn.addEventListener("click",function(){
     var body=JSON.stringify({path:raw,from:document.referrer||"direct",at:new Date().toISOString()});
     if(url&&navigator.sendBeacon)navigator.sendBeacon(url,body);
@@ -714,7 +761,7 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
   });
   inView(root,function(){root.classList.add("is-in");});
 })();`,
-  note:"הגרסה הבנאלית שולחת את כולם לדף הבית, ומי שחיפש מטבחים מתחיל מאפס. כאן הכתובת מתפרקת לחלקים. כל חלק שקיים באתר הוא קישור בשמו העברי, ולכן \"שירותים\" עדיין לחיץ. החלק השבור נמחק בקו שמצטייר בכיוון הקריאה של הכתובת, ולידו מופיעה ההצעה (האח הקרוב ביותר תחת החלק האחרון שעבד). חלקים שאחרי השבר נשארים דהויים, כי לא נבדקו. דיווח על הקישור שולח את הכתובת ואת העמוד שממנו הגיעו, דרך navigator.sendBeacon שעובר גם אם הגולש עוזב מיד. זה המידע שבעל אתר צריך בחודש שאחרי העלאת אתר חדש. הכפתור מתחלף ל\"תודה, נתקן\" בתנועה אנכית, ו-aria-live מקריא את זה. באתר: data-report-url לנקודת קצה (Edge Function, Make, או טופס), וסטטוס 404 אמיתי מהשרת.",
+  note:"הגרסה הבנאלית שולחת את כולם לדף הבית, ומי שחיפש מטבחים מתחיל מאפס. כאן הכתובת מתפרקת לחלקים. כל חלק שקיים באתר הוא קישור בשמו העברי, ולכן \"שירותים\" עדיין לחיץ. החלק השבור נמחק בקו שמצטייר בכיוון הקריאה של הכתובת, ולידו מופיעה ההצעה (האח הקרוב ביותר תחת החלק האחרון שעבד). חלקים שאחרי השבר נשארים דהויים, כי לא נבדקו. דיווח על הקישור שולח את הכתובת ואת העמוד שממנו הגיעו, דרך navigator.sendBeacon שעובר גם אם הגולש עוזב מיד. זה המידע שבעל אתר צריך בחודש שאחרי העלאת אתר חדש. הכפתור מתחלף ל\"תודה, נתקן\" בתנועה אנכית, ו-aria-live מקריא את זה. באתר: data-report-url לנקודת קצה (Edge Function, Make, או טופס), וסטטוס 404 אמיתי מהשרת. בלי data-report-url הכפתור לא מוצג בכלל, כי תודה על דיווח שלא יצא לשום מקום היא הצלחה מדומה; data-demo מחזיק אותו גלוי רק במאגר, ובפרויקט מסירים אותו. החלק השבור מוקרא עם \"לא קיים\" לפניו, והמפרידים בשביל לא מוקראים. הטקסט הנסתר יושב על כלל משלו (t7-said), כך שהרכיב לא תלוי ב-sr-only של העמוד.",
 },
 {
   id:"cv8", cat:"conv", name:"שליחה שלא מאבדת אף ליד", tech:"CSS · JS", status:"ממתין", runway:false,
@@ -766,6 +813,14 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
 .f8-acts{grid-column:2;display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .f8-acts .cx-btn{min-height:44px;padding:0 16px;font-size:14px}
 [data-kind="ok"] .f8-acts{display:none}
+/* a missing field is not a failed send: no ring, no fallback buttons, just what is missing */
+[data-kind="field"] .f8-acts,[data-kind="field"] .f8-ring{display:none}
+[data-kind="field"] .f8-ic .i-err{display:block}
+.f8 input[aria-invalid="true"]{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--cx-err) 70%,transparent)}
+.f8 input[aria-invalid="true"]:focus{box-shadow:inset 0 0 0 2px var(--cx-err)}
+/* after the third failure a phone number in a sentence cannot be tapped: it becomes a button */
+.f8-tel{display:none}
+.is-final .f8-tel{display:inline-flex}
 /* waiting for the network is not an action the visitor can take: the button says so and steps back */
 [data-state="offline"] .f8-btn{background:color-mix(in srgb,var(--ink) 8%,var(--bg));color:var(--ink);cursor:default}
 /* offline: a slow breathing dot says "waiting", not "broken" */
@@ -785,7 +840,7 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
       <span class="f8-ic"><span class="i-err">${I.alert}</span><span class="i-off">${I.wifi}</span><span class="i-ok">${I.check}</span></span>
       <b data-msg></b>
       <p><svg class="f8-ring" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8"/></svg><i class="f8-wait" aria-hidden="true"></i><span data-sub></span></p>
-      <div class="f8-acts"><a class="cx-btn is-ghost" data-wa href="https://wa.me/972500000000" target="_blank" rel="noopener">${I.wa}לשלוח בוואטסאפ</a></div>
+      <div class="f8-acts"><a class="cx-btn is-ghost" data-wa href="https://wa.me/972500000000" target="_blank" rel="noopener">${I.wa}לשלוח בוואטסאפ</a><a class="cx-btn is-ghost f8-tel" href="tel:+972500000000">${I.tel}להתקשר</a></div>
     </div></div></div>
   </form>
 </div></div>`,
@@ -803,21 +858,29 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
   function online(){return mode==="offline"?false:navigator.onLine;}
   function send(o){return new Promise(function(res,rej){setTimeout(function(){if(mode==="ok")res();else rej(new Error("500"));},1100);});}
   // the draft: every keystroke is kept, so a failure, a refresh or a dead battery do not cost the lead
+  // what is kept is not what is sent: a field with data-nokeep, a password, a hidden field or card details never reach the draft
   var fields=[].slice.call(form.elements).filter(function(f){return f.name;});
-  try{var d=JSON.parse(localStorage.getItem(KEY)||"{}");fields.forEach(function(f){if(d[f.name])f.value=d[f.name];});}catch(e){}
-  var st=0;form.addEventListener("input",function(){clearTimeout(st);st=setTimeout(function(){var o={};fields.forEach(function(f){o[f.name]=f.value;});try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}},300);});
+  var kept=fields.filter(function(f){return !f.matches("[type=password],[type=hidden],[data-nokeep],[autocomplete^=cc-]");});
+  try{var d=JSON.parse(localStorage.getItem(KEY)||"{}");kept.forEach(function(f){if(d[f.name])f.value=d[f.name];});}catch(e){}
+  var st=0;form.addEventListener("input",function(ev){
+    if(ev.target.hasAttribute("aria-invalid")){ev.target.removeAttribute("aria-invalid");if(panel.getAttribute("data-kind")==="field")panel.classList.remove("is-open");}
+    clearTimeout(st);st=setTimeout(function(){var o={};kept.forEach(function(f){o[f.name]=f.value;});try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}},300);});
   function data(){var o={};fields.forEach(function(f){o[f.name]=f.value.trim();});return o;}
   function state(s){root.setAttribute("data-state",s);}
   function setLab(t){lab.classList.remove("in");void lab.offsetWidth;lab.textContent=t;lab.classList.add("in");}
-  function show(kind,m,s){panel.setAttribute("data-kind",kind);msg.textContent=m;sub.textContent=s||"";panel.classList.add("is-open");}
+  function show(kind,m,s){panel.setAttribute("data-kind",kind);msg.textContent=m;sub.removeAttribute("aria-hidden");sub.textContent=s||"";panel.classList.add("is-open");}
+  function inSec(n){return n===1?"בעוד שנייה":"בעוד "+n+" שניות";}
+  // the count is seen, not read aloud: inside the live panel it would be announced every second
   function countdown(sec){
     clearInterval(timer);var left=sec;ring.style.setProperty("--t",sec+"s");ring.classList.remove("run");void ring.getBoundingClientRect();ring.classList.add("run");
-    sub.textContent="ננסה שוב לבד בעוד "+left+" שניות";
-    timer=setInterval(function(){left--;if(left<=0){clearInterval(timer);submit();}else sub.textContent="ננסה שוב לבד בעוד "+left+" שניות";},1000);
+    sub.setAttribute("aria-hidden","true");sub.textContent="ננסה שוב לבד "+inSec(left);
+    timer=setInterval(function(){left--;if(left<=0){clearInterval(timer);submit();}else sub.textContent="ננסה שוב לבד "+inSec(left);},1000);
   }
   function submit(){
     if(busy)return;
-    var o=data();if(!o.name||!o.phone){form.querySelector(o.name?"[name=phone]":"[name=name]").focus();return;}
+    // a missing field stops any retry, says what is missing and marks the field, instead of a silent jump of the focus
+    var o=data();if(!o.name||!o.phone){clearInterval(timer);var el=form.querySelector(o.name?"[name=phone]":"[name=name]");
+      show("field",o.name?"חסר מספר טלפון.":"חסר שם.","");el.setAttribute("aria-invalid","true");el.focus();return;}
     busy=true;clearInterval(timer);btn.style.minWidth=btn.offsetWidth+"px";
     // WhatsApp carries the same details, so the fallback costs the visitor one tap and no retyping
     wa.href="https://wa.me/972500000000?text="+encodeURIComponent("היי, ניסיתי לשלוח פנייה באתר ולא עבר."+NL+"שם: "+o.name+NL+"טלפון: "+o.phone+(o.msg?NL+o.msg:""));
@@ -829,17 +892,17 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
     },function(){
       busy=false;tries++;btn.removeAttribute("aria-busy");state("error");setLab("לשלוח עכשיו");
       if(tries<3){panel.classList.remove("is-final");show("error","לא הצלחנו לשלוח. הפרטים שמורים אצלכם.","");countdown(tries===1?5:10);}
-      else{panel.classList.add("is-final");show("error","השרת לא עונה כרגע. הפרטים שמורים.","הכי מהיר עכשיו: וואטסאפ, או טלפון 050-000-0000.");}
+      else{panel.classList.add("is-final");show("error","השרת לא עונה כרגע. הפרטים שמורים.","הכי מהיר עכשיו: וואטסאפ או שיחה.");}
     });
   }
   form.addEventListener("submit",function(e){e.preventDefault();tries=0;submit();});
   addEventListener("online",function(){if(waiting&&online()){waiting=false;submit();}});
 })();`,
-  note:"הגרסה הבנאלית: הודעה אדומה \"שגיאה, נסה שוב מאוחר יותר\", ומי שכתב פסקה שלמה מוותר. כאן שום נפילה לא עולה ליד. (1) כל הקלדה נשמרת כטיוטה (localStorage), ולכן גם רענון או סוללה שנגמרה לא מוחקים. הטיוטה נמחקת רק אחרי הצלחה, ושדות רגישים לא נשמרים בה. (2) אחרי כישלון יש ניסיון חוזר אוטומטי: אחרי 5 שניות, אחר כך אחרי 10, עם טבעת שמתרוקנת וספירה במילים, והכפתור הראשי עצמו הופך ל\"לשלוח עכשיו\" (לא כפתור שני שעושה אותו דבר). (3) בכל שלב, \"לשלוח בוואטסאפ\" פותח הודעה עם אותם פרטים, כך שהגיבוי עולה לגולש לחיצה אחת. (4) בלי חיבור הטופס לא נכשל, הוא מחכה: נקודה נושמת, ושליחה עצמית באירוע online. הכפתור שומר על הרוחב שלו בכל המצבים ולא מאפשר שליחה כפולה. aria-busy בזמן השליחה, ו-aria-live על הפאנל. מתג ההדמיה לא שייך לטופס: באתר send() הוא ה-fetch שלכם.",
+  note:"הגרסה הבנאלית: הודעה אדומה \"שגיאה, נסה שוב מאוחר יותר\", ומי שכתב פסקה שלמה מוותר. כאן שום נפילה לא עולה ליד. (1) כל הקלדה נשמרת כטיוטה (localStorage), ולכן גם רענון או סוללה שנגמרה לא מוחקים. הטיוטה נמחקת רק אחרי הצלחה, ושדה עם data-nokeep (וגם סיסמה, שדה נסתר ופרטי כרטיס) לא נשמר בה, רק נשלח. (2) אחרי כישלון יש ניסיון חוזר אוטומטי: אחרי 5 שניות, אחר כך אחרי 10, עם טבעת שמתרוקנת וספירה במילים, והכפתור הראשי עצמו הופך ל\"לשלוח עכשיו\" (לא כפתור שני שעושה אותו דבר). (3) בכל שלב, \"לשלוח בוואטסאפ\" פותח הודעה עם אותם פרטים, כך שהגיבוי עולה לגולש לחיצה אחת. (4) בלי חיבור הטופס לא נכשל, הוא מחכה: נקודה נושמת, ושליחה עצמית באירוע online. הכפתור שומר על הרוחב שלו בכל המצבים ולא מאפשר שליחה כפולה. אחרי הכישלון השלישי מופיע גם כפתור שיחה, כי מספר בתוך משפט אי אפשר ללחוץ בטלפון. שדה חובה ריק לא נחשב כישלון: הפאנל אומר מה חסר, השדה מסומן ב-aria-invalid, וספירה שרצה נעצרת. aria-busy בזמן השליחה, ו-aria-live על הפאנל, בלי הספירה עצמה, שהייתה מוקראת כל שנייה. מתג ההדמיה לא שייך לטופס: באתר send() הוא ה-fetch שלכם.",
 },
 {
   id:"cv9", cat:"conv", name:"טופס שמתקן בעדינות", tech:"CSS · JS", status:"ממתין", runway:false,
-  desc:"הטופס לא צועק תוך כדי הקלדה: הוא בודק כשיוצאים מהשדה, ואחרי טעות אחת בודק תוך כדי ומוריד את השגיאה ברגע שהיא מתוקנת. טלפון מתסדר לבד לפורמט, מייל עם טעות בדומיין מקבל \"התכוונת ל-gmail.com?\", והשגיאות אומרות בדיוק מה חסר (\"חסרה ספרה אחת\").",
+  desc:"הטופס לא צועק תוך כדי הקלדה: הוא בודק כשיוצאים מהשדה, ואחרי טעות אחת בודק תוך כדי ומוריד את השגיאה ברגע שהיא מתוקנת. טלפון מסתדר לבד לפורמט, מייל עם טעות בדומיין מקבל \"התכוונתם ל-gmail.com?\", והשגיאות אומרות בדיוק מה חסר (\"חסרה ספרה אחת\").",
   when:"כל טופס עם טלפון ומייל, ובמיוחד בטלפון, שם טעויות הקלדה הן הכלל. בטופס של שני שדות זה עדיין שווה: הנרמול של הטלפון לבדו חוסך ליד שחוזר עם מספר שגוי.",
   libs:[],
   css:`${ATOMS_CSS}${FRAME_CSS}
@@ -875,27 +938,30 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
 .g9-f.is-bad .g9-err,.g9-sug.is-open{grid-template-rows:1fr}
 .g9-err p{display:flex;gap:8px;align-items:flex-start;padding-top:8px;font-size:14px;line-height:1.45;color:var(--cx-err)}
 .g9-err svg{width:18px;height:18px;flex:none;margin-top:1px}
-.g9-sug button{display:inline-flex;align-items:center;gap:6px;min-height:40px;margin-top:8px;padding:0 14px;border:0;border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,transparent);
+.g9-sug button{display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-top:8px;padding:0 14px;border:0;border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,transparent);
   font:inherit;font-size:14px;color:var(--ink);cursor:pointer;transition:background .18s ${E}}
 .g9-sug button b{direction:ltr;unicode-bidi:isolate;color:var(--accent)}
 @media (hover:hover) and (pointer:fine){.g9-sug button:hover{background:color-mix(in srgb,var(--accent) 18%,transparent)}}
 .g9 .cx-btn{justify-self:start}
 .g9-done{display:none;padding:20px;border-radius:16px;background:color-mix(in srgb,var(--accent) 9%,var(--bg));font-weight:600}
+/* focus lands here only so the confirmation is read out: it is a message, not a control, so no ring */
+.cx .g9-done:focus,.cx .g9-done:focus-visible{outline:0}
 .g9.is-sent form{display:none}
 .g9.is-sent .g9-done{display:block;animation:g9-in .4s ${E}}
 @keyframes g9-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}`,
   html:`<div class="cx cxw"><div class="cxw-in g9" id="cv9" data-validate>
+  <p class="cx-demo"><span>הדמיה: יש כבר שתי טעויות. לחצו \"שליחה\" או צאו מהשדות.</span></p>
   <h2 class="g9-h">נשמח לשמוע מכם</h2>
-  <p class="g9-sub">בדמו יש כבר שתי טעויות אמיתיות. לחצו \"שליחה\", או צאו מהשדות.</p>
+  <p class="g9-sub">שלושה פרטים, ונחזור אליכם עוד היום.</p>
   <form novalidate>
     <div class="g9-sum" data-summary tabindex="-1" role="alert"><div><div class="g9-sum-in"><b data-count></b><ul></ul></div></div></div>
-    <div class="g9-f"><label for="cv9-name">שם</label><div class="g9-in"><input id="cv9-name" data-v="name" autocomplete="name" value="דנה לוי" aria-describedby="cv9-name-e">${`<svg class="g9-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`}</div><div class="g9-err"><p id="cv9-name-e">${I.alert}<span></span></p></div></div>
-    <div class="g9-f"><label for="cv9-phone">טלפון נייד</label><div class="g9-in"><input id="cv9-phone" data-v="phone" type="tel" inputmode="tel" dir="ltr" autocomplete="tel" value="050 123 456" aria-describedby="cv9-phone-e"><svg class="g9-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="g9-err"><p id="cv9-phone-e">${I.alert}<span></span></p></div></div>
-    <div class="g9-f"><label for="cv9-mail">אימייל</label><div class="g9-in"><input id="cv9-mail" data-v="email" type="email" inputmode="email" dir="ltr" autocomplete="email" value="dana.levi@gmial.com" aria-describedby="cv9-mail-e"><svg class="g9-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="g9-err"><p id="cv9-mail-e">${I.alert}<span></span></p></div>
-      <div class="g9-sug" data-suggest><div><button type="button">התכוונת ל-<b data-fixed></b>?</button></div></div></div>
+    <div class="g9-f"><label for="cv9-name">שם</label><div class="g9-in"><input id="cv9-name" data-v="name" autocomplete="name" aria-required="true" value="דנה לוי" aria-describedby="cv9-name-e">${`<svg class="g9-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`}</div><div class="g9-err"><p id="cv9-name-e">${I.alert}<span></span></p></div></div>
+    <div class="g9-f"><label for="cv9-phone">טלפון נייד</label><div class="g9-in"><input id="cv9-phone" data-v="phone" aria-required="true" type="tel" inputmode="tel" dir="ltr" autocomplete="tel" value="050 123 456" aria-describedby="cv9-phone-e"><svg class="g9-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="g9-err"><p id="cv9-phone-e">${I.alert}<span></span></p></div></div>
+    <div class="g9-f"><label for="cv9-mail">אימייל</label><div class="g9-in"><input id="cv9-mail" data-v="email" aria-required="true" type="email" inputmode="email" dir="ltr" autocomplete="email" value="dana.levi@gmial.com" aria-describedby="cv9-mail-e"><svg class="g9-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="g9-err"><p id="cv9-mail-e">${I.alert}<span></span></p></div>
+      <div class="g9-sug" data-suggest><div><button type="button"><span>התכוונתם ל-<b data-fixed></b>?</span></button></div></div></div>
     <button class="cx-btn" type="submit">שליחה ${I.arrow}</button>
   </form>
-  <p class="g9-done" aria-live="polite">נשלח. נחזור אליכם עוד היום.</p>
+  <p class="g9-done" tabindex="-1" role="status"></p>
 </div></div>`,
   js:`${LEV_JS}
 (function(){
@@ -909,8 +975,8 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
   var RULES={
     name:function(v){v=v.trim();if(!v)return "איך לפנות אליכם? חסר שם";if(v.length<2)return "שם של אות אחת? כתבו לפחות שתיים";return "";},
     phone:function(v){var d=normPhone(v),miss;if(!d)return "חסר מספר טלפון";
-      if(/^0[57]/.test(d)){if(d.length<10){miss=10-d.length;return (miss===1?"חסרה ספרה אחת":"חסרות "+miss+" ספרות")+": מספר נייד הוא 10 ספרות";}
-        if(d.length>10)return (d.length-10===1?"יש ספרה אחת מיותרת":"יש "+(d.length-10)+" ספרות מיותרות")+": מספר נייד הוא 10 ספרות";}
+      if(/^0[57]/.test(d)){if(d.length<10){miss=10-d.length;return (miss===1?"חסרה ספרה אחת":"חסרות "+miss+" ספרות")+" (מספר נייד הוא 10 ספרות)";}
+        if(d.length>10)return (d.length-10===1?"יש ספרה אחת מיותרת":"יש "+(d.length-10)+" ספרות מיותרות")+" (מספר נייד הוא 10 ספרות)";}
       return fmtPhone(d)?"":"המספר לא נראה כמו טלפון ישראלי";},
     email:function(v){v=v.trim();if(!v)return "חסרה כתובת מייל";if(v.indexOf("@")<0)return "בכתובת חסר @";if(!/^[^@ ]+@[^@ ]+[.][^@ ]{2,}$/.test(v))return "הכתובת לא שלמה, למשל name@gmail.com";return "";}
   };
@@ -957,9 +1023,10 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
     inputs.forEach(function(inp){var k=inp.getAttribute("data-v");touched[k]=true;if(k==="phone"){var f=fmtPhone(normPhone(inp.value));if(f)inp.value=f;}check(inp,true);});
     suggest(form.querySelector("[data-v=email]"));
     if(summary(true))return;
-    root.classList.add("is-sent");
+    // the form (and the button that had focus) disappears: focus moves to the confirmation, which is also read out
+    root.classList.add("is-sent");var done=root.querySelector(".g9-done");done.textContent="נשלח. נחזור אליכם עוד היום.";done.focus({preventScroll:true});
   });
 })();`,
-  note:"הגרסה הבנאלית אחת משתיים: טופס שצובע כל שדה באדום מהאות הראשונה, או טופס ששותק עד השליחה ואז אומר \"שדה לא תקין\" בלי לומר למה. הכלל כאן הוא לתגמל מוקדם ולהעניש מאוחר. השגיאה מגיעה רק כשיוצאים מהשדה. מרגע שהייתה טעות, השדה נבדק תוך כדי הקלדה, והשגיאה יורדת ברגע שהתיקון נגמר, ו-V קטן מצטייר בסוף השדה. ההודעות מדויקות: \"חסרה ספרה אחת\", \"חסרות שתי ספרות\", \"בכתובת חסר @\". הטלפון מתנרמל ביציאה מהשדה, כולל ‎+972 ורווחים, לפורמט 050-123-4567. מייל עם דומיין קרוב לדומיין מוכר (gmial, walla.co.i) מקבל הצעה בלחיצה. בשליחה עם שגיאות נפתח סיכום בראש הטופס, הפוקוס עובר אליו, ומכל שורה בו יש קישור לשדה. aria-invalid ו-aria-describedby על כל שדה. נבנה כדי לעבוד לצד cv8, שמטפל במה שקורה אחרי שהטופס תקין.",
+  note:"הגרסה הבנאלית אחת משתיים: טופס שצובע כל שדה באדום מהאות הראשונה, או טופס ששותק עד השליחה ואז אומר \"שדה לא תקין\" בלי לומר למה. הכלל כאן הוא לתגמל מוקדם ולהעניש מאוחר. השגיאה מגיעה רק כשיוצאים מהשדה. מרגע שהייתה טעות, השדה נבדק תוך כדי הקלדה, והשגיאה יורדת ברגע שהתיקון נגמר, ו-V קטן מצטייר בסוף השדה. ההודעות מדויקות: \"חסרה ספרה אחת\", \"חסרות שתי ספרות\", \"בכתובת חסר @\". הטלפון מתנרמל ביציאה מהשדה, כולל ‎+972 ורווחים, לפורמט 050-123-4567. מייל עם דומיין קרוב לדומיין מוכר (gmial, walla.co.i) מקבל הצעה בלחיצה. כל השדות מסומנים aria-required, כך שקורא מסך אומר שהם חובה עוד לפני הטעות הראשונה. בשליחה עם שגיאות נפתח סיכום בראש הטופס, הפוקוס עובר אליו, ומכל שורה בו יש קישור לשדה. aria-invalid ו-aria-describedby על כל שדה. אחרי שליחה מוצלחת הטופס נעלם והפוקוס עובר לאישור (role=status), כדי שמי שלא רואה יידע שזה עבר. שורת ההדמיה מעל הכותרת לא שייכת לטופס. נבנה כדי לעבוד לצד cv8, שמטפל במה שקורה אחרי שהטופס תקין.",
 },
 ];

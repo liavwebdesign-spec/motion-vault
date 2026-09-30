@@ -15,8 +15,13 @@ const ARROW = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke
 const BASE_JS = `
 document.querySelectorAll("[data-year]").forEach(function(e){e.textContent=new Date().getFullYear();});
 function inView(el,f){
-  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0){off();f();}}
-  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);}
+  var done=false,io=null;
+  function go(){if(done)return;done=true;off();f();}
+  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0)go();}
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(io)io.disconnect();}
+  // the observer also catches a layout change that brings the footer on screen with no scroll event (content above
+  // it collapsing, a short page); the scroll check stays for where the observer is late or missing
+  if("IntersectionObserver" in window){io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting;}))go();},{rootMargin:"0px 0px -10% 0px"});io.observe(el);}
   addEventListener("scroll",chk,{passive:true});addEventListener("resize",chk);requestAnimationFrame(chk);setTimeout(chk,300);
 }`;
 
@@ -32,10 +37,15 @@ const BASE_CSS = `
 .ftw{font-size:15px;line-height:1.6}
 .ftw a{color:inherit;text-decoration:none;transition:color .15s ${E},opacity .15s ${E}}
 .ftw h3{margin:0 0 12px;font-size:14px;font-weight:600;opacity:.62}
+/* a big closing line never leaves one word alone on its last row */
+.ftw :is(h2,h3){text-wrap:balance}
 .ftw ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.ft-tel{unicode-bidi:isolate;font-weight:600}
+/* the number hugs the start of its column (RTL: right) and never breaks between rows; stretched, dir=ltr pushed it left */
+.ft-tel{unicode-bidi:isolate;font-weight:600;justify-self:start;white-space:nowrap}
 .ft-legal{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;font-size:13px}
-.ft-legal p{margin:0;opacity:.7}
+.ft-legal p{margin:0}
+/* the credit fades once, on its link: fading the paragraph too gave 0.49 and failed contrast on the light footers */
+.ft-legal>p:not(.ft-credit){opacity:.7}
 .ft-legal nav{display:flex;flex-wrap:wrap;gap:8px 20px}
 .ft-legal nav a{opacity:.7}
 .ft-credit{margin-inline-start:auto!important}
@@ -50,6 +60,17 @@ const BASE_CSS = `
 .ft-rv{opacity:0;transform:translateY(16px);transition:opacity .6s ${E},transform .6s ${E};transition-delay:calc(var(--i,0) * 80ms)}
 .is-in .ft-rv{opacity:1;transform:none}
 @media (max-width:760px){.ft-credit{margin-inline-start:0!important;flex-basis:100%}}
+/* phone: every footer link is a 44px row. The list gap moves inside the link, and a plain text row (an address) gets the
+   same height, so neighbouring columns stay level. Desktop does not move. */
+@media (pointer:coarse),(max-width:760px){
+  .ftw a:not(.ft-btn):not(.ft7-ok a){display:inline-flex;align-items:center;min-height:44px}
+  .ftw ul:not(.ft2-hours) li{display:flex;align-items:center;min-height:44px}
+  .ftw ul:not(.ft2-hours),.ft4-row>div,.ft8-row div{gap:0}
+  .ft4-row>div,.ft8-row div{align-content:start}
+  .ft4-row>div>span,.ft8-row div>span{display:flex;align-items:center;min-height:44px}
+  .ft7-row,.ft10-row{align-items:center}
+  .ft-legal,.ft-legal nav{row-gap:0}
+}
 @media (prefers-reduced-motion:reduce){.ftw *,.ft-rv{transition-duration:.01ms!important;transition-delay:0s!important}.ft-rv{opacity:1;transform:none}}`;
 
 const tail = (title, text) => `<div class="fx-end"><small>הסקשן האחרון בעמוד</small><p>${text || title}</p></div>`;
@@ -84,7 +105,7 @@ export default [
 </footer></div>`,
   js:`${BASE_JS}
 inView(document.getElementById("ft1"),function(){document.getElementById("ft1").classList.add("is-in");});`,
-  note:"שלושה דברים שמבדילים אותו מפוטר של תבנית. הכותרת בגודל של הירו (עד 112px), כי רוב הקליקים בעמוד קורים בתחתית, והיא עולה יחד עם הכפתור והטלפון בכניסה אחת. הטלפון הוא קישור tel: עם dir=ltr ו-unicode-bidi:isolate, כך שהמספר לא מתהפך בתוך שורה עברית. ואין אף קו מפריד: ההפרדה בין הסוגר לפרטים היא רווח של 64 פיקסלים. חובה בפרויקט: אם יש CTA דביק במובייל, הפוטר נכנס ל-IntersectionObserver שלו (behaviors B3), אחרת הכפתור הדביק מכסה את הקרדיט ואת הטלפון."
+  note:"שלושה דברים שמבדילים אותו מפוטר של תבנית. הכותרת בגודל של הירו (עד 112px), כי מי שגלל עד התחתית כבר הביע עניין, והיא עולה יחד עם הכפתור והטלפון בכניסה אחת. הטלפון הוא קישור tel: עם dir=ltr ו-unicode-bidi:isolate, כך שהמספר לא מתהפך בתוך שורה עברית. ואין אף קו מפריד: ההפרדה בין הסוגר לפרטים היא רווח של 64 פיקסלים. בטלפון כל קישור בפוטר הוא שורה של 44 פיקסלים, כדי שהאגודל יפגע בקישור הנכון. חובה בפרויקט: אם יש CTA דביק במובייל, הפוטר נכנס ל-IntersectionObserver שלו (behaviors B3), והמקום לפס נפתח ב-padding-bottom של הפוטר ולא על body, אחרת הכפתור הדביק מכסה את הקרדיט ואת הטלפון."
 },
 {
   id:"ft2", cat:"footer", name:"פוטר עסק מקומי: שעות חיות, מפה בלחיצה, Waze", tech:"CSS · JS · JSON-LD", status:"ממתין", runway:false,
@@ -152,10 +173,11 @@ inView(document.getElementById("ft1"),function(){document.getElementById("ft1").
   map.querySelector("button").addEventListener("click",function(){
     var f=document.createElement("iframe");f.title="מפה: ביאליק 40, רמת גן";f.loading="lazy";f.referrerPolicy="no-referrer-when-downgrade";
     f.src="https://www.google.com/maps?q="+encodeURIComponent("ביאליק 40 רמת גן")+"&output=embed";
-    map.innerHTML="";map.appendChild(f);
+    // the button that had focus is gone: focus goes to the map, so a keyboard user is not thrown to the top of the page
+    map.innerHTML="";map.appendChild(f);f.focus();
   });
 })();`,
-  note:"החיווי \"פתוח עכשיו\" מחושב בשעון ישראל (Intl עם Asia/Jerusalem) ולא בשעון של הדפדפן, כך שמי שנמצא בחו\"ל עדיין רואה נכון. כשסגור, הוא אומר מתי נפתח (היום, מחר או ביום מסוים), כי \"סגור\" לבד שולח את המבקר למתחרה. המפה לא נטענת עד שלוחצים: iframe של גוגל הוא בקשת צד שלישי עם עוגיות וכבד בביצועים. JSON-LD מסוג LocalBusiness (כאן Dentist) עם כתובת, טלפון ושעות, מאותם נתונים שמוצגים, ובפרויקט אמיתי ממקור אחד כדי שלא יסתרו. השעות ב-direction:ltr כדי ש-08:00-18:00 לא יתהפך."
+  note:"החיווי \"פתוח עכשיו\" מחושב בשעון ישראל (Intl עם Asia/Jerusalem) ולא בשעון של הדפדפן, כך שמי שנמצא בחו\"ל עדיין רואה נכון. כשסגור, הוא אומר מתי נפתח (היום, מחר או ביום מסוים), כי \"סגור\" לבד שולח את המבקר למתחרה. המפה לא נטענת עד שלוחצים: iframe של גוגל הוא בקשת צד שלישי עם עוגיות וכבד בביצועים. אחרי הלחיצה הפוקוס עובר למפה, כי הכפתור שהיה בפוקוס נמחק. JSON-LD מסוג LocalBusiness (כאן Dentist) עם כתובת, טלפון ושעות, מאותם נתונים שמוצגים, ובפרויקט אמיתי ממקור אחד כדי שלא יסתרו. השעות ב-direction:ltr כדי ש-08:00-18:00 לא יתהפך."
 },
 {
   id:"ft3", cat:"footer", name:"פוטר קלאסי מורחב, אקורדיון במובייל", tech:"CSS · JS · grid-template-rows", status:"ממתין", runway:false,
@@ -169,6 +191,8 @@ inView(document.getElementById("ft1"),function(){document.getElementById("ft1").
 .ft3-brand b{font-size:22px}
 .ft3-brand p{margin:0;max-width:32ch;opacity:.72}
 .ft3-cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
+/* the heading only carries the outline for screen readers: the button inside keeps the look */
+.ftw h3.ft3-h{margin:0;font:inherit;opacity:1}
 .ft3-acc{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0;margin:0 0 12px;border:0;background:none;color:inherit;font:inherit;font-size:14px;font-weight:600;opacity:.62;text-align:start;cursor:default}
 .ft3-acc i{display:none}
 .ft3-body{display:grid;grid-template-rows:1fr}
@@ -188,31 +212,32 @@ inView(document.getElementById("ft1"),function(){document.getElementById("ft1").
   <div class="ft3-top">
     <div class="ft3-brand"><b>לוגו</b><p>משרד עורכי דין לדיני עבודה ולמשפט מסחרי. 30 שנה בתל אביב.</p><div><a class="ft-btn" href="#ft3">לייעוץ ראשוני</a></div></div>
     <div class="ft3-cols">
-      <div class="ft3-col"><button class="ft3-acc" type="button" aria-expanded="true">ניווט<i aria-hidden="true"></i></button><div class="ft3-body"><div><ul><li><a href="#ft3">ראשי</a></li><li><a href="#ft3">המשרד</a></li><li><a href="#ft3">צוות</a></li><li><a href="#ft3">מאמרים</a></li></ul></div></div></div>
-      <div class="ft3-col"><button class="ft3-acc" type="button" aria-expanded="true">תחומים<i aria-hidden="true"></i></button><div class="ft3-body"><div><ul><li><a href="#ft3">דיני עבודה</a></li><li><a href="#ft3">חוזים</a></li><li><a href="#ft3">ליטיגציה</a></li><li><a href="#ft3">חברות</a></li><li><a href="#ft3">נדל״ן</a></li></ul></div></div></div>
-      <div class="ft3-col"><button class="ft3-acc" type="button" aria-expanded="true">יצירת קשר<i aria-hidden="true"></i></button><div class="ft3-body"><div><ul><li>${TEL("03-000-0000","+97230000000")}</li><li><a href="mailto:office@example.co.il">office@example.co.il</a></li><li>מנחם בגין 132, תל אביב</li></ul></div></div></div>
-      <div class="ft3-col"><button class="ft3-acc" type="button" aria-expanded="true">עקבו<i aria-hidden="true"></i></button><div class="ft3-body"><div><ul><li><a href="#ft3">לינקדאין</a></li><li><a href="#ft3">פייסבוק</a></li></ul></div></div></div>
+      <div class="ft3-col"><h3 class="ft3-h"><button class="ft3-acc" type="button" aria-expanded="true" aria-controls="ft3-b1">ניווט<i aria-hidden="true"></i></button></h3><div class="ft3-body" id="ft3-b1"><div><ul><li><a href="#ft3">ראשי</a></li><li><a href="#ft3">המשרד</a></li><li><a href="#ft3">צוות</a></li><li><a href="#ft3">מאמרים</a></li></ul></div></div></div>
+      <div class="ft3-col"><h3 class="ft3-h"><button class="ft3-acc" type="button" aria-expanded="true" aria-controls="ft3-b2">תחומים<i aria-hidden="true"></i></button></h3><div class="ft3-body" id="ft3-b2"><div><ul><li><a href="#ft3">דיני עבודה</a></li><li><a href="#ft3">חוזים</a></li><li><a href="#ft3">ליטיגציה</a></li><li><a href="#ft3">חברות</a></li><li><a href="#ft3">נדל״ן</a></li></ul></div></div></div>
+      <div class="ft3-col"><h3 class="ft3-h"><button class="ft3-acc" type="button" aria-expanded="true" aria-controls="ft3-b3">יצירת קשר<i aria-hidden="true"></i></button></h3><div class="ft3-body" id="ft3-b3"><div><ul><li>${TEL("03-000-0000","+97230000000")}</li><li><a href="mailto:office@example.co.il">office@example.co.il</a></li><li>מנחם בגין 132, תל אביב</li></ul></div></div></div>
+      <div class="ft3-col"><h3 class="ft3-h"><button class="ft3-acc" type="button" aria-expanded="true" aria-controls="ft3-b4">עקבו<i aria-hidden="true"></i></button></h3><div class="ft3-body" id="ft3-b4"><div><ul><li><a href="#ft3">לינקדאין</a></li><li><a href="#ft3">פייסבוק</a></li></ul></div></div></div>
     </div>
   </div>
   ${LEGAL("משרד עורכי דין לדוגמה", '<a href="#terms">תנאי שימוש</a>')}
 </footer></div>`,
   js:`${BASE_JS}
 (function(){
-  var mq=matchMedia("(max-width:760px)"), cols=[].slice.call(document.querySelectorAll("#ft3 .ft3-col"));
-  function set(btn,open){btn.setAttribute("aria-expanded",String(open));btn.nextElementSibling.classList.toggle("open",open);
-    btn.nextElementSibling.querySelectorAll("a").forEach(function(a){a.tabIndex=open?0:-1;});}
-  // desktop: everything open and the headings are not controls; mobile: closed accordions
-  function mode(){cols.forEach(function(c){var b=c.querySelector(".ft3-acc");
-    if(mq.matches){b.removeAttribute("tabindex");b.disabled=false;set(b,false);}else{set(b,true);b.disabled=true;}});}
-  cols.forEach(function(c){var b=c.querySelector(".ft3-acc");b.addEventListener("click",function(){if(mq.matches)set(b,b.getAttribute("aria-expanded")!=="true");});});
+  var mq=matchMedia("(max-width:760px)"), btns=[].slice.call(document.querySelectorAll("#ft3 .ft3-acc"));
+  // a closed column is inert: Tab skips it, and a screen reader swiping through the page does not reach links nobody sees
+  function set(btn,open){var body=document.getElementById(btn.getAttribute("aria-controls"));
+    btn.setAttribute("aria-expanded",String(open));body.classList.toggle("open",open);body.inert=!open;}
+  // desktop: everything open, the headings are not controls and carry no open/closed state; mobile: closed accordions
+  function mode(){btns.forEach(function(b){
+    if(mq.matches){b.disabled=false;set(b,false);}else{set(b,true);b.disabled=true;b.removeAttribute("aria-expanded");}});}
+  btns.forEach(function(b){b.addEventListener("click",function(){if(mq.matches)set(b,b.getAttribute("aria-expanded")!=="true");});});
   mode(); mq.addEventListener("change",mode);
 })();`,
-  note:"האקורדיון הוא grid-template-rows מ-0fr ל-1fr, בלי max-height ובלי מדידה. בדסקטופ הכותרות הן כפתורים מושבתים שנראים כמו כותרות, כדי שלא יהיו שני סטים של מארקאפ; במובייל הם נפתחים, והקישורים בטור סגור מקבלים tabIndex=-1 כדי שה-Tab לא ייכנס לתוכן מוסתר. ההפרדה בין הטורים במובייל היא משטח עדין (5% בהיר על הכהה) ולא קו."
+  note:"האקורדיון הוא grid-template-rows מ-0fr ל-1fr, בלי max-height ובלי מדידה. כל כפתור יושב בתוך h3 ומחובר לגוף שלו ב-aria-controls, כך שקורא מסך מנווט בפוטר לפי כותרות. בדסקטופ הכפתורים מושבתים ונראים כמו כותרות, כדי שלא יהיו שני סטים של מארקאפ; במובייל הם נפתחים, וטור סגור מקבל inert, כך שגם Tab וגם קורא מסך בהחלקה לא מגיעים לקישורים שלא רואים. ההפרדה בין הטורים במובייל היא משטח עדין (5% בהיר על הכהה) ולא קו."
 },
 {
   id:"ft4", cat:"footer", name:"פוטר עם סוגר שנמס לתוכו", tech:"CSS · JS", status:"ממתין", runway:false,
   desc:"הסקשן הסוגר הוא תמונה ברוחב מלא, והתחתית שלה נמסה בדיוק לצבע של הפוטר. אין תפר, אין פאנל מרחף: העין קוראת את הסוגר ואת הפוטר כגוש אחד שסוגר את העמוד.",
-  when:"אתרי תדמית עם צילום חזק: אדריכלות, מלון, מסעדה, נדל״ן, תעשייה. הדפוס S14ב שנולד בסיני (17.8.2026) וחי עד היום רק כתיאור. בלי צילום טוב, ft1.",
+  when:"אתרי תדמית עם צילום חזק: אדריכלות, מלון, מסעדה, נדל״ן, תעשייה. בלי צילום טוב, ft1.",
   libs:[],
   css:`${BASE_CSS}
 /* the footer colour sits under the photo too: if the image fails (or is slow), the white headline is still on dark */
@@ -240,7 +265,7 @@ inView(document.getElementById("ft1"),function(){document.getElementById("ft1").
 </footer></div>`,
   js:`${BASE_JS}
 (function(){var c=document.getElementById("ft4c");inView(c,function(){c.classList.add("is-in");});})();`,
-  note:"כל הסוד בנקודת ה-0% של הגרדיאנט: היא var(--ink), אותו טוקן בדיוק של הפוטר, ולסוגר אין padding-bottom שיוצר תפר. אם הפוטר משנה צבע בפרויקט, הגרדיאנט משתנה איתו, כי שניהם יושבים על אותו טוקן. התמונה נכנסת בנשימה (scale 1.06 ל-1 בשנייה וחצי) כשהסוגר מגיע למסך. איך מזהים שזה נשבר: רואים קו ישר בין התמונה לפוטר."
+  note:"זה הדפוס S14ב מסיני (17.8.2026). כל הסוד בנקודת ה-0% של הגרדיאנט: היא var(--ink), אותו טוקן בדיוק של הפוטר, ולסוגר אין padding-bottom שיוצר תפר. אם הפוטר משנה צבע בפרויקט, הגרדיאנט משתנה איתו, כי שניהם יושבים על אותו טוקן. התמונה נכנסת בנשימה (scale 1.06 ל-1 בשנייה וחצי) כשהסוגר מגיע למסך. איך מזהים שזה נשבר: רואים קו ישר בין התמונה לפוטר."
 },
 {
   id:"ft5", cat:"footer", name:"פוטר חנות", tech:"CSS · JS", status:"ממתין", runway:false,
@@ -257,6 +282,8 @@ inView(document.getElementById("ft1"),function(){document.getElementById("ft1").
 .ft5-form input{flex:1 1 220px;min-height:52px;padding:0 16px;border-radius:12px;border:1.5px solid color-mix(in srgb,var(--bg) 24%,transparent);background:color-mix(in srgb,var(--bg) 8%,transparent);color:var(--bg);font:inherit;font-size:16px}
 .ft5-form input::placeholder{color:color-mix(in srgb,var(--bg) 60%,transparent)}
 .ft5-form input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.ft5-note{flex-basis:100%;margin:0;font-size:13px;opacity:.72}
+.ft5-note a{text-decoration:underline;text-underline-offset:3px}
 .ft5-msg{flex-basis:100%;margin:0;min-height:22px;font-size:14px}
 .ft5-msg.err{color:color-mix(in srgb,var(--accent) 40%,var(--bg))}
 .ft5-cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) 1.2fr;gap:32px;padding:0 32px}
@@ -267,12 +294,12 @@ inView(document.getElementById("ft1"),function(){document.getElementById("ft1").
   html:`<div class="fx">${tail("", "בתחתית חנות מחפשים משלוחים, החזרות ואיך משלמים. והזדמנות אחרונה להשאיר מייל.")}
 <footer class="ftw ft5" id="ft5">
   <div class="ft5-news"><div><h2>10% הנחה על ההזמנה הראשונה</h2><p>קולקציות חדשות ומבצעים, פעם בשבועיים. בלי הצפה.</p></div>
-    <form class="ft5-form" novalidate><label for="ft5e">כתובת מייל</label><input id="ft5e" type="email" inputmode="email" autocomplete="email" placeholder="כתובת המייל שלכם" dir="ltr"><button class="ft-btn" type="submit">להצטרפות</button><p class="ft5-msg" role="status" aria-live="polite"></p></form></div>
+    <form class="ft5-form" novalidate><label for="ft5e">כתובת מייל</label><input id="ft5e" type="email" inputmode="email" autocomplete="email" placeholder="כתובת המייל שלכם" dir="ltr"><button class="ft-btn" type="submit">להצטרפות</button><p class="ft5-note">אפשר להסיר בכל רגע. <a href="#privacy">מדיניות הפרטיות</a></p><p class="ft5-msg" role="status" aria-live="polite"></p></form></div>
   <div class="ft5-cols">
     <div><h3>קטגוריות</h3><ul><li><a href="#ft5">כלי הגשה</a></li><li><a href="#ft5">ספלים</a></li><li><a href="#ft5">אגרטלים</a></li><li><a href="#ft5">מארזי מתנה</a></li></ul></div>
     <div><h3>שירות לקוחות</h3><ul><li><a href="#ft5">משלוחים</a></li><li><a href="#ft5">החזרות והחלפות</a></li><li><a href="#ft5">מעקב הזמנה</a></li><li><a href="#ft5">שאלות נפוצות</a></li></ul></div>
     <div><h3>החברה</h3><ul><li><a href="#ft5">הסטודיו</a></li><li><a href="#ft5">סדנאות</a></li><li>${TEL()}</li></ul></div>
-    <div><h3>משלמים בבטחה</h3><div class="ft5-pay"><span>ויזה</span><span>מאסטרקארד</span><span>אמריקן אקספרס</span><span>ביט</span><span>Apple Pay</span></div><p style="margin:12px 0 0;font-size:14px;opacity:.72">משלוח חינם בהזמנה מעל 300 ש״ח</p></div>
+    <div><h3>משלמים בבטחה</h3><div class="ft5-pay"><span>ויזה</span><span>מאסטרקארד</span><span>אמריקן אקספרס</span><span>ביט</span><span>Apple Pay</span></div><p style="margin:12px 0 0;font-size:14px;opacity:.72">משלוח חינם בהזמנה מעל 300&nbsp;ש״ח</p></div>
   </div>
   ${LEGAL("סטודיו לקרמיקה לדוגמה", '<a href="#terms">תקנון</a><a href="#returns">מדיניות החזרות</a>')}
 </footer></div>`,
@@ -287,7 +314,7 @@ inView(document.getElementById("ft1"),function(){document.getElementById("ft1").
     m.className="ft5-msg";m.textContent="נרשמתם. קוד ההנחה בדרך למייל.";f.reset();
   });
 })();`,
-  note:"הטופס novalidate עם בדיקה משלנו, כי הודעת השגיאה המובנית של הדפדפן לא מתורגמת ולא מעוצבת. ההודעה ב-role=status עם aria-live, כך שקורא מסך מודיע עליה בלי להזיז את הפוקוס בהצלחה, ובשגיאה הפוקוס חוזר לשדה עם aria-invalid. שדה המייל ב-dir=ltr. אמצעי התשלום כטקסט ולא כלוגואים: לוגואים של ויזה ומאסטרקארד דורשים את הגרסה הרשמית, ובפרויקט מחליפים לקבצים של הסולק. במאגר אין שרת: ההצלחה מדומה, ובפרויקט הטופס מתחבר ל-Shopify, ל-Klaviyo או ל-DB."
+  note:"הטופס novalidate עם בדיקה משלנו, כי הודעת השגיאה המובנית של הדפדפן לא מתורגמת ולא מעוצבת. ההודעה ב-role=status עם aria-live, כך שקורא מסך מודיע עליה בלי להזיז את הפוקוס בהצלחה, ובשגיאה הפוקוס חוזר לשדה עם aria-invalid. שדה המייל ב-dir=ltr. אמצעי התשלום כטקסט ולא כלוגואים: לוגואים של ויזה ומאסטרקארד דורשים את הגרסה הרשמית, ובפרויקט מחליפים לקבצים של הסולק. מתחת לשדה \"אפשר להסיר בכל רגע\" וקישור למדיניות הפרטיות: טופס שאוסף מייל לדיוור בלי הודעת פרטיות לא עובר מסירה. במאגר אין שרת: ההצלחה מדומה, ובפרויקט הטופס מתחבר ל-Shopify, ל-Klaviyo או ל-DB."
 },
 {
   id:"ft6", cat:"footer", name:"פוטר נחיתה בשורה אחת", tech:"CSS · JS", status:"ממתין", runway:false,
@@ -321,21 +348,27 @@ inView(document.getElementById("ft1"),function(){document.getElementById("ft1").
 .ft7-f input{min-height:52px;padding:0 16px;border-radius:12px;border:1.5px solid color-mix(in srgb,var(--bg) 22%,transparent);background:color-mix(in srgb,var(--bg) 6%,transparent);color:var(--bg);font:inherit;font-size:16px}
 .ft7-f input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .ft7-f input[aria-invalid="true"]{border-color:color-mix(in srgb,var(--accent) 60%,var(--bg))}
-.ft7-form .ft-btn{margin-top:24px}
-.ft7-ok{grid-column:1/-1;display:flex;gap:8px;align-items:flex-start;font-size:13px;opacity:.8}
+/* the consent comes before the button in the markup (fill top to bottom, Tab in the same order);
+   on desktop the grid still puts the button at the end of the first row and the consent under the fields */
+.ft7-form .ft-btn{margin-top:24px;grid-column:3;grid-row:1}
+.ft7-ok{grid-column:1/-1;grid-row:2;display:flex;gap:8px;align-items:flex-start;font-size:13px;opacity:.8}
 .ft7-ok input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--accent)}
 .ft7-ok a{text-decoration:underline!important;text-underline-offset:3px}
 .ft7-msg{grid-column:1/-1;margin:0;min-height:22px;font-size:14px;font-weight:600}
 .ft7-row{display:flex;flex-wrap:wrap;gap:16px 48px}
-@media (max-width:900px){.ft7{padding:48px 20px 32px}.ft7-lead{grid-template-columns:1fr;padding:24px 20px}.ft7-form{grid-template-columns:1fr}.ft7-form .ft-btn{margin-top:0}}`,
+@media (max-width:900px){.ft7{padding:48px 20px 32px}.ft7-lead{grid-template-columns:1fr;padding:24px 20px}.ft7-form{grid-template-columns:1fr}.ft7-form .ft-btn{margin-top:0}
+  .ft7-form .ft-btn,.ft7-ok{grid-column:auto;grid-row:auto}}
+/* phone: the whole consent line is the target, the box sits inside it */
+@media (pointer:coarse),(max-width:760px){.ft7-ok{min-height:44px;align-items:center}.ft7-ok input{width:24px;height:24px;margin:0}
+  .ft7-ok a{display:inline-block;padding-block:4px;margin-block:-4px}}`,
   html:`<div class="fx">${tail("", "כשהליד הוא הכל, הפוטר הוא הטופס האחרון בעמוד.")}
 <footer class="ftw ft7" id="ft7">
   <div class="ft7-lead"><div><h2>השאירו פרטים, חוזרים אליכם היום</h2><p>שני שדות, בלי התחייבות. בימי שישי עד 12:00.</p></div>
     <form class="ft7-form" novalidate>
       <div class="ft7-f"><label for="ft7n">שם</label><input id="ft7n" autocomplete="name" required></div>
       <div class="ft7-f"><label for="ft7p">טלפון</label><input id="ft7p" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required></div>
-      <button class="ft-btn" type="submit">שלחו</button>
       <label class="ft7-ok"><input type="checkbox" required> <span>קראתי ואני מסכים/ה ל<a href="#privacy">מדיניות הפרטיות</a></span></label>
+      <button class="ft-btn" type="submit">שלחו</button>
       <p class="ft7-msg" role="status" aria-live="polite"></p>
     </form></div>
   <div class="ft7-row"><span>${TEL()}</span><span>התקנות בכל המרכז</span><a href="#ft7">שירותים</a><a href="#ft7">פרויקטים</a><a href="#ft7">אודות</a></div>
@@ -356,7 +389,7 @@ inView(document.getElementById("ft1"),function(){document.getElementById("ft1").
     m.textContent="קיבלנו, "+n.value.trim().split(" ")[0]+". נחזור אליכם היום.";f.reset();
   });
 })();`,
-  note:"שני שדות בלבד, כי כל שדה נוסף מוריד השלמות. בדיקת הטלפון מקבלת נייד ונייח ישראליים, עם מקפים, רווחים או +972, ומנרמלת לפני הבדיקה. תיבת האישור של מדיניות הפרטיות היא חלק מהטופס ולא טקסט קטן מתחתיו, והקישור בה הוא קישור אמיתי. השגיאה מחזירה את הפוקוס לשדה הבעייתי עם aria-invalid, וההודעה ב-role=status. במאגר אין שרת: בפרויקט הטופס כותב ל-DB או שולח לוואטסאפ של העסק, ואף פעם לא מציג הצלחה בלי שליחה אמיתית."
+  note:"שני שדות בלבד, כי כל שדה נוסף מוריד השלמות. בדיקת הטלפון מקבלת נייד ונייח ישראליים, עם מקפים, רווחים או +972, ומנרמלת לפני הבדיקה. תיבת האישור של מדיניות הפרטיות היא חלק מהטופס ולא טקסט קטן מתחתיו, היא באה לפני כפתור השליחה (בקוד, ב-Tab ובטלפון), והקישור בה הוא קישור אמיתי. השגיאה מחזירה את הפוקוס לשדה הבעייתי עם aria-invalid, וההודעה ב-role=status. במאגר אין שרת: בפרויקט הטופס כותב ל-DB או שולח לוואטסאפ של העסק, ואף פעם לא מציג הצלחה בלי שליחה אמיתית."
 },
 {
   id:"ft8", cat:"footer", name:"פוטר עם חתימת מותג", tech:"CSS · JS", status:"ממתין", runway:false,
@@ -366,7 +399,7 @@ inView(document.getElementById("ft1"),function(){document.getElementById("ft1").
   css:`${BASE_CSS}
 .ft8{position:relative;isolation:isolate;overflow:hidden;display:grid;gap:48px;padding:72px 32px 40px;background:var(--ink);color:var(--bg)}
 /* the mark is whole and quiet (concept.md, closing signature): never a giant cropped logo, never behind running text */
-.ft8-mark{position:absolute;z-index:-1;inset-inline-end:32px;top:40px;width:clamp(200px,24vw,340px);height:auto;opacity:0;color:var(--bg);transition:opacity 1.2s ${E}}
+.ft8-mark{position:absolute;z-index:-1;inset-inline-end:32px;top:40px;width:clamp(200px,24vw,300px);height:auto;opacity:0;color:var(--bg);transition:opacity 1.2s ${E}}
 .ft8.is-in .ft8-mark{opacity:.06}
 .ft8-top{display:grid;gap:16px;max-width:560px}
 .ft8-top p{margin:0;font-size:clamp(20px,1.6vw,26px);line-height:1.4}
@@ -449,7 +482,7 @@ inView(document.getElementById("ft1"),function(){document.getElementById("ft1").
   <div class="ft10-trust">
     <div class="ft10-rate"><b>4.8</b><span class="ft10-stars" style="--p:96%" role="img" aria-label="דירוג 4.8 מתוך 5"></span><a href="#ft10" rel="noopener">126 ביקורות בגוגל</a></div>
     <div class="ft10-side"><div class="ft10-badges"><span>ISO 9001</span><span>מכון התקנים</span><span>קבלן רשום 2-ג׳</span><span>אחריות 5 שנים</span></div>
-      <div class="ft10-logos" aria-label="לקוחות"><span>ELDAR</span><span>AudioCodes</span><span>עיריית רעננה</span><span>Expo TLV</span></div></div>
+      <div class="ft10-logos" role="group" aria-label="לקוחות"><span>חברה לדוגמה</span><span>Client Co</span><span>עירייה לדוגמה</span><span>Expo Demo</span></div></div>
   </div>
   <div class="ft10-row"><span>${TEL()}</span><span>הרצל 12, יהוד</span><a href="#ft10">פרויקטים</a><a href="#ft10">לקוחות</a><a href="#ft10">צור קשר</a></div>
   ${LEGAL("שילוט לדוגמה")}
