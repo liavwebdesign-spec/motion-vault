@@ -16,16 +16,19 @@ background:linear-gradient(90deg,var(--accent),#c2255c,#e8590c,var(--accent));ba
 {
   id:"css15", cat:"css", name:"כרטיס תלת-ממד עוקב עכבר", tech:"CSS 3D + JS זעיר", status:"ממתין",
   desc:"הכרטיס מוטה בעדינות לכיוון הסמן, עם הבזק אור שנע על הפנים.",
-  when:"כרטיס מוצר או הצעה מרכזית. אחד-שניים לעמוד, דסקטופ בלבד.",
+  when:"כרטיס מוצר או הצעה מרכזית. אחד-שניים לעמוד, דסקטופ בלבד: הכרטיס מוטה רק כשיש עכבר ולא ביקשו הפחתת תנועה, ובטלפון הוא נשאר שטוח.",
   css:`.tilt{width:min(320px,80vw);margin-inline:auto;perspective:900px}
-.tilt-in{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:34px;transition:transform .18s ease-out;transform-style:preserve-3d;overflow:hidden}
-.tilt-in::after{content:"";position:absolute;inset:-40%;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(74,58,255,.14),transparent 55%)}
+.tilt-in{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:34px;transition:transform .18s cubic-bezier(.2,.6,.2,1);transform-style:preserve-3d;overflow:hidden}
+.tilt-in::after{content:"";position:absolute;inset:-40%;z-index:0;pointer-events:none;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(74,58,255,.14),transparent 55%)}
+.tilt-in>*{position:relative;z-index:1}
 .tilt h3{margin:0 0 8px}.tilt p{margin:0;color:var(--muted);font-size:14px}`,
   html:`<div class="stage tight"><div class="tilt"><div class="tilt-in">
 <h3>כרטיס חי</h3><p>הזז את העכבר עליי ותרגיש את העומק.</p>
 </div></div></div>`,
   js:`const t=document.querySelector(".tilt"),ti=document.querySelector(".tilt-in");
+const fine=matchMedia("(hover:hover) and (pointer:fine)"),rm=matchMedia("(prefers-reduced-motion: reduce)");
 t.addEventListener("mousemove",e=>{
+  if(!fine.matches||rm.matches)return; // מגע או הפחתת תנועה: בלי הטיה
   const r=t.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;
   ti.style.transform="rotateY("+((x-.5)*14)+"deg) rotateX("+((.5-y)*10)+"deg)";
   ti.style.setProperty("--gx",(x*100)+"%");ti.style.setProperty("--gy",(y*100)+"%");
@@ -36,17 +39,19 @@ t.addEventListener("mouseleave",()=>ti.style.transform="none");`,
 {
   id:"css16", cat:"css", name:"זום פנימי בהובר", tech:"CSS transform scale", status:"ממתין",
   desc:"התמונה גדלה בתוך המסגרת החתוכה. הקלאסיקה שכל גלריה צריכה.",
-  when:"כרטיסי בלוג, גלריות, קטגוריות חנות.",
+  when:"כרטיסי בלוג, גלריות, קטגוריות חנות. ההובר רק במכשיר עם עכבר (בטלפון נגיעה לא משאירה תמונה מוגדלת), אותו זום בפוקוס מקלדת על הכרטיס או על קישור בתוכו, ובהפחתת תנועה התמונה לא זזה.",
   css:`.zoomc{width:min(380px,80vw);margin-inline:auto;border-radius:var(--r);overflow:hidden;cursor:pointer}
 .zoomc .ph{aspect-ratio:16/10;font-size:19px;transition:transform .6s cubic-bezier(.2,.6,.2,1)}
-.zoomc:hover .ph{transform:scale(1.07)}`,
+.zoomc:is(:focus-visible,:has(:focus-visible)) .ph{transform:scale(1.07)}
+@media (hover:hover) and (pointer:fine){.zoomc:hover .ph{transform:scale(1.07)}}
+@media (prefers-reduced-motion:reduce){.zoomc .ph,.zoomc:hover .ph,.zoomc:is(:focus-visible,:has(:focus-visible)) .ph{transform:none;transition:none}}`,
   html:`<div class="stage tight"><div class="zoomc"><div class="ph ph-c">התמונה גדלה בפנים</div></div></div>`,
   js:``, runway:false
 },
 {
   id:"css17", cat:"css", name:"פס התקדמות קריאה", tech:"CSS scroll-driven (בלי JS!)", status:"ממתין",
   desc:"פס בראש המסך שמתמלא עם התקדמות הגלילה. מומש כולו ב-CSS עם animation-timeline: scroll().",
-  when:"מאמרים ועמודים ארוכים. תמיכת דפדפן: כרום ואדג' (פיירפוקס וספארי בדרך; יש fallback JS בפרויקטים).",
+  when:"מאמרים ועמודים ארוכים. תמיכה: כרום ואדג'. ספארי (כנראה מגרסה 26) ופיירפוקס: לאמת מול caniuse לפני שמבטיחים ללקוח. בדפדפן בלי תמיכה הפס פשוט לא מופיע, בלי שבירה; כשצריך אותו בכל דפדפן, מוסיפים fallback של JS שמעדכן scaleX בגלילה.",
   css:`.rprog{position:fixed;top:0;inset-inline:0;height:4px;background:linear-gradient(90deg,var(--accent),#c2255c);transform-origin:right;transform:scaleX(0);animation:grow linear;animation-timeline:scroll();z-index:99}
 html[dir="ltr"] .rprog{transform-origin:left}
 @keyframes grow{to{transform:scaleX(1)}}
@@ -64,24 +69,27 @@ html[dir="ltr"] .rprog{transform-origin:left}
 {
   id:"css19", cat:"css", name:"מרקי אנכי (עדויות)", tech:"CSS keyframes", status:"ממתין",
   desc:"טור עדויות שזורם כלפי מעלה בלולאה, עם מסכת קצוות ועצירה בהובר.",
-  when:"הוכחה חברתית כשיש הרבה עדויות קצרות.",
+  when:"הוכחה חברתית כשיש הרבה עדויות קצרות. הסט המשוכפל של הלופ עטוף ב-aria-hidden ו-inert, כך שכל עדות מוקראת פעם אחת. padding-bottom בגודל ה-gap סוגר את הלופ בלי קפיצה. בהפחתת תנועה הטור עומד ומציג את העדויות במלואן, בלי מסכה ובלי העותק.",
   css:`.vmq{height:380px;overflow:hidden;max-width:420px;margin-inline:auto;
 -webkit-mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(180deg,transparent,#000 12%,#000 88%,transparent)}
-.vmq-track{display:flex;flex-direction:column;gap:14px;animation:vup 18s linear infinite}
+.vmq-track{display:flex;flex-direction:column;gap:14px;padding-bottom:14px;animation:vup 18s linear infinite}
+.vmq-dup{display:contents}
 .vmq:hover .vmq-track{animation-play-state:paused}
 .vq{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;font-size:14.5px}
 .vq b{display:block;font-size:13px;color:var(--muted);margin-top:6px;font-weight:500}
 @keyframes vup{from{transform:translateY(0)}to{transform:translateY(-50%)}}
-@media(prefers-reduced-motion:reduce){.vmq-track{animation:none}}`,
+@media(prefers-reduced-motion:reduce){.vmq{height:auto;-webkit-mask-image:none;mask-image:none}.vmq-track{animation:none;padding-bottom:0}.vmq-dup{display:none}}`,
   html:`<div class="stage tight"><div class="vmq"><div class="vmq-track">
 <div class="vq">"שירות מדהים, תוצאה מעל המצופה"<b>דנה, תל אביב</b></div>
 <div class="vq">"האתר החדש הכפיל לנו את הפניות"<b>יוסי, חיפה</b></div>
 <div class="vq">"מקצוען אמיתי, מומלץ בחום"<b>מיכל, ירושלים</b></div>
 <div class="vq">"תהליך מהיר ומדויק"<b>אבי, באר שבע</b></div>
+<div class="vmq-dup" aria-hidden="true" inert>
 <div class="vq">"שירות מדהים, תוצאה מעל המצופה"<b>דנה, תל אביב</b></div>
 <div class="vq">"האתר החדש הכפיל לנו את הפניות"<b>יוסי, חיפה</b></div>
 <div class="vq">"מקצוען אמיתי, מומלץ בחום"<b>מיכל, ירושלים</b></div>
 <div class="vq">"תהליך מהיר ומדויק"<b>אבי, באר שבע</b></div>
+</div>
 </div></div></div>`,
   js:``, runway:false
 },
@@ -90,10 +98,10 @@ html[dir="ltr"] .rprog{transform-origin:left}
   desc:"פס אור אלכסוני שחולף על הכפתור כל כמה שניות ומזכיר את קיומו.",
   when:"ה-CTA הראשי בעמוד. אחד בלבד.",
   css:`.shine-btn{position:relative;overflow:hidden}
-.shine-btn::after{content:"";position:absolute;top:0;height:100%;width:40%;left:-60%;
+.shine-btn::after{content:"";position:absolute;top:0;left:0;height:100%;width:40%;
 background:linear-gradient(105deg,transparent,rgba(255,255,255,.45),transparent);
-transform:skewX(-20deg);animation:sweep 3.4s ease-in-out infinite}
-@keyframes sweep{0%,60%{left:-60%}100%{left:130%}}
+transform:translateX(-150%) skewX(-20deg);animation:sweep 3.4s ease-in-out infinite}
+@keyframes sweep{0%,60%{transform:translateX(-150%) skewX(-20deg)}100%{transform:translateX(325%) skewX(-20deg)}}
 @media(prefers-reduced-motion:reduce){.shine-btn::after{animation:none;display:none}}`,
   html:`<div class="stage tight center"><button class="gbtn shine-btn">קבעו שיחת ייעוץ</button></div>`,
   js:``, runway:false
@@ -101,10 +109,12 @@ transform:skewX(-20deg);animation:sweep 3.4s ease-in-out infinite}
 {
   id:"css21", cat:"css", name:"טוגל ומתג מונפשים", tech:"CSS :checked", status:"ממתין",
   desc:"מתג הפעלה וצ'קבוקס עם וי שמצויר: המיקרו-אינטראקציות שגורמות לטופס להרגיש חי.",
-  when:"טפסים, הגדרות, בחירת מסלול חודשי/שנתי.",
+  when:"טפסים, הגדרות, בחירת מסלול חודשי/שנתי. המתג הוא checkbox אמיתי עם role=\"switch\" ושם נגיש, לשני הפקדים יש טבעת פוקוס במקלדת, ושטח הלחיצה של המתג מורחב לכ-44 פיקסלים בלי לשנות את גודלו.",
   css:`.toggles{display:flex;gap:50px;justify-content:center;align-items:center}
 .sw{position:relative;width:48px;height:27px;display:inline-block;cursor:pointer}
+.sw::after{content:"";position:absolute;inset:-9px -4px}
 .sw input{opacity:0;width:0;height:0}
+.sw input:focus-visible+.tr,.cb input:focus-visible~.box{outline:2px solid var(--accent);outline-offset:3px}
 .sw .tr{position:absolute;inset:0;background:#d5d5e2;border-radius:999px;transition:background .25s}
 .sw .tr::before{content:"";position:absolute;top:3.5px;inset-inline-start:3.5px;width:20px;height:20px;border-radius:50%;background:#fff /* qa-allow: white, ידית/סמן ולא משטח טקסט */;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:translate .25s cubic-bezier(.2,.6,.2,1)}
 .sw input:checked+.tr{background:#12b76a}
@@ -113,12 +123,12 @@ html[dir="ltr"] .sw input:checked+.tr::before{translate:21px 0}
 .cb{display:inline-flex;gap:10px;align-items:center;cursor:pointer;font-size:15px}
 .cb input{opacity:0;position:absolute}
 .cb .box{width:19px;height:19px;flex:0 0 19px;border:1.8px solid #d5d5e2;border-radius:6px;display:flex;align-items:center;justify-content:center;transition:background .2s,border-color .2s}
-.cb .box svg{width:11px;height:11px;stroke:#fff;stroke-width:3.2;fill:none;stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset .25s .05s}
+.cb .box svg{width:11px;height:11px;stroke:var(--accent-ink);stroke-width:3.2;fill:none;stroke-dasharray:20;stroke-dashoffset:20;transition:stroke-dashoffset .25s .05s}
 .cb input:checked~.box{background:var(--accent);border-color:var(--accent)}
 .cb input:checked~.box svg{stroke-dashoffset:0}`,
   html:`<div class="stage tight"><div class="toggles">
-<label class="sw"><input type="checkbox" checked><span class="tr"></span></label>
-<label class="cb"><input type="checkbox"><span class="box"><svg viewBox="0 0 16 16"><path d="M2.5 8.5l3.5 3.5 7-8"/></svg></span>אני מאשר את התנאים</label>
+<label class="sw"><input type="checkbox" role="switch" checked aria-label="תשלום שנתי"><span class="tr"></span></label>
+<label class="cb"><input type="checkbox"><span class="box"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8.5l3.5 3.5 7-8"/></svg></span>אני מאשר את התנאים</label>
 </div></div>`,
   js:``, runway:false
 },

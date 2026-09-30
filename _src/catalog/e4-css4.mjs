@@ -25,11 +25,11 @@ export default [
 @media (prefers-reduced-motion: reduce){.mk{animation:none;background-size:100% 62%}}
 .mk-hover{margin-top:18px;font-size:17px;font-weight:500;color:var(--muted);text-align:center}
 .mk-hover b{font-weight:700;color:var(--ink);background-image:linear-gradient(#ffd6e7,#ffd6e7);background-repeat:no-repeat;background-position:right center;background-size:0% 58%;transition:background-size .45s cubic-bezier(.2,.6,.2,1);padding-inline:.1em}
-.mk-hover:hover b{background-size:100% 58%}`,
+@media (hover:hover) and (pointer:fine){.mk-hover:hover b{background-size:100% 58%}}`,
   html:`<div class="stage"><p class="mk-wrap">אנחנו לא מוכרים אתר. אנחנו מוכרים <span class="mk">תוצאה שאפשר למדוד</span> בסוף החודש.</p></div>
 <div class="stage"><p class="mk-wrap">כל פרויקט מתחיל ב<span class="mk mk--ink">אפיון</span>, לא בעיצוב.</p>
 <p class="mk-hover">יש גם וריאנט הובר: העבר עכבר על <b>המילה הזאת</b> ותראה.</p></div>`,
   js:"",
-  note:"ה-background-position הוא right כדי שהמרקר יימתח מימין לשמאל, ככיוון הקריאה בעברית; באתר אנגלי משנים ל-left. box-decoration-break: clone שומר שהפס יעבוד נכון גם כשהמילה נשברת לשתי שורות. בדפדפן בלי תמיכה בגלילה כטיימליין ההדגשה פשוט מוצגת מלאה."
+  note:"ה-background-position הוא right כדי שהמרקר יימתח מימין לשמאל, ככיוון הקריאה בעברית; באתר אנגלי משנים ל-left. box-decoration-break: clone שומר שהפס יעבוד נכון גם כשהמילה נשברת לשתי שורות. בדפדפן בלי תמיכה בגלילה כטיימליין ההדגשה פשוט מוצגת מלאה. וריאנט ההובר יושב בתוך (hover:hover) and (pointer:fine), כדי שנגיעה בטלפון לא תשאיר את המרקר דלוק."
 },
 ];
