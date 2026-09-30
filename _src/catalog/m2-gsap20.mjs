@@ -6,23 +6,26 @@ export default [
   id:"g89", cat:"gsap", name:"מעבר דרך הכותרת (Zoom Through)", tech:"GSAP · ScrollTrigger · SVG mask", status:"ממתין",
   desc:"כותרת ענקית היא חור במסך אטום. בגלילה החור גדל עד שהצופה עובר דרך האותיות אל הסצנה שמאחור. פתיחה קולנועית לעמוד.",
   when:"הירו של אתר תדמית פרימיום, פתיחת קמפיין, מעבר לסקשן הגיבור. פעם אחת בעמוד, בראש.",
-  note:"המסכה היא SVG mask עם טקסט עברי (SVG text תומך בעברית), והטקסט בתוך המסכה מקבל scale מ-1 ל-40 סביב אות מרכזית. הסצנה מאחור נחשפת בלי לזוז. במובייל הכותרת מתחילה גדולה יותר (אחרת האותיות דקות מדי כחור) והמסע קצר יותר.",
+  note:"המסכה היא SVG mask עם טקסט עברי (SVG text תומך בעברית), והטקסט בתוך המסכה מקבל scale מ-1 ל-40 סביב אות מרכזית. ה-ease כאן power2.in ולא none בכוונה: גודל נתפס ביחס ולא בהפרש, ובלי ההאצה החור נפתח בבת אחת בתחילת הגלילה. הסצנה מאחור נחשפת בלי לזוז, והטקסט שלה נכנס רק לקראת הסוף, כדי שלא יציץ כשברים דרך חורי האותיות בפתיחה. במובייל הגופן קטן יותר ביחידות ה-viewBox, כי slice מגדיל לפי הגובה (בלי זה המילה חתוכה בשני הצדדים), ה-scale גדול בהתאם, והמסע קצר יותר. בהפחתת תנועה או כשהספרייה לא נטענה המסכה והרמז לא נדלקים (הם יושבים תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת), ורואים ישר את הסצנה.",
   libs:["gsap","ScrollTrigger"],
-  css:`.zt{position:relative;height:230vh}
+  css:`.zt{position:relative}
 .zt-pin{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--ink)}
 .zt-scene{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--bg);padding:24px}
 .zt-scene .ph{position:absolute;inset:0;border-radius:0;opacity:.55;font-size:0}
 .zt-scene div{position:relative;max-width:30ch}
 .zt-scene h3{margin:0 0 10px;font-size:var(--fs-h2)}
 .zt-scene p{margin:0;opacity:.85}
-.zt-front{position:absolute;inset:0;width:100%;height:100%}
+/* המסכה, הרמז וגובה המסע קיימים רק תחת .mv-on. בלעדיו (הפחתת תנועה, ספרייה חסומה) רואים את הסצנה */
+.zt-front{position:absolute;inset:0;width:100%;height:100%;display:none;pointer-events:none}
 .zt-front rect{fill:var(--bg)}
 .zt-front text{font-weight:900;font-size:120px;fill:#000;font-family:inherit}
-.zt-hint{position:absolute;bottom:26px;inset-inline:0;text-align:center;font-size:13px;color:var(--muted)}
-@media(max-width:767px){.zt{height:180vh}.zt-front text{font-size:150px}}`,
+.zt-hint{position:absolute;bottom:26px;inset-inline:0;text-align:center;font-size:13px;color:var(--muted);display:none}
+.zt.mv-on{height:230vh}
+.zt.mv-on .zt-front,.zt.mv-on .zt-hint{display:block}
+@media(max-width:767px){.zt.mv-on{height:180vh}.zt-front text{font-size:88px}}`,
   html:`<div class="zt">
   <div class="zt-pin">
-    <div class="zt-scene"><div class="ph ph-b"></div><div><h3>ברוכים הבאים פנימה</h3><p>מה שמאחורי השם: שיטה, צוות, ותוצאות שאפשר למדוד.</p></div></div>
+    <div class="zt-scene"><div class="ph ph-b"></div><div class="zt-copy"><h3>ברוכים הבאים פנימה</h3><p>מה שמאחורי השם: שיטה, צוות, ותוצאות שאפשר למדוד.</p></div></div>
     <svg class="zt-front" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <defs><mask id="zt-m"><rect width="1000" height="600" fill="#fff"/><g class="zt-hole"><text x="500" y="345" text-anchor="middle" direction="rtl">סטודיו</text></g></mask></defs>
       <rect width="1000" height="600" mask="url(#zt-m)"/>
@@ -31,36 +34,46 @@ export default [
   </div>
 </div>`,
   js:`(function(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(".zt-front",{opacity:0});return;}
-  const mob=matchMedia("(max-width:767px)").matches;
-  gsap.timeline({scrollTrigger:{trigger:".zt",start:"top top",end:"bottom bottom",scrub:.6}})
-    .to(".zt-hole",{scale:mob?26:40,transformOrigin:"50% 50%",ease:"power2.in",duration:1})   // GSAP מתעלם מ-transform-origin של CSS ב-SVG, חייבים לתת לו את המרכז
-    .to(".zt-hint",{opacity:0,duration:.1},0)
-    .to(".zt-front",{opacity:0,duration:.15},.85);   // בסוף המסע המסכה נעלמת לגמרי, כדי שלא יישאר קצה
+  if(typeof gsap==="undefined")return;   // בלי הספרייה המסכה לא נדלקת ורואים את הסצנה
+  const root=document.querySelector(".zt");
+  gsap.matchMedia().add({mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)",desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    root.classList.add("mv-on");
+    gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}})
+      // power2.in ולא none: גודל נתפס ביחס, ובלי ההאצה החור נפתח בבת אחת בתחילת הגלילה.
+      // GSAP מתעלם מ-transform-origin של CSS ב-SVG, חייבים לתת לו את המרכז. במובייל הגופן 88 ולא 120, ולכן scale גדול יותר
+      .to(".zt-hole",{scale:ctx.conditions.mob?44:40,transformOrigin:"50% 50%",ease:"power2.in",duration:1})
+      .to(".zt-hint",{opacity:0,duration:.1},0)
+      .fromTo(".zt-copy",{opacity:0},{opacity:1,duration:.25},.6)   // הטקסט הלבן לא מציץ כשברים דרך חורי האותיות בפתיחה
+      .to(".zt-front",{autoAlpha:0,duration:.15},.85);   // בסוף המסע המסכה נעלמת לגמרי (autoAlpha: גם visibility, כדי שלא תבלע לחיצות על הסצנה)
+    return ()=>root.classList.remove("mv-on");
+  });
 })();`
 },
 {
   id:"g90", cat:"gsap", name:"שכבות מוצר שמתפרקות ומתחברות", tech:"GSAP · ScrollTrigger · 3D", status:"ממתין",
   desc:"מוצר שמוצג כערימת שכבות באיזומטריה. בגלילה השכבות מתרחקות זו מזו, כל אחת מקבלת תווית, ובסוף חוזרות ומתחברות. תרשים מפורק (exploded view) חי.",
   when:"מוצר עם שכבות אמיתיות (מזרן, נעל, מכשיר, ארכיטקטורת מערכת, חבילת שירות). שלוש עד חמש שכבות.",
-  note:"כל שכבה היא div ב-preserve-3d עם translateZ שגדל בסקראב; ההטיה האיזומטרית (rotateX 58, rotateZ -32) קבועה על המכל. כל השכבות מתחילות בהפרש z קטן כדי שלא יהבהבו זו דרך זו, והתוויות נדלקות בתוך הטיימליין ולא במחלקה עם transition, כי תחת scrub טרנזישן מקפיץ. במובייל ההטיה קטנה והמרווח בין השכבות חצי, כדי שהכל ייכנס ל-390px.",
+  note:"כל שכבה היא div ב-preserve-3d עם translateZ שגדל בסקראב; ההטיה האיזומטרית (rotateX 58, rotateZ -32) קבועה על המכל. כל השכבות מתחילות בהפרש z קטן כדי שלא יהבהבו זו דרך זו, והתוויות נדלקות בתוך הטיימליין ולא במחלקה עם transition, כי תחת scrub טרנזישן מקפיץ. המרווח בשיא הפירוק 130px, והבמה יורדת 12vh תוך כדי הפירוק וחוזרת כשהשכבות מתחברות: ב-140 בלי ירידה השכבה העליונה יצאה 95px מעל ראש המסך ב-1280x800, וב-100 השכבות העליונות הסתירו את התוויות של אלה שמתחתן (נמדד). הירידה רק בזמן הפירוק, כך שהערימה הסגורה נשארת ממורכזת מול הטקסט. במובייל ההטיה קטנה, המרווח 90px והירידה 6vh, כדי שהכל ייכנס ל-390px. בהפחתת תנועה או כשהספרייה לא נטענה אין הצמדה: השכבות עומדות במצב המפורק (translateZ ב-CSS) וכל הרשימה גלויה, כי ההצמדה והעמעום יושבים תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת.",
   libs:["gsap","ScrollTrigger"],
-  css:`.ex{position:relative;height:260vh}
+  css:`.ex{position:relative}
 .ex-pin{position:sticky;top:0;height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:var(--gap);padding-inline:var(--gutter);overflow:hidden}
-.ex-stage{perspective:1400px;display:grid;place-items:center;height:70vh}
-.ex-stack{position:relative;width:min(34vw,380px);aspect-ratio:1;transform-style:preserve-3d;transform:rotateX(58deg) rotateZ(-32deg)}
+.ex-stage{perspective:1400px;display:grid;place-items:center;height:70vh;pointer-events:none}
+.ex:not(.mv-on) .ex-stage{translate:0 12vh}   /* המצב הסטטי הוא השיא, ולכן הבמה נמוכה יותר; עם תנועה GSAP מוריד אותה רק בזמן הפירוק */
+.ex-stack{--gap:130px;position:relative;width:min(34vw,380px);aspect-ratio:1;transform-style:preserve-3d;transform:rotateX(58deg) rotateZ(-32deg)}
 .ex-layer{position:absolute;inset:0;border-radius:22px;transform-style:preserve-3d;backface-visibility:hidden;display:grid;place-items:center;color:#fff;font-weight:800;font-size:22px;box-shadow:0 30px 60px rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.35);will-change:transform}
+/* המצב הסטטי (בלי תנועה או בלי הספרייה) הוא שיא הפירוק. עם תנועה GSAP דורס את זה ב-z משלו */
+.ex-layer:nth-child(2){transform:translateZ(var(--gap))}.ex-layer:nth-child(3){transform:translateZ(calc(var(--gap) * 2))}.ex-layer:nth-child(4){transform:translateZ(calc(var(--gap) * 3))}.ex-layer:nth-child(5){transform:translateZ(calc(var(--gap) * 4))}
 .ex-copy h2{margin:0 0 12px;font-size:var(--fs-h2)}
 .ex-copy p{margin:0 0 22px;color:var(--muted)}
 .ex-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.ex-list li{display:flex;gap:12px;align-items:baseline;opacity:.28}
-.ex-list li.on{opacity:1}
+.ex-list li{display:flex;gap:12px;align-items:baseline}
 .ex-list b{font-size:12px;color:var(--accent);letter-spacing:.12em;min-width:2.4em}
-@media(max-width:767px){.ex{height:200vh}.ex-pin{grid-template-columns:1fr;align-content:center;gap:10px}.ex-stage{height:44vh}.ex-stack{width:56vw;transform:rotateX(52deg) rotateZ(-28deg)}.ex-copy h2{font-size:clamp(22px,6vw,32px)}}`,
+.ex.mv-on{height:260vh}
+@media(max-width:767px){.ex.mv-on{height:200vh}.ex-pin{grid-template-columns:1fr;align-content:center;gap:10px}.ex-stage{height:44vh}.ex:not(.mv-on) .ex-stage{translate:0 6vh}.ex-stack{--gap:90px;width:56vw;transform:rotateX(52deg) rotateZ(-28deg)}.ex-copy h2{font-size:clamp(22px,6vw,32px)}}`,
   html:`<div class="ex">
   <div class="ex-pin">
     <div class="ex-stage"><div class="ex-stack">
-      <div class="ex-layer ph-a" style="background:linear-gradient(160deg,#3b5bdb,#748ffc)">בסיס</div>
+      <div class="ex-layer" style="background:linear-gradient(160deg,#3b5bdb,#748ffc)">בסיס</div>
       <div class="ex-layer" style="background:linear-gradient(160deg,#0b7285,#3bc9db)">מנוע</div>
       <div class="ex-layer" style="background:linear-gradient(160deg,#5f3dc4,#9775fa)">ממשק</div>
       <div class="ex-layer" style="background:linear-gradient(160deg,#e8590c,#ffa94d)">מעטפת</div>
@@ -70,36 +83,50 @@ export default [
   </div>
 </div>`,
   js:`(function(){
-  const layers=gsap.utils.toArray(".ex-layer"),items=gsap.utils.toArray(".ex-list li");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){items.forEach(l=>l.classList.add("on"));layers.forEach((l,i)=>gsap.set(l,{z:i*40}));return;}
-  const GAP=matchMedia("(max-width:767px)").matches?76:140;
-  gsap.set(layers,{z:(i)=>i*9});                              // בלי הפרש פתיחה ארבע השכבות באותו z ומהבהבות זו דרך זו
-  const tl=gsap.timeline({scrollTrigger:{trigger:".ex",start:"top top",end:"bottom bottom",scrub:.5}});
-  layers.forEach((l,i)=>{
-    // אטימות התווית חיה בטיימליין ולא במחלקה עם transition: תחת scrub טרנזישן ומחלקה מקפיצים
-    tl.to(l,{z:i*GAP,duration:1,ease:"power2.inOut"},i*.25)
-      .to(items[i],{opacity:1,duration:.4,ease:"none"},i*.25+.2);
+  if(typeof gsap==="undefined")return;   // בלי הספרייה השכבות עומדות מפורקות וכל הרשימה גלויה
+  const root=document.querySelector(".ex"),stage=root.querySelector(".ex-stage"),layers=gsap.utils.toArray(".ex-layer"),items=gsap.utils.toArray(".ex-list li");
+  gsap.matchMedia().add({mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)",desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    root.classList.add("mv-on");
+    const GAP=ctx.conditions.mob?90:130,DROP=ctx.conditions.mob?.06:.12;   // כמו --gap ב-CSS; DROP בחלקים מגובה המסך
+    gsap.set(layers,{z:(i)=>i*9});                              // בלי הפרש פתיחה ארבע השכבות באותו z ומהבהבות זו דרך זו
+    gsap.set(items,{opacity:.28});
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
+    layers.forEach((l,i)=>{
+      // אטימות התווית חיה בטיימליין ולא במחלקה עם transition: תחת scrub טרנזישן ומחלקה מקפיצים
+      tl.to(l,{z:i*GAP,duration:1,ease:"power2.inOut"},i*.25)
+        .to(items[i],{opacity:1,duration:.4,ease:"none"},i*.25+.2);
+    });
+    // הבמה יורדת בזמן הפירוק, כדי שהשכבה העליונה לא תצא מראש המסך, וחוזרת כשהשכבות מתחברות
+    tl.to(stage,{y:()=>innerHeight*DROP,duration:tl.duration(),ease:"power2.inOut"},0);
+    tl.to({},{duration:.6});                                    // רגע של שהייה במצב המפורק
+    tl.addLabel("back");
+    tl.to(layers,{z:(i)=>i*9,duration:1.2,ease:"power2.inOut",stagger:{each:.08,from:"end"}},"back");   // מתחבר חזרה מלמעלה למטה
+    tl.to(stage,{y:0,duration:1.2+.08*(layers.length-1),ease:"power2.inOut"},"back");
+    return ()=>root.classList.remove("mv-on");
   });
-  tl.to({},{duration:.6});                                    // רגע של שהייה במצב המפורק
-  tl.to(layers,{z:(i)=>i*9,duration:1.2,ease:"power2.inOut",stagger:{each:.08,from:"end"}});   // מתחבר חזרה מלמעלה למטה
 })();`
 },
 {
   id:"g91", cat:"gsap", name:"טקסט שנוסע במנהרה לעומק", tech:"GSAP · ScrollTrigger · 3D", status:"ממתין",
   desc:"שורות טקסט מונחות זו אחרי זו בעומק. הגלילה מסיעה את הצופה קדימה: כל שורה גדלה, חולפת על פניו ונעלמת, והבאה מגיעה מהרחוק. מניפסט שנקרא כמו מסע.",
   when:"מניפסט, ערכים, \"מה אנחנו מאמינים\", פתיחת סיפור מותג. ארבע עד שבע שורות קצרות.",
-  note:"כל שורה מקבלת z התחלתי שלילי לפי המיקום שלה, והטיימליין מוסיף לכולן אותו z בסקראב, כך שהתחושה היא של מצלמה שנוסעת. השורה דוהה לפני שהיא חוצה את המצלמה. במובייל הפרספקטיבה קצרה יותר והמרווח בין שורות קטן.",
+  note:"כל שורה מקבלת z התחלתי שלילי לפי המיקום שלה, והטיימליין מוסיף לכולן אותו z בסקראב, כך שהתחושה היא של מצלמה שנוסעת. השורה דוהה לפני שהיא חוצה את המצלמה, והבאה מתחילה להופיע רק כשהקודמת כבר דועכת, אחרת בטלפון שתיהן נכתבות זו על זו באמצע המסך. במובייל הפרספקטיבה קצרה יותר והמרווח בין שורות קטן. בהפחתת תנועה או כשהספרייה לא נטענה השורות עומדות זו מתחת לזו בלי הצמדה, כי המנהרה יושבת תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת.",
   libs:["gsap","ScrollTrigger"],
-  css:`.tn{position:relative;height:320vh}
-.tn-pin{position:sticky;top:0;height:100vh;overflow:hidden;perspective:900px;background:var(--ink);color:var(--bg);display:grid;place-items:center}
-.tn-space{position:absolute;inset:0;transform-style:preserve-3d;display:grid;place-items:center}
-.tn-line{position:absolute;font-size:clamp(28px,5vw,72px);font-weight:800;white-space:nowrap;will-change:transform,opacity;text-align:center;padding-inline:20px}
-.tn-line small{display:block;font-size:.4em;font-weight:500;opacity:.7;margin-top:.3em}
+  css:`.tn{position:relative}
+.tn-pin{position:relative;min-height:100vh;overflow:hidden;background:var(--ink);color:var(--bg);display:grid;place-items:center;padding-block:10vh}
+.tn-space{position:relative;display:grid;place-items:center;gap:3vh}
+.tn-line{font-size:clamp(28px,5vw,72px);font-weight:800;text-align:center;padding-inline:20px;text-wrap:balance}
+.tn-line small{display:block;font-size:max(12px,.4em);font-weight:500;opacity:.7;margin-top:.3em}
 .tn-glow{position:absolute;inset:30%;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 45%,transparent),transparent);filter:blur(40px)}
-@media(max-width:767px){.tn{height:260vh}.tn-pin{perspective:600px}}`,
+/* המנהרה: רק תחת .mv-on. בלעדיו השורות הן רשימה רגילה */
+.tn.mv-on{height:320vh}
+.tn.mv-on .tn-pin{position:sticky;top:0;height:100vh;min-height:0;padding-block:0;perspective:900px}
+.tn.mv-on .tn-space{position:absolute;inset:0;transform-style:preserve-3d}
+.tn.mv-on .tn-line{position:absolute;white-space:nowrap;will-change:transform,opacity}
+@media(max-width:767px){.tn.mv-on{height:260vh}.tn.mv-on .tn-pin{perspective:600px}}`,
   html:`<div class="tn">
   <div class="tn-pin"><div class="tn-glow"></div><div class="tn-space">
-    <div class="tn-line">אנחנו לא בונים אתרים.<small>שורה ראשונה</small></div>
+    <div class="tn-line">אנחנו לא בונים אתרים.<small>מה שאנחנו מאמינים בו</small></div>
     <div class="tn-line">אנחנו בונים דרך להגיע אליכם.</div>
     <div class="tn-line">בלי רעש. בלי קישוטים.</div>
     <div class="tn-line">רק מה שמזיז לקוח לפעולה.</div>
@@ -107,18 +134,24 @@ export default [
   </div></div>
 </div>`,
   js:`(function(){
-  const lines=gsap.utils.toArray(".tn-line"),STEP=matchMedia("(max-width:767px)").matches?700:1000;
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){lines.forEach((l,i)=>gsap.set(l,{position:"static",marginBottom:20}));return;}
-  lines.forEach((l,i)=>gsap.set(l,{z:-i*STEP,opacity:i===0?1:0}));
-  const total=(lines.length-1)*STEP+STEP*.6;
-  const tl=gsap.timeline({scrollTrigger:{trigger:".tn",start:"top top",end:"bottom bottom",scrub:.7}});
-  tl.to(lines,{z:"+="+total,ease:"none",duration:1},0);
-  // השקיפות יושבת באותו טיימליין ולא ב-onUpdate נפרד, כך שהיא נכונה גם בסקראב לאחור וגם בקפיצה.
-  // לכל שורה: מופיעה כשהיא במרחק 1.2 צעדים, מלאה מ-0.4 צעד, ונעלמת כשהיא חולפת על פני המצלמה.
-  const at=(i,z)=>Math.max(0,(z+i*STEP)/total);   // הזמן (0..1) שבו השורה i מגיעה לעומק z
-  lines.forEach((l,i)=>{
-    if(i>0)tl.fromTo(l,{opacity:0},{opacity:1,duration:Math.max(.001,at(i,-STEP*.4)-at(i,-STEP*1.2)),ease:"none"},at(i,-STEP*1.2));
-    tl.to(l,{opacity:0,duration:Math.max(.001,at(i,300)-at(i,100)),ease:"none"},at(i,100));
+  if(typeof gsap==="undefined")return;   // בלי הספרייה השורות עומדות זו מתחת לזו
+  const root=document.querySelector(".tn"),lines=gsap.utils.toArray(".tn-line");
+  gsap.matchMedia().add({mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)",desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    root.classList.add("mv-on");
+    const STEP=ctx.conditions.mob?700:1000;
+    lines.forEach((l,i)=>gsap.set(l,{z:-i*STEP,opacity:i===0?1:0}));
+    const total=(lines.length-1)*STEP+STEP*.6;
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.7}});
+    tl.to(lines,{z:"+="+total,ease:"none",duration:1},0);
+    // השקיפות יושבת באותו טיימליין ולא ב-onUpdate נפרד, כך שהיא נכונה גם בסקראב לאחור וגם בקפיצה.
+    // לכל שורה: מתחילה להופיע רק כשהקודמת כבר באמצע הדעיכה (עומק 200 מעבר למצלמה), מלאה מ-0.4 צעד, ונעלמת כשהיא חולפת על פני המצלמה.
+    // (כשההופעה התחילה במרחק קבוע של 1.2 צעדים, בטלפון שתי השורות נכתבו זו על זו באמצע המסך)
+    const at=(i,z)=>Math.max(0,(z+i*STEP)/total),IN=200-STEP;   // at: הזמן (0..1) שבו השורה i מגיעה לעומק z
+    lines.forEach((l,i)=>{
+      if(i>0)tl.fromTo(l,{opacity:0},{opacity:1,duration:Math.max(.001,at(i,-STEP*.4)-at(i,IN)),ease:"none"},at(i,IN));
+      tl.to(l,{opacity:0,duration:Math.max(.001,at(i,300)-at(i,100)),ease:"none"},at(i,100));
+    });
+    return ()=>root.classList.remove("mv-on");
   });
 })();`
 },
@@ -126,19 +159,25 @@ export default [
   id:"g92", cat:"gsap", name:"חפיסה שמתהפכת קלף אחר קלף", tech:"GSAP · ScrollTrigger · 3D", status:"ממתין",
   desc:"ערימת קלפים מוצמדת למסך. כל גלילה הופכת את הקלף העליון על צירו האופקי, חושפת את הבא, והקלף ההפוך נעלם מאחור. עדויות או יתרונות בקצב של קריאה.",
   when:"עדויות, שאלות ותשובות, ארבעה עד שישה יתרונות. כשרוצים שהקורא יעצור על כל אחד בנפרד.",
-  note:"כל קלף מתהפך ב-rotateX מ-0 ל--180 סביב הקצה העליון (transform-origin 50% 0) עם backface-visibility:hidden, כך שבחצי הדרך הוא נעלם והבא כבר מלא מאחוריו. ציר במרכז נראה שבור כי הקלף מסתובב דרך הערימה, ולכן יש גם translateZ שמרים ומחזיר. סדר ה-z מתעדכן באמצע ההיפוך. במובייל הקלף גבוה ומרווח הגלילה לכל קלף קצר יותר.",
+  note:"כל קלף מתהפך ב-rotateX מ-0 ל-180, לכיוון הצופה, סביב הקצה העליון (transform-origin 50% 0) עם backface-visibility:hidden, כך שבחצי הדרך הוא נעלם והבא כבר מלא מאחוריו. הכיוון חשוב: היפוך הרחק מהצופה מכניס את החצי התחתון של הקלף לתוך הערימה, והשורה התחתונה נחתכת בקו חד. סדר ה-z מתעדכן באמצע ההיפוך. במובייל הקלף גבוה ומרווח הגלילה לכל קלף קצר יותר. בהפחתת תנועה או כשהספרייה לא נטענה הערימה לא נבנית (היא יושבת תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת), והקלפים עומדים זה מתחת לזה.",
   libs:["gsap","ScrollTrigger"],
-  css:`.fk{position:relative;height:calc(100vh + var(--fk-n,4) * 70vh)}
-.fk-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1600px;overflow:hidden}
-.fk-deck{position:relative;width:min(640px,88vw);aspect-ratio:16/9;transform-style:preserve-3d}
-.fk-card{position:absolute;inset:0;border-radius:24px;background:var(--card);border:1px solid var(--line);padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;
-  backface-visibility:hidden;transform-origin:50% 0%;box-shadow:0 30px 70px rgba(0,0,0,.14);will-change:transform}
+  css:`.fk{position:relative}
+.fk-pin{display:grid;place-items:center;perspective:1600px;padding-block:10vh}
+.fk-deck{position:relative;width:min(640px,88vw);display:grid;gap:16px;transform-style:preserve-3d}
+.fk-card{position:relative;border-radius:24px;background:var(--card);border:1px solid var(--line);padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;
+  backface-visibility:hidden;transform-origin:50% 0%;box-shadow:0 30px 70px rgba(0,0,0,.14)}
 .fk-card q{font-size:clamp(18px,2.4vw,30px);font-weight:600;line-height:1.35;quotes:none}
 .fk-card q::before{content:"״"}.fk-card q::after{content:"״"}
 .fk-card cite{font-style:normal;color:var(--muted);font-size:15px}
 .fk-card b{font-size:12px;color:var(--accent);letter-spacing:.14em}
-.fk-hint{position:absolute;bottom:22px;font-size:13px;color:var(--muted)}
-@media(max-width:767px){.fk-deck{aspect-ratio:4/5}.fk{height:calc(100vh + var(--fk-n,4) * 55vh)}}`,
+.fk-hint{position:absolute;bottom:22px;font-size:13px;color:var(--muted);display:none}
+/* הערימה וההצמדה: רק תחת .mv-on. בלעדיו הקלפים הם רשימה */
+.fk.mv-on{height:calc(100vh + var(--fk-n,4) * 70vh)}
+.fk.mv-on .fk-pin{position:sticky;top:0;height:100vh;padding-block:0;overflow:hidden}
+.fk.mv-on .fk-deck{display:block;aspect-ratio:16/9}
+.fk.mv-on .fk-card{position:absolute;inset:0;will-change:transform}
+.fk.mv-on .fk-hint{display:block}
+@media(max-width:767px){.fk.mv-on .fk-deck{aspect-ratio:4/5}.fk.mv-on{height:calc(100vh + var(--fk-n,4) * 55vh)}}`,
   html:`<div class="fk" style="--fk-n:4">
   <div class="fk-pin"><div class="fk-deck">
     <article class="fk-card"><b>01</b><q>תוך שבועיים מהעלייה לאוויר קיבלנו יותר פניות מאשר בחצי השנה שלפני.</q><cite>ד"ר נועה לוי, קליניקה בתל אביב</cite></article>
@@ -148,18 +187,21 @@ export default [
   </div><p class="fk-hint">גלול כדי להפוך</p></div>
 </div>`,
   js:`(function(){
-  const cards=gsap.utils.toArray(".fk-card"),n=cards.length;
-  document.querySelector(".fk").style.setProperty("--fk-n",n-1);
-  cards.forEach((c,i)=>gsap.set(c,{zIndex:n-i,y:i*6,scale:1-i*.02}));   // ערימה: כל קלף מציץ מעט מתחת לקודם
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(cards,{position:"relative",y:0,scale:1,marginBottom:16});document.querySelector(".fk-pin").style.height="auto";return;}
-  const tl=gsap.timeline({scrollTrigger:{trigger:".fk",start:"top top",end:"bottom bottom",scrub:.5}});
-  cards.slice(0,-1).forEach((c,i)=>{
-    tl.to(c,{rotateX:-180,duration:1,ease:"power2.inOut"},i)
-      .to(c,{z:150,duration:.5,ease:"power2.out"},i)                    // מתרומם מהערימה כדי שלא יסתובב דרך הקלפים שמתחתיו
-      .to(c,{z:0,duration:.5,ease:"power2.in"},i+.5)
-      .set(c,{zIndex:0},i+.5)                                           // באמצע ההיפוך הקלף עובר לתחתית הערימה
-      .to(cards.slice(i+1),{y:(k)=>k*6,scale:(k)=>1-k*.02,duration:1,ease:"power2.out"},i)
-      .to(".fk-hint",{opacity:0,duration:.2},0);
+  if(typeof gsap==="undefined")return;   // בלי הספרייה הקלפים עומדים זה מתחת לזה
+  const root=document.querySelector(".fk"),cards=gsap.utils.toArray(".fk-card"),n=cards.length;
+  root.style.setProperty("--fk-n",n-1);
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    cards.forEach((c,i)=>gsap.set(c,{zIndex:n-i,y:i*6,scale:1-i*.02}));   // ערימה: כל קלף מציץ מעט מתחת לקודם
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5}});
+    tl.to(".fk-hint",{opacity:0,duration:.2,ease:"none"},0);
+    cards.slice(0,-1).forEach((c,i)=>{
+      // rotateX חיובי: הקלף מתהפך לכיוון הצופה ומעל הקצה העליון, ולא עובר דרך הקלפים שמתחתיו
+      tl.to(c,{rotateX:180,duration:1,ease:"power2.inOut"},i)
+        .set(c,{zIndex:0},i+.5)                                           // באמצע ההיפוך הקלף עובר לתחתית הערימה
+        .to(cards.slice(i+1),{y:(k)=>k*6,scale:(k)=>1-k*.02,duration:1,ease:"power2.out"},i);
+    });
+    return ()=>root.classList.remove("mv-on");
   });
 })();`
 },
@@ -167,60 +209,79 @@ export default [
   id:"g94", cat:"gsap", name:"מצלמה שנוסעת על תמונה בגלילה", tech:"GSAP · ScrollTrigger · pin", status:"ממתין",
   desc:"תמונה גדולה אחת (מפה, תוכנית קומה, איור) ומצלמה שנוסעת עליה עם הגלילה: זום לנקודה, כיתוב, נסיעה לנקודה הבאה. סיור מודרך בלי שהצופה זז.",
   when:"מפת פרויקט, תוכנית דירה, איור תהליך, קמפוס, תפריט מסעדה מאויר. שלוש עד חמש תחנות.",
-  note:"כל תחנה היא אחוזים על התמונה + זום. הטרנספורם מחושב בזמן refresh לפי גודל המכל (invalidateOnRefresh), לכן זה נכון בכל רוחב. במובייל הזום גדול יותר כי המסך צר, והכיתוב יושב למטה במקום בצד.",
+  note:"כל תחנה היא אחוזים על התמונה + זום. הטרנספורם מחושב בזמן refresh לפי גודל המכל (invalidateOnRefresh), לכן זה נכון בכל רוחב. לכל תחנה צעד של 2.6 יחידות, וכיתוב מלא בערך יחידה שלמה ממנו: בצעד של 2 הכיתוב היה מלא כ-100px גלילה ונעלם לפני שמספיקים לקרוא. במובייל הזום גדול יותר כי המסך צר, והכיתוב יושב למטה במקום בצד. בהפחתת תנועה או כשהספרייה לא נטענה רואים את כל התמונה עם הנקודות, ושלושת הכיתובים עומדים כרשימה אחת בפינה, כי ההצמדה והכיתובים המוסתרים יושבים תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת.",
   libs:["gsap","ScrollTrigger"],
-  css:`.cam{position:relative;height:320vh}
+  css:`.cam{position:relative}
 .cam-pin{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--ink)}
-.cam-img{position:absolute;inset:0;transform-origin:0 0;will-change:transform}
+.cam-img{position:absolute;inset:0;transform-origin:0 0}
 .cam-img .ph{position:absolute;inset:0;border-radius:0;font-size:0;background:linear-gradient(135deg,#1b2a4a,#2f7a6b 45%,#c98a3a)}
 .cam-spot{position:absolute;width:26px;height:26px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 8px color-mix(in srgb,var(--accent) 30%,transparent);translate:-50% -50%}
-.cam-cap{position:absolute;inset-inline-end:clamp(20px,5vw,60px);bottom:clamp(20px,6vh,60px);max-width:34ch;background:color-mix(in srgb,var(--bg) 92%,transparent);color:var(--ink);padding:18px 22px;border-radius:16px;opacity:0;translate:0 12px}
+/* בלי תנועה: שלושת הכיתובים רשימה אחת בפינה. עם תנועה (.mv-on) הם נערמים באותו מקום ומתחלפים */
+.cam-caps{position:absolute;inset-inline-end:clamp(20px,5vw,60px);bottom:clamp(20px,6vh,60px);width:min(34ch,calc(100% - 40px));display:grid;gap:10px}
+.cam-cap{background:color-mix(in srgb,var(--bg) 92%,transparent);color:var(--ink);padding:18px 22px;border-radius:16px}
 .cam-cap b{display:block;font-size:12px;color:var(--accent);letter-spacing:.14em;margin-bottom:6px}
 .cam-cap h3{margin:0 0 6px;font-size:20px}
 .cam-cap p{margin:0;color:var(--muted);font-size:15px;line-height:1.6}
-@media(max-width:767px){.cam-cap{inset-inline:16px;max-width:none}}`,
+.cam.mv-on{height:320vh}
+.cam.mv-on .cam-img{will-change:transform}
+.cam.mv-on .cam-caps{display:block}
+.cam.mv-on .cam-cap{position:absolute;inset-inline-end:0;bottom:0}
+@media(max-width:767px){.cam-caps{inset-inline:16px;width:auto}.cam.mv-on .cam-cap{inset-inline:0}}`,
   html:`<div class="cam">
   <div class="cam-pin">
     <div class="cam-img"><div class="ph"></div>
       <span class="cam-spot" style="left:22%;top:34%"></span><span class="cam-spot" style="left:64%;top:28%"></span><span class="cam-spot" style="left:48%;top:72%"></span></div>
-    <div class="cam-cap" data-i="0"><b>תחנה 01</b><h3>הכניסה הראשית</h3><p>מפה מקבלת פנים, מרחב המתנה, וקפה.</p></div>
-    <div class="cam-cap" data-i="1"><b>תחנה 02</b><h3>חדרי הטיפול</h3><p>שישה חדרים, אור טבעי בכולם.</p></div>
-    <div class="cam-cap" data-i="2"><b>תחנה 03</b><h3>הגינה האחורית</h3><p>איפה שהמטופלים אוהבים לחכות.</p></div>
+    <div class="cam-caps">
+      <div class="cam-cap" data-i="0"><b>תחנה 01</b><h3>הכניסה הראשית</h3><p>מפה מקבלת פנים, מרחב המתנה, וקפה.</p></div>
+      <div class="cam-cap" data-i="1"><b>תחנה 02</b><h3>חדרי הטיפול</h3><p>שישה חדרים, אור טבעי בכולם.</p></div>
+      <div class="cam-cap" data-i="2"><b>תחנה 03</b><h3>הגינה האחורית</h3><p>איפה שהמטופלים אוהבים לחכות.</p></div>
+    </div>
   </div>
 </div>`,
   js:`(function(){
-  const pin=document.querySelector(".cam-pin"),img=document.querySelector(".cam-img"),caps=gsap.utils.toArray(".cam-cap");
+  if(typeof gsap==="undefined")return;   // בלי הספרייה רואים את כל התמונה ואת שלושת הכיתובים
+  const root=document.querySelector(".cam"),pin=root.querySelector(".cam-pin"),img=root.querySelector(".cam-img"),caps=gsap.utils.toArray(".cam-cap");
   const stops=[{x:.22,y:.34},{x:.64,y:.28},{x:.48,y:.72}];
-  const Z=()=>matchMedia("(max-width:767px)").matches?3.2:2.4;
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(caps[0],{opacity:1,translate:"0 0"});return;}
-  // מביאים נקודה (אחוזים) למרכז המסך בזום נתון: x = W/2 - px*W*z
-  const to=(p)=>({x:()=>pin.clientWidth/2-p.x*pin.clientWidth*Z(),y:()=>pin.clientHeight/2-p.y*pin.clientHeight*Z(),scale:Z});
-  const tl=gsap.timeline({scrollTrigger:{trigger:".cam",start:"top top",end:"bottom bottom",scrub:.8,invalidateOnRefresh:true}});
-  stops.forEach((p,i)=>{
-    tl.to(img,{...to(p),duration:1.2,ease:"power2.inOut"},i*2)
-      .to(caps[i],{opacity:1,translate:"0 0",duration:.3},i*2+1)
-      .to(caps[i],{opacity:0,translate:"0 -12px",duration:.3},i*2+1.7);
+  gsap.matchMedia().add({mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)",desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    root.classList.add("mv-on");
+    const Z=ctx.conditions.mob?3.2:2.4,S=2.6;   // S: צעד לכל תחנה (נסיעה 1.2, כיתוב נכנס ב-1, יוצא ב-2.3)
+    // מביאים נקודה (אחוזים) למרכז המסך בזום נתון: x = W/2 - px*W*z
+    const to=(p)=>({x:()=>pin.clientWidth/2-p.x*pin.clientWidth*Z,y:()=>pin.clientHeight/2-p.y*pin.clientHeight*Z,scale:Z});
+    gsap.set(caps,{opacity:0,y:12});
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.8,invalidateOnRefresh:true}});
+    stops.forEach((p,i)=>{
+      tl.to(img,{...to(p),duration:1.2,ease:"power2.inOut"},i*S)
+        .to(caps[i],{opacity:1,y:0,duration:.3,ease:"none"},i*S+1)
+        .to(caps[i],{opacity:0,y:-12,duration:.3,ease:"none"},i*S+2.3);
+    });
+    tl.to(img,{x:0,y:0,scale:1,duration:1.2,ease:"power2.inOut"},stops.length*S);   // חזרה למבט מלא בסוף
+    return ()=>root.classList.remove("mv-on");
   });
-  tl.to(img,{x:0,y:0,scale:1,duration:1.2,ease:"power2.inOut"},stops.length*2);   // חזרה למבט מלא בסוף
 })();`
 },
 {
   id:"g95", cat:"gsap", name:"קובייה שמסתובבת פאה-פאה בגלילה", tech:"GSAP · ScrollTrigger · 3D", status:"ממתין",
   desc:"ארבע פאות של קובייה, כל אחת נושאת עדות או יתרון. הגלילה מסובבת את הקובייה 90 מעלות בכל שלב, עם עצירה קצרה על כל פאה.",
   when:"עדויות, ארבעה עקרונות, ארבע חבילות. בדיוק ארבעה פריטים, שקולים זה לזה.",
-  note:"הפאות מסודרות ב-rotateY(i*90) translateZ(חצי הרוחב), והרוחב נמדד ב-refresh כדי שהעומק יתאים לכל מסך. הסיבוב בסקראב עם ease לכל רבע, כך שיש שהייה על כל פאה. במובייל הקובייה צרה יותר והגובה של המסלול קצר.",
+  note:"הפאות מסודרות ב-rotateY(-i*90) translateZ(חצי הרוחב): המינוס שם את הפאה הבאה בסדר משמאל, והקובייה מסתובבת חיובית, כך שהפאות מגיעות 1, 2, 3, 4 כמו הנקודות (ב-RTL הבא מגיע משמאל). הרוחב נמדד בטעינה ובכל שינוי גודל חלון, כדי שהעומק יתאים לכל מסך. הסיבוב בסקראב עם ease לכל רבע, כך שיש שהייה על כל פאה. במובייל הקובייה צרה יותר והגובה של המסלול קצר. בהפחתת תנועה או כשהספרייה לא נטענה הקובייה לא נבנית (היא יושבת תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת), וארבע הפאות עומדות זו מתחת לזו.",
   libs:["gsap","ScrollTrigger"],
-  css:`.cb{position:relative;height:300vh}
-.cb-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1500px;overflow:hidden}
-.cb-cube{position:relative;width:min(560px,80vw);aspect-ratio:16/10;transform-style:preserve-3d;will-change:transform}
-.cb-face{position:absolute;inset:0;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;backface-visibility:hidden;box-shadow:0 30px 70px rgba(0,0,0,.12)}
+  css:`.cb{position:relative}
+.cb-pin{display:grid;place-items:center;padding-block:10vh}
+.cb-cube{position:relative;width:min(560px,80vw);display:grid;gap:16px}
+.cb-face{position:relative;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;box-shadow:0 30px 70px rgba(0,0,0,.12)}
 .cb-face q{font-size:clamp(18px,2.4vw,30px);font-weight:600;line-height:1.35;quotes:none}
 .cb-face cite{font-style:normal;color:var(--muted);font-size:15px}
 .cb-face b{font-size:12px;color:var(--accent);letter-spacing:.14em}
-.cb-dots{position:absolute;bottom:26px;display:flex;gap:8px}
+.cb-dots{position:absolute;bottom:26px;display:none;gap:8px}
 .cb-dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
 .cb-dots i.on{background:var(--accent)}
-@media(max-width:767px){.cb{height:240vh}.cb-cube{aspect-ratio:4/5}}`,
+/* הקובייה וההצמדה: רק תחת .mv-on. בלעדיו הפאות הן רשימה */
+.cb.mv-on{height:300vh}
+.cb.mv-on .cb-pin{position:sticky;top:0;height:100vh;padding-block:0;perspective:1500px;overflow:hidden}
+.cb.mv-on .cb-cube{display:block;aspect-ratio:16/10;transform-style:preserve-3d;will-change:transform}
+.cb.mv-on .cb-face{position:absolute;inset:0;backface-visibility:hidden}
+.cb.mv-on .cb-dots{display:flex}
+@media(max-width:767px){.cb.mv-on{height:240vh}.cb.mv-on .cb-cube{aspect-ratio:4/5}}`,
   html:`<div class="cb">
   <div class="cb-pin"><div class="cb-cube">
     <div class="cb-face"><b>01</b><q>האתר מסביר את העסק טוב יותר ממני.</q><cite>מיכל אדר, סטודיו לעיצוב פנים</cite></div>
@@ -230,20 +291,26 @@ export default [
   </div><div class="cb-dots"><i class="on"></i><i></i><i></i><i></i></div></div>
 </div>`,
   js:`(function(){
-  const cube=document.querySelector(".cb-cube"),faces=gsap.utils.toArray(".cb-face"),dots=gsap.utils.toArray(".cb-dots i");
-  function place(){const d=cube.offsetWidth/2;faces.forEach((f,i)=>{f.style.transform="rotateY("+(i*90)+"deg) translateZ("+d+"px)";});gsap.set(cube,{z:-d});}   // סיבוב ואז הזזה: gsap.set היה מסדר הפוך והפאות היו מסתובבות במקום
-  place();addEventListener("resize",place);
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const tl=gsap.timeline({scrollTrigger:{trigger:".cb",start:"top top",end:"bottom bottom",scrub:.6,onUpdate(s){const k=Math.min(3,Math.round(s.progress*3));dots.forEach((d,i)=>d.classList.toggle("on",i===k));}}});
-  // RTL: הפאה הבאה מגיעה משמאל, לכן הקובייה מסתובבת חיובית
-  for(let i=1;i<4;i++)tl.to(cube,{rotateY:i*90,duration:1,ease:"power2.inOut"},i-1+.2);
+  if(typeof gsap==="undefined")return;   // בלי הספרייה ארבע הפאות עומדות זו מתחת לזו
+  const root=document.querySelector(".cb"),cube=root.querySelector(".cb-cube"),faces=gsap.utils.toArray(".cb-face"),dots=gsap.utils.toArray(".cb-dots i");
+  // סיבוב ואז הזזה, במחרוזת ידנית: gsap.set היה מסדר הפוך והפאות היו מסתובבות במקום.
+  // -i*90: הפאה הבאה בסדר מחכה משמאל. בלי המינוס אחרי 01 הגיעה 04, ואז 03 ו-02
+  function place(){const d=cube.offsetWidth/2;faces.forEach((f,i)=>{f.style.transform="rotateY("+(-i*90)+"deg) translateZ("+d+"px)";});gsap.set(cube,{z:-d});}
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    place();addEventListener("resize",place);
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,onUpdate(s){const k=Math.min(3,Math.round(s.progress*3));dots.forEach((d,i)=>d.classList.toggle("on",i===k));}}});
+    // RTL: הפאה הבאה מגיעה משמאל, לכן הקובייה מסתובבת חיובית
+    for(let i=1;i<4;i++)tl.to(cube,{rotateY:i*90,duration:1,ease:"power2.inOut"},i-1+.2);
+    return ()=>{removeEventListener("resize",place);faces.forEach(f=>f.style.transform="");root.classList.remove("mv-on");};
+  });
 })();`
 },
 {
   id:"g96", cat:"gsap", name:"סקשן שמתרומם מהשולחן", tech:"GSAP · ScrollTrigger · 3D", status:"ממתין",
   desc:"כרטיסים שוכבים שטוחים בפרספקטיבה, כמו על שולחן, ובזמן שהם נכנסים למסך הם מתרוממים לזקוף, אחד אחרי השני. כניסה עם עומק במקום עוד fade-up.",
   when:"גריד יתרונות, חבילות, צוות. כל סקשן כרטיסים שרוצים לתת לו נוכחות. פעם או פעמיים בעמוד.",
-  note:"המכל מקבל perspective והכרטיסים rotateX(48) עם transform-origin למטה, וסקראב מחזיר אותם ל-0 עם סטאגר. אין pin, לכן זה זול וזורם. במובייל הזווית ההתחלתית קטנה (28) כי הכרטיסים בעמודה אחת וארוכים.",
+  note:"המכל מקבל perspective והכרטיסים rotateX(48) עם transform-origin למטה, ו-ScrollTrigger.batch מרים כל שורה ב-tween עם stagger כשהיא נכנסת, ומשכיב אותה חזרה כשגוללים מעליה למעלה (batch לא תומך ב-scrub). אין pin, לכן זה זול וזורם. במובייל הזווית ההתחלתית קטנה (28) כי הכרטיסים בעמודה אחת וארוכים, והזווית נקבעת דרך gsap.matchMedia כך שהיא מתחלפת גם בסיבוב מסך. בהפחתת תנועה הכרטיסים עומדים זקופים מההתחלה.",
   libs:["gsap","ScrollTrigger"],
   css:`.tb{perspective:1200px;perspective-origin:50% 0%;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);max-width:1100px;margin-inline:auto;padding-block:10vh 20vh}
 .tb-card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;transform-origin:50% 100%;will-change:transform,opacity;box-shadow:0 20px 50px rgba(0,0,0,.08)}
@@ -260,22 +327,25 @@ export default [
   <article class="tb-card"><div class="ph ph-a">6</div><h3>תחזוקה</h3><p>עדכונים, גיבויים ואבטחה, בלי לחשוב על זה.</p></article>
 </div></div>`,
   js:`(function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה הכרטיסים עומדים זקופים
   const cards=gsap.utils.toArray(".tb-card");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const ang=matchMedia("(max-width:767px)").matches?28:48;
-  gsap.set(cards,{rotateX:ang,y:60,opacity:.35});
-  ScrollTrigger.batch(cards,{start:"top 88%",end:"top 45%",scrub:.6,onEnter:b=>{},   // batch כאן רק כדי לקבץ את הכרטיסים לפי שורה
-    onEnter:batch=>gsap.to(batch,{rotateX:0,y:0,opacity:1,stagger:.1,duration:.8,ease:"power3.out",overwrite:true}),
-    onLeaveBack:batch=>gsap.to(batch,{rotateX:ang,y:60,opacity:.35,stagger:.05,duration:.5,ease:"power3.in",overwrite:true})});
+  gsap.matchMedia().add({mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)",desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const ang=ctx.conditions.mob?28:48;
+    gsap.set(cards,{rotateX:ang,y:60,opacity:.35});
+    // batch מקבץ את הכרטיסים שנכנסים יחד (שורה) ומריץ עליהם tween עם stagger. הוא לא תומך ב-scrub או ב-end
+    ScrollTrigger.batch(cards,{start:"top 88%",
+      onEnter:batch=>gsap.to(batch,{rotateX:0,y:0,opacity:1,stagger:.1,duration:.8,ease:"power3.out",overwrite:true}),
+      onLeaveBack:batch=>gsap.to(batch,{rotateX:ang,y:60,opacity:.35,stagger:.05,duration:.5,ease:"power3.in",overwrite:true})});
+  });
 })();`
 },
 {
   id:"g97", cat:"gsap", name:"קו סריקה שהופך שלד לצבע", tech:"GSAP · ScrollTrigger · clip-path", status:"ממתין",
-  desc:"מסך מוצר מופיע כשלד אפור עם קווי מתאר. קו סריקה יורד עם הגלילה, ומתחתיו הכל מקבל צבע וחיים. \"לפני ואחרי\" שהגלילה עצמה מציירת.",
+  desc:"מסך מוצר מופיע כשלד אפור עם קווי מתאר. קו סריקה יורד עם הגלילה, וכל מה שהוא עבר מקבל צבע וחיים. \"לפני ואחרי\" שהגלילה עצמה מציירת.",
   when:"מוצר דיגיטלי, מערכת, אפליקציה, \"מה אנחנו בונים\". פעם אחת בעמוד.",
-  note:"שתי שכבות זהות: אחת בשלד (grayscale, opacity, גבולות מקווקווים), אחת בצבע עם clip-path inset מלמעלה. הסקראב מזיז את קו החיתוך ואת פס הסריקה יחד. במובייל המסך המדומה צר וגבוה, והסריקה זהה.",
+  note:"שתי שכבות זהות: אחת בשלד (grayscale, opacity, גבולות מקווקווים), אחת בצבע עם clip-path inset מלמעלה. הסקראב מזיז את קו החיתוך ואת פס הסריקה יחד. במובייל המסך המדומה צר וגבוה, והסריקה זהה. בהפחתת תנועה או כשהספרייה לא נטענה המסך מוצג צבוע ומלא, בלי קו הסריקה ובלי הרמז, כי ההצמדה, הקו והחיתוך יושבים תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת.",
   libs:["gsap","ScrollTrigger"],
-  css:`.sc{position:relative;height:220vh}
+  css:`.sc{position:relative}
 .sc-pin{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
 .sc-frame{position:relative;width:min(760px,90vw);aspect-ratio:16/10;border-radius:18px;overflow:hidden;background:var(--card);border:1px solid var(--line);box-shadow:0 30px 70px rgba(0,0,0,.12)}
 .sc-ui{position:absolute;inset:0;padding:22px;display:grid;grid-template-columns:1fr 2fr;gap:14px}
@@ -291,9 +361,13 @@ export default [
 .sc-wire{filter:grayscale(1) contrast(.5);opacity:.55}
 .sc-wire i,.sc-wire .sc-chart{background:transparent!important;border:1.5px dashed var(--muted)!important}
 .sc-wire .sc-chart::after{background:var(--muted)}
-.sc-color{clip-path:inset(0 0 100% 0);will-change:clip-path}
-.sc-line{position:absolute;inset-inline:0;top:0;height:2px;background:var(--accent);box-shadow:0 0 18px var(--accent);will-change:transform}
-.sc-cap{position:absolute;bottom:26px;font-size:13px;color:var(--muted)}
+.sc-line{position:absolute;inset-inline:0;top:0;height:2px;background:var(--accent);box-shadow:0 0 18px var(--accent);display:none}
+.sc-cap{position:absolute;bottom:26px;font-size:13px;color:var(--muted);display:none}
+/* בלי .mv-on (הפחתת תנועה, ספרייה חסומה) שכבת הצבע גלויה במלואה; החיתוך מגיע מ-GSAP */
+.sc.mv-on{height:220vh}
+.sc.mv-on .sc-color{will-change:clip-path}
+.sc.mv-on .sc-line{display:block;will-change:transform}
+.sc.mv-on .sc-cap{display:block}
 @media(max-width:767px){.sc-frame{aspect-ratio:4/5}.sc-ui{grid-template-columns:1fr;grid-template-rows:auto 1fr}.sc-kpis i{height:40px}}`,
   html:`<div class="sc">
   <div class="sc-pin"><div class="sc-frame">
@@ -303,20 +377,24 @@ export default [
   </div><p class="sc-cap">גלול כדי לסרוק</p></div>
 </div>`,
   js:`(function(){
-  const frame=document.querySelector(".sc-frame"),color=document.querySelector(".sc-color"),line=document.querySelector(".sc-line");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(color,{clipPath:"inset(0 0 0% 0)"});gsap.set(line,{opacity:0});return;}
-  gsap.timeline({scrollTrigger:{trigger:".sc",start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}})
-    .fromTo(color,{clipPath:"inset(0 0 100% 0)"},{clipPath:"inset(0 0 0% 0)",ease:"none",duration:1},0)
-    .fromTo(line,{y:0},{y:()=>frame.clientHeight,ease:"none",duration:1},0)
-    .to(line,{opacity:0,duration:.05},.96)
-    .to(".sc-cap",{opacity:0,duration:.1},0);
+  if(typeof gsap==="undefined")return;   // בלי הספרייה המסך מוצג צבוע, בלי קו ובלי רמז
+  const root=document.querySelector(".sc"),frame=root.querySelector(".sc-frame"),color=root.querySelector(".sc-color"),line=root.querySelector(".sc-line");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}})
+      .fromTo(color,{clipPath:"inset(0 0 100% 0)"},{clipPath:"inset(0 0 0% 0)",duration:1},0)
+      .fromTo(line,{y:0},{y:()=>frame.clientHeight,duration:1},0)
+      .to(line,{opacity:0,duration:.05},.96)
+      .to(".sc-cap",{opacity:0,duration:.1},0);
+    return ()=>root.classList.remove("mv-on");
+  });
 })();`
 },
 {
   id:"g98", cat:"gsap", name:"אריחים שמתהפכים בגל בגלילה", tech:"GSAP · ScrollTrigger · 3D", status:"ממתין",
   desc:"גריד אריחים שכולם מראים את הצד הכהה. ככל שגוללים, גל של היפוכים עובר עליהם באלכסון וחושף תמונה או צבע בכל אריח. פסיפס שנבנה מול העיניים.",
   when:"קיר לוגואים, גלריית פרויקטים, \"במספרים\" עם אריח לכל נתון. שנים עשר עד עשרים אריחים.",
-  note:"כל אריח הוא שתי פאות עם backface-visibility, וההיפוך (rotateY 180 ל-0) בסקראב עם stagger מסוג grid באלכסון מהפינה הימנית העליונה. במובייל הגריד יורד לשתי עמודות והגל נשאר אלכסוני.",
+  note:"כל אריח הוא שתי פאות עם backface-visibility, וההיפוך (rotateY 180 ל-0) בסקראב עם ease:none (הגלילה היא העקומה) ו-stagger מסוג grid באלכסון מהפינה הימנית העליונה. במובייל הגריד יורד לשתי עמודות, ומספר העמודות של הגל נקבע דרך gsap.matchMedia באותו גבול של ה-CSS, כך שהגל נשאר אלכסוני גם אחרי סיבוב מסך. בהפחתת תנועה האריחים מראים את הפנים מההתחלה.",
   libs:["gsap","ScrollTrigger"],
   css:`.fw{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:1000px;margin-inline:auto;perspective:1000px;padding-block:10vh 30vh}
 .fw-tile{position:relative;aspect-ratio:1;transform-style:preserve-3d;will-change:transform}
@@ -333,13 +411,15 @@ export default [
   <div class="fw-tile"><div class="fw-face fw-front ph ph-a">11</div><div class="fw-face fw-back">·</div></div><div class="fw-tile"><div class="fw-face fw-front ph ph-b">12</div><div class="fw-face fw-back">·</div></div>
 </div></div>`,
   js:`(function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה האריחים מראים את הפנים
   const tiles=gsap.utils.toArray(".fw-tile");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const cols=matchMedia("(max-width:767px)").matches?2:4;
-  gsap.set(tiles,{rotateY:180});
-  gsap.to(tiles,{rotateY:0,ease:"power2.inOut",duration:1,
-    stagger:{grid:[Math.ceil(tiles.length/cols),cols],from:"start",axis:null,amount:1.4},   // גל אלכסוני מהפינה הראשונה (ימין למעלה ב-RTL)
-    scrollTrigger:{trigger:".fw",start:"top 75%",end:"bottom 60%",scrub:.6}});
+  gsap.matchMedia().add({mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)",desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const cols=ctx.conditions.mob?2:4;   // כמו העמודות ב-CSS: הגל נבנה מחדש בגבול 767
+    gsap.set(tiles,{rotateY:180});
+    gsap.to(tiles,{rotateY:0,ease:"none",duration:1,
+      stagger:{grid:[Math.ceil(tiles.length/cols),cols],from:"start",axis:null,amount:1.4},   // גל אלכסוני מהפינה הראשונה (ימין למעלה ב-RTL)
+      scrollTrigger:{trigger:".fw",start:"top 75%",end:"bottom 60%",scrub:.6}});
+  });
 })();`
 },
 ];
