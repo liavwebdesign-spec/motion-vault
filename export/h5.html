@@ -39,7 +39,7 @@ img{max-width:100%}
 .hf-top b{font-size:18px;font-weight:800}
 .hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
 @media (max-width:760px){.hf-top nav{display:none}}
-.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
   font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
 .hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
 @media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
@@ -48,24 +48,36 @@ img{max-width:100%}
 .hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
 .hcta{display:flex;flex-wrap:wrap;gap:12px}
 
-.rv{opacity:0;transform:translateY(18px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
-.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--i,0) * 90ms)}
-@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
 .h5h{position:relative;min-height:min(74vh,660px);display:flex;flex-direction:column;justify-content:center;gap:32px;padding:112px 28px 56px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);overflow:hidden}
 .h5h h3{margin:0;font-size:clamp(44px,9vw,150px);line-height:.94;font-weight:700;letter-spacing:-.01em}
 .h5-w{display:inline-block;overflow:hidden;vertical-align:bottom}
-.h5-w span{display:inline-block;transform:translateY(110%);transition:transform .8s cubic-bezier(.2,.6,.2,1)}
-.is-in .h5-w span{transform:none;transition-delay:calc(var(--i) * 70ms)}
-.h5-rule{height:1px;background:color-mix(in srgb,var(--bg, #f7f7fa) 30%,transparent);transform-origin:right;transform:scaleX(0);transition:transform .9s cubic-bezier(.2,.6,.2,1) .5s}
-.is-in .h5-rule{transform:none}
-.h5-foot{display:flex;flex-wrap:wrap;gap:16px 40px;align-items:center;font-size:15px;opacity:.78}
-.h5-foot .hbtn{opacity:1}
+.h5-w span{display:inline-block;transition:transform .8s cubic-bezier(.2,.6,.2,1)}
+.open-anim .h5-w span{transform:translateY(110%);animation:rv-fs 0s 2.5s forwards}
+.is-in .h5-w span{transform:none;transition-delay:calc(var(--t0,0s) + var(--i) * 70ms)}
+.h5-rule{height:1px;background:color-mix(in srgb,var(--bg, #f7f7fa) 30%,transparent);transform-origin:right;transition:transform .7s cubic-bezier(.2,.6,.2,1)}
+.open-anim .h5-rule{transform:scaleX(0);animation:rv-fs 0s 2.5s forwards}
+/* .4s + .7s: the rule ends at 1.1s, inside the 1.2s opening */
+.is-in .h5-rule{transform:none;transition-delay:calc(var(--t0,0s) + .4s)}
+.rv-on .h5-w span,.rv-on .h5-rule{animation:none}
+/* the dimming sits on the details only: on the whole row it dimmed the primary button to 78% too (a child cannot undo it) */
+.h5-foot{display:flex;flex-wrap:wrap;gap:16px 40px;align-items:center;font-size:15px}
+.h5-foot span{opacity:.78}
 @media (prefers-reduced-motion:reduce){.h5-w span,.h5-rule{transition-duration:.01ms!important;transition-delay:0s!important}}
 @media (max-width:760px){.h5h{padding:96px 20px 40px;gap:24px}}
 </style>
 </head>
 <body>
 
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
 <div class="hf"><div class="hf-top" style="color:var(--bg)"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
   <section class="h5h" id="h5">
     <span class="hkick rv">סטודיו למיתוג</span>
@@ -81,16 +93,23 @@ img{max-width:100%}
 // an observer does not update while the tab is throttled (and on a real site the hero is usually
 // on screen at load anyway), and an entrance that never fires leaves the hero invisible.
 function inView(el,f){
+  var ro;
   function chk(){
     var r=el.getBoundingClientRect();
     if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
   }
-  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);}
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
   addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
   requestAnimationFrame(chk); setTimeout(chk,300);
 }
 function enter(root){
-  root.querySelectorAll(".rv").forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
   inView(root,function(){root.classList.add("is-in");});
 }
 enter(document.getElementById("h5"));

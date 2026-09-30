@@ -42,16 +42,24 @@ img{max-width:100%}
 .ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
 
 /* G65 · רצועה אופקית שהפריט במרכזה גדל */
-.ctr{height:340vh;position:relative}
-.ctr-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;align-content:center}
-/* בעמוד עברי הרצועה נשארת RTL, אבל המדידה של ScrollTrigger דורשת הקשר LTR על המעטפת */
-.ctr-view{direction:ltr;overflow:hidden}
-.ctr-track{display:flex;gap:clamp(16px,2.4vw,40px);width:max-content;padding-inline:44vw;direction:rtl}
+/* בלי GSAP או בהפחתת תנועה: שורה רגילה שגוללים לרוחב באצבע או בגלגלת, בלי במה ובלי הגדלה.
+   הבמה יושבת תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת */
+.ctr-stage{padding-block:var(--sec, clamp(120px, 12vw, 260px))}
+.ctr-view{overflow-x:auto;overscroll-behavior-x:contain}
+.ctr-track{display:flex;gap:clamp(16px,2.4vw,40px);width:max-content;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
 .ctr-item{width:clamp(180px,22vw,320px);flex:none;border-radius:18px;overflow:hidden;background:var(--card, #fff);
-  border:1px solid var(--line, #e4e4ee);will-change:transform,filter}
+  border:1px solid var(--line, #e4e4ee)}
 .ctr-item .ph{aspect-ratio:3/4;border-radius:0;font-size:0}
 .ctr-item b{display:block;padding:12px 14px 14px;font-size:15px}
-.ctr-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}
+.ctr-cap{display:none;position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}
+/* הבמה */
+.ctr.mv-on{height:340vh;position:relative}
+.ctr.mv-on .ctr-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;align-content:center;padding-block:0}
+/* בעמוד עברי הרצועה נשארת RTL, אבל המדידה של ScrollTrigger דורשת הקשר LTR על המעטפת */
+.ctr.mv-on .ctr-view{direction:ltr;overflow:hidden}
+.ctr.mv-on .ctr-track{padding-inline:44vw;direction:rtl}
+.ctr.mv-on .ctr-item{will-change:transform,filter}
+.ctr.mv-on .ctr-cap{display:block}
 </style>
 </head>
 <body>
@@ -74,41 +82,40 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const track=document.querySelector(".ctr-track"),view=document.querySelector(".ctr-view");
+  if(typeof gsap==="undefined")return;   // בלי הספרייה נשארת שורה רגילה שגוללים לרוחב
+  const root=document.querySelector(".ctr"),track=root.querySelector(".ctr-track"),view=root.querySelector(".ctr-view");
   const items=gsap.utils.toArray(".ctr-item");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const dist=()=>track.scrollWidth-view.clientWidth;
-  // בעברית הרצועה מתחילה בימין, ולכן היא נעה ל-x חיובי
-  const move=gsap.fromTo(track,{x:-dist()},{x:0,ease:"none",
-    scrollTrigger:{trigger:".ctr",start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
-  if(reduce)return;
+  // הבמה נדלקת רק כשהתנועה מותרת. בהפחתת תנועה אין הזזה אופקית עם הגלילה האנכית, אלא שורה שגוללים בעצמם
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    const dist=()=>track.scrollWidth-view.clientWidth;
 
-  // הדעיכה נמדדת ביחידות של כרטיס אחד ולא של חצי מסך. עם חצי מסך גם השכן הצמוד
-  // מקבל כמעט את אותו גודל, ואז אין באמת פריט אחד שתופס את תשומת הלב.
-  const step=()=>{
-    const first=items[0].getBoundingClientRect();
-    const gap=items.length>1?Math.abs(items[1].getBoundingClientRect().left-first.left):first.width;
-    return gap||first.width||1;
-  };
-  const paint=()=>{
-    const mid=innerWidth/2,unit=step();
-    items.forEach(el=>{
-      const r=el.getBoundingClientRect();
-      const d=Math.min(1,Math.abs(r.left+r.width/2-mid)/(unit*1.7)); // 0 במרכז, 1 בערך שני כרטיסים משם
-      const f=1-d*d;                                             // דעיכה רכה בקצה, חדה במרכז
-      gsap.set(el,{scale:.84+f*.24,opacity:.5+f*.5,
-        filter:"blur("+((1-f)*2.4).toFixed(2)+"px)",zIndex:Math.round(f*10)});
-    });
-  };
+    // הדעיכה נמדדת ביחידות של כרטיס אחד ולא של חצי מסך. עם חצי מסך גם השכן הצמוד
+    // מקבל כמעט את אותו גודל, ואז אין באמת פריט אחד שתופס את תשומת הלב.
+    const step=()=>{
+      const first=items[0].getBoundingClientRect();
+      const gap=items.length>1?Math.abs(items[1].getBoundingClientRect().left-first.left):first.width;
+      return gap||first.width||1;
+    };
+    const paint=()=>{
+      const mid=innerWidth/2,unit=step();
+      items.forEach(el=>{
+        const r=el.getBoundingClientRect();
+        const d=Math.min(1,Math.abs(r.left+r.width/2-mid)/(unit*1.7)); // 0 במרכז, 1 בערך שני כרטיסים משם
+        const f=1-d*d;                                             // דעיכה רכה בקצה, חדה במרכז
+        gsap.set(el,{scale:.84+f*.24,opacity:.5+f*.5,
+          filter:"blur("+((1-f)*2.4).toFixed(2)+"px)",zIndex:Math.round(f*10)});
+      });
+    };
 
-  // הלולאה רצה רק כשהרצועה על המסך. בלי זה היא מודדת שישה אלמנטים בכל פריים
-  // לכל אורך העמוד, גם כשאין מה לראות.
-  let running=false;
-  const startLoop=()=>{if(!running){running=true;gsap.ticker.add(paint)}};
-  const stopLoop=()=>{if(running){running=false;gsap.ticker.remove(paint)}};
-  ScrollTrigger.create({trigger:".ctr",start:"top bottom",end:"bottom top",
-    onToggle:self=>self.isActive?startLoop():stopLoop()});
-  paint();
+    // בעברית הרצועה מתחילה בימין, ולכן היא נעה ל-x חיובי.
+    // הצביעה רצה מה-onUpdate של הטווין עצמו, כלומר רק כשהרצועה באמת זזה (כולל ההחלקה של ה-scrub),
+    // ולא בלולאה על כל פריים שמודדת וכותבת blur גם כשאף אחד לא גולל.
+    gsap.fromTo(track,{x:()=>-dist()},{x:0,ease:"none",onUpdate:paint,
+      scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true,onRefresh:paint}});
+    paint();
+    return ()=>root.classList.remove("mv-on");
+  });
 })();
 </script>
 </body>

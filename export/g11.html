@@ -47,6 +47,7 @@ img{max-width:100%}
 .magnifier{position:absolute;pointer-events:none;width:190px;height:190px;border-radius:50%;
   border:2px solid #fff;background-repeat:no-repeat;transform:translate(-50%,-50%) scale(0);
   transition:transform .25s ease;z-index:5;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+@media (prefers-reduced-motion: reduce){.magnifier{transition:none}}
 </style>
 </head>
 <body>
@@ -55,21 +56,30 @@ img{max-width:100%}
 
 
 <script>
-const zoom=1.5,wrap=document.querySelector(".mag-wrap"),img=document.querySelector(".mag-img");
-const mag=document.createElement("div");mag.className="magnifier";wrap.appendChild(mag);
-function paint(){
-  const w=img.offsetWidth,h=img.offsetHeight;
-  mag.style.backgroundImage=getComputedStyle(img).backgroundImage;
-  mag.style.backgroundSize=(w*zoom)+"px "+(h*zoom)+"px";
-}
-paint();addEventListener("resize",paint);
-wrap.addEventListener("mouseenter",()=>mag.style.transform="translate(-50%,-50%) scale(1)");
-wrap.addEventListener("mousemove",e=>{
-  const r=img.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
-  mag.style.left=x+"px";mag.style.top=y+"px";
-  mag.style.backgroundPosition=(-x*zoom+mag.offsetWidth/2)+"px "+(-y*zoom+mag.offsetHeight/2)+"px";
-});
-wrap.addEventListener("mouseleave",()=>mag.style.transform="translate(-50%,-50%) scale(0)");
+(function(){
+  const zoom=1.5,wrap=document.querySelector(".mag-wrap"),img=document.querySelector(".mag-img");
+  const mag=document.createElement("div");mag.className="magnifier";wrap.appendChild(mag);
+  // רק עם עכבר: במגע הקשה פותחת את העדשה והיא נשארת עד הקשה מחוץ לתמונה, ו-pinch-zoom טבעי עדיף.
+  // נבדק בכל אירוע ולא פעם אחת, כך שמחשב עם מסך מגע ועכבר עובר בין המצבים לבד
+  const fine=matchMedia("(hover: hover) and (pointer: fine)");
+  function paint(){
+    const w=img.offsetWidth,h=img.offsetHeight;
+    // תמונת מוצר אמיתית היא <img>: העדשה לוקחת את הקובץ שהדפדפן בחר. בדמו זה div עם רקע
+    mag.style.backgroundImage=img.tagName==="IMG"?'url("'+(img.currentSrc||img.src)+'")':getComputedStyle(img).backgroundImage;
+    mag.style.backgroundSize=(w*zoom)+"px "+(h*zoom)+"px";
+  }
+  paint();addEventListener("resize",paint);
+  if(img.decode)img.decode().then(paint,()=>{});   // <img> שעוד לא נטען: מציירים שוב כשהוא מוכן
+  const lens=on=>mag.style.transform="translate(-50%,-50%) scale("+(on?1:0)+")";
+  wrap.addEventListener("mouseenter",()=>{if(fine.matches)lens(true)});
+  wrap.addEventListener("mousemove",e=>{
+    if(!fine.matches)return;
+    const r=img.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+    mag.style.left=x+"px";mag.style.top=y+"px";
+    mag.style.backgroundPosition=(-x*zoom+mag.offsetWidth/2)+"px "+(-y*zoom+mag.offsetHeight/2)+"px";
+  });
+  wrap.addEventListener("mouseleave",()=>lens(false));
+})();
 </script>
 </body>
 </html>

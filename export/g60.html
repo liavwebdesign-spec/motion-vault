@@ -33,20 +33,29 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* G60 · מילה שמתחלפת בתוך משפט בגלילה */
-.ws{height:300vh;position:relative}
-.ws-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+/* בלי GSAP או בהפחתת תנועה: פריסה סטטית, ארבע המילים זו מתחת לזו וארבעת המשפטים גלויים.
+   כל מה שמצמיד ומסתיר יושב תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת */
+.ws-stick{display:grid;place-items:center;padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px))}
 .ws-line{display:flex;align-items:baseline;gap:.28em;flex-wrap:wrap;justify-content:center;
   font-size:clamp(28px,5.4vw,74px);font-weight:800;line-height:1.16;text-align:center}
-/* החלון בגובה שורה אחת; רוחבו נקבע מאליו לפי המילה הרחבה ביותר */
-.ws-win{display:inline-block;overflow:clip;height:1.16em;vertical-align:baseline}
-.ws-stack{display:flex;flex-direction:column;will-change:transform}
-.ws-stack span{height:1.16em;line-height:1.16em;color:var(--accent, #4a3aff);white-space:nowrap}
-.ws-subs{position:relative;margin-top:clamp(18px,2.4vw,32px);height:3.4em;width:min(46ch,90vw)}
-.ws-subs p{position:absolute;inset:0;margin:0;text-align:center;color:var(--muted, #6a6d85);
-  font-size:clamp(15px,1.6vw,20px);line-height:1.7}
-.ws-dots{position:absolute;bottom:9vh;inset-inline:0;display:flex;gap:8px;justify-content:center}
+.ws-win{display:inline-block}
+.ws-stack{display:flex;flex-direction:column}
+/* המילים מיושרות לתחילת החלון: מילה קצרה נצמדת ל"בונים", והרווח עובר לסוף השורה ולא לאמצע המשפט */
+.ws-stack span{height:1.16em;line-height:1.16em;color:var(--accent, #4a3aff);white-space:nowrap;text-align:start}
+.ws-subs{margin:clamp(18px,2.4vw,32px) auto 0;width:min(46ch,90vw);display:grid;gap:12px}
+.ws-subs p{margin:0;text-align:center;color:var(--muted, #6a6d85);font-size:clamp(15px,1.6vw,20px);line-height:1.7}
+.ws-dots{display:none;position:absolute;bottom:9vh;inset-inline:0;gap:8px;justify-content:center}
 .ws-dots i{width:7px;height:7px;border-radius:50%;background:var(--line, #e4e4ee)}
 .ws-dots i.on{background:var(--accent, #4a3aff)}
+/* הבמה */
+.ws.mv-on{height:300vh;position:relative}
+.ws.mv-on .ws-stick{position:sticky;top:0;height:100vh;padding-block:0}
+/* החלון בגובה שורה אחת; רוחבו נקבע מאליו לפי המילה הרחבה ביותר */
+.ws.mv-on .ws-win{overflow:clip;height:1.16em;vertical-align:baseline}
+.ws.mv-on .ws-stack{will-change:transform}
+.ws.mv-on .ws-subs{display:block;position:relative;height:3.4em}
+.ws.mv-on .ws-subs p{position:absolute;inset:0}
+.ws.mv-on .ws-dots{display:flex}
 </style>
 </head>
 <body>
@@ -73,27 +82,31 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const stack=document.querySelector(".ws-stack");
+  if(typeof gsap==="undefined")return;   // בלי הספרייה נשארת הפריסה הסטטית, וכל המילים והמשפטים גלויים
+  const root=document.querySelector(".ws"),stack=root.querySelector(".ws-stack");
   const words=gsap.utils.toArray(".ws-stack span");
   const subs=gsap.utils.toArray(".ws-subs p");
   const dots=gsap.utils.toArray(".ws-dots i");
   const n=words.length;
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  gsap.set(subs,{opacity:0});gsap.set(subs[0],{opacity:1});
-  if(reduce)return;
-  const tl=gsap.timeline({scrollTrigger:{trigger:".ws",start:"top top",end:"bottom bottom",scrub:.5,
-    // snap לנקודות שבהן מילה יושבת בול בחלון, אחרת נעצרים על חצי מילה
-    snap:{snapTo:gsap.utils.snap(1/(n-1)),duration:.25,delay:.05,ease:"power2.inOut"}}});
-  for(let i=1;i<n;i++){
-    // כל מעבר מזיז את העמודה בדיוק בגובה שורה אחת. המדידה בפונקציה, כדי שתתעדכן ב-refresh
-    tl.to(stack,{y:()=>-i*words[0].offsetHeight,ease:"power2.inOut",duration:1},i-1)
-      .to(subs[i-1],{opacity:0,duration:.35},(i-1)+.1)
-      .to(subs[i],{opacity:1,duration:.45},(i-1)+.4);
-  }
-  // הנקודות נגזרות מהמצב בפועל ולא מטוויין נפרד, ולכן הן תמיד מסונכרנות
-  ScrollTrigger.create({trigger:".ws",start:"top top",end:"bottom bottom",
-    onUpdate:self=>{const i=Math.round(self.progress*(n-1));
-      dots.forEach((d,k)=>d.classList.toggle("on",k===i));}});
+  // הבמה נדלקת רק כשהתנועה מותרת. בהפחתת תנועה נשארת הפריסה הסטטית, גם אם ההעדפה משתנה באמצע
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    gsap.set(subs,{opacity:0});gsap.set(subs[0],{opacity:1});
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5,
+      // snap לנקודות שבהן מילה יושבת בול בחלון, אחרת נעצרים על חצי מילה
+      snap:{snapTo:gsap.utils.snap(1/(n-1)),duration:.25,delay:.05,ease:"power2.inOut"}}});
+    for(let i=1;i<n;i++){
+      // כל מעבר מזיז את העמודה בדיוק בגובה שורה אחת. המדידה בפונקציה, כדי שתתעדכן ב-refresh
+      tl.to(stack,{y:()=>-i*words[0].offsetHeight,ease:"power2.inOut",duration:1},i-1)
+        .to(subs[i-1],{opacity:0,duration:.35},(i-1)+.1)
+        .to(subs[i],{opacity:1,duration:.45},(i-1)+.4);
+    }
+    // הנקודות נגזרות מהמצב בפועל ולא מטוויין נפרד, ולכן הן תמיד מסונכרנות
+    ScrollTrigger.create({trigger:root,start:"top top",end:"bottom bottom",
+      onUpdate:self=>{const i=Math.round(self.progress*(n-1));
+        dots.forEach((d,k)=>d.classList.toggle("on",k===i));}});
+    return ()=>{root.classList.remove("mv-on");dots.forEach((d,k)=>d.classList.toggle("on",k===0));};
+  });
 })();
 </script>
 </body>

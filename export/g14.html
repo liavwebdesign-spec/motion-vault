@@ -49,9 +49,9 @@ img{max-width:100%}
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="stage tight center"><div class="nums">
-<div><span class="snum" data-count="340">0</span><small>לקוחות מרוצים</small></div>
-<div><span class="snum" data-count="97">0</span><small>אחוזי שביעות רצון</small></div>
-<div><span class="snum" data-count="12">0</span><small>שנות ניסיון</small></div>
+<div><span class="snum" data-count="340">340</span><small>לקוחות מרוצים</small></div>
+<div><span class="snum" data-count="97">97</span><small>אחוזי שביעות רצון</small></div>
+<div><span class="snum" data-count="12">12</span><small>שנות ניסיון</small></div>
 </div></div>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -59,10 +59,17 @@ img{max-width:100%}
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-gsap.utils.toArray(".snum").forEach(el=>{
-  gsap.fromTo(el,{textContent:0},{textContent:+el.dataset.count,snap:{textContent:1},ease:"none",
-    scrollTrigger:{trigger:el,start:"top 85%",end:"top 40%",scrub:true}});
-});
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP המספרים האמיתיים כבר כתובים ב-HTML
+  // מספר שמשתנה הוא שינוי טקסט ולא תנועה (motion.md §4), ולכן הוא סופר גם בהפחתת תנועה
+  gsap.utils.toArray(".snum").forEach(el=>{
+    // clamp: בראש העמוד 0 ובתחתיתו המספר המלא, גם כשהסקשן קרוב לסוף העמוד ולא מגיע ל-40% מהמסך.
+    // עמוד שלא נגלל בכלל נותן טווח באורך אפס, ואז המספר המלא מוצג מיד
+    gsap.fromTo(el,{textContent:0},{textContent:+el.dataset.count,snap:{textContent:1},ease:"none",
+      scrollTrigger:{trigger:el,start:"clamp(top 85%)",end:"clamp(top 40%)",scrub:true,
+        onRefresh:s=>{if(s.end-s.start<1)s.animation.progress(1)}}});
+  });
+})();
 </script>
 </body>
 </html>

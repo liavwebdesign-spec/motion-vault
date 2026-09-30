@@ -42,7 +42,8 @@ img{max-width:100%}
 .px-frame{position:relative;width:min(880px,92vw);aspect-ratio:16/10;border-radius:18px;overflow:hidden}
 .px-img{position:absolute;inset:0;border-radius:0;font-size:0}
 .px-grid{position:absolute;inset:0;display:grid}
-.px-cell{background:var(--bg, #f7f7fa);will-change:opacity}
+/* הצל בצבע הרקע מכסה את התפר התת-פיקסלי בין שורות (גובה שורה שברי), שדרכו הציצה התמונה כקו שיער */
+.px-cell{background:var(--bg, #f7f7fa);box-shadow:0 0 0 1px var(--bg, #f7f7fa);will-change:opacity}
 .px-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}
 </style>
 </head>
@@ -62,20 +63,23 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה הרשת לא נבנית, והתמונה גלויה
   const COLS=14, ROWS=9;
   const grid=document.querySelector(".px-grid");
   grid.style.gridTemplateColumns="repeat("+COLS+",1fr)";
   grid.style.gridTemplateRows="repeat("+ROWS+",1fr)";
-  const cells=[];
-  for(let i=0;i<COLS*ROWS;i++){
-    const d=document.createElement("div");d.className="px-cell";grid.appendChild(d);cells.push(d);
-  }
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce){gsap.set(cells,{opacity:0});return;}
-  gsap.to(cells,{opacity:0,ease:"none",
-    // stagger אקראי עם from:"random" הוא מה שמונע תחושת מחיקה מסודרת
-    stagger:{each:.012,from:"random"},
-    scrollTrigger:{trigger:".px",start:"top top",end:"bottom bottom",scrub:.4}});
+  // הרשת נבנית רק כשהתנועה מותרת. בהפחתת תנועה אין מה לכסות, והתמונה גלויה מההתחלה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const cells=[];
+    for(let i=0;i<COLS*ROWS;i++){
+      const d=document.createElement("div");d.className="px-cell";grid.appendChild(d);cells.push(d);
+    }
+    gsap.to(cells,{opacity:0,ease:"none",
+      // stagger אקראי עם from:"random" הוא מה שמונע תחושת מחיקה מסודרת
+      stagger:{each:.012,from:"random"},
+      scrollTrigger:{trigger:".px",start:"top top",end:"bottom bottom",scrub:.4}});
+    return ()=>{grid.textContent="";};
+  });
 })();
 </script>
 </body>

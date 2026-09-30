@@ -39,7 +39,7 @@
 <h2 class="t-wipe">רמה ג: הכותרת כולה נמחקת ונחשפת מהצד בתנועה אחת</h2>
 </div>
 <div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
-
+<div class="demo-note">בטלפון רמה א מתנהגת כמו רמה ב (clip על מילים קטנות מרצד), ורמה ג נשארת. בהפחתת תנועה, וכש-GSAP לא נטען, הכותרות גלויות מההתחלה.</div>
 <section class="mvcode">
   <h2>קוד להדבקה</h2>
   <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
@@ -67,27 +67,40 @@
 &lt;/div&gt;</code></pre>
     <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger, SplitText);
 
-document.querySelectorAll(".t-clip").forEach(h=&gt;{
-  const s=new SplitText(h,{type:"lines, words"});
-  gsap.from(s.words,{clipPath:"inset(100% 0% 0% 0%)",opacity:0,stagger:.5,
-    scrollTrigger:{trigger:h,start:"top 80%",end:"top 30%",scrub:1}});
-});
-document.querySelectorAll(".t-fade").forEach(h=&gt;{
-  const s=new SplitText(h,{type:"lines, words"});
-  gsap.from(s.words,{opacity:.15,stagger:.5,scrollTrigger:{trigger:h,start:"top 80%",end:"top 30%",scrub:1}});
-});
-document.querySelectorAll(".t-wipe").forEach(h=&gt;{
-  gsap.from(h,{clipPath:"inset(0% 0% 0% 100%)",ease:"power4.out",
-    scrollTrigger:{trigger:h,start:"top 70%",end:"top 40%",scrub:1}});
-});</code></pre>
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הכותרות פשוט גלויות
+  const st=(h,a,b)=&gt;({trigger:h,start:a,end:b,scrub:1});
+  const mm=gsap.matchMedia();
+  mm.add({desk:"(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+          mob:"(max-width: 767px) and (prefers-reduced-motion: no-preference)"},ctx=&gt;{
+    const {desk,mob}=ctx.conditions;
+    if(!desk&amp;&amp;!mob)return;
+    const splits=[];
+    // עברית: מפצלים למילים בלבד. בלי lines: ב-RTL הפיצול לשורות מזהה כל כותרת כשורה אחת
+    const words=h=&gt;{const s=new SplitText(h,{type:"words"});splits.push(s);return s.words;};
+    // רמה ב: המילים מתבהרות. stagger 0.5 בטווין scrub הוא חלק ממרחק הגלילה, לא מילישניות
+    const fade=h=&gt;gsap.from(words(h),{opacity:.15,stagger:.5,scrollTrigger:st(h,"top 80%","top 30%")});
+    // רמה א: המילים עולות מ-clip. בטלפון clip על מילים קטנות מרצד, ולכן שם היא מקבלת את רמה ב
+    document.querySelectorAll(".t-clip").forEach(h=&gt;{
+      if(mob)return fade(h);
+      gsap.from(words(h),{clipPath:"inset(100% 0% 0% 0%)",opacity:0,stagger:.5,scrollTrigger:st(h,"top 80%","top 30%")});
+    });
+    document.querySelectorAll(".t-fade").forEach(fade);
+    // רמה ג: הכותרת כולה נמחקת מהצד, בלי פיצול. scrub: הגלילה היא העקומה, ולכן ease:"none"
+    document.querySelectorAll(".t-wipe").forEach(h=&gt;{
+      gsap.from(h,{clipPath:"inset(0% 0% 0% 100%)",ease:"none",scrollTrigger:st(h,"top 70%","top 40%")});
+    });
+    return()=&gt;splits.forEach(s=&gt;s.revert());
+  });
+})();</code></pre>
   </details>
-  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g04 · טקסט נחשף בגלילה: שלוש רמות\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g04.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g04.html\n\nמה זה עושה: שלוש עוצמות חשיפה לכותרת: מילים עולות מ-clip, מילים מתבהרות, והכותרת נמחקת מהצד.\nמתי משתמשים: כותרות סקשן באתרי סטוריטלינג. בעברית מפצלים למילים בלבד, לא לאותיות.\nסוג אתר: אתר תדמית · פורטפוליו וסטודיו · וואן-פייג'ר\nבסקשן: מאמר ותוכן ארוך · אודות וצוות · בעיה ויתרונות\nאופי: רק באתר חוויתי\nתפקיד ומינון: משרת תוכן, עד שלוש פעמים בעמוד\nמתי לא: לא על כל כותרת בעמוד ולא בדף נחיתה ממיר; בעברית רק מילים, לעולם לא אותיות, ובטלפון רק רמה ב.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js\"><\/script>\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.center{text-align:center}\n\n/* G04 · טקסט נחשף בגלילה: שלוש רמות */\n.tstage h2{font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));line-height:1.2;max-width:22ch;margin:0 auto clamp(120px,14vw,260px)}\n\n=== HTML ===\n<div class=\"stage tight tstage center\">\n<h2 class=\"t-clip\">רמה א: המילים עולות מתוך מסכה, מילה אחרי מילה, בקצב הגלילה<\/h2>\n<h2 class=\"t-fade\">רמה ב: המילים מתבהרות בעדינות משקיפות חלקית אל מלאה<\/h2>\n<h2 class=\"t-wipe\">רמה ג: הכותרת כולה נמחקת ונחשפת מהצד בתנועה אחת<\/h2>\n<\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger, SplitText);\n\ndocument.querySelectorAll(\".t-clip\").forEach(h=>{\n  const s=new SplitText(h,{type:\"lines, words\"});\n  gsap.from(s.words,{clipPath:\"inset(100% 0% 0% 0%)\",opacity:0,stagger:.5,\n    scrollTrigger:{trigger:h,start:\"top 80%\",end:\"top 30%\",scrub:1}});\n});\ndocument.querySelectorAll(\".t-fade\").forEach(h=>{\n  const s=new SplitText(h,{type:\"lines, words\"});\n  gsap.from(s.words,{opacity:.15,stagger:.5,scrollTrigger:{trigger:h,start:\"top 80%\",end:\"top 30%\",scrub:1}});\n});\ndocument.querySelectorAll(\".t-wipe\").forEach(h=>{\n  gsap.from(h,{clipPath:\"inset(0% 0% 0% 100%)\",ease:\"power4.out\",\n    scrollTrigger:{trigger:h,start:\"top 70%\",end:\"top 40%\",scrub:1}});\n});\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  import { SplitText } from \"gsap/SplitText\";\n  gsap.registerPlugin(ScrollTrigger, SplitText);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.center{text-align:center}\n\n/* G04 · טקסט נחשף בגלילה: שלוש רמות */\n.tstage h2{font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));line-height:1.2;max-width:22ch;margin:0 auto clamp(120px,14vw,260px)}","html":"<div class=\"stage tight tstage center\">\n<h2 class=\"t-clip\">רמה א: המילים עולות מתוך מסכה, מילה אחרי מילה, בקצב הגלילה<\/h2>\n<h2 class=\"t-fade\">רמה ב: המילים מתבהרות בעדינות משקיפות חלקית אל מלאה<\/h2>\n<h2 class=\"t-wipe\">רמה ג: הכותרת כולה נמחקת ונחשפת מהצד בתנועה אחת<\/h2>\n<\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger, SplitText);\n\ndocument.querySelectorAll(\".t-clip\").forEach(h=>{\n  const s=new SplitText(h,{type:\"lines, words\"});\n  gsap.from(s.words,{clipPath:\"inset(100% 0% 0% 0%)\",opacity:0,stagger:.5,\n    scrollTrigger:{trigger:h,start:\"top 80%\",end:\"top 30%\",scrub:1}});\n});\ndocument.querySelectorAll(\".t-fade\").forEach(h=>{\n  const s=new SplitText(h,{type:\"lines, words\"});\n  gsap.from(s.words,{opacity:.15,stagger:.5,scrollTrigger:{trigger:h,start:\"top 80%\",end:\"top 30%\",scrub:1}});\n});\ndocument.querySelectorAll(\".t-wipe\").forEach(h=>{\n  gsap.from(h,{clipPath:\"inset(0% 0% 0% 100%)\",ease:\"power4.out\",\n    scrollTrigger:{trigger:h,start:\"top 70%\",end:\"top 40%\",scrub:1}});\n});","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js\"><\/script>","rtl":false}</script>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g04 · טקסט נחשף בגלילה: שלוש רמות\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g04.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g04.html\n\nמה זה עושה: שלוש עוצמות חשיפה לכותרת: מילים עולות מ-clip, מילים מתבהרות, והכותרת נמחקת מהצד.\nמתי משתמשים: כותרות סקשן באתרי סטוריטלינג. בעברית מפצלים למילים בלבד, לא לאותיות.\nסוג אתר: אתר תדמית · פורטפוליו וסטודיו · וואן-פייג'ר\nבסקשן: מאמר ותוכן ארוך · אודות וצוות · בעיה ויתרונות\nאופי: רק באתר חוויתי\nתפקיד ומינון: משרת תוכן, עד שלוש פעמים בעמוד\nמתי לא: לא על כל כותרת בעמוד ולא בדף נחיתה ממיר; בעברית רק מילים, לעולם לא אותיות, ובטלפון רק רמה ב.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js\"><\/script>\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.center{text-align:center}\n\n/* G04 · טקסט נחשף בגלילה: שלוש רמות */\n.tstage h2{font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));line-height:1.2;max-width:22ch;margin:0 auto clamp(120px,14vw,260px)}\n\n=== HTML ===\n<div class=\"stage tight tstage center\">\n<h2 class=\"t-clip\">רמה א: המילים עולות מתוך מסכה, מילה אחרי מילה, בקצב הגלילה<\/h2>\n<h2 class=\"t-fade\">רמה ב: המילים מתבהרות בעדינות משקיפות חלקית אל מלאה<\/h2>\n<h2 class=\"t-wipe\">רמה ג: הכותרת כולה נמחקת ונחשפת מהצד בתנועה אחת<\/h2>\n<\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger, SplitText);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP הכותרות פשוט גלויות\n  const st=(h,a,b)=>({trigger:h,start:a,end:b,scrub:1});\n  const mm=gsap.matchMedia();\n  mm.add({desk:\"(min-width: 768px) and (prefers-reduced-motion: no-preference)\",\n          mob:\"(max-width: 767px) and (prefers-reduced-motion: no-preference)\"},ctx=>{\n    const {desk,mob}=ctx.conditions;\n    if(!desk&&!mob)return;\n    const splits=[];\n    // עברית: מפצלים למילים בלבד. בלי lines: ב-RTL הפיצול לשורות מזהה כל כותרת כשורה אחת\n    const words=h=>{const s=new SplitText(h,{type:\"words\"});splits.push(s);return s.words;};\n    // רמה ב: המילים מתבהרות. stagger 0.5 בטווין scrub הוא חלק ממרחק הגלילה, לא מילישניות\n    const fade=h=>gsap.from(words(h),{opacity:.15,stagger:.5,scrollTrigger:st(h,\"top 80%\",\"top 30%\")});\n    // רמה א: המילים עולות מ-clip. בטלפון clip על מילים קטנות מרצד, ולכן שם היא מקבלת את רמה ב\n    document.querySelectorAll(\".t-clip\").forEach(h=>{\n      if(mob)return fade(h);\n      gsap.from(words(h),{clipPath:\"inset(100% 0% 0% 0%)\",opacity:0,stagger:.5,scrollTrigger:st(h,\"top 80%\",\"top 30%\")});\n    });\n    document.querySelectorAll(\".t-fade\").forEach(fade);\n    // רמה ג: הכותרת כולה נמחקת מהצד, בלי פיצול. scrub: הגלילה היא העקומה, ולכן ease:\"none\"\n    document.querySelectorAll(\".t-wipe\").forEach(h=>{\n      gsap.from(h,{clipPath:\"inset(0% 0% 0% 100%)\",ease:\"none\",scrollTrigger:st(h,\"top 70%\",\"top 40%\")});\n    });\n    return()=>splits.forEach(s=>s.revert());\n  });\n})();\n\nהערת מימוש מהמאגר:\nבטלפון רמה א מתנהגת כמו רמה ב (clip על מילים קטנות מרצד), ורמה ג נשארת. בהפחתת תנועה, וכש-GSAP לא נטען, הכותרות גלויות מההתחלה.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  import { SplitText } from \"gsap/SplitText\";\n  gsap.registerPlugin(ScrollTrigger, SplitText);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n.center{text-align:center}\n\n/* G04 · טקסט נחשף בגלילה: שלוש רמות */\n.tstage h2{font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));line-height:1.2;max-width:22ch;margin:0 auto clamp(120px,14vw,260px)}","html":"<div class=\"stage tight tstage center\">\n<h2 class=\"t-clip\">רמה א: המילים עולות מתוך מסכה, מילה אחרי מילה, בקצב הגלילה<\/h2>\n<h2 class=\"t-fade\">רמה ב: המילים מתבהרות בעדינות משקיפות חלקית אל מלאה<\/h2>\n<h2 class=\"t-wipe\">רמה ג: הכותרת כולה נמחקת ונחשפת מהצד בתנועה אחת<\/h2>\n<\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger, SplitText);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP הכותרות פשוט גלויות\n  const st=(h,a,b)=>({trigger:h,start:a,end:b,scrub:1});\n  const mm=gsap.matchMedia();\n  mm.add({desk:\"(min-width: 768px) and (prefers-reduced-motion: no-preference)\",\n          mob:\"(max-width: 767px) and (prefers-reduced-motion: no-preference)\"},ctx=>{\n    const {desk,mob}=ctx.conditions;\n    if(!desk&&!mob)return;\n    const splits=[];\n    // עברית: מפצלים למילים בלבד. בלי lines: ב-RTL הפיצול לשורות מזהה כל כותרת כשורה אחת\n    const words=h=>{const s=new SplitText(h,{type:\"words\"});splits.push(s);return s.words;};\n    // רמה ב: המילים מתבהרות. stagger 0.5 בטווין scrub הוא חלק ממרחק הגלילה, לא מילישניות\n    const fade=h=>gsap.from(words(h),{opacity:.15,stagger:.5,scrollTrigger:st(h,\"top 80%\",\"top 30%\")});\n    // רמה א: המילים עולות מ-clip. בטלפון clip על מילים קטנות מרצד, ולכן שם היא מקבלת את רמה ב\n    document.querySelectorAll(\".t-clip\").forEach(h=>{\n      if(mob)return fade(h);\n      gsap.from(words(h),{clipPath:\"inset(100% 0% 0% 0%)\",opacity:0,stagger:.5,scrollTrigger:st(h,\"top 80%\",\"top 30%\")});\n    });\n    document.querySelectorAll(\".t-fade\").forEach(fade);\n    // רמה ג: הכותרת כולה נמחקת מהצד, בלי פיצול. scrub: הגלילה היא העקומה, ולכן ease:\"none\"\n    document.querySelectorAll(\".t-wipe\").forEach(h=>{\n      gsap.from(h,{clipPath:\"inset(0% 0% 0% 100%)\",ease:\"none\",scrollTrigger:st(h,\"top 70%\",\"top 40%\")});\n    });\n    return()=>splits.forEach(s=>s.revert());\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js\"><\/script>","rtl":false}</script>
 </section>
 <nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g03.html" rel="prev"><small>→ הקודם</small><b>חור מסכה שנפתח על מדיה</b></a><a href="g05.html" rel="next"><small>הבא ←</small><b>מסך מפוצל: תמונות מתחלפות לפי טקסט</b></a></nav>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
-<script src="../assets/baseline.js?v=6c25aa40"></script>
+<script src="../assets/baseline.js?v=2d22b6b5"></script>
 <script src="../assets/status.js"></script>
 <script src="../assets/tray.js"></script>
 <script>
@@ -112,19 +125,32 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 })();
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger, SplitText);
-document.querySelectorAll(".t-clip").forEach(h=>{
-  const s=new SplitText(h,{type:"lines, words"});
-  gsap.from(s.words,{clipPath:"inset(100% 0% 0% 0%)",opacity:0,stagger:.5,
-    scrollTrigger:{trigger:h,start:"top 80%",end:"top 30%",scrub:1}});
-});
-document.querySelectorAll(".t-fade").forEach(h=>{
-  const s=new SplitText(h,{type:"lines, words"});
-  gsap.from(s.words,{opacity:.15,stagger:.5,scrollTrigger:{trigger:h,start:"top 80%",end:"top 30%",scrub:1}});
-});
-document.querySelectorAll(".t-wipe").forEach(h=>{
-  gsap.from(h,{clipPath:"inset(0% 0% 0% 100%)",ease:"power4.out",
-    scrollTrigger:{trigger:h,start:"top 70%",end:"top 40%",scrub:1}});
-});
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הכותרות פשוט גלויות
+  const st=(h,a,b)=>({trigger:h,start:a,end:b,scrub:1});
+  const mm=gsap.matchMedia();
+  mm.add({desk:"(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+          mob:"(max-width: 767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const {desk,mob}=ctx.conditions;
+    if(!desk&&!mob)return;
+    const splits=[];
+    // עברית: מפצלים למילים בלבד. בלי lines: ב-RTL הפיצול לשורות מזהה כל כותרת כשורה אחת
+    const words=h=>{const s=new SplitText(h,{type:"words"});splits.push(s);return s.words;};
+    // רמה ב: המילים מתבהרות. stagger 0.5 בטווין scrub הוא חלק ממרחק הגלילה, לא מילישניות
+    const fade=h=>gsap.from(words(h),{opacity:.15,stagger:.5,scrollTrigger:st(h,"top 80%","top 30%")});
+    // רמה א: המילים עולות מ-clip. בטלפון clip על מילים קטנות מרצד, ולכן שם היא מקבלת את רמה ב
+    document.querySelectorAll(".t-clip").forEach(h=>{
+      if(mob)return fade(h);
+      gsap.from(words(h),{clipPath:"inset(100% 0% 0% 0%)",opacity:0,stagger:.5,scrollTrigger:st(h,"top 80%","top 30%")});
+    });
+    document.querySelectorAll(".t-fade").forEach(fade);
+    // רמה ג: הכותרת כולה נמחקת מהצד, בלי פיצול. scrub: הגלילה היא העקומה, ולכן ease:"none"
+    document.querySelectorAll(".t-wipe").forEach(h=>{
+      gsap.from(h,{clipPath:"inset(0% 0% 0% 100%)",ease:"none",scrollTrigger:st(h,"top 70%","top 40%")});
+    });
+    return()=>splits.forEach(s=>s.revert());
+  });
+})();
 </script>
 </body>
 </html>

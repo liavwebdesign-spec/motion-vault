@@ -67,13 +67,19 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const items=gsap.utils.toArray(".sk-it"),MAX=matchMedia("(max-width:767px)").matches?3:6;
-  const skew=gsap.quickTo(items,"skewY",{duration:.5,ease:"power3.out"});
-  const clamp=gsap.utils.clamp(-MAX,MAX);
-  ScrollTrigger.create({onUpdate:s=>{ skew(clamp(s.getVelocity()/-300)); }});
-  // כשהגלילה נעצרת אין onUpdate, ולכן מחזירים לאפס דרך טיימר קצר
-  let t; addEventListener("scroll",()=>{clearTimeout(t);t=setTimeout(()=>skew(0),120);},{passive:true});
+  if(typeof gsap==="undefined")return;
+  const items=gsap.utils.toArray(".sk-it");
+  // בהפחתת תנועה אף תנאי לא מתקיים, ואין הטיה. בסיבוב טאבלט או בשינוי חלון matchMedia מחליף גרסה ומנקה את הקודמת
+  gsap.matchMedia().add({d:"(min-width:768px) and (prefers-reduced-motion: no-preference)",m:"(max-width:767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const MAX=ctx.conditions.m?3:6;   // בטלפון הגלילה מהירה יותר, ולכן המקסימום חצי
+    const skew=gsap.quickTo(items,"skewY",{duration:.5,ease:"power3.out"});
+    const clamp=gsap.utils.clamp(-MAX,MAX);
+    ScrollTrigger.create({onUpdate:s=>{ skew(clamp(s.getVelocity()/-300)); }});
+    // כשהגלילה נעצרת אין onUpdate, ולכן מחזירים לאפס דרך טיימר קצר. המאזין מתנקה כשהגרסה מתחלפת
+    let t;const onScroll=()=>{clearTimeout(t);t=setTimeout(()=>skew(0),120);};
+    addEventListener("scroll",onScroll,{passive:true});
+    return ()=>{removeEventListener("scroll",onScroll);clearTimeout(t);};
+  });
 })();
 </script>
 </body>

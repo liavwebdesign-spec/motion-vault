@@ -36,9 +36,14 @@ img{max-width:100%}
 .dk{position:relative}
 .dk-stage{position:sticky;top:0;height:100vh;pointer-events:none;z-index:5}
 /* העוגן הוא הפינה הימנית העליונה, ונקודת הקנה מידה שם, כך שההתכווצות מושכת אליה */
+/* בלי GSAP או בהפחתת תנועה הכותרת כבר מעוגנת בפינה, במצב הסופי. רקע בצבע העמוד: התווית מסתירה
+   את הטקסט שגולל מתחתיה במקום להידבק אליו, ולכן היא גם תופסת את הסמן (pointer-events:auto) */
 .dk-title{position:absolute;top:26px;right:24px;margin:0;white-space:nowrap;
   font-size:clamp(30px,6vw,84px);font-weight:800;line-height:1;color:var(--ink, #16182b);
-  transform-origin:100% 0%;will-change:transform}
+  background:var(--bg, #f7f7fa);padding:.1em .3em;border-radius:.3em;pointer-events:auto;
+  transform-origin:100% 0%;transform:scale(.34);will-change:transform}
+/* בטלפון התווית בחצי גודל: בשליש היא יצאה בגובה עשרה פיקסלים */
+@media (max-width:767px){.dk-title{transform:scale(.5)}}
 /* המרווח יושב על התוכן ולא על הפרק: ריפוד של האב אינו חלק מתיבת התוכן שלו,
    ו-sticky נעצר בגבול תיבת התוכן. מרווח על האב היה מקצר את אזור ההיצמדות. */
 .dk-body{margin-top:-100vh;padding:100vh var(--gutter, clamp(24px, 5vw, 96px)) 60vh;max-width:min(760px,92vw);margin-inline:auto}
@@ -66,16 +71,19 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה הכותרת נשארת מעוגנת בפינה, כמו ב-CSS
   const title=document.querySelector(".dk-title");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce)return;
-  // בלי שום מדידה: שני מצבים מוגדרים במלואם, ו-GSAP עושה אינטרפולציה בין אחוזים לפיקסלים.
-  // מצב א: הקצה הימני במרכז המסך ואז דחיפה של חצי רוחב, כלומר מרכוז מדויק.
-  // מצב ב: העוגן בפינה, ונקודת הקנה מידה שם, ולכן ההתכווצות מושכת אל הפינה.
-  gsap.fromTo(title,
-    {top:"50%",right:"50%",xPercent:50,yPercent:-50,scale:1},
-    {top:"26px",right:"24px",xPercent:0,yPercent:0,scale:.34,ease:"none",
-     scrollTrigger:{trigger:".dk",start:"top top",end:"+=70%",scrub:.5,invalidateOnRefresh:true}});
+  gsap.matchMedia().add({mob:"(max-width:767px)",desk:"(min-width:768px)",motion:"(prefers-reduced-motion: no-preference)"},ctx=>{
+    if(!ctx.conditions.motion)return;   // בהפחתת תנועה: התווית המעוגנת מה-CSS, בלי מעבר
+    // בלי שום מדידה: שני מצבים מוגדרים במלואם, ו-GSAP עושה אינטרפולציה בין אחוזים לפיקסלים.
+    // מצב א: הקצה הימני במרכז המסך ואז דחיפה של חצי רוחב, כלומר מרכוז מדויק.
+    // מצב ב: העוגן בפינה, ונקודת הקנה מידה שם, ולכן ההתכווצות מושכת אל הפינה.
+    // הגודל הסופי זהה לזה שב-CSS: חצי בטלפון, שליש מעליו
+    gsap.fromTo(title,
+      {top:"50%",right:"50%",xPercent:50,yPercent:-50,scale:1},
+      {top:"26px",right:"24px",xPercent:0,yPercent:0,scale:ctx.conditions.mob?.5:.34,ease:"none",
+       scrollTrigger:{trigger:".dk",start:"top top",end:"+=70%",scrub:.5,invalidateOnRefresh:true}});
+  });
 })();
 </script>
 </body>

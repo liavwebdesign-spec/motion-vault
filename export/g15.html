@@ -40,7 +40,10 @@ img{max-width:100%}
 .center{text-align:center}
 
 /* G15 · פרילודר פרימיום (עלייה) */
-#pre{position:fixed;inset:0;background:var(--ink, #16182b);z-index:999;display:flex;align-items:center;justify-content:center;color:var(--bg, #f7f7fa);font-size:20px;font-weight:700}
+#pre{position:fixed;inset:0;background:var(--ink, #16182b);z-index:999;display:flex;align-items:center;justify-content:center;color:var(--bg, #f7f7fa);font-size:20px;font-weight:700;
+  animation:preOff 0s 2.5s forwards}
+/* גיבוי שלא תלוי ב-JS: אם הסקריפט לא רץ, המסך יורד אחרי 2.5 שניות. הסקריפט מבטל אותו כשהוא לוקח פיקוד */
+@keyframes preOff{to{visibility:hidden}}
 .replay{margin-inline:var(--gutter, clamp(24px, 5vw, 96px))}
 </style>
 </head>
@@ -51,17 +54,31 @@ img{max-width:100%}
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script>
-function runPre(){
+(function(){
   const p=document.getElementById("pre");
-  p.style.display="flex";gsap.set(p,{yPercent:0});
-  gsap.to(p,{yPercent:-100,duration:.6,ease:"power3.inOut",delay:.9,
-    onComplete:()=>p.style.display="none"});
-}
-let done=false;
-function hide(){if(done)return;done=true;runPre();}
-if(document.readyState==="complete")hide();
-else{addEventListener("load",hide);setTimeout(hide,3000);}
-document.querySelector(".replay").addEventListener("click",runPre);
+  if(typeof gsap==="undefined"){p.style.display="none";return;}   // CDN חסום: המסך יורד מיד ולא מכסה את האתר
+  p.style.animation="none";                  // מכאן הסקריפט אחראי, כולל הגיבוי של 3 שניות למטה
+  const HOLD=.9;                             // דמו בלבד, כדי שתספיק לראות. באתר אמיתי 0
+  const rm=matchMedia("(prefers-reduced-motion: reduce)");
+  let run;
+  function runPre(){
+    if(run)run.kill();
+    p.style.display="flex";gsap.set(p,{yPercent:0});
+    // הפחתת תנועה: בלי החלקה, המסך פשוט יורד
+    if(rm.matches){run=gsap.delayedCall(HOLD,()=>p.style.display="none");return;}
+    run=gsap.to(p,{yPercent:-100,duration:.6,ease:"power3.inOut",delay:HOLD,
+      onComplete:()=>p.style.display="none"});
+  }
+  let done=false;
+  function hide(){
+    if(done)return;done=true;
+    if(rm.matches){p.style.display="none";return;}
+    runPre();
+  }
+  if(document.readyState==="complete")hide();
+  else{addEventListener("load",hide);setTimeout(hide,3000);}
+  document.querySelector(".replay").addEventListener("click",runPre);
+})();
 </script>
 </body>
 </html>

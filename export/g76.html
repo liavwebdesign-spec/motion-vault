@@ -46,12 +46,14 @@ img{max-width:100%}
 
 /* G76 · סמן-תווית שמשתנה לפי האלמנט */
 .lc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap, clamp(16px, 1.6vw, 36px))}
-.lc-item{position:relative;aspect-ratio:4/3;border-radius:var(--r, 14px);overflow:hidden;cursor:none}
+.lc-item{position:relative;aspect-ratio:4/3;border-radius:var(--r, 14px);overflow:hidden;cursor:pointer}
 .lc-item .ph{position:absolute;inset:0;border-radius:0;font-size:22px}
-.lc-tag{position:absolute;bottom:12px;inset-inline-start:12px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:12px;padding:6px 12px;border-radius:999px;display:none}
+/* התג הקבוע הוא ברירת המחדל: במגע, בעכבר גס, בהפחתת תנועה ובלי GSAP. הסמן-תווית מחליף אותו רק תחת .mv-on */
+.lc-tag{position:absolute;bottom:12px;inset-inline-start:12px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:12px;padding:6px 12px;border-radius:999px}
+.lc-grid.mv-on .lc-item{cursor:none}
+.lc-grid.mv-on .lc-tag{display:none}
 .lc-cur{position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);pointer-events:none;z-index:99;
   display:grid;place-items:center;font-size:13px;font-weight:600;translate:-50% -50%;opacity:0;white-space:nowrap}
-@media (hover:none){.lc-item{cursor:default}.lc-tag{display:inline-block}.lc-cur{display:none}}
 @media (max-width:767px){.lc-grid{grid-template-columns:1fr 1fr}}
 </style>
 </head>
@@ -69,14 +71,25 @@ img{max-width:100%}
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script>
 (function(){
-  if(!matchMedia("(hover:hover) and (pointer:fine)").matches)return;
-  const cur=document.createElement("div");cur.className="lc-cur";document.body.appendChild(cur);
-  const x=gsap.quickTo(cur,"x",{duration:.25,ease:"power3.out"}),y=gsap.quickTo(cur,"y",{duration:.25,ease:"power3.out"});
-  let shown=false;
-  document.addEventListener("mousemove",e=>{x(e.clientX);y(e.clientY);if(!shown){shown=true;gsap.to(cur,{opacity:1,duration:.3});}});
-  document.querySelectorAll("[data-cursor]").forEach(el=>{
-    el.addEventListener("mouseenter",()=>{cur.textContent=el.dataset.cursor;gsap.to(cur,{width:84,height:84,duration:.35,ease:"power3.out"});});
-    el.addEventListener("mouseleave",()=>{cur.textContent="";gsap.to(cur,{width:14,height:14,duration:.35,ease:"power3.out"});});
+  if(typeof gsap==="undefined")return;   // בלי הספרייה נשארים התג הקבוע והסמן הרגיל
+  const grid=document.querySelector(".lc-grid");
+  // רק עם עכבר מדויק ובלי הפחתת תנועה. matchMedia מחזיר את התג הקבוע גם כשהתנאי משתנה באמצע
+  gsap.matchMedia().add("(hover:hover) and (pointer:fine) and (prefers-reduced-motion: no-preference)",()=>{
+    const cur=document.createElement("div");cur.className="lc-cur";cur.setAttribute("aria-hidden","true");document.body.appendChild(cur);
+    grid.classList.add("mv-on");
+    const x=gsap.quickTo(cur,"x",{duration:.25,ease:"power3.out"}),y=gsap.quickTo(cur,"y",{duration:.25,ease:"power3.out"});
+    let shown=false;
+    const move=e=>{x(e.clientX);y(e.clientY);if(!shown){shown=true;gsap.to(cur,{opacity:1,duration:.3});}};
+    const enter=e=>{cur.textContent=e.currentTarget.dataset.cursor;gsap.to(cur,{width:84,height:84,duration:.35,ease:"power3.out"});};
+    const leave=()=>{cur.textContent="";gsap.to(cur,{width:14,height:14,duration:.35,ease:"power3.out"});};
+    const items=[...grid.querySelectorAll("[data-cursor]")];
+    document.addEventListener("mousemove",move);
+    items.forEach(el=>{el.addEventListener("mouseenter",enter);el.addEventListener("mouseleave",leave);});
+    return ()=>{
+      document.removeEventListener("mousemove",move);
+      items.forEach(el=>{el.removeEventListener("mouseenter",enter);el.removeEventListener("mouseleave",leave);});
+      grid.classList.remove("mv-on");cur.remove();
+    };
   });
 })();
 </script>

@@ -51,7 +51,8 @@ img{max-width:100%}
 [dir="ltr"] .ic-arr{rotate:180deg}
 .cx-rv{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}
 .is-in .cx-rv{opacity:1;transform:none}
-.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+/* a time or a phone number never breaks between rows ("050-000" on one, "0000" on the next, at 500) */
+.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums;white-space:nowrap}
 /* the demo switch: lets the reviewer see every state. Not part of the component you copy. */
 .cx-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 24px;padding:6px;border-radius:14px;background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent);font-size:13px;width:max-content;max-width:100%}
 .cx-demo > span{padding:0 10px;font-weight:600;color:var(--muted, #6a6d85)}
@@ -134,10 +135,11 @@ img{max-width:100%}
 <div class="cx-scr" data-scroller tabindex="0" aria-label="דמו: עמוד בטלפון, גוללים בתוכו">
 <div class="cx-page">
   <header class="cx-hero"><small>סטודיו לעיצוב פנים</small><h3>בית שמרגיש נכון בשמונה בבוקר</h3><p>גוללים למטה: הפס מופיע ברגע שהכפתור של ההירו יוצא מהמסך.</p><a class="cx-btn" href="#cv1-end" data-cta-origin>לתיאום שיחה</a></header>
-  <section class="cx-sec"><small>שירותים</small><h4>תכנון מלא, מהקיר ועד הידית</h4><p>שלב אחד, איש קשר אחד, ולוח זמנים שמחזיק.</p><div class="cx-blk"></div></section><section class="cx-sec"><small>עבודות</small><h4>דירה ברמת גן, 4 חדרים</h4><p>מטבח פתוח, אחסון שלא רואים, ואור שנכנס עד הסלון.</p><div class="cx-blk"></div></section><section class="cx-sec"><small>תהליך</small><h4>שלושה מפגשים עד תוכנית</h4><p>סיור, קונספט, תוכנית עבודה. בלי הפתעות בדרך.</p><div class="cx-blk"></div></section>
-  <section class="cx-end" id="cv1-end" data-cta-end><h4>נתחיל בשיחה קצרה</h4><p>כאן הפס יורד: הכפתור של הסקשן לא צריך מתחרה.</p>
+  <section class="cx-sec"><small>שירותים</small><h4>תכנון מלא, מהקיר ועד הידית</h4><p>שלב אחד, איש קשר אחד, ולוח זמנים שמחזיק.</p><div class="cx-blk"></div></section><section class="cx-sec"><small>עבודות</small><h4>דירה ברמת גן, 4 חדרים</h4><p>מטבח פתוח, אחסון שלא רואים, ואור שנכנס עד הסלון.</p><div class="cx-blk"></div></section>
+  <section class="cx-end" id="cv1-end" data-cta-end><h4>נתחיל בשיחה קצרה</h4><p>כאן הפס יורד: הכפתור של הסקשן לא צריך מתחרה. ממשיכים לגלול, והוא חוזר.</p>
     <input type="text" placeholder="שם" aria-label="שם" autocomplete="name"><input type="tel" placeholder="טלפון" aria-label="טלפון" dir="ltr" autocomplete="tel"><button class="cx-btn" type="button">שליחה</button></section>
-  <p class="cx-foot">הפוטר של האתר</p>
+  <section class="cx-sec"><small>תהליך</small><h4>שלושה מפגשים עד תוכנית</h4><p>סיור, קונספט, תוכנית עבודה. בלי הפתעות בדרך.</p><div class="cx-blk"></div></section><section class="cx-sec"><small>שאלות</small><h4>כמה זמן לוקח פרויקט?</h4><p>דירה של ארבעה חדרים: בערך שלושה חודשים מהסיור ועד המסירה.</p><div class="cx-blk"></div></section>
+  <footer class="cx-foot">הפוטר של האתר. גם כאן הפס יורד.</footer>
 </div></div>
   <div class="mbar cv1-bar" data-mbar data-hours='{"0":[9,18],"1":[9,18],"2":[9,18],"3":[9,18],"4":[9,18],"5":[9,13],"6":null}' role="region" aria-label="יצירת קשר מהירה">
     <a class="cx-btn mb-go" href="#cv1-end">השאירו פרטים</a>
@@ -155,17 +157,24 @@ img{max-width:100%}
 
 
 <script>
-// the bar's whole job is timing: it appears once the hero's own button has left the screen, steps aside when the final
-// contact section is on screen (two identical buttons compete), and hides while a field has focus (the keyboard is up)
+// the bar's whole job is timing: it appears once the hero's own button has left the screen, steps aside while the contact
+// section is on screen (two identical buttons compete), over the footer, and over any other button for the same action
+// (data-cta-same), and hides while a field has focus (the keyboard is up). Every stop is checked at both edges, so once the
+// visitor has scrolled past a form in the middle of the page, the bar comes back for everything after it.
 function mbar(bar,opt){
   opt=opt||{};
   var ph=bar.closest("[data-phone]"), sc=ph?ph.querySelector("[data-scroller]"):window, root=ph||document;
-  var origin=root.querySelector("[data-cta-origin]"), end=root.querySelector("[data-cta-end]"), typing=false, raf=0;
+  var origin=root.querySelector("[data-cta-origin]"), typing=false, raf=0;
+  var stops=[].slice.call(root.querySelectorAll("[data-cta-end],[data-cta-same],footer"));
   function box(){return sc===window?{top:0,bottom:innerHeight}:sc.getBoundingClientRect();}
+  // a contact section counts once it fills the lower third and until it leaves the top tenth; a footer or a button
+  // counts the moment any of it is on screen, because that is exactly where the bar would sit on it
+  function seen(el,b,vh){var r=el.getBoundingClientRect(),big=el.hasAttribute("data-cta-end");
+    return big?r.top<b.bottom-vh*.3&&r.bottom>b.top+vh*.1:r.top<b.bottom&&r.bottom>b.top;}
   function upd(){
     raf=0;
-    var b=box(), vh=b.bottom-b.top, o=origin&&origin.getBoundingClientRect(), e=end&&end.getBoundingClientRect();
-    var past=!o||o.bottom<b.top+8, atEnd=!!e&&e.top<b.bottom-vh*.3, on=past&&!atEnd&&!typing;
+    var b=box(), vh=b.bottom-b.top, o=origin&&origin.getBoundingClientRect();
+    var past=!o||o.bottom<b.top+8, atEnd=stops.some(function(s){return seen(s,b,vh);}), on=past&&!atEnd&&!typing;
     if(on!==bar.classList.contains("is-on")){
       bar.classList.toggle("is-on",on);
       // off screen it must also leave the tab order, or a keyboard user tabs into an invisible button
@@ -184,7 +193,8 @@ function mbar(bar,opt){
 var DAYS=["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"], DSHORT=["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","ש׳"];
 var MONTHS=["בינואר","בפברואר","במרץ","באפריל","במאי","ביוני","ביולי","באוגוסט","בספטמבר","באוקטובר","בנובמבר","בדצמבר"];
 function hoursOf(el){try{return JSON.parse(el.getAttribute("data-hours"));}catch(e){return {"0":[9,18],"1":[9,18],"2":[9,18],"3":[9,18],"4":[9,18],"5":[9,13],"6":null};}}
-function hm(m){var h=Math.floor(m/60),mm=m%60;return h+":"+(mm<10?"0":"")+mm;}
+// both parts padded: "09:15", never "9:15" (conversion.md, the thank-you page rule)
+function hm(m){var h=Math.floor(m/60),mm=m%60;return (h<10?"0":"")+h+":"+(mm<10?"0":"")+mm;}
 function minsOf(d){return d.getHours()*60+d.getMinutes();}
 function dayWord(from,to){var a=new Date(from),b=new Date(to);a.setHours(0,0,0,0);b.setHours(0,0,0,0);var n=Math.round((b-a)/864e5);return n===0?"היום":n===1?"מחר":"ביום "+DAYS[b.getDay()];}
 // open now until X, or closed and when it opens next

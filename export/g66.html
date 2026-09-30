@@ -80,14 +80,27 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה נשאר הרקע הראשון, והטקסט גלוי מעליו
   const layers=gsap.utils.toArray(".bgs-layer");
   const secs=gsap.utils.toArray(".bgs-sec");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  secs.forEach((sec,i)=>{
-    if(i===0)return;
-    // כל שכבה נחשפת מלמטה בזמן שהסקשן שלה עולה, ונשארת חשופה אחריו
-    gsap.fromTo(layers[i],{clipPath:"inset(100% 0 0 0)"},{clipPath:"inset(0% 0 0 0)",ease:"none",
-      scrollTrigger:{trigger:sec,start:"top 85%",end:"top 25%",scrub:reduce?false:.5}});
+  const mm=gsap.matchMedia();
+  mm.add("(prefers-reduced-motion: no-preference)",()=>{
+    secs.forEach((sec,i)=>{
+      if(i===0)return;
+      // כל שכבה נחשפת מלמטה בזמן שהסקשן שלה עולה, ונשארת חשופה אחריו
+      gsap.fromTo(layers[i],{clipPath:"inset(100% 0 0 0)"},{clipPath:"inset(0% 0 0 0)",ease:"none",
+        scrollTrigger:{trigger:sec,start:"top 85%",end:"top 25%",scrub:.5}});
+    });
+  });
+  // בהפחתת תנועה אין מסכה שנפתחת: הרקע מתחלף במקום כשהסקשן מגיע לאמצע המסך, וחוזר כשגוללים אחורה
+  mm.add("(prefers-reduced-motion: reduce)",()=>{
+    secs.forEach((sec,i)=>{
+      if(i===0)return;
+      ScrollTrigger.create({trigger:sec,start:"top 55%",endTrigger:".bgs",end:"bottom top",
+        onEnter:()=>gsap.set(layers[i],{clipPath:"inset(0% 0 0 0)"}),
+        onLeaveBack:()=>gsap.set(layers[i],{clipPath:"inset(100% 0 0 0)"})});
+    });
+    return ()=>gsap.set(layers.slice(1),{clearProps:"clipPath"});
   });
 })();
 </script>

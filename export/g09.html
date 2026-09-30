@@ -62,13 +62,26 @@ img{max-width:100%}
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(InertiaPlugin);
 
-document.querySelectorAll(".throw-item").forEach(el=>{
-  let vx=0,vy=0,lx=0,ly=0;
-  el.addEventListener("mousemove",e=>{vx=e.clientX-lx;vy=e.clientY-ly;lx=e.clientX;ly=e.clientY});
-  el.addEventListener("mouseleave",()=>{
-    gsap.to(el,{inertia:{x:{velocity:vx*40,end:0},y:{velocity:vy*40,end:0}},duration:1.2});
+(function(){
+  if(typeof gsap==="undefined")return;
+  // רק עם עכבר ובלי הפחתת תנועה. במגע הקשה ואחריה הקשה במקום אחר יורה mouseleave עם מהירות ישנה
+  gsap.matchMedia().add("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",()=>{
+    const clamp=gsap.utils.clamp(-2000,2000);  // תקרת מהירות: החלקה מהירה לא זורקת פריט אל מחוץ למסך
+    const off=[];
+    document.querySelectorAll(".throw-item").forEach(el=>{
+      let vx=0,vy=0,lx=0,ly=0;
+      // המהירות נמדדת מנקודת הכניסה, לא מהנקודה האחרונה של הביקור הקודם (או מ-0,0 בביקור הראשון)
+      const enter=e=>{lx=e.clientX;ly=e.clientY;vx=vy=0};
+      const move=e=>{vx=e.clientX-lx;vy=e.clientY-ly;lx=e.clientX;ly=e.clientY};
+      // נקודת היציאה היא הצעד האחרון: כך גם החלקה שנתנה רק אירוע אחד בתוך הפריט זורקת אותו בכיוון היציאה
+      const leave=e=>{if(e.clientX!==lx||e.clientY!==ly)move(e);
+        gsap.to(el,{inertia:{x:{velocity:clamp(vx*40),end:0},y:{velocity:clamp(vy*40),end:0}},duration:1.2});};
+      el.addEventListener("mouseenter",enter);el.addEventListener("mousemove",move);el.addEventListener("mouseleave",leave);
+      off.push(()=>{el.removeEventListener("mouseenter",enter);el.removeEventListener("mousemove",move);el.removeEventListener("mouseleave",leave);});
+    });
+    return()=>off.forEach(f=>f());
   });
-});
+})();
 </script>
 </body>
 </html>

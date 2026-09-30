@@ -44,7 +44,7 @@ img{max-width:100%}
   padding:0 var(--gutter, clamp(24px, 5vw, 96px));color:#fff;will-change:transform;overflow:hidden}
 .pu-sec .ph{position:absolute;inset:0;border-radius:0;font-size:0}
 .pu-in{position:relative;z-index:1;max-width:44ch}
-.pu-sec h3{margin:0;font-size:clamp(28px,4.8vw,64px);line-height:1.12;text-shadow:0 3px 24px rgba(0,0,0,.35)}
+.pu-sec h3{margin:0;font-size:clamp(28px,4.8vw,64px);line-height:1.12;text-shadow:0 3px 24px rgba(0,0,0,.35);text-wrap:balance}
 .pu-sec p{margin:14px 0 0;font-size:17px;line-height:1.8;opacity:.9;text-shadow:0 2px 16px rgba(0,0,0,.4)}
 .pu-veil{position:absolute;inset:0;background:#0b0c14;opacity:0;pointer-events:none;z-index:2}
 </style>
@@ -68,15 +68,17 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה הסקשנים עדיין נדבקים ומכסים זה את זה, בלי הנסיגה
   const secs=gsap.utils.toArray(".pu-sec");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce)return;
-  secs.forEach((sec,i)=>{
-    if(i===secs.length-1)return;
-    // הסקשן הנוכחי נסוג ומתכהה בזמן שהבא אחריו עולה מעליו
-    gsap.timeline({scrollTrigger:{trigger:secs[i+1],start:"top bottom",end:"top top",scrub:.5}})
-      .fromTo(sec,{scale:1,y:0},{scale:.9,y:-40,ease:"none"},0)
-      .fromTo(sec.querySelector(".pu-veil"),{opacity:0},{opacity:.55,ease:"none"},0);
+  // בהפחתת תנועה נשאר רק ה-sticky: כל סקשן עולה ומכסה את הקודם, בלי שינוי גודל ובלי החשכה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    secs.forEach((sec,i)=>{
+      if(i===secs.length-1)return;
+      // הסקשן הנוכחי נסוג ומתכהה בזמן שהבא אחריו עולה מעליו
+      gsap.timeline({scrollTrigger:{trigger:secs[i+1],start:"top bottom",end:"top top",scrub:.5}})
+        .fromTo(sec,{scale:1,y:0},{scale:.9,y:-40,ease:"none"},0)
+        .fromTo(sec.querySelector(".pu-veil"),{opacity:0},{opacity:.55,ease:"none"},0);
+    });
   });
 })();
 </script>

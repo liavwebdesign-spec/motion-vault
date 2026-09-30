@@ -51,7 +51,8 @@ img{max-width:100%}
 [dir="ltr"] .ic-arr{rotate:180deg}
 .cx-rv{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}
 .is-in .cx-rv{opacity:1;transform:none}
-.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+/* a time or a phone number never breaks between rows ("050-000" on one, "0000" on the next, at 500) */
+.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums;white-space:nowrap}
 /* the demo switch: lets the reviewer see every state. Not part of the component you copy. */
 .cx-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 24px;padding:6px;border-radius:14px;background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent);font-size:13px;width:max-content;max-width:100%}
 .cx-demo > span{padding:0 10px;font-weight:600;color:var(--muted, #6a6d85)}
@@ -108,15 +109,20 @@ img{max-width:100%}
       <li><label><input type="checkbox" data-k="refs"><span class="t5-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>שלוש תמונות שאהבתם</b><small>מפינטרסט, מאינסטגרם, מכל מקום</small></span></label></li>
       <li><label><input type="checkbox" data-k="budget"><span class="t5-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span><b>טווח תקציב בערך</b><small>לא צריך מדויק, רק כדי שנדבר על מה שאפשרי</small></span></label></li>
     </ul>
-    <div class="t5-ready" aria-live="polite"><p data-ready>הכל מוכן. נתראה ביום שני ב-10:00.</p></div>
+    <div class="t5-ready"><p data-ready aria-live="polite"></p></div>
   </div>
 </div></div>
 
 
 <script>
 function inView(el,f){
-  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0){off();f();}}
-  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);}
+  var done=false,io=null;
+  function go(){if(done)return;done=true;off();f();}
+  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0)go();}
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(io)io.disconnect();}
+  // the observer also catches a layout change that brings the block on screen with no scroll event;
+  // the scroll check stays for where the observer is late or missing
+  if("IntersectionObserver" in window){io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting;}))go();},{rootMargin:"0px 0px -10% 0px"});io.observe(el);}
   addEventListener("scroll",chk,{passive:true});addEventListener("resize",chk);requestAnimationFrame(chk);setTimeout(chk,300);
 }
 function fireLead(){
@@ -127,7 +133,8 @@ function fireLead(){
 var DAYS=["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"], DSHORT=["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","ש׳"];
 var MONTHS=["בינואר","בפברואר","במרץ","באפריל","במאי","ביוני","ביולי","באוגוסט","בספטמבר","באוקטובר","בנובמבר","בדצמבר"];
 function hoursOf(el){try{return JSON.parse(el.getAttribute("data-hours"));}catch(e){return {"0":[9,18],"1":[9,18],"2":[9,18],"3":[9,18],"4":[9,18],"5":[9,13],"6":null};}}
-function hm(m){var h=Math.floor(m/60),mm=m%60;return h+":"+(mm<10?"0":"")+mm;}
+// both parts padded: "09:15", never "9:15" (conversion.md, the thank-you page rule)
+function hm(m){var h=Math.floor(m/60),mm=m%60;return (h<10?"0":"")+h+":"+(mm<10?"0":"")+mm;}
 function minsOf(d){return d.getHours()*60+d.getMinutes();}
 function dayWord(from,to){var a=new Date(from),b=new Date(to);a.setHours(0,0,0,0);b.setHours(0,0,0,0);var n=Math.round((b-a)/864e5);return n===0?"היום":n===1?"מחר":"ביום "+DAYS[b.getDay()];}
 // open now until X, or closed and when it opens next
@@ -157,17 +164,21 @@ function replyBy(H,now,sla){
   root.querySelector("[data-mon]").textContent=SHORTMON[start.getMonth()];root.querySelector("[data-day]").textContent=start.getDate();
   root.querySelector("[data-date]").textContent="יום "+DAYS[start.getDay()]+", "+start.getDate()+" "+MONTHS[start.getMonth()];
   root.querySelector("[data-time]").textContent=tm+" עד "+hm(minsOf(end));
-  root.querySelector("[data-ready]").textContent="הכל מוכן. נתראה "+dayWord(new Date(),start)+" ב-"+tm+".";
-  function p2(n){return (n<10?"0":"")+n;}
-  function stamp(d){return d.getFullYear()+p2(d.getMonth()+1)+p2(d.getDate())+"T"+p2(d.getHours())+p2(d.getMinutes())+"00";}
+  // the "all set" line is written only when the third box is ticked: a live region that already holds its text says nothing
+  var READY="הכל מוכן. נתראה "+dayWord(new Date(),start)+" ב-"+tm+".",readyP=root.querySelector("[data-ready]");
+  // the calendar gets the moment in UTC: it is the same instant the page shows, in whatever time zone the visitor is
+  function utc(d){return d.toISOString().replace(/[-:]/g,"").replace(/[.][0-9]{3}/,"");}
   var title="שיחת היכרות עם הסטודיו",det="הקישור לשיחה יגיע במייל. להכין: תוכנית, שלוש תמונות, טווח תקציב.";
-  root.querySelector("[data-gcal]").href="https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(title)+"&dates="+stamp(start)+"/"+stamp(end)+"&ctz=Asia/Jerusalem&details="+encodeURIComponent(det);
-  // one file that Outlook, Apple Calendar and Android all open, with a reminder 15 minutes before
+  root.querySelector("[data-gcal]").href="https://calendar.google.com/calendar/render?action=TEMPLATE&text="+encodeURIComponent(title)+"&dates="+utc(start)+"/"+utc(end)+"&details="+encodeURIComponent(det);
+  // one file that Outlook, Apple Calendar and Android all open, with a reminder 15 minutes before.
+  // RFC 5545: commas and semicolons in text are escaped, and a line longer than 75 bytes is folded (Hebrew is 2 bytes a letter)
+  function esc(s){return s.replace(/([\\,;])/g,"\\$1");}
+  function fold(line){var out="",n=0,enc=new TextEncoder();Array.from(line).forEach(function(ch){var b=enc.encode(ch).length;if(n+b>75){out+=String.fromCharCode(13,10)+" ";n=1;}out+=ch;n+=b;});return out;}
   root.querySelector("[data-ics]").addEventListener("click",function(){
     var NL=String.fromCharCode(13,10),now=new Date();
-    var ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//site//conv//HE","BEGIN:VEVENT","UID:"+now.getTime()+"@site","DTSTAMP:"+stamp(now),
-      "DTSTART;TZID=Asia/Jerusalem:"+stamp(start),"DTEND;TZID=Asia/Jerusalem:"+stamp(end),"SUMMARY:"+title,"DESCRIPTION:"+det,
-      "BEGIN:VALARM","TRIGGER:-PT15M","ACTION:DISPLAY","DESCRIPTION:"+title,"END:VALARM","END:VEVENT","END:VCALENDAR"].join(NL);
+    var ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//site//conv//HE","BEGIN:VEVENT","UID:"+now.getTime()+"@site","DTSTAMP:"+utc(now),
+      "DTSTART:"+utc(start),"DTEND:"+utc(end),"SUMMARY:"+esc(title),"DESCRIPTION:"+esc(det),
+      "BEGIN:VALARM","TRIGGER:-PT15M","ACTION:DISPLAY","DESCRIPTION:"+esc(title),"END:VALARM","END:VEVENT","END:VCALENDAR"].map(fold).join(NL);
     var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([ics],{type:"text/calendar;charset=utf-8"}));a.download="meeting.ics";document.body.appendChild(a);a.click();
     setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);
   });
@@ -176,7 +187,9 @@ function replyBy(H,now,sla){
   var boxes=[].slice.call(root.querySelectorAll("[data-k]")),done=root.querySelector("[data-done]"),ready=root.querySelector(".t5-ready");
   function count(bump){var n=boxes.filter(function(b){return b.checked;}).length;
     if(bump&&done.textContent!==String(n)){done.classList.remove("bump");void done.offsetWidth;done.classList.add("bump");setTimeout(function(){done.classList.remove("bump");},250);}
-    done.textContent=n;ready.classList.toggle("is-on",n===boxes.length);}
+    var all=n===boxes.length;done.textContent=n;ready.classList.toggle("is-on",all);
+    // the text arrives with the third tick (so it is announced) and leaves after the row has closed
+    if(all)readyP.textContent=READY;else setTimeout(function(){if(!ready.classList.contains("is-on"))readyP.textContent="";},360);}
   boxes.forEach(function(b){b.checked=!!saved[b.getAttribute("data-k")];b.addEventListener("change",function(){saved[b.getAttribute("data-k")]=b.checked;try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}count(true);});});
   count(false);
   inView(root,function(){root.classList.add("is-in");fireLead();});

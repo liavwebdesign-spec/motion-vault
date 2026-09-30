@@ -45,8 +45,10 @@ img{max-width:100%}
 .ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}
 
 /* G01 · גלילה צידית מוצמדת */
-.wrapper{transition:all 0s !important;overflow:hidden;background:var(--bg, #f7f7fa)}
-.scroll{display:flex;gap:24px;width:max-content;padding:80px var(--gutter, clamp(24px, 5vw, 96px))}
+/* בלי GSAP ובהפחתת תנועה הרצועה נגללת לצד ביד. החיתוך, הגובה והמירכוז רק כשהמהלך רץ */
+.wrapper{transition:all 0s !important;overflow-x:auto;background:var(--bg, #f7f7fa)}
+.wrapper.gsap-live{overflow:hidden;height:100vh;display:flex;align-items:center}
+.scroll{flex:none;display:flex;gap:24px;width:max-content;padding:80px var(--gutter, clamp(24px, 5vw, 96px))}
 .scroll .ph{flex:0 0 clamp(300px,26vw,460px);height:clamp(240px,20vw,360px);font-size:22px}
 </style>
 </head>
@@ -62,10 +64,18 @@ img{max-width:100%}
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const container=document.querySelector(".scroll");
-const totalWidth=container.scrollWidth-window.innerWidth;
-gsap.to(container,{x:()=>totalWidth,ease:"none",
-  scrollTrigger:{trigger:".wrapper",start:"top top",end:()=>"+="+totalWidth,scrub:true,pin:true,anticipatePin:1}});
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הרצועה נשארת גלילה צידית רגילה
+  const wrap=document.querySelector(".wrapper"),container=wrap.querySelector(".scroll");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    wrap.classList.add("gsap-live");
+    // נמדד מחדש בכל refresh: אחרי שינוי גודל או סיבוב מסך הכרטיס האחרון לא נחתך
+    const total=()=>container.scrollWidth-wrap.clientWidth;
+    gsap.to(container,{x:()=>total(),ease:"none",   // אתר עברי: x חיובי. אתר אנגלי: -total()
+      scrollTrigger:{trigger:wrap,start:"top top",end:()=>"+="+total(),scrub:true,pin:true,anticipatePin:1,invalidateOnRefresh:true}});
+    return()=>wrap.classList.remove("gsap-live");
+  });
+})();
 </script>
 </body>
 </html>

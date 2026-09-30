@@ -35,11 +35,13 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* G03 · חור מסכה שנפתח על מדיה */
-.maskv{--mask-size:16vw;position:relative;height:100vh;
+.maskv{--mask-size:16vw;position:relative;height:100vh;transition:all 0s}
+/* המסכה רק כשהמהלך רץ. בלי GSAP ובהפחתת תנועה המדיה גלויה במלואה ולא נשאר ממנה עיגול קטן */
+.maskv.gsap-live{
 -webkit-mask-image:radial-gradient(circle var(--mask-size) at 50% 50%,#000 0 50%,transparent 50% 100%);
 mask-image:radial-gradient(circle var(--mask-size) at 50% 50%,#000 0 50%,transparent 50% 100%);
 -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-position:center;mask-position:center;
--webkit-mask-size:100% 100%;mask-size:100% 100%;transition:all 0s}
+-webkit-mask-size:100% 100%;mask-size:100% 100%}
 .maskv .inner{position:absolute;inset:0;background:linear-gradient(135deg,#3b2667,#bc78ec);display:flex;align-items:center;justify-content:center;color:#fff;font-size:clamp(26px,3vw,46px);font-weight:700}
 @media(max-width:767px){.maskv{--mask-size:140px}}
 </style>
@@ -53,8 +55,16 @@ mask-image:radial-gradient(circle var(--mask-size) at 50% 50%,#000 0 50%,transpa
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-gsap.timeline({scrollTrigger:{trigger:".maskv",start:"top top",end:"+=800",scrub:1,pin:true,anticipatePin:1}})
-.to(".maskv",{"--mask-size":"250vw",ease:"none"},0);
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP המדיה גלויה במלואה
+  const m=document.querySelector(".maskv");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    m.classList.add("gsap-live");
+    gsap.timeline({scrollTrigger:{trigger:m,start:"top top",end:"+=800",scrub:1,pin:true,anticipatePin:1}})
+      .to(m,{"--mask-size":"250vw",ease:"none"},0);
+    return()=>m.classList.remove("gsap-live");
+  });
+})();
 </script>
 </body>
 </html>

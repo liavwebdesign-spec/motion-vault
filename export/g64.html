@@ -46,7 +46,8 @@ img{max-width:100%}
 .sw-word.front{z-index:3;clip-path:inset(0 0 52% 0)}
 .sw-media{position:relative;z-index:2;width:min(420px,62vw);aspect-ratio:3/4;border-radius:18px;
   font-size:0;will-change:transform;box-shadow:0 30px 70px rgba(20,20,40,.28)}
-.sw-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px;z-index:4}
+/* הכיתוב בראש הבמה: בתחתית התמונה עוברת עליו בתחילת המהלך, וכאן גם בסוף המהלך היא נעצרת מתחתיו */
+.sw-cap{position:absolute;top:2vh;margin:0;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px;z-index:4}
 </style>
 </head>
 <body>
@@ -54,7 +55,7 @@ img{max-width:100%}
 <div class="sw"><div class="sw-stage">
   <h2 class="sw-word back">סטודיו</h2>
   <div class="ph sw-media ph-b"></div>
-  <h2 class="sw-word front">סטודיו</h2>
+  <div class="sw-word front" aria-hidden="true">סטודיו</div>
   <p class="sw-cap">גלול. התמונה נכנסת בין שתי השכבות של המילה.</p>
 </div></div>
 
@@ -64,11 +65,13 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;
   const media=document.querySelector(".sw-media");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce)return;
-  gsap.fromTo(media,{yPercent:62,scale:.82},{yPercent:-8,scale:1,ease:"none",
-    scrollTrigger:{trigger:".sw",start:"top top",end:"bottom bottom",scrub:.55}});
+  // בהפחתת תנועה התמונה עומדת במקומה בין שתי השכבות
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    gsap.fromTo(media,{yPercent:62,scale:.82},{yPercent:-8,scale:1,ease:"none",
+      scrollTrigger:{trigger:".sw",start:"top top",end:"bottom bottom",scrub:.55}});
+  });
 })();
 </script>
 </body>

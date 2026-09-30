@@ -90,7 +90,7 @@ async function shoot(id, file) {
     await send("Emulation.setDeviceMetricsOverride", { width: w, height: h, deviceScaleFactor: 1, mobile: w < 768 }, sessionId);
     await send("Page.navigate", { url: pathToFileURL(file).href }, sessionId);
     await sleep(1500);
-    await send("Runtime.evaluate", { expression: `document.querySelectorAll(".vtop,.vintro,.mvcode,.vpn-foot,.mvpanel,.demo-note,.runway").forEach(e=>e.style.display="none");if(window.ScrollTrigger)ScrollTrigger.refresh();` }, sessionId);
+    await send("Runtime.evaluate", { expression: `document.querySelectorAll(".vtop,.vintro,.mvcode,.vpn-foot,.mvpanel,.demo-note,.runway").forEach(e=>e.style.display="none");if(window.ScrollTrigger)ScrollTrigger.refresh();dispatchEvent(new Event("resize"));dispatchEvent(new Event("scroll"));` }, sessionId);
     await sleep(400);
     for (let i = 0; i < POS.length; i++) {
       const pos = POS[i];

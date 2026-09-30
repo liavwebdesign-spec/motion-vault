@@ -42,7 +42,7 @@ img{max-width:100%}
 /* G87 · מחיקת צבע שחושפת טקסט */
 .wp{max-width:min(760px,92vw);margin-inline:auto;display:grid;gap:clamp(18px,3vw,34px)}
 .wp-line{position:relative;display:inline-block;overflow:hidden;font-size:clamp(24px,3.4vw,50px);font-weight:800;line-height:1.2;padding:.08em .1em;justify-self:start}
-.wp-line span{opacity:0;display:inline-block}
+.wp-line span{display:inline-block}
 .wp-line i{position:absolute;inset:0;background:var(--accent, #4a3aff);transform-origin:100% 50%;transform:scaleX(0)}
 .wp-line.muted{font-size:clamp(17px,1.6vw,22px);font-weight:500;color:var(--muted, #6a6d85)}
 </style>
@@ -62,18 +62,22 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה השורות גלויות, כי ה-CSS לא מסתיר אותן
   const lines=gsap.utils.toArray(".wp-line");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(".wp-line span",{opacity:1});return;}
-  ScrollTrigger.batch(lines,{start:"top 85%",once:true,onEnter:batch=>{
-    batch.forEach((line,i)=>{
-      const bar=line.querySelector("i"),txt=line.querySelector("span");
-      gsap.timeline({delay:i*.18})
-        .to(bar,{scaleX:1,duration:.45,ease:"power3.inOut"})          // הפס נכנס מימין ומכסה
-        .set(txt,{opacity:1})                                           // הטקסט מופיע מאחורי הפס
-        .set(bar,{transformOrigin:"0% 50%"})
-        .to(bar,{scaleX:0,duration:.5,ease:"power3.inOut"});           // הפס יוצא שמאלה וחושף
-    });
-  }});
+  // בהפחתת תנועה השורות גלויות מההתחלה, בלי פס
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    gsap.set(".wp-line span",{opacity:0});   // ההסתרה רק כאן, כשיש מי שיחשוף
+    ScrollTrigger.batch(lines,{start:"top 85%",once:true,onEnter:batch=>{
+      batch.forEach((line,i)=>{
+        const bar=line.querySelector("i"),txt=line.querySelector("span");
+        gsap.timeline({delay:i*.18})
+          .to(bar,{scaleX:1,duration:.45,ease:"power3.inOut"})          // הפס נכנס מימין ומכסה
+          .set(txt,{opacity:1})                                           // הטקסט מופיע מאחורי הפס
+          .set(bar,{transformOrigin:"0% 50%"})
+          .to(bar,{scaleX:0,duration:.5,ease:"power3.inOut"});           // הפס יוצא שמאלה וחושף
+      });
+    }});
+  });
 })();
 </script>
 </body>

@@ -51,12 +51,25 @@ img{max-width:100%}
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(SplitText);
 
-const split=new SplitText(".hovt",{type:"words"});
-gsap.set(split.words,{display:"inline-block"});
-split.words.forEach(w=>{
-  w.addEventListener("mouseenter",()=>gsap.to(w,{color:"transparent","-webkit-text-stroke":"1.5px #16182b",duration:.15}));
-  w.addEventListener("mouseleave",()=>gsap.to(w,{color:"#16182b","-webkit-text-stroke":"0px transparent",duration:.15}));
-});
+(function(){
+  if(typeof gsap==="undefined")return;
+  // רק עם עכבר: במגע מילה שהוקשה נשארת חלולה עד ההקשה הבאה. בטלפון הכותרת רגילה
+  gsap.matchMedia().add("(hover: hover) and (pointer: fine)",()=>{
+    const splits=[];
+    document.querySelectorAll(".hovt").forEach(h=>{
+      // הצבע של הכותרת עצמה, נקרא בכל ריחוף ולא ערך קבוע: כותרת לבנה על הירו כהה חוזרת ללבן, גם אחרי החלפת ערכת צבע
+      const base=()=>getComputedStyle(h).color;
+      const split=new SplitText(h,{type:"words"});splits.push(split);
+      gsap.set(split.words,{display:"inline-block"});
+      split.words.forEach(w=>{
+        w.addEventListener("mouseenter",()=>gsap.to(w,{color:"transparent","-webkit-text-stroke":"1.5px "+base(),duration:.15,overwrite:true}));
+        w.addEventListener("mouseleave",()=>{const c=base();gsap.to(w,{color:c,"-webkit-text-stroke":"0px "+c,duration:.15,overwrite:true,
+          onComplete:()=>{w.style.color="";w.style.webkitTextStroke="";}});});   // בסוף חוזרים לצבע שבא מה-CSS
+      });
+    });
+    return()=>splits.forEach(s=>s.revert());
+  });
+})();
 </script>
 </body>
 </html>

@@ -58,9 +58,14 @@ img{max-width:100%}
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-gsap.set(".bcard",{y:24,opacity:0});
-ScrollTrigger.batch(".bcard",{start:"top 88%",once:true,
-  onEnter:b=>gsap.to(b,{y:0,opacity:1,stagger:.08,duration:.5,ease:"power2.out"})});
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הכרטיסים גלויים מההתחלה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    gsap.set(".bcard",{y:16,opacity:0});     // מרחק ה-reveal של המנוע
+    ScrollTrigger.batch(".bcard",{start:"top 88%",once:true,
+      onEnter:b=>gsap.to(b,{y:0,opacity:1,stagger:.08,duration:.5,ease:"power2.out"})});
+  });
+})();
 </script>
 </body>
 </html>

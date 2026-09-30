@@ -43,10 +43,15 @@ img{max-width:100%}
 .ftw{font-size:15px;line-height:1.6}
 .ftw a{color:inherit;text-decoration:none;transition:color .15s cubic-bezier(.2,.6,.2,1),opacity .15s cubic-bezier(.2,.6,.2,1)}
 .ftw h3{margin:0 0 12px;font-size:14px;font-weight:600;opacity:.62}
+/* a big closing line never leaves one word alone on its last row */
+.ftw :is(h2,h3){text-wrap:balance}
 .ftw ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.ft-tel{unicode-bidi:isolate;font-weight:600}
+/* the number hugs the start of its column (RTL: right) and never breaks between rows; stretched, dir=ltr pushed it left */
+.ft-tel{unicode-bidi:isolate;font-weight:600;justify-self:start;white-space:nowrap}
 .ft-legal{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;font-size:13px}
-.ft-legal p{margin:0;opacity:.7}
+.ft-legal p{margin:0}
+/* the credit fades once, on its link: fading the paragraph too gave 0.49 and failed contrast on the light footers */
+.ft-legal>p:not(.ft-credit){opacity:.7}
 .ft-legal nav{display:flex;flex-wrap:wrap;gap:8px 20px}
 .ft-legal nav a{opacity:.7}
 .ft-credit{margin-inline-start:auto!important}
@@ -61,6 +66,17 @@ img{max-width:100%}
 .ft-rv{opacity:0;transform:translateY(16px);transition:opacity .6s cubic-bezier(.2,.6,.2,1),transform .6s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}
 .is-in .ft-rv{opacity:1;transform:none}
 @media (max-width:760px){.ft-credit{margin-inline-start:0!important;flex-basis:100%}}
+/* phone: every footer link is a 44px row. The list gap moves inside the link, and a plain text row (an address) gets the
+   same height, so neighbouring columns stay level. Desktop does not move. */
+@media (pointer:coarse),(max-width:760px){
+  .ftw a:not(.ft-btn):not(.ft7-ok a){display:inline-flex;align-items:center;min-height:44px}
+  .ftw ul:not(.ft2-hours) li{display:flex;align-items:center;min-height:44px}
+  .ftw ul:not(.ft2-hours),.ft4-row>div,.ft8-row div{gap:0}
+  .ft4-row>div,.ft8-row div{align-content:start}
+  .ft4-row>div>span,.ft8-row div>span{display:flex;align-items:center;min-height:44px}
+  .ft7-row,.ft10-row{align-items:center}
+  .ft-legal,.ft-legal nav{row-gap:0}
+}
 @media (prefers-reduced-motion:reduce){.ftw *,.ft-rv{transition-duration:.01ms!important;transition-delay:0s!important}.ft-rv{opacity:1;transform:none}}
 .ft10{display:grid;gap:48px;padding:0 0 40px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
 .ft10-trust{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:40px;padding:40px 32px;background:color-mix(in srgb,var(--bg, #f7f7fa) 6%,transparent)}
@@ -87,7 +103,7 @@ img{max-width:100%}
   <div class="ft10-trust">
     <div class="ft10-rate"><b>4.8</b><span class="ft10-stars" style="--p:96%" role="img" aria-label="דירוג 4.8 מתוך 5"></span><a href="#ft10" rel="noopener">126 ביקורות בגוגל</a></div>
     <div class="ft10-side"><div class="ft10-badges"><span>ISO 9001</span><span>מכון התקנים</span><span>קבלן רשום 2-ג׳</span><span>אחריות 5 שנים</span></div>
-      <div class="ft10-logos" aria-label="לקוחות"><span>ELDAR</span><span>AudioCodes</span><span>עיריית רעננה</span><span>Expo TLV</span></div></div>
+      <div class="ft10-logos" role="group" aria-label="לקוחות"><span>חברה לדוגמה</span><span>Client Co</span><span>עירייה לדוגמה</span><span>Expo Demo</span></div></div>
   </div>
   <div class="ft10-row"><span><a class="ft-tel" href="tel:+972500000000" dir="ltr">050-000-0000</a></span><span>הרצל 12, יהוד</span><a href="#ft10">פרויקטים</a><a href="#ft10">לקוחות</a><a href="#ft10">צור קשר</a></div>
   <div class="ft-legal"><p>© <span data-year>2026</span> שילוט לדוגמה. כל הזכויות שמורות.</p><nav aria-label="מסמכים"><a href="#privacy">מדיניות פרטיות</a><a href="#accessibility">הצהרת נגישות</a></nav><p class="ft-credit"><a href="https://liavmatzri.co.il" rel="noopener" target="_blank">עוצב ופותח על ידי ליאב מצרי</a></p></div>
@@ -97,8 +113,13 @@ img{max-width:100%}
 <script>
 document.querySelectorAll("[data-year]").forEach(function(e){e.textContent=new Date().getFullYear();});
 function inView(el,f){
-  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0){off();f();}}
-  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);}
+  var done=false,io=null;
+  function go(){if(done)return;done=true;off();f();}
+  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0)go();}
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(io)io.disconnect();}
+  // the observer also catches a layout change that brings the footer on screen with no scroll event (content above
+  // it collapsing, a short page); the scroll check stays for where the observer is late or missing
+  if("IntersectionObserver" in window){io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting;}))go();},{rootMargin:"0px 0px -10% 0px"});io.observe(el);}
   addEventListener("scroll",chk,{passive:true});addEventListener("resize",chk);requestAnimationFrame(chk);setTimeout(chk,300);
 }
 </script>

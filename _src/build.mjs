@@ -1,6 +1,6 @@
 // Motion Vault builder: generates one page per animation + a filterable index.
 // Run: node _src/build.mjs   (from the project root)
-import { writeFileSync, mkdirSync, readdirSync } from "node:fs";
+import { writeFileSync, mkdirSync, readdirSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { portable, standalone, labelPh } from "./portable.mjs";
@@ -927,6 +927,15 @@ body.rv{margin:0;display:flex;flex-direction:column;background:var(--bg)}
 .rv-done{padding:60px var(--gutter);text-align:center}
 .rv-done h2{margin:0 0 10px}
 .rv-open{font-size:13px;color:var(--accent)}
+/* מה השתנה + לפני (30.9.2026): פריט שחזר לממתין אחרי תיקון יזום מראה את השינוי במשפט, וצילום "לפני" מעל הדמו */
+.rv-chg{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:8px var(--gutter);background:#f1efff;border-bottom:1px solid var(--line);font-size:14px}
+.rv-chg[hidden]{display:none}
+.rv-chg b{font-weight:600}
+.rv-chg button{font:inherit;font-size:13px;font-weight:600;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--accent);background:#fff;color:var(--accent);cursor:pointer}
+.rv-chg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.rv-stage{position:relative;flex:1;min-height:0;display:flex}
+.rv-before{position:absolute;inset:0;z-index:2;width:100%;height:100%;object-fit:contain;object-position:top center;background:#fff}
+.rv-before[hidden]{display:none}
 @media (max-width:767px){.rv-desc{display:none}.rv-kbd{display:none}}
 </style>
 </head>
@@ -939,6 +948,7 @@ body.rv{margin:0;display:flex;flex-direction:column;background:var(--bg)}
       <option value="pending">רק ממתינים</option>
       <option value="all">הכל</option>
       <option value="no">רק לא מאושרים</option>
+      <option value="changed">רק מה שהשתנה בתיקון</option>
     </select>
     <select data-cat aria-label="קטגוריה"><option value="all">כל הקטגוריות</option></select>
   </div>
@@ -953,14 +963,16 @@ body.rv{margin:0;display:flex;flex-direction:column;background:var(--bg)}
   </div>
 </div>
 <div class="rv-desc" style="padding:8px var(--gutter) 0" data-desc></div>
+<div class="rv-chg" data-chg hidden><b>מה השתנה:</b><span data-chgt></span><button type="button" data-before aria-pressed="false">לפני<span class="rv-kbd">B</span></button></div>
 <div class="rv-note" data-note><small>מה לא עובד? (נכנס לדוח)</small><textarea rows="1" data-ta placeholder="לדוגמה: הכרטיסים קופצים בכניסה, הטקסט נחתך במובייל..."></textarea></div>
-<iframe class="rv-frame" data-frame title="דמו"></iframe>
+<div class="rv-stage"><iframe class="rv-frame" data-frame title="דמו"></iframe><img class="rv-before" data-bimg alt="צילום לפני התיקון" hidden></div>
 <div class="rv-done" hidden data-done><h2>אין מה לסקור בסינון הזה</h2><p class="rv-desc" style="margin-inline:auto">כל המהלכים שנבחרו כבר מסומנים. אפשר לעבור ל"הכל" כדי לבדוק שוב, או להעתיק את הדוח.</p></div>
 <script src="assets/baseline.js?v=${BV}"></script>
 <script src="assets/status.js"></script>
+${existsSync(join(ROOT, "assets", "changes.js")) ? `<script src="assets/changes.js?v=${BV}"></script>` : ""}
 <script>
 (function(){
-  const ALL=${LIST}, CATS=${CATS_JSON};
+  const ALL=${LIST}, CATS=${CATS_JSON}, CHG=window.MV_CHANGES||{};
   // הסדר: מהלכים קודם (הם מה שלא נשפט), ואז הדוקטרינה
   const ORDER=["gsap","behavior","header","hero","footer","conv","css","lm","misc","comp","rhythm","style","anti","arch"];
   ALL.sort((a,b)=>ORDER.indexOf(a.cat)-ORDER.indexOf(b.cat));
@@ -971,7 +983,7 @@ body.rv{margin:0;display:flex;flex-direction:column;background:var(--bg)}
   let list=[],i=0,cur=null;
   function build(){
     const f=fsel.value,c=csel.value;
-    list=ALL.filter(e=>(c==="all"||e.cat===c)&&(f==="all"||MV.state(e.id)===f));
+    list=ALL.filter(e=>(c==="all"||e.cat===c)&&(f==="all"||(f==="changed"?!!CHG[e.id]:MV.state(e.id)===f)));
     i=Math.min(i,Math.max(0,list.length-1)); show();
   }
   function show(){
@@ -983,6 +995,9 @@ body.rv{margin:0;display:flex;flex-direction:column;background:var(--bg)}
     $("[data-desc]").textContent=cur.desc+(cur.when?" · מתאים ל: "+cur.when:"");
     $("[data-open]").href=cur.cat+"/"+cur.id+".html";
     frame.src=cur.cat+"/"+cur.id+".html?qa=0";
+    const ch=CHG[cur.id], chg=$("[data-chg]"), bimg=$("[data-bimg]"), bb=$("[data-before]");
+    chg.hidden=!ch; bimg.hidden=true; bb.setAttribute("aria-pressed","false");
+    if(ch){$("[data-chgt]").textContent=ch.text; bimg.src="assets/before/"+cur.id+(innerWidth<768?"-m":"-d")+".jpg";}
     paint();
   }
   function paint(){
@@ -1004,6 +1019,8 @@ body.rv{margin:0;display:flex;flex-direction:column;background:var(--bg)}
   ta.addEventListener("input",()=>{ if(cur&&MV.state(cur.id)==="no")MV.set(cur.id,"no",ta.value); });
   document.querySelectorAll(".stbtn").forEach(b=>b.addEventListener("click",()=>mark(b.dataset.s)));
   $("[data-next]").addEventListener("click",next); $("[data-prev]").addEventListener("click",prev);
+  function toggleBefore(){const b=$("[data-before]"),img=$("[data-bimg]");if($("[data-chg]").hidden)return;const on=img.hidden;img.hidden=!on;b.setAttribute("aria-pressed",String(on));}
+  $("[data-before]").addEventListener("click",toggleBefore);
   fsel.addEventListener("change",()=>{i=0;build();}); csel.addEventListener("change",()=>{i=0;build();});
   $("[data-report]").addEventListener("click",function(){
     const txt=MV.report(ALL); navigator.clipboard.writeText(txt).then(()=>{this.textContent="הועתק ✓";setTimeout(()=>this.textContent="העתק דוח",1500);});
@@ -1013,6 +1030,7 @@ body.rv{margin:0;display:flex;flex-direction:column;background:var(--bg)}
     if(e.key==="ArrowRight")next(); else if(e.key==="ArrowLeft")prev();
     else if(e.key==="a"||e.key==="A"||e.key==="ש")mark("ok");
     else if(e.key==="x"||e.key==="X"||e.key==="ס")mark("no");
+    else if(e.key==="b"||e.key==="B"||e.key==="נ")toggleBefore();
   });
   // סימון מתוך ה-iframe (הפאנל של העמוד עצמו) מתעדכן כאן דרך localStorage
   window.addEventListener("storage",paint);

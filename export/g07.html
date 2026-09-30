@@ -55,16 +55,27 @@ img{max-width:100%}
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script>
-const zone=document.querySelector(".tzone"),imgs=document.querySelectorAll(".timg");
-let mx=0,my=0,inside=false;
-zone.addEventListener("mouseenter",()=>{inside=true;imgs.forEach(i=>i.style.opacity=1)});
-zone.addEventListener("mouseleave",()=>{inside=false;imgs.forEach(i=>i.style.opacity=0)});
-document.addEventListener("mousemove",e=>{mx=e.clientX;my=e.clientY});
-imgs.forEach((img,i)=>{
-  let px=0,py=0;const speed=.15-i*.04;
-  gsap.ticker.add(()=>{if(!inside)return;px+=(mx-px)*speed;py+=(my-py)*speed;
-    gsap.set(img,{x:px-65,y:py-48});});
-});
+(function(){
+  if(typeof gsap==="undefined")return;
+  const zone=document.querySelector(".tzone"),imgs=[...document.querySelectorAll(".timg")];
+  // רק עם עכבר ובלי הפחתת תנועה. במגע הקשה יורה mouseenter והתמונות נתקעות בנקודת ההקשה
+  gsap.matchMedia().add("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",()=>{
+    let mx=0,my=0,inside=false;
+    const st=imgs.map(()=>({x:0,y:0}));
+    const place=()=>imgs.forEach((img,i)=>gsap.set(img,{x:st[i].x-65,y:st[i].y-48}));
+    const move=e=>{mx=e.clientX;my=e.clientY};
+    // בכניסה כל התמונות מתחילות בנקודת הכניסה, לא בפינת המסך ולא בנקודת היציאה הקודמת
+    const enter=e=>{inside=true;move(e);st.forEach(s=>{s.x=mx;s.y=my});place();imgs.forEach(i=>i.style.opacity=1)};
+    const leave=()=>{inside=false;imgs.forEach(i=>i.style.opacity=0)};
+    const tick=()=>{if(!inside)return;
+      st.forEach((s,i)=>{const k=.15-i*.04;s.x+=(mx-s.x)*k;s.y+=(my-s.y)*k});   // הראשונה צמודה, האחרונות משתרכות
+      place();};
+    zone.addEventListener("mouseenter",enter);zone.addEventListener("mouseleave",leave);
+    document.addEventListener("mousemove",move);gsap.ticker.add(tick);
+    return()=>{leave();gsap.ticker.remove(tick);document.removeEventListener("mousemove",move);
+      zone.removeEventListener("mouseenter",enter);zone.removeEventListener("mouseleave",leave);};
+  });
+})();
 </script>
 </body>
 </html>

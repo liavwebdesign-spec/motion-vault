@@ -47,10 +47,12 @@ img{max-width:100%}
 .co-pin{position:sticky;top:12vh;height:76vh;display:grid;place-items:center}
 .co-fig{position:relative;width:min(100%,460px);aspect-ratio:4/5}
 .co-fig .ph{position:absolute;inset:0;font-size:22px}
-.co-dot{position:absolute;width:18px;height:18px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent, #4a3aff) 25%,transparent);translate:-50% -50%;opacity:0;scale:.6}
+/* בלי GSAP או בהפחתת תנועה כל הנקודות וכל השלבים גלויים. העמעום וההסתרה רק תחת .mv-on */
+.co-dot{position:absolute;width:18px;height:18px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent, #4a3aff) 25%,transparent);translate:-50% -50%}
 .co-steps{display:flex;flex-direction:column;gap:38vh;padding-block:30vh}
-.co-step{opacity:.25;transition:opacity .4s}
-.co-step.on{opacity:1}
+.co-step{transition:opacity .4s cubic-bezier(.2,.6,.2,1)}
+.co.mv-on .co-step{opacity:.25}
+.co.mv-on .co-step.on{opacity:1}
 .co-step b{display:block;font-size:13px;color:var(--accent, #4a3aff);letter-spacing:.14em;margin-bottom:8px}
 .co-step h3{margin:0 0 8px;font-size:clamp(20px,2.4vw,32px)}
 .co-step p{margin:0;color:var(--muted, #6a6d85);line-height:1.7;max-width:36ch}
@@ -80,13 +82,21 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const steps=gsap.utils.toArray(".co-step"),dots=gsap.utils.toArray(".co-dot");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce){steps.forEach(s=>s.classList.add("on"));gsap.set(dots,{opacity:1,scale:1});return;}
-  steps.forEach((step,i)=>{
-    ScrollTrigger.create({trigger:step,start:"top 60%",end:"bottom 40%",
-      onToggle:s=>{step.classList.toggle("on",s.isActive);
-        gsap.to(dots[i],{opacity:s.isActive?1:0,scale:s.isActive?1:.6,duration:.45,ease:"power3.out"});}});
+  if(typeof gsap==="undefined")return;   // בלי הספרייה כל השלבים וכל הנקודות גלויים
+  const root=document.querySelector(".co"),steps=gsap.utils.toArray(".co-step"),dots=gsap.utils.toArray(".co-dot");
+  // בהפחתת תנועה אין עמעום ואין נקודות שנדלקות: הכל גלוי מה-CSS
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    gsap.set(dots,{opacity:0,scale:.6});
+    steps.forEach((step,i)=>{
+      const next=steps[i+1];
+      // טווח רציף: כל שלב פעיל עד שהבא מגיע לאותה נקודה, והאחרון עד שהסקשן כולו יוצא מהמסך,
+      // כך שאין רגע שבו הכל עמום ואין נקודה על התמונה
+      ScrollTrigger.create({trigger:step,start:"top 62%",endTrigger:next||root,end:next?"top 62%":"bottom top",
+        onToggle:s=>{step.classList.toggle("on",s.isActive);
+          gsap.to(dots[i],{opacity:s.isActive?1:0,scale:s.isActive?1:.6,duration:.45,ease:"power3.out"});}});
+    });
+    return ()=>{root.classList.remove("mv-on");steps.forEach(s=>s.classList.remove("on"));gsap.set(dots,{clearProps:"opacity,transform,translate,scale"});};
   });
 })();
 </script>

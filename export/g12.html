@@ -64,19 +64,22 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce)return;
-  const RANGE=260;                       // המרחק המלא של השכבה העמוקה ביותר
-  gsap.utils.toArray(".para .layer").forEach(el=>{
-    const d=parseFloat(el.dataset.depth);
-    // fromTo סימטרי סביב המיקום ב-CSS: בכניסה למסך השכבה למטה, ביציאה למעלה,
-    // ובאמצע היא בדיוק במקום שבו עוצבה. עם to בלבד היא מתחילה במקום ולא זזה עד הסוף.
-    gsap.fromTo(el,{y:d*RANGE},{y:-d*RANGE,ease:"none",
+  if(typeof gsap==="undefined")return;      // בלי GSAP השכבות נשארות במקום שבו עוצבו
+  gsap.matchMedia().add({mob:"(max-width: 767px)",ok:"(prefers-reduced-motion: no-preference)"},ctx=>{
+    const {mob,ok}=ctx.conditions;
+    if(!ok)return;                           // הפחתת תנועה: השכבות נשארות במקום שבו עוצבו
+    const RANGE=mob?130:260;                 // המרחק המלא של השכבה העמוקה ביותר. בטלפון חצי
+    gsap.utils.toArray(".para .layer").forEach(el=>{
+      const d=parseFloat(el.dataset.depth);
+      // fromTo סימטרי סביב המיקום ב-CSS: בכניסה למסך השכבה למטה, ביציאה למעלה,
+      // ובאמצע היא בדיוק במקום שבו עוצבה. עם to בלבד היא מתחילה במקום ולא זזה עד הסוף.
+      gsap.fromTo(el,{y:d*RANGE},{y:-d*RANGE,ease:"none",
+        scrollTrigger:{trigger:".para",start:"top bottom",end:"bottom top",scrub:.4}});
+    });
+    // הכותרת נעה מעט בכיוון ההפוך, וזה מה שמחדד את תחושת המרחק
+    gsap.fromTo(".para h2",{y:-40},{y:40,ease:"none",
       scrollTrigger:{trigger:".para",start:"top bottom",end:"bottom top",scrub:.4}});
   });
-  // הכותרת נעה מעט בכיוון ההפוך, וזה מה שמחדד את תחושת המרחק
-  gsap.fromTo(".para h2",{y:-40},{y:40,ease:"none",
-    scrollTrigger:{trigger:".para",start:"top bottom",end:"bottom top",scrub:.4}});
 })();
 </script>
 </body>

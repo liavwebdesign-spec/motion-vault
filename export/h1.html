@@ -39,7 +39,7 @@ img{max-width:100%}
 .hf-top b{font-size:18px;font-weight:800}
 .hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
 @media (max-width:760px){.hf-top nav{display:none}}
-.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
   font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
 .hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
 @media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
@@ -48,18 +48,29 @@ img{max-width:100%}
 .hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
 .hcta{display:flex;flex-wrap:wrap;gap:12px}
 
-.rv{opacity:0;transform:translateY(18px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
-.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--i,0) * 90ms)}
-@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
 .h1h{display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px;padding:112px 28px 0;background:linear-gradient(180deg,color-mix(in srgb,var(--accent, #4a3aff) 7%,var(--bg, #f7f7fa)),var(--bg, #f7f7fa))}
-.h1h h3{margin:0;max-width:16ch;font-size:clamp(36px,4.6vw,68px);line-height:1.04;font-weight:700;text-wrap:balance}
+/* min(vw, vh): the heading stays under 8% of the screen height on a short laptop (1280x720), not only narrow by width */
+.h1h h3{margin:0;max-width:16ch;font-size:clamp(36px,min(4.6vw,7.8vh),68px);line-height:1.04;font-weight:700;text-wrap:balance}
 .h1h .hlead{max-width:46ch}
-.h1-trust{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 28px;font-size:14px;opacity:.72}
+.h1-trust{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 28px;font-size:14px}
 .h1-trust span{display:inline-flex;align-items:center;gap:8px}
 .h1-trust i{width:7px;height:7px;border-radius:50%;background:var(--accent, #4a3aff);display:inline-block}
 .h1-vis{width:min(1000px,100%);margin-top:16px;border-radius:18px 18px 0 0;overflow:hidden;box-shadow:0 40px 80px color-mix(in srgb,var(--ink, #16182b) 22%,transparent);
-  clip-path:inset(0 0 100% 0 round 18px 18px 0 0);transition:clip-path .9s cubic-bezier(.2,.6,.2,1)}
-.is-in .h1-vis{clip-path:inset(0 0 0 0 round 18px 18px 0 0);transition-delay:.35s}
+  clip-path:inset(0 0 0 0 round 18px 18px 0 0);transition:clip-path .9s cubic-bezier(.2,.6,.2,1)}
+.open-anim .h1-vis{clip-path:inset(0 0 100% 0 round 18px 18px 0 0);animation:h1v-fs 0s 2.5s forwards}
+/* .3s + .9s: the curtain ends at 1.2s, the ceiling of the page opening */
+.is-in .h1-vis{clip-path:inset(0 0 0 0 round 18px 18px 0 0);transition-delay:calc(var(--t0,0s) + .3s)}
+.rv-on .h1-vis{animation:none}
+@keyframes h1v-fs{to{clip-path:inset(0 0 0 0 round 18px 18px 0 0)}}
 .h1-vis img{display:block;width:100%;aspect-ratio:16/8;object-fit:cover}
 @media (prefers-reduced-motion:reduce){.h1-vis{transition-duration:.01ms!important;transition-delay:0s!important}}
 @media (max-width:760px){.h1h{padding:96px 20px 0;gap:20px}.h1-vis{margin-top:8px}.h1-vis img{aspect-ratio:4/3}}
@@ -67,6 +78,7 @@ img{max-width:100%}
 </head>
 <body>
 
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
 <div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
   <section class="h1h" id="h1">
     <span class="hkick rv">ייעוץ פיננסי לחברות</span>
@@ -74,7 +86,7 @@ img{max-width:100%}
     <p class="hlead rv">ליווי חודשי לבעלי עסקים: תזרים, תמחור והחלטות, בשפה שאפשר להסביר בה לשותף.</p>
     <div class="hcta rv"><a class="hbtn" href="#h1">לשיחת היכרות</a><a class="hbtn ghost" href="#h1">איך זה עובד</a></div>
     <div class="h1-trust rv"><span><i></i>מלווים 40 חברות</span><span><i></i>דוח חודשי עד ה-10</span><span><i></i>בלי התחייבות לשנה</span></div>
-    <div class="h1-vis"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-b.jpg" alt="צילום מהמשרד" loading="lazy" decoding="async"></div>
+    <div class="h1-vis"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-b.jpg" alt="צילום מהמשרד" fetchpriority="high" decoding="async"></div>
   </section>
 </div>
 
@@ -84,16 +96,23 @@ img{max-width:100%}
 // an observer does not update while the tab is throttled (and on a real site the hero is usually
 // on screen at load anyway), and an entrance that never fires leaves the hero invisible.
 function inView(el,f){
+  var ro;
   function chk(){
     var r=el.getBoundingClientRect();
     if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
   }
-  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);}
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
   addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
   requestAnimationFrame(chk); setTimeout(chk,300);
 }
 function enter(root){
-  root.querySelectorAll(".rv").forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
   inView(root,function(){root.classList.add("is-in");});
 }
 enter(document.getElementById("h1"));

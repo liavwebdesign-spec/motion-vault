@@ -48,7 +48,8 @@ img{max-width:100%}
 .sync-texts .block{min-height:80vh;display:flex;flex-direction:column;justify-content:center}
 .sync-texts h2{font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px))}
 .sync-texts p{color:var(--muted, #6a6d85);max-width:40ch}
-@media(max-width:767px){.sync{grid-template-columns:1fr}.sync-media{position:static;height:36vh}}
+/* בטלפון המדיה דביקה בראש המסך והטקסט עובר מתחתיה. static כאן הוציא את התמונות (absolute) אל ה-body */
+@media(max-width:767px){.sync{grid-template-columns:1fr}.sync-media{position:sticky;top:0;height:38vh;order:-1;z-index:1}.sync-texts .block{min-height:60vh}}
 </style>
 </head>
 <body>
@@ -71,11 +72,26 @@ img{max-width:100%}
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-gsap.utils.toArray(".sync-t").forEach((txt,i)=>{
-  if(i===0)return;
-  gsap.from(".si-"+(i+1),{opacity:0,ease:"none",
-    scrollTrigger:{trigger:txt,start:"top 60%",end:"top 30%",scrub:1}});
-});
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשארת התמונה העליונה והטקסט כולו קריא
+  const texts=gsap.utils.toArray(".sync-t");
+  gsap.matchMedia().add({desk:"(min-width: 768px)",mob:"(max-width: 767px)",rm:"(prefers-reduced-motion: reduce)"},ctx=>{
+    const {mob,rm}=ctx.conditions;
+    // בטלפון הטקסט עובר מתחת למדיה הדביקה, ולכן ההחלפה מתחילה ונגמרת נמוך יותר במסך
+    const start=mob?"top 85%":"top 60%",end=mob?"top 55%":"top 30%",mid=mob?"top 70%":"top 45%";
+    texts.forEach((txt,i)=>{
+      if(!i)return;
+      const img=".si-"+(i+1);
+      if(rm){                               // הפחתת תנועה: התמונה מתחלפת מיד, בלי דהייה
+        gsap.set(img,{autoAlpha:0});
+        ScrollTrigger.create({trigger:txt,start:mid,end:"max",onToggle:s=>gsap.set(img,{autoAlpha:s.isActive?1:0})});
+        return;
+      }
+      // autoAlpha: תמונה שקופה מקבלת גם visibility:hidden, ולא מכסה את זו שמתחתיה
+      gsap.from(img,{autoAlpha:0,ease:"none",scrollTrigger:{trigger:txt,start,end,scrub:1}});
+    });
+  });
+})();
 </script>
 </body>
 </html>

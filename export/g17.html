@@ -63,10 +63,15 @@ img{max-width:100%}
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const st=()=>({trigger:".fan",start:"top 78%",end:"top 45%",scrub:1});
-gsap.from(".fc-l",{x:"30vw",rotate:10,scrollTrigger:st()});
-gsap.from(".fc-c",{y:"4vw",rotate:-5,scrollTrigger:st()});
-gsap.from(".fc-r",{x:"-30vw",rotate:-10,scrollTrigger:st()});
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הכרטיסים במקומם
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const st=()=>({trigger:".fan",start:"top 78%",end:"top 45%",scrub:1});
+    gsap.from(".fc-l",{x:"30vw",rotate:10,scrollTrigger:st()});    // הראשון בסדר הקריאה: בעברית בצד ימין, ונכנס מימין
+    gsap.from(".fc-c",{y:"4vw",rotate:-5,scrollTrigger:st()});
+    gsap.from(".fc-r",{x:"-30vw",rotate:-10,scrollTrigger:st()});
+  });
+})();
 </script>
 </body>
 </html>

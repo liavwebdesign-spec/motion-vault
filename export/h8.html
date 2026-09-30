@@ -39,7 +39,7 @@ img{max-width:100%}
 .hf-top b{font-size:18px;font-weight:800}
 .hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
 @media (max-width:760px){.hf-top nav{display:none}}
-.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
   font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
 .hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
 @media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
@@ -48,15 +48,21 @@ img{max-width:100%}
 .hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
 .hcta{display:flex;flex-wrap:wrap;gap:12px}
 
-.rv{opacity:0;transform:translateY(18px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
-.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--i,0) * 90ms)}
-@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
 .h8h{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center;padding:112px 28px 64px;background:var(--bg, #f7f7fa)}
 .h8-list{display:flex;flex-direction:column}
 .h8-row{display:flex;align-items:baseline;gap:16px;padding:18px 0;border-bottom:1px solid var(--line, #e4e4ee);cursor:pointer;transition:opacity .25s cubic-bezier(.2,.6,.2,1)}
 .h8-row b{font-size:clamp(26px,3vw,44px);line-height:1.08;font-weight:700;transition:transform .3s cubic-bezier(.2,.6,.2,1)}
 .h8-row span{font-size:14px;color:var(--muted, #6a6d85);margin-inline-start:auto;white-space:nowrap}
-.h8h h3{margin:0 0 8px;font-size:15px;font-weight:600;opacity:.7}
+.h8h h3{margin:0 0 8px;font-size:15px;font-weight:600}
 @media (hover:hover) and (pointer:fine){
   .h8-list:hover .h8-row{opacity:.45}
   .h8-list .h8-row:hover{opacity:1}
@@ -66,24 +72,27 @@ img{max-width:100%}
 .h8-vis{position:relative;aspect-ratio:3/4;border-radius:20px;overflow:hidden;background:color-mix(in srgb,var(--ink, #16182b) 6%,var(--bg, #f7f7fa))}
 .h8-vis img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .6s cubic-bezier(.2,.6,.2,1)}
 .h8-vis img.on{opacity:1;transform:none}
-@media (max-width:860px){.h8h{grid-template-columns:1fr;gap:28px;padding:96px 20px 48px}.h8-vis{aspect-ratio:4/3;order:-1}.h8-row b{font-size:26px}}
+/* phone: the photo goes on top at 16:10, so the CTA still ends inside a 390x700 screen (browser bars showing) */
+@media (max-width:860px){.h8h{grid-template-columns:1fr;gap:28px;padding:96px 20px 48px}.h8-vis{aspect-ratio:16/10;order:-1}.h8-row b{font-size:26px}}
+@media (prefers-reduced-motion:reduce){.h8-row b{transition-duration:.01ms!important}.h8-row:hover b{transform:none!important}}
 </style>
 </head>
 <body>
 
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
 <div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
   <section class="h8h" id="h8">
     <div>
       <h3 class="rv">סטודיו לצילום אדריכלות, עבודות נבחרות</h3>
       <div class="h8-list rv" style="--i:1">
-        <div class="h8-row" data-img="0" tabindex="0"><b>בית בשכונת הכרם</b><span>2026</span></div>
-        <div class="h8-row" data-img="1" tabindex="0"><b>מלון בוטיק, עכו</b><span>2025</span></div>
-        <div class="h8-row" data-img="0" tabindex="0"><b>משרדים בשרונה</b><span>2025</span></div>
-        <div class="h8-row" data-img="1" tabindex="0"><b>בית קפה, נווה צדק</b><span>2024</span></div>
+        <div class="h8-row" data-img="0" role="button" tabindex="0"><b>בית בשכונת הכרם</b><span>2026</span></div>
+        <div class="h8-row" data-img="1" role="button" tabindex="0"><b>מלון בוטיק, עכו</b><span>2025</span></div>
+        <div class="h8-row" data-img="0" role="button" tabindex="0"><b>משרדים בשרונה</b><span>2025</span></div>
+        <div class="h8-row" data-img="1" role="button" tabindex="0"><b>בית קפה, נווה צדק</b><span>2024</span></div>
       </div>
       <div class="hcta rv" style="--i:2;margin-top:24px"><a class="hbtn" href="#h8">לכל התיק</a></div>
     </div>
-    <div class="h8-vis rv" style="--i:2"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-a.jpg" alt="צילום מפרויקט" loading="lazy" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-b.jpg" alt="צילום מפרויקט" loading="lazy" decoding="async"></div>
+    <div class="h8-vis rv" style="--i:2"><img class="on" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-a.jpg" alt="צילום מהפרויקט בית בשכונת הכרם" fetchpriority="high" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/demo-b.jpg" alt="צילום מהפרויקט מלון בוטיק, עכו" loading="lazy" decoding="async"></div>
   </section>
 </div>
 
@@ -93,30 +102,42 @@ img{max-width:100%}
 // an observer does not update while the tab is throttled (and on a real site the hero is usually
 // on screen at load anyway), and an entrance that never fires leaves the hero invisible.
 function inView(el,f){
+  var ro;
   function chk(){
     var r=el.getBoundingClientRect();
     if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
   }
-  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);}
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
   addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
   requestAnimationFrame(chk); setTimeout(chk,300);
 }
 function enter(root){
-  root.querySelectorAll(".rv").forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
   inView(root,function(){root.classList.add("is-in");});
 }
 (function(){
   var root=document.getElementById("h8"); enter(root);
   var imgs=[].slice.call(root.querySelectorAll(".h8-vis img")), rows=[].slice.call(root.querySelectorAll(".h8-row"));
-  function show(i){imgs.forEach(function(im,k){im.classList.toggle("on",k===i);});}
+  // the first photo is .on in the markup, so it shows without JS; the hidden one is out of the accessibility tree,
+  // and the visible one is named after the row that chose it
+  function show(i,row){imgs.forEach(function(im,k){im.classList.toggle("on",k===i);im.setAttribute("aria-hidden",String(k!==i));});
+    if(row)imgs[i].alt="צילום מהפרויקט "+row.querySelector("b").textContent;}
   show(0);
   var fine=matchMedia("(hover:hover) and (pointer:fine)").matches;
   rows.forEach(function(r){
     var i=+r.dataset.img;
-    if(fine)r.addEventListener("mouseenter",function(){show(i);});
+    if(fine)r.addEventListener("mouseenter",function(){show(i,r);});
     // keyboard and touch get the same result without hover: focus, and tap
-    r.addEventListener("focus",function(){show(i);});
-    r.addEventListener("click",function(){show(i);});
+    r.addEventListener("focus",function(){show(i,r);});
+    r.addEventListener("click",function(){show(i,r);});
+    // role=button: Enter and Space do what a tap does
+    r.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();show(i,r);}});
   });
 })();
 </script>

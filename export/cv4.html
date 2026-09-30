@@ -51,7 +51,8 @@ img{max-width:100%}
 [dir="ltr"] .ic-arr{rotate:180deg}
 .cx-rv{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}
 .is-in .cx-rv{opacity:1;transform:none}
-.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+/* a time or a phone number never breaks between rows ("050-000" on one, "0000" on the next, at 500) */
+.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums;white-space:nowrap}
 /* the demo switch: lets the reviewer see every state. Not part of the component you copy. */
 .cx-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 24px;padding:6px;border-radius:14px;background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent);font-size:13px;width:max-content;max-width:100%}
 .cx-demo > span{padding:0 10px;font-weight:600;color:var(--muted, #6a6d85)}
@@ -89,8 +90,8 @@ img{max-width:100%}
 <div class="cx cxw"><div class="cxw-in" id="cv4" data-thanks data-hours='{"0":[9,18],"1":[9,18],"2":[9,18],"3":[9,18],"4":[9,18],"5":[9,13],"6":null}' data-sla="120">
   <div class="cx-demo" role="group" aria-label="הדמיה: מתי נשלח הטופס"><span>נשלח ב:</span><button type="button" data-at="now" aria-pressed="true">עכשיו</button><button type="button" data-at="4,17,30" aria-pressed="false">חמישי 17:30</button><button type="button" data-at="5,14,0" aria-pressed="false">שישי 14:00</button><button type="button" data-at="6,21,0" aria-pressed="false">מוצאי שבת</button></div>
   <p class="t4-ok cx-rv"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>הפנייה התקבלה</p>
-  <h2 class="t4-h cx-rv" style="--i:1">נחזור אליך <b data-when>היום עד 16:30</b></h2>
-  <p class="t4-why cx-rv" style="--i:2">לפי שעות הפעילות: ראשון עד חמישי <span class="cx-t">9:00</span> עד <span class="cx-t">18:00</span>, שישי עד <span class="cx-t">13:00</span>. תוך שעתיים עבודה, לא יותר.</p>
+  <h2 class="t4-h cx-rv" style="--i:1">נחזור אליכם <b data-when>היום עד 16:30</b></h2>
+  <p class="t4-why cx-rv" style="--i:2">לפי שעות הפעילות: ראשון עד חמישי <span class="cx-t">09:00</span> עד <span class="cx-t">18:00</span>, שישי <span class="cx-t">09:00</span> עד <span class="cx-t">13:00</span>. תוך שעתיים עבודה, לא יותר.</p>
   <div class="t4-week cx-rv" style="--i:3" data-week aria-hidden="true"><span class="t4-pin">נחזור</span></div>
   <div class="t4-act cx-rv" style="--i:4"><a class="cx-btn is-ghost" data-wa href="https://wa.me/972500000000"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.6-2-1-1 .8c-.9-.4-1.8-1.3-2.2-2.2l.8-1-1-2z"/></svg>צריכים מהר יותר? וואטסאפ</a><small>בשעות הפעילות עונים שם תוך דקות</small></div>
 </div></div>
@@ -98,8 +99,13 @@ img{max-width:100%}
 
 <script>
 function inView(el,f){
-  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0){off();f();}}
-  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);}
+  var done=false,io=null;
+  function go(){if(done)return;done=true;off();f();}
+  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0)go();}
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(io)io.disconnect();}
+  // the observer also catches a layout change that brings the block on screen with no scroll event;
+  // the scroll check stays for where the observer is late or missing
+  if("IntersectionObserver" in window){io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting;}))go();},{rootMargin:"0px 0px -10% 0px"});io.observe(el);}
   addEventListener("scroll",chk,{passive:true});addEventListener("resize",chk);requestAnimationFrame(chk);setTimeout(chk,300);
 }
 function fireLead(){
@@ -110,7 +116,8 @@ function fireLead(){
 var DAYS=["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"], DSHORT=["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","ש׳"];
 var MONTHS=["בינואר","בפברואר","במרץ","באפריל","במאי","ביוני","ביולי","באוגוסט","בספטמבר","באוקטובר","בנובמבר","בדצמבר"];
 function hoursOf(el){try{return JSON.parse(el.getAttribute("data-hours"));}catch(e){return {"0":[9,18],"1":[9,18],"2":[9,18],"3":[9,18],"4":[9,18],"5":[9,13],"6":null};}}
-function hm(m){var h=Math.floor(m/60),mm=m%60;return h+":"+(mm<10?"0":"")+mm;}
+// both parts padded: "09:15", never "9:15" (conversion.md, the thank-you page rule)
+function hm(m){var h=Math.floor(m/60),mm=m%60;return (h<10?"0":"")+h+":"+(mm<10?"0":"")+mm;}
 function minsOf(d){return d.getHours()*60+d.getMinutes();}
 function dayWord(from,to){var a=new Date(from),b=new Date(to);a.setHours(0,0,0,0);b.setHours(0,0,0,0);var n=Math.round((b-a)/864e5);return n===0?"היום":n===1?"מחר":"ביום "+DAYS[b.getDay()];}
 // open now until X, or closed and when it opens next
@@ -134,6 +141,15 @@ function replyBy(H,now,sla){
 }
 (function(){
   var root=document.getElementById("cv4"),H=hoursOf(root),sla=+root.getAttribute("data-sla")||120,week=root.querySelector("[data-week]"),pin=week.querySelector(".t4-pin"),when=root.querySelector("[data-when]"),at=null;
+  // the hours sentence is built from the same data-hours and data-sla as the promise, so the two can never disagree
+  (function(){
+    var why=root.querySelector(".t4-why"),i=0,first=true;why.textContent="לפי שעות הפעילות: ";
+    function w(v){why.appendChild(document.createTextNode(v));}
+    function t(v){var s=document.createElement("span");s.className="cx-t";s.textContent=v;why.appendChild(s);}
+    while(i<7){var s=H[i];if(!s){i++;continue;}var j=i;while(j<6&&H[j+1]&&H[j+1][0]===s[0]&&H[j+1][1]===s[1])j++;
+      w((first?"":", ")+(i===j?DAYS[i]:DAYS[i]+" עד "+DAYS[j])+" ");t(hm(s[0]*60));w(" עד ");t(hm(s[1]*60));first=false;i=j+1;}
+    w(". תוך "+(sla===60?"שעת עבודה":sla===120?"שעתיים עבודה":sla%60===0?sla/60+" שעות עבודה":sla+" דקות עבודה")+", לא יותר.");
+  })();
   function render(now,animate){
     var r=replyBy(H,now,sla),txt=dayWord(now,r)+" עד "+hm(minsOf(r));
     if(animate&&when.textContent!==txt){when.classList.add("is-out");setTimeout(function(){when.textContent=txt;when.classList.remove("is-out");},200);}else when.textContent=txt;

@@ -43,10 +43,15 @@ img{max-width:100%}
 .ftw{font-size:15px;line-height:1.6}
 .ftw a{color:inherit;text-decoration:none;transition:color .15s cubic-bezier(.2,.6,.2,1),opacity .15s cubic-bezier(.2,.6,.2,1)}
 .ftw h3{margin:0 0 12px;font-size:14px;font-weight:600;opacity:.62}
+/* a big closing line never leaves one word alone on its last row */
+.ftw :is(h2,h3){text-wrap:balance}
 .ftw ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.ft-tel{unicode-bidi:isolate;font-weight:600}
+/* the number hugs the start of its column (RTL: right) and never breaks between rows; stretched, dir=ltr pushed it left */
+.ft-tel{unicode-bidi:isolate;font-weight:600;justify-self:start;white-space:nowrap}
 .ft-legal{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;font-size:13px}
-.ft-legal p{margin:0;opacity:.7}
+.ft-legal p{margin:0}
+/* the credit fades once, on its link: fading the paragraph too gave 0.49 and failed contrast on the light footers */
+.ft-legal>p:not(.ft-credit){opacity:.7}
 .ft-legal nav{display:flex;flex-wrap:wrap;gap:8px 20px}
 .ft-legal nav a{opacity:.7}
 .ft-credit{margin-inline-start:auto!important}
@@ -61,6 +66,17 @@ img{max-width:100%}
 .ft-rv{opacity:0;transform:translateY(16px);transition:opacity .6s cubic-bezier(.2,.6,.2,1),transform .6s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}
 .is-in .ft-rv{opacity:1;transform:none}
 @media (max-width:760px){.ft-credit{margin-inline-start:0!important;flex-basis:100%}}
+/* phone: every footer link is a 44px row. The list gap moves inside the link, and a plain text row (an address) gets the
+   same height, so neighbouring columns stay level. Desktop does not move. */
+@media (pointer:coarse),(max-width:760px){
+  .ftw a:not(.ft-btn):not(.ft7-ok a){display:inline-flex;align-items:center;min-height:44px}
+  .ftw ul:not(.ft2-hours) li{display:flex;align-items:center;min-height:44px}
+  .ftw ul:not(.ft2-hours),.ft4-row>div,.ft8-row div{gap:0}
+  .ft4-row>div,.ft8-row div{align-content:start}
+  .ft4-row>div>span,.ft8-row div>span{display:flex;align-items:center;min-height:44px}
+  .ft7-row,.ft10-row{align-items:center}
+  .ft-legal,.ft-legal nav{row-gap:0}
+}
 @media (prefers-reduced-motion:reduce){.ftw *,.ft-rv{transition-duration:.01ms!important;transition-delay:0s!important}.ft-rv{opacity:1;transform:none}}
 .ft3{display:grid;gap:56px;padding:72px 32px 40px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
 .ft3-top{display:grid;grid-template-columns:1.2fr 3fr;gap:56px}
@@ -68,6 +84,8 @@ img{max-width:100%}
 .ft3-brand b{font-size:22px}
 .ft3-brand p{margin:0;max-width:32ch;opacity:.72}
 .ft3-cols{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
+/* the heading only carries the outline for screen readers: the button inside keeps the look */
+.ftw h3.ft3-h{margin:0;font:inherit;opacity:1}
 .ft3-acc{display:flex;align-items:center;justify-content:space-between;width:100%;padding:0;margin:0 0 12px;border:0;background:none;color:inherit;font:inherit;font-size:14px;font-weight:600;opacity:.62;text-align:start;cursor:default}
 .ft3-acc i{display:none}
 .ft3-body{display:grid;grid-template-rows:1fr}
@@ -91,10 +109,10 @@ img{max-width:100%}
   <div class="ft3-top">
     <div class="ft3-brand"><b>לוגו</b><p>משרד עורכי דין לדיני עבודה ולמשפט מסחרי. 30 שנה בתל אביב.</p><div><a class="ft-btn" href="#ft3">לייעוץ ראשוני</a></div></div>
     <div class="ft3-cols">
-      <div class="ft3-col"><button class="ft3-acc" type="button" aria-expanded="true">ניווט<i aria-hidden="true"></i></button><div class="ft3-body"><div><ul><li><a href="#ft3">ראשי</a></li><li><a href="#ft3">המשרד</a></li><li><a href="#ft3">צוות</a></li><li><a href="#ft3">מאמרים</a></li></ul></div></div></div>
-      <div class="ft3-col"><button class="ft3-acc" type="button" aria-expanded="true">תחומים<i aria-hidden="true"></i></button><div class="ft3-body"><div><ul><li><a href="#ft3">דיני עבודה</a></li><li><a href="#ft3">חוזים</a></li><li><a href="#ft3">ליטיגציה</a></li><li><a href="#ft3">חברות</a></li><li><a href="#ft3">נדל״ן</a></li></ul></div></div></div>
-      <div class="ft3-col"><button class="ft3-acc" type="button" aria-expanded="true">יצירת קשר<i aria-hidden="true"></i></button><div class="ft3-body"><div><ul><li><a class="ft-tel" href="tel:+97230000000" dir="ltr">03-000-0000</a></li><li><a href="mailto:office@example.co.il">office@example.co.il</a></li><li>מנחם בגין 132, תל אביב</li></ul></div></div></div>
-      <div class="ft3-col"><button class="ft3-acc" type="button" aria-expanded="true">עקבו<i aria-hidden="true"></i></button><div class="ft3-body"><div><ul><li><a href="#ft3">לינקדאין</a></li><li><a href="#ft3">פייסבוק</a></li></ul></div></div></div>
+      <div class="ft3-col"><h3 class="ft3-h"><button class="ft3-acc" type="button" aria-expanded="true" aria-controls="ft3-b1">ניווט<i aria-hidden="true"></i></button></h3><div class="ft3-body" id="ft3-b1"><div><ul><li><a href="#ft3">ראשי</a></li><li><a href="#ft3">המשרד</a></li><li><a href="#ft3">צוות</a></li><li><a href="#ft3">מאמרים</a></li></ul></div></div></div>
+      <div class="ft3-col"><h3 class="ft3-h"><button class="ft3-acc" type="button" aria-expanded="true" aria-controls="ft3-b2">תחומים<i aria-hidden="true"></i></button></h3><div class="ft3-body" id="ft3-b2"><div><ul><li><a href="#ft3">דיני עבודה</a></li><li><a href="#ft3">חוזים</a></li><li><a href="#ft3">ליטיגציה</a></li><li><a href="#ft3">חברות</a></li><li><a href="#ft3">נדל״ן</a></li></ul></div></div></div>
+      <div class="ft3-col"><h3 class="ft3-h"><button class="ft3-acc" type="button" aria-expanded="true" aria-controls="ft3-b3">יצירת קשר<i aria-hidden="true"></i></button></h3><div class="ft3-body" id="ft3-b3"><div><ul><li><a class="ft-tel" href="tel:+97230000000" dir="ltr">03-000-0000</a></li><li><a href="mailto:office@example.co.il">office@example.co.il</a></li><li>מנחם בגין 132, תל אביב</li></ul></div></div></div>
+      <div class="ft3-col"><h3 class="ft3-h"><button class="ft3-acc" type="button" aria-expanded="true" aria-controls="ft3-b4">עקבו<i aria-hidden="true"></i></button></h3><div class="ft3-body" id="ft3-b4"><div><ul><li><a href="#ft3">לינקדאין</a></li><li><a href="#ft3">פייסבוק</a></li></ul></div></div></div>
     </div>
   </div>
   <div class="ft-legal"><p>© <span data-year>2026</span> משרד עורכי דין לדוגמה. כל הזכויות שמורות.</p><nav aria-label="מסמכים"><a href="#privacy">מדיניות פרטיות</a><a href="#accessibility">הצהרת נגישות</a><a href="#terms">תנאי שימוש</a></nav><p class="ft-credit"><a href="https://liavmatzri.co.il" rel="noopener" target="_blank">עוצב ופותח על ידי ליאב מצרי</a></p></div>
@@ -104,18 +122,24 @@ img{max-width:100%}
 <script>
 document.querySelectorAll("[data-year]").forEach(function(e){e.textContent=new Date().getFullYear();});
 function inView(el,f){
-  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0){off();f();}}
-  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);}
+  var done=false,io=null;
+  function go(){if(done)return;done=true;off();f();}
+  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0)go();}
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(io)io.disconnect();}
+  // the observer also catches a layout change that brings the footer on screen with no scroll event (content above
+  // it collapsing, a short page); the scroll check stays for where the observer is late or missing
+  if("IntersectionObserver" in window){io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting;}))go();},{rootMargin:"0px 0px -10% 0px"});io.observe(el);}
   addEventListener("scroll",chk,{passive:true});addEventListener("resize",chk);requestAnimationFrame(chk);setTimeout(chk,300);
 }
 (function(){
-  var mq=matchMedia("(max-width:760px)"), cols=[].slice.call(document.querySelectorAll("#ft3 .ft3-col"));
-  function set(btn,open){btn.setAttribute("aria-expanded",String(open));btn.nextElementSibling.classList.toggle("open",open);
-    btn.nextElementSibling.querySelectorAll("a").forEach(function(a){a.tabIndex=open?0:-1;});}
-  // desktop: everything open and the headings are not controls; mobile: closed accordions
-  function mode(){cols.forEach(function(c){var b=c.querySelector(".ft3-acc");
-    if(mq.matches){b.removeAttribute("tabindex");b.disabled=false;set(b,false);}else{set(b,true);b.disabled=true;}});}
-  cols.forEach(function(c){var b=c.querySelector(".ft3-acc");b.addEventListener("click",function(){if(mq.matches)set(b,b.getAttribute("aria-expanded")!=="true");});});
+  var mq=matchMedia("(max-width:760px)"), btns=[].slice.call(document.querySelectorAll("#ft3 .ft3-acc"));
+  // a closed column is inert: Tab skips it, and a screen reader swiping through the page does not reach links nobody sees
+  function set(btn,open){var body=document.getElementById(btn.getAttribute("aria-controls"));
+    btn.setAttribute("aria-expanded",String(open));body.classList.toggle("open",open);body.inert=!open;}
+  // desktop: everything open, the headings are not controls and carry no open/closed state; mobile: closed accordions
+  function mode(){btns.forEach(function(b){
+    if(mq.matches){b.disabled=false;set(b,false);}else{set(b,true);b.disabled=true;b.removeAttribute("aria-expanded");}});}
+  btns.forEach(function(b){b.addEventListener("click",function(){if(mq.matches)set(b,b.getAttribute("aria-expanded")!=="true");});});
   mode(); mq.addEventListener("change",mode);
 })();
 </script>

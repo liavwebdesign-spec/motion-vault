@@ -35,13 +35,18 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* G20 · טיימליין אופקי עם קו התקדמות */
-.hwrap{overflow:hidden;background:var(--bg, #f7f7fa)}
-.hcont{display:flex;position:relative;padding-block:130px}
+/* בלי GSAP ובהפחתת תנועה הרצועה נגללת לצד ביד וכל התחנות דולקות. החיתוך רק כשהמהלך רץ */
+.hwrap{overflow-x:auto;background:var(--bg, #f7f7fa)}
+.hwrap.gsap-live{overflow:hidden}
+.hcont{display:flex;position:relative;padding-block:130px;width:max-content}
 .step{flex:0 0 36vw;display:flex;flex-direction:column;align-items:center;text-align:center;padding-inline:20px}
 .step .dot{width:18px;height:18px;border-radius:50%;background:#3b5bdb;margin-bottom:14px;position:relative;z-index:2}
 .step h3{margin:0 0 6px;font-size:20px}
 .step p{margin:0;color:var(--muted, #6a6d85)}
-.tline-rail,.tline{position:absolute;top:calc(130px + 8px);inset-inline-start:0;height:2px;width:180vw}
+/* בטלפון תחנה רחבה יותר: התיאור בשורה אחת ותחנה אחת מלאה במסך בכל רגע */
+@media(max-width:767px){.step{flex-basis:64vw}}
+/* הקו באורך הרצועה עצמה, כך שהוא נגמר בתחנה האחרונה בכל מספר תחנות */
+.tline-rail,.tline{position:absolute;top:calc(130px + 8px);inset-inline:0;height:2px}
 .tline-rail{background:#e6e8f2}
 .tline{background:linear-gradient(270deg,#3b5bdb,#22b8cf);transform-origin:100% 50%;will-change:transform}
 </style>
@@ -50,11 +55,11 @@ img{max-width:100%}
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="hwrap"><div class="hcont">
 <div class="tline-rail"></div><div class="tline"></div>
-<div class="step s1"><div class="dot"></div><h3>אפיון</h3><p>מבינים את העסק</p></div>
-<div class="step s2"><div class="dot"></div><h3>קופי</h3><p>כותבים את הסיפור</p></div>
-<div class="step s3"><div class="dot"></div><h3>עיצוב</h3><p>נותנים לו פנים</p></div>
-<div class="step s4"><div class="dot"></div><h3>פיתוח</h3><p>מפיחים חיים</p></div>
-<div class="step s5"><div class="dot"></div><h3>השקה</h3><p>עולים לאוויר</p></div>
+<div class="step"><div class="dot"></div><h3>אפיון</h3><p>מבינים את העסק</p></div>
+<div class="step"><div class="dot"></div><h3>קופי</h3><p>כותבים את הסיפור</p></div>
+<div class="step"><div class="dot"></div><h3>עיצוב</h3><p>נותנים לו פנים</p></div>
+<div class="step"><div class="dot"></div><h3>פיתוח</h3><p>מפיחים חיים</p></div>
+<div class="step"><div class="dot"></div><h3>השקה</h3><p>עולים לאוויר</p></div>
 </div></div>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -62,27 +67,31 @@ img{max-width:100%}
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const steps=gsap.utils.toArray(".step");
-const hc=document.querySelector(".hcont");
-const rails=[document.querySelector(".tline-rail"),document.querySelector(".tline")];
-const total=()=>hc.scrollWidth-innerWidth;
-
-gsap.set(steps.slice(1),{opacity:.22});
-gsap.set(".tline",{scaleX:0});
-
-// הכל יושב על טיימליין אחד שמחובר לפין. ScrollTrigger נפרד לכל תחנה,
-// שמכוון לאותו אלמנט מפונן, מחשב טווחים על מיקום שמשתנה מתחתיו והשלבים נשארים שקופים.
-const tl=gsap.timeline({scrollTrigger:{
-  trigger:".hwrap",pin:true,scrub:.5,start:"top top",
-  end:()=>"+="+total()*1.6,anticipatePin:1,invalidateOnRefresh:true}});
-
-tl.to([...steps,...rails],{x:()=>total(),ease:"none",duration:1},0)
-  .to(".tline",{scaleX:1,ease:"none",duration:1},0);
-
-steps.forEach((el,i)=>{
-  if(i===0)return;
-  tl.to(el,{opacity:1,ease:"none",duration:.1},i/steps.length*0.9);
-});
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הרצועה נגללת לצד וכל התחנות דולקות
+  const wrap=document.querySelector(".hwrap"),hc=wrap.querySelector(".hcont");
+  const steps=gsap.utils.toArray(".step",hc);
+  const rails=[hc.querySelector(".tline-rail"),hc.querySelector(".tline")];
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    wrap.classList.add("gsap-live");
+    const total=()=>hc.scrollWidth-wrap.clientWidth;
+    gsap.set(steps.slice(1),{opacity:.22});
+    gsap.set(".tline",{scaleX:0});
+    // הכל יושב על טיימליין אחד שמחובר לפין. ScrollTrigger נפרד לכל תחנה,
+    // שמכוון לאותו אלמנט מפונן, מחשב טווחים על מיקום שמשתנה מתחתיו והשלבים נשארים שקופים.
+    const tl=gsap.timeline({scrollTrigger:{
+      trigger:wrap,pin:true,scrub:.5,start:"top top",
+      end:()=>"+="+total()*1.6,anticipatePin:1,invalidateOnRefresh:true}});
+    tl.to([...steps,...rails],{x:()=>total(),ease:"none",duration:1},0)   // אתר עברי: x חיובי
+      .to(".tline",{scaleX:1,ease:"none",duration:1},0);
+    // הקו מגיע למרכז תחנה i ב-(i+0.5)/n מהמהלך, והתחנה מסיימת להידלק בדיוק שם ולא לפני
+    steps.forEach((el,i)=>{
+      if(!i)return;
+      tl.to(el,{opacity:1,ease:"none",duration:.04},(i+.5)/steps.length-.04);
+    });
+    return()=>wrap.classList.remove("gsap-live");
+  });
+})();
 </script>
 </body>
 </html>

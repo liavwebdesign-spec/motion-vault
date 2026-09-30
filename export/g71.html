@@ -41,12 +41,13 @@ img{max-width:100%}
 .sx{height:260vh;position:relative}
 .sx-stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;overflow:hidden}
 .sx-pair{position:relative;width:min(860px,92vw);aspect-ratio:16/9}
+/* מרכוז אנכי: שוליים באחוזים נמדדים מרוחב הזוג. גובה התמונה 52% כפול 5/4, כלומר 65%, וחציו 32.5% */
 .sx-img{position:absolute;top:50%;width:52%;aspect-ratio:4/5;border-radius:18px;font-size:0;
-  margin-top:-26%;will-change:transform;box-shadow:0 24px 60px rgba(20,20,40,.2)}
+  margin-top:-32.5%;will-change:transform;box-shadow:0 24px 60px rgba(20,20,40,.2)}
 .sx-a{right:0;z-index:2}
 .sx-b{left:0;z-index:1}
 .sx-tag{position:absolute;bottom:-34px;inset-inline:0;text-align:center;font-size:14px;color:var(--muted, #6a6d85)}
-.sx-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}
+.sx-cap{position:absolute;bottom:3vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}
 </style>
 </head>
 <body>
@@ -56,7 +57,7 @@ img{max-width:100%}
     <div class="ph sx-img sx-a ph-b"><span class="sx-tag">אפשרות א</span></div>
     <div class="ph sx-img sx-b ph-d"><span class="sx-tag">אפשרות ב</span></div>
   </div>
-  <p class="sx-cap">גלול. השתיים מחליפות צדדים, וזו שמלפנים גדלה.</p>
+  <p class="sx-cap">גלול. השתיים מחליפות צדדים, וזו שגדלה עולה קדימה.</p>
 </div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -65,16 +66,22 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
+  if(typeof gsap==="undefined")return;
   const a=document.querySelector(".sx-a"),b=document.querySelector(".sx-b");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce)return;
-  const tl=gsap.timeline({scrollTrigger:{trigger:".sx",start:"top top",end:"bottom bottom",scrub:.6}});
-  // התנועה באחוזים של האלמנט עצמו, ולכן היא מדויקת בכל רוחב מסך
-  tl.fromTo(a,{xPercent:0,scale:1,zIndex:2},{xPercent:-92,scale:.86,ease:"power1.inOut"},0)
-    .fromTo(b,{xPercent:0,scale:.86,zIndex:1},{xPercent:92,scale:1,ease:"power1.inOut"},0)
-    // החלפת השכבות קורית באמצע הדרך, בדיוק כשהן חופפות
-    .set(a,{zIndex:1},.5)
-    .set(b,{zIndex:2},.5);
+  const tags=gsap.utils.toArray(".sx-tag");
+  // בהפחתת תנועה שתי התמונות עומדות זו לצד זו
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const tl=gsap.timeline({scrollTrigger:{trigger:".sx",start:"top top",end:"bottom bottom",scrub:.6}});
+    // התנועה באחוזים של האלמנט עצמו, ולכן היא מדויקת בכל רוחב מסך. משך 1, כך שהמיקומים בציר הם אחוזי הגלילה
+    tl.fromTo(a,{xPercent:0,scale:1,zIndex:2},{xPercent:-92,scale:.86,ease:"power1.inOut",duration:1},0)
+      .fromTo(b,{xPercent:0,scale:.86,zIndex:1},{xPercent:92,scale:1,ease:"power1.inOut",duration:1},0)
+      // הכיתובים נעלמים לרגע סביב נקודת החפיפה, אחרת "אפשרות א" ו"אפשרות ב" נכתבים זה על זה
+      .to(tags,{opacity:0,duration:.08,ease:"none"},.34)
+      .to(tags,{opacity:1,duration:.08,ease:"none"},.58)
+      // החלפת השכבות בסוף המהלך, כשהתמונות כבר כמעט לא חופפות, ולכן העין לא תופסת קפיצה של שכבה
+      .set(a,{zIndex:1},1)
+      .set(b,{zIndex:2},1);
+  });
 })();
 </script>
 </body>

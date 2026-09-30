@@ -43,7 +43,7 @@ img{max-width:100%}
 .ba2-frame{position:relative;width:min(900px,92vw);aspect-ratio:16/10;border-radius:var(--r, 14px);overflow:hidden;
   border:1px solid var(--line, #e4e4ee)}
 .ba2-layer{position:absolute;inset:0;border-radius:0;font-size:0}
-/* השכבה העליונה היא "לפני", והיא נחתכת מימין לשמאל, בכיוון הקריאה בעברית */
+/* השכבה העליונה היא "לפני", והיא נחתכת מהשמאל ככל שהקו נע ימינה */
 .ba2-before{clip-path:inset(0 0 0 0)}
 .ba2-tag{position:absolute;top:16px;z-index:3;background:rgba(0,0,0,.62);color:#fff;font-size:13px;
   padding:6px 14px;border-radius:999px;backdrop-filter:blur(6px)}
@@ -65,7 +65,7 @@ img{max-width:100%}
     <span class="ba2-tag is-after">אחרי</span>
     <i class="ba2-edge"></i>
   </div>
-  <p class="ba2-cap">גלול. קו החשיפה נע מימין לשמאל.</p>
+  <p class="ba2-cap">גלול. קו החשיפה נע משמאל לימין.</p>
 </div></div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -74,20 +74,24 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const before=document.querySelector(".ba2-before"),edge=document.querySelector(".ba2-edge"),
-        frame=document.querySelector(".ba2-frame");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce){before.style.clipPath="inset(0 0 0 50%)";edge.style.left="50%";return;}
-  const state={p:0};
-  ScrollTrigger.create({
-    trigger:".ba2",start:"top top",end:"bottom bottom",scrub:.5,
-    onUpdate:self=>{
-      // p הוא כמה נחשף מ"אחרי". החיתוך משמאל מותיר את "לפני" בימין
-      const p=self.progress;
-      before.style.clipPath="inset(0 0 0 "+(p*100).toFixed(2)+"%)";
-      edge.style.left=(p*100).toFixed(2)+"%";
-      edge.style.opacity=p>0.002&&p<0.998?1:0;
-    }
+  if(typeof gsap==="undefined")return;   // בלי הספרייה נשארת תמונת ה"לפני" המלאה
+  const before=document.querySelector(".ba2-before"),edge=document.querySelector(".ba2-edge");
+  const clear=()=>{before.style.clipPath="";edge.style.left="";edge.style.opacity="";};
+  const mm=gsap.matchMedia();
+  // בהפחתת תנועה: חצי חצי סטטי, והגלילה לא מזיזה כלום
+  mm.add("(prefers-reduced-motion: reduce)",()=>{before.style.clipPath="inset(0 0 0 50%)";edge.style.left="50%";return clear;});
+  mm.add("(prefers-reduced-motion: no-preference)",()=>{
+    ScrollTrigger.create({
+      trigger:".ba2",start:"top top",end:"bottom bottom",
+      onUpdate:self=>{
+        // p הוא כמה נחשף מ"אחרי". החיתוך משמאל מותיר את "לפני" בימין
+        const p=self.progress;
+        before.style.clipPath="inset(0 0 0 "+(p*100).toFixed(2)+"%)";
+        edge.style.left=(p*100).toFixed(2)+"%";
+        edge.style.opacity=p>0.002&&p<0.998?1:0;
+      }
+    });
+    return clear;
   });
 })();
 </script>

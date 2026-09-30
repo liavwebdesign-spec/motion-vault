@@ -38,16 +38,23 @@ img{max-width:100%}
 .ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
 
 /* G72 · סקשן שמתהפך בין שתי פאות בגלילה */
-.fl{height:250vh;position:relative}
-.fl-stage{position:sticky;top:0;height:100vh;display:grid;place-items:center;perspective:1600px;padding:0 var(--gutter, clamp(24px, 5vw, 96px))}
-.fl-card{position:relative;width:min(880px,92vw);aspect-ratio:16/10;transform-style:preserve-3d;will-change:transform}
-.fl-face{position:absolute;inset:0;border-radius:22px;backface-visibility:hidden;overflow:hidden;
+/* בלי GSAP או בהפחתת תנועה: שתי הפאות זו מתחת לזו, כל אחת קריאה.
+   הבמה וההיפוך יושבים תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת */
+.fl-stage{display:grid;place-items:center;padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px))}
+.fl-card{position:relative;width:min(880px,92vw);display:grid;gap:16px}
+.fl-face{position:relative;aspect-ratio:16/10;border-radius:22px;overflow:hidden;isolation:isolate;
   display:grid;place-items:center;text-align:center;padding:clamp(20px,4vw,50px);color:#fff}
 .fl-face h3{margin:0;font-size:clamp(24px,3.6vw,48px);line-height:1.14;max-width:20ch}
 .fl-face p{margin:14px 0 0;font-size:17px;line-height:1.8;max-width:40ch;opacity:.9}
 .fl-face .ph{position:absolute;inset:0;border-radius:0;font-size:0;z-index:-1}
-.fl-back{transform:rotateY(180deg)}
-.fl-cap{position:absolute;bottom:7vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}
+.fl-cap{display:none;position:absolute;bottom:7vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}
+/* הבמה */
+.fl.mv-on{height:250vh;position:relative}
+.fl.mv-on .fl-stage{position:sticky;top:0;height:100vh;perspective:1600px;padding-block:0}
+.fl.mv-on .fl-card{display:block;aspect-ratio:16/10;transform-style:preserve-3d;will-change:transform}
+.fl.mv-on .fl-face{position:absolute;inset:0;isolation:auto;backface-visibility:hidden}
+.fl.mv-on .fl-back{transform:rotateY(180deg)}
+.fl.mv-on .fl-cap{display:block}
 </style>
 </head>
 <body>
@@ -70,14 +77,18 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const card=document.querySelector(".fl-card");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce)return;
-  gsap.timeline({scrollTrigger:{trigger:".fl",start:"top top",end:"bottom bottom",scrub:.6}})
-    // משך מפורש לשניהם, אחרת ההיפוך נגמר בחצי הדרך והשאר ריק
-    .fromTo(card,{rotateY:0},{rotateY:180,duration:1,ease:"none"},0)
-    // התכווצות קלה באמצע ההיפוך: בלעדיה הקלף נראה שטוח בדיוק ברגע שהוא הכי דק
-    .fromTo(card,{scale:1},{scale:.9,ease:"none",yoyo:true,repeat:1,duration:.5},0);
+  if(typeof gsap==="undefined")return;   // בלי הספרייה שתי הפאות עומדות זו מתחת לזו
+  const root=document.querySelector(".fl"),card=root.querySelector(".fl-card");
+  // הבמה נדלקת רק כשהתנועה מותרת. בהפחתת תנועה הפאה האחורית לא מסתתרת מאחורי backface, אלא עומדת מתחת לקדמית
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}})
+      // משך מפורש לשניהם, אחרת ההיפוך נגמר בחצי הדרך והשאר ריק
+      .fromTo(card,{rotateY:0},{rotateY:180,duration:1,ease:"none"},0)
+      // התכווצות קלה באמצע ההיפוך: בלעדיה הקלף נראה שטוח בדיוק ברגע שהוא הכי דק
+      .fromTo(card,{scale:1},{scale:.9,ease:"none",yoyo:true,repeat:1,duration:.5},0);
+    return ()=>root.classList.remove("mv-on");
+  });
 })();
 </script>
 </body>

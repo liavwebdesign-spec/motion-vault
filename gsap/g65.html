@@ -8,16 +8,24 @@
 
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
-.ctr{height:340vh;position:relative}
-.ctr-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;align-content:center}
-/* בעמוד עברי הרצועה נשארת RTL, אבל המדידה של ScrollTrigger דורשת הקשר LTR על המעטפת */
-.ctr-view{direction:ltr;overflow:hidden}
-.ctr-track{display:flex;gap:clamp(16px,2.4vw,40px);width:max-content;padding-inline:44vw;direction:rtl}
+/* בלי GSAP או בהפחתת תנועה: שורה רגילה שגוללים לרוחב באצבע או בגלגלת, בלי במה ובלי הגדלה.
+   הבמה יושבת תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת */
+.ctr-stage{padding-block:var(--sec)}
+.ctr-view{overflow-x:auto;overscroll-behavior-x:contain}
+.ctr-track{display:flex;gap:clamp(16px,2.4vw,40px);width:max-content;padding-inline:var(--gutter)}
 .ctr-item{width:clamp(180px,22vw,320px);flex:none;border-radius:18px;overflow:hidden;background:var(--card);
-  border:1px solid var(--line);will-change:transform,filter}
+  border:1px solid var(--line)}
 .ctr-item .ph{aspect-ratio:3/4;border-radius:0;font-size:0}
 .ctr-item b{display:block;padding:12px 14px 14px;font-size:15px}
-.ctr-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted);font-size:15px}
+.ctr-cap{display:none;position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted);font-size:15px}
+/* הבמה */
+.ctr.mv-on{height:340vh;position:relative}
+.ctr.mv-on .ctr-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;align-content:center;padding-block:0}
+/* בעמוד עברי הרצועה נשארת RTL, אבל המדידה של ScrollTrigger דורשת הקשר LTR על המעטפת */
+.ctr.mv-on .ctr-view{direction:ltr;overflow:hidden}
+.ctr.mv-on .ctr-track{padding-inline:44vw;direction:rtl}
+.ctr.mv-on .ctr-item{will-change:transform,filter}
+.ctr.mv-on .ctr-cap{display:block}
 </style>
 </head>
 <body>
@@ -54,7 +62,7 @@
   <p class="ctr-cap">גלול. מי שבמרכז גדל וחד, והשאר נסוגים.</p>
 </div></div>
 
-<div class="demo-note">שני דברים. הראשון הוא מלכודת ה-RTL שכבר תפסה אותנו: ילד <code>width:max-content</code> בתוך קונטיינר RTL מתחיל מהקצה הימני, ואז כל המדידות של ScrollTrigger יוצאות מוזזות. לכן המעטפת מקבלת <code>direction:ltr</code> והרצועה עצמה <code>rtl</code>. השני הוא שיטת המדידה: במקום טריגר נפרד לכל כרטיס, יש לולאת ticker אחת שמודדת את המרחק מהמרכז ומתרגמת אותו לגודל, לאטימות ולחדות. <b>שני הידוקים שנדרשו</b>: המרחק נמדד ביחידות של רוחב כרטיס ולא של חצי מסך, אחרת גם השכן הצמוד כמעט זהה למרכזי ואין פריט אחד שמושך את העין; והלולאה נדלקת ונכבית עם ScrollTrigger, אחרת היא מודדת שישה אלמנטים בכל פריים לכל אורך העמוד.</div>
+<div class="demo-note">שני דברים. הראשון הוא מלכודת ה-RTL שכבר תפסה אותנו: ילד <code>width:max-content</code> בתוך קונטיינר RTL מתחיל מהקצה הימני, ואז כל המדידות של ScrollTrigger יוצאות מוזזות. לכן המעטפת מקבלת <code>direction:ltr</code> והרצועה עצמה <code>rtl</code>. השני הוא שיטת המדידה: במקום טריגר נפרד לכל כרטיס, יש פונקציית צביעה אחת שמודדת את המרחק מהמרכז ומתרגמת אותו לגודל, לאטימות ולחדות. <b>שני הידוקים שנדרשו</b>: המרחק נמדד ביחידות של רוחב כרטיס ולא של חצי מסך, אחרת גם השכן הצמוד כמעט זהה למרכזי ואין פריט אחד שמושך את העין; והצביעה רצה מה-<code>onUpdate</code> של הטווין, רק כשהרצועה זזה. לולאת ticker שרצה כל עוד הרצועה על המסך מדדה שבעה דברים וכתבה שש פעמים <code>blur</code> בכל פריים, גם כשאף אחד לא גלל. <b>בהפחתת תנועה או כשהספרייה לא נטענה</b> הבמה לא נדלקת (היא יושבת תחת <code>.mv-on</code>), והכרטיסים הם שורה רגילה שגוללים לרוחב באצבע, בלי הזזה שנגררת אחרי הגלילה האנכית.</div>
 <section class="mvcode">
   <h2>קוד להדבקה</h2>
   <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
@@ -77,16 +85,24 @@
 .ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
 
 /* G65 · רצועה אופקית שהפריט במרכזה גדל */
-.ctr{height:340vh;position:relative}
-.ctr-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;align-content:center}
-/* בעמוד עברי הרצועה נשארת RTL, אבל המדידה של ScrollTrigger דורשת הקשר LTR על המעטפת */
-.ctr-view{direction:ltr;overflow:hidden}
-.ctr-track{display:flex;gap:clamp(16px,2.4vw,40px);width:max-content;padding-inline:44vw;direction:rtl}
+/* בלי GSAP או בהפחתת תנועה: שורה רגילה שגוללים לרוחב באצבע או בגלגלת, בלי במה ובלי הגדלה.
+   הבמה יושבת תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת */
+.ctr-stage{padding-block:var(--sec, clamp(120px, 12vw, 260px))}
+.ctr-view{overflow-x:auto;overscroll-behavior-x:contain}
+.ctr-track{display:flex;gap:clamp(16px,2.4vw,40px);width:max-content;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
 .ctr-item{width:clamp(180px,22vw,320px);flex:none;border-radius:18px;overflow:hidden;background:var(--card, #fff);
-  border:1px solid var(--line, #e4e4ee);will-change:transform,filter}
+  border:1px solid var(--line, #e4e4ee)}
 .ctr-item .ph{aspect-ratio:3/4;border-radius:0;font-size:0}
 .ctr-item b{display:block;padding:12px 14px 14px;font-size:15px}
-.ctr-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}</code></pre>
+.ctr-cap{display:none;position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}
+/* הבמה */
+.ctr.mv-on{height:340vh;position:relative}
+.ctr.mv-on .ctr-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;align-content:center;padding-block:0}
+/* בעמוד עברי הרצועה נשארת RTL, אבל המדידה של ScrollTrigger דורשת הקשר LTR על המעטפת */
+.ctr.mv-on .ctr-view{direction:ltr;overflow:hidden}
+.ctr.mv-on .ctr-track{padding-inline:44vw;direction:rtl}
+.ctr.mv-on .ctr-item{will-change:transform,filter}
+.ctr.mv-on .ctr-cap{display:block}</code></pre>
     <h3>HTML</h3><pre><code>&lt;div class="ctr"&gt;&lt;div class="ctr-stage"&gt;
   &lt;div class="ctr-view"&gt;&lt;div class="ctr-track"&gt;
     &lt;article class="ctr-item"&gt;&lt;div class="ph ph-a"&gt;&lt;/div&gt;&lt;b&gt;משרד עורכי דין&lt;/b&gt;&lt;/article&gt;
@@ -101,49 +117,48 @@
     <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const track=document.querySelector(".ctr-track"),view=document.querySelector(".ctr-view");
+  if(typeof gsap==="undefined")return;   // בלי הספרייה נשארת שורה רגילה שגוללים לרוחב
+  const root=document.querySelector(".ctr"),track=root.querySelector(".ctr-track"),view=root.querySelector(".ctr-view");
   const items=gsap.utils.toArray(".ctr-item");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const dist=()=&gt;track.scrollWidth-view.clientWidth;
-  // בעברית הרצועה מתחילה בימין, ולכן היא נעה ל-x חיובי
-  const move=gsap.fromTo(track,{x:-dist()},{x:0,ease:"none",
-    scrollTrigger:{trigger:".ctr",start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
-  if(reduce)return;
+  // הבמה נדלקת רק כשהתנועה מותרת. בהפחתת תנועה אין הזזה אופקית עם הגלילה האנכית, אלא שורה שגוללים בעצמם
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("mv-on");
+    const dist=()=&gt;track.scrollWidth-view.clientWidth;
 
-  // הדעיכה נמדדת ביחידות של כרטיס אחד ולא של חצי מסך. עם חצי מסך גם השכן הצמוד
-  // מקבל כמעט את אותו גודל, ואז אין באמת פריט אחד שתופס את תשומת הלב.
-  const step=()=&gt;{
-    const first=items[0].getBoundingClientRect();
-    const gap=items.length&gt;1?Math.abs(items[1].getBoundingClientRect().left-first.left):first.width;
-    return gap||first.width||1;
-  };
-  const paint=()=&gt;{
-    const mid=innerWidth/2,unit=step();
-    items.forEach(el=&gt;{
-      const r=el.getBoundingClientRect();
-      const d=Math.min(1,Math.abs(r.left+r.width/2-mid)/(unit*1.7)); // 0 במרכז, 1 בערך שני כרטיסים משם
-      const f=1-d*d;                                             // דעיכה רכה בקצה, חדה במרכז
-      gsap.set(el,{scale:.84+f*.24,opacity:.5+f*.5,
-        filter:"blur("+((1-f)*2.4).toFixed(2)+"px)",zIndex:Math.round(f*10)});
-    });
-  };
+    // הדעיכה נמדדת ביחידות של כרטיס אחד ולא של חצי מסך. עם חצי מסך גם השכן הצמוד
+    // מקבל כמעט את אותו גודל, ואז אין באמת פריט אחד שתופס את תשומת הלב.
+    const step=()=&gt;{
+      const first=items[0].getBoundingClientRect();
+      const gap=items.length&gt;1?Math.abs(items[1].getBoundingClientRect().left-first.left):first.width;
+      return gap||first.width||1;
+    };
+    const paint=()=&gt;{
+      const mid=innerWidth/2,unit=step();
+      items.forEach(el=&gt;{
+        const r=el.getBoundingClientRect();
+        const d=Math.min(1,Math.abs(r.left+r.width/2-mid)/(unit*1.7)); // 0 במרכז, 1 בערך שני כרטיסים משם
+        const f=1-d*d;                                             // דעיכה רכה בקצה, חדה במרכז
+        gsap.set(el,{scale:.84+f*.24,opacity:.5+f*.5,
+          filter:"blur("+((1-f)*2.4).toFixed(2)+"px)",zIndex:Math.round(f*10)});
+      });
+    };
 
-  // הלולאה רצה רק כשהרצועה על המסך. בלי זה היא מודדת שישה אלמנטים בכל פריים
-  // לכל אורך העמוד, גם כשאין מה לראות.
-  let running=false;
-  const startLoop=()=&gt;{if(!running){running=true;gsap.ticker.add(paint)}};
-  const stopLoop=()=&gt;{if(running){running=false;gsap.ticker.remove(paint)}};
-  ScrollTrigger.create({trigger:".ctr",start:"top bottom",end:"bottom top",
-    onToggle:self=&gt;self.isActive?startLoop():stopLoop()});
-  paint();
+    // בעברית הרצועה מתחילה בימין, ולכן היא נעה ל-x חיובי.
+    // הצביעה רצה מה-onUpdate של הטווין עצמו, כלומר רק כשהרצועה באמת זזה (כולל ההחלקה של ה-scrub),
+    // ולא בלולאה על כל פריים שמודדת וכותבת blur גם כשאף אחד לא גולל.
+    gsap.fromTo(track,{x:()=&gt;-dist()},{x:0,ease:"none",onUpdate:paint,
+      scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true,onRefresh:paint}});
+    paint();
+    return ()=&gt;root.classList.remove("mv-on");
+  });
 })();</code></pre>
   </details>
-  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g65 · רצועה אופקית שהפריט במרכזה גדל\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g65.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g65.html\n\nמה זה עושה: רצועת כרטיסים שנעה לרוחב לפי הגלילה האנכית, וכל כרטיס גדל ומתחדד כשהוא מגיע למרכז המסך ומתכווץ כשהוא יוצא ממנו.\nמתי משתמשים: תיק עבודות, קטלוג מוצרים, ציר שנים, המלצות. מפנה את תשומת הלב לפריט אחד בכל רגע במקום להציג שורה שטוחה.\nסוג אתר: פורטפוליו וסטודיו · אתר תדמית · חנות\nבסקשן: עבודות וגלריה · מוצר וקטלוג · המלצות\nאופי: רק באתר חוויתי\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא כשהגולש צריך להשוות בין פריטים, רק פריט אחד חד בכל רגע; ולא ליותר משמונה פריטים.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G65 · רצועה אופקית שהפריט במרכזה גדל */\n.ctr{height:340vh;position:relative}\n.ctr-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;align-content:center}\n/* בעמוד עברי הרצועה נשארת RTL, אבל המדידה של ScrollTrigger דורשת הקשר LTR על המעטפת */\n.ctr-view{direction:ltr;overflow:hidden}\n.ctr-track{display:flex;gap:clamp(16px,2.4vw,40px);width:max-content;padding-inline:44vw;direction:rtl}\n.ctr-item{width:clamp(180px,22vw,320px);flex:none;border-radius:18px;overflow:hidden;background:var(--card, #fff);\n  border:1px solid var(--line, #e4e4ee);will-change:transform,filter}\n.ctr-item .ph{aspect-ratio:3/4;border-radius:0;font-size:0}\n.ctr-item b{display:block;padding:12px 14px 14px;font-size:15px}\n.ctr-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}\n\n=== HTML ===\n<div class=\"ctr\"><div class=\"ctr-stage\">\n  <div class=\"ctr-view\"><div class=\"ctr-track\">\n    <article class=\"ctr-item\"><div class=\"ph ph-a\"><\/div><b>משרד עורכי דין<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-c\"><\/div><b>מותג קוסמטיקה<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-d\"><\/div><b>קורס דיגיטלי<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-e\"><\/div><b>פורטל לקוחות<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-b\"><\/div><b>קליניקה פרטית<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-f\"><\/div><b>יבואן ריהוט<\/b><\/article>\n  <\/div><\/div>\n  <p class=\"ctr-cap\">גלול. מי שבמרכז גדל וחד, והשאר נסוגים.<\/p>\n<\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const track=document.querySelector(\".ctr-track\"),view=document.querySelector(\".ctr-view\");\n  const items=gsap.utils.toArray(\".ctr-item\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  const dist=()=>track.scrollWidth-view.clientWidth;\n  // בעברית הרצועה מתחילה בימין, ולכן היא נעה ל-x חיובי\n  const move=gsap.fromTo(track,{x:-dist()},{x:0,ease:\"none\",\n    scrollTrigger:{trigger:\".ctr\",start:\"top top\",end:\"bottom bottom\",scrub:.5,invalidateOnRefresh:true}});\n  if(reduce)return;\n\n  // הדעיכה נמדדת ביחידות של כרטיס אחד ולא של חצי מסך. עם חצי מסך גם השכן הצמוד\n  // מקבל כמעט את אותו גודל, ואז אין באמת פריט אחד שתופס את תשומת הלב.\n  const step=()=>{\n    const first=items[0].getBoundingClientRect();\n    const gap=items.length>1?Math.abs(items[1].getBoundingClientRect().left-first.left):first.width;\n    return gap||first.width||1;\n  };\n  const paint=()=>{\n    const mid=innerWidth/2,unit=step();\n    items.forEach(el=>{\n      const r=el.getBoundingClientRect();\n      const d=Math.min(1,Math.abs(r.left+r.width/2-mid)/(unit*1.7)); // 0 במרכז, 1 בערך שני כרטיסים משם\n      const f=1-d*d;                                             // דעיכה רכה בקצה, חדה במרכז\n      gsap.set(el,{scale:.84+f*.24,opacity:.5+f*.5,\n        filter:\"blur(\"+((1-f)*2.4).toFixed(2)+\"px)\",zIndex:Math.round(f*10)});\n    });\n  };\n\n  // הלולאה רצה רק כשהרצועה על המסך. בלי זה היא מודדת שישה אלמנטים בכל פריים\n  // לכל אורך העמוד, גם כשאין מה לראות.\n  let running=false;\n  const startLoop=()=>{if(!running){running=true;gsap.ticker.add(paint)}};\n  const stopLoop=()=>{if(running){running=false;gsap.ticker.remove(paint)}};\n  ScrollTrigger.create({trigger:\".ctr\",start:\"top bottom\",end:\"bottom top\",\n    onToggle:self=>self.isActive?startLoop():stopLoop()});\n  paint();\n})();\n\nהערת מימוש מהמאגר:\nשני דברים. הראשון הוא מלכודת ה-RTL שכבר תפסה אותנו: ילד `width:max-content` בתוך קונטיינר RTL מתחיל מהקצה הימני, ואז כל המדידות של ScrollTrigger יוצאות מוזזות. לכן המעטפת מקבלת `direction:ltr` והרצועה עצמה `rtl`. השני הוא שיטת המדידה: במקום טריגר נפרד לכל כרטיס, יש לולאת ticker אחת שמודדת את המרחק מהמרכז ומתרגמת אותו לגודל, לאטימות ולחדות. שני הידוקים שנדרשו: המרחק נמדד ביחידות של רוחב כרטיס ולא של חצי מסך, אחרת גם השכן הצמוד כמעט זהה למרכזי ואין פריט אחד שמושך את העין; והלולאה נדלקת ונכבית עם ScrollTrigger, אחרת היא מודדת שישה אלמנטים בכל פריים לכל אורך העמוד.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G65 · רצועה אופקית שהפריט במרכזה גדל */\n.ctr{height:340vh;position:relative}\n.ctr-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;align-content:center}\n/* בעמוד עברי הרצועה נשארת RTL, אבל המדידה של ScrollTrigger דורשת הקשר LTR על המעטפת */\n.ctr-view{direction:ltr;overflow:hidden}\n.ctr-track{display:flex;gap:clamp(16px,2.4vw,40px);width:max-content;padding-inline:44vw;direction:rtl}\n.ctr-item{width:clamp(180px,22vw,320px);flex:none;border-radius:18px;overflow:hidden;background:var(--card, #fff);\n  border:1px solid var(--line, #e4e4ee);will-change:transform,filter}\n.ctr-item .ph{aspect-ratio:3/4;border-radius:0;font-size:0}\n.ctr-item b{display:block;padding:12px 14px 14px;font-size:15px}\n.ctr-cap{position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}","html":"<div class=\"ctr\"><div class=\"ctr-stage\">\n  <div class=\"ctr-view\"><div class=\"ctr-track\">\n    <article class=\"ctr-item\"><div class=\"ph ph-a\"><\/div><b>משרד עורכי דין<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-c\"><\/div><b>מותג קוסמטיקה<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-d\"><\/div><b>קורס דיגיטלי<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-e\"><\/div><b>פורטל לקוחות<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-b\"><\/div><b>קליניקה פרטית<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-f\"><\/div><b>יבואן ריהוט<\/b><\/article>\n  <\/div><\/div>\n  <p class=\"ctr-cap\">גלול. מי שבמרכז גדל וחד, והשאר נסוגים.<\/p>\n<\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  const track=document.querySelector(\".ctr-track\"),view=document.querySelector(\".ctr-view\");\n  const items=gsap.utils.toArray(\".ctr-item\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  const dist=()=>track.scrollWidth-view.clientWidth;\n  // בעברית הרצועה מתחילה בימין, ולכן היא נעה ל-x חיובי\n  const move=gsap.fromTo(track,{x:-dist()},{x:0,ease:\"none\",\n    scrollTrigger:{trigger:\".ctr\",start:\"top top\",end:\"bottom bottom\",scrub:.5,invalidateOnRefresh:true}});\n  if(reduce)return;\n\n  // הדעיכה נמדדת ביחידות של כרטיס אחד ולא של חצי מסך. עם חצי מסך גם השכן הצמוד\n  // מקבל כמעט את אותו גודל, ואז אין באמת פריט אחד שתופס את תשומת הלב.\n  const step=()=>{\n    const first=items[0].getBoundingClientRect();\n    const gap=items.length>1?Math.abs(items[1].getBoundingClientRect().left-first.left):first.width;\n    return gap||first.width||1;\n  };\n  const paint=()=>{\n    const mid=innerWidth/2,unit=step();\n    items.forEach(el=>{\n      const r=el.getBoundingClientRect();\n      const d=Math.min(1,Math.abs(r.left+r.width/2-mid)/(unit*1.7)); // 0 במרכז, 1 בערך שני כרטיסים משם\n      const f=1-d*d;                                             // דעיכה רכה בקצה, חדה במרכז\n      gsap.set(el,{scale:.84+f*.24,opacity:.5+f*.5,\n        filter:\"blur(\"+((1-f)*2.4).toFixed(2)+\"px)\",zIndex:Math.round(f*10)});\n    });\n  };\n\n  // הלולאה רצה רק כשהרצועה על המסך. בלי זה היא מודדת שישה אלמנטים בכל פריים\n  // לכל אורך העמוד, גם כשאין מה לראות.\n  let running=false;\n  const startLoop=()=>{if(!running){running=true;gsap.ticker.add(paint)}};\n  const stopLoop=()=>{if(running){running=false;gsap.ticker.remove(paint)}};\n  ScrollTrigger.create({trigger:\".ctr\",start:\"top bottom\",end:\"bottom top\",\n    onToggle:self=>self.isActive?startLoop():stopLoop()});\n  paint();\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g65 · רצועה אופקית שהפריט במרכזה גדל\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g65.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g65.html\n\nמה זה עושה: רצועת כרטיסים שנעה לרוחב לפי הגלילה האנכית, וכל כרטיס גדל ומתחדד כשהוא מגיע למרכז המסך ומתכווץ כשהוא יוצא ממנו.\nמתי משתמשים: תיק עבודות, קטלוג מוצרים, ציר שנים, המלצות. מפנה את תשומת הלב לפריט אחד בכל רגע במקום להציג שורה שטוחה.\nסוג אתר: פורטפוליו וסטודיו · אתר תדמית · חנות\nבסקשן: עבודות וגלריה · מוצר וקטלוג · המלצות\nאופי: רק באתר חוויתי\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא כשהגולש צריך להשוות בין פריטים, רק פריט אחד חד בכל רגע; ולא ליותר משמונה פריטים.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G65 · רצועה אופקית שהפריט במרכזה גדל */\n/* בלי GSAP או בהפחתת תנועה: שורה רגילה שגוללים לרוחב באצבע או בגלגלת, בלי במה ובלי הגדלה.\n   הבמה יושבת תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת */\n.ctr-stage{padding-block:var(--sec, clamp(120px, 12vw, 260px))}\n.ctr-view{overflow-x:auto;overscroll-behavior-x:contain}\n.ctr-track{display:flex;gap:clamp(16px,2.4vw,40px);width:max-content;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.ctr-item{width:clamp(180px,22vw,320px);flex:none;border-radius:18px;overflow:hidden;background:var(--card, #fff);\n  border:1px solid var(--line, #e4e4ee)}\n.ctr-item .ph{aspect-ratio:3/4;border-radius:0;font-size:0}\n.ctr-item b{display:block;padding:12px 14px 14px;font-size:15px}\n.ctr-cap{display:none;position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}\n/* הבמה */\n.ctr.mv-on{height:340vh;position:relative}\n.ctr.mv-on .ctr-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;align-content:center;padding-block:0}\n/* בעמוד עברי הרצועה נשארת RTL, אבל המדידה של ScrollTrigger דורשת הקשר LTR על המעטפת */\n.ctr.mv-on .ctr-view{direction:ltr;overflow:hidden}\n.ctr.mv-on .ctr-track{padding-inline:44vw;direction:rtl}\n.ctr.mv-on .ctr-item{will-change:transform,filter}\n.ctr.mv-on .ctr-cap{display:block}\n\n=== HTML ===\n<div class=\"ctr\"><div class=\"ctr-stage\">\n  <div class=\"ctr-view\"><div class=\"ctr-track\">\n    <article class=\"ctr-item\"><div class=\"ph ph-a\"><\/div><b>משרד עורכי דין<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-c\"><\/div><b>מותג קוסמטיקה<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-d\"><\/div><b>קורס דיגיטלי<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-e\"><\/div><b>פורטל לקוחות<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-b\"><\/div><b>קליניקה פרטית<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-f\"><\/div><b>יבואן ריהוט<\/b><\/article>\n  <\/div><\/div>\n  <p class=\"ctr-cap\">גלול. מי שבמרכז גדל וחד, והשאר נסוגים.<\/p>\n<\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;   // בלי הספרייה נשארת שורה רגילה שגוללים לרוחב\n  const root=document.querySelector(\".ctr\"),track=root.querySelector(\".ctr-track\"),view=root.querySelector(\".ctr-view\");\n  const items=gsap.utils.toArray(\".ctr-item\");\n  // הבמה נדלקת רק כשהתנועה מותרת. בהפחתת תנועה אין הזזה אופקית עם הגלילה האנכית, אלא שורה שגוללים בעצמם\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"mv-on\");\n    const dist=()=>track.scrollWidth-view.clientWidth;\n\n    // הדעיכה נמדדת ביחידות של כרטיס אחד ולא של חצי מסך. עם חצי מסך גם השכן הצמוד\n    // מקבל כמעט את אותו גודל, ואז אין באמת פריט אחד שתופס את תשומת הלב.\n    const step=()=>{\n      const first=items[0].getBoundingClientRect();\n      const gap=items.length>1?Math.abs(items[1].getBoundingClientRect().left-first.left):first.width;\n      return gap||first.width||1;\n    };\n    const paint=()=>{\n      const mid=innerWidth/2,unit=step();\n      items.forEach(el=>{\n        const r=el.getBoundingClientRect();\n        const d=Math.min(1,Math.abs(r.left+r.width/2-mid)/(unit*1.7)); // 0 במרכז, 1 בערך שני כרטיסים משם\n        const f=1-d*d;                                             // דעיכה רכה בקצה, חדה במרכז\n        gsap.set(el,{scale:.84+f*.24,opacity:.5+f*.5,\n          filter:\"blur(\"+((1-f)*2.4).toFixed(2)+\"px)\",zIndex:Math.round(f*10)});\n      });\n    };\n\n    // בעברית הרצועה מתחילה בימין, ולכן היא נעה ל-x חיובי.\n    // הצביעה רצה מה-onUpdate של הטווין עצמו, כלומר רק כשהרצועה באמת זזה (כולל ההחלקה של ה-scrub),\n    // ולא בלולאה על כל פריים שמודדת וכותבת blur גם כשאף אחד לא גולל.\n    gsap.fromTo(track,{x:()=>-dist()},{x:0,ease:\"none\",onUpdate:paint,\n      scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.5,invalidateOnRefresh:true,onRefresh:paint}});\n    paint();\n    return ()=>root.classList.remove(\"mv-on\");\n  });\n})();\n\nהערת מימוש מהמאגר:\nשני דברים. הראשון הוא מלכודת ה-RTL שכבר תפסה אותנו: ילד `width:max-content` בתוך קונטיינר RTL מתחיל מהקצה הימני, ואז כל המדידות של ScrollTrigger יוצאות מוזזות. לכן המעטפת מקבלת `direction:ltr` והרצועה עצמה `rtl`. השני הוא שיטת המדידה: במקום טריגר נפרד לכל כרטיס, יש פונקציית צביעה אחת שמודדת את המרחק מהמרכז ומתרגמת אותו לגודל, לאטימות ולחדות. שני הידוקים שנדרשו: המרחק נמדד ביחידות של רוחב כרטיס ולא של חצי מסך, אחרת גם השכן הצמוד כמעט זהה למרכזי ואין פריט אחד שמושך את העין; והצביעה רצה מה-`onUpdate` של הטווין, רק כשהרצועה זזה. לולאת ticker שרצה כל עוד הרצועה על המסך מדדה שבעה דברים וכתבה שש פעמים `blur` בכל פריים, גם כשאף אחד לא גלל. בהפחתת תנועה או כשהספרייה לא נטענה הבמה לא נדלקת (היא יושבת תחת `.mv-on`), והכרטיסים הם שורה רגילה שגוללים לרוחב באצבע, בלי הזזה שנגררת אחרי הגלילה האנכית.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* G65 · רצועה אופקית שהפריט במרכזה גדל */\n/* בלי GSAP או בהפחתת תנועה: שורה רגילה שגוללים לרוחב באצבע או בגלגלת, בלי במה ובלי הגדלה.\n   הבמה יושבת תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת */\n.ctr-stage{padding-block:var(--sec, clamp(120px, 12vw, 260px))}\n.ctr-view{overflow-x:auto;overscroll-behavior-x:contain}\n.ctr-track{display:flex;gap:clamp(16px,2.4vw,40px);width:max-content;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}\n.ctr-item{width:clamp(180px,22vw,320px);flex:none;border-radius:18px;overflow:hidden;background:var(--card, #fff);\n  border:1px solid var(--line, #e4e4ee)}\n.ctr-item .ph{aspect-ratio:3/4;border-radius:0;font-size:0}\n.ctr-item b{display:block;padding:12px 14px 14px;font-size:15px}\n.ctr-cap{display:none;position:absolute;bottom:8vh;inset-inline:0;text-align:center;color:var(--muted, #6a6d85);font-size:15px}\n/* הבמה */\n.ctr.mv-on{height:340vh;position:relative}\n.ctr.mv-on .ctr-stage{position:sticky;top:0;height:100vh;overflow:hidden;display:grid;align-content:center;padding-block:0}\n/* בעמוד עברי הרצועה נשארת RTL, אבל המדידה של ScrollTrigger דורשת הקשר LTR על המעטפת */\n.ctr.mv-on .ctr-view{direction:ltr;overflow:hidden}\n.ctr.mv-on .ctr-track{padding-inline:44vw;direction:rtl}\n.ctr.mv-on .ctr-item{will-change:transform,filter}\n.ctr.mv-on .ctr-cap{display:block}","html":"<div class=\"ctr\"><div class=\"ctr-stage\">\n  <div class=\"ctr-view\"><div class=\"ctr-track\">\n    <article class=\"ctr-item\"><div class=\"ph ph-a\"><\/div><b>משרד עורכי דין<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-c\"><\/div><b>מותג קוסמטיקה<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-d\"><\/div><b>קורס דיגיטלי<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-e\"><\/div><b>פורטל לקוחות<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-b\"><\/div><b>קליניקה פרטית<\/b><\/article>\n    <article class=\"ctr-item\"><div class=\"ph ph-f\"><\/div><b>יבואן ריהוט<\/b><\/article>\n  <\/div><\/div>\n  <p class=\"ctr-cap\">גלול. מי שבמרכז גדל וחד, והשאר נסוגים.<\/p>\n<\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;   // בלי הספרייה נשארת שורה רגילה שגוללים לרוחב\n  const root=document.querySelector(\".ctr\"),track=root.querySelector(\".ctr-track\"),view=root.querySelector(\".ctr-view\");\n  const items=gsap.utils.toArray(\".ctr-item\");\n  // הבמה נדלקת רק כשהתנועה מותרת. בהפחתת תנועה אין הזזה אופקית עם הגלילה האנכית, אלא שורה שגוללים בעצמם\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"mv-on\");\n    const dist=()=>track.scrollWidth-view.clientWidth;\n\n    // הדעיכה נמדדת ביחידות של כרטיס אחד ולא של חצי מסך. עם חצי מסך גם השכן הצמוד\n    // מקבל כמעט את אותו גודל, ואז אין באמת פריט אחד שתופס את תשומת הלב.\n    const step=()=>{\n      const first=items[0].getBoundingClientRect();\n      const gap=items.length>1?Math.abs(items[1].getBoundingClientRect().left-first.left):first.width;\n      return gap||first.width||1;\n    };\n    const paint=()=>{\n      const mid=innerWidth/2,unit=step();\n      items.forEach(el=>{\n        const r=el.getBoundingClientRect();\n        const d=Math.min(1,Math.abs(r.left+r.width/2-mid)/(unit*1.7)); // 0 במרכז, 1 בערך שני כרטיסים משם\n        const f=1-d*d;                                             // דעיכה רכה בקצה, חדה במרכז\n        gsap.set(el,{scale:.84+f*.24,opacity:.5+f*.5,\n          filter:\"blur(\"+((1-f)*2.4).toFixed(2)+\"px)\",zIndex:Math.round(f*10)});\n      });\n    };\n\n    // בעברית הרצועה מתחילה בימין, ולכן היא נעה ל-x חיובי.\n    // הצביעה רצה מה-onUpdate של הטווין עצמו, כלומר רק כשהרצועה באמת זזה (כולל ההחלקה של ה-scrub),\n    // ולא בלולאה על כל פריים שמודדת וכותבת blur גם כשאף אחד לא גולל.\n    gsap.fromTo(track,{x:()=>-dist()},{x:0,ease:\"none\",onUpdate:paint,\n      scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.5,invalidateOnRefresh:true,onRefresh:paint}});\n    paint();\n    return ()=>root.classList.remove(\"mv-on\");\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
 </section>
 <nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g64.html" rel="prev"><small>→ הקודם</small><b>מדיה שעוברת בין שתי שכבות של הכותרת</b></a><a href="g66.html" rel="next"><small>הבא ←</small><b>רקע שמתחלף בין סקשנים בחשיפה מסכתית</b></a></nav>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
-<script src="../assets/baseline.js?v=6c25aa40"></script>
+<script src="../assets/baseline.js?v=2d22b6b5"></script>
 <script src="../assets/status.js"></script>
 <script src="../assets/tray.js"></script>
 <script>
@@ -169,41 +184,40 @@ document.querySelector(".mvid").addEventListener("click",function(){
 })();
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 (function(){
-  const track=document.querySelector(".ctr-track"),view=document.querySelector(".ctr-view");
+  if(typeof gsap==="undefined")return;   // בלי הספרייה נשארת שורה רגילה שגוללים לרוחב
+  const root=document.querySelector(".ctr"),track=root.querySelector(".ctr-track"),view=root.querySelector(".ctr-view");
   const items=gsap.utils.toArray(".ctr-item");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const dist=()=>track.scrollWidth-view.clientWidth;
-  // בעברית הרצועה מתחילה בימין, ולכן היא נעה ל-x חיובי
-  const move=gsap.fromTo(track,{x:-dist()},{x:0,ease:"none",
-    scrollTrigger:{trigger:".ctr",start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
-  if(reduce)return;
+  // הבמה נדלקת רק כשהתנועה מותרת. בהפחתת תנועה אין הזזה אופקית עם הגלילה האנכית, אלא שורה שגוללים בעצמם
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    const dist=()=>track.scrollWidth-view.clientWidth;
 
-  // הדעיכה נמדדת ביחידות של כרטיס אחד ולא של חצי מסך. עם חצי מסך גם השכן הצמוד
-  // מקבל כמעט את אותו גודל, ואז אין באמת פריט אחד שתופס את תשומת הלב.
-  const step=()=>{
-    const first=items[0].getBoundingClientRect();
-    const gap=items.length>1?Math.abs(items[1].getBoundingClientRect().left-first.left):first.width;
-    return gap||first.width||1;
-  };
-  const paint=()=>{
-    const mid=innerWidth/2,unit=step();
-    items.forEach(el=>{
-      const r=el.getBoundingClientRect();
-      const d=Math.min(1,Math.abs(r.left+r.width/2-mid)/(unit*1.7)); // 0 במרכז, 1 בערך שני כרטיסים משם
-      const f=1-d*d;                                             // דעיכה רכה בקצה, חדה במרכז
-      gsap.set(el,{scale:.84+f*.24,opacity:.5+f*.5,
-        filter:"blur("+((1-f)*2.4).toFixed(2)+"px)",zIndex:Math.round(f*10)});
-    });
-  };
+    // הדעיכה נמדדת ביחידות של כרטיס אחד ולא של חצי מסך. עם חצי מסך גם השכן הצמוד
+    // מקבל כמעט את אותו גודל, ואז אין באמת פריט אחד שתופס את תשומת הלב.
+    const step=()=>{
+      const first=items[0].getBoundingClientRect();
+      const gap=items.length>1?Math.abs(items[1].getBoundingClientRect().left-first.left):first.width;
+      return gap||first.width||1;
+    };
+    const paint=()=>{
+      const mid=innerWidth/2,unit=step();
+      items.forEach(el=>{
+        const r=el.getBoundingClientRect();
+        const d=Math.min(1,Math.abs(r.left+r.width/2-mid)/(unit*1.7)); // 0 במרכז, 1 בערך שני כרטיסים משם
+        const f=1-d*d;                                             // דעיכה רכה בקצה, חדה במרכז
+        gsap.set(el,{scale:.84+f*.24,opacity:.5+f*.5,
+          filter:"blur("+((1-f)*2.4).toFixed(2)+"px)",zIndex:Math.round(f*10)});
+      });
+    };
 
-  // הלולאה רצה רק כשהרצועה על המסך. בלי זה היא מודדת שישה אלמנטים בכל פריים
-  // לכל אורך העמוד, גם כשאין מה לראות.
-  let running=false;
-  const startLoop=()=>{if(!running){running=true;gsap.ticker.add(paint)}};
-  const stopLoop=()=>{if(running){running=false;gsap.ticker.remove(paint)}};
-  ScrollTrigger.create({trigger:".ctr",start:"top bottom",end:"bottom top",
-    onToggle:self=>self.isActive?startLoop():stopLoop()});
-  paint();
+    // בעברית הרצועה מתחילה בימין, ולכן היא נעה ל-x חיובי.
+    // הצביעה רצה מה-onUpdate של הטווין עצמו, כלומר רק כשהרצועה באמת זזה (כולל ההחלקה של ה-scrub),
+    // ולא בלולאה על כל פריים שמודדת וכותבת blur גם כשאף אחד לא גולל.
+    gsap.fromTo(track,{x:()=>-dist()},{x:0,ease:"none",onUpdate:paint,
+      scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true,onRefresh:paint}});
+    paint();
+    return ()=>root.classList.remove("mv-on");
+  });
 })();
 </script>
 </body>

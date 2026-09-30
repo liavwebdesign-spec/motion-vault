@@ -49,13 +49,19 @@ img{max-width:100%}
 @media (max-width:700px){.hx{height:78vh}.hx-sec{grid-template-columns:1fr;padding:64px var(--gutter, clamp(24px, 5vw, 96px))}.hx-hero{padding:112px var(--gutter, clamp(24px, 5vw, 96px)) 48px}}
 
 /* ---- shared header atoms ---- */
-.hlogo{font-weight:800;font-size:19px;white-space:nowrap;color:inherit}
-.hlink{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;font-size:15px;font-weight:500;color:inherit;opacity:.78;
+/* the logo link is 44px tall like every other control in the row; the rows centre their items, so nothing moves */
+.hlogo{display:inline-flex;align-items:center;justify-content:center;min-height:44px;font-weight:800;font-size:19px;white-space:nowrap;color:inherit;text-decoration:none}
+.hlink{display:inline-flex;align-items:center;min-height:44px;padding:0 14px;border-radius:999px;font-size:15px;font-weight:500;color:inherit;text-decoration:none;opacity:.78;
   transition:opacity .15s cubic-bezier(.2,.6,.2,1),background .18s cubic-bezier(.2,.6,.2,1)}
-.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
   font-size:14px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),background .3s cubic-bezier(.2,.6,.2,1),color .3s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
 @media (hover:hover) and (pointer:fine){.hlink:hover{opacity:1}.hbtn:hover{transform:translateY(-1px)}}
-.hd .burger{display:none}
+/* color:inherit: a button does not inherit colour by default, so currentColor lines were browser black on a dark hero (hd1, hd9) */
+.hd .burger{display:none;color:inherit}
+/* skip link: the first Tab stop on the page, out of sight until it has focus. On a real site it points at <main> */
+.hskip{position:absolute;inset-inline-start:16px;top:-64px;z-index:30;display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:10px;
+  background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:15px;font-weight:600;text-decoration:none}
+.hskip:focus{top:16px}
 /* a hidden header takes its shadow with it: the shadow reaches past the header's own edge (up to 56px on the floating
    ones), and translateY(-100%) left it as a grey band on every light screen while scrolling down (Profix audit, 23.9.2026) */
 .hd.is-hidden,.hd.is-hidden::before,.hd.is-hidden > *,.hd.is-hidden > *::before{box-shadow:none!important}
@@ -80,11 +86,16 @@ img{max-width:100%}
 .h8x.menu-open .h8-panel{grid-template-rows:1fr}
 .h8-panel>div{overflow:hidden}
 .h8-in{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;padding:8px 24px 24px}
-.h8-links a{display:block;padding:6px 0;font-size:clamp(24px,2.6vw,32px);font-weight:700;line-height:1.15;opacity:0;transform:translateY(12px);
+.h8-links a{display:block;padding:6px 0;font-size:clamp(24px,2.6vw,32px);font-weight:700;line-height:1.15;color:inherit;text-decoration:none;opacity:0;transform:translateY(12px);
   transition:opacity .15s cubic-bezier(.2,.6,.2,1),transform .15s cubic-bezier(.2,.6,.2,1),color .15s cubic-bezier(.2,.6,.2,1)}
 .h8x.menu-open .h8-links a{opacity:1;transform:none;transition-duration:.4s,.4s,.15s;transition-delay:calc(.12s + var(--i) * 45ms),calc(.12s + var(--i) * 45ms),0s}
 .h8-side{display:flex;flex-direction:column;justify-content:flex-end;gap:8px;font-size:15px;line-height:1.5;color:var(--muted, #6a6d85);opacity:0;transition:opacity .15s cubic-bezier(.2,.6,.2,1)}
-.h8-side a{color:var(--ink, #16182b)}
+.h8-side a{color:var(--ink, #16182b);text-decoration:none}
+/* the phone link was 23px tall: padding grows its box past 24px and the negative margin keeps the column exactly where it was;
+   ::after takes the hit area to about 47px */
+.h8-side a:not(.hbtn){position:relative;padding-block:4px;margin-block:-4px}
+.h8-side a:not(.hbtn)::after{content:"";position:absolute;inset:-8px 0}
+.h8-side a:not(.hbtn):focus-visible{outline:2px solid currentColor;outline-offset:2px;border-radius:4px}
 /* one CTA on screen: on desktop it lives in the bar, on mobile the bar drops it and the card carries it */
 .h8-side .hbtn{display:none;color:var(--accent-ink, #fff)}
 .h8x.menu-open .h8-side{opacity:1;transition:opacity .4s cubic-bezier(.2,.6,.2,1) .3s}
@@ -95,7 +106,7 @@ img{max-width:100%}
 <body>
 
 <div class="hx" data-scroller tabindex="0" aria-label="דמו: עמוד שנגלל">
-  <div class="hx-slot"><header class="h8x hd"><div class="h8-card"><div class="h8-bar"><a class="hlogo" href="#top">לוגו</a><button class="h8-toggle" type="button" aria-expanded="false" aria-controls="h8p"><span>תפריט</span><i aria-hidden="true"></i></button><a class="hbtn" href="#s3">להזמנת מקום</a></div>
+  <div class="hx-slot"><a class="hskip" href="#top">דלג לתוכן</a><header class="h8x hd"><div class="h8-card"><div class="h8-bar"><a class="hlogo" href="#top">לוגו</a><button class="h8-toggle" type="button" aria-expanded="false" aria-controls="h8p"><span>תפריט</span><i aria-hidden="true"></i></button><a class="hbtn" href="#s3">להזמנת מקום</a></div>
   <div class="h8-panel" id="h8p"><div><div class="h8-in"><nav class="h8-links" aria-label="ראשי"><a href="#top">ראשי</a><a href="#s1">התפריט</a><a href="#s2">אירועים</a><a href="#s3">הסיפור שלנו</a></nav><div class="h8-side"><span>שדרות רוטשילד 40, תל אביב</span><span>כל יום מ-18:00</span><a href="#s3">03-000-0000</a><a class="hbtn" href="#s3">להזמנת מקום</a></div></div></div></div></div></header></div>
   <section class="hx-hero" id="top"><small>ביסטרו שכונתי</small><h3>ארוחת ערב שנמשכת כל הערב</h3><p>לחצו על תפריט: הקפסולה עצמה נפתחת לכרטיס, בלי מגירה ובלי מסך נוסף. אותו תפריט בדיוק במובייל.</p></section>
   <section class="hx-sec" id="s1"><div><h4>גוללים למטה</h4><p>ההדר יוצא מהמסך ומפנה את כל הגובה לתוכן. אין סיבה שהוא יתפוס שבעים פיקסלים בזמן שקוראים.</p></div><div class="hx-blk"></div></section>
@@ -144,6 +155,16 @@ function headroom(el,opt){
   links.forEach(function(a){a.addEventListener("click",function(){set(false);});});
   document.addEventListener("click",function(e){if(!hd.contains(e.target))set(false);});
   hd.addEventListener("keydown",function(e){if(e.key==="Escape"&&hd.classList.contains("menu-open")){set(false);t.focus();}});
+  // Tab past the last link: the card closes instead of staying open over the page
+  var tab=false;
+  hd.addEventListener("keydown",function(e){if(e.key==="Tab"){tab=true;setTimeout(function(){tab=false;},0);}});
+  hd.addEventListener("focusout",function(e){
+    if(!hd.classList.contains("menu-open"))return;
+    // with no next stop on the page relatedTarget is null, so the Tab key itself is the signal. A click inside the card is not:
+    // it moves focus to a focusable ancestor at most (the demo's scroller), which is why an ancestor does not count as "out"
+    var to=e.relatedTarget;
+    if(to?!hd.contains(to)&&!to.contains(hd):tab)set(false);
+  });
 })();
 </script>
 </body>

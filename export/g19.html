@@ -55,9 +55,9 @@ img{max-width:100%}
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
 <div class="stage tight"><div class="coins">
-<div class="coin ph ph-e c1"><span class="ph-l">₪</span></div><div class="coin ph ph-a c2"><span class="ph-l">₪</span></div><div class="coin ph ph-b c3"><span class="ph-l">₪</span></div>
-<div class="coin ph ph-d c4"><span class="ph-l">₪</span></div><div class="coin ph ph-c c5"><span class="ph-l">₪</span></div><div class="coin ph ph-f c6"><span class="ph-l">₪</span></div>
-<div class="coin ph ph-b c7"><span class="ph-l">₪</span></div><div class="coin ph ph-a c8"><span class="ph-l">₪</span></div>
+<div class="coin ph ph-e"><span class="ph-l">₪</span></div><div class="coin ph ph-a"><span class="ph-l">₪</span></div><div class="coin ph ph-b"><span class="ph-l">₪</span></div>
+<div class="coin ph ph-d"><span class="ph-l">₪</span></div><div class="coin ph ph-c"><span class="ph-l">₪</span></div><div class="coin ph ph-f"><span class="ph-l">₪</span></div>
+<div class="coin ph ph-b"><span class="ph-l">₪</span></div><div class="coin ph ph-a"><span class="ph-l">₪</span></div>
 </div></div>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -65,12 +65,19 @@ img{max-width:100%}
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const tl=gsap.timeline({scrollTrigger:{trigger:".coins",start:"top 75%",end:"top 30%",scrub:1}});
-[["-2em",50,"left bottom"],["-2em",30,"top right"],["-2em",-50,"top center"],["-2em",50,"left bottom"],
- ["-4em",-30,"top center"],["-4em",30,"center bottom"],["-6em",-50,"top right"],["-8em",-30,"center center"]]
-.forEach((cfg,i)=>{
-  tl.from(".c"+(i+1),{y:cfg[0],rotate:cfg[1],transformOrigin:cfg[2],opacity:0,duration:1},0);
-});
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP החפצים כבר במקומם
+  // לכל פריט y שלילי, סיבוב וציר סיבוב משלו, וכך כל אחד נופל אחרת. מעבר לשמונה הרשימה חוזרת
+  const CFG=[["-2em",50,"left bottom"],["-2em",30,"top right"],["-2em",-50,"top center"],["-2em",50,"left bottom"],
+    ["-4em",-30,"top center"],["-4em",30,"center bottom"],["-6em",-50,"top right"],["-8em",-30,"center center"]];
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const tl=gsap.timeline({scrollTrigger:{trigger:".coins",start:"top 75%",end:"top 30%",scrub:1}});
+    gsap.utils.toArray(".coin").forEach((el,i)=>{
+      const c=CFG[i%CFG.length];
+      tl.from(el,{y:c[0],rotate:c[1],transformOrigin:c[2],opacity:0,duration:1},0);
+    });
+  });
+})();
 </script>
 </body>
 </html>

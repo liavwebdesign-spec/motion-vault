@@ -39,8 +39,11 @@ img{max-width:100%}
 .tt-body p{font-size:17px;line-height:1.9;color:var(--muted, #6a6d85);margin:0 0 1.4em}
 .tt-body h3{margin:1.6em 0 .4em}
 .ttop{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));inset-inline-end:24px;width:56px;height:56px;border-radius:50%;border:0;background:var(--card, #fff);color:var(--ink, #16182b);
-  box-shadow:0 10px 30px rgba(0,0,0,.14);cursor:pointer;display:grid;place-items:center;z-index:60;opacity:0;translate:0 16px;pointer-events:none;font-size:18px}
-.ttop.on{opacity:1;translate:0 0;pointer-events:auto}
+  box-shadow:0 10px 30px rgba(0,0,0,.14);cursor:pointer;display:grid;place-items:center;z-index:60;opacity:0;translate:0 16px;pointer-events:none;font-size:18px;
+  /* מוסתר גם ממקלדת. ה-visibility מתחלפת רק אחרי שהדהייה נגמרת, ובהופעה מיד */
+  visibility:hidden;transition:opacity .3s cubic-bezier(.2,.6,.2,1),translate .3s cubic-bezier(.2,.6,.2,1),visibility 0s .3s}
+.ttop.on{opacity:1;translate:0 0;pointer-events:auto;visibility:visible;transition-delay:0s}
+@media (prefers-reduced-motion:reduce){.ttop{translate:none}}
 .ttop svg{position:absolute;inset:-2px;width:calc(100% + 4px);height:calc(100% + 4px);transform:rotate(-90deg)}
 .ttop circle{fill:none;stroke-width:3}
 .ttop .trk{stroke:var(--line, #e4e4ee)}
@@ -71,12 +74,19 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 (function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה הכפתור לא מופיע, כי אין מי שיגלול אותו
   const btn=document.querySelector(".ttop"),bar=btn.querySelector(".bar");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // הטבעת מתמלאת לפי המסמך כולו, לא לפי הסקשן
-  gsap.to(bar,{strokeDashoffset:0,ease:"none",scrollTrigger:{trigger:document.documentElement,start:"top top",end:"bottom bottom",scrub:reduce?false:.3}});
-  ScrollTrigger.create({start:"top -80%",onToggle:s=>btn.classList.toggle("on",s.isActive)});   // מופיע אחרי מסך שלם
-  btn.addEventListener("click",()=>gsap.to(window,{scrollTo:0,duration:reduce?0:.9,ease:"power3.inOut"}));
+  gsap.matchMedia().add({motion:"(prefers-reduced-motion: no-preference)",reduce:"(prefers-reduced-motion: reduce)"},ctx=>{
+    const reduce=ctx.conditions.reduce;
+    // הטבעת מתמלאת לפי המסמך כולו, לא לפי הסקשן. בהפחתת תנועה היא צמודה לגלילה בלי החלקה: מד, לא אנימציה
+    gsap.to(bar,{strokeDashoffset:0,ease:"none",scrollTrigger:{trigger:document.documentElement,start:"top top",end:"bottom bottom",scrub:reduce?true:.3}});
+    // מופיע אחרי 80% ממסך ונשאר עד הסוף. בלי end מפורש הטריגר נגמר בדיוק בתחתית, והכפתור נעלם שם
+    ScrollTrigger.create({start:()=>innerHeight*.8,end:()=>ScrollTrigger.maxScroll(window)+1,
+      onToggle:s=>btn.classList.toggle("on",s.isActive)});
+    const up=()=>gsap.to(window,{scrollTo:0,duration:reduce?0:.9,ease:"power3.inOut"});
+    btn.addEventListener("click",up);
+    return ()=>{btn.removeEventListener("click",up);btn.classList.remove("on");};
+  });
 })();
 </script>
 </body>

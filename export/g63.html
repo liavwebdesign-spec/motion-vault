@@ -33,15 +33,21 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* G63 · סקשן שמתקפל כמו דף בגלילה */
-.fo{height:230vh;position:relative}
-.fo-stage{position:sticky;top:0;height:100vh;overflow:hidden;perspective:1400px;perspective-origin:50% 0%}
-.fo-page{position:absolute;inset:0;transform-origin:50% 0%;backface-visibility:hidden;
-  display:grid;place-items:center;text-align:center;padding:0 var(--gutter, clamp(24px, 5vw, 96px));will-change:transform}
-.fo-page.front{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);z-index:2}
-.fo-page.back{background:var(--bg, #f7f7fa);color:var(--ink, #16182b);z-index:1}
+/* בלי GSAP או בהפחתת תנועה: שני הדפים זה אחר זה, הקדמי ראשון (ב-DOM האחורי קודם, ולכן column-reverse).
+   הבמה והקיפול יושבים תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת */
+.fo-stage{display:flex;flex-direction:column-reverse}
+.fo-page{position:relative;display:grid;place-items:center;text-align:center;padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px))}
+.fo-page.front{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+.fo-page.back{background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}
 .fo-page h3{margin:0;font-size:clamp(28px,5vw,66px);max-width:16ch;line-height:1.12}
-.fo-page p{margin:14px 0 0;max-width:44ch;font-size:17px;line-height:1.8;opacity:.82}
+.fo-page p{margin:14px 0 0;max-width:44ch;font-size:17px;line-height:1.8;opacity:.82;text-wrap:pretty}
 .fo-shade{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;z-index:3}
+/* הבמה */
+.fo.mv-on{height:230vh;position:relative}
+.fo.mv-on .fo-stage{display:block;position:sticky;top:0;height:100vh;overflow:hidden;perspective:1400px;perspective-origin:50% 0%}
+.fo.mv-on .fo-page{position:absolute;inset:0;padding-block:0;transform-origin:50% 0%;backface-visibility:hidden;will-change:transform}
+.fo.mv-on .fo-page.front{z-index:2}
+.fo.mv-on .fo-page.back{z-index:1}
 </style>
 </head>
 <body>
@@ -60,14 +66,18 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const front=document.querySelector(".fo-page.front"),shade=document.querySelector(".fo-shade");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce)return;
-  gsap.timeline({scrollTrigger:{trigger:".fo",start:"top top",end:"bottom bottom",scrub:.6}})
-    // הציר למעלה, ולכן הדף נופל אחורה ולא מסתובב סביב המרכז
-    .fromTo(front,{rotateX:0},{rotateX:-82,ease:"none"},0)
-    // ההצללה גדלה עם הזווית, וזה מה שמוכר את התלת-ממד
-    .fromTo(shade,{opacity:0},{opacity:.55,ease:"none"},0);
+  if(typeof gsap==="undefined")return;   // בלי הספרייה שני הדפים עומדים זה אחר זה
+  const root=document.querySelector(".fo"),front=root.querySelector(".fo-page.front"),shade=root.querySelector(".fo-shade");
+  // הבמה נדלקת רק כשהתנועה מותרת. בהפחתת תנועה הדף הקדמי והדף שמתחתיו פשוט עומדים זה אחר זה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}})
+      // הציר למעלה, ולכן הדף נופל אחורה ולא מסתובב סביב המרכז
+      .fromTo(front,{rotateX:0},{rotateX:-82,ease:"none"},0)
+      // ההצללה גדלה עם הזווית, וזה מה שמוכר את התלת-ממד
+      .fromTo(shade,{opacity:0},{opacity:.55,ease:"none"},0);
+    return ()=>root.classList.remove("mv-on");
+  });
 })();
 </script>
 </body>

@@ -43,10 +43,15 @@ img{max-width:100%}
 .ftw{font-size:15px;line-height:1.6}
 .ftw a{color:inherit;text-decoration:none;transition:color .15s cubic-bezier(.2,.6,.2,1),opacity .15s cubic-bezier(.2,.6,.2,1)}
 .ftw h3{margin:0 0 12px;font-size:14px;font-weight:600;opacity:.62}
+/* a big closing line never leaves one word alone on its last row */
+.ftw :is(h2,h3){text-wrap:balance}
 .ftw ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.ft-tel{unicode-bidi:isolate;font-weight:600}
+/* the number hugs the start of its column (RTL: right) and never breaks between rows; stretched, dir=ltr pushed it left */
+.ft-tel{unicode-bidi:isolate;font-weight:600;justify-self:start;white-space:nowrap}
 .ft-legal{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;font-size:13px}
-.ft-legal p{margin:0;opacity:.7}
+.ft-legal p{margin:0}
+/* the credit fades once, on its link: fading the paragraph too gave 0.49 and failed contrast on the light footers */
+.ft-legal>p:not(.ft-credit){opacity:.7}
 .ft-legal nav{display:flex;flex-wrap:wrap;gap:8px 20px}
 .ft-legal nav a{opacity:.7}
 .ft-credit{margin-inline-start:auto!important}
@@ -61,6 +66,17 @@ img{max-width:100%}
 .ft-rv{opacity:0;transform:translateY(16px);transition:opacity .6s cubic-bezier(.2,.6,.2,1),transform .6s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}
 .is-in .ft-rv{opacity:1;transform:none}
 @media (max-width:760px){.ft-credit{margin-inline-start:0!important;flex-basis:100%}}
+/* phone: every footer link is a 44px row. The list gap moves inside the link, and a plain text row (an address) gets the
+   same height, so neighbouring columns stay level. Desktop does not move. */
+@media (pointer:coarse),(max-width:760px){
+  .ftw a:not(.ft-btn):not(.ft7-ok a){display:inline-flex;align-items:center;min-height:44px}
+  .ftw ul:not(.ft2-hours) li{display:flex;align-items:center;min-height:44px}
+  .ftw ul:not(.ft2-hours),.ft4-row>div,.ft8-row div{gap:0}
+  .ft4-row>div,.ft8-row div{align-content:start}
+  .ft4-row>div>span,.ft8-row div>span{display:flex;align-items:center;min-height:44px}
+  .ft7-row,.ft10-row{align-items:center}
+  .ft-legal,.ft-legal nav{row-gap:0}
+}
 @media (prefers-reduced-motion:reduce){.ftw *,.ft-rv{transition-duration:.01ms!important;transition-delay:0s!important}.ft-rv{opacity:1;transform:none}}
 .ft7{display:grid;gap:48px;padding:56px 32px 40px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
 .ft7-lead{display:grid;grid-template-columns:1fr 1.6fr;gap:32px;align-items:center;padding:32px;border-radius:20px;background:color-mix(in srgb,var(--bg, #f7f7fa) 7%,transparent)}
@@ -72,13 +88,19 @@ img{max-width:100%}
 .ft7-f input{min-height:52px;padding:0 16px;border-radius:12px;border:1.5px solid color-mix(in srgb,var(--bg, #f7f7fa) 22%,transparent);background:color-mix(in srgb,var(--bg, #f7f7fa) 6%,transparent);color:var(--bg, #f7f7fa);font:inherit;font-size:16px}
 .ft7-f input:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
 .ft7-f input[aria-invalid="true"]{border-color:color-mix(in srgb,var(--accent, #4a3aff) 60%,var(--bg, #f7f7fa))}
-.ft7-form .ft-btn{margin-top:24px}
-.ft7-ok{grid-column:1/-1;display:flex;gap:8px;align-items:flex-start;font-size:13px;opacity:.8}
+/* the consent comes before the button in the markup (fill top to bottom, Tab in the same order);
+   on desktop the grid still puts the button at the end of the first row and the consent under the fields */
+.ft7-form .ft-btn{margin-top:24px;grid-column:3;grid-row:1}
+.ft7-ok{grid-column:1/-1;grid-row:2;display:flex;gap:8px;align-items:flex-start;font-size:13px;opacity:.8}
 .ft7-ok input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--accent, #4a3aff)}
 .ft7-ok a{text-decoration:underline!important;text-underline-offset:3px}
 .ft7-msg{grid-column:1/-1;margin:0;min-height:22px;font-size:14px;font-weight:600}
 .ft7-row{display:flex;flex-wrap:wrap;gap:16px 48px}
-@media (max-width:900px){.ft7{padding:48px 20px 32px}.ft7-lead{grid-template-columns:1fr;padding:24px 20px}.ft7-form{grid-template-columns:1fr}.ft7-form .ft-btn{margin-top:0}}
+@media (max-width:900px){.ft7{padding:48px 20px 32px}.ft7-lead{grid-template-columns:1fr;padding:24px 20px}.ft7-form{grid-template-columns:1fr}.ft7-form .ft-btn{margin-top:0}
+  .ft7-form .ft-btn,.ft7-ok{grid-column:auto;grid-row:auto}}
+/* phone: the whole consent line is the target, the box sits inside it */
+@media (pointer:coarse),(max-width:760px){.ft7-ok{min-height:44px;align-items:center}.ft7-ok input{width:24px;height:24px;margin:0}
+  .ft7-ok a{display:inline-block;padding-block:4px;margin-block:-4px}}
 </style>
 </head>
 <body>
@@ -89,8 +111,8 @@ img{max-width:100%}
     <form class="ft7-form" novalidate>
       <div class="ft7-f"><label for="ft7n">שם</label><input id="ft7n" autocomplete="name" required></div>
       <div class="ft7-f"><label for="ft7p">טלפון</label><input id="ft7p" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required></div>
-      <button class="ft-btn" type="submit">שלחו</button>
       <label class="ft7-ok"><input type="checkbox" required> <span>קראתי ואני מסכים/ה ל<a href="#privacy">מדיניות הפרטיות</a></span></label>
+      <button class="ft-btn" type="submit">שלחו</button>
       <p class="ft7-msg" role="status" aria-live="polite"></p>
     </form></div>
   <div class="ft7-row"><span><a class="ft-tel" href="tel:+972500000000" dir="ltr">050-000-0000</a></span><span>התקנות בכל המרכז</span><a href="#ft7">שירותים</a><a href="#ft7">פרויקטים</a><a href="#ft7">אודות</a></div>
@@ -101,8 +123,13 @@ img{max-width:100%}
 <script>
 document.querySelectorAll("[data-year]").forEach(function(e){e.textContent=new Date().getFullYear();});
 function inView(el,f){
-  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0){off();f();}}
-  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);}
+  var done=false,io=null;
+  function go(){if(done)return;done=true;off();f();}
+  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0)go();}
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(io)io.disconnect();}
+  // the observer also catches a layout change that brings the footer on screen with no scroll event (content above
+  // it collapsing, a short page); the scroll check stays for where the observer is late or missing
+  if("IntersectionObserver" in window){io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting;}))go();},{rootMargin:"0px 0px -10% 0px"});io.observe(el);}
   addEventListener("scroll",chk,{passive:true});addEventListener("resize",chk);requestAnimationFrame(chk);setTimeout(chk,300);
 }
 (function(){

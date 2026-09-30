@@ -51,7 +51,8 @@ img{max-width:100%}
 [dir="ltr"] .ic-arr{rotate:180deg}
 .cx-rv{opacity:0;transform:translateY(16px);transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1);transition-delay:calc(var(--i,0) * 80ms)}
 .is-in .cx-rv{opacity:1;transform:none}
-.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+/* a time or a phone number never breaks between rows ("050-000" on one, "0000" on the next, at 500) */
+.cx-t{unicode-bidi:isolate;font-variant-numeric:tabular-nums;white-space:nowrap}
 /* the demo switch: lets the reviewer see every state. Not part of the component you copy. */
 .cx-demo{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 24px;padding:6px;border-radius:14px;background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent);font-size:13px;width:max-content;max-width:100%}
 .cx-demo > span{padding:0 10px;font-weight:600;color:var(--muted, #6a6d85)}
@@ -102,7 +103,7 @@ img{max-width:100%}
   <p class="ty-lead cx-rv" style="--i:1">ככה זה ממשיך מכאן, כדי שלא תצטרכו לנחש:</p>
   <ol class="ty-steps cx-rv" style="--i:2">
     <li class="is-done"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i><div><b>קיבלנו את הפנייה</b><small>היום, <span class="cx-t" data-now>14:32</span></small></div></li>
-    <li class="is-now"><i></i><div><b>שיחה קצרה איתך</b><small>בדרך כלל תוך שעתיים, בשעות הפעילות. נתקשר מ-<span class="cx-t" dir="ltr">050-000-0000</span>, כדאי לשמור אותו.</small></div></li>
+    <li class="is-now"><i></i><div><b>שיחה קצרה איתכם</b><small>בדרך כלל תוך שעתיים, בשעות הפעילות. נתקשר מ-<span class="cx-t" dir="ltr">050-000-0000</span>, כדאי לשמור אותו.</small></div></li>
     <li><i></i><div><b>הצעה מסודרת במייל</b><small>אחרי השיחה, בתוך יום עבודה</small></div></li>
   </ol>
   <div class="ty-more cx-rv" style="--i:3"><small>בינתיים, אם בא לכם</small><div><a href="#cv3">איך אנחנו עובדים <svg class="ic-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7"/></svg></a><a href="#cv3">פרויקטים אחרונים <svg class="ic-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7"/></svg></a></div></div>
@@ -111,8 +112,13 @@ img{max-width:100%}
 
 <script>
 function inView(el,f){
-  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0){off();f();}}
-  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);}
+  var done=false,io=null;
+  function go(){if(done)return;done=true;off();f();}
+  function chk(){var r=el.getBoundingClientRect();if(r.top<innerHeight*.9&&r.bottom>0)go();}
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(io)io.disconnect();}
+  // the observer also catches a layout change that brings the block on screen with no scroll event;
+  // the scroll check stays for where the observer is late or missing
+  if("IntersectionObserver" in window){io=new IntersectionObserver(function(es){if(es.some(function(x){return x.isIntersecting;}))go();},{rootMargin:"0px 0px -10% 0px"});io.observe(el);}
   addEventListener("scroll",chk,{passive:true});addEventListener("resize",chk);requestAnimationFrame(chk);setTimeout(chk,300);
 }
 function fireLead(){
@@ -121,9 +127,10 @@ function fireLead(){
   if(typeof window.fbq==="function")window.fbq("track","Lead");
 }
 (function(){
-  var root=document.getElementById("cv3"),q=new URLSearchParams(location.search),n="";
-  // the name: from ?name= (the form redirects with it) or from what the form stored; on a real site no demo fallback
-  try{n=q.get("name")||sessionStorage.getItem("lead-name")||"";}catch(e){}
+  var root=document.getElementById("cv3"),n="";
+  // the name: only from what the form stored in sessionStorage, never from ?name= in the address. The page address goes
+  // as is to analytics and to the pixel (page_location), and a lead's name must not. On a real site no demo fallback.
+  try{n=sessionStorage.getItem("lead-name")||"";}catch(e){}
   n=(n||root.getAttribute("data-demo-name")||"").trim().split(" ")[0];
   if(n)root.querySelector("[data-name]").textContent=n;else root.querySelector("[data-name-wrap]").remove();
   // 24h, both parts padded: after midnight "0:01" read as a glitch (Pitch QA, 24.9.2026)

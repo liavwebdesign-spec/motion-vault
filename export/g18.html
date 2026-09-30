@@ -39,8 +39,16 @@ img{max-width:100%}
 .scene .bgA,.scene .bgB{position:absolute;inset-inline:0;height:34%;border-radius:50% 50% 0 0/100% 100% 0 0;background:#2a2f55}
 .scene .bgA{top:-12%;transform:rotate(180deg)}.scene .bgB{bottom:-12%}
 .stitles{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center}
-.st1,.st2{position:absolute;color:#fff;font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));font-weight:700;max-width:20ch;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
-.smedia{position:relative;z-index:2;width:60vw;background:linear-gradient(135deg,#7048e8,#22b8cf);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700}
+.st1,.st2{color:#fff;font-size:var(--fs-demo, clamp(36px, 3vw + 0.5rem, 76px));font-weight:700;max-width:20ch;padding-inline:var(--gutter, clamp(24px, 5vw, 96px))}
+.scene.gsap-live .st1,.scene.gsap-live .st2{position:absolute}
+/* המדיה בגודל הסופי. הגלולה שממנה היא נפתחת היא חיתוך (--pill מ-1 ל-0) ו-scale, בלי להנפיש גובה או רדיוס */
+.smedia{--pill:0;--pill-h:22vw;--pill-r:24px;position:relative;z-index:2;width:60vw;height:82vh;background:linear-gradient(135deg,#7048e8,#22b8cf);display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px;font-weight:700}
+.scene.gsap-live .smedia{clip-path:inset(calc((100% - var(--pill-h)) / 2 * var(--pill)) 0px round calc(var(--pill-r) + (500vw - var(--pill-r)) * var(--pill)))}
+@media(max-width:767px){.smedia{width:88vw;height:62vh;--pill-h:40vw;--pill-r:20px}}
+/* בלי GSAP ובהפחתת תנועה: בלי נעילה, שתי הכותרות ואז המדיה, זו מתחת לזו */
+.scene:not(.gsap-live){height:auto;flex-direction:column;gap:32px;padding-block:15vh}
+.scene:not(.gsap-live) .stitles{position:relative;z-index:1;flex-direction:column;gap:16px}
+.scene:not(.gsap-live) .smedia{height:60vh;border-radius:24px}
 </style>
 </head>
 <body>
@@ -60,17 +68,27 @@ img{max-width:100%}
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger, SplitText);
 
-const t1=new SplitText(".st1",{type:"words"}),t2=new SplitText(".st2",{type:"words"});
-const tl=gsap.timeline({scrollTrigger:{trigger:".scene",start:"top 90%",end:"+=2600",scrub:1}});
-ScrollTrigger.create({trigger:".scene",start:"top top",end:"+=2200",pin:true,scrub:1,anticipatePin:1});
-tl.from(".bgA",{y:"-10vw",duration:1},0)
-  .from(".bgB",{y:"10vw",duration:1},0)
-  .from(t1.words,{y:50,opacity:0,stagger:.05,duration:.5},"-=0.5")
-  .to(".st1",{opacity:0,duration:.5},"+=0.3")
-  .from(t2.words,{y:50,opacity:0,stagger:.05,duration:.5})
-  .to(".st2",{opacity:0,duration:.4},"+=0.3")
-  .from(".smedia",{opacity:0,duration:.3})
-  .fromTo(".smedia",{scale:.2,borderRadius:"500vw",height:"22vw"},{scale:1,borderRadius:"24px",height:"82vh",duration:.8});
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הסצנה סטטית: שתי הכותרות ואז המדיה
+  const sc=document.querySelector(".scene");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    sc.classList.add("gsap-live");
+    const t1=new SplitText(".st1",{type:"words"}),t2=new SplitText(".st2",{type:"words"});
+    // אורך יחסי לגובה המסך: נעילה של 2.2 מסכים, בתוך התקרה של 2.5 מסכים לסצנה
+    const vh=k=>()=>"+="+Math.round(innerHeight*k);
+    const tl=gsap.timeline({scrollTrigger:{trigger:sc,start:"top 90%",end:vh(2.6),scrub:1}});
+    ScrollTrigger.create({trigger:sc,start:"top top",end:vh(2.2),pin:true,scrub:1,anticipatePin:1});
+    tl.from(".bgA",{y:"-10vw",duration:1},0)
+      .from(".bgB",{y:"10vw",duration:1},0)
+      .from(t1.words,{y:50,opacity:0,stagger:.05,duration:.5},"-=0.5")
+      .to(".st1",{opacity:0,duration:.5},"+=0.3")
+      .from(t2.words,{y:50,opacity:0,stagger:.05,duration:.5})
+      .to(".st2",{opacity:0,duration:.4},"+=0.3")
+      .from(".smedia",{opacity:0,duration:.3})
+      .fromTo(".smedia",{scale:.2,"--pill":1},{scale:1,"--pill":0,duration:.8});
+    return()=>{sc.classList.remove("gsap-live");t1.revert();t2.revert();};
+  });
+})();
 </script>
 </body>
 </html>

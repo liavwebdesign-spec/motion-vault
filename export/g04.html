@@ -58,19 +58,32 @@ img{max-width:100%}
 <script>
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger, SplitText);
 
-document.querySelectorAll(".t-clip").forEach(h=>{
-  const s=new SplitText(h,{type:"lines, words"});
-  gsap.from(s.words,{clipPath:"inset(100% 0% 0% 0%)",opacity:0,stagger:.5,
-    scrollTrigger:{trigger:h,start:"top 80%",end:"top 30%",scrub:1}});
-});
-document.querySelectorAll(".t-fade").forEach(h=>{
-  const s=new SplitText(h,{type:"lines, words"});
-  gsap.from(s.words,{opacity:.15,stagger:.5,scrollTrigger:{trigger:h,start:"top 80%",end:"top 30%",scrub:1}});
-});
-document.querySelectorAll(".t-wipe").forEach(h=>{
-  gsap.from(h,{clipPath:"inset(0% 0% 0% 100%)",ease:"power4.out",
-    scrollTrigger:{trigger:h,start:"top 70%",end:"top 40%",scrub:1}});
-});
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הכותרות פשוט גלויות
+  const st=(h,a,b)=>({trigger:h,start:a,end:b,scrub:1});
+  const mm=gsap.matchMedia();
+  mm.add({desk:"(min-width: 768px) and (prefers-reduced-motion: no-preference)",
+          mob:"(max-width: 767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const {desk,mob}=ctx.conditions;
+    if(!desk&&!mob)return;
+    const splits=[];
+    // עברית: מפצלים למילים בלבד. בלי lines: ב-RTL הפיצול לשורות מזהה כל כותרת כשורה אחת
+    const words=h=>{const s=new SplitText(h,{type:"words"});splits.push(s);return s.words;};
+    // רמה ב: המילים מתבהרות. stagger 0.5 בטווין scrub הוא חלק ממרחק הגלילה, לא מילישניות
+    const fade=h=>gsap.from(words(h),{opacity:.15,stagger:.5,scrollTrigger:st(h,"top 80%","top 30%")});
+    // רמה א: המילים עולות מ-clip. בטלפון clip על מילים קטנות מרצד, ולכן שם היא מקבלת את רמה ב
+    document.querySelectorAll(".t-clip").forEach(h=>{
+      if(mob)return fade(h);
+      gsap.from(words(h),{clipPath:"inset(100% 0% 0% 0%)",opacity:0,stagger:.5,scrollTrigger:st(h,"top 80%","top 30%")});
+    });
+    document.querySelectorAll(".t-fade").forEach(fade);
+    // רמה ג: הכותרת כולה נמחקת מהצד, בלי פיצול. scrub: הגלילה היא העקומה, ולכן ease:"none"
+    document.querySelectorAll(".t-wipe").forEach(h=>{
+      gsap.from(h,{clipPath:"inset(0% 0% 0% 100%)",ease:"none",scrollTrigger:st(h,"top 70%","top 40%")});
+    });
+    return()=>splits.forEach(s=>s.revert());
+  });
+})();
 </script>
 </body>
 </html>

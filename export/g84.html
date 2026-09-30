@@ -59,13 +59,16 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const secs=gsap.utils.toArray(".df-sec"),mob=matchMedia("(max-width:767px)").matches;
-  secs.slice(0,-1).forEach((sec,i)=>{
-    const tw={scale:.92,borderRadius:28,"--dim":.62,ease:"none",
-      scrollTrigger:{trigger:secs[i+1],start:"top bottom",end:"top top",scrub:.4}};
-    if(!mob)tw.filter="blur(6px)";   // blur יקר בטלפון; ההחשכה עצמה היא שכבת דיו ולא brightness
-    gsap.to(sec,tw);
+  if(typeof gsap==="undefined")return;
+  const secs=gsap.utils.toArray(".df-sec");
+  // בהפחתת תנועה אף תנאי לא מתקיים: הסקשנים נדבקים ומכסים זה את זה בלי התכווצות. בסיבוב טאבלט matchMedia מחליף גרסה
+  gsap.matchMedia().add({d:"(min-width:768px) and (prefers-reduced-motion: no-preference)",m:"(max-width:767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    secs.slice(0,-1).forEach((sec,i)=>{
+      const tw={scale:.92,borderRadius:28,"--dim":.62,ease:"none",
+        scrollTrigger:{trigger:secs[i+1],start:"top bottom",end:"top top",scrub:.4}};
+      if(ctx.conditions.d)tw.filter="blur(6px)";   // blur יקר בטלפון; ההחשכה עצמה היא שכבת דיו ולא brightness
+      gsap.to(sec,tw);
+    });
   });
 })();
 </script>
