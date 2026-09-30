@@ -40,18 +40,14 @@ img{max-width:100%}
 .ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}
 
 /* EDITORIAL · המסגרת העריכתית */
-.mvhud{position:fixed;bottom:16px;inset-inline-start:16px;z-index:99;display:flex;gap:10px;align-items:center;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:13px;padding:8px 10px 8px 14px;border-radius:8px;opacity:.94}
-.mvhud button{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);border:0;border-radius:6px;padding:6px 10px;font:inherit;font-size:13px;cursor:pointer}
 .ed-wrap{max-width:1300px;margin-inline:auto;padding-inline:24px}
 .ed [data-w]{position:relative;margin-inline:auto}
-.ed.frame [data-w]{outline:1px dashed var(--accent, #4a3aff);outline-offset:4px}
-.ed.frame [data-w]::before{content:attr(data-w);position:absolute;top:-22px;inset-inline-start:0;font-size:11px;color:var(--accent, #4a3aff);letter-spacing:.08em;background:var(--bg, #f7f7fa);padding:0 6px;white-space:nowrap}
 .ed-hero{text-align:center;padding-block:clamp(48px,6vw,96px) 40px}
 .ed-hero h2{font-size:var(--fs-h2, clamp(28px, 1.9vw + 0.5rem, 52px));margin:0 auto 16px;max-width:760px;line-height:1.15}
 .ed-hero p{color:var(--muted, #6a6d85);max-width:640px;margin:0 auto 32px;line-height:1.7}
 .ed-visual{max-width:1000px;aspect-ratio:16/7;margin-inline:auto;font-size:20px}
 .ed-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding-block:64px 0}
-.ed-card{background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);padding:28px}
+.ed-card{background:var(--card, #fff);border-radius:var(--r, 14px);padding:28px}
 .ed-card h3{margin:0 0 8px;font-size:20px}
 .ed-card p{margin:0;color:var(--muted, #6a6d85);font-size:15px;line-height:1.6}
 .ed-split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding-block:64px}
@@ -60,13 +56,12 @@ img{max-width:100%}
 .ed-split p{color:var(--muted, #6a6d85);margin:0;line-height:1.7}
 .ed-split .ph{aspect-ratio:4/3;font-size:18px}
 @media(max-width:1023px){.ed-cards{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:767px){.ed-cards{grid-template-columns:1fr;gap:20px}.ed-split{grid-template-columns:1fr;gap:20px}.ed-split .ph{order:2}.ed.frame [data-w]::before{font-size:10px}}
+@media(max-width:767px){.ed-cards{grid-template-columns:1fr;gap:20px}.ed-split{grid-template-columns:1fr;gap:20px}.ed-split .ph{order:2}}
 </style>
 </head>
 <body>
 
-<div class="mvhud"><span id="edhud"></span><button id="edtg" type="button">הסתר מסגרת</button></div>
-<div class="ed frame"><div class="ed-wrap">
+<div class="ed"><div class="ed-wrap">
   <div class="ed-hero">
     <h2 data-w="760 · ראש סקשן">כל בלוק מתכנס לרוחב מהסולם, אף פעם לא לרוחב שהומצא</h2>
     <p data-w="640 · measure, טקסט רץ">הכותרת רחבה מהליד שלה, הליד רחב מהמיקרו. זה המשפך שיוצר את התחושה העריכתית, בלי גריד של 12 עמודות.</p>
@@ -84,12 +79,6 @@ img{max-width:100%}
 </div></div>
 
 
-<script>
-const ed=document.querySelector(".ed"),hud=document.getElementById("edhud"),tg=document.getElementById("edtg"),cards=document.querySelector(".ed-cards");
-tg.addEventListener("click",()=>{ed.classList.toggle("frame");tg.textContent=ed.classList.contains("frame")?"הסתר מסגרת":"הצג מסגרת";});
-function upd(){const cols=getComputedStyle(cards).gridTemplateColumns.split(" ").length;
-  hud.textContent="רוחב: "+innerWidth+"px · קונטיינר: "+Math.min(1300,innerWidth-48)+"px · כרטיסים: "+cols+(cols===1?" עמודה":" עמודות");}
-addEventListener("resize",upd);upd();
-</script>
+
 </body>
 </html>

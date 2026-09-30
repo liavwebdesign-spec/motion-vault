@@ -34,27 +34,36 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* C10 · פס רץ (Band) */
+@property --pad{syntax:"<length>";inherits:true;initial-value:20px}
 .cwrap{container-type:inline-size}
 .cstage{--pad:clamp(20px,4cqi,64px);padding:clamp(36px,5cqi,80px) var(--pad)}
 .tx{height:11px;border-radius:6px;background:#dfe0ea;margin:9px 0}
 .tx.s{width:38%}.tx.m{width:62%}.tx.l{width:86%}
 .ttl{font-size:clamp(22px,2.6cqi,34px);font-weight:700;margin:0 0 10px;line-height:1.2}
 .lead{color:var(--muted, #6a6d85);margin:0 0 14px;font-size:15px;line-height:1.6}
-.btn{display:inline-block;background:var(--ink, #16182b);color:#fff;border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;margin-top:12px}
+.btn{display:inline-block;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;margin-top:12px}
 .cwrap .ph{font-size:clamp(14px,1.6cqi,20px)}
-.c10{margin-inline:calc(-1 * var(--pad));background:var(--ink, #16182b);color:#fff;padding:18px 0;overflow:hidden}
-.c10 .track{display:flex;gap:56px;width:max-content;white-space:nowrap;animation:c10 24s linear infinite;padding-inline:28px}
+.c10{margin-inline:calc(-1 * var(--pad));margin-block:clamp(24px,4cqi,48px);background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding:18px 0;overflow:hidden}
+/* שני סטים זהים, כל אחד רחב לפחות כמו המסך. חצי מסילה הוא בדיוק סט, ולכן הלולאה רציפה ולא מתרוקנת.
+   ב-RTL הפריטים נכנסים משמאל, בכיוון הקריאה; בעמוד LTR הכיוון מתהפך מעצמו (:dir) */
+.c10 .track{display:flex;width:max-content;animation:c10 14s linear infinite}
+.c10 .track:dir(ltr){animation-name:c10-ltr}
+.c10 .set{display:flex;flex-shrink:0;min-width:100vw;justify-content:space-around;gap:56px;padding-inline:28px;white-space:nowrap}
 .c10 .lg{font-weight:800;font-size:18px;letter-spacing:.06em;opacity:.85}
 @keyframes c10{to{transform:translateX(50%)}}
-@media (prefers-reduced-motion:reduce){.c10 .track{animation:none}}
+@keyframes c10-ltr{to{transform:translateX(-50%)}}
+@media (hover:hover) and (pointer:fine){.c10:hover .track{animation-play-state:paused}}
+.c10:focus-within .track{animation-play-state:paused}
+@container (max-width:767px){.c10 .track{animation-duration:7s}}
+@media (prefers-reduced-motion:reduce){.c10 .track,.c10 .track:dir(ltr){animation:none}}
 </style>
 </head>
 <body>
 
 <div class="cwrap cstage"><div class="tx m"></div><div class="tx l"></div>
 <div class="c10"><div class="track">
-  <span class="lg">LOGO</span><span class="lg">BRAND</span><span class="lg">STUDIO</span><span class="lg">HOUSE</span><span class="lg">LABS</span><span class="lg">GROUP</span>
-  <span class="lg">LOGO</span><span class="lg">BRAND</span><span class="lg">STUDIO</span><span class="lg">HOUSE</span><span class="lg">LABS</span><span class="lg">GROUP</span>
+  <div class="set"><span class="lg">LOGO</span><span class="lg">BRAND</span><span class="lg">STUDIO</span><span class="lg">HOUSE</span><span class="lg">LABS</span><span class="lg">GROUP</span></div>
+  <div class="set" aria-hidden="true"><span class="lg">LOGO</span><span class="lg">BRAND</span><span class="lg">STUDIO</span><span class="lg">HOUSE</span><span class="lg">LABS</span><span class="lg">GROUP</span></div>
 </div></div>
 <div class="tx l"></div><div class="tx m"></div></div>
 

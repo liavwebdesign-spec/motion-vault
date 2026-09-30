@@ -678,6 +678,7 @@ function briefFor(e, p) {
   L.push(`מה זה עושה: ${e.desc}`);
   L.push(`מתי משתמשים: ${e.when}`);
   placeBrief(L, e);
+  if (e.mobile) L.push(`קריסת מובייל: ${e.mobile}`);
   L.push("");
   L.push("כללי הטמעה:");
   L.push("1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.");
@@ -815,7 +816,7 @@ function page(e) {
   const isDoc = e.area === "doctrine";
   const isStyle = e.cat === "style";
   // the font switch acts on .ref; s05 and s05d are built on another wrapper and calibrated in the skin, so no switch there
-  const body = labelPh(isDoc ? `${BP_BAR}${isStyle && /class="[^"]*\bref\b/.test(e.html) ? "\n" + FONT_BAR : ""}\n<div class="bpwrap" data-bp="desktop">\n${e.html}\n</div>` : e.html);
+  const body = labelPh(isDoc ? `${BP_BAR}${isStyle && /class="[^"]*\bref\b/.test(e.html) ? "\n" + FONT_BAR : ""}\n<div class="bpwrap" data-bp="desktop">\n${e.html}\n</div>` : (e.demoHtml ? e.demoHtml + "\n" : "") + e.html);
   const libs = (e.libs || []).map(l => `<script src="${CDN[l]}"></script>`).join("\n");
   const register = (e.libs || []).filter(l => l !== "gsap" && !NON_GSAP.has(l)).join(", ");
   const runway = e.runway === false ? "" : `<div class="runway">גלול למטה, הדמו מגיע ↓</div>`;
@@ -830,7 +831,7 @@ ${FONT}
 ${fontLink(e)}${e.cat === "style" ? FRL_LINK : ""}
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
-${e.css || ""}
+${e.css || ""}${e.demoCss ? "\n/* פיגום של עמוד הדמו בלבד: לא בייצוא ולא בקוד להעתקה (30.9.2026) */\n" + e.demoCss : ""}
 </style>
 </head>
 <body>
@@ -886,7 +887,7 @@ document.querySelector(".mvid").addEventListener("click",function(){
   });
 })();
 ${register ? `if (typeof gsap !== "undefined") gsap.registerPlugin(${register});` : ""}
-${isDoc ? BP_JS + String.fromCharCode(10) + (isStyle ? FONT_JS + String.fromCharCode(10) : "") : ""}${e.js || ""}
+${isDoc ? BP_JS + String.fromCharCode(10) + (isStyle ? FONT_JS + String.fromCharCode(10) : "") : ""}${e.js || ""}${e.demoJs ? String.fromCharCode(10) + e.demoJs : ""}
 </script>
 </body>
 </html>`;
