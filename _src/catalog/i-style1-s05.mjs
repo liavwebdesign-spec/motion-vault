@@ -69,8 +69,10 @@ const TOKENS = `/* Google Sans בגודל האמיתי שלו. המאגר מגי
 .q .fld .msg .ico{width:16px;height:16px;color:var(--err)}
 .q .in:disabled,.q .in.is-disabled{background:var(--surface-muted);color:var(--muted);pointer-events:none}
 /* כרטיס, באדג', צ'יפ */
-.q .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-card);padding:26px;transition:border-color .18s var(--ease),transform .18s var(--ease),box-shadow .18s var(--ease)}
-.q .card.hv:hover,.q .card.is-hover{border-color:#d1d5db;transform:translateY(-2px);box-shadow:var(--shadow-soft)}
+/* כרטיס בלי גבול (storeos-quiet, 22.9.2026): משטח וגם גבול הם סימן AI. על סקשן לבן הכרטיס אפרפר, וההפרדה במשטח וברווח */
+.q .card{background:var(--surface-muted);border-radius:var(--r-card);padding:26px;transition:transform .18s var(--ease),box-shadow .18s var(--ease)}
+.q .card .body,.q .card .meta,.q .card .micro{color:var(--muted-strong)}
+.q .card.hv:hover,.q .card.is-hover{transform:translateY(-2px);box-shadow:var(--shadow-soft)}
 .q .badge{display:inline-block;font-size:12px;font-weight:600;line-height:1;padding:5px 12px 6px;border-radius:12px;background:var(--tint-12);color:var(--accent-text)}
 .q .chip{display:inline-flex;align-items:center;gap:8px;font-size:13px;line-height:1;padding:8px 12px 9px;border-radius:var(--r-control);border:1px solid var(--border);background:#fff;color:var(--ink)}
 .q .chip .ico{width:16px;height:16px;margin-top:-1px}
@@ -123,7 +125,7 @@ const FRAME_HTML = `<div class="frame reveal"><div class="bar"><i></i><i></i><i>
 // ───────── עמוד הייחוס גרסה 2 ─────────
 const PAGE_CSS = `${TOKENS}
 ${FRAME_CSS}
-.q .hd{position:sticky;top:0;z-index:20;height:64px;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding-inline:var(--gut);transition:box-shadow .18s var(--ease)}
+.q .hd{position:sticky;top:0;z-index:20;height:64px;background:var(--surface);display:flex;align-items:center;padding-inline:var(--gut);transition:box-shadow .18s var(--ease)}
 .q .hd.is-scrolled{box-shadow:var(--shadow-soft)}
 .q .hd .logo{display:inline-flex;align-items:center;gap:8px;font-size:19px;font-weight:600;line-height:1}
 .q .hd nav{position:absolute;inset-inline:0;margin-inline:auto;width:max-content;display:flex;gap:28px;font-size:13px;font-weight:500;color:var(--muted)}
@@ -157,7 +159,7 @@ ${FRAME_CSS}
 .q .plan .price{display:flex;align-items:baseline;gap:8px}
 .q .plan .price b{font-size:36px;font-weight:600;letter-spacing:-.02em;line-height:1}
 .q .plan ul{display:flex;flex-direction:column;gap:12px}
-.q .plan li{display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.68;color:var(--muted)}
+.q .plan li{display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.68;color:var(--muted-strong)}
 .q .plan li .ico{margin-top:3px}
 .q .plan .btn{width:100%}
 .q .form{max-width:640px;margin-inline:auto;display:flex;flex-direction:column;gap:20px}
@@ -169,7 +171,7 @@ ${FRAME_CSS}
 .q .band h2{color:#fff}
 .q .band .lead{color:rgba(255,255,255,.9);margin-inline:auto}
 .q .band .ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
-.q .ft{border-top:1px solid var(--border);padding:48px var(--gut) 0}
+.q .ft{padding:48px var(--gut) 0}
 .q .ft .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:40px}
 .q .ft .brand{display:flex;flex-direction:column;gap:14px}
 .q .ft .brand .logo{display:inline-flex;align-items:center;gap:8px;font-size:20px;font-weight:600;line-height:1}
@@ -178,7 +180,7 @@ ${FRAME_CSS}
 .q .ft .col .meta{color:var(--ink);margin-bottom:4px}
 .q .ft .col a{font-size:13px;padding-block:4px;color:var(--muted);transition:color .18s var(--ease)}
 .q .ft .col a:hover{color:var(--ink)}
-.q .ft .legal{border-top:1px solid var(--border);padding:20px 0;text-align:center}
+.q .ft .legal{padding:20px 0;text-align:center}
 @container (max-width:1023px){.q .stats{gap:24px}.q .stat b{font-size:51px}.q .ft .cols{grid-template-columns:1fr 1fr}}
 @container (max-width:767px){.q .hd nav,.q .hd .acts .login{display:none}.q .hd .acts .btn{width:auto;min-height:44px}.q .lnk{padding-block:12px}.q .g3,.q .plans,.q .stats,.q .form .row{grid-template-columns:1fr}.q .stat b{font-size:44px}.q .proof{padding-top:calc(var(--sec) + 56px)}.q .plan.rec{order:-1}.q .ft .cols{grid-template-columns:1fr;gap:28px}.q .state{padding-block:calc(var(--sec) * 1.25)}}`;
 
@@ -302,7 +304,7 @@ const DET_HTML = `<div class="cwrap sk-s05"><div class="q"><div class="det">
 <p class="micro">16px כדי שאייפון לא יזום. תווית 13/500 ink מעל. שגיאה = צבע + טקסט + אייקון, לעולם לא צבע לבד.</p></div>
 
 <div class="blk"><h3>כרטיס, באדג', צ'יפים</h3>
-<div class="rowx">${cell("כרטיס · רגיל", `<article class="card" style="width:280px;display:flex;flex-direction:column;gap:14px">${I.zap}<h3>כותרת הכרטיס</h3><p class="body">אייקון accent, כותרת 19, טקסט 15 muted.</p></article>`)}${cell("hover", `<article class="card is-hover" style="width:280px;display:flex;flex-direction:column;gap:14px">${I.zap}<h3>כותרת הכרטיס</h3><p class="body">גבול כהה יותר, 2px למעלה, צל רך. סיגנל אחד.</p></article>`)}
+<div class="rowx">${cell("כרטיס · רגיל", `<article class="card" style="width:280px;display:flex;flex-direction:column;gap:14px">${I.zap}<h3>כותרת הכרטיס</h3><p class="body">אייקון accent, כותרת 19, טקסט 15 muted-strong. אפרפר על לבן, בלי גבול.</p></article>`)}${cell("hover", `<article class="card is-hover" style="width:280px;display:flex;flex-direction:column;gap:14px">${I.zap}<h3>כותרת הכרטיס</h3><p class="body">2px למעלה וצל רך. סיגנל אחד, בלי גבול.</p></article>`)}
 ${cell("באדג'", `<span class="badge">מומלץ</span>`)}${cell("צ'יפ", `<span class="chip">${I.check}מדבקות משלוח</span>`)}${cell("צ'יפ מנוטרל", `<span class="chip off">${I.check}אין אצל אחרים</span>`)}</div></div>
 
 <div class="blk"><h3>eyebrow, מספרים, קו הדגשה</h3>
@@ -317,7 +319,7 @@ ${cell("באדג'", `<span class="badge">מומלץ</span>`)}${cell("צ'יפ", `
 
 <div class="blk"><h3>מפרידים ורדיוסים</h3>
 <div class="rowx">${cell("hairline · border #eaeaea", `<hr class="hr" style="width:220px">`)}${cell("r-control 12", `<div style="width:64px;height:44px;border:1px solid var(--border-2);border-radius:var(--r-control)"></div>`)}${cell("r-card 16", `<div style="width:64px;height:64px;border:1px solid var(--border);border-radius:var(--r-card)"></div>`)}${cell("pill 999 (מונים בלבד)", `<div style="width:64px;height:24px;background:var(--tint-12);border-radius:999px"></div>`)}${cell("צל רך", `<div style="width:64px;height:64px;border-radius:var(--r-card);background:#fff;box-shadow:var(--shadow-soft)"></div>`)}</div>
-<p class="micro">מפריד אחד לכל העמוד: קו שיער בצבע הגבול. אין קווים עבים ואין קווים אפורים אקראיים. צל דרמטי שמור לוויז'ואל ההירו בלבד.</p></div>
+<p class="micro">קו השיער בצבע הגבול שמור לשדות, לטבלה, לאקורדיון ולמסגרת הדפדפן. סקשנים, כרטיסים, הדר ופוטר נפרדים במשטח וברווח, לא בקו. צל דרמטי שמור לוויז'ואל ההירו בלבד.</p></div>
 </div></div></div>`;
 
 const base = {
@@ -331,8 +333,8 @@ ink #111 · muted #6b7280 · muted-strong #4b5563 · border #eaeaea · border-2 
 r-control 12 · r-card 16 · ease cubic-bezier(.2,.6,.2,1) · shadow-soft 0 6px 20px rgba(17,24,39,.08)
 Google Sans (פקטור 0.94, λ 1.05): H1 45/1.13/-.01em · H2 32/1.21 · H3 19/1.37 · ליד 17/1.58 · גוף 15/1.68 · meta 13/500 · סטט 68/-.02em · מחיר 36 · שדות 16 (לא פחות: אייפון מזיז זום)
 סקשן var(--sec) (בדמו העריכתי 112 / 88 / 64) · טקסט רץ 640 · ראש סקשן 760`,
-  apply: "צבע אחד עושה הכל: accent בעשרה מקומות סגורים (כפתור ראשי, אייקונים, מצב אקטיבי, סטט ענק, קו הדגשה, צ'יפ סטט, באדג', רצועת CTA, טבעת פוקוס, V ברשימות) ואסור בכותרות. רקעים לסירוגין לבן/אפרפר, רצועת CTA אחת לפני הפוטר (ב-btn-solid, הגוון הכהה של ה-accent, כדי שהלבן עליה יעבור AA). הדר 64 דביק עם צל בגלילה, ניווט ממורכז אבסולוטית. ויז'ואל = מסגרת דפדפן אפורה (לא עיגולי צבע) שחוצה את גבול ההירו.",
-  sig: "מסגרת דפדפן שחוצה מהירו לסקשן ההוכחה · סטט ענק 86 ב-accent עם count-up של 0.7 שניות · קו מיקרו-הדגשה אחד לסקשן · קישור טקסט+חץ כרמה שלישית.",
+  apply: "צבע אחד עושה הכל: accent בעשרה מקומות סגורים (כפתור ראשי, אייקונים, מצב אקטיבי, סטט ענק, קו הדגשה, צ'יפ סטט, באדג', רצועת CTA, טבעת פוקוס, V ברשימות) ואסור בכותרות. רקעים לסירוגין לבן/אפרפר, רצועת CTA אחת לפני הפוטר (ב-btn-solid, הגוון הכהה של ה-accent, כדי שהלבן עליה יעבור AA). הדר 64 דביק בלי קו, והצל בגלילה לבדו מסמן את הגבול; ניווט ממורכז אבסולוטית. כרטיסים בלי גבול: אפרפר על סקשן לבן, ההפרדה במשטח וברווח, ופוטר בלי קווים. ויז'ואל = מסגרת דפדפן אפורה (לא עיגולי צבע) שחוצה את גבול ההירו.",
+  sig: "מסגרת דפדפן שחוצה מהירו לסקשן ההוכחה · סטט ענק 68 ב-accent עם count-up של 0.7 שניות · קו מיקרו-הדגשה אחד לסקשן · קישור טקסט+חץ כרמה שלישית.",
   avoid: "ריק אינו מינימליזם, עמוד בלי מתח טיפוגרפי הוא סתם ריק · כותרת צבעונית · שני צבעי אייקונים באותו בלוק · שני אפרפרים רצופים · גרדיאנט או צל כבד על כפתור · pill על כפתורים.",
   qa: ["accent רק בעשרת המקומות", "H1 ink ולא accent", "אין שני אפרפרים רצופים", "רצועת accent אחת בלבד", "focus ring accent על כל אינטראקטיבי", "reveal ב-keyframes ולא ב-transition"],
   engine: "טקסט צבעוני קטן תמיד accent-text; אפור על אפרפר תמיד muted-strong (גם הליד); 16px בשדות ב-Google Sans; reduced-motion מכבה reveal ו-hover transforms, ו-count-up ממשיך לספור (motion.md סעיף 4), עם הערך הסופי כתוב ב-HTML.",

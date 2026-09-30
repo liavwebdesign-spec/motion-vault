@@ -77,10 +77,10 @@ CTA בלעדי: gradient #CF3A7B ל-#CC4A12, לבן עובר עליו AA בכל 
 מלכודת: קלאס זכוכית עם overflow:hidden (בשביל ההבזק הנודד) חותך ילדים שחורגים מהקופסה (עיגולי מספור, באדג'ים צפים). לאלמנטים כאלה בונים זכוכית ידנית בלי overflow ובלי ::after, או מוציאים את הילד החורג מחוץ לקופסה.
 מהלכים שעבדו: מילת ענק שקופה מאחורי ההירו (background-clip:text על gradient אנכי לבן .09 ל-.012; במובייל לשבור לשתי שורות, nowrap גולש מעבר למסך) · אייקוני גרדיאנט 52px בכרטיסים (כל כרטיס גרדיאנט אחר מהפלטה) · לוגו או אלמנט מותג צף חופשי עם drop-shadow צבעוני כפול במקום בתוך מסגרת · טיימליין מתמלא B18.`,
   agent: "עצב בסגנון Liquid Glass של Apple: הדר וכפתורים כזכוכית חיה עם עיוות עדשה והבזק אור נודד, תנועה איטית ונוזלית; התוכן על משטחים רגילים.",
-  note: "בדמו: זכוכית חיה רק על ההדר, הכפתורים והחבילה הנבחרת (קצה עדשה + הבזק ב-hover, .7s). הכרטיסים הרגילים על משטח רגיל. המילה הענקית מאחורי עמודת הטקסט בהירו (לא מאחורי הוויז'ואל, שם רואים רק שברי אותיות) היא הערך שנלטש בדף הקורס. ה-CTA בגרדיאנט העמוק של הפלטה, כדי שהלבן עליו יעבור AA.",
+  note: "בדמו: זכוכית חיה רק על ההדר, הכפתורים והחבילה הנבחרת (קצה עדשה + הבזק ב-hover, .7s). הכרטיסים הרגילים על משטח רגיל. שתי הילות בלבד, ברמת העמוד (סגולה למעלה, ורודה בצד), כמו הכלל של השפה; הוויז'ואל עצמו בלי כתמים. המילה הענקית מאחורי עמודת הטקסט בהירו (לא מאחורי הוויז'ואל, שם רואים רק שברי אותיות) היא הערך שנלטש בדף הקורס. ה-CTA בגרדיאנט העמוק של הפלטה, כדי שהלבן עליו יעבור AA.",
   css: `.sk-s08 .ref{--s-bg:#08070C;--s-surface:#12101B;--s-ink:#F6F4FB;--s-muted:rgba(246,244,251,.72);--s-line:rgba(255,255,255,.1);--s-accent:linear-gradient(135deg,#CF3A7B,#CC4A12);--s-accent-ink:#fff;--s-accent-txt:#FF8FB8;--s-r:18px;--s-btn-r:999px;--s-ph:#12101B;--s-ph-ink:rgba(246,244,251,.6);
  --s-card-b:1px solid rgba(255,255,255,.08);--s-card-sh:none;--s-ghost-bg:rgba(255,255,255,.07);--s-ghost-b:1px solid rgba(255,255,255,.16);--s-ghost-ink:#F6F4FB;--s-in-b:1px solid rgba(255,255,255,.14);--s-in-bg:rgba(255,255,255,.06);--s-in-r:999px;--s-hi-bg:rgba(255,255,255,.07);--s-hi-b:1px solid rgba(255,255,255,.18);--s-ico-bg:linear-gradient(135deg,#8A5CFF,#2E6BFF);--s-form-bg:#12101B;--s-hd-bg:rgba(255,255,255,.06);--s-hd-line:1px solid rgba(255,255,255,.12);
- background:radial-gradient(50% 40% at 20% 0%,rgba(138,92,255,.35),transparent 70%),radial-gradient(40% 35% at 85% 30%,rgba(255,61,138,.25),transparent 70%),radial-gradient(45% 40% at 50% 100%,rgba(46,107,255,.28),transparent 70%),#08070C}
+ background:radial-gradient(50% 40% at 20% 0%,rgba(138,92,255,.35),transparent 70%),radial-gradient(40% 35% at 85% 30%,rgba(255,61,138,.25),transparent 70%),#08070C}
 .sk-s08 .btn{font-size:18px;font-weight:700;position:relative;overflow:hidden;transition:transform .6s cubic-bezier(.2,.6,.2,1),box-shadow .6s}
 .sk-s08 .btn.sm{font-size:15px}
 .sk-s08 .btn.ghost,.sk-s08 .hd,.sk-s08 .price.hi,.sk-s08 .in{backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:inset 0 0 18px rgba(255,255,255,.05)}
@@ -90,8 +90,7 @@ CTA בלעדי: gradient #CF3A7B ל-#CC4A12, לבן עובר עליו AA בכל 
 .sk-s08 .hero::before{content:"אור";position:absolute;inset-inline-start:0;top:0;font-size:clamp(120px,28cqi,360px);font-weight:800;line-height:1;background:linear-gradient(#fff,rgba(255,255,255,.1));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.09;pointer-events:none;z-index:0}
 .sk-s08 .hero-t,.sk-s08 .hero-v{position:relative;z-index:1}
 .sk-s08 .hero-v{border:1px solid rgba(255,255,255,.1)}
-.sk-s08 .hv-a{position:absolute;width:60%;height:60%;inset-inline-start:-15%;top:-15%;border-radius:50%;background:radial-gradient(circle,rgba(138,92,255,.7),transparent 70%);filter:blur(14px)}
-.sk-s08 .hv-b{position:absolute;width:55%;height:55%;inset-inline-end:-12%;bottom:-12%;border-radius:50%;background:radial-gradient(circle,rgba(255,61,138,.6),transparent 70%);filter:blur(14px)}
+.sk-s08 .hv-a,.sk-s08 .hv-b{display:none}
 .sk-s08 .hv-l{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);padding:8px 18px;border-radius:999px;backdrop-filter:blur(12px)}
 .sk-s08 .bens .card:nth-child(2) .ico{background:linear-gradient(135deg,#FF3D8A,#FF7A2F)}
 .sk-s08 .bens .card:nth-child(3) .ico{background:linear-gradient(135deg,#2E6BFF,#8A5CFF)}
