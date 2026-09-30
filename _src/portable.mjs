@@ -124,6 +124,7 @@ export function standalone(e, CDN, NON_GSAP) {
 <meta name="robots" content="noindex, nofollow">
 <title>${e.id.toUpperCase()} · ${e.name}</title>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+${e.fonts && e.fonts.length ? `<link href="https://fonts.googleapis.com/css2?${e.fonts.map(f => "family=" + f.replace(/ /g, "+")).join("&")}&display=swap" rel="stylesheet"><!-- פונט התצוגה של השפה, כמו בעמוד הדמו (30.9.2026: בלעדיו הקובץ העצמאי נראה אחרת) -->` : ""}
 <style>
 /* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
 :root{

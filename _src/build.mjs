@@ -639,7 +639,7 @@ function briefFor(e, p) {
     L.push("2. עור אחד לעמוד. לעולם לא מערבבים שפות באותו עמוד.");
     L.push("3. הקוד למטה הוא עמוד ייחוס ניטרלי (הדר, הירו, יתרונות, חבילות, טופס) שלבוש בשפה הזאת. הוא נקודת פתיחה לעור: לוקחים את משתני ה---s-* ואת מהלכי החתימה, ומחליפים את התוכן, הפונטים והגריד בשל הפרויקט.");
     L.push("4. המנוע לא מתפשר: כיול פונטים, סולם ריווחים, גריד, RTL ונגישות AA נשמרים גם בשפה הקיצונית ביותר.");
-    if (e.fonts && e.fonts.length) L.push(`5. הדמו טוען מגוגל: ${e.fonts.join(", ")}. בפרויקט מכיילים לפי engine/font-calibration.md.`);
+    if (e.fonts && e.fonts.length) L.push(`5. הדמו טוען מגוגל: ${e.fonts.join(", ")}, כמחליף ציבורי בלבד. בפרויקט לא משתמשים בהם: בוחרים צימוד מ-library/fonts.md לפי אופי העסק, ומכיילים לפי engine/font-calibration.md.`);
     L.push("");
     L.push("=== CSS ===");
     L.push(p.css);
@@ -794,7 +794,7 @@ const FONT_BAR = `<div class="bpbar fontbar"><span class="flabel">פונט מכ�
 const FONT_JS = `(function(){var F=${JSON.stringify(FONTS)},bs=[].slice.call(document.querySelectorAll(".bpbtn[data-font]")),refs=[].slice.call(document.querySelectorAll(".ref"));
 var c=document.createElement("canvas").getContext("2d");function has(fam){c.font="40px __none__";var a=c.measureText("אבגדהוזחטי abc").width;c.font="40px '"+fam+"', __none__";return Math.abs(c.measureText("אבגדהוזחטי abc").width-a)>.5;}
 function apply(id){var f=F.filter(function(x){return x.id===id})[0]||F[0];refs.forEach(function(r){r.style.setProperty("--s-font",f.stack);r.style.setProperty("--s-fz",f.fz);r.style.setProperty("--s-lh",f.lh);});bs.forEach(function(b){b.classList.toggle("on",b.dataset.font===f.id)});try{localStorage.setItem("mv-font",f.id)}catch(e){}}
-function init(){bs.forEach(function(b){var f=F.filter(function(x){return x.id===b.dataset.font})[0];if(f.local&&!has(f.family)){b.disabled=true;b.title="לא מותקן במחשב הזה";}b.addEventListener("click",function(){apply(b.dataset.font)});});var s=null;try{s=localStorage.getItem("mv-font")}catch(e){}if(s){var b=bs.filter(function(x){return x.dataset.font===s})[0];if(b&&!b.disabled)apply(s);}}
+function init(){bs.forEach(function(b){var f=F.filter(function(x){return x.id===b.dataset.font})[0];if(f.local&&!has(f.family)){b.disabled=true;b.title="לא מותקן במחשב הזה";}b.addEventListener("click",function(){apply(b.dataset.font)});});var s=null;try{s=localStorage.getItem("mv-font")}catch(e){}var b0=s&&bs.filter(function(x){return x.dataset.font===s})[0];apply(b0&&!b0.disabled?s:"heebo");}
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(init);else init();})();`;
 const BP_JS = `(function(){var w=document.querySelector(".bpwrap"),bs=[].slice.call(document.querySelectorAll(".bpbtn[data-bp]"));
 function set(v){bs.forEach(function(x){x.classList.toggle("on",x.dataset.bp===v)});w.dataset.bp=v;try{localStorage.setItem("mv-bp",v)}catch(e){}}
@@ -814,7 +814,8 @@ function sibs(e) {
 function page(e) {
   const isDoc = e.area === "doctrine";
   const isStyle = e.cat === "style";
-  const body = labelPh(isDoc ? `${BP_BAR}${isStyle ? "\n" + FONT_BAR : ""}\n<div class="bpwrap" data-bp="desktop">\n${e.html}\n</div>` : e.html);
+  // the font switch acts on .ref; s05 and s05d are built on another wrapper and calibrated in the skin, so no switch there
+  const body = labelPh(isDoc ? `${BP_BAR}${isStyle && /class="[^"]*\bref\b/.test(e.html) ? "\n" + FONT_BAR : ""}\n<div class="bpwrap" data-bp="desktop">\n${e.html}\n</div>` : e.html);
   const libs = (e.libs || []).map(l => `<script src="${CDN[l]}"></script>`).join("\n");
   const register = (e.libs || []).filter(l => l !== "gsap" && !NON_GSAP.has(l)).join(", ");
   const runway = e.runway === false ? "" : `<div class="runway">גלול למטה, הדמו מגיע ↓</div>`;
