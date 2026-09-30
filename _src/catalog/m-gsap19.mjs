@@ -5,7 +5,7 @@
 export default [
 {
   id:"g74", cat:"gsap", name:"משקל הפונט זורם בגלילה", tech:"GSAP · ScrollTrigger", status:"ממתין",
-  desc:"כותרת גדולה שהמילים בה מתעבות מדק לשמן בגל שעובר משמאל לימין עם הגלילה, וחוזר. פונט משתנה עושה את זה בלי שום שכבה נוספת.",
+  desc:"כותרת גדולה שהמילים בה מתעבות מדק לשמן בגל שעובר מימין לשמאל, בכיוון הקריאה, עם הגלילה, וחוזר. פונט משתנה עושה את זה בלי שום שכבה נוספת.",
   when:"כותרת מניפסט, משפט ערך מרכזי, פתיח לסקשן. פעם אחת בעמוד, על פונט משתנה (Heebo, Ploni Variable).",
   note:"דורש פונט משתנה עם ציר משקל רציף. הדמו רץ על Heebo (100 עד 900). אסור להצהיר font-variation-settings ב-CSS: היא דורסת את font-weight, האנימציה רצה ושום דבר לא נראה. font-weight היא תכונת layout שגורמת reflow, לכן מנפישים מילה-מילה בסקראב ולא באנימציה רצה, ובמובייל הטווח קטן (300 עד 700) כדי שהשורות לא יישברו מחדש.",
   libs:["gsap","ScrollTrigger"],
@@ -37,15 +37,17 @@ export default [
   id:"g76", cat:"gsap", name:"סמן-תווית שמשתנה לפי האלמנט", tech:"GSAP · quickTo", status:"ממתין", runway:false,
   desc:"עיגול קטן שעוקב אחרי הסמן, ומעל תמונות וקישורים הוא גדל ומקבל מילה: \"צפייה\", \"פתיחה\", \"גרירה\". הסמן הופך להנחיה.",
   when:"גלריות עבודות, רשימות פרויקטים, קרוסלות. דסקטופ בלבד: במגע הסמן לא קיים והתווית עוברת לכיתוב קבוע על הפריט.",
-  note:"התווית נקראת מ-data-cursor על האלמנט, לכן מוסיפים אלמנטים בלי לגעת ב-JS. quickTo מחליק את התנועה בלי ליצור טווין חדש בכל אירוע. במגע: הכיתוב מוצג כתג סטטי בפינת התמונה.",
+  note:"התווית נקראת מ-data-cursor על האלמנט, לכן מוסיפים אלמנטים בלי לגעת ב-JS. quickTo מחליק את התנועה בלי ליצור טווין חדש בכל אירוע. במגע, בעכבר גס, בהפחתת תנועה או כשהספרייה לא נטענה: הכיתוב מוצג כתג סטטי בפינת התמונה והסמן הרגיל נשאר. הסמן מוסתר והתג יורד רק תחת `.mv-on`, שהסקריפט מוסיף כשיש עכבר מדויק, ריחוף ותנועה מותרת, כך שאין מצב שבו גם הסמן הרגיל וגם התווית נעלמים.",
   libs:["gsap"],
   css:`.lc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
-.lc-item{position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;cursor:none}
+.lc-item{position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;cursor:pointer}
 .lc-item .ph{position:absolute;inset:0;border-radius:0;font-size:22px}
-.lc-tag{position:absolute;bottom:12px;inset-inline-start:12px;background:var(--ink);color:var(--bg);font-size:12px;padding:6px 12px;border-radius:999px;display:none}
+/* התג הקבוע הוא ברירת המחדל: במגע, בעכבר גס, בהפחתת תנועה ובלי GSAP. הסמן-תווית מחליף אותו רק תחת .mv-on */
+.lc-tag{position:absolute;bottom:12px;inset-inline-start:12px;background:var(--ink);color:var(--bg);font-size:12px;padding:6px 12px;border-radius:999px}
+.lc-grid.mv-on .lc-item{cursor:none}
+.lc-grid.mv-on .lc-tag{display:none}
 .lc-cur{position:fixed;top:0;left:0;width:14px;height:14px;border-radius:50%;background:var(--accent);color:var(--accent-ink);pointer-events:none;z-index:99;
   display:grid;place-items:center;font-size:13px;font-weight:600;translate:-50% -50%;opacity:0;white-space:nowrap}
-@media (hover:none){.lc-item{cursor:default}.lc-tag{display:inline-block}.lc-cur{display:none}}
 @media (max-width:767px){.lc-grid{grid-template-columns:1fr 1fr}}`,
   html:`<div class="stage tight"><div class="lc-grid">
   <a class="lc-item" href="#" data-cursor="צפייה"><div class="ph ph-a">1</div><span class="lc-tag">צפייה</span></a>
@@ -56,14 +58,25 @@ export default [
   <a class="lc-item" href="#" data-cursor="פתיחה"><div class="ph ph-a">6</div><span class="lc-tag">פתיחה</span></a>
 </div></div>`,
   js:`(function(){
-  if(!matchMedia("(hover:hover) and (pointer:fine)").matches)return;
-  const cur=document.createElement("div");cur.className="lc-cur";document.body.appendChild(cur);
-  const x=gsap.quickTo(cur,"x",{duration:.25,ease:"power3.out"}),y=gsap.quickTo(cur,"y",{duration:.25,ease:"power3.out"});
-  let shown=false;
-  document.addEventListener("mousemove",e=>{x(e.clientX);y(e.clientY);if(!shown){shown=true;gsap.to(cur,{opacity:1,duration:.3});}});
-  document.querySelectorAll("[data-cursor]").forEach(el=>{
-    el.addEventListener("mouseenter",()=>{cur.textContent=el.dataset.cursor;gsap.to(cur,{width:84,height:84,duration:.35,ease:"power3.out"});});
-    el.addEventListener("mouseleave",()=>{cur.textContent="";gsap.to(cur,{width:14,height:14,duration:.35,ease:"power3.out"});});
+  if(typeof gsap==="undefined")return;   // בלי הספרייה נשארים התג הקבוע והסמן הרגיל
+  const grid=document.querySelector(".lc-grid");
+  // רק עם עכבר מדויק ובלי הפחתת תנועה. matchMedia מחזיר את התג הקבוע גם כשהתנאי משתנה באמצע
+  gsap.matchMedia().add("(hover:hover) and (pointer:fine) and (prefers-reduced-motion: no-preference)",()=>{
+    const cur=document.createElement("div");cur.className="lc-cur";cur.setAttribute("aria-hidden","true");document.body.appendChild(cur);
+    grid.classList.add("mv-on");
+    const x=gsap.quickTo(cur,"x",{duration:.25,ease:"power3.out"}),y=gsap.quickTo(cur,"y",{duration:.25,ease:"power3.out"});
+    let shown=false;
+    const move=e=>{x(e.clientX);y(e.clientY);if(!shown){shown=true;gsap.to(cur,{opacity:1,duration:.3});}};
+    const enter=e=>{cur.textContent=e.currentTarget.dataset.cursor;gsap.to(cur,{width:84,height:84,duration:.35,ease:"power3.out"});};
+    const leave=()=>{cur.textContent="";gsap.to(cur,{width:14,height:14,duration:.35,ease:"power3.out"});};
+    const items=[...grid.querySelectorAll("[data-cursor]")];
+    document.addEventListener("mousemove",move);
+    items.forEach(el=>{el.addEventListener("mouseenter",enter);el.addEventListener("mouseleave",leave);});
+    return ()=>{
+      document.removeEventListener("mousemove",move);
+      items.forEach(el=>{el.removeEventListener("mouseenter",enter);el.removeEventListener("mouseleave",leave);});
+      grid.classList.remove("mv-on");cur.remove();
+    };
   });
 })();`
 },
@@ -89,14 +102,17 @@ export default [
   id:"g78", cat:"gsap", name:"חזרה למעלה עם טבעת התקדמות", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"כפתור עגול בפינה שמופיע אחרי מסך אחד, וטבעת סביבו מתמלאת לפי כמה מהעמוד כבר נקרא. לחיצה גוללת חלק למעלה.",
   when:"כל עמוד ארוך: בלוג, מחירון, עמוד שירות. הטבעת נותנת תחושת מקום בלי פס התקדמות בראש העמוד.",
-  note:"הטבעת היא SVG עם stroke-dashoffset שנקשר לגלילה; ScrollTrigger עושה את הסקראב. במובייל הכפתור יושב מעל אזור האגודל (bottom:20px + safe-area) וקטן ל-44px, המינימום למגע.",
+  note:"הטבעת היא SVG עם stroke-dashoffset שנקשר לגלילה; ScrollTrigger עושה את הסקראב. במובייל הכפתור יושב מעל אזור האגודל (bottom:18px + safe-area) וקטן ל-46px, מעל המינימום למגע. **הטריגר של ההופעה מקבל end מעבר לתחתית העמוד**: טריגר בלי end נגמר בדיוק במקסימום הגלילה, ושם הוא כבר לא פעיל, כך שהכפתור נעלם בתחתית, איפה שהכי צריך אותו. כשהכפתור מוסתר הוא גם `visibility:hidden`, אחרת מקלדת נוחתת על כפתור שקוף; ה-visibility מתחלפת רק אחרי שהדהייה נגמרת. בהפחתת תנועה הטבעת צמודה לגלילה בלי החלקה (מד, לא אנימציה), הכפתור מופיע בלי תזוזה, והלחיצה קופצת למעלה בלי גלילה.",
   libs:["gsap","ScrollTrigger","ScrollToPlugin"],
   css:`.tt-body{max-width:min(720px,92vw);margin-inline:auto;padding-block:40px 30vh}
 .tt-body p{font-size:17px;line-height:1.9;color:var(--muted);margin:0 0 1.4em}
 .tt-body h3{margin:1.6em 0 .4em}
 .ttop{position:fixed;bottom:calc(24px + env(safe-area-inset-bottom));inset-inline-end:24px;width:56px;height:56px;border-radius:50%;border:0;background:var(--card);color:var(--ink);
-  box-shadow:0 10px 30px rgba(0,0,0,.14);cursor:pointer;display:grid;place-items:center;z-index:60;opacity:0;translate:0 16px;pointer-events:none;font-size:18px}
-.ttop.on{opacity:1;translate:0 0;pointer-events:auto}
+  box-shadow:0 10px 30px rgba(0,0,0,.14);cursor:pointer;display:grid;place-items:center;z-index:60;opacity:0;translate:0 16px;pointer-events:none;font-size:18px;
+  /* מוסתר גם ממקלדת. ה-visibility מתחלפת רק אחרי שהדהייה נגמרת, ובהופעה מיד */
+  visibility:hidden;transition:opacity .3s cubic-bezier(.2,.6,.2,1),translate .3s cubic-bezier(.2,.6,.2,1),visibility 0s .3s}
+.ttop.on{opacity:1;translate:0 0;pointer-events:auto;visibility:visible;transition-delay:0s}
+@media (prefers-reduced-motion:reduce){.ttop{translate:none}}
 .ttop svg{position:absolute;inset:-2px;width:calc(100% + 4px);height:calc(100% + 4px);transform:rotate(-90deg)}
 .ttop circle{fill:none;stroke-width:3}
 .ttop .trk{stroke:var(--line)}
@@ -116,28 +132,37 @@ export default [
 </div>
 <button class="ttop" aria-label="חזרה לראש העמוד"><svg viewBox="0 0 60 60" aria-hidden="true"><circle class="trk" cx="30" cy="30" r="27"/><circle class="bar" cx="30" cy="30" r="27" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/></svg>↑</button>`,
   js:`(function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה הכפתור לא מופיע, כי אין מי שיגלול אותו
   const btn=document.querySelector(".ttop"),bar=btn.querySelector(".bar");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  // הטבעת מתמלאת לפי המסמך כולו, לא לפי הסקשן
-  gsap.to(bar,{strokeDashoffset:0,ease:"none",scrollTrigger:{trigger:document.documentElement,start:"top top",end:"bottom bottom",scrub:reduce?false:.3}});
-  ScrollTrigger.create({start:"top -80%",onToggle:s=>btn.classList.toggle("on",s.isActive)});   // מופיע אחרי מסך שלם
-  btn.addEventListener("click",()=>gsap.to(window,{scrollTo:0,duration:reduce?0:.9,ease:"power3.inOut"}));
+  gsap.matchMedia().add({motion:"(prefers-reduced-motion: no-preference)",reduce:"(prefers-reduced-motion: reduce)"},ctx=>{
+    const reduce=ctx.conditions.reduce;
+    // הטבעת מתמלאת לפי המסמך כולו, לא לפי הסקשן. בהפחתת תנועה היא צמודה לגלילה בלי החלקה: מד, לא אנימציה
+    gsap.to(bar,{strokeDashoffset:0,ease:"none",scrollTrigger:{trigger:document.documentElement,start:"top top",end:"bottom bottom",scrub:reduce?true:.3}});
+    // מופיע אחרי 80% ממסך ונשאר עד הסוף. בלי end מפורש הטריגר נגמר בדיוק בתחתית, והכפתור נעלם שם
+    ScrollTrigger.create({start:()=>innerHeight*.8,end:()=>ScrollTrigger.maxScroll(window)+1,
+      onToggle:s=>btn.classList.toggle("on",s.isActive)});
+    const up=()=>gsap.to(window,{scrollTo:0,duration:reduce?0:.9,ease:"power3.inOut"});
+    btn.addEventListener("click",up);
+    return ()=>{btn.removeEventListener("click",up);btn.classList.remove("on");};
+  });
 })();`
 },
 {
   id:"g79", cat:"gsap", name:"מוצר מוצמד עם קריאות שנדלקות בגלילה", tech:"GSAP · ScrollTrigger · pin", status:"ממתין",
-  desc:"תמונת מוצר או מסך נשארת במקום, ובזמן הגלילה נדלקות סביבה קריאות (callouts) אחת אחרי השנייה: נקודה, קו קצר ותיאור. סיור מודרך במוצר בלי לחיצות.",
+  desc:"תמונת מוצר או מסך נשארת במקום, ובזמן הגלילה נדלקות סביבה קריאות (callouts) אחת אחרי השנייה: נקודה על התמונה ותיאור שנדלק בעמודה לצידה. סיור מודרך במוצר בלי לחיצות.",
   when:"עמוד מוצר, מערכת, אפליקציה, מכשיר. שלוש עד חמש קריאות, לא יותר.",
-  note:"הקריאות ממוקמות באחוזים מהתמונה, לכן הן נצמדות לאותה נקודה בכל רוחב. במובייל אין מקום מסביב: התמונה נשארת מוצמדת למעלה, והקריאות הופכות לרשימה שנדלקת מתחתיה.",
+  note:"הקריאות ממוקמות באחוזים מהתמונה, לכן הן נצמדות לאותה נקודה בכל רוחב. במובייל אין מקום מסביב: התמונה נשארת מוצמדת למעלה, והקריאות הופכות לרשימה שנדלקת מתחתיה. **הטווחים רציפים**: כל שלב פעיל מהרגע שראשו עובר את 62% מהמסך ועד שהשלב הבא מגיע לאותה נקודה (`endTrigger`), והאחרון נשאר דלוק עד שהסקשן יוצא מהמסך, ולכן אין רגע שבו הכל עמום ואין נקודה על התמונה. העמעום וההסתרה של הנקודות יושבים תחת `.mv-on`, כך שבהפחתת תנועה או בלי הספרייה כל השלבים וכל הנקודות גלויים.",
   libs:["gsap","ScrollTrigger"],
   css:`.co{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:start;max-width:1100px;margin-inline:auto}
 .co-pin{position:sticky;top:12vh;height:76vh;display:grid;place-items:center}
 .co-fig{position:relative;width:min(100%,460px);aspect-ratio:4/5}
 .co-fig .ph{position:absolute;inset:0;font-size:22px}
-.co-dot{position:absolute;width:18px;height:18px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 25%,transparent);translate:-50% -50%;opacity:0;scale:.6}
+/* בלי GSAP או בהפחתת תנועה כל הנקודות וכל השלבים גלויים. העמעום וההסתרה רק תחת .mv-on */
+.co-dot{position:absolute;width:18px;height:18px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 25%,transparent);translate:-50% -50%}
 .co-steps{display:flex;flex-direction:column;gap:38vh;padding-block:30vh}
-.co-step{opacity:.25;transition:opacity .4s}
-.co-step.on{opacity:1}
+.co-step{transition:opacity .4s cubic-bezier(.2,.6,.2,1)}
+.co.mv-on .co-step{opacity:.25}
+.co.mv-on .co-step.on{opacity:1}
 .co-step b{display:block;font-size:13px;color:var(--accent);letter-spacing:.14em;margin-bottom:8px}
 .co-step h3{margin:0 0 8px;font-size:clamp(20px,2.4vw,32px)}
 .co-step p{margin:0;color:var(--muted);line-height:1.7;max-width:36ch}
@@ -157,13 +182,21 @@ export default [
   </div>
 </div></div>`,
   js:`(function(){
-  const steps=gsap.utils.toArray(".co-step"),dots=gsap.utils.toArray(".co-dot");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce){steps.forEach(s=>s.classList.add("on"));gsap.set(dots,{opacity:1,scale:1});return;}
-  steps.forEach((step,i)=>{
-    ScrollTrigger.create({trigger:step,start:"top 60%",end:"bottom 40%",
-      onToggle:s=>{step.classList.toggle("on",s.isActive);
-        gsap.to(dots[i],{opacity:s.isActive?1:0,scale:s.isActive?1:.6,duration:.45,ease:"power3.out"});}});
+  if(typeof gsap==="undefined")return;   // בלי הספרייה כל השלבים וכל הנקודות גלויים
+  const root=document.querySelector(".co"),steps=gsap.utils.toArray(".co-step"),dots=gsap.utils.toArray(".co-dot");
+  // בהפחתת תנועה אין עמעום ואין נקודות שנדלקות: הכל גלוי מה-CSS
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    gsap.set(dots,{opacity:0,scale:.6});
+    steps.forEach((step,i)=>{
+      const next=steps[i+1];
+      // טווח רציף: כל שלב פעיל עד שהבא מגיע לאותה נקודה, והאחרון עד שהסקשן כולו יוצא מהמסך,
+      // כך שאין רגע שבו הכל עמום ואין נקודה על התמונה
+      ScrollTrigger.create({trigger:step,start:"top 62%",endTrigger:next||root,end:next?"top 62%":"bottom top",
+        onToggle:s=>{step.classList.toggle("on",s.isActive);
+          gsap.to(dots[i],{opacity:s.isActive?1:0,scale:s.isActive?1:.6,duration:.45,ease:"power3.out"});}});
+    });
+    return ()=>{root.classList.remove("mv-on");steps.forEach(s=>s.classList.remove("on"));gsap.set(dots,{clearProps:"opacity,transform,translate,scale"});};
   });
 })();`
 },
@@ -183,6 +216,9 @@ export default [
 .mp-copy{position:relative;z-index:2;text-align:center;max-width:26ch;padding-inline:24px}
 .mp-copy h2{margin:0 0 10px;font-size:var(--fs-h2)}
 .mp-copy p{margin:0;opacity:.8}
+/* מ-768 הכרטיס צר יותר וקרוב לקצה, כדי שהכותרת במרכז לא תחצה אותו (בטלפון הכרטיס למעלה והטקסט מתחתיו) */
+@media(min-width:768px){.mp-card{inset-inline-start:5%;width:min(29vw,380px)}}
+@media(min-width:768px) and (max-width:1023px){.mp-card{inset-inline-start:3%;width:26vw}}
 @media(max-width:767px){.mp-card{width:64vw;top:8%}.mp-tag{font-size:12px}}`,
   html:`<div class="stage tight"><div class="mp">
   <div class="mp-l mp-bg" data-depth=".3"></div>
@@ -221,13 +257,19 @@ export default [
   <div class="sk-it"><div class="ph ph-b">7</div></div><div class="sk-it"><div class="ph ph-c">8</div></div><div class="sk-it"><div class="ph ph-d">9</div></div>
 </div></div>`,
   js:`(function(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const items=gsap.utils.toArray(".sk-it"),MAX=matchMedia("(max-width:767px)").matches?3:6;
-  const skew=gsap.quickTo(items,"skewY",{duration:.5,ease:"power3.out"});
-  const clamp=gsap.utils.clamp(-MAX,MAX);
-  ScrollTrigger.create({onUpdate:s=>{ skew(clamp(s.getVelocity()/-300)); }});
-  // כשהגלילה נעצרת אין onUpdate, ולכן מחזירים לאפס דרך טיימר קצר
-  let t; addEventListener("scroll",()=>{clearTimeout(t);t=setTimeout(()=>skew(0),120);},{passive:true});
+  if(typeof gsap==="undefined")return;
+  const items=gsap.utils.toArray(".sk-it");
+  // בהפחתת תנועה אף תנאי לא מתקיים, ואין הטיה. בסיבוב טאבלט או בשינוי חלון matchMedia מחליף גרסה ומנקה את הקודמת
+  gsap.matchMedia().add({d:"(min-width:768px) and (prefers-reduced-motion: no-preference)",m:"(max-width:767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const MAX=ctx.conditions.m?3:6;   // בטלפון הגלילה מהירה יותר, ולכן המקסימום חצי
+    const skew=gsap.quickTo(items,"skewY",{duration:.5,ease:"power3.out"});
+    const clamp=gsap.utils.clamp(-MAX,MAX);
+    ScrollTrigger.create({onUpdate:s=>{ skew(clamp(s.getVelocity()/-300)); }});
+    // כשהגלילה נעצרת אין onUpdate, ולכן מחזירים לאפס דרך טיימר קצר. המאזין מתנקה כשהגרסה מתחלפת
+    let t;const onScroll=()=>{clearTimeout(t);t=setTimeout(()=>skew(0),120);};
+    addEventListener("scroll",onScroll,{passive:true});
+    return ()=>{removeEventListener("scroll",onScroll);clearTimeout(t);};
+  });
 })();`
 },
 {
@@ -300,13 +342,16 @@ export default [
   <section class="df-sec"><div><h2>מודדים, ורק אז משנים</h2><p>כל פנייה נספרת. כל שינוי נבחן מול מספר.</p></div></section>
 </div>`,
   js:`(function(){
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  const secs=gsap.utils.toArray(".df-sec"),mob=matchMedia("(max-width:767px)").matches;
-  secs.slice(0,-1).forEach((sec,i)=>{
-    const tw={scale:.92,borderRadius:28,"--dim":.62,ease:"none",
-      scrollTrigger:{trigger:secs[i+1],start:"top bottom",end:"top top",scrub:.4}};
-    if(!mob)tw.filter="blur(6px)";   // blur יקר בטלפון; ההחשכה עצמה היא שכבת דיו ולא brightness
-    gsap.to(sec,tw);
+  if(typeof gsap==="undefined")return;
+  const secs=gsap.utils.toArray(".df-sec");
+  // בהפחתת תנועה אף תנאי לא מתקיים: הסקשנים נדבקים ומכסים זה את זה בלי התכווצות. בסיבוב טאבלט matchMedia מחליף גרסה
+  gsap.matchMedia().add({d:"(min-width:768px) and (prefers-reduced-motion: no-preference)",m:"(max-width:767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    secs.slice(0,-1).forEach((sec,i)=>{
+      const tw={scale:.92,borderRadius:28,"--dim":.62,ease:"none",
+        scrollTrigger:{trigger:secs[i+1],start:"top bottom",end:"top top",scrub:.4}};
+      if(ctx.conditions.d)tw.filter="blur(6px)";   // blur יקר בטלפון; ההחשכה עצמה היא שכבת דיו ולא brightness
+      gsap.to(sec,tw);
+    });
   });
 })();`
 },
@@ -347,8 +392,8 @@ export default [
   id:"g86", cat:"gsap", name:"אייקוני קו שמציירים את עצמם בכניסה", tech:"GSAP · DrawSVG", status:"ממתין",
   desc:"אייקוני קו בסקשן היתרונות נכנסים כשהקו מצייר את עצמו מהתחלה לסוף, בסטאגר, והטקסט עולה מתחתיו. במקום אייקון שקופץ, אייקון שנולד.",
   when:"סקשן יתרונות, שלבים, שירותים, כל מקום עם אייקוני קו. שלושה עד שישה.",
-  note:"DrawSVG עובד על stroke בלבד, לכן האייקונים חייבים להיות קו (stroke) ולא מילוי. הסטאגר 0.15 שניות, מספיק כדי לראות סדר ולא מספיק כדי לחכות. במובייל האייקונים נכנסים אחד-אחד כי הם בעמודה.",
-  libs:["gsap","ScrollTrigger","DrawSVGPlugin"],
+  note:"DrawSVG עובד על stroke בלבד, לכן האייקונים חייבים להיות קו (stroke) ולא מילוי. הסטאגר 0.15 שניות, מספיק כדי לראות סדר ולא מספיק כדי לחכות. במובייל האייקונים נכנסים אחד-אחד כי הם בעמודה. **הכניסה נורית מ-IntersectionObserver ולא מבדיקת גלילה אנכית**: בתוך שורה אופקית (מסדרון, קרוסלה חתוכה) בדיקה אנכית מציירת גם כרטיסים שמחוץ לחלון, בלי שאף אחד רואה, וכשמגיעים אליהם הם כבר גמורים. IntersectionObserver מכבד את החיתוך של השורה, ולכן אותו קוד עובד גם בגריד רגיל וגם בשורה גוללת.",
+  libs:["gsap","DrawSVGPlugin"],
   css:`.ic{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);max-width:1000px;margin-inline:auto}
 .ic-it{text-align:center;padding:26px 18px}
 .ic-it svg{width:64px;height:64px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:16px}
@@ -361,28 +406,33 @@ export default [
   <div class="ic-it"><svg viewBox="0 0 48 48"><path d="M24 6l14 6v10c0 9-6 16-14 20-8-4-14-11-14-20V12z"/><path d="M17 24l5 5 9-10"/></svg><h3>מאובטח ומגובה</h3><p>SSL, גיבוי יומי, ועדכונים שוטפים.</p></div>
 </div></div>`,
   js:`(function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה האייקונים והטקסט גלויים כמו שהם
   const items=gsap.utils.toArray(".ic-it");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
-  gsap.set(".ic-it svg path, .ic-it svg circle",{drawSVG:"0%"});
-  gsap.set(".ic-it h3, .ic-it p",{opacity:0,y:14});
-  ScrollTrigger.batch(items,{start:"top 80%",once:true,onEnter:batch=>{
-    const tl=gsap.timeline();
-    batch.forEach((it,i)=>{
-      tl.to(it.querySelectorAll("svg path, svg circle"),{drawSVG:"100%",duration:.9,ease:"power2.inOut",stagger:.15},i*.15)
-        .to(it.querySelectorAll("h3, p"),{opacity:1,y:0,duration:.5,ease:"power3.out",stagger:.08},i*.15+.5);
-    });
-  }});
+  // בהפחתת תנועה האייקונים מצוירים והטקסט גלוי מההתחלה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    gsap.set(".ic-it svg path, .ic-it svg circle",{drawSVG:"0%"});
+    gsap.set(".ic-it h3, .ic-it p",{opacity:0,y:14});
+    const draw=(it,k)=>gsap.timeline({delay:k*.15})
+      .to(it.querySelectorAll("svg path, svg circle"),{drawSVG:"100%",duration:.9,ease:"power2.inOut",stagger:.15})
+      .to(it.querySelectorAll("h3, p"),{opacity:1,y:0,duration:.5,ease:"power3.out",stagger:.08},.5);
+    // IntersectionObserver ולא בדיקת גלילה אנכית: הוא מכבד חיתוך של הורה, ולכן בתוך שורה אופקית
+    // כרטיס שמחוץ לחלון לא מצייר את עצמו בלי צופה. מי שנכנסים יחד מקבלים סטאגר לפי הסדר
+    const io=new IntersectionObserver(es=>es.filter(e=>e.isIntersecting).forEach((e,k)=>{io.unobserve(e.target);draw(e.target,k);}),
+      {threshold:.4,rootMargin:"0px 0px -15% 0px"});
+    items.forEach(it=>io.observe(it));
+    return ()=>io.disconnect();
+  });
 })();`
 },
 {
   id:"g87", cat:"gsap", name:"מחיקת צבע שחושפת טקסט", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"פס צבע עובר על השורה מימין לשמאל, ומאחוריו הטקסט כבר שם. כמו מברשת שמגלה במקום מכסה. שורה אחרי שורה.",
   when:"כותרות סקשן, ציטוטים, שלוש נקודות חשובות. כניסה עם אופי בלי לשבור את הפריסה.",
-  note:"הפס הוא פסאודו-אלמנט שנע מ-0 ל-100% ואז יוצא, והטקסט מתחתיו עובר משקוף לגלוי בדיוק כשהפס מכסה אותו. הכל transform ו-opacity. במובייל השורות קצרות יותר ולכן המהירות זהה אבל המרחק קטן, ההרגשה נשמרת.",
+  note:"הפס הוא `<i>` בתוך השורה שנמתח ב-scaleX מימין, מחליף את נקודת העיגון לשמאל ויוצא, והטקסט מתחתיו מופיע בדיוק כשהפס מכסה אותו. באתר אנגלי מחליפים בין 100% ל-0% בשני ה-transformOrigin. הכל transform ו-opacity. הטקסט מוסתר רק ב-JS, אחרי שידוע שיש GSAP ושהתנועה מותרת: ב-CSS הוא גלוי, כך שבלי הספרייה השורות לא נעלמות. במובייל השורות קצרות יותר ולכן המהירות זהה אבל המרחק קטן, ההרגשה נשמרת.",
   libs:["gsap","ScrollTrigger"],
   css:`.wp{max-width:min(760px,92vw);margin-inline:auto;display:grid;gap:clamp(18px,3vw,34px)}
 .wp-line{position:relative;display:inline-block;overflow:hidden;font-size:clamp(24px,3.4vw,50px);font-weight:800;line-height:1.2;padding:.08em .1em;justify-self:start}
-.wp-line span{opacity:0;display:inline-block}
+.wp-line span{display:inline-block}
 .wp-line i{position:absolute;inset:0;background:var(--accent);transform-origin:100% 50%;transform:scaleX(0)}
 .wp-line.muted{font-size:clamp(17px,1.6vw,22px);font-weight:500;color:var(--muted)}`,
   html:`<div class="stage"><div class="wp">
@@ -392,18 +442,22 @@ export default [
   <div class="wp-line muted"><span>זה כל מה שאנחנו עושים, ואת זה אנחנו עושים טוב.</span><i></i></div>
 </div></div>`,
   js:`(function(){
+  if(typeof gsap==="undefined")return;   // בלי הספרייה השורות גלויות, כי ה-CSS לא מסתיר אותן
   const lines=gsap.utils.toArray(".wp-line");
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(".wp-line span",{opacity:1});return;}
-  ScrollTrigger.batch(lines,{start:"top 85%",once:true,onEnter:batch=>{
-    batch.forEach((line,i)=>{
-      const bar=line.querySelector("i"),txt=line.querySelector("span");
-      gsap.timeline({delay:i*.18})
-        .to(bar,{scaleX:1,duration:.45,ease:"power3.inOut"})          // הפס נכנס מימין ומכסה
-        .set(txt,{opacity:1})                                           // הטקסט מופיע מאחורי הפס
-        .set(bar,{transformOrigin:"0% 50%"})
-        .to(bar,{scaleX:0,duration:.5,ease:"power3.inOut"});           // הפס יוצא שמאלה וחושף
-    });
-  }});
+  // בהפחתת תנועה השורות גלויות מההתחלה, בלי פס
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    gsap.set(".wp-line span",{opacity:0});   // ההסתרה רק כאן, כשיש מי שיחשוף
+    ScrollTrigger.batch(lines,{start:"top 85%",once:true,onEnter:batch=>{
+      batch.forEach((line,i)=>{
+        const bar=line.querySelector("i"),txt=line.querySelector("span");
+        gsap.timeline({delay:i*.18})
+          .to(bar,{scaleX:1,duration:.45,ease:"power3.inOut"})          // הפס נכנס מימין ומכסה
+          .set(txt,{opacity:1})                                           // הטקסט מופיע מאחורי הפס
+          .set(bar,{transformOrigin:"0% 50%"})
+          .to(bar,{scaleX:0,duration:.5,ease:"power3.inOut"});           // הפס יוצא שמאלה וחושף
+      });
+    }});
+  });
 })();`
 },
 ];
