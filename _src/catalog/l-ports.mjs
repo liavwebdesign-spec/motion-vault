@@ -295,7 +295,7 @@ html[dir="ltr"] .bm-node{transform:translate(-50%,-50%)}
   id:"b59", cat:"behavior", name:"רשימה חיה שפריטים נכנסים אליה", tech:"vanilla JS · FLIP", status:"ממתין", runway:false,
   desc:"פריט חדש נכנס לראש הרשימה בקפיצה קטנה, והקודמים נדחפים למטה בחלקות במקום לקפוץ. הרשימה מרגישה כמו פיד חי.",
   when:"פיד התראות, הדגמת מערכת שעובדת, לוג פעילות, \"מה קרה היום\". מקסימום חמישה פריטים גלויים.",
-  note:"מקור: MagicUI AnimatedList. נכתב מחדש עם FLIP ידני: מודדים מיקום לפני ואחרי ההוספה ומזיזים ב-transform. הישנים נגזרים מלמטה, לא נמחקים בבת אחת. נגישות: הרשימה היא role=log עם aria-live=off, כי הודעה לקורא מסך כל שתי שניות בלי סוף היא רעש שאי אפשר לעצור; מי שרוצה לקרוא אותה נכנס אליה בעצמו. הלולאה רצה רק כשהרשימה על המסך, נעצרת בריחוף ובלשונית מוסתרת, ובתנועה מופחתת לא נוסף אף פריט: נשארים שלושת הראשונים.",
+  note:"מקור: MagicUI AnimatedList. נכתב מחדש עם FLIP ידני: מודדים מיקום לפני ואחרי ההוספה ומזיזים ב-transform. הישנים נגזרים מלמטה, לא נמחקים בבת אחת. נגישות: הרשימה היא role=log עם aria-live=off, כי הודעה לקורא מסך כל שתי שניות בלי סוף היא רעש שאי אפשר לעצור; מי שרוצה לקרוא אותה נכנס אליה בעצמו. מתחת לרשימה כפתור עצירה והפעלה גלוי (WCAG 2.2.2: עדכון אוטומטי שנמשך יותר מחמש שניות חייב דרך לעצור אותו), באותה שפה כמו בקרוסלה b62. בנוסף הלולאה רצה רק כשהרשימה על המסך ונעצרת בריחוף ובלשונית מוסתרת. בתנועה מופחתת היא מתחילה עצורה עם שלושת הפריטים הראשונים, והגולש יכול להפעיל אותה בכפתור (בלי אנימציה).",
   libs:[],
   css:`.al{max-width:440px;margin-inline:auto;display:flex;flex-direction:column;gap:12px;height:380px;overflow:hidden;
   mask-image:linear-gradient(180deg,#000 70%,transparent);-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent)}
@@ -306,8 +306,16 @@ html[dir="ltr"] .bm-node{transform:translate(-50%,-50%)}
 .al-t{display:flex;flex-direction:column;gap:2px;min-width:0}
 .al-t b{font-size:15px}.al-t span{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .al-time{margin-inline-start:auto;font-size:12px;color:var(--muted);flex:none}
-@media (prefers-reduced-motion: reduce){.al-item.enter{animation:none}}`,
-  html:`<div class="stage tight"><div class="al" role="log" aria-live="off" aria-label="פעילות אחרונה"></div></div>`,
+.al-ctrl{display:flex;justify-content:center;margin-top:16px}
+.al-play{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:border-color .18s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.al-play:hover{border-color:var(--ink)}}
+.al-play:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.al-play svg{width:16px;height:16px}
+.al-play .i-play,.al-play[aria-pressed="false"] .i-pause{display:none}
+.al-play[aria-pressed="false"] .i-play{display:block}
+@media (prefers-reduced-motion: reduce){.al-item.enter{animation:none}.al-play{transition:none}}`,
+  html:`<div class="stage tight"><div class="al" role="log" aria-live="off" aria-label="פעילות אחרונה"></div>
+<div class="al-ctrl"><button class="al-play" type="button" aria-pressed="true" aria-label="עצירת העדכון האוטומטי"><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button></div></div>`,
   js:`(function(){
   const list=document.querySelector(".al"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
   const feed=[["ליד חדש","דנה מחיפה השאירה פרטים בטופס","ph-a"],["תשלום התקבל","חשבונית 2041 שולמה","ph-d"],["פגישה נקבעה","יום שלישי 10:00 עם רועי","ph-b"],["הודעת וואטסאפ","\\"אפשר הצעת מחיר?\\"","ph-c"],["ביקור חוזר","לקוח מ-2024 חזר לעמוד המחירים","ph-e"]];
@@ -324,9 +332,14 @@ html[dir="ltr"] .bm-node{transform:translate(-50%,-50%)}
     el.addEventListener("animationend",()=>el.classList.remove("enter"),{once:true});
   }
   add();add();add();
-  // הלולאה רק כשהרשימה על המסך, לא בריחוף, לא בלשונית מוסתרת, ולא בתנועה מופחתת
-  let t=null,seen=false;
-  const run=()=>{if(!t&&seen&&!reduce&&!document.hidden&&!list.matches(":hover"))t=setInterval(add,2200);},stop=()=>{clearInterval(t);t=null;};
+  // הלולאה רק כשלא עצרו אותה בכפתור, כשהרשימה על המסך, לא בריחוף ולא בלשונית מוסתרת. בתנועה מופחתת מתחילים עצורים
+  const play=document.querySelector(".al-play");
+  let t=null,seen=false,paused=reduce;
+  const run=()=>{if(!t&&seen&&!paused&&!document.hidden&&!list.matches(":hover"))t=setInterval(add,2200);},stop=()=>{clearInterval(t);t=null;};
+  // WCAG 2.2.2: עדכון אוטומטי שנמשך יותר מחמש שניות חייב כפתור עצירה גלוי; ריחוף ויציאה מהמסך לא מספיקים
+  const setPlay=()=>{play.setAttribute("aria-pressed",String(!paused));play.setAttribute("aria-label",paused?"הפעלת העדכון האוטומטי":"עצירת העדכון האוטומטי");};
+  play.addEventListener("click",()=>{paused=!paused;setPlay();paused?stop():run();});
+  setPlay();
   if("IntersectionObserver" in window)new IntersectionObserver(es=>{seen=es[es.length-1].isIntersecting;seen?run():stop();}).observe(list);
   else{seen=true;run();}
   list.addEventListener("mouseenter",stop);list.addEventListener("mouseleave",run);
