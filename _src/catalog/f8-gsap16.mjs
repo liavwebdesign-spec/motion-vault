@@ -5,20 +5,29 @@ export default [
   desc:"משפט אחד שנשאר על המסך, ומילה אחת בתוכו מתגלגלת ומתחלפת בקצב הגלילה. מתחתיו מתחלף גם משפט המשנה, כך שכל מצב עומד בפני עצמו.",
   when:"הירו של עמוד הבית, סקשן שירותים, הצהרת מיצוב. במקום לכתוב ארבעה משפטים נפרדים, כותבים אחד שמתגלגל בין ארבע התשובות.",
   libs:["gsap","ScrollTrigger"],
-  css:`.ws{height:300vh;position:relative}
-.ws-stick{position:sticky;top:0;height:100vh;display:grid;place-items:center;padding-inline:var(--gutter)}
+  css:`/* בלי GSAP או בהפחתת תנועה: פריסה סטטית, ארבע המילים זו מתחת לזו וארבעת המשפטים גלויים.
+   כל מה שמצמיד ומסתיר יושב תחת .mv-on, שהסקריפט מוסיף רק כשהתנועה מותרת */
+.ws-stick{display:grid;place-items:center;padding:var(--sec) var(--gutter)}
 .ws-line{display:flex;align-items:baseline;gap:.28em;flex-wrap:wrap;justify-content:center;
   font-size:clamp(28px,5.4vw,74px);font-weight:800;line-height:1.16;text-align:center}
-/* החלון בגובה שורה אחת; רוחבו נקבע מאליו לפי המילה הרחבה ביותר */
-.ws-win{display:inline-block;overflow:clip;height:1.16em;vertical-align:baseline}
-.ws-stack{display:flex;flex-direction:column;will-change:transform}
-.ws-stack span{height:1.16em;line-height:1.16em;color:var(--accent);white-space:nowrap}
-.ws-subs{position:relative;margin-top:clamp(18px,2.4vw,32px);height:3.4em;width:min(46ch,90vw)}
-.ws-subs p{position:absolute;inset:0;margin:0;text-align:center;color:var(--muted);
-  font-size:clamp(15px,1.6vw,20px);line-height:1.7}
-.ws-dots{position:absolute;bottom:9vh;inset-inline:0;display:flex;gap:8px;justify-content:center}
+.ws-win{display:inline-block}
+.ws-stack{display:flex;flex-direction:column}
+/* המילים מיושרות לתחילת החלון: מילה קצרה נצמדת ל"בונים", והרווח עובר לסוף השורה ולא לאמצע המשפט */
+.ws-stack span{height:1.16em;line-height:1.16em;color:var(--accent);white-space:nowrap;text-align:start}
+.ws-subs{margin:clamp(18px,2.4vw,32px) auto 0;width:min(46ch,90vw);display:grid;gap:12px}
+.ws-subs p{margin:0;text-align:center;color:var(--muted);font-size:clamp(15px,1.6vw,20px);line-height:1.7}
+.ws-dots{display:none;position:absolute;bottom:9vh;inset-inline:0;gap:8px;justify-content:center}
 .ws-dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
-.ws-dots i.on{background:var(--accent)}`,
+.ws-dots i.on{background:var(--accent)}
+/* הבמה */
+.ws.mv-on{height:300vh;position:relative}
+.ws.mv-on .ws-stick{position:sticky;top:0;height:100vh;padding-block:0}
+/* החלון בגובה שורה אחת; רוחבו נקבע מאליו לפי המילה הרחבה ביותר */
+.ws.mv-on .ws-win{overflow:clip;height:1.16em;vertical-align:baseline}
+.ws.mv-on .ws-stack{will-change:transform}
+.ws.mv-on .ws-subs{display:block;position:relative;height:3.4em}
+.ws.mv-on .ws-subs p{position:absolute;inset:0}
+.ws.mv-on .ws-dots{display:flex}`,
   html:`<div class="ws"><div class="ws-stick"><div>
   <div class="ws-line">
     <span>אנחנו בונים</span>
@@ -35,30 +44,34 @@ export default [
   <div class="ws-dots"><i class="on"></i><i></i><i></i><i></i></div>
 </div></div></div>`,
   js:`(function(){
-  const stack=document.querySelector(".ws-stack");
+  if(typeof gsap==="undefined")return;   // בלי הספרייה נשארת הפריסה הסטטית, וכל המילים והמשפטים גלויים
+  const root=document.querySelector(".ws"),stack=root.querySelector(".ws-stack");
   const words=gsap.utils.toArray(".ws-stack span");
   const subs=gsap.utils.toArray(".ws-subs p");
   const dots=gsap.utils.toArray(".ws-dots i");
   const n=words.length;
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  gsap.set(subs,{opacity:0});gsap.set(subs[0],{opacity:1});
-  if(reduce)return;
-  const tl=gsap.timeline({scrollTrigger:{trigger:".ws",start:"top top",end:"bottom bottom",scrub:.5,
-    // snap לנקודות שבהן מילה יושבת בול בחלון, אחרת נעצרים על חצי מילה
-    snap:{snapTo:gsap.utils.snap(1/(n-1)),duration:.25,delay:.05,ease:"power2.inOut"}}});
-  for(let i=1;i<n;i++){
-    // כל מעבר מזיז את העמודה בדיוק בגובה שורה אחת. המדידה בפונקציה, כדי שתתעדכן ב-refresh
-    tl.to(stack,{y:()=>-i*words[0].offsetHeight,ease:"power2.inOut",duration:1},i-1)
-      .to(subs[i-1],{opacity:0,duration:.35},(i-1)+.1)
-      .to(subs[i],{opacity:1,duration:.45},(i-1)+.4);
-  }
-  // הנקודות נגזרות מהמצב בפועל ולא מטוויין נפרד, ולכן הן תמיד מסונכרנות
-  ScrollTrigger.create({trigger:".ws",start:"top top",end:"bottom bottom",
-    onUpdate:self=>{const i=Math.round(self.progress*(n-1));
-      dots.forEach((d,k)=>d.classList.toggle("on",k===i));}});
+  // הבמה נדלקת רק כשהתנועה מותרת. בהפחתת תנועה נשארת הפריסה הסטטית, גם אם ההעדפה משתנה באמצע
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("mv-on");
+    gsap.set(subs,{opacity:0});gsap.set(subs[0],{opacity:1});
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5,
+      // snap לנקודות שבהן מילה יושבת בול בחלון, אחרת נעצרים על חצי מילה
+      snap:{snapTo:gsap.utils.snap(1/(n-1)),duration:.25,delay:.05,ease:"power2.inOut"}}});
+    for(let i=1;i<n;i++){
+      // כל מעבר מזיז את העמודה בדיוק בגובה שורה אחת. המדידה בפונקציה, כדי שתתעדכן ב-refresh
+      tl.to(stack,{y:()=>-i*words[0].offsetHeight,ease:"power2.inOut",duration:1},i-1)
+        .to(subs[i-1],{opacity:0,duration:.35},(i-1)+.1)
+        .to(subs[i],{opacity:1,duration:.45},(i-1)+.4);
+    }
+    // הנקודות נגזרות מהמצב בפועל ולא מטוויין נפרד, ולכן הן תמיד מסונכרנות
+    ScrollTrigger.create({trigger:root,start:"top top",end:"bottom bottom",
+      onUpdate:self=>{const i=Math.round(self.progress*(n-1));
+        dots.forEach((d,k)=>d.classList.toggle("on",k===i));}});
+    return ()=>{root.classList.remove("mv-on");dots.forEach((d,k)=>d.classList.toggle("on",k===0));};
+  });
 })();`,
   runway:false,
-  note:"החלון הוא `overflow:clip` בגובה שורה אחת, והעמודה שבתוכו נעה בדיוק בגובה שורה בכל מעבר. הרוחב לא מוגדר בכלל: קונטיינר עמודה מקבל את רוחב הילד הרחב ביותר, ולכן המשפט מתרחב ומתכווץ מעצמו סביב המילה. **ה-`snap` הוא מה שהופך את זה לשמיש**: בלעדיו אפשר לעצור באמצע גלגול ולראות חצי מילה למעלה וחצי למטה. המדידה של גובה השורה נעשית בתוך פונקציה (`y:()=>...`) ולא כמספר קבוע, כך שהיא מחושבת מחדש בכל refresh וגם אחרי טעינת הפונט."
+  note:"החלון הוא `overflow:clip` בגובה שורה אחת, והעמודה שבתוכו נעה בדיוק בגובה שורה בכל מעבר. הרוחב לא מוגדר בכלל: קונטיינר עמודה מקבל את רוחב הילד הרחב ביותר, ולכן החלון ברוחב המילה הארוכה, והמילים מיושרות לתחילתו כדי שלא ייפתח חור באמצע המשפט. **ה-`snap` הוא מה שהופך את זה לשמיש**: בלעדיו אפשר לעצור באמצע גלגול ולראות חצי מילה למעלה וחצי למטה. המדידה של גובה השורה נעשית בתוך פונקציה (`y:()=>...`) ולא כמספר קבוע, כך שהיא מחושבת מחדש בכל refresh וגם אחרי טעינת הפונט. **בהפחתת תנועה או כשהספרייה לא נטענה** הבמה לא נדלקת: ארבע המילים עומדות זו מתחת לזו וארבעת המשפטים גלויים, כי ההצמדה, החלון החתוך והמשפטים המוסתרים יושבים כולם תחת `.mv-on`, שהסקריפט מוסיף רק כשהתנועה מותרת."
 },
 {
   id:"g61", cat:"gsap", name:"תמונה שמתאספת מרצועות בגלילה", tech:"GSAP · ScrollTrigger scrub", status:"ממתין",
@@ -112,7 +125,7 @@ export default [
 .ba2-frame{position:relative;width:min(900px,92vw);aspect-ratio:16/10;border-radius:var(--r);overflow:hidden;
   border:1px solid var(--line)}
 .ba2-layer{position:absolute;inset:0;border-radius:0;font-size:0}
-/* השכבה העליונה היא "לפני", והיא נחתכת מימין לשמאל, בכיוון הקריאה בעברית */
+/* השכבה העליונה היא "לפני", והיא נחתכת מהשמאל ככל שהקו נע ימינה */
 .ba2-before{clip-path:inset(0 0 0 0)}
 .ba2-tag{position:absolute;top:16px;z-index:3;background:rgba(0,0,0,.62);color:#fff;font-size:13px;
   padding:6px 14px;border-radius:999px;backdrop-filter:blur(6px)}
@@ -130,26 +143,30 @@ export default [
     <span class="ba2-tag is-after">אחרי</span>
     <i class="ba2-edge"></i>
   </div>
-  <p class="ba2-cap">גלול. קו החשיפה נע מימין לשמאל.</p>
+  <p class="ba2-cap">גלול. קו החשיפה נע משמאל לימין.</p>
 </div></div>`,
   js:`(function(){
-  const before=document.querySelector(".ba2-before"),edge=document.querySelector(".ba2-edge"),
-        frame=document.querySelector(".ba2-frame");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce){before.style.clipPath="inset(0 0 0 50%)";edge.style.left="50%";return;}
-  const state={p:0};
-  ScrollTrigger.create({
-    trigger:".ba2",start:"top top",end:"bottom bottom",scrub:.5,
-    onUpdate:self=>{
-      // p הוא כמה נחשף מ"אחרי". החיתוך משמאל מותיר את "לפני" בימין
-      const p=self.progress;
-      before.style.clipPath="inset(0 0 0 "+(p*100).toFixed(2)+"%)";
-      edge.style.left=(p*100).toFixed(2)+"%";
-      edge.style.opacity=p>0.002&&p<0.998?1:0;
-    }
+  if(typeof gsap==="undefined")return;   // בלי הספרייה נשארת תמונת ה"לפני" המלאה
+  const before=document.querySelector(".ba2-before"),edge=document.querySelector(".ba2-edge");
+  const clear=()=>{before.style.clipPath="";edge.style.left="";edge.style.opacity="";};
+  const mm=gsap.matchMedia();
+  // בהפחתת תנועה: חצי חצי סטטי, והגלילה לא מזיזה כלום
+  mm.add("(prefers-reduced-motion: reduce)",()=>{before.style.clipPath="inset(0 0 0 50%)";edge.style.left="50%";return clear;});
+  mm.add("(prefers-reduced-motion: no-preference)",()=>{
+    ScrollTrigger.create({
+      trigger:".ba2",start:"top top",end:"bottom bottom",
+      onUpdate:self=>{
+        // p הוא כמה נחשף מ"אחרי". החיתוך משמאל מותיר את "לפני" בימין
+        const p=self.progress;
+        before.style.clipPath="inset(0 0 0 "+(p*100).toFixed(2)+"%)";
+        edge.style.left=(p*100).toFixed(2)+"%";
+        edge.style.opacity=p>0.002&&p<0.998?1:0;
+      }
+    });
+    return clear;
   });
 })();`,
   runway:false,
-  note:"אותו רעיון של סליידר ההשוואה, בלי ידית: הגלילה היא הידית. `clip-path:inset(0 0 0 X%)` משאיר את מה שמימין ל-X, ולכן בעברית \"לפני\" יושב בימין והחשיפה מתקדמת שמאלה, בכיוון שבו קוראים. הקו הלבן ממוקם באחוזים באותו ערך עצמו, ולכן הוא לעולם לא מתפצל מהחיתוך גם כשמשנים גודל חלון, ואין כאן שום מדידה בפיקסלים. הוא נעלם בקצוות כי קו על גבול המסגרת נראה כמו פגם. במצב חיסכון בתנועה מציגים חצי חצי סטטי, שזה עדיין מסר מובן."
+  note:"אותו רעיון של סליידר ההשוואה, בלי ידית: הגלילה היא הידית. `clip-path:inset(0 0 0 X%)` משאיר את מה שמימין ל-X, ולכן \"לפני\" יושב בימין כמו בסדר הקריאה, ו\"אחרי\" נחשף מהשמאל כשהקו נע ימינה. הקו הלבן ממוקם באחוזים באותו ערך עצמו, ולכן הוא לעולם לא מתפצל מהחיתוך גם כשמשנים גודל חלון, ואין כאן שום מדידה בפיקסלים. הוא נעלם בקצוות כי קו על גבול המסגרת נראה כמו פגם. במצב חיסכון בתנועה מציגים חצי חצי סטטי, שזה עדיין מסר מובן."
 },
 ];
