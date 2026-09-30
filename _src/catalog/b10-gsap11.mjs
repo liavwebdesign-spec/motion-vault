@@ -15,20 +15,22 @@ export default [
 .chart-wrap{position:relative}
 .chart-wrap svg{width:100%;height:auto;overflow:visible;display:block}
 .chart-grid line{stroke:var(--line);stroke-width:1}
-.chart-area{fill:url(#chartFill);opacity:0}
+/* צבע השטח והנקודה מהטוקנים, כך שהגרף יורש את ה-accent ואת צבע הכרטיס של הפרויקט */
+#chartFill stop{stop-color:var(--accent)}
+.chart-area{fill:url(#chartFill)}
 .chart-line{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.chart-dot{fill:#fff;stroke:var(--accent);stroke-width:3}
+.chart-dot{fill:var(--card);stroke:var(--accent);stroke-width:3}
 /* ציר הזמן ב-ltr כדי שהתוויות יתאימו לכיוון שבו הקו עולה. גרפים ומספרים נקראים משמאל לימין גם בעמוד עברי */
 .chart-x{display:flex;justify-content:space-between;margin-top:12px;font-size:12px;color:var(--muted);letter-spacing:.06em;direction:ltr}`,
   html:`<div class="stage chart"><div class="chart-in">
   <div class="chart-head">
     <h3>מה קרה בחצי שנה</h3>
-    <div class="chart-kpi"><div class="chart-val" data-to="394">0</div><div class="chart-lbl">פניות בחודש, לעומת 41 בהתחלה</div></div>
+    <div class="chart-kpi"><div class="chart-val" data-to="394">394</div><div class="chart-lbl">פניות בחודש, לעומת 41 בהתחלה</div></div>
   </div>
   <div class="chart-wrap">
     <svg viewBox="0 0 900 320" preserveAspectRatio="none" aria-label="גרף גידול בפניות">
       <defs><linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#4a3aff" stop-opacity=".28"/><stop offset="1" stop-color="#4a3aff" stop-opacity="0"/>
+        <stop offset="0" stop-opacity=".28"/><stop offset="1" stop-opacity="0"/>
       </linearGradient></defs>
       <g class="chart-grid">
         <line x1="0" y1="40" x2="900" y2="40"/><line x1="0" y1="120" x2="900" y2="120"/>
@@ -36,22 +38,30 @@ export default [
       </g>
       <path class="chart-area" d="M20,280 C160,268 250,232 340,214 C440,194 520,196 610,150 C700,104 780,74 880,38 L880,300 L20,300 Z"/>
       <path class="chart-line" id="chartLine" d="M20,280 C160,268 250,232 340,214 C440,194 520,196 610,150 C700,104 780,74 880,38"/>
-      <circle class="chart-dot" id="chartDot" r="7" cx="20" cy="280"/>
+      <circle class="chart-dot" id="chartDot" r="7" cx="880" cy="38"/>
     </svg>
     <div class="chart-x"><span>ינואר</span><span>פברואר</span><span>מרץ</span><span>אפריל</span><span>מאי</span><span>יוני</span></div>
   </div>
 </div></div>`,
   js:`(function(){
+  if(typeof gsap==="undefined")return;
   const val=document.querySelector(".chart-val");
   const target=+val.dataset.to;
-  const num={n:0};
-  const tl=gsap.timeline({scrollTrigger:{trigger:".chart-in",start:"top 72%",end:"bottom 78%",scrub:.7}});
-  tl.fromTo("#chartLine",{drawSVG:"0% 0%"},{drawSVG:"0% 100%",ease:"none"},0);
-  // הנקודה נוסעת על אותו path בדיוק, ולכן היא תמיד יושבת על קצה הקו
-  tl.to("#chartDot",{motionPath:{path:"#chartLine",align:"#chartLine",alignOrigin:[.5,.5]},ease:"none"},0);
-  tl.to(".chart-area",{opacity:1,ease:"none"},0);
-  tl.to(num,{n:target,ease:"none",onUpdate:()=>{val.textContent=Math.round(num.n).toLocaleString("he-IL");}},0);
+  const fmt=n=>Math.round(n).toLocaleString("he-IL");
+  // ה-HTML מחזיק את המצב הסופי (קו מלא, נקודה בסוף, הערך הסופי), כך שבלי JS ובהפחתת תנועה הגרף שלם
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const num={n:0};
+    val.textContent="0";
+    gsap.set("#chartDot",{attr:{cx:20,cy:280}});
+    const tl=gsap.timeline({scrollTrigger:{trigger:".chart-in",start:"top 72%",end:"bottom 78%",scrub:.6}});
+    tl.fromTo("#chartLine",{drawSVG:"0% 0%"},{drawSVG:"0% 100%",ease:"none"},0);
+    // הנקודה נוסעת על אותו path בדיוק, ולכן היא תמיד יושבת על קצה הקו
+    tl.to("#chartDot",{motionPath:{path:"#chartLine",align:"#chartLine",alignOrigin:[.5,.5]},ease:"none"},0);
+    tl.fromTo(".chart-area",{opacity:0},{opacity:1,ease:"none"},0);
+    tl.to(num,{n:target,ease:"none",onUpdate:()=>{val.textContent=fmt(num.n);}},0);
+    return ()=>{val.textContent=fmt(target);};
+  });
 })();`,
-  note:"<b>מלכודת RTL שנתפסה בבדיקה:</b> ה-SVG לא מושפע מכיוון העמוד, ולכן הקו תמיד עולה משמאל לימין, בעוד שורת התוויות ב-flex התהפכה והציגה את ינואר בימין. התוצאה הייתה גרף שבו ההתחלה מסומנת כחודש האחרון. הפתרון: direction:ltr על שורת התוויות, בדיוק כמו שעושים למספרים. הנקודה נעה על אותו path של הקו דרך MotionPath, ולכן היא לא יכולה להתנתק ממנו בשום רוחב מסך. המספר מונפש על אובייקט עזר ולא על ה-DOM, וה-onUpdate כותב אותו מעוגל. השטח שמתחת לקו הוא path נפרד שנסגר לתחתית, כי אי אפשר למלא path פתוח. בפרויקט אמיתי מייצרים את ה-d מהנתונים במקום לכתוב אותו ידנית."
+  note:"<b>מלכודת RTL שנתפסה בבדיקה:</b> ה-SVG לא מושפע מכיוון העמוד, ולכן הקו תמיד עולה משמאל לימין, בעוד ששורת התוויות ב-flex התהפכה והציגה את ינואר בימין. התוצאה הייתה גרף שבו ההתחלה מסומנת כחודש האחרון. הפתרון: direction:ltr על שורת התוויות, בדיוק כמו שעושים למספרים. הנקודה נעה על אותו path של הקו דרך MotionPath, ולכן היא לא יכולה להתנתק ממנו בשום רוחב מסך. המספר מונפש על אובייקט עזר ולא על ה-DOM, וה-onUpdate כותב אותו מעוגל. השטח שמתחת לקו הוא path נפרד שנסגר לתחתית, כי אי אפשר למלא path פתוח. <b>הערך הסופי כתוב ב-HTML</b> והסקריפט מאפס אותו רק כשהאנימציה רצה: כש-GSAP חסום לא מוצג \"0 פניות\" ליד גרף שעולה. צבע השטח והנקודה מגיעים מ-var(--accent) ומ-var(--card), לא כליטרל, ולכן הגרף יורש את עור הפרויקט. בפרויקט אמיתי מייצרים את ה-d מהנתונים במקום לכתוב אותו ידנית."
 },
 ];

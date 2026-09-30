@@ -6,28 +6,30 @@ export default [
   when:"תיק עבודות, רשימת שירותים, מאמרים. הדרך להציג עשרים פרויקטים בלי גריד כבד ובלי לטעון עשרים תמונות בכניסה.",
   libs:["gsap"],
   css:`.pl{padding-inline:var(--gutter);position:relative}
-.pl-row{display:flex;align-items:baseline;gap:18px;padding:clamp(18px,2.2vw,32px) 4px;border-top:1px solid var(--line);cursor:pointer;position:relative}
+.pl-row{display:flex;align-items:baseline;gap:18px;padding:clamp(18px,2.2vw,32px) 4px;border-top:1px solid var(--line);cursor:pointer;position:relative;color:inherit;text-decoration:none}
+.pl-row:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .pl-row:last-child{border-bottom:1px solid var(--line)}
 .pl-row .idx{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:3ch}
 .pl-row h3{margin:0;font-size:clamp(24px,3vw,50px);font-weight:800;transition:transform .4s cubic-bezier(.2,.6,.2,1),opacity .3s}
 .pl-row .tags{margin-inline-start:auto;font-size:12px;letter-spacing:.1em;color:var(--muted)}
-.pl.hovering .pl-row h3{opacity:.35}
+.pl.hovering .pl-row h3{opacity:.5}
 .pl-row.on h3{opacity:1;transform:translateX(-16px)}
 /* עוגן פיזי ולא לוגי: חשבון המיקום נעשה בקואורדינטות המסך, וב-RTL עוגן לוגי היה מזיז אותו לקצה הימני */
 .pl-prev{position:fixed;top:0;left:0;width:min(330px,34vw);aspect-ratio:4/3;border-radius:12px;overflow:hidden;
   pointer-events:none;z-index:20;opacity:0;transform:scale(.94);will-change:transform;box-shadow:0 24px 60px rgba(0,0,0,.22)}
-.pl-prev .ph{position:absolute;inset:0;font-size:28px;opacity:0}
+.pl-prev .ph{position:absolute;inset:0;font-size:28px;opacity:0;transition:opacity .25s cubic-bezier(.2,.6,.2,1)}
 .pl-prev .ph.on{opacity:1}
 .pl-hint{color:var(--muted);font-size:14px;padding-inline:var(--gutter);margin-bottom:10px}
-@media(max-width:767px){.pl-prev{display:none}.pl-row .tags{display:none}.pl.hovering .pl-row h3{opacity:1}}`,
+@media(max-width:767px){.pl-prev{display:none}.pl-row .tags{display:none}.pl.hovering .pl-row h3{opacity:1}}
+@media (prefers-reduced-motion: reduce){.pl-row h3,.pl-prev .ph{transition:none}.pl-row.on h3{transform:none}}`,
   html:`<div class="stage tight">
 <p class="pl-hint">העבר עכבר על השורות. במובייל התצוגה המקדימה מוסתרת והרשימה נשארת רשימה.</p>
 <div class="pl">
-  <div class="pl-row" data-i="0"><span class="idx">01</span><h3>מותג לחברת נדל"ן</h3><span class="tags">מיתוג · אתר</span></div>
-  <div class="pl-row" data-i="1"><span class="idx">02</span><h3>חנות תכשיטים</h3><span class="tags">איקומרס</span></div>
-  <div class="pl-row" data-i="2"><span class="idx">03</span><h3>קליניקה פרטית</h3><span class="tags">אתר · קופי</span></div>
-  <div class="pl-row" data-i="3"><span class="idx">04</span><h3>אפליקציית כושר</h3><span class="tags">מוצר</span></div>
-  <div class="pl-row" data-i="4"><span class="idx">05</span><h3>יקב בוטיק</h3><span class="tags">מיתוג</span></div>
+  <a class="pl-row" href="#" data-i="0"><span class="idx">01</span><h3>מותג לחברת נדל"ן</h3><span class="tags">מיתוג · אתר</span></a>
+  <a class="pl-row" href="#" data-i="1"><span class="idx">02</span><h3>חנות תכשיטים</h3><span class="tags">איקומרס</span></a>
+  <a class="pl-row" href="#" data-i="2"><span class="idx">03</span><h3>קליניקה פרטית</h3><span class="tags">אתר · קופי</span></a>
+  <a class="pl-row" href="#" data-i="3"><span class="idx">04</span><h3>אפליקציית כושר</h3><span class="tags">מוצר</span></a>
+  <a class="pl-row" href="#" data-i="4"><span class="idx">05</span><h3>יקב בוטיק</h3><span class="tags">מיתוג</span></a>
 </div>
 <div class="pl-prev">
   <div class="ph ph-a">1</div><div class="ph ph-b">2</div><div class="ph ph-c">3</div><div class="ph ph-d">4</div><div class="ph ph-e">5</div>
@@ -35,10 +37,16 @@ export default [
   js:`(function(){
   const list=document.querySelector(".pl"),prev=document.querySelector(".pl-prev");
   const rows=[...list.querySelectorAll(".pl-row")],shots=[...prev.querySelectorAll(".ph")];
-  if(!matchMedia("(hover:hover)").matches)return;
-  // quickTo נותן מעקב רך אחרי הסמן בלי ליצור טווין חדש בכל אירוע
-  const xTo=gsap.quickTo(prev,"x",{duration:.55,ease:"power3"});
-  const yTo=gsap.quickTo(prev,"y",{duration:.55,ease:"power3"});
+  // כל שורה היא קישור: במקלדת הפוקוס מסמן אותה בדיוק כמו ריחוף
+  rows.forEach(r=>{
+    r.addEventListener("focus",()=>rows.forEach(x=>x.classList.toggle("on",x===r)));
+    r.addEventListener("blur",()=>r.classList.remove("on"));
+  });
+  if(typeof gsap==="undefined"||!matchMedia("(hover:hover)").matches)return;
+  // quickTo נותן מעקב רך אחרי הסמן בלי ליצור טווין חדש בכל אירוע. בהפחתת תנועה החלונית עוברת למקום בלי גרירה
+  const dur=matchMedia("(prefers-reduced-motion: reduce)").matches?0:.55;
+  const xTo=gsap.quickTo(prev,"x",{duration:dur,ease:"power3"});
+  const yTo=gsap.quickTo(prev,"y",{duration:dur,ease:"power3"});
   const w=()=>prev.offsetWidth,h=()=>prev.offsetHeight;
   let shown=false,placed=false;
   function place(e){
@@ -68,6 +76,6 @@ export default [
   });
 })();`,
   runway:false,
-  note:"שני פרטים שעושים את ההבדל: השורות שאינן מרחפות דוהות ל-35 אחוז כך שהעין ננעלת על אחת, והחלונית נעצרת בשולי המסך במקום להיחתך. במובייל המהלך כבוי לגמרי, כי אין שם hover והשורות צריכות להישאר קריאות."
+  note:"שני פרטים שעושים את ההבדל: השורות שאינן מרחפות דוהות ל-50 אחוז כך שהעין ננעלת על אחת והאחרות עדיין קריאות, והחלונית נעצרת בשולי המסך במקום להיחתך. כל שורה היא קישור (a), כך שאפשר להגיע לפרויקט גם במקלדת, והפוקוס מסמן אותה כמו ריחוף. התמונות בחלונית מתחלפות בדהייה קצרה ולא בחיתוך. במובייל המהלך כבוי לגמרי, כי אין שם hover והשורות צריכות להישאר קריאות. בהפחתת תנועה החלונית עוברת למקום בלי גרירה והשורה המסומנת לא זזה הצידה."
 },
 ];

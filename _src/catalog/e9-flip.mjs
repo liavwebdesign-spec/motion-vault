@@ -10,7 +10,7 @@ export default [
 .gl-top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:clamp(18px,2.4vw,30px)}
 .gl-top h3{margin:0;font-size:clamp(22px,2.8vw,38px)}
 .gl-switch{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:4px}
-.gl-switch button{border:0;background:none;font:inherit;font-size:14px;padding:9px 18px;border-radius:999px;cursor:pointer;color:var(--muted)}
+.gl-switch button{border:0;background:none;font:inherit;font-size:14px;min-height:44px;padding:9px 18px;border-radius:999px;cursor:pointer;color:var(--muted)}
 .gl-switch button.on{background:var(--ink);color:var(--bg)}
 .gl-list{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap)}
 .gl-item{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
@@ -29,7 +29,7 @@ export default [
   html:`<div class="stage tight"><div class="gl">
   <div class="gl-top">
     <h3>עבודות אחרונות</h3>
-    <div class="gl-switch"><button class="on" data-v="grid">גריד</button><button data-v="rows">רשימה</button></div>
+    <div class="gl-switch"><button type="button" class="on" data-v="grid" aria-pressed="true">גריד</button><button type="button" data-v="rows" aria-pressed="false">רשימה</button></div>
   </div>
   <div class="gl-list">
     <article class="gl-item"><div class="ph gl-img ph-a">1</div><div class="gl-txt"><span class="gl-tag">אתר תדמית</span><h4>משרד עורכי דין</h4><p>אתר חדש עם מנוע תוכן ומערכת פניות.</p></div></article>
@@ -43,21 +43,23 @@ export default [
   js:`(function(){
   const list=document.querySelector(".gl-list");
   const btns=[...document.querySelectorAll(".gl-switch button")];
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const rm=matchMedia("(prefers-reduced-motion: reduce)");
   btns.forEach(b=>b.addEventListener("click",()=>{
     if(b.classList.contains("on"))return;
-    btns.forEach(x=>x.classList.toggle("on",x===b));
+    btns.forEach(x=>{x.classList.toggle("on",x===b);x.setAttribute("aria-pressed",String(x===b));});
+    // בלי Flip (CDN חסום) או בהפחתת תנועה הפריסה מתחלפת מיד, בלי מעבר
+    const animate=typeof Flip!=="undefined"&&!rm.matches;
     // 1. מודדים איפה הכל נמצא עכשיו, כולל הילדים שזזים בתוך הכרטיס
-    const state=Flip.getState(".gl-item, .gl-img, .gl-txt");
+    const state=animate?Flip.getState(".gl-item, .gl-img, .gl-txt"):null;
     // 2. משנים פריסה בקלאס אחד
     list.classList.toggle("rows",b.dataset.v==="rows");
-    if(reduce)return;
+    if(!state)return;
     // 3. Flip משווה מצב חדש למצב ישן ומנפיש את ההפרש
     Flip.from(state,{duration:.55,nested:true,ease:"power2.inOut",absolute:true});
   }));
 })();`,
   runway:false,
-  note:"זה הכוח האמיתי של Flip: את הפריסה משנים ב-CSS בלבד, ואת האנימציה לא כותבים כלל. `nested:true` חובה כאן, כי גם הכרטיס וגם התמונה והטקסט שבתוכו זזים באותו רגע, ובלעדיו הילדים נגררים פעמיים. `absolute:true` מונע מהפריטים שנשארו במקום לקפוץ בזמן שהגריד משנה עמודות. במצב חיסכון בתנועה הפריסה עדיין מתחלפת, פשוט בלי מעבר."
+  note:"זה הכוח האמיתי של Flip: את הפריסה משנים ב-CSS בלבד, ואת האנימציה לא כותבים כלל. `nested:true` חובה כאן, כי גם הכרטיס וגם התמונה והטקסט שבתוכו זזים באותו רגע, ובלעדיו הילדים נגררים פעמיים. `absolute:true` מונע מהפריטים שנשארו במקום לקפוץ בזמן שהגריד משנה עמודות. המתג מסמן את המצב ב-aria-pressed, כך שקורא מסך יודע איזו תצוגה פעילה. במצב חיסכון בתנועה, וגם כש-GSAP לא נטען, הפריסה עדיין מתחלפת, פשוט בלי מעבר."
 },
 {
   id:"b46", cat:"behavior", name:"עמודות שנפתחות בהובר", tech:"GSAP · flex-grow", status:"ממתין",
@@ -77,6 +79,9 @@ export default [
 .cx-col.open .cx-tab{opacity:0}
 .cx-col.open .cx-foot{opacity:1}
 .cx-col:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+/* הטקסט נפרס מההתחלה ברוחב הסופי, והעמודה (overflow:hidden) רק חושפת אותו בזמן שהיא גדלה.
+   בלי זה הוא נשבר לשלוש שורות בעמודה הצרה ומתיישר מחדש מול העין */
+@media(min-width:761px){.cx-foot{width:36ch}}
 @media(max-width:760px){
   .cx{flex-direction:column;height:clamp(420px,74vh,640px)}
   .cx-col{min-width:0;min-height:62px}
@@ -84,25 +89,27 @@ export default [
 }
 @media (prefers-reduced-motion: reduce){.cx-body,.cx-foot,.cx-tab{transition:none}}`,
   html:`<div class="stage tight"><div class="cx">
-  <div class="cx-col open"><div class="ph ph-a"></div><span class="cx-num">01</span><span class="cx-tab">אתרי תדמית</span>
+  <div class="cx-col open"><div class="ph ph-a"></div><span class="cx-num">01</span><span class="cx-tab" aria-hidden="true">אתרי תדמית</span>
     <div class="cx-foot"><span class="cx-name">אתרי תדמית</span><p class="cx-body">אתר שמסביר מה אתם עושים ולמי, ומוביל את המבקר לפנייה אחת ברורה.</p></div></div>
-  <div class="cx-col"><div class="ph ph-c"></div><span class="cx-num">02</span><span class="cx-tab">דפי נחיתה</span>
+  <div class="cx-col"><div class="ph ph-c"></div><span class="cx-num">02</span><span class="cx-tab" aria-hidden="true">דפי נחיתה</span>
     <div class="cx-foot"><span class="cx-name">דפי נחיתה</span><p class="cx-body">עמוד יחיד ממוקד לקמפיין, עם מסר אחד וקריאה לפעולה אחת.</p></div></div>
-  <div class="cx-col"><div class="ph ph-d"></div><span class="cx-num">03</span><span class="cx-tab">חנויות</span>
+  <div class="cx-col"><div class="ph ph-d"></div><span class="cx-num">03</span><span class="cx-tab" aria-hidden="true">חנויות</span>
     <div class="cx-foot"><span class="cx-name">חנויות</span><p class="cx-body">חנות שמוכרת גם בלי איש מכירות, עם מסלול קנייה קצר.</p></div></div>
-  <div class="cx-col"><div class="ph ph-e"></div><span class="cx-num">04</span><span class="cx-tab">מערכות</span>
+  <div class="cx-col"><div class="ph ph-e"></div><span class="cx-num">04</span><span class="cx-tab" aria-hidden="true">מערכות</span>
     <div class="cx-foot"><span class="cx-name">מערכות</span><p class="cx-body">ממשק פנימי לניהול לקוחות, משימות ודוחות במקום גיליונות.</p></div></div>
 </div></div>`,
   js:`(function(){
   const cols=[...document.querySelectorAll(".cx-col")];
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const rm=matchMedia("(prefers-reduced-motion: reduce)");
   const OPEN=6,SHUT=1;
   const grow=(i,el)=>el.classList.contains("open")?OPEN:SHUT;
-  gsap.set(cols,{flexGrow:grow});
+  // בלי GSAP (CDN חסום) הרוחבים נקבעים ישירות, והעמודות עדיין נפתחות
+  const setAll=()=>cols.forEach((c,i)=>{c.style.flexGrow=grow(i,c);});
+  setAll();
   function open(col){
     if(col.classList.contains("open"))return;
     cols.forEach(c=>c.classList.toggle("open",c===col));
-    if(reduce){gsap.set(cols,{flexGrow:grow});return;}
+    if(typeof gsap==="undefined"||rm.matches){setAll();return;}
     // flex-grow הוא מספר ולכן GSAP מנפיש אותו ישירות, בלי Flip ובלי סגנון אינליין שנתקע.
     // overwrite מבטל נסיעה קודמת כשעוברים מהר בין עמודות.
     gsap.to(cols,{flexGrow:grow,duration:.55,ease:"power3.inOut",overwrite:true});
@@ -110,7 +117,7 @@ export default [
   cols.forEach(c=>{c.tabIndex=0;["mouseenter","click","focus"].forEach(ev=>c.addEventListener(ev,()=>open(c)));});
 })();`,
   runway:false,
-  note:"הגרסה הקודמת רצה על Flip ונשברה בכל הובר מהיר: Flip משאיר את כל מה שהוא מנפיש כסגנון אינליין בסוף התנועה, ולכן העמודה הקודמת נשארה פתוחה למראה, וכותרת שמחליפה writing-mode בין אנכי לאופקי היא מעבר שאין בו מה לאינטרפל. כאן אין Flip בכלל: flex-grow הוא מספר ו-GSAP מנפיש אותו ישירות, והכותרת מוחלפת בשתי גרסאות שמצטלבות ב-opacity. הובר לבד אינו נגיש, ולכן אותו פותח רשום גם על click ועל focus. במובייל הכיוון אנכי ואותו קוד עובד על הגובה."
+  note:"הגרסה הקודמת רצה על Flip ונשברה בכל הובר מהיר: Flip משאיר את כל מה שהוא מנפיש כסגנון אינליין בסוף התנועה, ולכן העמודה הקודמת נשארה פתוחה למראה, וכותרת שמחליפה writing-mode בין אנכי לאופקי היא מעבר שאין בו מה לאינטרפל. כאן אין Flip בכלל: flex-grow הוא מספר ו-GSAP מנפיש אותו ישירות, והכותרת מוחלפת בשתי גרסאות שמצטלבות ב-opacity. הכותרת האנכית מסומנת aria-hidden, כדי שקורא מסך לא יקרא כל שם פעמיים. הטקסט של העמודה הפתוחה ברוחב קבוע, כך שהוא לא נשבר מחדש בזמן שהעמודה גדלה. הובר לבד אינו נגיש, ולכן אותו פותח רשום גם על click ועל focus. במובייל הכיוון אנכי ואותו קוד עובד על הגובה."
 },
 
 
@@ -122,7 +129,8 @@ export default [
   css:`.jf-hint{text-align:center;color:var(--muted);font-size:14px;padding-bottom:10px}
 .jf-step{min-height:88vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(20px,4vw,60px);
   max-width:min(1080px,94vw);margin-inline:auto}
-.jf-step:nth-child(even){direction:rtl}
+/* זיגזג: בשלבים הזוגיים הטקסט עובר לצד השני. order ולא direction, שבעמוד RTL לא משנה כלום */
+.jf-step:nth-child(even) .jf-copy{order:2}
 .jf-copy h3{margin:0 0 10px;font-size:clamp(22px,2.8vw,40px)}
 .jf-copy p{margin:0;color:var(--muted);font-size:17px;line-height:1.7;max-width:42ch}
 .jf-num{font-size:13px;color:var(--accent);font-weight:700;letter-spacing:.08em;margin-bottom:8px}
@@ -130,52 +138,64 @@ export default [
 .jf-step:nth-child(2) .jf-zone{width:min(52%,220px)}
 .jf-step:nth-child(3) .jf-zone{width:min(88%,380px)}
 .jf-step:nth-child(4) .jf-zone{width:min(46%,190px)}
-/* הנוסע יושב מחוץ לזרימה אבל בתוך אותו קונטקסט גלילה של התחנות, ו-Flip.fit מציב אותו על התחנה הנוכחית */
+/* הנוסע יושב מחוץ לזרימה אבל בתוך אותו קונטקסט גלילה של התחנות, ו-Flip.fit מציב אותו על התחנה הנוכחית.
+   הוא מוסתר עד שה-JS מציב אותו: בלי JS ובהפחתת תנועה המסגרות עצמן גלויות */
 .jf-wrap{position:relative}
-.jf-trav{position:absolute;top:0;left:0;width:340px;aspect-ratio:1;border-radius:22px;
+.jf-trav{position:absolute;top:0;left:0;width:340px;aspect-ratio:1;border-radius:22px;visibility:hidden;
   z-index:2;pointer-events:none;display:grid;place-items:center;font-size:40px;box-shadow:0 24px 60px rgba(20,20,40,.22)}
 @media(max-width:760px){.jf-step{grid-template-columns:1fr;gap:24px;min-height:auto;padding-block:14vh}
+  .jf-step:nth-child(even) .jf-copy{order:0}
   .jf-zone,.jf-step:nth-child(2) .jf-zone,.jf-step:nth-child(3) .jf-zone,.jf-step:nth-child(4) .jf-zone{width:min(62%,240px)}}`,
   html:`<p class="jf-hint">גלול. הפריט עובר בין המסגרות במקום להתחלף.</p>
 <div class="jf-wrap">
   <section class="jf-step"><div class="jf-copy"><div class="jf-num">שלב 01</div><h3>שיחת אפיון</h3>
     <p>מבינים את העסק, את הלקוח ואת מה שצריך לקרות באתר, לפני שנוגעים בעיצוב.</p></div>
-    <div class="ph jf-zone ph-a" style="opacity:0"></div></section>
+    <div class="ph jf-zone ph-a"></div></section>
   <section class="jf-step"><div class="jf-copy"><div class="jf-num">שלב 02</div><h3>קופי ומבנה</h3>
     <p>כותבים את המסרים ובונים את סדר הסקשנים, כך שכל גלילה עונה על השאלה הבאה.</p></div>
-    <div class="ph jf-zone ph-a" style="opacity:0"></div></section>
+    <div class="ph jf-zone ph-a"></div></section>
   <section class="jf-step"><div class="jf-copy"><div class="jf-num">שלב 03</div><h3>עיצוב ופיתוח</h3>
     <p>הופכים את המבנה לאתר חי, מהיר, שנראה נכון בכל מסך.</p></div>
-    <div class="ph jf-zone ph-a" style="opacity:0"></div></section>
+    <div class="ph jf-zone ph-a"></div></section>
   <section class="jf-step"><div class="jf-copy"><div class="jf-num">שלב 04</div><h3>עלייה ומדידה</h3>
     <p>מחברים מעקב, עולים לאוויר, ובודקים מה עובד במקום לנחש.</p></div>
-    <div class="ph jf-zone ph-a" style="opacity:0"></div></section>
+    <div class="ph jf-zone ph-a"></div></section>
   <div class="ph jf-trav ph-a">◆</div>
 </div>`,
   js:`(function(){
+  if(typeof gsap==="undefined"||typeof Flip==="undefined")return;
   const trav=document.querySelector(".jf-trav");
   const zones=gsap.utils.toArray(".jf-zone");
-  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if(reduce){zones.forEach(z=>z.style.opacity=1);trav.style.display="none";return;}
-  let tl;
-  function build(){
-    if(tl){tl.scrollTrigger&&tl.scrollTrigger.kill();tl.kill();gsap.set(trav,{clearProps:"all"});}
-    Flip.fit(trav,zones[0]);                       // מתחילים מוצמדים לתחנה הראשונה
-    tl=gsap.timeline({scrollTrigger:{
-      trigger:zones[0],start:"center center",
-      endTrigger:zones[zones.length-1],end:"center center",scrub:.6
-    }});
-    zones.slice(1).forEach((z,i)=>{
-      // המשך הנסיעה נמדד במרחק אמיתי בין התחנות, ולכן הקצב אחיד
-      const dist=z.getBoundingClientRect().top-zones[i].getBoundingClientRect().top;
-      const last=i===zones.length-2;                 // בתחנה האחרונה מתיישרים, כדי שהסיום ייראה מכוון
-      tl.add(Flip.fit(trav,z,{duration:Math.abs(dist)||1,ease:"power2.inOut",rotate:last?0:(i%2?8:-8)}));
-    });
-  }
-  build();
-  let t;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(()=>{build();ScrollTrigger.refresh();},250);});
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    let tl,alive=true;
+    const kill=()=>{if(tl){tl.scrollTrigger&&tl.scrollTrigger.kill();tl.kill();tl=null;}gsap.set(trav,{clearProps:"all"});};
+    function build(){
+      kill();
+      gsap.set(zones,{opacity:0});                  // המסגרות משמשות רק כמדידה
+      // scale:true: הגודל עובר ב-transform ולא ב-width/height, אחרת כל פריים של גלילה הוא layout
+      Flip.fit(trav,zones[0],{scale:true});         // מתחילים מוצמדים לתחנה הראשונה
+      tl=gsap.timeline({scrollTrigger:{
+        trigger:zones[0],start:"center center",
+        endTrigger:zones[zones.length-1],end:"center center",scrub:.6
+      }});
+      zones.slice(1).forEach((z,i)=>{
+        // המשך הנסיעה נמדד במרחק אמיתי בין התחנות, ולכן הקצב אחיד
+        const dist=z.getBoundingClientRect().top-zones[i].getBoundingClientRect().top;
+        const last=i===zones.length-2;                 // בתחנה האחרונה מתיישרים, כדי שהסיום ייראה מכוון
+        tl.add(Flip.fit(trav,z,{duration:Math.abs(dist)||1,ease:"power2.inOut",rotate:last?0:(i%2?8:-8),scale:true}));
+      });
+      gsap.set(trav,{visibility:"visible"});
+    }
+    build();
+    const rebuild=()=>{if(!alive)return;build();ScrollTrigger.refresh();};
+    let t;const onResize=()=>{clearTimeout(t);t=setTimeout(rebuild,250);};
+    addEventListener("resize",onResize);
+    // פונט שנטען אחרי הבנייה משנה את גובה השלבים, ולכן בונים שוב
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(rebuild);
+    return ()=>{alive=false;clearTimeout(t);removeEventListener("resize",onResize);kill();gsap.set(zones,{clearProps:"opacity"});};
+  });
 })();`,
   runway:true,
-  note:"Flip.fit שונה מ-Flip.from: הוא לא מנפיש הפרש שכבר קרה אלא מצמיד אלמנט אחד לקופסה של אלמנט אחר, כולל גודל וזווית. המסגרות בעמוד נשארות שקופות ומשמשות רק כמדידה, ולכן העמוד רספונסיבי בלי חישובי פיקסלים. שתי מלכודות: ה-duration של כל קטע חייב להיות המרחק האמיתי בין התחנות (אחרת הנסיעה מאיצה ומאטה בלי סיבה), ובשינוי גודל חלון חייבים לבנות מחדש עם clearProps, כי ה-fit הישן שמור בטרנספורם. במצב חיסכון בתנועה מציגים את המסגרות עצמן ומוותרים על הנוסע."
+  note:"Flip.fit שונה מ-Flip.from: הוא לא מנפיש הפרש שכבר קרה אלא מצמיד אלמנט אחד לקופסה של אלמנט אחר, כולל גודל וזווית. `scale:true` מעביר את הגודל דרך transform ולא דרך width ו-height, כי בתוך scrub כל שינוי רוחב הוא layout בכל פריים; התוכן של הנוסע מתכווץ איתו. המסגרות בעמוד נשארות שקופות ומשמשות רק כמדידה, ולכן העמוד רספונסיבי בלי חישובי פיקסלים. הזיגזג בין השלבים עשוי ב-order על עמודת הטקסט, כי direction:rtl בעמוד שכבר RTL לא עושה כלום. שלוש מלכודות: ה-duration של כל קטע חייב להיות המרחק האמיתי בין התחנות (אחרת הנסיעה מאיצה ומאטה בלי סיבה); Flip משאיר את מצב ה-fit אינליין על הנוסע, ולכן בכל בנייה מחדש, ובניקוי ב-SPA, קוראים ל-gsap.set(trav,{clearProps:'all'}); ובונים מחדש גם בשינוי חלון וגם אחרי document.fonts.ready, כי פונט שנטען משנה את גובה השלבים. במצב חיסכון בתנועה, וגם בלי JS, מציגים את המסגרות עצמן ומוותרים על הנוסע."
 },
 ];
