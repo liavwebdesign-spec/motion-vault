@@ -5,6 +5,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { portable, standalone, labelPh } from "./portable.mjs";
 import { libraryPage } from "./library.mjs";
+import { legendPage } from "./legend.mjs";
 import { readFileSync as __rf } from "node:fs";
 import { createHash as __ch } from "node:crypto";
 // baseline.js carries a content hash (23.9.2026): after syncing a review report, browsers kept the old file and old statuses won
@@ -1232,6 +1233,7 @@ writeFileSync(join(ROOT, "classic.html"), indexPage());
 writeFileSync(join(ROOT, "library.html"), `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><title>Design DNA · הספרייה</title>
 <script>location.replace("index.html"+location.hash)</script><meta http-equiv="refresh" content="0;url=index.html"></head><body><a href="index.html">לספרייה</a></body></html>`);
 writeFileSync(join(ROOT, "review.html"), reviewPage());
+writeFileSync(join(ROOT, "legend.html"), legendPage());
 // התורה נכתבת לסקיל מהקטלוג: המאגר הוא מקור האמת (6.9.2026)
 const skillTargets = [...writeCompositionsSkill(entries, ROOT), ...writeStylesSkill(entries, ROOT), ...writeAntiSkill(entries, ROOT), ...writeArchSkill(entries, ROOT)];
 console.log("doctrine -> " + skillTargets.join(" , "));
