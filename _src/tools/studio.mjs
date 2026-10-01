@@ -14,7 +14,8 @@
 // פלט: טבלה בקונסולה + _src/tools/out/studio/<name>.json. יציאה: 0 כשאף ★ לא נפל, 2 כשנפל.
 
 import { spawn } from "node:child_process";
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { homedir } from "node:os";
 import { join, dirname, resolve, basename } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -41,8 +42,29 @@ const chrome = spawn(CHROME, ["--headless=new", "--disable-gpu", "--hide-scrollb
 let ws, mid = 0; const pend = new Map();
 const send = (method, params = {}, sessionId) => new Promise((res, rej) => { const id = ++mid; pend.set(id, { res, rej }); ws.send(JSON.stringify({ id, method, params, ...(sessionId ? { sessionId } : {}) })); });
 
+// ---------- משכי התנועה המותרים (סעיף 25) ----------
+// המקור: tokens.json (motion.durations) מאוחד עם טבלת §3 ב-motion.md, כי studio-bar.md מגדיר את סעיף 25 כך ("רק הערכים של tokens.json וטבלת §3").
+// tokens.json לבדו חסר חמישה ערכים שהטבלה מחייבת: .12 לחיצה, .2 שברון, .28 רקע מודאל, .3 הובר כרטיס, .4 headroom, .45 הדר צף.
+// אצל מי שאין לו את התורה (המאגר ציבורי): null, והבדיקה נופלת לטווחים הקשיחים הישנים.
+const ENGINE = join(homedir(), ".claude", "skills", "design-dna", "references", "engine");
+const findKey = (o, k) => { if (!o || typeof o !== "object") return null; if (o[k] && typeof o[k] === "object") return o[k]; for (const v of Object.values(o)) { const r = findKey(v, k); if (r) return r; } return null; };
+function loadDurations() {
+  let tok;
+  try { tok = findKey(JSON.parse(readFileSync(join(ENGINE, "tokens.json"), "utf8")), "durations"); } catch { return null; }
+  if (!tok) return null;
+  const set = new Set(Object.values(tok).filter(v => typeof v === "number").map(v => Math.round(v * 1000)));
+  const fromTokens = [...set];
+  try {
+    const md = readFileSync(join(ENGINE, "motion.md"), "utf8"), a = md.indexOf("## 3."), b = md.indexOf("\n## 4.", a);
+    if (a >= 0) md.slice(a, b > a ? b : undefined).split("\n").filter(l => l.startsWith("|")).forEach(l => { for (const m of (l.split("|")[3] || "").matchAll(/(\d*\.?\d+)\s*s\b/g)) set.add(Math.round(parseFloat(m[1]) * 1000)); });
+  } catch {}
+  const list = [...set].sort((x, y) => x - y);
+  return { list, missingInTokens: list.filter(v => !fromTokens.includes(v)) };
+}
+const DUR = loadDurations();
+
 // ---------- סקריפט המדידה: רץ בתוך העמוד ומחזיר את 30 הסעיפים ----------
-const MEASURE = `(function(SEL, PROJECT){
+const MEASURE = `(function(SEL, PROJECT, DUR){
   const isVault=!!document.querySelector(".vtop");
   document.querySelectorAll(".vtop,.vintro,.mvcode,.vpn-foot,.mvpanel,.demo-note,.bpbar,.runway").forEach(e=>e.style.display="none");
   const root=document.querySelector(SEL)||(isVault?(document.querySelector(".bpwrap")||document.querySelector(".ref")):null)||document.body;
@@ -54,6 +76,10 @@ const MEASURE = `(function(SEL, PROJECT){
   const median=a=>{if(!a.length)return 0;const s=[...a].sort((x,y)=>x-y);return s[Math.floor(s.length/2)];};
   const uniq=a=>[...new Set(a)];
   let css="";try{for(const sh of document.styleSheets){if(isVault&&sh.href)continue;try{for(const r of sh.cssRules)css+=r.cssText+"\\n";}catch(e){}}}catch(e){}
+  // טקסט גולמי של הגיליונות: shorthand עם var() ליד longhand (animation: reveal .5s var(--ease) both + animation-delay) מסתדר ב-CSSOM כמחרוזת ריקה, והסריקה הייתה עיוורת.
+  // style: textContent. link: XHR סינכרוני לאותו מקור (או file://), בלי הערות.
+  const rawCss=skipLinked=>{let t="";document.querySelectorAll("style").forEach(s=>{t+=s.textContent+"\\n";});if(!skipLinked)document.querySelectorAll('link[rel~="stylesheet"]').forEach(l=>{try{const u=new URL(l.href,location.href);if(u.protocol!==location.protocol||(u.protocol!=="file:"&&u.origin!==location.origin))return;const x=new XMLHttpRequest();x.open("GET",u.href,false);x.send();if(x.status===200||x.status===0)t+=x.responseText+"\\n";}catch(e){}});return t.replace(/\\/\\*[\\s\\S]*?\\*\\//g,"");};
+  css+=rawCss(isVault);
   const R=[];const add=(n,star,name,status,evidence)=>R.push({n,star,name,status,evidence:String(evidence||"")});
   const h1=q("h1")[0]||q("h2")[0];
   const ps=q("p").filter(p=>txt(p).length>=20);
@@ -84,6 +110,7 @@ const MEASURE = `(function(SEL, PROJECT){
   q("*").slice(0,1500).forEach(e=>{const c=cs(e);["paddingTop","paddingBottom","paddingLeft","paddingRight","rowGap","columnGap"].forEach(k=>{const v=px(c[k]);if(v>0&&c[k]!=="normal")sp.add(Math.round(v*2)/2);});});
   const off=[...sp].filter(v=>!onL(v));
   let cssAll="";try{for(const sh of document.styleSheets){try{for(const r of sh.cssRules)cssAll+=r.cssText;}catch(e){}}}catch(e){}
+  cssAll+=rawCss(false);
   const clampy=/(padding|gap|--sec|--gutter|--pad)[^;{}]*clamp\\(/.test(cssAll);
   add(8,true,"סולם ריווח אחד (עד 2 ערכים מחוץ לסולם)",off.length<=2?"pass":(clampy?"manual":"fail"),off.length+" מחוץ לסולם"+(clampy?" (יש clamp: ערכים נוזליים, לבדוק בעין)":"")+(off.length?": "+off.slice(0,6).join(", "):""));
   // 9 ריווח סקשן נושם
@@ -105,8 +132,31 @@ const MEASURE = `(function(SEL, PROJECT){
   const phs=q(".ph").filter(p=>/תמונה|ויז|image/i.test(txt(p)));
   add(15,false,"ממלא מקום שנראה מעוצב",PROJECT?(phs.length?"fail":"pass"):"na",PROJECT?phs.length+" ממלאי מקום גולמיים":"במאגר פטור בכוונה");
   // 16 אייקונים ממשפחה אחת
+  // SVG פנימי (כולל ספרייט <use href="#i-...">), גדלים 16/20/24/32 בלבד, או stroke או filled. mask-image ו-background-image על אלמנט קטן אסורים (visual-language.md, אייקונים).
   const svgs=q("svg").filter(s=>s.getBoundingClientRect().width<=64);
-  if(svgs.length>=2){const sw=uniq(svgs.map(s=>cs(s).strokeWidth)),sizes=uniq(svgs.map(s=>Math.round(s.getBoundingClientRect().width)));add(16,false,"אייקונים: עובי קו וגודל אחידים",sw.length<=1&&sizes.length<=2?"pass":"fail","עוביים "+sw.join("/")+" · גדלים "+sizes.join("/"));}else add(16,false,"אייקונים ממשפחה אחת","na",svgs.length+" אייקונים");
+  const isUrl=v=>/url\\(/.test(v||"");
+  const maskHit=(c,mask)=>isUrl(c.maskImage)||isUrl(c.webkitMaskImage)||(mask&&/url\\([^)]*(\\.svg|image\\/svg)/.test(c.backgroundImage||""));
+  const mIcons=[];
+  q("*").slice(0,4000).forEach(e=>{if(e.closest("svg"))return;const r=e.getBoundingClientRect(),nm=(typeof e.className==="string"&&e.className.trim()?"."+e.className.trim().split(/\\s+/)[0]:e.tagName.toLowerCase());
+    if(r.width<=48&&r.height<=48&&maskHit(cs(e),true))mIcons.push(nm);
+    ["::before","::after"].forEach(p=>{const c=getComputedStyle(e,p);if(c.content==="none"||!maskHit(c,true))return;const w=px(c.width)||r.width,h=px(c.height)||r.height;if(w>0&&h>0&&w<=48&&h<=48)mIcons.push(nm+p);});});
+  // סגנון האייקון נקבע מהצורות שלו. ב-<use> ערך שלא נכתב על הצורה עצמה (attribute או style) עובר בירושה מהאלמנט use
+  const shapesOf=s=>{const own=[...s.querySelectorAll("path,circle,rect,line,polyline,polygon,ellipse")].map(e=>({e,inh:null}));[...s.querySelectorAll("use")].forEach(u=>{const h=u.getAttribute("href")||u.getAttribute("xlink:href")||"",t=h[0]==="#"?document.getElementById(h.slice(1)):null;if(t)(t.matches("path,circle,rect,line,polyline,polygon,ellipse")?[t]:[...t.querySelectorAll("path,circle,rect,line,polyline,polygon,ellipse")]).forEach(e=>own.push({e,inh:u}));});return own;};
+  const eff=(x,a,k)=>{if(!x.inh)return cs(x.e)[k];for(let n=x.e;n&&n.tagName!=="symbol"&&n.tagName!=="svg";n=n.parentElement)if(n.getAttribute(a)||n.style[k])return cs(x.e)[k];return cs(x.inh)[k];};
+  const ic=svgs.map(s=>{const sh=shapesOf(s),st=sh.filter(x=>eff(x,"stroke","stroke")!=="none"&&px(eff(x,"stroke-width","strokeWidth"))>0),fl=sh.filter(x=>{const f=eff(x,"fill","fill");return f!=="none"&&f!=="rgba(0, 0, 0, 0)";});
+    return {size:Math.round(s.getBoundingClientRect().width),kind:st.length&&!fl.length?"stroke":fl.length&&!st.length?"fill":"mixed",sw:st.length?Math.round(px(eff(st[0],"stroke-width","strokeWidth"))*100)/100:0};});
+  if(mIcons.length){add(16,false,"אייקונים: משפחה אחת ב-SVG פנימי, בלי mask/background",
+    "fail",mIcons.length+" אייקוני mask/background ("+uniq(mIcons).slice(0,4).join(", ")+")"+(svgs.length?" · ועוד "+svgs.length+" SVG":""));}
+  else if(svgs.length>=2){const sizes=uniq(ic.map(i=>i.size)).sort((a,b)=>a-b),okS=[16,20,24,32,40,48],badS=sizes.filter(v=>!okS.includes(v)),
+      strokes=ic.filter(i=>i.kind==="stroke"),fills=ic.filter(i=>i.kind==="fill"),sw=uniq(strokes.map(i=>i.sw)).sort((a,b)=>a-b),
+      probs=[];
+    if(badS.length)probs.push("גדלים מחוץ ל-16/20/24/32: "+badS.join("/"));
+    if(sizes.length>2)probs.push("יותר משני גדלים");
+    if(sw.length>1)probs.push("עובי קו לא אחיד");
+    if(strokes.length&&fills.length)probs.push("ערבוב stroke ו-filled ("+strokes.length+"/"+fills.length+")");
+    add(16,false,"אייקונים: משפחה אחת, גדלים 16/20/24/32, או stroke או filled",probs.length?"fail":"pass",
+      svgs.length+" אייקונים · גדלים "+sizes.join("/")+" · "+(strokes.length?"stroke "+sw.join("/"):"")+(strokes.length&&fills.length?" + ":"")+(fills.length?"filled":"")+(strokes.length||fills.length?"":"מעורב")+(probs.length?" · "+probs.join(" · "):""));}
+  else add(16,false,"אייקונים ממשפחה אחת","na",svgs.length+" אייקונים");
   add(17,false,"טקסט על תמונה עם סקרים מקומי (ניגודיות בנקודה הבהירה)","manual","");
   // 18 ★ כפתור בארבעה מצבים
   const hasBtn=/\\.btn|button/.test(css);
@@ -134,8 +184,9 @@ const MEASURE = `(function(SEL, PROJECT){
   const rdAll=uniq(revealRules.flatMap(r=>[...r.matchAll(/(\\d*\\.?\\d+)(m?s)/g)].map(m=>Math.round(parseFloat(m[1])*(m[2]==="s"?1000:1))))).filter(v=>v>=300);
   if(revealRules.length&&rdAll.length){const rd=uniq(revealRules.flatMap(r=>[...r.matchAll(/(\\d*\\.?\\d+)(m?s)/g)].map(m=>Math.round(parseFloat(m[1])*(m[2]==="s"?1000:1)))).filter(v=>v>=300));add(24,true,"reveal אחד: משך אחיד",rd.length<=1?"pass":"fail","משכי reveal: "+rd.join(", ")+"ms");}else add(24,true,"כוריאוגרפיית כניסה אחת",PROJECT?"fail":"na",PROJECT?"אין מערכת reveal":"אין reveal בעמוד ייחוס");
   // 25 שלוש מהירויות
-  const bad=durs.filter(d=>!((d>=120&&d<=250)||(d>=450&&d<=750)||(d>=900&&d<=1200)));
-  add(25,false,"תזמונים בשלוש קבוצות (150-200 / 500-700 / 900-1200)",durs.length?(bad.length<=1?"pass":"fail"):"na","משכים: "+durs.join(", ")+(bad.length?" · חריגים: "+bad.join(", "):""));
+  // עם התורה: מיקרו = רק הערכים של tokens.json וטבלת §3, מעבר 500-700, סצנה 900-1200. בלעדיה: הטווחים הקשיחים הישנים.
+  const bad=durs.filter(d=>DUR?!(DUR.some(m=>Math.abs(m-d)<=2)||(d>=500&&d<=700)||(d>=900&&d<=1200)):!((d>=120&&d<=250)||(d>=450&&d<=750)||(d>=900&&d<=1200)));
+  add(25,false,DUR?"תזמונים בשלוש קבוצות (ערכי הטבלה / 500-700 / 900-1200)":"תזמונים בשלוש קבוצות (150-200 / 500-700 / 900-1200)",durs.length?(bad.length<=1?"pass":"fail"):"na","משכים: "+durs.join(", ")+(bad.length?" · חריגים: "+bad.join(", "):""));
   add(26,false,"מעבר סקשנים אחד שאינו קו ישר","manual","");
   // 27 hover על כרטיס
   const cardHover=/\\.card[^{,]*:hover[^{]*\\{[^}]*(transform|box-shadow|border|translate)/.test(css);
@@ -150,7 +201,7 @@ const MEASURE = `(function(SEL, PROJECT){
   add(29,true,"פוטר ≥ 120px והדר שמשתנה בגלילה",(ftH>=120&&hdSticky)?"pass":"fail","פוטר "+ftH+"px · הדר "+(hdSticky?"דביק/משתנה":"סטטי"));
   add(30,false,"רגע חתימה אחד (\\"מה אזכור מחר?\\")","manual","");
   return {sel:SEL,root:root.className,results:R};
-})(${JSON.stringify(sel)}, ${PROJECT})`;
+})(${JSON.stringify(sel)}, ${PROJECT}, ${JSON.stringify(DUR ? DUR.list : null)})`;
 
 (async () => {
   let code = 0;
