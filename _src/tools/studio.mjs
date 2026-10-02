@@ -133,7 +133,7 @@ const MEASURE = `(function(SEL, PROJECT, DUR){
   add(15,false,"ממלא מקום שנראה מעוצב",PROJECT?(phs.length?"fail":"pass"):"na",PROJECT?phs.length+" ממלאי מקום גולמיים":"במאגר פטור בכוונה");
   // 16 אייקונים ממשפחה אחת
   // SVG פנימי (כולל ספרייט <use href="#i-...">), גדלים 16/20/24/32 בלבד, או stroke או filled. mask-image ו-background-image על אלמנט קטן אסורים (visual-language.md, אייקונים).
-  const svgs=q("svg").filter(s=>s.getBoundingClientRect().width<=64);
+  const svgs=q("svg").filter(s=>s.getBoundingClientRect().width<=48);  // מעל 48 זה איור, לא אייקון (g86: שלושה איורים של 64)
   const isUrl=v=>/url\\(/.test(v||"");
   const maskHit=(c,mask)=>isUrl(c.maskImage)||isUrl(c.webkitMaskImage)||(mask&&/url\\([^)]*(\\.svg|image\\/svg)/.test(c.backgroundImage||""));
   const mIcons=[];

@@ -176,7 +176,7 @@ doc({
   desc:"פריסת מגזין: ויז'ואל נטוע בתוך גוש הטקסט (float) או טור טקסט צר עם הערות שוליים ויזואליות.",
   when:"סיפור, אודות ארוך, מאמר, תוכן שרוצים שירגיש \"כתבה\".",
   mobile:"הוויז'ואל נחלץ מהזרימה לבלוקים.",
-  note:"measure צר (55 עד 65 תווים) חובה. זו כל האלגנטיות.",
+  note:"measure צר (הטווח של tokens.json type.measure: 55 עד 72 תווים, ובקומפוזיציה הזו הקצה הצר) חובה. זו כל האלגנטיות.",
   css:`${BASE}
 .c8{max-width:62ch;margin-inline:auto}
 .c8 .fig{float:inline-start;width:42%;aspect-ratio:1;border-radius:var(--r);margin-block:6px 12px;margin-inline:0 24px}
