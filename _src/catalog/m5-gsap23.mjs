@@ -191,9 +191,9 @@ html[dir="ltr"] .fe-it b{transform-origin:0 50%}
 .cmp-row .us{background:color-mix(in srgb,var(--accent) 7%,transparent);text-align:center}
 .cmp-row .them{text-align:center;color:var(--muted)}
 .cmp-row b{font-size:clamp(15px,1.5vw,18px)}
-.cmp svg{width:26px;height:26px;overflow:visible;vertical-align:middle}
-.cmp .ok path{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.cmp .no path{fill:none;stroke:var(--muted);stroke-width:2.5;stroke-linecap:round}
+.cmp svg{width:24px;height:24px;overflow:visible;vertical-align:middle}
+.cmp .ok path{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cmp .no path{fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round}
 @media(max-width:767px){.cmp-row{grid-template-columns:1.3fr 1fr 1fr}.cmp-row b{font-size:14px}.cmp svg{width:20px;height:20px}}`,
   html:`<div class="stage"><div class="cmp" role="table" aria-label="אצלנו מול הדרך הישנה">
   <div class="cmp-row head" role="row"><div role="columnheader">מה מקבלים</div><div class="us" role="columnheader">אצלנו</div><div class="them" role="columnheader">בדרך הישנה</div></div>

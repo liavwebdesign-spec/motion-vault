@@ -10,12 +10,12 @@ const IO = "cubic-bezier(.76,0,.24,1)";
 const HOURS = `{"0":[9,18],"1":[9,18],"2":[9,18],"3":[9,18],"4":[9,18],"5":[9,13],"6":null}`;
 
 const I = {
-  wa: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.6-2-1-1 .8c-.9-.4-1.8-1.3-2.2-2.2l.8-1-1-2z"/></svg>`,
-  tel: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>`,
-  mail: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg>`,
+  wa: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.6-2-1-1 .8c-.9-.4-1.8-1.3-2.2-2.2l.8-1-1-2z"/></svg>`,
+  tel: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>`,
+  mail: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7l8 6 8-6"/></svg>`,
   arrow: `<svg class="ic-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5m7-7-7 7 7 7"/></svg>`,
-  check: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`,
-  cal: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>`,
+  check: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`,
+  cal: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M8 3v4M16 3v4M3.5 10h17"/></svg>`,
   search: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg>`,
   alert: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5.5M12 16.5v.01"/></svg>`,
   wifi: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a14 14 0 0 1 18 0M6 12.5a9 9 0 0 1 12 0M9 16a4.5 4.5 0 0 1 6 0M12 19.5v.01"/></svg>`,
@@ -100,7 +100,7 @@ const PHONE_CSS = `
 .cx-phone .mbar{display:flex;position:absolute}
 .mb-go{flex:1;min-width:0}
 .mb-ic{flex:none;display:grid;place-items:center;width:52px;height:52px;border-radius:14px;color:var(--ink);background:color-mix(in srgb,var(--ink) 6%,transparent);transition:transform .18s ${E},background .2s ${E}}
-.mb-ic svg{width:22px;height:22px}
+.mb-ic svg{width:20px;height:20px}
 .mb-ic:active{transform:scale(.94)}`;
 
 // ---- shared scripts ----
@@ -232,7 +232,7 @@ export default [
 .mb-sheet a{display:flex;align-items:center;gap:14px;min-height:56px;padding:8px 12px;border-radius:14px;text-decoration:none;transition:background .18s ${E}}
 .mb-sheet a:active{background:color-mix(in srgb,var(--ink) 6%,transparent)}
 @media (hover:hover) and (pointer:fine){.mb-sheet a:hover{background:color-mix(in srgb,var(--ink) 5%,transparent)}}
-.mb-sheet a > svg{width:22px;height:22px;flex:none;color:var(--accent)}
+.mb-sheet a > svg{width:20px;height:20px;flex:none;color:var(--accent)}
 .mb-sheet b{display:block;font-size:15px;line-height:1.3}
 .mb-sheet small{display:block;font-size:13px;line-height:1.4;color:var(--muted)}`,
   html:`<div class="cx cxs" id="cv1"><div class="cx-phone" data-phone>
@@ -342,7 +342,7 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
 .ty-steps li{position:relative;display:grid;grid-template-columns:24px 1fr;gap:16px;align-items:start}
 .ty-steps li > i{position:relative;z-index:1;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--ink) 18%,transparent)}
 .ty-steps li.is-done > i{background:var(--accent);box-shadow:none;color:var(--accent-ink)}
-.ty-steps li.is-done > i svg{width:14px;height:14px}
+.ty-steps li.is-done > i svg{width:16px;height:16px}
 .ty-steps li.is-now > i{box-shadow:inset 0 0 0 2px var(--accent)}
 .ty-steps li.is-now > i::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--accent)}
 /* two soft rings, then still: it says "this is where you are", it does not nag */
@@ -485,7 +485,7 @@ ${phonePage("cv2", "לתיאום שיחה|#cv2-end|פתיחה", sec("שירות�
 .t5-list label{display:grid;grid-template-columns:28px 1fr;gap:14px;align-items:start;padding:14px 16px;border-radius:14px;background:var(--card);cursor:pointer;transition:background .2s ${E}}
 .t5-list input{position:absolute;opacity:0;width:1px;height:1px}
 .t5-box{display:grid;place-items:center;width:28px;height:28px;border-radius:9px;box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--ink) 22%,transparent);transition:background .2s ${E},box-shadow .2s ${E}}
-.t5-box svg{width:18px;height:18px;color:var(--accent-ink);stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .3s ${E}}
+.t5-box svg{width:16px;height:16px;color:var(--accent-ink);stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .3s ${E}}
 .t5-list input:checked + .t5-box{background:var(--accent);box-shadow:none}
 .t5-list input:checked + .t5-box svg{stroke-dashoffset:0}
 .t5-list input:focus-visible + .t5-box{outline:2px solid var(--accent);outline-offset:3px}
@@ -698,7 +698,7 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
 .t7-grid a{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;padding:12px 12px 16px;border-radius:18px;background:var(--card);text-decoration:none;transition:transform .2s ${E},box-shadow .2s ${E}}
 .t7-grid i{display:block;min-width:0;aspect-ratio:2/1;border-radius:12px;background:color-mix(in srgb,var(--accent) calc(var(--k) * 8%),var(--bg));transition:transform .4s ${E}}
 .t7-grid b{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 4px;font-size:16px}
-.t7-grid b svg{width:18px;height:18px}
+.t7-grid b svg{width:16px;height:16px}
 @media (hover:hover) and (pointer:fine){.t7-grid a:hover{transform:translateY(-2px);box-shadow:0 14px 32px color-mix(in srgb,var(--ink) 10%,transparent)}}
 .t7-rep{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;padding:20px;border-radius:18px;background:color-mix(in srgb,var(--ink) 4%,transparent)}
 .t7-rep[hidden]{display:none}
@@ -706,7 +706,7 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
 .t7-rep .cx-btn{min-height:48px;font-size:15px;overflow:hidden}
 .t7-rep .cx-btn span{display:inline-flex;align-items:center;gap:8px;transition:transform .25s ${E},opacity .25s ${E}}
 .t7-rep .cx-btn span + span{position:absolute;inset:0;justify-content:center;opacity:0;transform:translateY(100%)}
-.t7-rep .cx-btn span svg{width:18px;height:18px}
+.t7-rep .cx-btn span svg{width:16px;height:16px}
 .t7-rep .is-sent span:first-child{opacity:0;transform:translateY(-100%)}
 .t7-rep .is-sent span + span{opacity:1;transform:none}
 .t7-rep .is-sent{background:var(--ink);color:var(--bg);pointer-events:none}
@@ -806,7 +806,7 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
 .f8-box b{font-size:16px;line-height:1.4}
 .f8-box p{margin:0;display:flex;align-items:center;gap:10px;font-size:15px;color:var(--muted)}
 .f8-ring{width:20px;height:20px;flex:none;transform:rotate(-90deg)}
-.f8-ring circle{fill:none;stroke:var(--cx-err);stroke-width:2.5;stroke-dasharray:50.3;stroke-dashoffset:0}
+.f8-ring circle{fill:none;stroke:var(--cx-err);stroke-width:1.8;stroke-dasharray:50.3;stroke-dashoffset:0}
 .f8-ring.run circle{animation:f8-count var(--t,5s) linear forwards}
 @keyframes f8-count{to{stroke-dashoffset:50.3}}
 [data-kind="offline"] .f8-ring,[data-kind="ok"] .f8-ring,.is-final .f8-ring{display:none}
@@ -835,7 +835,7 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
     <label>שם<input name="name" autocomplete="name" required value="דנה לוי"></label>
     <label>טלפון<input name="phone" type="tel" dir="ltr" autocomplete="tel" required value="050-123-4567"></label>
     <label>במה נוכל לעזור?<textarea name="msg" rows="3">מטבח חדש לדירה ברמת גן</textarea></label>
-    <button class="cx-btn f8-btn" type="submit"><i class="f8-spin" aria-hidden="true"></i><svg class="f8-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-lab>שליחה</span></button>
+    <button class="cx-btn f8-btn" type="submit"><i class="f8-spin" aria-hidden="true"></i><svg class="f8-ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span data-lab>שליחה</span></button>
     <div class="f8-panel" data-panel data-kind="error" aria-live="polite"><div><div class="f8-box">
       <span class="f8-ic"><span class="i-err">${I.alert}</span><span class="i-off">${I.wifi}</span><span class="i-ok">${I.check}</span></span>
       <b data-msg></b>
@@ -929,15 +929,15 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
 .g9-f.is-bad input{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--cx-err) 70%,transparent)}
 .g9-f.is-bad input:focus{box-shadow:inset 0 0 0 2px var(--cx-err)}
 /* a quiet tick at the end of a field that became right: the reward comes early, the error comes late */
-.g9-tick{position:absolute;inset-inline-end:14px;top:50%;width:20px;height:20px;margin-top:-10px;color:var(--accent);opacity:0;transform:scale(.6);transition:opacity .2s ${E},transform .25s ${E}}
+.g9-tick{position:absolute;inset-inline-end:14px;top:50%;width:20px;height:20px;margin-top:-10px;color:var(--accent);opacity:0;transition:opacity .2s ${E}}
 .g9-tick path{stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .3s ${E} .05s}
-.g9-f.is-ok .g9-tick{opacity:1;transform:none}
+.g9-f.is-ok .g9-tick{opacity:1}
 .g9-f.is-ok .g9-tick path{stroke-dashoffset:0}
 .g9-err,.g9-sug{display:grid;grid-template-rows:0fr;transition:grid-template-rows .28s ${E}}
 .g9-err > p,.g9-sug > div{overflow:hidden;min-height:0;margin:0}
 .g9-f.is-bad .g9-err,.g9-sug.is-open{grid-template-rows:1fr}
 .g9-err p{display:flex;gap:8px;align-items:flex-start;padding-top:8px;font-size:14px;line-height:1.45;color:var(--cx-err)}
-.g9-err svg{width:18px;height:18px;flex:none;margin-top:1px}
+.g9-err svg{width:16px;height:16px;flex:none;margin-top:1px}
 .g9-sug button{display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-top:8px;padding:0 14px;border:0;border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,transparent);
   font:inherit;font-size:14px;color:var(--ink);cursor:pointer;transition:background .18s ${E}}
 .g9-sug button b{direction:ltr;unicode-bidi:isolate;color:var(--accent)}
@@ -955,9 +955,9 @@ a.t7-c{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 10%,transparent
   <p class="g9-sub">שלושה פרטים, ונחזור אליכם עוד היום.</p>
   <form novalidate>
     <div class="g9-sum" data-summary tabindex="-1" role="alert"><div><div class="g9-sum-in"><b data-count></b><ul></ul></div></div></div>
-    <div class="g9-f"><label for="cv9-name">שם</label><div class="g9-in"><input id="cv9-name" data-v="name" autocomplete="name" aria-required="true" value="דנה לוי" aria-describedby="cv9-name-e">${`<svg class="g9-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`}</div><div class="g9-err"><p id="cv9-name-e">${I.alert}<span></span></p></div></div>
-    <div class="g9-f"><label for="cv9-phone">טלפון נייד</label><div class="g9-in"><input id="cv9-phone" data-v="phone" aria-required="true" type="tel" inputmode="tel" dir="ltr" autocomplete="tel" value="050 123 456" aria-describedby="cv9-phone-e"><svg class="g9-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="g9-err"><p id="cv9-phone-e">${I.alert}<span></span></p></div></div>
-    <div class="g9-f"><label for="cv9-mail">אימייל</label><div class="g9-in"><input id="cv9-mail" data-v="email" aria-required="true" type="email" inputmode="email" dir="ltr" autocomplete="email" value="dana.levi@gmial.com" aria-describedby="cv9-mail-e"><svg class="g9-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="g9-err"><p id="cv9-mail-e">${I.alert}<span></span></p></div>
+    <div class="g9-f"><label for="cv9-name">שם</label><div class="g9-in"><input id="cv9-name" data-v="name" autocomplete="name" aria-required="true" value="דנה לוי" aria-describedby="cv9-name-e">${`<svg class="g9-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`}</div><div class="g9-err"><p id="cv9-name-e">${I.alert}<span></span></p></div></div>
+    <div class="g9-f"><label for="cv9-phone">טלפון נייד</label><div class="g9-in"><input id="cv9-phone" data-v="phone" aria-required="true" type="tel" inputmode="tel" dir="ltr" autocomplete="tel" value="050 123 456" aria-describedby="cv9-phone-e"><svg class="g9-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="g9-err"><p id="cv9-phone-e">${I.alert}<span></span></p></div></div>
+    <div class="g9-f"><label for="cv9-mail">אימייל</label><div class="g9-in"><input id="cv9-mail" data-v="email" aria-required="true" type="email" inputmode="email" dir="ltr" autocomplete="email" value="dana.levi@gmial.com" aria-describedby="cv9-mail-e"><svg class="g9-tick" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="g9-err"><p id="cv9-mail-e">${I.alert}<span></span></p></div>
       <div class="g9-sug" data-suggest><div><button type="button"><span>התכוונתם ל-<b data-fixed></b>?</span></button></div></div></div>
     <button class="cx-btn" type="submit">שליחה ${I.arrow}</button>
   </form>

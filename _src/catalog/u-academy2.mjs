@@ -474,7 +474,7 @@ export default [
   <div class="ac-cap" aria-live="polite"><b class="ac-t"></b><span class="ac-m"></span></div>
   <div class="ac-ctrl">
     <button class="ac-prev" type="button" aria-label="לפרויקט הקודם"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-    <button class="ac-play" type="button" aria-pressed="true" aria-label="התקדמות אוטומטית"><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
+    <button class="ac-play" type="button" aria-pressed="true" aria-label="התקדמות אוטומטית"><svg class="i-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
     <button class="ac-next" type="button" aria-label="לפרויקט הבא"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
   </div>
 </section>`,
@@ -586,12 +586,12 @@ export default [
 @media (hover:hover) and (pointer:fine){.shr-btn:hover{transform:translateY(-2px)}}
 .shr-btn:focus-visible,.shr-it:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .shr-btn svg{flex:none;width:20px;height:20px;transition:transform .35s cubic-bezier(.76,0,.24,1),opacity .2s}
-.shr-x{position:absolute;inset-inline-start:14px;opacity:0;transform:rotate(-90deg) scale(.6)}
-.shr.open .shr-ic{opacity:0;transform:rotate(90deg) scale(.6)}
+.shr-x{position:absolute;inset-inline-start:14px;opacity:0;transform:rotate(-90deg)}
+.shr.open .shr-ic{opacity:0;transform:rotate(90deg)}
 .shr.open .shr-x{opacity:1;transform:none}
 .shr-list{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
 .shr-list[hidden]{display:none} /* סגורה לא תופסת מקום: בלי זה נשאר חור של שורת עיגולים שקופה */
-.shr-list li{position:relative;opacity:0;transform:translateX(24px) scale(.6);transition:opacity .15s,transform .15s}
+.shr-list li{position:relative;opacity:0;transform:translateX(24px);transition:opacity .15s,transform .15s}
 .shr.open .shr-list li{opacity:1;transform:none;transition:opacity .3s calc(var(--i) * 50ms),transform .45s calc(var(--i) * 50ms) cubic-bezier(.2,.6,.2,1)}
 .shr-it{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink);cursor:pointer;
   transition:background-color .25s,color .25s,transform .25s cubic-bezier(.2,.6,.2,1)}
