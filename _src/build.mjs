@@ -831,7 +831,7 @@ function page(e) {
 <meta name="robots" content="noindex, nofollow">
 <title>${e.id.toUpperCase()} · ${e.name} | Motion Vault</title>
 ${FONT}
-${fontLink(e)}${e.cat === "style" ? FRL_LINK : ""}
+${fontLink(e)}${e.cat === "style" && e.archived ? FRL_LINK : ""}
 <link rel="stylesheet" href="../assets/vault.css">
 <style>
 ${e.css || ""}${e.demoCss ? "\n/* פיגום של עמוד הדמו בלבד: לא בייצוא ולא בקוד להעתקה (30.9.2026) */\n" + e.demoCss : ""}
