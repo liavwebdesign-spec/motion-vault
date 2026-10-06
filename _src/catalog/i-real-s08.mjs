@@ -1,58 +1,593 @@
-// שפה s08: עמוד הייחוס בבנייה מחדש (6.10.2026, ליאב: "שיפוץ רציני לעורות", כיוון ב). עד שהעמוד האמיתי מוכן, זה הדמו הישן.
-import { sk } from "./i-style1.mjs";
+// S8 · ליקוויד גלאס ברמת סטודיו (6.10.2026). עמוד הייחוס גרסה 2.
+//
+// העמוד עצמאי כמו s05: אותו מבנה (TOKENS / PAGE_CSS / PAGE_HTML / PAGE_JS), אותה עטיפה (.cwrap עם container query),
+// ואותו קו ניסוח, אבל שפה אחרת לגמרי: קרקע כהה אחת וצילום אמיתי מתחת לכל משטח זכוכית.
+// העסק בדמו הוא "צלול", משרד ייעוץ פנסיוני עצמאי (שם בדוי). הוא נבחר כי זו הפעם הראשונה שהשפה שימשה לעסק אמיתי
+// (מומנטום, גרסה ראשונה כהה, ליאב: "מבסוט ברמות"), ומה שנלמד שם נכנס לכאן:
+//   זכוכית רק במקום שיש מאחוריה משהו עשיר, התוכן על משטחים רגילים, אור אחד (כאן ענבר), בלי צל על משטח מוצבע,
+//   בהובר משטח מוצבע מקבל גוון כהה יותר מאותה משפחה, והרקע לא נחתך בין סקשנים.
+// מהגלסמורפיזם הישן (s03, בארכיון, אוחד לכאן): בסיס כהה מתחת ללבן (אחרת הטקסט נופל מ-AA מעל זוהר), שני עומקי זכוכית,
+// fallback ל-backdrop-filter, ותקרה של משטחי blur במסך. מהדמו הישן של s08: קצה עדשה בגרדיאנט במסכת border,
+// והבזק נודד על כפתור.
+// צילומים: Magnific, תמונות אמיתיות בלבד (ai_generated: excluded), ב-assets/media/real/s08/.
+//   hero.webp  = 108659326 (andrewbarnhart)   glass.webp = 433155275 (TamimDesignHub)   sea.webp = 3881025 (lunamarina)
+//   כולם 2560 ברוחב, באותו גרייד (כחול עמוק וענבר, שחור מורם אל הקרקע #060A14), סך הכול כ-690KB. נבחרו מגיליון תמונות ממוזערות, לא לפי כותרת.
+//   hero: צילום ים בשעת בין ערביים. glass: מגדלי זכוכית מלמטה, מוחשך. sea: אופק ים עם עמוד אור של השמש (ענבר, כמו המבטא).
+// הנתונים בעמוד (צבירה, דמי ניהול, מחירים, ספירות) הם דוגמה, והעמוד אומר את זה בכתב קטן.
 
-const NOISE = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")`;
-// Miriam Libre הוא פונט התגיות של s07. הוא לא מונוספייס (נמדד 30.9.2026: iiii ברוחב 61px מול MMMM ב-148px), ולכן המספור עובר למונוספייס אמיתי.
-const TAG = `"Miriam Libre",monospace`;
-const MONO = `ui-monospace,"SFMono-Regular",Consolas,monospace`;
+const EASE = "cubic-bezier(.2,.6,.2,1)";
+
+// ───────── טוקנים ומנוע ─────────
+const TOKENS = String.raw`/* Google Sans בגודל האמיתי שלו, בשם משלו (המאגר מגיש "Google Sans" עם size-adjust של 80%). בפרויקט טוענים Google Sans כרגיל (library/fonts.md). */
+@font-face{font-family:"MV Google Sans";src:url("../assets/fonts/google-sans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+.cwrap{container-type:inline-size}
+.q{--bg:#060A14;--ink:#F3F6FC;--soft:rgba(243,246,252,.88);--muted:rgba(243,246,252,.74);
+ --accent:#FFB45E;--accent-text:#FFC783;--accent-ink:#1B1204;
+ --smoke:rgba(8,13,26,.54);--tint:#0D162B;--tint-hv:#09111F;--tint-main:#14223F;--tint-main-hv:#0E1A34;
+ --r-card:28px;--r-control:16px;--ease:${EASE};
+ --sec:112px;--sec-breath:160px;--gut:clamp(20px,5cqi,64px);--vt:0px;
+ background:var(--bg);color:var(--ink);font-family:"MV Google Sans","Google Sans",system-ui,sans-serif;font-size:16px;line-height:1.68;display:flow-root;overflow:clip;position:relative;isolation:isolate;-webkit-font-smoothing:antialiased}
+.q *{box-sizing:border-box}
+.q h1,.q h2,.q h3,.q p,.q ul,.q ol,.q dl,.q dd{margin:0}
+.q a{color:inherit;text-decoration:none}
+.q ul,.q ol{list-style:none;padding:0}
+.q button,.q input{font:inherit;color:inherit}
+.q h1{font-size:clamp(38px,min(5.2cqi,8vh),112px);line-height:1.08;font-weight:600;letter-spacing:-.02em;text-wrap:balance}
+.q h2{font-size:clamp(30px,3.7cqi,48px);line-height:1.15;font-weight:600;text-wrap:balance}
+.q h3{font-size:20px;line-height:1.4;font-weight:600}
+.q .lead{font-size:18px;line-height:1.58;color:var(--muted);max-width:620px;text-wrap:pretty}
+.q .body{font-size:16px;line-height:1.68;color:var(--muted)}
+.q .meta{font-size:14px;font-weight:500;line-height:1.4;color:var(--muted)}
+.q .micro{font-size:13px;line-height:1.5;color:var(--muted)}
+.q .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;line-height:1.2;color:var(--accent-text)}
+.q .eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:1px;flex:none}
+.q .ico{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;color:var(--accent);flex:none;display:block}
+.q .ico.l{width:24px;height:24px}
+.q .sr{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.q :is(a,button,input,summary):focus-visible{outline:2px solid var(--accent-text);outline-offset:3px}
+/* הזכוכית: בסיס מעושן (כהה מתחת ללבן, כדי שהטקסט יעבור AA גם מעל זוהר), הבהרה אלכסונית עדינה, blur, וקצה מבריק בגרדיאנט.
+   הקצה הוא החומר ולא מסגרת: טבעת של פיקסל במסכה, בלי border. בלי צל נופל (משטח מוצבע, כלל ליאב). */
+.q .glass{position:relative;isolation:isolate;border-radius:var(--r-card);background-color:var(--smoke);background-image:linear-gradient(160deg,rgba(255,255,255,.1),rgba(255,255,255,.02) 46%);-webkit-backdrop-filter:blur(22px) saturate(1.5);backdrop-filter:blur(22px) saturate(1.5);transition:background-color .3s var(--ease)}
+.q .glass::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;padding:1px;pointer-events:none;background:linear-gradient(150deg,rgba(255,255,255,.46),rgba(255,255,255,.06) 36%,rgba(255,255,255,0) 58%,rgba(255,255,255,.2));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.q .glass::after{content:"";position:absolute;inset:0;z-index:-1;border-radius:inherit;pointer-events:none;background:radial-gradient(260px circle at var(--mx,70%) var(--my,0%),rgba(255,255,255,.13),transparent 62%);opacity:0;transition:opacity .3s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .glass[data-light]:hover{background-color:rgba(4,8,18,.7)}.q .glass[data-light]:hover::after{opacity:1}}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.q .glass{background-color:rgba(10,16,32,.94)}}
+/* כפתורים: שלוש רמות, ארבעה מצבים. ראשי ענבר מלא עם הבזק אור, משני מעושן, שלישי טקסט וחץ */
+.q .btn{position:relative;isolation:isolate;overflow:hidden;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-size:16px;font-weight:500;line-height:1;min-height:48px;padding:0 28px 2px;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:background-color .18s var(--ease),transform .12s var(--ease),color .18s var(--ease),box-shadow .18s var(--ease)}
+.q .btn::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 36%,rgba(255,255,255,.6) 50%,transparent 64%);transform:translateX(130%);transition:transform .7s var(--ease)}
+.q .btn:hover,.q .btn.is-hover{background:color-mix(in srgb,var(--accent) 88%,#000);transform:translateY(-1px)}
+.q .btn:hover::after,.q .btn.is-hover::after{transform:translateX(-130%)}
+.q .btn:active,.q .btn.is-active{transform:scale(.98)}
+.q .btn:focus-visible,.q .btn.is-focus{outline:0;box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--accent-text)}
+.q .btn.is-disabled,.q .btn:disabled{opacity:.5;pointer-events:none}
+.q .btn.sm{min-height:44px;padding:0 20px 2px;font-size:15px}
+.q .btn.lg{min-height:56px;padding:0 32px 2px}
+.q .btn.b2{background:rgba(4,8,18,.5);color:var(--ink)}
+.q .btn.b2::after{background:linear-gradient(105deg,transparent 36%,rgba(255,255,255,.22) 50%,transparent 64%)}
+.q .btn.b2:hover,.q .btn.b2.is-hover{background:rgba(4,8,18,.74)}
+.q .lnk{display:inline-flex;align-items:center;gap:8px;font-size:16px;font-weight:500;color:var(--ink);padding:12px 0;transition:color .15s var(--ease),gap .18s var(--ease)}
+.q .lnk .ico{transition:transform .18s var(--ease)}
+.q .lnk:hover,.q .lnk.is-hover{color:var(--accent-text)}
+.q .lnk:hover .ico,.q .lnk.is-hover .ico{transform:translateX(-4px)}
+/* שדות: חמישה מצבים. משטח מעושן בלי מסגרת, וטבעת ענבר ב-focus */
+.q .fld{display:flex;flex-direction:column;gap:8px}
+.q .fld label,.q .fld .lab{font-size:14px;font-weight:500;line-height:1.3;color:var(--soft)}
+.q .in{font-size:16px;line-height:1.2;padding:16px 20px;border:0;border-radius:var(--r-control);background:rgba(4,8,18,.5);color:var(--ink);appearance:none;width:100%;min-height:52px;transition:background-color .18s var(--ease),box-shadow .18s var(--ease)}
+.q .in::placeholder{color:rgba(243,246,252,.58)}
+.q .in:hover{background:rgba(4,8,18,.64)}
+.q .in:focus,.q .in.is-focus{outline:0;box-shadow:0 0 0 2px var(--accent-text)}
+.q .fld.err .in{box-shadow:0 0 0 2px #FF9B8A}
+.q .fld .msg{display:none;font-size:14px;line-height:1.3;color:#FFB4A6;align-items:center;gap:8px}
+.q .fld.err .msg{display:inline-flex}
+.q .fld .msg .ico{color:#FFB4A6}
+.q .in:disabled,.q .in.is-disabled{opacity:.5;pointer-events:none}
+/* reveal: keyframes, לא transition. התוכן גלוי בלי JS; רק כש-JS חי מסתירים ואז חושפים */
+.q .reveal{opacity:1}
+.js .q .reveal{opacity:0}
+.js .q .reveal.is-in{opacity:1;animation:qrev .5s ${EASE} both;animation-delay:calc(var(--i,0)*80ms)}
+@keyframes qrev{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+/* פתיחת העמוד: ההדר יורד ראשון, אחריו ההירו, ואחרון מה שמציץ בתחתית. CSS בלבד, ולכן עובד גם בלי JS */
+.q .oi{animation:qopen .7s ${EASE} both;animation-delay:calc(var(--d,0)*1ms)}
+@keyframes qopen{from{opacity:0;translate:0 24px}to{opacity:1;translate:0 0}}
+@keyframes qdrop{from{opacity:0;translate:0 -24px}to{opacity:1;translate:0 0}}
+@keyframes qsettle{from{opacity:0;scale:1.06}to{opacity:1;scale:1}}
+@keyframes qdraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){
+ .js .q .reveal,.q .reveal{opacity:1;translate:none}.js .q .reveal.is-in{animation:none}
+ .q .oi,.q .hd,.q .hero-img,.q .spark .ln{animation:none}.q .spark .ln{stroke-dashoffset:0}
+ .q .btn,.q .btn::after,.q .card,.q .lnk,.q .lnk .ico,.q .lens{transition:none}
+ .q .btn:hover,.q .btn:active,.q .card.hv:hover{transform:none}
+}
+.q .sec{padding:var(--sec) var(--gut)}
+.q .wrap{max-width:1200px;margin-inline:auto}
+.q section,.q footer{position:relative}
+.q section[id]{scroll-margin-top:96px}
+@container (min-width:1081px){.q h2{letter-spacing:-.015em}}
+@container (max-width:1023px){.q{--sec:88px;--sec-breath:112px}}
+@container (max-width:424px){.q h1{letter-spacing:0}}
+@container (max-width:767px){.q{--sec:64px;--sec-breath:88px}.q h3{font-size:19px}.q .lead{font-size:17px}.q .btn{min-height:48px}}`;
+
+// ───────── אייקונים: משפחה אחת, stroke 1.7, 20 ו-24 ─────────
+const I = (id, cls = "") => `<svg class="ico${cls ? " " + cls : ""}" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#s8-${id}"/></svg>`;
+const SPRITE = `<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="s8-mark" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M7.4 10.8A5 5 0 0 1 11 7.2"/></symbol>
+<symbol id="s8-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+<symbol id="s8-arrow" viewBox="0 0 24 24"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></symbol>
+<symbol id="s8-down" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m18 13-6 6-6-6"/></symbol>
+<symbol id="s8-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7.5v5M12 16h.01"/></symbol>
+</defs></svg>`;
+
+// קו חלק דרך נקודות (Catmull-Rom לבזייה), מחושב בזמן הבנייה
+function smooth(pts) {
+  let d = `M${pts[0][0]} ${pts[0][1]}`;
+  for (let i = 0; i < pts.length - 1; i++) {
+    const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+    const c1 = [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6];
+    const c2 = [p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6];
+    d += ` C${c1[0].toFixed(1)} ${c1[1].toFixed(1)} ${c2[0].toFixed(1)} ${c2[1].toFixed(1)} ${p2[0]} ${p2[1]}`;
+  }
+  return d;
+}
+const SV = [44, 47, 46, 53, 58, 56, 63, 67, 65, 73, 77, 84];
+const SPK = SV.map((v, i) => [Math.round(i * (332 / (SV.length - 1))), Math.round(68 - v * 0.74)]);
+const SPK_LINE = smooth(SPK);
+const SPK_AREA = `${SPK_LINE} L332 72 L0 72 Z`;
+
+// המחשבון מחושב גם בזמן הבנייה, כדי שהעמוד יציג מספרים וגרף נכונים בלי JS (ואותה נוסחה רצה בדפדפן)
+const CG = 0.045;
+const cfv = (P, y, fee) => { const r = Math.pow(1 + CG - fee, 1 / 12) - 1, n = y * 12; return r === 0 ? P * n : P * (Math.pow(1 + r, n) - 1) / r; };
+const cmoney = (n) => "₪" + Math.round(n).toLocaleString("he-IL");
+function cpath(P, y, fee, ymax) { const pts = []; for (let i = 0; i <= y; i++) pts.push([i / y * 600, 232 - cfv(P, i, fee) / ymax * 220 + 4]); return pts; }
+const cd = (pts) => "M" + pts.map((p) => p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" L");
+const C0 = (() => { const P = 3000, y = 25, A = cfv(P, y, .01), B = cfv(P, y, .003), ym = Math.max(A, B), pa = cpath(P, y, .01, ym), pb = cpath(P, y, .003, ym);
+  return { A, B, diff: B - A, pa, pb, da: cd(pa), db: cd(pb), gap: cd(pb) + " L" + pa.slice().reverse().map((p) => p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" L") + " Z" }; })();
+
+// ───────── העמוד ─────────
+const PAGE_CSS = String.raw`${TOKENS}
+/* הדר: גלולת זכוכית צפה. גובה = כפתור 44 + 2 × 10. נעלם בגלילה למטה וחוזר בתנועה למעלה (headroom, 0.4s) */
+.q .hd{position:sticky;top:calc(var(--vt) + 16px);z-index:30;width:min(1200px,calc(100% - 2*var(--gut)));height:64px;margin:16px auto -80px;padding:0 10px 0 10px;display:flex;align-items:center;gap:24px;border-radius:999px;animation:qdrop .7s ${EASE} both;transition:transform .4s var(--ease),background-color .3s var(--ease)}
+.q .hd.is-scrolled{background-color:rgba(5,9,19,.72)}
+.q .hd.is-hidden{transform:translateY(calc(-100% - 40px))}
+.q .hd .logo{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding-inline:12px 8px;font-size:20px;font-weight:600;line-height:1}
+.q .hd nav{position:absolute;inset-inline:0;margin-inline:auto;width:max-content;display:flex;gap:8px}
+.q .hd nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;border-radius:999px;font-size:15px;font-weight:500;color:var(--soft);transition:color .15s var(--ease),background-color .15s var(--ease)}
+.q .hd nav a:hover{color:#fff;background-color:rgba(4,8,18,.5)}
+.q .hd .btn{margin-inline-start:auto}
+/* ההירו: צילום אמיתי שיורד מתחת לקצה ההירו אל הקרקע (נמס בלי קו), טקסט בצד ההתחלה, וכרטיס זכוכית שחוצה את הגבול */
+.q .hero{z-index:2;isolation:isolate;min-height:clamp(640px,100svh,1440px);padding:112px var(--gut);display:flex;align-items:center}
+.q .hero-img{position:absolute;inset-inline:0;top:0;width:100%;height:calc(100% + 160px);object-fit:cover;object-position:50% 8%;z-index:-2;transform-origin:50% 20%;-webkit-mask-image:linear-gradient(#000 0,#000 58%,transparent 96%);mask-image:linear-gradient(#000 0,#000 58%,transparent 96%);animation:qsettle 1.2s ${EASE} both}
+.q .hero::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(54% 66% at 78% 52%,rgba(6,10,20,.72),rgba(6,10,20,.5) 52%,transparent 100%),linear-gradient(rgba(6,10,20,.5),transparent 24%)}
+.q .hero .wrap{width:100%}
+.q .hero-t{display:flex;flex-direction:column;align-items:flex-start;gap:24px;max-width:620px}
+.q .hero-t .lead{color:var(--soft);max-width:540px}
+.q .ctas{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;margin-top:8px}
+.q .snap{position:absolute;inset-inline-end:max(var(--gut),calc(50% - 600px));bottom:-88px;width:min(380px,34cqi);padding:24px;display:flex;flex-direction:column;gap:16px;z-index:3;animation:qopen .9s ${EASE} both;animation-delay:700ms}
+.q .snap-h{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.q .snap-h .meta,.q .snap-h .micro{color:var(--soft)}
+.q .snap-fig{display:flex;flex-direction:column;gap:4px}
+.q .snap-fig b{font-size:40px;line-height:1.1;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.q .spark{display:block;width:100%;height:auto;overflow:visible}
+.q .spark .ln{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:qdraw 1.2s ${EASE} 1000ms both}
+.q .spark .fill{fill:url(#s8-sp);opacity:.9}
+.q .snap-rows{display:flex;flex-direction:column;gap:8px}
+.q .snap-rows li{display:flex;align-items:baseline;justify-content:space-between;gap:12px;font-size:15px;color:var(--soft)}
+.q .snap-rows b{font-size:17px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+/* ההוכחה: ראש מצד אחד, ושלושה מספרים בעמודה, בלי כרטיסים ובלי קווים */
+.q .proof{padding:calc(var(--sec) + 48px) var(--gut) var(--sec)}
+.q .proof .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:center}
+.q .head{display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:620px}
+.q .head.c{align-items:center;text-align:center;margin-inline:auto}
+.q .head.sc{position:relative;isolation:isolate}
+.q .head.sc .lead{color:var(--soft)}
+.q .head.sc::before{content:"";position:absolute;inset:-48px -96px;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,rgba(6,10,20,.74),rgba(6,10,20,.48) 62%,transparent)}
+.q .head.c .lead{margin-inline:auto}
+.q .stats{display:flex;flex-direction:column;gap:32px}
+.q .stat{display:grid;grid-template-columns:clamp(150px,16.5cqi,212px) 1fr;gap:24px;align-items:baseline}
+.q .fig{font-size:clamp(56px,8.6cqi,112px);line-height:1;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;background:linear-gradient(180deg,#fff 30%,rgba(190,212,255,.66));-webkit-background-clip:text;background-clip:text;color:transparent}
+.q .stat .meta{font-size:20px;line-height:1.4;font-weight:500;color:var(--soft)}
+.q .proof .micro{margin-top:24px}
+/* הרגע: עדשה שנעה על דוח, ומחדדת את שורות דמי הניהול */
+.q .lens-sec{isolation:isolate;padding:var(--sec-breath) var(--gut) var(--sec)}
+.q .lens-sec .bg{position:absolute;inset:0;z-index:-1;width:100%;height:100%;object-fit:cover;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 26%,#000 74%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 26%,#000 74%,transparent)}
+.q .lens-sec .head{margin-bottom:56px}
+.q .sheet{position:relative;max-width:1040px;margin-inline:auto}
+.q .sheet-in{padding:40px}
+.q .sh-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:16px}
+.q .sh-top h3{font-size:20px}
+.q .rep{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0 8px;font-variant-numeric:tabular-nums}
+.q .rep th:nth-child(1){width:29%}.q .rep th:nth-child(2){width:14%}.q .rep th:nth-child(3){width:17%}.q .rep th:nth-child(4),.q .rep th:nth-child(5){width:20%}
+.q .rep th{font-size:13px;font-weight:500;line-height:1.3;color:var(--muted);text-align:start;padding:0 20px 4px}
+.q .rep td{padding:16px 20px;background:rgba(255,255,255,.055);font-size:16px;line-height:1.4;color:var(--soft)}
+.q .rep td:first-child{border-start-start-radius:16px;border-end-start-radius:16px;font-weight:500;color:var(--ink)}
+.q .rep td:last-child{border-start-end-radius:16px;border-end-end-radius:16px}
+.q .sh-foot{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px 40px;padding:16px 20px 0;color:var(--soft)}
+.q .sh-foot b{font-size:20px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;margin-inline-start:8px}
+.q .lens-sec .hint{text-align:center;margin-top:24px}
+.q .lens{position:absolute;left:0;top:0;width:var(--ld,220px);height:var(--ld,220px);border-radius:50%;pointer-events:none;z-index:3;opacity:0;scale:.86;transition:opacity .5s var(--ease),scale .5s var(--ease)}
+.q .sheet.is-live .lens{opacity:1;scale:1}
+.q .lens-clip{position:absolute;inset:0;border-radius:50%;overflow:hidden;background:rgb(10,17,36)}
+.q .lens-clip::before{content:"";position:absolute;inset:0;z-index:2;border-radius:50%;pointer-events:none;background:radial-gradient(110% 70% at 28% 6%,rgba(255,255,255,.2),transparent 56%)}
+.q .lens-clip::after{content:"";position:absolute;inset:0;border-radius:50%;pointer-events:none;box-shadow:inset 0 0 30px rgba(255,255,255,.1),inset 12px 0 20px -12px rgba(96,214,255,.55),inset -12px 0 20px -12px rgba(255,140,96,.5)}
+.q .lens-doc{position:absolute;left:0;top:0;transform-origin:0 0;direction:rtl;pointer-events:none}
+.q .lens-rim{position:absolute;inset:-1px;border-radius:50%;padding:2px;pointer-events:none;background:conic-gradient(from var(--a,200deg),rgba(255,255,255,.95),rgba(255,255,255,.08) 24%,rgba(255,255,255,.42) 50%,rgba(255,255,255,.08) 76%,rgba(255,255,255,.95));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.q .lens .rep td{color:rgba(243,246,252,.8);background:rgba(255,255,255,.09)}
+.q .lens .rep td:first-child{color:#fff}
+.q .lens .rep td.fee{color:var(--accent-text);font-weight:600;font-size:19px;text-shadow:0 0 18px rgba(255,180,94,.6)}
+.q .lens .sh-foot{color:rgba(243,246,252,.8)}
+.q .lens .sh-foot b.fee{color:var(--accent-text)}
+/* המחשבון: נתון חי על משטח מוצבע ולא על זכוכית. אין מאחוריו משהו שהזכוכית היתה מעוותת */
+.q .calc .wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:start}
+.q .calc .head{margin-bottom:40px}
+.q .ctls{display:flex;flex-direction:column;gap:16px}
+.q .ctl{display:flex;flex-direction:column;gap:0}
+.q .ctl-h{display:flex;align-items:baseline;justify-content:space-between;gap:16px}
+.q .ctl-h label{font-size:15px;font-weight:500;color:var(--soft)}
+.q .ctl-h output{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+.q .rng{-webkit-appearance:none;appearance:none;width:100%;height:44px;margin:0;background:transparent;cursor:pointer;--p:50%}
+.q .rng::-webkit-slider-runnable-track{height:6px;border-radius:3px;background:linear-gradient(to left,var(--accent) var(--p),rgba(255,255,255,.18) var(--p))}
+.q .rng::-moz-range-track{height:6px;border-radius:3px;background:rgba(255,255,255,.18)}
+.q .rng::-moz-range-progress{height:6px;border-radius:3px;background:var(--accent)}
+.q .rng::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:28px;height:28px;margin-top:-11px;border-radius:50%;border:0;background:radial-gradient(circle at 32% 26%,#fff,#e4ecff 58%,#b8c8f0);box-shadow:0 2px 8px rgba(0,0,0,.4);transition:transform .12s var(--ease)}
+.q .rng::-moz-range-thumb{width:28px;height:28px;border-radius:50%;border:0;background:radial-gradient(circle at 32% 26%,#fff,#e4ecff 58%,#b8c8f0);box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.q .rng:active::-webkit-slider-thumb{transform:scale(.94)}
+.q .rng:focus-visible{outline:0}
+.q .rng:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--accent-text)}
+.q .rng:focus-visible::-moz-range-thumb{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--accent-text)}
+.q .card{background:var(--tint);border-radius:var(--r-card);padding:32px;transition:background-color .3s var(--ease),transform .4s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .card.hv:hover{background:var(--tint-hv);transform:translateY(-4px)}.q .card.main.hv:hover{background:var(--tint-main-hv)}}
+.q .out{display:flex;flex-direction:column;gap:24px;padding:40px;background:var(--tint-main)}
+.q .out-top{display:flex;flex-direction:column;gap:8px}
+.q .out-top .fig2{font-size:clamp(48px,6.2cqi,80px);line-height:1;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums;color:var(--accent-text)}
+.q .chart{display:block;width:100%;height:auto;overflow:visible}
+.q .chart .a{fill:none;stroke:rgba(243,246,252,.62);stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.q .chart .b{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.q .chart .gap{fill:rgba(255,180,94,.3)}
+.q .chart .dot.a{fill:rgba(243,246,252,.92)}
+.q .chart .dot.b{fill:var(--accent);stroke:rgba(255,180,94,.28);stroke-width:8}
+.q .legend{display:flex;flex-wrap:wrap;gap:16px 40px}
+.q .legend>div{display:flex;flex-direction:column;gap:4px}
+.q .legend .meta{display:inline-flex;align-items:center;gap:8px}
+.q .legend .meta i{width:20px;height:4px;border-radius:2px;background:rgba(243,246,252,.62)}
+.q .legend .meta i.k{background:var(--accent)}
+.q .legend b{font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+/* ההצעה: כרטיס ראשי רחב וזוג קטן לידו, כולם משטחים מוצבעים. בריחוף גוון כהה יותר ומעט הרמה, בלי צל */
+.q .offer .head{margin-bottom:48px}
+.q .plans{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:24px;align-items:stretch}
+.q .side{display:flex;flex-direction:column;gap:24px}
+.q .plan{display:flex;flex-direction:column;gap:16px}
+.q .plan.main{padding:48px;background:var(--tint-main);gap:24px}
+.q .plan.side-i{flex:1;justify-content:space-between}
+.q .tag{align-self:flex-start;display:inline-block;font-size:13px;font-weight:500;line-height:1.2;padding:6px 12px 8px;border-radius:999px;background:rgba(255,180,94,.16);color:var(--accent-text)}
+.q .price{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 12px}
+.q .price b{font-size:40px;font-weight:600;line-height:1.1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.q .plan.main .price b{font-size:56px}
+.q .plan ul{display:grid;grid-template-columns:1fr 1fr;gap:12px 32px}
+.q .steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 24px}
+.q .plan .steps li{display:flex;flex-direction:column;align-items:flex-start;gap:4px;font-size:16px;font-weight:500;line-height:1.4;color:var(--ink)}
+.q .steps b{font-size:32px;font-weight:600;line-height:1;color:var(--accent-text);font-variant-numeric:tabular-nums}
+.q .plan li{display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.55;color:var(--soft)}
+.q .plan li .ico{margin-top:2px}
+.q .plan .ctas{margin-top:8px}
+.q .offer .micro{margin-top:24px}
+/* הסוגר השקט: סצנה אחת, צילום שנמס אל הפוטר על אותה קרקע */
+.q .tail{position:relative;isolation:isolate}
+.q .tail .bg{position:absolute;inset:0;z-index:-1;width:100%;height:100%;object-fit:cover;object-position:100% 0;-webkit-mask-image:linear-gradient(to bottom,transparent,#000 32%,#000 82%,rgba(0,0,0,.4));mask-image:linear-gradient(to bottom,transparent,#000 32%,#000 82%,rgba(0,0,0,.4))}
+.q .tail::after{content:"";position:absolute;inset:auto 0 0 0;height:min(100%,800px);z-index:-1;pointer-events:none;background:linear-gradient(transparent,rgba(6,10,20,.8) 26%,rgba(6,10,20,.92) 52%)}
+.q .close{padding:var(--sec-breath) var(--gut) var(--sec)}
+.q .close .head{margin-bottom:40px}
+.q .form{max-width:600px;margin-inline:auto;padding:40px;display:flex;flex-direction:column;gap:24px}
+.q .form .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.q .opts{display:flex;flex-wrap:wrap;gap:8px}
+.q .opt{position:relative}
+.q .opt input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.q .opt span{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border-radius:999px;background:rgba(4,8,18,.5);font-size:15px;font-weight:500;color:var(--soft);transition:background-color .18s var(--ease),color .18s var(--ease)}
+.q .opt:hover span{background:rgba(4,8,18,.7)}
+.q .opt input:checked+span{background:var(--accent);color:var(--accent-ink)}
+.q .opt input:focus-visible+span{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--accent-text)}
+.q .fields{display:flex;flex-direction:column;gap:24px}
+.q .form .btn{width:100%;min-height:52px}
+.q .form .micro{text-align:center}
+.q .form .micro a{text-decoration:underline;text-underline-offset:3px}
+.q .done{display:none;flex-direction:column;align-items:center;gap:16px;text-align:center;padding:24px 0}
+.q .form.is-done .fields{display:none}.q .form.is-done .done{display:flex}
+.q .done i{width:56px;height:56px;border-radius:50%;background:rgba(255,180,94,.18);display:grid;place-items:center}
+.q .done i .ico{width:24px;height:24px}
+.q .ft{--muted:rgba(243,246,252,.84);padding:72px var(--gut) 32px}
+.q .ft .cols{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:40px;padding-bottom:48px}
+.q .ft .brand{display:flex;flex-direction:column;gap:16px}
+.q .ft .brand .logo{display:inline-flex;align-items:center;gap:8px;font-size:22px;font-weight:600;line-height:1}
+.q .ft .brand .micro{max-width:320px}
+.q .ft .col{display:flex;flex-direction:column;gap:4px}
+.q .ft .col .meta{color:var(--ink);margin-bottom:8px}
+.q .ft .col a{font-size:15px;padding-block:6px;color:var(--muted);transition:color .15s var(--ease)}
+.q .ft .col a:hover{color:#fff}
+.q .ft .tel{unicode-bidi:isolate;text-align:end}
+.q .ft .legal{display:flex;flex-direction:column;gap:12px}
+.q .ft .legal .row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px}
+.q .ft .legal a{color:var(--muted);transition:color .15s var(--ease)}
+.q .ft .legal a:hover{color:#fff}
+.q .ft .legal .micro{max-width:760px}
+@container (max-width:1023px){
+ .q h1{font-size:clamp(40px,min(7cqi,8vh),64px)}
+ .q .proof{padding-top:calc(var(--sec) + 72px)}
+ .q .hero{flex-direction:column;align-items:stretch;justify-content:center;padding-bottom:0}
+ .q .snap{position:relative;inset:auto;width:min(420px,100%);margin:40px 0 -88px}
+ .q .proof .wrap,.q .calc .wrap{grid-template-columns:1fr;gap:48px}
+ .q .plans{grid-template-columns:1fr}
+ .q .ft .cols{grid-template-columns:1fr 1fr}
+}
+@container (max-width:819px){
+ .q .sheet-in{padding:20px}
+ .q .rep,.q .rep tbody,.q .rep tr,.q .rep td{display:block}
+ .q .rep thead{display:none}
+ .q .rep tr{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;padding:20px;margin-bottom:12px;background:rgba(255,255,255,.055);border-radius:20px}
+ .q .rep td{padding:0;background:none;border-radius:0}
+ .q .rep td:first-child{grid-column:1/-1;font-size:17px}
+ .q .rep td::before{content:attr(data-l);display:block;font-size:13px;line-height:1.3;color:var(--muted);font-weight:400}
+ .q .rep td:first-child::before{display:none}
+ .q .lens .rep td{background:none}
+ .q .lens .rep tr{background:rgba(255,255,255,.07)}
+ .q .sh-foot{padding:8px 4px 0}
+}
+@container (max-width:767px){
+ .q .hd nav{display:none}
+ .q .hd{gap:12px}
+ .q h1{font-size:clamp(38px,min(9.4cqi,8vh),44px)}
+ .q .hero{padding-top:128px}
+ .q .hero-t{gap:20px}
+ .q .ctas{flex-direction:column;align-items:stretch;gap:4px}
+ .q .ctas .btn{width:100%}
+ .q .ctas .lnk{justify-content:center}
+ .q .snap{width:100%;margin-top:32px}
+ .q .snap-fig b{font-size:36px;letter-spacing:0}
+ .q .proof{padding-top:calc(var(--sec) + 64px)}
+ .q .stat{grid-template-columns:clamp(104px,30cqi,150px) 1fr;gap:16px}
+ .q .fig{font-size:clamp(48px,15cqi,72px)}
+ .q .stat .meta{font-size:16px}
+ .q .plan.main{padding:32px}
+ .q .plan.main .price b{font-size:48px}
+ .q .plan ul{grid-template-columns:1fr}
+ .q .out{padding:24px}
+ .q .form{padding:24px}
+ .q .form .row{grid-template-columns:1fr}
+ .q .ft{padding-top:56px}
+ .q .tail .bg{object-position:22% 0}
+ .q .ft .col a{padding-block:12px}
+ .q .ft .legal .row{gap:0 24px}
+ .q .ft .legal .row a{padding-block:14px}
+ .q .ft .cols{grid-template-columns:1fr 1fr;gap:16px 24px}
+ .q .ft .brand,.q .ft .col:last-child{grid-column:1/-1}
+}`;
+
+const rep = (name, type, bal, f1, f2) => `<tr><td data-l="קופה">${name}</td><td data-l="סוג">${type}</td><td data-l="יתרה">${bal}</td><td class="fee" data-l="דמי ניהול מהצבירה">${f1}</td><td class="fee" data-l="דמי ניהול מההפקדה">${f2}</td></tr>`;
+const li = (t) => `<li>${I("check")}<span>${t}</span></li>`;
+
+const PAGE_HTML = `<div class="cwrap sk-s08"><script>document.currentScript.parentNode.classList.add("js")</script><div class="q">
+${SPRITE}
+<header class="hd glass"><a class="logo" href="#top" aria-label="צלול, לראש העמוד">${I("mark", "l")}<span>צלול</span></a><nav aria-label="ראשי"><a href="#how">איך זה עובד</a><a href="#calc">מחשבון</a><a href="#plans">חבילות</a></nav><a class="btn sm" href="#talk">שיחת היכרות</a></header>
+<main>
+<section class="hero" id="top">
+<img class="hero-img" src="../assets/media/real/s08/hero.webp" width="2560" height="1707" alt="אופק של ים בשעת בין ערביים, שמים כחולים עם פס אור כתום" fetchpriority="high" decoding="async">
+<div class="wrap"><div class="hero-t">
+<span class="eyebrow oi" style="--d:120"><i></i>ייעוץ פנסיוני עצמאי</span>
+<h1 class="oi" style="--d:200">הפנסיה שלכם, בלי ערפל</h1>
+<p class="lead oi" style="--d:300">אנחנו קוראים את הדוחות שלכם, בודקים את דמי הניהול ומסבירים בשפה פשוטה מה כדאי לשנות ומה עדיף להשאיר. ייעוץ שלא תלוי באף גוף מוסדי.</p>
+<div class="ctas oi" style="--d:400"><a class="btn lg" href="#talk">לקבוע שיחת היכרות</a><a class="lnk" href="#how">לראות איך זה נראה בדוח${I("arrow")}</a></div>
+</div></div>
+<aside class="snap glass" data-light aria-label="תמונת מצב שנתית, נתוני דוגמה">
+<div class="snap-h"><span class="meta">תמונת מצב שנתית</span><span class="micro">נתוני דוגמה</span></div>
+<div class="snap-fig"><b>₪812,400</b><span class="meta">צבירה כוללת היום</span></div>
+<svg class="spark" viewBox="0 0 332 72" aria-hidden="true" focusable="false"><defs><linearGradient id="s8-sp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB45E" stop-opacity=".34"/><stop offset="1" stop-color="#FFB45E" stop-opacity="0"/></linearGradient></defs><path class="fill" d="${SPK_AREA}"/><path class="ln" pathLength="1" d="${SPK_LINE}"/></svg>
+<ul class="snap-rows"><li><span>דמי ניהול ממוצעים</span><b>0.62%</b></li><li><span>הפקדה חודשית</span><b>₪3,200</b></li></ul>
+</aside>
+</section>
+
+<section class="proof"><div class="wrap">
+<div class="head reveal"><span class="eyebrow"><i></i>מה עומד מאחורי הבדיקה</span><h2>אנחנו קוראים את השורות הקטנות</h2><p class="lead">לפני כל המלצה עוברים על כל קופה ופוליסה, שורה אחרי שורה. ככה יודעים מה באמת משלמים, ומה אפשר לשנות.</p></div>
+<div><div class="stats">
+<div class="stat reveal" style="--i:0"><b class="fig" data-count="14">14</b><span class="meta">שנות ניסיון בשוק ההון ובפנסיה</span></div>
+<div class="stat reveal" style="--i:1"><b class="fig" data-count="420">420</b><span class="meta">משפחות ועסקים בליווי שוטף</span></div>
+<div class="stat reveal" style="--i:2"><b class="fig" data-count="3">3</b><span class="meta">ימי עבודה מהשיחה הראשונה עד דוח כתוב</span></div>
+</div><p class="micro reveal">נתוני דוגמה לעמוד הייחוס.</p></div>
+</div></section>
+
+<section class="lens-sec" id="how">
+<img class="bg" src="../assets/media/real/s08/glass.webp" width="2560" height="1440" alt="" loading="lazy" decoding="async">
+<div class="wrap">
+<div class="head c sc reveal"><span class="eyebrow"><i></i>הדוח שלכם, מקרוב</span><h2>בשורות הקטנות של הדוח יושב הכסף</h2><p class="lead">דמי ניהול של פחות מאחוז נשמעים כמו כלום, ואחרי עשרות שנים הם הפרש של סכום גדול. הזיזו את העדשה על דוח לדוגמה וראו איפה להסתכל.</p></div>
+<div class="sheet glass reveal" data-lens><div class="sheet-in">
+<div class="sh-top"><h3>דוח מסלקה פנסיונית</h3><span class="micro">נתוני דוגמה</span></div>
+<table class="rep"><thead><tr><th scope="col">קופה</th><th scope="col">סוג</th><th scope="col">יתרה</th><th scope="col">דמי ניהול מהצבירה</th><th scope="col">דמי ניהול מההפקדה</th></tr></thead><tbody>
+${rep("קרן פנסיה מקיפה", "פנסיה", "₪312,400", "0.22%", "1.8%")}
+${rep("קרן השתלמות", "השתלמות", "₪148,900", "0.74%", "אין")}
+${rep("קופת גמל להשקעה", "גמל", "₪96,300", "0.98%", "אין")}
+${rep("ביטוח מנהלים ישן", "ביטוח", "₪205,600", "1.05%", "4.0%")}
+${rep("קרן פנסיה קודמת", "פנסיה", "₪49,200", "0.30%", "2.0%")}
+</tbody></table>
+<div class="sh-foot"><span>סך הכול<b>₪812,400</b></span><span>דמי ניהול משוקללים<b class="fee">0.62%</b></span></div>
+</div></div>
+<p class="micro hint reveal">בטלפון העדשה נעה עם הגלילה. בדוח אמיתי כל קופה עוברת את אותה בדיקה.</p>
+</div></section>
+
+<section class="sec calc" id="calc" data-calc><div class="wrap">
+<div>
+<div class="head reveal"><span class="eyebrow"><i></i>חישוב לדוגמה</span><h2>מה עושה הפרש קטן בדמי הניהול</h2><p class="lead">בחרו הפקדה ותקופה, והשוו בין שני אחוזי דמי ניהול. החישוב נשען על הנחת תשואה קבועה לדוגמה, והוא אינו תחזית.</p></div>
+<div class="ctls reveal">
+<div class="ctl"><div class="ctl-h"><label for="c-dep">הפקדה חודשית</label><output id="o-dep" for="c-dep" aria-live="off">₪3,000</output></div><input class="rng" id="c-dep" type="range" min="500" max="10000" step="100" value="3000"></div>
+<div class="ctl"><div class="ctl-h"><label for="c-yrs">שנים עד הפרישה</label><output id="o-yrs" for="c-yrs" aria-live="off">25</output></div><input class="rng" id="c-yrs" type="range" min="5" max="40" step="1" value="25"></div>
+<div class="ctl"><div class="ctl-h"><label for="c-f1">דמי ניהול היום</label><output id="o-f1" for="c-f1" aria-live="off">1.00%</output></div><input class="rng" id="c-f1" type="range" min="0.1" max="2" step="0.05" value="1"></div>
+<div class="ctl"><div class="ctl-h"><label for="c-f2">דמי ניהול אחרי בדיקה</label><output id="o-f2" for="c-f2" aria-live="off">0.30%</output></div><input class="rng" id="c-f2" type="range" min="0.1" max="2" step="0.05" value="0.3"></div>
+</div>
+</div>
+<div class="card out reveal">
+<div class="out-top"><span class="meta" id="o-lab">ההפרש לטובתכם אחרי 25 שנים</span><b class="fig2" id="o-diff">${cmoney(C0.diff)}</b></div>
+<svg class="chart" id="chart" viewBox="0 0 600 240" role="img" aria-label="גרף צבירה לאורך השנים לפי שני אחוזי דמי ניהול" focusable="false"><path class="gap" id="ch-gap" d="${C0.gap}"/><path class="a" id="ch-a" d="${C0.da}"/><path class="b" id="ch-b" d="${C0.db}"/><circle class="dot a" id="ch-da" r="5" cx="${C0.pa[25][0]}" cy="${C0.pa[25][1].toFixed(1)}"/><circle class="dot b" id="ch-db" r="5" cx="${C0.pb[25][0]}" cy="${C0.pb[25][1].toFixed(1)}"/></svg>
+<div class="legend"><div><span class="meta"><i></i>דמי ניהול <span id="l-f1">1.00%</span></span><b id="l-a">${cmoney(C0.A)}</b></div><div><span class="meta"><i class="k"></i>דמי ניהול <span id="l-f2">0.30%</span></span><b id="l-b">${cmoney(C0.B)}</b></div></div>
+<p class="micro">הנחת הדוגמה: תשואה שנתית ברוטו של 4.5%, לפני דמי הניהול. לא תחזית ולא הבטחה.</p>
+</div>
+</div></section>
+
+<section class="sec offer" id="plans"><div class="wrap">
+<div class="head reveal"><span class="eyebrow"><i></i>חבילות</span><h2>מתחילים בבדיקה, ממשיכים לפי הצורך</h2><p class="lead">המחיר ידוע מראש, והבדיקה הראשונה נכללת בכל חבילה.</p></div>
+<div class="plans">
+<article class="card main hv plan reveal"><span class="tag">ליווי שוטף</span><h3>ליווי שנתי</h3><div class="price"><b>₪4,200</b><span class="meta">לשנה, כולל הבדיקה הראשונה</span></div>
+<ol class="steps"><li><b>01</b><span>שיחה ראשונה</span></li><li><b>02</b><span>דוח כתוב</span></li><li><b>03</b><span>החלטה משותפת</span></li></ol>
+<ul>${li("מיפוי כל הקופות והפוליסות")}${li("בדיקת דמי ניהול וכיסויים")}${li("דוח כתוב שאפשר לשמור")}${li("בחינה חוזרת פעמיים בשנה")}${li("מענה לשאלות בין הפגישות")}${li("ליווי בכל החלטה על מעבר")}</ul>
+<div class="ctas"><a class="btn" href="#talk">להתחיל בליווי</a><a class="btn b2" href="#talk">מה כלול בדיוק</a></div></article>
+<div class="side">
+<article class="card hv plan side-i reveal" style="--i:1"><div><h3>בדיקת תיק חד־פעמית</h3><p class="body" style="margin-top:8px">מיפוי הקופות, ניתוח דמי ניהול וכיסויים, דוח כתוב ושיחת הסבר.</p></div><div class="price"><b>₪1,800</b><span class="meta">חד־פעמי</span></div><a class="lnk" href="#talk">לפרטים${I("arrow")}</a></article>
+<article class="card hv plan side-i reveal" style="--i:2"><div><h3>משפחה ועסק עצמאי</h3><p class="body" style="margin-top:8px">תכנון פרישה לשני בני זוג, הפקדות ומיסוי לעצמאים, וליווי לאורך השנה.</p></div><div class="price"><b>מ־₪7,500</b><span class="meta">לפי היקף</span></div><a class="lnk" href="#talk">לפרטים${I("arrow")}</a></article>
+</div>
+</div>
+<p class="micro reveal">המחירים כאן לדוגמה.</p>
+</div></section>
+
+<div class="tail">
+<img class="bg" src="../assets/media/real/s08/sea.webp" width="2560" height="1706" alt="" loading="lazy" decoding="async">
+<section class="close" id="talk"><div class="wrap">
+<div class="head c sc reveal"><span class="eyebrow"><i></i>הצעד הראשון</span><h2>שיחה של עשרים דקות, בלי התחייבות</h2><p class="lead">משאירים שם וטלפון, ואנחנו חוזרים תוך יום עבודה כדי לקבוע זמן. לא צריך להכין כלום.</p></div>
+<form class="form glass reveal" data-light novalidate>
+<div class="fields">
+<div class="row"><div class="fld"><label for="f-name">שם מלא</label><input id="f-name" class="in" name="name" autocomplete="name" placeholder="איך קוראים לכם" required><span class="msg" id="f-name-m">${I("alert")}נא למלא שם</span></div><div class="fld"><label for="f-tel">טלפון</label><input id="f-tel" class="in" name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="050-0000000" dir="ltr" style="text-align:end" required><span class="msg" id="f-tel-m">${I("alert")}מספר קצר מדי</span></div></div>
+<div class="fld" role="group" aria-labelledby="f-t-l"><span class="lab" id="f-t-l">מה הכי מטריד אתכם? (לא חובה)</span><div class="opts"><label class="opt"><input type="radio" name="topic" value="fees"><span>דמי ניהול</span></label><label class="opt"><input type="radio" name="topic" value="retire"><span>פרישה</span></label><label class="opt"><input type="radio" name="topic" value="cover"><span>ביטוחים</span></label><label class="opt"><input type="radio" name="topic" value="unsure"><span>עוד לא יודעים</span></label></div></div>
+<button class="btn lg" type="submit">לשלוח</button>
+<p class="micro">בלי רשימות תפוצה. בשליחה אתם מאשרים את <a href="#">מדיניות הפרטיות</a>.</p>
+</div>
+<div class="done" role="status"><i>${I("check", "l")}</i><h3>תודה, קיבלנו</h3><p class="body">נחזור אליכם תוך יום עבודה.</p></div>
+</form>
+</div></section>
+<footer class="ft"><div class="wrap"><div class="cols">
+<div class="brand"><span class="logo">${I("mark", "l")}צלול</span><p class="micro">משרד ייעוץ פנסיוני עצמאי. פגישות בזום ובמשרד, ודוחות בעברית פשוטה.</p></div>
+<div class="col"><span class="meta">חבילות</span><a href="#plans">ליווי שנתי</a><a href="#plans">בדיקת תיק</a><a href="#plans">משפחה ועסק</a></div>
+<div class="col"><span class="meta">צלול</span><a href="#how">איך זה עובד</a><a href="#calc">מחשבון</a><a href="#talk">שיחת היכרות</a></div>
+<div class="col"><span class="meta">יצירת קשר</span><a class="tel" dir="ltr" href="tel:035550142">03-555-0142</a><a href="mailto:office@tzalul.example">office@tzalul.example</a></div>
+</div>
+<div class="legal"><div class="row"><span class="micro">© <span data-year>2026</span> צלול</span><a class="micro" href="#">מדיניות פרטיות</a><a class="micro" href="#">הצהרת נגישות</a><a class="micro" href="#">תנאי שימוש</a><span class="micro">עוצב ופותח על ידי <a href="https://liavmatzri.co.il" style="text-decoration:underline;text-underline-offset:3px">ליאב מצרי</a></span></div>
+<p class="micro">המידע באתר כללי ואינו מהווה ייעוץ אישי או המלצה לרכישה או למכירה של מוצר פיננסי. תשואות בעבר אינן מבטיחות תשואות בעתיד. הנתונים והמחירים בעמוד הם דוגמה.</p></div>
+</div></footer>
+</div>
+</main>
+</div></div>`;
+
+// הדר: מתחת לסרגל המאגר, headroom וגוון מוצק בגלילה. reveal ומונים (reduced-motion מכבה את ה-reveal, והמונה ממשיך לספור: motion.md סעיף 4).
+// העדשה: עותק של הדוח בתוך עיגול, מוזז בניגוד לעדשה כדי שיישאר מיושר, בהגדלה קלה. רק transform, ורק כשהערך השתנה.
+// מחוץ למגע: העדשה עוקבת אחרי המצביע ואחרי כן חוזרת למסלול הגלילה. במגע ובלי עכבר: מסלול הגלילה בלבד.
+const PAGE_JS = String.raw`(function(){var root=document.querySelector(".sk-s08");if(!root)return;
+var rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var fine=window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+var hd=root.querySelector(".hd"),top=document.querySelector(".vtop");
+var vt=-1,lastY=window.scrollY,acc=0,sc=false,hid=false,tk=false;
+function place(){var s=top?getComputedStyle(top):null;var h=(s&&s.position==="sticky"&&s.display!=="none")?top.offsetHeight:0;if(h!==vt){vt=h;root.style.setProperty("--vt",h+"px")}}
+function hide(v){if(v===hid)return;hid=v;hd.classList.toggle("is-hidden",v)}
+function onScroll(){if(tk)return;tk=true;requestAnimationFrame(function(){tk=false;place();var y=window.scrollY,d=y-lastY;lastY=y;
+ var s=y>8;if(s!==hd.classList.contains("is-scrolled"))hd.classList.toggle("is-scrolled",s);
+ if(y<120){acc=0;hide(false);return}
+ acc=((d>0)===(acc>0))?acc+d:d;if(acc>6)hide(true);else if(acc<-6)hide(false)})}
+window.addEventListener("scroll",onScroll,{passive:true});window.addEventListener("resize",place);place();onScroll();
+hd.addEventListener("focusin",function(){hide(false)});
+[].forEach.call(root.querySelectorAll("[data-year]"),function(n){n.textContent=new Date().getFullYear()});
+/* אור שעוקב אחרי המצביע, רק על המשטח שמתחתיו */
+if(fine)[].forEach.call(root.querySelectorAll("[data-light]"),function(el){var raf=0,lx=0,ly=0;el.addEventListener("pointermove",function(e){lx=e.clientX;ly=e.clientY;if(raf)return;raf=requestAnimationFrame(function(){raf=0;var r=el.getBoundingClientRect();el.style.setProperty("--mx",(lx-r.left).toFixed(0)+"px");el.style.setProperty("--my",(ly-r.top).toFixed(0)+"px")})})});
+/* reveal ומונים */
+function count(b){var t=+b.dataset.count,suf=b.dataset.suffix||"",step=Math.max(1,Math.round(t/28)),v=0;b.textContent="0"+suf;
+ var id=setInterval(function(){v+=step;if(v>=t){v=t;clearInterval(id)}b.textContent=v.toLocaleString("he-IL")+suf},24)}
+var els=root.querySelectorAll(".reveal"),nums=root.querySelectorAll("[data-count]");
+if("IntersectionObserver" in window){
+ var cio=new IntersectionObserver(function(en){en.forEach(function(x){if(!x.isIntersecting)return;count(x.target);cio.unobserve(x.target)})},{threshold:.6});
+ nums.forEach(function(b){cio.observe(b)});
+ if(rm){els.forEach(function(e){e.classList.add("is-in")})}
+ else{var io=new IntersectionObserver(function(en){en.forEach(function(x){if(!x.isIntersecting)return;x.target.classList.add("is-in");io.unobserve(x.target)})},{threshold:.15,rootMargin:"0px 0px -8% 0px"});
+  els.forEach(function(e){io.observe(e)})}
+}else{els.forEach(function(e){e.classList.add("is-in")})}
+/* העדשה */
+(function(){var sheet=root.querySelector("[data-lens]");if(!sheet)return;var inner=sheet.querySelector(".sheet-in");if(!inner)return;
+ var lens=document.createElement("div");lens.className="lens";lens.setAttribute("aria-hidden","true");
+ var clip=document.createElement("div");clip.className="lens-clip";var doc=document.createElement("div");doc.className="lens-doc";
+ var copy=inner.cloneNode(true);copy.setAttribute("inert","");[].forEach.call(copy.querySelectorAll("[id]"),function(n){n.removeAttribute("id")});
+ doc.appendChild(copy);clip.appendChild(doc);lens.appendChild(clip);var rim=document.createElement("span");rim.className="lens-rim";lens.appendChild(rim);
+ sheet.appendChild(lens);
+ var S=1.1,D=232,W=0,H=0,cx=0,cy=0,tx=0,ty=0,px=0,py=0,hov=false,raf=0,live=false,last=0,ang=-1,wp=[];
+ function clamp(v,a,b){return Math.max(a,Math.min(b,v))}
+ /* מסלול הגלילה עובר דרך המספרים עצמם: כל שורת דמי ניהול בתורה, בכיוון מתחלף, ובסוף המשוקלל */
+ function mid(el,sr){var g=document.createRange();g.selectNodeContents(el);var r=g.getBoundingClientRect();return[r.left-sr.left+r.width/2,r.top-sr.top+r.height/2]}
+ function measure(){W=sheet.clientWidth;H=sheet.clientHeight;D=W<560?156:(W<900?200:232);sheet.style.setProperty("--ld",D+"px");doc.style.width=W+"px";
+  var sr=sheet.getBoundingClientRect();wp=[];
+  [].forEach.call(inner.querySelectorAll(".rep tbody tr"),function(tr,i){var c=[].map.call(tr.querySelectorAll("td.fee"),function(td){return mid(td,sr)});if(i%2)c.reverse();wp=wp.concat(c)});
+  var f=inner.querySelector(".sh-foot b.fee");if(f)wp.push(mid(f,sr));
+  if(!wp.length)wp=[[W*.5,H*.4]]}
+ function ease(t){return t*t*(3-2*t)}
+ function target(){if(hov){tx=px;ty=py}else if(rm){tx=wp[0][0];ty=wp[0][1]}
+  else{var r=sheet.getBoundingClientRect(),vh=window.innerHeight,p=clamp((vh*.9-r.top)/(r.height+vh*.55),0,1),u=p*(wp.length-1),k=Math.min(wp.length-2,Math.floor(u));
+   if(wp.length<2){tx=wp[0][0];ty=wp[0][1]}else{var t=ease(u-k);tx=wp[k][0]+(wp[k+1][0]-wp[k][0])*t;ty=wp[k][1]+(wp[k+1][1]-wp[k][1])*t}}
+  tx=clamp(tx,D*.3,W-D*.3);ty=clamp(ty,D*.3,H-D*.3)}
+ function paint(){lens.style.transform="translate3d("+(cx-D/2).toFixed(1)+"px,"+(cy-D/2).toFixed(1)+"px,0)";
+  doc.style.transform="translate3d("+(D/2-S*cx).toFixed(1)+"px,"+(D/2-S*cy).toFixed(1)+"px,0) scale("+S+")";
+  var a=Math.round(200+(cx/Math.max(W,1)-.5)*140);if(a!==ang){ang=a;lens.style.setProperty("--a",a+"deg")}}
+ function tick(t){raf=0;var dt=Math.min(64,(t-last)||16);last=t;var k=1-Math.exp(-dt/110);target();var dx=tx-cx,dy=ty-cy;cx+=dx*k;cy+=dy*k;paint();if(Math.abs(dx)>.3||Math.abs(dy)>.3)raf=requestAnimationFrame(tick)}
+ function kick(){if(!live||raf)return;last=performance.now();raf=requestAnimationFrame(tick)}
+ function init(){measure();target();cx=tx;cy=ty;paint()}
+ init();
+ if("ResizeObserver" in window)new ResizeObserver(function(){measure();target();paint();kick()}).observe(sheet);else window.addEventListener("resize",function(){measure();target();paint()});
+ sheet.addEventListener("pointermove",function(e){if(e.pointerType==="touch")return;var r=sheet.getBoundingClientRect();px=e.clientX-r.left;py=e.clientY-r.top;hov=true;kick()});
+ sheet.addEventListener("pointerleave",function(){if(!hov)return;hov=false;kick()});
+ window.addEventListener("scroll",function(){if(!rm)kick()},{passive:true});
+ if("IntersectionObserver" in window){new IntersectionObserver(function(en){en.forEach(function(x){live=x.isIntersecting;if(live){sheet.classList.add("is-live");kick()}})},{threshold:.05}).observe(sheet)}
+ else{live=true;sheet.classList.add("is-live")}
+})();
+/* המחשבון: הנחת תשואה קבועה לדוגמה, אינה תחזית */
+(function(){var c=root.querySelector("[data-calc]");if(!c)return;var G=.045;
+ var dep=c.querySelector("#c-dep"),yrs=c.querySelector("#c-yrs"),f1=c.querySelector("#c-f1"),f2=c.querySelector("#c-f2");
+ var gA=c.querySelector("#ch-a"),gB=c.querySelector("#ch-b"),gG=c.querySelector("#ch-gap"),dA=c.querySelector("#ch-da"),dB=c.querySelector("#ch-db");
+ function fv(P,y,fee){var r=Math.pow(1+G-fee,1/12)-1,n=y*12;return r===0?P*n:P*(Math.pow(1+r,n)-1)/r}
+ function money(n){return "₪"+Math.round(n).toLocaleString("he-IL")}
+ function pct(v){return (v*100).toFixed(2)+"%"}
+ function set(id,t){var n=c.querySelector(id);if(n.textContent!==t)n.textContent=t}
+ function fill(i){var p=(i.value-i.min)/(i.max-i.min)*100;i.style.setProperty("--p",p.toFixed(1)+"%")}
+ function path(P,y,fee,ymax){var pts=[],W=600,Ht=232,i;for(i=0;i<=y;i++){var v=fv(P,i,fee);pts.push([i/y*W,Ht-v/ymax*(Ht-12)+4])}return pts}
+ function d(pts){return "M"+pts.map(function(p){return p[0].toFixed(1)+" "+p[1].toFixed(1)}).join(" L")}
+ function run(){var P=+dep.value,y=+yrs.value,a=+f1.value/100,b=+f2.value/100;[dep,yrs,f1,f2].forEach(fill);
+  var A=fv(P,y,a),B=fv(P,y,b),ymax=Math.max(A,B,1),pa=path(P,y,a,ymax),pb=path(P,y,b,ymax),diff=B-A;
+  set("#o-dep",money(P));set("#o-yrs",String(y));set("#o-f1",pct(a));set("#o-f2",pct(b));set("#l-f1",pct(a));set("#l-f2",pct(b));
+  set("#l-a",money(A));set("#l-b",money(B));set("#o-diff",money(Math.abs(diff)));
+  set("#o-lab",diff>=0?"ההפרש לטובתכם אחרי "+y+" שנים":"האפשרות השנייה יקרה יותר. ההפרש אחרי "+y+" שנים");
+  gA.setAttribute("d",d(pa));gB.setAttribute("d",d(pb));var la=pa[pa.length-1],lb=pb[pb.length-1];dA.setAttribute("cx",la[0]);dA.setAttribute("cy",la[1].toFixed(1));dB.setAttribute("cx",lb[0]);dB.setAttribute("cy",lb[1].toFixed(1));gG.setAttribute("d",d(pb)+" L"+pa.slice().reverse().map(function(p){return p[0].toFixed(1)+" "+p[1].toFixed(1)}).join(" L")+" Z")}
+ [dep,yrs,f1,f2].forEach(function(i){i.addEventListener("input",run)});run()})();
+/* הטופס: שגיאה = צבע + טקסט + אייקון. אין שליחה אמיתית בדמו */
+(function(){var f=root.querySelector(".form");if(!f)return;var n=f.querySelector("#f-name"),t=f.querySelector("#f-tel");
+ function bad(i,on){var w=i.closest(".fld");w.classList.toggle("err",on);i.setAttribute("aria-invalid",on?"true":"false");if(on)i.setAttribute("aria-describedby",i.id+"-m");else i.removeAttribute("aria-describedby")}
+ [n,t].forEach(function(i){i.addEventListener("input",function(){if(i.closest(".fld").classList.contains("err"))bad(i,i===n?!i.value.trim():i.value.replace(/\D/g,"").length<9)})});
+ f.addEventListener("submit",function(e){e.preventDefault();var okN=!!n.value.trim(),okT=t.value.replace(/\D/g,"").length>=9;bad(n,!okN);bad(t,!okT);
+  if(!okN){n.focus();return}if(!okT){t.focus();return}f.classList.add("is-done")})})();
+})();`;
 
 export default [
-sk({
-  id: "s08", name: "ליקוויד גלאס", en: "Liquid Glass", group: "אמירה וקיצון",
-  desc: "הזכוכית הנוזלית של Apple: עיוות עדשה, הבזקי אור, שקיפות דינמית. עתידני, 2026.",
-  when: "אפליקציות iOS מודרניות, מוצרי AI, מי שרוצה להרגיש חוד.",
-  no: "אתרי תוכן כבדים. מסיח ומכביד.",
-  recipe: `בסיס גלסמורפיזם (שפה 3) + תוספות:
-highlight נודד: pseudo-element עם gradient אלכסוני בהיר שזז ב-hover (translate, .6s)
-קצה עדשה: border עם gradient (לבן-חזק לשקוף) + inset 0 0 20px rgba(255,255,255,.15)
-תנועה נוזלית: transitions .5-.7s עם easing רך מאוד; רקע: gradient כהה עשיר עם נקודות אור`,
-  apply: "לרכיבי ניווט ופעולה בלבד (כמו Apple): הדר, טאב-בר, כפתורים צפים; התוכן עצמו על משטחים רגילים. הזכוכית החיה היא השכבה שמעל התוכן, לא התוכן.",
-  sig: "highlight שנודד לאט ב-hover · קצה עדשה בגרדיאנט · תנועה איטית-נוזלית שמרגישה כבדה-יוקרתית.",
-  avoid: "ליקוויד על הכל (יקר, מסיח, זול-למראה) · זכוכית בלי רקע דינמי מאחוריה · אנימציות מהירות ששוברות את הנוזליות.",
-  qa: ["לכל היותר 3-4 אלמנטים חיים במסך", "מובייל מקבל גרסה סטטית", "reduced-motion מקפיא הכל"],
-  engine: "",
-  extra: `ערכים שנלטשו בפרויקט אמיתי (דף קורס Lovable, 8.2026), נקודת פתיחה לעור כהה:
---bg:#08070C · surface:#12101B · ink:#F6F4FB · muted:rgba(246,244,251,.70)
-זכוכית: rgba(255,255,255,.06-.07) + blur 18-22 + border rgba(255,255,255,.14-.18)
-      + inset 0 0 16-20px rgba(255,255,255,.04-.06) + fallback @supports not backdrop-filter
-קצה עדשה: ::before עם gradient 150deg לבן .28 לשקוף ללבן .10 במסכת border (padding:1px, mask-composite:exclude)
-הבזק נודד: ::after אלכסוני שזז ב-hover, transition .7s
-פלטת Lovable: כתום #FF7A2F · ורוד #FF3D8A · סגול #8A5CFF · כחול #2E6BFF
-CTA בלעדי: gradient #CF3A7B ל-#CC4A12, לבן עובר עליו AA בכל גודל (4.6 בשני הקצוות). הגוונים הבהירים (#E8468C ל-#F0561C, 3.5 עד 3.7 עם לבן) רק מאחורי טקסט לבן של 19px בולד ומעלה: טקסט גדול לפי WCAG מתחיל ב-18.66px בולד, ולכן 18px לא עובר
-רקע: גרדיאנט כהה עשיר או צילום ברמת העמוד, כי לזכוכית צריך משהו לעוות (לא פר-סקשן!, ולא בלובים: נפסלו כנישתיים, 23.9.2026). הילות רכות לכל היותר שתיים, לפי B17 ב-behaviors.md
-מלכודת: קלאס זכוכית עם overflow:hidden (בשביל ההבזק הנודד) חותך ילדים שחורגים מהקופסה (עיגולי מספור, באדג'ים צפים). לאלמנטים כאלה בונים זכוכית ידנית בלי overflow ובלי ::after, או מוציאים את הילד החורג מחוץ לקופסה.
-מהלכים שעבדו: מילת ענק שקופה מאחורי ההירו (background-clip:text על gradient אנכי לבן .09 ל-.012; במובייל לשבור לשתי שורות, nowrap גולש מעבר למסך) · אייקוני גרדיאנט 52px בכרטיסים (כל כרטיס גרדיאנט אחר מהפלטה) · לוגו או אלמנט מותג צף חופשי עם drop-shadow צבעוני כפול במקום בתוך מסגרת · טיימליין מתמלא B18.`,
-  agent: "עצב בסגנון Liquid Glass של Apple: הדר וכפתורים כזכוכית חיה עם עיוות עדשה והבזק אור נודד, תנועה איטית ונוזלית; התוכן על משטחים רגילים.",
-  note: "בדמו: זכוכית חיה רק על ההדר, הכפתורים והחבילה הנבחרת (קצה עדשה + הבזק ב-hover, .7s). הכרטיסים הרגילים על משטח רגיל. שתי הילות בלבד, ברמת העמוד (סגולה למעלה, ורודה בצד), כמו הכלל של השפה; הוויז'ואל עצמו בלי כתמים. המילה הענקית מאחורי עמודת הטקסט בהירו (לא מאחורי הוויז'ואל, שם רואים רק שברי אותיות) היא הערך שנלטש בדף הקורס. ה-CTA בגרדיאנט העמוק של הפלטה, כדי שהלבן עליו יעבור AA.",
-  css: `.sk-s08 .ref{--s-bg:#08070C;--s-surface:#12101B;--s-ink:#F6F4FB;--s-muted:rgba(246,244,251,.72);--s-line:rgba(255,255,255,.1);--s-accent:linear-gradient(135deg,#CF3A7B,#CC4A12);--s-accent-ink:#fff;--s-accent-txt:#FF8FB8;--s-r:18px;--s-btn-r:999px;--s-ph:#12101B;--s-ph-ink:rgba(246,244,251,.6);
- --s-card-b:1px solid rgba(255,255,255,.08);--s-card-sh:none;--s-ghost-bg:rgba(255,255,255,.07);--s-ghost-b:1px solid rgba(255,255,255,.16);--s-ghost-ink:#F6F4FB;--s-in-b:1px solid rgba(255,255,255,.14);--s-in-bg:rgba(255,255,255,.06);--s-in-r:999px;--s-hi-bg:rgba(255,255,255,.07);--s-hi-b:1px solid rgba(255,255,255,.18);--s-ico-bg:linear-gradient(135deg,#8A5CFF,#2E6BFF);--s-form-bg:#12101B;--s-hd-bg:rgba(255,255,255,.06);--s-hd-line:1px solid rgba(255,255,255,.12);
- background:radial-gradient(50% 40% at 20% 0%,rgba(138,92,255,.35),transparent 70%),radial-gradient(40% 35% at 85% 30%,rgba(255,61,138,.25),transparent 70%),#08070C}
-.sk-s08 .btn{font-size:18px;font-weight:700;position:relative;overflow:hidden;transition:transform .6s cubic-bezier(.2,.6,.2,1),box-shadow .6s}
-.sk-s08 .btn.sm{font-size:15px}
-.sk-s08 .btn.ghost,.sk-s08 .hd,.sk-s08 .price.hi,.sk-s08 .in{backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:inset 0 0 18px rgba(255,255,255,.05)}
-.sk-s08 .btn.ghost::before,.sk-s08 .price.hi::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(150deg,rgba(255,255,255,.28),rgba(255,255,255,0) 45%,rgba(255,255,255,.1));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-.sk-s08 .btn::after{content:"";position:absolute;inset:-40% -60%;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.28) 50%,transparent 60%);transform:translateX(-60%);transition:transform .7s cubic-bezier(.2,.6,.2,1);pointer-events:none}
-.sk-s08 .btn:hover::after{transform:translateX(60%)}
-.sk-s08 .hero::before{content:"אור";position:absolute;inset-inline-start:0;top:0;font-size:clamp(120px,28cqi,360px);font-weight:800;line-height:1;background:linear-gradient(#fff,rgba(255,255,255,.1));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.09;pointer-events:none;z-index:0}
-.sk-s08 .hero-t,.sk-s08 .hero-v{position:relative;z-index:1}
-.sk-s08 .hero-v{border:1px solid rgba(255,255,255,.1)}
-.sk-s08 .hv-a,.sk-s08 .hv-b{display:none}
-.sk-s08 .hv-l{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);padding:8px 18px;border-radius:999px;backdrop-filter:blur(12px)}
-.sk-s08 .bens .card:nth-child(2) .ico{background:linear-gradient(135deg,#FF3D8A,#FF7A2F)}
-.sk-s08 .bens .card:nth-child(3) .ico{background:linear-gradient(135deg,#2E6BFF,#8A5CFF)}
-.sk-s08 .in{color:#F6F4FB}
-.sk-s08 .in::placeholder{color:rgba(246,244,251,.5)}
-@supports not (backdrop-filter:blur(1px)){.sk-s08 .btn.ghost,.sk-s08 .hd,.sk-s08 .price.hi{background:rgba(18,16,27,.92)}}
-@media (prefers-reduced-motion:reduce){.sk-s08 .btn::after{transition:none}}`,
-}),
+  {
+    cat: "style", area: "doctrine", status: "מאושר", runway: false, tech: "שפת עיצוב · רמת סטודיו",
+    id: "s08", name: "ליקוויד גלאס", en: "Liquid Glass", group: "אמירה וקיצון",
+    desc: "זכוכית מעושנת על צילום אמיתי: קצה מבריק, עדשה שנעה על הנתון, ותנועה איטית. הזכוכית היא שכבה מעל הרקע, והתוכן יושב על משטחים רגילים. גרסה 2 (6.10.2026), כוללת את הגלסמורפיזם שהוכנס לארכיון.",
+    when: "פיננסים, פנסיה והשקעות, טכנולוגיה פרימיום, קליניקות יוקרה ומוצרי AI: עסק שמוכר בהירות ואמון ויש לו צילום עשיר או גרדיאנט עמוק לשים מאחורי הזכוכית. עובד טוב כשיש נתון אחד שאפשר להראות דרך עדשה.",
+    no: "אתרי תוכן כבדים, חנויות עם הרבה מוצרים, ועסק בלי צילום או רקע עשיר: זכוכית בלי מה לעוות היא כתם אפור. גם לא למי שקהל היעד שלו על מכשירים חלשים (blur יקר) או שצריך חום ביתי ולא ברק.",
+    recipe: String.raw`קרקע אחת כהה לכל העמוד, צילום אמיתי בכל סקשן עשיר, ואותו גוון מתחת לכל קצה (הצילום נמס אל הקרקע במסכה, בלי קו):
+bg #060A14 · ink #F3F6FC · soft rgba(243,246,252,.88) · muted .74 · accent ענבר #FFB45E · accent-text #FFC783 · accent-ink #1B1204
+זכוכית (עומק ראשון): background-color rgba(8,13,26,.54) + הבהרה אלכסונית linear-gradient(160deg, לבן .10, לבן .02 ב-46%) + backdrop-filter blur(22px) saturate(1.5) + radius 28 (גלולה 999 בהדר)
+  קצה מבריק, לא מסגרת: ::before בגרדיאנט 150deg (לבן .46 ← .06 ב-36% ← 0 ב-58% ← .20) במסכת border של פיקסל (mask-composite:exclude), z-index:-1
+  אור שעוקב אחרי המצביע: ::after radial-gradient 260px על --mx/--my, opacity 0 ← 1 בריחוף. ריחוף = גוון כהה יותר (rgba(4,8,18,.7)), בלי צל נופל
+  fallback: @supports not (backdrop-filter) ← rgba(10,16,32,.94) אטום
+משטח מוצבע (עומק שני, בלי blur ובלי צל): tint #0D162B ← בריחוף #09111F והרמה 4px · tint-main #14223F ← #0E1A34
+עדשה: עיגול 156/200/232 עם עותק של הדוח בפנים, מוזז בניגוד ומוגדל 1.1, קצה קוני בגרדיאנט, וזוהר פנימי תכלת וכתום (שבירה)
+כפתור ראשי ענבר מלא, גלולה, הבזק אור .7s בריחוף · משני מעושן rgba(4,8,18,.5) ← .74 · שלישי טקסט+חץ
+Google Sans 400/500/600: H1 clamp(38px, min(5.2cqi, 8vh), 80px)/1.08/-.02em · H2 clamp(30px,3.7cqi,48px)/1.15 · H3 20/1.4 · ליד 18/1.58 · גוף 16/1.68 · מספר ענק 96/-.03em
+סקשן var(--sec) (בדמו העריכתי 112 / 88 / 64), נשימה var(--sec-breath) · radius בקרים 16, כרטיס 28 · easing cubic-bezier(.2,.6,.2,1)`,
+    apply: "זכוכית רק על שכבות צפות מעל משהו עשיר: ההדר מעל הצילום, כרטיס תמונת המצב שחוצה את גבול ההירו, הדוח מעל צילום הזכוכית, והטופס מעל הים. כל השאר (מחשבון, חבילות) על משטחים מוצבעים בלי blur ובלי צל. לכל היותר שלושה משטחי blur בו בזמן, ואף אחד מהם לא זז בכל פריים: התנועה הרציפה (העדשה) היא transform על עיגול בלי blur. צבע אחד, ענבר, בעשרה מקומות סגורים: כפתור ראשי, נקודת ה-eyebrow, V ברשימות, חץ הקישור, קו הצבירה, מילוי המחוון, הדגשת דמי הניהול בעדשה, ההפרש במחשבון, טבעת פוקוס, וסימן הלוגו. הצילום נמס אל הקרקע משני הקצוות (seam-check), ובהירו הוא יורד מתחת לקצה ההירו אל הסקשן הבא.",
+    sig: "עדשה שנעה על דוח ומחדדת את שורות דמי הניהול: במחשב היא עוקבת אחרי המצביע, בטלפון היא עוברת מספר אחרי מספר עם הגלילה, והדוח קריא גם בלי העדשה · קצה זכוכית מבריק בגרדיאנט שנראה כשבירת אור · כרטיס זכוכית שחוצה את גבול ההירו מעל אופק אמיתי · הבזק אור שחולף על כפתור הענבר.",
+    avoid: "זכוכית על הכול (יקר, מסיח, זול למראה): בסקשן שלם בלי צילום מאחוריו היא כתם אפור · זכוכית בלי בסיס כהה מתחת ללבן (הטקסט נופל מ-AA מעל הזוהר) · בלובים צבעוניים במקום צילום (נפסלו כנישתיים) · צל נופל או גבול אפור על משטח מוצבע · שני אפקטי תנועה רציפים בעמוד · blur על אלמנט שזז בכל פריים · קלאס זכוכית עם overflow:hidden שחותך ילדים שחורגים (עיגולי מספור, באדג'ים).",
+    qa: ["כל משטח זכוכית יושב על צילום או גרדיאנט עמוק", "בסיס מעושן מתחת ללבן: הטקסט עובר AA מעל הנקודה הבהירה ביותר בצילום (נבדק בשחזור פיקסלים)", "עד שלושה משטחי blur במסך אחד, ואף אחד לא זז בכל פריים", "fallback אטום ל-backdrop-filter", "ענבר רק בעשרה המקומות הסגורים", "אין צל על משטח מוצבע, וריחוף = גוון כהה יותר מאותה משפחה", "reduced-motion: אין reveal, אין פתיחה ואין מסלול אוטומטי לעדשה, והדוח קריא", "הצילום נמס אל הקרקע בלי קו בכל מעבר סקשן"],
+    engine: "הזכוכית היא לא תשתית של קריאה: הטקסט תמיד על בסיס מעושן (.54 לפחות), לעולם לא ישירות על צילום, ובהירו על גרדיאנט מקומי מתחת לטקסט. כל הצילומים עוברים אותו גרייד (כחול עמוק עם ענבר) והם נמסים אל הקרקע בלי קו. שדות 16px, יעדי מגע 44, אנימציות reveal ב-keyframes (0.5s, 16px), והמונים ממשיכים לספור ב-reduced-motion.",
+    agent: "עצב בסגנון ליקוויד גלאס ברמת סטודיו: קרקע כהה אחת (#060A14) וצילום אמיתי בכל סקשן עשיר שנמס אל הקרקע בלי קו; הדר גלולת זכוכית מעושנת עם headroom; כרטיס זכוכית שחוצה את גבול ההירו; זכוכית מעושנת (rgba(8,13,26,.54), blur 22, קצה מבריק בגרדיאנט במסכת border, בלי צל) רק על שכבות צפות מעל צילום, והתוכן על משטחים מוצבעים; ענבר אחד (#FFB45E) בעשרה מקומות סגורים; רגע חתימה אחד: עדשה שנעה על נתון (עוקבת אחרי המצביע, ובטלפון אחרי הגלילה) ומחדדת את הנתון החשוב. Google Sans בלבד, easing cubic-bezier(.2,.6,.2,1), reveal ב-keyframes 0.5s/16px, ו-fallback אטום ל-backdrop-filter.",
+    mobile: "הדר: גלולה עם לוגו וכפתור בלבד (44px), נעלמת בגלילה למטה וחוזרת למעלה. H1 38px, הכפתורים בעמודה ברוחב מלא (48px), וכרטיס תמונת המצב עובר מתחת לטקסט וחוצה את קצה ההירו. המספרים בעמודה, הדוח הופך לכרטיסים (כל קופה כרטיס עם תוויות), והעדשה (156px) נעה עם הגלילה. החבילה הראשית עולה ראשונה. הטופס ברוחב מלא ועמודה אחת.",
+    fonts: [],
+    score: "30/30",
+    note: "רף הסטודיו: 30/30. כלי המדידה בדק 21 סעיפים וכל שבעת ה-★ עברו; ששת סעיפי העין (10, 11, 12, 17, 26, 30) נבדקו על ידי מי שבנה את העמוד, וניגודיות הטקסט מעל הצילומים נמדדה בשחזור פיקסלים (לא נמדדת בכלי) ב-1280, ב-500 וב-390, בכל מקום מעל AA. הנתונים בעמוד (צבירה, דמי ניהול, מחירים, המספרים בהוכחה) הם דוגמה ומסומנים בכתב קטן; מחשבון הדמי ניהול משתמש בהנחת תשואה קבועה של 4.5% ואינו תחזית. הצילומים: Magnific, תמונות אמיתיות בלבד, 108659326 (הירו), 433155275 (דוח), 3881025 (סגירה). זכוכית רק על ההדר, כרטיס תמונת המצב, הדוח והטופס (עד שלושה משטחי blur במסך), והמחשבון והחבילות על משטחים מוצבעים בלי blur ובלי צל. בדוק: גלול לאט, הזז את העדשה על הדוח (בטלפון היא נעה עם הגלילה), עבור עם העכבר על כרטיס, כפתור וכרטיס הזכוכית, Tab על המחוונים והשדות, וכבה תנועה (העדשה נשארת על שורת הדמי ניהול הראשונה והדוח קריא).",
+    css: PAGE_CSS, html: PAGE_HTML, js: PAGE_JS,
+  },
 ];

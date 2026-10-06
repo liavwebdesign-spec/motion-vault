@@ -91,7 +91,7 @@ export function compositionsMarkdown(entries) {
 // ───────── שפות עיצוב: skins/languages.md ─────────
 // הפורמט זהה לקובץ הידני שהיה שם עד 6.9.2026 (מהות, כן/לא, מתכון, יישום, חתימה,
 // קריקטורה, QA, אילוצי מנוע, לסוכן), בתוספת קישור לדמו החי ומזהה MV.
-function styleItem(e, n) {
+function styleItem(e, n, hasDetail) {
   const L = [];
   L.push(`### ${n}. ${e.name} (${e.en})`);
   L.push(`**מהות**: ${e.desc}`);
@@ -105,7 +105,7 @@ function styleItem(e, n) {
   if (e.engine) L.push(`**אילוצי מנוע**: ${e.engine}`);
   if (e.extra) { L.push("**ערכים שנלטשו**:"); L.push("```css"); L.push(e.extra); L.push("```"); }
   L.push(`**לסוכן**: "${e.agent}"`);
-  L.push(`**דמו חי** (עמוד הייחוס בשפה הזאת): ${LIVE}/${e.cat}/${e.id}.html ${DOT} \`MV:${e.id}\`` + (e.score ? ` ${DOT} **רף הסטודיו: ${e.score}** ${DOT} פרטים בכל מצב: ${LIVE}/${e.cat}/${e.id}d.html ${DOT} \`MV:${e.id}d\`` : ""));
+  L.push(`**דמו חי** (עמוד הייחוס בשפה הזאת): ${LIVE}/${e.cat}/${e.id}.html ${DOT} \`MV:${e.id}\`` + (e.score ? ` ${DOT} **רף הסטודיו: ${e.score}**` : "") + (hasDetail ? ` ${DOT} פרטים בכל מצב: ${LIVE}/${e.cat}/${e.id}d.html ${DOT} \`MV:${e.id}d\`` : ""));
   return L.join("\n");
 }
 
@@ -134,7 +134,7 @@ export function stylesMarkdown(entries) {
       group = e.group;
       out.push("---"); out.push(""); out.push(`## ${group}`); out.push("");
     }
-    out.push(styleItem(e, ++n)); out.push("");
+    out.push(styleItem(e, ++n, entries.some(x => x.id === e.id + "d"))); out.push("");
   }
   if (archived.length) {
     out.push("---"); out.push("");

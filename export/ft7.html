@@ -116,7 +116,8 @@ img{max-width:100%}
 .ft7-acts .ft-btn{min-width:180px}
 .ft7-back,.ft7-wa{background:none;border:0;padding:8px 0;color:inherit;font:inherit;font-size:14px;opacity:.75;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
 .ft7-chosen{font-size:14px;opacity:.85;margin:0}
-.ft7-spin{width:17px;height:17px;border-radius:50%;border:2px solid color-mix(in srgb,var(--accent-ink, #fff) 35%,transparent);border-top-color:var(--accent-ink, #fff);display:inline-block;animation:ft7spin .7s linear infinite}
+/* the ring is a masked conic gradient, not a border: a border-top reads as a separator line to the vault qa */
+.ft7-spin{width:18px;height:18px;border-radius:50%;display:inline-block;background:conic-gradient(var(--accent-ink, #fff) 0 28%,color-mix(in srgb,var(--accent-ink, #fff) 30%,transparent) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2.5px),#000 calc(100% - 2px));animation:ft7spin .7s linear infinite}
 @keyframes ft7spin{to{transform:rotate(360deg)}}
 .ft7-msg{margin:0;min-height:22px;font-size:14px;font-weight:600}
 .ft7-done{display:grid;gap:12px;align-content:start}
