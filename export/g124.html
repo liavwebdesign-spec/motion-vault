@@ -41,18 +41,30 @@ img{max-width:100%}
 .stage.full{padding-inline:0}
 
 /* G124 · טבלת השוואה שמתמלאת בגלילה */
-.cmp{max-width:min(860px,94vw);margin-inline:auto;border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--card, #fff)}
-.cmp-row{display:grid;grid-template-columns:1.6fr 1fr 1fr;align-items:center;border-bottom:1px solid var(--line, #e4e4ee)}
-.cmp-row:last-child{border-bottom:0}
+/* בלי מסגרת ובלי קווי שורה: המשטח, הריווח ועמודת "אצלנו" הרציפה מחזיקים את הטבלה (feedback_no_lines_and_frames).
+   התאים נמתחים לגובה השורה, כך שהרקע של "אצלנו" הוא עמודה אחת ולא טלאים (6.10.2026) */
+.cmp{max-width:min(860px,94vw);margin-inline:auto;border-radius:var(--r, 14px);overflow:hidden;background:var(--card, #fff);
+  box-shadow:0 12px 32px rgba(22,24,43,.06)}
+.cmp-row{display:grid;grid-template-columns:1.6fr 1fr 1fr;align-items:stretch}
 .cmp-row.head{background:var(--bg, #f7f7fa);font-size:13px;color:var(--muted, #6a6d85);letter-spacing:.06em}
-.cmp-row>div{padding:clamp(12px,1.6vw,20px)}
-.cmp-row .us{background:color-mix(in srgb,var(--accent, #4a3aff) 7%,transparent);text-align:center}
-.cmp-row .them{text-align:center;color:var(--muted, #6a6d85)}
+.cmp-row>div{padding:clamp(12px,1.6vw,20px);display:flex;align-items:center}
+.cmp-row .us{background:color-mix(in srgb,var(--accent, #4a3aff) 7%,transparent);justify-content:center;text-align:center}
+.cmp-row .them{justify-content:center;text-align:center;color:var(--muted, #6a6d85)}
 .cmp-row b{font-size:clamp(15px,1.5vw,18px)}
 .cmp svg{width:24px;height:24px;overflow:visible;vertical-align:middle}
 .cmp .ok path{fill:none;stroke:var(--accent, #4a3aff);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .cmp .no path{fill:none;stroke:var(--muted, #6a6d85);stroke-width:2;stroke-linecap:round}
-@media(max-width:767px){.cmp-row{grid-template-columns:1.3fr 1fr 1fr}.cmp-row b{font-size:14px}.cmp svg{width:20px;height:20px}}
+/* טלפון: עמודות הסימנים צרות וקבועות, והשורה נותנת את רוב הרוחב לטקסט, כדי שהשם לא יישבר לשלוש שורות
+   (ליאב, דוח הסקירה 2.10.2026: "צריך התאמה למובייל") */
+@media(max-width:767px){
+  .cmp{max-width:calc(100vw - 2 * var(--gutter, clamp(24px, 5vw, 96px)))}
+  .cmp-row{grid-template-columns:1fr 68px 68px}
+  .cmp-row>div{padding:14px 12px}
+  .cmp-row.head{font-size:11px;letter-spacing:0;line-height:1.3}
+  .cmp-row.head>div{padding-block:12px}
+  .cmp-row b{font-size:15px;font-weight:600;line-height:1.35}
+  .cmp svg{width:20px;height:20px}
+}
 </style>
 </head>
 <body>

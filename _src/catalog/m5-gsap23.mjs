@@ -183,18 +183,30 @@ html[dir="ltr"] .fe-it b{transform-origin:0 50%}
   when:"עמוד מכירה, השוואת חבילות, \"למה אנחנו\". ארבע עד שבע שורות, שתי עמודות.",
   note:"כל שורה היא טריגר משלה (batch), הווי הוא path עם DrawSVG והאיקס דוהה. עמודת \"אנחנו\" מודגשת ברקע עדין קבוע, לא במעבר. הטבלה בנויה מ-div עם role של table, row, columnheader, rowheader ו-cell, והסימנים הם role=\"img\" עם aria-label כן או לא, כך שקורא מסך יודע מי מקבל מה. המצב המעומעם נקבע ב-JS, ולכן בלי JS, בהפחתת תנועה וכש-GSAP לא נטען הטבלה מלאה. במובייל הטבלה נשארת טבלה (שתי עמודות צרות), הפונט יורד ל-14px.",
   libs:["gsap","ScrollTrigger","DrawSVGPlugin"],
-  css:`.cmp{max-width:min(860px,94vw);margin-inline:auto;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--card)}
-.cmp-row{display:grid;grid-template-columns:1.6fr 1fr 1fr;align-items:center;border-bottom:1px solid var(--line)}
-.cmp-row:last-child{border-bottom:0}
+  css:`/* בלי מסגרת ובלי קווי שורה: המשטח, הריווח ועמודת "אצלנו" הרציפה מחזיקים את הטבלה (feedback_no_lines_and_frames).
+   התאים נמתחים לגובה השורה, כך שהרקע של "אצלנו" הוא עמודה אחת ולא טלאים (6.10.2026) */
+.cmp{max-width:min(860px,94vw);margin-inline:auto;border-radius:var(--r);overflow:hidden;background:var(--card);
+  box-shadow:0 12px 32px rgba(22,24,43,.06)}
+.cmp-row{display:grid;grid-template-columns:1.6fr 1fr 1fr;align-items:stretch}
 .cmp-row.head{background:var(--bg);font-size:13px;color:var(--muted);letter-spacing:.06em}
-.cmp-row>div{padding:clamp(12px,1.6vw,20px)}
-.cmp-row .us{background:color-mix(in srgb,var(--accent) 7%,transparent);text-align:center}
-.cmp-row .them{text-align:center;color:var(--muted)}
+.cmp-row>div{padding:clamp(12px,1.6vw,20px);display:flex;align-items:center}
+.cmp-row .us{background:color-mix(in srgb,var(--accent) 7%,transparent);justify-content:center;text-align:center}
+.cmp-row .them{justify-content:center;text-align:center;color:var(--muted)}
 .cmp-row b{font-size:clamp(15px,1.5vw,18px)}
 .cmp svg{width:24px;height:24px;overflow:visible;vertical-align:middle}
 .cmp .ok path{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .cmp .no path{fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round}
-@media(max-width:767px){.cmp-row{grid-template-columns:1.3fr 1fr 1fr}.cmp-row b{font-size:14px}.cmp svg{width:20px;height:20px}}`,
+/* טלפון: עמודות הסימנים צרות וקבועות, והשורה נותנת את רוב הרוחב לטקסט, כדי שהשם לא יישבר לשלוש שורות
+   (ליאב, דוח הסקירה 2.10.2026: "צריך התאמה למובייל") */
+@media(max-width:767px){
+  .cmp{max-width:calc(100vw - 2 * var(--gutter))}
+  .cmp-row{grid-template-columns:1fr 68px 68px}
+  .cmp-row>div{padding:14px 12px}
+  .cmp-row.head{font-size:11px;letter-spacing:0;line-height:1.3}
+  .cmp-row.head>div{padding-block:12px}
+  .cmp-row b{font-size:15px;font-weight:600;line-height:1.35}
+  .cmp svg{width:20px;height:20px}
+}`,
   html:`<div class="stage"><div class="cmp" role="table" aria-label="אצלנו מול הדרך הישנה">
   <div class="cmp-row head" role="row"><div role="columnheader">מה מקבלים</div><div class="us" role="columnheader">אצלנו</div><div class="them" role="columnheader">בדרך הישנה</div></div>
   <div class="cmp-row" role="row"><div role="rowheader"><b>אפיון לפני עיצוב</b></div><div class="us" role="cell"><svg class="ok" viewBox="0 0 24 24" role="img" aria-label="כן"><path d="M4 13l5 5 11-12"/></svg></div><div class="them" role="cell"><svg class="no" viewBox="0 0 24 24" role="img" aria-label="לא"><path d="M6 6l12 12M18 6L6 18"/></svg></div></div>

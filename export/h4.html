@@ -65,11 +65,18 @@ img{max-width:100%}
 .open-anim .h4-vis img{transform:scale(1.08);animation:rv-fs 0s 2.5s forwards}
 .is-in .h4-vis img{transform:none;transition-delay:var(--t0,0s)}
 .rv-on .h4-vis img{animation:none}
-.h4-txt{display:flex;flex-direction:column;justify-content:center;gap:24px;padding:112px 48px 56px;background:var(--card, #fff)}
+/* tighter (Liav, review 4.10.2026: "לא מספיק מהודק וקצת חובבני עם המפרידון. ומשהו בריווחים לא מסתדר"): a narrow
+   column, the kicker, title and lead as one block (16), then the action (32), then the facts (48). No rule above the facts */
+.h4-txt{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:112px clamp(28px,4.4vw,72px) 56px;background:var(--card, #fff)}
+.h4-txt>*{max-width:440px}
+.h4-txt .hkick{margin-bottom:16px}
+.h4-txt .hlead{margin-top:16px}
+.h4-txt .hcta{margin-top:32px}
 .h4h h3{margin:0;max-width:13ch;font-size:clamp(34px,3.8vw,60px);line-height:1.04;font-weight:700}
-.h4-meta{display:grid;gap:10px;font-size:15px;color:var(--muted, #6a6d85);border-top:1px solid var(--line, #e4e4ee);padding-top:20px}
-.h4-meta div{display:flex;justify-content:space-between;gap:16px}
-.h4-meta b{color:var(--ink, #16182b);font-weight:600}
+/* the facts as two short columns, label over value, side by side: not a table spread across the column */
+.h4-meta{display:flex;gap:40px;margin-top:48px;font-size:14px;color:var(--muted, #6a6d85)}
+.h4-meta div{display:grid;gap:4px}
+.h4-meta b{color:var(--ink, #16182b);font-weight:600;font-size:16px}
 @media (prefers-reduced-motion:reduce){.h4-vis img{transition-duration:.01ms!important}}
 @media (max-width:860px){.h4h{grid-template-columns:1fr;min-height:0}.h4-vis{aspect-ratio:4/3}.h4-vis img{position:relative}.h4-txt{padding:96px 20px 48px}}
 </style>
@@ -85,7 +92,7 @@ img{max-width:100%}
       <h3 class="rv">בתים שנבנים מהאור של אחר הצהריים</h3>
       <p class="hlead rv">שמונה פרויקטים בשנה, לא יותר. ליווי מהסקיצה ועד היום שנכנסים.</p>
       <div class="hcta rv"><a class="hbtn" href="#h4">לתיק העבודות</a></div>
-      <div class="h4-meta rv"><div><span>בית פרטי, הרצליה</span><b>2026</b></div><div><span>שטח</span><b>240 מ״ר</b></div></div>
+      <div class="h4-meta rv"><div><span>פרויקט אחרון</span><b>בית פרטי, הרצליה</b></div><div><span>שטח</span><b>240 מ״ר</b></div></div>
     </div>
   </section>
 </div>

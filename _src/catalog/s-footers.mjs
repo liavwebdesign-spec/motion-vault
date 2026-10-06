@@ -333,63 +333,140 @@ inView(document.getElementById("ft1"),function(){document.getElementById("ft1").
   note:"גם בשורה אחת החובות לא יורדות: שני הקישורים המשפטיים, הקרדיט, השנה שמתעדכנת והטלפון הלחיץ. אלה בדיוק הדברים שנעלמים כשמקצרים פוטר של נחיתה, ובדיקת ה-QA של הקטגוריה נכשלת בלעדיהם."
 },
 {
-  id:"ft7", cat:"footer", name:"פוטר עם טופס קצר", tech:"CSS · JS", status:"ממתין", runway:false,
-  desc:"בראש הפוטר שורת טופס של שני שדות, שם וטלפון, עם הבטחה אחת (\"חוזרים אליכם היום\") ואישור מדיניות פרטיות. מתחתיה הפרטים והקישורים הרגילים.",
+  id:"ft7", cat:"footer", name:"פוטר עם טופס ממיר בשני צעדים", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"בראש הפוטר טופס בשני צעדים: קודם בוחרים במה צריך עזרה בלחיצה אחת, ורק אז שם וטלפון, עם תוויות צפות, טלפון שמסתדר לבד, אישור פרטיות וכפתור שעובר לשליחה. אחרי השליחה: מה קורה עכשיו, ווואטסאפ כחלופה.",
   when:"עסקי שירות שהליד הוא הכל: קבלנים, התקנות, ביטוח, ייעוץ, מרפאות. כשבאתר אין טופס בכל עמוד, הפוטר הוא הטופס. לא לחנות ולא לתיק עבודות.",
   libs:[],
   css:`${BASE_CSS}
 .ft7{display:grid;gap:48px;padding:56px 32px 40px;background:var(--ink);color:var(--bg)}
-.ft7-lead{display:grid;grid-template-columns:1fr 1.6fr;gap:32px;align-items:center;padding:32px;border-radius:20px;background:color-mix(in srgb,var(--bg) 7%,transparent)}
-.ft7-lead h2{margin:0 0 4px;font-size:clamp(24px,2.2vw,34px);line-height:1.15}
-.ft7-lead p{margin:0;opacity:.72}
-.ft7-form{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;align-items:start}
-.ft7-f{display:grid;gap:4px}
-.ft7-f label{font-size:13px;opacity:.72}
-.ft7-f input{min-height:52px;padding:0 16px;border-radius:12px;border:1.5px solid color-mix(in srgb,var(--bg) 22%,transparent);background:color-mix(in srgb,var(--bg) 6%,transparent);color:var(--bg);font:inherit;font-size:16px}
-.ft7-f input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.ft7-f input[aria-invalid="true"]{border-color:color-mix(in srgb,var(--accent) 60%,var(--bg))}
-/* the consent comes before the button in the markup (fill top to bottom, Tab in the same order);
-   on desktop the grid still puts the button at the end of the first row and the consent under the fields */
-.ft7-form .ft-btn{margin-top:24px;grid-column:3;grid-row:1}
-.ft7-ok{grid-column:1/-1;grid-row:2;display:flex;gap:8px;align-items:flex-start;font-size:13px;opacity:.8}
+/* the lead: the promise on one side, the form on the other, on one soft surface (no frame) */
+.ft7-lead{display:grid;grid-template-columns:1fr 1.25fr;gap:48px;align-items:start;padding:40px;border-radius:24px;background:color-mix(in srgb,var(--bg) 7%,transparent)}
+.ft7-lead h2{margin:0 0 12px;font-size:clamp(26px,2.4vw,38px);line-height:1.12}
+.ft7-lead>div>p{margin:0;opacity:.72;max-width:36ch}
+.ft7-trust{list-style:none;margin:24px 0 0;padding:0;display:grid;gap:8px;font-size:15px}
+.ft7-trust li::before{content:"✓";color:var(--accent);font-weight:700;margin-inline-end:8px}
+.ft7-form{display:grid;gap:16px;align-content:start}
+.ft7-step{font-size:13px;opacity:.72;margin:0}
+.ft7-q{margin:0;padding:0;border:0;display:grid;gap:12px}
+.ft7-q legend{padding:0;margin-bottom:12px;font-size:18px;font-weight:600}
+.ft7-chips{display:flex;flex-wrap:wrap;gap:8px}
+.ft7-chip{position:relative}
+.ft7-chip input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+.ft7-chip span{display:inline-flex;align-items:center;min-height:48px;padding:0 20px;border-radius:999px;background:color-mix(in srgb,var(--bg) 10%,transparent);font-size:16px;transition:background .25s,color .25s}
+.ft7-chip input:hover+span{background:color-mix(in srgb,var(--bg) 16%,transparent)}
+.ft7-chip input:checked+span{background:var(--accent);color:var(--accent-ink)}
+.ft7-chip input:focus-visible+span{outline:2px solid var(--accent);outline-offset:3px}
+.ft7-s2{display:grid;gap:16px}
+/* step 2: floating labels (MV:b32), on the dark surface */
+.ft7-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ft7-f{position:relative}
+.ft7-f input{width:100%;min-height:58px;padding:24px 16px 8px;border-radius:12px;border:1.5px solid color-mix(in srgb,var(--bg) 20%,transparent);background:color-mix(in srgb,var(--bg) 6%,transparent);color:var(--bg);font:inherit;font-size:16px;transition:border-color .25s}
+.ft7-f input:focus{outline:0;border-color:var(--accent)}
+.ft7-f input[dir=ltr]{text-align:right}
+.ft7-f label{position:absolute;inset-inline-start:17px;top:18px;font-size:16px;opacity:.7;pointer-events:none;transform-origin:100% 0;transition:transform .22s cubic-bezier(.2,.6,.2,1),opacity .22s}
+.ft7-f input:focus+label,.ft7-f input:not(:placeholder-shown)+label{transform:translateY(-10px) scale(.78);opacity:.85}
+.ft7-f input[aria-invalid="true"]{border-color:color-mix(in srgb,var(--accent) 70%,var(--bg))}
+.ft7-err{display:block;font-size:13px;margin-top:6px;color:color-mix(in srgb,var(--accent) 55%,var(--bg))}
+.ft7-err:empty{display:none}
+.ft7-ok{display:flex;gap:8px;align-items:flex-start;font-size:13px;opacity:.82}
 .ft7-ok input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--accent)}
 .ft7-ok a{text-decoration:underline!important;text-underline-offset:3px}
-.ft7-msg{grid-column:1/-1;margin:0;min-height:22px;font-size:14px;font-weight:600}
+.ft7-acts{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px}
+.ft7-acts .ft-btn{min-width:180px}
+.ft7-back,.ft7-wa{background:none;border:0;padding:8px 0;color:inherit;font:inherit;font-size:14px;opacity:.75;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.ft7-chosen{font-size:14px;opacity:.85;margin:0}
+.ft7-spin{width:17px;height:17px;border-radius:50%;border:2px solid color-mix(in srgb,var(--accent-ink) 35%,transparent);border-top-color:var(--accent-ink);display:inline-block;animation:ft7spin .7s linear infinite}
+@keyframes ft7spin{to{transform:rotate(360deg)}}
+.ft7-msg{margin:0;min-height:22px;font-size:14px;font-weight:600}
+.ft7-done{display:grid;gap:12px;align-content:start}
+.ft7-done h3{margin:0;font-size:22px}
+.ft7-done ol{margin:0;padding-inline-start:20px;display:grid;gap:6px;opacity:.85}
+.ft7-done:focus{outline:0}
 .ft7-row{display:flex;flex-wrap:wrap;gap:16px 48px}
-@media (max-width:900px){.ft7{padding:48px 20px 32px}.ft7-lead{grid-template-columns:1fr;padding:24px 20px}.ft7-form{grid-template-columns:1fr}.ft7-form .ft-btn{margin-top:0}
-  .ft7-form .ft-btn,.ft7-ok{grid-column:auto;grid-row:auto}}
+/* with JS the two steps take turns; without it both are on the page and the form still sends */
+.js-ft7 .ft7-form[data-step="1"] .ft7-s2,.js-ft7 .ft7-form[data-step="2"] .ft7-s1{display:none}
+.js-ft7 .ft7-s1,.js-ft7 .ft7-s2{animation:ft7in .35s cubic-bezier(.2,.6,.2,1)}
+@keyframes ft7in{from{opacity:0;transform:translateY(8px)}}
+.ft7 [hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){.js-ft7 .ft7-s1,.js-ft7 .ft7-s2{animation:none}.ft7-spin{animation-duration:2s}}
+@media (max-width:900px){.ft7{padding:48px 20px 32px}.ft7-lead{grid-template-columns:1fr;gap:32px;padding:28px 20px}.ft7-fields{grid-template-columns:1fr}}
 /* phone: the whole consent line is the target, the box sits inside it */
 @media (pointer:coarse),(max-width:760px){.ft7-ok{min-height:44px;align-items:center}.ft7-ok input{width:24px;height:24px;margin:0}
-  .ft7-ok a{display:inline-block;padding-block:4px;margin-block:-4px}}`,
+  .ft7-ok a{display:inline-block;padding-block:4px;margin-block:-4px}.ft7-acts .ft-btn{width:100%}}`,
   html:`<div class="fx">${tail("", "כשהליד הוא הכל, הפוטר הוא הטופס האחרון בעמוד.")}
 <footer class="ftw ft7" id="ft7">
-  <div class="ft7-lead"><div><h2>השאירו פרטים, חוזרים אליכם היום</h2><p>שני שדות, בלי התחייבות. בימי שישי עד 12:00.</p></div>
-    <form class="ft7-form" novalidate>
-      <div class="ft7-f"><label for="ft7n">שם</label><input id="ft7n" autocomplete="name" required></div>
-      <div class="ft7-f"><label for="ft7p">טלפון</label><input id="ft7p" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required></div>
-      <label class="ft7-ok"><input type="checkbox" required> <span>קראתי ואני מסכים/ה ל<a href="#privacy">מדיניות הפרטיות</a></span></label>
-      <button class="ft-btn" type="submit">שלחו</button>
+  <div class="ft7-lead">
+    <div><h2>חוזרים אליכם היום, עם מחיר</h2><p>שתי שאלות קצרות, בלי התחייבות. בימי שישי עד 12:00.</p>
+      <ul class="ft7-trust"><li>טלפון אחד, לא עשרה</li><li>מחיר לפני שמגיעים</li><li>4.9 בגוגל, 212 ביקורות</li></ul></div>
+    <form class="ft7-form" data-step="1" novalidate>
+      <p class="ft7-step">שלב <b data-n>1</b> מתוך 2</p>
+      <fieldset class="ft7-q ft7-s1"><legend>במה צריך עזרה?</legend>
+        <div class="ft7-chips">
+          <label class="ft7-chip"><input type="radio" name="need" value="התקנה חדשה"><span>התקנה חדשה</span></label>
+          <label class="ft7-chip"><input type="radio" name="need" value="תיקון"><span>תיקון</span></label>
+          <label class="ft7-chip"><input type="radio" name="need" value="תחזוקה"><span>תחזוקה</span></label>
+          <label class="ft7-chip"><input type="radio" name="need" value="משהו אחר"><span>משהו אחר</span></label>
+        </div></fieldset>
+      <div class="ft7-s2">
+        <p class="ft7-chosen" hidden>בחרתם: <b data-need></b> · <button type="button" class="ft7-back">לשנות</button></p>
+        <div class="ft7-fields">
+          <div class="ft7-f"><input id="ft7n" placeholder=" " autocomplete="name"><label for="ft7n">שם</label><small class="ft7-err" id="ft7n-e"></small></div>
+          <div class="ft7-f"><input id="ft7p" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder=" "><label for="ft7p">טלפון</label><small class="ft7-err" id="ft7p-e"></small></div>
+        </div>
+        <label class="ft7-ok"><input type="checkbox"> <span>קראתי ואני מסכים/ה ל<a href="#privacy">מדיניות הפרטיות</a></span></label>
+        <div class="ft7-acts"><button class="ft-btn" type="submit"><span data-l>שלחו, נחזור היום</span></button><a class="ft7-wa" href="#ft7">מעדיפים וואטסאפ?</a></div>
+      </div>
       <p class="ft7-msg" role="status" aria-live="polite"></p>
-    </form></div>
+    </form>
+    <div class="ft7-done" hidden tabindex="-1"><h3 data-hi>קיבלנו. מה קורה עכשיו:</h3><ol><li>נציג מתקשר אליכם עוד היום.</li><li>מקבלים מחיר לפני שמישהו מגיע.</li><li>קובעים מועד שנוח לכם.</li></ol><a class="ft7-wa" href="#ft7">משהו דחוף? וואטסאפ</a></div>
+  </div>
   <div class="ft7-row"><span>${TEL()}</span><span>התקנות בכל המרכז</span><a href="#ft7">שירותים</a><a href="#ft7">פרויקטים</a><a href="#ft7">אודות</a></div>
   ${LEGAL("קבלן לדוגמה")}
 </footer></div>`,
   js:`${BASE_JS}
 (function(){
-  var f=document.querySelector("#ft7 form"), n=f.querySelector("#ft7n"), p=f.querySelector("#ft7p"), ok=f.querySelector('input[type="checkbox"]'), m=f.querySelector(".ft7-msg");
-  function bad(el,txt){el.setAttribute("aria-invalid","true");m.textContent=txt;el.focus();}
+  var root=document.getElementById("ft7"), f=root.querySelector(".ft7-form"), done=root.querySelector(".ft7-done");
+  var n=f.querySelector("#ft7n"), p=f.querySelector("#ft7p"), ok=f.querySelector('input[type="checkbox"]'), m=f.querySelector(".ft7-msg"), btn=f.querySelector(".ft-btn");
+  document.documentElement.classList.add("js-ft7");
+  function step(k,focus){
+    f.dataset.step=String(k); f.querySelector("[data-n]").textContent=k; m.textContent="";
+    var c=f.querySelector('input[name="need"]:checked');
+    if(k===2){ f.querySelector("[data-need]").textContent=c?c.value:""; f.querySelector(".ft7-chosen").hidden=!c; if(focus)n.focus(); }
+    else if(focus){ (c||f.querySelector('input[name="need"]')).focus(); }
+  }
+  // one tap on a need is the first commitment, and it moves on by itself. The arrow keys only move the choice inside the
+  // group (a radio group's own keyboard behaviour); Enter or Space moves on
+  var byArrow=false;
+  f.addEventListener("keydown",function(e){ byArrow=/^Arrow/.test(e.key); });
+  f.querySelectorAll('input[name="need"]').forEach(function(r){
+    r.addEventListener("change",function(){ if(!byArrow)setTimeout(function(){ step(2,true); },180); });
+    r.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); r.checked=true; step(2,true); } });
+  });
+  f.querySelector(".ft7-back").addEventListener("click",function(){ step(1,true); });
+  function valid(x){ if(x===n)return n.value.trim().length>=2; var d=p.value.replace(/[\\s-]/g,"").replace(/^\\+972/,"0"); return /^0(5\\d{8}|[23489]\\d{7}|7\\d{8})$/.test(d); }
+  function msg(x){ return x===n?"חסר שם, כדי שנדע למי לחזור.":"המספר לא נראה ישראלי. אפשר לבדוק?"; }
+  function mark(x,t){ var e=document.getElementById(x.id+"-e"); e.textContent=t;
+    if(t){ x.setAttribute("aria-invalid","true"); x.setAttribute("aria-describedby",e.id); } else { x.removeAttribute("aria-invalid"); x.removeAttribute("aria-describedby"); } }
+  // the phone formats itself as it is typed (MV:cv9), and an error waits for the field to be left (no shouting while typing),
+  // then clears the moment it is fixed
+  p.addEventListener("input",function(){ var d=p.value.replace(/\\D/g,"");
+    if(/^05\\d/.test(d)&&d.length<=10)p.value=d.replace(/^(\\d{3})(\\d{0,3})(\\d{0,4})$/,function(_,a,b,c){ return a+(b?"-"+b:"")+(c?"-"+c:""); });
+    if(p.getAttribute("aria-invalid")==="true"&&valid(p))mark(p,""); });
+  n.addEventListener("input",function(){ if(n.getAttribute("aria-invalid")==="true"&&valid(n))mark(n,""); });
+  [n,p].forEach(function(x){ x.addEventListener("blur",function(){ if(x.value.trim()&&!valid(x))mark(x,msg(x)); }); });
   f.addEventListener("submit",function(e){
-    e.preventDefault(); [n,p].forEach(function(x){x.removeAttribute("aria-invalid");});
-    if(n.value.trim().length<2)return bad(n,"חסר שם.");
-    // Israeli mobile or landline, with or without dashes and +972
-    var d=p.value.replace(/[\\s-]/g,"").replace(/^\\+972/,"0");
-    if(!/^0(5\\d{8}|[23489]\\d{7}|7\\d{8})$/.test(d))return bad(p,"המספר לא נראה ישראלי. אפשר לבדוק?");
-    if(!ok.checked){m.textContent="צריך לאשר את מדיניות הפרטיות.";ok.focus();return;}
-    // in the vault there is no endpoint; in a project this posts to the site DB or WhatsApp, never a fake success
-    m.textContent="קיבלנו, "+n.value.trim().split(" ")[0]+". נחזור אליכם היום.";f.reset();
+    e.preventDefault(); if(btn.disabled)return;
+    if(!f.querySelector('input[name="need"]:checked')){ step(1,true); m.textContent="בחרו במה צריך עזרה."; return; }
+    if(!valid(n)){ mark(n,msg(n)); n.focus(); return; }
+    if(!valid(p)){ mark(p,msg(p)); p.focus(); return; }
+    if(!ok.checked){ m.textContent="צריך לאשר את מדיניות הפרטיות."; ok.focus(); return; }
+    // in the vault there is no endpoint: the sending state shows for a moment, then the "what now" panel. In a project this
+    // posts to the site DB or WhatsApp, and the panel appears only after a real success, never a fake one
+    btn.disabled=true; btn.querySelector("[data-l]").innerHTML='<i class="ft7-spin" aria-hidden="true"></i>'; m.textContent="שולחים...";
+    setTimeout(function(){ done.querySelector("[data-hi]").textContent="קיבלנו, "+n.value.trim().split(" ")[0]+". מה קורה עכשיו:"; f.hidden=true; done.hidden=false; done.focus(); },900);
   });
 })();`,
-  note:"שני שדות בלבד, כי כל שדה נוסף מוריד השלמות. בדיקת הטלפון מקבלת נייד ונייח ישראליים, עם מקפים, רווחים או +972, ומנרמלת לפני הבדיקה. תיבת האישור של מדיניות הפרטיות היא חלק מהטופס ולא טקסט קטן מתחתיו, היא באה לפני כפתור השליחה (בקוד, ב-Tab ובטלפון), והקישור בה הוא קישור אמיתי. השגיאה מחזירה את הפוקוס לשדה הבעייתי עם aria-invalid, וההודעה ב-role=status. במאגר אין שרת: בפרויקט הטופס כותב ל-DB או שולח לוואטסאפ של העסק, ואף פעם לא מציג הצלחה בלי שליחה אמיתית."
+  note:"**למה שני צעדים (ליאב, דוח הסקירה 4.10.2026: \"אשמח לטופס יותר ממיר ומתקדם\"):** הצעד הראשון הוא לחיצה אחת בלי הקלדה (במה צריך עזרה), וזו התחייבות קטנה שמושכת את השנייה; רק אז שם וטלפון. מורכב מהטפסים שאושרו במאגר: תוויות צפות ומצב שליחה מ-MV:b32, בדיקה עדינה וטלפון שמסתדר לבד מ-MV:cv9, ובחירה כפתורית כמו בשאלון הניתוב של MV:h7. במקלדת החצים רק מזיזים את הבחירה, Enter או רווח מעבירים לשלב הבא, ו\"לשנות\" מחזיר. בלי JS שני הצעדים על העמוד והטופס עדיין נשלח. בדיקת הטלפון מקבלת נייד ונייח ישראליים, עם מקפים, רווחים או +972. תיבת הפרטיות באה לפני הכפתור (בקוד, ב-Tab ובטלפון), והקישור בה אמיתי. אחרי השליחה לא \"תודה\" יבש אלא מה קורה עכשיו בשלושה צעדים, ווואטסאפ לדחוף. במאגר אין שרת: בפרויקט הטופס כותב ל-DB או לוואטסאפ של העסק, ואף פעם לא מציג הצלחה בלי שליחה אמיתית. שורת האמון (\"4.9 בגוגל\") היא דוגמה: בפרויקט רק נתון אמיתי, אחרת השורה יורדת."
 },
 {
   id:"ft8", cat:"footer", name:"פוטר עם חתימת מותג", tech:"CSS · JS", status:"ממתין", runway:false,

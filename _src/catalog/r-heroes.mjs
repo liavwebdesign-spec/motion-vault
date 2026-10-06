@@ -228,11 +228,18 @@ enter(document.getElementById("h2"));`,
 .open-anim .h4-vis img{transform:scale(1.08);animation:rv-fs 0s 2.5s forwards}
 .is-in .h4-vis img{transform:none;transition-delay:var(--t0,0s)}
 .rv-on .h4-vis img{animation:none}
-.h4-txt{display:flex;flex-direction:column;justify-content:center;gap:24px;padding:112px 48px 56px;background:var(--card)}
+/* tighter (Liav, review 4.10.2026: "לא מספיק מהודק וקצת חובבני עם המפרידון. ומשהו בריווחים לא מסתדר"): a narrow
+   column, the kicker, title and lead as one block (16), then the action (32), then the facts (48). No rule above the facts */
+.h4-txt{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:112px clamp(28px,4.4vw,72px) 56px;background:var(--card)}
+.h4-txt>*{max-width:440px}
+.h4-txt .hkick{margin-bottom:16px}
+.h4-txt .hlead{margin-top:16px}
+.h4-txt .hcta{margin-top:32px}
 .h4h h3{margin:0;max-width:13ch;font-size:clamp(34px,3.8vw,60px);line-height:1.04;font-weight:700}
-.h4-meta{display:grid;gap:10px;font-size:15px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px}
-.h4-meta div{display:flex;justify-content:space-between;gap:16px}
-.h4-meta b{color:var(--ink);font-weight:600}
+/* the facts as two short columns, label over value, side by side: not a table spread across the column */
+.h4-meta{display:flex;gap:40px;margin-top:48px;font-size:14px;color:var(--muted)}
+.h4-meta div{display:grid;gap:4px}
+.h4-meta b{color:var(--ink);font-weight:600;font-size:16px}
 @media (prefers-reduced-motion:reduce){.h4-vis img{transition-duration:.01ms!important}}
 @media (max-width:860px){.h4h{grid-template-columns:1fr;min-height:0}.h4-vis{aspect-ratio:4/3}.h4-vis img{position:relative}.h4-txt{padding:96px 20px 48px}}`,
   html:`${OPEN_GATE}
@@ -244,17 +251,17 @@ enter(document.getElementById("h2"));`,
       <h3 class="rv">בתים שנבנים מהאור של אחר הצהריים</h3>
       <p class="hlead rv">שמונה פרויקטים בשנה, לא יותר. ליווי מהסקיצה ועד היום שנכנסים.</p>
       <div class="hcta rv"><a class="hbtn" href="#h4">לתיק העבודות</a></div>
-      <div class="h4-meta rv"><div><span>בית פרטי, הרצליה</span><b>2026</b></div><div><span>שטח</span><b>240 מ״ר</b></div></div>
+      <div class="h4-meta rv"><div><span>פרויקט אחרון</span><b>בית פרטי, הרצליה</b></div><div><span>שטח</span><b>240 מ״ר</b></div></div>
     </div>
   </section>
 </div>`,
   js:`${REVEAL_JS}
 enter(document.getElementById("h4"));`,
-  note:"ההפרדה נשארת חדה בכוונה: אין רדיוס, אין צל ואין גרדיאנט בין החצאים, וזה מה שנותן את האופי האדריכלי. התמונה מתחילה מוגדלת ב-8% וחוזרת ל-100 לאורך 1.2 שניות, תנועה איטית מספיק כדי להיקרא כנשימה ולא כזום. במובייל היא הופכת ליחס 4:3 מתחת לטקסט ומציצה בתחתית המסך הראשון, והטקסט מקבל ריפוד עליון של 96 פיקסלים כדי לא להידבק לשורת הלוגו, כי חצי מסך לכל אחד בטלפון נותן שני חצאים חנוקים. שורת המטא למטה היא מה שהופך אותו מ״יפה״ ל״מקצועי״: עובדה אחת אמיתית מתחת לכפתור." + NOTE_TAIL
+  note:"ההפרדה נשארת חדה בכוונה: אין רדיוס, אין צל ואין גרדיאנט בין החצאים, וזה מה שנותן את האופי האדריכלי. התמונה מתחילה מוגדלת ב-8% וחוזרת ל-100 לאורך 1.2 שניות, תנועה איטית מספיק כדי להיקרא כנשימה ולא כזום. במובייל היא הופכת ליחס 4:3 מתחת לטקסט ומציצה בתחתית המסך הראשון, והטקסט מקבל ריפוד עליון של 96 פיקסלים כדי לא להידבק לשורת הלוגו, כי חצי מסך לכל אחד בטלפון נותן שני חצאים חנוקים. שורת המטא למטה היא מה שהופך אותו מ״יפה״ ל״מקצועי״: עובדה אחת אמיתית מתחת לכפתור, בשני טורים קצרים (תווית מעל ערך) ובלי קו מעליה. **הקצב (6.10.2026):** כותרת וליד כבלוק אחד (16), הכפתור (32), העובדות (48), בטור של 440 פיקסלים; עד אז ריווח אחיד של 24 בין הכל וקו מעל המטא, וליאב: \"לא מספיק מהודק וקצת חובבני\"." + NOTE_TAIL
 },
 {
   id:"h5", cat:"hero", name:"הירו טיפוגרפי טהור", tech:"CSS · JS", status:"ממתין", runway:false,
-  desc:"אין תמונה. הכותרת הענקית היא הוויז'ואל, ומסביבה פרטים קטנים: קו, תאריך, מיקום, ושורת פעולה. המילים נכנסות אחת אחרי השנייה מלמטה.",
+  desc:"אין תמונה. הכותרת הענקית היא הוויז'ואל, ומסביבה פרטים קטנים: תחום, מיקום, ושורת פעולה. המילים נכנסות אחת אחרי השנייה מלמטה.",
   when:"כשהטיפוגרפיה היא המוצר, או כשאין נכס ויזואלי בכלל ולא רוצים סטוק: סטודיו, מותג, אירוע, כנס, פרסום, ייעוץ בכיר. דורש פונט תצוגה עם נוכחות (library/fonts.md, קבוצת X או L).",
   libs:[],
   css:`${FRAME_CSS}
@@ -264,28 +271,24 @@ enter(document.getElementById("h4"));`,
 .h5-w span{display:inline-block;transition:transform .8s ${E}}
 .open-anim .h5-w span{transform:translateY(110%);animation:rv-fs 0s 2.5s forwards}
 .is-in .h5-w span{transform:none;transition-delay:calc(var(--t0,0s) + var(--i) * 70ms)}
-.h5-rule{height:1px;background:color-mix(in srgb,var(--bg) 30%,transparent);transform-origin:right;transition:transform .7s ${E}}
-.open-anim .h5-rule{transform:scaleX(0);animation:rv-fs 0s 2.5s forwards}
-/* .4s + .7s: the rule ends at 1.1s, inside the 1.2s opening */
-.is-in .h5-rule{transform:none;transition-delay:calc(var(--t0,0s) + .4s)}
-.rv-on .h5-w span,.rv-on .h5-rule{animation:none}
+/* no rule between the headline and the action row (Liav, review 4.10.2026: "המפרידון זה סימן היכר של AI"); the gap does it */
+.rv-on .h5-w span{animation:none}
 /* the dimming sits on the details only: on the whole row it dimmed the primary button to 78% too (a child cannot undo it) */
 .h5-foot{display:flex;flex-wrap:wrap;gap:16px 40px;align-items:center;font-size:15px}
 .h5-foot span{opacity:.78}
-@media (prefers-reduced-motion:reduce){.h5-w span,.h5-rule{transition-duration:.01ms!important;transition-delay:0s!important}}
+@media (prefers-reduced-motion:reduce){.h5-w span{transition-duration:.01ms!important;transition-delay:0s!important}}
 @media (max-width:760px){.h5h{padding:96px 20px 40px;gap:24px}}`,
   html:`${OPEN_GATE}
 <div class="hf">${TOP(false)}
   <section class="h5h" id="h5">
     <span class="hkick rv">סטודיו למיתוג</span>
     <h3><span class="h5-w" style="--i:0"><span>שפה</span></span> <span class="h5-w" style="--i:1"><span>שאי אפשר</span></span> <span class="h5-w" style="--i:2"><span>לבלבל</span></span></h3>
-    <span class="h5-rule"></span>
     <div class="h5-foot"><a class="hbtn" href="#h5">לדבר איתנו</a><span>מיתוג · אריזה · דיגיטל</span><span>תל אביב</span></div>
   </section>
 </div>`,
   js:`${REVEAL_JS}
 enter(document.getElementById("h5"));`,
-  note:"כל מילה עטופה בחלון עם overflow:hidden ונוסעת מ-110% למטה, ולכן היא נחשפת ולא מופיעה. 70 מילישניות בין מילה למילה, מהירות קריאה ולא מצגת. הקו נמתח ב-0.7 שניות אחרי השהיה של 0.4, ונגמר ב-1.1, בתוך תקרת הפתיחה. העמעום בשורת הפעולה יושב על הפרטים בלבד, כדי שהכפתור הראשי יישאר בצבע מלא. הקו נמתח מימין (transform-origin:right) כי זה כיוון הקריאה בעברית, ובאנגלית הופכים ל-left. בעברית גובה השורה בכותרת ענקית חייב לרדת מתחת ל-1 (כאן .94) כי הבלוק הגליפי גבוה, אחרת נפער רווח בין השורות." + NOTE_TAIL
+  note:"כל מילה עטופה בחלון עם overflow:hidden ונוסעת מ-110% למטה, ולכן היא נחשפת ולא מופיעה. 70 מילישניות בין מילה למילה, מהירות קריאה ולא מצגת. העמעום בשורת הפעולה יושב על הפרטים בלבד, כדי שהכפתור הראשי יישאר בצבע מלא. בלי קו מפריד בין הכותרת לשורת הפעולה (ליאב, דוח הסקירה 4.10.2026: \"המפרידון זה סימן היכר של AI\"): הרווח מפריד. בעברית גובה השורה בכותרת ענקית חייב לרדת מתחת ל-1 (כאן .94) כי הבלוק הגליפי גבוה, אחרת נפער רווח בין השורות." + NOTE_TAIL
 },
 {
   id:"h6", cat:"hero", name:"הירו בנטו", tech:"CSS · JS", status:"ממתין", runway:false,
@@ -294,8 +297,9 @@ enter(document.getElementById("h5"));`,
   libs:[],
   css:`${FRAME_CSS}
 .h6h{display:grid;grid-template-columns:1.6fr 1fr;grid-template-rows:auto auto;gap:16px;padding:112px 28px 56px;background:var(--bg)}
-.h6-card{position:relative;overflow:hidden;border-radius:20px;background:var(--card);border:1px solid var(--line);padding:32px}
-.h6-main{grid-row:span 2;display:flex;flex-direction:column;justify-content:flex-end;gap:20px;background:var(--ink);color:var(--bg);border-color:transparent;min-height:340px}
+/* no frame on the light tiles (Liav, review 4.10.2026: "לקופסא עם הרקע הלבן יש מסגרת וזה סימן היכר של AI"): a soft lift on white does it */
+.h6-card{position:relative;overflow:hidden;border-radius:20px;background:var(--card);padding:32px;box-shadow:0 1px 2px rgba(22,24,43,.04),0 14px 36px rgba(22,24,43,.07)}
+.h6-main{grid-row:span 2;display:flex;flex-direction:column;justify-content:flex-end;gap:20px;background:var(--ink);color:var(--bg);box-shadow:none;min-height:340px}
 .h6-main h3{margin:0;max-width:13ch;font-size:clamp(32px,3.4vw,52px);line-height:1.05;font-weight:700;text-wrap:balance}
 .h6-main .hlead{opacity:.78}
 .h6-num b{display:block;font-size:clamp(36px,4vw,56px);line-height:1;font-weight:700}

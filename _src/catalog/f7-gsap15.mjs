@@ -19,8 +19,10 @@ export default [
 /* הגלגל גדול מהמסך בכוונה: רואים רק את הקשת העליונה שלו */
 .wh.is-live .wh-wheel{display:block;padding:0;position:absolute;top:58vh;left:50%;width:min(190vh,190vw);aspect-ratio:1;
   transform:translate(-50%,0);will-change:transform}
-.wh.is-live .wh-item{position:absolute;top:0;left:50%;width:clamp(120px,15vh,220px);
-  margin-inline-start:calc(clamp(120px,15vh,220px) / -2);
+/* הכרטיס ברבע מגובה המסך: ב-15vh (135 פיקסלים ב-900) הוא נבלע בגלגל (ליאב, דוח הסקירה 2.10.2026: "לא קטן מדי ברמת
+   הפרופורציות?"). הרווח בין כרטיסים עלה בהתאם (SPREAD 21 מעלות): כרטיסים זקופים על קשת מתקרבים זה לזה בצדדים, וב-17 הם עלו זה על זה */
+.wh.is-live .wh-item{position:absolute;top:0;left:50%;width:clamp(160px,22vh,300px);
+  margin-inline-start:calc(clamp(160px,22vh,300px) / -2);
   transform-origin:50% calc(min(190vh,190vw) / 2)}
 /* בטלפון הגלגל רחב מהמסך לפי הגובה: הקשת שטוחה יותר, שלושה כרטיסים על המסך, והתוויות לא נחתכות זו על זו */
 @media(max-width:767px){.wh.is-live .wh-wheel{width:190vh}.wh.is-live .wh-item{transform-origin:50% 95vh}}
@@ -28,7 +30,7 @@ export default [
    סביב מרכז אחר, והתווית שיושבת בתחתית נשברת החוצה מהמסגרת. */
 .wh-inner{position:absolute;inset:0;border-radius:14px;overflow:hidden;will-change:transform}
 .wh-inner .ph{position:absolute;inset:0;border-radius:0;font-size:0}
-.wh-inner b{position:absolute;inset-inline:0;bottom:0;padding:8px 10px;color:#fff;font-size:13px;
+.wh-inner b{position:absolute;inset-inline:0;bottom:0;padding:12px 14px;color:#fff;font-size:15px;
   background:linear-gradient(transparent,rgba(0,0,0,.6))}
 .wh-after{padding:14vh var(--gutter);max-width:min(680px,92vw);margin-inline:auto;text-align:center;
   color:var(--muted);font-size:17px;line-height:1.9}`,
@@ -50,7 +52,7 @@ export default [
   if(typeof gsap==="undefined")return;
   const sec=document.querySelector(".wh"),wheel=sec.querySelector(".wh-wheel");
   const items=gsap.utils.toArray(".wh-item");
-  const SPREAD=13;                                   // מעלות בין פריט לפריט
+  const SPREAD=21;                                   // מעלות בין פריט לפריט (רוחב כרטיס 22vh על רדיוס 95vh)
   const START=(items.length-1)*SPREAD/2;
   // בהפחתת תנועה אין גלגל בכלל: ה-CSS בלי .is-live מציג את הפריטים כגריד
   gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{

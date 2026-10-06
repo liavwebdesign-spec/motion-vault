@@ -30,10 +30,11 @@ export default [
 },
 {
   id:"g02", cat:"gsap", name:"חשיפת תמונה במסכה בגלילה", tech:"GSAP · ScrollTrigger", status:"ממתין",
-  desc:"התמונה נצבעת מלמטה למעלה עם קצה מעומעם, בקצב הגלילה, קדימה ואחורה.",
+  desc:"התמונה נצבעת מלמטה למעלה בקו חד, בקצב הגלילה, קדימה ואחורה.",
   when:"תמונת שיא, לפני/אחרי, ויז'ואל הירו משני.",
   libs:["gsap","ScrollTrigger"],
-  css:`.paint{--reveal:100%;--feather:10%;width:min(680px,80vw);height:clamp(300px,36vw,520px);margin-inline:auto;
+  css:`/* קצה חד, בלי דהייה (ליאב, דוח הסקירה 4.10.2026: "פחות אוהב את ה-FADE... שיהיה רגיל") */
+.paint{--reveal:100%;--feather:0%;width:min(680px,80vw);height:clamp(300px,36vw,520px);margin-inline:auto;
 -webkit-mask-image:linear-gradient(to top,#000 0%,#000 var(--reveal),transparent calc(var(--reveal) + var(--feather)),transparent 100%);
 mask-image:linear-gradient(to top,#000 0%,#000 var(--reveal),transparent calc(var(--reveal) + var(--feather)),transparent 100%);
 -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;-webkit-mask-size:100% 100%;mask-size:100% 100%;font-size:26px}`,

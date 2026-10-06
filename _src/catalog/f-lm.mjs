@@ -38,49 +38,41 @@ if(!reduced){
 }`
 },
 {
-  id:"lm3", cat:"lm", name:"הצטלבות (Converging)", tech:"CSS + IO", status:"ממתין",
-  desc:"זוג בלוקים שנכנסים משני צדדים ונפגשים בנקודה במרכז. התוכן צועד אחד לקראת השני, והמפגש עצמו מקבל סימן.",
+  id:"lm3", cat:"lm", name:"הצטלבות (Converging)", tech:"CSS + משתנה גלילה", status:"ממתין",
+  desc:"זוג בלוקים שמתקרבים משני צדדים בקצב הגלילה ונפגשים במרכז. המרחק ביניהם הוא ההתקדמות, והסימן במפגש מסתובב ונדלק כשהם נוגעים. קדימה ואחורה.",
   when:"לפני/אחרי, בעיה/פתרון, שני צדדים של סיפור. פעם-פעמיים בעמוד.",
   css:`.conv{display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(12px,2vw,26px);align-items:center;
   padding-inline:var(--gutter);max-width:min(1060px,100%);margin-inline:auto}
-.cv{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,2.6vw,36px);
-  box-shadow:0 14px 34px rgba(22,24,43,.07);
-  transition:opacity .75s cubic-bezier(.2,.6,.2,1),translate .75s cubic-bezier(.2,.6,.2,1)}
-.cv-kick{display:inline-block;font-size:12px;color:var(--muted);
-  border:1px solid var(--line);border-radius:999px;padding:4px 11px;margin-bottom:14px}
+/* בלי מסגרת ובלי פס צבע עליון: המשטח והצל מפרידים (feedback_no_lines_and_frames) */
+.cv{background:var(--card);border-radius:18px;padding:clamp(22px,2.6vw,36px);
+  box-shadow:0 14px 34px rgba(22,24,43,.07)}
+.cv-kick{display:block;font-size:13px;color:var(--muted);margin-bottom:12px}
 .cv h3{margin:0 0 8px;font-size:clamp(19px,2vw,25px);line-height:1.3}
 .cv p{margin:0;color:var(--muted);font-size:15px;line-height:1.7}
 .cv-stat{display:block;margin-top:16px;font-size:clamp(26px,3vw,40px);font-weight:800;line-height:1;color:var(--ink)}
 .cv-stat small{display:block;font-size:12px;font-weight:400;color:var(--muted);margin-top:6px}
-.cv.a{border-top:3px solid #f49e40}
-.cv.b{border-top:3px solid var(--accent)}
 
-/* מצב ההתחלה מוסתר רק כשהסקריפט רץ (html.js). בלי JS שני הבלוקים גלויים במקומם.
-   translate הוא פיזי ולא לוגי: בעברית הבלוק הראשון יושב מימין ולכן מתחיל ב-70 חיובי.
-   הכיוון במשתנה ולא בדריסה של html[dir=ltr], כי דריסה כזאת חזקה מ-.met והבלוקים נשארו תקועים בצד. */
-.conv{--cv-dir:1}
+/* ההתקדמות היא --p (0 עד 1), נכתבת מהגלילה. בלי JS ובהפחתת תנועה אין html.js ושני הבלוקים במקומם.
+   translate פיזי ולא לוגי: בעברית הבלוק הראשון יושב מימין ולכן מתחיל ב-160 חיובי. הכיוון במשתנה ולא בדריסה
+   של html[dir=ltr], כי דריסה כזאת חזקה מכלל המצב והבלוקים נשארו תקועים בצד.
+   הצטלבות שנכנסת פעם אחת ונעצרת "קצת סטטי ומשעמם" (ליאב, דוח הסקירה 4.10.2026), ולכן היא קשורה לגלילה */
+.conv{--cv-dir:1;--p:1}
 html[dir="ltr"] .conv{--cv-dir:-1}
-.js .cv{opacity:0}
-.js .cv.a{translate:calc(var(--cv-dir) * 70px) 0}
-.js .cv.b{translate:calc(var(--cv-dir) * -70px) 0}
+.js .conv{--p:0}
+.js .cv{opacity:calc(.3 + var(--p) * .7)}
+.js .cv.a{translate:calc(var(--cv-dir) * (1 - var(--p)) * 160px) 0}
+.js .cv.b{translate:calc(var(--cv-dir) * (var(--p) - 1) * 160px) 0}
 
 .cv-meet{width:clamp(38px,4vw,52px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;
-  background:var(--ink);color:var(--bg);font-size:clamp(17px,2vw,22px);line-height:1;
-  transition:scale .5s .28s cubic-bezier(.2,.6,.2,1),opacity .4s .28s}
-/* לא מאפס: כניסה מ-scale 0 נראית כמו בלון שמתנפח */
-.js .cv-meet{scale:.6;opacity:0}
+  background:var(--ink);color:var(--bg);font-size:clamp(17px,2vw,22px);line-height:1}
+/* הסימן נדלק ברבע האחרון ומסתובב חצי סיבוב עם המפגש. לא מאפס: כניסה מ-scale 0 נראית כמו בלון שמתנפח */
+.js .cv-meet{scale:calc(.6 + var(--p) * .4);rotate:calc(var(--p) * 180deg);opacity:clamp(0, (var(--p) - .7) * 3.4, 1)}
 
 @media(max-width:767px){
   .conv{grid-template-columns:1fr;gap:14px}
-  .js .cv.a,.js .cv.b{translate:0 26px}
+  .js .cv.a{translate:0 calc((1 - var(--p)) * 40px)}
+  .js .cv.b{translate:0 calc((var(--p) - 1) * 40px)}
   .cv-meet{justify-self:center}
-}
-/* אחרי כללי הטלפון, כדי שהמפגש ינצח גם שם */
-.conv.met .cv{opacity:1;translate:0 0}
-.conv.met .cv-meet{scale:1;opacity:1}
-@media (prefers-reduced-motion: reduce){
-  .js .cv,.js .cv.a,.js .cv.b{opacity:1;translate:none;transition:none}
-  .js .cv-meet{scale:1;opacity:1;transition:none}
 }`,
   html:`<div class="stage"><div class="conv">
   <div class="cv a"><span class="cv-kick">מה שרואים</span>
@@ -93,15 +85,20 @@ html[dir="ltr"] .conv{--cv-dir:-1}
     <p>עומסי אימון, שינה והתאוששות. מה שאף אחד לא רואה בשידור.</p>
     <span class="cv-stat">14<small>מדדים שנאספים כל יום</small></span></div>
 </div></div>`,
-  js:`// השער: רק כשהסקריפט רץ ויש IntersectionObserver הבלוקים מתחילים מוסתרים. אחרת הם פשוט גלויים
-if("IntersectionObserver" in window){
+  js:`// השער: בהפחתת תנועה אין html.js, ושני הבלוקים יושבים במקומם (--p:1 ב-CSS)
+if(!matchMedia("(prefers-reduced-motion: reduce)").matches){
   document.documentElement.classList.add("js");
-  const io=new IntersectionObserver(es=>es.forEach(e=>{
-    if(e.isIntersecting){e.target.classList.add("met");io.unobserve(e.target)}
-  }),{threshold:.35});
-  document.querySelectorAll(".conv").forEach(el=>io.observe(el));
+  const els=[...document.querySelectorAll(".conv")], last=new Map();
+  let ticking=false;
+  // המפגש קורה כשהבלוק עובר את 35% העליונים של המסך. כותבים ל-DOM רק כשהערך השתנה (engine/motion.md 9.6א)
+  const run=()=>{ticking=false;const vh=innerHeight;
+    for(const el of els){const r=el.getBoundingClientRect();
+      const p=Math.round(Math.min(1,Math.max(0,(vh*.95-r.top)/(vh*.6)))*1000)/1000;
+      if(last.get(el)!==p){last.set(el,p);el.style.setProperty("--p",p);}}};
+  addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(run);}},{passive:true});
+  addEventListener("resize",run);run();
 }`,
-  note:"**מלכודת RTL**: `translate` היא תכונה פיזית ולא לוגית. אם נותנים לבלוק הראשון ערך שלילי (כמו בעמוד אנגלי), בעברית הוא יושב מימין ומתחיל לזוז שמאלה, כלומר שני הבלוקים מתחילים קרובים ונפרדים החוצה. זה בדיוק ההפך מהמהלך. כאן הכיוון יושב במשתנה `--cv-dir` שמתהפך ב-`html[dir=\"ltr\"]`. לא בדריסה של הסלקטור עצמו: דריסה כזאת חזקה מכלל המפגש, ובעמוד אנגלי הבלוקים נשארו תקועים בצד. הנקודה במרכז היא מה שהופך את זה מ\"שני כרטיסים שנכנסים\" ל\"מפגש\": היא נכנסת באיחור של 0.28 שנייה, אחרי שהבלוקים כבר הגיעו, מ-0.6 ולא מאפס. מצב ההתחלה המוסתר חי רק תחת `html.js`, שהסקריפט מוסיף, כך שבלי JS הכל גלוי. בהפחתת תנועה שני הבלוקים והנקודה פשוט עומדים במקומם."
+  note:"**מלכודת RTL**: `translate` היא תכונה פיזית ולא לוגית. אם נותנים לבלוק הראשון ערך שלילי (כמו בעמוד אנגלי), בעברית הוא יושב מימין ומתחיל לזוז שמאלה, כלומר שני הבלוקים מתחילים קרובים ונפרדים החוצה. זה בדיוק ההפך מהמהלך. כאן הכיוון יושב במשתנה `--cv-dir` שמתהפך ב-`html[dir=\"ltr\"]`. לא בדריסה של הסלקטור עצמו: דריסה כזאת חזקה מכלל המפגש, ובעמוד אנגלי הבלוקים נשארו תקועים בצד. הנקודה במרכז היא מה שהופך את זה מ\"שני כרטיסים שנכנסים\" ל\"מפגש\": היא נדלקת ברבע האחרון של ההתקדמות, אחרי שהבלוקים כמעט נפגשו, מ-0.6 ולא מאפס, ומסתובבת חצי סיבוב עם המפגש. **מ-6.10.2026 ההתקדמות קשורה לגלילה** (`--p`, נכתב רק כשהשתנה), כי כניסה חד-פעמית הייתה \"קצת סטטי ומשעמם\" (ליאב, דוח הסקירה). מצב ההתחלה חי רק תחת `html.js`, שהסקריפט מוסיף, כך שבלי JS הכל גלוי. בהפחתת תנועה שני הבלוקים והנקודה פשוט עומדים במקומם."
 },
 {
   id:"lm4", cat:"lm", name:"ערימה דביקה מדורגת", tech:"CSS position:sticky", status:"ממתין",

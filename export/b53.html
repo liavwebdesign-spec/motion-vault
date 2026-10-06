@@ -45,12 +45,13 @@ img{max-width:100%}
 .vf-menu{display:flex;gap:clamp(16px,3vw,42px);justify-content:center;flex-wrap:wrap;
   border-top:1px solid var(--line, #e4e4ee);padding-top:clamp(20px,3vw,34px)}
 .vf-menu .vw{font-size:clamp(17px,2vw,26px)}
-/* הרכיב מכריז על הפונט המשתנה בעצמו: בסטאק של האתר יכול לשבת פונט סטטי, ואז לציר אין משמעות */
-.vf-title,.vf-menu,.vw{font-family:Heebo,system-ui,sans-serif}
+/* הרכיב מכריז על הפונט המשתנה בעצמו: בסטאק של האתר יכול לשבת פונט סטטי, ואז לציר אין משמעות.
+   Google Sans המאוחסן מקומית (ציר wght 400 עד 700), לא Heebo של גוגל (ליאב, דוח הסקירה 2.10.2026: "למה זה עם היבו ולא עם גוגל סאנס?") */
+.vf-title,.vf-menu,.vw{font-family:"Google Sans",system-ui,sans-serif}
 /* כל מילה משריינת את הרוחב שלה במשקל המקסימלי (עותק נסתר בגובה אפס), כך שמילה שמתעבה
    לא מרחיבה את השורה, לא דוחפת את השכנות ולא שוברת את הכותרת לשורה נוספת */
 .vw{display:inline-flex;flex-direction:column;align-items:center;font-variation-settings:"wght" 400;will-change:font-variation-settings}
-.vw::after{content:attr(data-w);height:0;overflow:hidden;visibility:hidden;font-variation-settings:"wght" 800;font-weight:800}
+.vw::after{content:attr(data-w);height:0;overflow:hidden;visibility:hidden;font-variation-settings:"wght" 700;font-weight:700}
 /* אזור לחיצה גבוה יותר בלי לשנות את הפריסה: הריפוד מתקזז במרווח שלילי */
 .vf-menu a{color:inherit;text-decoration:none;padding-block:8px;margin-block:-8px}
 .vf-menu a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:4px;border-radius:4px}
@@ -69,7 +70,7 @@ img{max-width:100%}
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script>
 (function(){
-  const MIN=300,MAX=800,RADIUS=260;
+  const MIN=400,MAX=700,RADIUS=260;   // הטווח של ציר המשקל ב-Google Sans
   if(typeof gsap==="undefined"||matchMedia("(hover:none)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
   const items=[];
   document.querySelectorAll("[data-vf]").forEach(el=>{

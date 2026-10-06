@@ -272,12 +272,13 @@ export default [
 .vf-menu{display:flex;gap:clamp(16px,3vw,42px);justify-content:center;flex-wrap:wrap;
   border-top:1px solid var(--line);padding-top:clamp(20px,3vw,34px)}
 .vf-menu .vw{font-size:clamp(17px,2vw,26px)}
-/* הרכיב מכריז על הפונט המשתנה בעצמו: בסטאק של האתר יכול לשבת פונט סטטי, ואז לציר אין משמעות */
-.vf-title,.vf-menu,.vw{font-family:Heebo,system-ui,sans-serif}
+/* הרכיב מכריז על הפונט המשתנה בעצמו: בסטאק של האתר יכול לשבת פונט סטטי, ואז לציר אין משמעות.
+   Google Sans המאוחסן מקומית (ציר wght 400 עד 700), לא Heebo של גוגל (ליאב, דוח הסקירה 2.10.2026: "למה זה עם היבו ולא עם גוגל סאנס?") */
+.vf-title,.vf-menu,.vw{font-family:"Google Sans",system-ui,sans-serif}
 /* כל מילה משריינת את הרוחב שלה במשקל המקסימלי (עותק נסתר בגובה אפס), כך שמילה שמתעבה
    לא מרחיבה את השורה, לא דוחפת את השכנות ולא שוברת את הכותרת לשורה נוספת */
 .vw{display:inline-flex;flex-direction:column;align-items:center;font-variation-settings:"wght" 400;will-change:font-variation-settings}
-.vw::after{content:attr(data-w);height:0;overflow:hidden;visibility:hidden;font-variation-settings:"wght" 800;font-weight:800}
+.vw::after{content:attr(data-w);height:0;overflow:hidden;visibility:hidden;font-variation-settings:"wght" 700;font-weight:700}
 /* אזור לחיצה גבוה יותר בלי לשנות את הפריסה: הריפוד מתקזז במרווח שלילי */
 .vf-menu a{color:inherit;text-decoration:none;padding-block:8px;margin-block:-8px}
 .vf-menu a:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:4px}
@@ -289,7 +290,7 @@ export default [
   <p class="vf-hint">הזז את העכבר מעל הטקסט.</p>
 </div></div>`,
   js:`(function(){
-  const MIN=300,MAX=800,RADIUS=260;
+  const MIN=400,MAX=700,RADIUS=260;   // הטווח של ציר המשקל ב-Google Sans
   if(typeof gsap==="undefined"||matchMedia("(hover:none)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
   const items=[];
   document.querySelectorAll("[data-vf]").forEach(el=>{
@@ -330,6 +331,6 @@ export default [
   });
 })();`,
   runway:false,
-  note:"זה עובד רק עם פונט משתנה שיש לו ציר wght רציף, ורק אם הוא באמת זה שמצויר. **המלכודת שנתפסה כאן**: בסטאק של האתר ישב פונט סטטי לפני Heebo, ולכן `font-variation-settings` נכתב כסגנון אבל לא שינה כלום. לכן הרכיב מצהיר על משפחת הפונט בעצמו, ו-Heebo נטען בטווח `wght@100..900` ולא בערכים בדידים. שני דברים חשובים לביצועים: מודדים את מיקומי המילים פעם אחת ולא בכל פריים, ומשתמשים ב-ticker אחד במקום בטוויין לכל מילה. הדעיכה בריבוע היא מה שנותן את התחושה המגנטית; דעיכה לינארית מרגישה כמו זרקור. **מלכודת שנייה**: מילה שמתעבה נעשית רחבה יותר, ובלי הגנה השכנות זזות הצידה, ובכותרת שבקושי נכנסת בשורה אחת היא נשברת לשתיים וכל העמוד קופץ. לכן כל מילה משריינת את הרוחב שלה במשקל המקסימלי דרך עותק נסתר בגובה אפס (`::after` עם `attr(data-w)`), והפריסה לא זזה בכלל. מילה שהתייצבה לא נכתבת שוב בכל פריים. פריטי התפריט הם קישורים אמיתיים, כך שהקוד שמועתק לפרויקט מלמד תפריט נגיש במקלדת. במגע האפקט כבוי לגמרי, כי אין שם סמן."
+  note:"זה עובד רק עם פונט משתנה שיש לו ציר wght רציף, ורק אם הוא באמת זה שמצויר. **המלכודת שנתפסה כאן**: בסטאק של האתר ישב פונט סטטי לפני הפונט המשתנה, ולכן `font-variation-settings` נכתב כסגנון אבל לא שינה כלום. לכן הרכיב מצהיר על משפחת הפונט בעצמו: Google Sans המאוחסן מקומית, שהציר שלו 400 עד 700, וה-MIN וה-MAX בקוד הם בדיוק הטווח הזה (מ-6.10.2026; עד אז Heebo של גוגל, שהתורה אוסרת). בפרויקט: פונט הכותרות של הצימוד אם הוא משתנה, אחרת Google Sans. שני דברים חשובים לביצועים: מודדים את מיקומי המילים פעם אחת ולא בכל פריים, ומשתמשים ב-ticker אחד במקום בטוויין לכל מילה. הדעיכה בריבוע היא מה שנותן את התחושה המגנטית; דעיכה לינארית מרגישה כמו זרקור. **מלכודת שנייה**: מילה שמתעבה נעשית רחבה יותר, ובלי הגנה השכנות זזות הצידה, ובכותרת שבקושי נכנסת בשורה אחת היא נשברת לשתיים וכל העמוד קופץ. לכן כל מילה משריינת את הרוחב שלה במשקל המקסימלי דרך עותק נסתר בגובה אפס (`::after` עם `attr(data-w)`), והפריסה לא זזה בכלל. מילה שהתייצבה לא נכתבת שוב בכל פריים. פריטי התפריט הם קישורים אמיתיים, כך שהקוד שמועתק לפרויקט מלמד תפריט נגיש במקלדת. במגע האפקט כבוי לגמרי, כי אין שם סמן."
 },
 ];

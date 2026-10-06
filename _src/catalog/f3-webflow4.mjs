@@ -4,11 +4,11 @@ export default [
 {
   id:"b54", cat:"behavior", name:"הובר שנכנס מהכיוון שממנו בא הסמן", tech:"Vanilla JS · GSAP", status:"ממתין",
   desc:"שכבת הובר שלא מופיעה סתם: היא נכנסת מהצד שממנו העכבר נכנס לכרטיס, ויוצאת לצד שממנו הוא יצא. התנועה עוקבת אחרי היד ולא אחרי הקוד.",
-  when:"גריד עבודות, כרטיסי שירות, צוות, מוצרים, קטגוריות. אותו הובר שיש לכולם, רק שהוא מרגיש נכון במקום מכני.",
+  when:"גריד עבודות, כרטיסי שירות, צוות, מוצרים, קטגוריות. אותו הובר שיש לכולם, רק שהוא מרגיש נכון במקום מכני. במסך מגע אין הובר, ולכן שם התיאור גלוי בתחתית הכרטיס מההתחלה.",
   libs:["gsap"],
   css:`.da{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);max-width:min(1020px,94vw);margin-inline:auto}
 .da-card{display:block;position:relative;overflow:hidden;border-radius:16px;aspect-ratio:4/3;cursor:pointer;
-  border:1px solid var(--line);background:var(--card);color:inherit;text-decoration:none}
+  background:var(--card);color:inherit;text-decoration:none}
 .da-card:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
 .da-bg{position:absolute;inset:0;border-radius:0;font-size:0}
 /* השם יושב מתחת לשכבה (z-index 0 מול 1): כשהשכבה פתוחה היא מכסה אותו, ורואים כותרת אחת ולא שתיים */
@@ -21,6 +21,15 @@ export default [
 .da-over strong{font-size:20px}
 .da-over span{font-size:14px;opacity:.9;max-width:24ch;line-height:1.6}
 .da-hint{text-align:center;color:var(--muted);font-size:14px;padding-top:22px}
+/* מסך מגע: אין הובר, ולכן אין שכבה שמחכה ללחיצה שאף אחד לא יודע לעשות (ליאב, דוח הסקירה 2.10.2026: "במובייל
+   זה לא רספונסיבי כי לא ידעו ללחוץ על הקופסא"). השם והתיאור יושבים גלויים בתחתית הכרטיס, על הכהיה מלמטה */
+@media(hover:none),(pointer:coarse){
+  .da-name,.da-hint{display:none}
+  .da-over{inset:auto 0 0 0;place-content:end start;text-align:start;padding:18px 16px 16px;gap:4px;
+    background:linear-gradient(to top,rgba(10,10,20,.78),rgba(10,10,20,.5) 60%,transparent);color:#fff}
+  .da-over strong{font-size:18px}
+  .da-over span{font-size:13px;max-width:none}
+}
 @media(max-width:860px){.da{grid-template-columns:1fr 1fr}}
 @media(max-width:560px){.da{grid-template-columns:1fr}}`,
   html:`<div class="stage tight">
@@ -44,6 +53,8 @@ export default [
   // דמו: לכרטיסים אין יעד, ולכן הלחיצה לא קופצת לראש העמוד. בפרויקט זה קישור אמיתי
   document.querySelectorAll(".da-card").forEach(c=>c.addEventListener("click",e=>e.preventDefault()));
   if(typeof gsap==="undefined")return;   // בלי הספרייה השכבות פשוט גלויות, עם השם והתיאור של כל כרטיס
+  // מגע: השכבה גלויה בתחתית מה-CSS, והמהלך לא נקשר בכלל (בלי סמן אין כיוון)
+  if(!matchMedia("(hover: hover) and (pointer: fine)").matches)return;
   const OFF=101;
   // בהפחתת תנועה השכבה מופיעה ונעלמת מיד, בלי החלקה. נבדק בכל הובר, כך ששינוי ההעדפה נתפס
   const dur=()=>matchMedia("(prefers-reduced-motion: reduce)").matches?0:.42;
