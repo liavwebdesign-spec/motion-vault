@@ -8,7 +8,7 @@ const MONO = `ui-monospace,"SFMono-Regular",Consolas,monospace`;
 
 export default [
 sk({
-  id: "s07", name: "ברוטליזם", en: "Brutalism", group: "אמירה וקיצון",
+  id: "s07", archived: true, name: "ברוטליזם", en: "Brutalism", group: "אמירה וקיצון",
   desc: "גולמי בכוונה: מסגרות שחורות עבות, אפס עיגולים, צל קשיח, גריד חשוף. אנטי-מלוטש, צעיר.",
   when: "מותגים צעירים, סטארטאפים שנמאס להם, אתרי מעצבים, דור Z.",
   no: "קהל מבוגר או שמרני, מוצרים שדורשים רוך וביטחון.",
@@ -52,88 +52,6 @@ accent: ניאון אחד (צהוב, ירוק או ורוד) על שחור-לב�
 }),
 
 sk({
-  id: "s08", name: "ליקוויד גלאס", en: "Liquid Glass", group: "אמירה וקיצון",
-  desc: "הזכוכית הנוזלית של Apple: עיוות עדשה, הבזקי אור, שקיפות דינמית. עתידני, 2026.",
-  when: "אפליקציות iOS מודרניות, מוצרי AI, מי שרוצה להרגיש חוד.",
-  no: "אתרי תוכן כבדים. מסיח ומכביד.",
-  recipe: `בסיס גלסמורפיזם (שפה 3) + תוספות:
-highlight נודד: pseudo-element עם gradient אלכסוני בהיר שזז ב-hover (translate, .6s)
-קצה עדשה: border עם gradient (לבן-חזק לשקוף) + inset 0 0 20px rgba(255,255,255,.15)
-תנועה נוזלית: transitions .5-.7s עם easing רך מאוד; רקע: gradient כהה עשיר עם נקודות אור`,
-  apply: "לרכיבי ניווט ופעולה בלבד (כמו Apple): הדר, טאב-בר, כפתורים צפים; התוכן עצמו על משטחים רגילים. הזכוכית החיה היא השכבה שמעל התוכן, לא התוכן.",
-  sig: "highlight שנודד לאט ב-hover · קצה עדשה בגרדיאנט · תנועה איטית-נוזלית שמרגישה כבדה-יוקרתית.",
-  avoid: "ליקוויד על הכל (יקר, מסיח, זול-למראה) · זכוכית בלי רקע דינמי מאחוריה · אנימציות מהירות ששוברות את הנוזליות.",
-  qa: ["לכל היותר 3-4 אלמנטים חיים במסך", "מובייל מקבל גרסה סטטית", "reduced-motion מקפיא הכל"],
-  engine: "",
-  extra: `ערכים שנלטשו בפרויקט אמיתי (דף קורס Lovable, 8.2026), נקודת פתיחה לעור כהה:
---bg:#08070C · surface:#12101B · ink:#F6F4FB · muted:rgba(246,244,251,.70)
-זכוכית: rgba(255,255,255,.06-.07) + blur 18-22 + border rgba(255,255,255,.14-.18)
-      + inset 0 0 16-20px rgba(255,255,255,.04-.06) + fallback @supports not backdrop-filter
-קצה עדשה: ::before עם gradient 150deg לבן .28 לשקוף ללבן .10 במסכת border (padding:1px, mask-composite:exclude)
-הבזק נודד: ::after אלכסוני שזז ב-hover, transition .7s
-פלטת Lovable: כתום #FF7A2F · ורוד #FF3D8A · סגול #8A5CFF · כחול #2E6BFF
-CTA בלעדי: gradient #CF3A7B ל-#CC4A12, לבן עובר עליו AA בכל גודל (4.6 בשני הקצוות). הגוונים הבהירים (#E8468C ל-#F0561C, 3.5 עד 3.7 עם לבן) רק מאחורי טקסט לבן של 19px בולד ומעלה: טקסט גדול לפי WCAG מתחיל ב-18.66px בולד, ולכן 18px לא עובר
-רקע: גרדיאנט כהה עשיר או צילום ברמת העמוד, כי לזכוכית צריך משהו לעוות (לא פר-סקשן!, ולא בלובים: נפסלו כנישתיים, 23.9.2026). הילות רכות לכל היותר שתיים, לפי B17 ב-behaviors.md
-מלכודת: קלאס זכוכית עם overflow:hidden (בשביל ההבזק הנודד) חותך ילדים שחורגים מהקופסה (עיגולי מספור, באדג'ים צפים). לאלמנטים כאלה בונים זכוכית ידנית בלי overflow ובלי ::after, או מוציאים את הילד החורג מחוץ לקופסה.
-מהלכים שעבדו: מילת ענק שקופה מאחורי ההירו (background-clip:text על gradient אנכי לבן .09 ל-.012; במובייל לשבור לשתי שורות, nowrap גולש מעבר למסך) · אייקוני גרדיאנט 52px בכרטיסים (כל כרטיס גרדיאנט אחר מהפלטה) · לוגו או אלמנט מותג צף חופשי עם drop-shadow צבעוני כפול במקום בתוך מסגרת · טיימליין מתמלא B18.`,
-  agent: "עצב בסגנון Liquid Glass של Apple: הדר וכפתורים כזכוכית חיה עם עיוות עדשה והבזק אור נודד, תנועה איטית ונוזלית; התוכן על משטחים רגילים.",
-  note: "בדמו: זכוכית חיה רק על ההדר, הכפתורים והחבילה הנבחרת (קצה עדשה + הבזק ב-hover, .7s). הכרטיסים הרגילים על משטח רגיל. שתי הילות בלבד, ברמת העמוד (סגולה למעלה, ורודה בצד), כמו הכלל של השפה; הוויז'ואל עצמו בלי כתמים. המילה הענקית מאחורי עמודת הטקסט בהירו (לא מאחורי הוויז'ואל, שם רואים רק שברי אותיות) היא הערך שנלטש בדף הקורס. ה-CTA בגרדיאנט העמוק של הפלטה, כדי שהלבן עליו יעבור AA.",
-  css: `.sk-s08 .ref{--s-bg:#08070C;--s-surface:#12101B;--s-ink:#F6F4FB;--s-muted:rgba(246,244,251,.72);--s-line:rgba(255,255,255,.1);--s-accent:linear-gradient(135deg,#CF3A7B,#CC4A12);--s-accent-ink:#fff;--s-accent-txt:#FF8FB8;--s-r:18px;--s-btn-r:999px;--s-ph:#12101B;--s-ph-ink:rgba(246,244,251,.6);
- --s-card-b:1px solid rgba(255,255,255,.08);--s-card-sh:none;--s-ghost-bg:rgba(255,255,255,.07);--s-ghost-b:1px solid rgba(255,255,255,.16);--s-ghost-ink:#F6F4FB;--s-in-b:1px solid rgba(255,255,255,.14);--s-in-bg:rgba(255,255,255,.06);--s-in-r:999px;--s-hi-bg:rgba(255,255,255,.07);--s-hi-b:1px solid rgba(255,255,255,.18);--s-ico-bg:linear-gradient(135deg,#8A5CFF,#2E6BFF);--s-form-bg:#12101B;--s-hd-bg:rgba(255,255,255,.06);--s-hd-line:1px solid rgba(255,255,255,.12);
- background:radial-gradient(50% 40% at 20% 0%,rgba(138,92,255,.35),transparent 70%),radial-gradient(40% 35% at 85% 30%,rgba(255,61,138,.25),transparent 70%),#08070C}
-.sk-s08 .btn{font-size:18px;font-weight:700;position:relative;overflow:hidden;transition:transform .6s cubic-bezier(.2,.6,.2,1),box-shadow .6s}
-.sk-s08 .btn.sm{font-size:15px}
-.sk-s08 .btn.ghost,.sk-s08 .hd,.sk-s08 .price.hi,.sk-s08 .in{backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:inset 0 0 18px rgba(255,255,255,.05)}
-.sk-s08 .btn.ghost::before,.sk-s08 .price.hi::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(150deg,rgba(255,255,255,.28),rgba(255,255,255,0) 45%,rgba(255,255,255,.1));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-.sk-s08 .btn::after{content:"";position:absolute;inset:-40% -60%;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.28) 50%,transparent 60%);transform:translateX(-60%);transition:transform .7s cubic-bezier(.2,.6,.2,1);pointer-events:none}
-.sk-s08 .btn:hover::after{transform:translateX(60%)}
-.sk-s08 .hero::before{content:"אור";position:absolute;inset-inline-start:0;top:0;font-size:clamp(120px,28cqi,360px);font-weight:800;line-height:1;background:linear-gradient(#fff,rgba(255,255,255,.1));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:.09;pointer-events:none;z-index:0}
-.sk-s08 .hero-t,.sk-s08 .hero-v{position:relative;z-index:1}
-.sk-s08 .hero-v{border:1px solid rgba(255,255,255,.1)}
-.sk-s08 .hv-a,.sk-s08 .hv-b{display:none}
-.sk-s08 .hv-l{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);padding:8px 18px;border-radius:999px;backdrop-filter:blur(12px)}
-.sk-s08 .bens .card:nth-child(2) .ico{background:linear-gradient(135deg,#FF3D8A,#FF7A2F)}
-.sk-s08 .bens .card:nth-child(3) .ico{background:linear-gradient(135deg,#2E6BFF,#8A5CFF)}
-.sk-s08 .in{color:#F6F4FB}
-.sk-s08 .in::placeholder{color:rgba(246,244,251,.5)}
-@supports not (backdrop-filter:blur(1px)){.sk-s08 .btn.ghost,.sk-s08 .hd,.sk-s08 .price.hi{background:rgba(18,16,27,.92)}}
-@media (prefers-reduced-motion:reduce){.sk-s08 .btn::after{transition:none}}`,
-}),
-
-sk({
-  id: "s09", name: "Soft Modern", en: "Soft Modern", group: "שפות נוספות",
-  desc: "לבנדר ולבן בשכבות, רדיוסים גדולים, צללים רכים, כרטיסים ממוספרים. ייעוץ, בריאות, טק.",
-  when: "ייעוץ, בריאות, טק, כל עסק שרוצה להיראות מודרני ורך בלי להיות ילדותי.",
-  no: "מותגים שצריכים חדות, יוקרה קרה או אמירה חזקה.",
-  recipe: "זה העור המלא soft-modern.md. להשתמש בו.",
-  apply: "שלושה עומקים תמיד: רקע לבנדר, כרטיסים לבנים, ואלמנט אחד מוגבה וכהה; כפתורי pill עם באדג' חץ; מספור 001 בכרטיסים; ריווח נדיב ורדיוסים 20 ומעלה.",
-  sig: "כרטיס-גיבור כהה בתוך גריד בהיר · מספור 001 · כפתור pill עם באדג'-חץ.",
-  avoid: "הכל באותה שכבת משטח (חייב 3 עומקים) · צללים כבדים.",
-  qa: ["שלושה עומקי משטח נראים בכל מסך", "צל אחד רך, אף פעם לא כהה"],
-  engine: "",
-  agent: "עצב בסגנון Soft Modern: רקע לבנדר בהיר, כרטיסים לבנים עם רדיוסים גדולים וצל רך, כרטיס-גיבור כהה אחד, כפתורי pill עם באדג' חץ עגול, מספור 001.",
-  note: "בדמו: כרטיס היתרון הראשון והחבילה הנבחרת הם השכבה הכהה, כל השאר לבן על לבנדר. החץ בכפתור פונה שמאלה כי זה כיוון ההתקדמות ב-RTL.",
-  css: `.sk-s09 .ref{--s-bg:#F3F1FB;--s-surface:#fff;--s-ink:#1E1B3A;--s-muted:#5E5A7A;--s-line:#E4E1F2;--s-accent:#6C5CE7;--s-accent-txt:#5A4AD1;--s-accent-ink:#fff;--s-r:22px;--s-btn-r:999px;--s-ph:#E7E3F7;--s-ph-ink:#5E5A7A;--s-accent-soft:#EDE9FF;
- --s-card-b:0;--s-card-sh:0 10px 30px rgba(80,70,140,.08);--s-ghost-bg:#fff;--s-ghost-b:0;--s-in-b:0;--s-in-bg:#F3F1FB;--s-in-r:999px;--s-hi-bg:#1E1B3A;--s-hi-ink:#fff;--s-ico-bg:#EDE9FF;--s-ico-r:50%;--s-form-bg:#fff}
-.sk-s09 .btn::after{content:"←";width:26px;height:26px;border-radius:50%;background:#fff;color:#6C5CE7;display:inline-grid;place-items:center;font-size:14px;font-weight:700;margin-inline-start:4px;flex:none}
-.sk-s09 .btn.ghost::after{background:#EDE9FF}
-.sk-s09 .btn.sm::after{width:22px;height:22px;font-size:12px}
-.sk-s09 .btn.ghost{box-shadow:0 10px 30px rgba(80,70,140,.08)}
-.sk-s09 .num{display:block;font-size:12px;font-weight:600;color:#6C5CE7;margin-bottom:14px}
-.sk-s09 .num::before{content:"0"}
-.sk-s09 .bens .card:first-child{background:#1E1B3A;color:#fff}
-.sk-s09 .bens .card:first-child h3,.sk-s09 .bens .card:first-child p{color:inherit}
-.sk-s09 .bens .card:first-child .ico{background:#6C5CE7}
-.sk-s09 .bens .card:first-child .num,.sk-s09 .price.hi li::before{color:#B8AEFF}
-.sk-s09 .hero-v{box-shadow:0 20px 50px rgba(80,70,140,.12)}
-.sk-s09 .hv-a{position:absolute;inset-inline-start:10%;top:12%;width:50%;height:38%;border-radius:18px;background:#fff;box-shadow:0 10px 30px rgba(80,70,140,.1)}
-.sk-s09 .hv-b{position:absolute;inset-inline-end:10%;bottom:12%;width:44%;height:34%;border-radius:18px;background:#1E1B3A}
-.sk-s09 .hv-l{position:absolute;inset-inline-start:10%;top:12%;width:50%;height:38%;display:grid;place-items:center;margin:0}
-.sk-s09 .ft{border-top:0}
-.sk-s09 .in::placeholder{color:#6A6589}`,
-}),
-
-sk({
   id: "s10", name: "בנטו גריד", en: "Bento", group: "שפות נוספות",
   desc: "תאים בהשראה יפנית על גריד קשיח. כל תא עולם תוכן משלו, ותא-גיבור אחד בולט.",
   when: "דשבורדים, webapp, הצגת פיצ'רים. משתלב כסקשן גם בשפות אחרות (C5).",
@@ -174,7 +92,7 @@ sk({
 }),
 
 sk({
-  id: "s11", name: "ממפיס", en: "Memphis", group: "שפות נוספות",
+  id: "s11", archived: true, name: "ממפיס", en: "Memphis", group: "שפות נוספות",
   desc: "צורות גיאומטריות צבעוניות, דפוסים, קווי מתאר שחורים. אנרגיה צעירה.",
   when: "אירועים, חינוך, מותגי צעירים, כל מה שרוצה לצעוק בשמחה.",
   no: "עסקים שצריכים שקט, יוקרה או אמינות שמרנית.",
@@ -218,7 +136,7 @@ sk({
 }),
 
 sk({
-  id: "s12", name: "רטרו שנות ה-70", en: "Retro 70s", group: "שפות נוספות",
+  id: "s12", archived: true, name: "רטרו שנות ה-70", en: "Retro 70s", group: "שפות נוספות",
   desc: "פלטה תקופתית (חרדל, חלודה, זית, שמנת), טיפוגרפיה תקופתית, גרעיניות. נוסטלגיה, אופי.",
   when: "מותגי אוכל, קפה, אופנה, תרבות, כל מי שהאופי הוא המוצר.",
   no: "טק, פיננסים, רפואה. הנוסטלגיה נקראת כחוסר עדכניות.",

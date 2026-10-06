@@ -897,7 +897,8 @@ ${isDoc ? BP_JS + String.fromCharCode(10) + (isStyle ? FONT_JS + String.fromChar
 // עמוד בנפרד. כאן: הממתינים בזה אחר זה בתוך iframe, אישור/דחייה מהמקלדת, והדוח באותו כפתור.
 // הסטטוס נשמר דרך אותה שכבת אישורים (status.js, localStorage), ולכן האינדקס והעמודים רואים אותו מיד.
 function reviewPage() {
-  const LIST = JSON.stringify(entries.map(e => ({ id: e.id, name: e.name, cat: e.cat, desc: e.desc, when: e.when || "" })));
+  // archived languages stay in the vault as inspiration, but they are not reviewed and not offered (Liav, 6.10.2026)
+  const LIST = JSON.stringify(entries.filter(e => !e.archived).map(e => ({ id: e.id, name: e.name, cat: e.cat, desc: e.desc, when: e.when || "" })));
   const CATS_JSON = JSON.stringify(CATS);
   return `<!DOCTYPE html>
 <html lang="he" dir="rtl">
@@ -1048,7 +1049,7 @@ function indexPage() {
   const cards = entries.map(e => `<a class="vcard" data-id="${e.id}" data-cat="${e.cat}" data-area="${CAT_AREA[e.cat]}" data-uses="${(USES[e.id] || []).join(" ")}" data-elems="${(ELEMS[e.id] || []).join(" ")}" data-fit="${(FIT[e.id] || []).join(" ")}" data-txt="${("MV:" + e.id + " " + e.name + " " + e.desc + " " + e.tech + " " + (USES[e.id] || []).map(u => USES_LABELS[u]).join(" ") + " " + (ELEMS[e.id] || []).map(u => ELEMS_LABELS[u]).join(" ") + " " + (FIT[e.id] || []).map(u => FIT_LABELS[u]).join(" ")).replace(/"/g, "")}" href="${e.cat}/${e.id}.html">
   <div class="row"><span class="vid">MV:${e.id}</span><span class="chip cat-${e.cat}">${CATS[e.cat]}</span><span class="chip stchip st-pending">ממתין</span></div>
   <h3>${e.name}</h3><p>${e.desc}</p>
-  <div class="row"><span class="chip">${e.tech}</span>${(USES[e.id] || []).map(u => `<span class="chip use">${USES_LABELS[u]}</span>`).join("")}${(ELEMS[e.id] || []).map(u => `<span class="chip elem">${ELEMS_LABELS[u]}</span>`).join("")}</div>
+  <div class="row">${e.archived ? `<span class="chip">ארכיון</span>` : ""}<span class="chip">${e.tech}</span>${(USES[e.id] || []).map(u => `<span class="chip use">${USES_LABELS[u]}</span>`).join("")}${(ELEMS[e.id] || []).map(u => `<span class="chip elem">${ELEMS_LABELS[u]}</span>`).join("")}</div>
 </a>`).join("\n");
   const REPORT_LIST = JSON.stringify(entries.map(e => ({ id: e.id, name: e.name, cat: e.cat })));
   const counts = Object.fromEntries(Object.keys(CATS).map(c => [c, entries.filter(e => e.cat === c).length]));

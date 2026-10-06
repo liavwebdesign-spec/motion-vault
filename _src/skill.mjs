@@ -110,7 +110,9 @@ function styleItem(e, n) {
 }
 
 export function stylesMarkdown(entries) {
-  const styles = entries.filter(e => e.cat === "style" && !e.sub).sort((a, b) => a.id.localeCompare(b.id));
+  const all = entries.filter(e => e.cat === "style" && !e.sub).sort((a, b) => a.id.localeCompare(b.id));
+  // archived languages are not offered in the intake (Liav, 6.10.2026: "שיפוץ רציני לעורות", direction B): one line each at the end
+  const styles = all.filter(e => !e.archived), archived = all.filter(e => e.archived);
   const out = [];
   out.push(`# אינדקס שפות העיצוב ${DOT} הספרייה לבחירה והמלצה`);
   out.push("");
@@ -133,6 +135,13 @@ export function stylesMarkdown(entries) {
       out.push("---"); out.push(""); out.push(`## ${group}`); out.push("");
     }
     out.push(styleItem(e, ++n)); out.push("");
+  }
+  if (archived.length) {
+    out.push("---"); out.push("");
+    out.push("## ארכיון: לא מוצעות בשאלון");
+    out.push(`שמונה שפות שלא נבחרו אף פעם בפרויקט, ושהדמו שלהן היה שלד צבוע ולא עמוד אמיתי (ליאב, 6.10.2026: "שיפוץ רציני לעורות"). הן נשארות במאגר כהשראה בלבד. שפה מכאן חוזרת לרשימה רק עם עמוד ייחוס אמיתי ברף הסטודיו.`);
+    for (const e of archived) out.push(`- ${e.name} (${e.en}) ${DOT} \`MV:${e.id}\`${e.archiveNote ? " " + DOT + " " + e.archiveNote : ""}`);
+    out.push("");
   }
   out.push("---");
   out.push("");
