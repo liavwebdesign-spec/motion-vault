@@ -79,7 +79,7 @@ html[dir="ltr"] .rprog{transform-origin:left}
 .vq b{display:block;font-size:13px;color:var(--muted);margin-top:6px;font-weight:500}
 @keyframes vup{from{transform:translateY(0)}to{transform:translateY(-50%)}}
 @media(prefers-reduced-motion:reduce){.vmq{height:auto;-webkit-mask-image:none;mask-image:none}.vmq-track{animation:none;padding-bottom:0}.vmq-dup{display:none}}`,
-  html:`<div class="stage tight"><div class="vmq"><div class="vmq-track">
+  html:`<div class="stage tight"><div class="vmq" data-crop-ok><div class="vmq-track">
 <div class="vq">"שירות מדהים, תוצאה מעל המצופה"<b>דנה, תל אביב</b></div>
 <div class="vq">"האתר החדש הכפיל לנו את הפניות"<b>יוסי, חיפה</b></div>
 <div class="vq">"מקצוען אמיתי, מומלץ בחום"<b>מיכל, ירושלים</b></div>
