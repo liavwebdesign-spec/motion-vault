@@ -52,46 +52,6 @@ accent: ניאון אחד (צהוב, ירוק או ורוד) על שחור-לב�
 }),
 
 sk({
-  id: "s10", name: "בנטו גריד", en: "Bento", group: "שפות נוספות",
-  desc: "תאים בהשראה יפנית על גריד קשיח. כל תא עולם תוכן משלו, ותא-גיבור אחד בולט.",
-  when: "דשבורדים, webapp, הצגת פיצ'רים. משתלב כסקשן גם בשפות אחרות (C5).",
-  no: "תוכן נרטיבי ארוך, עמודים שצריכים זרימה ולא מפה.",
-  recipe: `gap אחיד 12-16; radius אחיד; תא-גיבור 2×2 (או 1×2)
-כל התאים על רקע אפור-בהיר אחיד, הגריד גלוי דרך ה-gap
-כל תא עולם משלו: מספר גדול, גרף קטן, תמונה, טקסט`,
-  apply: "העמוד כולו הופך למפת תאים: ההדר, ההירו, היתרונות, המחירים, הטופס והפוטר הם תאים באותו גריד; תא-הגיבור עם מספר ענק; תא עם ויז'ואל צבעוני מלא; אין גבולות, רק gap.",
-  sig: "תא-גיבור בולט · כל תא עולם תוכן משלו (גרף, מספר, תמונה, טקסט) · הגריד גלוי דרך ה-gap האחיד.",
-  avoid: "כל התאים באותו גודל (זה סתם גריד כרטיסים) · דחיסת-יתר בתא.",
-  qa: ["gap אחד לכל הגריד", "radius אחד לכל התאים", "תא-גיבור אחד לפחות בכל מפה"],
-  engine: "",
-  agent: "עצב בסגנון Bento: כל העמוד כמפת תאים על גריד אחיד עם gap קבוע ורדיוס קבוע, תא-גיבור גדול אחד, וכל תא מציג סוג תוכן אחר (מספר, גרף, תמונה, טקסט).",
-  note: "בדמו: gap 14 ורדיוס 18 בכל התאים כולל ההדר והפוטר. תא היתרון הראשון הוא הגיבור (שתי שורות) עם מספר ענק, השלישי מכיל גרף עמודות זעיר. הכחול של הכפתורים והטקסט #0071E3 (לבן עליו 4.7); הכחול הבהיר של iOS #0A84FF נשאר רק במספר הענק, בגרף ובוויז'ואל, שם הוא לא נושא טקסט קטן.",
-  css: `.sk-s10 .ref{--s-bg:#F2F2F5;--s-surface:#fff;--s-ink:#1D1D1F;--s-muted:#6E6E73;--s-line:transparent;--s-accent:#0071E3;--s-accent-ink:#fff;--s-r:18px;--s-btn-r:12px;--s-ph:#fff;--s-ph-ink:#fff;--s-gap:14px;--s-card-b:0;--s-card-sh:0 1px 2px rgba(0,0,0,.05);--s-ghost-bg:#F2F2F5;--s-ghost-b:0;--s-in-b:0;--s-in-bg:#F2F2F5;--s-hi-bg:#1D1D1F;--s-hi-ink:#fff;--s-hi-lift:none;--s-ico-bg:#EAF3FF;--s-form-bg:#fff;--s-hd-bg:#fff;padding:14px}
-.sk-s10 .hd{border-radius:18px;margin-bottom:14px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
-.sk-s10 .hero{gap:14px;padding:0;margin-bottom:14px;align-items:stretch}
-.sk-s10 .hero-t{background:#fff;border-radius:18px;padding:clamp(24px,4cqi,56px);box-shadow:0 1px 2px rgba(0,0,0,.05);display:flex;flex-direction:column;justify-content:center}
-.sk-s10 .hero-v{aspect-ratio:auto;min-height:280px;background:linear-gradient(135deg,#0A84FF,#5AC8FA);color:#fff;box-shadow:none}
-.sk-s10 .hv-a{position:absolute;inset-inline-start:8%;bottom:10%;width:40%;height:22%;border-radius:14px;background:rgba(255,255,255,.22)}
-.sk-s10 .hv-b{position:absolute;inset-inline-end:8%;top:10%;width:30%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.25)}
-.sk-s10 .sec{padding:0;margin-bottom:14px}
-.sk-s10 .sec h2{font-size:14px;color:#6E6E73;font-weight:600;margin:0 6px 10px}
-.sk-s10 .bens .grid3{grid-template-columns:2fr 1fr 1fr}
-.sk-s10 .bens .card:first-child{grid-row:span 2;display:flex;flex-direction:column;justify-content:flex-end;min-height:300px}
-.sk-s10 .bens .card:first-child .num{display:block;font-size:clamp(64px,8cqi,110px);font-weight:800;line-height:1;margin-bottom:auto;color:#0A84FF}
-.sk-s10 .bens .card:nth-child(2),.sk-s10 .bens .card:nth-child(3){grid-column:2/4}
-.sk-s10 .bars{display:flex;align-items:flex-end;gap:6px;height:56px;margin-top:14px}
-.sk-s10 .bars s{display:block;flex:1;background:#0A84FF;border-radius:4px 4px 0 0;text-decoration:none;opacity:.55}
-.sk-s10 .bars s:nth-child(1){height:40%}.sk-s10 .bars s:nth-child(2){height:65%}.sk-s10 .bars s:nth-child(3){height:50%}.sk-s10 .bars s:nth-child(4){height:100%;opacity:1}
-.sk-s10 .bens .card:first-child .ico{display:none}
-.sk-s10 .fbox{max-width:none;text-align:start}
-.sk-s10 .fbox h2{font-size:clamp(22px,2.6cqi,32px);color:var(--s-ink);font-weight:700;margin:0}
-.sk-s10 .fbox p{margin-inline:0}
-.sk-s10 .ft{background:#fff;border-radius:18px;border-top:0;box-shadow:0 1px 2px rgba(0,0,0,.05)}
-.sk-s10 .in::placeholder{color:#6E6E73}
-@container (max-width:767px){.sk-s10 .bens .grid3{grid-template-columns:1fr}.sk-s10 .bens .card:first-child{grid-row:auto;min-height:220px}.sk-s10 .bens .card:nth-child(2),.sk-s10 .bens .card:nth-child(3){grid-column:auto}.sk-s10 .hero-v{min-height:200px}}`,
-}),
-
-sk({
   id: "s11", archived: true, name: "ממפיס", en: "Memphis", group: "שפות נוספות",
   desc: "צורות גיאומטריות צבעוניות, דפוסים, קווי מתאר שחורים. אנרגיה צעירה.",
   when: "אירועים, חינוך, מותגי צעירים, כל מה שרוצה לצעוק בשמחה.",

@@ -62,9 +62,20 @@ function loadDurations() {
   return { list, missingInTokens: list.filter(v => !fromTokens.includes(v)) };
 }
 const DUR = loadDurations();
+// weights and the spacing ladder from tokens.json (6.10.2026: the tool allowed four weights while the bar fails above three, and its
+// ladder carried 22/26/36/44/80/150 that the tokens never had). Without the doctrine (public vault) the old values stay.
+function loadTokens() {
+  try {
+    const t = JSON.parse(readFileSync(join(ENGINE, "tokens.json"), "utf8"));
+    const w = findKey(t, "weights"), s = t.spacing || {};
+    const ladder = [0, s.hairline || 1, ...(s.scale || []), ...(s.fluidLayer || [])].filter(v => typeof v === "number");
+    return { maxW: (w && w.max) || 3, ladder: [...new Set(ladder)].sort((a, b) => a - b) };
+  } catch { return null; }
+}
+const TOK = loadTokens();
 
 // ---------- סקריפט המדידה: רץ בתוך העמוד ומחזיר את 30 הסעיפים ----------
-const MEASURE = `(function(SEL, PROJECT, DUR){
+const MEASURE = `(function(SEL, PROJECT, DUR, TOK){
   const isVault=!!document.querySelector(".vtop");
   document.querySelectorAll(".vtop,.vintro,.mvcode,.vpn-foot,.mvpanel,.demo-note,.bpbar,.runway").forEach(e=>e.style.display="none");
   const root=document.querySelector(SEL)||(isVault?(document.querySelector(".bpwrap")||document.querySelector(".ref")):null)||document.body;
@@ -88,23 +99,30 @@ const MEASURE = `(function(SEL, PROJECT, DUR){
   if(h1){const r=px(cs(h1).fontSize)/bodyFs;add(1,true,"סולם עם מתח (H1/גוף ≥ 3.0)",r>=3?"pass":"fail",Math.round(px(cs(h1).fontSize))+"/"+Math.round(bodyFs)+" = "+r.toFixed(2));}else add(1,true,"סולם עם מתח","na","אין H1");
   // 2 ★ משקלים
   const textEls=q("h1,h2,h3,h4,p,a,button,li,label,span,small,b,strong,em,input");
-  const weights=uniq(textEls.map(e=>cs(e).fontWeight));
-  add(2,true,"עד ארבעה משקלים",weights.length<=4?"pass":"fail",weights.join(", "));
+  // the main family is the one most text sits in; a Latin partner's weight does not count (tokens.json weights._note)
+  const fam=e=>(cs(e).fontFamily||"").split(",")[0].replace(/["']/g,"").trim();
+  const famCount={};textEls.forEach(e=>{famCount[fam(e)]=(famCount[fam(e)]||0)+txt(e).length;});
+  const mainFam=Object.keys(famCount).sort((a,b)=>famCount[b]-famCount[a])[0];
+  const weights=uniq(textEls.filter(e=>fam(e)===mainFam).map(e=>cs(e).fontWeight));
+  const maxW=TOK?TOK.maxW:4;
+  add(2,true,"עד "+maxW+" משקלים במשפחה הראשית",weights.length<=maxW?"pass":"fail",weights.join(", ")+" ("+mainFam+")");
   // 3 גובה שורה כפול מצב
-  if(h1&&ps.length){const lh1=px(cs(h1).lineHeight)/px(cs(h1).fontSize),lhp=px(cs(ps[0]).lineHeight)/px(cs(ps[0]).fontSize);add(3,false,"גובה שורה: כותרת הדוקה, גוף פתוח (הפרש ≥ .35)",(lhp-lh1)>=.35?"pass":"fail","H1 "+lh1.toFixed(2)+" · גוף "+lhp.toFixed(2));}else add(3,false,"גובה שורה כפול מצב","na","");
+  if(h1&&ps.length){const bodyPs=ps.filter(p=>Math.abs(px(cs(p).fontSize)-bodyFs)<.6),lh1=px(cs(h1).lineHeight)/px(cs(h1).fontSize),lhp=median((bodyPs.length?bodyPs:ps).map(p=>px(cs(p).lineHeight)/px(cs(p).fontSize)));add(3,false,"גובה שורה: כותרת הדוקה, גוף פתוח (הפרש ≥ .35)",(lhp-lh1)>=.35?"pass":"fail","H1 "+lh1.toFixed(2)+" · גוף "+lhp.toFixed(2));}else add(3,false,"גובה שורה כפול מצב","na","");
   // 4 ריווח אותיות בכותרת גדולה
   if(h1){const fs=px(cs(h1).fontSize),ls=cs(h1).letterSpacing;const lsv=ls==="normal"?0:px(ls);add(4,false,"ריווח אותיות שלילי בכותרת מעל 40px",fs<=40?"na":(lsv<0?"pass":"fail"),Math.round(fs)+"px · "+ls);}
   // 5 measure
   let worst=0;ps.forEach(p=>{const lines=Math.max(1,Math.round(p.getBoundingClientRect().height/px(cs(p).lineHeight)));const cpl=txt(p).length/lines;if(cpl>worst)worst=cpl;});
   add(5,false,"measure עד 80 תווים בשורה",ps.length?(worst<=80?"pass":"fail"):"na",Math.round(worst)+" תווים בשורה הרחבה");
   // 6 מספרים כאלמנט
-  const nums=textEls.filter(e=>/(\\d[\\d,\\.]{2,}|₪)/.test(txt(e))&&txt(e).length<20&&e.children.length===0);
+  // a short leaf that is mostly digits: 6, 22:00, 1,240, ₪149, 12 דק' (until 6.10.2026 only runs of three digits or ₪ counted)
+  const digitShare=t=>{const s=t.replace(/\\s/g,"");return s.length?(s.match(/[\\d₪%]/g)||[]).length/s.length:0;};
+  const nums=textEls.filter(e=>txt(e).length<20&&e.children.length===0&&/\\d/.test(txt(e))&&digitShare(txt(e))>=.4);
   if(nums.length){const styled=nums.some(e=>px(cs(e).fontSize)>=bodyFs*1.4||px(cs(e).fontWeight)>=600&&px(cs(e).fontSize)>bodyFs);add(6,false,"מספרים עם טיפול משלהם",styled?"pass":"fail",nums.length+" מספרים, הגדול "+Math.round(Math.max(...nums.map(e=>px(cs(e).fontSize))))+"px");}else add(6,false,"מספרים כאלמנט עיצובי","na","אין מספרים");
   // 7 eyebrow אחיד
   const eyes=q('[class*="eyebrow"],[class*="kicker"]');
   if(eyes.length>=2){const sig=uniq(eyes.map(e=>[cs(e).fontSize,cs(e).fontWeight,cs(e).color,cs(e).letterSpacing].join("|")));add(7,false,"eyebrow בסגנון אחד",sig.length<=1?"pass":"fail",eyes.length+" eyebrows, "+sig.length+" סגנונות");}else add(7,false,"eyebrow עם תפקיד","na",eyes.length+" eyebrows");
   // 8 ★ סולם ריווח
-  const ladder=[0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,32,36,40,44,48,56,64,72,80,88,96,112,128,150,160];
+  const ladder=TOK?TOK.ladder:[0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,32,36,40,44,48,56,64,72,80,88,96,112,128,150,160];
   const onL=v=>ladder.some(l=>Math.abs(l-v)<=.6);
   const sp=new Set();
   q("*").slice(0,1500).forEach(e=>{const c=cs(e);["paddingTop","paddingBottom","paddingLeft","paddingRight","rowGap","columnGap"].forEach(k=>{const v=px(c[k]);if(v>0&&c[k]!=="normal")sp.add(Math.round(v*2)/2);});});
@@ -180,7 +198,8 @@ const MEASURE = `(function(SEL, PROJECT, DUR){
   if(chips.length){const hs=chips.map(c=>Math.round(c.getBoundingClientRect().height));add(23,false,"צ'יפ בגובה 30 עד 36",hs.every(h=>h>=30&&h<=36)?"pass":"fail",hs.join(", "));}else add(23,false,"תגיות וצ'יפים בפרופורציה","na","אין צ'יפים");
   // 24 ★ כוריאוגרפיית כניסה
   const revealRules=[...css.matchAll(/\\.(reveal|is-in|lad|fade-?in|rise)\\b[^{]*\\{[^}]*\\}/g)].map(m=>m[0]);
-  const durs=uniq([...css.matchAll(/(?:transition|animation)(?:-duration)?:[^;]*?(\\d*\\.?\\d+)(m?s)/g)].map(m=>Math.round(parseFloat(m[1])*(m[2]==="s"?1000:1)))).filter(d=>d>0);
+  // a time token that stands alone: the 14s inside a keyframe name like s14spin is not a duration (s14, 6.10.2026)
+  const durs=uniq([...css.matchAll(/(?:transition|animation)(?:-duration)?:[^;]*?(?<![\\w.-])(\\d*\\.?\\d+)(ms|s)(?![\\w-])/g)].map(m=>Math.round(parseFloat(m[1])*(m[2]==="s"?1000:1)))).filter(d=>d>0);
   const rdAll=uniq(revealRules.flatMap(r=>[...r.matchAll(/(\\d*\\.?\\d+)(m?s)/g)].map(m=>Math.round(parseFloat(m[1])*(m[2]==="s"?1000:1))))).filter(v=>v>=300);
   if(revealRules.length&&rdAll.length){const rd=uniq(revealRules.flatMap(r=>[...r.matchAll(/(\\d*\\.?\\d+)(m?s)/g)].map(m=>Math.round(parseFloat(m[1])*(m[2]==="s"?1000:1)))).filter(v=>v>=300));add(24,true,"reveal אחד: משך אחיד",rd.length<=1?"pass":"fail","משכי reveal: "+rd.join(", ")+"ms");}else add(24,true,"כוריאוגרפיית כניסה אחת",PROJECT?"fail":"na",PROJECT?"אין מערכת reveal":"אין reveal בעמוד ייחוס");
   // 25 שלוש מהירויות
@@ -195,13 +214,15 @@ const MEASURE = `(function(SEL, PROJECT, DUR){
   const anim=/transition|animation|@keyframes/.test(css);
   add(28,false,"prefers-reduced-motion מכבה תנועה",anim?(/prefers-reduced-motion/.test(css)?"pass":"fail"):"na","");
   // 29 ★ הדר ופוטר
-  const ft=q("footer,.ft")[0],hd=q("header,.hd")[0];
+  // a sticky wrapper at height 0 (the doctrine's floating header) is not dropped as invisible, and its child may carry the position
+  const ft=q("footer,.ft")[0],hd=q("header,.hd")[0]||root.querySelector("header,.hd");
+  const stickyOf=el=>!!el&&(["sticky","fixed"].includes(cs(el).position)||[...el.children].slice(0,2).some(c=>["sticky","fixed"].includes(cs(c).position)));
   const ftH=ft?Math.round(ft.getBoundingClientRect().height):0;
-  const hdSticky=hd?(["sticky","fixed"].includes(cs(hd).position)||/is-solid|scrolled|\\.hd\\.on|header\\.on/.test(css)):false;
+  const hdSticky=hd?(stickyOf(hd)||stickyOf(hd.parentElement)||/is-solid|scrolled|\\.hd\\.on|header\\.on/.test(css)):false;
   add(29,true,"פוטר ≥ 120px והדר שמשתנה בגלילה",(ftH>=120&&hdSticky)?"pass":"fail","פוטר "+ftH+"px · הדר "+(hdSticky?"דביק/משתנה":"סטטי"));
   add(30,false,"רגע חתימה אחד (\\"מה אזכור מחר?\\")","manual","");
   return {sel:SEL,root:root.className,results:R};
-})(${JSON.stringify(sel)}, ${PROJECT}, ${JSON.stringify(DUR ? DUR.list : null)})`;
+})(${JSON.stringify(sel)}, ${PROJECT}, ${JSON.stringify(DUR ? DUR.list : null)}, ${JSON.stringify(TOK)})`;
 
 (async () => {
   let code = 0;

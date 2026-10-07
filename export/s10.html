@@ -34,108 +34,533 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* S10 · בנטו גריד */
+@font-face{font-family:"MV Google Sans";src:url("https://liavwebdesign-spec.github.io/motion-vault/assets/fonts/google-sans.woff2") format("woff2");font-weight:400 700;font-display:swap}
 .cwrap{container-type:inline-size}
-.ref{--pad:clamp(20px,4cqi,64px);--s-bg:#f7f7fa;--s-surface:#fff;--s-ink:#16182b;--s-muted:#5f6278;--s-line:#e4e4ee;--s-accent:#4a3aff;--s-accent-ink:#fff;--s-r:16px;--s-ph:#dfe0ea;--s-ph-ink:#6a6d85;--s-gap:20px;
- background:var(--s-bg);color:var(--s-ink);font-family:var(--s-font,inherit);overflow:hidden;position:relative;isolation:isolate;line-height:calc(1.35 * var(--s-lh,1))}
-.ref *{box-sizing:border-box}
-.ref h1,.ref h2,.ref h3{margin:0;color:var(--s-head,var(--s-ink))}
-.ref h1,.ref h2{font-family:var(--s-font-h,var(--s-font,inherit));font-weight:var(--s-wt-h,700);line-height:calc(1.1 * var(--s-lh-h,var(--s-lh,1)))}
-.ref h3{font-family:var(--s-font,inherit);font-weight:var(--s-wt-h3,700);line-height:calc(1.1 * var(--s-lh,1))}
-.ref p{margin:0;color:var(--s-muted)}
-.ref a{color:inherit;text-decoration:none}
-.hd{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px var(--pad);background:var(--s-hd-bg,transparent);border-bottom:var(--s-hd-line,0);position:sticky;top:0;z-index:2}
-.logo{font-weight:800;font-size:calc(18px * var(--s-fz,1));display:inline-flex;align-items:center;gap:8px}
-.logo::before{content:"";width:22px;height:22px;border-radius:var(--s-logo-r,6px);background:var(--s-accent);flex:none}
-.nav{display:flex;gap:22px;font-size:calc(14.5px * var(--s-fz,1));font-weight:500;color:var(--s-muted)}
-.nav a{padding-block:4px}
-.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,5cqi,64px);align-items:center;padding:clamp(40px,7cqi,96px) var(--pad);position:relative;z-index:1}
-.hero-t{position:relative}
-.eyebrow{display:inline-block;font-size:calc(13px * var(--s-fz,1));font-weight:600;color:var(--s-accent-txt,var(--s-accent));margin-bottom:14px}
-.hero h1{font-size:calc(clamp(32px,5.2cqi,64px) * var(--s-fz-h,var(--s-fz,1)));max-width:16ch;margin-bottom:16px}
-.ref .lead{font-size:calc(clamp(16px,1.6cqi,20px) * var(--s-fz,1));max-width:44ch;margin-bottom:24px}
-.ctas{display:flex;gap:12px;flex-wrap:wrap}
-.ref .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:var(--s-btn-r,var(--s-r));background:var(--s-accent);color:var(--s-accent-ink);font-weight:600;font-size:calc(15.5px * var(--s-fz,1));border:var(--s-btn-b,0);box-shadow:var(--s-btn-sh,none);cursor:pointer;font-family:inherit;line-height:calc(1.2 * var(--s-lh,1));transition:transform .2s,box-shadow .2s,background .2s}
-.ref .btn.ghost{background:var(--s-ghost-bg,transparent);color:var(--s-ghost-ink,var(--s-ink));border:var(--s-ghost-b,1px solid var(--s-line));box-shadow:none}
-.ref .btn:active{transform:scale(.98)}
-.ref .btn:focus-visible,.ref .in:focus-visible{outline:2px solid var(--s-accent-txt,var(--s-accent));outline-offset:3px}
-.ref p,.ref li{line-height:calc(1.6 * var(--s-lh,1))}
-@media (prefers-reduced-motion:reduce){.ref *,.ref *::before,.ref *::after{transition:none!important;animation:none!important}}
-.ref .btn.sm{padding:9px 16px;font-size:calc(14px * var(--s-fz,1))}
-.hero-v{aspect-ratio:4/3;border-radius:var(--s-r);background:var(--s-ph);display:grid;place-items:center;color:var(--s-ph-ink);font-weight:600;position:relative;box-shadow:var(--s-card-sh,none);border:var(--s-card-b,0);overflow:hidden}
-.hv-a,.hv-b{display:block}
-.hv-l{position:relative;z-index:1}
-.bens,.prices,.form{scroll-margin-top:80px}
-.sec{padding:clamp(36px,6cqi,88px) var(--pad);position:relative;z-index:1}
-.sec h2{font-size:calc(clamp(24px,3.2cqi,40px) * var(--s-fz-h,var(--s-fz,1)));margin-bottom:clamp(20px,3cqi,36px)}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-gap)}
-.card{background:var(--s-surface);border:var(--s-card-b,1px solid var(--s-line));border-radius:var(--s-r);padding:clamp(20px,2.6cqi,32px);box-shadow:var(--s-card-sh,none);position:relative;transition:transform .2s,box-shadow .2s}
-.num,.bars{display:none}
-.ico{display:block;width:44px;height:44px;border-radius:var(--s-ico-r,12px);background:var(--s-ico-bg,var(--s-accent-soft,#eef0ff));margin-bottom:18px;border:var(--s-ico-b,0)}
-.card h3{font-size:calc(clamp(17px,1.7cqi,21px) * var(--s-fz,1));margin-bottom:8px}
-.card p{font-size:calc(15px * var(--s-fz,1));line-height:calc(1.5 * var(--s-lh,1))}
-.price .amt{font-size:calc(clamp(28px,3.4cqi,42px) * var(--s-fz-h,var(--s-fz,1)));font-weight:var(--s-wt-h,800);margin:12px 0 16px;color:var(--s-head,var(--s-ink));font-family:var(--s-font-h,inherit);line-height:calc(1 * var(--s-lh-h,var(--s-lh,1)))}
-.price .amt small{font-size:calc(13px * var(--s-fz-h,var(--s-fz,1)));font-weight:500;color:var(--s-muted);margin-inline-start:6px}
-.price ul{list-style:none;padding:0;margin:0 0 20px;display:grid;gap:8px;font-size:calc(14.5px * var(--s-fz,1));color:var(--s-muted)}
-.price li::before{content:"✓";color:var(--s-accent-txt,var(--s-accent));font-weight:700;margin-inline-end:8px}
-.price .btn{width:100%}
-.price.hi{background:var(--s-hi-bg,var(--s-ink));color:var(--s-hi-ink,#fff);border:var(--s-hi-b,0);transform:var(--s-hi-lift,translateY(-8px))}
-.price.hi h3,.price.hi .amt,.price.hi ul,.price.hi p,.price.hi .amt small{color:inherit}
-.price.hi .btn{background:var(--s-hi-btn,var(--s-accent));color:var(--s-hi-btn-ink,var(--s-accent-ink))}
-.tag{position:absolute;top:-12px;inset-inline-start:20px;font-size:calc(12px * var(--s-fz,1));font-weight:700;padding:4px 12px;border-radius:999px;background:var(--s-accent);color:var(--s-accent-ink);line-height:calc(1.3 * var(--s-lh,1))}
-.fbox{max-width:640px;margin-inline:auto;text-align:center;background:var(--s-form-bg,var(--s-surface));border:var(--s-card-b,1px solid var(--s-line));border-radius:var(--s-r);padding:clamp(24px,4cqi,48px);box-shadow:var(--s-card-sh,none)}
-.fbox p{margin:10px auto 22px;max-width:40ch}
-.frm{display:grid;grid-template-columns:1fr 1fr auto;gap:10px}
-.in{padding:13px 16px;border-radius:var(--s-in-r,var(--s-r));border:var(--s-in-b,1px solid var(--s-line));background:var(--s-in-bg,#fff);color:var(--s-ink);font:inherit;font-size:calc(16px * var(--s-fz,1));box-shadow:var(--s-in-sh,none);min-width:0}
-.ft{display:flex;justify-content:space-between;gap:16px;padding:22px var(--pad);font-size:calc(13px * var(--s-fz,1));color:var(--s-muted);border-top:1px solid var(--s-line);position:relative;z-index:1}
-@container (max-width:767px){.hero{grid-template-columns:1fr}.hero-v{order:-1;aspect-ratio:16/10}.grid3{grid-template-columns:1fr}.nav{display:none}.frm{grid-template-columns:1fr}.price.hi{transform:none}.hero h1{max-width:none}.ref .btn{min-height:48px}.ref .btn.sm{min-height:44px}}
-.sk-s10 .ref{--s-bg:#F2F2F5;--s-surface:#fff;--s-ink:#1D1D1F;--s-muted:#6E6E73;--s-line:transparent;--s-accent:#0071E3;--s-accent-ink:#fff;--s-r:18px;--s-btn-r:12px;--s-ph:#fff;--s-ph-ink:#fff;--s-gap:14px;--s-card-b:0;--s-card-sh:0 1px 2px rgba(0,0,0,.05);--s-ghost-bg:#F2F2F5;--s-ghost-b:0;--s-in-b:0;--s-in-bg:#F2F2F5;--s-hi-bg:#1D1D1F;--s-hi-ink:#fff;--s-hi-lift:none;--s-ico-bg:#EAF3FF;--s-form-bg:#fff;--s-hd-bg:#fff;padding:14px}
-.sk-s10 .hd{border-radius:18px;margin-bottom:14px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
-.sk-s10 .hero{gap:14px;padding:0;margin-bottom:14px;align-items:stretch}
-.sk-s10 .hero-t{background:#fff;border-radius:18px;padding:clamp(24px,4cqi,56px);box-shadow:0 1px 2px rgba(0,0,0,.05);display:flex;flex-direction:column;justify-content:center}
-.sk-s10 .hero-v{aspect-ratio:auto;min-height:280px;background:linear-gradient(135deg,#0A84FF,#5AC8FA);color:#fff;box-shadow:none}
-.sk-s10 .hv-a{position:absolute;inset-inline-start:8%;bottom:10%;width:40%;height:22%;border-radius:14px;background:rgba(255,255,255,.22)}
-.sk-s10 .hv-b{position:absolute;inset-inline-end:8%;top:10%;width:30%;aspect-ratio:1;border-radius:50%;background:rgba(255,255,255,.25)}
-.sk-s10 .sec{padding:0;margin-bottom:14px}
-.sk-s10 .sec h2{font-size:calc(14px * var(--s-fz-h,var(--s-fz,1)));color:#6E6E73;font-weight:600;margin:0 6px 10px}
-.sk-s10 .bens .grid3{grid-template-columns:2fr 1fr 1fr}
-.sk-s10 .bens .card:first-child{grid-row:span 2;display:flex;flex-direction:column;justify-content:flex-end;min-height:300px}
-.sk-s10 .bens .card:first-child .num{display:block;font-size:calc(clamp(64px,8cqi,110px) * var(--s-fz,1));font-weight:800;line-height:calc(1 * var(--s-lh,1));margin-bottom:auto;color:#0A84FF}
-.sk-s10 .bens .card:nth-child(2),.sk-s10 .bens .card:nth-child(3){grid-column:2/4}
-.sk-s10 .bars{display:flex;align-items:flex-end;gap:6px;height:56px;margin-top:14px}
-.sk-s10 .bars s{display:block;flex:1;background:#0A84FF;border-radius:4px 4px 0 0;text-decoration:none;opacity:.55}
-.sk-s10 .bars s:nth-child(1){height:40%}.sk-s10 .bars s:nth-child(2){height:65%}.sk-s10 .bars s:nth-child(3){height:50%}.sk-s10 .bars s:nth-child(4){height:100%;opacity:1}
-.sk-s10 .bens .card:first-child .ico{display:none}
-.sk-s10 .fbox{max-width:none;text-align:start}
-.sk-s10 .fbox h2{font-size:calc(clamp(22px,2.6cqi,32px) * var(--s-fz-h,var(--s-fz,1)));color:var(--s-ink);font-weight:700;margin:0}
-.sk-s10 .fbox p{margin-inline:0}
-.sk-s10 .ft{background:#fff;border-radius:18px;border-top:0;box-shadow:0 1px 2px rgba(0,0,0,.05)}
-.sk-s10 .in::placeholder{color:#6E6E73}
-@container (max-width:767px){.sk-s10 .bens .grid3{grid-template-columns:1fr}.sk-s10 .bens .card:first-child{grid-row:auto;min-height:220px}.sk-s10 .bens .card:nth-child(2),.sk-s10 .bens .card:nth-child(3){grid-column:auto}.sk-s10 .hero-v{min-height:200px}}
+.q{--ground:#E6E7E4;--tile:#fff;--soft:#F1F1EE;--soft-d:#E7E7E3;--ink:#15171A;--ink-d:#0D0F11;--muted:#585D64;--on-ink:rgba(255,255,255,.78);
+ --acc:#5B3DF5;--acc-d:#4A2DDB;--acc-t:#4B2FD0;--tint:#EAE6FF;--tint-d:#DDD6FF;--acc-on-ink:#A99BFF;--err:#B3261E;
+ --r:28px;--r-ctl:16px;--ease:cubic-bezier(.2,.6,.2,1);--shadow:0 12px 32px rgba(21,23,26,.10);
+ --u:clamp(150px,min(17cqi,21svh),220px);--gap:clamp(14px,1.5cqi,24px);--pad:clamp(20px,2cqi,32px);--gut:clamp(16px,3.4cqi,56px);
+ --sec:112px;--sec-s:72px;--lift:104px;
+ background:var(--ground);color:var(--ink, #16182b);font-family:"MV Google Sans","Google Sans",system-ui,sans-serif;font-size:16px;line-height:1.6;overflow:clip;position:relative;isolation:isolate;-webkit-font-smoothing:antialiased}
+.q *{box-sizing:border-box}
+.q h1,.q h2,.q h3,.q p,.q ul,.q ol,.q figure,.q blockquote,.q dl,.q dd,.q address,.q fieldset,.q legend{margin:0}
+.q ul,.q ol{list-style:none;padding:0}
+.q fieldset{border:0;padding:0;min-width:0}
+.q legend{padding:0}
+.q a{color:inherit;text-decoration:none}
+.q address{font-style:normal}
+.q img{display:block;max-width:100%}
+.q button{font:inherit;color:inherit}
+.q h1{font-size:clamp(32px,min(4cqi,6.4svh),56px);line-height:1.1;font-weight:600;letter-spacing:0;text-wrap:balance}
+@container (min-width:1000px){.q h1{letter-spacing:-.015em}}
+.q h2{font-size:clamp(28px,3.1cqi,40px);line-height:1.15;font-weight:600;text-wrap:balance}
+.q h3{font-size:clamp(19px,1.7cqi,24px);line-height:1.3;font-weight:600;text-wrap:balance}
+.q p{text-wrap:pretty}
+.q .lead{font-size:18px;line-height:1.5;color:var(--muted, #6a6d85);max-width:56ch}
+.q .t-p{font-size:16px;line-height:1.55;color:var(--muted, #6a6d85);max-width:56ch}
+.q .micro{font-size:13px;line-height:1.45;color:var(--muted, #6a6d85)}
+.q .kick{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;line-height:1.3;color:var(--muted, #6a6d85)}
+.q .kick i{width:6px;height:6px;border-radius:50%;background:var(--acc);flex:none}
+.q .stat{font-size:clamp(56px,6.4cqi,96px);line-height:1;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.q .unit{font-size:clamp(18px,1.6cqi,22px);line-height:1.2;font-weight:600}
+.q .ico{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none;display:block}
+.q .ico.s{width:20px;height:20px}
+.q .skip{position:absolute;inset-inline-start:16px;top:-80px;z-index:60;background:var(--tile);color:var(--ink, #16182b);padding:12px 20px;border-radius:var(--r-ctl);font-weight:500;box-shadow:var(--shadow)}
+.q .skip:focus{top:8px}
+.q :is(a,button,summary,[tabindex],input):focus-visible{outline:3px solid var(--acc-t);outline-offset:3px}
+.q .lnk:focus-visible,.q .alt a:focus-visible,.q .ft a:focus-visible{border-radius:8px}
+.q .ink :is(a,button):focus-visible,.q .acc :is(a,button):focus-visible{outline-color:#fff}
+.q .bay:focus-visible{outline-color:var(--ink, #16182b)}
+/* כפתורים: שלוש רמות, ארבעה מצבים */
+.q .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:14px 24px;border:0;border-radius:var(--r-ctl);background:var(--acc);color:#fff;font-size:16px;font-weight:500;line-height:1;cursor:pointer;-webkit-tap-highlight-color:transparent;white-space:nowrap;transition:background-color .18s var(--ease),transform .18s var(--ease)}
+.q .btn:active{transform:scale(.98);transition-duration:.12s}
+.q .btn.sm{min-height:44px;padding:12px 20px;font-size:15px}
+.q .btn.b2{background:var(--soft);color:var(--ink, #16182b)}
+.q .btn.inv{background:#fff;color:var(--ink, #16182b)}
+.q .btn.on-acc{background:#fff;color:var(--acc-t)}
+.q .lnk{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:12px 0;background:none;border:0;font-size:16px;font-weight:500;line-height:1;color:var(--ink, #16182b);cursor:pointer;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:6px;transition:color .15s var(--ease),text-decoration-color .15s var(--ease)}
+.q .lnk .ico{transition:transform .18s var(--ease)}
+.q .ink .lnk{color:#fff}
+@media (hover:hover) and (pointer:fine){
+.q .btn:hover{background:var(--acc-d);transform:translateY(-2px)}
+.q .btn.b2:hover{background:var(--soft-d)}
+.q .btn.inv:hover{background:#E8E8E8}
+.q .btn.on-acc:hover{background:#EDEAFF}
+.q .lnk:hover{color:var(--acc-t);text-decoration-color:var(--acc-t)}
+.q .ink .lnk:hover{color:#fff;text-decoration-color:#fff}
+.q .lnk:hover .ico{transform:translateX(-4px)}
+}
+/* שדות: חמישה מצבים */
+.q .fld{display:flex;flex-direction:column;gap:8px}
+.q .fld label,.q .legend{font-size:14px;font-weight:500;line-height:1.3;color:var(--ink, #16182b)}
+.q .in{font:inherit;font-size:16px;line-height:1.2;min-height:52px;padding:14px 16px;border:1.5px solid #8A8F96;border-radius:var(--r-ctl);background:var(--tile);color:var(--ink, #16182b);appearance:none;width:100%;transition:border-color .15s var(--ease),box-shadow .15s var(--ease)}
+.q .in::placeholder{color:#6A6F76}
+.q .in:focus,.q .in:focus-visible{outline:0;border-color:var(--acc-t);box-shadow:0 0 0 3px rgba(91,61,245,.22)}
+.q .fld.err .in{border-color:var(--err)}
+.q .fld .msg{display:none;align-items:center;gap:6px;font-size:13px;line-height:1.3;color:var(--err)}
+.q .fld .msg .ico{color:var(--err)}
+.q .fld.err .msg{display:inline-flex}
+.q .in:disabled{background:var(--soft);color:var(--muted, #6a6d85)}
+/* reveal: keyframes ולא transition. התוכן גלוי בלי JS; רק .js מסתיר */
+.q.js .reveal{opacity:0}
+.q .reveal.is-in{animation:s10rev .5s cubic-bezier(.2,.6,.2,1) both;animation-delay:calc(var(--i,0) * 70ms)}
+@keyframes s10rev{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+/* פתיחת עמוד אחת (CSS בלבד): ההדר יורד, אחריו האריחים נכנסים בדירוג */
+.q .hd-in>*{animation:s10drop .6s cubic-bezier(.2,.6,.2,1) both}
+.q .hd-in>:nth-child(2){animation-delay:.08s}.q .hd-in>:nth-child(3){animation-delay:.16s}
+.q .oi{animation:s10in .6s cubic-bezier(.2,.6,.2,1) both;animation-delay:calc(.12s + var(--i,0) * 70ms)}
+@keyframes s10drop{from{opacity:0;translate:0 -16px}to{opacity:1;translate:0 0}}
+@keyframes s10in{from{opacity:0;translate:0 24px}to{opacity:1;translate:0 0}}
+@keyframes s10bar{from{transform:scaleY(0)}}
+@keyframes s10fade{from{opacity:0}}
+@keyframes s10pulse{50%{opacity:.35}}
+/* מבנה */
+.q .wrap{max-width:1300px;margin-inline:auto}
+.q .sec{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gut) 0}
+.q .head{display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:640px;margin-bottom:40px}
+.q section[id]{scroll-margin-top:96px}
+/* הדר: שלושה אריחים צפים, headroom */
+.q .hd{position:sticky;top:0;z-index:40;height:88px;margin-bottom:-88px;padding-inline:var(--gut);pointer-events:none}
+.q .hd-in{max-width:1300px;margin:16px auto 0;display:flex;align-items:stretch;gap:var(--gap, clamp(16px, 1.6vw, 36px));transition:transform .4s var(--ease)}
+.q .hd.is-hidden .hd-in{transform:translateY(calc(-100% - 24px))}
+.q .hd-in>*{pointer-events:auto}
+.q .hd-logo,.q .hd-nav{display:flex;align-items:center;min-height:56px;background:var(--tile);border-radius:20px;box-shadow:var(--shadow)}
+.q .hd-logo{gap:10px;padding:8px 20px;font-size:20px;font-weight:600;line-height:1;color:var(--ink, #16182b)}
+.q .mark{display:grid;place-items:center;width:36px;height:36px;flex:none;border-radius:12px;background:var(--acc);color:#fff}
+.q .hd-nav{gap:4px;margin-inline:auto;padding:6px}
+.q .hd-nav a{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;border-radius:14px;font-size:15px;font-weight:500;line-height:1;color:var(--muted, #6a6d85);transition:background-color .15s var(--ease),color .15s var(--ease)}
+.q .hd-cta{display:flex;align-items:center;min-height:56px;padding:8px 24px;border-radius:20px;background:var(--acc);color:#fff;font-size:16px;font-weight:500;line-height:1;transition:background-color .18s var(--ease),transform .12s var(--ease)}
+.q .hd-cta:active{transform:scale(.98)}
+@media (hover:hover) and (pointer:fine){.q .hd-nav a:hover{background:var(--soft);color:var(--ink, #16182b)}.q .hd-cta:hover{background:var(--acc-d)}}
+/* הלוח והאריח */
+.q .board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(var(--u),auto);gap:var(--gap, clamp(16px, 1.6vw, 36px));max-width:1300px;margin-inline:auto}
+.q .tile{position:relative;isolation:isolate;overflow:hidden;min-width:0;display:flex;flex-direction:column;gap:12px;padding:var(--pad);border-radius:var(--r, 14px);background:var(--tile);color:var(--ink, #16182b);transition:background-color .3s var(--ease),transform .3s var(--ease),box-shadow .3s var(--ease)}
+.q .tile.w2{grid-column:span 2}
+.q .tile.h2{grid-row:span 2}
+.q .tile.ink{background:var(--ink, #16182b);color:#fff}
+.q .tile.ink .kick,.q .tile.ink .micro,.q .tile.ink .t-p{color:var(--on-ink)}
+.q .tile.ink .kick i{background:var(--acc-on-ink)}
+.q .tile.acc{background:var(--acc);color:#fff}
+.q .tile.acc .kick,.q .tile.acc .micro,.q .tile.acc .t-p{color:#fff}
+.q .tile.acc .kick i{background:#fff}
+.q .tile.soft{background:var(--soft)}
+@media (hover:hover) and (pointer:fine){
+.q .tile.card:not(.ink):not(.acc):not(.soft):not(.t-photo):not(.bay):hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.q .tile.ink:hover{background:var(--ink-d)}
+.q .tile.acc:hover{background:var(--acc-d)}
+.q .tile.soft:hover{background:var(--soft-d)}
+}
+.q .t-photo{padding:0;background:#26282C;justify-content:flex-end}
+.q .t-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-1;transition:transform .4s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .t-photo:hover img{transform:scale(1.03)}}
+.q .cap{position:relative;align-self:flex-start;margin:var(--pad);max-width:calc(100% - 2 * var(--pad));padding:8px 14px;border-radius:12px;background:rgba(21,23,26,.82);color:#fff;font-size:14px;font-weight:500;line-height:1.35}
+/* ההירו: לוח ראשון */
+.q .hero{padding:96px var(--gut) 0}
+.q .t-hero{justify-content:space-between;gap:16px}
+.q .t-hero .body{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.q .ctas{display:flex;align-items:center;flex-wrap:wrap;gap:4px 24px;margin-top:8px}
+.q .t-num{justify-content:space-between}
+.q .t-num .fig{display:flex;align-items:baseline;gap:10px}
+.q .t-num .t-p{font-size:15px;line-height:1.45}
+.q .t-live{justify-content:space-between}
+.q .lv-big{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.q .lv-big b{font-size:clamp(40px,3.6cqi,48px);line-height:1;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.q .lv-big span{font-size:16px;line-height:1.3;color:var(--muted, #6a6d85)}
+.q .pips{display:flex;gap:6px}
+.q .pip{width:20px;height:20px;border-radius:7px;background:var(--soft-d);display:block}
+.q .pip.is-c{background:var(--acc)}
+.q .pip.is-d{background:#B6B8BD}
+.q .pip.is-c{animation:s10pulse 1.2s ease-in-out 2}
+.q .t-quote{justify-content:space-between}
+.q .ico.qm{color:var(--acc)}
+.q .t-quote blockquote{font-size:clamp(19px,1.9cqi,24px);line-height:1.4;font-weight:500;text-wrap:pretty;max-width:34ch}
+.q .t-quote figcaption{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:14px;line-height:1.4;color:var(--muted, #6a6d85)}
+.q .t-quote figcaption b{font-weight:500;color:var(--ink, #16182b)}
+.q .t-chart{justify-content:space-between}
+.q .bars{--bd:.4s;display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:end;height:88px}
+.q .bars i{display:block;height:calc(var(--h) * 100%);border-radius:8px;background:#DADBD6;transform-origin:50% 100%}
+.q .bars i.hi{background:var(--acc)}
+.q .t-chart.is-in .bars i,.q .oi .bars i{animation:s10bar .5s cubic-bezier(.2,.6,.2,1) both;animation-delay:calc(var(--bd) + var(--k) * 60ms)}
+.q .wk{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;font-size:12px;line-height:1.2;color:var(--muted, #6a6d85);text-align:center;margin-top:8px}
+.q .t-chart .t-p{font-size:14px;line-height:1.4}
+.q .t-chart .t-p b{font-weight:600;color:var(--ink, #16182b)}
+.q .t-cta{justify-content:space-between;align-items:flex-start}
+.q .t-cta h3{max-width:12ch}
+.q .t-cta .t-p{font-size:15px;line-height:1.45}
+.q .t-cta .btn{white-space:normal;text-align:center;line-height:1.2;padding:10px 20px;max-width:100%}
+/* מספרים על הקרקע */
+.q .proof{padding:var(--sec-s) var(--gut) 0}
+.q .nums{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--gap, clamp(16px, 1.6vw, 36px));align-items:start;margin-top:32px}
+.q .num{display:flex;flex-direction:column;gap:8px}
+.q .num b{font-size:clamp(56px,6.4cqi,96px);line-height:1;font-weight:600;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.q .num b small{font-size:.5em;font-weight:600;letter-spacing:0;color:var(--acc-t);margin-inline-start:6px}
+.q .num>span{font-size:16px;line-height:1.45;color:var(--muted, #6a6d85);max-width:28ch}
+.q .proof-foot{margin-top:24px}
+/* רגע החתימה: החניון החי */
+.q .lot-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px 40px;flex-wrap:wrap;max-width:1300px;margin:0 auto 40px}
+.q .lot-head .head{margin-bottom:0}
+.q .tctl{display:none;flex-direction:column;gap:8px}
+.q.js .tctl{display:flex}
+.q .tctl .micro{font-weight:500}
+.q .tseg{display:flex;gap:6px;padding:6px;background:var(--tile);border-radius:20px}
+.q .tseg button{min-height:44px;padding:8px 16px;border:0;border-radius:14px;background:transparent;color:var(--muted, #6a6d85);font-size:15px;font-weight:500;line-height:1.1;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;-webkit-tap-highlight-color:transparent;transition:background-color .18s var(--ease),color .18s var(--ease)}
+.q .tseg button small{font-size:12px;font-weight:400;line-height:1.1;color:inherit}
+.q .tseg button[aria-pressed="true"]{background:var(--ink, #16182b);color:#fff}
+@media (hover:hover) and (pointer:fine){.q .tseg button[aria-pressed="false"]:hover{background:var(--soft);color:var(--ink, #16182b)}}
+.q .t-detail{justify-content:space-between;gap:16px}
+.q .d-wrap{display:flex;flex-direction:column;justify-content:space-between;gap:16px;flex:1}
+.q .d-wrap.is-swap{animation:s10fade .24s cubic-bezier(.2,.6,.2,1)}
+.q .d-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.q .dchip{display:inline-flex;align-items:center;min-height:32px;padding:6px 14px;border-radius:12px;background:rgba(255,255,255,.12);color:#fff;font-size:13px;font-weight:500;line-height:1}
+.q .d-big{display:flex;align-items:baseline;gap:12px;margin-top:8px}
+.q .d-big .stat{color:#fff}
+.q .d-big .st-w{font-size:clamp(44px,4.8cqi,72px)}
+.q .d-big span{font-size:clamp(18px,1.6cqi,22px);font-weight:600}
+.q .d-sub{font-size:16px;line-height:1.45;color:var(--on-ink);margin-top:-4px}
+.q .d-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 20px}
+.q .d-grid div{display:flex;flex-direction:column;gap:4px}
+.q .d-grid dt{font-size:13px;line-height:1.3;color:var(--on-ink)}
+.q .d-grid dd{font-size:clamp(18px,1.7cqi,24px);line-height:1.25;font-weight:600;color:#fff}
+.q .d-note{font-size:15px;line-height:1.5;color:var(--on-ink);max-width:46ch}
+.q .bay{align-items:stretch;justify-content:space-between;gap:8px;text-align:start;border:0;cursor:pointer;font:inherit;-webkit-tap-highlight-color:transparent}
+.q .bay:disabled{cursor:default;color:inherit}
+.q .bay{background:var(--soft)}
+.q .bay.is-c{background:var(--tint)}
+.q .bay.is-d{background:var(--tile)}
+.q .bay.is-sel{background:var(--acc);color:#fff}
+.q .b-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.q .b-n{font-size:13px;font-weight:500;line-height:1.3;color:var(--muted, #6a6d85)}
+.q .b-ic{display:flex;color:var(--acc-t)}
+.q .b-ic>span{display:none}
+.q .bay.is-c .ic-c,.q .bay.is-d .ic-d,.q .bay.is-f .ic-f{display:flex}
+.q .bay.is-f .b-ic{color:var(--muted, #6a6d85)}
+.q .b-apt{font-size:clamp(22px,2.2cqi,28px);line-height:1.1;font-weight:600}
+.q .b-state{font-size:14px;line-height:1.35;font-weight:500;color:var(--muted, #6a6d85)}
+.q .bay.is-c .b-state{color:var(--acc-t)}
+.q .bay.is-sel .b-n,.q .bay.is-sel .b-ic,.q .bay.is-sel .b-state{color:#fff}
+.q .fill{display:block;height:6px;border-radius:3px;background:transparent;overflow:hidden}
+.q .fill i{display:block;height:100%;border-radius:inherit;background:var(--acc);transform-origin:100% 50%;transform:scaleX(var(--p,0));transition:transform .6s var(--ease)}
+.q .bay.is-c .fill{background:rgba(91,61,245,.16)}
+.q .bay.is-sel .fill{background:rgba(255,255,255,.28)}
+.q .bay.is-sel .fill i{background:#fff}
+@media (hover:hover) and (pointer:fine){
+.q .bay.is-c:not(:disabled):not(.is-sel):hover{background:var(--tint-d)}
+.q .bay.is-f:not(:disabled):not(.is-sel):hover{background:var(--soft-d)}
+.q .bay.is-d:not(:disabled):not(.is-sel):hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.q .bay.is-sel:not(:disabled):hover{background:var(--acc-d)}
+}
+.q .bay:active:not(:disabled){transform:scale(.98);transition-duration:.12s}
+/* הגעה: החניות מתעוררות בדירוג כשהלוח נראה (רק עם JS, ובלי reduced-motion) */
+.q .lot.is-pre .bay:not(.is-sel){background:var(--soft)}
+.q .lot.is-pre .bay .fill i{transform:scaleX(0)}
+.q .lot.is-arr .bay,.q .lot.is-arr .bay .fill i{transition-delay:calc(var(--i,0) * 90ms)}
+.q .t-power{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:12px 32px;align-items:end}
+.q .pw-txt{display:flex;flex-direction:column;gap:12px}
+.q .pw-big{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.q .pw-big b{font-size:clamp(40px,4.2cqi,56px);line-height:1;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.q .pw-big span{font-size:16px;line-height:1.3;color:var(--muted, #6a6d85)}
+.q .pw-bars{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-items:end;min-height:112px}
+.q .pb{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px;height:112px}
+.q .pk{font-size:12px;line-height:1.2;font-weight:500;color:var(--acc-t);min-height:14px;font-variant-numeric:tabular-nums}
+.q .pbar{display:flex;align-items:flex-end;width:100%;flex:1;border-radius:8px;background:var(--soft)}
+.q .pbar i{display:block;width:100%;height:100%;border-radius:8px;background:var(--acc);transform-origin:50% 100%;transform:scaleY(var(--p,0));transition:transform .6s var(--ease)}
+.q .pb em{font-style:normal;font-size:12px;line-height:1.2;color:var(--muted, #6a6d85)}
+.q .lot-foot{max-width:1300px;margin:20px auto 0}
+.q .lot-foot p{max-width:64ch}
+/* משפט נושם עם צילום */
+.q .breath{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gut) 0}
+.q .br-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:center;max-width:1300px;margin-inline:auto}
+.q .br-txt{display:flex;flex-direction:column;align-items:flex-start;gap:20px;max-width:520px}
+.q .br-pic{overflow:hidden;border-radius:var(--r, 14px);background:#26282C;aspect-ratio:3/2}
+.q .br-pic img{width:100%;height:100%;object-fit:cover;transition:transform .4s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .br-pic:hover img{transform:scale(1.03)}}
+/* לוח ההצעה */
+.q .t-price{justify-content:space-between;gap:20px}
+.q .price-row{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.q .price-row .stat{color:#fff}
+.q .price-row .unit{color:var(--on-ink)}
+.q .plus{font-size:18px;line-height:1.4;color:#fff;font-weight:500}
+.q .ticks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 20px}
+.q .ticks li{display:flex;align-items:flex-start;gap:10px;font-size:15px;line-height:1.4;color:#fff}
+.q .ticks li .ico{margin-top:1px;color:var(--acc-on-ink)}
+.q .t-price .foot{display:flex;align-items:center;flex-wrap:wrap;gap:12px 20px}
+.q .t-step h3{margin-top:auto}
+.q .t-step .t-p{font-size:15px;line-height:1.5}
+.q .t-gives{justify-content:space-between}
+.q .gives{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 20px}
+.q .gives li{display:flex;flex-direction:column;align-items:flex-start;gap:10px;font-size:15px;line-height:1.45;color:var(--ink, #16182b)}
+.q .gives li .ico{color:var(--acc-t)}
+.q .t-sup{justify-content:space-between}
+.q .sup-big{display:flex;align-items:center;gap:10px;font-size:clamp(18px,1.6cqi,22px);line-height:1.25;font-weight:600}
+.q .nw{white-space:nowrap}
+.q .dot{width:10px;height:10px;border-radius:50%;background:var(--muted, #6a6d85);flex:none}
+.q .dot.on{background:var(--acc)}
+/* בדיקת בניין: בלוק שקט, והצילום עולה מעל הלוח */
+.q .visit{padding:0 var(--gut) var(--sec, clamp(120px, 12vw, 260px))}
+.q .offer.sec{padding-bottom:calc(var(--sec, clamp(120px, 12vw, 260px)) * .5 + var(--lift))}
+.q .vpanel{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);column-gap:64px;align-items:start;max-width:1300px;margin-inline:auto;padding:64px;border-radius:40px;background:var(--tile)}
+.q .v-body{display:flex;flex-direction:column;gap:32px}
+.q .v-body .head{margin-bottom:0}
+.q .form{display:flex;flex-direction:column;gap:20px;max-width:560px}
+.q .form .row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.q .opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.q .opt{position:relative}
+.q .opt input{padding:0;position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.q .opt span{display:inline-flex;align-items:center;min-height:44px;padding:10px 20px;border-radius:14px;background:var(--soft);font-size:15px;font-weight:500;line-height:1;transition:background-color .18s var(--ease),color .18s var(--ease)}
+.q .opt input:checked+span{background:var(--ink, #16182b);color:#fff}
+.q .opt input:focus-visible+span{outline:3px solid var(--acc-t);outline-offset:3px}
+@media (hover:hover) and (pointer:fine){.q .opt input:not(:checked):hover+span{background:var(--soft-d)}}
+.q .form-foot{display:flex;align-items:center;flex-wrap:wrap;gap:12px 24px}
+.q .alt{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:15px;color:var(--muted, #6a6d85)}
+.q .alt a{display:inline-flex;align-items:center;min-height:44px;font-weight:500;color:var(--ink, #16182b);unicode-bidi:isolate;transition:color .15s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .alt a:hover{color:var(--acc-t)}}
+.q .ok{display:none;flex-direction:column;align-items:flex-start;gap:16px;padding:16px 0}
+.q .ok .tick{width:56px;height:56px;border-radius:20px;background:var(--tint);display:grid;place-items:center;color:var(--acc-t)}
+.q .vpanel.is-sent .form{display:none}
+.q .vpanel.is-sent .ok{display:flex}
+.q .v-photo{position:relative;margin-top:calc(-1 * (var(--lift) + 64px));aspect-ratio:3/4;border-radius:var(--r, 14px);overflow:hidden;background:#D6D8DC}
+.q .v-photo img{width:100%;height:100%;object-fit:cover;object-position:60% 40%;transition:transform .4s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .v-photo:hover img{transform:scale(1.03)}}
+/* פוטר: יריעה כהה */
+.q .ft{padding:72px var(--gut) 0;border-radius:40px 40px 0 0;background:var(--ink, #16182b);color:#fff;overflow:hidden}
+.q .ft-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;max-width:1300px;margin-inline:auto}
+.q .ft-brand{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.q .ft-brand .hd-logo{background:none;box-shadow:none;padding:0;min-height:44px;color:#fff}
+.q .ft-brand p{font-size:15px;line-height:1.6;color:var(--on-ink);max-width:34ch}
+.q .ft-col{display:flex;flex-direction:column;font-size:15px;line-height:1.6;color:var(--on-ink)}
+.q .ft-h{font-size:14px;font-weight:600;line-height:1.3;color:#fff;margin-bottom:8px}
+.q .ft-col span,.q .ft-col address{padding-block:6px}
+.q .ft-col a,.q .ft-bot a{display:inline-block;padding-block:6px;color:var(--on-ink);transition:color .15s var(--ease)}
+.q .ft-col a[href^="tel"]{unicode-bidi:isolate;align-self:flex-start}
+@media (hover:hover) and (pointer:fine){.q .ft-col a:hover,.q .ft-bot a:hover{color:#fff}}
+.q .ft-bot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 32px;max-width:1300px;margin:48px auto 0;font-size:14px;color:var(--on-ink)}
+.q .ft-bot nav{display:flex;gap:24px;flex-wrap:wrap}
+.q .ft-word{max-width:1300px;margin:24px auto 0;height:.62em;font-size:clamp(96px,17cqi,220px);font-weight:600;line-height:1;letter-spacing:-.04em;color:#23262B;text-align:center;user-select:none;overflow:hidden}
+/* טאבלט וטלפון: שתי עמודות, מפת span מוצהרת (bento-frame 5) */
+@container (max-width:1023px){
+.q{--sec:88px;--sec-s:56px;--lift:88px}
+.q .board{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto;grid-auto-flow:dense}
+.q .tile{min-height:180px}
+.q .tile.w2,.q .tile.h2.w2{grid-column:span 2}
+.q .tile.h2{grid-row:auto}
+.q .tile.t-photo.h2{grid-row:span 2}
+.q .t-detail{min-height:0}
+.q .hd-nav a{padding:10px 12px}
+.q .nums{gap:24px}
+.q .br-in{grid-template-columns:1fr;gap:40px}
+.q .br-pic{aspect-ratio:16/10}
+.q .vpanel{grid-template-columns:1fr;padding:56px 40px;row-gap:40px}
+.q .v-photo{order:-1;aspect-ratio:16/10;margin-top:calc(-1 * (var(--lift) + 56px))}
+.q .ft-top{grid-template-columns:1fr 1fr}
+.q .ft-col a,.q .ft-bot a{padding-block:12px}
+}
+@container (max-width:767px){
+.q{--sec:64px;--sec-s:40px;--r:24px;--lift:72px}
+.q .hd-nav{display:none}
+.q .hd-in{justify-content:space-between}
+.q .hd-logo{padding:8px 16px}
+.q .hero{padding-top:88px}
+.q .tile{min-height:150px}
+.q .t-photo{min-height:180px}
+.q .ctas{width:100%;flex-direction:column;align-items:stretch;gap:0}
+.q .ctas .btn{width:100%}
+.q .ctas .lnk{justify-content:center}
+.q .head{margin-bottom:32px}
+.q .nums{grid-template-columns:1fr;gap:32px}
+.q .lot-head{margin-bottom:32px}
+.q .tseg{width:100%}
+.q .tseg button{flex:1;padding-inline:8px}
+.q .t-power{grid-template-columns:1fr;gap:20px}
+.q .d-grid{grid-template-columns:1fr 1fr 1fr;gap:12px}
+.q .ticks{grid-template-columns:1fr}
+.q .gives{grid-template-columns:1fr}
+.q .vpanel{padding:40px 24px;border-radius:32px}
+.q .v-photo{margin-top:calc(-1 * (var(--lift) + 40px))}
+.q .form .row{grid-template-columns:1fr}
+.q .form-foot .btn{width:100%}
+.q .ft{padding-top:56px}
+.q .ft-top{grid-template-columns:1fr;gap:28px}
+.q .ft-bot{margin-top:32px}
+.q .ft-bot nav{gap:16px}
+}
+@media (prefers-reduced-motion:reduce){
+.q.js .reveal{opacity:1}
+.q .reveal.is-in,.q .hd-in>*,.q .oi{animation:none}
+.q .t-chart.is-in .bars i,.q .oi .bars i,.q .pip.is-c,.q .d-wrap.is-swap{animation:none}
+.q .tile,.q .btn,.q .lnk,.q .lnk .ico,.q .t-photo img,.q .br-pic img,.q .v-photo img,.q .hd-in,.q .hd-nav a,.q .hd-cta,.q .tseg button,.q .fill i,.q .pbar i,.q .opt span{transition:none}
+.q .btn:hover,.q .btn:active,.q .tile:hover,.q .bay:hover,.q .bay:active{transform:none}
+.q .t-photo:hover img,.q .br-pic:hover img,.q .v-photo:hover img,.q .lnk:hover .ico{transform:none}
+}
 </style>
 </head>
 <body>
 
-<div class="cwrap sk-s10"><div class="ref">
-<header class="hd"><span class="logo">שם העסק</span><nav class="nav" aria-label="ראשי"><a href="#ref-bens">שירותים</a><a href="#ref-prices">מחירים</a><a href="#">אודות</a></nav><a class="btn sm" href="#ref-form">לשיחה קצרה</a></header>
-<section class="hero">
-<div class="hero-t"><span class="eyebrow">מה העסק עושה, בשבע מילים</span><h1>כותרת שאומרת מה מקבלים</h1><p class="lead">משפט תמיכה קצר שמסביר במה זה שונה ולמי זה מתאים, בלי להבטיח יותר מדי.</p><div class="ctas"><a class="btn" href="#ref-form">הפעולה הראשית</a><a class="btn ghost" href="#ref-bens">לראות דוגמאות</a></div></div>
-<div class="hero-v"><i class="hv-a"></i><i class="hv-b"></i><span class="hv-l">ויז'ואל</span></div>
+<div class="cwrap sk-s10"><div class="q" id="s10-top">
+<a class="skip" href="#s10-main">דילוג לתוכן</a>
+<header class="hd"><div class="hd-in">
+<a class="hd-logo" href="#s10-top" aria-label="זרם, לראש הדף"><span class="mark"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3v4M15 3v4"/><path d="M7 7h10v3a5 5 0 0 1-10 0V7z"/><path d="M12 15v6"/></svg></span><span>זרם</span></a>
+<nav class="hd-nav" aria-label="ראשי"><a href="#s10-how">איך זה עובד</a><a href="#s10-lot">החניון החי</a><a href="#s10-offer">מה כלול</a><a href="#s10-visit">בדיקת בניין</a></nav>
+<a class="hd-cta" href="#s10-visit">לבדוק את הבניין</a>
+</div></header>
+<main id="s10-main">
+
+<section class="hero" id="s10-how" aria-labelledby="s10-h1"><div class="board">
+<article class="tile card t-hero w2 h2 oi" style="--i:0"><span class="kick"><i></i>עמדות טעינה לבניינים משותפים</span>
+<div class="body"><h1 id="s10-h1">עמדת טעינה לכל חניה, וכל דייר משלם על מה שהטעין</h1>
+<p class="lead">אנחנו מתכננים את החשמל בבניין, מתקינים עמדה ליד כל חניה ומחייבים כל דייר לפי הצריכה שלו. הוועד לא צריך לנהל כלום.</p>
+<div class="ctas"><a class="btn" href="#s10-visit">לבדוק את הבניין שלי</a><a class="lnk" href="#s10-lot">איך זה עובד<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></a></div></div></article>
+<figure class="tile card t-photo h2 oi" style="--i:1"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/resident.webp" width="1100" height="1650" alt="דיירת מדברת בטלפון ליד רכב לבן שמחובר לעמדת טעינה, בכניסה לבניין מגורים" fetchpriority="high" decoding="async"><figcaption class="cap">מחברים בערב, והחשבון מחכה בסוף החודש</figcaption></figure>
+<article class="tile card ink t-num oi" style="--i:2"><span class="kick"><i></i>מהחתימה לטעינה</span>
+<p class="fig"><span class="stat">7</span><span class="unit">ימי עבודה</span></p>
+<p class="t-p">מההצעה החתומה ועד הטעינה הראשונה, בבניין עם לוח חשמל תקין</p><p class="micro">נתון לדוגמה</p></article>
+<article class="tile card t-live oi" style="--i:3"><span class="kick"><i></i>החניון עכשיו</span>
+<div class="lv-big"><b data-live-n>5</b><span data-live-t>מתוך 6 עמדות בטעינה</span></div>
+<div class="pips" data-live-pips role="img" aria-label="מצב שש העמדות בבניין לדוגמה"><i class="pip is-c"></i><i class="pip is-c"></i><i class="pip is-c"></i><i class="pip is-c"></i><i class="pip is-c"></i><i class="pip is-f"></i></div>
+<p class="micro">בניין לדוגמה, נתוני הדגמה</p></article>
+<figure class="tile card t-quote w2 oi" style="--i:4"><svg class="ico qm" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 5h16v11H9l-5 4z"/></svg><blockquote>אחרי שנתיים של דיונים בוועד, העמדה הותקנה בשבוע. בסוף החודש מגיע דף אחד עם כל טעינה, ואף אחד לא צריך לרדוף אחרי כסף.</blockquote>
+<figcaption><b>דנה אפשטיין</b><span>דיירת בבניין לדוגמה · ציטוט להדגמה</span></figcaption></figure>
+<article class="tile card t-chart oi" style="--i:5"><span class="kick"><i></i>צריכה בבניין, לפי יום</span>
+<div><div class="bars" role="img" aria-label="צריכה בקוט״ש לפי יום, ראשון עד שבת: 118, 132, 141, 127, 109, 62, 71"><i class="" style="--h:0.787;--k:0"></i><i class="" style="--h:0.880;--k:1"></i><i class="hi" style="--h:0.940;--k:2"></i><i class="" style="--h:0.847;--k:3"></i><i class="" style="--h:0.727;--k:4"></i><i class="" style="--h:0.413;--k:5"></i><i class="" style="--h:0.473;--k:6"></i></div><div class="wk" aria-hidden="true"><span>א</span><span>ב</span><span>ג</span><span>ד</span><span>ה</span><span>ו</span><span>ש</span></div></div>
+<p class="t-p">ביום שלישי נטענו הכי הרבה: <b class="nw">141 קוט״ש</b>. נתוני דוגמה, שבוע אחד.</p></article>
+<article class="tile card acc t-cta oi" style="--i:6"><h3>כמה חניות יש בבניין שלכם?</h3><p class="t-p">בדיקה ראשונית תוך יום עבודה, בלי התחייבות</p><a class="btn on-acc sm" href="#s10-visit">מתחילים<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></a></article>
+</div></section>
+
+<section class="proof" aria-label="מספרים"><div class="wrap">
+<span class="kick reveal"><i></i>בבניינים שכבר מחוברים</span>
+<div class="nums">
+<div class="num reveal" style="--i:0"><b><span data-count="112">112</span></b><span>בניינים מחוברים</span></div>
+<div class="num reveal" style="--i:1"><b><span data-count="1840">1,840</span></b><span>עמדות פעילות</span></div>
+<div class="num reveal" style="--i:2"><b>0<small>₪</small></b><span>עלות לוועד הבית</span></div>
+</div>
+<p class="micro proof-foot reveal">נתוני דוגמה: העסק דמיוני.</p>
+</div></section>
+
+<section class="lot sec" id="s10-lot" aria-labelledby="s10-lot-h">
+<div class="lot-head">
+<div class="head reveal"><span class="kick"><i></i>החניון החי</span><h2 id="s10-lot-h">החניון של בניין אחד, בארבע שעות ביום</h2><p class="lead">ללוח החשמל של הבניין יש הספק אחד לטעינה. המערכת מחלקת אותו בין מי שמחובר באותו רגע. בחרו שעה, ולחצו על חניה כדי לראות מה קורה בה.</p></div>
+<div class="tctl reveal"><span class="micro" id="s10-tctl">שעה ביום</span><div class="tseg" role="group" aria-labelledby="s10-tctl"><button type="button" data-slot="0" aria-pressed="false">08:00<small>בוקר</small></button><button type="button" data-slot="1" aria-pressed="false">13:00<small>צהריים</small></button><button type="button" data-slot="2" aria-pressed="true">19:00<small>ערב</small></button><button type="button" data-slot="3" aria-pressed="false">23:30<small>לילה</small></button></div></div>
+</div>
+<div class="board lot" data-lot>
+<section class="tile card ink t-detail w2 h2 reveal" style="--i:0" aria-label="פירוט החניה שנבחרה"><div class="d-wrap" data-detail aria-live="polite"><div class="d-head"><span class="kick"><i></i>חניה 3 · דירה 8 · 19:00</span><span class="dchip">בטעינה</span></div><p class="d-big"><b class="stat">4.4</b><span>קילוואט</span></p><p class="d-sub">ההספק שהעמדה מקבלת עכשיו, מתוך 11 שהיא יכולה</p><dl class="d-grid"><div><dt>נטען עד עכשיו</dt><dd>16.1 קוט״ש</dd></div><div><dt>התחילה ב-</dt><dd>15:20</dd></div><div><dt>עלות עד עכשיו</dt><dd>13 ₪</dd></div></dl><p class="d-note">בשעה הזו חמש עמדות בטעינה, ולכן כל אחת מקבלת 4.4 מתוך 11 קילוואט.</p></div></section>
+<button class="tile card bay is-c reveal" style="--i:0;--p:0.4" type="button" data-bay="0" aria-pressed="false" aria-label="חניה 1, דירה 3, בטעינה, 4.4 קילוואט" disabled><span class="b-top"><span class="b-n">חניה 1</span><span class="b-ic"><span class="ic-c"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3v4M15 3v4"/><path d="M7 7h10v3a5 5 0 0 1-10 0V7z"/><path d="M12 15v6"/></svg></span><span class="ic-d"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span><span class="ic-f"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 17H3v-5l2.2-5.2A2 2 0 0 1 7 5.6h10a2 2 0 0 1 1.8 1.2L21 12v5h-2"/><path d="M5 17h14"/><circle cx="7.5" cy="17" r="1.6"/><circle cx="16.5" cy="17" r="1.6"/></svg></span></span></span><span class="b-apt">דירה 3</span><span class="b-state">בטעינה · 4.4 קילוואט</span><span class="fill" aria-hidden="true"><i></i></span></button><button class="tile card bay is-c reveal" style="--i:1;--p:0.4" type="button" data-bay="1" aria-pressed="false" aria-label="חניה 2, דירה 5, בטעינה, 4.4 קילוואט" disabled><span class="b-top"><span class="b-n">חניה 2</span><span class="b-ic"><span class="ic-c"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3v4M15 3v4"/><path d="M7 7h10v3a5 5 0 0 1-10 0V7z"/><path d="M12 15v6"/></svg></span><span class="ic-d"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span><span class="ic-f"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 17H3v-5l2.2-5.2A2 2 0 0 1 7 5.6h10a2 2 0 0 1 1.8 1.2L21 12v5h-2"/><path d="M5 17h14"/><circle cx="7.5" cy="17" r="1.6"/><circle cx="16.5" cy="17" r="1.6"/></svg></span></span></span><span class="b-apt">דירה 5</span><span class="b-state">בטעינה · 4.4 קילוואט</span><span class="fill" aria-hidden="true"><i></i></span></button><button class="tile card bay is-c is-sel reveal" style="--i:2;--p:0.4" type="button" data-bay="2" aria-pressed="true" aria-label="חניה 3, דירה 8, בטעינה, 4.4 קילוואט" disabled><span class="b-top"><span class="b-n">חניה 3</span><span class="b-ic"><span class="ic-c"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3v4M15 3v4"/><path d="M7 7h10v3a5 5 0 0 1-10 0V7z"/><path d="M12 15v6"/></svg></span><span class="ic-d"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span><span class="ic-f"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 17H3v-5l2.2-5.2A2 2 0 0 1 7 5.6h10a2 2 0 0 1 1.8 1.2L21 12v5h-2"/><path d="M5 17h14"/><circle cx="7.5" cy="17" r="1.6"/><circle cx="16.5" cy="17" r="1.6"/></svg></span></span></span><span class="b-apt">דירה 8</span><span class="b-state">בטעינה · 4.4 קילוואט</span><span class="fill" aria-hidden="true"><i></i></span></button><button class="tile card bay is-c reveal" style="--i:3;--p:0.4" type="button" data-bay="3" aria-pressed="false" aria-label="חניה 4, דירה 11, בטעינה, 4.4 קילוואט" disabled><span class="b-top"><span class="b-n">חניה 4</span><span class="b-ic"><span class="ic-c"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3v4M15 3v4"/><path d="M7 7h10v3a5 5 0 0 1-10 0V7z"/><path d="M12 15v6"/></svg></span><span class="ic-d"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span><span class="ic-f"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 17H3v-5l2.2-5.2A2 2 0 0 1 7 5.6h10a2 2 0 0 1 1.8 1.2L21 12v5h-2"/><path d="M5 17h14"/><circle cx="7.5" cy="17" r="1.6"/><circle cx="16.5" cy="17" r="1.6"/></svg></span></span></span><span class="b-apt">דירה 11</span><span class="b-state">בטעינה · 4.4 קילוואט</span><span class="fill" aria-hidden="true"><i></i></span></button>
+<section class="tile card t-power w2 reveal" style="--i:1" aria-label="חלוקת ההספק של הבניין"><div class="pw-txt"><span class="kick"><i></i>הספק הבניין</span><p class="pw-big"><b data-pw-used>22</b><span>מתוך 22 קילוואט בשימוש</span></p><p class="t-p">הבניין מקצה 22 קילוואט לטעינה, והמערכת מחלקת אותם בין מי שמחובר. כך הלוח לא מתפרק, ואף אחד לא מתעורר לרכב ריק.</p></div>
+<div class="pw-bars" data-pw-bars role="img" aria-label="הספק לכל חניה, בקילוואט"><span class="pb" style="--p:0.4"><b class="pk">4.4</b><span class="pbar"><i></i></span><em>1</em></span><span class="pb" style="--p:0.4"><b class="pk">4.4</b><span class="pbar"><i></i></span><em>2</em></span><span class="pb" style="--p:0.4"><b class="pk">4.4</b><span class="pbar"><i></i></span><em>3</em></span><span class="pb" style="--p:0.4"><b class="pk">4.4</b><span class="pbar"><i></i></span><em>4</em></span><span class="pb" style="--p:0.4"><b class="pk">4.4</b><span class="pbar"><i></i></span><em>5</em></span><span class="pb" style="--p:0"><b class="pk"></b><span class="pbar"><i></i></span><em>6</em></span></div></section>
+<button class="tile card bay is-c reveal" style="--i:4;--p:0.4" type="button" data-bay="4" aria-pressed="false" aria-label="חניה 5, דירה 14, בטעינה, 4.4 קילוואט" disabled><span class="b-top"><span class="b-n">חניה 5</span><span class="b-ic"><span class="ic-c"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3v4M15 3v4"/><path d="M7 7h10v3a5 5 0 0 1-10 0V7z"/><path d="M12 15v6"/></svg></span><span class="ic-d"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span><span class="ic-f"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 17H3v-5l2.2-5.2A2 2 0 0 1 7 5.6h10a2 2 0 0 1 1.8 1.2L21 12v5h-2"/><path d="M5 17h14"/><circle cx="7.5" cy="17" r="1.6"/><circle cx="16.5" cy="17" r="1.6"/></svg></span></span></span><span class="b-apt">דירה 14</span><span class="b-state">בטעינה · 4.4 קילוואט</span><span class="fill" aria-hidden="true"><i></i></span></button><button class="tile card bay is-f reveal" style="--i:5;--p:0" type="button" data-bay="5" aria-pressed="false" aria-label="חניה 6, דירה 17, פנויה" disabled><span class="b-top"><span class="b-n">חניה 6</span><span class="b-ic"><span class="ic-c"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3v4M15 3v4"/><path d="M7 7h10v3a5 5 0 0 1-10 0V7z"/><path d="M12 15v6"/></svg></span><span class="ic-d"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span><span class="ic-f"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 17H3v-5l2.2-5.2A2 2 0 0 1 7 5.6h10a2 2 0 0 1 1.8 1.2L21 12v5h-2"/><path d="M5 17h14"/><circle cx="7.5" cy="17" r="1.6"/><circle cx="16.5" cy="17" r="1.6"/></svg></span></span></span><span class="b-apt">דירה 17</span><span class="b-state">פנויה</span><span class="fill" aria-hidden="true"><i></i></span></button>
+</div>
+<div class="lot-foot reveal"><p class="micro">בניין לדוגמה: שש חניות עם עמדה ו-22 קילוואט לטעינה. ארבע שעות מתוך יום טיפוסי, והנתונים להמחשה בלבד.</p></div>
 </section>
-<section class="sec bens" id="ref-bens"><h2>שלושה יתרונות</h2><div class="grid3">
-<article class="card"><b class="num">01</b><i class="ico"></i><h3>יתרון ראשון</h3><p>שורה אחת שמסבירה במה זה עוזר ללקוח.</p></article>
-<article class="card"><b class="num">02</b><i class="ico"></i><h3>יתרון שני</h3><p>עוד שורה אחת, קונקרטית, בלי סופרלטיבים.</p></article>
-<article class="card"><b class="num">03</b><i class="ico"></i><h3>יתרון שלישי</h3><p>השורה השלישית סוגרת את הסט.</p><i class="bars"><s></s><s></s><s></s><s></s></i></article>
+
+<section class="breath" aria-labelledby="s10-br-h"><div class="br-in">
+<div class="br-txt reveal"><span class="kick"><i></i>אחריות</span><h2 id="s10-br-h">הוועד לא צריך להבין חשמל, מספיק שיהיה מי שאחראי</h2><p class="lead">כל עמדה מותקנת על ידי חשמלאי מוסמך ומחוברת למונה משלה. אם משהו מפסיק לעבוד, מתקשרים אלינו ולא לוועד.</p><a class="lnk" href="#s10-offer">מה כלול בהתקנה<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></a></div>
+<figure class="br-pic reveal" style="--i:1"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/lot-paint.webp" width="1600" height="1067" alt="סימון חניה לרכב חשמלי, מצויר בלבן על אספלט שחור" loading="lazy" decoding="async"></figure>
 </div></section>
-<section class="sec prices" id="ref-prices"><h2>שלוש חבילות</h2><div class="grid3">
-<article class="card price"><h3>בסיסית</h3><div class="amt">₪2,500<small>לא כולל מע"מ</small></div><ul><li>עמוד אחד</li><li>טופס פנייה</li><li>חיבור לדומיין</li></ul><a class="btn ghost" href="#ref-form">לבחור בסיסית</a></article>
-<article class="card price hi"><span class="tag">הכי נבחרת</span><h3>מקצועית</h3><div class="amt">₪4,000<small>לא כולל מע"מ</small></div><ul><li>שלושה עמודים</li><li>טופס וואטסאפ</li><li>חיבור לדומיין</li><li>חודש ליווי</li></ul><a class="btn" href="#ref-form">לבחור מקצועית</a></article>
-<article class="card price"><h3>מורחבת</h3><div class="amt">₪6,000<small>לא כולל מע"מ</small></div><ul><li>חמישה עמודים</li><li>בלוג</li><li>חיבור לדומיין</li><li>שלושה חודשי ליווי</li></ul><a class="btn ghost" href="#ref-form">לבחור מורחבת</a></article>
+
+<section class="offer sec" id="s10-offer" aria-labelledby="s10-of-h">
+<div class="wrap"><div class="head reveal"><span class="kick"><i></i>מה כלול</span><h2 id="s10-of-h">מחיר אחד לעמדה, בלי הפתעות לוועד</h2><p class="lead">מה משלמים בהתקנה, מה משלמים כל חודש, ומה לא משלמים בכלל.</p></div></div>
+<div class="board">
+<article class="tile card ink t-price w2 h2 reveal" style="--i:0"><span class="kick"><i></i>לכל עמדה</span>
+<div class="price-row"><span class="stat">3,900 ₪</span><span class="unit">התקנה חד פעמית</span></div>
+<p class="plus">ועוד 29 ₪ לחודש על ניהול, חיוב לדייר ותמיכה</p>
+<ul class="ticks"><li><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>בדיקת לוח ותשתית</span></li><li><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>עמדה עם מונה מובנה</span></li><li><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>התקנה על ידי חשמלאי מוסמך</span></li><li><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>אחריות לשנתיים</span></li></ul>
+<div class="foot"><a class="btn inv" href="#s10-visit">לקבל הצעה לבניין</a><span class="micro">מחירי דוגמה, כולל מע״מ</span></div></article>
+<article class="tile card t-step reveal" style="--i:1"><span class="kick"><i></i>שלב 1</span><h3>בדיקת תשתית</h3><p class="t-p">חשמלאי מגיע, בודק את הלוח ואת הקו ומוסר דוח כתוב. בלי עלות ובלי התחייבות.</p></article>
+<figure class="tile card t-photo reveal" style="--i:2"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/install.webp" width="1200" height="1067" alt="חשמלאי עם משקפי מגן מחבר כבלים בקופסת חיבורים על קיר לבן" loading="lazy" decoding="async"><figcaption class="cap">בדיקת הלוח לפני ההצעה</figcaption></figure>
+<article class="tile card soft t-num reveal" style="--i:1"><span class="kick"><i></i>עד ההצעה</span><p class="fig"><span class="stat">3</span><span class="unit">ימים</span></p><p class="t-p">עד שההצעה הכתובה מגיעה לוועד</p><p class="micro">נתון לדוגמה</p></article>
+<article class="tile card t-step reveal" style="--i:2"><span class="kick"><i></i>שלב 2</span><h3>הצעה כתובה לוועד</h3><p class="t-p">מסמך אחד: מה מותקן, מי משלם, ומה קורה כשדייר עובר דירה.</p></article>
+<article class="tile card t-gives w2 reveal" style="--i:0"><span class="kick"><i></i>מה הדייר מקבל</span><ul class="gives"><li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg><span>דף חודשי עם כל טעינה והסכום שלה</span></li><li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/></svg><span>הודעה בטלפון כשהטעינה נגמרת</span></li><li><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="6" width="18" height="13" rx="3"/><path d="M3 10h18"/><circle cx="16.5" cy="14.5" r="1"/></svg><span>חשבון על שמו, בלי להעביר כסף דרך הוועד</span></li></ul></article>
+<article class="tile card soft t-sup reveal" style="--i:1"><span class="kick"><i></i>תמיכה בוואטסאפ</span><p class="sup-big"><span class="dot on" data-sup-dot></span><span data-sup-t>עונים עכשיו</span></p><p class="t-p">ראשון עד חמישי <span class="nw">08:00 עד 20:00</span>, שישי עד <span class="nw">13:00</span></p></article>
+<article class="tile card acc t-cta reveal" style="--i:2"><h3>מתחילים בבדיקת תשתית</h3><p class="t-p">היא בלי עלות</p><a class="btn on-acc sm" href="#s10-visit">לבדיקה<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></a></article>
 </div></section>
-<section class="sec form" id="ref-form"><div class="fbox"><h2>נשארים בקשר</h2><p>שם וטלפון, וחוזרים אליכם תוך יום עבודה.</p><form class="frm" onsubmit="return false"><input class="in" aria-label="שם מלא" autocomplete="name" placeholder="שם מלא"><input class="in" type="tel" inputmode="tel" autocomplete="tel" aria-label="טלפון" placeholder="טלפון"><button class="btn" type="submit">לשלוח</button></form></div></section>
-<footer class="ft"><span>© שם העסק</span><span>תנאים · פרטיות · נגישות</span></footer>
+
+<section class="visit" id="s10-visit" data-cta-end aria-labelledby="s10-vs-h"><div class="vpanel reveal">
+<div class="v-body">
+<div class="head"><span class="kick"><i></i>בדיקת בניין</span><h2 id="s10-vs-h">בודקים את הבניין שלכם</h2><p class="lead">משאירים שם וטלפון ואומרים כמה חניות יש. חוזרים אליכם תוך יום עבודה עם תשובה על הלוח, על ההספק ועל המחיר.</p></div>
+<form class="form" novalidate>
+<div class="row">
+<div class="fld"><label for="s10-name">שם מלא</label><input class="in" id="s10-name" name="name" autocomplete="name" required aria-describedby="s10-name-m"><span class="msg" id="s10-name-m"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>איך נקרא לכם?</span></div>
+<div class="fld"><label for="s10-tel">טלפון</label><input class="in" id="s10-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required aria-describedby="s10-tel-m"><span class="msg" id="s10-tel-m"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>המספר לא נראה תקין, אפשר לבדוק?</span></div>
+</div>
+<fieldset><legend class="legend">כמה חניות יש בבניין?</legend><div class="opts">
+<label class="opt"><input type="radio" name="spots" value="10" checked><span>עד 10</span></label>
+<label class="opt"><input type="radio" name="spots" value="40"><span>11 עד 40</span></label>
+<label class="opt"><input type="radio" name="spots" value="41"><span>יותר מ-40</span></label>
+</div></fieldset>
+<div class="form-foot"><button class="btn" type="submit">לקבל בדיקה</button><p class="micro">הטלפון משמש רק לחזרה אליכם.</p></div>
+</form>
+<div class="ok" role="status" aria-live="polite"><span class="tick"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span><h3>קיבלנו</h3><p class="lead">חוזרים אליכם תוך יום עבודה.</p></div>
+<p class="alt"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span>או להתקשר:</span><a href="tel:+97235550188" dir="ltr">03-555-0188</a></p>
+</div>
+<figure class="v-photo"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/wallbox.webp" width="1000" height="1500" alt="עמדת טעינה לבנה על קיר, עם הידית השחורה תלויה במקומה ואור כחול קטן" loading="lazy" decoding="async"></figure>
+</div></section>
+</main>
+
+<footer class="ft"><div class="ft-top">
+<div class="ft-brand"><a class="hd-logo" href="#s10-top" aria-label="זרם, לראש הדף"><span class="mark"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 3v4M15 3v4"/><path d="M7 7h10v3a5 5 0 0 1-10 0V7z"/><path d="M12 15v6"/></svg></span><span>זרם</span></a><p>מתכננים, מתקינים ומנהלים עמדות טעינה לרכב חשמלי בבניינים משותפים. העסק, המספרים והציטוטים בעמוד הזה הם דוגמה.</p></div>
+<div class="ft-col"><p class="ft-h">באתר</p><a href="#s10-how">איך זה עובד</a><a href="#s10-lot">החניון החי</a><a href="#s10-offer">מה כלול</a><a href="#s10-visit">בדיקת בניין</a></div>
+<div class="ft-col"><p class="ft-h">ליצירת קשר</p><a href="tel:+97235550188" dir="ltr">03-555-0188</a><a href="mailto:hello@zerem.example">hello@zerem.example</a><address>רחוב הסדנה 9, חולון</address></div>
+<div class="ft-col"><p class="ft-h">שעות פעילות</p><span>ראשון עד חמישי, 08:00 עד 20:00</span><span>שישי, 08:00 עד 13:00</span></div>
+</div>
+<div class="ft-bot"><p>© <span data-year>2026</span> זרם</p><nav aria-label="משפטי"><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">הצהרת נגישות</a></nav><p>עוצב ופותח על ידי <a href="https://liavmatzri.co.il" rel="noopener">ליאב מצרי</a></p></div>
+<div class="ft-word" aria-hidden="true">זרם</div>
+</footer>
 </div></div>
 
 
-
+<script>
+(function(){var root=document.querySelector(".sk-s10");if(!root)return;var q=root.querySelector(".q");q.classList.add("js");
+var rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function $(s,r){return(r||q).querySelector(s)}function $$(s,r){return[].slice.call((r||q).querySelectorAll(s))}
+$$("[data-year]").forEach(function(e){e.textContent=new Date().getFullYear()});
+/* הדר: headroom */
+var hd=$(".hd"),top=document.querySelector(".vtop"),lastTop=-1,hidden=false,lastY=window.scrollY,acc=0;
+function place(){if(!hd||!top)return;var s=getComputedStyle(top),v=s.position==="sticky"&&s.display!=="none"?top.offsetHeight:0;if(v!==lastTop){lastTop=v;hd.style.top=v+"px"}}
+function setHidden(v){if(v===hidden)return;hidden=v;hd.classList.toggle("is-hidden",v)}
+function onScroll(){place();var y=window.scrollY,d=y-lastY;lastY=y;if(y<=96){acc=0;setHidden(false);return}
+acc=(d>0)===(acc>0)?acc+d:d;if(acc>6)setHidden(true);else if(acc<-6)setHidden(false)}
+if(hd){window.addEventListener("scroll",onScroll,{passive:true});window.addEventListener("resize",place);hd.addEventListener("focusin",function(){setHidden(false)});place()}
+/* שעון ישראל: התמיכה, והחניון העכשווי בכרטיס ההירו */
+function il(){try{var o={};new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Jerusalem",weekday:"short",hour:"numeric",minute:"numeric",hourCycle:"h23"}).formatToParts(new Date()).forEach(function(x){o[x.type]=x.value});
+return{d:{Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6}[o.weekday],m:(+o.hour%24)*60+(+o.minute)}}catch(e){return null}}
+var LOT={"slots":[{"t":"08:00","nC":1,"used":"11","bays":[{"c":"f","p":0,"s":"פנויה","l":"חניה 1, דירה 3, פנויה","k":"","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 1 · דירה 3 · 08:00</span><span class=\"dchip\">פנויה</span></div><p class=\"d-big\"><b class=\"stat st-w\">פנויה</b></p><p class=\"d-sub\">אין רכב מחובר כרגע</p><dl class=\"d-grid\"><div><dt>הספק זמין</dt><dd>עד 11 קילוואט</dd></div><div><dt>החשבון</dt><dd>על שם דירה 3</dd></div><div><dt>עלות</dt><dd>רק אחרי טעינה</dd></div></dl><p class=\"d-note\">כשרכב יתחבר, העמדה תקבל חלק מההספק של הבניין, לפי מי שכבר בטעינה.</p>"},{"c":"d","p":0,"s":"הסתיימה","l":"חניה 2, דירה 5, הטעינה הסתיימה","k":"","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 2 · דירה 5 · 08:00</span><span class=\"dchip\">הסתיימה</span></div><p class=\"d-big\"><b class=\"stat st-w\">הסתיימה</b></p><p class=\"d-sub\">הרכב מלא, והעמדה לא מושכת יותר חשמל</p><dl class=\"d-grid\"><div><dt>נטען בסך הכל</dt><dd>21.4 קוט״ש</dd></div><div><dt>הסתיימה ב-</dt><dd>06:50</dd></div><div><dt>עלות הטעינה</dt><dd>17 ₪</dd></div></dl><p class=\"d-note\">הדייר קיבל הודעה שהטעינה נגמרה, וההספק שהתפנה עובר למי שעדיין טוען.</p>"},{"c":"f","p":0,"s":"פנויה","l":"חניה 3, דירה 8, פנויה","k":"","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 3 · דירה 8 · 08:00</span><span class=\"dchip\">פנויה</span></div><p class=\"d-big\"><b class=\"stat st-w\">פנויה</b></p><p class=\"d-sub\">אין רכב מחובר כרגע</p><dl class=\"d-grid\"><div><dt>הספק זמין</dt><dd>עד 11 קילוואט</dd></div><div><dt>החשבון</dt><dd>על שם דירה 8</dd></div><div><dt>עלות</dt><dd>רק אחרי טעינה</dd></div></dl><p class=\"d-note\">כשרכב יתחבר, העמדה תקבל חלק מההספק של הבניין, לפי מי שכבר בטעינה.</p>"},{"c":"f","p":0,"s":"פנויה","l":"חניה 4, דירה 11, פנויה","k":"","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 4 · דירה 11 · 08:00</span><span class=\"dchip\">פנויה</span></div><p class=\"d-big\"><b class=\"stat st-w\">פנויה</b></p><p class=\"d-sub\">אין רכב מחובר כרגע</p><dl class=\"d-grid\"><div><dt>הספק זמין</dt><dd>עד 11 קילוואט</dd></div><div><dt>החשבון</dt><dd>על שם דירה 11</dd></div><div><dt>עלות</dt><dd>רק אחרי טעינה</dd></div></dl><p class=\"d-note\">כשרכב יתחבר, העמדה תקבל חלק מההספק של הבניין, לפי מי שכבר בטעינה.</p>"},{"c":"c","p":1,"s":"בטעינה · 11 קילוואט","l":"חניה 5, דירה 14, בטעינה, 11 קילוואט","k":"11","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 5 · דירה 14 · 08:00</span><span class=\"dchip\">בטעינה</span></div><p class=\"d-big\"><b class=\"stat\">11</b><span>קילוואט</span></p><p class=\"d-sub\">ההספק שהעמדה מקבלת עכשיו, מתוך 11 שהיא יכולה</p><dl class=\"d-grid\"><div><dt>נטען עד עכשיו</dt><dd>18.3 קוט״ש</dd></div><div><dt>התחילה ב-</dt><dd>06:20</dd></div><div><dt>עלות עד עכשיו</dt><dd>14 ₪</dd></div></dl><p class=\"d-note\">בשעה הזו עמדה אחת בטעינה, ולכן היא מקבלת את כל 11 הקילוואט.</p>"},{"c":"f","p":0,"s":"פנויה","l":"חניה 6, דירה 17, פנויה","k":"","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 6 · דירה 17 · 08:00</span><span class=\"dchip\">פנויה</span></div><p class=\"d-big\"><b class=\"stat st-w\">פנויה</b></p><p class=\"d-sub\">אין רכב מחובר כרגע</p><dl class=\"d-grid\"><div><dt>הספק זמין</dt><dd>עד 11 קילוואט</dd></div><div><dt>החשבון</dt><dd>על שם דירה 17</dd></div><div><dt>עלות</dt><dd>רק אחרי טעינה</dd></div></dl><p class=\"d-note\">כשרכב יתחבר, העמדה תקבל חלק מההספק של הבניין, לפי מי שכבר בטעינה.</p>"}]},{"t":"13:00","nC":2,"used":"22","bays":[{"c":"f","p":0,"s":"פנויה","l":"חניה 1, דירה 3, פנויה","k":"","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 1 · דירה 3 · 13:00</span><span class=\"dchip\">פנויה</span></div><p class=\"d-big\"><b class=\"stat st-w\">פנויה</b></p><p class=\"d-sub\">אין רכב מחובר כרגע</p><dl class=\"d-grid\"><div><dt>הספק זמין</dt><dd>עד 11 קילוואט</dd></div><div><dt>החשבון</dt><dd>על שם דירה 3</dd></div><div><dt>עלות</dt><dd>רק אחרי טעינה</dd></div></dl><p class=\"d-note\">כשרכב יתחבר, העמדה תקבל חלק מההספק של הבניין, לפי מי שכבר בטעינה.</p>"},{"c":"f","p":0,"s":"פנויה","l":"חניה 2, דירה 5, פנויה","k":"","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 2 · דירה 5 · 13:00</span><span class=\"dchip\">פנויה</span></div><p class=\"d-big\"><b class=\"stat st-w\">פנויה</b></p><p class=\"d-sub\">אין רכב מחובר כרגע</p><dl class=\"d-grid\"><div><dt>הספק זמין</dt><dd>עד 11 קילוואט</dd></div><div><dt>החשבון</dt><dd>על שם דירה 5</dd></div><div><dt>עלות</dt><dd>רק אחרי טעינה</dd></div></dl><p class=\"d-note\">כשרכב יתחבר, העמדה תקבל חלק מההספק של הבניין, לפי מי שכבר בטעינה.</p>"},{"c":"c","p":1,"s":"בטעינה · 11 קילוואט","l":"חניה 3, דירה 8, בטעינה, 11 קילוואט","k":"11","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 3 · דירה 8 · 13:00</span><span class=\"dchip\">בטעינה</span></div><p class=\"d-big\"><b class=\"stat\">11</b><span>קילוואט</span></p><p class=\"d-sub\">ההספק שהעמדה מקבלת עכשיו, מתוך 11 שהיא יכולה</p><dl class=\"d-grid\"><div><dt>נטען עד עכשיו</dt><dd>20.2 קוט״ש</dd></div><div><dt>התחילה ב-</dt><dd>11:10</dd></div><div><dt>עלות עד עכשיו</dt><dd>16 ₪</dd></div></dl><p class=\"d-note\">בשעה הזו שתי עמדות בטעינה, וכל אחת מקבלת את כל 11 הקילוואט.</p>"},{"c":"f","p":0,"s":"פנויה","l":"חניה 4, דירה 11, פנויה","k":"","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 4 · דירה 11 · 13:00</span><span class=\"dchip\">פנויה</span></div><p class=\"d-big\"><b class=\"stat st-w\">פנויה</b></p><p class=\"d-sub\">אין רכב מחובר כרגע</p><dl class=\"d-grid\"><div><dt>הספק זמין</dt><dd>עד 11 קילוואט</dd></div><div><dt>החשבון</dt><dd>על שם דירה 11</dd></div><div><dt>עלות</dt><dd>רק אחרי טעינה</dd></div></dl><p class=\"d-note\">כשרכב יתחבר, העמדה תקבל חלק מההספק של הבניין, לפי מי שכבר בטעינה.</p>"},{"c":"d","p":0,"s":"הסתיימה","l":"חניה 5, דירה 14, הטעינה הסתיימה","k":"","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 5 · דירה 14 · 13:00</span><span class=\"dchip\">הסתיימה</span></div><p class=\"d-big\"><b class=\"stat st-w\">הסתיימה</b></p><p class=\"d-sub\">הרכב מלא, והעמדה לא מושכת יותר חשמל</p><dl class=\"d-grid\"><div><dt>נטען בסך הכל</dt><dd>24 קוט״ש</dd></div><div><dt>הסתיימה ב-</dt><dd>08:30</dd></div><div><dt>עלות הטעינה</dt><dd>19 ₪</dd></div></dl><p class=\"d-note\">הדייר קיבל הודעה שהטעינה נגמרה, וההספק שהתפנה עובר למי שעדיין טוען.</p>"},{"c":"c","p":1,"s":"בטעינה · 11 קילוואט","l":"חניה 6, דירה 17, בטעינה, 11 קילוואט","k":"11","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 6 · דירה 17 · 13:00</span><span class=\"dchip\">בטעינה</span></div><p class=\"d-big\"><b class=\"stat\">11</b><span>קילוואט</span></p><p class=\"d-sub\">ההספק שהעמדה מקבלת עכשיו, מתוך 11 שהיא יכולה</p><dl class=\"d-grid\"><div><dt>נטען עד עכשיו</dt><dd>10.1 קוט״ש</dd></div><div><dt>התחילה ב-</dt><dd>12:05</dd></div><div><dt>עלות עד עכשיו</dt><dd>8 ₪</dd></div></dl><p class=\"d-note\">בשעה הזו שתי עמדות בטעינה, וכל אחת מקבלת את כל 11 הקילוואט.</p>"}]},{"t":"19:00","nC":5,"used":"22","bays":[{"c":"c","p":0.4,"s":"בטעינה · 4.4 קילוואט","l":"חניה 1, דירה 3, בטעינה, 4.4 קילוואט","k":"4.4","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 1 · דירה 3 · 19:00</span><span class=\"dchip\">בטעינה</span></div><p class=\"d-big\"><b class=\"stat\">4.4</b><span>קילוואט</span></p><p class=\"d-sub\">ההספק שהעמדה מקבלת עכשיו, מתוך 11 שהיא יכולה</p><dl class=\"d-grid\"><div><dt>נטען עד עכשיו</dt><dd>9.5 קוט״ש</dd></div><div><dt>התחילה ב-</dt><dd>16:50</dd></div><div><dt>עלות עד עכשיו</dt><dd>7 ₪</dd></div></dl><p class=\"d-note\">בשעה הזו חמש עמדות בטעינה, ולכן כל אחת מקבלת 4.4 מתוך 11 קילוואט.</p>"},{"c":"c","p":0.4,"s":"בטעינה · 4.4 קילוואט","l":"חניה 2, דירה 5, בטעינה, 4.4 קילוואט","k":"4.4","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 2 · דירה 5 · 19:00</span><span class=\"dchip\">בטעינה</span></div><p class=\"d-big\"><b class=\"stat\">4.4</b><span>קילוואט</span></p><p class=\"d-sub\">ההספק שהעמדה מקבלת עכשיו, מתוך 11 שהיא יכולה</p><dl class=\"d-grid\"><div><dt>נטען עד עכשיו</dt><dd>4 קוט״ש</dd></div><div><dt>התחילה ב-</dt><dd>18:05</dd></div><div><dt>עלות עד עכשיו</dt><dd>3 ₪</dd></div></dl><p class=\"d-note\">בשעה הזו חמש עמדות בטעינה, ולכן כל אחת מקבלת 4.4 מתוך 11 קילוואט.</p>"},{"c":"c","p":0.4,"s":"בטעינה · 4.4 קילוואט","l":"חניה 3, דירה 8, בטעינה, 4.4 קילוואט","k":"4.4","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 3 · דירה 8 · 19:00</span><span class=\"dchip\">בטעינה</span></div><p class=\"d-big\"><b class=\"stat\">4.4</b><span>קילוואט</span></p><p class=\"d-sub\">ההספק שהעמדה מקבלת עכשיו, מתוך 11 שהיא יכולה</p><dl class=\"d-grid\"><div><dt>נטען עד עכשיו</dt><dd>16.1 קוט״ש</dd></div><div><dt>התחילה ב-</dt><dd>15:20</dd></div><div><dt>עלות עד עכשיו</dt><dd>13 ₪</dd></div></dl><p class=\"d-note\">בשעה הזו חמש עמדות בטעינה, ולכן כל אחת מקבלת 4.4 מתוך 11 קילוואט.</p>"},{"c":"c","p":0.4,"s":"בטעינה · 4.4 קילוואט","l":"חניה 4, דירה 11, בטעינה, 4.4 קילוואט","k":"4.4","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 4 · דירה 11 · 19:00</span><span class=\"dchip\">בטעינה</span></div><p class=\"d-big\"><b class=\"stat\">4.4</b><span>קילוואט</span></p><p class=\"d-sub\">ההספק שהעמדה מקבלת עכשיו, מתוך 11 שהיא יכולה</p><dl class=\"d-grid\"><div><dt>נטען עד עכשיו</dt><dd>1.5 קוט״ש</dd></div><div><dt>התחילה ב-</dt><dd>18:40</dd></div><div><dt>עלות עד עכשיו</dt><dd>1 ₪</dd></div></dl><p class=\"d-note\">בשעה הזו חמש עמדות בטעינה, ולכן כל אחת מקבלת 4.4 מתוך 11 קילוואט.</p>"},{"c":"c","p":0.4,"s":"בטעינה · 4.4 קילוואט","l":"חניה 5, דירה 14, בטעינה, 4.4 קילוואט","k":"4.4","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 5 · דירה 14 · 19:00</span><span class=\"dchip\">בטעינה</span></div><p class=\"d-big\"><b class=\"stat\">4.4</b><span>קילוואט</span></p><p class=\"d-sub\">ההספק שהעמדה מקבלת עכשיו, מתוך 11 שהיא יכולה</p><dl class=\"d-grid\"><div><dt>נטען עד עכשיו</dt><dd>6.6 קוט״ש</dd></div><div><dt>התחילה ב-</dt><dd>17:30</dd></div><div><dt>עלות עד עכשיו</dt><dd>5 ₪</dd></div></dl><p class=\"d-note\">בשעה הזו חמש עמדות בטעינה, ולכן כל אחת מקבלת 4.4 מתוך 11 קילוואט.</p>"},{"c":"f","p":0,"s":"פנויה","l":"חניה 6, דירה 17, פנויה","k":"","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 6 · דירה 17 · 19:00</span><span class=\"dchip\">פנויה</span></div><p class=\"d-big\"><b class=\"stat st-w\">פנויה</b></p><p class=\"d-sub\">אין רכב מחובר כרגע</p><dl class=\"d-grid\"><div><dt>הספק זמין</dt><dd>עד 11 קילוואט</dd></div><div><dt>החשבון</dt><dd>על שם דירה 17</dd></div><div><dt>עלות</dt><dd>רק אחרי טעינה</dd></div></dl><p class=\"d-note\">כשרכב יתחבר, העמדה תקבל חלק מההספק של הבניין, לפי מי שכבר בטעינה.</p>"}]},{"t":"23:30","nC":3,"used":"21.9","bays":[{"c":"d","p":0,"s":"הסתיימה","l":"חניה 1, דירה 3, הטעינה הסתיימה","k":"","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 1 · דירה 3 · 23:30</span><span class=\"dchip\">הסתיימה</span></div><p class=\"d-big\"><b class=\"stat st-w\">הסתיימה</b></p><p class=\"d-sub\">הרכב מלא, והעמדה לא מושכת יותר חשמל</p><dl class=\"d-grid\"><div><dt>נטען בסך הכל</dt><dd>24.8 קוט״ש</dd></div><div><dt>הסתיימה ב-</dt><dd>22:30</dd></div><div><dt>עלות הטעינה</dt><dd>19 ₪</dd></div></dl><p class=\"d-note\">הדייר קיבל הודעה שהטעינה נגמרה, וההספק שהתפנה עובר למי שעדיין טוען.</p>"},{"c":"d","p":0,"s":"הסתיימה","l":"חניה 2, דירה 5, הטעינה הסתיימה","k":"","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 2 · דירה 5 · 23:30</span><span class=\"dchip\">הסתיימה</span></div><p class=\"d-big\"><b class=\"stat st-w\">הסתיימה</b></p><p class=\"d-sub\">הרכב מלא, והעמדה לא מושכת יותר חשמל</p><dl class=\"d-grid\"><div><dt>נטען בסך הכל</dt><dd>19.6 קוט״ש</dd></div><div><dt>הסתיימה ב-</dt><dd>21:40</dd></div><div><dt>עלות הטעינה</dt><dd>15 ₪</dd></div></dl><p class=\"d-note\">הדייר קיבל הודעה שהטעינה נגמרה, וההספק שהתפנה עובר למי שעדיין טוען.</p>"},{"c":"d","p":0,"s":"הסתיימה","l":"חניה 3, דירה 8, הטעינה הסתיימה","k":"","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 3 · דירה 8 · 23:30</span><span class=\"dchip\">הסתיימה</span></div><p class=\"d-big\"><b class=\"stat st-w\">הסתיימה</b></p><p class=\"d-sub\">הרכב מלא, והעמדה לא מושכת יותר חשמל</p><dl class=\"d-grid\"><div><dt>נטען בסך הכל</dt><dd>31.5 קוט״ש</dd></div><div><dt>הסתיימה ב-</dt><dd>22:00</dd></div><div><dt>עלות הטעינה</dt><dd>25 ₪</dd></div></dl><p class=\"d-note\">הדייר קיבל הודעה שהטעינה נגמרה, וההספק שהתפנה עובר למי שעדיין טוען.</p>"},{"c":"c","p":0.66,"s":"בטעינה · 7.3 קילוואט","l":"חניה 4, דירה 11, בטעינה, 7.3 קילוואט","k":"7.3","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 4 · דירה 11 · 23:30</span><span class=\"dchip\">בטעינה</span></div><p class=\"d-big\"><b class=\"stat\">7.3</b><span>קילוואט</span></p><p class=\"d-sub\">ההספק שהעמדה מקבלת עכשיו, מתוך 11 שהיא יכולה</p><dl class=\"d-grid\"><div><dt>נטען עד עכשיו</dt><dd>14.6 קוט״ש</dd></div><div><dt>התחילה ב-</dt><dd>21:30</dd></div><div><dt>עלות עד עכשיו</dt><dd>11 ₪</dd></div></dl><p class=\"d-note\">בשעה הזו שלוש עמדות בטעינה, ולכן כל אחת מקבלת 7.3 מתוך 11 קילוואט.</p>"},{"c":"c","p":0.66,"s":"בטעינה · 7.3 קילוואט","l":"חניה 5, דירה 14, בטעינה, 7.3 קילוואט","k":"7.3","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 5 · דירה 14 · 23:30</span><span class=\"dchip\">בטעינה</span></div><p class=\"d-big\"><b class=\"stat\">7.3</b><span>קילוואט</span></p><p class=\"d-sub\">ההספק שהעמדה מקבלת עכשיו, מתוך 11 שהיא יכולה</p><dl class=\"d-grid\"><div><dt>נטען עד עכשיו</dt><dd>24.3 קוט״ש</dd></div><div><dt>התחילה ב-</dt><dd>20:10</dd></div><div><dt>עלות עד עכשיו</dt><dd>19 ₪</dd></div></dl><p class=\"d-note\">בשעה הזו שלוש עמדות בטעינה, ולכן כל אחת מקבלת 7.3 מתוך 11 קילוואט.</p>"},{"c":"c","p":0.66,"s":"בטעינה · 7.3 קילוואט","l":"חניה 6, דירה 17, בטעינה, 7.3 קילוואט","k":"7.3","d":"<div class=\"d-head\"><span class=\"kick\"><i></i>חניה 6 · דירה 17 · 23:30</span><span class=\"dchip\">בטעינה</span></div><p class=\"d-big\"><b class=\"stat\">7.3</b><span>קילוואט</span></p><p class=\"d-sub\">ההספק שהעמדה מקבלת עכשיו, מתוך 11 שהיא יכולה</p><dl class=\"d-grid\"><div><dt>נטען עד עכשיו</dt><dd>8.5 קוט״ש</dd></div><div><dt>התחילה ב-</dt><dd>22:20</dd></div><div><dt>עלות עד עכשיו</dt><dd>7 ₪</dd></div></dl><p class=\"d-note\">בשעה הזו שלוש עמדות בטעינה, ולכן כל אחת מקבלת 7.3 מתוך 11 קילוואט.</p>"}]}],"cap":22};
+var n=il();
+if(n){var HRS={0:[480,1200],1:[480,1200],2:[480,1200],3:[480,1200],4:[480,1200],5:[480,780]},DAY=["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
+function ft(m){var h=Math.floor(m/60),mm=m%60;return(h<10?"0":"")+h+":"+(mm<10?"0":"")+mm}
+var h=HRS[n.d],open=!!h&&n.m>=h[0]&&n.m<h[1],txt;
+if(open){txt="עונים עכשיו, עד "+ft(h[1])}else{var k,dd,hh;for(k=0;k<8;k++){dd=(n.d+k)%7;hh=HRS[dd];if(hh&&(k>0||n.m<hh[0]))break}
+txt="חוזרים "+(k===0?"היום":k===1?"מחר":"ביום "+DAY[dd])+" ב-"+ft(HRS[dd][0])}
+var st=$("[data-sup-t]"),sd=$("[data-sup-dot]");if(st)st.textContent=txt;if(sd)sd.classList.toggle("on",open);
+var hour=Math.floor(n.m/60),si=hour>=5&&hour<11?0:hour>=11&&hour<17?1:hour>=17&&hour<22?2:hour===22&&n.m%60<30?2:3;
+var S=LOT.slots[si],ln=$("[data-live-n]"),pp=$("[data-live-pips]");
+if(ln&&pp&&si!==2){ln.textContent=S.nC;pp.innerHTML=S.bays.map(function(b){return'<i class="pip is-'+b.c+'"></i>'}).join("")}}
+/* reveal פעם אחת */
+var els=$$(".reveal");
+if(rm||!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("is-in")})}
+else{var io=new IntersectionObserver(function(en){en.forEach(function(x){if(!x.isIntersecting)return;x.target.classList.add("is-in");io.unobserve(x.target)})},{threshold:.12});els.forEach(function(e){io.observe(e)})}
+/* מונים */
+function count(b){var t=+b.dataset.count,step=Math.max(1,Math.round(t/28)),v=0;b.textContent="0";
+var id=setInterval(function(){v+=step;if(v>=t){v=t;clearInterval(id)}b.textContent=v.toLocaleString("he-IL")},24)}
+var nums=$$("[data-count]");
+if(nums.length&&"IntersectionObserver" in window){var cio=new IntersectionObserver(function(en){en.forEach(function(x){if(!x.isIntersecting)return;count(x.target);cio.unobserve(x.target)})},{threshold:.6});nums.forEach(function(b){cio.observe(b)})}
+/* החניון החי: בורר שעה, בחירת חניה, והגעה בדירוג */
+var lot=$("[data-lot]"),bays=$$("[data-bay]"),det=$("[data-detail]"),used=$("[data-pw-used]"),pbs=$$(".pb"),slot=2,sel=2;
+function swap(){if(rm||!det)return;det.classList.remove("is-swap");void det.offsetWidth;det.classList.add("is-swap")}
+function paint(){var S=LOT.slots[slot];
+bays.forEach(function(el,i){var b=S.bays[i];el.className="tile card bay is-"+b.c+(i===sel?" is-sel":"")+" reveal is-in";el.style.setProperty("--p",b.p);el.setAttribute("aria-label",b.l);el.setAttribute("aria-pressed",String(i===sel));$(".b-state",el).textContent=b.s});
+pbs.forEach(function(el,i){var b=S.bays[i];el.style.setProperty("--p",b.p);$(".pk",el).textContent=b.k});
+if(used)used.textContent=S.used;
+det.innerHTML=S.bays[sel].d}
+if(lot&&det){bays.forEach(function(el){el.disabled=false});
+$$("[data-slot]").forEach(function(b){b.addEventListener("click",function(){var i=+b.dataset.slot;if(i===slot)return;slot=i;$$("[data-slot]").forEach(function(x){x.setAttribute("aria-pressed",String(+x.dataset.slot===slot))});paint();swap()})});
+bays.forEach(function(el){el.addEventListener("click",function(){var i=+el.dataset.bay;if(i===sel)return;sel=i;paint();swap()})});
+if(!rm&&"IntersectionObserver" in window){lot.classList.add("is-pre");
+var lo=new IntersectionObserver(function(en){if(!en[0].isIntersecting)return;lo.disconnect();lot.classList.add("is-arr");lot.classList.remove("is-pre");setTimeout(function(){lot.classList.remove("is-arr")},1800)},{threshold:.35});lo.observe(lot)}}
+/* טופס הבדיקה */
+var form=$(".form"),vp=$(".vpanel");
+if(form)form.addEventListener("submit",function(e){e.preventDefault();var nm=form.elements.name,tl=form.elements.tel,bad=null;
+function chk(f,ok){var w=f.closest(".fld");w.classList.toggle("err",!ok);f.setAttribute("aria-invalid",String(!ok));if(!ok&&!bad)bad=f}
+chk(nm,nm.value.trim().length>1);chk(tl,tl.value.replace(/\D/g,"").length>=9);
+if(bad){bad.focus();return}vp.classList.add("is-sent");var ok=$(".ok");if(ok){ok.setAttribute("tabindex","-1");ok.focus()}});
+})();
+</script>
 </body>
 </html>
