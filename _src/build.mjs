@@ -139,7 +139,7 @@ const USES = {
   // מאגר האקדמיה, סבב 2 (24.9.2026)
   b67: ["nav"], g150: ["process", "text", "media"], b68: ["ambient", "hero", "hover"], b69: ["cards", "hover"], g151: ["media", "cards"], b70: ["hover", "feedback"],
   // מאגרי קהילה (15.10.2026)
-  css33: ["ambient", "nav"], css34: ["nav", "feedback"], css35: ["media", "cards"], g152: ["text", "hero", "media"], b71: ["nav", "hover", "media"], b72: ["cards", "media"], b73: ["numbers", "ambient"], b74: ["feedback", "cards"], b75: ["nav", "feedback"], b76: ["nav", "hover"],
+  css33: ["ambient", "nav"], css34: ["nav", "feedback"], css35: ["media", "cards"], g152: ["text", "hero", "media"], b71: ["nav", "hover", "media"], b72: ["cards", "media"], b73: ["numbers", "ambient"], b74: ["feedback", "cards"], b75: ["nav", "feedback"], b76: ["nav", "hover"], g153: ["process", "cards"],
 };
 // רכיבי UI: הסינון השלישי של האינדקס. לכל מהלך אפשר לסמן כמה, והסימון מצטבר.
 const ELEMS_LABELS = {
@@ -331,7 +331,7 @@ const ELEMS = {
   g139: ["head"], g140: ["card","head"], g141: ["list","card"], g142: ["card","list"], g143: ["list","img"], g144: ["img","sect"], g145: ["head"], g146: ["card","head"], g148: ["sect","page"], g149: ["img","sect"],
   b67: ["nav","over","btn"], g150: ["list","img","sect"], b68: ["sect","cursor"], b69: ["card","list","btn"], g151: ["img","list","btn"], b70: ["btn"],
   // מאגרי קהילה (15.10.2026)
-  css33: ["over","sect"], css34: ["list","sect"], css35: ["img","list"], g152: ["head","img"], b71: ["list","nav","img"], b72: ["card","over","img"], b73: ["list","img"], b74: ["btn","card"], b75: ["over","form"], b76: ["nav","over"],
+  css33: ["over","sect"], css34: ["list","sect"], css35: ["img","list"], g152: ["head","img"], b71: ["list","nav","img"], b72: ["card","over","img"], b73: ["list","img"], b74: ["btn","card"], b75: ["over","form"], b76: ["nav","over"], g153: ["sect"],
   fluid: ["sect","page"],
   editorial: ["page","sect","card"], breakout: ["page","img"], bento: ["page","card"], modular: ["page","sect","img"],
 };
@@ -414,7 +414,7 @@ const FIT = {
   g139: ["L","S"], g140: ["L","S"], g141: ["L","S"], g142: ["L"], g143: ["S"], g144: ["L","S"], g145: ["L","S"], g146: ["L","S"], g148: ["S"], g149: ["L","S"],
   b67: ["L","S"], g150: ["S"], b68: ["L","S"], b69: ["L","S"], g151: ["S"], b70: ["S"],
   // מאגרי קהילה (15.10.2026)
-  css33: ["L","S"], css34: ["L","S"], css35: ["L","S"], g152: ["L","S"], b71: ["S"], b72: ["S"], b73: ["L","S"], b74: ["S"], b75: ["L","S"], b76: ["S"],
+  css33: ["L","S"], css34: ["L","S"], css35: ["L","S"], g152: ["L","S"], b71: ["S"], b72: ["S"], b73: ["L","S"], b74: ["S"], b75: ["L","S"], b76: ["S"], g153: ["L","S"],
   r01: ["S"],
   r02: ["L","S"],
   r03: ["L","S"],
