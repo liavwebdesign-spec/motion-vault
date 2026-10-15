@@ -1,41 +1,583 @@
-// s01: הועבר מ-i-style1.mjs ב-15.10.2026 לקראת בנייה מחדש כעמוד אמיתי ברף הסטודיו (כמו s08, s09, s10, s13, s14). זמני עד שהבונה כותב את הקובץ מחדש.
-import { sk } from "./i-style1.mjs";
-const NOISE = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")`;
+// S01 · סקיאומורפיזם, עמוד הייחוס בגרסה 2 (15.10.2026). נבנה מחדש כעמוד אמיתי ברף הסטודיו, לפי המודל של s05 ו-s14.
+//
+// מה זה: העסק הדמיוני "תריס", מעבדת פילם ותיקון מצלמות אנלוגיות בתל אביב. אין כאן לקוח אמיתי; הצילומים הם סטוק (ראו ids בשדה note).
+// הפונט: Google Sans בלבד, מקומי. החומריות באה מאור, צל, משטח וצורה, לא מפונט ולא מדמיון של 2011 (בלי תפרים, עור וירוק לבד).
+// החוק המארגן: מקור אור אחד, למעלה משמאל. כל הדגשה (קו בהיר) יושבת בקצה העליון-שמאלי של החפץ, וכל צל נופל ימינה ולמטה.
+// שלושה חומרים בלבד: נייר חם (הרקע והמשטחים), אלומיניום מוברש (החוגה, הלוחית, מקשי הפעולה) ואלומיניום שחור-אנודייז (הלוח של החוגה והפוטר).
+// רגע החתימה: חוגת דחיפה ומשיכה אמיתית. גוררים אותה, לוחצים על מספר או משתמשים בחצים, והתמונה, זמן הפיתוח, הרגישות והמחיר זזים איתה.
+// מנוע: ease החתום, reveal ב-keyframes 16px/0.5s, reduced-motion מכבה הכל, הכל נראה בלי JS (החוגה עומדת על "רגיל").
+
+const EASE = "cubic-bezier(.2,.6,.2,1)";
+
+// ───────── אייקונים: משפחה אחת, stroke 1.7, 24 או 20 ─────────
+const svg = (cls, d) => `<svg class="ico${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${d}</svg>`;
+const I = {
+  aperture: svg("", `<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v6M19.8 7.5 15 10.5M19.8 16.5 15 13.5M12 21v-6M4.2 16.5 9 13.5M4.2 7.5 9 10.5"/>`),
+  arrow: svg(" s", `<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>`),
+  pin: svg(" s", `<path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>`),
+  clock: svg(" s", `<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>`),
+  phone: svg(" s", `<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>`),
+  check: svg("", `<path d="M20 6 9 17l-5-5"/>`),
+  alert: svg(" s", `<circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/>`),
+};
+
+// ───────── החוגה: חמישה שלבים של דחיפה ומשיכה ─────────
+// v = מספר העצורים. הזמנים והמחירים הם דוגמה לפילם 400 בפיתוח ידני.
+const STEPS = {
+  "-2": { t: "06:30", iso: "100", p: "79", label: "משיכה של שני עצורים", txt: "לגליל שצולם באור חזק מדי. הפיתוח קצר, הגרגר עדין והניגודיות רכה, כך שהשמיים לא נשרפים." },
+  "-1": { t: "07:45", iso: "200", p: "69", label: "משיכה של עצור אחד", txt: "מרכך את הניגודיות כשהשמש הייתה חזקה, וגם משאיר פרטים בבהירים." },
+  "0": { t: "09:30", iso: "400", p: "59", label: "פיתוח רגיל", txt: "ככה הפילם תוכנן להיראות: הזמן והחומרים מהיצרן, בלי תיקונים." },
+  "1": { t: "12:00", iso: "800", p: "69", label: "דחיפה של עצור אחד", txt: "מציל גליל שצולם באור חלש. הפיתוח ארוך יותר, הצללים נפתחים והגרגר הופך נראה לעין." },
+  "2": { t: "15:30", iso: "1600", p: "79", label: "דחיפה של שני עצורים", txt: "לערב בלי פלאש. הניגודיות חדה, הגרגר גס והצללים נפתחים כמעט עד הסוף." },
+};
+const lbl = v => (v > 0 ? "+" + v : String(v));
+const VALS = [-2, -1, 0, 1, 2];
+const ticks = Array.from({ length: 9 }, (_, n) => {
+  const deg = (n - 4) * 30;
+  return `<i class="tk${n % 2 === 0 ? " mj" : ""}" data-t="${(n - 4) / 2}" style="--r:${deg}deg"></i>`;
+}).join("");
+const labels = VALS.map(v => `<span class="lb mono" data-v="${v}" style="--r:${v * 60}deg"><span dir="ltr">${lbl(v)}</span></span>`).join("");
+
+// ───────── שירותים ─────────
+const SERVICES = [
+  ["אבחון מצלמה", "בודקים תריס, מד אור, אטמי אור ומכסה הסרט, ומצלמים גליל בדיקה. תקבלו דוח כתוב תוך 48 שעות.", "90", "מתקזז מהתיקון"],
+  ["תיקון וכיול", "החלפת אטמים, שחרור תריס תקוע, כיול מהירויות וניקוי עדשה. אחריות של שנה על כל עבודה.", "260", "מחיר התחלתי"],
+  ["פיתוח וסריקה", "שחור-לבן וצבע, מפותח ביד ונסרק ברזולוציה גבוהה. דחיפה או משיכה בתוספת 10 שקלים.", "59", "לגליל"],
+  ["שירות לפני טיול", "ניקוי, בדיקת אטמים וגליל בדיקה, כדי שלא תגלו בחו\"ל שהתריס לא נסגר.", "150", "הכל כלול"],
+];
+const svcHtml = (s, i) => `<li class="reveal" style="--i:${i}"><a class="svc" href="#s01-visit" data-svc="${s[0]}"><span class="no mono" aria-hidden="true">0${i + 1}</span><span class="sv-t"><h3>${s[0]}</h3><p>${s[1]}</p></span><span class="sv-p"><b class="mono">₪${s[2]}</b><small>${s[3]}</small></span></a></li>`;
+const keyHtml = (s, i) => `<label class="key"><input type="radio" name="svc" value="${s[0]}"${i === 0 ? " checked" : ""}><span>${s[0]}</span></label>`;
+
+// ───────── CSS ─────────
+const NOISE = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.4 -.2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")`;
+
+const CSS = `@font-face{font-family:"MV Google Sans";src:url("../assets/fonts/google-sans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+.cwrap{container-type:inline-size}
+.q{--paper:#E7E3DB;--plate:#F3F0EA;--well:#D9D4CA;--hov:#E6E2D9;--ink:#1D1B19;--muted:#59544C;
+ --night:#1B1A18;--night-2:#262523;--n-ink:#F1EEE8;--n-mut:#B8B3AA;
+ --red:#B8271D;--red-d:#9E1F16;--red-hi:#F0584C;--on-red:#FFF6F3;--err:#B3261E;
+ --r:24px;--r-key:14px;--ease:${EASE};--grain:${NOISE};
+ --lift:inset 1px 1px 0 rgba(255,255,255,.8),inset -1px -1px 0 rgba(60,50,38,.1),3px 5px 12px rgba(52,44,34,.2),1px 2px 3px rgba(52,44,34,.16);
+ --lift-up:inset 1px 1px 0 rgba(255,255,255,.85),inset -1px -1px 0 rgba(60,50,38,.1),4px 8px 18px rgba(52,44,34,.24),1px 3px 4px rgba(52,44,34,.16);
+ --press:inset 2px 3px 6px rgba(52,44,34,.34),inset -1px -1px 0 rgba(255,255,255,.65);
+ --sunk:inset 2px 3px 6px rgba(52,44,34,.24),inset -1px -1px 1px rgba(255,255,255,.7);
+ --sec:112px;--gut:clamp(20px,5cqi,72px);
+ background-color:var(--paper);background-image:radial-gradient(1400px 900px at 0 0,#F1EEE8,rgba(241,238,232,0) 70%);color:var(--ink);font-family:"MV Google Sans","Google Sans",system-ui,sans-serif;font-size:16px;line-height:1.65;overflow:clip;position:relative;isolation:isolate;-webkit-font-smoothing:antialiased}
+.q *{box-sizing:border-box}
+.q h1,.q h2,.q h3,.q p,.q ul,.q ol,.q figure,.q blockquote,.q address,.q fieldset,.q legend{margin:0}
+.q ul,.q ol{list-style:none;padding:0}
+.q fieldset{border:0;padding:0;min-width:0}
+.q a{color:inherit;text-decoration:none}
+.q address{font-style:normal}
+.q img{display:block;max-width:100%}
+.q button{font:inherit;color:inherit}
+.q .mono{font-family:ui-monospace,"SFMono-Regular",Consolas,monospace;font-variant-numeric:tabular-nums;unicode-bidi:isolate}
+.q h1{font-size:clamp(40px,5cqi,68px);line-height:1.08;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
+.q h2{font-size:clamp(30px,3.4cqi,46px);line-height:1.15;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.q h3{font-size:20px;line-height:1.35;font-weight:500}
+.q p{text-wrap:pretty}
+.q .lead{font-size:18px;line-height:1.6;color:var(--muted);max-width:520px}
+.q .micro{font-size:14px;line-height:1.5;color:var(--muted)}
+.q .eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:14px;font-weight:500;line-height:1.2;color:var(--muted)}
+.q .eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:inset 1px 1px 1px rgba(255,255,255,.5),0 0 0 3px rgba(184,39,29,.16);flex:none}
+.q .ico{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none;display:block}
+.q .ico.s{width:20px;height:20px}
+.q .skip{position:absolute;inset-inline-start:16px;top:-80px;z-index:60;background:var(--plate);color:var(--ink);padding:12px 20px;border-radius:var(--r-key);font-weight:500;box-shadow:var(--lift)}
+.q .skip:focus{top:8px}
+.q :is(a,button,summary,[tabindex]):focus-visible{outline:3px solid var(--red);outline-offset:3px;border-radius:var(--r-key)}
+/* מקשי פעולה: שלוש רמות, ארבעה מצבים. מקש מורם, ובלחיצה שוקע */
+.q .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 28px;border:0;border-radius:var(--r-key);background:linear-gradient(180deg,#BE2C22,#A9221A);color:var(--on-red);font-size:16px;font-weight:700;line-height:1;cursor:pointer;box-shadow:inset 1px 1px 0 rgba(255,255,255,.34),inset -1px -1px 0 rgba(0,0,0,.2),3px 5px 10px rgba(110,22,14,.34);transition:background .18s var(--ease),box-shadow .18s var(--ease),transform .18s var(--ease);-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.q .btn:active{background:linear-gradient(180deg,#A9221A,#B3271D);box-shadow:inset 2px 3px 6px rgba(60,8,4,.55),inset -1px -1px 0 rgba(255,255,255,.18);transform:translateY(1px);transition-duration:.12s}
+.q .btn:focus-visible{border-radius:var(--r-key)}
+.q .btn.sm{min-height:44px;padding:10px 20px;font-size:15px}
+.q .btn.b2{background:linear-gradient(180deg,#F8F6F2,#E1DDD5);color:var(--ink);box-shadow:var(--lift)}
+.q .btn.b2:active{background:linear-gradient(180deg,#DCD8CF,#E4E0D8);box-shadow:var(--press)}
+.q .lnk{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:12px 0;background:none;border:0;font-size:15px;font-weight:500;line-height:1;color:var(--ink);cursor:pointer;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:6px;transition:color .15s var(--ease),text-decoration-color .15s var(--ease)}
+.q .lnk .ico{transition:transform .2s var(--ease)}
+@media (hover:hover) and (pointer:fine){
+.q .btn:hover{background:linear-gradient(180deg,#C8352B,#B0261D);transform:translateY(-1px);box-shadow:inset 1px 1px 0 rgba(255,255,255,.4),inset -1px -1px 0 rgba(0,0,0,.2),4px 8px 14px rgba(110,22,14,.36)}
+.q .btn.b2:hover{background:linear-gradient(180deg,#FFFFFF,#E8E4DC);box-shadow:var(--lift-up)}
+.q .lnk:hover{color:var(--red-d);text-decoration-color:var(--red-d)}
+.q .lnk:hover .ico{transform:translateX(-4px)}
+}
+/* שדות: חמישה מצבים (רגיל, מיקוד, מלא, שגיאה, מושבת). שקע בנייר */
+.q .fld{display:flex;flex-direction:column;gap:8px}
+.q .fld label,.q .legend{font-size:14px;font-weight:500;line-height:1.2;color:var(--ink)}
+.q .in{font:inherit;font-size:16px;line-height:1.2;min-height:52px;padding:14px 18px;border:0;border-radius:var(--r-key);background:var(--well);color:var(--ink);box-shadow:var(--sunk);appearance:none;width:100%;transition:background .15s var(--ease),box-shadow .15s var(--ease)}
+.q .in::placeholder{color:#57524A}
+.q .in:not(:placeholder-shown){background:#DDD8CE}
+.q .in:focus,.q .in:focus-visible{outline:0;background:#E2DED5;box-shadow:var(--sunk),0 0 0 3px var(--red)}
+.q .fld.err .in{box-shadow:var(--sunk),0 0 0 2px var(--err)}
+.q .fld .msg{display:none;align-items:center;gap:6px;font-size:14px;line-height:1.3;color:var(--err)}
+.q .fld.err .msg{display:inline-flex}
+.q .in:disabled{background:#CFCABF;color:#6E695F;box-shadow:none}
+/* reveal: keyframes ולא transition. התוכן גלוי בלי JS; רק .js מסתיר */
+.q.js .reveal{opacity:0}
+.q .reveal.is-in{animation:skrev .5s ${EASE} both;animation-delay:calc(var(--i,0) * 70ms)}
+@keyframes skrev{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+/* פתיחת עמוד אחת: ההדר יורד, אחריו הטקסט, אחרון הצילום והלוחית */
+.q .hd-bar{animation:skhd .7s ${EASE} both}
+.q .oi{animation:skup .6s ${EASE} both}
+.q .oi:nth-child(1){animation-delay:.1s}.q .oi:nth-child(2){animation-delay:.18s}.q .oi:nth-child(3){animation-delay:.26s}.q .oi:nth-child(4){animation-delay:.34s}.q .oi:nth-child(5){animation-delay:.42s}
+.q .hero-vis{animation:skvis 1s ${EASE} .2s both}
+.q .plate{animation:skappear .6s ${EASE} .9s both}
+@keyframes skhd{from{opacity:0;translate:0 -18px}to{opacity:1;translate:0 0}}
+@keyframes skup{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
+@keyframes skvis{from{opacity:0;translate:0 40px}to{opacity:1;translate:0 0}}
+@keyframes skappear{from{opacity:0;translate:0 12px}to{opacity:1;translate:0 0}}
+@keyframes sknew{from{color:var(--red-hi)}to{color:var(--n-ink)}}
+/* תמונות: טיפול אחד. רדיוס 24, אותו קצה מוצל מהאור (הדגשה בפינה העליונה-שמאלית) ואותו צל נופל ימינה ולמטה */
+.q .pic{position:relative;overflow:hidden;border-radius:var(--r);background:var(--well);box-shadow:5px 9px 24px rgba(52,44,34,.28),1px 2px 4px rgba(52,44,34,.2)}
+.q .pic img{width:100%;height:100%;object-fit:cover;border-radius:inherit;transition:transform .4s var(--ease)}
+.q .pic::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,0) 38%);box-shadow:inset 1px 1px 0 rgba(255,255,255,.5),inset -1px -1px 0 rgba(0,0,0,.18)}
+@media (hover:hover) and (pointer:fine){.q .pic:hover img{transform:scale(1.03)}}
+/* מבנה */
+.q .wrap{max-width:1240px;margin-inline:auto}
+.q .sec{padding:var(--sec) var(--gut)}
+.q .head{display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:600px;margin-bottom:40px}
+.q section[id]{scroll-margin-top:96px}
+/* הדר: לוח עליון של מצלמה, מורם, עם headroom */
+.q .hd{position:sticky;top:0;z-index:30;height:76px;margin-bottom:-76px;padding-inline:var(--gut);pointer-events:none}
+.q .hd-bar{position:relative;pointer-events:auto;max-width:1240px;height:64px;margin:12px auto 0;padding-inline:12px 12px;display:flex;align-items:center;gap:24px;background:linear-gradient(180deg,#F8F6F2,#EDE9E2);border-radius:20px;box-shadow:var(--lift);transition:transform .4s var(--ease)}
+.q .hd.is-hidden .hd-bar{transform:translateY(calc(-100% - 24px))}
+.q .logo{display:inline-flex;align-items:center;gap:12px;min-height:44px;white-space:nowrap;font-size:22px;font-weight:700;line-height:1;color:var(--ink)}
+.q .emb{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#FBFBF9,#BDBBB5);box-shadow:inset 1px 1px 0 rgba(255,255,255,.9),inset -1px -2px 3px rgba(40,36,30,.25),2px 3px 6px rgba(52,44,34,.28);color:var(--ink)}
+.q .hd nav{display:flex;gap:4px;margin-inline:auto}
+.q .hd-bar>.btn{margin-inline-start:auto}
+.q .hd nav+.btn{margin-inline-start:0}
+.q .hd nav a{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;border-radius:12px;font-size:15px;font-weight:500;line-height:1;color:var(--muted);transition:background .15s var(--ease),color .15s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .hd nav a:hover{background:var(--hov);color:var(--ink)}}
+/* הירו */
+.q .hero{padding:112px var(--gut) 56px}
+.q .hero-in{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:64px;align-items:center;max-width:1240px;margin-inline:auto}
+.q .hero-txt{display:flex;flex-direction:column;align-items:flex-start;gap:24px}
+.q .hero h1{max-width:560px}
+.q .ctas{display:flex;align-items:center;flex-wrap:wrap;gap:8px 28px;margin-top:8px}
+.q .meta{display:flex;flex-wrap:wrap;gap:12px 24px;font-size:15px;line-height:1.3;color:var(--muted)}
+.q .meta li{display:flex;align-items:center;gap:8px}
+.q .hero-vis{position:relative}
+.q .hero-pic{aspect-ratio:6/5;max-height:min(560px,calc(100svh - 216px))}
+.q .hero-pic img{object-position:50% 62%}
+.q .plate{position:absolute;inset-inline-start:-40px;bottom:48px;z-index:3;display:flex;flex-direction:column;gap:2px;min-width:168px;padding:18px 24px 16px;border-radius:var(--r-key);background:repeating-linear-gradient(90deg,rgba(255,255,255,0) 0 2px,rgba(0,0,0,.025) 2px 3px),linear-gradient(160deg,#FAFAF8 0%,#D9D8D4 48%,#EEEEEB 100%);box-shadow:var(--lift-up)}
+.q .plate::before,.q .plate::after{content:"";position:absolute;top:10px;width:8px;height:8px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#9C9B97);box-shadow:inset -1px -1px 1px rgba(0,0,0,.3)}
+.q .plate::before{inset-inline-start:10px}.q .plate::after{inset-inline-end:10px}
+.q .plate small{margin-top:10px;font-size:14px;font-weight:500;line-height:1.3;color:var(--muted);text-shadow:1px 1px 0 rgba(255,255,255,.7)}
+.q .plate b{font-size:48px;line-height:1;font-weight:700;color:var(--ink);text-shadow:1px 1px 0 rgba(255,255,255,.75)}
+.q .plate span{font-size:14px;font-weight:500;line-height:1.3;color:var(--muted);text-shadow:1px 1px 0 rgba(255,255,255,.7)}
+/* הוכחה: הספסל, מונים שקועים ופתק ביקורת */
+.q .proof{padding:var(--sec) var(--gut)}
+.q .proof-in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"pic txt";gap:72px;align-items:center;max-width:1240px;margin-inline:auto}
+.q .p-pic{grid-area:pic;position:relative}
+.q .p-pic .pic{aspect-ratio:4/3}
+.q .slip{position:absolute;inset-inline-end:-32px;bottom:-40px;z-index:3;max-width:320px;padding:24px;border-radius:var(--r-key);background:var(--plate);box-shadow:var(--lift-up);rotate:-1.2deg}
+.q .slip blockquote{font-size:16px;line-height:1.6;color:var(--ink)}
+.q .slip figcaption{margin-top:12px;font-size:14px;line-height:1.4;color:var(--muted)}
+.q .p-txt{grid-area:txt;display:flex;flex-direction:column;align-items:flex-start;gap:24px}
+.q .p-txt .head{margin-bottom:0}
+.q .ctrs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;width:100%;margin-top:8px}
+.q .ctr{display:flex;flex-direction:column;gap:12px}
+.q .ctr b{display:block;padding:14px 16px;border-radius:var(--r-key);background:#161614;color:var(--n-ink);font-size:36px;line-height:1.1;font-weight:700;text-align:center;box-shadow:inset 2px 3px 8px rgba(0,0,0,.8),inset -1px -1px 0 rgba(255,255,255,.05),1px 1px 0 rgba(255,255,255,.75)}
+.q .ctr span{font-size:14px;line-height:1.4;color:var(--muted)}
+/* רגע החתימה: לוח אנודייז שחור עם חוגה אמיתית */
+.q .lab-wrap{padding:0 var(--gut)}
+.q .lab{position:relative;isolation:isolate;max-width:1360px;margin-inline:auto;padding:96px 72px;border-radius:48px;background:radial-gradient(900px 600px at 12% 0,#2E2D2A,rgba(46,45,42,0) 70%),var(--night);color:var(--n-ink);box-shadow:inset 1px 1px 0 rgba(255,255,255,.14),inset -1px -1px 0 rgba(0,0,0,.5),6px 12px 32px rgba(52,44,34,.38)}
+.q .lab::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;background:repeating-linear-gradient(90deg,rgba(255,255,255,.02) 0 1px,rgba(255,255,255,0) 1px 3px),var(--grain);background-size:auto,200px;opacity:.55;mix-blend-mode:overlay}
+.q .lab .eyebrow{color:var(--n-mut)}
+.q .lab .eyebrow::before{background:var(--red-hi);box-shadow:0 0 0 3px rgba(240,88,76,.2)}
+.q .lab .lead{color:var(--n-mut)}
+.q .lab :is(a,button,[tabindex]):focus-visible{outline-color:var(--red-hi)}
+.q .lab-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);column-gap:72px;align-items:center}
+.q .lab-a,.q .lab-b{display:flex;flex-direction:column;align-items:flex-start;gap:32px;min-width:0}
+.q .lab-a .head{margin-bottom:0}
+.q .lab-b{align-items:stretch}
+.q .stage{--a:0deg;position:relative;container-type:inline-size;width:min(392px,100%);aspect-ratio:1;align-self:center}
+.q .tk{position:absolute;inset:0;rotate:var(--r);pointer-events:none}
+.q .tk::before{content:"";position:absolute;top:12%;left:50%;width:.7%;height:3%;translate:-50% 0;border-radius:1px;background:#6E6A63;transition:background .2s var(--ease)}
+.q .tk.mj::before{height:5%;width:.9%;background:#A8A39A}
+.q .tk.mj.is-on::before{background:var(--red-hi)}
+.q .lb{position:absolute;inset:0;rotate:var(--r);pointer-events:none}
+.q .lb>span{position:absolute;top:1%;left:50%;width:10%;aspect-ratio:1;translate:-50% 0;rotate:calc(-1 * var(--r));display:grid;place-items:center;pointer-events:auto;font-size:15px;font-weight:700;line-height:1;color:var(--n-mut);cursor:pointer;border-radius:50%;transition:color .2s var(--ease)}
+.q .lb.is-on>span{color:var(--red-hi)}
+@media (hover:hover) and (pointer:fine){.q .lb>span:hover{color:var(--n-ink)}.q .lb.is-on>span:hover{color:var(--red-hi)}}
+.q .cap{position:absolute;bottom:3%;font-size:14px;font-weight:500;line-height:1.2;color:var(--n-mut);pointer-events:none}
+.q .cap.l{left:9%}.q .cap.r{right:9%}
+.q .knob{position:absolute;left:50%;top:50%;width:58%;aspect-ratio:1;translate:-50% -50%;border-radius:50%;touch-action:none;cursor:grab;outline:0}
+.q .knob.is-drag{cursor:grabbing}
+.q .knob:focus-visible{outline:0}
+.q .knob:focus-visible .k-well{box-shadow:inset 3px 5px 12px rgba(0,0,0,.9),0 0 0 3px var(--red-hi),1px 1px 0 rgba(255,255,255,.08)}
+.q .k-well{position:absolute;inset:-7%;border-radius:50%;background:#0E0E0D;box-shadow:inset 3px 5px 12px rgba(0,0,0,.9),1px 1px 0 rgba(255,255,255,.08);transition:box-shadow .15s var(--ease)}
+.q .k-rot{position:absolute;inset:0;border-radius:50%;rotate:var(--a);transition:rotate .4s var(--ease)}
+.q .knob.is-drag .k-rot{transition:none}
+.q .k-ring{position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(from 0deg,#DADAD6 0 1.2deg,#82827C 1.2deg 2.4deg)}
+.q .k-cap{position:absolute;inset:13%;border-radius:50%;background:repeating-radial-gradient(circle at 50% 50%,rgba(255,255,255,.08) 0 .5px,rgba(0,0,0,.07) .5px 1.5px),linear-gradient(145deg,#E9E9E5,#A4A49F)}
+.q .k-mark{position:absolute;left:50%;top:4.5%;width:4%;height:13%;translate:-50% 0;border-radius:2px;background:var(--red);box-shadow:inset 1px 1px 0 rgba(255,255,255,.4)}
+.q .k-sheen{position:absolute;inset:0;border-radius:50%;pointer-events:none;background:radial-gradient(circle at 27% 22%,rgba(255,255,255,.72),rgba(255,255,255,0) 38%),conic-gradient(from 200deg,rgba(255,255,255,0),rgba(255,255,255,.3) 12%,rgba(255,255,255,0) 28%,rgba(0,0,0,.3) 52%,rgba(255,255,255,0) 70%,rgba(255,255,255,.24) 90%,rgba(255,255,255,0));box-shadow:inset 1px 1px 1px rgba(255,255,255,.6),inset -2px -3px 5px rgba(0,0,0,.45),6px 10px 20px rgba(0,0,0,.6)}
+.q .vf{padding:10px;border-radius:34px;background:linear-gradient(145deg,#363431,#131312);box-shadow:inset 1px 1px 0 rgba(255,255,255,.14),inset -1px -1px 0 rgba(0,0,0,.6),8px 14px 30px rgba(0,0,0,.55);--b:1;--c:1;--s:1;--g:.18}
+.q .vf .pic{aspect-ratio:3/2;box-shadow:none}
+.q .vf .pic img{filter:brightness(var(--b)) contrast(var(--c)) saturate(var(--s));transition:filter .45s var(--ease),transform .4s var(--ease)}
+.q .vf .pic::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:var(--grain);background-size:200px;mix-blend-mode:overlay;opacity:var(--g);transition:opacity .45s var(--ease)}
+.q .vf[data-v="-2"]{--b:.8;--c:.78;--s:.85;--g:.08}
+.q .vf[data-v="-1"]{--b:.9;--c:.89;--s:.93;--g:.12}
+.q .vf[data-v="1"]{--b:1.14;--c:1.14;--s:1.05;--g:.32}
+.q .vf[data-v="2"]{--b:1.3;--c:1.3;--s:1.1;--g:.48}
+.q .rd{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.q .rd div{padding:14px 16px 12px;border-radius:var(--r-key);background:#0F0F0E;box-shadow:inset 2px 3px 8px rgba(0,0,0,.8),inset -1px -1px 0 rgba(255,255,255,.05),1px 1px 0 rgba(255,255,255,.08)}
+.q .rd small{display:block;font-size:14px;line-height:1.3;color:var(--n-mut)}
+.q .rd b{display:block;margin-top:6px;font-size:28px;line-height:1.1;font-weight:700;color:var(--n-ink)}
+.q .rd b.is-new{animation:sknew .6s ${EASE} both}
+.q .lab-note{display:flex;flex-direction:column;gap:8px;min-height:120px}
+.q .lab-note h3{font-size:20px;color:var(--n-ink)}
+.q .lab-note p{font-size:16px;line-height:1.6;color:var(--n-mut)}
+.q .lab-note .micro{color:var(--n-mut)}
+/* שירותים: מדף מורם, שורות שוקעות בלחיצה */
+.q .offer{padding:var(--sec) var(--gut)}
+.q .offer-in{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:72px;align-items:start;max-width:1240px;margin-inline:auto}
+.q .rack{display:flex;flex-direction:column;gap:4px;padding:16px;border-radius:28px;background:var(--plate);box-shadow:var(--lift)}
+.q .svc{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:20px;align-items:center;padding:24px;border-radius:var(--r);background:var(--plate);box-shadow:inset 0 0 0 rgba(0,0,0,0);transition:background .3s var(--ease),box-shadow .3s var(--ease)}
+.q .svc .no{font-size:18px;font-weight:700;line-height:1;color:var(--muted)}
+.q .sv-t{display:flex;flex-direction:column;gap:6px}
+.q .sv-t p{font-size:15px;line-height:1.55;color:var(--muted);max-width:440px}
+.q .sv-p{display:flex;flex-direction:column;align-items:flex-end;gap:4px;white-space:nowrap}
+.q .sv-p b{font-size:24px;line-height:1;font-weight:700;color:var(--ink)}
+.q .sv-p small{font-size:14px;line-height:1.3;color:var(--muted)}
+@media (hover:hover) and (pointer:fine){.q .svc:hover{background:var(--hov);box-shadow:var(--press)}}
+.q .svc:active{background:var(--hov);box-shadow:var(--press)}
+.q .of-foot{display:flex;align-items:center;flex-wrap:wrap;gap:8px 28px;margin-top:24px}
+.q .of-vis{position:relative;z-index:2;margin-top:calc(-1 * (var(--sec) + 64px))}
+.q .of-vis .pic{aspect-ratio:2/3}
+/* ביקור: תג תיקון על נייר, בלי קו */
+.q .visit{padding:var(--sec) var(--gut)}
+.q .visit-in{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:72px;align-items:center;max-width:1240px;margin-inline:auto}
+.q .vinfo{display:flex;flex-direction:column;gap:16px;margin-top:8px}
+.q .vinfo li{display:flex;align-items:flex-start;gap:12px}
+.q .vinfo .ico{margin-top:2px;color:var(--muted)}
+.q .vinfo div{display:flex;flex-direction:column;gap:2px;font-size:15px;line-height:1.5;color:var(--muted)}
+.q .vinfo b{font-size:16px;font-weight:500;color:var(--ink)}
+.q .vinfo a[href^="tel"]{align-self:flex-start;display:inline-flex;align-items:center;min-height:44px;margin-block:-10px;font-size:16px;font-weight:500;color:var(--ink);unicode-bidi:isolate;transition:color .15s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .vinfo a[href^="tel"]:hover{color:var(--red-d)}}
+.q .tagw{filter:drop-shadow(4px 8px 14px rgba(52,44,34,.26)) drop-shadow(1px 2px 2px rgba(52,44,34,.2))}
+.q .tag{position:relative;padding:72px 40px 40px;background-color:var(--plate);clip-path:polygon(32px 0,calc(100% - 32px) 0,100% 32px,100% 100%,0 100%,0 32px);border-radius:0 0 24px 24px}
+.q .tag::after{content:"";position:absolute;inset:0;pointer-events:none;background:var(--grain);background-size:200px;mix-blend-mode:multiply;opacity:.16}
+.q .tag>*{position:relative;z-index:1}
+.q .tag::before{content:"";position:absolute;top:24px;z-index:1;left:50%;width:20px;height:20px;translate:-50% 0;border-radius:50%;background:var(--paper);box-shadow:inset 2px 3px 4px rgba(52,44,34,.45)}
+.q .tag-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:24px}
+.q .tag-top h3{font-size:24px;font-weight:700}
+.q .tag-top span{font-size:15px;font-weight:700;color:var(--muted)}
+.q .form{display:flex;flex-direction:column;gap:24px}
+.q .form .row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.q .keys{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.q .key{position:relative}
+.q .key input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.q .key span{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:10px 18px;border-radius:12px;background:linear-gradient(180deg,#F8F6F2,#E1DDD5);box-shadow:var(--lift);font-size:15px;font-weight:500;line-height:1;transition:background .18s var(--ease),box-shadow .18s var(--ease),transform .18s var(--ease)}
+.q .key span::before{content:"";width:8px;height:8px;border-radius:50%;background:#B5B0A6;box-shadow:inset 1px 1px 1px rgba(0,0,0,.35);transition:background .18s var(--ease),box-shadow .18s var(--ease)}
+.q .key input:checked+span{background:var(--hov);box-shadow:var(--press);transform:translateY(1px)}
+.q .key input:checked+span::before{background:var(--red);box-shadow:0 0 0 3px rgba(184,39,29,.2)}
+.q .key input:focus-visible+span{outline:3px solid var(--red);outline-offset:3px}
+@media (hover:hover) and (pointer:fine){.q .key input:not(:checked):hover+span{background:linear-gradient(180deg,#FFFFFF,#E8E4DC);box-shadow:var(--lift-up)}}
+.q .form-foot{display:flex;align-items:center;flex-wrap:wrap;gap:16px 24px}
+.q .ok{display:none;flex-direction:column;align-items:flex-start;gap:16px;padding:16px 0 8px}
+.q .ok .tick{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:var(--hov);box-shadow:var(--press);color:var(--red)}
+.q .tag.is-sent .form{display:none}
+.q .tag.is-sent .ok{display:flex}
+/* פוטר: המשך הלוח השחור, פינות עליונות עגולות */
+.q .ft{padding:72px var(--gut) 40px;border-radius:56px 56px 0 0;background:var(--night);color:var(--n-mut);box-shadow:inset 1px 1px 0 rgba(255,255,255,.12)}
+.q .ft :is(a,button):focus-visible{outline-color:var(--red-hi)}
+.q .ft .logo{color:var(--n-ink)}
+.q .ft-top{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;max-width:1240px;margin-inline:auto}
+.q .ft-brand{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.q .ft-brand p{font-size:15px;line-height:1.6;max-width:300px}
+.q .ft-col{display:flex;flex-direction:column;font-size:15px;line-height:1.6}
+.q .ft-col span:not(.ft-h),.q .ft-col address{padding-block:6px}
+.q .ft-h{font-size:15px;font-weight:700;line-height:1.3;color:var(--n-ink);margin-bottom:8px}
+.q .ft-col a,.q .ft-bot a{display:inline-block;padding-block:6px;color:var(--n-mut);transition:color .15s var(--ease)}
+.q .ft-col a[href^="tel"]{unicode-bidi:isolate;align-self:flex-start}
+@media (hover:hover) and (pointer:fine){.q .ft-col a:hover,.q .ft-bot a:hover{color:var(--n-ink)}}
+.q .ft-bot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 32px;max-width:1240px;margin:48px auto 0;font-size:14px}
+.q .ft-bot nav{display:flex;gap:24px;flex-wrap:wrap}
+.q .ft-word{max-width:1240px;margin:40px auto 0;font-size:clamp(88px,22cqi,280px);font-weight:700;line-height:.9;letter-spacing:-.03em;color:#201F1D;text-shadow:-1px -1px 0 rgba(0,0,0,.7),1px 1px 0 rgba(255,255,255,.07);text-align:center;user-select:none;overflow:hidden}
+/* מובייל וטאבלט */
+@container (max-width:1023px){
+.q{--sec:88px}
+.q .hd-bar{gap:12px}
+.q .hd nav{gap:0}
+.q .hd nav a{padding:10px 12px}
+.q .hero-in{gap:40px}
+.q .plate{inset-inline-start:-16px}
+.q .proof-in{gap:56px}
+.q .slip{inset-inline-end:-16px}
+.q .lab{padding:72px 40px}
+.q .lab-grid{grid-template-columns:1fr;column-gap:0;row-gap:32px}
+.q .lab-a,.q .lab-b{display:contents}
+.q .lab .head{order:1;max-width:560px}
+.q .vf{order:2}
+.q .stage{order:3}
+.q .rd{order:4}
+.q .lab-note{order:5;min-height:0}
+.q .offer-in{grid-template-columns:1fr;gap:72px}
+.q .of-vis{margin-top:0;order:2}
+.q .of-vis .pic{aspect-ratio:16/10}
+.q .visit-in{grid-template-columns:1fr;gap:56px}
+.q .ft-top{grid-template-columns:1fr 1fr}
+.q .ft-col a,.q .ft-bot a{padding-block:12px}
+}
+@container (max-width:767px){
+.q{--sec:64px}
+.q .hd nav{display:none}
+.q .hd nav+.btn{margin-inline-start:auto}
+.q .hd-bar{margin-top:12px;padding-inline:8px 8px}
+.q .logo{font-size:20px}
+.q .hero{padding:88px var(--gut) 32px;min-height:100svh;display:flex;align-items:center}
+.q .hero-in{grid-template-columns:1fr;gap:24px;width:100%}
+.q .hero-txt{gap:16px}
+.q .ctas{width:100%;flex-direction:column;align-items:stretch;gap:0;margin-top:4px}
+.q .ctas .btn{width:100%}
+.q .ctas .lnk{justify-content:center}
+.q h1{font-size:36px}
+.q .lead{font-size:16px}
+.q .meta{display:none}
+.q .hero-pic{aspect-ratio:5/2;max-height:none}
+.q .hero-pic img{object-position:30% 74%}
+.q .plate{inset-inline-start:auto;inset-inline-end:12px;bottom:-24px;min-width:0;padding:12px 16px 10px}
+.q .plate small{margin-top:8px}
+.q .plate b{font-size:32px}
+.q .head{margin-bottom:32px}
+.q .proof-in{grid-template-columns:1fr;grid-template-areas:"txt" "pic";gap:64px}
+.q .slip{inset-inline-end:12px;bottom:-48px;max-width:272px;padding:16px 20px}
+.q .ctrs{gap:8px}
+.q .ctr b{font-size:28px;padding:12px 8px}
+.q .lab{padding:56px 20px;border-radius:32px}
+.q .vf{padding:8px;border-radius:28px}
+.q .rd{gap:8px}
+.q .rd div{padding:12px 12px 10px}
+.q .rd b{font-size:22px}
+.q .rd small{font-size:13px}
+.q .rack{padding:8px;border-radius:24px}
+.q .svc{grid-template-columns:1fr auto;gap:12px;padding:20px 16px}
+.q .svc .no{display:none}
+.q .of-vis .pic{aspect-ratio:4/3}
+.q .tag{padding:64px 20px 32px}
+.q .form .row{grid-template-columns:1fr}
+.q .form-foot .btn{width:100%}
+.q .ft{padding-top:56px;border-radius:40px 40px 0 0}
+.q .ft-top{grid-template-columns:1fr;gap:32px}
+.q .ft-bot{margin-top:32px}
+.q .ft-bot nav{gap:16px}
+}
+@media (prefers-reduced-motion:reduce){
+.q.js .reveal{opacity:1}
+.q .reveal.is-in,.q .hd-bar,.q .oi,.q .hero-vis,.q .plate,.q .rd b.is-new{animation:none}
+.q .btn,.q .lnk,.q .lnk .ico,.q .svc,.q .pic img,.q .hd-bar,.q .key span,.q .k-rot,.q .vf .pic img,.q .vf .pic::before,.q .tk::before,.q .lb>span{transition:none}
+.q .btn:hover,.q .btn:active,.q .key input:checked+span{transform:none}
+.q .pic:hover img,.q .lnk:hover .ico{transform:none}
+}`;
+
+// ───────── HTML ─────────
+const IMG = "../assets/media/real/s01/";
+
+const HTML = `<div class="cwrap sk-s01"><div class="q" id="s01-top">
+<a class="skip" href="#s01-main">דילוג לתוכן</a>
+<header class="hd"><div class="hd-bar">
+<a class="logo" href="#s01-top" aria-label="תריס, לראש הדף"><span class="emb">${I.aperture}</span><span>תריס</span></a>
+<nav aria-label="ראשי"><a href="#s01-lab">החוגה</a><a href="#s01-menu">שירותים</a><a href="#s01-visit">ביקור</a></nav>
+<a class="btn sm" href="#s01-visit">לקבוע אבחון</a>
+</div></header>
+<main id="s01-main">
+<section class="hero" aria-labelledby="s01-h1"><div class="hero-in">
+<div class="hero-txt">
+<span class="eyebrow oi">תריס, מעבדת פילם ותיקון מצלמות בתל אביב</span>
+<h1 class="oi" id="s01-h1">מצאתם מצלמת פילם במגירה ולא יודעים אם היא עובדת?</h1>
+<p class="lead oi">אנחנו בודקים את התריס והאטמים, מתקנים, מפתחים וסורקים. מקבלים אבחון כתוב תוך 48 שעות, ובסוף תמונות שאפשר להחזיק ביד.</p>
+<div class="ctas oi"><a class="btn" href="#s01-visit">לקבוע אבחון למצלמה</a><a class="lnk" href="#s01-lab">לראות איך מפתחים${I.arrow}</a></div>
+<ul class="meta oi"><li>${I.pin}<span>הרב קוק 12, תל אביב</span></li><li>${I.clock}<span data-open>ראשון עד חמישי, מ-10:00</span></li></ul>
+</div>
+<div class="hero-vis">
+<figure class="pic hero-pic"><img src="${IMG}hero-dial.webp" width="1900" height="1267" alt="אצבע מסובבת חוגת ISO חרוטה על גוף מצלמה שחור, על רקע בטון אפור" fetchpriority="high" decoding="async"></figure>
+<div class="plate" aria-label="אבחון כתוב תוך 48 שעות"><small>אבחון כתוב תוך</small><b class="mono">48</b><span>שעות מרגע שהמצלמה אצלנו</span></div>
+</div>
+</div></section>
+
+<section class="proof" id="s01-bench" aria-labelledby="s01-pf-h"><div class="proof-in">
+<div class="p-pic reveal">
+<figure class="pic"><img src="${IMG}bench-hands.webp" width="1500" height="1000" alt="ידיים מנקות גוף של מצלמה אנלוגית בפומפה על שולחן העבודה, ומדפי עץ מטושטשים ברקע" loading="lazy" decoding="async"></figure>
+<figure class="slip"><blockquote>המצלמה של אבא עמדה במגירה שלושים שנה. קיבלתי דוח כתוב על כל מה שתקול, מחיר לפני שהתחילו, ובסוף גם גליל בדיקה עם תמונות מהפארק.</blockquote><figcaption>נועה ל., תל אביב · ביקורת לדוגמה</figcaption></figure>
+</div>
+<div class="p-txt">
+<div class="head reveal"><span class="eyebrow">על הספסל</span><h2 id="s01-pf-h">מי מביא לנו מצלמות</h2><p class="lead">רובם מגיעים עם מצלמה שהייתה אצל ההורים או הסבים. אנחנו מתחילים מהשאלה מה הם רוצים לצלם בה, ורק אחר כך פותחים אותה.</p></div>
+<div class="ctrs reveal">
+<div class="ctr"><b class="mono" data-to="2400">2,400</b><span>גלילי פילם מפותחים בשנה</span></div>
+<div class="ctr"><b class="mono" data-to="48">48</b><span>שעות עד שיש אבחון כתוב</span></div>
+<div class="ctr"><b class="mono" data-to="12">12</b><span>חודשי אחריות על כל תיקון</span></div>
+</div>
+<p class="micro reveal">המספרים והביקורת להדגמה בלבד, לא של עסק אמיתי.</p>
+</div>
+</div></section>
+
+<section class="lab-wrap" id="s01-lab" aria-labelledby="s01-lb-h"><div class="lab"><div class="lab-grid">
+<div class="lab-a">
+<div class="head reveal"><span class="eyebrow">החוגה</span><h2 id="s01-lb-h">סובבו את החוגה וראו מה קורה לתמונה</h2><p class="lead">בפיתוח אפשר להציל גליל שצולם באור חלש, או לרכך גליל שצולם בשמש חזקה. זה נקרא דחיפה ומשיכה, ואנחנו עושים את זה ביד.</p></div>
+<div class="stage reveal" id="s01-stage">
+${ticks}${labels}
+<span class="cap l" aria-hidden="true">משיכה</span><span class="cap r" aria-hidden="true">דחיפה</span>
+<div class="knob" id="s01-knob" role="slider" tabindex="0" aria-label="חוגת הפיתוח, דחיפה ומשיכה בעצורים" aria-orientation="horizontal" aria-valuemin="-2" aria-valuemax="2" aria-valuenow="0" aria-valuetext="פיתוח רגיל, רגישות 400" aria-controls="s01-vf s01-note">
+<span class="k-well"></span><span class="k-rot"><span class="k-ring"></span><span class="k-cap"></span><span class="k-mark"></span></span><span class="k-sheen"></span>
+</div>
+</div>
+</div>
+<div class="lab-b">
+<div class="vf reveal" id="s01-vf" data-v="0"><figure class="pic"><img src="${IMG}street-light.webp" width="1700" height="1138" alt="רחוב עירוני בשעת שקיעה, אור שמש נמוך וצללים עמוקים עם דמות הולכת" loading="lazy" decoding="async"></figure></div>
+<div class="rd reveal"><div><small>זמן פיתוח</small><b class="mono" data-rd="t">09:30</b></div><div><small>רגישות בצילום</small><b class="mono" data-rd="iso">400</b></div><div><small>מחיר לגליל</small><b class="mono" data-rd="p">₪59</b></div></div>
+<div class="lab-note reveal" id="s01-note" aria-live="polite"><h3 data-rd="label">${STEPS["0"].label}</h3><p data-rd="txt">${STEPS["0"].txt}</p><p class="micro">גוררים את החוגה, לוחצים על מספר או משתמשים בחצים במקלדת. הערכים לדוגמה, לפילם 400 בפיתוח ידני.</p></div>
+</div>
+</div></div></section>
+
+<section class="offer" id="s01-menu" aria-labelledby="s01-of-h"><div class="offer-in">
+<div class="of-body">
+<div class="head reveal"><span class="eyebrow">מה אפשר להביא אלינו</span><h2 id="s01-of-h">ארבע עבודות, מחיר לכל אחת</h2><p class="lead">לפני שמתחילים מקבלים תשובה כתובה: מה תקול, כמה זה עולה וכמה זמן ייקח.</p></div>
+<ul class="rack">${SERVICES.map(svcHtml).join("")}</ul>
+<div class="of-foot reveal"><a class="lnk" href="#s01-visit">לפתוח תיק למצלמה${I.arrow}</a><p class="micro">המחירים לדוגמה וכוללים מע"מ.</p></div>
+</div>
+<div class="of-vis reveal">
+<figure class="pic"><img src="${IMG}negatives.webp" width="1400" height="933" alt="רצועות פילם שליליות מונחות זו על זו על משטח לבן" loading="lazy" decoding="async"></figure>
+</div>
+</div></section>
+
+<section class="visit" id="s01-visit" data-cta-end aria-labelledby="s01-vs-h"><div class="visit-in">
+<div class="v-info">
+<div class="head reveal"><span class="eyebrow">ביקור</span><h2 id="s01-vs-h">פותחים תיק למצלמה שלכם</h2><p class="lead">משאירים שם, טלפון ודגם המצלמה. נחזור עד סוף יום העבודה הבא עם מועד לבדיקה, ואפשר גם פשוט להגיע עם המצלמה.</p></div>
+<ul class="vinfo reveal">
+<li>${I.pin}<div><b>הרב קוק 12, תל אביב</b><span>קומת קרקע, בחצר הפנימית</span></div></li>
+<li>${I.clock}<div><b data-open>ראשון עד חמישי, מ-10:00</b><span>ראשון עד חמישי 10:00 עד 18:00, שישי 10:00 עד 13:00</span></div></li>
+<li>${I.phone}<div><a href="tel:+97235550187" dir="ltr">03-555-0187</a><span>אפשר להתקשר לשאול לפני שמגיעים</span></div></li>
+</ul>
+</div>
+<div class="tagw reveal"><div class="tag" id="s01-tag">
+<div class="tag-top"><h3>תיק תיקון</h3><span class="mono" dir="ltr">No. 0417</span></div>
+<form class="form" novalidate>
+<div class="row">
+<div class="fld"><label for="s01-name">שם</label><input class="in" id="s01-name" name="name" autocomplete="name" placeholder="איך נקרא לך" required aria-describedby="s01-name-m"><span class="msg" id="s01-name-m">${I.alert}איך נקרא לך?</span></div>
+<div class="fld"><label for="s01-tel">טלפון</label><input class="in" id="s01-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder="050 000 0000" required aria-describedby="s01-tel-m"><span class="msg" id="s01-tel-m">${I.alert}המספר לא נראה תקין, אפשר לבדוק?</span></div>
+</div>
+<div class="fld"><label for="s01-cam">דגם המצלמה</label><input class="in" id="s01-cam" name="cam" placeholder="לדוגמה: Canon AE-1" dir="auto"></div>
+<fieldset><legend class="legend">מה צריך?</legend><div class="keys">${SERVICES.map(keyHtml).join("")}</div></fieldset>
+<div class="form-foot"><button class="btn" type="submit">לפתוח תיק</button><p class="micro">בלי רשימות תפוצה. את הטלפון משתמשים רק כדי לחזור אליכם.</p></div>
+</form>
+<div class="ok" role="status" aria-live="polite"><span class="tick">${I.check}</span><h3>התיק נפתח</h3><p class="lead">קיבלנו את הפרטים. נחזור אליכם עד סוף יום העבודה הבא עם מועד לבדיקה.</p></div>
+</div></div>
+</div></section>
+</main>
+
+<footer class="ft"><div class="ft-top">
+<div class="ft-brand"><a class="logo" href="#s01-top" aria-label="תריס, לראש הדף"><span class="emb">${I.aperture}</span><span>תריס</span></a><p>מעבדת פילם ותיקון מצלמות אנלוגיות בתל אביב. אבחון כתוב, תיקון עם אחריות ופיתוח בעבודת יד.</p></div>
+<div class="ft-col"><p class="ft-h">שעות</p><span>ראשון עד חמישי, 10:00 עד 18:00</span><span>שישי, 10:00 עד 13:00</span></div>
+<div class="ft-col"><p class="ft-h">להגיע</p><address>הרב קוק 12, תל אביב</address><a href="tel:+97235550187" dir="ltr">03-555-0187</a><a href="https://waze.com/ul?q=%D7%94%D7%A8%D7%91%20%D7%A7%D7%95%D7%A7%2012%20%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91" rel="noopener">ניווט ב-Waze</a></div>
+<div class="ft-col"><p class="ft-h">באתר</p><a href="#s01-lab">החוגה</a><a href="#s01-menu">שירותים</a><a href="#s01-bench">על הספסל</a><a href="#s01-visit">ביקור</a></div>
+</div>
+<div class="ft-bot"><p>© <span data-year>2026</span> תריס</p><nav aria-label="משפטי"><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">הצהרת נגישות</a></nav><p>עוצב ופותח על ידי <a href="https://liavmatzri.co.il" rel="noopener">ליאב מצרי</a></p></div>
+<div class="ft-word" aria-hidden="true">תריס</div>
+</footer>
+</div></div>`;
+
+// ───────── JS ─────────
+// כל כתיבה ל-DOM בגלילה רק כשהערך השתנה. ההדר נדבק מתחת לסרגל המאגר רק כשהוא דביק ומוצג (בפרויקט אין סרגל).
+// reduced-motion: reveal ופתיחה כבויים והחוגה מסתובבת בלי אנימציה; הספירה במונים נעצרת על הערך הסופי.
+const JS = `(function(){var root=document.querySelector(".sk-s01");if(!root)return;var q=root.querySelector(".q");q.classList.add("js");
+var rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function $(s,r){return(r||q).querySelector(s)}function $$(s,r){return[].slice.call((r||q).querySelectorAll(s))}
+$$("[data-year]").forEach(function(e){e.textContent=new Date().getFullYear()});
+/* הדר: headroom */
+var hd=$(".hd"),top=document.querySelector(".vtop"),lastTop=-1,hidden=false,lastY=window.scrollY,acc=0;
+function place(){if(!hd||!top)return;var s=getComputedStyle(top),v=s.position==="sticky"&&s.display!=="none"?top.offsetHeight:0;if(v!==lastTop){lastTop=v;hd.style.top=v+"px"}}
+function setHidden(v){if(v===hidden)return;hidden=v;hd.classList.toggle("is-hidden",v)}
+function onScroll(){place();var y=window.scrollY,d=y-lastY;lastY=y;if(y<=96){acc=0;setHidden(false);return}
+acc=(d>0)===(acc>0)?acc+d:d;if(acc>6)setHidden(true);else if(acc<-6)setHidden(false)}
+window.addEventListener("scroll",onScroll,{passive:true});window.addEventListener("resize",place);hd.addEventListener("focusin",function(){setHidden(false)});place();
+/* שעות פתיחה בשעון ישראל */
+var HRS={0:[600,1080],1:[600,1080],2:[600,1080],3:[600,1080],4:[600,1080],5:[600,780]},DAY=["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
+function ft(m){var h=Math.floor(m/60),mm=m%60;return h+":"+(mm<10?"0":"")+mm}
+function il(){try{var o={};new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Jerusalem",weekday:"short",hour:"numeric",minute:"numeric",hourCycle:"h23"}).formatToParts(new Date()).forEach(function(x){o[x.type]=x.value});
+return{d:{Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6}[o.weekday],m:(+o.hour%24)*60+(+o.minute)}}catch(e){return null}}
+var n=il();if(n){var h=HRS[n.d],open=!!h&&n.m>=h[0]&&n.m<h[1],txt;
+if(open){txt="פתוח עכשיו עד "+ft(h[1])}else{var k,dd,hh;for(k=0;k<8;k++){dd=(n.d+k)%7;hh=HRS[dd];if(hh&&(k>0||n.m<hh[0]))break}
+txt="סגור כרגע, נפתח "+(k===0?"היום":k===1?"מחר":"ביום "+DAY[dd])+" ב-"+ft(HRS[dd][0])}
+$$("[data-open]").forEach(function(e){e.textContent=txt})}
+/* reveal פעם אחת */
+var els=$$(".reveal");
+if(rm||!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("is-in")})}
+else{var io=new IntersectionObserver(function(en){en.forEach(function(x){if(!x.isIntersecting)return;x.target.classList.add("is-in");io.unobserve(x.target)})},{threshold:.12});els.forEach(function(e){io.observe(e)})}
+/* מונים: סופרים פעם אחת כשנכנסים למסך */
+var ctrs=$(".ctrs"),cb=$$(".ctr b");
+function fmt(v){return v>=1000?String(v).replace(/\\B(?=(\\d{3})+(?!\\d))/g,","):String(v)}
+function countUp(){cb.forEach(function(b){var to=+b.dataset.to,t0=null;function f(ts){if(t0===null)t0=ts;var p=Math.min(1,(ts-t0)/900),e=1-Math.pow(1-p,3);b.textContent=fmt(Math.round(to*e));if(p<1)requestAnimationFrame(f)}requestAnimationFrame(f)})}
+if(ctrs&&!rm&&"IntersectionObserver" in window){cb.forEach(function(b){b.textContent="0"});var co=new IntersectionObserver(function(en){if(en[0].isIntersecting){countUp();co.disconnect()}},{threshold:.4});co.observe(ctrs)}
+/* החוגה: דחיפה ומשיכה. גוררים, לוחצים על מספר או משתמשים בחצים */
+var S={"-2":{t:"06:30",iso:"100",p:"79",label:"משיכה של שני עצורים",txt:${JSON.stringify(STEPS["-2"].txt)}},
+"-1":{t:"07:45",iso:"200",p:"69",label:"משיכה של עצור אחד",txt:${JSON.stringify(STEPS["-1"].txt)}},
+"0":{t:"09:30",iso:"400",p:"59",label:"פיתוח רגיל",txt:${JSON.stringify(STEPS["0"].txt)}},
+"1":{t:"12:00",iso:"800",p:"69",label:"דחיפה של עצור אחד",txt:${JSON.stringify(STEPS["1"].txt)}},
+"2":{t:"15:30",iso:"1600",p:"79",label:"דחיפה של שני עצורים",txt:${JSON.stringify(STEPS["2"].txt)}}};
+var stage=$(".stage"),knob=$(".knob"),vf=$(".vf"),cur=0,drag=false,cx=0,cy=0,lastA=0,first=true;
+var rd={};$$("[data-rd]").forEach(function(e){rd[e.dataset.rd]=e});
+function setTxt(k,v,flash){var e=rd[k];if(!e||e.textContent===v)return;e.textContent=v;if(flash&&!rm){e.classList.remove("is-new");void e.offsetWidth;e.classList.add("is-new")}}
+function angle(a){stage.style.setProperty("--a",a+"deg")}
+function set(v,fromDrag){v=Math.max(-2,Math.min(2,Math.round(v)));if(!fromDrag)angle(v*60);if(v===cur&&!first)return;var changed=v!==cur;cur=v;first=false;var s=S[String(v)];
+vf.setAttribute("data-v",String(v));knob.setAttribute("aria-valuenow",String(v));knob.setAttribute("aria-valuetext",s.label+", רגישות "+s.iso);
+setTxt("t",s.t,changed);setTxt("iso",s.iso,changed);setTxt("p","₪"+s.p,changed);setTxt("label",s.label,false);setTxt("txt",s.txt,false);
+$$(".lb").forEach(function(e){e.classList.toggle("is-on",+e.dataset.v===v)});
+$$(".tk.mj").forEach(function(e){e.classList.toggle("is-on",+e.dataset.t===v)});
+if(changed&&navigator.vibrate){try{navigator.vibrate(8)}catch(e){}}}
+function move(e){var a=Math.atan2(e.clientX-cx,-(e.clientY-cy))*180/Math.PI;if(Math.abs(a)>130)a=lastA>=0?130:-130;lastA=a;angle(a);set(a/60,true)}
+knob.addEventListener("pointerdown",function(e){drag=true;try{knob.setPointerCapture(e.pointerId)}catch(x){}var r=knob.getBoundingClientRect();cx=r.left+r.width/2;cy=r.top+r.height/2;lastA=cur*60;knob.classList.add("is-drag");move(e)});
+knob.addEventListener("pointermove",function(e){if(drag)move(e)});
+function end(){if(!drag)return;drag=false;knob.classList.remove("is-drag");angle(cur*60)}
+knob.addEventListener("pointerup",end);knob.addEventListener("pointercancel",end);knob.addEventListener("lostpointercapture",end);
+knob.addEventListener("keydown",function(e){var k=e.key,d=0;
+if(k==="ArrowUp"||k==="ArrowRight"||k==="PageUp")d=1;else if(k==="ArrowDown"||k==="ArrowLeft"||k==="PageDown")d=-1;
+else if(k==="Home"){e.preventDefault();set(-2);return}else if(k==="End"){e.preventDefault();set(2);return}else return;
+e.preventDefault();set(cur+d)});
+$$(".lb").forEach(function(l){l.addEventListener("click",function(){set(+l.dataset.v)})});
+set(0);
+/* שירותים: לחיצה על שורה בוחרת את המקש בטופס */
+$$(".svc").forEach(function(a){a.addEventListener("click",function(){var r=$('input[name="svc"][value="'+a.dataset.svc+'"]');if(r)r.checked=true})});
+/* טופס פתיחת תיק */
+var form=$(".form"),tag=$("#s01-tag");
+if(form)form.addEventListener("submit",function(e){e.preventDefault();var nm=form.elements.name,tl=form.elements.tel,bad=null;
+function chk(f,ok){var w=f.closest(".fld");w.classList.toggle("err",!ok);f.setAttribute("aria-invalid",String(!ok));if(!ok&&!bad)bad=f}
+chk(nm,nm.value.trim().length>1);chk(tl,tl.value.replace(/\\D/g,"").length>=9);
+if(bad){bad.focus();return}tag.classList.add("is-sent");var ok=$(".ok");if(ok){ok.setAttribute("tabindex","-1");ok.focus()}});
+})();`;
+
+const base = {
+  cat: "style", area: "doctrine", status: "מאושר", runway: false, tech: "שפת עיצוב · רמת סטודיו",
+  en: "Skeuomorphism", group: "עומק ומרקם",
+  when: "מעבדות ובתי מלאכה: צילום ופילם, שעונים, נגינה ואודיו, אופניים, נגרות, קפה מיוחד, מספרות ישנות, כל עסק שמוכר מגע, מכונה וחומר ורוצה שהאתר ירגיש כמו חפץ שמחזיקים ביד. מתאים כשיש חפץ אחד אמיתי שאפשר לפרק ולתאר, וצילום אמיתי עם אור כיווני.",
+  no: "פיננסים, ביטוח, משפט ופנסיה; מערכות, דשבורדים ו-SaaS עסקי, שם הטקסטורה גונבת פוקוס מהנתונים. וגם לא כשאין חפץ או חומר אמיתי להציג: בלי מקור פיזי הסקיאומורפיזם נראה כמו קישוט מ-2011.",
+  recipe: `פלטה: נייר חם #E7E3DB (הרקע, אף פעם לא לבן) · plate #F3F0EA (המשטח המורם) · well #D9D4CA (השקע) · hov #E6E2D9 (שורה לחוצה) · ink #1D1B19 · muted #59544C
+אנודייז שחור #1B1A18 (הלוח והפוטר) · טקסט עליו #F1EEE8, משני #B8B3AA · אדום איתות #B8271D לכפתור, למנורת הנורה, לסימן החוגה ולטבעת המיקוד; #F0584C על השחור
+מקור אור אחד: למעלה משמאל. כל הדגשה היא קו בהיר של 1px בקצה העליון-שמאלי (inset 1px 1px 0 rgba(255,255,255,.8)), וכל צל נופל ימינה ולמטה (3px 5px 12px, שמרני). הצל הוא של משפחת הנייר, לא שחור טהור
+שלושה מצבי משטח כמשתני CSS: --lift (מורם: הדגשה + צל כפול), --press (לחוץ: inset 2px 3px 6px כהה + הדגשה קלה בקצה התחתון-ימני), --sunk (שקוע: שדות ומונים)
+כפתור ראשי: אדום מדורג עדין (#BE2C22 ל-#A9221A, לא גלוסי), hover עולה 1px, active שוקע ב-inset ויורד 1px; משני: אלומיניום #F8F6F2 ל-#E1DDD5; שלישי: טקסט וחץ
+חוגה: טבעת מחוררת repeating-conic-gradient (1.2deg לסירוגין), כיפה ב-repeating-radial-gradient דק, ושכבת ברק נייחת (radial בפינה העליונה-שמאלית + conic) שלא מסתובבת, כי האור לא מסתובב עם החפץ
+טקסטורה על 3 חפצים בלבד: החוגה, לוח האנודייז (רעש 55% עם overlay) ותג התיקון (רעש עם multiply). כל השאר שטוח ורגוע
+רדיוסים: מקש 14 · כרטיס, שורה ותמונה 24 · מדף 28 · מסגרת הצילום בלוח 34 · לוח 48 · פוטר 56 עליון
+Google Sans בלבד, שלושה משקלים: 700 כותרות ומספרים, 500 תוויות, 400 גוף · H1 68/1.08/-.02em (יחס 3.78) · H2 46 · H3 20 · ליד 18 · גוף 16 · ספרות לטיניות בלבד במונוספייס של המערכת
+תנועה: reveal 16px/0.5s, סטאגר 70ms בקבוצה, פתיחה 0.6 עד 1s, חוגה 0.4s, פילטר התמונה 0.45s, headroom 0.4s · ease cubic-bezier(.2,.6,.2,1)`,
+  apply: "הדר כלוח עליון מורם של מצלמה עם סמל אלומיניום ו-headroom. הירו בשני טורים: הטקסט בהתחלה וצילום מקרוב של חוגה אמיתית בסוף, עם לוחית אלומיניום חרוטה שחוצה את קצה הצילום. הוכחה: מונים שקועים בשחור (כמו מונה פריימים) ופתק נייר מורם שנוגע בצילום. רגע החתימה על לוח אנודייז שחור וגדול, מרחף על הנייר בפינות עגולות: חוגה אמיתית משמאל לתמונה, ושלושה חלונות קריאה. שירותים כמדף אחד מורם ושורות שנלחצות פנימה בהובר. טופס כתג תיקון מנייר עם חור, שדות שקועים ומקשי בחירה עם נורה. הפוטר ממשיך את הלוח השחור בפינות עליונות עגולות. אפס קווים ומסגרות: ההפרדה היא בצל ובמשטח.",
+  sig: "חוגת דחיפה ומשיכה שמזיזה דבר אמיתי: התמונה (בהירות, ניגודיות, גרגר), זמן הפיתוח, הרגישות והמחיר · ברק נייח על חוגה מסתובבת (האור לא מסתובב עם החפץ) · לוחית אלומיניום חרוטה בקצה הצילום · מונים שקועים בשחור שסופרים · תג תיקון מנייר עם חור · מקש שנלחץ פנימה (inset) ונורה אדומה קטנה כשהוא לחוץ.",
+  avoid: "תפרים, עור, עץ מלוטש וירוק לבד: זה 2011, לא מלאכה · גרדיאנט גלוסי על כל כפתור · טקסטורה על כל אלמנט (כאן רק שלושה חפצים) · צלליות לכל הכיוונים: אור אחד, למעלה משמאל · קו או מסגרת אפורה של פיקסל (קצה חומרי הוא הדגשה בהירה, לא מסגרת) · שדה שקוע בלי טבעת מיקוד · חוגה בלי גישה במקלדת · צל שחור טהור על נייר.",
+  qa: ["מקור אור אחד: כל הדגשה בקצה העליון-שמאלי וכל צל נופל ימינה ולמטה", "טקסטורה רק על החוגה, לוח האנודייז ותג התיקון", "שלושה חומרים בלבד: נייר, אלומיניום ואנודייז שחור", "החוגה נגישה: role=slider, aria-valuenow, חצים, Home ו-End, ולחיצה על מספר", "אדום רק בכפתור, בנורה, בסימן החוגה ובטבעת המיקוד", "אין קו או מסגרת אפורה של פיקסל; הפרדה בצל ובמשטח", "שלושה משקלים (700, 500, 400), בלי ריווח חיובי בעברית"],
+  engine: "ניגודיות (נמדד 15.10.2026): ink #1D1B19 על נייר 13.4 · muted #59544C על נייר 5.9, על plate 6.6, על well 5.1 · לבן #FFF6F3 על האדום #BE2C22 5.5 ועל #A9221A 6.7 · אדום טקסט #B8271D על נייר 4.9 ועל plate 5.5 (על well 4.25 נופל, ולכן שורה לחוצה מקבלת hov #E6E2D9 ולא well, והמחירים בצבע ink) · טקסט #F1EEE8 על השחור 15.0, #B8B3AA 8.3, #F0584C על השחור 5.1 ועל חלון הקריאה #0F0F0E 5.7 · placeholder #57524A על שדה 5.3. שדות 16px. החוגה נגישה מלאה (slider, חצים, Home, End, לחיצה על מספר) ורועדת רק ב-vibrate קצר אם יש. בלי JS החוגה עומדת על פיתוח רגיל והכל נראה. reduced-motion מכבה reveal, פתיחה, סיבוב החוגה ואנימציות המונים.",
+  agent: "עצב בסגנון סקיאומורפי מרוסן ('תחייה מישוש'): חפץ אחד אמיתי כגיבור, מקור אור אחד למעלה משמאל, וחומרים שנקראים דרך אור ולא דרך קישוט. פלטה: נייר חם (#E7E3DB), משטח מורם בהיר, אלומיניום מוברש לחפצים, אנודייז שחור ללוחות, ואדום איתות אחד לנורות, כפתורים וסימונים. הדגשה של פיקסל בקצה העליון-שמאלי של כל חפץ וצל שנופל ימינה ולמטה (--lift, --press, --sunk). בקרים מתנהגים פיזית: מקש שוקע בלחיצה, חוגה שמסתובבת ונועלת בשלבים עם ברק נייח, שדה שקוע. טקסטורה על שלושה חפצים בלבד והשאר שטוח. רגע חתימה: חוגה (slider נגיש) שמזיזה דבר אמיתי בעמוד. צילום אמיתי עם אור כיווני. Google Sans בלבד, שלושה משקלים. בלי תפרים, עור, עץ מלוטש, גלוסי על הכל או קווים אפורים.",
+  mobile: "ההדר: הניווט נעלם והמקש הראשי (44px) נשאר בלוח. ההירו ממורכז אנכית במסך הראשון: טקסט, מקש ברוחב מלא, וצילום רחב וצר שחותך סביב החוגה, עם לוחית החרוטה שיורדת על פינת הצילום. המונים בשלוש עמודות קטנות. הלוח השחור מצטמצם (פינות 32), והסדר בו הוא כותרת, תמונה, חוגה, חלונות קריאה והסבר, כך שהחוגה והתמונה נמצאות באותו מסך. החוגה מתכווצת לפי רוחב הלוח (cqw) ונשארת נגישה בגרירה, במספרים ובמקלדת. השירותים בשורות בלי מספור, וטופס התג בעמודה אחת עם מקשי בחירה של 44px.",
+  fonts: [],
+};
 
 export default [
-sk({
-  id: "s01", archived: true, name: "סקיאומורפיזם", en: "Skeuomorphism", group: "עומק ומרקם",
-  desc: "מחקה את העולם האמיתי: חומרים, צללים ריאליסטיים, כפתורים שנלחצים פיזית.",
-  when: "אודיו ומוזיקה, שלטים, ארנקים דיגיטליים, כל מה שרוצה תחושת מכשיר.",
-  no: "דשבורדים ו-SaaS עסקי. הטקסטורה גונבת פוקוס מהדאטה.",
-  recipe: `--bg: #E8E4DC (נייר או פשתן, אף פעם לא לבן) · טקסטורת רעש עדינה (noise 2-3% opacity)
-כפתור: gradient אנכי בהיר לכהה 8% + border כהה 1px + צל: 0 1px 0 rgba(255,255,255,.6) inset (הברקה עליונה), 0 3px 6px rgba(0,0,0,.25)
-lifted: צל כפול כבד 0 8px 20px rgba(0,0,0,.3); pressed: inset 0 2px 6px rgba(0,0,0,.35)
-רדיוסים בינוניים 8-12; חומרים: עור, עץ, מתכת כרקעי אזור, במשורה`,
-  apply: "הדר = משטח חומר עדין; הירו = החפץ או המכשיר במרכז כגיבור; טקסטורה רק ברקעי אזור וכפתורים, לעולם לא מאחורי טקסט רץ; טפסים = שקעים פיזיים עדינים; אייקונים תלת-ממדיים בסגנון אחד עקבי.",
-  sig: "כפתור שמרגיש לחיץ (הברקה עליונה + צל) · מעבר חומר מוגדר: עור כהה בהדר ובחבילה הנבחרת מול נייר בגוף · חפץ אמיתי אחד בהירו.",
-  avoid: "טקסטורה שונה בכל סקשן · ריאליזם על הכל כולל אזורי טקסט · צללים בלי מקור אור אחיד. חייב כיוון אור אחד לכל העמוד.",
-  qa: ["מקור אור אחיד", "אין טקסטורה מאחורי טקסט רץ", "לכל היותר שני חומרים לעמוד"],
-  engine: "קונטרסט AA מעל כל טקסטורה; טקסטורות כתמונות דחוסות.",
-  agent: "עצב בסגנון סקיאומורפי: אלמנטים שמחקים חומרים אמיתיים, צללים ריאליסטיים ממקור אור אחיד, תחושת עומק פיזית של כפתורים.",
-  note: "בדמו: אור מלמעלה בכל אלמנט (הברקה עליונה, צל תחתון), שני חומרים בלבד (נייר ועור כהה), רעש ב-5% על הרקע בלבד. הכפתור שוקע בלחיצה.",
-  css: `.sk-s01 .ref{--s-bg:#E8E4DC;--s-surface:#F3EFE7;--s-ink:#2B2620;--s-muted:#6B6259;--s-line:#CFC7B9;--s-accent:#8B5A2B;--s-accent-txt:#7A4A1E;--s-accent-ink:#FFF7EA;--s-r:10px;--s-ph:#D9D2C4;--s-ph-ink:#D8CFC0;--s-accent-soft:#E2DCCF;
- --s-card-b:1px solid #C9C0AF;--s-card-sh:inset 0 1px 0 rgba(255,255,255,.7),0 3px 6px rgba(0,0,0,.18);
- --s-btn-b:1px solid #5E3C1A;--s-btn-sh:inset 0 1px 0 rgba(255,255,255,.45),0 3px 6px rgba(0,0,0,.25);
- --s-in-b:1px solid #B9AF9C;--s-in-bg:#E2DCCF;--s-in-sh:inset 0 2px 5px rgba(0,0,0,.2);
- --s-hd-bg:linear-gradient(#3F332A,#2C231C);--s-hi-bg:linear-gradient(#4A3B2F,#33271E);--s-ico-bg:linear-gradient(#F8F4EC,#D8D0C0);--s-ico-b:1px solid #B9AF9C}
-.sk-s01 .ref::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.05;background:${NOISE};z-index:0}
-.sk-s01 .hd{color:#F3EFE7;box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 4px 10px rgba(0,0,0,.25)}
-.sk-s01 .hd .nav{color:#D8CFC0}
-.sk-s01 .btn{background:linear-gradient(#9C6534,#8B5A2B)}
-.sk-s01 .btn:active{box-shadow:inset 0 2px 6px rgba(0,0,0,.35);transform:translateY(1px)}
-.sk-s01 .btn.ghost{background:linear-gradient(#F8F4EC,#E2DCCF);color:#2B2620;border:1px solid #B9AF9C;box-shadow:inset 0 1px 0 #fff,0 2px 4px rgba(0,0,0,.15)}
-.sk-s01 .hero-v{background:linear-gradient(#3F332A,#221B16);border:1px solid #17120F;box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 8px 20px rgba(0,0,0,.3)}
-.sk-s01 .hv-a{position:absolute;inset:14% 12% 34%;border-radius:8px;background:linear-gradient(#5A4A3C,#3B2F26);box-shadow:inset 0 2px 8px rgba(0,0,0,.6),0 1px 0 rgba(255,255,255,.1)}
-.sk-s01 .hv-b{position:absolute;bottom:9%;inset-inline-start:50%;translate:50% 0;width:56px;height:56px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#C9A46A,#8B5A2B 60%,#5E3C1A);box-shadow:0 4px 10px rgba(0,0,0,.5),inset 0 1px 2px rgba(255,255,255,.6)}
-.sk-s01 .hv-l{margin-bottom:22%}
-.sk-s01 .price.hi{box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 8px 20px rgba(0,0,0,.3);border:1px solid #17120F}
-.sk-s01 .price.hi .amt,.sk-s01 .price.hi li::before{color:#E8C58A}
-.sk-s01 .in::placeholder{color:#5F574E}`,
-}),
+  {
+    ...base,
+    id: "s01", name: "סקיאומורפיזם",
+    desc: "אלומיניום מוברש, אנודייז שחור ונייר חם, מואר ממקור אחד למעלה משמאל. בקרים שמתנהגים פיזית: מקש שנלחץ פנימה וחוגה אמיתית שמזיזה את התמונה. כאן כעמוד אמיתי של מעבדת פילם ותיקון מצלמות (דמיונית), בגרסה מרוסנת, לא כמו 2011.",
+    score: "רף הסטודיו 15.10.2026: 18 מתוך 19 סעיפים נמדדים עברו, כל סעיפי ה-★ עברו. הסעיף היחיד שנפל (7, eyebrow) נפל כי הצבע של ה-eyebrow בלוח השחור בהיר מזה שעל הנייר; הגודל, המשקל והצורה זהים. השער עבר, בלי שגיאות JS.",
+    note: "עסק דמיוני: תריס, מעבדת פילם ותיקון מצלמות בתל אביב (כתובת, טלפון, מספרים וביקורת הם הדגמה). תמונות סטוק בחינם ולא AI, הומרו ל-WebP, בסך הכל כ-333KB: hero-dial.webp (stock 54166519, אצבע על חוגת ISO), street-light.webp (stock 13319393, רחוב בשקיעה), bench-hands.webp (stock 34002890, ידיים עם פומפת אוויר על מצלמה), negatives.webp (stock 3605631, רצועות פילם). קרדיטים שנוצלו: 0 (יתרה 147723 לפני ואחרי). רגע החתימה: חוגת דחיפה ומשיכה (slider נגיש) שמזיזה את הצילום, זמן הפיתוח, הרגישות והמחיר. החוגה בנויה באחוזים מתוך הבמה ולא ביחידות cqw, כי cqw בתוך אלמנט שהוא container נמדד בכרום לא כמו שציפינו (גודל החוגה יצא קטן ב-30%).",
+    css: CSS, html: HTML, js: JS,
+  },
 ];

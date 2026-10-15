@@ -34,102 +34,520 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* S02 · נאומורפיזם */
-.cwrap{container-type:inline-size}
-.ref{--pad:clamp(20px,4cqi,64px);--s-bg:#f7f7fa;--s-surface:#fff;--s-ink:#16182b;--s-muted:#5f6278;--s-line:#e4e4ee;--s-accent:#4a3aff;--s-accent-ink:#fff;--s-r:16px;--s-ph:#dfe0ea;--s-ph-ink:#6a6d85;--s-gap:20px;
- background:var(--s-bg);color:var(--s-ink);font-family:var(--s-font,inherit);overflow:hidden;position:relative;isolation:isolate;line-height:calc(1.35 * var(--s-lh,1))}
-.ref *{box-sizing:border-box}
-.ref h1,.ref h2,.ref h3{margin:0;color:var(--s-head,var(--s-ink))}
-.ref h1,.ref h2{font-family:var(--s-font-h,var(--s-font,inherit));font-weight:var(--s-wt-h,700);line-height:calc(1.1 * var(--s-lh-h,var(--s-lh,1)))}
-.ref h3{font-family:var(--s-font,inherit);font-weight:var(--s-wt-h3,700);line-height:calc(1.1 * var(--s-lh,1))}
-.ref p{margin:0;color:var(--s-muted)}
-.ref a{color:inherit;text-decoration:none}
-.hd{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px var(--pad);background:var(--s-hd-bg,transparent);border-bottom:var(--s-hd-line,0);position:sticky;top:0;z-index:2}
-.logo{font-weight:800;font-size:calc(18px * var(--s-fz,1));display:inline-flex;align-items:center;gap:8px}
-.logo::before{content:"";width:22px;height:22px;border-radius:var(--s-logo-r,6px);background:var(--s-accent);flex:none}
-.nav{display:flex;gap:22px;font-size:calc(14.5px * var(--s-fz,1));font-weight:500;color:var(--s-muted)}
-.nav a{padding-block:4px}
-.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:clamp(24px,5cqi,64px);align-items:center;padding:clamp(40px,7cqi,96px) var(--pad);position:relative;z-index:1}
-.hero-t{position:relative}
-.eyebrow{display:inline-block;font-size:calc(13px * var(--s-fz,1));font-weight:600;color:var(--s-accent-txt,var(--s-accent));margin-bottom:14px}
-.hero h1{font-size:calc(clamp(32px,5.2cqi,64px) * var(--s-fz-h,var(--s-fz,1)));max-width:16ch;margin-bottom:16px}
-.ref .lead{font-size:calc(clamp(16px,1.6cqi,20px) * var(--s-fz,1));max-width:44ch;margin-bottom:24px}
-.ctas{display:flex;gap:12px;flex-wrap:wrap}
-.ref .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:var(--s-btn-r,var(--s-r));background:var(--s-accent);color:var(--s-accent-ink);font-weight:600;font-size:calc(15.5px * var(--s-fz,1));border:var(--s-btn-b,0);box-shadow:var(--s-btn-sh,none);cursor:pointer;font-family:inherit;line-height:calc(1.2 * var(--s-lh,1));transition:transform .2s,box-shadow .2s,background .2s}
-.ref .btn.ghost{background:var(--s-ghost-bg,transparent);color:var(--s-ghost-ink,var(--s-ink));border:var(--s-ghost-b,1px solid var(--s-line));box-shadow:none}
-.ref .btn:active{transform:scale(.98)}
-.ref .btn:focus-visible,.ref .in:focus-visible{outline:2px solid var(--s-accent-txt,var(--s-accent));outline-offset:3px}
-.ref p,.ref li{line-height:calc(1.6 * var(--s-lh,1))}
-@media (prefers-reduced-motion:reduce){.ref *,.ref *::before,.ref *::after{transition:none!important;animation:none!important}}
-.ref .btn.sm{padding:9px 16px;font-size:calc(14px * var(--s-fz,1))}
-.hero-v{aspect-ratio:4/3;border-radius:var(--s-r);background:var(--s-ph);display:grid;place-items:center;color:var(--s-ph-ink);font-weight:600;position:relative;box-shadow:var(--s-card-sh,none);border:var(--s-card-b,0);overflow:hidden}
-.hv-a,.hv-b{display:block}
-.hv-l{position:relative;z-index:1}
-.bens,.prices,.form{scroll-margin-top:80px}
-.sec{padding:clamp(36px,6cqi,88px) var(--pad);position:relative;z-index:1}
-.sec h2{font-size:calc(clamp(24px,3.2cqi,40px) * var(--s-fz-h,var(--s-fz,1)));margin-bottom:clamp(20px,3cqi,36px)}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s-gap)}
-.card{background:var(--s-surface);border:var(--s-card-b,1px solid var(--s-line));border-radius:var(--s-r);padding:clamp(20px,2.6cqi,32px);box-shadow:var(--s-card-sh,none);position:relative;transition:transform .2s,box-shadow .2s}
-.num,.bars{display:none}
-.ico{display:block;width:44px;height:44px;border-radius:var(--s-ico-r,12px);background:var(--s-ico-bg,var(--s-accent-soft,#eef0ff));margin-bottom:18px;border:var(--s-ico-b,0)}
-.card h3{font-size:calc(clamp(17px,1.7cqi,21px) * var(--s-fz,1));margin-bottom:8px}
-.card p{font-size:calc(15px * var(--s-fz,1));line-height:calc(1.5 * var(--s-lh,1))}
-.price .amt{font-size:calc(clamp(28px,3.4cqi,42px) * var(--s-fz-h,var(--s-fz,1)));font-weight:var(--s-wt-h,800);margin:12px 0 16px;color:var(--s-head,var(--s-ink));font-family:var(--s-font-h,inherit);line-height:calc(1 * var(--s-lh-h,var(--s-lh,1)))}
-.price .amt small{font-size:calc(13px * var(--s-fz-h,var(--s-fz,1)));font-weight:500;color:var(--s-muted);margin-inline-start:6px}
-.price ul{list-style:none;padding:0;margin:0 0 20px;display:grid;gap:8px;font-size:calc(14.5px * var(--s-fz,1));color:var(--s-muted)}
-.price li::before{content:"✓";color:var(--s-accent-txt,var(--s-accent));font-weight:700;margin-inline-end:8px}
-.price .btn{width:100%}
-.price.hi{background:var(--s-hi-bg,var(--s-ink));color:var(--s-hi-ink,#fff);border:var(--s-hi-b,0);transform:var(--s-hi-lift,translateY(-8px))}
-.price.hi h3,.price.hi .amt,.price.hi ul,.price.hi p,.price.hi .amt small{color:inherit}
-.price.hi .btn{background:var(--s-hi-btn,var(--s-accent));color:var(--s-hi-btn-ink,var(--s-accent-ink))}
-.tag{position:absolute;top:-12px;inset-inline-start:20px;font-size:calc(12px * var(--s-fz,1));font-weight:700;padding:4px 12px;border-radius:999px;background:var(--s-accent);color:var(--s-accent-ink);line-height:calc(1.3 * var(--s-lh,1))}
-.fbox{max-width:640px;margin-inline:auto;text-align:center;background:var(--s-form-bg,var(--s-surface));border:var(--s-card-b,1px solid var(--s-line));border-radius:var(--s-r);padding:clamp(24px,4cqi,48px);box-shadow:var(--s-card-sh,none)}
-.fbox p{margin:10px auto 22px;max-width:40ch}
-.frm{display:grid;grid-template-columns:1fr 1fr auto;gap:10px}
-.in{padding:13px 16px;border-radius:var(--s-in-r,var(--s-r));border:var(--s-in-b,1px solid var(--s-line));background:var(--s-in-bg,#fff);color:var(--s-ink);font:inherit;font-size:calc(16px * var(--s-fz,1));box-shadow:var(--s-in-sh,none);min-width:0}
-.ft{display:flex;justify-content:space-between;gap:16px;padding:22px var(--pad);font-size:calc(13px * var(--s-fz,1));color:var(--s-muted);border-top:1px solid var(--s-line);position:relative;z-index:1}
-@container (max-width:767px){.hero{grid-template-columns:1fr}.hero-v{order:-1;aspect-ratio:16/10}.grid3{grid-template-columns:1fr}.nav{display:none}.frm{grid-template-columns:1fr}.price.hi{transform:none}.hero h1{max-width:none}.ref .btn{min-height:48px}.ref .btn.sm{min-height:44px}}
-.sk-s02 .ref{--s-bg:#E0E5EC;--s-surface:#E0E5EC;--s-ink:#2F3641;--s-muted:#5B6575;--s-line:rgba(163,177,198,.35);--s-accent:#4B5CF0;--s-accent-txt:#3A49D8;--s-accent-ink:#fff;--s-r:22px;--s-ph:#E0E5EC;--s-ph-ink:#5B6575;
- --s-card-b:0;--s-card-sh:-6px -6px 14px rgba(255,255,255,.8),6px 6px 14px rgba(163,177,198,.6);
- --s-btn-sh:-4px -4px 10px rgba(255,255,255,.8),4px 4px 10px rgba(163,177,198,.6);
- --s-in-b:0;--s-in-bg:#E0E5EC;--s-in-sh:inset -4px -4px 10px rgba(255,255,255,.7),inset 4px 4px 10px rgba(163,177,198,.5);
- --s-hi-bg:#E0E5EC;--s-hi-ink:#2F3641;--s-ico-bg:#E0E5EC;--s-ico-r:50%;--s-ghost-b:0;--s-ghost-bg:#E0E5EC;--s-form-bg:#E0E5EC}
-.sk-s02 .btn.ghost{box-shadow:var(--s-btn-sh)}
-.sk-s02 .btn:active,.sk-s02 .btn.ghost:active{box-shadow:var(--s-in-sh)}
-.sk-s02 .ico{box-shadow:var(--s-in-sh)}
-.sk-s02 .hero-v{box-shadow:var(--s-card-sh)}
-.sk-s02 .hv-a{position:absolute;inset:auto 14% 16%;height:34px;border-radius:17px;background:#E0E5EC;box-shadow:var(--s-in-sh)}
-.sk-s02 .hv-b{position:absolute;bottom:calc(16% + 3px);inset-inline-start:calc(14% + 3px);width:28px;height:28px;border-radius:50%;background:#4B5CF0;box-shadow:2px 2px 6px rgba(163,177,198,.7)}
-.sk-s02 .hv-l{margin-bottom:40px}
-.sk-s02 .price.hi{box-shadow:var(--s-card-sh),inset 0 0 0 2px #4B5CF0}
-.sk-s02 .price.hi .amt,.sk-s02 .price.hi h3{color:#3A49D8}
-.sk-s02 .tag{box-shadow:2px 2px 6px rgba(163,177,198,.7)}
-.sk-s02 .ft{border-top:0}
-.sk-s02 .in::placeholder{color:#535C6B}
+@font-face{font-family:"MV Google Sans";src:url("https://liavwebdesign-spec.github.io/motion-vault/assets/fonts/google-sans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+.cwrap{container-type:inline-size;overflow-x:clip}
+.q{--g:#DCE3E6;--g-h:#D3DBDF;--g2:#E8EDEF;--g3:#CBD4D9;--ink:#1F2A33;--mut:#4A5963;--ember:#C2410C;--ember-d:#A8370A;--ember-t:#A8370A;--on-ember:#FFFFFF;--err:#B3261E;--ph:#4F5E68;
+ --lt:rgba(255,255,255,.92);--dk:rgba(104,128,142,.46);--z:0 0 0 0 transparent;
+ --sh-l:-12px -12px 28px var(--lt),12px 12px 28px var(--dk),inset 0 0 0 0 transparent,inset 0 0 0 0 transparent;
+ --sh-m:-6px -6px 14px var(--lt),6px 6px 14px var(--dk),inset 0 0 0 0 transparent,inset 0 0 0 0 transparent;
+ --sh-s:-3px -3px 8px var(--lt),3px 3px 8px var(--dk),inset 0 0 0 0 transparent,inset 0 0 0 0 transparent;
+ --in-l:var(--z),var(--z),inset 9px 9px 20px var(--dk),inset -9px -9px 20px var(--lt);
+ --in-m:var(--z),var(--z),inset 5px 5px 12px var(--dk),inset -5px -5px 12px var(--lt);
+ --in-s:var(--z),var(--z),inset 3px 3px 7px var(--dk),inset -3px -3px 7px var(--lt);
+ --flat:var(--z),var(--z),inset 0 0 0 0 transparent,inset 0 0 0 0 transparent;
+ --r-photo:28px;--ease:cubic-bezier(.2,.6,.2,1);--sec:112px;--gut:clamp(20px,5cqi,72px);
+ background:var(--g);color:var(--ink, #16182b);font-family:"MV Google Sans","Google Sans",system-ui,sans-serif;font-size:16px;line-height:1.65;overflow:clip;position:relative;isolation:isolate;-webkit-font-smoothing:antialiased}
+.q *{box-sizing:border-box}
+.q h1,.q h2,.q h3,.q h4,.q p,.q ul,.q ol,.q figure,.q blockquote,.q address,.q fieldset,.q legend{margin:0}
+.q ul,.q ol{list-style:none;padding:0}
+.q fieldset{border:0;padding:0;min-width:0}
+.q a{color:inherit;text-decoration:none}
+.q address{font-style:normal}
+.q img{display:block;max-width:100%}
+.q button{font:inherit;color:inherit}
+.q h1{font-size:clamp(34px,4.2cqi,52px);line-height:1.1;font-weight:500;letter-spacing:-.01em;text-wrap:balance}
+.q h2{font-size:clamp(28px,3cqi,38px);line-height:1.18;font-weight:500;text-wrap:balance}
+.q h3{font-size:20px;line-height:1.35;font-weight:500}
+.q h4{font-size:17px;line-height:1.35;font-weight:500}
+.q p{text-wrap:pretty}
+.q .lead{font-size:17px;line-height:1.58;color:var(--mut);max-width:500px}
+.q .micro{font-size:13px;line-height:1.45;color:var(--mut)}
+.q .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;line-height:1;color:var(--ember-t)}
+.q .num{font-variant-numeric:tabular-nums;unicode-bidi:isolate;white-space:nowrap}
+.q .ico{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none;display:block}
+.q .ico.s{width:20px;height:20px}
+.q .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.q .skip{position:absolute;inset-inline-start:16px;top:-80px;z-index:60;background:var(--g);color:var(--ink, #16182b);padding:12px 20px;border-radius:999px;font-weight:500;box-shadow:var(--sh-m)}
+.q .skip:focus{top:8px}
+.q :is(a,button,summary,input,[tabindex]):focus-visible{outline:3px solid var(--ember-t);outline-offset:3px}
+.q .btn:focus-visible,.q .ch:focus-visible,.q .rbtn:focus-visible,.q .sw:focus-visible{outline:3px solid var(--ember-t);outline-offset:3px}
+/* כפתורים: ראשי מלא · משני בולט · שלישי טקסט וחץ */
+.q .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 28px;border:0;border-radius:999px;background:var(--ember);color:var(--on-ember);font-size:16px;font-weight:600;line-height:1;cursor:pointer;transition:background .18s var(--ease),transform .18s var(--ease),box-shadow .25s var(--ease);-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.q .btn:active{transform:scale(.98);transition-duration:.12s}
+.q .btn.sm{min-height:44px;padding:10px 24px;font-size:15px}
+.q .btn.n{background:var(--g);color:var(--ink, #16182b);font-weight:500;box-shadow:var(--sh-m)}
+.q .btn.n .ico{color:var(--ember-t)}
+.q .btn.n:active{transform:none;box-shadow:var(--in-m)}
+.q .lnk{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:12px 0;background:none;border:0;font-size:15px;font-weight:500;line-height:1;color:var(--ink, #16182b);cursor:pointer;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:6px;transition:color .15s var(--ease),text-decoration-color .15s var(--ease)}
+.q .lnk .ico{transition:transform .18s var(--ease)}
+@media (hover:hover) and (pointer:fine){
+.q .btn:hover{background:var(--ember-d);transform:translateY(-2px)}
+.q .btn.n:hover{background:var(--g-h);transform:none}
+.q .lnk:hover{color:var(--ember-t);text-decoration-color:var(--ember-t)}
+.q .lnk:hover .ico{transform:translateX(-4px)}
+}
+/* בוררים: בולט = אפשר ללחוץ · שקוע + צבע + וי = פעיל */
+.q .ch{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:10px 20px;border:0;border-radius:999px;background:var(--g);color:var(--ink, #16182b);font-size:15px;font-weight:500;line-height:1.1;cursor:pointer;box-shadow:var(--sh-m);transition:background .2s var(--ease),box-shadow .3s var(--ease),color .2s var(--ease);-webkit-tap-highlight-color:transparent}
+.q .ch .ico:not(.tick){color:var(--ink, #16182b);transition:color .2s var(--ease)}
+.q .ch .t{display:inline-flex;flex-direction:column;align-items:center}
+.q .ch .t::after{content:attr(data-t);height:0;visibility:hidden;overflow:hidden;font-weight:600}
+.q .ch .tick{color:var(--ember-t);opacity:0;transition:opacity .2s var(--ease)}
+.q .ch[aria-checked="true"],.q .ch[aria-selected="true"]{box-shadow:var(--in-m);color:var(--ember-t);font-weight:600}
+.q .ch[aria-checked="true"] .ico:not(.tick),.q .ch[aria-selected="true"] .ico:not(.tick){color:var(--ember)}
+.q .ch[aria-checked="true"] .tick,.q .ch[aria-selected="true"] .tick{opacity:1}
+@media (hover:hover) and (pointer:fine){.q .ch[aria-checked="false"]:hover,.q .ch[aria-selected="false"]:hover{background:var(--g-h)}}
+.q .ch:active{box-shadow:var(--in-m)}
+/* שדות: שקועים. רגיל, focus, מלא, שגיאה (צבע + אייקון + טקסט), מושבת */
+.q .fld{display:flex;flex-direction:column;gap:10px}
+.q .fld label,.q .legend{font-size:14px;font-weight:500;line-height:1.2;color:var(--ink, #16182b)}
+.q .in{font:inherit;font-size:16px;line-height:1.2;min-height:52px;padding:14px 24px;border:0;border-radius:999px;background:var(--g);color:var(--ink, #16182b);appearance:none;width:100%;box-shadow:var(--in-m);transition:box-shadow .25s var(--ease)}
+.q .in::placeholder{color:var(--ph)}
+.q .in:focus,.q .in:focus-visible{outline:3px solid var(--ember-t);outline-offset:3px}
+.q .fld.err .in{outline:3px solid var(--err);outline-offset:0}
+.q .fld .msg{display:none;align-items:center;gap:6px;font-size:13px;line-height:1.3;color:var(--err)}
+.q .fld.err .msg{display:inline-flex}
+.q .in:disabled{box-shadow:var(--flat);background:var(--g-h);color:var(--mut)}
+/* reveal: keyframes ולא transition. התוכן גלוי בלי JS; רק .js מסתיר */
+.q.js .reveal{opacity:0}
+.q .reveal.is-in{animation:norev .5s cubic-bezier(.2,.6,.2,1) both;animation-delay:calc(var(--i,0) * 70ms)}
+@keyframes norev{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+/* פתיחת עמוד: ההדר יורד, הטקסט עולה, הצילום מופיע אחרון */
+.q .hd{animation:nohd .7s cubic-bezier(.2,.6,.2,1) both}
+.q .oi{animation:noup .6s cubic-bezier(.2,.6,.2,1) both}
+.q .oi:nth-child(1){animation-delay:.1s}.q .oi:nth-child(2){animation-delay:.18s}.q .oi:nth-child(3){animation-delay:.26s}.q .oi:nth-child(4){animation-delay:.34s}.q .oi:nth-child(5){animation-delay:.42s}
+.q .hero-vis{animation:novis .9s cubic-bezier(.2,.6,.2,1) .2s both}
+@keyframes nohd{from{opacity:0;translate:0 -14px}to{opacity:1;translate:0 0}}
+@keyframes noup{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
+@keyframes novis{from{opacity:0;translate:0 36px}to{opacity:1;translate:0 0}}
+/* תמונות: טיפול אחד. רדיוס 28, שטוחות על הקרקע בלי צל, אותו גריידינג קר שנאפה בקובץ */
+.q .pic{overflow:hidden;border-radius:var(--r-photo);background:var(--g3)}
+.q .pic img{width:100%;height:100%;object-fit:cover;border-radius:inherit;transition:transform .5s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .pic:hover img{transform:scale(1.03)}}
+/* מבנה */
+.q .wrap{max-width:1320px;margin-inline:auto}
+.q .sec{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gut)}
+.q .head{display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:660px;margin-bottom:56px}
+.q .head.c{align-items:center;text-align:center;margin-inline:auto}
+.q .head.c .lead{margin-inline:auto}
+.q section[id]{scroll-margin-top:88px}
+/* הדר: שטוח על הקרקע, צל רק אחרי גלילה */
+.q .hd{position:sticky;top:0;z-index:30;background:var(--g);transition:transform .4s var(--ease),box-shadow .3s var(--ease)}
+.q .hd.is-scrolled{box-shadow:0 14px 24px -16px var(--dk)}
+.q .hd.is-hidden{transform:translateY(-100%);box-shadow:none}
+.q .hd-in{display:flex;align-items:center;gap:24px;max-width:1320px;height:80px;margin-inline:auto;padding-inline:var(--gut)}
+.q .logo{display:inline-flex;align-items:center;gap:10px;min-height:44px;white-space:nowrap;font-size:22px;font-weight:600;line-height:1;color:var(--ink, #16182b)}
+.q .logo .ico{color:var(--ember)}
+.q .hd nav{display:flex;gap:4px;margin-inline:auto}
+.q .hd nav a{display:inline-flex;align-items:center;min-height:44px;font-size:15px;font-weight:500;line-height:1;color:var(--mut);padding:10px 16px;border-radius:999px;transition:background .15s var(--ease),color .15s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .hd nav a:hover{background:var(--g-h);color:var(--ink, #16182b)}}
+/* הירו */
+.q .hero{min-height:calc(100svh - 80px);display:flex;align-items:center;padding:24px var(--gut) 48px}
+.q .hero-in{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:72px;align-items:center;width:100%;max-width:1320px;margin-inline:auto}
+.q .hero-txt{display:flex;flex-direction:column;align-items:flex-start;gap:24px}
+.q .hero h1{max-width:560px}
+.q .ctas{display:flex;align-items:center;flex-wrap:wrap;gap:12px 28px;margin-top:8px}
+.q .hero-vis{display:flex;flex-direction:column;gap:24px}
+.q .hero-img{aspect-ratio:3/2;max-height:min(520px,calc(100svh - 280px));width:100%}
+.q .hero-img img{object-position:40% 40%}
+.q .well{display:flex;align-items:center;gap:14px;min-height:56px;padding:12px 28px;border-radius:999px;background:var(--g);box-shadow:var(--in-m);font-size:15px;line-height:1.3;color:var(--mut)}
+.q .well .ico{color:var(--ember)}
+.q .well b{font-weight:600;color:var(--ink, #16182b)}
+/* מדדים: טבעות שקועות */
+.q .gauges{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;max-width:1040px;margin-inline:auto}
+.q .gauge{display:flex;flex-direction:column;align-items:center;gap:24px;text-align:center}
+.q .g-ring{position:relative;width:clamp(136px,13cqi,168px);aspect-ratio:1;border-radius:50%;background:var(--g);box-shadow:var(--in-s);display:grid;place-items:center}
+.q .g-ring svg{position:absolute;inset:11%;width:78%;height:78%}
+.q .g-trk{fill:none;stroke:var(--g3);stroke-width:9}
+.q .g-arc{fill:none;stroke:var(--ember);stroke-width:9;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:calc(100 - var(--v));transition:stroke-dashoffset 1s var(--ease)}
+.q.js .gauge:not(.is-in) .g-arc{stroke-dashoffset:100}
+.q .g-num{direction:ltr;position:relative;display:flex;align-items:baseline;gap:4px;font-size:40px;line-height:1;font-weight:600;color:var(--ink, #16182b);font-variant-numeric:tabular-nums}
+.q .g-num small{font-size:18px;font-weight:500;color:var(--mut)}
+.q .gauge figcaption{display:flex;flex-direction:column;gap:4px;max-width:240px}
+.q .gauge figcaption b{font-size:17px;font-weight:500;line-height:1.35}
+.q .gauge figcaption span{font-size:14px;line-height:1.4;color:var(--mut)}
+.q .proof-note{text-align:center;margin-top:40px}
+/* ביקורות: רצועה בהירה, טקסט שטוח בלי כרטיסים */
+.q .proof{padding-bottom:0}
+.q .band{margin-top:72px;padding:88px var(--gut);border-radius:56px;background:var(--g2)}
+.q .rvs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:56px;max-width:1240px;margin-inline:auto}
+.q .rv{display:flex;flex-direction:column;gap:20px}
+.q .rv blockquote{font-size:19px;line-height:1.6;color:var(--ink, #16182b)}
+.q .rv figcaption{display:flex;flex-direction:column;gap:4px}
+.q .rv figcaption b{font-size:15px;font-weight:600;line-height:1.3}
+.q .rv figcaption span{font-size:14px;line-height:1.3;color:var(--mut)}
+.q .band .micro{max-width:1240px;margin:48px auto 0}
+/* לוח הבקרה: רגע החתימה */
+.q .ctrl-grid{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:96px;align-items:start;max-width:1200px;margin-inline:auto}
+.q .dial-col{display:flex;flex-direction:column;align-items:center;gap:40px;position:sticky;top:112px}
+.q .dial{position:relative;width:clamp(272px,34cqi,400px);aspect-ratio:1;border-radius:50%;background:var(--g);box-shadow:var(--sh-l);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;transition:box-shadow .5s var(--ease);-webkit-tap-highlight-color:transparent}
+.q .dial.drag{cursor:grabbing}
+.q .dial.is-off{box-shadow:var(--flat);cursor:default}
+.q .dial:focus-visible{outline-offset:6px}
+.q .d-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.q .d-gd{fill:none;stroke:var(--g3);stroke-width:12;stroke-linecap:round}
+.q .d-arc{fill:none;stroke:var(--ember);stroke-width:8;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:calc(100 - var(--p,0) * 100);transition:stroke-dashoffset .9s var(--ease),opacity .4s var(--ease)}
+.q .dial.drag .d-arc,.q .dial.drag .d-thumb{transition:none}
+.q .dial.is-off .d-arc{opacity:0}
+.q .d-thumb{position:absolute;inset:0;rotate:calc(-135deg + var(--p,0) * 270deg);transition:rotate .9s var(--ease);pointer-events:none}
+.q .d-thumb::after{content:"";position:absolute;left:50%;top:8%;width:11.5%;aspect-ratio:1;margin:-5.75% 0 0 -5.75%;border-radius:50%;background:radial-gradient(circle,var(--ember) 0 15%,var(--g) 16%);box-shadow:var(--sh-s);transition:box-shadow .5s var(--ease),background .5s var(--ease)}
+.q .dial.is-off .d-thumb::after{background:var(--g-h);box-shadow:var(--flat)}
+.q .d-face{position:absolute;inset:22%;border-radius:50%;box-shadow:var(--in-l);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;pointer-events:none;transition:box-shadow .5s var(--ease)}
+.q .d-room{font-size:14px;font-weight:500;line-height:1.2;color:var(--mut)}
+.q .d-val{display:flex;align-items:baseline;font-size:clamp(46px,6cqi,68px);line-height:1;font-weight:500;font-variant-numeric:tabular-nums;color:var(--ink, #16182b)}
+.q .d-val small{font-size:.42em;font-weight:500;color:var(--mut)}
+.q .d-off{display:none;flex-direction:column;align-items:center;gap:8px;font-size:22px;font-weight:500;line-height:1;color:var(--mut)}
+.q .dial.is-off .d-val{display:none}
+.q .dial.is-off .d-off{display:flex}
+.q .d-mode{display:inline-flex;align-items:center;gap:6px;font-size:15px;font-weight:600;line-height:1.2;color:var(--ember-t)}
+.q .dial.is-off .d-mode{display:none}
+.q .d-end{position:absolute;top:91%;font-size:13px;font-weight:500;line-height:1;color:var(--mut);font-variant-numeric:tabular-nums;pointer-events:none}
+.q .d-end.e1{left:15%}.q .d-end.e2{right:15%}
+.q .steppers{display:flex;align-items:center;gap:20px;width:100%;max-width:420px}
+.q .rbtn{display:grid;place-items:center;width:56px;height:56px;flex:none;border:0;border-radius:50%;background:var(--g);color:var(--ink, #16182b);cursor:pointer;box-shadow:var(--sh-m);transition:background .2s var(--ease),box-shadow .25s var(--ease),color .2s var(--ease);-webkit-tap-highlight-color:transparent}
+.q .rbtn:active{box-shadow:var(--in-m);color:var(--ember-t)}
+.q .rbtn[aria-disabled=true]{background:var(--g-h);box-shadow:var(--flat);color:var(--mut);cursor:not-allowed}
+.q .rbtn[aria-disabled=true]:active{box-shadow:var(--flat);color:var(--mut)}
+@media (hover:hover) and (pointer:fine){.q .rbtn:hover{background:var(--g-h)}}
+.q .steppers .well{flex:1;min-width:0;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px 16px;border-radius:28px;text-align:center}
+.q .w-v{font-size:22px;line-height:1.1;font-variant-numeric:tabular-nums}
+.q .w-k,.q .w-eta{font-size:13px;line-height:1.3}
+.q .panel-col{display:flex;flex-direction:column;gap:48px}
+.q .grp{display:flex;flex-direction:column;gap:16px}
+.q .g-lbl{font-size:14px;font-weight:600;line-height:1.2;color:var(--ink, #16182b)}
+.q .pick{display:flex;flex-wrap:wrap;gap:16px}
+.q .pick.modes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+.q .pick.modes .ch{flex-direction:column;gap:8px;min-height:88px;border-radius:28px;padding:14px 8px}
+.q .pick.modes .ch .tick{position:absolute;top:8px;inset-inline-end:8px;width:20px;height:20px;margin:0}
+.q .pick:not(.modes) .ch .tick{margin-inline-start:-4px}
+.q .pick.rooms .ch .tick,.q .tabs .ch .tick{margin-inline-start:-4px}
+.q .sw-row{display:flex;align-items:center;gap:24px}
+.q .sw-t{display:flex;flex-direction:column;gap:4px;min-width:0}
+.q .sw-t span{font-size:16px;font-weight:500;line-height:1.35}
+.q .sw-t small{font-size:14px;line-height:1.4;color:var(--mut)}
+.q .sw{display:inline-flex;align-items:center;gap:14px;min-height:44px;min-width:132px;justify-content:flex-start;padding:0;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent;flex:none}
+.q .sw-trk{position:relative;width:70px;height:38px;flex:none;border-radius:999px;background:var(--g);box-shadow:var(--in-s);transition:background .3s var(--ease),box-shadow .3s var(--ease)}
+.q .sw-knob{position:absolute;top:4px;inset-inline-start:4px;width:30px;height:30px;border-radius:50%;background:var(--g);box-shadow:var(--sh-s);display:grid;place-items:center;transition:translate .3s var(--ease),box-shadow .3s var(--ease),background .3s var(--ease)}
+.q .sw-knob .ico{position:absolute;opacity:0;transition:opacity .2s var(--ease)}
+.q .sw-knob .i-ck{color:var(--ember-t)}
+.q .sw-knob .i-lk{color:var(--mut)}
+.q .sw[aria-checked="true"] .sw-trk{background:var(--ember);box-shadow:var(--z),var(--z),inset 3px 3px 7px rgba(70,20,0,.45),inset -3px -3px 7px rgba(255,200,170,.3)}
+.q .sw[aria-checked="true"] .sw-knob{translate:-32px 0}
+.q .sw[aria-checked="true"] .i-ck{opacity:1}
+.q .sw-st{font-size:15px;font-weight:600;line-height:1.1;color:var(--ink, #16182b)}
+.q .sw[aria-checked="true"] .sw-st{color:var(--ember-t)}
+.q .sw.is-dis{cursor:not-allowed}
+.q .sw.is-dis .sw-trk{background:var(--g-h);box-shadow:var(--flat)}
+.q .sw.is-dis .sw-knob{background:var(--g-h);box-shadow:var(--flat)}
+.q .sw.is-dis .i-lk{opacity:1}
+.q .sw.is-dis .i-ck{opacity:0}
+.q .sw.is-dis .sw-st{color:var(--mut);font-weight:500}
+.q .legend-l{display:flex;flex-direction:column;gap:12px;font-size:14px;line-height:1.3;color:var(--mut)}
+.q .legend-l li{display:inline-flex;align-items:center;gap:10px}
+.q .sw-demo{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--g);flex:none}
+.q .sw-demo.up{box-shadow:var(--sh-s)}
+.q .sw-demo.dn{box-shadow:var(--in-s);color:var(--ember)}
+.q .sw-demo.fl{background:var(--g-h);color:var(--mut)}
+
+/* ההערכות */
+.q .offer-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:88px;align-items:start;max-width:1320px;margin-inline:auto}
+.q .of-body .head{margin-bottom:40px}
+.q .tabs{display:none;flex-wrap:wrap;gap:16px;margin-bottom:40px}
+.q.js .tabs{display:flex}
+.q .panel[hidden]{display:none}
+.q.js .pn-h{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.q .pn-h{margin-bottom:4px}
+.q .pn-sub{font-size:16px;line-height:1.5;color:var(--mut);margin-bottom:28px}
+.q .panel+.panel{margin-top:56px}
+.q .kit{display:flex;flex-direction:column;gap:28px}
+.q .kit li{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:16px;align-items:start}
+.q .kit li .ico{margin-top:2px;color:var(--ember-t)}
+.q .kit li div{display:flex;flex-direction:column;gap:4px}
+.q .kit li p{font-size:15px;line-height:1.55;color:var(--mut);max-width:440px}
+.q .k-q{font-size:15px;font-weight:600;line-height:1.5;color:var(--ink, #16182b);font-variant-numeric:tabular-nums;white-space:nowrap}
+.q .kit li.off .ico,.q .kit li.off h4,.q .kit li.off .k-q{color:var(--mut)}
+.q .kit li.off h4,.q .kit li.off .k-q{font-weight:500}
+.q .kit-price{display:flex;flex-direction:column;gap:4px;margin-top:40px}
+.q .kit-price small{font-size:14px;line-height:1.3;color:var(--mut)}
+.q .kit-price b{font-size:44px;line-height:1.05;font-weight:600;color:var(--ember-t);font-variant-numeric:tabular-nums;align-self:flex-start}
+.q .of-foot{display:flex;align-items:center;flex-wrap:wrap;gap:12px 28px;margin-top:32px}
+.q .of-vis{display:flex;flex-direction:column;gap:16px;position:sticky;top:112px}
+.q .of-vis .pic{aspect-ratio:1/1}
+.q .of-vis .pic img{object-position:30% 50%}
+/* הזמנה: שקט */
+.q .visit{padding-bottom:var(--sec, clamp(120px, 12vw, 260px))}
+.q .visit-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:88px;align-items:center;max-width:1240px;margin-inline:auto}
+.q .v-body .head{margin-bottom:40px}
+.q .form{display:flex;flex-direction:column;gap:28px}
+.q .form .row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.q .form-foot{display:flex;align-items:center;flex-wrap:wrap;gap:16px 24px}
+.q .ok{display:none;flex-direction:column;align-items:flex-start;gap:16px;padding:16px 0}
+.q .ok .tick{width:64px;height:64px;border-radius:50%;background:var(--g);box-shadow:var(--sh-m);display:grid;place-items:center;color:var(--ember)}
+.q .visit-grid.is-sent .form{display:none}
+.q .visit-grid.is-sent .ok{display:flex}
+.q .v-vis{align-self:end;margin-bottom:calc(-1 * (var(--sec, clamp(120px, 12vw, 260px)) + 48px))}
+.q .v-vis .pic{aspect-ratio:4/5}
+/* פוטר: על הקרקע, בלי קווים */
+.q .ft{padding:112px var(--gut) 40px;position:relative;overflow:hidden}
+.q .ft-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;max-width:1320px;margin-inline:auto;position:relative}
+.q .ft-brand{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.q .ft-brand p{font-size:15px;line-height:1.6;color:var(--mut);max-width:300px}
+.q .ft-col{display:flex;flex-direction:column;font-size:15px;line-height:1.6;color:var(--mut)}
+.q .ft-col span:not(.ft-h),.q .ft-col address{padding-block:6px}
+.q .ft-h{font-size:14px;font-weight:600;line-height:1.3;color:var(--ink, #16182b);margin-bottom:8px}
+.q .ft-col a,.q .ft-bot a{display:inline-block;padding-block:6px;color:var(--mut);transition:color .15s var(--ease)}
+.q .ft-col a[href^="tel"]{unicode-bidi:isolate;align-self:flex-start}
+@media (hover:hover) and (pointer:fine){.q .ft-col a:hover,.q .ft-bot a:hover{color:var(--ember-d)}}
+.q .ft-bot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 32px;max-width:1320px;margin:48px auto 0;font-size:14px;color:var(--mut);position:relative}
+.q .ft-bot nav{display:flex;gap:24px;flex-wrap:wrap}
+.q .ft-word{max-width:1320px;margin:48px auto 0;font-size:clamp(88px,20cqi,260px);font-weight:600;line-height:.95;color:var(--g);text-shadow:-5px -5px 12px var(--lt),5px 5px 12px var(--dk);text-align:center;user-select:none}
+/* טאבלט ומובייל */
+@container (max-width:1023px){
+.q{--sec:88px}
+.q .hd-in{gap:12px}
+.q .hd nav a{padding:10px 12px}
+.q .hero-in{gap:40px}
+.q .ctrl-grid{grid-template-columns:1fr;gap:72px}
+.q .dial-col{position:relative;top:auto}
+.q .offer-grid{grid-template-columns:1fr;gap:64px}
+.q .of-vis{position:relative;top:auto}
+.q .of-vis .pic{aspect-ratio:16/10}
+.q .visit-grid{grid-template-columns:1fr;gap:56px}
+.q .v-vis{order:-1;margin-bottom:0}
+.q .ft-top{grid-template-columns:1fr 1fr}
+.q .ft-col a,.q .ft-bot a{padding-block:12px}
+.q .rvs{gap:32px}
+.q .band{padding-block:72px}
+}
+@container (max-width:767px){
+.q{--sec:64px}
+.q .hd nav{display:none}
+.q .hd .btn.sm{margin-inline-start:auto}
+.q .hd-in{height:72px}
+.q .logo{font-size:21px}
+.q .hero{min-height:calc(100svh - 72px);padding-block:16px 32px}
+.q .hero-in{grid-template-columns:1fr;gap:24px}
+.q .hero-txt{gap:16px}
+.q .ctas{width:100%;flex-direction:column;align-items:stretch;gap:12px;margin-top:4px}
+.q .ctas .btn{width:100%}
+.q .ctas .lnk{justify-content:center}
+.q .hero-vis{gap:16px}
+.q .hero-img{aspect-ratio:16/9;max-height:22svh}
+.q .well{padding:10px 20px;font-size:14px;min-height:48px}
+.q .head{margin-bottom:40px}
+.q .gauges{grid-template-columns:1fr;gap:56px}
+.q .band{margin-top:56px;padding:56px var(--gut);border-radius:36px}
+.q .rvs{grid-template-columns:1fr;gap:40px}
+.q .rv blockquote{font-size:17px}
+.q .pick.modes{grid-template-columns:repeat(2,minmax(0,1fr))}
+.q .pick{gap:12px}
+.q .sw-row{gap:16px}
+.q .sw{min-width:112px}
+.q .dial{width:min(76cqi,300px)}
+.q .steppers{gap:12px}
+.q .kit li{gap:12px}
+.q .kit-price b{font-size:38px}
+.q .form .row{grid-template-columns:1fr}
+.q .form-foot .btn{width:100%}
+.q .ft{padding-top:56px}
+.q .ft-top{grid-template-columns:1fr;gap:32px}
+.q .ft-bot{margin-top:32px}
+.q .ft-bot nav{gap:16px}
+}
+@media (prefers-reduced-motion:reduce){
+.q.js .reveal{opacity:1}
+.q .reveal.is-in,.q .hd,.q .oi,.q .hero-vis{animation:none}
+.q .btn,.q .lnk,.q .lnk .ico,.q .ch,.q .ch .tick,.q .rbtn,.q .sw-trk,.q .sw-knob,.q .dial,.q .d-arc,.q .d-thumb,.q .d-thumb::after,.q .d-face,.q .g-arc,.q .pic img,.q .hd,.q .in{transition:none}
+.q .btn:hover,.q .btn:active{transform:none}
+.q .pic:hover img,.q .lnk:hover .ico{transform:none}
+.q.js .gauge:not(.is-in) .g-arc{stroke-dashoffset:calc(100 - var(--v))}
+}
 </style>
 </head>
 <body>
 
-<div class="cwrap sk-s02"><div class="ref">
-<header class="hd"><span class="logo">שם העסק</span><nav class="nav" aria-label="ראשי"><a href="#ref-bens">שירותים</a><a href="#ref-prices">מחירים</a><a href="#">אודות</a></nav><a class="btn sm" href="#ref-form">לשיחה קצרה</a></header>
-<section class="hero">
-<div class="hero-t"><span class="eyebrow">מה העסק עושה, בשבע מילים</span><h1>כותרת שאומרת מה מקבלים</h1><p class="lead">משפט תמיכה קצר שמסביר במה זה שונה ולמי זה מתאים, בלי להבטיח יותר מדי.</p><div class="ctas"><a class="btn" href="#ref-form">הפעולה הראשית</a><a class="btn ghost" href="#ref-bens">לראות דוגמאות</a></div></div>
-<div class="hero-v"><i class="hv-a"></i><i class="hv-b"></i><span class="hv-l">ויז'ואל</span></div>
+<div class="cwrap sk-s02"><div class="q" id="s02-top">
+<a class="skip" href="#s02-main">דילוג לתוכן</a>
+<header class="hd"><div class="hd-in">
+<a class="logo" href="#s02-top" aria-label="נימה, לראש הדף"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5V8.5"/></svg><span>נימה</span></a>
+<nav aria-label="ראשי"><a href="#s02-control">לוח הבקרה</a><a href="#s02-kits">ההערכות</a><a href="#s02-proof">ביקורות</a><a href="#s02-order">הזמנה</a></nav>
+<a class="btn sm" href="#s02-order">להזמין נימה</a>
+</div></header>
+<main id="s02-main">
+<section class="hero" aria-labelledby="s02-h1"><div class="hero-in">
+<div class="hero-txt">
+<span class="eyebrow oi"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5V8.5"/></svg>חוגה אחת לקיר, למזגנים ולחימום הרצפה</span>
+<h1 class="oi" id="s02-h1">לא צריך לקום בלילה בשביל המזגן</h1>
+<p class="lead oi">נימה היא חוגה עגולה אחת על הקיר ששולטת בכל המזגנים ובחימום הרצפה בבית, ולומדת מתי המשפחה ישנה, מתעוררת וחוזרת הביתה.</p>
+<div class="ctas oi"><a class="btn" href="#s02-order">להזמין נימה</a><a class="btn n" href="#s02-control"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="m12 12 3-4.2"/></svg>לנסות את החוגה</a><a class="lnk" href="#s02-kits">מה יש בקופסה<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></a></div>
+</div>
+<div class="hero-vis">
+<figure class="pic hero-img"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s02/hero-panel.webp" width="2200" height="1468" alt="אישה מחייכת בסוודר בז' נוגעת בלוח בקרה לבן שמורכב על קיר בהיר" fetchpriority="high" decoding="async"></figure>
+<p class="well"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/></svg><span>בסלון עכשיו <b class="num" dir="ltr">23.4°</b>, יעד <b class="num" dir="ltr">24°</b>. ערכים לדוגמה</span></p>
+</div>
+</div></section>
+
+<section class="sec proof" id="s02-proof" aria-labelledby="s02-pf-h"><div class="wrap">
+<div class="head c reveal"><span class="eyebrow"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5V8.5"/></svg>מה משתנה בבית</span><h2 id="s02-pf-h">שבוע אחרי ההתקנה, השלט נשאר במגירה</h2><p class="lead">נימה מכוונת לפי החדר ולפי השעה, ואתם מתערבים רק כשבא לכם.</p></div>
+<div class="gauges"><figure class="gauge reveal" style="--i:0"><div class="g-ring" role="img" aria-label="18 אחוז: פחות חשמל בחודש חם"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><circle class="g-trk" cx="60" cy="60" r="46"/><circle class="g-arc" cx="60" cy="60" r="46" pathLength="100" transform="rotate(-90 60 60)" style="--v:18"/></svg><span class="g-num" aria-hidden="true"><span dir="ltr" data-count="18">18</span><small>%</small></span></div><figcaption><b>פחות חשמל בחודש חם</b><span>ממוצע בבתי הדגמה</span></figcaption></figure><figure class="gauge reveal" style="--i:1"><div class="g-ring" role="img" aria-label="94 אחוז: מהלילות בלי לגעת בשלט"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><circle class="g-trk" cx="60" cy="60" r="46"/><circle class="g-arc" cx="60" cy="60" r="46" pathLength="100" transform="rotate(-90 60 60)" style="--v:94"/></svg><span class="g-num" aria-hidden="true"><span dir="ltr" data-count="94">94</span><small>%</small></span></div><figcaption><b>מהלילות בלי לגעת בשלט</b><span>אחרי שבוע של לימוד הרגלים</span></figcaption></figure><figure class="gauge reveal" style="--i:2"><div class="g-ring" role="img" aria-label="1: חוגה אחת במקום ארבעה שלטים"><svg viewBox="0 0 120 120" aria-hidden="true" focusable="false"><circle class="g-trk" cx="60" cy="60" r="46"/><circle class="g-arc" cx="60" cy="60" r="46" pathLength="100" transform="rotate(-90 60 60)" style="--v:25"/></svg><span class="g-num" aria-hidden="true"><span dir="ltr" data-count="1">1</span></span></div><figcaption><b>חוגה אחת במקום ארבעה שלטים</b><span>בדירה עם ארבעה מזגנים</span></figcaption></figure></div>
+<p class="micro proof-note reveal">הנתונים לדוגמה, להמחשת השפה בלבד.</p>
+</div>
+<div class="band"><div class="rvs"><figure class="rv reveal"><blockquote>נרדמים בחדר קריר ומתעוררים בחדר נעים. אני לא נוגעת בשלט כבר חודש, והילדה כבר אומרת שהחוגה היא של המשפחה.</blockquote><figcaption><b>גלית סגל</b><span>רמת גן</span></figcaption></figure><figure class="rv reveal"><blockquote>ארבעה מזגנים וארבעה שלטים, ועכשיו חוגה אחת ליד הכניסה. אשתי ואני מכוונים לפי הסלון והשאר מסתדר לבד.</blockquote><figcaption><b>אורן בן דוד</b><span>מודיעין</span></figcaption></figure><figure class="rv reveal"><blockquote>הרצפה בחדר הרחצה מתחממת חצי שעה לפני שאנחנו קמים. החשבון של החשמל ירד כבר בחודש הראשון.</blockquote><figcaption><b>רותם וקנין</b><span>חיפה</span></figcaption></figure></div><p class="micro reveal">ביקורות לדוגמה: טקסטים להדגמה בלבד, לא של לקוחות אמיתיים.</p></div>
 </section>
-<section class="sec bens" id="ref-bens"><h2>שלושה יתרונות</h2><div class="grid3">
-<article class="card"><b class="num">01</b><i class="ico"></i><h3>יתרון ראשון</h3><p>שורה אחת שמסבירה במה זה עוזר ללקוח.</p></article>
-<article class="card"><b class="num">02</b><i class="ico"></i><h3>יתרון שני</h3><p>עוד שורה אחת, קונקרטית, בלי סופרלטיבים.</p></article>
-<article class="card"><b class="num">03</b><i class="ico"></i><h3>יתרון שלישי</h3><p>השורה השלישית סוגרת את הסט.</p><i class="bars"><s></s><s></s><s></s><s></s></i></article>
+
+<section class="sec ctrl" id="s02-control" aria-labelledby="s02-ct-h"><div class="wrap">
+<div class="head c reveal"><span class="eyebrow"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5V8.5"/></svg>לוח הבקרה</span><h2 id="s02-ct-h">סובבו את החוגה ותראו מה קורה בבית</h2><p class="lead">זו חוגה שעובדת: גוררים אותה, לוחצים על הפלוס והמינוס או על החצים במקלדת. לכל חדר יש מצב משלו.</p></div>
+<div class="ctrl-grid">
+<div class="dial-col reveal">
+<div class="dial" id="s02-dial" role="slider" tabindex="0" aria-label="טמפרטורת יעד בסלון" aria-valuemin="16" aria-valuemax="30" aria-valuenow="24" aria-valuetext="24 מעלות" aria-describedby="s02-dial-help" style="--p:.5714">
+<svg class="d-svg" viewBox="0 0 200 200" aria-hidden="true" focusable="false"><path class="d-gd" d="M40.6 159.4 A84 84 0 1 1 159.4 159.4"/><path class="d-arc" pathLength="100" d="M40.6 159.4 A84 84 0 1 1 159.4 159.4"/></svg>
+<span class="d-thumb" aria-hidden="true"></span>
+<div class="d-face" aria-hidden="true"><span class="d-room">יעד בסלון</span><div class="d-val" dir="ltr"><span class="d-int">24</span><small class="d-dec">.0°</small></div><div class="d-off"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span>כבוי</span></div><span class="d-mode"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 0 1-14 5.3"/><path d="M4 12a8 8 0 0 1 14-5.3"/><path d="M18 3v4h-4"/><path d="M6 21v-4h4"/></svg><span class="d-mode-t">אוטומטי</span></span></div>
+<span class="d-end e1" aria-hidden="true">16</span><span class="d-end e2" aria-hidden="true">30</span>
+</div>
+<div class="sr" id="s02-dial-help">חצים למעלה וימינה מחממים בחצי מעלה, חצים למטה ושמאלה מקררים. PageUp ו-PageDown משנים במעלתיים, Home ו-End קופצים לקצוות.</div>
+<div class="steppers"><button class="rbtn" type="button" data-step="-1" aria-label="לקרר בחצי מעלה"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 12h12"/></svg></button><p class="well"><span class="w-k">עכשיו בחדר</span><b class="w-v num" dir="ltr">23.4°</b><span class="w-eta">ליעד בעוד כ-4 דקות</span></p><button class="rbtn" type="button" data-step="1" aria-label="לחמם בחצי מעלה"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 6v12"/><path d="M6 12h12"/></svg></button></div>
+<p class="micro">הקריאה בחדר היא הדגמה מדומה.</p>
+<div class="sr" id="s02-live" role="status" aria-live="polite"></div>
+</div>
+<div class="panel-col">
+<div class="grp reveal"><span class="g-lbl" id="s02-room-l">חדר</span><div class="pick rooms" role="radiogroup" aria-labelledby="s02-room-l"><button class="ch" type="button" role="radio" aria-checked="true" tabindex="0" data-v="living"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 11V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"/><path d="M3 13a2 2 0 0 1 4 0v2h10v-2a2 2 0 0 1 4 0v5H3z"/><path d="M5 18v2M19 18v2"/></svg><span class="t" data-t="סלון">סלון</span><svg class="ico s tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></button><button class="ch" type="button" role="radio" aria-checked="false" tabindex="-1" data-v="bed"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 18V7"/><path d="M3 14h18v4"/><path d="M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="11" r="1.5"/></svg><span class="t" data-t="חדר שינה">חדר שינה</span><svg class="ico s tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></button><button class="ch" type="button" role="radio" aria-checked="false" tabindex="-1" data-v="kids"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M8.5 14a4 4 0 0 0 7 0"/><path d="M9 9.5h.01M15 9.5h.01"/></svg><span class="t" data-t="חדרי ילדים">חדרי ילדים</span><svg class="ico s tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></button></div></div>
+<div class="grp reveal"><span class="g-lbl" id="s02-mode-l">מצב</span><div class="pick modes" role="radiogroup" aria-labelledby="s02-mode-l"><button class="ch" type="button" role="radio" aria-checked="false" tabindex="-1" data-v="heat"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/></svg><span class="t" data-t="חימום">חימום</span><svg class="ico s tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></button><button class="ch" type="button" role="radio" aria-checked="false" tabindex="-1" data-v="cool"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v18"/><path d="M4.2 7.5l15.6 9"/><path d="M19.8 7.5l-15.6 9"/></svg><span class="t" data-t="קירור">קירור</span><svg class="ico s tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></button><button class="ch" type="button" role="radio" aria-checked="true" tabindex="0" data-v="auto"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 12a8 8 0 0 1-14 5.3"/><path d="M4 12a8 8 0 0 1 14-5.3"/><path d="M18 3v4h-4"/><path d="M6 21v-4h4"/></svg><span class="t" data-t="אוטומטי">אוטומטי</span><svg class="ico s tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></button><button class="ch" type="button" role="radio" aria-checked="false" tabindex="-1" data-v="off"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3v8"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0"/></svg><span class="t" data-t="כבוי">כבוי</span><svg class="ico s tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></button></div></div>
+<div class="grp reveal"><span class="g-lbl">התאמות</span>
+<div class="sw-row"><button class="sw" type="button" role="switch" aria-checked="true" aria-labelledby="s02-sw-night" data-k="night"><span class="sw-trk"><span class="sw-knob"><svg class="ico i-ck" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><svg class="ico i-lk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span></span><span class="sw-st">פועל</span></button><div class="sw-t"><span id="s02-sw-night">מצב לילה</span><small>מוריד חצי מעלה בכל שעה אחרי 23:00</small></div></div>
+<div class="sw-row"><button class="sw" type="button" role="switch" aria-checked="false" aria-labelledby="s02-sw-floor" data-k="floor"><span class="sw-trk"><span class="sw-knob"><svg class="ico i-ck" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><svg class="ico i-lk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span></span><span class="sw-st">כבוי</span></button><div class="sw-t"><span id="s02-sw-floor">חימום רצפה</span><small>זמין בחימום ובמצב אוטומטי</small></div></div>
+<div class="sw-row"><button class="sw" type="button" role="switch" aria-checked="true" aria-labelledby="s02-sw-away" data-k="away"><span class="sw-trk"><span class="sw-knob"><svg class="ico i-ck" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><svg class="ico i-lk" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span></span><span class="sw-st">פועל</span></button><div class="sw-t"><span id="s02-sw-away">הגעה חכמה</span><small>מכין את הבית כשאתם בדרך חזרה</small></div></div>
+</div>
+<ul class="legend-l reveal" aria-label="מקרא"><li><span class="sw-demo up" aria-hidden="true"></span>בולט: אפשר ללחוץ</li><li><span class="sw-demo dn" aria-hidden="true"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span>שקוע עם צבע ווי: פעיל</li><li><span class="sw-demo fl" aria-hidden="true"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></span>שטוח עם מנעול: לא זמין</li></ul>
+</div>
+</div>
 </div></section>
-<section class="sec prices" id="ref-prices"><h2>שלוש חבילות</h2><div class="grid3">
-<article class="card price"><h3>בסיסית</h3><div class="amt">₪2,500<small>לא כולל מע"מ</small></div><ul><li>עמוד אחד</li><li>טופס פנייה</li><li>חיבור לדומיין</li></ul><a class="btn ghost" href="#ref-form">לבחור בסיסית</a></article>
-<article class="card price hi"><span class="tag">הכי נבחרת</span><h3>מקצועית</h3><div class="amt">₪4,000<small>לא כולל מע"מ</small></div><ul><li>שלושה עמודים</li><li>טופס וואטסאפ</li><li>חיבור לדומיין</li><li>חודש ליווי</li></ul><a class="btn" href="#ref-form">לבחור מקצועית</a></article>
-<article class="card price"><h3>מורחבת</h3><div class="amt">₪6,000<small>לא כולל מע"מ</small></div><ul><li>חמישה עמודים</li><li>בלוג</li><li>חיבור לדומיין</li><li>שלושה חודשי ליווי</li></ul><a class="btn ghost" href="#ref-form">לבחור מורחבת</a></article>
+
+<section class="sec offer" id="s02-kits" aria-labelledby="s02-of-h"><div class="offer-grid">
+<div class="of-body">
+<div class="head reveal"><span class="eyebrow"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5V8.5"/></svg>מה יש בקופסה</span><h2 id="s02-of-h">בוחרים גודל בית וזהו</h2><p class="lead">שלוש ערכות, וכל אחת מגיעה מותקנת וכוילה ביום אחד. אפשר להוסיף חיישנים ומודולים גם אחר כך.</p></div>
+<div class="tabs reveal" role="tablist" aria-label="גודל הבית"><button class="ch tab" type="button" role="tab" id="s02-kt0" aria-controls="s02-kp0" aria-selected="false" tabindex="-1"><span class="t" data-t="דירה קטנה">דירה קטנה</span><svg class="ico s tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></button><button class="ch tab" type="button" role="tab" id="s02-kt1" aria-controls="s02-kp1" aria-selected="true" tabindex="0"><span class="t" data-t="דירה">דירה</span><svg class="ico s tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></button><button class="ch tab" type="button" role="tab" id="s02-kt2" aria-controls="s02-kp2" aria-selected="false" tabindex="-1"><span class="t" data-t="בית פרטי">בית פרטי</span><svg class="ico s tick" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></button></div>
+<div class="panels"><div class="panel" role="tabpanel" id="s02-kp0" aria-labelledby="s02-kt0"><h3 class="pn-h">דירה קטנה</h3><p class="pn-sub">עד שני חדרים, מזגן אחד או שניים</p><ul class="kit"><li class="reveal"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="m12 12 3-4.2"/></svg><div><h4>נימה דיסק</h4><p>החוגה על הקיר, עם מסך מגע וגלגל פיזי, בלי שלטים נוספים</p></div><span class="k-q" dir="ltr">× 1</span></li><li class="reveal"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4a4 4 0 0 0-4 4v6a4 4 0 1 0 8 0V8a4 4 0 0 0-4-4z"/><path d="M12 9v6"/></svg><div><h4>חיישן חדר</h4><p>מודד טמפרטורה ותנועה ומדווח לדיסק, כדי שהמזגן לא יכוון לפי הקיר שליד הדלת</p></div><span class="k-q" dir="ltr">× 1</span></li><li class="off"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><div><h4>מודול רצפה</h4><p>לא כלול בערכה הזאת. אפשר להוסיף בהזמנה.</p></div><span class="k-q">לא כלול</span></li></ul><div class="kit-price"><small>מחיר לדוגמה, כולל התקנה</small><b dir="ltr">890 ₪</b></div></div><div class="panel" role="tabpanel" id="s02-kp1" aria-labelledby="s02-kt1"><h3 class="pn-h">דירה</h3><p class="pn-sub">שלושה עד ארבעה חדרים, שניים עד ארבעה מזגנים</p><ul class="kit"><li class="reveal"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="m12 12 3-4.2"/></svg><div><h4>נימה דיסק</h4><p>החוגה על הקיר, עם מסך מגע וגלגל פיזי, בלי שלטים נוספים</p></div><span class="k-q" dir="ltr">× 1</span></li><li class="reveal"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4a4 4 0 0 0-4 4v6a4 4 0 1 0 8 0V8a4 4 0 0 0-4-4z"/><path d="M12 9v6"/></svg><div><h4>חיישן חדר</h4><p>מודד טמפרטורה ותנועה ומדווח לדיסק, כדי שהמזגן לא יכוון לפי הקיר שליד הדלת</p></div><span class="k-q" dir="ltr">× 3</span></li><li class="reveal"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="6" width="16" height="12" rx="3"/><path d="M8 10v4M12 10v4M16 10v4"/></svg><div><h4>מודול רצפה</h4><p>מתחבר לצנרת חימום הרצפה ומחמם חצי שעה לפני שקמים</p></div><span class="k-q" dir="ltr">× 1</span></li></ul><div class="kit-price"><small>מחיר לדוגמה, כולל התקנה</small><b dir="ltr">1,490 ₪</b></div></div><div class="panel" role="tabpanel" id="s02-kp2" aria-labelledby="s02-kt2"><h3 class="pn-h">בית פרטי</h3><p class="pn-sub">שתי קומות, חמישה מזגנים ומעלה</p><ul class="kit"><li class="reveal"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8"/><path d="m12 12 3-4.2"/></svg><div><h4>נימה דיסק</h4><p>חוגה בכל קומה, והשתיים מדברות זו עם זו</p></div><span class="k-q" dir="ltr">× 2</span></li><li class="reveal"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 4a4 4 0 0 0-4 4v6a4 4 0 1 0 8 0V8a4 4 0 0 0-4-4z"/><path d="M12 9v6"/></svg><div><h4>חיישן חדר</h4><p>חיישן לכל חדר, כדי שכל חדר ינוהל לפי החדר עצמו</p></div><span class="k-q" dir="ltr">× 6</span></li><li class="reveal"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="6" width="16" height="12" rx="3"/><path d="M8 10v4M12 10v4M16 10v4"/></svg><div><h4>מודול רצפה</h4><p>מודול לכל מעגל חימום, בקומה ובחדרי הרחצה</p></div><span class="k-q" dir="ltr">× 3</span></li></ul><div class="kit-price"><small>מחיר לדוגמה, כולל התקנה</small><b dir="ltr">2,790 ₪</b></div></div></div>
+<div class="of-foot reveal"><a class="btn" href="#s02-order">להזמין את הערכה</a><p class="micro">המחירים לדוגמה בלבד ולא כוללים מע"מ.</p></div>
+</div>
+<div class="of-vis reveal">
+<figure class="pic"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s02/dial-detail.webp" width="1600" height="1067" alt="תקריב של סקאלת טמפרטורה על חוגה לבנה, עם המספרים 15, 20 ו-25 וסימון משולש" loading="lazy" decoding="async"></figure>
+<p class="micro">תקריב של סקאלה על חוגה אמיתית. צילום סטוק להמחשה.</p>
+</div>
 </div></section>
-<section class="sec form" id="ref-form"><div class="fbox"><h2>נשארים בקשר</h2><p>שם וטלפון, וחוזרים אליכם תוך יום עבודה.</p><form class="frm" onsubmit="return false"><input class="in" aria-label="שם מלא" autocomplete="name" placeholder="שם מלא"><input class="in" type="tel" inputmode="tel" autocomplete="tel" aria-label="טלפון" placeholder="טלפון"><button class="btn" type="submit">לשלוח</button></form></div></section>
-<footer class="ft"><span>© שם העסק</span><span>תנאים · פרטיות · נגישות</span></footer>
+
+<section class="visit sec" id="s02-order" data-cta-end aria-labelledby="s02-vs-h"><div class="visit-grid">
+<div class="v-body">
+<div class="head reveal"><span class="eyebrow"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5V8.5"/></svg>הזמנה</span><h2 id="s02-vs-h">רוצים לישון בלי לחשוב על המזגן?</h2><p class="lead">משאירים שם וטלפון, ונחזור עם מועד התקנה בתוך יומיים עסקים.</p></div>
+<form class="form reveal" novalidate>
+<div class="row">
+<div class="fld"><label for="s02-name">שם</label><input class="in" id="s02-name" name="name" autocomplete="name" required aria-describedby="s02-name-m"><span class="msg" id="s02-name-m"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>איך נקרא לכם?</span></div>
+<div class="fld"><label for="s02-tel">טלפון</label><input class="in" id="s02-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required aria-describedby="s02-tel-m"><span class="msg" id="s02-tel-m"><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>המספר לא נראה תקין, אפשר לבדוק?</span></div>
+</div>
+<div class="fld"><label for="s02-units">כמה מזגנים יש בבית (לא חובה)</label><input class="in" id="s02-units" name="units" type="number" inputmode="numeric" min="0" max="12" placeholder="לדוגמה 3"></div>
+<div class="form-foot"><button class="btn" type="submit">להשאיר פרטים</button><p class="micro">בלי רשימות תפוצה. את הטלפון משתמשים רק לתיאום ההתקנה.</p></div>
+</form>
+<div class="ok" role="status" aria-live="polite"><span class="tick"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg></span><h3>קיבלנו</h3><p class="lead">נחזור אליכם עם מועד התקנה בתוך יומיים עסקים.</p></div>
+</div>
+<div class="v-vis reveal">
+<figure class="pic"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s02/night-room.webp" width="2000" height="1333" alt="חדר שינה לבן ושקט עם מיטה, כריות לבנות ושני אהילי קש תלויים" loading="lazy" decoding="async"></figure>
+</div>
+</div></section>
+</main>
+
+<footer class="ft"><div class="ft-top">
+<div class="ft-brand"><a class="logo" href="#s02-top" aria-label="נימה, לראש הדף"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5V8.5"/></svg><span>נימה</span></a><p>חוגת קיר אחת למזגנים ולחימום הרצפה, לבתים בישראל. נימה היא מותג לדוגמה.</p><p class="micro">העסק, המחירים, הביקורות, הכתובת והטלפון דמיוניים. הצילומים סטוק להמחשה.</p></div>
+<div class="ft-col"><p class="ft-h">שעות מענה</p><span>ראשון עד חמישי, 9:00 עד 18:00</span><span>שישי, 9:00 עד 13:00</span></div>
+<div class="ft-col"><p class="ft-h">ליצור קשר</p><address>הרצל 24, תל אביב</address><a href="tel:+97235550182" dir="ltr" style="unicode-bidi:isolate">03-555-0182</a></div>
+<div class="ft-col"><p class="ft-h">באתר</p><a href="#s02-control">לוח הבקרה</a><a href="#s02-kits">ההערכות</a><a href="#s02-proof">ביקורות</a><a href="#s02-order">הזמנה</a></div>
+</div>
+<div class="ft-bot"><p>© <span data-year>2026</span> נימה</p><nav aria-label="משפטי"><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">הצהרת נגישות</a></nav><p>עוצב ופותח על ידי <a href="https://liavmatzri.co.il" rel="noopener">ליאב מצרי</a></p></div>
+<div class="ft-word" aria-hidden="true">נימה</div>
+</footer>
 </div></div>
 
 
-
+<script>
+(function(){var root=document.querySelector(".sk-s02");if(!root)return;var q=root.querySelector(".q");q.classList.add("js");
+var rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function $(s,r){return(r||q).querySelector(s)}function $$(s,r){return[].slice.call((r||q).querySelectorAll(s))}
+$$("[data-year]").forEach(function(e){e.textContent=new Date().getFullYear()});
+/* הדר: headroom, וצל רק אחרי גלילה */
+var hd=$(".hd"),top=document.querySelector(".vtop"),lastTop=-1,hidden=false,scrolled=false,lastY=window.scrollY,acc=0;
+function place(){if(!hd||!top)return;var s=getComputedStyle(top),v=s.position==="sticky"&&s.display!=="none"?top.offsetHeight:0;if(v!==lastTop){lastTop=v;hd.style.top=v+"px"}}
+function setHidden(v){if(v===hidden)return;hidden=v;hd.classList.toggle("is-hidden",v)}
+function onScroll(){place();var y=window.scrollY,d=y-lastY;lastY=y;var sc=y>8;if(sc!==scrolled){scrolled=sc;hd.classList.toggle("is-scrolled",sc)}
+if(y<=96){acc=0;setHidden(false);return}acc=(d>0)===(acc>0)?acc+d:d;if(acc>6)setHidden(true);else if(acc<-6)setHidden(false)}
+window.addEventListener("scroll",onScroll,{passive:true});window.addEventListener("resize",place);hd.addEventListener("focusin",function(){setHidden(false)});place();onScroll();
+/* reveal פעם אחת, ומנייה בטבעות */
+function count(el){var to=+el.getAttribute("data-count");if(rm||to<2)return;var t0=null;function f(ts){if(t0===null)t0=ts;var p=Math.min(1,(ts-t0)/900),e=1-Math.pow(1-p,3);el.textContent=Math.round(to*e);if(p<1)requestAnimationFrame(f)}el.textContent="0";requestAnimationFrame(f)}
+var els=$$(".reveal");
+if(rm||!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("is-in")})}
+else{var io=new IntersectionObserver(function(en){en.forEach(function(x){if(!x.isIntersecting)return;x.target.classList.add("is-in");$$("[data-count]",x.target).forEach(count);io.unobserve(x.target)})},{threshold:.12});els.forEach(function(e){io.observe(e)})}
+/* לוח הבקרה */
+var MIN=16,MAX=30,MODE={heat:["חימום","flame"],cool:["קירור","snow"],auto:["אוטומטי","auto"],off:["כבוי","power"]};
+var ICON={heat:$(".pick.modes [data-v=heat] .ico").outerHTML,cool:$(".pick.modes [data-v=cool] .ico").outerHTML,auto:$(".pick.modes [data-v=auto] .ico").outerHTML,off:$(".pick.modes [data-v=off] .ico").outerHTML};
+Object.keys(ICON).forEach(function(k){ICON[k]=ICON[k].replace('class="ico"','class="ico s"')});
+var R={living:{n:"בסלון",t:24,m:"auto",night:1,floor:0,away:1,now:23.4},bed:{n:"בחדר השינה",t:22,m:"cool",night:1,floor:0,away:0,now:23.1},kids:{n:"בחדרי הילדים",t:23,m:"heat",night:0,floor:1,away:1,now:21.6}};
+var cur="living",awake=false,inView=false;
+var dial=$(".dial"),live=$("#s02-live"),dInt=$(".d-int"),dDec=$(".d-dec"),dRoom=$(".d-room"),dMode=$(".d-mode"),wV=$(".w-v"),wE=$(".w-eta"),wK=$(".w-k");
+var sws=$$(".sw");
+function txt(t){return t%1?t.toFixed(1):String(t)}
+function etaTxt(r){var d=Math.abs(r.t-r.now);if(r.m==="off")return"המערכת כבויה";if(d<.05)return"בטמפרטורת היעד";return"ליעד בעוד כ-"+Math.max(1,Math.round(d*7))+" דקות"}
+function say(s){live.textContent="";setTimeout(function(){live.textContent=s},30)}
+function swState(k,r){var dis=r.m==="off"||(k==="floor"&&r.m==="cool");return{dis:dis,on:!!r[k]&&!dis}}
+function render(){var r=R[cur],off=r.m==="off",p=(r.t-MIN)/(MAX-MIN);
+dial.style.setProperty("--p",awake?p:0);
+dial.setAttribute("aria-valuenow",String(r.t));dial.setAttribute("aria-valuetext",txt(r.t)+" מעלות");dial.setAttribute("aria-label","טמפרטורת יעד "+r.n);dial.setAttribute("aria-disabled",String(off));
+dial.classList.toggle("is-off",off);$$(".rbtn").forEach(function(b){b.setAttribute("aria-disabled",String(off))});
+var s=r.t.toFixed(1).split(".");dInt.textContent=s[0];dDec.textContent="."+s[1]+"°";dRoom.textContent=(off?"":"יעד ")+r.n;
+dMode.innerHTML=ICON[r.m]+'<span class="d-mode-t">'+MODE[r.m][0]+"</span>";
+wK.textContent="עכשיו "+r.n;wV.textContent=r.now.toFixed(1)+"°";wE.textContent=etaTxt(r);
+sws.forEach(function(b){var k=b.getAttribute("data-k"),st=swState(k,r);b.setAttribute("aria-checked",String(st.on));b.setAttribute("aria-disabled",String(st.dis));b.classList.toggle("is-dis",st.dis);
+$(".sw-st",b).textContent=st.dis?"לא זמין":st.on?"פועל":"כבוי"})}
+function setT(v,announce){var r=R[cur];if(r.m==="off")return;v=Math.round(Math.max(MIN,Math.min(MAX,v))*2)/2;if(v===r.t)return;r.t=v;render();if(announce)say(r.n+": יעד "+txt(v)+" מעלות")}
+/* גרירה: הזווית מהמרכז, 270 מעלות מלמטה-שמאל ועד מלמטה-ימין */
+function fromPointer(e){var b=dial.getBoundingClientRect(),dx=e.clientX-(b.left+b.width/2),dy=e.clientY-(b.top+b.height/2),a=Math.atan2(dx,-dy)*180/Math.PI,r=R[cur];
+if(Math.abs(a)>135)a=r.t>(MIN+MAX)/2?135:-135;setT(MIN+(a+135)/270*(MAX-MIN),false)}
+var dragging=false;
+dial.addEventListener("pointerdown",function(e){if(R[cur].m==="off")return;dragging=true;dial.classList.add("drag");try{dial.setPointerCapture(e.pointerId)}catch(x){}fromPointer(e);dial.focus({preventScroll:true})});
+dial.addEventListener("pointermove",function(e){if(dragging)fromPointer(e)});
+function endDrag(){if(!dragging)return;dragging=false;dial.classList.remove("drag");var r=R[cur];say(r.n+": יעד "+txt(r.t)+" מעלות")}
+dial.addEventListener("pointerup",endDrag);dial.addEventListener("pointercancel",endDrag);
+dial.addEventListener("keydown",function(e){var d=0,r=R[cur];
+if(e.key==="ArrowUp"||e.key==="ArrowRight")d=.5;else if(e.key==="ArrowDown"||e.key==="ArrowLeft")d=-.5;else if(e.key==="PageUp")d=2;else if(e.key==="PageDown")d=-2;
+else if(e.key==="Home"){e.preventDefault();setT(MIN,true);return}else if(e.key==="End"){e.preventDefault();setT(MAX,true);return}
+if(d){e.preventDefault();setT(r.t+d,true)}});
+$$(".rbtn").forEach(function(b){b.addEventListener("click",function(){setT(R[cur].t+(+b.getAttribute("data-step"))*.5,true)})});
+/* בוררי רדיו: roving tabindex, חצים לפי כיוון הדף */
+var rtl=getComputedStyle(q).direction==="rtl";
+function radios(g,onPick){var bs=$$("[role=radio]",g);
+function pick(i,f){bs.forEach(function(b,j){b.setAttribute("aria-checked",String(j===i));b.tabIndex=j===i?0:-1});if(f)bs[i].focus();onPick(bs[i].getAttribute("data-v"))}
+bs.forEach(function(b,i){b.addEventListener("click",function(){pick(i,false)});
+b.addEventListener("keydown",function(e){var d=e.key==="ArrowLeft"?(rtl?1:-1):e.key==="ArrowRight"?(rtl?-1:1):e.key==="ArrowDown"?1:e.key==="ArrowUp"?-1:0;
+if(d){e.preventDefault();pick((i+d+bs.length)%bs.length,true)}else if(e.key==="Home"){e.preventDefault();pick(0,true)}else if(e.key==="End"){e.preventDefault();pick(bs.length-1,true)}})});return{set:function(v){bs.forEach(function(b,j){var on=b.getAttribute("data-v")===v;b.setAttribute("aria-checked",String(on));b.tabIndex=on?0:-1})}}}
+var modeG=radios($(".pick.modes"),function(m){var r=R[cur],was=r.floor&&(m==="cool"||m==="off");r.m=m;if(m==="cool"||m==="off")r.floor=0;render();say(r.n+": מצב "+MODE[m][0]+(was?". חימום הרצפה כבה"+(m==="cool"?" כי הוא לא זמין בקירור":""):""))});
+radios($(".pick.rooms"),function(v){cur=v;modeG.set(R[cur].m);render();say("נבחר "+R[cur].n.replace("ב","")+": יעד "+txt(R[cur].t)+" מעלות, "+MODE[R[cur].m][0])});
+sws.forEach(function(b){b.addEventListener("click",function(){var k=b.getAttribute("data-k"),r=R[cur],st=swState(k,r);
+if(st.dis){say(r.m==="off"?"המערכת כבויה, ההתאמות לא זמינות":"חימום הרצפה לא זמין בקירור");return}
+r[k]=r[k]?0:1;render();say($(".sw-t span",b.parentNode).textContent+": "+(r[k]?"פועל":"כבוי"))})});
+/* הקריאה בחדר זזה אל היעד רק כשהסקשן במסך */
+setInterval(function(){if(!inView)return;var r=R[cur];if(r.m==="off")return;var d=r.t-r.now;if(Math.abs(d)<.05)return;r.now=Math.round((r.now+(d>0?.1:-.1))*10)/10;wV.textContent=r.now.toFixed(1)+"°";var e=etaTxt(r);if(wE.textContent!==e)wE.textContent=e},1200);
+/* פעם אחת, כשהחוגה נכנסת: הקשת נמשכת מהקצה אל הערך */
+var ctrl=$(".ctrl");
+if("IntersectionObserver" in window&&ctrl){dial.style.setProperty("--p",0);new IntersectionObserver(function(en){inView=en[0].isIntersecting;if(inView&&!awake){awake=true;render()}},{threshold:.25}).observe(ctrl)}else{awake=true;render()}
+/* הערכות: טאבים */
+var tabs=$$(".tab"),panels=$$(".panel");
+function pickTab(i,f){tabs.forEach(function(t,j){t.setAttribute("aria-selected",String(j===i));t.tabIndex=j===i?0:-1});panels.forEach(function(p,j){p.hidden=j!==i});if(f)tabs[i].focus()}
+if(tabs.length){pickTab(1,false);
+tabs.forEach(function(t,i){t.addEventListener("click",function(){pickTab(i,false)});t.addEventListener("keydown",function(e){var d=e.key==="ArrowLeft"?(rtl?1:-1):e.key==="ArrowRight"?(rtl?-1:1):0;
+if(d){e.preventDefault();pickTab((i+d+tabs.length)%tabs.length,true)}else if(e.key==="Home"){e.preventDefault();pickTab(0,true)}else if(e.key==="End"){e.preventDefault();pickTab(tabs.length-1,true)}})})}
+/* טופס ההזמנה */
+var form=$(".form"),vg=$(".visit-grid");
+if(form)form.addEventListener("submit",function(e){e.preventDefault();var nm=form.elements.name,tl=form.elements.tel,bad=null;
+function chk(f,ok){var w=f.closest(".fld");w.classList.toggle("err",!ok);f.setAttribute("aria-invalid",String(!ok));if(!ok&&!bad)bad=f}
+chk(nm,nm.value.trim().length>1);chk(tl,tl.value.replace(/[^0-9]/g,"").length>=9);
+if(bad){bad.focus();return}vg.classList.add("is-sent");var ok=$(".ok");if(ok){ok.setAttribute("tabindex","-1");ok.focus()}});
+})();
+</script>
 </body>
 </html>

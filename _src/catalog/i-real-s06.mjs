@@ -1,46 +1,599 @@
-// s06: הועבר מ-i-style1.mjs ב-15.10.2026 לקראת בנייה מחדש כעמוד אמיתי ברף הסטודיו (כמו s08, s09, s10, s13, s14). זמני עד שהבונה כותב את הקובץ מחדש.
-import { sk } from "./i-style1.mjs";
-const NOISE = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")`;
+// S06 · מקסימליזם, גרסה 2 (15.10.2026). נבנה מחדש כעמוד אמיתי, לפי המודל של s05 ו-s14.
+//
+// מה זה: "מגרש", פסטיבל מוזיקה ואוכל עצמאי בתל אביב, שלושה לילות בנובמבר. העסק, ההרכבים, המחירים והכתובת דמיוניים; הצילומים סטוק (ראו ids בשדה note).
+// הפונט: Google Sans בלבד, מקומי, בשלושה משקלים (400, 600, 700). המקסימליזם בא מצבע, משטחים, שכבות, צילום וקצב, לא מפונט תצוגה.
+// הכאוס מבוקר: כל סקשן עוצמה מוחלף בסקשן הפוגה, הצהוב שמור ל-CTA בלבד, ובכל מקום שיש טקסט על שכבה יש משטח אטום מתחתיו.
+// המבנה: הדר דביק כהה · הירו קולאז' (צילום, צילום קטן, שדה נקודות, מילה ענקית, כותרת על רצועות) בפראלקס · סרט רץ · הוכחה שקטה על נייר ·
+// "קיר הפוסטרים" (רגע החתימה: שלוש שורות של פוסטרים נעות לאט בכיוונים מנוגדים) · המגרש · כרטיסים שחוצים צילום ברוחב מלא · הרשמה שקטה בלוח כהה · פוטר כחול.
+// מנוע: ease החתום, reveal ב-keyframes 16px/0.5s, תנועה רציפה כ-CSS על transform בלבד, reduced-motion מכבה הכל, הכל נראה בלי JS.
+
+const EASE = "cubic-bezier(.2,.6,.2,1)";
+
+// ───────── אייקונים: משפחה אחת, stroke 1.7, 24 או 20 ─────────
+const svg = (cls, d) => `<svg class="ico${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${d}</svg>`;
+const I = {
+  arrow: svg(" s", `<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>`),
+  pause: svg(" s", `<path d="M9 5v14"/><path d="M15 5v14"/>`),
+  check: svg("", `<path d="M20 6 9 17l-5-5"/>`),
+  checkS: svg(" s", `<path d="M20 6 9 17l-5-5"/>`),
+  alert: svg(" s", `<circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/>`),
+  food: svg("", `<path d="M7 3v7a2 2 0 0 0 2 2v9"/><path d="M5 3v5"/><path d="M9 3v5"/><path d="M17 21V3c-2.4 1.2-3.5 4-3.5 8H17"/>`),
+  drop: svg("", `<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>`),
+  ear: svg("", `<path d="M7 9a5 5 0 0 1 10 0c0 3-3 4-3 7a3 3 0 0 1-6 0"/><path d="M10 9a2 2 0 0 1 4 0"/>`),
+  access: svg("", `<circle cx="12" cy="4.5" r="1.8"/><path d="M12 8v6h5l2 6"/><path d="M8.5 10.5H15"/><path d="M9.5 14a5 5 0 1 0 6.5 6"/>`),
+};
+// לוגו: שני ריבועים ועיגול, מגרש ממעוף הציפור (לא אייקון, ולכן ללא משפחת ה-stroke)
+const MARK = `<span class="mk" aria-hidden="true"></span>`;
+
+// ───────── ההרכבים (דוגמה): שש הופעות בכל לילה ─────────
+const NIGHTS = [
+  { k: "thu", day: "חמישי", date: "19.11", cls: "thu", r: [-1.2, 1, -.6, 1.4, -1.6, .8], acts: [
+    ["לילה בלי מפתחות", "אינדי-פופ", "19:30", "החצר"],
+    ["הדוד של נועה", "פאנק קליל", "20:30", "הגדולה"],
+    ["שבע ושלושים", "אלקטרוני", "21:30", "המחסן"],
+    ["מרים והנחשים", "רוק-בלוז", "22:15", "הגדולה"],
+    ["קפה שחור", "היפ-הופ", "23:30", "החצר"],
+    ["פלורנטין סאונד", "דיסקו חי", "00:30", "המחסן"],
+  ] },
+  { k: "fri", day: "שישי", date: "20.11", cls: "fri", r: [1.4, -1, .6, -1.5, 1, -.8], acts: [
+    ["המפקדה", "ג'אז ישראלי", "17:00", "החצר"],
+    ["אביב בקלמרים", "פולק", "18:30", "הגדולה"],
+    ["דן והמעבדה", "פופ אלקטרוני", "20:00", "המחסן"],
+    ["בת ים 3000", "סינת'-פופ", "21:15", "הגדולה"],
+    ["הפסנתר של סבא", "נשמה ופאנק", "22:30", "החצר"],
+    ["עד הסוף", "רוק", "23:45", "הגדולה"],
+  ] },
+  { k: "sat", day: "שבת", date: "21.11", cls: "sat", r: [-1, 1.3, -.7, 1.1, -1.4, .9], acts: [
+    ["שמש בתוך הסלון", "אינדי", "17:30", "החצר"],
+    ["תזמורת העיר", "בלאס", "19:00", "הגדולה"],
+    ["יובל וההד", "אלקטרוני", "20:30", "המחסן"],
+    ["אמא ואבא ואני", "פופ-פולק", "21:30", "החצר"],
+    ["שירה לילה", "רוק קולי", "22:30", "הגדולה", "singer"],
+    ["זיכרון דובדבן", "שוגייז", "00:00", "המחסן"],
+  ] },
+];
+const IMG = "../assets/media/real/s06/";
+const poster = (n, a, i, dup) => `<article class="pst card c-${n.cls}${a[4] ? " has-img" : ""}" style="--r:${n.r[i]}deg"${dup ? ' aria-hidden="true"' : ""}>${a[4] ? `<img class="pst-img" src="${IMG}singer.webp" width="1800" height="1012" alt="זמרת עם מיקרופון שרה בתאורת במה כהה, ואורות צהובים מטושטשים מאחוריה" loading="lazy" decoding="async">` : ""}${a[4]?"":`<span class="pst-art m${i}" aria-hidden="true"></span>`}<div class="pst-top"><span class="pst-time" dir="ltr">${a[2]}</span><span class="pst-stage">${a[3]}</span></div><div class="pst-body"><h3>${a[0]}</h3><p>${a[1]}</p></div></article>`;
+const setHtml = (n, dup) => `<div class="set"${dup ? ' aria-hidden="true"' : ""}>${n.acts.map((a, i) => poster(n, a, i, dup)).join("")}</div>`;
+const rowHtml = (n, i) => `<div class="row" data-row role="group" aria-label="${n.day} ${n.date}"><h3 class="row-h"><span class="sw sw-${n.cls}" aria-hidden="true"></span>${n.day} <span class="tm" dir="ltr">${n.date}</span><small>שש הופעות</small></h3><div class="trk" style="--t:${[96, 84, 108][i]}s;--d:${i % 2 ? "reverse" : "normal"}">${setHtml(n, false)}${setHtml(n, true)}${setHtml(n, true)}${setHtml(n, true)}</div></div>`;
+
+// ───────── הסרט הרץ ─────────
+const TICK = ["חמישי 19.11", "שישי 20.11", "שבת 21.11", "18 הופעות", "שלוש במות", "12 דוכני אוכל", "מים בחינם", "תל אביב"];
+const tickSet = dup => `<div class="tick-set"${dup ? ' aria-hidden="true"' : ""}>${[...TICK, ...TICK].map((t, i) => `<span class="ti ${i % 2 ? "t2" : "t1"}">${t}</span><i class="sq" aria-hidden="true"></i>`).join("")}</div>`;
+
+// ───────── כרטיסים ─────────
+const TIERS = [
+  { id: "one", cls: "tk-a", name: "ערב אחד", price: 129, note: "לבחירתכם: חמישי, שישי או שבת", list: ["כניסה לשלוש הבמות", "מים בחינם בכל החצר", "כניסה והכנסה עד חצות"], night: "thu", btn: "b2", cta: "לבחור ערב" },
+  { id: "all", cls: "tk-b", name: "שלושה לילות", price: 289, note: "חוסך 98 ₪ לעומת שלושה ערבים נפרדים", list: ["כל הלילות וכל הבמות", "בקבוק רב-פעמי במתנה", "שער כניסה נפרד, בלי תור"], night: "all", btn: "", cta: "לשמור שלושה לילות", feat: true },
+  { id: "food", cls: "tk-a", name: "שלושה לילות ואוכל", price: 389, note: "כולל שוברי אוכל בשווי 120 ₪", list: ["כל מה שבשלושה לילות", "שוברים לכל הדוכנים", "הכנסה חופשית בין הלילות"], night: "all", btn: "b2", cta: "לשמור עם אוכל" },
+];
+const tierHtml = (t, i) => `<li class="tk card ${t.cls}${t.feat ? " feat" : ""} reveal" style="--i:${i}"><div class="tk-top">${t.feat ? '<span class="tk-tag">חוסך 98 ₪</span>' : ""}<h3>${t.name}</h3><p class="tk-note">${t.note}</p><ul class="tk-list">${t.list.map(x => `<li>${I.checkS}<span>${x}</span></li>`).join("")}</ul></div><div class="tk-stub"><p class="tk-price"><span class="amt">${t.price}</span><span class="cur">₪</span></p><a class="btn sm ${t.btn}" href="#s06-join" data-night="${t.night}">${t.cta}</a></div></li>`;
+
+// ───────── CSS ─────────
+const CSS = `@font-face{font-family:"MV Google Sans";src:url("../assets/fonts/google-sans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+.cwrap{container-type:inline-size}
+.q{--paper:#F5EBDC;--paper-2:#EADCC4;--paper-3:#DDCBAA;--ink:#16120F;--ink-2:#2A241F;--ink-3:#0B0907;
+ --cobalt:#2B3FD6;--cobalt-d:#2233B8;--cobalt-w:#2536BC;--tomato:#EE4B2B;--tomato-d:#D93F20;--yellow:#FFD60A;--yellow-d:#EDC400;
+ --muted:#554A40;--mutedd:#D8CFC2;--field:#9A8F83;--err:#FF9B85;--ring:#2B3FD6;
+ --hh:72px;--th:56px;--sec:112px;--gut:clamp(20px,5cqi,72px);--ease:${EASE};
+ background:var(--paper);color:var(--ink);font-family:"MV Google Sans","Google Sans",system-ui,sans-serif;font-size:16px;line-height:1.6;overflow:clip;position:relative;isolation:isolate;-webkit-font-smoothing:antialiased}
+.q *{box-sizing:border-box}
+.q h1,.q h2,.q h3,.q h4,.q p,.q ul,.q ol,.q figure,.q blockquote,.q address,.q fieldset,.q legend{margin:0}
+.q ul,.q ol{list-style:none;padding:0}
+.q fieldset{border:0;padding:0;min-width:0}
+.q a{color:inherit;text-decoration:none}
+.q address{font-style:normal}
+.q img{display:block;max-width:100%}
+.q button{font:inherit;color:inherit}
+.q .dk{--ring:#fff}
+.q h1{font-size:clamp(40px,min(7.2cqi,10.6svh),104px);line-height:1.05;font-weight:700;letter-spacing:-.02em}
+.q h2{font-size:clamp(32px,4.4cqi,60px);line-height:1.1;font-weight:700;text-wrap:balance}
+.q h3{font-size:22px;line-height:1.25;font-weight:700}
+.q p{text-wrap:pretty}
+.q .lead{font-size:18px;line-height:1.55;max-width:520px}
+.q .micro{font-size:13px;line-height:1.5;color:var(--muted);max-width:480px}
+.q .dk .micro{color:var(--mutedd)}
+.q .eyebrow{display:inline-flex;align-items:center;align-self:flex-start;padding:6px 12px;background:var(--tomato);color:var(--ink);font-size:13px;font-weight:600;line-height:1.2;white-space:nowrap}
+.q .tm{font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;unicode-bidi:isolate}
+.q .ico{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none;display:block}
+.q .ico.s{width:20px;height:20px}
+.q .skip{position:absolute;inset-inline-start:16px;top:-80px;z-index:60;background:var(--yellow);color:var(--ink);padding:12px 20px;font-weight:600}
+.q .skip:focus{top:8px}
+.q :is(a,button,summary,[tabindex]):focus-visible{outline:3px solid var(--ring);outline-offset:3px}
+/* כפתורים: שלוש רמות, ארבעה מצבים. הצהוב הוא CTA בלבד, ויושב רק על משטח כהה */
+.q .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 28px;border:0;border-radius:0;background:var(--yellow);color:var(--ink);font-size:16px;font-weight:700;line-height:1;cursor:pointer;transition:background .18s var(--ease),transform .18s var(--ease);-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.q .btn:active{transform:scale(.98);transition-duration:.12s}
+.q .btn:focus-visible{outline:3px solid var(--ring);outline-offset:3px}
+.q .btn.sm{min-height:44px;padding:10px 20px;font-size:15px}
+.q .btn.b2{background:var(--paper);color:var(--ink)}
+.q .lnk{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:12px 0;background:none;border:0;font-size:15px;font-weight:600;line-height:1;color:inherit;cursor:pointer;text-decoration:underline;text-decoration-thickness:3px;text-decoration-color:transparent;text-underline-offset:6px;transition:text-decoration-color .15s var(--ease)}
+.q .lnk .ico{transition:transform .18s var(--ease)}
+@media (hover:hover) and (pointer:fine){
+.q .btn:hover{background:var(--yellow-d);transform:translateY(-2px)}
+.q .btn.b2:hover{background:var(--paper-3)}
+.q .lnk:hover{text-decoration-color:currentColor}
+.q .lnk:hover .ico{transform:translateX(-4px)}
+}
+/* שדות: חמישה מצבים, על לוח כהה */
+.q .fld{display:flex;flex-direction:column;gap:8px}
+.q .fld label,.q .legend{font-size:14px;font-weight:600;line-height:1.2}
+.q .in{font:inherit;font-size:16px;line-height:1.2;min-height:52px;padding:14px 16px;border:2px solid var(--field);border-radius:0;background:var(--ink-2);color:var(--paper);appearance:none;width:100%;transition:background .15s var(--ease),border-color .15s var(--ease)}
+.q .in::placeholder{color:#B8AD9F}
+.q .in:focus,.q .in:focus-visible{outline:3px solid var(--paper);outline-offset:2px;border-color:var(--paper);background:var(--ink-3)}
+.q .fld.err .in{border-color:var(--err)}
+.q .fld .msg{display:none;align-items:center;gap:6px;font-size:13px;line-height:1.3;color:var(--err)}
+.q .fld.err .msg{display:inline-flex}
+.q .in:disabled{background:var(--ink);color:var(--field)}
+/* reveal: keyframes ולא transition. התוכן גלוי בלי JS; רק .js מסתיר */
+.q.js .reveal{opacity:0}
+.q .reveal.is-in{animation:worev .5s ${EASE} both;animation-delay:calc(var(--i,0) * 70ms)}
+@keyframes worev{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+/* פתיחת עמוד אחת (CSS בלבד, 1.2 שניות): הטקסט עולה, הצילומים נכנסים, אחרון המדבקה */
+.q .oi{animation:woup .6s ${EASE} both}
+.q .oi:nth-child(1){animation-delay:.1s}.q .oi:nth-child(2){animation-delay:.18s}.q .oi:nth-child(3){animation-delay:.26s}.q .oi:nth-child(4){animation-delay:.34s}
+.q .l1,.q .l2,.q .l3{animation:wovis 1s ${EASE} both}
+.q .l1{animation-delay:.15s}.q .l2{animation-delay:.3s}.q .l3{animation-delay:.05s}
+.q .l4{animation:woappear .5s ${EASE} .9s both}
+@keyframes woup{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
+@keyframes wovis{from{opacity:0;translate:0 48px}to{opacity:1;translate:0 0}}
+@keyframes woappear{from{opacity:0}to{opacity:1}}
+@keyframes wosway{from{transform:rotate(-11deg)}to{transform:rotate(-5deg)}}
+@keyframes worow{from{transform:translateX(0)}to{transform:translateX(50%)}}
+/* מבנה */
+.q .wrap{max-width:1320px;margin-inline:auto}
+.q .sec{padding:var(--sec) var(--gut)}
+.q .head{display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:680px;margin-bottom:56px}
+.q section[id]{scroll-margin-top:var(--hh)}
+/* הדר: כהה, דביק, headroom */
+.q .hd{position:sticky;top:0;z-index:30;height:var(--hh);background:var(--ink);color:var(--paper);transition:transform .4s var(--ease)}
+.q .hd.is-hidden{transform:translateY(-100%)}
+.q .hd-in{display:flex;align-items:center;gap:32px;max-width:1320px;height:100%;margin-inline:auto;padding-inline:var(--gut)}
+.q .logo{display:inline-flex;align-items:center;gap:12px;min-height:44px;white-space:nowrap;font-size:26px;font-weight:700;line-height:1;letter-spacing:0}
+.q .mk{--m3:var(--cobalt);width:32px;height:32px;flex:none;display:block;background:radial-gradient(circle at 21px 21px,var(--yellow) 8.5px,transparent 9px),linear-gradient(var(--tomato),var(--tomato)) 2px 2px/16px 16px no-repeat,linear-gradient(var(--m3),var(--m3)) 2px 20px/10px 10px no-repeat}
+.q .ft .mk{--m3:var(--paper)}
+.q .hd nav{display:flex;gap:4px;margin-inline:auto}
+.q .hd nav a{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;font-size:15px;font-weight:600;line-height:1;transition:background .15s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .hd nav a:hover{background:var(--ink-2)}}
+/* הירו: קולאז' בשכבות, נמדד מול גובה המסך */
+.q .hero{--hero-h:max(560px,min(calc(100svh - var(--hh)),900px));--sh:calc(var(--hero-h) - var(--th));position:relative;height:var(--hero-h);display:flex;flex-direction:column;background:var(--cobalt);color:#fff;overflow:hidden}
+.q .stage{position:relative;flex:1 1 auto;min-height:0}
+.q .l{will-change:transform}
+.q .l0{position:absolute;inset-inline-end:-2cqi;bottom:-14%;font-size:min(40cqi,calc(var(--sh) * 1.05));font-weight:700;line-height:.8;letter-spacing:-.02em;color:var(--cobalt-w);white-space:nowrap;user-select:none;transform:translate3d(0,calc(var(--py,0) * .16px),0)}
+.q .pl{position:absolute;inset-inline-end:3cqi;inset-block:0;margin-block:auto;width:min(52cqi,calc(var(--sh) * 1.08));aspect-ratio:6/5}
+.q .pl>*{position:absolute}
+.q .print{background:var(--paper);padding:10px}
+.q .print img{width:100%;height:auto;aspect-ratio:var(--ar);object-fit:cover}
+.q .l1{inset-inline-end:0;top:0;width:88%;--ar:1500/1212;rotate:2deg;transform:translate3d(0,calc(var(--py,0) * -.06px),0)}
+.q .l2{inset-inline-start:0;bottom:0;width:38%;--ar:1500/1100;rotate:-5deg;transform:translate3d(0,calc(var(--py,0) * -.2px),0)}
+.q .l3{inset-inline-end:-7%;top:-7%;width:42%;height:42%;background-image:radial-gradient(var(--tomato) 38%,transparent 41%);background-size:16px 16px;transform:translate3d(0,calc(var(--py,0) * .1px),0)}
+.q .l4{inset-inline-end:2%;bottom:-3%;z-index:4;transform:translate3d(0,calc(var(--py,0) * -.12px),0)}
+.q .stk{--sw:7s;display:flex;flex-direction:column;align-items:center;justify-content:center;width:112px;height:112px;border-radius:50%;background:var(--tomato);color:var(--ink);text-align:center;font-size:13px;font-weight:600;line-height:1.2;animation:wosway var(--sw) ease-in-out infinite alternate}
+.q .stk b{display:block;font-size:26px;font-weight:700;line-height:1;letter-spacing:0}
+.q .txt{position:absolute;inset-block:0;inset-inline-start:var(--gut);width:min(56cqi,720px);z-index:3;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;pointer-events:none}
+.q .txt>*{pointer-events:auto}
+.q .hero h1{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.q .strip{display:inline-block;padding:4px 16px 8px;white-space:nowrap}
+.q .s1{background:var(--paper);color:var(--ink);rotate:-1.2deg}
+.q .s2{background:var(--tomato);color:var(--ink);rotate:1deg;translate:-56px 0}
+.q .s3{background:var(--ink);color:var(--paper);rotate:-.6deg;translate:-24px 0}
+.q .ctas{display:flex;align-items:center;flex-wrap:wrap;gap:8px 28px}
+/* סרט רץ */
+.q .tick{flex:none;height:var(--th);display:flex;align-items:stretch;background:var(--ink);color:var(--paper);position:relative;z-index:5}
+.q .tick-btn{flex:none;display:inline-flex;align-items:center;gap:8px;padding-inline:20px;border:0;background:var(--ink-2);color:var(--paper);font-size:14px;font-weight:600;line-height:1;cursor:pointer;transition:background .15s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .tick-btn:hover{background:var(--ink-3)}}
+.q .tick-view{flex:1;min-width:0;overflow:hidden;display:flex;align-items:center}
+.q .tick-trk{--tt:70s;display:flex;width:max-content;animation:worow var(--tt) linear infinite}
+.q .tick-set{display:flex;align-items:center;flex:none}
+.q .ti{font-size:20px;font-weight:700;line-height:1;white-space:nowrap;padding-inline:24px}
+.q .ti.t2{color:var(--tomato)}
+.q .sq{width:10px;height:10px;background:var(--paper);flex:none;display:block}
+.q[data-paused] .tick-trk,.q[data-paused] .trk,.q[data-paused] .stk{animation-play-state:paused}
+/* הוכחה: שקטה, על נייר */
+.q .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;margin-bottom:72px}
+.q .stat{display:flex;flex-direction:column;gap:12px}
+.q .bar{display:block;width:64px;height:8px}
+.q .bar.b-c{background:var(--cobalt)}.q .bar.b-t{background:var(--tomato)}.q .bar.b-i{background:var(--ink)}
+.q .stat-n{font-size:clamp(56px,7cqi,96px);font-weight:700;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;unicode-bidi:isolate}
+.q .stat p{font-size:17px;line-height:1.5;color:var(--muted);max-width:280px}
+.q .quotes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+.q .qt{display:flex;flex-direction:column;gap:20px;padding:32px;background:var(--paper-2);border-block-start:8px solid var(--c,var(--ink));transition:background .3s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .qt:hover{background:var(--paper-3)}}
+.q .qt:nth-child(1){--c:var(--cobalt)}.q .qt:nth-child(2){--c:var(--tomato)}.q .qt:nth-child(3){--c:var(--ink)}
+.q .qt blockquote{font-size:18px;line-height:1.55}
+.q .qt figcaption{display:flex;flex-direction:column;gap:4px;margin-top:auto}
+.q .qt figcaption b{font-size:15px;font-weight:600;line-height:1.3}
+.q .qt figcaption span{font-size:13px;line-height:1.3;color:var(--muted)}
+/* רגע החתימה: קיר הפוסטרים */
+.q .wall{padding-block:var(--sec);background:var(--paper-2)}
+.q .wall .head,.q .wall .wall-foot{padding-inline:var(--gut);margin-inline:auto;max-width:1320px}
+.q .wall .head{margin-bottom:40px}
+.q .wall .head>div{display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:680px}
+.q .rows{display:flex;flex-direction:column;gap:24px}
+.q .row{overflow:hidden;padding-block:16px}
+.q .row-h{display:flex;align-items:center;gap:12px;padding-inline:var(--gut);margin-bottom:16px;font-size:22px;font-weight:700;line-height:1.2}
+.q .row-h small{font-size:14px;font-weight:600;color:var(--muted);margin-inline-start:8px}
+.q .sw{width:16px;height:16px;flex:none;display:block}
+.q .sw-thu{background:var(--cobalt)}.q .sw-fri{background:var(--tomato)}.q .sw-sat{background:var(--ink)}
+.q .trk{display:flex;width:max-content;animation:worow var(--t) linear infinite;animation-direction:var(--d,normal)}
+.q .row:hover .trk,.q .row:focus-within .trk,.q .rows.is-off .trk{animation-play-state:paused}
+.q .set{display:flex;gap:20px;padding-inline-end:20px;flex:none}
+.q .pst{position:relative;flex:none;width:248px;height:352px;padding:20px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;overflow:hidden;rotate:var(--r,0deg);transition:rotate .3s var(--ease),translate .3s var(--ease),background .3s var(--ease);scroll-snap-align:start}
+.q .pst::after{content:"";position:absolute;inset-inline:0;bottom:0;height:40px;background:repeating-linear-gradient(135deg,var(--s1) 0 12px,var(--s2) 12px 24px)}
+.q .pst h3{font-size:32px;line-height:1.1;letter-spacing:0}
+.q .pst p{font-size:15px;line-height:1.4;margin-top:8px}
+.q .pst-body{padding-bottom:40px}
+.q .pst-top{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:15px;font-weight:600;line-height:1}
+.q .pst-time{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.q .pst-stage{padding:6px 10px;font-size:13px;background:var(--st-bg);color:var(--st-fg)}
+/* מוטיבים גיאומטריים בפוסטרים: צורה אחת גדולה וצורה אחת קטנה בצבעי הלילה, בלי טקסט עליהם */
+.q .pst-art{position:absolute;inset-inline:20px;top:72px;height:104px;pointer-events:none}
+.q .pst-art::before,.q .pst-art::after{content:"";position:absolute;display:block}
+.q .m0::before{inset-inline-end:0;top:0;width:96px;height:96px;border-radius:50%;background:var(--a1)}
+.q .m0::after{inset-inline-start:0;bottom:0;width:48px;height:48px;background:var(--a2)}
+.q .m1::before{inset-inline-start:0;top:0;width:104px;height:96px;background:var(--a1);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.q .m1::after{inset-inline-end:8px;top:8px;width:44px;height:44px;border-radius:50%;background:var(--a2)}
+.q .m2::before{inset-inline-end:0;bottom:0;width:112px;height:56px;border-radius:112px 112px 0 0;background:var(--a1)}
+.q .m2::after{inset-inline-start:0;top:0;width:88px;height:64px;background:repeating-linear-gradient(90deg,var(--a2) 0 8px,transparent 8px 16px)}
+.q .m3::before{inset-inline-start:16px;top:8px;width:68px;height:68px;rotate:45deg;background:var(--a1)}
+.q .m3::after{inset-inline-end:0;bottom:0;width:80px;height:80px;background:radial-gradient(var(--a2) 36%,transparent 40%) 0 0/16px 16px}
+.q .m4::before{inset-inline-end:0;top:0;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,transparent 0 30px,var(--a1) 31px)}
+.q .m4::after{inset-inline-start:0;bottom:8px;width:72px;height:24px;background:var(--a2)}
+.q .m5::before{inset-inline-start:0;bottom:0;width:104px;height:104px;border-radius:104px 0 0 0;background:var(--a1)}
+.q .m5::after{inset-inline-end:0;top:0;width:56px;height:56px;rotate:45deg;background:var(--a2)}
+.q .pst.has-img{padding-top:0}
+.q .pst-img{position:absolute;inset-inline:0;top:0;width:100%;height:132px;object-fit:cover}
+.q .pst.has-img .pst-top{margin-top:148px}
+.q .pst.has-img h3{font-size:26px}
+.q .c-thu{background:var(--cobalt);color:#fff;--s1:var(--cobalt-d);--s2:var(--cobalt);--st-bg:#fff;--st-fg:var(--cobalt);--a1:var(--paper);--a2:var(--tomato)}
+.q .c-fri{background:var(--tomato);color:var(--ink);--s1:var(--tomato-d);--s2:var(--tomato);--st-bg:var(--ink);--st-fg:var(--paper);--a1:var(--ink);--a2:var(--paper)}
+.q .c-sat{background:var(--ink);color:var(--paper);--s1:var(--ink-3);--s2:var(--ink-2);--st-bg:var(--paper);--st-fg:var(--ink);--a1:var(--cobalt);--a2:var(--tomato)}
+@media (hover:hover) and (pointer:fine){
+.q .pst.card:hover{rotate:0deg;translate:0 -8px}
+.q .c-thu:hover{background:var(--cobalt-d)}.q .c-fri:hover{background:var(--tomato-d)}.q .c-sat:hover{background:var(--ink-3)}
+}
+.q .wall-foot{display:flex;align-items:center;justify-content:space-between;gap:16px 24px;flex-wrap:wrap;margin-top:24px}
+/* המגרש */
+.q .grounds-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:96px;align-items:center;max-width:1320px;margin-inline:auto}
+.q .gp{position:relative;isolation:isolate;margin-inline:24px}
+.q .gp::before{content:"";position:absolute;inset:24px -24px -24px 24px;background:var(--tomato);z-index:-1}
+.q .gp .print{rotate:-1.5deg}
+.q .gp .print img{aspect-ratio:1300/1000}
+.q .gp-cap{position:absolute;inset-inline-start:-16px;bottom:-24px;z-index:2;padding:12px 20px;background:var(--ink);color:var(--paper);font-size:15px;font-weight:600;line-height:1.3}
+.q .gl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 32px;margin-top:8px}
+.q .gl li{display:flex;flex-direction:column;gap:12px}
+.q .gl .ib{display:grid;place-items:center;width:48px;height:48px;background:var(--ink);color:var(--paper)}
+.q .gl li:nth-child(1) .ib{background:var(--tomato);color:var(--ink)}
+.q .gl li:nth-child(2) .ib{background:var(--cobalt);color:#fff}
+.q .gl h3{font-size:20px}
+.q .gl p{font-size:16px;line-height:1.55;color:var(--muted)}
+/* כרטיסים: צילום שחוצה את הגבול ולוחות כרטיס עם ניקוב */
+.q .tix{background:var(--paper-2);padding-bottom:var(--sec)}
+.q .tix-band{position:relative;height:clamp(360px,54svh,560px);background:var(--ink);overflow:hidden}
+.q .tix-band img{width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.q .tix-head{position:absolute;inset-inline:var(--gut);bottom:176px;z-index:2;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+.q .tix-head h2{display:flex;flex-direction:column;align-items:flex-start;gap:8px;font-size:clamp(32px,5cqi,68px);letter-spacing:0}
+.q .tix-head .s1{rotate:-1deg}
+.q .tix-head .s2{rotate:.8deg;translate:-32px 0}
+.q .tix-body{position:relative;z-index:3;max-width:1320px;margin:-128px auto 0;padding-inline:var(--gut)}
+.q .tks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;align-items:stretch}
+.q .tk{position:relative;display:flex;flex-direction:column;background:var(--cobalt);color:#fff;transition:translate .3s var(--ease)}
+.q .tk.feat{background:var(--ink);color:var(--paper)}
+.q .tk-top{display:flex;flex-direction:column;align-items:flex-start;gap:16px;padding:32px 32px 40px}
+.q .tk-tag{padding:6px 12px;background:var(--tomato);color:var(--ink);font-size:13px;font-weight:600;line-height:1.2}
+.q .tk h3{font-size:28px;letter-spacing:0}
+.q .tk-note{font-size:15px;line-height:1.5;color:var(--mutedd)}
+.q .tk:not(.feat) .tk-note{color:#E1E6FF}
+.q .tk-list{display:flex;flex-direction:column;gap:12px;margin-top:8px}
+.q .tk-list li{display:flex;align-items:flex-start;gap:12px;font-size:16px;line-height:1.45}
+.q .tk-list .ico{translate:0 2px}
+.q .tk-stub{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:24px 32px;margin-top:auto;background:var(--cobalt-d);transition:background .3s var(--ease)}
+.q .tk.feat .tk-stub{background:var(--ink-3)}
+.q .tk-stub::before,.q .tk-stub::after{content:"";position:absolute;top:-16px;width:32px;height:32px;border-radius:50%;background:var(--paper-2)}
+.q .tk-stub::before{inset-inline-start:-16px}.q .tk-stub::after{inset-inline-end:-16px}
+.q .tk-price{display:flex;align-items:baseline;gap:6px;line-height:1}
+.q .tk-price .amt{font-size:56px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.q .tk-price .cur{font-size:24px;font-weight:600}
+@media (hover:hover) and (pointer:fine){
+.q .tk.card:hover{translate:0 -8px}
+.q .tk:not(.feat):hover .tk-stub{background:#1B2A99}
+.q .tk.feat:hover .tk-stub{background:#000}
+}
+.q .tix-foot{max-width:1320px;margin:32px auto 0;padding-inline:var(--gut)}
+/* הרשמה שקטה: לוח כהה אחד, בלי קישוט */
+.q .join{padding:var(--sec) var(--gut)}
+.q .jp{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1fr);gap:72px;align-items:start;max-width:1320px;margin-inline:auto;padding:72px 64px;background:var(--ink);color:var(--paper)}
+.q .jp .head{margin-bottom:0}
+.q .jp .lead{color:var(--mutedd)}
+.q .form{display:flex;flex-direction:column;gap:24px}
+.q .form .row2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.q .opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.q .opt{position:relative}
+.q .opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.q .opt span{display:inline-flex;align-items:center;min-height:44px;padding:10px 20px;border:2px solid var(--field);background:var(--ink-2);font-size:15px;font-weight:600;line-height:1;transition:background .18s var(--ease),color .18s var(--ease),border-color .18s var(--ease)}
+.q .opt input:checked+span{background:var(--paper);border-color:var(--paper);color:var(--ink)}
+.q .opt input:focus-visible+span{outline:3px solid var(--paper);outline-offset:3px}
+@media (hover:hover) and (pointer:fine){.q .opt input:not(:checked):hover+span{background:var(--ink-3)}}
+.q .form-foot{display:flex;align-items:center;flex-wrap:wrap;gap:16px 24px}
+.q .ok{display:none;flex-direction:column;align-items:flex-start;gap:16px;padding:16px 0}
+.q .ok .tick-ic{width:56px;height:56px;background:var(--paper);color:var(--ink);display:grid;place-items:center}
+.q .jp.is-sent .form{display:none}
+.q .jp.is-sent .ok{display:flex}
+/* פוטר: כחול, עם המילה כצל טון על טון */
+.q .ft{position:relative;padding:72px var(--gut) 0;background:var(--cobalt);color:#fff;overflow:hidden}
+.q .ft-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;max-width:1320px;margin-inline:auto}
+.q .ft-brand{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.q .ft-brand p{font-size:16px;line-height:1.6;max-width:320px}
+.q .ft-col{display:flex;flex-direction:column;font-size:16px;line-height:1.6}
+.q .ft-col span:not(.ft-h),.q .ft-col address{padding-block:4px}
+.q .ft-h{font-size:14px;font-weight:700;line-height:1.3;margin-bottom:8px}
+.q .ft-col a,.q .ft-bot a{display:inline-block;padding-block:6px;transition:background .15s var(--ease)}
+.q .ft-col a[href^="tel"]{unicode-bidi:isolate;align-self:flex-start}
+@media (hover:hover) and (pointer:fine){.q .ft-col a:hover,.q .ft-bot a:hover{background:var(--cobalt-d)}}
+.q .ft-bot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 32px;max-width:1320px;margin:56px auto 0;font-size:14px;position:relative;z-index:2}
+.q .ft-bot nav{display:flex;gap:24px;flex-wrap:wrap}
+.q .ft-note{max-width:480px;margin:8px 0 0;margin-inline-start:max(0px,calc((100% - 1320px) / 2));font-size:13px;line-height:1.5;color:#E1E6FF;position:relative;z-index:2}
+.q .ft-word{max-width:1320px;margin:0 auto;height:clamp(120px,22cqi,300px);font-size:clamp(160px,34cqi,460px);font-weight:700;line-height:1;letter-spacing:-.02em;color:var(--cobalt-w);text-align:center;user-select:none;overflow:hidden;white-space:nowrap}
+.q .ft-word span{display:block;transform:translateY(8%)}
+/* מובייל וטאבלט */
+@container (min-width:910px){.q h2{letter-spacing:-.02em}}
+@container (max-width:1023px){
+.q{--sec:88px}
+.q .hd nav a{padding:10px 12px}
+.q .grounds-grid{gap:72px}
+.q .tks{gap:24px}
+.q .tk-top{padding:24px 24px 32px}
+.q .tk-stub{padding:24px}
+.q .tk-price .amt{font-size:48px}
+.q .jp{padding:56px 40px;gap:48px}
+.q .ft-top{grid-template-columns:1fr 1fr}
+}
+@container (max-width:767px){
+.q{--sec:64px;--hh:64px;--th:48px}
+.q .hd-in{gap:16px}
+.q .hd nav{display:none}
+.q .hd .btn{margin-inline-start:auto}
+.q .logo{font-size:24px}
+.q h2{letter-spacing:0}
+.q h1{font-size:clamp(40px,min(11cqi,6.4svh),56px)}
+.q .head{margin-bottom:40px}
+.q .hero{--hero-h:max(560px,calc(100svh - var(--hh)))}
+.q .stage{display:flex;flex-direction:column;justify-content:center;gap:0;padding:16px var(--gut) 16px}
+.q .pl{position:relative;inset:auto;margin:0;width:100%;height:min(calc(var(--sh) * .36),240px);aspect-ratio:auto}
+.q .l1{width:min(76%,calc(min(calc(var(--sh) * .34),230px) * 1.2));height:auto}
+.q .l1 img{aspect-ratio:1500/1100}
+.q .l2{width:min(32%,calc(var(--sh) * .22))}
+.q .l3{width:36%;height:60%;inset-inline-end:-2%;top:-4%}
+.q .l4{inset-inline-end:auto;inset-inline-start:36%;bottom:auto;top:-8%}
+.q .stk{width:88px;height:88px;font-size:11px}
+.q .stk b{font-size:20px}
+.q .l0{font-size:calc(var(--sh) * .6);bottom:-4%}
+.q .txt{position:relative;inset:auto;width:100%;z-index:3;gap:16px;margin-top:-24px;justify-content:flex-start}
+.q .s2{translate:-16px 0}.q .s3{translate:-8px 0}
+.q .lead{font-size:17px}
+.q .ctas{width:100%;flex-direction:column;align-items:stretch;gap:0}
+.q .ctas .btn{width:100%}
+.q .ctas .lnk{justify-content:center}
+.q .tick-btn span{display:none}
+.q .tick-btn{padding-inline:16px;min-width:48px;justify-content:center}
+.q .stats{grid-template-columns:1fr;gap:32px;margin-bottom:56px}
+.q .stat p{max-width:none}
+.q .quotes{grid-template-columns:1fr}
+.q .qt{padding:24px}
+.q .row{overflow-x:auto;overflow-y:hidden;scroll-snap-type:x proximity;scrollbar-width:none;overscroll-behavior-x:contain}
+.q .row::-webkit-scrollbar{display:none}
+.q .trk{animation:none}
+.q .set+.set{display:none}
+.q .set{padding-inline:var(--gut)}
+.q .pst{width:232px;height:336px}
+.q .pst h3{font-size:30px}
+.q .grounds-grid{grid-template-columns:1fr;gap:64px}
+.q .gp{margin-inline:12px}
+.q .gp-cap{inset-inline-start:-8px}
+.q .gl{grid-template-columns:1fr;gap:32px}
+.q .tix-band{height:clamp(320px,48svh,420px)}
+.q .tix-head{bottom:160px}
+.q .tix-head h2{font-size:clamp(32px,9cqi,44px)}
+.q .tix-body{margin-top:-112px}
+.q .tks{grid-template-columns:1fr;gap:32px}
+.q .jp{grid-template-columns:1fr;padding:40px 24px;gap:40px}
+.q .opt span{padding:10px 14px}
+.q .form .row2{grid-template-columns:1fr}
+.q .form-foot .btn{width:100%}
+.q .ft{padding-top:56px}
+.q .ft-top{grid-template-columns:1fr;gap:32px}
+.q .ft-bot{margin-top:40px}
+.q .ft-bot nav{gap:16px}
+}
+@media (prefers-reduced-motion:reduce){
+.q.js .reveal{opacity:1}
+.q .reveal.is-in,.q .oi,.q .l1,.q .l2,.q .l3,.q .l4,.q .stk{animation:none}
+.q .l0,.q .l1,.q .l2,.q .l3,.q .l4{transform:none}
+.q .tick-trk,.q .trk{animation:none}
+.q .tick-view{overflow-x:auto}
+.q .tick-set+.tick-set{display:none}
+.q .row{overflow-x:auto;scroll-snap-type:x proximity}
+.q .set+.set{display:none}
+.q .btn,.q .lnk,.q .lnk .ico,.q .tick-btn,.q .pst,.q .tk,.q .tk-stub,.q .qt,.q .hd,.q .opt span,.q .hd nav a{transition:none}
+.q .btn:hover,.q .btn:active{transform:none}
+.q .pst.card:hover,.q .tk.card:hover{translate:none;rotate:var(--r,0deg)}
+.q .lnk:hover .ico{transform:none}
+}`;
+
+// ───────── HTML ─────────
+const HTML = `<div class="cwrap sk-s06"><div class="q" id="s06-top">
+<a class="skip" href="#s06-main">דילוג לתוכן</a>
+<header class="hd dk"><div class="hd-in">
+<a class="logo" href="#s06-top" aria-label="מגרש, לראש הדף">${MARK}<span>מגרש</span></a>
+<nav aria-label="ראשי"><a href="#s06-lineup">ההופעות</a><a href="#s06-grounds">המגרש</a><a href="#s06-proof">מה אמרו</a><a href="#s06-tix">כרטיסים</a></nav>
+<a class="btn sm" href="#s06-tix">לכרטיסים</a>
+</div></header>
+<main id="s06-main">
+<section class="hero dk" aria-labelledby="s06-h1">
+<div class="stage">
+<div class="l l0" aria-hidden="true">מגרש</div>
+<div class="pl">
+<div class="l l3" aria-hidden="true"></div>
+<figure class="l l1 print"><img src="${IMG}dancers.webp" width="1500" height="1212" alt="ארבעה חברים רוקדים בשדה בפסטיבל, ידיים באוויר, אבקת צבע על הפנים והבגדים ומשקפי שמש" fetchpriority="high" decoding="async"></figure>
+<figure class="l l2 print"><img src="${IMG}hug.webp" width="1500" height="1100" alt="שתי חברות מתחבקות בשמחה מול הבמה בפסטיבל, אחת במשקפי שמש ובמעיל עור" decoding="async"></figure>
+<div class="l l4" aria-hidden="true"><div class="stk"><b>19-21</b><span>בנובמבר</span></div></div>
+</div>
+<div class="txt">
+<span class="eyebrow oi">פסטיבל מוזיקה ואוכל עצמאי · תל אביב</span>
+<h1 class="oi" id="s06-h1"><span class="strip s1">שלושה לילות,</span><span class="strip s2">מגרש אחד,</span><span class="strip s3">וכולם כבר שם</span></h1>
+<p class="lead oi">18 הופעות על שלוש במות, 12 דוכני אוכל וחצר אחת גדולה. חמישי עד שבת, 19 עד 21 בנובמבר.</p>
+<div class="ctas oi"><a class="btn" href="#s06-tix">לכרטיסים מ-129 ₪</a><a class="lnk" href="#s06-lineup">ללוח ההופעות${I.arrow}</a></div>
+</div>
+</div>
+<div class="tick"><button class="tick-btn" type="button" data-pause aria-label="השהיית התנועה">${I.pause}<span>השהיית התנועה</span></button><div class="tick-view" aria-hidden="true"><div class="tick-trk">${tickSet(false)}${tickSet(true)}${tickSet(true)}${tickSet(true)}</div></div></div>
+</section>
+
+<section class="sec proof" id="s06-proof" aria-labelledby="s06-pr-h"><div class="wrap">
+<div class="head reveal"><span class="eyebrow">משנה שעברה</span><h2 id="s06-pr-h">מי שהיה כאן, חזר השנה</h2><p class="lead">שלושה נתונים ושלוש מילים של מי שעמד בחצר. כולם לדוגמה.</p></div>
+<div class="stats">
+<div class="stat reveal" style="--i:0"><span class="bar b-c"></span><span class="stat-n">4,200</span><p>כרטיסים נמכרו בשלושת הלילות</p></div>
+<div class="stat reveal" style="--i:1"><span class="bar b-t"></span><span class="stat-n">3</span><p>במות, וכולן במרחק של דקת הליכה אחת</p></div>
+<div class="stat reveal" style="--i:2"><span class="bar b-i"></span><span class="stat-n">12</span><p>דוכני אוכל, כולם של עסקים מהעיר</p></div>
+</div>
+<div class="quotes">
+<figure class="qt reveal" style="--i:0"><blockquote>באתי לראות להקה אחת ונשארתי עד שכיבו את האורות. אוכל טוב, במה קטנה ואף אחד לא דוחף.</blockquote><figcaption><b>דנה כ.</b><span>הגיעה בשנה שעברה · ביקורת לדוגמה</span></figcaption></figure>
+<figure class="qt reveal" style="--i:1"><blockquote>הבאנו את הילדים בשישי אחר הצהריים. היה איפה לשבת, מים בחינם ומוזיקה שלא צריך לצעוק מעליה.</blockquote><figcaption><b>רן ל.</b><span>הגיע עם המשפחה · ביקורת לדוגמה</span></figcaption></figure>
+<figure class="qt reveal" style="--i:2"><blockquote>עמדתי בדוכן של שישי. מהר מאוד הבנתי שבאים לכאן בשביל המוזיקה, ואחר כך נשארים בשביל האוכל.</blockquote><figcaption><b>אורן ש.</b><span>בעל דוכן · ביקורת לדוגמה</span></figcaption></figure>
+</div>
+</div></section>
+
+<section class="wall" id="s06-lineup" aria-labelledby="s06-ln-h">
+<div class="head reveal"><div><span class="eyebrow">ההופעות</span><h2 id="s06-ln-h">שלושה לילות על קיר אחד</h2><p class="lead">כל פוסטר הוא הופעה: שעה, במה וסגנון. השורות נעות לאט, והעכבר עוצר אותן.</p></div></div>
+<div class="rows reveal">${NIGHTS.map(rowHtml).join("")}</div>
+<div class="wall-foot reveal"><p class="micro">ההרכבים, השעות והמחירים לדוגמה, להדגמת העיצוב בלבד.</p><button class="lnk" type="button" data-pause2>${I.pause}<span>השהיית התנועה</span></button></div>
+</section>
+
+<section class="sec grounds" id="s06-grounds" aria-labelledby="s06-gr-h"><div class="grounds-grid">
+<div class="gp reveal"><figure class="print"><img src="${IMG}food.webp" width="1300" height="1000" alt="אישה בכובע לבד מקבלת קונוס צ'יפס מדוכן אוכל, ומקרר משקאות קרים לפניה" loading="lazy" decoding="async"></figure><p class="gp-cap">12 דוכנים, כולם מהעיר</p></div>
+<div>
+<div class="head reveal"><span class="eyebrow">המגרש</span><h2 id="s06-gr-h">מה יש בין ההופעות</h2><p class="lead">הכל במרחק הליכה מהבמה, ואפשר לצאת לנשום ולחזור באותו כרטיס.</p></div>
+<ul class="gl">
+<li class="reveal" style="--i:0"><span class="ib">${I.food}</span><h3>אוכל מהעיר</h3><p>פיצה בתנור אבן, צ'יפס בקונוס, פלאפל ויין מהחבית. מנות בין 18 ל-42 ₪ (דוגמה).</p></li>
+<li class="reveal" style="--i:1"><span class="ib">${I.drop}</span><h3>מים בחינם</h3><p>ברזים בכל חצר, ובקבוק רב-פעמי במתנה לכל מי שקנה שלושה לילות.</p></li>
+<li class="reveal" style="--i:2"><span class="ib">${I.ear}</span><h3>פינה שקטה</h3><p>אוהל בלי רמקולים, עם כיסאות ואטמי אוזניים חינם בכניסה.</p></li>
+<li class="reveal" style="--i:3"><span class="ib">${I.access}</span><h3>גישה לכולם</h3><p>כניסה בלי מדרגות, שירותים נגישים ופלטפורמה מוגבהה מול הבמה הגדולה.</p></li>
+</ul>
+</div>
+</div></section>
+
+<section class="tix" id="s06-tix" aria-labelledby="s06-tx-h">
+<div class="tix-band dk"><img src="${IMG}hands.webp" width="2560" height="1400" alt="ידיים מורמות לשמיים מול שמש חזקה, עם צמידים צבעוניים על פרקי הידיים" loading="lazy" decoding="async">
+<div class="tix-head"><span class="eyebrow">כרטיסים</span><h2 id="s06-tx-h"><span class="strip s1">בוחרים ערב אחד</span><span class="strip s2">או את שלושתם</span></h2></div></div>
+<div class="tix-body"><ul class="tks dk">${TIERS.map(tierHtml).join("")}</ul></div>
+<div class="tix-foot reveal"><p class="micro">המחירים כוללים מע"מ והם לדוגמה, להדגמת העיצוב בלבד. אין כאן מכירה אמיתית של כרטיסים.</p></div>
+</section>
+
+<section class="join" id="s06-join" data-cta-end aria-labelledby="s06-jn-h"><div class="jp dk reveal">
+<div class="head"><span class="eyebrow">עוד לא החלטתם</span><h2 id="s06-jn-h">נשמור לכם מקום בתור הראשון</h2><p class="lead">משאירים שם וטלפון ובוחרים ערב. נשלח הודעה אחת, יום לפני שהמכירה נפתחת.</p></div>
+<div>
+<form class="form" novalidate>
+<div class="row2">
+<div class="fld"><label for="s06-name">שם</label><input class="in" id="s06-name" name="name" autocomplete="name" required aria-describedby="s06-name-m"><span class="msg" id="s06-name-m">${I.alert}איך נקרא לכם?</span></div>
+<div class="fld"><label for="s06-tel">טלפון</label><input class="in" id="s06-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required aria-describedby="s06-tel-m"><span class="msg" id="s06-tel-m">${I.alert}המספר לא נראה תקין, אפשר לבדוק?</span></div>
+</div>
+<fieldset><legend class="legend">איזה ערב מעניין אתכם?</legend><div class="opts">
+<label class="opt"><input type="radio" name="night" value="all" checked><span>שלושת הלילות</span></label>
+<label class="opt"><input type="radio" name="night" value="thu"><span>חמישי</span></label>
+<label class="opt"><input type="radio" name="night" value="fri"><span>שישי</span></label>
+<label class="opt"><input type="radio" name="night" value="sat"><span>שבת</span></label>
+</div></fieldset>
+<div class="form-foot"><button class="btn" type="submit">לשמור לי מקום</button><p class="micro">בלי רשימות תפוצה. את הטלפון משתמשים רק להודעה הזאת.</p></div>
+</form>
+<div class="ok" role="status" aria-live="polite"><span class="tick-ic">${I.check}</span><h3>קיבלנו, נתראה במגרש</h3><p class="lead">ההודעה תגיע יום לפני פתיחת המכירה.</p></div>
+</div>
+</div></section>
+</main>
+
+<footer class="ft dk"><div class="ft-top">
+<div class="ft-brand"><a class="logo" href="#s06-top" aria-label="מגרש, לראש הדף">${MARK}<span>מגרש</span></a><p>פסטיבל מוזיקה ואוכל עצמאי בתל אביב. שלושה לילות בנובמבר, בחצר אחת.</p></div>
+<div class="ft-col"><p class="ft-h">שערים</p><span>חמישי, 19:00 עד 01:30</span><span>שישי, 16:30 עד 01:30</span><span>שבת, 17:00 עד 01:30</span></div>
+<div class="ft-col"><p class="ft-h">להגיע</p><address>המגרש, רחוב הפלד 9, תל אביב</address><a href="tel:+97235550170" dir="ltr">03-555-0170</a></div>
+<div class="ft-col"><p class="ft-h">באתר</p><a href="#s06-lineup">ההופעות</a><a href="#s06-grounds">המגרש</a><a href="#s06-proof">מה אמרו</a><a href="#s06-tix">כרטיסים</a></div>
+</div>
+<div class="ft-bot"><p>© <span data-year>2026</span> מגרש</p><nav aria-label="משפטי"><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">הצהרת נגישות</a></nav><p>עוצב ופותח על ידי <a href="https://liavmatzri.co.il" rel="noopener">ליאב מצרי</a></p></div>
+<p class="ft-note">הפסטיבל, ההרכבים, המחירים, הכתובת והטלפון דמיוניים, והוכנו להדגמת השפה העיצובית.</p>
+<div class="ft-word" aria-hidden="true"><span>מגרש</span></div>
+</footer>
+</div></div>`;
+
+// ───────── JS ─────────
+// כל כתיבה ל-DOM בגלילה רק כשהערך השתנה. ההדר נדבק מתחת לסרגל המאגר רק כשהוא דביק ומוצג (בפרויקט אין סרגל).
+// reduced-motion: reveal, פתיחה ופראלקס כבויים; השורות והסרט נשארים סטטיים וניתנים לגלילה.
+const JS = `(function(){var root=document.querySelector(".sk-s06");if(!root)return;var q=root.querySelector(".q");q.classList.add("js");
+var rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function $(s,r){return(r||q).querySelector(s)}function $$(s,r){return[].slice.call((r||q).querySelectorAll(s))}
+$$("[data-year]").forEach(function(e){e.textContent=new Date().getFullYear()});
+/* הדר: headroom */
+var hd=$(".hd"),top=document.querySelector(".vtop"),lastTop=-1,hidden=false,lastY=window.scrollY,acc=0;
+function place(){if(!hd||!top)return;var s=getComputedStyle(top),v=s.position==="sticky"&&s.display!=="none"?top.offsetHeight:0;if(v!==lastTop){lastTop=v;hd.style.top=v+"px"}}
+function setHidden(v){if(v===hidden)return;hidden=v;hd.classList.toggle("is-hidden",v)}
+function onScroll(){place();var y=window.scrollY,d=y-lastY;lastY=y;if(y<=96){acc=0;setHidden(false);return}
+acc=(d>0)===(acc>0)?acc+d:d;if(acc>6)setHidden(true);else if(acc<-6)setHidden(false)}
+window.addEventListener("scroll",onScroll,{passive:true});window.addEventListener("resize",place);hd.addEventListener("focusin",function(){setHidden(false)});place();
+/* reveal פעם אחת */
+var els=$$(".reveal");
+if(rm||!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("is-in")})}
+else{var io=new IntersectionObserver(function(en){en.forEach(function(x){if(!x.isIntersecting)return;x.target.classList.add("is-in");io.unobserve(x.target)})},{threshold:.12});els.forEach(function(e){io.observe(e)})}
+/* פראלקס ההירו (רגע החתימה הראשון): משתנה אחד, נכתב רק כשהערך המעוגל השתנה */
+var hero=$(".hero"),py=-1,tick=false;
+function par(){tick=false;if(!hero)return;var r=hero.getBoundingClientRect(),y=Math.round(Math.max(0,Math.min(r.height,-r.top)));if(y!==py){py=y;hero.style.setProperty("--py",String(y))}}
+if(hero&&!rm){window.addEventListener("scroll",function(){if(!tick){tick=true;requestAnimationFrame(par)}},{passive:true});par()}
+/* השהיית כל התנועה הרציפה: הסרט, שורות הפוסטרים והמדבקה (WCAG 2.2.2) */
+function icon(d){return'<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true">'+d+'</svg>'}
+var PA='<path d="M9 5v14"/><path d="M15 5v14"/>',PL='<path d="M8 5l11 7-11 7z"/>';
+function setPaused(p){if(p)q.setAttribute("data-paused","");else q.removeAttribute("data-paused");
+$$("[data-pause]").forEach(function(b){b.setAttribute("aria-label",p?"הפעלת התנועה":"השהיית התנועה");b.innerHTML=icon(p?PL:PA)+"<span>"+(p?"הפעלת התנועה":"השהיית התנועה")+"</span>"});
+$$("[data-pause2]").forEach(function(b){b.innerHTML=icon(p?PL:PA)+"<span>"+(p?"הפעלת התנועה":"השהיית התנועה")+"</span>"})}
+$$("[data-pause],[data-pause2]").forEach(function(b){b.addEventListener("click",function(){setPaused(!q.hasAttribute("data-paused"))})});
+/* שורות הפוסטרים עוצרות מחוץ למסך; כשהשורה ניתנת לגלילה במגע היא מקבלת פוקוס מקלדת */
+var rows=$(".rows");
+if(rows&&"IntersectionObserver" in window){new IntersectionObserver(function(en){en.forEach(function(x){rows.classList.toggle("is-off",!x.isIntersecting)})}).observe(rows)}
+var scr=null;
+function syncRows(){var f=$$("[data-row]")[0],on=!!f&&getComputedStyle(f).overflowX==="auto";if(on===scr)return;scr=on;$$("[data-row]").forEach(function(r){if(on)r.setAttribute("tabindex","0");else r.removeAttribute("tabindex")})}
+syncRows();window.addEventListener("resize",syncRows);
+/* כרטיסים: הכפתור מסמן את הערב בטופס */
+$$("[data-night]").forEach(function(a){a.addEventListener("click",function(){var r=q.querySelector('input[name="night"][value="'+a.getAttribute("data-night")+'"]');if(r)r.checked=true})});
+/* טופס ההרשמה */
+var form=$(".form"),jp=$(".jp");
+if(form)form.addEventListener("submit",function(e){e.preventDefault();var nm=form.elements.name,tl=form.elements.tel,bad=null;
+function chk(f,ok){var w=f.closest(".fld");w.classList.toggle("err",!ok);f.setAttribute("aria-invalid",String(!ok));if(!ok&&!bad)bad=f}
+chk(nm,nm.value.trim().length>1);chk(tl,tl.value.replace(/\\D/g,"").length>=9);
+if(bad){bad.focus();return}jp.classList.add("is-sent");var ok=$(".ok");if(ok){ok.setAttribute("tabindex","-1");ok.focus()}});
+})();`;
+
+const base = {
+  cat: "style", area: "doctrine", status: "מאושר", runway: false, tech: "שפת עיצוב · רמת סטודיו",
+  en: "Maximalism", group: "אמירה וקיצון",
+  when: "מוזיקה, פסטיבלים ואירועים, אופנה ווינטג', קונספט סטורים, ברים ושווקי אוכל, קמפיינים שחיים על אנרגיה ועל תרבות. עסק שמוכר חוויה ושמותר לו להיות רועש, כשיש לו צילום אמיתי של אנשים וצבע.",
+  no: "פיננסים, משפט, בריאות, ייעוץ ומערכות שבהן העומס נקרא כחוסר רצינות. לא לכלי עבודה יומיומיים, לא לאתר שמבקש מהגולש לקרוא הרבה, ולא כשאין צילום חזק: בלי תמונות טובות זה רק רעש צבעוני.",
+  recipe: `פלטה: נייר #F5EBDC (הרקע, אף פעם לא לבן) · נייר-2 #EADCC4 ובהובר נייר-3 #DDCBAA · דיו #16120F (שחור חם) · דיו-2 #2A241F לשדות
+שלושה צבעים חזקים, לכל אחד תפקיד: קובלט #2B3FD6 (מבנה: הירו, פוטר, כרטיסי יום ראשון) · עגבנייה #EE4B2B (חום ואנשים: רצועות, פסי סימון, יום שישי) · צהוב #FFD60A = CTA בלבד, ורק על משטח כהה
+טקסט: דיו על נייר 15.8 · muted #554A40 על נייר 7.3 · לבן על קובלט 7.5 · צהוב על קובלט 5.3 · דיו על עגבנייה 5.0 (לבן על עגבנייה 3.7, לכן עגבנייה לא נושאת טקסט לבן ולא נושאת כפתור צהוב)
+צורה: אפס רדיוס. ריבוע, פס ורצועה הם החומר; העיגול היחיד הוא המדבקה והניקוב בכרטיס. קצה עבה מותר רק כפס של 8px בצבע תפקיד (חלק מהחומר), ולא כמסגרת
+צילום: מודפס על נייר, מסגרת נייר של 10px, שכבות בזוויות קטנות (±5°), גריידינג חם אחד לכל הצילומים. טקסט על צילום רק על משטח אטום (רצועה או כרטיס)
+כותרת: Google Sans 700, H1 עד 104px/1.05/-.02em על רצועות צבע שמונחות בזווית של עד 1.2° · H2 עד 60px · גוף 16 · ליד 18 · שלושה משקלים (400 גוף, 600 ממשק ותגיות, 700 כותרות ומספרים)
+תנועה: reveal 16px/0.5s סטאגר 70ms · פתיחה 1.2s · פראלקס בשלוש שכבות במשתנה אחד (--py) · סרט ושורות פוסטרים כ-CSS על transform · hover מעלה 8px ומיישר את הזווית · ease cubic-bezier(.2,.6,.2,1)`,
+  apply: "הדר דביק בדיו עם headroom וכפתור צהוב אחד. הירו קולאז' בכחול: צילום גדול ושני קטן בזוויות, שדה נקודות עגבנייה, מילת המותג ענקית טון על טון, מדבקת תאריך, וכותרת שיושבת על שלוש רצועות צבע ונוגעת בצילום; סרט רץ בדיו מתחתיו. הוכחה אחרי השיא: נייר, שלושה מספרים עם פס תפקיד וציטוטים בלי קישוט. קיר פוסטרים: שורה לכל לילה, פוסטר בצבע הלילה, והעכבר עוצר ומיישר. אחריו הפוגה על נייר עם צילום שיושב על משטח עגבנייה. כרטיסים: צילום ברוחב מלא שהכרטיסים עולים עליו, עם ניקוב, וכפתור צהוב רק בכרטיס המומלץ. ההרשמה בלוח דיו שקט בלי קישוט. פוטר קובלט עם המילה כצל טון על טון.",
+  sig: "קולאז' הירו בפראלקס: שכבות שנעות במהירויות שונות בגלילה, כשכותרת הרצועות חוצה את הצילום · קיר הפוסטרים: שלוש שורות נעות בכיוונים מנוגדים, כל לילה בצבע משלו, עם עצירה ויישור ב-hover · מילת המותג כצל טון על טון בהירו ובפוטר · כרטיסים עם ניקוב שעולים על צילום ברוחב מלא · צבע אחד לכל תפקיד: הצהוב רק ב-CTA.",
+  avoid: "הכל צועק, ואז כלום לא נשמע: אחרי כל שיא בא סקשן נייר · מדבקות קליפ-ארט אקראיות ופיצוצים · גרדיאנט קשת · טקסט ישירות על צילום עמוס (כאן: רצועה אטומה או כרטיס) · צהוב כרקע או על נייר (ניגודיות 1.2) · עגבנייה עם טקסט לבן · בלובים · פונט תצוגה צעקני שמחליף את הקומפוזיציה · פוסטרים שאי אפשר לקרוא מרוב תנועה, ולכן קיר שעוצר, מושהה ונגלל במגע.",
+  qa: ["הצהוב מופיע רק על כפתור CTA ורק על משטח כהה", "אחרי כל סקשן עוצמה בא סקשן הפוגה על נייר", "כל טקסט על צילום יושב על רצועה או כרטיס אטומים", "פראלקס רק על transform, כתיבה ל-DOM רק כשהערך המעוגל משתנה", "סרט ושורות הפוסטרים עוצרים בכפתור, ב-hover, מחוץ למסך וב-reduced-motion", "ההירו נכנס כולו במסך בדסקטופ ובטלפון", "שלושה משקלים בלבד, בלי ריווח חיובי בעברית"],
+  engine: "ניגודיות (נמדד 15.10.2026): דיו על נייר 15.8, על נייר-2 13.8 · muted #554A40 על נייר 7.3, על נייר-2 6.4, על נייר-3 5.4 · לבן על קובלט 7.5, על קובלט כהה 9.4 · צהוב על קובלט 5.3, על דיו 13.2 · דיו על צהוב 13.2 · דיו על עגבנייה 5.0 · נייר על דיו 15.8 · שדות: גבול #9A8F83 על דיו 5.6. עגבנייה על נייר 3.1 ועל קובלט 2.0, ולכן היא לעולם לא נושאת טקסט קטן וגם לא נשענת על קובלט. הפונט Google Sans בלבד. הסרט והשורות עוצרים (WCAG 2.2.2); בטלפון השורות נגללות במגע. הכל נראה בלי JS.",
+  agent: "עצב בסגנון מקסימליסטי מכוון: רקע נייר חם, שלושה צבעים חזקים עם תפקיד לכל אחד (קובלט למבנה, עגבנייה לחום ולאנשים, צהוב ל-CTA בלבד), Google Sans בשלושה משקלים, אפס רדיוס, צילום אמיתי וצבעוני של אנשים שמודפס על נייר בזוויות קטנות, קולאז' הירו בפראלקס, כותרת על רצועות צבע אטומות, מילת מותג ענקית טון על טון, וקיר פוסטרים נע שעוצר ב-hover. אחרי כל סקשן עוצמה בא סקשן נייר שקט, הטופס נקי, והצהוב לעולם לא על נייר.",
+  mobile: "ההדר: הניווט נעלם והכפתור הצהוב נשאר. ההירו מרוכז אנכית ונכנס כולו במסך: צילום בזווית עם מדבקה ושדה נקודות, כותרת הרצועות שעולה עליו, והכפתור ברוחב מלא. הסרט נשאר עם כפתור השהיה בגודל מגע. שורות הפוסטרים נגללות במגע עם snap, והכרטיסים בעמודה. הטופס בעמודה אחת עם בחירות של 44px.",
+  fonts: [],
+};
 
 export default [
-sk({
-  id: "s06", archived: true, name: "מקסימליזם", en: "Maximalism", group: "אמירה וקיצון",
-  desc: "צבעים מתנגשים, שכבות, טיפוגרפיה ענקית, תנועה בכל פינה. מקסימום זיכרון.",
-  when: "אופנה, מוזיקה, אירועים, קמפיינים. לבלוט בכל מחיר.",
-  no: "כלי עבודה יומיומיים. מעייף.",
-  recipe: `פלטה: 4-5 צבעים רוויים בניגודים משלימים, אחד דומיננטי תמיד
-טיפוגרפיה: כותרות 8-14vw, מותר mix של display+serif; חפיפות טקסט-ויז'ואל
-שכבות: אלמנטים חורגים מסקשנים, רוטציות עדינות ±2-4°
-תנועה: marquees, hover נדיב. עדיין easing אחיד ו-reduced-motion מלא`,
-  apply: "הירו = הפיצוץ הכי חזק בעמוד; סקשנים מתחלפים עוצמה-הפוגה; טפסים דווקא נקיים (שם קורית ההמרה); תמונות בטיפול (דוטון או מסגרות צבע), לא סטוק חלק.",
-  sig: "כותרת ענק בקנה מידה של פוסטר (10cqi) · התנגשות צבעים מכוונת אחת לסקשן · אלמנט חוצה-גבולות בין סקשנים.",
-  avoid: "הכל צועק אז כלום לא נשמע. חייב הפוגות · כל הצבעים באותו משקל (אין דומיננטי) · CTA שנבלע ברעש.",
-  qa: ["סקשן הפוגה אחרי כל שיא", "CTA בולט מכל סביבתו (צבע בלעדי)", "קריאות AA על כל שכבה"],
-  engine: "הכאוס מבוקר: הגריד מתחת נשאר; טקסט רץ על משטח שקט.",
-  agent: "עצב מקסימליסטי: טיפוגרפיה ענקית, פלטה רוויה עם ניגודים חזקים ושכבות חופפות, אבל עם סקשני הפוגה, טופס נקי ו-CTA בצבע בלעדי.",
-  note: "בדמו: כחול דומיננטי, ורוד וצהוב כמתנגשים, הירוק החומצי שמור ל-CTA בלבד. הירו הוא השיא, היתרונות על ורוד, המחירים על לבן כהפוגה, והטופס נקי לגמרי. הוויז'ואל חוצה את הגבול לסקשן הבא.",
-  fonts: ["Secular One"],
-  css: `.sk-s06 .ref{--s-bg:#1F1BFF;--s-surface:#fff;--s-ink:#000;--s-muted:#222;--s-line:#000;--s-accent:#C8FF00;--s-accent-ink:#000;--s-accent-txt:#000;--s-r:0;--s-btn-r:0;--s-ph:#FF2E9A;--s-ph-ink:#000;--s-font-h:"Secular One","Heebo",system-ui,sans-serif;--s-wt-h:400;--s-fz-h:1;--s-lh-h:1;
- --s-card-b:3px solid #000;--s-card-sh:8px 8px 0 #000;--s-ghost-b:3px solid #fff;--s-ghost-ink:#fff;--s-in-b:2px solid #000;--s-in-r:0;--s-hi-bg:#000;--s-hi-ink:#fff;--s-ico-bg:#1F1BFF;--s-ico-r:50%;--s-hd-bg:#000;--s-form-bg:#fff;--s-gap:28px}
-.sk-s06 .hd{color:#fff}.sk-s06 .hd .nav{color:#fff}
-.sk-s06 .hero{grid-template-columns:1fr;color:#fff;padding-bottom:0;gap:0}
-.sk-s06 .hero h1{font-size:clamp(48px,10cqi,132px);line-height:.95;color:#fff;max-width:none;text-shadow:6px 6px 0 #FF2E9A;margin-bottom:20px}
-.sk-s06 .lead{color:#fff;font-weight:600;max-width:52ch}
-.sk-s06 .eyebrow{background:#FFE500;color:#000;padding:4px 10px;transform:rotate(-2deg)}
-.sk-s06 .hero-v{order:0;aspect-ratio:16/7;background:#FFE500;border:3px solid #000;border-radius:0;transform:rotate(-2deg);box-shadow:12px 12px 0 #000;color:#000;margin:44px 6% -70px;overflow:visible;z-index:3}
-.sk-s06 .hv-a{position:absolute;width:26%;aspect-ratio:1;inset-inline-end:-6%;top:-30%;border-radius:50%;background:#FF6B00;border:3px solid #000}
-.sk-s06 .hv-b{position:absolute;width:50%;height:26%;inset-inline-start:-8%;bottom:-16%;background:repeating-linear-gradient(90deg,#000 0 12px,#1F1BFF 12px 24px);border:3px solid #000}
-.sk-s06 .hv-l{font-family:"Secular One","Heebo",sans-serif;font-weight:400;font-size:clamp(28px,5cqi,64px)}
-.sk-s06 .bens{background:#FF2E9A;padding-top:clamp(110px,14cqi,170px)}
-.sk-s06 .bens h2{font-size:clamp(36px,6cqi,80px);color:#000}
-.sk-s06 .bens .card:nth-child(1){transform:rotate(-1.5deg)}.sk-s06 .bens .card:nth-child(3){transform:rotate(1.5deg)}
-.sk-s06 .prices{background:#fff;--s-ghost-ink:#000;--s-ghost-b:3px solid #000}
-.sk-s06 .prices h2{font-size:clamp(36px,6cqi,80px)}
-.sk-s06 .price{box-shadow:none}
-.sk-s06 .price.hi .amt,.sk-s06 .price.hi li::before{color:#C8FF00}
-.sk-s06 .form{background:#fff;border-top:3px solid #000}
-.sk-s06 .fbox{box-shadow:none;border:0}
-.sk-s06 .ft{background:#000;color:#fff;border-top:0;font-weight:700}
-@container (max-width:767px){.sk-s06 .hero-v{order:0;margin:30px 4% -50px}.sk-s06 .bens{padding-top:90px}}`,
-}),
+  {
+    ...base,
+    id: "s06", name: "מקסימליזם",
+    desc: "מקסימום, אבל מכוון: צילום אמיתי בשכבות, רצועות צבע, שלושה צבעים עם תפקיד ושורות פוסטרים נעות. כל שיא בא אחרי הפוגה, והצהוב נשמר לכפתור. כאן כעמוד של פסטיבל מוזיקה ואוכל (דמיוני), לא כאוס צבעוני.",
+    score: "30/30",
+    note: "העסק, ההרכבים, המחירים, הכתובת והטלפון דמיוניים. הצילומים סטוק של Magnific (רישיון חופשי, ללא AI): dancers (12115030), hug (13250416), singer (20081669), food (17296142), hands (12115052). עלות בקרדיטים: 0. גריידינג אחד: רוויה 1.12 וניגודיות 1.05 לכולם. רף הסטודיו 15.10.2026: 21 סעיפים נמדדו ועברו, 6 נבדקו בעין.",
+    css: CSS, html: HTML, js: JS,
+  },
 ];

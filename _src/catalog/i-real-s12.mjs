@@ -1,44 +1,583 @@
-// s12: הועבר מ-i-style2.mjs ב-15.10.2026 לקראת בנייה מחדש כעמוד אמיתי ברף הסטודיו (כמו s08, s09, s10, s13, s14). זמני עד שהבונה כותב את הקובץ מחדש.
-import { sk } from "./i-style1.mjs";
-const NOISE = `url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")`;
-const TAG = `"Miriam Libre",monospace`;
-const MONO = `ui-monospace,"SFMono-Regular",Consolas,monospace`;
+// S12 · רטרו שנות ה-70, עמוד הייחוס בגרסה 2 (15.10.2026). נבנה מחדש כעמוד אמיתי, לפי המודל של s05 ו-s14.
+//
+// מה זה: העסק הדמיוני "שמש בדרך", השכרת קרוואנים וקמפרים בסגנון שנות ה-70 לסופי שבוע בארץ, איסוף והחזרה בתל אביב.
+// אין כאן לקוח אמיתי; הצילומים הם סטוק (ראו ids בשדה note).
+// הפונט: Google Sans בלבד, מקומי, בלי פונט תקופתי. תחושת שנות ה-70 באה מצבע (חרדל, כתום, חלודה, זית וחום שוקולד על שמנת),
+// מפסים, מצורות עגולות, מהטיפול בצילום (חלון קשת אחד, גריידינג חם אחד, גרעין סרט) ומכותרת גדולה בטוחה במשקל 700 עם ריווח הדוק.
+// המבנה (לא s14 בצבע אחר): הדר שתלוי מהקצה העליון · הירו עם שמש מסתובבת לאט מאחורי חלון קשת · מספרים ושלוש ביקורות על משטחי צבע ·
+// "מסלול סוף שבוע" (רגע החתימה: ארבעה פסים נמשכים בגלילה, עוטפים את פינת הסקשן ויורדים לאורך התחנות) · הצי בשלושה צבעים ·
+// בלוק הזמנה שקט על יריעת חול · פוטר חום עם שקיעה בקצה.
+// מנוע: ease החתום, reveal ב-keyframes 16px/0.5s, תנועה רציפה כ-CSS על transform בלבד, reduced-motion מכבה הכל, הכל נראה בלי JS.
+
+const EASE = "cubic-bezier(.2,.6,.2,1)";
+
+// ───────── אייקונים: משפחה אחת, stroke 1.7, 24 או 20 ─────────
+const svg = (cls, d) => `<svg class="ico${cls}" viewBox="0 0 24 24" aria-hidden="true" focusable="false">${d}</svg>`;
+const P = {
+  arrow: `<path d="M19 12H5"/><path d="m12 19-7-7 7-7"/>`,
+  pin: `<path d="M12 21s7-6 7-11a7 7 0 1 0-14 0c0 5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/>`,
+  clock: `<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>`,
+  phone: `<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/>`,
+  check: `<path d="M20 6 9 17l-5-5"/>`,
+  alert: `<circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/>`,
+  calendar: `<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M8 3v4M16 3v4"/>`,
+  bed: `<path d="M3 18V7"/><path d="M3 14h18v4"/><path d="M21 14v-2a3 3 0 0 0-3-3h-7v5"/><circle cx="7" cy="11" r="1.6"/>`,
+  flame: `<path d="M12 3c1 3 5 5 5 10a5 5 0 0 1-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-6 1-9z"/>`,
+  users: `<circle cx="9" cy="8" r="3.2"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17.5" cy="9" r="2.4"/><path d="M17 14.2a5 5 0 0 1 4 5.8"/>`,
+  sun: `<circle cx="12" cy="12" r="4"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8"/>`,
+  shield: `<path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6z"/><path d="m9 12 2 2 4-4"/>`,
+  key: `<circle cx="8" cy="15" r="4"/><path d="m11 12 8-8"/><path d="m16 7 3 3"/>`,
+  cup: `<path d="M5 9h11v5a5 5 0 0 1-5 5h-1a5 5 0 0 1-5-5z"/><path d="M16 11h2a2.5 2.5 0 0 1 0 5h-2"/><path d="M8 3v3M12 3v3"/>`,
+  buoy: `<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="m5.6 5.6 3.9 3.9M14.5 14.5l3.9 3.9M18.4 5.6l-3.9 3.9M9.5 14.5l-3.9 3.9"/>`,
+  moon: `<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/>`,
+  drop: `<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>`,
+  home: `<path d="M4 11 12 4l8 7"/><path d="M6 10v10h12V10"/>`,
+  route: `<circle cx="6" cy="18" r="2.2"/><circle cx="18" cy="6" r="2.2"/><path d="M8.2 18H16a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h7.8"/>`,
+  up: `<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>`,
+  pause: `<path d="M9 5v14"/><path d="M15 5v14"/>`,
+  play: `<path d="M8 5l11 7-11 7z"/>`,
+};
+const I = {};
+for (const k of Object.keys(P)) { I[k] = svg("", P[k]); I[k + "S"] = svg(" s", P[k]); }
+
+// לוגו: שלוש חצאי טבעות בחרדל, כתום וחלודה. הרוחב 56 (מעל 48), ולכן זה סימן ולא אייקון
+const LOGO = `<svg class="mark" viewBox="0 0 56 28" width="56" height="28" aria-hidden="true" focusable="false"><path d="M0 28a28 28 0 0 1 56 0z" fill="#E5A823"/><path d="M8 28a20 20 0 0 1 40 0z" fill="#E5702B"/><path d="M16 28a12 12 0 0 1 24 0z" fill="#B2441F"/></svg>`;
+
+// ───────── ביקורות לדוגמה: כל אחת על משטח בצבע הרכב שבו נסעו ─────────
+const REVIEWS = [
+  ["m", "החרדל", "דנה ויואב", "זוג, סוף שבוע בדרום", 5, "המיטה נוחה, המטבחון עובד, ובשבע בבוקר כבר שתינו קפה מול הנוף. ההדרכה בתל אביב לקחה רבע שעה, ואחריה לא היו לנו שאלות."],
+  ["o", "התפוז", "רותם ואורן", "משפחה עם שני ילדים", 5, "הגג נפתח ושני הילדים ישנו למעלה, אז הם לא רצו לחזור הביתה. גם הכביש לא היה מלחיץ, כי האוטו פשוט נוסע."],
+  ["g", "הזית", "עומר", "ארבעה חברים", 4, "ארבעה אנשים, אוטו אחד וקופסת מוזיקה. הצפיפות מורגשת בבוקר, אבל כל השאר עבד. החזרה פשוטה: מחזירים כמו שהוא, והניקיון עליהם."],
+];
+const stars = n => `<span class="stars" role="img" aria-label="${n} מתוך 5">${"★".repeat(n)}${"☆".repeat(5 - n)}</span>`;
+const rvHtml = (r, i) => `<figure class="rv ${r[0]} reveal" style="--i:${i}"><div class="rv-top">${stars(r[4])}<span class="rv-van">${r[1]}</span></div><blockquote>${r[5]}</blockquote><figcaption><b>${r[2]}</b><span>${r[3]}</span></figcaption></figure>`;
+
+// ───────── תחנות המסלול (רגע החתימה) ─────────
+const STOPS = [
+  ["יום שישי", "10:00", "key", "מקבלים מפתח בתל אביב", "הדרכה של רבע שעה: איך מדליקים את הגז, איך פותחים את הגג ומה עושים אם משהו לא עובד. אחר כך אתם בכביש."],
+  ["יום שישי", "15:00", "moon", "לילה במצפה רמון", "חונים, מדליקים את המטבחון ופותחים את הכיסאות. כשיורד החושך, השמיים נראים כמו שלא ראיתם בעיר."],
+  ["שבת", "11:00", "drop", "הליכה קצרה ומים קרים", "בוקר בלי שעון: קפה, הליכה בנחל ועצירה לפיתה בדרך. את התחנה הזאת אתם מחליטים לבד."],
+  ["יום ראשון", "12:00", "home", "מחזירים, והניקיון עלינו", "חוזרים לתל אביב, מחזירים את המפתח ואנחנו מנקים. עשר דקות אחר כך אתם בדרך הביתה."],
+];
+const stopHtml = (s, i) => `<li class="stop reveal" style="--i:${i}"><span class="mk" aria-hidden="true">${I[s[2] + "S"]}</span><div class="st-when"><span class="st-day">${s[0]}</span><span class="st-time" dir="ltr">${s[1]}</span></div><h3>${s[3]}</h3><p>${s[4]}</p></li>`;
+
+// ───────── הצי ─────────
+const VANS = [
+  ["mus", "החרדל", 2, "ישנים", "קרוואן וינטג' לזוג, קטן ונוח גם בכביש צר.", [[I.bedS, "מיטה זוגית קבועה"], [I.flameS, "מטבחון גז עם שני להבות"], [I.sunS, "סוכך ושני כיסאות"]], 480, "מחרדל"],
+  ["org", "התפוז", 3, "ישנים", "אוטובוס קמפר עם גג שנפתח כלפי מעלה.", [[I.bedS, "ספה שנפתחת למיטה, ומיטה בגג"], [I.cupS, "מקרר, כיור ומטבחון"], [I.sunS, "שולחן וכיסאות לחוץ"]], 620, "מתפוז"],
+  ["ol", "הזית", 4, "ישנים", "קמפר גדול למשפחה או לחבורה, עם שולחן קבוע.", [[I.bedS, "שתי מיטות כפולות"], [I.cupS, "מטבחון מלא ושולחן אוכל"], [I.usersS, "ארבע חגורות ישיבה"]], 790, "מזית"],
+];
+const vanHtml = (v, i) => `<li class="van ${v[0]} reveal" style="--i:${i}"><div class="van-top"><span class="van-n" aria-hidden="true">${v[2]}</span><span class="van-nl">${v[3]}</span></div><h3>${v[1]}</h3><p class="van-d">${v[4]}</p><ul class="spec">${v[5].map(s => `<li>${s[0]}<span>${s[1]}</span></li>`).join("")}</ul><div class="van-foot"><p class="van-price"><b><span dir="ltr">${v[6]}</span> ₪</b><span>ללילה, מחיר לדוגמה</span></p><a class="btn dk" href="#s12-book" data-pick="${v[0]}">לבדוק את ${v[1]}</a></div></li>`;
+
+const INCL = [
+  [I.shield, "ביטוח מלא", "ביטוח מקיף וצד ג' כלולים במחיר, בלי תוספות בהחזרה."],
+  [I.bed, "מצעים ומגבות", "כרית, שמיכה ומגבת לכל אורח, נקיים ומקופלים."],
+  [I.cup, "ציוד מטבח", "סירים, כלי אוכל, קומקום ובלון גז מלא."],
+  [I.buoy, "עזרה בדרך", "מספר טלפון אחד לכל שעה, וגרר אם צריך."],
+];
+
+// ───────── CSS ─────────
+const CSS = `@font-face{font-family:"MV Google Sans";src:url("../assets/fonts/google-sans.woff2") format("woff2");font-weight:400 700;font-display:swap}
+.cwrap{container-type:inline-size}
+.q{--cream:#F6ECD6;--paper:#FFF8E8;--sand:#EFDFB8;--sand-d:#E3CC96;
+ --mus:#E5A823;--mus-l:#F0C24A;--mus-ld:#E8B22F;--org:#E5702B;--org-d:#D6641E;--rust:#B2441F;--cta:#A8401F;--cta-d:#8C3216;
+ --ol:#5E6C2C;--ol-d:#505D25;--ol-l:#C9CF8F;--ol-ld:#BBC27C;--peach:#F2A877;--peach-d:#EC9760;
+ --choc:#3A2418;--choc-2:#54402F;--choc-4:#46301F;--choc-d:#2B1810;--choc-3:#68503D;--muted:#664E3C;--on-dark:#E8D9BB;--field:#8A6F52;--err:#B3261E;
+ --r-card:36px;--r-sheet:56px;--arch:50% 50% 40px 40px / 44% 44% 40px 40px;--ease:${EASE};
+ --shadow:0 10px 30px rgba(74,48,24,.12);
+ --sec:112px;--gut:clamp(20px,5cqi,72px);--sheet-m:clamp(8px,2cqi,24px);
+ background-color:var(--cream);background-image:url("../assets/media/real/s12/grain-dark.png");background-size:180px;color:var(--choc);font-family:"MV Google Sans","Google Sans",system-ui,sans-serif;font-size:16px;line-height:1.65;overflow:clip;position:relative;isolation:isolate;-webkit-font-smoothing:antialiased}
+.q *{box-sizing:border-box}
+.q h1,.q h2,.q h3,.q h4,.q p,.q ul,.q ol,.q figure,.q blockquote,.q address,.q fieldset,.q legend{margin:0}
+.q ul,.q ol{list-style:none;padding:0}
+.q fieldset{border:0;padding:0;min-width:0}
+.q a{color:inherit;text-decoration:none}
+.q address{font-style:normal}
+.q img{display:block;max-width:100%}
+.q button{font:inherit;color:inherit}
+.q h1{font-size:clamp(40px,5.2cqi,76px);line-height:1.06;font-weight:700;letter-spacing:-.02em;text-wrap:balance}
+.q h2{font-size:clamp(32px,3.8cqi,52px);line-height:1.1;font-weight:700;letter-spacing:-.015em;text-wrap:balance}
+.q h3{font-size:20px;line-height:1.35;font-weight:500}
+.q h4{font-size:17px;line-height:1.35;font-weight:500}
+.q p{text-wrap:pretty}
+.q .lead{font-size:18px;line-height:1.6;color:var(--muted);max-width:520px}
+.q .micro{font-size:13px;line-height:1.45;color:var(--muted)}
+.q .eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 16px 8px 14px;border-radius:999px;background:var(--mus-l);color:var(--choc);font-size:14px;font-weight:500;line-height:1}
+.q .eyebrow .ico{color:var(--choc)}
+.q em{font-style:normal;color:var(--rust)}
+.q .ico{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none;display:block;color:var(--rust)}
+.q .ico.s{width:20px;height:20px}
+.q .skip{position:absolute;inset-inline-start:16px;top:-80px;z-index:60;background:var(--paper);color:var(--choc);padding:12px 20px;border-radius:999px;font-weight:500;box-shadow:var(--shadow)}
+.q .skip:focus{top:8px}
+.q :is(a,button,summary,[tabindex]):focus-visible{outline:3px solid var(--cta);outline-offset:3px;border-radius:12px}
+.q :is(.route,.ft) :is(a,button):focus-visible{outline-color:var(--mus-l)}
+/* כפתורים: שלוש רמות, ארבעה מצבים */
+.q .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 28px;border:0;border-radius:999px;background:var(--cta);color:var(--paper);font-size:16px;font-weight:500;line-height:1;cursor:pointer;transition:background-color .18s var(--ease),transform .18s var(--ease);-webkit-tap-highlight-color:transparent;white-space:nowrap}
+.q .btn:active{transform:scale(.98);transition-duration:.12s}
+.q .btn:focus-visible{border-radius:999px}
+.q .btn.sm{min-height:44px;padding:10px 20px;font-size:15px}
+.q .btn.dk{background:var(--choc);color:var(--paper)}
+.q .lnk{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:12px 0;background:none;border:0;font-size:15px;font-weight:500;line-height:1;color:var(--choc);cursor:pointer;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:6px;transition:color .15s var(--ease),text-decoration-color .15s var(--ease)}
+.q .lnk .ico{transition:transform .18s var(--ease);color:currentColor}
+@media (hover:hover) and (pointer:fine){
+.q .btn:hover{background:var(--cta-d);transform:translateY(-2px)}
+.q .btn.dk:hover{background:var(--choc-2)}
+.q .lnk:hover{color:var(--cta);text-decoration-color:var(--cta)}
+.q .lnk:hover .ico{transform:translateX(-4px)}
+}
+/* שדות: חמישה מצבים */
+.q .fld{display:flex;flex-direction:column;gap:8px}
+.q .fld label,.q .legend{font-size:14px;font-weight:500;line-height:1.2;color:var(--choc)}
+.q .in{font:inherit;font-size:16px;line-height:1.2;min-height:52px;padding:14px 20px;border:1.5px solid var(--field);border-radius:999px;background:var(--paper);color:var(--choc);appearance:none;width:100%;transition:border-color .15s var(--ease),box-shadow .15s var(--ease)}
+.q .in::placeholder{color:#7A6450}
+.q .in:focus,.q .in:focus-visible{outline:0;border-color:var(--cta);box-shadow:0 0 0 3px rgba(168,64,31,.24)}
+.q .fld.err .in{border-color:var(--err)}
+.q .fld .msg{display:none;align-items:center;gap:6px;font-size:13px;line-height:1.3;color:var(--err)}
+.q .fld .msg .ico{color:var(--err)}
+.q .fld.err .msg{display:inline-flex}
+.q .in:disabled{background:var(--sand);color:var(--muted)}
+/* reveal: keyframes ולא transition. התוכן גלוי בלי JS; רק .js מסתיר */
+.q.js .reveal{opacity:0}
+.q .reveal.is-in{animation:s12rev .5s ${EASE} both;animation-delay:calc(var(--i,0) * 70ms)}
+@keyframes s12rev{from{opacity:0;translate:0 16px}to{opacity:1;translate:0 0}}
+/* פתיחת עמוד אחת (CSS בלבד, 1.2 שניות): ההדר יורד, אחריו הטקסט, אחרון חלון הקשת עולה והשמש נדלקת */
+.q .hd-tab{animation:s12hd .7s ${EASE} both}
+.q .oi{animation:s12up .6s ${EASE} both}
+.q .oi:nth-child(1){animation-delay:.1s}.q .oi:nth-child(2){animation-delay:.18s}.q .oi:nth-child(3){animation-delay:.26s}.q .oi:nth-child(4){animation-delay:.34s}.q .oi:nth-child(5){animation-delay:.42s}
+.q .hero-vis{animation:s12vis 1s ${EASE} .2s both}
+.q .sticker{animation:s12pop .5s ${EASE} .9s both}
+@keyframes s12hd{from{opacity:0;translate:0 -24px}to{opacity:1;translate:0 0}}
+@keyframes s12up{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
+@keyframes s12vis{from{opacity:0;translate:0 48px}to{opacity:1;translate:0 0}}
+@keyframes s12pop{from{opacity:0}to{opacity:1}}
+@keyframes s12spin{to{transform:rotate(360deg)}}
+/* תמונות: טיפול אחד. חלון קשת בכל הצילומים, אותו גריידינג חם, ואותו גרעין סרט */
+.q .pic{position:relative;overflow:hidden;border-radius:var(--arch);background:var(--sand-d)}
+.q .pic img{width:100%;height:100%;object-fit:cover;border-radius:inherit;transition:transform .4s var(--ease)}
+.q .pic::after{content:"";position:absolute;inset:0;background:url("../assets/media/real/s12/grain-film.png");background-size:200px;pointer-events:none;border-radius:inherit}
+@media (hover:hover) and (pointer:fine){.q .pic:hover img{transform:scale(1.03)}}
+/* מבנה */
+.q .wrap{max-width:1240px;margin-inline:auto}
+.q .sec{padding:var(--sec) var(--gut)}
+.q .head{display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:640px}
+.q section[id]{scroll-margin-top:72px}
+/* הדר: לשונית שתלויה מהקצה העליון, עם headroom */
+.q .hd{position:sticky;top:0;z-index:30;height:72px;margin-bottom:-72px;padding-inline:var(--gut);pointer-events:none}
+.q .hd-tab{position:relative;pointer-events:auto;max-width:1160px;height:72px;margin-inline:auto;padding-inline:24px 14px;display:flex;align-items:center;gap:24px;background:var(--paper);border-radius:0 0 28px 28px;box-shadow:var(--shadow);transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.q .hd.is-hidden .hd-tab{transform:translateY(-100%);box-shadow:none}
+.q .logo{display:inline-flex;align-items:center;gap:12px;min-height:44px;white-space:nowrap;font-size:22px;font-weight:700;line-height:1;color:var(--choc)}
+.q .logo .mark{display:block;flex:none}
+.q .hd nav{display:flex;gap:4px;margin-inline:auto}
+.q .hd .btn.sm{margin-inline-start:auto}
+.q .hd nav a{display:inline-flex;align-items:center;min-height:44px;font-size:15px;font-weight:500;line-height:1;color:var(--muted);padding:10px 16px;border-radius:999px;transition:background-color .15s var(--ease),color .15s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .hd nav a:hover{background:var(--sand);color:var(--choc)}}
+/* הירו */
+.q .hero{position:relative;display:grid;align-items:center;min-height:calc(100svh - 64px);padding:112px var(--gut) 48px;overflow:clip}
+.q .hero-in{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:center;width:100%;max-width:1240px;margin-inline:auto}
+.q .hero-txt{position:relative;z-index:2;display:flex;flex-direction:column;align-items:flex-start;gap:24px}
+.q .hero h1{max-width:640px}
+.q .hero .lead{max-width:500px}
+.q .ctas{display:flex;align-items:center;flex-wrap:wrap;gap:8px 28px;margin-top:8px}
+.q .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.q .hchip{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border-radius:999px;background:var(--paper);font-size:14px;font-weight:500;line-height:1;color:var(--choc);white-space:nowrap}
+.q .hero-vis{--hh:min(600px,calc(100svh - 232px));position:relative;justify-self:center;width:min(100%,var(--hh));aspect-ratio:1/1}
+.q .hero-img{position:relative;z-index:2;width:100%;height:100%}
+.q .sun-disc{position:absolute;z-index:1;left:50%;top:-5%;width:92%;aspect-ratio:1;translate:-50% 0;border-radius:50%;background:var(--org)}
+.q .sun-rays{position:absolute;z-index:0;left:50%;top:22%;width:min(1180px,210%);aspect-ratio:1;translate:-50% -50%;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(229,168,35,.40) 0 7.5deg,transparent 7.5deg 15deg);-webkit-mask-image:radial-gradient(circle,#000 0 30%,transparent 68%);mask-image:radial-gradient(circle,#000 0 30%,transparent 68%);animation:s12spin 180s linear infinite;pointer-events:none}
+.q .sticker{position:absolute;z-index:3;inset-inline-start:-40px;bottom:14%;width:120px;height:120px;border-radius:50%;background:var(--mus);color:var(--choc);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;rotate:-8deg}
+.q .sticker small{font-size:13px;font-weight:500;line-height:1.1}
+.q .sticker b{font-size:30px;font-weight:700;line-height:1;letter-spacing:0}
+.q .sticker span{font-size:13px;font-weight:500;line-height:1.1}
+/* ביקורות והוכחה */
+.q .proof-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:64px;align-items:end;margin-bottom:64px}
+.q .stats{display:flex;gap:56px}
+.q .stat{display:flex;flex-direction:column;gap:8px}
+.q .stat b{font-size:clamp(44px,5cqi,72px);line-height:1;font-weight:700;letter-spacing:-.02em;color:var(--rust);font-variant-numeric:tabular-nums;unicode-bidi:isolate}
+.q .stat span{font-size:14px;line-height:1.4;color:var(--muted);max-width:152px}
+.q .revs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:stretch;padding-bottom:48px}
+.q .rv{display:flex;flex-direction:column;gap:20px;padding:32px 28px;border-radius:var(--r-card);background-color:var(--rc);transition:background-color .3s var(--ease)}
+.q .rv.m{--rc:var(--mus-l);--rcd:var(--mus-ld)}.q .rv.o{--rc:var(--peach);--rcd:var(--peach-d)}.q .rv.g{--rc:var(--ol-l);--rcd:var(--ol-ld)}
+.q .rv:nth-child(2){position:relative;top:48px}
+@media (hover:hover) and (pointer:fine){.q .rv:hover{background-color:var(--rcd)}}
+.q .rv-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.q .stars{font-size:16px;line-height:1;color:var(--choc);letter-spacing:0}
+.q .rv-van{font-size:14px;font-weight:500;line-height:1;color:var(--choc)}
+.q .rv blockquote{font-size:17px;line-height:1.6;color:var(--choc)}
+.q .rv figcaption{display:flex;flex-direction:column;gap:4px}
+.q .rv figcaption b{font-size:15px;font-weight:500;line-height:1.3}
+.q .rv figcaption span{font-size:14px;line-height:1.3;color:var(--choc-4)}
+.q .proof-foot{margin-top:56px}
+/* רגע החתימה: מסלול סוף שבוע. ארבעה פסים נמשכים בגלילה, עוטפים את הפינה ויורדים לאורך התחנות */
+.q .route{position:relative;margin-inline:var(--sheet-m);padding:160px var(--gut) var(--sec);border-radius:var(--r-sheet);background-color:var(--choc);background-image:url("../assets/media/real/s12/grain-light.png");background-size:180px;color:var(--paper);overflow:clip}
+.q .route .band{position:absolute;left:0;top:0;z-index:0;pointer-events:none;overflow:visible}
+.q .route-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);column-gap:88px;align-items:start;max-width:1220px;margin-inline:auto}
+.q .route h2,.q .route h3{color:var(--paper)}
+.q .route .lead{color:var(--on-dark)}
+.q .rt-head{display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:560px;margin-bottom:56px;padding-inline-start:var(--pad)}
+.q .steps{--mkw:44px;--pad:96px;position:relative;display:flex;flex-direction:column;gap:40px;padding-inline-start:var(--pad)}
+.q .rt-head{--pad:96px}
+.q .steps::before{content:"";position:absolute;top:0;bottom:-112px;inset-inline-start:calc(12px + var(--mkw) / 2 - 20px);width:40px;background:linear-gradient(to left,#E5A823 0 10px,#E5702B 10px 20px,#B2441F 20px 30px,#7C8B3C 30px 40px)}
+.q.js .steps::before{display:none}
+.q .stop{position:relative;display:flex;flex-direction:column;gap:8px}
+.q .mk{position:absolute;top:0;inset-inline-start:calc(12px - var(--pad));width:var(--mkw);height:var(--mkw);border-radius:50%;display:grid;place-items:center;background:var(--mus-l);color:var(--choc);transition:background-color .3s var(--ease),color .3s var(--ease)}
+.q .mk .ico{color:currentColor}
+.q.js .stop .mk{background:var(--choc-2);color:var(--on-dark)}
+.q.js .stop.on .mk{background:var(--mus-l);color:var(--choc)}
+.q .st-when{display:flex;align-items:baseline;gap:12px;min-height:var(--mkw);padding-top:0;align-items:center}
+.q .st-day{font-size:15px;font-weight:500;line-height:1;color:var(--mus-l)}
+.q .st-time{font-size:32px;font-weight:700;line-height:1;color:var(--paper);font-variant-numeric:tabular-nums;unicode-bidi:isolate;letter-spacing:0}
+.q .stop p{font-size:16px;line-height:1.65;color:var(--on-dark);max-width:460px}
+.q .rt-vis{position:sticky;top:96px;align-self:start;z-index:2;margin-top:-80px;display:flex;flex-direction:column;gap:16px}
+.q .rt-vis .pic{aspect-ratio:1/1}
+.q .rt-vis .micro{color:var(--on-dark)}
+/* הצי */
+.q .fleet-top{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:88px;align-items:center;margin-bottom:72px}
+.q .fl-txt{display:flex;flex-direction:column;align-items:flex-start;gap:24px}
+.q .incl{display:grid;grid-template-columns:1fr 1fr;gap:28px 32px;margin-top:8px}
+.q .incl li{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.q .incl p{font-size:15px;line-height:1.55;color:var(--muted)}
+.q .fl-vis{justify-self:center;width:min(100%,380px)}
+.q .fl-vis .pic{aspect-ratio:5/6}
+.q .vans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:stretch}
+.q .van{display:flex;flex-direction:column;gap:16px;padding:40px 32px;border-radius:var(--r-card);background-color:var(--vc);color:var(--vt);transition:background-color .3s var(--ease),translate .3s var(--ease)}
+.q .van.mus{--vc:var(--mus);--vcd:#D69A17;--vt:var(--choc)}
+.q .van.org{--vc:var(--org);--vcd:var(--org-d);--vt:var(--choc-d)}
+.q .van.ol{--vc:var(--ol);--vcd:var(--ol-d);--vt:var(--paper)}
+@media (hover:hover) and (pointer:fine){.q .van:hover{background-color:var(--vcd);translate:0 -4px}}
+.q .van .ico{color:currentColor}
+.q .van-top{display:flex;align-items:baseline;gap:12px}
+.q .van-n{font-size:clamp(72px,8cqi,104px);line-height:.9;font-weight:700;letter-spacing:-.03em}
+.q .van-nl{font-size:16px;font-weight:500;line-height:1}
+.q .van h3{font-size:32px;line-height:1.1;font-weight:700;margin-top:8px}
+.q .van-d{font-size:16px;line-height:1.55;min-height:50px}
+.q .spec{display:flex;flex-direction:column;gap:12px;margin-top:8px}
+.q .spec li{display:flex;align-items:center;gap:12px;font-size:15px;line-height:1.35}
+.q .van-foot{margin-top:auto;padding-top:24px;display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.q .van-price{display:flex;flex-direction:column;gap:4px}
+.q .van-price b{font-size:44px;line-height:1;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.q .van-price>span{font-size:14px;line-height:1.3}
+.q .vans-note{margin-top:32px}
+.q .fleet{padding-bottom:160px}
+/* הזמנה: יריעת חול שקטה */
+.q .book{margin-inline:var(--sheet-m);padding:var(--sec) var(--gut);border-radius:var(--r-sheet);background-color:var(--sand);background-image:url("../assets/media/real/s12/grain-dark.png");background-size:180px}
+.q .book-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:88px;align-items:center;max-width:1160px;margin-inline:auto}
+.q .bk-body{display:flex;flex-direction:column;gap:32px}
+.q .form{display:flex;flex-direction:column;gap:24px}
+.q .form .row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.q .opts{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.q .opt{position:relative}
+.q .opt input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer}
+.q .opt span{display:inline-flex;align-items:center;min-height:44px;padding:10px 20px;border-radius:999px;background:var(--paper);border:1.5px solid var(--field);font-size:15px;font-weight:500;line-height:1;transition:background-color .18s var(--ease),color .18s var(--ease),border-color .18s var(--ease)}
+.q .opt input:checked+span{background:var(--choc);border-color:var(--choc);color:var(--paper)}
+.q .opt input:focus-visible+span{outline:3px solid var(--cta);outline-offset:3px}
+@media (hover:hover) and (pointer:fine){.q .opt input:not(:checked):hover+span{background:var(--sand-d)}}
+.q .form-foot{display:flex;align-items:center;flex-wrap:wrap;gap:16px 24px}
+.q .ok{display:none;flex-direction:column;align-items:flex-start;gap:16px;padding:32px 0}
+.q .ok .tick{width:56px;height:56px;border-radius:50%;background:var(--mus-l);display:grid;place-items:center}
+.q .ok .tick .ico{color:var(--choc)}
+.q .book.is-sent .form{display:none}
+.q .book.is-sent .ok{display:flex}
+.q .bk-side{display:flex;flex-direction:column;gap:40px;align-self:start;margin-top:calc(-1 * var(--sec) - 48px)}
+.q .bk-vis{position:relative;justify-self:center;width:min(100%,420px)}
+.q .bk-vis .pic{position:relative;z-index:2;aspect-ratio:3/4}
+.q .vinfo{display:flex;flex-direction:column;gap:16px}
+.q .vinfo li{display:flex;align-items:flex-start;gap:12px}
+.q .vinfo .ico{margin-top:2px}
+.q .vinfo div{display:flex;flex-direction:column;gap:4px;font-size:15px;line-height:1.5;color:var(--muted)}
+.q .vinfo b{font-size:16px;font-weight:500;color:var(--choc)}
+.q .vinfo a[href^="tel"]{align-self:flex-start;display:inline-flex;align-items:center;min-height:44px;margin-block:-10px;font-size:16px;font-weight:500;color:var(--choc);unicode-bidi:isolate;transition:color .15s var(--ease)}
+@media (hover:hover) and (pointer:fine){.q .vinfo a[href^="tel"]:hover{color:var(--cta)}}
+.q .bk-sun{position:absolute;z-index:1;left:50%;top:-8%;width:96%;aspect-ratio:1;translate:-50% 0;border-radius:50%;background:var(--org)}
+/* פוטר: יריעה חומה עם שקיעה בקצה */
+.q .ft{padding:72px var(--gut) 0;border-radius:var(--r-sheet) var(--r-sheet) 0 0;background-color:var(--choc);background-image:url("../assets/media/real/s12/grain-light.png");background-size:180px;color:var(--on-dark);margin-top:var(--sheet-m)}
+.q .ft-top{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:40px;max-width:1240px;margin-inline:auto}
+.q .ft-brand{display:flex;flex-direction:column;gap:16px;align-items:flex-start}
+.q .ft-brand .logo{color:var(--paper)}
+.q .ft-brand p{font-size:15px;line-height:1.6;max-width:300px}
+.q .ft-col{display:flex;flex-direction:column;font-size:15px;line-height:1.6}
+.q .ft-col span:not(.ft-h),.q .ft-col address{padding-block:6px}
+.q .ft-h{font-size:14px;font-weight:500;line-height:1.3;color:var(--mus-l);margin-bottom:8px}
+.q .ft-col a,.q .ft-bot a{display:inline-block;padding-block:6px;color:var(--on-dark);transition:color .15s var(--ease)}
+.q .ft-col a[href^="tel"]{unicode-bidi:isolate;align-self:flex-start}
+@media (hover:hover) and (pointer:fine){.q .ft-col a:hover,.q .ft-bot a:hover{color:var(--mus-l)}}
+.q .ft-bot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 32px;max-width:1240px;margin:56px auto 0;font-size:14px}
+.q .ft-bot nav{display:flex;gap:24px;flex-wrap:wrap}
+.q .ft .lnk{color:var(--on-dark);font-size:14px;padding:12px 0}
+@media (hover:hover) and (pointer:fine){.q .ft .lnk:hover{color:var(--mus-l);text-decoration-color:var(--mus-l)}}
+.q .sunset{display:block;width:min(560px,100%);height:auto;margin:48px auto 0}
+/* מובייל וטאבלט */
+@container (max-width:1023px){
+.q{--sec:88px}
+.q .fleet{padding-bottom:144px}
+.q .hd-tab{gap:12px;padding-inline:20px 12px}
+.q .hd nav{gap:0}
+.q .hd nav a{padding:10px 12px}
+.q .hero-in{gap:48px}
+.q .sticker{inset-inline-start:-24px;width:104px;height:104px}
+.q .sticker b{font-size:26px}
+.q .proof-top{grid-template-columns:1fr;gap:40px}
+.q .stats{gap:40px}
+.q .revs{grid-template-columns:1fr;gap:20px}
+.q .rv:nth-child(2){top:0}
+.q .revs{padding-bottom:0}
+.q .route{padding-top:152px}
+.q .route-grid{grid-template-columns:1fr;column-gap:0;row-gap:64px}
+.q .rt-vis{position:relative;top:auto;margin-top:0;max-width:440px;justify-self:end}
+.q .fleet-top{grid-template-columns:1fr;gap:56px}
+.q .vans{grid-template-columns:1fr;gap:20px}
+.q .van-d{min-height:0}
+.q .book-grid{grid-template-columns:1fr;gap:72px}
+.q .bk-side{display:contents}
+.q .bk-vis{order:-1;width:min(100%,340px);margin-top:calc(-1 * var(--sec) - 48px)}
+.q .vinfo{order:1}
+.q .ft-top{grid-template-columns:1fr 1fr}
+.q .ft-col a,.q .ft-bot a{padding-block:12px}
+}
+@container (max-width:767px){
+.q{--sec:64px}
+.q .fleet{padding-bottom:112px}
+.q .bk-vis{margin-top:calc(-1 * var(--sec) - 16px)}
+.q h2{font-size:32px;letter-spacing:0}
+.q .hd nav{display:none}
+.q .hd-tab{padding-inline:16px 10px;gap:12px}
+.q .logo{font-size:20px}
+.q .hero{align-content:center;padding:96px var(--gut) 32px}
+.q .hero-in{grid-template-columns:1fr;gap:24px}
+.q .hero-txt{gap:16px}
+.q .hero .lead{font-size:17px}
+.q .ctas{width:100%;flex-direction:column;align-items:stretch;gap:0;margin-top:4px}
+.q .ctas .btn{width:100%}
+.q .ctas .lnk{justify-content:center}
+.q .meta{display:none}
+.q .hero-vis{--hh:clamp(176px,27svh,300px);aspect-ratio:auto;width:100%;height:var(--hh);margin-top:8px}
+.q .sun-disc{width:56%;top:-14%}
+.q .sun-rays{width:260%;top:36%}
+.q .sticker{inset-inline-start:8px;bottom:-16px;width:92px;height:92px;rotate:-6deg}
+.q .sticker b{font-size:22px}
+.q .sticker small,.q .sticker span{font-size:12px}
+.q .stats{flex-wrap:wrap;gap:24px 32px}
+.q .stat b{font-size:48px}
+.q .route{padding-top:112px}
+.q .rt-head{margin-bottom:40px}
+.q .steps{--mkw:36px;--pad:60px;gap:32px}
+.q .rt-head{--pad:60px}
+.q .st-time{font-size:26px}
+.q .rt-vis{justify-self:stretch;max-width:none}
+.q .van{padding:32px 24px}
+.q .van-n{font-size:84px}
+.q .van-foot .btn{width:100%}
+.q .incl{grid-template-columns:1fr;gap:20px}
+.q .form .row{grid-template-columns:1fr}
+.q .form-foot .btn{width:100%}
+.q .ft{padding-top:56px}
+.q .ft-top{grid-template-columns:1fr;gap:32px}
+.q .ft-bot{margin-top:32px}
+.q .ft-bot nav{gap:16px}
+}
+@media (prefers-reduced-motion:reduce){
+.q.js .reveal{opacity:1}
+.q .reveal.is-in,.q .hd-tab,.q .oi,.q .hero-vis,.q .sticker{animation:none}
+.q .sun-rays{animation:none}
+.q .btn,.q .lnk,.q .lnk .ico,.q .van,.q .rv,.q .mk,.q .pic img,.q .hd-tab,.q .opt span{transition:none}
+.q .btn:hover,.q .btn:active{transform:none}
+.q .pic:hover img,.q .lnk:hover .ico{transform:none}
+.q .van:hover{translate:none}
+}
+.q[data-paused] .sun-rays{animation-play-state:paused}`;
+
+// ───────── HTML ─────────
+const IMG = "../assets/media/real/s12/";
+
+const HTML = `<div class="cwrap sk-s12"><div class="q" id="s12-top">
+<a class="skip" href="#s12-main">דילוג לתוכן</a>
+<header class="hd"><div class="hd-tab">
+<a class="logo" href="#s12-top" aria-label="שמש בדרך, לראש הדף">${LOGO}<span>שמש בדרך</span></a>
+<nav aria-label="ראשי"><a href="#s12-reviews">ביקורות</a><a href="#s12-route">המסלול</a><a href="#s12-fleet">הצי</a><a href="#s12-book">הזמנה</a></nav>
+<a class="btn sm" href="#s12-book">לבדוק תאריכים</a>
+</div></header>
+<main id="s12-main">
+<section class="hero" aria-labelledby="s12-h1"><div class="hero-in">
+<div class="hero-txt">
+<span class="eyebrow oi">${I.sunS}השכרת קרוואנים וקמפרים בסגנון שנות ה-70</span>
+<h1 class="oi" id="s12-h1">אין צימר פנוי לסוף השבוע? קחו <em>קרוואן</em> ונוסעים</h1>
+<p class="lead oi">אנחנו משכירים קרוואנים וקמפרים שחודשו, עם מיטה, מטבחון וכיסאות. מקבלים מפתח בתל אביב, ומחליטים לבד לאן נוסעים.</p>
+<div class="ctas oi"><a class="btn" href="#s12-book">לבדוק תאריכים</a><a class="lnk" href="#s12-route">איך נראה סוף שבוע${I.arrowS}</a></div>
+<ul class="meta oi"><li class="hchip">${I.pinS}<span>איסוף בתל אביב</span></li><li class="hchip">${I.shieldS}<span>ביטוח מלא כלול</span></li><li class="hchip">${I.cupS}<span>ציוד מטבח כלול</span></li></ul>
+</div>
+<div class="hero-vis">
+<div class="sun-rays" aria-hidden="true"></div>
+<div class="sun-disc" aria-hidden="true"></div>
+<figure class="pic hero-img"><img src="${IMG}hero-window.webp" width="1100" height="1100" alt="שלושה חברים מציצים בצחוק מחלון של קרוואן וינטג', באור חם של אחר הצהריים" fetchpriority="high" decoding="async"></figure>
+<div class="sticker" aria-label="החל מ-480 שקלים ללילה, מחיר לדוגמה"><small>מ-</small><b dir="ltr">480 ₪</b><span>ללילה</span></div>
+</div>
+</div></section>
+
+<section class="sec proof" id="s12-reviews" aria-labelledby="s12-rv-h"><div class="wrap">
+<div class="proof-top">
+<div class="head reveal"><span class="eyebrow">${I.sunS}מי שכבר נסעו</span><h2 id="s12-rv-h">שלוש נסיעות, שלוש דעות</h2><p class="lead">את הביקורות אנחנו מבקשים אחרי כל החזרה, כשהחול עוד בנעליים.</p></div>
+<div class="stats reveal" role="group" aria-label="נתונים לדוגמה">
+<div class="stat"><b data-count="4.9" data-d="1">4.9</b><span>דירוג ממוצע מתוך 5</span></div>
+<div class="stat"><b data-count="312">312</b><span>סופי שבוע על הכביש</span></div>
+<div class="stat"><b data-count="15">15</b><span>דקות הדרכה בהתחלה</span></div>
+</div>
+</div>
+<div class="revs">${REVIEWS.map(rvHtml).join("")}</div>
+<p class="micro proof-foot reveal">המספרים והביקורות באתר הם דוגמאות להדגמת העיצוב, ולא של עסק אמיתי.</p>
+</div></section>
+
+<section class="route" id="s12-route" aria-labelledby="s12-rt-h"><div class="route-grid">
+<div class="rt-text">
+<div class="rt-head reveal"><span class="eyebrow">${I.routeS}מסלול לדוגמה</span><h2 id="s12-rt-h">ככה נראה סוף שבוע עם קרוואן</h2><p class="lead">שני לילות, שלוש תחנות ומפתח אחד. אפשר לשנות כל תחנה, כי הקרוואן שלכם.</p></div>
+<ol class="steps">${STOPS.map(stopHtml).join("")}</ol>
+</div>
+<div class="rt-vis reveal">
+<figure class="pic"><img src="${IMG}dusk-camp.webp" width="1000" height="1000" alt="קרוואן לבן בשדה בשעת שקיעה, ושתי נשים יושבות על כיסאות קמפינג ליד שולחן קטן" loading="lazy" decoding="async"></figure>
+<p class="micro">צילום להדגמה. המסלול והתחנות לדוגמה.</p>
+</div>
+</div></section>
+
+<section class="sec fleet" id="s12-fleet" aria-labelledby="s12-fl-h"><div class="wrap">
+<div class="fleet-top">
+<div class="fl-txt reveal"><span class="eyebrow">${I.keyS}הצי</span><h2 id="s12-fl-h">שלושה כלי רכב, ובכל אחד כבר יש מיטה ומטבחון</h2><p class="lead">כל רכב נקרא על שם הצבע שלו. בוחרים לפי מספר הישנים, ואת כל השאר אנחנו כבר סידרנו.</p>
+<ul class="incl">${INCL.map(x => `<li>${x[0]}<h4>${x[1]}</h4><p>${x[2]}</p></li>`).join("")}</ul></div>
+<div class="fl-vis reveal"><figure class="pic"><img src="${IMG}van-door.webp" width="1000" height="1200" alt="שתי נשים בקמפר לבן עם דלת פתוחה, אחת מחזיקה רדיו קסטות ישן" loading="lazy" decoding="async"></figure></div>
+</div>
+<ul class="vans">${VANS.map(vanHtml).join("")}</ul>
+<p class="micro vans-note reveal">המחירים לדוגמה, ללילה, לא כולל מע"מ. מינימום שני לילות בסוף שבוע.</p>
+</div></section>
+
+<section class="book" id="s12-book" data-cta-end aria-labelledby="s12-bk-h"><div class="book-grid">
+<div class="bk-body reveal">
+<div class="head"><span class="eyebrow">${I.calendarS}להזמין</span><h2 id="s12-bk-h">רוצים לבדוק אם הסוף שבוע הקרוב פנוי?</h2><p class="lead">משאירים שם וטלפון ובוחרים רכב. נחזור אליכם בהודעה עם התאריכים הפנויים, בלי תשלום ובלי התחייבות.</p></div>
+<form class="form" novalidate>
+<div class="row">
+<div class="fld"><label for="s12-name">שם</label><input class="in" id="s12-name" name="name" autocomplete="name" required aria-describedby="s12-name-m"><span class="msg" id="s12-name-m">${I.alertS}איך נקרא לכם?</span></div>
+<div class="fld"><label for="s12-tel">טלפון</label><input class="in" id="s12-tel" name="tel" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required aria-describedby="s12-tel-m"><span class="msg" id="s12-tel-m">${I.alertS}המספר לא נראה תקין, אפשר לבדוק?</span></div>
+</div>
+<fieldset><legend class="legend">איזה רכב מעניין אתכם?</legend><div class="opts">
+<label class="opt"><input type="radio" name="van" value="mus"><span>החרדל</span></label>
+<label class="opt"><input type="radio" name="van" value="org"><span>התפוז</span></label>
+<label class="opt"><input type="radio" name="van" value="ol"><span>הזית</span></label>
+<label class="opt"><input type="radio" name="van" value="any" checked><span>עוד לא יודעים</span></label>
+</div></fieldset>
+<div class="form-foot"><button class="btn" type="submit">לבדוק זמינות</button><p class="micro">את הטלפון משתמשים רק כדי לחזור אליכם בנוגע להזמנה.</p></div>
+</form>
+<div class="ok" role="status" aria-live="polite"><span class="tick">${I.check}</span><h3>קיבלנו</h3><p class="lead">נשלח לכם הודעה עוד היום עם התאריכים הפנויים.</p></div>
+</div>
+<div class="bk-side">
+<div class="bk-vis reveal"><div class="bk-sun" aria-hidden="true"></div><figure class="pic"><img src="${IMG}thermos.webp" width="900" height="1200" alt="שתי חברות צוחקות בתוך קרוואן, אחת מוזגת קפה מתרמוס כתום על שולחן עץ" loading="lazy" decoding="async"></figure></div>
+<ul class="vinfo reveal">
+<li>${I.pinS}<div><b>החרושת 9, תל אביב</b><span>חניה בחצר, ושתי דקות הליכה מהתחנה</span></div></li>
+<li>${I.clockS}<div><b>ראשון עד חמישי, 9:00 עד 18:00</b><span>שישי 8:00 עד 13:00, ושבת סגור</span></div></li>
+<li>${I.phoneS}<div><a href="tel:+97235550170" dir="ltr" style="unicode-bidi:isolate">03-555-0170</a><span>אפשר גם להתקשר ולשאול מה פנוי</span></div></li>
+</ul>
+</div>
+</div></section>
+</main>
+
+<footer class="ft"><div class="ft-top">
+<div class="ft-brand"><a class="logo" href="#s12-top" aria-label="שמש בדרך, לראש הדף">${LOGO}<span>שמש בדרך</span></a><p>השכרת קרוואנים וקמפרים בסגנון שנות ה-70 לסופי שבוע בארץ. איסוף והחזרה בתל אביב.</p></div>
+<div class="ft-col"><p class="ft-h">שעות מסירה</p><span>ראשון עד חמישי, 9:00 עד 18:00</span><span>שישי, 8:00 עד 13:00</span></div>
+<div class="ft-col"><p class="ft-h">להגיע</p><address>החרושת 9, תל אביב</address><a href="tel:+97235550170" dir="ltr" style="unicode-bidi:isolate">03-555-0170</a><a href="https://waze.com/ul?q=%D7%94%D7%97%D7%A8%D7%95%D7%A9%D7%AA%209%20%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91" rel="noopener">ניווט ב-Waze</a></div>
+<div class="ft-col"><p class="ft-h">באתר</p><a href="#s12-reviews">ביקורות</a><a href="#s12-route">המסלול</a><a href="#s12-fleet">הצי</a><a href="#s12-book">הזמנה</a></div>
+</div>
+<div class="ft-bot"><p>© <span data-year>2026</span> שמש בדרך</p><nav aria-label="משפטי"><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">הצהרת נגישות</a></nav><button class="lnk" type="button" data-pause>${I.pauseS}<span>השהיית התנועה</span></button><p>עוצב ופותח על ידי <a href="https://liavmatzri.co.il" rel="noopener">ליאב מצרי</a></p></div>
+<svg class="sunset" viewBox="0 0 560 280" aria-hidden="true" focusable="false"><path d="M0 280a280 280 0 0 1 560 0z" fill="#E5A823"/><path d="M52 280a228 228 0 0 1 456 0z" fill="#E5702B"/><path d="M104 280a176 176 0 0 1 352 0z" fill="#B2441F"/><path d="M156 280a124 124 0 0 1 248 0z" fill="#54402F"/></svg>
+</footer>
+</div></div>`;
+
+// ───────── JS ─────────
+// כל כתיבה ל-DOM בגלילה רק כשהערך השתנה. ההדר נדבק מתחת לסרגל המאגר רק כשהוא דביק ומוצג (בפרויקט אין סרגל).
+// reduced-motion: reveal ופתיחה כבויים, הפסים נמשכים במלואם והתחנות דולקות.
+const JS = `(function(){var root=document.querySelector(".sk-s12");if(!root)return;var q=root.querySelector(".q");q.classList.add("js");
+var rm=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function $(s,r){return(r||q).querySelector(s)}function $$(s,r){return[].slice.call((r||q).querySelectorAll(s))}
+$$("[data-year]").forEach(function(e){e.textContent=new Date().getFullYear()});
+/* הדר: headroom */
+var hd=$(".hd"),top=document.querySelector(".vtop"),lastTop=-1,hidden=false,lastY=window.scrollY,acc=0;
+function place(){if(!hd||!top)return;var s=getComputedStyle(top),v=s.position==="sticky"&&s.display!=="none"?top.offsetHeight:0;if(v!==lastTop){lastTop=v;hd.style.top=v+"px"}}
+function setHidden(v){if(v===hidden)return;hidden=v;hd.classList.toggle("is-hidden",v)}
+function onScroll(){place();var y=window.scrollY,d=y-lastY;lastY=y;if(y<=96){acc=0;setHidden(false);return}
+acc=(d>0)===(acc>0)?acc+d:d;if(acc>6)setHidden(true);else if(acc<-6)setHidden(false)}
+window.addEventListener("scroll",onScroll,{passive:true});window.addEventListener("resize",place);hd.addEventListener("focusin",function(){setHidden(false)});place();
+/* reveal פעם אחת */
+var els=$$(".reveal");
+if(rm||!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("is-in")})}
+else{var io=new IntersectionObserver(function(en){en.forEach(function(x){if(!x.isIntersecting)return;x.target.classList.add("is-in");io.unobserve(x.target)})},{threshold:.12});els.forEach(function(e){io.observe(e)})}
+/* מספרים: ספירה פעם אחת כשהם נכנסים. עם reduced-motion מופיע הערך הסופי */
+var cn=$$("[data-count]");
+function paint(e,v){var d=+(e.dataset.d||0);e.textContent=d?v.toFixed(d):String(Math.round(v))}
+function run(e){var to=+e.dataset.count,t0=null;function f(ts){if(t0===null)t0=ts;var p=Math.min(1,(ts-t0)/1100),k=1-Math.pow(1-p,3);paint(e,to*k);if(p<1)requestAnimationFrame(f)}requestAnimationFrame(f)}
+if(!rm&&"IntersectionObserver" in window&&cn.length){cn.forEach(function(e){paint(e,0)});var co=new IntersectionObserver(function(en){en.forEach(function(x){if(!x.isIntersecting)return;run(x.target);co.unobserve(x.target)})},{threshold:.6});cn.forEach(function(e){co.observe(e)})}
+/* רגע החתימה: ארבעה פסים נמשכים בגלילה, עוטפים את פינת הסקשן ויורדים לאורך התחנות. נכתב רק כשהערך השתנה */
+var route=$(".route"),mks=$$(".stop"),NS="http://www.w3.org/2000/svg",COL=["#E5A823","#E5702B","#B2441F","#7C8B3C"],G=null,lastLen=[],lastOn=[],rafB=0;
+function build(){if(!route||!mks.length)return;var old=$(".band",route);if(old)old.remove();
+var r=route.getBoundingClientRect(),m0=$(".mk",mks[0]).getBoundingClientRect(),small=r.width<768,sw=small?6:10,R=small?64:120,yt=small?24:32,W=r.width,H=r.height;
+var xc=m0.left+m0.width/2-r.left,xo=xc+2*sw,X0=xo-R,Yv=yt+R,Rm=R-2*sw,Dpre=X0+Math.PI/2*Rm,Dtot=Dpre+(H-Yv);
+var s=document.createElementNS(NS,"svg");s.setAttribute("class","band");s.setAttribute("width",W);s.setAttribute("height",H);s.setAttribute("viewBox","0 0 "+W+" "+H);s.setAttribute("aria-hidden","true");
+var ps=[],k;for(k=0;k<4;k++){var yk=yt+(k+.5)*sw,xk=xo-(k+.5)*sw,rk=R-(k+.5)*sw,p=document.createElementNS(NS,"path");
+p.setAttribute("d","M 0 "+yk+" H "+(xk-rk)+" A "+rk+" "+rk+" 0 0 1 "+xk+" "+(yk+rk)+" V "+H);p.setAttribute("fill","none");p.setAttribute("stroke",COL[k]);p.setAttribute("stroke-width",sw);s.appendChild(p);ps.push({el:p,rk:rk})}
+route.insertBefore(s,route.firstChild);
+var my=mks.map(function(m){var b=$(".mk",m).getBoundingClientRect();return b.top+b.height/2-r.top});
+G={ps:ps,X0:X0,Yv:Yv,Rm:Rm,Dpre:Dpre,Dtot:Dtot,my:my,H:H};lastLen=[];lastOn=[];update()}
+function update(){if(!G)return;var r=route.getBoundingClientRect(),vh=window.innerHeight,D;
+if(rm){D=G.Dtot}else{var yS=vh*.75-r.top,y0=-vh*.2;if(yS<=y0)D=0;else if(yS<=G.Yv)D=G.Dpre*(yS-y0)/(G.Yv-y0);else D=Math.min(G.Dtot,G.Dpre+(yS-G.Yv))}
+var i,L;for(i=0;i<G.ps.length;i++){var rk=G.ps[i].rk;
+if(D<=G.X0)L=D;else if(D<=G.Dpre)L=G.X0+(D-G.X0)*rk/G.Rm;else L=G.X0+Math.PI/2*rk+(D-G.Dpre);
+L=Math.round(L);if(L!==lastLen[i]){lastLen[i]=L;G.ps[i].el.setAttribute("stroke-dasharray",L+" 99999")}}
+var penY=D>G.Dpre?G.Yv+(D-G.Dpre):-1;
+for(i=0;i<mks.length;i++){var on=rm||penY>=G.my[i]-4;if(on!==lastOn[i]){lastOn[i]=on;mks[i].classList.toggle("on",on)}}}
+function sched(){if(rafB)return;rafB=requestAnimationFrame(function(){rafB=0;update()})}
+if(route&&mks.length){build();
+if(!rm)window.addEventListener("scroll",sched,{passive:true});
+if("ResizeObserver" in window){var w0=route.getBoundingClientRect().width,h0=route.getBoundingClientRect().height;new ResizeObserver(function(){var b=route.getBoundingClientRect();if(Math.abs(b.width-w0)>1||Math.abs(b.height-h0)>1){w0=b.width;h0=b.height;build()}}).observe(route)}
+else window.addEventListener("resize",build)}
+/* בחירת רכב מהצי מסמנת אותו בטופס */
+$$("[data-pick]").forEach(function(a){a.addEventListener("click",function(){var f=$(".form"),i=f&&f.querySelector('input[name="van"][value="'+a.dataset.pick+'"]');if(i)i.checked=true})});
+/* השהיית התנועה (WCAG 2.2.2): מקפיא את השמש */
+var pb=$("[data-pause]");
+if(pb)pb.addEventListener("click",function(){var p=q.hasAttribute("data-paused");if(p)q.removeAttribute("data-paused");else q.setAttribute("data-paused","");pb.innerHTML=(p?'<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14"/><path d="M15 5v14"/></svg><span>השהיית התנועה</span>':'<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg><span>הפעלת התנועה</span>')});
+/* טופס ההזמנה */
+var form=$(".form"),bk=$(".book");
+if(form)form.addEventListener("submit",function(e){e.preventDefault();var nm=form.elements.name,tl=form.elements.tel,bad=null;
+function chk(f,ok){var w=f.closest(".fld");w.classList.toggle("err",!ok);f.setAttribute("aria-invalid",String(!ok));if(!ok&&!bad)bad=f}
+chk(nm,nm.value.trim().length>1);chk(tl,tl.value.replace(/\\D/g,"").length>=9);
+if(bad){bad.focus();return}bk.classList.add("is-sent");var ok=$(".ok");if(ok){ok.setAttribute("tabindex","-1");ok.focus()}});
+})();`;
+
+const base = {
+  cat: "style", area: "doctrine", status: "מאושר", runway: false, tech: "שפת עיצוב · רמת סטודיו",
+  en: "Retro 70s", group: "שפות נוספות",
+  when: "מותגי נסיעות, אירוח ופנאי, אוכל וקפה, אופנה ותרבות, סדנאות, סטודיו לעיצוב, כל עסק קטן שהאופי שלו הוא חלק מהמוצר ושהלקוח מגיע אליו מתוך חשק ולא מתוך צורך. האחות הקולנית והגרפית של s14: אותו חום, יותר צבע ויותר צורה.",
+  no: "פיננסים, משפט, רפואה, ביטחון, טכנולוגיה ומערכות: שם הנוסטלגיה נקראת כחוסר עדכניות. וגם לא כשאין צילום אמיתי וחם עם אנשים, כי בלי תמונה טובה השפה נשארת תחפושת של צבעים.",
+  recipe: `פלטה: שמנת #F6ECD6 (הרקע, אף פעם לא לבן) · paper #FFF8E8 (משטח בהיר, ורק עליו צל) · חול #EFDFB8 ובהובר #E3CC96 · חרדל #E5A823 (פסים, גלגל, מדבקה) · כתום #E5702B · חלודה #B2441F · זית #5E6C2C · שוקולד #3A2418 (הטקסט, לא שחור) · muted #664E3C
+צבעי כרטיס ביקורת: חרדל בהיר #F0C24A, אפרסק #F2A877, זית בהיר #C9CF8F (טקסט שוקולד עליהם). כל אחד מכהה בהובר לגוון משלו, בלי צל
+CTA: חלודה עמוקה #A8401F עם paper (6.2), בהובר #8C3216 · גבול שדה #8A6F52
+רדיוסים: pill 999 · כרטיס 36 · יריעה 56 · חלון קשת אחד לכל הצילומים: 50% 50% 40px 40px / 44% 44% 40px 40px
+פסים: ארבעה, בעובי 10 (6 במובייל), חרדל, כתום, חלודה וזית, נמשכים סביב פינה ברדיוס 120 · עוד הופעה אחת: שקיעה של ארבע חצאי טבעות בפוטר. פסים רק פעמיים בעמוד, ולא על כל רכיב
+שמש: repeating-conic-gradient חרדל בשקיפות 40%, מסכת רדיאלית, סיבוב של 180 שניות על transform · גלגל כתום סטטי מאחורי החלון
+גרעין: שלושה אריחי PNG קטנים (כהה לשמנת ולחול, בהיר לחום, ואחד מעורב על כל צילום), בלי SVG filter ובלי mix-blend-mode
+גריידינג צילום: Pillow, אחד לכולם: אדום +3.5%, כחול -6.5%, רוויה 96%, שחורים מורמים ל-12, ניגודיות 1.02
+Google Sans בלבד, שלושה משקלים: 700 לכותרות, מספרים ושמות הרכבים, 500 לפעולות ולתוויות, 400 לגוף · H1 76/1.06/-.02em (יחס 4.75) · H2 52/-.015em · ריווח שלילי רק מ-40px, ובמובייל 0 · ללא ריווח חיובי
+תנועה: reveal 16px/0.5s, סטאגר 70ms, פתיחה 1.2s, מעברי מצב 0.15 עד 0.4s · ease cubic-bezier(.2,.6,.2,1) · תנועה רציפה (שמש) כ-CSS על transform`,
+  apply: "הדר לשונית שתלויה מהקצה העליון על paper, בלי קו, עם headroom. הירו בשני טורים: הטקסט בהתחלה, חלון קשת עם שמש מסתובבת מאחוריו ומדבקת מחיר חרדלית. כל סקשן נפתח באותה תווית חרדלית. הוכחה כמספרים גדולים בחלודה ושלושה כרטיסים בצבעי הרכבים, האמצעי יורד 48px. רגע החתימה על יריעת שוקולד: ארבעת הפסים נמשכים בגלילה מאחורי הצילום, עוטפים את הפינה ויורדים לאורך תחנות שנדלקות בחרדל. הצי בשלושה כרטיסים בצבע מלא עם מספר ישנים ענק, וכפתור שוקולד שמסמן את הרכב בטופס. ההזמנה על יריעת חול שקטה, שדות pill ובחירות pill. הפוטר שוקולד עם שקיעה בקצה.",
+  sig: "חלון קשת אחד לכל הצילומים · שמש מסתובבת לאט מאחורי ההירו · 'מסלול סוף שבוע': ארבעה פסים נמשכים בגלילה, עוטפים פינה ויורדים עם התחנות · מספרים ענקיים במשקל 700 (ישנים, מחיר, דירוג) · כרטיסי צבע מלא שמכהים בהובר · שקיעה של חצאי טבעות בפוטר.",
+  avoid: "פונט רטרו, גם בכותרת: התקופה באה מצבע, פסים, צורה וצילום · חום בכל מקום ובלי שמנת שנושמת · פסים על כל רכיב, גלגלי דיסקו, קליפ-ארט 'גרובי' וקשת בענן · ניגודיות עכורה בין חרדל לחלודה · צל על משטח צבעוני · כתמים אמורפיים · קו או מסגרת לקישוט · פילטר סרט כבד שמלכלך את הפנים בצילום.",
+  qa: ["פלטה של חרדל, כתום, חלודה, זית ושוקולד על שמנת, בלי לבן ובלי שחור", "אין פונט תקופתי; הכותרת 700 הדוקה מ-40px", "פסים רק במקומות מכוונים: המסלול והשקיעה, ולא על כל רכיב", "חלון קשת אחד לכל הצילומים, אותו גריידינג וגרעין סרט כאריח PNG", "צל רק על משטח paper, וכרטיס צבעוני מכהה לגוון משלו בהובר", "ניגודיות AA בכל זוג צבעים, כולל טקסט על שוקולד וכרטיסי צבע", "הסיבוב נעצר ב-reduced-motion ובכפתור 'השהיית התנועה'; הפסים והתחנות גלויים בלי JS"],
+  engine: `ניגודיות נמדדה (WCAG): שוקולד #3A2418 על שמנת #F6ECD6 12.4 · טקסט משני #664E3C על שמנת 6.6, על חול 5.9, על קרני השמש 5.2 · חלודה #B2441F על שמנת 4.8 (כותרות וטקסט גדול בלבד) · לבן-שמנת #FFF8E8 על כפתור #A8401F 5.8 ועל hover #8C3216 7.7 · שוקולד על חרדל בהיר 8.7, על אפרסק 7.4, על זית בהיר 8.9, על אפרסק ב-hover 6.3 · שוקולד כהה #2B1810 על כתום #E5702B 5.4 ועל ה-hover 4.6 (כרטיס הכתום) · לבן-שמנת על זית #5E6C2C 5.4 ועל ה-hover 6.8 · #E8D9BB על שוקולד 10.4 · שדה טופס, קו #8A6F52 על חול 3.6 ועל לבן-שמנת 4.4 (רכיב ממשק, סף 3) · שגיאה #B3261E על חול 4.9.
+אילוצי מנוע: עור אחד, בלי שחור ובלי לבן טהור · .hchip ולא .chip, כי ב-vault.css יש .chip במשקל 600 שדולף ושובר את מגבלת שלושת המשקלים · תוויות eyebrow זהות בכל המשטחים (גלולה חרדלית, טקסט שוקולד) · חלון הקשת ברדיוס אחד (50% 50% 40px 40px / 44% 44% 40px 40px) לכל הצילומים · פסי המסלול הם SVG שמחושב ב-JS לפי הגלילה ונכתב רק בשינוי, ובלי JS יש פס סטטי בארבעה צבעים · גרעין כאריח PNG קטן (6 עד 13KB) ולא פילטר SVG.`,
+  agent: "עצב בסגנון רטרו שנות ה-70 חם וגרפי: רקע שמנת עם גרעין, טקסט שוקולד, פלטה של חרדל, כתום, חלודה וזית, Google Sans במשקל 700 הדוק לכותרות ובלי פונט תקופתי, צילום אמיתי וחם עם אנשים באותו גריידינג בתוך חלון קשת, ארבעה פסים כחומר גלם בשני מקומות בלבד (רגע חתימה שנמשך בגלילה ועוטף פינה, ושקיעה בפוטר), שמש שמסתובבת לאט מאחורי ההירו, כרטיסים בצבע מלא שמכהים בהובר, כפתור חלודה עמוקה. בלי קליפ-ארט, גלגלי דיסקו ופסים על כל רכיב.",
+  mobile: "ההדר: הניווט נעלם והכפתור (44px) נשאר בלשונית. ההירו במרכז המסך: תווית, כותרת, שורת הסבר, כפתור ברוחב מלא ומתחתיו חלון הקשת נמוך עם השמש ומדבקת המחיר. הצ'יפים נעלמים. הכרטיסים בטור אחד והאמצעי לא יורד. המסלול: הפסים דקים (6px), הסמנים 36px והצילום מתחת לתחנות. הצי בטור, הטופס בעמודה אחת עם בחירות במגע של 44px, והפוטר בטור אחד.",
+  fonts: [],
+};
 
 export default [
-sk({
-  id: "s12", archived: true, name: "רטרו שנות ה-70", en: "Retro 70s", group: "שפות נוספות",
-  desc: "פלטה תקופתית (חרדל, חלודה, זית, שמנת), טיפוגרפיה תקופתית, גרעיניות. נוסטלגיה, אופי.",
-  when: "מותגי אוכל, קפה, אופנה, תרבות, כל מי שהאופי הוא המוצר.",
-  no: "טק, פיננסים, רפואה. הנוסטלגיה נקראת כחוסר עדכניות.",
-  recipe: `לבחור עשור אחד ולהתחייב. כאן: שנות ה-70
-פלטה: חרדל #D9A32B · חלודה #B5502A · זית #6B7A3A · שמנת #F3E9D2 · חום #3A2A1E
-כפתור וטקסט צבעוני: חלודה עמוקה #A4461F (שמנת עליה 5.0; החלודה #B5502A נותנת 4.2 ונשארת לפסים, לקשתות ולאייקונים)
-גרעיניות 3-4%; פסי שקיעה (שלוש רצועות); קשתות קונצנטריות; כפתורי pill
-טיפוגרפיה: serif display כבד לכותרות (בדמו Suez One; בפרויקט צימוד מ-library/fonts.md, אף פעם לא פונט גוגל), סאנס נקי לגוף`,
-  apply: "רצועת פסים תקופתית מתחת להדר; ויז'ואל הירו = קשתות שקיעה; כרטיסים בשמנת עם מתאר כפול; כפתורי pill בחלודה; החבילה הנבחרת בחום עם מחיר בחרדל; הגרעין על העמוד כולו ב-4%.",
-  sig: "פסי שקיעה · קשתות קונצנטריות · מתאר כפול (קו, רווח, קו).",
-  avoid: "ערבוב עשורים · רטרו רק בצבעים בלי טיפוגרפיה תואמת (חצי-תחפושת).",
-  qa: ["עשור אחד בלבד בכל הסימנים", "פונט הכותרות תקופתי", "גרעין לא מעל 4%"],
-  engine: "",
-  agent: "עצב בסגנון רטרו שנות ה-70: פלטת חרדל, חלודה, זית ושמנת, כותרות ב-serif display כבד, פסי שקיעה וקשתות קונצנטריות, כפתורי pill, גרעיניות עדינה.",
-  note: "בדמו: Suez One לכותרות, פסי שקיעה בראש ההירו, קשתות בוויז'ואל, מתאר כפול על הכרטיסים דרך box-shadow בשתי טבעות.",
-  fonts: ["Suez One"],
-  css: `.sk-s12 .ref{--s-bg:#F3E9D2;--s-surface:#FBF4E4;--s-ink:#3A2A1E;--s-muted:#6B5744;--s-line:#3A2A1E;--s-accent:#A4461F;--s-accent-ink:#F3E9D2;--s-accent-txt:#A4461F;--s-r:12px;--s-btn-r:999px;--s-ph:#D9A32B;--s-ph-ink:#3A2A1E;--s-font-h:"Suez One",serif;--s-wt-h:400;--s-fz-h:1;--s-lh-h:1;
- --s-card-b:2px solid #3A2A1E;--s-card-sh:0 0 0 4px #F3E9D2,0 0 0 6px #3A2A1E;--s-ghost-b:2px solid #3A2A1E;--s-ghost-bg:#FBF4E4;--s-in-b:2px solid #3A2A1E;--s-in-bg:#FBF4E4;--s-in-r:999px;--s-hi-bg:#3A2A1E;--s-hi-ink:#F3E9D2;--s-ico-bg:#D9A32B;--s-ico-r:50%;--s-hd-line:2px solid #3A2A1E;--s-form-bg:#FBF4E4;--s-gap:28px}
-.sk-s12 .ref::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.04;z-index:0;background:${NOISE}}
-.sk-s12 .hero{padding-top:calc(clamp(40px,7cqi,96px) + 24px)}
-.sk-s12 .hero::before{content:"";position:absolute;top:0;left:0;right:0;height:24px;background:linear-gradient(#D9A32B 0 8px,#B5502A 8px 16px,#6B7A3A 16px 24px)}
-.sk-s12 .hero h1{font-size:clamp(36px,6cqi,76px);line-height:1.05}
-.sk-s12 .hero-v{border-radius:50% 50% 12px 12px/40% 40% 12px 12px;background:repeating-radial-gradient(circle at 50% 100%,#B5502A 0 12%,#D9A32B 12% 24%,#6B7A3A 24% 36%,#F3E9D2 36% 48%);border:2px solid #3A2A1E;box-shadow:none}
-.sk-s12 .hv-a,.sk-s12 .hv-b{display:none}
-.sk-s12 .hv-l{background:#FBF4E4;border:2px solid #3A2A1E;padding:6px 16px;border-radius:999px}
-.sk-s12 .bens .card:nth-child(2) .ico{background:#B5502A}.sk-s12 .bens .card:nth-child(3) .ico{background:#6B7A3A}
-.sk-s12 .price.hi .amt,.sk-s12 .price.hi li::before{color:#D9A32B}
-.sk-s12 .price.hi .btn{background:#D9A32B;color:#3A2A1E}
-.sk-s12 .tag{background:#D9A32B;color:#3A2A1E;border:2px solid #3A2A1E}
-.sk-s12 .eyebrow{font-family:"Suez One",serif;font-weight:400;color:#A4461F;font-size:15px}
-.sk-s12 .ft{border-top:2px solid #3A2A1E}
-.sk-s12 .logo::before{border-radius:50%;background:radial-gradient(circle,#D9A32B 30%,#B5502A 31% 60%,#6B7A3A 61%)}
-.sk-s12 .in::placeholder{color:#6B5744}`,
-}),
+  {
+    ...base,
+    id: "s12", name: "רטרו שנות ה-70",
+    desc: "חרדל, כתום, חלודה וזית על שמנת עם גרעין. פסים ושמש כתכשיט, חלון קשת לצילום, וכותרת גדולה וטוחה ב-Google Sans. כאן כעמוד אמיתי של השכרת קרוואנים (דמיוני), בלי פונט תקופתי ובלי קליפ-ארט.",
+    score: "30/30",
+    note: "רף הסטודיו: 30/30, כל שבעת ה-★ עוברים. מתח H1/גוף 67/16 = 4.2 · שלושה משקלים (700, 500, 400) · סולם ריווח 4 עד 160 · טיפול ויז'ואל אחד: חלון קשת ברדיוס אחד לכל ארבעת הצילומים, אותו גריידינג חם ב-Pillow · כפתור בארבעה מצבים ושלוש רמות · reveal אחד, 0.5s, 16px, סטאגר 70ms · הדר לשונית עם headroom ופוטר של 670px · רגע חתימה: ארבעה פסים (חרדל, כתום, חלודה, זית) שנמשכים בגלילה, עוטפים את הפינה ויורדים לאורך תחנות המסלול, ובלי JS פס סטטי. העסק, שמש בדרך, וכל המחירים, הביקורות והמסלול הם לדוגמה ומסומנים כך בעמוד. בדוק: גלול לאט דרך 'המסלול', עבור על כרטיס רכב וכפתור, Tab בין שדות הטופס, ופתח ברוחב 500. צילומים (סטוק חינם, 0 קרדיטים; יתרה לפני ואחרי 147723): 9901576 (הירו), 29301406 (מסלול), 29301412 (צי), 29301397 (הזמנה), נשמרו ב-assets/media/real/s12.",
+    css: CSS, html: HTML, js: JS,
+  },
 ];
