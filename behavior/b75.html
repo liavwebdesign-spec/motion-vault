@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B75 · מגירה תחתונה שנסגרת בגרירה | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+.bsd{max-width:min(560px,100%);margin-inline:auto;display:grid;gap:20px;justify-items:start}
+.bsd h2{margin:0;font-size:clamp(26px,3vw,40px);line-height:1.15;font-weight:700}
+.bsd p{margin:0;max-width:44ch;color:var(--muted);font-size:17px;line-height:1.5}
+.bsd-meta{display:flex;flex-wrap:wrap;gap:8px}
+.bsd-meta span{padding:6px 14px;border-radius:999px;background:color-mix(in srgb,var(--ink) 6%,transparent);font-size:14px}
+.bsd-open{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding-inline:28px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:17px;font-weight:600;cursor:pointer;transition:transform .12s cubic-bezier(.2,.6,.2,1)}
+.bsd-open:active{transform:scale(.97)}
+.bsd-open:focus-visible,.bs-x:focus-visible,.bs-btn:focus-visible,.bs-call:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.bsd-hint{font-size:14px}
+.bs{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;color:var(--ink);overflow:hidden}
+.bs[open]{display:grid}
+.bs [hidden]{display:none!important}
+.bs::backdrop{background:transparent}
+.bs-ov{grid-area:1/1;background:color-mix(in srgb,var(--ink) 52%,transparent);opacity:0;transition:opacity .28s cubic-bezier(.2,.6,.2,1)}
+.bs.is-in .bs-ov{opacity:1}
+.bs-sheet{position:relative;grid-area:1/1;align-self:end;justify-self:center;display:flex;flex-direction:column;width:100%;max-width:560px;max-height:85vh;max-height:85dvh;border-radius:calc(var(--r) * 2) calc(var(--r) * 2) 0 0;background:var(--card);box-shadow:0 -12px 40px color-mix(in srgb,var(--ink) 18%,transparent);transform:translateY(100%);transition:transform .34s cubic-bezier(.2,.6,.2,1)}
+.bs.is-in .bs-sheet{transform:none}
+.bs-sheet.dragging{transition:none}
+.bs-sheet::after{content:"";position:absolute;inset-inline:0;top:100%;height:48px;background:var(--card)}
+.bs-grab{flex:none;display:grid;place-items:center;min-height:44px;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.dragging .bs-grab{cursor:grabbing}
+.bs-pill{width:56px;height:6px;border-radius:999px;background:color-mix(in srgb,var(--ink) 22%,transparent);transition:background .2s cubic-bezier(.2,.6,.2,1)}
+.bs-grab:hover .bs-pill,.dragging .bs-pill{background:color-mix(in srgb,var(--ink) 38%,transparent)}
+.bs-head{flex:none;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:0 20px 8px}
+.bs-head h2{margin:0;font-size:22px;line-height:1.25;font-weight:700}
+.bs-head p{margin:4px 0 0;color:var(--muted);font-size:15px;line-height:1.45}
+.bs-x{flex:none;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink);cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1)}
+.bs-x:hover{background:color-mix(in srgb,var(--ink) 13%,transparent)}
+.bs-x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none}
+.bs-body{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;padding:8px 20px max(24px,env(safe-area-inset-bottom))}
+.bs-form{display:grid;gap:16px}
+.bf{position:relative}
+.bf input{width:100%;min-height:56px;padding:24px 16px 8px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:inherit;font-size:16px;transition:border-color .25s cubic-bezier(.2,.6,.2,1),box-shadow .25s cubic-bezier(.2,.6,.2,1)}
+.bf input:focus{outline:0;border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 16%,transparent)}
+.bf input[type=tel]{text-align:right}
+html[dir="ltr"] .bf input[type=tel]{text-align:left}
+.bf label{position:absolute;inset-inline-start:17px;top:16px;color:var(--muted);font-size:16px;pointer-events:none;transform-origin:100% 0;transition:transform .22s cubic-bezier(.2,.6,.2,1),color .22s cubic-bezier(.2,.6,.2,1)}
+html[dir="ltr"] .bf label{transform-origin:0 0}
+.bf input:focus+label,.bf input:not(:placeholder-shown)+label{transform:translateY(-10px) scale(.78)}
+.bf input:focus+label{color:var(--accent)}
+.bf-err{display:block;height:0;margin-top:6px;color:#c2255c;font-size:13px;opacity:0;visibility:hidden;transition:opacity .25s cubic-bezier(.2,.6,.2,1),visibility 0s .25s}
+.bf.bad input{border-color:#c2255c;animation:bsshake .34s}
+.bf.bad .bf-err{height:auto;opacity:1;visibility:visible;transition-delay:0s}
+@keyframes bsshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.bs-fs{min-width:0;margin:0;padding:0;border:0}
+.bs-fs legend{margin-bottom:8px;padding:0;font-size:14px;font-weight:600}
+.bs-chips{display:flex;flex-wrap:wrap;gap:8px}
+.bs-chip{position:relative;display:block}
+.bs-chip input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.bs-chip span{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding-inline:16px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line);font-size:15px;transition:background .2s cubic-bezier(.2,.6,.2,1),color .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s cubic-bezier(.2,.6,.2,1)}
+.bs-chip small{font-size:13px;opacity:.7;font-variant-numeric:tabular-nums}
+.bs-chip input:checked+span{background:var(--accent);color:var(--accent-ink);box-shadow:none}
+.bs-chip input:focus-visible+span{outline:2px solid var(--accent);outline-offset:2px}
+.bs-btn{position:relative;min-height:54px;padding:0;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font:inherit;font-size:17px;font-weight:600;cursor:pointer;overflow:hidden;transition:background .3s cubic-bezier(.2,.6,.2,1)}
+.bs-btn span{display:block;transition:transform .3s cubic-bezier(.2,.6,.2,1),opacity .25s cubic-bezier(.2,.6,.2,1)}
+.bs-btn .s2{position:absolute;inset:0;display:grid;place-items:center;transform:translateY(110%);opacity:0}
+.bs-btn.load .s1{transform:translateY(-110%);opacity:0}
+.bs-btn.load .s2{transform:none;opacity:1}
+.bs-spin{display:inline-block;width:18px;height:18px;border:2px solid color-mix(in srgb,var(--accent-ink) 35%,transparent);border-top-color:var(--accent-ink);border-radius:50%;animation:bsspin .7s linear infinite}
+@keyframes bsspin{to{transform:rotate(360deg)}}
+.bs-alt{margin:8px 0 0;color:var(--muted);font-size:15px;text-align:center}
+.bs-call{display:inline-flex;align-items:center;min-height:44px;padding-inline:6px;color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:3px;unicode-bidi:isolate}
+.bs-ok{display:grid;justify-items:center;gap:12px;padding-block:16px 8px;text-align:center}
+.bs-ok:focus{outline:0}
+.bs-okmark{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:color-mix(in srgb,var(--accent) 14%,var(--card));color:var(--accent)}
+.bs-okmark svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.bs-okmark path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .4s cubic-bezier(.2,.6,.2,1) .15s}
+.bs-ok.show .bs-okmark path{stroke-dashoffset:0}
+.bs-ok h3{margin:0;font-size:20px;line-height:1.3}
+.bs-ok p{margin:0;max-width:34ch;color:var(--muted);font-size:15px;line-height:1.5}
+.bs-ok .bs-btn{width:100%;margin-top:8px;background:color-mix(in srgb,var(--ink) 8%,transparent);color:var(--ink)}
+@media (min-width:768px){
+  .bs-sheet{align-self:center;max-height:min(85vh,720px);max-height:min(85dvh,720px);border-radius:calc(var(--r) * 1.5);opacity:0;transform:translateY(16px);transition:transform .3s cubic-bezier(.2,.6,.2,1),opacity .3s cubic-bezier(.2,.6,.2,1)}
+  .bs.is-in .bs-sheet{opacity:1;transform:none}
+  .bs-sheet::after,.bs-grab{display:none}
+  .bs-head{padding:28px 28px 8px}
+  .bs-body{padding:8px 28px 28px}
+}
+@media (prefers-reduced-motion: reduce){.bs-ov,.bs-sheet,.bs-btn,.bs-btn span,.bs-okmark path{transition:none}.bf.bad input,.bs-spin{animation:none}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=behavior">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="b74.html" rel="prev" title="הקודם: מוצר שעף לעגלה עם משוב על הסל">→<span class="sr-only">הקודם</span></a><span class="vpn-n">63/64</span><a href="b76.html" rel="next" title="הבא: תפריט עם פאנל אחד שמחליק בין הפריטים">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">B75</span> · מגירה תחתונה שנסגרת בגרירה</h1>
+  <span class="chip cat-behavior">התנהגויות</span>
+  <span class="chip">CSS · JS · dialog · Pointer Events</span>
+  <span class="chip use">ניווט ומבנה</span><span class="chip use">טעינה ופידבק</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b75"><code>MV:b75</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="b75">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>בטלפון נפתחת מהתחתית מגירה עם טופס קצר לתיאום שיחה. אוחזים בידית וגוררים למטה: המגירה עוקבת אחרי האצבע בהתנגדות, הרקע מתבהר, והיא נסגרת כשגררו מספיק או כשהפנו אותה במהירות. אחרת היא חוזרת למקומה. בדסקטופ אותו תוכן בחלון במרכז.</p>
+  <p class="when"><b>מתי משתמשים:</b> פעולה קצרה מהטלפון: תיאום שיחה, שעות פתיחה והגעה, בחירת משלוח, סינון. טופס של שלושה שדות ומטה. לא לטפסים ארוכים (עמוד נפרד טוב מהם), ולא לתפריט ניווט (b66, b67).</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית · חנות · פורטפוליו וסטודיו</dd></div><div><dt>בסקשן</dt><dd>סגירה, טופס וקשר · הדר וניווט</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>שכבת בסיס, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא לטופס ארוך או לתוכן שחייבים לקרוא עד הסוף, כי סגירה בטעות מאבדת אותו.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="b75"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="stage tight"><div class="bsd">
+  <h2>כאב גב שלא עובר?</h2>
+  <p>שיחה קצרה של עשר דקות עם פיזיותרפיסט שמכיר את התחום, בלי התחייבות. נחזור אליכם באותו יום.</p>
+  <div class="bsd-meta"><span>ללא עלות</span><span>תשובה תוך שעתיים בשעות הפעילות</span></div>
+  <a class="bsd-open" href="#bs75" data-bs-open role="button" aria-haspopup="dialog">תיאום שיחה</a>
+  <p class="bsd-hint">בטלפון: גוררים את הידית למטה כדי לסגור. בדסקטופ: חלון במרכז.</p>
+</div></div>
+<dialog class="bs" id="bs75" aria-labelledby="bs75-t">
+  <div class="bs-ov"></div>
+  <div class="bs-sheet">
+    <div class="bs-grab" aria-hidden="true"><span class="bs-pill"></span></div>
+    <div class="bs-head">
+      <div><h2 id="bs75-t">תיאום שיחה עם הקליניקה</h2><p>נחזור אליכם בחלון הזמן שבחרתם.</p></div>
+      <button class="bs-x" type="button" aria-label="סגירה"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="bs-body">
+      <form class="bs-form" novalidate>
+        <div class="bf"><input type="text" id="bs75-n" name="name" placeholder=" " autocomplete="name" required><label for="bs75-n">שם מלא</label><small class="bf-err" id="bs75-n-e">צריך שם כדי לדעת למי לחזור</small></div>
+        <div class="bf"><input type="tel" id="bs75-p" name="phone" dir="ltr" inputmode="tel" placeholder=" " autocomplete="tel" required><label for="bs75-p">טלפון</label><small class="bf-err" id="bs75-p-e">מספר הטלפון לא נראה תקין</small></div>
+        <fieldset class="bs-fs">
+          <legend>מתי נוח לכם?</legend>
+          <div class="bs-chips">
+            <label class="bs-chip"><input type="radio" name="when" value="בבוקר" checked><span>בוקר <small>9:00 עד 12:00</small></span></label>
+            <label class="bs-chip"><input type="radio" name="when" value="בצהריים"><span>צהריים <small>12:00 עד 16:00</small></span></label>
+            <label class="bs-chip"><input type="radio" name="when" value="בערב"><span>ערב <small>16:00 עד 19:00</small></span></label>
+            <label class="bs-chip"><input type="radio" name="when" value="בהקדם האפשרי"><span>בהקדם</span></label>
+          </div>
+        </fieldset>
+        <button class="bs-btn" type="submit"><span class="s1">שליחה</span><span class="s2" aria-hidden="true"><i class="bs-spin"></i></span></button>
+      </form>
+      <p class="bs-alt">מעדיפים לדבר עכשיו? <a class="bs-call" href="tel:035550142" dir="ltr">03-555-0142</a></p>
+      <div class="bs-ok" role="status" tabindex="-1" hidden>
+        <span class="bs-okmark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg></span>
+        <h3>קיבלנו, נתקשר</h3>
+        <p class="bs-okt"></p>
+        <button class="bs-btn bs-done" type="button"><span>סגירה</span></button>
+      </div>
+    </div>
+  </div>
+</dialog>
+<noscript><style>.bs{position:static;display:block;height:auto;overflow:visible;padding-block:var(--sec)}.bs-ov,.bs-grab,.bs-x{display:none}.bs-sheet{margin-inline:auto;transform:none;opacity:1;border-radius:var(--r);max-height:none}.bsd-open{display:none}</style></noscript>
+
+<div class="demo-note">שחזור, השראה: Hover.dev Drag Close Drawer (https://www.hover.dev/components/modals); הקוד נכתב מחדש, ונוספה סגירה לפי מהירות. הרישיון של Hover.dev אוסר הפצה מחדש, ולכן לא הועתק ממנו דבר. הגרסה הבנאלית: מודאל שקופץ באמצע, או מגירה שנסגרת רק ב-X שבפינה העליונה, רחוק מהאגודל. כאן האגודל אוחז בידית וגורר, והמגירה עוקבת אחריו, אבל מתנגדת: למטה בחצי מהמרחק, למעלה כמעט בלי תנועה (עד 8 פיקסלים), והרקע מתבהר בקצב הגרירה. ההכרעה בשחרור היא לפי שני מבחנים: היסט של 100 פיקסל, או מהירות מעל 0.6 פיקסל למילישנייה כלפי מטה (נמדדת על 110 אלפיות השנייה האחרונות), כך שגם החלקה קצרה וחדה סוגרת, וגרירה איטית שלא הגיעה רחוק חוזרת. זו המיקרו-אינטראקציה שנושאת את המצב: האצבע רואה בכל רגע אם עוד רגע זה ייסגר. מה זה מקל: סגירה ביד אחת בלי לחפש כפתור, ופתיחה של פעולה קצרה בלי לעזוב את העמוד. המימוש: dialog ו-showModal, כך שמלכודת הפוקוס, ה-inert לדף שמאחור ו-Escape מגיעים מהדפדפן (Escape עובר ב-cancel ומסתיים באנימציית סגירה). הרקע הוא אלמנט משלו ולא ::backdrop, כי את השקיפות שלו אי אפשר לשנות מ-JS בזמן הגרירה בלי תלות בירושת משתנים. PointerEvents עם setPointerCapture על הידית בלבד, ו-touch-action:none רק עליה, כך שהתוכן שבפנים ממשיך להיגלל (max-height:85dvh, overscroll-behavior:contain). אזור האחיזה גבוה 44 פיקסל והפס עצמו 56 על 6. כל מסלול הגרירה הוא transform בלבד, ושחרור שלא סוגר מחזיר דרך אותו מעבר CSS. סגירות נוספות: לחיצה על הרקע, Escape, וכפתור X גלוי, והפוקוס חוזר למי שפתח. הטופס מ-b32: תוויות צפות, שדות 16 פיקסל (בלי זום של iOS), שגיאה לכל שדה עם aria-invalid, מצב שליחה ומסך אישור שמקבל פוקוס ומוכרז. בדסקטופ (768 ומעלה) אותו תוכן בחלון במרכז, בלי ידית. הפחתת תנועה: פתיחה וסגירה מיידיות (הגרירה עצמה ממשיכה לעקוב אחרי האצבע). בלי JS: הקישור מוביל לאותו תוכן, שמוצג בעמוד עצמו (noscript). הבדל מ-cv1: שם פס קבוע בתחתית שמציע ערוצי קשר, ללא מגירה ובלי גרירה; הבדל מ-b66 ו-b67: אלה תפריטי ניווט (מגירה מהצד וגלולה צפה), כאן משטח פעולה עם טופס שנסגר בתנועת אגודל.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b75.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B75 · מגירה תחתונה שנסגרת בגרירה */
+.bsd{max-width:min(560px,100%);margin-inline:auto;display:grid;gap:20px;justify-items:start}
+.bsd h2{margin:0;font-size:clamp(26px,3vw,40px);line-height:1.15;font-weight:700}
+.bsd p{margin:0;max-width:44ch;color:var(--muted, #6a6d85);font-size:17px;line-height:1.5}
+.bsd-meta{display:flex;flex-wrap:wrap;gap:8px}
+.bsd-meta span{padding:6px 14px;border-radius:999px;background:color-mix(in srgb,var(--ink, #16182b) 6%,transparent);font-size:14px}
+.bsd-open{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:17px;font-weight:600;cursor:pointer;transition:transform .12s cubic-bezier(.2,.6,.2,1)}
+.bsd-open:active{transform:scale(.97)}
+.bsd-open:focus-visible,.bs-x:focus-visible,.bs-btn:focus-visible,.bs-call:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+.bsd-hint{font-size:14px}
+.bs{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;color:var(--ink, #16182b);overflow:hidden}
+.bs[open]{display:grid}
+.bs [hidden]{display:none!important}
+.bs::backdrop{background:transparent}
+.bs-ov{grid-area:1/1;background:color-mix(in srgb,var(--ink, #16182b) 52%,transparent);opacity:0;transition:opacity .28s cubic-bezier(.2,.6,.2,1)}
+.bs.is-in .bs-ov{opacity:1}
+.bs-sheet{position:relative;grid-area:1/1;align-self:end;justify-self:center;display:flex;flex-direction:column;width:100%;max-width:560px;max-height:85vh;max-height:85dvh;border-radius:calc(var(--r, 14px) * 2) calc(var(--r, 14px) * 2) 0 0;background:var(--card, #fff);box-shadow:0 -12px 40px color-mix(in srgb,var(--ink, #16182b) 18%,transparent);transform:translateY(100%);transition:transform .34s cubic-bezier(.2,.6,.2,1)}
+.bs.is-in .bs-sheet{transform:none}
+.bs-sheet.dragging{transition:none}
+.bs-sheet::after{content:"";position:absolute;inset-inline:0;top:100%;height:48px;background:var(--card, #fff)}
+.bs-grab{flex:none;display:grid;place-items:center;min-height:44px;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.dragging .bs-grab{cursor:grabbing}
+.bs-pill{width:56px;height:6px;border-radius:999px;background:color-mix(in srgb,var(--ink, #16182b) 22%,transparent);transition:background .2s cubic-bezier(.2,.6,.2,1)}
+.bs-grab:hover .bs-pill,.dragging .bs-pill{background:color-mix(in srgb,var(--ink, #16182b) 38%,transparent)}
+.bs-head{flex:none;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:0 20px 8px}
+.bs-head h2{margin:0;font-size:22px;line-height:1.25;font-weight:700}
+.bs-head p{margin:4px 0 0;color:var(--muted, #6a6d85);font-size:15px;line-height:1.45}
+.bs-x{flex:none;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--ink, #16182b) 7%,transparent);color:var(--ink, #16182b);cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1)}
+.bs-x:hover{background:color-mix(in srgb,var(--ink, #16182b) 13%,transparent)}
+.bs-x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none}
+.bs-body{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;padding:8px 20px max(24px,env(safe-area-inset-bottom))}
+.bs-form{display:grid;gap:16px}
+.bf{position:relative}
+.bf input{width:100%;min-height:56px;padding:24px 16px 8px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:var(--card, #fff);color:var(--ink, #16182b);font:inherit;font-size:16px;transition:border-color .25s cubic-bezier(.2,.6,.2,1),box-shadow .25s cubic-bezier(.2,.6,.2,1)}
+.bf input:focus{outline:0;border-color:var(--accent, #4a3aff);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent, #4a3aff) 16%,transparent)}
+.bf input[type=tel]{text-align:right}
+html[dir="ltr"] .bf input[type=tel]{text-align:left}
+.bf label{position:absolute;inset-inline-start:17px;top:16px;color:var(--muted, #6a6d85);font-size:16px;pointer-events:none;transform-origin:100% 0;transition:transform .22s cubic-bezier(.2,.6,.2,1),color .22s cubic-bezier(.2,.6,.2,1)}
+html[dir="ltr"] .bf label{transform-origin:0 0}
+.bf input:focus+label,.bf input:not(:placeholder-shown)+label{transform:translateY(-10px) scale(.78)}
+.bf input:focus+label{color:var(--accent, #4a3aff)}
+.bf-err{display:block;height:0;margin-top:6px;color:#c2255c;font-size:13px;opacity:0;visibility:hidden;transition:opacity .25s cubic-bezier(.2,.6,.2,1),visibility 0s .25s}
+.bf.bad input{border-color:#c2255c;animation:bsshake .34s}
+.bf.bad .bf-err{height:auto;opacity:1;visibility:visible;transition-delay:0s}
+@keyframes bsshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.bs-fs{min-width:0;margin:0;padding:0;border:0}
+.bs-fs legend{margin-bottom:8px;padding:0;font-size:14px;font-weight:600}
+.bs-chips{display:flex;flex-wrap:wrap;gap:8px}
+.bs-chip{position:relative;display:block}
+.bs-chip input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.bs-chip span{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding-inline:16px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);font-size:15px;transition:background .2s cubic-bezier(.2,.6,.2,1),color .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s cubic-bezier(.2,.6,.2,1)}
+.bs-chip small{font-size:13px;opacity:.7;font-variant-numeric:tabular-nums}
+.bs-chip input:checked+span{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);box-shadow:none}
+.bs-chip input:focus-visible+span{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.bs-btn{position:relative;min-height:54px;padding:0;border:0;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:17px;font-weight:600;cursor:pointer;overflow:hidden;transition:background .3s cubic-bezier(.2,.6,.2,1)}
+.bs-btn span{display:block;transition:transform .3s cubic-bezier(.2,.6,.2,1),opacity .25s cubic-bezier(.2,.6,.2,1)}
+.bs-btn .s2{position:absolute;inset:0;display:grid;place-items:center;transform:translateY(110%);opacity:0}
+.bs-btn.load .s1{transform:translateY(-110%);opacity:0}
+.bs-btn.load .s2{transform:none;opacity:1}
+.bs-spin{display:inline-block;width:18px;height:18px;border:2px solid color-mix(in srgb,var(--accent-ink, #fff) 35%,transparent);border-top-color:var(--accent-ink, #fff);border-radius:50%;animation:bsspin .7s linear infinite}
+@keyframes bsspin{to{transform:rotate(360deg)}}
+.bs-alt{margin:8px 0 0;color:var(--muted, #6a6d85);font-size:15px;text-align:center}
+.bs-call{display:inline-flex;align-items:center;min-height:44px;padding-inline:6px;color:var(--ink, #16182b);font-weight:600;text-decoration:underline;text-underline-offset:3px;unicode-bidi:isolate}
+.bs-ok{display:grid;justify-items:center;gap:12px;padding-block:16px 8px;text-align:center}
+.bs-ok:focus{outline:0}
+.bs-okmark{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:color-mix(in srgb,var(--accent, #4a3aff) 14%,var(--card, #fff));color:var(--accent, #4a3aff)}
+.bs-okmark svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.bs-okmark path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .4s cubic-bezier(.2,.6,.2,1) .15s}
+.bs-ok.show .bs-okmark path{stroke-dashoffset:0}
+.bs-ok h3{margin:0;font-size:20px;line-height:1.3}
+.bs-ok p{margin:0;max-width:34ch;color:var(--muted, #6a6d85);font-size:15px;line-height:1.5}
+.bs-ok .bs-btn{width:100%;margin-top:8px;background:color-mix(in srgb,var(--ink, #16182b) 8%,transparent);color:var(--ink, #16182b)}
+@media (min-width:768px){
+  .bs-sheet{align-self:center;max-height:min(85vh,720px);max-height:min(85dvh,720px);border-radius:calc(var(--r, 14px) * 1.5);opacity:0;transform:translateY(16px);transition:transform .3s cubic-bezier(.2,.6,.2,1),opacity .3s cubic-bezier(.2,.6,.2,1)}
+  .bs.is-in .bs-sheet{opacity:1;transform:none}
+  .bs-sheet::after,.bs-grab{display:none}
+  .bs-head{padding:28px 28px 8px}
+  .bs-body{padding:8px 28px 28px}
+}
+@media (prefers-reduced-motion: reduce){.bs-ov,.bs-sheet,.bs-btn,.bs-btn span,.bs-okmark path{transition:none}.bf.bad input,.bs-spin{animation:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="bsd"&gt;
+  &lt;h2&gt;כאב גב שלא עובר?&lt;/h2&gt;
+  &lt;p&gt;שיחה קצרה של עשר דקות עם פיזיותרפיסט שמכיר את התחום, בלי התחייבות. נחזור אליכם באותו יום.&lt;/p&gt;
+  &lt;div class="bsd-meta"&gt;&lt;span&gt;ללא עלות&lt;/span&gt;&lt;span&gt;תשובה תוך שעתיים בשעות הפעילות&lt;/span&gt;&lt;/div&gt;
+  &lt;a class="bsd-open" href="#bs75" data-bs-open role="button" aria-haspopup="dialog"&gt;תיאום שיחה&lt;/a&gt;
+  &lt;p class="bsd-hint"&gt;בטלפון: גוררים את הידית למטה כדי לסגור. בדסקטופ: חלון במרכז.&lt;/p&gt;
+&lt;/div&gt;&lt;/div&gt;
+&lt;dialog class="bs" id="bs75" aria-labelledby="bs75-t"&gt;
+  &lt;div class="bs-ov"&gt;&lt;/div&gt;
+  &lt;div class="bs-sheet"&gt;
+    &lt;div class="bs-grab" aria-hidden="true"&gt;&lt;span class="bs-pill"&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="bs-head"&gt;
+      &lt;div&gt;&lt;h2 id="bs75-t"&gt;תיאום שיחה עם הקליניקה&lt;/h2&gt;&lt;p&gt;נחזור אליכם בחלון הזמן שבחרתם.&lt;/p&gt;&lt;/div&gt;
+      &lt;button class="bs-x" type="button" aria-label="סגירה"&gt;&lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M6 6l12 12M18 6L6 18"/&gt;&lt;/svg&gt;&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="bs-body"&gt;
+      &lt;form class="bs-form" novalidate&gt;
+        &lt;div class="bf"&gt;&lt;input type="text" id="bs75-n" name="name" placeholder=" " autocomplete="name" required&gt;&lt;label for="bs75-n"&gt;שם מלא&lt;/label&gt;&lt;small class="bf-err" id="bs75-n-e"&gt;צריך שם כדי לדעת למי לחזור&lt;/small&gt;&lt;/div&gt;
+        &lt;div class="bf"&gt;&lt;input type="tel" id="bs75-p" name="phone" dir="ltr" inputmode="tel" placeholder=" " autocomplete="tel" required&gt;&lt;label for="bs75-p"&gt;טלפון&lt;/label&gt;&lt;small class="bf-err" id="bs75-p-e"&gt;מספר הטלפון לא נראה תקין&lt;/small&gt;&lt;/div&gt;
+        &lt;fieldset class="bs-fs"&gt;
+          &lt;legend&gt;מתי נוח לכם?&lt;/legend&gt;
+          &lt;div class="bs-chips"&gt;
+            &lt;label class="bs-chip"&gt;&lt;input type="radio" name="when" value="בבוקר" checked&gt;&lt;span&gt;בוקר &lt;small&gt;9:00 עד 12:00&lt;/small&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;label class="bs-chip"&gt;&lt;input type="radio" name="when" value="בצהריים"&gt;&lt;span&gt;צהריים &lt;small&gt;12:00 עד 16:00&lt;/small&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;label class="bs-chip"&gt;&lt;input type="radio" name="when" value="בערב"&gt;&lt;span&gt;ערב &lt;small&gt;16:00 עד 19:00&lt;/small&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;label class="bs-chip"&gt;&lt;input type="radio" name="when" value="בהקדם האפשרי"&gt;&lt;span&gt;בהקדם&lt;/span&gt;&lt;/label&gt;
+          &lt;/div&gt;
+        &lt;/fieldset&gt;
+        &lt;button class="bs-btn" type="submit"&gt;&lt;span class="s1"&gt;שליחה&lt;/span&gt;&lt;span class="s2" aria-hidden="true"&gt;&lt;i class="bs-spin"&gt;&lt;/i&gt;&lt;/span&gt;&lt;/button&gt;
+      &lt;/form&gt;
+      &lt;p class="bs-alt"&gt;מעדיפים לדבר עכשיו? &lt;a class="bs-call" href="tel:035550142" dir="ltr"&gt;03-555-0142&lt;/a&gt;&lt;/p&gt;
+      &lt;div class="bs-ok" role="status" tabindex="-1" hidden&gt;
+        &lt;span class="bs-okmark"&gt;&lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/&gt;&lt;/svg&gt;&lt;/span&gt;
+        &lt;h3&gt;קיבלנו, נתקשר&lt;/h3&gt;
+        &lt;p class="bs-okt"&gt;&lt;/p&gt;
+        &lt;button class="bs-btn bs-done" type="button"&gt;&lt;span&gt;סגירה&lt;/span&gt;&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;
+&lt;noscript&gt;&lt;style&gt;.bs{position:static;display:block;height:auto;overflow:visible;padding-block:var(--sec)}.bs-ov,.bs-grab,.bs-x{display:none}.bs-sheet{margin-inline:auto;transform:none;opacity:1;border-radius:var(--r);max-height:none}.bsd-open{display:none}&lt;/style&gt;&lt;/noscript&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const dlg=document.getElementById("bs75"),sheet=dlg.querySelector(".bs-sheet"),ov=dlg.querySelector(".bs-ov");
+  const grab=dlg.querySelector(".bs-grab"),xBtn=dlg.querySelector(".bs-x"),body=dlg.querySelector(".bs-body");
+  const form=dlg.querySelector(".bs-form"),btn=form.querySelector(".bs-btn"),alt=dlg.querySelector(".bs-alt");
+  const ok=dlg.querySelector(".bs-ok"),okT=dlg.querySelector(".bs-okt"),done=dlg.querySelector(".bs-done");
+  const fields=[...form.querySelectorAll(".bf")];
+  const rm=matchMedia("(prefers-reduced-motion: reduce)"),desk=matchMedia("(min-width: 768px)");
+  const root=document.documentElement;
+  let opener=null,closing=false,drag=null,sending=false;
+
+  // נעילת גלילה כמו ב-b33: על html עם scrollbar-gutter, כדי שהעמוד לא יקפוץ
+  function lock(){
+    root.style.scrollbarGutter="stable";root.style.overflow="hidden";
+    root.style.backgroundColor="color-mix(in srgb, var(--ink) 52%, var(--bg))";
+  }
+  function unlock(){root.style.overflow="";root.style.scrollbarGutter="";root.style.backgroundColor="";}
+
+  function reset(){
+    form.reset();form.hidden=false;alt.hidden=false;ok.hidden=true;ok.classList.remove("show");
+    btn.classList.remove("load");sending=false;
+    fields.forEach(f=&gt;mark(f,false));
+  }
+  function open(from){
+    if(dlg.open)return;
+    opener=from;closing=false;reset();
+    dlg.showModal();lock();body.scrollTop=0;
+    if(rm.matches)dlg.classList.add("is-in");
+    else{void sheet.offsetHeight;dlg.classList.add("is-in");}   // קריאת פריסה כדי שהמצב ההתחלתי יצויר לפני המעבר
+  }
+  function finish(){if(dlg.open)dlg.close();}
+  function requestClose(fromDrag){
+    if(!dlg.open||closing)return;
+    closing=true;
+    if(rm.matches){finish();return;}
+    dlg.classList.remove("is-in");
+    // מגרירה: ממשיכים מהמקום שבו המגירה נמצאת אל מחוץ למסך (ה-transform הפנימי מחליף את זה של ה-CSS)
+    if(fromDrag){sheet.classList.remove("dragging");sheet.style.transform="translateY(100%)";ov.style.opacity="0";}
+    else{sheet.style.transform="";ov.style.opacity="";}
+    let t=setTimeout(finish,460);
+    sheet.addEventListener("transitionend",function h(e){
+      if(e.target!==sheet||(e.propertyName!=="transform"&amp;&amp;e.propertyName!=="opacity"))return;
+      sheet.removeEventListener("transitionend",h);clearTimeout(t);finish();
+    });
+  }
+  // close מופעל גם על Escape כפול של כרום שעוקף את cancel, ולכן הניקוי כאן ולא ב-requestClose
+  dlg.addEventListener("close",()=&gt;{
+    dlg.classList.remove("is-in");sheet.classList.remove("dragging");
+    sheet.style.transform="";ov.style.opacity="";drag=null;closing=false;
+    unlock();
+    if(opener&amp;&amp;opener.isConnected)opener.focus();
+  });
+  dlg.addEventListener("cancel",e=&gt;{e.preventDefault();requestClose(false);});
+  ov.addEventListener("click",()=&gt;requestClose(false));
+  xBtn.addEventListener("click",()=&gt;requestClose(false));
+  done.addEventListener("click",()=&gt;requestClose(false));
+
+  document.querySelectorAll("[data-bs-open]").forEach(a=&gt;{
+    a.addEventListener("click",e=&gt;{e.preventDefault();open(a);});
+    a.addEventListener("keydown",e=&gt;{if(e.key===" "){e.preventDefault();open(a);}});
+  });
+
+  // הגרירה: רק מהידית. למעלה כמעט בלי תנועה, למטה בחצי מהמרחק של האצבע.
+  // סוגרים כשהיסט המגירה &gt;= 100 פיקסל, או כשהשחרור מהיר (יותר מ-0.6 פיקסל למילישנייה כלפי מטה)
+  grab.addEventListener("pointerdown",e=&gt;{
+    if(closing)return;
+    if(e.pointerType==="mouse"&amp;&amp;e.button!==0)return;
+    grab.setPointerCapture(e.pointerId);
+    drag={id:e.pointerId,y0:e.clientY,off:0,s:[{t:e.timeStamp,y:e.clientY}]};
+    sheet.classList.add("dragging");
+  });
+  grab.addEventListener("pointermove",e=&gt;{
+    if(!drag||e.pointerId!==drag.id)return;
+    const dy=e.clientY-drag.y0;
+    drag.off=dy&gt;0?dy*.5:-Math.min(8,Math.sqrt(-dy)*.9);
+    drag.s.push({t:e.timeStamp,y:e.clientY});
+    while(drag.s.length&gt;2&amp;&amp;e.timeStamp-drag.s[0].t&gt;110)drag.s.shift();
+    sheet.style.transform="translateY("+drag.off+"px)";
+    const p=Math.min(1,Math.max(0,drag.off)/(sheet.offsetHeight*.45));
+    ov.style.opacity=String(1-.75*p);
+  });
+  function release(e,cancelled){
+    if(!drag||e.pointerId!==drag.id)return;
+    const a=drag.s[0],b=drag.s[drag.s.length-1],dt=b.t-a.t;
+    const v=dt&gt;0?(b.y-a.y)/dt:0,off=drag.off;
+    drag=null;
+    if(!cancelled&amp;&amp;(off&gt;=100||(v&gt;.6&amp;&amp;off&gt;6))){requestClose(true);return;}
+    // חוזרים למקום: מורידים את מצב הגרירה, והמעבר של ה-CSS מחזיר את המגירה והרקע
+    sheet.classList.remove("dragging");sheet.style.transform="";ov.style.opacity="";
+  }
+  grab.addEventListener("pointerup",e=&gt;release(e,false));
+  grab.addEventListener("pointercancel",e=&gt;release(e,true));
+
+  // הטופס: אותו מנגנון כמו b32, עם טלפון במקום אימייל
+  function bad(f){
+    const el=f.querySelector("input"),v=el.value.trim();
+    if(el.type==="tel")return !/^0\d{8,9}$/.test(v.replace(/\D/g,""));
+    return v.length&lt;2;
+  }
+  function mark(f,b){
+    f.classList.toggle("bad",b);
+    const el=f.querySelector("input"),err=f.querySelector(".bf-err");
+    el.setAttribute("aria-invalid",String(b));
+    if(b)el.setAttribute("aria-describedby",err.id);else el.removeAttribute("aria-describedby");
+  }
+  fields.forEach(f=&gt;{
+    const el=f.querySelector("input");
+    el.addEventListener("input",()=&gt;{if(f.classList.contains("bad")&amp;&amp;!bad(f))mark(f,false);});
+    el.addEventListener("blur",()=&gt;{if(el.value.trim())mark(f,bad(f));});
+  });
+  form.addEventListener("submit",e=&gt;{
+    e.preventDefault();
+    if(sending)return;
+    let first=null;
+    fields.forEach(f=&gt;{const b=bad(f);mark(f,b);if(b&amp;&amp;!first)first=f;});
+    if(first){first.querySelector("input").focus();return;}
+    sending=true;btn.classList.add("load");
+    setTimeout(()=&gt;{
+      const w=form.querySelector('input[name="when"]:checked').value;
+      okT.textContent="נתקשר למספר "+form.phone.value.trim()+" "+w+".";
+      form.hidden=true;alt.hidden=true;ok.hidden=false;
+      void ok.offsetHeight;ok.classList.add("show");
+      ok.focus();sending=false;btn.classList.remove("load");
+    },1200);
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b75 · מגירה תחתונה שנסגרת בגרירה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b75.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b75.html\n\nמה זה עושה: בטלפון נפתחת מהתחתית מגירה עם טופס קצר לתיאום שיחה. אוחזים בידית וגוררים למטה: המגירה עוקבת אחרי האצבע בהתנגדות, הרקע מתבהר, והיא נסגרת כשגררו מספיק או כשהפנו אותה במהירות. אחרת היא חוזרת למקומה. בדסקטופ אותו תוכן בחלון במרכז.\nמתי משתמשים: פעולה קצרה מהטלפון: תיאום שיחה, שעות פתיחה והגעה, בחירת משלוח, סינון. טופס של שלושה שדות ומטה. לא לטפסים ארוכים (עמוד נפרד טוב מהם), ולא לתפריט ניווט (b66, b67).\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית · חנות · פורטפוליו וסטודיו\nבסקשן: סגירה, טופס וקשר · הדר וניווט\nאופי: גם באתר שקט\nתפקיד ומינון: שכבת בסיס, פעם אחת בעמוד\nמתי לא: לא לטופס ארוך או לתוכן שחייבים לקרוא עד הסוף, כי סגירה בטעות מאבדת אותו.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B75 · מגירה תחתונה שנסגרת בגרירה */\n.bsd{max-width:min(560px,100%);margin-inline:auto;display:grid;gap:20px;justify-items:start}\n.bsd h2{margin:0;font-size:clamp(26px,3vw,40px);line-height:1.15;font-weight:700}\n.bsd p{margin:0;max-width:44ch;color:var(--muted, #6a6d85);font-size:17px;line-height:1.5}\n.bsd-meta{display:flex;flex-wrap:wrap;gap:8px}\n.bsd-meta span{padding:6px 14px;border-radius:999px;background:color-mix(in srgb,var(--ink, #16182b) 6%,transparent);font-size:14px}\n.bsd-open{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:17px;font-weight:600;cursor:pointer;transition:transform .12s cubic-bezier(.2,.6,.2,1)}\n.bsd-open:active{transform:scale(.97)}\n.bsd-open:focus-visible,.bs-x:focus-visible,.bs-btn:focus-visible,.bs-call:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n.bsd-hint{font-size:14px}\n.bs{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;color:var(--ink, #16182b);overflow:hidden}\n.bs[open]{display:grid}\n.bs [hidden]{display:none!important}\n.bs::backdrop{background:transparent}\n.bs-ov{grid-area:1/1;background:color-mix(in srgb,var(--ink, #16182b) 52%,transparent);opacity:0;transition:opacity .28s cubic-bezier(.2,.6,.2,1)}\n.bs.is-in .bs-ov{opacity:1}\n.bs-sheet{position:relative;grid-area:1/1;align-self:end;justify-self:center;display:flex;flex-direction:column;width:100%;max-width:560px;max-height:85vh;max-height:85dvh;border-radius:calc(var(--r, 14px) * 2) calc(var(--r, 14px) * 2) 0 0;background:var(--card, #fff);box-shadow:0 -12px 40px color-mix(in srgb,var(--ink, #16182b) 18%,transparent);transform:translateY(100%);transition:transform .34s cubic-bezier(.2,.6,.2,1)}\n.bs.is-in .bs-sheet{transform:none}\n.bs-sheet.dragging{transition:none}\n.bs-sheet::after{content:\"\";position:absolute;inset-inline:0;top:100%;height:48px;background:var(--card, #fff)}\n.bs-grab{flex:none;display:grid;place-items:center;min-height:44px;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}\n.dragging .bs-grab{cursor:grabbing}\n.bs-pill{width:56px;height:6px;border-radius:999px;background:color-mix(in srgb,var(--ink, #16182b) 22%,transparent);transition:background .2s cubic-bezier(.2,.6,.2,1)}\n.bs-grab:hover .bs-pill,.dragging .bs-pill{background:color-mix(in srgb,var(--ink, #16182b) 38%,transparent)}\n.bs-head{flex:none;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:0 20px 8px}\n.bs-head h2{margin:0;font-size:22px;line-height:1.25;font-weight:700}\n.bs-head p{margin:4px 0 0;color:var(--muted, #6a6d85);font-size:15px;line-height:1.45}\n.bs-x{flex:none;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--ink, #16182b) 7%,transparent);color:var(--ink, #16182b);cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1)}\n.bs-x:hover{background:color-mix(in srgb,var(--ink, #16182b) 13%,transparent)}\n.bs-x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none}\n.bs-body{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;padding:8px 20px max(24px,env(safe-area-inset-bottom))}\n.bs-form{display:grid;gap:16px}\n.bf{position:relative}\n.bf input{width:100%;min-height:56px;padding:24px 16px 8px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:var(--card, #fff);color:var(--ink, #16182b);font:inherit;font-size:16px;transition:border-color .25s cubic-bezier(.2,.6,.2,1),box-shadow .25s cubic-bezier(.2,.6,.2,1)}\n.bf input:focus{outline:0;border-color:var(--accent, #4a3aff);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent, #4a3aff) 16%,transparent)}\n.bf input[type=tel]{text-align:right}\nhtml[dir=\"ltr\"] .bf input[type=tel]{text-align:left}\n.bf label{position:absolute;inset-inline-start:17px;top:16px;color:var(--muted, #6a6d85);font-size:16px;pointer-events:none;transform-origin:100% 0;transition:transform .22s cubic-bezier(.2,.6,.2,1),color .22s cubic-bezier(.2,.6,.2,1)}\nhtml[dir=\"ltr\"] .bf label{transform-origin:0 0}\n.bf input:focus+label,.bf input:not(:placeholder-shown)+label{transform:translateY(-10px) scale(.78)}\n.bf input:focus+label{color:var(--accent, #4a3aff)}\n.bf-err{display:block;height:0;margin-top:6px;color:#c2255c;font-size:13px;opacity:0;visibility:hidden;transition:opacity .25s cubic-bezier(.2,.6,.2,1),visibility 0s .25s}\n.bf.bad input{border-color:#c2255c;animation:bsshake .34s}\n.bf.bad .bf-err{height:auto;opacity:1;visibility:visible;transition-delay:0s}\n@keyframes bsshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}\n.bs-fs{min-width:0;margin:0;padding:0;border:0}\n.bs-fs legend{margin-bottom:8px;padding:0;font-size:14px;font-weight:600}\n.bs-chips{display:flex;flex-wrap:wrap;gap:8px}\n.bs-chip{position:relative;display:block}\n.bs-chip input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}\n.bs-chip span{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding-inline:16px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);font-size:15px;transition:background .2s cubic-bezier(.2,.6,.2,1),color .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s cubic-bezier(.2,.6,.2,1)}\n.bs-chip small{font-size:13px;opacity:.7;font-variant-numeric:tabular-nums}\n.bs-chip input:checked+span{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);box-shadow:none}\n.bs-chip input:focus-visible+span{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n.bs-btn{position:relative;min-height:54px;padding:0;border:0;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:17px;font-weight:600;cursor:pointer;overflow:hidden;transition:background .3s cubic-bezier(.2,.6,.2,1)}\n.bs-btn span{display:block;transition:transform .3s cubic-bezier(.2,.6,.2,1),opacity .25s cubic-bezier(.2,.6,.2,1)}\n.bs-btn .s2{position:absolute;inset:0;display:grid;place-items:center;transform:translateY(110%);opacity:0}\n.bs-btn.load .s1{transform:translateY(-110%);opacity:0}\n.bs-btn.load .s2{transform:none;opacity:1}\n.bs-spin{display:inline-block;width:18px;height:18px;border:2px solid color-mix(in srgb,var(--accent-ink, #fff) 35%,transparent);border-top-color:var(--accent-ink, #fff);border-radius:50%;animation:bsspin .7s linear infinite}\n@keyframes bsspin{to{transform:rotate(360deg)}}\n.bs-alt{margin:8px 0 0;color:var(--muted, #6a6d85);font-size:15px;text-align:center}\n.bs-call{display:inline-flex;align-items:center;min-height:44px;padding-inline:6px;color:var(--ink, #16182b);font-weight:600;text-decoration:underline;text-underline-offset:3px;unicode-bidi:isolate}\n.bs-ok{display:grid;justify-items:center;gap:12px;padding-block:16px 8px;text-align:center}\n.bs-ok:focus{outline:0}\n.bs-okmark{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:color-mix(in srgb,var(--accent, #4a3aff) 14%,var(--card, #fff));color:var(--accent, #4a3aff)}\n.bs-okmark svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}\n.bs-okmark path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .4s cubic-bezier(.2,.6,.2,1) .15s}\n.bs-ok.show .bs-okmark path{stroke-dashoffset:0}\n.bs-ok h3{margin:0;font-size:20px;line-height:1.3}\n.bs-ok p{margin:0;max-width:34ch;color:var(--muted, #6a6d85);font-size:15px;line-height:1.5}\n.bs-ok .bs-btn{width:100%;margin-top:8px;background:color-mix(in srgb,var(--ink, #16182b) 8%,transparent);color:var(--ink, #16182b)}\n@media (min-width:768px){\n  .bs-sheet{align-self:center;max-height:min(85vh,720px);max-height:min(85dvh,720px);border-radius:calc(var(--r, 14px) * 1.5);opacity:0;transform:translateY(16px);transition:transform .3s cubic-bezier(.2,.6,.2,1),opacity .3s cubic-bezier(.2,.6,.2,1)}\n  .bs.is-in .bs-sheet{opacity:1;transform:none}\n  .bs-sheet::after,.bs-grab{display:none}\n  .bs-head{padding:28px 28px 8px}\n  .bs-body{padding:8px 28px 28px}\n}\n@media (prefers-reduced-motion: reduce){.bs-ov,.bs-sheet,.bs-btn,.bs-btn span,.bs-okmark path{transition:none}.bf.bad input,.bs-spin{animation:none}}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"bsd\">\n  <h2>כאב גב שלא עובר?<\/h2>\n  <p>שיחה קצרה של עשר דקות עם פיזיותרפיסט שמכיר את התחום, בלי התחייבות. נחזור אליכם באותו יום.<\/p>\n  <div class=\"bsd-meta\"><span>ללא עלות<\/span><span>תשובה תוך שעתיים בשעות הפעילות<\/span><\/div>\n  <a class=\"bsd-open\" href=\"#bs75\" data-bs-open role=\"button\" aria-haspopup=\"dialog\">תיאום שיחה<\/a>\n  <p class=\"bsd-hint\">בטלפון: גוררים את הידית למטה כדי לסגור. בדסקטופ: חלון במרכז.<\/p>\n<\/div><\/div>\n<dialog class=\"bs\" id=\"bs75\" aria-labelledby=\"bs75-t\">\n  <div class=\"bs-ov\"><\/div>\n  <div class=\"bs-sheet\">\n    <div class=\"bs-grab\" aria-hidden=\"true\"><span class=\"bs-pill\"><\/span><\/div>\n    <div class=\"bs-head\">\n      <div><h2 id=\"bs75-t\">תיאום שיחה עם הקליניקה<\/h2><p>נחזור אליכם בחלון הזמן שבחרתם.<\/p><\/div>\n      <button class=\"bs-x\" type=\"button\" aria-label=\"סגירה\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 6l12 12M18 6L6 18\"/><\/svg><\/button>\n    <\/div>\n    <div class=\"bs-body\">\n      <form class=\"bs-form\" novalidate>\n        <div class=\"bf\"><input type=\"text\" id=\"bs75-n\" name=\"name\" placeholder=\" \" autocomplete=\"name\" required><label for=\"bs75-n\">שם מלא<\/label><small class=\"bf-err\" id=\"bs75-n-e\">צריך שם כדי לדעת למי לחזור<\/small><\/div>\n        <div class=\"bf\"><input type=\"tel\" id=\"bs75-p\" name=\"phone\" dir=\"ltr\" inputmode=\"tel\" placeholder=\" \" autocomplete=\"tel\" required><label for=\"bs75-p\">טלפון<\/label><small class=\"bf-err\" id=\"bs75-p-e\">מספר הטלפון לא נראה תקין<\/small><\/div>\n        <fieldset class=\"bs-fs\">\n          <legend>מתי נוח לכם?<\/legend>\n          <div class=\"bs-chips\">\n            <label class=\"bs-chip\"><input type=\"radio\" name=\"when\" value=\"בבוקר\" checked><span>בוקר <small>9:00 עד 12:00<\/small><\/span><\/label>\n            <label class=\"bs-chip\"><input type=\"radio\" name=\"when\" value=\"בצהריים\"><span>צהריים <small>12:00 עד 16:00<\/small><\/span><\/label>\n            <label class=\"bs-chip\"><input type=\"radio\" name=\"when\" value=\"בערב\"><span>ערב <small>16:00 עד 19:00<\/small><\/span><\/label>\n            <label class=\"bs-chip\"><input type=\"radio\" name=\"when\" value=\"בהקדם האפשרי\"><span>בהקדם<\/span><\/label>\n          <\/div>\n        <\/fieldset>\n        <button class=\"bs-btn\" type=\"submit\"><span class=\"s1\">שליחה<\/span><span class=\"s2\" aria-hidden=\"true\"><i class=\"bs-spin\"><\/i><\/span><\/button>\n      <\/form>\n      <p class=\"bs-alt\">מעדיפים לדבר עכשיו? <a class=\"bs-call\" href=\"tel:035550142\" dir=\"ltr\">03-555-0142<\/a><\/p>\n      <div class=\"bs-ok\" role=\"status\" tabindex=\"-1\" hidden>\n        <span class=\"bs-okmark\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12.5l4.5 4.5L19 7.5\" pathLength=\"1\"/><\/svg><\/span>\n        <h3>קיבלנו, נתקשר<\/h3>\n        <p class=\"bs-okt\"><\/p>\n        <button class=\"bs-btn bs-done\" type=\"button\"><span>סגירה<\/span><\/button>\n      <\/div>\n    <\/div>\n  <\/div>\n<\/dialog>\n<noscript><style>.bs{position:static;display:block;height:auto;overflow:visible;padding-block:var(--sec)}.bs-ov,.bs-grab,.bs-x{display:none}.bs-sheet{margin-inline:auto;transform:none;opacity:1;border-radius:var(--r);max-height:none}.bsd-open{display:none}<\/style><\/noscript>\n\n=== JS ===\n(function(){\n  const dlg=document.getElementById(\"bs75\"),sheet=dlg.querySelector(\".bs-sheet\"),ov=dlg.querySelector(\".bs-ov\");\n  const grab=dlg.querySelector(\".bs-grab\"),xBtn=dlg.querySelector(\".bs-x\"),body=dlg.querySelector(\".bs-body\");\n  const form=dlg.querySelector(\".bs-form\"),btn=form.querySelector(\".bs-btn\"),alt=dlg.querySelector(\".bs-alt\");\n  const ok=dlg.querySelector(\".bs-ok\"),okT=dlg.querySelector(\".bs-okt\"),done=dlg.querySelector(\".bs-done\");\n  const fields=[...form.querySelectorAll(\".bf\")];\n  const rm=matchMedia(\"(prefers-reduced-motion: reduce)\"),desk=matchMedia(\"(min-width: 768px)\");\n  const root=document.documentElement;\n  let opener=null,closing=false,drag=null,sending=false;\n\n  // נעילת גלילה כמו ב-b33: על html עם scrollbar-gutter, כדי שהעמוד לא יקפוץ\n  function lock(){\n    root.style.scrollbarGutter=\"stable\";root.style.overflow=\"hidden\";\n    root.style.backgroundColor=\"color-mix(in srgb, var(--ink) 52%, var(--bg))\";\n  }\n  function unlock(){root.style.overflow=\"\";root.style.scrollbarGutter=\"\";root.style.backgroundColor=\"\";}\n\n  function reset(){\n    form.reset();form.hidden=false;alt.hidden=false;ok.hidden=true;ok.classList.remove(\"show\");\n    btn.classList.remove(\"load\");sending=false;\n    fields.forEach(f=>mark(f,false));\n  }\n  function open(from){\n    if(dlg.open)return;\n    opener=from;closing=false;reset();\n    dlg.showModal();lock();body.scrollTop=0;\n    if(rm.matches)dlg.classList.add(\"is-in\");\n    else{void sheet.offsetHeight;dlg.classList.add(\"is-in\");}   // קריאת פריסה כדי שהמצב ההתחלתי יצויר לפני המעבר\n  }\n  function finish(){if(dlg.open)dlg.close();}\n  function requestClose(fromDrag){\n    if(!dlg.open||closing)return;\n    closing=true;\n    if(rm.matches){finish();return;}\n    dlg.classList.remove(\"is-in\");\n    // מגרירה: ממשיכים מהמקום שבו המגירה נמצאת אל מחוץ למסך (ה-transform הפנימי מחליף את זה של ה-CSS)\n    if(fromDrag){sheet.classList.remove(\"dragging\");sheet.style.transform=\"translateY(100%)\";ov.style.opacity=\"0\";}\n    else{sheet.style.transform=\"\";ov.style.opacity=\"\";}\n    let t=setTimeout(finish,460);\n    sheet.addEventListener(\"transitionend\",function h(e){\n      if(e.target!==sheet||(e.propertyName!==\"transform\"&&e.propertyName!==\"opacity\"))return;\n      sheet.removeEventListener(\"transitionend\",h);clearTimeout(t);finish();\n    });\n  }\n  // close מופעל גם על Escape כפול של כרום שעוקף את cancel, ולכן הניקוי כאן ולא ב-requestClose\n  dlg.addEventListener(\"close\",()=>{\n    dlg.classList.remove(\"is-in\");sheet.classList.remove(\"dragging\");\n    sheet.style.transform=\"\";ov.style.opacity=\"\";drag=null;closing=false;\n    unlock();\n    if(opener&&opener.isConnected)opener.focus();\n  });\n  dlg.addEventListener(\"cancel\",e=>{e.preventDefault();requestClose(false);});\n  ov.addEventListener(\"click\",()=>requestClose(false));\n  xBtn.addEventListener(\"click\",()=>requestClose(false));\n  done.addEventListener(\"click\",()=>requestClose(false));\n\n  document.querySelectorAll(\"[data-bs-open]\").forEach(a=>{\n    a.addEventListener(\"click\",e=>{e.preventDefault();open(a);});\n    a.addEventListener(\"keydown\",e=>{if(e.key===\" \"){e.preventDefault();open(a);}});\n  });\n\n  // הגרירה: רק מהידית. למעלה כמעט בלי תנועה, למטה בחצי מהמרחק של האצבע.\n  // סוגרים כשהיסט המגירה >= 100 פיקסל, או כשהשחרור מהיר (יותר מ-0.6 פיקסל למילישנייה כלפי מטה)\n  grab.addEventListener(\"pointerdown\",e=>{\n    if(closing)return;\n    if(e.pointerType===\"mouse\"&&e.button!==0)return;\n    grab.setPointerCapture(e.pointerId);\n    drag={id:e.pointerId,y0:e.clientY,off:0,s:[{t:e.timeStamp,y:e.clientY}]};\n    sheet.classList.add(\"dragging\");\n  });\n  grab.addEventListener(\"pointermove\",e=>{\n    if(!drag||e.pointerId!==drag.id)return;\n    const dy=e.clientY-drag.y0;\n    drag.off=dy>0?dy*.5:-Math.min(8,Math.sqrt(-dy)*.9);\n    drag.s.push({t:e.timeStamp,y:e.clientY});\n    while(drag.s.length>2&&e.timeStamp-drag.s[0].t>110)drag.s.shift();\n    sheet.style.transform=\"translateY(\"+drag.off+\"px)\";\n    const p=Math.min(1,Math.max(0,drag.off)/(sheet.offsetHeight*.45));\n    ov.style.opacity=String(1-.75*p);\n  });\n  function release(e,cancelled){\n    if(!drag||e.pointerId!==drag.id)return;\n    const a=drag.s[0],b=drag.s[drag.s.length-1],dt=b.t-a.t;\n    const v=dt>0?(b.y-a.y)/dt:0,off=drag.off;\n    drag=null;\n    if(!cancelled&&(off>=100||(v>.6&&off>6))){requestClose(true);return;}\n    // חוזרים למקום: מורידים את מצב הגרירה, והמעבר של ה-CSS מחזיר את המגירה והרקע\n    sheet.classList.remove(\"dragging\");sheet.style.transform=\"\";ov.style.opacity=\"\";\n  }\n  grab.addEventListener(\"pointerup\",e=>release(e,false));\n  grab.addEventListener(\"pointercancel\",e=>release(e,true));\n\n  // הטופס: אותו מנגנון כמו b32, עם טלפון במקום אימייל\n  function bad(f){\n    const el=f.querySelector(\"input\"),v=el.value.trim();\n    if(el.type===\"tel\")return !/^0\\d{8,9}$/.test(v.replace(/\\D/g,\"\"));\n    return v.length<2;\n  }\n  function mark(f,b){\n    f.classList.toggle(\"bad\",b);\n    const el=f.querySelector(\"input\"),err=f.querySelector(\".bf-err\");\n    el.setAttribute(\"aria-invalid\",String(b));\n    if(b)el.setAttribute(\"aria-describedby\",err.id);else el.removeAttribute(\"aria-describedby\");\n  }\n  fields.forEach(f=>{\n    const el=f.querySelector(\"input\");\n    el.addEventListener(\"input\",()=>{if(f.classList.contains(\"bad\")&&!bad(f))mark(f,false);});\n    el.addEventListener(\"blur\",()=>{if(el.value.trim())mark(f,bad(f));});\n  });\n  form.addEventListener(\"submit\",e=>{\n    e.preventDefault();\n    if(sending)return;\n    let first=null;\n    fields.forEach(f=>{const b=bad(f);mark(f,b);if(b&&!first)first=f;});\n    if(first){first.querySelector(\"input\").focus();return;}\n    sending=true;btn.classList.add(\"load\");\n    setTimeout(()=>{\n      const w=form.querySelector('input[name=\"when\"]:checked').value;\n      okT.textContent=\"נתקשר למספר \"+form.phone.value.trim()+\" \"+w+\".\";\n      form.hidden=true;alt.hidden=true;ok.hidden=false;\n      void ok.offsetHeight;ok.classList.add(\"show\");\n      ok.focus();sending=false;btn.classList.remove(\"load\");\n    },1200);\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור, השראה: Hover.dev Drag Close Drawer (https://www.hover.dev/components/modals); הקוד נכתב מחדש, ונוספה סגירה לפי מהירות. הרישיון של Hover.dev אוסר הפצה מחדש, ולכן לא הועתק ממנו דבר. הגרסה הבנאלית: מודאל שקופץ באמצע, או מגירה שנסגרת רק ב-X שבפינה העליונה, רחוק מהאגודל. כאן האגודל אוחז בידית וגורר, והמגירה עוקבת אחריו, אבל מתנגדת: למטה בחצי מהמרחק, למעלה כמעט בלי תנועה (עד 8 פיקסלים), והרקע מתבהר בקצב הגרירה. ההכרעה בשחרור היא לפי שני מבחנים: היסט של 100 פיקסל, או מהירות מעל 0.6 פיקסל למילישנייה כלפי מטה (נמדדת על 110 אלפיות השנייה האחרונות), כך שגם החלקה קצרה וחדה סוגרת, וגרירה איטית שלא הגיעה רחוק חוזרת. זו המיקרו-אינטראקציה שנושאת את המצב: האצבע רואה בכל רגע אם עוד רגע זה ייסגר. מה זה מקל: סגירה ביד אחת בלי לחפש כפתור, ופתיחה של פעולה קצרה בלי לעזוב את העמוד. המימוש: dialog ו-showModal, כך שמלכודת הפוקוס, ה-inert לדף שמאחור ו-Escape מגיעים מהדפדפן (Escape עובר ב-cancel ומסתיים באנימציית סגירה). הרקע הוא אלמנט משלו ולא ::backdrop, כי את השקיפות שלו אי אפשר לשנות מ-JS בזמן הגרירה בלי תלות בירושת משתנים. PointerEvents עם setPointerCapture על הידית בלבד, ו-touch-action:none רק עליה, כך שהתוכן שבפנים ממשיך להיגלל (max-height:85dvh, overscroll-behavior:contain). אזור האחיזה גבוה 44 פיקסל והפס עצמו 56 על 6. כל מסלול הגרירה הוא transform בלבד, ושחרור שלא סוגר מחזיר דרך אותו מעבר CSS. סגירות נוספות: לחיצה על הרקע, Escape, וכפתור X גלוי, והפוקוס חוזר למי שפתח. הטופס מ-b32: תוויות צפות, שדות 16 פיקסל (בלי זום של iOS), שגיאה לכל שדה עם aria-invalid, מצב שליחה ומסך אישור שמקבל פוקוס ומוכרז. בדסקטופ (768 ומעלה) אותו תוכן בחלון במרכז, בלי ידית. הפחתת תנועה: פתיחה וסגירה מיידיות (הגרירה עצמה ממשיכה לעקוב אחרי האצבע). בלי JS: הקישור מוביל לאותו תוכן, שמוצג בעמוד עצמו (noscript). הבדל מ-cv1: שם פס קבוע בתחתית שמציע ערוצי קשר, ללא מגירה ובלי גרירה; הבדל מ-b66 ו-b67: אלה תפריטי ניווט (מגירה מהצד וגלולה צפה), כאן משטח פעולה עם טופס שנסגר בתנועת אגודל.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B75 · מגירה תחתונה שנסגרת בגרירה */\n.bsd{max-width:min(560px,100%);margin-inline:auto;display:grid;gap:20px;justify-items:start}\n.bsd h2{margin:0;font-size:clamp(26px,3vw,40px);line-height:1.15;font-weight:700}\n.bsd p{margin:0;max-width:44ch;color:var(--muted, #6a6d85);font-size:17px;line-height:1.5}\n.bsd-meta{display:flex;flex-wrap:wrap;gap:8px}\n.bsd-meta span{padding:6px 14px;border-radius:999px;background:color-mix(in srgb,var(--ink, #16182b) 6%,transparent);font-size:14px}\n.bsd-open{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:17px;font-weight:600;cursor:pointer;transition:transform .12s cubic-bezier(.2,.6,.2,1)}\n.bsd-open:active{transform:scale(.97)}\n.bsd-open:focus-visible,.bs-x:focus-visible,.bs-btn:focus-visible,.bs-call:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n.bsd-hint{font-size:14px}\n.bs{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;color:var(--ink, #16182b);overflow:hidden}\n.bs[open]{display:grid}\n.bs [hidden]{display:none!important}\n.bs::backdrop{background:transparent}\n.bs-ov{grid-area:1/1;background:color-mix(in srgb,var(--ink, #16182b) 52%,transparent);opacity:0;transition:opacity .28s cubic-bezier(.2,.6,.2,1)}\n.bs.is-in .bs-ov{opacity:1}\n.bs-sheet{position:relative;grid-area:1/1;align-self:end;justify-self:center;display:flex;flex-direction:column;width:100%;max-width:560px;max-height:85vh;max-height:85dvh;border-radius:calc(var(--r, 14px) * 2) calc(var(--r, 14px) * 2) 0 0;background:var(--card, #fff);box-shadow:0 -12px 40px color-mix(in srgb,var(--ink, #16182b) 18%,transparent);transform:translateY(100%);transition:transform .34s cubic-bezier(.2,.6,.2,1)}\n.bs.is-in .bs-sheet{transform:none}\n.bs-sheet.dragging{transition:none}\n.bs-sheet::after{content:\"\";position:absolute;inset-inline:0;top:100%;height:48px;background:var(--card, #fff)}\n.bs-grab{flex:none;display:grid;place-items:center;min-height:44px;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}\n.dragging .bs-grab{cursor:grabbing}\n.bs-pill{width:56px;height:6px;border-radius:999px;background:color-mix(in srgb,var(--ink, #16182b) 22%,transparent);transition:background .2s cubic-bezier(.2,.6,.2,1)}\n.bs-grab:hover .bs-pill,.dragging .bs-pill{background:color-mix(in srgb,var(--ink, #16182b) 38%,transparent)}\n.bs-head{flex:none;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:0 20px 8px}\n.bs-head h2{margin:0;font-size:22px;line-height:1.25;font-weight:700}\n.bs-head p{margin:4px 0 0;color:var(--muted, #6a6d85);font-size:15px;line-height:1.45}\n.bs-x{flex:none;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--ink, #16182b) 7%,transparent);color:var(--ink, #16182b);cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1)}\n.bs-x:hover{background:color-mix(in srgb,var(--ink, #16182b) 13%,transparent)}\n.bs-x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none}\n.bs-body{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;padding:8px 20px max(24px,env(safe-area-inset-bottom))}\n.bs-form{display:grid;gap:16px}\n.bf{position:relative}\n.bf input{width:100%;min-height:56px;padding:24px 16px 8px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:var(--card, #fff);color:var(--ink, #16182b);font:inherit;font-size:16px;transition:border-color .25s cubic-bezier(.2,.6,.2,1),box-shadow .25s cubic-bezier(.2,.6,.2,1)}\n.bf input:focus{outline:0;border-color:var(--accent, #4a3aff);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent, #4a3aff) 16%,transparent)}\n.bf input[type=tel]{text-align:right}\nhtml[dir=\"ltr\"] .bf input[type=tel]{text-align:left}\n.bf label{position:absolute;inset-inline-start:17px;top:16px;color:var(--muted, #6a6d85);font-size:16px;pointer-events:none;transform-origin:100% 0;transition:transform .22s cubic-bezier(.2,.6,.2,1),color .22s cubic-bezier(.2,.6,.2,1)}\nhtml[dir=\"ltr\"] .bf label{transform-origin:0 0}\n.bf input:focus+label,.bf input:not(:placeholder-shown)+label{transform:translateY(-10px) scale(.78)}\n.bf input:focus+label{color:var(--accent, #4a3aff)}\n.bf-err{display:block;height:0;margin-top:6px;color:#c2255c;font-size:13px;opacity:0;visibility:hidden;transition:opacity .25s cubic-bezier(.2,.6,.2,1),visibility 0s .25s}\n.bf.bad input{border-color:#c2255c;animation:bsshake .34s}\n.bf.bad .bf-err{height:auto;opacity:1;visibility:visible;transition-delay:0s}\n@keyframes bsshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}\n.bs-fs{min-width:0;margin:0;padding:0;border:0}\n.bs-fs legend{margin-bottom:8px;padding:0;font-size:14px;font-weight:600}\n.bs-chips{display:flex;flex-wrap:wrap;gap:8px}\n.bs-chip{position:relative;display:block}\n.bs-chip input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}\n.bs-chip span{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding-inline:16px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);font-size:15px;transition:background .2s cubic-bezier(.2,.6,.2,1),color .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s cubic-bezier(.2,.6,.2,1)}\n.bs-chip small{font-size:13px;opacity:.7;font-variant-numeric:tabular-nums}\n.bs-chip input:checked+span{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);box-shadow:none}\n.bs-chip input:focus-visible+span{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n.bs-btn{position:relative;min-height:54px;padding:0;border:0;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:17px;font-weight:600;cursor:pointer;overflow:hidden;transition:background .3s cubic-bezier(.2,.6,.2,1)}\n.bs-btn span{display:block;transition:transform .3s cubic-bezier(.2,.6,.2,1),opacity .25s cubic-bezier(.2,.6,.2,1)}\n.bs-btn .s2{position:absolute;inset:0;display:grid;place-items:center;transform:translateY(110%);opacity:0}\n.bs-btn.load .s1{transform:translateY(-110%);opacity:0}\n.bs-btn.load .s2{transform:none;opacity:1}\n.bs-spin{display:inline-block;width:18px;height:18px;border:2px solid color-mix(in srgb,var(--accent-ink, #fff) 35%,transparent);border-top-color:var(--accent-ink, #fff);border-radius:50%;animation:bsspin .7s linear infinite}\n@keyframes bsspin{to{transform:rotate(360deg)}}\n.bs-alt{margin:8px 0 0;color:var(--muted, #6a6d85);font-size:15px;text-align:center}\n.bs-call{display:inline-flex;align-items:center;min-height:44px;padding-inline:6px;color:var(--ink, #16182b);font-weight:600;text-decoration:underline;text-underline-offset:3px;unicode-bidi:isolate}\n.bs-ok{display:grid;justify-items:center;gap:12px;padding-block:16px 8px;text-align:center}\n.bs-ok:focus{outline:0}\n.bs-okmark{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:color-mix(in srgb,var(--accent, #4a3aff) 14%,var(--card, #fff));color:var(--accent, #4a3aff)}\n.bs-okmark svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}\n.bs-okmark path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .4s cubic-bezier(.2,.6,.2,1) .15s}\n.bs-ok.show .bs-okmark path{stroke-dashoffset:0}\n.bs-ok h3{margin:0;font-size:20px;line-height:1.3}\n.bs-ok p{margin:0;max-width:34ch;color:var(--muted, #6a6d85);font-size:15px;line-height:1.5}\n.bs-ok .bs-btn{width:100%;margin-top:8px;background:color-mix(in srgb,var(--ink, #16182b) 8%,transparent);color:var(--ink, #16182b)}\n@media (min-width:768px){\n  .bs-sheet{align-self:center;max-height:min(85vh,720px);max-height:min(85dvh,720px);border-radius:calc(var(--r, 14px) * 1.5);opacity:0;transform:translateY(16px);transition:transform .3s cubic-bezier(.2,.6,.2,1),opacity .3s cubic-bezier(.2,.6,.2,1)}\n  .bs.is-in .bs-sheet{opacity:1;transform:none}\n  .bs-sheet::after,.bs-grab{display:none}\n  .bs-head{padding:28px 28px 8px}\n  .bs-body{padding:8px 28px 28px}\n}\n@media (prefers-reduced-motion: reduce){.bs-ov,.bs-sheet,.bs-btn,.bs-btn span,.bs-okmark path{transition:none}.bf.bad input,.bs-spin{animation:none}}","html":"<div class=\"stage tight\"><div class=\"bsd\">\n  <h2>כאב גב שלא עובר?<\/h2>\n  <p>שיחה קצרה של עשר דקות עם פיזיותרפיסט שמכיר את התחום, בלי התחייבות. נחזור אליכם באותו יום.<\/p>\n  <div class=\"bsd-meta\"><span>ללא עלות<\/span><span>תשובה תוך שעתיים בשעות הפעילות<\/span><\/div>\n  <a class=\"bsd-open\" href=\"#bs75\" data-bs-open role=\"button\" aria-haspopup=\"dialog\">תיאום שיחה<\/a>\n  <p class=\"bsd-hint\">בטלפון: גוררים את הידית למטה כדי לסגור. בדסקטופ: חלון במרכז.<\/p>\n<\/div><\/div>\n<dialog class=\"bs\" id=\"bs75\" aria-labelledby=\"bs75-t\">\n  <div class=\"bs-ov\"><\/div>\n  <div class=\"bs-sheet\">\n    <div class=\"bs-grab\" aria-hidden=\"true\"><span class=\"bs-pill\"><\/span><\/div>\n    <div class=\"bs-head\">\n      <div><h2 id=\"bs75-t\">תיאום שיחה עם הקליניקה<\/h2><p>נחזור אליכם בחלון הזמן שבחרתם.<\/p><\/div>\n      <button class=\"bs-x\" type=\"button\" aria-label=\"סגירה\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 6l12 12M18 6L6 18\"/><\/svg><\/button>\n    <\/div>\n    <div class=\"bs-body\">\n      <form class=\"bs-form\" novalidate>\n        <div class=\"bf\"><input type=\"text\" id=\"bs75-n\" name=\"name\" placeholder=\" \" autocomplete=\"name\" required><label for=\"bs75-n\">שם מלא<\/label><small class=\"bf-err\" id=\"bs75-n-e\">צריך שם כדי לדעת למי לחזור<\/small><\/div>\n        <div class=\"bf\"><input type=\"tel\" id=\"bs75-p\" name=\"phone\" dir=\"ltr\" inputmode=\"tel\" placeholder=\" \" autocomplete=\"tel\" required><label for=\"bs75-p\">טלפון<\/label><small class=\"bf-err\" id=\"bs75-p-e\">מספר הטלפון לא נראה תקין<\/small><\/div>\n        <fieldset class=\"bs-fs\">\n          <legend>מתי נוח לכם?<\/legend>\n          <div class=\"bs-chips\">\n            <label class=\"bs-chip\"><input type=\"radio\" name=\"when\" value=\"בבוקר\" checked><span>בוקר <small>9:00 עד 12:00<\/small><\/span><\/label>\n            <label class=\"bs-chip\"><input type=\"radio\" name=\"when\" value=\"בצהריים\"><span>צהריים <small>12:00 עד 16:00<\/small><\/span><\/label>\n            <label class=\"bs-chip\"><input type=\"radio\" name=\"when\" value=\"בערב\"><span>ערב <small>16:00 עד 19:00<\/small><\/span><\/label>\n            <label class=\"bs-chip\"><input type=\"radio\" name=\"when\" value=\"בהקדם האפשרי\"><span>בהקדם<\/span><\/label>\n          <\/div>\n        <\/fieldset>\n        <button class=\"bs-btn\" type=\"submit\"><span class=\"s1\">שליחה<\/span><span class=\"s2\" aria-hidden=\"true\"><i class=\"bs-spin\"><\/i><\/span><\/button>\n      <\/form>\n      <p class=\"bs-alt\">מעדיפים לדבר עכשיו? <a class=\"bs-call\" href=\"tel:035550142\" dir=\"ltr\">03-555-0142<\/a><\/p>\n      <div class=\"bs-ok\" role=\"status\" tabindex=\"-1\" hidden>\n        <span class=\"bs-okmark\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M5 12.5l4.5 4.5L19 7.5\" pathLength=\"1\"/><\/svg><\/span>\n        <h3>קיבלנו, נתקשר<\/h3>\n        <p class=\"bs-okt\"><\/p>\n        <button class=\"bs-btn bs-done\" type=\"button\"><span>סגירה<\/span><\/button>\n      <\/div>\n    <\/div>\n  <\/div>\n<\/dialog>\n<noscript><style>.bs{position:static;display:block;height:auto;overflow:visible;padding-block:var(--sec)}.bs-ov,.bs-grab,.bs-x{display:none}.bs-sheet{margin-inline:auto;transform:none;opacity:1;border-radius:var(--r);max-height:none}.bsd-open{display:none}<\/style><\/noscript>","js":"(function(){\n  const dlg=document.getElementById(\"bs75\"),sheet=dlg.querySelector(\".bs-sheet\"),ov=dlg.querySelector(\".bs-ov\");\n  const grab=dlg.querySelector(\".bs-grab\"),xBtn=dlg.querySelector(\".bs-x\"),body=dlg.querySelector(\".bs-body\");\n  const form=dlg.querySelector(\".bs-form\"),btn=form.querySelector(\".bs-btn\"),alt=dlg.querySelector(\".bs-alt\");\n  const ok=dlg.querySelector(\".bs-ok\"),okT=dlg.querySelector(\".bs-okt\"),done=dlg.querySelector(\".bs-done\");\n  const fields=[...form.querySelectorAll(\".bf\")];\n  const rm=matchMedia(\"(prefers-reduced-motion: reduce)\"),desk=matchMedia(\"(min-width: 768px)\");\n  const root=document.documentElement;\n  let opener=null,closing=false,drag=null,sending=false;\n\n  // נעילת גלילה כמו ב-b33: על html עם scrollbar-gutter, כדי שהעמוד לא יקפוץ\n  function lock(){\n    root.style.scrollbarGutter=\"stable\";root.style.overflow=\"hidden\";\n    root.style.backgroundColor=\"color-mix(in srgb, var(--ink) 52%, var(--bg))\";\n  }\n  function unlock(){root.style.overflow=\"\";root.style.scrollbarGutter=\"\";root.style.backgroundColor=\"\";}\n\n  function reset(){\n    form.reset();form.hidden=false;alt.hidden=false;ok.hidden=true;ok.classList.remove(\"show\");\n    btn.classList.remove(\"load\");sending=false;\n    fields.forEach(f=>mark(f,false));\n  }\n  function open(from){\n    if(dlg.open)return;\n    opener=from;closing=false;reset();\n    dlg.showModal();lock();body.scrollTop=0;\n    if(rm.matches)dlg.classList.add(\"is-in\");\n    else{void sheet.offsetHeight;dlg.classList.add(\"is-in\");}   // קריאת פריסה כדי שהמצב ההתחלתי יצויר לפני המעבר\n  }\n  function finish(){if(dlg.open)dlg.close();}\n  function requestClose(fromDrag){\n    if(!dlg.open||closing)return;\n    closing=true;\n    if(rm.matches){finish();return;}\n    dlg.classList.remove(\"is-in\");\n    // מגרירה: ממשיכים מהמקום שבו המגירה נמצאת אל מחוץ למסך (ה-transform הפנימי מחליף את זה של ה-CSS)\n    if(fromDrag){sheet.classList.remove(\"dragging\");sheet.style.transform=\"translateY(100%)\";ov.style.opacity=\"0\";}\n    else{sheet.style.transform=\"\";ov.style.opacity=\"\";}\n    let t=setTimeout(finish,460);\n    sheet.addEventListener(\"transitionend\",function h(e){\n      if(e.target!==sheet||(e.propertyName!==\"transform\"&&e.propertyName!==\"opacity\"))return;\n      sheet.removeEventListener(\"transitionend\",h);clearTimeout(t);finish();\n    });\n  }\n  // close מופעל גם על Escape כפול של כרום שעוקף את cancel, ולכן הניקוי כאן ולא ב-requestClose\n  dlg.addEventListener(\"close\",()=>{\n    dlg.classList.remove(\"is-in\");sheet.classList.remove(\"dragging\");\n    sheet.style.transform=\"\";ov.style.opacity=\"\";drag=null;closing=false;\n    unlock();\n    if(opener&&opener.isConnected)opener.focus();\n  });\n  dlg.addEventListener(\"cancel\",e=>{e.preventDefault();requestClose(false);});\n  ov.addEventListener(\"click\",()=>requestClose(false));\n  xBtn.addEventListener(\"click\",()=>requestClose(false));\n  done.addEventListener(\"click\",()=>requestClose(false));\n\n  document.querySelectorAll(\"[data-bs-open]\").forEach(a=>{\n    a.addEventListener(\"click\",e=>{e.preventDefault();open(a);});\n    a.addEventListener(\"keydown\",e=>{if(e.key===\" \"){e.preventDefault();open(a);}});\n  });\n\n  // הגרירה: רק מהידית. למעלה כמעט בלי תנועה, למטה בחצי מהמרחק של האצבע.\n  // סוגרים כשהיסט המגירה >= 100 פיקסל, או כשהשחרור מהיר (יותר מ-0.6 פיקסל למילישנייה כלפי מטה)\n  grab.addEventListener(\"pointerdown\",e=>{\n    if(closing)return;\n    if(e.pointerType===\"mouse\"&&e.button!==0)return;\n    grab.setPointerCapture(e.pointerId);\n    drag={id:e.pointerId,y0:e.clientY,off:0,s:[{t:e.timeStamp,y:e.clientY}]};\n    sheet.classList.add(\"dragging\");\n  });\n  grab.addEventListener(\"pointermove\",e=>{\n    if(!drag||e.pointerId!==drag.id)return;\n    const dy=e.clientY-drag.y0;\n    drag.off=dy>0?dy*.5:-Math.min(8,Math.sqrt(-dy)*.9);\n    drag.s.push({t:e.timeStamp,y:e.clientY});\n    while(drag.s.length>2&&e.timeStamp-drag.s[0].t>110)drag.s.shift();\n    sheet.style.transform=\"translateY(\"+drag.off+\"px)\";\n    const p=Math.min(1,Math.max(0,drag.off)/(sheet.offsetHeight*.45));\n    ov.style.opacity=String(1-.75*p);\n  });\n  function release(e,cancelled){\n    if(!drag||e.pointerId!==drag.id)return;\n    const a=drag.s[0],b=drag.s[drag.s.length-1],dt=b.t-a.t;\n    const v=dt>0?(b.y-a.y)/dt:0,off=drag.off;\n    drag=null;\n    if(!cancelled&&(off>=100||(v>.6&&off>6))){requestClose(true);return;}\n    // חוזרים למקום: מורידים את מצב הגרירה, והמעבר של ה-CSS מחזיר את המגירה והרקע\n    sheet.classList.remove(\"dragging\");sheet.style.transform=\"\";ov.style.opacity=\"\";\n  }\n  grab.addEventListener(\"pointerup\",e=>release(e,false));\n  grab.addEventListener(\"pointercancel\",e=>release(e,true));\n\n  // הטופס: אותו מנגנון כמו b32, עם טלפון במקום אימייל\n  function bad(f){\n    const el=f.querySelector(\"input\"),v=el.value.trim();\n    if(el.type===\"tel\")return !/^0\\d{8,9}$/.test(v.replace(/\\D/g,\"\"));\n    return v.length<2;\n  }\n  function mark(f,b){\n    f.classList.toggle(\"bad\",b);\n    const el=f.querySelector(\"input\"),err=f.querySelector(\".bf-err\");\n    el.setAttribute(\"aria-invalid\",String(b));\n    if(b)el.setAttribute(\"aria-describedby\",err.id);else el.removeAttribute(\"aria-describedby\");\n  }\n  fields.forEach(f=>{\n    const el=f.querySelector(\"input\");\n    el.addEventListener(\"input\",()=>{if(f.classList.contains(\"bad\")&&!bad(f))mark(f,false);});\n    el.addEventListener(\"blur\",()=>{if(el.value.trim())mark(f,bad(f));});\n  });\n  form.addEventListener(\"submit\",e=>{\n    e.preventDefault();\n    if(sending)return;\n    let first=null;\n    fields.forEach(f=>{const b=bad(f);mark(f,b);if(b&&!first)first=f;});\n    if(first){first.querySelector(\"input\").focus();return;}\n    sending=true;btn.classList.add(\"load\");\n    setTimeout(()=>{\n      const w=form.querySelector('input[name=\"when\"]:checked').value;\n      okT.textContent=\"נתקשר למספר \"+form.phone.value.trim()+\" \"+w+\".\";\n      form.hidden=true;alt.hidden=true;ok.hidden=false;\n      void ok.offsetHeight;ok.classList.add(\"show\");\n      ok.focus();sending=false;btn.classList.remove(\"load\");\n    },1200);\n  });\n})();","scripts":"","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="b74.html" rel="prev"><small>→ הקודם</small><b>מוצר שעף לעגלה עם משוב על הסל</b></a><a href="b76.html" rel="next"><small>הבא ←</small><b>תפריט עם פאנל אחד שמחליק בין הפריטים</b></a></nav>
+
+<script src="../assets/baseline.js?v=ec615858"></script>
+<script src="../assets/status.js"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מגירה תחתונה שנסגרת בגרירה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+(function(){
+  const dlg=document.getElementById("bs75"),sheet=dlg.querySelector(".bs-sheet"),ov=dlg.querySelector(".bs-ov");
+  const grab=dlg.querySelector(".bs-grab"),xBtn=dlg.querySelector(".bs-x"),body=dlg.querySelector(".bs-body");
+  const form=dlg.querySelector(".bs-form"),btn=form.querySelector(".bs-btn"),alt=dlg.querySelector(".bs-alt");
+  const ok=dlg.querySelector(".bs-ok"),okT=dlg.querySelector(".bs-okt"),done=dlg.querySelector(".bs-done");
+  const fields=[...form.querySelectorAll(".bf")];
+  const rm=matchMedia("(prefers-reduced-motion: reduce)"),desk=matchMedia("(min-width: 768px)");
+  const root=document.documentElement;
+  let opener=null,closing=false,drag=null,sending=false;
+
+  // נעילת גלילה כמו ב-b33: על html עם scrollbar-gutter, כדי שהעמוד לא יקפוץ
+  function lock(){
+    root.style.scrollbarGutter="stable";root.style.overflow="hidden";
+    root.style.backgroundColor="color-mix(in srgb, var(--ink) 52%, var(--bg))";
+  }
+  function unlock(){root.style.overflow="";root.style.scrollbarGutter="";root.style.backgroundColor="";}
+
+  function reset(){
+    form.reset();form.hidden=false;alt.hidden=false;ok.hidden=true;ok.classList.remove("show");
+    btn.classList.remove("load");sending=false;
+    fields.forEach(f=>mark(f,false));
+  }
+  function open(from){
+    if(dlg.open)return;
+    opener=from;closing=false;reset();
+    dlg.showModal();lock();body.scrollTop=0;
+    if(rm.matches)dlg.classList.add("is-in");
+    else{void sheet.offsetHeight;dlg.classList.add("is-in");}   // קריאת פריסה כדי שהמצב ההתחלתי יצויר לפני המעבר
+  }
+  function finish(){if(dlg.open)dlg.close();}
+  function requestClose(fromDrag){
+    if(!dlg.open||closing)return;
+    closing=true;
+    if(rm.matches){finish();return;}
+    dlg.classList.remove("is-in");
+    // מגרירה: ממשיכים מהמקום שבו המגירה נמצאת אל מחוץ למסך (ה-transform הפנימי מחליף את זה של ה-CSS)
+    if(fromDrag){sheet.classList.remove("dragging");sheet.style.transform="translateY(100%)";ov.style.opacity="0";}
+    else{sheet.style.transform="";ov.style.opacity="";}
+    let t=setTimeout(finish,460);
+    sheet.addEventListener("transitionend",function h(e){
+      if(e.target!==sheet||(e.propertyName!=="transform"&&e.propertyName!=="opacity"))return;
+      sheet.removeEventListener("transitionend",h);clearTimeout(t);finish();
+    });
+  }
+  // close מופעל גם על Escape כפול של כרום שעוקף את cancel, ולכן הניקוי כאן ולא ב-requestClose
+  dlg.addEventListener("close",()=>{
+    dlg.classList.remove("is-in");sheet.classList.remove("dragging");
+    sheet.style.transform="";ov.style.opacity="";drag=null;closing=false;
+    unlock();
+    if(opener&&opener.isConnected)opener.focus();
+  });
+  dlg.addEventListener("cancel",e=>{e.preventDefault();requestClose(false);});
+  ov.addEventListener("click",()=>requestClose(false));
+  xBtn.addEventListener("click",()=>requestClose(false));
+  done.addEventListener("click",()=>requestClose(false));
+
+  document.querySelectorAll("[data-bs-open]").forEach(a=>{
+    a.addEventListener("click",e=>{e.preventDefault();open(a);});
+    a.addEventListener("keydown",e=>{if(e.key===" "){e.preventDefault();open(a);}});
+  });
+
+  // הגרירה: רק מהידית. למעלה כמעט בלי תנועה, למטה בחצי מהמרחק של האצבע.
+  // סוגרים כשהיסט המגירה >= 100 פיקסל, או כשהשחרור מהיר (יותר מ-0.6 פיקסל למילישנייה כלפי מטה)
+  grab.addEventListener("pointerdown",e=>{
+    if(closing)return;
+    if(e.pointerType==="mouse"&&e.button!==0)return;
+    grab.setPointerCapture(e.pointerId);
+    drag={id:e.pointerId,y0:e.clientY,off:0,s:[{t:e.timeStamp,y:e.clientY}]};
+    sheet.classList.add("dragging");
+  });
+  grab.addEventListener("pointermove",e=>{
+    if(!drag||e.pointerId!==drag.id)return;
+    const dy=e.clientY-drag.y0;
+    drag.off=dy>0?dy*.5:-Math.min(8,Math.sqrt(-dy)*.9);
+    drag.s.push({t:e.timeStamp,y:e.clientY});
+    while(drag.s.length>2&&e.timeStamp-drag.s[0].t>110)drag.s.shift();
+    sheet.style.transform="translateY("+drag.off+"px)";
+    const p=Math.min(1,Math.max(0,drag.off)/(sheet.offsetHeight*.45));
+    ov.style.opacity=String(1-.75*p);
+  });
+  function release(e,cancelled){
+    if(!drag||e.pointerId!==drag.id)return;
+    const a=drag.s[0],b=drag.s[drag.s.length-1],dt=b.t-a.t;
+    const v=dt>0?(b.y-a.y)/dt:0,off=drag.off;
+    drag=null;
+    if(!cancelled&&(off>=100||(v>.6&&off>6))){requestClose(true);return;}
+    // חוזרים למקום: מורידים את מצב הגרירה, והמעבר של ה-CSS מחזיר את המגירה והרקע
+    sheet.classList.remove("dragging");sheet.style.transform="";ov.style.opacity="";
+  }
+  grab.addEventListener("pointerup",e=>release(e,false));
+  grab.addEventListener("pointercancel",e=>release(e,true));
+
+  // הטופס: אותו מנגנון כמו b32, עם טלפון במקום אימייל
+  function bad(f){
+    const el=f.querySelector("input"),v=el.value.trim();
+    if(el.type==="tel")return !/^0\d{8,9}$/.test(v.replace(/\D/g,""));
+    return v.length<2;
+  }
+  function mark(f,b){
+    f.classList.toggle("bad",b);
+    const el=f.querySelector("input"),err=f.querySelector(".bf-err");
+    el.setAttribute("aria-invalid",String(b));
+    if(b)el.setAttribute("aria-describedby",err.id);else el.removeAttribute("aria-describedby");
+  }
+  fields.forEach(f=>{
+    const el=f.querySelector("input");
+    el.addEventListener("input",()=>{if(f.classList.contains("bad")&&!bad(f))mark(f,false);});
+    el.addEventListener("blur",()=>{if(el.value.trim())mark(f,bad(f));});
+  });
+  form.addEventListener("submit",e=>{
+    e.preventDefault();
+    if(sending)return;
+    let first=null;
+    fields.forEach(f=>{const b=bad(f);mark(f,b);if(b&&!first)first=f;});
+    if(first){first.querySelector("input").focus();return;}
+    sending=true;btn.classList.add("load");
+    setTimeout(()=>{
+      const w=form.querySelector('input[name="when"]:checked').value;
+      okT.textContent="נתקשר למספר "+form.phone.value.trim()+" "+w+".";
+      form.hidden=true;alt.hidden=true;ok.hidden=false;
+      void ok.offsetHeight;ok.classList.add("show");
+      ok.focus();sending=false;btn.classList.remove("load");
+    },1200);
+  });
+})();
+</script>
+</body>
+</html>

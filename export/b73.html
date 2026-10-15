@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B73 · קיר לוגואים שמתחלפים במקום</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B73 · קיר לוגואים שמתחלפים במקום */
+.cw{position:relative;max-width:min(1180px,94vw);margin-inline:auto;color:var(--ink, #16182b)}
+.cw-bar{display:flex;align-items:center;justify-content:space-between;gap:var(--gap, clamp(16px, 1.6vw, 36px));margin-block-end:clamp(24px,3vw,40px)}
+.cw-title{margin:0;font-size:15px;font-weight:500;color:var(--muted, #6a6d85)}
+.cw-pause{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);color:var(--ink, #16182b);display:grid;place-items:center;cursor:pointer;transition:border-color .18s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.cw-pause:hover{border-color:var(--ink, #16182b)}}
+.cw-pause:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.cw-pause svg{width:16px;height:16px}
+.cw-pause .i-play,.cw-pause.is-paused .i-pause{display:none}
+.cw-pause.is-paused .i-play{display:block}
+.cw-wall{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(16px,3vw,48px);align-items:center}
+.cw-cell{position:relative;height:clamp(40px,4.4vw,60px);opacity:.78}
+/* הלב: הלוגו הוא מסכה וצבעו הוא currentColor (כמו ב-lm10). רק הלוגו הנוכחי בכל משבצת (is-on) נראה */
+.cw-logo{position:absolute;inset:0;background:linear-gradient(currentColor,currentColor);-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat;opacity:0;visibility:hidden}
+.cw-logo.is-on{opacity:1;visibility:visible}
+.cw-vh{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media (max-width:767px){.cw-wall{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:24px}}
+/* בתנועה מופחתת: רשת סטטית עם כל הלוגואים, הכפתור מיותר */
+@media (prefers-reduced-motion: reduce){
+  .cw-cell{display:contents}
+  .cw-logo,.cw-logo.is-on{position:static;display:block;height:clamp(40px,4.4vw,60px);opacity:.78;visibility:visible}
+  .cw-pause{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="stage tight">
+<section class="cw" aria-labelledby="cw-t">
+  <div class="cw-bar">
+    <p class="cw-title" id="cw-t">לקוחות שסומכים עלינו</p>
+    <button class="cw-pause" type="button" aria-label="השהיית החלפת הלוגואים"><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
+  </div>
+  <ul class="cw-wall" aria-hidden="true">
+    <li class="cw-cell"><span class="cw-logo is-on" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2215%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2214%22%20width%3D%2274%22%20height%3D%2212%22%20rx%3D%226%22%2F%3E%3C%2Fsvg%3E')"></span><span class="cw-logo" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Cpath%20d%3D%22M5%2035C5%2018%2018%205%2035%205c0%2017-13%2030-30%2030z%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2211%22%20width%3D%2274%22%20height%3D%226%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2223%22%20width%3D%2256%22%20height%3D%226%22%20rx%3D%223%22%2F%3E%3C%2Fsvg%3E')"></span><span class="cw-logo" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%227%22%2F%3E%3Ccircle%20cx%3D%2228%22%20cy%3D%2212%22%20r%3D%227%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2228%22%20r%3D%227%22%2F%3E%3Ccircle%20cx%3D%2228%22%20cy%3D%2228%22%20r%3D%227%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2211%22%20width%3D%2274%22%20height%3D%226%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2223%22%20width%3D%2256%22%20height%3D%226%22%20rx%3D%223%22%2F%3E%3C%2Fsvg%3E')"></span></li>
+    <li class="cw-cell"><span class="cw-logo is-on" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Cpath%20d%3D%22M4%2035%2020%205l16%2030z%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%228%22%20width%3D%2240%22%20height%3D%2224%22%20rx%3D%224%22%2F%3E%3Crect%20x%3D%2292%22%20y%3D%228%22%20width%3D%2228%22%20height%3D%2224%22%20rx%3D%224%22%2F%3E%3C%2Fsvg%3E')"></span><span class="cw-logo" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Cpath%20d%3D%22M15%204h10v11h11v10H25v11H15V25H4V15h11z%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%229%22%20width%3D%2274%22%20height%3D%229%22%20rx%3D%224.5%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2223%22%20width%3D%2248%22%20height%3D%229%22%20rx%3D%224.5%22%2F%3E%3C%2Fsvg%3E')"></span><span class="cw-logo" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Crect%20x%3D%225%22%20y%3D%225%22%20width%3D%2230%22%20height%3D%2230%22%20rx%3D%229%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%228%22%20width%3D%226%22%20height%3D%2224%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2258%22%20y%3D%2214%22%20width%3D%226%22%20height%3D%2218%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2270%22%20y%3D%228%22%20width%3D%226%22%20height%3D%2224%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2282%22%20y%3D%2214%22%20width%3D%226%22%20height%3D%2218%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2294%22%20y%3D%228%22%20width%3D%226%22%20height%3D%2224%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%22106%22%20y%3D%2214%22%20width%3D%226%22%20height%3D%2218%22%20rx%3D%223%22%2F%3E%3C%2Fsvg%3E')"></span></li>
+    <li class="cw-cell"><span class="cw-logo is-on" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Crect%20x%3D%225%22%20y%3D%225%22%20width%3D%2230%22%20height%3D%2230%22%20rx%3D%229%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%229%22%20width%3D%2274%22%20height%3D%229%22%20rx%3D%224.5%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2223%22%20width%3D%2248%22%20height%3D%229%22%20rx%3D%224.5%22%2F%3E%3C%2Fsvg%3E')"></span><span class="cw-logo" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Cpath%20d%3D%22M20%203%2037%2020%2020%2037%203%2020z%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2214%22%20width%3D%2274%22%20height%3D%2212%22%20rx%3D%226%22%2F%3E%3C%2Fsvg%3E')"></span><span class="cw-logo" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Cpath%20d%3D%22M4%2035%2020%205l16%2030z%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2214%22%20width%3D%2274%22%20height%3D%2212%22%20rx%3D%226%22%2F%3E%3C%2Fsvg%3E')"></span></li>
+    <li class="cw-cell"><span class="cw-logo is-on" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Cpath%20d%3D%22M5%2035V20a15%2015%200%200%201%2030%200v15z%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2214%22%20width%3D%2274%22%20height%3D%2212%22%20rx%3D%226%22%2F%3E%3C%2Fsvg%3E')"></span><span class="cw-logo" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Cpath%20d%3D%22M5%2035V5a30%2030%200%200%201%2030%2030z%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%228%22%20width%3D%226%22%20height%3D%2224%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2258%22%20y%3D%2214%22%20width%3D%226%22%20height%3D%2218%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2270%22%20y%3D%228%22%20width%3D%226%22%20height%3D%2224%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2282%22%20y%3D%2214%22%20width%3D%226%22%20height%3D%2218%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2294%22%20y%3D%228%22%20width%3D%226%22%20height%3D%2224%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%22106%22%20y%3D%2214%22%20width%3D%226%22%20height%3D%2218%22%20rx%3D%223%22%2F%3E%3C%2Fsvg%3E')"></span><span class="cw-logo" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2212%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%226%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%228%22%20width%3D%2240%22%20height%3D%2224%22%20rx%3D%224%22%2F%3E%3Crect%20x%3D%2292%22%20y%3D%228%22%20width%3D%2228%22%20height%3D%2224%22%20rx%3D%224%22%2F%3E%3C%2Fsvg%3E')"></span></li>
+    <li class="cw-cell"><span class="cw-logo is-on" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Cpath%20d%3D%22M4%2026c6-12%2010-12%2016%200s10%2012%2016%200%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2216%22%20width%3D%2252%22%20height%3D%228%22%20rx%3D%224%22%2F%3E%3Ccircle%20cx%3D%22108%22%20cy%3D%2220%22%20r%3D%226%22%2F%3E%3C%2Fsvg%3E')"></span><span class="cw-logo" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2212%22%20fill%3D%22none%22%20stroke%3D%22%23000%22%20stroke-width%3D%226%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%229%22%20width%3D%2274%22%20height%3D%229%22%20rx%3D%224.5%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2223%22%20width%3D%2248%22%20height%3D%229%22%20rx%3D%224.5%22%2F%3E%3C%2Fsvg%3E')"></span><span class="cw-logo" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2215%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%229%22%20width%3D%2274%22%20height%3D%229%22%20rx%3D%224.5%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2223%22%20width%3D%2248%22%20height%3D%229%22%20rx%3D%224.5%22%2F%3E%3C%2Fsvg%3E')"></span></li>
+    <li class="cw-cell"><span class="cw-logo is-on" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Cpath%20d%3D%22M20%203%2035%2011.5v17L20%2037%205%2028.5v-17z%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2214%22%20width%3D%2274%22%20height%3D%2212%22%20rx%3D%226%22%2F%3E%3C%2Fsvg%3E')"></span><span class="cw-logo" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Crect%20x%3D%225%22%20y%3D%225%22%20width%3D%227%22%20height%3D%2230%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2216.5%22%20y%3D%225%22%20width%3D%227%22%20height%3D%2230%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2228%22%20y%3D%225%22%20width%3D%227%22%20height%3D%2230%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2216%22%20width%3D%2252%22%20height%3D%228%22%20rx%3D%224%22%2F%3E%3Ccircle%20cx%3D%22108%22%20cy%3D%2220%22%20r%3D%226%22%2F%3E%3C%2Fsvg%3E')"></span><span class="cw-logo" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Cpath%20d%3D%22M20%203%2035%2011.5v17L20%2037%205%2028.5v-17z%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2211%22%20width%3D%2274%22%20height%3D%226%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2223%22%20width%3D%2256%22%20height%3D%226%22%20rx%3D%223%22%2F%3E%3C%2Fsvg%3E')"></span></li>
+  </ul>
+  <div class="cw-vh"><p>הלקוחות שלנו:</p><ul><li>נורדה</li><li>קלטו</li><li>ארבו</li><li>פלומה</li><li>זפיר</li><li>אולם</li><li>בריזה</li><li>לוטם</li><li>ברקת</li><li>אופק</li><li>קורל</li><li>ליבנה</li><li>נטע</li><li>שחר</li><li>מיטרה</li><li>סנדרו</li><li>דקלה</li><li>אלמוג</li></ul></div>
+</section>
+</div>
+
+
+<script>
+(function(){
+  const wrap=document.querySelector(".cw"),wall=wrap.querySelector(".cw-wall"),cells=[...wall.children],btn=wrap.querySelector(".cw-pause");
+  const rq=matchMedia("(prefers-reduced-motion: reduce)"),hasA=typeof Element.prototype.animate==="function";
+  const E="cubic-bezier(.2,.6,.2,1)",PERIOD=2400,STEP=260,FIRST=700;   // כל משבצת כל 2.4 שניות, בהיסט של 260ms מהשכנה
+  // סדר ההחלפה: לא סריקה מצד לצד. מיון לפי השבר של i*0.618 נותן סדר מפוזר לכל מספר משבצות
+  const seq=cells.map((_,i)=>i).sort((a,b)=>((a*.618)%1)-((b*.618)%1));
+  const st=cells.map(c=>({logos:[...c.querySelectorAll(".cw-logo")],cur:0,at:0}));
+  seq.forEach((ci,k)=>{st[ci].at=FIRST+k*STEP;});
+  let elapsed=0,last=0,raf=0,inView=false,userPaused=false,hov=false,foc=false;
+  // השעון רץ רק כשכל התנאים מתקיימים. אחרת requestAnimationFrame לא נקרא בכלל, ואין עבודה ברקע
+  const live=()=>hasA&&!rq.matches&&inView&&!document.hidden&&!userPaused&&!hov&&!foc;
+  function swap(s){
+    if(s.logos.length<2)return;
+    const old=s.logos[s.cur];s.cur=(s.cur+1)%s.logos.length;const nu=s.logos[s.cur];
+    nu.classList.add("is-on");
+    // הישן: למעלה, נמוג, מיטשטש. החדש: מלמטה, מתחדד. אחרי שהישן יצא מסירים ממנו את המצב
+    const out=old.animate([{transform:"translateY(0%)",opacity:1,filter:"blur(0px)"},{transform:"translateY(-40%)",opacity:0,filter:"blur(4px)"}],{duration:300,easing:E,fill:"forwards"});
+    out.finished.then(()=>{old.classList.remove("is-on");out.cancel();}).catch(()=>{});
+    nu.animate([{transform:"translateY(40%)",opacity:0,filter:"blur(4px)"},{transform:"translateY(0%)",opacity:1,filter:"blur(0px)"}],{duration:400,delay:60,easing:E,fill:"backwards"});
+  }
+  function tick(t){
+    raf=0;
+    if(!live())return;
+    // חיתוך של הפרש הזמן: חזרה מלשונית מוסתרת או מהשהיה לא יוצרת פרץ החלפות
+    const dt=last?Math.min(t-last,100):16;last=t;elapsed+=dt;
+    st.forEach(s=>{if(elapsed>=s.at){swap(s);s.at+=PERIOD;}});
+    raf=requestAnimationFrame(tick);
+  }
+  function update(){
+    if(live()){if(!raf){last=0;raf=requestAnimationFrame(tick);}}
+    else{if(raf){cancelAnimationFrame(raf);raf=0;}last=0;}
+  }
+  if("IntersectionObserver" in window)new IntersectionObserver(es=>{inView=es[es.length-1].isIntersecting;update();},{threshold:.2}).observe(wall);
+  else{inView=true;update();}
+  document.addEventListener("visibilitychange",update);
+  rq.addEventListener("change",update);
+  // ריחוף עכבר ופוקוס מקלדת עוצרים זמנית (לא מגע: אצבע שנחה על המסך אינה "ריחוף")
+  wrap.addEventListener("pointerenter",e=>{if(e.pointerType==="mouse"){hov=true;update();}});
+  wrap.addEventListener("pointerleave",()=>{hov=false;update();});
+  wrap.addEventListener("focusin",()=>{if(wrap.querySelector(":focus-visible")){foc=true;update();}});
+  wrap.addEventListener("focusout",e=>{if(!wrap.contains(e.relatedTarget)){foc=false;update();}});
+  btn.addEventListener("click",()=>{
+    userPaused=!userPaused;foc=false;                // לחיצה מפורשת גוברת על העצירה האוטומטית של הפוקוס
+    btn.classList.toggle("is-paused",userPaused);
+    btn.setAttribute("aria-label",userPaused?"הפעלת החלפת הלוגואים":"השהיית החלפת הלוגואים");
+    update();
+  });
+})();
+</script>
+</body>
+</html>

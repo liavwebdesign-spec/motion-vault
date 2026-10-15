@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B72 · כרטיס שנפתח לחלון פרטים בלי לאבד את המקום</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
+
+/* B72 · כרטיס שנפתח לחלון פרטים בלי לאבד את המקום */
+.cc{--cw:clamp(260px,23vw,440px)}
+.cc-head{padding-inline:var(--gutter, clamp(24px, 5vw, 96px));margin-block-end:clamp(24px,3vw,48px)}
+.cc-eyebrow{margin:0 0 12px;font-size:14px;font-weight:500;color:var(--muted, #6a6d85)}
+.cc-head h2{line-height:1.1;max-width:18ch;text-wrap:balance}
+.cc-rail{display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));list-style:none;margin:0;padding:0 var(--gutter, clamp(24px, 5vw, 96px));overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gutter, clamp(24px, 5vw, 96px));scrollbar-width:none}
+.cc-rail::-webkit-scrollbar{display:none}
+.cc-rail>li{flex:0 0 var(--cw);scroll-snap-align:start}
+.cc-card{position:relative;display:block;aspect-ratio:3 / 4.2;border-radius:var(--r, 14px);overflow:hidden;color:#fff;background:var(--line, #e4e4ee);isolation:isolate;-webkit-tap-highlight-color:transparent}
+.cc-card>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;-webkit-user-drag:none;user-select:none}
+.cc-card:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:4px}
+.cc-card.is-lifted{visibility:hidden}
+/* שכבת הטקסט והצל של הכרטיס. אותה שכבה משוכפלת כ"צילום" שנמוג בזמן המעבר, ולכן היא בנויה כך שאפשר לשכפל אותה כמו שהיא */
+.cc-ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;gap:6px;padding:clamp(18px,1.6vw,24px);background:linear-gradient(to top,rgba(8,8,14,.82) 0%,rgba(8,8,14,.5) 34%,rgba(8,8,14,0) 62%)}
+.cc-cat{font-size:14px;line-height:1.3;font-weight:500;opacity:.86}
+.cc-t{font-size:clamp(19px,1.1vw + 10px,22px);line-height:1.25;font-weight:600;text-wrap:balance;padding-inline-end:40px}
+.cc-plus{position:absolute;inset-block-start:clamp(14px,1.4vw,18px);inset-inline-end:clamp(14px,1.4vw,18px);width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;background:rgba(255,255,255,.18);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background-color .28s cubic-bezier(.2,.6,.2,1),color .28s cubic-bezier(.2,.6,.2,1),transform .28s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.cc-card:hover .cc-plus{background:rgba(255,255,255,.94);color:#111;transform:rotate(90deg)}}
+.cc-card:focus-visible .cc-plus{background:rgba(255,255,255,.94);color:#111}
+.cc-nav{display:flex;align-items:center;gap:var(--gap, clamp(16px, 1.6vw, 36px));padding:clamp(20px,2vw,32px) var(--gutter, clamp(24px, 5vw, 96px)) 0}
+.cc-nav[hidden]{display:none}
+.cc-prog{position:relative;flex:1;height:4px;border-radius:99px;background:var(--line, #e4e4ee);overflow:hidden}
+.cc-prog i{position:absolute;inset-block:0;inset-inline-start:0;width:40%;border-radius:inherit;background:var(--ink, #16182b)}
+.cc-btns{display:flex;gap:8px}
+.cc-b{width:48px;height:48px;border-radius:50%;border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);color:var(--ink, #16182b);display:grid;place-items:center;cursor:pointer;transition:border-color .18s cubic-bezier(.2,.6,.2,1),opacity .18s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.cc-b:not(:disabled):hover{border-color:var(--ink, #16182b)}}
+.cc-b:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.cc-b:disabled{opacity:.35;cursor:default}
+/* החץ מצויר מצביע ימינה. בעברית "הקודם" מצביע ימינה ו"הבא" שמאלה, ובאנגלית ההפך */
+.cc-b svg{width:20px;height:20px}
+.cc-next svg{transform:scaleX(-1)}
+html[dir="ltr"] .cc-prev svg{transform:scaleX(-1)}
+html[dir="ltr"] .cc-next svg{transform:none}
+/* החלון */
+.cc-dlg{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;color:var(--ink, #16182b);overflow:hidden}
+.cc-dlg[open]{display:grid;place-items:center;padding:clamp(16px,4vw,56px)}
+/* רקע ניטרלי ולא משתנה: ::backdrop לא תמיד יורש משתני CSS */
+.cc-dlg::backdrop{background:rgba(10,10,16,.58);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.cc-dlg[open]::backdrop{animation:cc-bd-in .4s cubic-bezier(.2,.6,.2,1) both}
+.cc-dlg.is-out::backdrop{animation:cc-bd-out .36s cubic-bezier(.2,.6,.2,1) both}
+@keyframes cc-bd-in{from{opacity:0}to{opacity:1}}
+@keyframes cc-bd-out{from{opacity:1}to{opacity:0}}
+.cc-panel{--pr:calc(var(--r, 14px) * 1.4);position:relative;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);grid-template-rows:minmax(0,1fr);width:min(1040px,100%);max-height:min(720px,calc(100dvh - clamp(32px,8vw,112px)));background:var(--card, #fff);color:var(--ink, #16182b);border-radius:var(--pr);clip-path:inset(0 round var(--pr));overscroll-behavior:contain}
+.cc-panel.is-anim{overflow:hidden}
+.cc-pimg{position:relative;min-height:clamp(380px,50dvh,560px);overflow:hidden}
+.cc-pimg img{position:absolute;left:0;top:0;max-width:none;display:block}
+.cc-pc{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:clamp(28px,3.4vw,56px)}
+.cc-pcat{margin:0 0 12px;font-size:14px;line-height:1.3;font-weight:500;color:var(--muted, #6a6d85)}
+.cc-ptitle{margin:0 0 20px;font-size:clamp(26px,1.6vw + 14px,40px);line-height:1.12;font-weight:600;text-wrap:balance;padding-inline-end:56px}
+.cc-body{display:grid;gap:clamp(20px,2vw,28px)}
+.cc-body p{margin:0;max-width:56ch;font-size:clamp(16px,.5vw + 12px,18px);line-height:1.6}
+.cc-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0;padding:0}
+.cc-facts dt{margin:0 0 4px;font-size:13px;color:var(--muted, #6a6d85)}
+.cc-facts dd{margin:0;font-size:16px;font-weight:500;line-height:1.35}
+.cc-cta{justify-self:start}
+.cc-xw{position:absolute;inset-block-start:0;inset-inline:0;height:0;z-index:5}
+.cc-x{position:absolute;inset-block-start:clamp(12px,1.4vw,20px);inset-inline-end:clamp(12px,1.4vw,20px);width:44px;height:44px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;color:#fff;background:rgba(10,10,16,.54);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background-color .2s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.cc-x:hover{background:rgba(10,10,16,.8)}}
+.cc-x:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.cc-x svg{width:18px;height:18px}
+/* צילום שכבת הטקסט שנמוג מעל החלון בזמן המעבר */
+.cc-veil{position:fixed;z-index:6;pointer-events:none;border-radius:var(--r, 14px);overflow:hidden;color:#fff}
+@media (max-width:767px){
+  .cc{--cw:min(76vw,320px)}
+  .cc-dlg[open]{padding:0}
+  .cc-panel{--pr:0px;display:block;width:100%;height:100%;max-height:none;overflow-y:auto}
+  .cc-pimg{aspect-ratio:4 / 3;min-height:0}
+  .cc-pc{overflow:visible;padding-block-end:calc(clamp(28px,6vw,40px) + env(safe-area-inset-bottom))}
+  .cc-ptitle{padding-inline-end:0}
+  .cc-facts{grid-template-columns:1fr 1fr 1fr;gap:12px}
+  .cc-xw{position:sticky}
+}
+@media (prefers-reduced-motion: reduce){
+  .cc-plus,.cc-b,.cc-x{transition:none}
+  .cc-dlg[open]::backdrop,.cc-dlg.is-out::backdrop{animation-duration:.15s}
+}
+</style>
+</head>
+<body>
+
+<div class="stage tight full">
+<div class="cc">
+  <div class="cc-head"><p class="cc-eyebrow">תיק עבודות</p><h2>שישה חללים, שישה סיפורים</h2></div>
+  <ul class="cc-rail" role="list" aria-label="פרויקטים נבחרים">
+    <li><a class="cc-card" href="#project-1" data-detail="cc-d1" data-alt="סלון בגוונים כהים עם ספה נמוכה, נרות ותאורת קיר חמה" aria-haspopup="dialog"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp" width="1800" height="1200" alt="" draggable="false" decoding="async"><span class="cc-ov"><span class="cc-cat">דירת מגורים</span><span class="cc-t">סלון שקט בגוונים כהים</span><span class="cc-plus" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></span></a></li>
+    <li><a class="cc-card" href="#project-2" data-detail="cc-d2" data-alt="חדר רחצה עם מראה עגולה, ברזי פליז וכיור על שיש שחור" aria-haspopup="dialog"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp" width="1200" height="1600" alt="" draggable="false" decoding="async"><span class="cc-ov"><span class="cc-cat">חדר רחצה</span><span class="cc-t">שיש שחור ופליז, בלי עומס</span><span class="cc-plus" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></span></a></li>
+    <li><a class="cc-card" href="#project-3" data-detail="cc-d3" data-alt="מטבח ארוך עם אי, ארונות כהים ושלוש מנורות תלויות" aria-haspopup="dialog"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" width="2400" height="1026" alt="" draggable="false" decoding="async"><span class="cc-ov"><span class="cc-cat">מטבח</span><span class="cc-t">מטבח ארוך לבית שמבשלים בו באמת</span><span class="cc-plus" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></span></a></li>
+    <li><a class="cc-card" href="#project-4" data-detail="cc-d4" data-alt="כורסה ומנורת רצפה ליד מדפי ספרים עם תאורה פנימית" aria-haspopup="dialog"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp" width="2200" height="1469" alt="" draggable="false" decoding="async"><span class="cc-ov"><span class="cc-cat">פינת עבודה</span><span class="cc-t">ספרייה מוארת בפינת הסלון</span><span class="cc-plus" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></span></a></li>
+    <li><a class="cc-card" href="#project-5" data-detail="cc-d5" data-alt="בית קפה עם חלונות גבוהים, שולחנות עץ ואור בוקר" aria-haspopup="dialog"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/cafe-window.webp" width="1400" height="1050" alt="" draggable="false" decoding="async"><span class="cc-ov"><span class="cc-cat">חלל מסחרי</span><span class="cc-t">בית קפה שאור הבוקר עושה בו את העבודה</span><span class="cc-plus" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></span></a></li>
+    <li><a class="cc-card" href="#project-6" data-detail="cc-d6" data-alt="קרני שמש על קיר חדר, עם צמח ליד החלון" aria-haspopup="dialog"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp" width="2560" height="1435" alt="" draggable="false" decoding="async"><span class="cc-ov"><span class="cc-cat">חדר שינה</span><span class="cc-t">חדר שהשמש מציירת בו אחר הצהריים</span><span class="cc-plus" aria-hidden="true"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></span></a></li>
+  </ul>
+  <div class="cc-nav" hidden>
+    <div class="cc-prog" aria-hidden="true"><i></i></div>
+    <div class="cc-btns">
+      <button class="cc-b cc-prev" type="button" aria-label="הפרויקטים הקודמים"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      <button class="cc-b cc-next" type="button" aria-label="הפרויקטים הבאים"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+  </div>
+</div>
+</div>
+<dialog class="cc-dlg" aria-labelledby="cc-ptitle">
+  <div class="cc-panel">
+    <div class="cc-xw"><button class="cc-x" type="button" aria-label="סגירה"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="cc-pimg"><img alt=""></div>
+    <div class="cc-pc"><p class="cc-pcat"></p><h3 class="cc-ptitle" id="cc-ptitle"></h3><div class="cc-body"></div></div>
+  </div>
+</dialog>
+<template id="cc-d1"><p>דירה בקומה שמינית עם אור חזק מהמערב. ביקשו סלון שמרגיעים בו אחרי יום ארוך, אז הורדנו את הצבעים, העלינו את התאורה החמה והשארנו מקום ריק סביב הספה.</p><dl class="cc-facts"><div><dt>שטח</dt><dd>94 מ״ר</dd></div><div><dt>משך העבודה</dt><dd>11 שבועות</dd></div><div><dt>מה נכלל</dt><dd>תכנון, רכש וליווי</dd></div></dl><a class="gbtn cc-cta" href="#contact">לפגישת היכרות</a></template>
+<template id="cc-d2"><p>חדר רחצה קטן שלא היה צריך להיראות קטן. מראה עגולה, ברזי פליז ושיש אחד רציף מהכיור ועד הקיר, כדי שהעין לא תעצור באמצע.</p><dl class="cc-facts"><div><dt>שטח</dt><dd>6 מ״ר</dd></div><div><dt>משך העבודה</dt><dd>3 שבועות</dd></div><div><dt>מה נכלל</dt><dd>תכנון והתקנה</dd></div></dl><a class="gbtn cc-cta" href="#contact">לפגישת היכרות</a></template>
+<template id="cc-d3"><p>משפחה של חמישה שמבשלת כל ערב. אי אחד ארוך, מאחוריו קיר ארונות עד התקרה, ושלוש מנורות תלויות שמחליפות את האור הישיר מהתקרה.</p><dl class="cc-facts"><div><dt>שטח</dt><dd>18 מ״ר</dd></div><div><dt>משך העבודה</dt><dd>6 שבועות</dd></div><div><dt>מה נכלל</dt><dd>תכנון, נגרות ותאורה</dd></div></dl><a class="gbtn cc-cta" href="#contact">לפגישת היכרות</a></template>
+<template id="cc-d4"><p>פינה לקריאה ולעבודה שקטה בדירה שאין בה חדר נוסף. מדפים עם תאורה פנימית, כורסה אחת טובה ומנורת רצפה, הכול על קיר אחד.</p><dl class="cc-facts"><div><dt>שטח</dt><dd>7 מ״ר</dd></div><div><dt>משך העבודה</dt><dd>שבועיים</dd></div><div><dt>מה נכלל</dt><dd>נגרות ותאורה</dd></div></dl><a class="gbtn cc-cta" href="#contact">לפגישת היכרות</a></template>
+<template id="cc-d5"><p>בית קפה שכונתי עם חלונות גבוהים. לא הוספנו קישוט: הזזנו את השולחנות אל החלון, החלפנו את הכיסאות והשארנו לשמש לעשות את שלה.</p><dl class="cc-facts"><div><dt>שטח</dt><dd>64 מ״ר</dd></div><div><dt>משך העבודה</dt><dd>5 שבועות</dd></div><div><dt>מה נכלל</dt><dd>תכנון וליווי</dd></div></dl><a class="gbtn cc-cta" href="#contact">לפגישת היכרות</a></template>
+<template id="cc-d6"><p>חדר שינה שפונה מערבה. במקום וילון כבד בחרנו בד דק שמרכך את האור, והשארנו את הקיר ריק כדי שהצללים יהיו הקישוט.</p><dl class="cc-facts"><div><dt>שטח</dt><dd>14 מ״ר</dd></div><div><dt>משך העבודה</dt><dd>10 ימים</dd></div><div><dt>מה נכלל</dt><dd>עיצוב ותאורה</dd></div></dl><a class="gbtn cc-cta" href="#contact">לפגישת היכרות</a></template>
+
+
+<script>
+(function(){
+  const root=document.documentElement;
+  const rail=document.querySelector(".cc-rail"),cards=[...rail.querySelectorAll(".cc-card")];
+  const nav=document.querySelector(".cc-nav"),prev=nav.querySelector(".cc-prev"),next=nav.querySelector(".cc-next"),track=nav.querySelector(".cc-prog"),thumb=track.firstElementChild;
+  const dlg=document.querySelector(".cc-dlg"),panel=dlg.querySelector(".cc-panel"),pimg=panel.querySelector(".cc-pimg"),pic=pimg.querySelector("img");
+  const pcat=panel.querySelector(".cc-pcat"),ptitle=panel.querySelector(".cc-ptitle"),body=panel.querySelector(".cc-body"),xbtn=panel.querySelector(".cc-x");
+  const rq=matchMedia("(prefers-reduced-motion: reduce)");
+  const E="cubic-bezier(.2,.6,.2,1)",T_OPEN=520,T_CLOSE=420;
+  const hasDialog=typeof dlg.showModal==="function",hasAnim=typeof panel.animate==="function";
+
+  /* ---- המסילה: חצים, פס התקדמות ---- */
+  // ב-RTL scrollLeft שלילי (Chrome, Firefox, Safari). הערך המוחלט עובד בשני הכיוונים, והסימן קובע לאן "הבא" גולל
+  const sign=()=>getComputedStyle(rail).direction==="rtl"?-1:1;
+  const step=()=>cards.length>1?Math.abs(cards[1].parentElement.getBoundingClientRect().left-cards[0].parentElement.getBoundingClientRect().left):rail.clientWidth*.8;
+  const go=n=>rail.scrollBy({left:n*sign()*step(),behavior:rq.matches?"auto":"smooth"});
+  // כפתור שהופך מושבת בזמן שיש עליו פוקוס לא משאיר את הפוקוס באוויר
+  function setDis(b,v){if(b.disabled===v)return;if(v&&document.activeElement===b)(b===next?prev:next).focus();b.disabled=v;}
+  let ticking=false;
+  function sync(){
+    ticking=false;
+    const max=rail.scrollWidth-rail.clientWidth;
+    nav.hidden=max<=2;                               // במסך רחב שהכל נכנס בו אין מה לנווט
+    if(max<=2)return;
+    const pos=Math.min(max,Math.abs(rail.scrollLeft));
+    setDis(prev,pos<=2);setDis(next,pos>=max-2);
+    const ratio=rail.clientWidth/rail.scrollWidth,room=track.clientWidth*(1-ratio);
+    thumb.style.width=(ratio*100)+"%";
+    thumb.style.transform="translateX("+(sign()*(pos/max)*room)+"px)";
+  }
+  rail.addEventListener("scroll",()=>{if(!ticking){ticking=true;requestAnimationFrame(sync);}},{passive:true});
+  if(window.ResizeObserver)new ResizeObserver(sync).observe(rail);else addEventListener("resize",sync);
+  prev.addEventListener("click",()=>go(-1));next.addEventListener("click",()=>go(1));
+  sync();
+
+  /* ---- החלון ---- */
+  let cur=null,busy=false,pend=false,veil=null,runs=[];
+  const lock=()=>{root.style.scrollbarGutter="stable";root.style.overflow="hidden";};     // על html ולא על body: כמו b33
+  const unlock=()=>{root.style.overflow="";root.style.scrollbarGutter="";};
+  const play=(el,frames,o)=>{const a=el.animate(frames,Object.assign({easing:E},o));runs.push(a);return a;};
+  const settle=()=>Promise.all(runs.map(a=>a.finished.catch(()=>{})));
+  const wipe=()=>{runs.forEach(a=>{try{a.cancel();}catch(e){}});runs=[];if(veil){veil.remove();veil=null;}};
+  const fully=c=>{const r=c.getBoundingClientRect(),w=rail.getBoundingClientRect();return r.left>=w.left-1&&r.right<=w.right+1;};
+  // כרטיס שחתוך בקצה המסילה מובא פנימה לפני המדידה, אחרת המעבר מתחיל משטח שלא נראה
+  function reveal(c){if(!fully(c)){c.scrollIntoView({inline:"center",block:"nearest"});sync();}}
+
+  // התמונה בחלון: מידות כיסוי מפורשות (לא object-fit), כדי שסקייל עליה יקטין את התמונה ולא את התיבה שחותכת אותה
+  let ratio=1.5;
+  function fit(){
+    const W=pimg.clientWidth,H=pimg.clientHeight;if(!W||!H)return;
+    const cw=Math.max(W,H*ratio),ch=cw/ratio;
+    pic.style.width=cw+"px";pic.style.height=ch+"px";pic.style.left=((W-cw)/2)+"px";pic.style.top=((H-ch)/2)+"px";
+  }
+  addEventListener("resize",()=>{if(dlg.open&&!busy)fit();});
+  function fill(c){
+    const im=c.querySelector("img");
+    pic.src=im.currentSrc||im.src;pic.alt=c.dataset.alt||"";
+    ratio=(parseFloat(im.getAttribute("width"))/parseFloat(im.getAttribute("height")))||1.5;
+    pcat.textContent=c.querySelector(".cc-cat").textContent;
+    ptitle.textContent=c.querySelector(".cc-t").textContent;
+    body.replaceChildren();
+    const tpl=document.getElementById(c.dataset.detail);
+    if(tpl)body.appendChild(tpl.content.cloneNode(true));
+    panel.scrollTop=0;panel.querySelector(".cc-pc").scrollTop=0;
+  }
+
+  // טקסט שנודד: אותו אלמנט של החלון, מסקייל ומהמקום של הטקסט בכרטיס אל מקומו. הצבע מתחלף בדרך
+  function flipText(el,src,D,closing){
+    const a=getComputedStyle(el),b=getComputedStyle(src),rtl=a.direction==="rtl";
+    const s=parseFloat(b.fontSize)/parseFloat(a.fontSize),R=el.getBoundingClientRect(),S=src.getBoundingClientRect();
+    const dx=rtl?S.right-R.right:S.left-R.left,dy=S.top-R.top;
+    el.style.transformOrigin=rtl?"100% 0":"0 0";
+    const from={transform:"translate("+dx+"px,"+dy+"px) scale("+s+")",color:b.color},to={transform:"translate(0px,0px) scale(1)",color:a.color};
+    play(el,closing?[to,from]:[from,to],{duration:D,fill:"forwards"});
+    // החלפה הדרגתית בין הטקסט של הכרטיס (בצילום) לטקסט של החלון, כדי שהבדלי שבירת שורות לא יקפצו
+    play(el,closing?[{opacity:1},{opacity:0}]:[{opacity:0},{opacity:1}],{duration:D*.5,delay:closing?D*.5:0,fill:"both"});
+  }
+
+  function morph(c,closing){
+    const D=closing?T_CLOSE:T_OPEN,im=c.querySelector("img");
+    const C=c.getBoundingClientRect(),P=panel.getBoundingClientRect(),Pi=pimg.getBoundingClientRect();
+    const rEnd=parseFloat(getComputedStyle(panel).borderTopLeftRadius)||0,rCard=parseFloat(getComputedStyle(c).borderTopLeftRadius)||0;
+    const f=(a,b)=>closing?[b,a]:[a,b];
+    // 1) משטח החלון: חלון חיתוך שגדל מצורת הכרטיס לצורת החלון
+    play(panel,f({clipPath:"inset("+(C.top-P.top)+"px "+(P.right-C.right)+"px "+(P.bottom-C.bottom)+"px "+(C.left-P.left)+"px round "+rCard+"px)"},{clipPath:"inset(0px 0px 0px 0px round "+rEnd+"px)"}),{duration:D,fill:"forwards"});
+    // 2) התמונה: סקייל אחיד עד שמכסה את הכרטיס, חיתוך לצורת הכרטיס, וסקייל פנימי שמתאים את החיתוך. בלי עיוות, בלי קפיצה
+    const a=ratio;
+    const s=Math.max(C.width/Pi.width,C.height/Pi.height);
+    const dx=(C.left+C.width/2)-(Pi.left+Pi.width/2),dy=(C.top+C.height/2)-(Pi.top+Pi.height/2);
+    const lx=(Pi.width-C.width/s)/2,ly=(Pi.height-C.height/s)/2;
+    const k=Math.max(C.height,C.width/a)/(pic.offsetHeight*s);
+    play(pimg,f({transform:"translate("+dx+"px,"+dy+"px) scale("+s+")",clipPath:"inset("+ly+"px "+lx+"px "+ly+"px "+lx+"px round "+(rCard/s)+"px)"},{transform:"translate(0px,0px) scale(1)",clipPath:"inset(0px 0px 0px 0px round 0px)"}),{duration:D,fill:"forwards"});
+    play(pic,f({transform:"scale("+k+")"},{transform:"scale(1)"}),{duration:D,fill:"forwards"});
+    // 3) הכותרת והקטגוריה
+    flipText(pcat,c.querySelector(".cc-cat"),D,closing);
+    flipText(ptitle,c.querySelector(".cc-t"),D,closing);
+    // 4) צילום שכבת הטקסט והצל של הכרטיס, מעל הכל, נמוג בפתיחה ומופיע בסגירה
+    veil=document.createElement("div");veil.className="cc-veil";veil.setAttribute("aria-hidden","true");
+    veil.style.cssText="left:"+C.left+"px;top:"+C.top+"px;width:"+C.width+"px;height:"+C.height+"px";
+    veil.appendChild(c.querySelector(".cc-ov").cloneNode(true));dlg.appendChild(veil);
+    play(veil,f({opacity:1},{opacity:0}),{duration:D*.32,delay:closing?D*.68:0,fill:"both"});
+    // 5) הגוף וכפתור הסגירה: נכנסים אחרי התמונה, בהדרגה. ביציאה נעלמים מהר
+    [...body.children].forEach((el,i)=>play(el,closing?[{opacity:1},{opacity:0}]:[{opacity:0,transform:"translateY(14px)"},{opacity:1,transform:"translateY(0px)"}],{duration:closing?D*.3:420,delay:closing?0:D*.5+i*70,fill:"both"}));
+    play(xbtn,closing?[{opacity:1},{opacity:0}]:[{opacity:0},{opacity:1}],{duration:closing?160:240,delay:closing?0:D*.4,fill:"both"});
+  }
+
+  async function open(c){
+    if(busy||cur)return;
+    busy=true;cur=c;
+    reveal(c);fill(c);lock();
+    dlg.showModal();fit();
+    const animate=hasAnim&&!rq.matches;
+    if(!animate){
+      c.classList.add("is-lifted");
+      if(hasAnim)panel.animate([{opacity:0},{opacity:1}],{duration:150,easing:E});    // ללא מעבר: דהייה קצרה בלבד
+      busy=false;return;
+    }
+    panel.classList.add("is-anim");
+    morph(c,false);
+    c.classList.add("is-lifted");
+    await settle();
+    panel.classList.remove("is-anim");wipe();
+    busy=false;
+    if(pend){pend=false;close();}
+  }
+
+  function done(c){
+    wipe();
+    c.classList.remove("is-lifted");
+    panel.classList.remove("is-anim");dlg.classList.remove("is-out");
+    if(dlg.open)dlg.close();
+    unlock();
+    c.focus({preventScroll:true});
+    cur=null;busy=false;pend=false;
+  }
+  const waitTop=()=>new Promise(res=>{const t0=performance.now();(function tick(){if(panel.scrollTop<=1||performance.now()-t0>360)return res();requestAnimationFrame(tick);})();});
+  async function close(){
+    if(!cur)return;
+    if(busy){pend=true;return;}
+    busy=true;
+    const c=cur,animate=hasAnim&&!rq.matches;
+    if(!animate){
+      if(hasAnim){dlg.classList.add("is-out");await panel.animate([{opacity:1},{opacity:0}],{duration:150,easing:E,fill:"forwards"}).finished.catch(()=>{});}
+      done(c);return;
+    }
+    // חלון שנגלל פנימה (במובייל) חוזר קודם לראש, אחרת התמונה כבר מחוץ למסך ואין ממה לחזור
+    if(panel.scrollTop>4){panel.scrollTo({top:0,behavior:"smooth"});await waitTop();}
+    reveal(c);
+    dlg.classList.add("is-out");panel.classList.add("is-anim");
+    morph(c,true);
+    await settle();
+    done(c);
+  }
+
+  cards.forEach(c=>c.addEventListener("click",e=>{
+    // בלי dialog, או בלחיצה עם מקש עזר, הכרטיס הוא סתם קישור לעמוד הפרויקט
+    if(!hasDialog||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
+    e.preventDefault();open(c);
+  }));
+  xbtn.addEventListener("click",close);
+  // Escape: נתפס כדי שהסגירה תנופש. לחיצה כפולה ב-Chrome סוגרת בכל זאת, ולכן אירוע close מנקה
+  dlg.addEventListener("cancel",e=>{e.preventDefault();close();});
+  dlg.addEventListener("close",()=>{if(cur&&!dlg.open){const c=cur;cur=null;wipe();c.classList.remove("is-lifted");panel.classList.remove("is-anim");dlg.classList.remove("is-out");unlock();c.focus({preventScroll:true});busy=false;pend=false;}});
+  // לחיצה על הרקע סוגרת, אבל רק אם גם הלחיצה התחילה שם (בחירת טקסט שנגמרת מחוץ לחלון לא תסגור)
+  let downOnBackdrop=false;
+  dlg.addEventListener("pointerdown",e=>{downOnBackdrop=e.target===dlg;});
+  dlg.addEventListener("click",e=>{if(e.target===dlg&&downOnBackdrop)close();});
+})();
+</script>
+</body>
+</html>

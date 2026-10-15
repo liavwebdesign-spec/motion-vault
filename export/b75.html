@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B75 · מגירה תחתונה שנסגרת בגרירה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B75 · מגירה תחתונה שנסגרת בגרירה */
+.bsd{max-width:min(560px,100%);margin-inline:auto;display:grid;gap:20px;justify-items:start}
+.bsd h2{margin:0;font-size:clamp(26px,3vw,40px);line-height:1.15;font-weight:700}
+.bsd p{margin:0;max-width:44ch;color:var(--muted, #6a6d85);font-size:17px;line-height:1.5}
+.bsd-meta{display:flex;flex-wrap:wrap;gap:8px}
+.bsd-meta span{padding:6px 14px;border-radius:999px;background:color-mix(in srgb,var(--ink, #16182b) 6%,transparent);font-size:14px}
+.bsd-open{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:17px;font-weight:600;cursor:pointer;transition:transform .12s cubic-bezier(.2,.6,.2,1)}
+.bsd-open:active{transform:scale(.97)}
+.bsd-open:focus-visible,.bs-x:focus-visible,.bs-btn:focus-visible,.bs-call:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+.bsd-hint{font-size:14px}
+.bs{position:fixed;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;padding:0;border:0;background:transparent;color:var(--ink, #16182b);overflow:hidden}
+.bs[open]{display:grid}
+.bs [hidden]{display:none!important}
+.bs::backdrop{background:transparent}
+.bs-ov{grid-area:1/1;background:color-mix(in srgb,var(--ink, #16182b) 52%,transparent);opacity:0;transition:opacity .28s cubic-bezier(.2,.6,.2,1)}
+.bs.is-in .bs-ov{opacity:1}
+.bs-sheet{position:relative;grid-area:1/1;align-self:end;justify-self:center;display:flex;flex-direction:column;width:100%;max-width:560px;max-height:85vh;max-height:85dvh;border-radius:calc(var(--r, 14px) * 2) calc(var(--r, 14px) * 2) 0 0;background:var(--card, #fff);box-shadow:0 -12px 40px color-mix(in srgb,var(--ink, #16182b) 18%,transparent);transform:translateY(100%);transition:transform .34s cubic-bezier(.2,.6,.2,1)}
+.bs.is-in .bs-sheet{transform:none}
+.bs-sheet.dragging{transition:none}
+.bs-sheet::after{content:"";position:absolute;inset-inline:0;top:100%;height:48px;background:var(--card, #fff)}
+.bs-grab{flex:none;display:grid;place-items:center;min-height:44px;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+.dragging .bs-grab{cursor:grabbing}
+.bs-pill{width:56px;height:6px;border-radius:999px;background:color-mix(in srgb,var(--ink, #16182b) 22%,transparent);transition:background .2s cubic-bezier(.2,.6,.2,1)}
+.bs-grab:hover .bs-pill,.dragging .bs-pill{background:color-mix(in srgb,var(--ink, #16182b) 38%,transparent)}
+.bs-head{flex:none;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:0 20px 8px}
+.bs-head h2{margin:0;font-size:22px;line-height:1.25;font-weight:700}
+.bs-head p{margin:4px 0 0;color:var(--muted, #6a6d85);font-size:15px;line-height:1.45}
+.bs-x{flex:none;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--ink, #16182b) 7%,transparent);color:var(--ink, #16182b);cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1)}
+.bs-x:hover{background:color-mix(in srgb,var(--ink, #16182b) 13%,transparent)}
+.bs-x svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;pointer-events:none}
+.bs-body{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;padding:8px 20px max(24px,env(safe-area-inset-bottom))}
+.bs-form{display:grid;gap:16px}
+.bf{position:relative}
+.bf input{width:100%;min-height:56px;padding:24px 16px 8px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:var(--card, #fff);color:var(--ink, #16182b);font:inherit;font-size:16px;transition:border-color .25s cubic-bezier(.2,.6,.2,1),box-shadow .25s cubic-bezier(.2,.6,.2,1)}
+.bf input:focus{outline:0;border-color:var(--accent, #4a3aff);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent, #4a3aff) 16%,transparent)}
+.bf input[type=tel]{text-align:right}
+html[dir="ltr"] .bf input[type=tel]{text-align:left}
+.bf label{position:absolute;inset-inline-start:17px;top:16px;color:var(--muted, #6a6d85);font-size:16px;pointer-events:none;transform-origin:100% 0;transition:transform .22s cubic-bezier(.2,.6,.2,1),color .22s cubic-bezier(.2,.6,.2,1)}
+html[dir="ltr"] .bf label{transform-origin:0 0}
+.bf input:focus+label,.bf input:not(:placeholder-shown)+label{transform:translateY(-10px) scale(.78)}
+.bf input:focus+label{color:var(--accent, #4a3aff)}
+.bf-err{display:block;height:0;margin-top:6px;color:#c2255c;font-size:13px;opacity:0;visibility:hidden;transition:opacity .25s cubic-bezier(.2,.6,.2,1),visibility 0s .25s}
+.bf.bad input{border-color:#c2255c;animation:bsshake .34s}
+.bf.bad .bf-err{height:auto;opacity:1;visibility:visible;transition-delay:0s}
+@keyframes bsshake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.bs-fs{min-width:0;margin:0;padding:0;border:0}
+.bs-fs legend{margin-bottom:8px;padding:0;font-size:14px;font-weight:600}
+.bs-chips{display:flex;flex-wrap:wrap;gap:8px}
+.bs-chip{position:relative;display:block}
+.bs-chip input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.bs-chip span{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding-inline:16px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);font-size:15px;transition:background .2s cubic-bezier(.2,.6,.2,1),color .2s cubic-bezier(.2,.6,.2,1),box-shadow .2s cubic-bezier(.2,.6,.2,1)}
+.bs-chip small{font-size:13px;opacity:.7;font-variant-numeric:tabular-nums}
+.bs-chip input:checked+span{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);box-shadow:none}
+.bs-chip input:focus-visible+span{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.bs-btn{position:relative;min-height:54px;padding:0;border:0;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:17px;font-weight:600;cursor:pointer;overflow:hidden;transition:background .3s cubic-bezier(.2,.6,.2,1)}
+.bs-btn span{display:block;transition:transform .3s cubic-bezier(.2,.6,.2,1),opacity .25s cubic-bezier(.2,.6,.2,1)}
+.bs-btn .s2{position:absolute;inset:0;display:grid;place-items:center;transform:translateY(110%);opacity:0}
+.bs-btn.load .s1{transform:translateY(-110%);opacity:0}
+.bs-btn.load .s2{transform:none;opacity:1}
+.bs-spin{display:inline-block;width:18px;height:18px;border:2px solid color-mix(in srgb,var(--accent-ink, #fff) 35%,transparent);border-top-color:var(--accent-ink, #fff);border-radius:50%;animation:bsspin .7s linear infinite}
+@keyframes bsspin{to{transform:rotate(360deg)}}
+.bs-alt{margin:8px 0 0;color:var(--muted, #6a6d85);font-size:15px;text-align:center}
+.bs-call{display:inline-flex;align-items:center;min-height:44px;padding-inline:6px;color:var(--ink, #16182b);font-weight:600;text-decoration:underline;text-underline-offset:3px;unicode-bidi:isolate}
+.bs-ok{display:grid;justify-items:center;gap:12px;padding-block:16px 8px;text-align:center}
+.bs-ok:focus{outline:0}
+.bs-okmark{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:color-mix(in srgb,var(--accent, #4a3aff) 14%,var(--card, #fff));color:var(--accent, #4a3aff)}
+.bs-okmark svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.bs-okmark path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .4s cubic-bezier(.2,.6,.2,1) .15s}
+.bs-ok.show .bs-okmark path{stroke-dashoffset:0}
+.bs-ok h3{margin:0;font-size:20px;line-height:1.3}
+.bs-ok p{margin:0;max-width:34ch;color:var(--muted, #6a6d85);font-size:15px;line-height:1.5}
+.bs-ok .bs-btn{width:100%;margin-top:8px;background:color-mix(in srgb,var(--ink, #16182b) 8%,transparent);color:var(--ink, #16182b)}
+@media (min-width:768px){
+  .bs-sheet{align-self:center;max-height:min(85vh,720px);max-height:min(85dvh,720px);border-radius:calc(var(--r, 14px) * 1.5);opacity:0;transform:translateY(16px);transition:transform .3s cubic-bezier(.2,.6,.2,1),opacity .3s cubic-bezier(.2,.6,.2,1)}
+  .bs.is-in .bs-sheet{opacity:1;transform:none}
+  .bs-sheet::after,.bs-grab{display:none}
+  .bs-head{padding:28px 28px 8px}
+  .bs-body{padding:8px 28px 28px}
+}
+@media (prefers-reduced-motion: reduce){.bs-ov,.bs-sheet,.bs-btn,.bs-btn span,.bs-okmark path{transition:none}.bf.bad input,.bs-spin{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="stage tight"><div class="bsd">
+  <h2>כאב גב שלא עובר?</h2>
+  <p>שיחה קצרה של עשר דקות עם פיזיותרפיסט שמכיר את התחום, בלי התחייבות. נחזור אליכם באותו יום.</p>
+  <div class="bsd-meta"><span>ללא עלות</span><span>תשובה תוך שעתיים בשעות הפעילות</span></div>
+  <a class="bsd-open" href="#bs75" data-bs-open role="button" aria-haspopup="dialog">תיאום שיחה</a>
+  <p class="bsd-hint">בטלפון: גוררים את הידית למטה כדי לסגור. בדסקטופ: חלון במרכז.</p>
+</div></div>
+<dialog class="bs" id="bs75" aria-labelledby="bs75-t">
+  <div class="bs-ov"></div>
+  <div class="bs-sheet">
+    <div class="bs-grab" aria-hidden="true"><span class="bs-pill"></span></div>
+    <div class="bs-head">
+      <div><h2 id="bs75-t">תיאום שיחה עם הקליניקה</h2><p>נחזור אליכם בחלון הזמן שבחרתם.</p></div>
+      <button class="bs-x" type="button" aria-label="סגירה"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="bs-body">
+      <form class="bs-form" novalidate>
+        <div class="bf"><input type="text" id="bs75-n" name="name" placeholder=" " autocomplete="name" required><label for="bs75-n">שם מלא</label><small class="bf-err" id="bs75-n-e">צריך שם כדי לדעת למי לחזור</small></div>
+        <div class="bf"><input type="tel" id="bs75-p" name="phone" dir="ltr" inputmode="tel" placeholder=" " autocomplete="tel" required><label for="bs75-p">טלפון</label><small class="bf-err" id="bs75-p-e">מספר הטלפון לא נראה תקין</small></div>
+        <fieldset class="bs-fs">
+          <legend>מתי נוח לכם?</legend>
+          <div class="bs-chips">
+            <label class="bs-chip"><input type="radio" name="when" value="בבוקר" checked><span>בוקר <small>9:00 עד 12:00</small></span></label>
+            <label class="bs-chip"><input type="radio" name="when" value="בצהריים"><span>צהריים <small>12:00 עד 16:00</small></span></label>
+            <label class="bs-chip"><input type="radio" name="when" value="בערב"><span>ערב <small>16:00 עד 19:00</small></span></label>
+            <label class="bs-chip"><input type="radio" name="when" value="בהקדם האפשרי"><span>בהקדם</span></label>
+          </div>
+        </fieldset>
+        <button class="bs-btn" type="submit"><span class="s1">שליחה</span><span class="s2" aria-hidden="true"><i class="bs-spin"></i></span></button>
+      </form>
+      <p class="bs-alt">מעדיפים לדבר עכשיו? <a class="bs-call" href="tel:035550142" dir="ltr">03-555-0142</a></p>
+      <div class="bs-ok" role="status" tabindex="-1" hidden>
+        <span class="bs-okmark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg></span>
+        <h3>קיבלנו, נתקשר</h3>
+        <p class="bs-okt"></p>
+        <button class="bs-btn bs-done" type="button"><span>סגירה</span></button>
+      </div>
+    </div>
+  </div>
+</dialog>
+<noscript><style>.bs{position:static;display:block;height:auto;overflow:visible;padding-block:var(--sec)}.bs-ov,.bs-grab,.bs-x{display:none}.bs-sheet{margin-inline:auto;transform:none;opacity:1;border-radius:var(--r);max-height:none}.bsd-open{display:none}</style></noscript>
+
+
+<script>
+(function(){
+  const dlg=document.getElementById("bs75"),sheet=dlg.querySelector(".bs-sheet"),ov=dlg.querySelector(".bs-ov");
+  const grab=dlg.querySelector(".bs-grab"),xBtn=dlg.querySelector(".bs-x"),body=dlg.querySelector(".bs-body");
+  const form=dlg.querySelector(".bs-form"),btn=form.querySelector(".bs-btn"),alt=dlg.querySelector(".bs-alt");
+  const ok=dlg.querySelector(".bs-ok"),okT=dlg.querySelector(".bs-okt"),done=dlg.querySelector(".bs-done");
+  const fields=[...form.querySelectorAll(".bf")];
+  const rm=matchMedia("(prefers-reduced-motion: reduce)"),desk=matchMedia("(min-width: 768px)");
+  const root=document.documentElement;
+  let opener=null,closing=false,drag=null,sending=false;
+
+  // נעילת גלילה כמו ב-b33: על html עם scrollbar-gutter, כדי שהעמוד לא יקפוץ
+  function lock(){
+    root.style.scrollbarGutter="stable";root.style.overflow="hidden";
+    root.style.backgroundColor="color-mix(in srgb, var(--ink) 52%, var(--bg))";
+  }
+  function unlock(){root.style.overflow="";root.style.scrollbarGutter="";root.style.backgroundColor="";}
+
+  function reset(){
+    form.reset();form.hidden=false;alt.hidden=false;ok.hidden=true;ok.classList.remove("show");
+    btn.classList.remove("load");sending=false;
+    fields.forEach(f=>mark(f,false));
+  }
+  function open(from){
+    if(dlg.open)return;
+    opener=from;closing=false;reset();
+    dlg.showModal();lock();body.scrollTop=0;
+    if(rm.matches)dlg.classList.add("is-in");
+    else{void sheet.offsetHeight;dlg.classList.add("is-in");}   // קריאת פריסה כדי שהמצב ההתחלתי יצויר לפני המעבר
+  }
+  function finish(){if(dlg.open)dlg.close();}
+  function requestClose(fromDrag){
+    if(!dlg.open||closing)return;
+    closing=true;
+    if(rm.matches){finish();return;}
+    dlg.classList.remove("is-in");
+    // מגרירה: ממשיכים מהמקום שבו המגירה נמצאת אל מחוץ למסך (ה-transform הפנימי מחליף את זה של ה-CSS)
+    if(fromDrag){sheet.classList.remove("dragging");sheet.style.transform="translateY(100%)";ov.style.opacity="0";}
+    else{sheet.style.transform="";ov.style.opacity="";}
+    let t=setTimeout(finish,460);
+    sheet.addEventListener("transitionend",function h(e){
+      if(e.target!==sheet||(e.propertyName!=="transform"&&e.propertyName!=="opacity"))return;
+      sheet.removeEventListener("transitionend",h);clearTimeout(t);finish();
+    });
+  }
+  // close מופעל גם על Escape כפול של כרום שעוקף את cancel, ולכן הניקוי כאן ולא ב-requestClose
+  dlg.addEventListener("close",()=>{
+    dlg.classList.remove("is-in");sheet.classList.remove("dragging");
+    sheet.style.transform="";ov.style.opacity="";drag=null;closing=false;
+    unlock();
+    if(opener&&opener.isConnected)opener.focus();
+  });
+  dlg.addEventListener("cancel",e=>{e.preventDefault();requestClose(false);});
+  ov.addEventListener("click",()=>requestClose(false));
+  xBtn.addEventListener("click",()=>requestClose(false));
+  done.addEventListener("click",()=>requestClose(false));
+
+  document.querySelectorAll("[data-bs-open]").forEach(a=>{
+    a.addEventListener("click",e=>{e.preventDefault();open(a);});
+    a.addEventListener("keydown",e=>{if(e.key===" "){e.preventDefault();open(a);}});
+  });
+
+  // הגרירה: רק מהידית. למעלה כמעט בלי תנועה, למטה בחצי מהמרחק של האצבע.
+  // סוגרים כשהיסט המגירה >= 100 פיקסל, או כשהשחרור מהיר (יותר מ-0.6 פיקסל למילישנייה כלפי מטה)
+  grab.addEventListener("pointerdown",e=>{
+    if(closing)return;
+    if(e.pointerType==="mouse"&&e.button!==0)return;
+    grab.setPointerCapture(e.pointerId);
+    drag={id:e.pointerId,y0:e.clientY,off:0,s:[{t:e.timeStamp,y:e.clientY}]};
+    sheet.classList.add("dragging");
+  });
+  grab.addEventListener("pointermove",e=>{
+    if(!drag||e.pointerId!==drag.id)return;
+    const dy=e.clientY-drag.y0;
+    drag.off=dy>0?dy*.5:-Math.min(8,Math.sqrt(-dy)*.9);
+    drag.s.push({t:e.timeStamp,y:e.clientY});
+    while(drag.s.length>2&&e.timeStamp-drag.s[0].t>110)drag.s.shift();
+    sheet.style.transform="translateY("+drag.off+"px)";
+    const p=Math.min(1,Math.max(0,drag.off)/(sheet.offsetHeight*.45));
+    ov.style.opacity=String(1-.75*p);
+  });
+  function release(e,cancelled){
+    if(!drag||e.pointerId!==drag.id)return;
+    const a=drag.s[0],b=drag.s[drag.s.length-1],dt=b.t-a.t;
+    const v=dt>0?(b.y-a.y)/dt:0,off=drag.off;
+    drag=null;
+    if(!cancelled&&(off>=100||(v>.6&&off>6))){requestClose(true);return;}
+    // חוזרים למקום: מורידים את מצב הגרירה, והמעבר של ה-CSS מחזיר את המגירה והרקע
+    sheet.classList.remove("dragging");sheet.style.transform="";ov.style.opacity="";
+  }
+  grab.addEventListener("pointerup",e=>release(e,false));
+  grab.addEventListener("pointercancel",e=>release(e,true));
+
+  // הטופס: אותו מנגנון כמו b32, עם טלפון במקום אימייל
+  function bad(f){
+    const el=f.querySelector("input"),v=el.value.trim();
+    if(el.type==="tel")return !/^0\d{8,9}$/.test(v.replace(/\D/g,""));
+    return v.length<2;
+  }
+  function mark(f,b){
+    f.classList.toggle("bad",b);
+    const el=f.querySelector("input"),err=f.querySelector(".bf-err");
+    el.setAttribute("aria-invalid",String(b));
+    if(b)el.setAttribute("aria-describedby",err.id);else el.removeAttribute("aria-describedby");
+  }
+  fields.forEach(f=>{
+    const el=f.querySelector("input");
+    el.addEventListener("input",()=>{if(f.classList.contains("bad")&&!bad(f))mark(f,false);});
+    el.addEventListener("blur",()=>{if(el.value.trim())mark(f,bad(f));});
+  });
+  form.addEventListener("submit",e=>{
+    e.preventDefault();
+    if(sending)return;
+    let first=null;
+    fields.forEach(f=>{const b=bad(f);mark(f,b);if(b&&!first)first=f;});
+    if(first){first.querySelector("input").focus();return;}
+    sending=true;btn.classList.add("load");
+    setTimeout(()=>{
+      const w=form.querySelector('input[name="when"]:checked').value;
+      okT.textContent="נתקשר למספר "+form.phone.value.trim()+" "+w+".";
+      form.hidden=true;alt.hidden=true;ok.hidden=false;
+      void ok.offsetHeight;ok.classList.add("show");
+      ok.focus();sending=false;btn.classList.remove("load");
+    },1200);
+  });
+})();
+</script>
+</body>
+</html>

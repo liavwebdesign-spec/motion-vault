@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G153 · ערימת סקשנים שמכבדת סקשן ארוך</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* G153 · ערימת סקשנים שמכבדת סקשן ארוך */
+@property --sk-s{syntax:"<number>";inherits:false;initial-value:1}
+@property --sk-dim{syntax:"<number>";inherits:true;initial-value:0}
+.sk{--sk-r:clamp(20px,3vw,32px);position:relative;margin-top:clamp(24px,3vw,40px);background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}
+/* ברירת מחדל: סקשנים שזורמים כרגיל, בגובה מסך לפחות. ההדבקה והנסיגה נכנסות רק עם .is-stack */
+.sk-panel{position:relative;isolation:isolate;display:grid;align-content:center;min-height:100vh;min-height:100lvh;border-radius:var(--sk-r)}
+.sk-panel:nth-child(1){background:var(--card, #fff)}
+.sk-panel:nth-child(2){background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+.sk-panel:nth-child(3){background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.sk-panel:nth-child(4){background:var(--card, #fff)}
+/* ההחשכה היא שכבה שחורה ולא שקיפות של הסקשן: סקשן חצי שקוף מראה את מה שמתחתיו */
+.sk-panel::after{content:"";position:absolute;inset:0;z-index:2;border-radius:inherit;background:#000;opacity:var(--sk-dim);pointer-events:none}
+/* הדבקה: top שלילי כשהסקשן גבוה ממסך, כלומר הוא נדבק כשהתחתית שלו בתחתית המסך. --sk-h נכתב מ-JS */
+.sk.is-stack .sk-panel:not(:last-child){position:sticky;top:min(0px,calc(100dvh - var(--sk-h,100dvh)));margin-bottom:18svh;
+  transform:scale(var(--sk-s));transform-origin:50% calc(100% - 50dvh);will-change:transform}
+.sk-in{display:grid;gap:clamp(24px,3vw,40px);width:min(100%,1120px);margin-inline:auto;padding:88px var(--gutter, clamp(24px, 5vw, 96px)) 64px}
+.sk-in.narrow{width:min(100%,820px)}
+.sk-step{display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600}
+.sk-dots{display:flex;gap:6px}
+.sk-dots i{width:20px;height:4px;border-radius:2px;background:currentColor;opacity:.28}
+.sk-dots i.on{opacity:1}
+.sk-panel h3{margin:0;max-width:18ch;font-size:clamp(30px,4.2vw,60px);line-height:1.12;font-weight:800;text-wrap:balance}
+.sk-panel p{margin:0;max-width:60ch;font-size:clamp(17px,1.4vw,20px);line-height:1.7;text-align:start}
+.sk-txt{display:grid;gap:clamp(20px,2vw,28px);align-content:start}
+.sk-cols{display:grid;gap:clamp(24px,4vw,64px);align-items:center}
+@media(min-width:768px){.sk-cols{grid-template-columns:1.1fr .9fr}}
+.sk-lh{margin:0 0 12px;font-size:15px;font-weight:700}
+.sk-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.sk-list li{display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start;font-size:clamp(16px,1.3vw,18px);line-height:1.55}
+.sk-list li::before{content:"";width:24px;height:24px;margin-top:2px;background:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/contain no-repeat}
+.sk-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.sk-chips li{padding:8px 16px;border-radius:999px;font-size:14px;font-weight:600;background:color-mix(in srgb,currentColor 12%,transparent)}
+.sk-fig{margin:0;display:grid;gap:10px}
+.sk-fig img{display:block;width:100%;height:auto;aspect-ratio:var(--ar,3/2);max-height:var(--mh,none);object-fit:cover;object-position:var(--op,50% 50%);border-radius:var(--r, 14px)}
+.sk-fig figcaption{font-size:14px;line-height:1.5;opacity:.8}
+.sk-btn{justify-self:start;display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border:0;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:16px;font-weight:600;cursor:pointer}
+.sk-btn:focus-visible{outline:3px solid var(--ink, #16182b);outline-offset:3px}
+html[dir="ltr"] .sk-panel p{text-align:start}
+</style>
+</head>
+<body>
+
+<div class="sk">
+  <section class="sk-panel" aria-labelledby="sk-t1"><div class="sk-in">
+    <div class="sk-step"><span class="sk-dots" aria-hidden="true"><i class="on"></i><i></i><i></i><i></i></span><span>שלב 1 מתוך 4</span></div>
+    <div class="sk-txt">
+      <h3 id="sk-t1">שיחה קצרה וסיור בחניה</h3>
+      <p>מספרים לנו כמה דירות יש בבניין, כמה רכבים חשמליים חונים בו היום וכמה צפויים בשנתיים הקרובות. אנחנו מגיעים לראות את לוח החשמל ואת החניה, ויוצאים עם כיוון ברור ומחיר משוער.</p>
+      <ul class="sk-chips"><li>עד שבוע מהפנייה</li><li>ללא עלות</li><li>בלי התחייבות</li></ul>
+    </div>
+  </div></section>
+  <section class="sk-panel" aria-labelledby="sk-t2"><div class="sk-in">
+    <div class="sk-step"><span class="sk-dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i><i></i></span><span>שלב 2 מתוך 4</span></div>
+    <div class="sk-cols">
+      <div class="sk-txt">
+        <h3 id="sk-t2">תכנון והסכמה של ועד הבית</h3>
+        <p>בבניין משותף אי אפשר להתקין עמדה בלי אישור הדיירים. אנחנו מכינים לוועד תוכנית אחת ברורה: איפה עוברים הכבלים, אילו חניות כלולות ומי משלם על מה.</p>
+        <p>התוכנית כתובה בשפה שאפשר להקריא בישיבת דיירים, בלי מונחים של חשמלאים. אם עולות שאלות, אנחנו מגיעים לישיבה ועונים בעצמנו.</p>
+        <div><h4 class="sk-lh">מה מקבל הוועד</h4>
+          <ul class="sk-list">
+            <li>תרשים חשמל של הבניין עם נקודת החיבור המוצעת</li>
+            <li>חלוקת עלויות בין הדיירים שמתקינים לבין קופת הוועד</li>
+            <li>נוסח הסכמה לחתימת הדיירים, מוכן להדפסה</li>
+            <li>הערכת עומס: האם הבניין מחזיק עוד עמדות בלי שדרוג</li>
+            <li>לוח זמנים להתקנה, כולל הפסקות חשמל קצרות</li>
+          </ul></div>
+        <ul class="sk-chips"><li>שבוע עד שבועיים</li><li>כולל ליווי בישיבה</li></ul>
+      </div>
+      <figure class="sk-fig"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/lot-paint.webp" width="1600" height="1067" loading="lazy" alt="סימון חניה ייעודית לרכב חשמלי על האספלט"><figcaption>סימון החניה הייעודית הוא הצעד האחרון, לא הראשון.</figcaption></figure>
+    </div>
+  </div></section>
+  <section class="sk-panel" aria-labelledby="sk-t3"><div class="sk-in narrow">
+    <div class="sk-step"><span class="sk-dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span><span>שלב 3 מתוך 4</span></div>
+    <h3 id="sk-t3">התקנה בבניין, בלי הפתעות</h3>
+    <p>חשמלאי מוסמך מגיע עם כל הציוד ביום אחד שנקבע מראש. מושכים קו ייעודי מלוח הבניין אל החניה, מתקינים עמדה לכל דייר ומחברים אותה למונה נפרד, כדי שכל אחד ישלם רק על מה שטען.</p>
+    <figure class="sk-fig" style="--ar:16/10;--op:70% 40%"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/install.webp" width="1200" height="1067" loading="lazy" alt="חשמלאי בכובע צמר ובמשקפי מגן מחבר כבלים בקופסת חיבורים"><figcaption>חיבור הקו בקופסת הפיצול, לפני סגירת הקיר.</figcaption></figure>
+    <p>עבודה בבניין מאוכלס דורשת סדר. מודיעים לדיירים שבוע מראש, מכסים את הרצפה בזמן קידוח ומנקים בסוף כל יום עבודה. בסיום מקבל הוועד תיק מסירה עם תעודות ובדיקות.</p>
+    <div><h4 class="sk-lh">ביום ההתקנה</h4>
+      <ul class="sk-list">
+        <li>קו ייעודי ומפסק מגן לכל עמדה</li>
+        <li>מונה נפרד לכל דייר</li>
+        <li>ארון חשמל סגור ומסומן</li>
+        <li>קידוח וכיסוי הצנרת בצבע הקיר</li>
+        <li>בדיקת הארקה ובדיקת מתח לפני חיבור</li>
+        <li>ניקיון מלא והחזרת האזור למצבו הקודם</li>
+      </ul></div>
+    <p>אם מתגלה ליקוי בלוח הישן, מעדכנים את הוועד באותו יום ומציעים תיקון במחיר שסוכם מראש. לא ממשיכים בלי אישור.</p>
+    <ul class="sk-chips"><li>יום עבודה אחד לעמדה</li><li>תיק מסירה כלול</li></ul>
+  </div></section>
+  <section class="sk-panel" aria-labelledby="sk-t4"><div class="sk-in">
+    <div class="sk-step"><span class="sk-dots" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span>שלב 4 מתוך 4</span></div>
+    <div class="sk-cols">
+      <div class="sk-txt">
+        <h3 id="sk-t4">טעינה ראשונה ומסירה</h3>
+        <p>מחברים את הרכב, מוודאים שהחיוב רשום על המונה הנכון ומראים איך מגדירים שעות טעינה זולות. מכאן כל בוקר מתחיל עם סוללה מלאה.</p>
+        <button class="sk-btn" type="button">לתיאום סיור בחניה</button>
+      </div>
+      <figure class="sk-fig" style="--ar:4/3;--mh:min(520px,62vh);--op:50% 35%"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/resident.webp" width="1100" height="1650" loading="lazy" alt="דיירת מדברת בטלפון ליד רכב חשמלי בטעינה"></figure>
+    </div>
+  </div></section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  // בלי הספרייה, או בלי ScrollTrigger, הסקשנים נשארים זורמים: אין .is-stack ולכן אין הדבקה, ושום דבר לא מוסתר
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;
+  const root=document.querySelector(".sk"),panels=gsap.utils.toArray(".sk-panel",root);
+  // בהפחתת תנועה הפונקציה לא רצה: הערימה לא מופעלת והסקשנים זורמים כרגיל. בסיבוב טאבלט matchMedia מחליף גרסה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-stack");
+    // גובה כל סקשן למשתנה, וה-CSS מחשב ממנו את נקודת ההדבקה (100dvh פחות הגובה). offsetHeight לא מושפע מהכיווץ
+    const measure=()=>panels.forEach(p=>p.style.setProperty("--sk-h",p.offsetHeight+"px"));
+    measure();
+    ScrollTrigger.addEventListener("refreshInit",measure);
+    // פונט שנטען או שורה שנשברת אחרת משנים גובה בלי אירוע resize: מודדים ומרעננים את הטריגרים
+    let raf=0;
+    const ro=new ResizeObserver(()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{measure();ScrollTrigger.refresh();});});
+    panels.forEach(p=>ro.observe(p));
+    // הסקשן נסוג בדיוק בזמן שהבא עולה מעליו, ולכן הטריגר הוא הבא ולא הנוכחי. הנסיגה לא מתחילה לפני שהבא נכנס,
+    // ובסקשן גבוה הבא נכנס רק אחרי מרווח המנוחה, כלומר אחרי שהתחתית נראתה
+    panels.slice(0,-1).forEach((p,i)=>{
+      gsap.fromTo(p,{"--sk-s":1,"--sk-dim":0},{"--sk-s":.92,"--sk-dim":.55,ease:"none",
+        scrollTrigger:{trigger:panels[i+1],start:"top bottom",end:"top top",scrub:.4}});
+    });
+    return()=>{
+      ScrollTrigger.removeEventListener("refreshInit",measure);ro.disconnect();cancelAnimationFrame(raf);
+      root.classList.remove("is-stack");
+      panels.forEach(p=>{p.style.removeProperty("--sk-h");p.style.removeProperty("--sk-s");p.style.removeProperty("--sk-dim");});
+    };
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS35 · תמונה שגולשת בתוך המסגרת בהחלקה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS35 · תמונה שגולשת בתוך המסגרת בהחלקה */
+.slg{--slg-s:1;--slg-fw:min(340px,78cqw);max-width:min(1100px,100%);margin-inline:auto;timeline-scope:--slgt}
+.slg:dir(ltr){--slg-s:-1}
+.slg-track{display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));overflow-x:auto;padding-block:4px;scroll-snap-type:x mandatory;scrollbar-width:none;container-type:inline-size;scroll-timeline:--slgt inline;cursor:grab;-webkit-overflow-scrolling:touch}
+.slg-track::-webkit-scrollbar{display:none}
+.slg-track:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:4px}
+.slg-track.drag{scroll-snap-type:none;cursor:grabbing;user-select:none}
+.slg-slide{flex:0 0 var(--slg-fw);margin:0;scroll-snap-align:start}
+.slg-frame{position:relative;aspect-ratio:4/5;border-radius:var(--r, 14px);overflow:hidden;background:var(--line, #e4e4ee)}
+.slg-frame img{position:absolute;inset-block:0;inset-inline-start:-15%;display:block;width:130%;height:100%;object-fit:cover;-webkit-user-drag:none;user-select:none}
+@keyframes slg-glide{from{translate:calc(var(--slg-s) * 11.5%)}to{translate:calc(var(--slg-s) * -11.5%)}}
+/* כל תמונה רצה על ציר הגלילה של המסלול, בטווח שמתחיל כשהמסגרת שלה נכנסת מהצד הרחוק ומסתיים כשהיא יוצאת מהצד הקרוב. המרחק של שקופית i משפת ההתחלה הוא i * (רוחב + רווח), ולכן אותו חישוב נכון בעברית ובאנגלית */
+@supports (animation-timeline: scroll()){
+  @media (prefers-reduced-motion: no-preference){
+    .slg-frame img{animation:slg-glide linear both;animation-timeline:--slgt;
+      animation-range:calc(var(--i) * (var(--slg-fw) + var(--gap, clamp(16px, 1.6vw, 36px))) - 100cqw) calc(var(--i) * (var(--slg-fw) + var(--gap, clamp(16px, 1.6vw, 36px))) + var(--slg-fw))}
+  }
+}
+.slg-cap{display:grid;gap:4px;margin-top:14px}
+.slg-cap b{font-size:17px}
+.slg-cap span{font-size:14px;color:var(--muted, #6a6d85)}
+.slg-bar{display:none;align-items:center;gap:24px;margin-top:24px}
+.slg-js .slg-bar{display:flex}
+.slg-count{min-width:56px;font-size:15px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}
+.slg-count b{color:var(--ink, #16182b);font-weight:700}
+.slg-prog{display:none;flex:1;height:4px;border-radius:999px;background:var(--line, #e4e4ee);overflow:hidden}
+.slg-prog i{display:block;height:100%;background:var(--accent, #4a3aff);transform-origin:right center;scale:0 1}
+.slg:dir(ltr) .slg-prog i{transform-origin:left center}
+@keyframes slg-fill{to{scale:1 1}}
+@supports (animation-timeline: scroll()){
+  .slg-prog{display:block}
+  .slg-prog i{animation:slg-fill linear both;animation-timeline:--slgt}
+}
+.slg-nav{display:flex;gap:8px;margin-inline-start:auto}
+.slg-btn{display:grid;place-items:center;width:48px;height:48px;padding:0;border:0;border-radius:50%;background:var(--card, #fff);color:var(--ink, #16182b);box-shadow:0 0 0 1px var(--line, #e4e4ee);cursor:pointer;transition:opacity .2s cubic-bezier(.2,.6,.2,1),background .2s cubic-bezier(.2,.6,.2,1)}
+.slg-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.slg:dir(ltr) .slg-btn svg{scale:-1 1}
+.slg-btn[aria-disabled="true"]{opacity:.35;cursor:default}
+.slg-btn:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+@media (hover:hover) and (pointer:fine){.slg-btn:not([aria-disabled="true"]):hover{background:color-mix(in srgb,var(--ink, #16182b) 8%,var(--card, #fff))}}
+@media (prefers-reduced-motion: reduce){.slg-btn{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="stage tight"><div class="slg">
+  <div class="slg-track" tabindex="0" role="region" aria-roledescription="קרוסלה" aria-label="עבודות אחרונות של הסטודיו, החליקו או השתמשו בחצים">
+    <figure class="slg-slide" role="group" aria-roledescription="שקופית" aria-label="1 מתוך 5" style="--i:0"><div class="slg-frame"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp" alt="סלון כהה עם ספה רחבה, פמוטים ותאורה חמה" width="1040" height="780" draggable="false" decoding="async"></div><figcaption class="slg-cap"><b>סלון בדירת גן</b><span>רמת גן, חמישה חדרים, אחד עשר שבועות</span></figcaption></figure>
+    <figure class="slg-slide" role="group" aria-roledescription="שקופית" aria-label="2 מתוך 5" style="--i:1"><div class="slg-frame"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp" alt="פינת רחצה עם מראה עגולה, ברז זהב וצמח" width="780" height="1040" draggable="false" loading="lazy" decoding="async"></div><figcaption class="slg-cap"><b>פינת רחצה בצבע עמוק</b><span>הרצליה, שישה שבועות</span></figcaption></figure>
+    <figure class="slg-slide" role="group" aria-roledescription="שקופית" aria-label="3 מתוך 5" style="--i:2"><div class="slg-frame"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" alt="מטבח אפור פתוח עם אי ארוך ותאורה תלויה" width="1040" height="780" draggable="false" loading="lazy" decoding="async"></div><figcaption class="slg-cap"><b>מטבח עם אי פתוח</b><span>מודיעין, תשעה שבועות</span></figcaption></figure>
+    <figure class="slg-slide" role="group" aria-roledescription="שקופית" aria-label="4 מתוך 5" style="--i:3"><div class="slg-frame"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp" alt="פינת קריאה עם כורסה אדומה, מנורה ומדפי ספרים" width="1040" height="780" draggable="false" loading="lazy" decoding="async"></div><figcaption class="slg-cap"><b>פינת קריאה וספרייה</b><span>תל אביב, חדר עבודה</span></figcaption></figure>
+    <figure class="slg-slide" role="group" aria-roledescription="שקופית" aria-label="5 מתוך 5" style="--i:4"><div class="slg-frame"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp" alt="חדר מגורים באור צהריים, קרני שמש על הקיר" width="1040" height="780" draggable="false" loading="lazy" decoding="async"></div><figcaption class="slg-cap"><b>חדר מגורים באור צהריים</b><span>כפר שמריהו, בית פרטי</span></figcaption></figure>
+  </div>
+  <div class="slg-bar">
+    <span class="slg-count" aria-hidden="true"><b>1</b> / 5</span>
+    <span class="slg-prog" aria-hidden="true"><i></i></span>
+    <div class="slg-nav">
+      <button type="button" class="slg-btn prev" aria-label="לפרויקט הקודם"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      <button type="button" class="slg-btn next" aria-label="לפרויקט הבא"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+    </div>
+  </div>
+</div></div>
+
+
+<script>
+document.querySelectorAll(".slg").forEach(root=>{
+  const track=root.querySelector(".slg-track"),slides=[...track.children];
+  const prev=root.querySelector(".slg-btn.prev"),next=root.querySelector(".slg-btn.next"),num=root.querySelector(".slg-count b");
+  const rtl=getComputedStyle(track).direction==="rtl";
+  const reduce=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // שפת ההתחלה: ימין בעברית, שמאל באנגלית. כל החישובים לפי מרחק בין שפות, ולכן הסימן נכון גם כש-scrollLeft שלילי
+  const edge=el=>{const r=el.getBoundingClientRect();return rtl?r.right:r.left;};
+  const pos=()=>Math.abs(track.scrollLeft),max=()=>track.scrollWidth-track.clientWidth;
+  const atStart=()=>pos()<4,atEnd=()=>max()-pos()<4;
+  function current(){
+    const s=edge(track);let best=0,d=1e9;
+    slides.forEach((c,i)=>{const k=Math.abs(edge(c)-s);if(k<d){d=k;best=i;}});
+    return best;
+  }
+  function go(i){
+    i=Math.max(0,Math.min(slides.length-1,i));
+    track.scrollBy({left:edge(slides[i])-edge(track),behavior:reduce()?"auto":"smooth"});
+  }
+  // המונה מראה עד איזו שקופית כבר ראיתם במלואה: בדסקטופ נראות כמה יחד, ובטלפון אחת, ובשני המקרים בסוף המסלול זה המספר האחרון
+  function seen(){
+    const t=track.getBoundingClientRect();let n=1;
+    slides.forEach((c,i)=>{const r=c.getBoundingClientRect();if(r.left>=t.left-2&&r.right<=t.right+2)n=i+1;});
+    return atEnd()?slides.length:n;
+  }
+  function sync(){
+    num.textContent=seen();
+    prev.setAttribute("aria-disabled",String(atStart()));
+    next.setAttribute("aria-disabled",String(atEnd()));
+  }
+  // aria-disabled ולא disabled: כפתור שנכבה תוך כדי שהוא בפוקוס לא משאיר את המקלדת באוויר
+  prev.addEventListener("click",()=>{if(!atStart())go(current()-1);});
+  next.addEventListener("click",()=>{if(!atEnd())go(current()+1);});
+  track.addEventListener("scroll",()=>requestAnimationFrame(sync),{passive:true});
+  track.addEventListener("keydown",e=>{
+    if(e.key!=="ArrowLeft"&&e.key!=="ArrowRight")return;
+    e.preventDefault();
+    const forward=(e.key==="ArrowLeft")===rtl;   // בעברית השקופית הבאה היא משמאל
+    go(current()+(forward?1:-1));
+  });
+  // גרירה בעכבר בלבד. במגע הדפדפן כבר גולל לבד.
+  let down=false,sx=0,sl=0;
+  track.addEventListener("pointerdown",e=>{if(e.pointerType!=="mouse"||e.button!==0)return;down=true;sx=e.clientX;sl=track.scrollLeft;track.classList.add("drag");track.setPointerCapture(e.pointerId);});
+  track.addEventListener("pointermove",e=>{if(down)track.scrollLeft=sl-(e.clientX-sx);});
+  const up=()=>{if(!down)return;down=false;track.classList.remove("drag");go(current());};
+  ["pointerup","pointercancel"].forEach(ev=>track.addEventListener(ev,up));
+  root.classList.add("slg-js");   // רק עם JS מציגים חצים ומונה: בלעדיו ההחלקה והתנועה של התמונה עובדות כמו שהן
+  sync();
+});
+</script>
+</body>
+</html>

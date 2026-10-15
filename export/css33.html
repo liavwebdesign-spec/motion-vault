@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS33 · טשטוש הדרגתי בקצה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+.gbtn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding-inline:28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:500;font-size:16px;border:0;cursor:pointer;font-family:inherit}
+
+/* CSS33 · טשטוש הדרגתי בקצה */
+.pb{max-width:min(920px,100%);margin-inline:auto;display:grid;gap:var(--gap, clamp(16px, 1.6vw, 36px))}
+.pb-bar{display:none;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+.pb-js .pb-bar{display:flex}
+.pb-seg{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee)}
+.pb-m{min-height:44px;padding-inline:20px;border:0;border-radius:999px;background:none;color:var(--muted, #6a6d85);font:inherit;font-size:15px;font-weight:600;cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),color .18s cubic-bezier(.2,.6,.2,1),box-shadow .18s cubic-bezier(.2,.6,.2,1)}
+.pb-m[aria-pressed="true"]{background:var(--bg, #f7f7fa);color:var(--ink, #16182b);box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}
+.pb-m:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.pb-cap{margin:0;color:var(--muted, #6a6d85);font-size:15px;line-height:1.5;max-width:62ch;min-height:3em}
+.pb-frame{--pb-pad:clamp(20px,4vw,40px);position:relative;height:clamp(480px,72vh,640px);border-radius:var(--r, 14px);overflow:hidden;isolation:isolate;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee)}
+.pb-scroll{position:absolute;inset:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--line, #e4e4ee) transparent}
+.pb-scroll:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:-2px}
+.pb-hero{margin:0;height:clamp(280px,38vh,360px)}
+.pb-hero img{display:block;width:100%;height:100%;object-fit:cover}
+.pb-body{padding:clamp(24px,3vw,40px) var(--pb-pad) 0}
+.pb-eye{margin:0 0 8px;font-size:14px;font-weight:600;color:var(--muted, #6a6d85)}
+.pb-body h3{margin:0 0 12px;font-size:clamp(24px,2.6vw,34px);line-height:1.15}
+.pb-body h4,.pb-h{margin:0 0 16px;font-size:clamp(18px,1.6vw,22px);line-height:1.25}
+.pb-body p{margin:0 0 16px;font-size:16px;line-height:1.65;max-width:60ch}
+.pb-sec{padding-top:clamp(32px,4vw,48px)}
+.pb-h{padding-inline:var(--pb-pad)}
+.pb-railw{position:relative}
+.pb-rail{display:flex;gap:16px;overflow-x:auto;padding-inline:var(--pb-pad);scroll-padding-inline:var(--pb-pad);scroll-snap-type:x proximity;scrollbar-width:none}
+.pb-rail::-webkit-scrollbar{display:none}
+.pb-rail:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:-2px}
+.pb-card{flex:0 0 min(240px,62%);margin:0;scroll-snap-align:start}
+.pb-body.pb-gap{padding-top:clamp(32px,4vw,48px)}
+.pb-card img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--r, 14px)}
+.pb-card b{display:block;margin-top:12px;font-size:16px}
+.pb-card span{font-size:14px;color:var(--muted, #6a6d85)}
+.pb-steps{margin:0;padding:0;list-style:none;display:grid;gap:16px;counter-reset:s}
+.pb-steps li{position:relative;padding-inline-start:48px;font-size:16px;line-height:1.6;max-width:56ch;counter-increment:s}
+.pb-steps li::before{content:counter(s);position:absolute;inset-inline-start:0;top:0;width:32px;height:32px;border-radius:50%;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);display:grid;place-items:center;font-size:14px;font-weight:700}
+.pb-steps b{display:block}
+.pb-tail{height:clamp(120px,22vh,176px)}
+.pb-hd{position:absolute;z-index:3;inset-inline:0;top:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px clamp(16px,3vw,24px);pointer-events:none}
+.pb-hd>*{pointer-events:auto}
+.pb-brand{display:inline-flex;align-items:center;min-height:44px;padding-inline:20px;border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);box-shadow:0 2px 12px rgba(0,0,0,.14);font-weight:700;font-size:16px}
+.pb-ic{display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:var(--card, #fff);color:var(--ink, #16182b);box-shadow:0 2px 12px rgba(0,0,0,.14);cursor:pointer}
+.pb-ic svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round}
+.pb-cta{position:absolute;z-index:3;inset-inline:0;bottom:0;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px clamp(16px,3vw,24px) clamp(16px,3vw,24px);pointer-events:none}
+.pb-cta>*{pointer-events:auto}
+.pb-info{display:inline-flex;align-items:center;min-height:44px;padding-inline:16px;border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);box-shadow:0 2px 12px rgba(0,0,0,.14);font-size:14px;font-weight:500}
+.pb-go:focus-visible,.pb-ic:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.pb-edge{--n:8;--bmax:64;--s:calc(100 / var(--n));position:absolute;z-index:2;pointer-events:none}
+.pb-edge-t{inset-block-start:0;inset-inline:0;height:clamp(104px,16vh,136px);--dir:to top}
+.pb-edge-b{inset-block-end:0;inset-inline:0;height:clamp(128px,20vh,168px);--dir:to bottom}
+.pb-edge-e{inset-block:0;inset-inline-end:0;width:clamp(64px,10vw,96px);--dir:to left}
+.pb-edge-e:dir(ltr){--dir:to right}
+.pb-edge i{position:absolute;inset:0;
+  -webkit-backdrop-filter:blur(calc(var(--bmax) / pow(2, var(--n) - 1 - var(--k)) * 1px));backdrop-filter:blur(calc(var(--bmax) / pow(2, var(--n) - 1 - var(--k)) * 1px));
+  -webkit-mask-image:linear-gradient(var(--dir),transparent calc(var(--k) * var(--s) * 1%),#000 calc((var(--k) + 1) * var(--s) * 1%),#000 calc((var(--k) + 2) * var(--s) * 1%),transparent calc((var(--k) + 3) * var(--s) * 1%));
+  mask-image:linear-gradient(var(--dir),transparent calc(var(--k) * var(--s) * 1%),#000 calc((var(--k) + 1) * var(--s) * 1%),#000 calc((var(--k) + 2) * var(--s) * 1%),transparent calc((var(--k) + 3) * var(--s) * 1%));
+  transition:opacity .28s cubic-bezier(.2,.6,.2,1)}
+.pb-fb{position:absolute;inset:0;opacity:0;background:linear-gradient(var(--dir),transparent,var(--card, #fff));transition:opacity .28s cubic-bezier(.2,.6,.2,1)}
+.pb[data-mode="fade"] .pb-edge i,.pb[data-mode="none"] .pb-edge i{opacity:0}
+.pb[data-mode="fade"] .pb-fb{opacity:1}
+@supports not ((backdrop-filter: blur(1px)) and (width: calc(1px * pow(2, 3)))){
+  .pb-edge i{display:none}
+  .pb-fb{opacity:1}
+  .pb .pb-bar{display:none}
+}
+@media (min-width:768px){
+  .pb-steps{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}
+  .pb-steps li{padding-inline-start:0;padding-top:48px}
+}
+@media (max-width:767px){
+  .pb-edge{--n:5;--bmax:32}
+  .pb-edge i:nth-child(n+6){display:none}
+  .pb-frame{height:min(580px,78vh)}
+  .pb-info{display:none}
+  .pb-cta{justify-content:center}
+}
+@media (prefers-reduced-motion: reduce){.pb-edge i,.pb-fb,.pb-m{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="stage tight"><div class="pb" data-mode="blur">
+  <div class="pb-bar">
+    <div class="pb-seg" role="group" aria-label="סוג הדהייה בקצה">
+      <button type="button" class="pb-m" data-m="blur" aria-pressed="true">טשטוש הדרגתי</button>
+      <button type="button" class="pb-m" data-m="fade" aria-pressed="false">דהייה לבנה</button>
+      <button type="button" class="pb-m" data-m="none" aria-pressed="false">בלי טיפול</button>
+    </div>
+  </div>
+  <p class="pb-cap" aria-live="polite">טשטוש הדרגתי: התוכן מאבד חדות לאט ככל שהוא מתקרב לקצה, בלי קו ובלי צבע. התמונה והכותרות נשארות אמיתיות.</p>
+  <div class="pb-frame">
+    <div class="pb-scroll" tabindex="0" role="region" aria-label="עמוד של סטודיו לעיצוב פנים. גללו כדי לראות איך התוכן נמוג בקצה העליון והתחתון">
+      <figure class="pb-hero"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp" alt="חדר בשעת אחר צהריים, קרני שמש נכנסות דרך חלון גבוה" width="1280" height="718" decoding="async"></figure>
+      <div class="pb-body">
+        <p class="pb-eye">סטודיו לעיצוב פנים, תל אביב</p>
+        <h3>בית שנבנה סביב איך שאתם חיים</h3>
+        <p>כל פרויקט מתחיל בשיחה על הבוקר שלכם, לא בקטלוג של ריצוף. אנחנו מתכננים את החלל סביב מה שאתם עושים בו בפועל: איפה שותים קפה, איפה הילדים עושים שיעורים, ואיפה אפשר פשוט לשבת בשקט.</p>
+        <p>בסוף התהליך מקבלים תוכנית עבודה מסודרת, רשימת בעלי מקצוע שאנחנו עובדים איתם שנים, ומחיר סגור לפני ששוברים קיר ראשון.</p>
+      </div>
+      <section class="pb-sec">
+        <h4 class="pb-h">פרויקטים אחרונים</h4>
+        <div class="pb-railw">
+          <div class="pb-rail" tabindex="0" role="region" aria-label="גלריית פרויקטים אחרונים">
+            <figure class="pb-card"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp" alt="סלון כהה עם ספה רחבה ותאורה חמה" width="600" height="750" loading="lazy" decoding="async"><b>סלון בדירת גן</b><span>רמת גן, חמישה חדרים</span></figure>
+            <figure class="pb-card"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp" alt="פינת רחצה עם מראה עגולה וצמח" width="600" height="750" loading="lazy" decoding="async"><b>פינת רחצה בצבע עמוק</b><span>הרצליה, שישה שבועות</span></figure>
+            <figure class="pb-card"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp" alt="פינת קריאה עם כורסה ומדפי ספרים" width="600" height="750" loading="lazy" decoding="async"><b>פינת קריאה וספרייה</b><span>תל אביב, חדר עבודה</span></figure>
+            <figure class="pb-card"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" alt="מטבח אפור פתוח עם אי ארוך" width="600" height="750" loading="lazy" decoding="async"><b>מטבח עם אי פתוח</b><span>מודיעין, תשעה שבועות</span></figure>
+          </div>
+          <div class="pb-edge pb-edge-e" aria-hidden="true"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><i style="--k:4"></i><i style="--k:5"></i><i style="--k:6"></i><i style="--k:7"></i><span class="pb-fb"></span></div>
+        </div>
+      </section>
+      <div class="pb-body pb-gap">
+        <h4>איך זה עובד</h4>
+        <ol class="pb-steps">
+          <li><b>היכרות בבית שלכם</b>שלושים דקות של שיחה, מדידה וצילום. בלי עלות ובלי התחייבות.</li>
+          <li><b>תכנון והדמיה</b>תוכנית, חומרים והדמיה של החללים המרכזיים, עד שאתם אומרים "זה זה".</li>
+          <li><b>ליווי עד המפתח</b>אנחנו מול הקבלן והספקים, ואתם מקבלים עדכון קצר בכל שבוע.</li>
+        </ol>
+      </div>
+      <div class="pb-body pb-gap">
+        <h4>מה כלול בפגישת ההיכרות</h4>
+        <p>מדידה בסיסית של החלל, שיחה על התקציב והלו"ז, והצעת מחיר כתובה תוך שלושה ימי עבודה. אם נראה שאנחנו לא הכתובת הנכונה, נגיד את זה ונפנה אתכם הלאה.</p>
+        <p>הפגישות מתקיימות בשעות אחר הצהריים וגם בימי שישי בבוקר, ואפשר לבקש שיחת וידאו אם הנכס רחוק.</p>
+      </div>
+      <div class="pb-tail"></div>
+    </div>
+    <div class="pb-edge pb-edge-t" aria-hidden="true"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><i style="--k:4"></i><i style="--k:5"></i><i style="--k:6"></i><i style="--k:7"></i><span class="pb-fb"></span></div>
+    <div class="pb-edge pb-edge-b" aria-hidden="true"><i style="--k:0"></i><i style="--k:1"></i><i style="--k:2"></i><i style="--k:3"></i><i style="--k:4"></i><i style="--k:5"></i><i style="--k:6"></i><i style="--k:7"></i><span class="pb-fb"></span></div>
+    <div class="pb-hd">
+      <span class="pb-brand">סטודיו אור ועץ</span>
+      <button type="button" class="pb-ic" aria-label="תפריט"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    </div>
+    <div class="pb-cta">
+      <span class="pb-info">פגישת היכרות, 30 דקות</span>
+      <button type="button" class="gbtn pb-go">לתיאום פגישה</button>
+    </div>
+  </div>
+</div></div>
+
+
+<script>
+(function(){
+  const root=document.querySelector(".pb");if(!root)return;
+  const cap=root.querySelector(".pb-cap"),btns=[...root.querySelectorAll(".pb-m")];
+  const MSG={
+    blur:"טשטוש הדרגתי: התוכן מאבד חדות לאט ככל שהוא מתקרב לקצה, בלי קו ובלי צבע. התמונה והכותרות נשארות אמיתיות.",
+    fade:"דהייה לבנה רגילה: יש קו שבו הצבע מתחיל, והתמונה נראית מכוסה בערפל בצבע הרקע.",
+    none:"בלי טיפול: הטקסט נדרס מתחת לכפתורים, וקשה לקרוא את שניהם."
+  };
+  root.classList.add("pb-js");   // רק עם JS מציגים את כפתורי ההשוואה: בלעדיו המצב הרגיל פשוט עובד
+  btns.forEach(b=>b.addEventListener("click",()=>{
+    root.dataset.mode=b.dataset.m;
+    btns.forEach(x=>x.setAttribute("aria-pressed",String(x===b)));
+    cap.textContent=MSG[b.dataset.m];
+  }));
+})();
+</script>
+</body>
+</html>

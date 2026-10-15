@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS34 · קצה שמתעמעם רק כשיש עוד | Motion Vault</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../assets/vault.css">
+<style>
+@property --sf-s{syntax:"<length>";inherits:false;initial-value:0px}
+@property --sf-e{syntax:"<length>";inherits:false;initial-value:0px}
+@keyframes sf-in{from{--sf-s:0px}to{--sf-s:var(--sf-size)}}
+@keyframes sf-out{from{--sf-e:var(--sf-size)}to{--sf-e:0px}}
+.sf{--sf-size:56px;--sf-reveal:96px;
+  -webkit-mask-image:linear-gradient(var(--sf-dir),transparent 0,#000 var(--sf-s),#000 calc(100% - var(--sf-e)),transparent 100%);
+  mask-image:linear-gradient(var(--sf-dir),transparent 0,#000 var(--sf-s),#000 calc(100% - var(--sf-e)),transparent 100%)}
+.sf-x{--sf-dir:to left}
+.sf-x:dir(ltr){--sf-dir:to right}
+.sf-y{--sf-dir:to bottom}
+@supports (animation-timeline: scroll()){
+  .sf-x{animation:sf-in linear both,sf-out linear both;animation-timeline:scroll(self inline),scroll(self inline);animation-range:0 var(--sf-reveal),calc(100% - var(--sf-reveal)) 100%}
+  .sf-y{animation:sf-in linear both,sf-out linear both;animation-timeline:scroll(self block),scroll(self block);animation-range:0 var(--sf-reveal),calc(100% - var(--sf-reveal)) 100%}
+}
+@supports not (animation-timeline: scroll()){.sf{--sf-e:28px}}
+.sfd{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(40px,5vw,64px);max-width:760px;margin-inline:auto}
+.sfd h3{margin:0 0 4px;font-size:clamp(20px,1.8vw,26px)}
+.sfd p{margin:0 0 16px;color:var(--muted);font-size:15px;line-height:1.55;max-width:56ch}
+.sf-chips{display:flex;gap:8px;overflow-x:auto;padding-block:4px;scroll-padding-inline:var(--sf-size);scrollbar-width:none;--sf-size:48px}
+.sf-chips::-webkit-scrollbar{display:none}
+.sf-chip{flex:none;min-height:44px;padding-inline:20px;border:0;border-radius:999px;background:var(--card);color:var(--ink);box-shadow:0 0 0 1px var(--line);font:inherit;font-size:15px;font-weight:500;white-space:nowrap;cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),color .18s cubic-bezier(.2,.6,.2,1)}
+.sf-chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);box-shadow:none}
+.sf-chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sf-tw{overflow-x:auto;border-radius:var(--r);background:var(--card);scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+.sf-tw:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.sf-t{border-collapse:collapse;width:100%;min-width:920px;font-size:15px}
+.sf-t th,.sf-t td{padding:16px 20px;text-align:start;white-space:nowrap}
+.sf-t thead th{font-weight:700}
+.sf-t tbody tr:nth-child(odd){background:color-mix(in srgb,var(--ink) 4%,transparent)}
+.sf-t tbody th{font-weight:500;color:var(--muted)}
+.sf-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.sf-list{height:clamp(256px,38vh,312px);overflow-y:auto;border-radius:var(--r);background:var(--card);scrollbar-width:thin;scrollbar-color:var(--line) transparent;--sf-size:40px}
+.sf-list:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.sf-list ul{margin:0;padding:8px 0;list-style:none}
+.sf-list li{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 20px;font-size:15px}
+.sf-list li b{font-weight:600}
+.sf-list li span{color:var(--muted);font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion: reduce){.sf-chip{transition:none}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=css">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="css33.html" rel="prev" title="הקודם: טשטוש הדרגתי בקצה">→<span class="sr-only">הקודם</span></a><span class="vpn-n">27/28</span><a href="css35.html" rel="next" title="הבא: תמונה שגולשת בתוך המסגרת בהחלקה">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">CSS34</span> · קצה שמתעמעם רק כשיש עוד</h1>
+  <span class="chip cat-css">CSS טהור</span>
+  <span class="chip">CSS · scroll-driven animation</span>
+  <span class="chip use">ניווט ומבנה</span><span class="chip use">טעינה ופידבק</span>
+  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:css34"><code>MV:css34</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="css34">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>קופסה שנגללת (שורת צ'יפים, טבלת השוואה רחבה, רשימה ארוכה) מעמעמת את הקצה שלה רק בכיוון שבו יש עוד תוכן: בתחילה ההתחלה חדה, ככל שגוללים ההתחלה דוהה בהדרגה, ובקצה האחרון הדהייה בסוף נעלמת. כשהכל נכנס ואין מה לגלול, אין דהייה בכלל.</p>
+  <p class="when"><b>מתי משתמשים:</b> שורת קטגוריות או תגיות שגולשת בטלפון, טבלת מחירים או השוואה רחבה בתוך עטיפה אופקית, רשימה ארוכה בתוך פאנל בגובה קבוע. בכל מקום שבו חיתוך חד של תוכן נראה כמו באג ולא כמו הזמנה לגלול.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית · חנות · פורטפוליו וסטודיו</dd></div><div><dt>בסקשן</dt><dd>שירותים ומוצרים · מחירים · הדר וניווט</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>שכבת בסיס, בלי הגבלה</dd></div><div><dt>מתי לא</dt><dd>לא כשהכול נכנס במסך ואין מה לגלול, ולא ברשימה קצרה שאין בה גלישה.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="css34"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="stage tight"><div class="sfd">
+  <section>
+    <h3>תחומי עבודה</h3>
+    <p>שורה שגולשת בטלפון וגם במחשב. בהתחלה הקצה הימני חד, ובכל גלילה הוא דוהה, כי יש משהו שכבר עבר.</p>
+    <div class="sf sf-x sf-chips" role="group" aria-label="תחומי עבודה">
+      <button type="button" class="sf-chip" aria-pressed="true">הכול</button>
+      <button type="button" class="sf-chip" aria-pressed="false">מטבחים</button>
+      <button type="button" class="sf-chip" aria-pressed="false">חדרי רחצה</button>
+      <button type="button" class="sf-chip" aria-pressed="false">סלונים</button>
+      <button type="button" class="sf-chip" aria-pressed="false">חדרי שינה</button>
+      <button type="button" class="sf-chip" aria-pressed="false">משרדים</button>
+      <button type="button" class="sf-chip" aria-pressed="false">תאורה</button>
+      <button type="button" class="sf-chip" aria-pressed="false">נגרות בהתאמה</button>
+      <button type="button" class="sf-chip" aria-pressed="false">שיפוץ דירות</button>
+      <button type="button" class="sf-chip" aria-pressed="false">וילונות ובדים</button>
+      <button type="button" class="sf-chip" aria-pressed="false">מרפסות וגינות</button>
+      <button type="button" class="sf-chip" aria-pressed="false">חללים קטנים</button>
+      <button type="button" class="sf-chip" aria-pressed="false">דירות להשכרה</button>
+      <button type="button" class="sf-chip" aria-pressed="false">בתים פרטיים</button>
+    </div>
+  </section>
+  <section>
+    <h3>השוואת חבילות</h3>
+    <p>טבלה רחבה בתוך עטיפה אופקית. בטלפון היא גולשת מיד, ובמחשב מעט. כשהיא נכנסת כולה לא תראו דהייה בכלל.</p>
+    <div class="sf sf-x sf-tw" tabindex="0" role="region" aria-label="השוואת חבילות עיצוב, גללו הצידה כדי לראות את כל העמודות">
+      <table class="sf-t">
+        <caption class="sf-sr">השוואה בין חמש חבילות עיצוב פנים</caption>
+        <thead><tr><th scope="col">מה כלול</th><th scope="col">ייעוץ נקודתי</th><th scope="col">תכנון חדר</th><th scope="col">תכנון דירה</th><th scope="col">ליווי מלא</th><th scope="col">מפתח ביד</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">מחיר התחלתי</th><td>2,400 ₪</td><td>7,800 ₪</td><td>18,500 ₪</td><td>32,000 ₪</td><td>48,000 ₪</td></tr>
+          <tr><th scope="row">פגישות בבית הלקוח</th><td>1</td><td>2</td><td>4</td><td>6</td><td>8</td></tr>
+          <tr><th scope="row">תוכניות עבודה</th><td>לא כלול</td><td>כלול</td><td>כלול</td><td>כלול</td><td>כלול</td></tr>
+          <tr><th scope="row">הדמיות תלת ממדיות</th><td>לא כלול</td><td>חדר אחד</td><td>כל הדירה</td><td>כל הדירה</td><td>כל הדירה</td></tr>
+          <tr><th scope="row">בחירת חומרים וריהוט</th><td>המלצות</td><td>כלול</td><td>כלול</td><td>כלול</td><td>כלול</td></tr>
+          <tr><th scope="row">פיקוח בשטח</th><td>לא כלול</td><td>לא כלול</td><td>אפשר להוסיף</td><td>כלול</td><td>כלול</td></tr>
+          <tr><th scope="row">ניהול קבלנים וספקים</th><td>לא כלול</td><td>לא כלול</td><td>לא כלול</td><td>כלול</td><td>כלול</td></tr>
+          <tr><th scope="row">משך העבודה</th><td>שבוע</td><td>5 שבועות</td><td>10 שבועות</td><td>עד 6 חודשים</td><td>עד 9 חודשים</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <section>
+    <h3>תורים קרובים</h3>
+    <p>רשימה ארוכה בפאנל בגובה קבוע. למעלה היא חדה, ובתחתית יש עוד, ולכן הקצה התחתון דוהה.</p>
+    <div class="sf sf-y sf-list" tabindex="0" role="region" aria-label="תורים קרובים, גללו כדי לראות את כל הרשימה">
+      <ul>
+        <li><b>דנה אלון</b><span>09:00 · היכרות</span></li>
+        <li><b>אורי שמעוני</b><span>09:45 · מדידה</span></li>
+        <li><b>משפחת בן דוד</b><span>10:30 · הצגת הדמיה</span></li>
+        <li><b>נועה פרידמן</b><span>11:30 · בחירת חומרים</span></li>
+        <li><b>רן ואילנית כץ</b><span>12:15 · היכרות</span></li>
+        <li><b>תמר גבאי</b><span>13:30 · סיור בשטח</span></li>
+        <li><b>יובל מרום</b><span>14:15 · הצעת מחיר</span></li>
+        <li><b>שירה אביטל</b><span>15:00 · היכרות</span></li>
+        <li><b>אסף לוי</b><span>15:45 · בחירת ריהוט</span></li>
+        <li><b>מיכל רוזן</b><span>16:30 · מדידה</span></li>
+        <li><b>עידו ברק</b><span>17:15 · הצגת הדמיה</span></li>
+        <li><b>הילה סגל</b><span>18:00 · היכרות</span></li>
+        <li><b>גיא נחמיאס</b><span>18:45 · סיור בשטח</span></li>
+      </ul>
+    </div>
+  </section>
+</div></div>
+
+<div class="demo-note">מקור: shadcn/ui, תוסף scroll-fade, https://github.com/shadcn-ui/ui (packages/shadcn/src/tailwind.css), רישיון MIT, והרעיון של Shu Ding, https://codepen.io/shuding/pen/WNLGQor (CodePen, MIT). הקוד נכתב מחדש בלי Tailwind: שני משתנים רשומים (@property, מסוג length) --sf-s ו---sf-e שמייצגים את גודל הדהייה בהתחלה ובסוף, שני keyframes שמגדלים את הראשון מ-0 לגודל המלא ומקטינים את השני לאפס, ושתי אנימציות שכל אחת מחוברת ל-scroll(self inline) (או block לאנכי) עם animation-range משלה: 0 עד 96px בהתחלה, ו-calc(100% - 96px) עד 100% בסוף. המסכה היא linear-gradient אחד שקורא את שני המשתנים. הערך 96px הוא כמה גוללים עד שהדהייה מלאה, וה---sf-size הוא רוחב הדהייה עצמה (48 עד 56 פיקסלים), והם בכוונה נפרדים. כשאין גלישה, ציר הגלילה לא פעיל והאנימציות לא רצות, ולכן אין דהייה בכלל, בלי שורה אחת של קוד לבדיקה. RTL: הכיוון נקבע ב-:dir(rtl) ו-:dir(ltr) (ברירת המחדל עברית: to left), וציר ה-inline של הגלילה מתחיל מהצד הימני, כך שההתחלה בעברית היא הימנית ונבדקה בכרום: בטעינה הצד הימני חד והשמאלי דוהה. מלכודות: animation בקיצור מאפס את animation-timeline ואת animation-range ולכן הם מוגדרים אחריו; המסכה נחתכת לפי תיבת הגבול ולכן אין צל חיצוני על האלמנט המוסתר (הרקע נשאר, הצל לא); scroll-padding בצ'יפים מונע ממקלדת להביא צ'יפ אל תוך הדהייה. מסלול נפילה: ב-@supports not (animation-timeline: scroll()) נשארת דהייה סטטית קטנה בסוף ו-JS קטן מחשב את אותם שני משתנים בגלילה, כך שגם דפדפן בלי התמיכה מקבל את אותה התנהגות, והתוכן אף פעם לא מוסתר. תנועה מופחתת: זה מחוון מצב ולא קישוט, ולכן לא מכבים אותו. בלי JS: הדהייה עצמה בלי JS בכלל בדפדפן תומך; רק בחירת הצ'יפ דורשת JS. שלוש התשובות: (1) הגרסה הבנאלית היא דהייה קבועה בשני הצדדים, או צל פנימי שנשאר גם כשהגעתם לסוף ומסתיר את הפריט האחרון, או חיתוך חד בלי שום רמז; כאן הדהייה מדווחת על המצב האמיתי של הקופסה בכל רגע. (2) המיקרו-אינטראקציה שנושאת מצב: הדהייה עצמה, שגדלה ונעלמת עם הגלילה, ובחירת צ'יפ שמרכזת אותו ומעדכנת את שני הקצוות. (3) הפעולה שזה מקל: הבנה שיש עוד בלי לנחש, ותנועה לצד הנכון בלי חצים.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/css34.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS34 · קצה שמתעמעם רק כשיש עוד */
+@property --sf-s{syntax:"&lt;length&gt;";inherits:false;initial-value:0px}
+@property --sf-e{syntax:"&lt;length&gt;";inherits:false;initial-value:0px}
+@keyframes sf-in{from{--sf-s:0px}to{--sf-s:var(--sf-size)}}
+@keyframes sf-out{from{--sf-e:var(--sf-size)}to{--sf-e:0px}}
+.sf{--sf-size:56px;--sf-reveal:96px;
+  -webkit-mask-image:linear-gradient(var(--sf-dir),transparent 0,#000 var(--sf-s),#000 calc(100% - var(--sf-e)),transparent 100%);
+  mask-image:linear-gradient(var(--sf-dir),transparent 0,#000 var(--sf-s),#000 calc(100% - var(--sf-e)),transparent 100%)}
+.sf-x{--sf-dir:to left}
+.sf-x:dir(ltr){--sf-dir:to right}
+.sf-y{--sf-dir:to bottom}
+@supports (animation-timeline: scroll()){
+  .sf-x{animation:sf-in linear both,sf-out linear both;animation-timeline:scroll(self inline),scroll(self inline);animation-range:0 var(--sf-reveal),calc(100% - var(--sf-reveal)) 100%}
+  .sf-y{animation:sf-in linear both,sf-out linear both;animation-timeline:scroll(self block),scroll(self block);animation-range:0 var(--sf-reveal),calc(100% - var(--sf-reveal)) 100%}
+}
+@supports not (animation-timeline: scroll()){.sf{--sf-e:28px}}
+.sfd{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(40px,5vw,64px);max-width:760px;margin-inline:auto}
+.sfd h3{margin:0 0 4px;font-size:clamp(20px,1.8vw,26px)}
+.sfd p{margin:0 0 16px;color:var(--muted, #6a6d85);font-size:15px;line-height:1.55;max-width:56ch}
+.sf-chips{display:flex;gap:8px;overflow-x:auto;padding-block:4px;scroll-padding-inline:var(--sf-size);scrollbar-width:none;--sf-size:48px}
+.sf-chips::-webkit-scrollbar{display:none}
+.sf-chip{flex:none;min-height:44px;padding-inline:20px;border:0;border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);box-shadow:0 0 0 1px var(--line, #e4e4ee);font:inherit;font-size:15px;font-weight:500;white-space:nowrap;cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),color .18s cubic-bezier(.2,.6,.2,1)}
+.sf-chip[aria-pressed="true"]{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);box-shadow:none}
+.sf-chip:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.sf-tw{overflow-x:auto;border-radius:var(--r, 14px);background:var(--card, #fff);scrollbar-width:thin;scrollbar-color:var(--line, #e4e4ee) transparent}
+.sf-tw:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:-2px}
+.sf-t{border-collapse:collapse;width:100%;min-width:920px;font-size:15px}
+.sf-t th,.sf-t td{padding:16px 20px;text-align:start;white-space:nowrap}
+.sf-t thead th{font-weight:700}
+.sf-t tbody tr:nth-child(odd){background:color-mix(in srgb,var(--ink, #16182b) 4%,transparent)}
+.sf-t tbody th{font-weight:500;color:var(--muted, #6a6d85)}
+.sf-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.sf-list{height:clamp(256px,38vh,312px);overflow-y:auto;border-radius:var(--r, 14px);background:var(--card, #fff);scrollbar-width:thin;scrollbar-color:var(--line, #e4e4ee) transparent;--sf-size:40px}
+.sf-list:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:-2px}
+.sf-list ul{margin:0;padding:8px 0;list-style:none}
+.sf-list li{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 20px;font-size:15px}
+.sf-list li b{font-weight:600}
+.sf-list li span{color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion: reduce){.sf-chip{transition:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;div class="sfd"&gt;
+  &lt;section&gt;
+    &lt;h3&gt;תחומי עבודה&lt;/h3&gt;
+    &lt;p&gt;שורה שגולשת בטלפון וגם במחשב. בהתחלה הקצה הימני חד, ובכל גלילה הוא דוהה, כי יש משהו שכבר עבר.&lt;/p&gt;
+    &lt;div class="sf sf-x sf-chips" role="group" aria-label="תחומי עבודה"&gt;
+      &lt;button type="button" class="sf-chip" aria-pressed="true"&gt;הכול&lt;/button&gt;
+      &lt;button type="button" class="sf-chip" aria-pressed="false"&gt;מטבחים&lt;/button&gt;
+      &lt;button type="button" class="sf-chip" aria-pressed="false"&gt;חדרי רחצה&lt;/button&gt;
+      &lt;button type="button" class="sf-chip" aria-pressed="false"&gt;סלונים&lt;/button&gt;
+      &lt;button type="button" class="sf-chip" aria-pressed="false"&gt;חדרי שינה&lt;/button&gt;
+      &lt;button type="button" class="sf-chip" aria-pressed="false"&gt;משרדים&lt;/button&gt;
+      &lt;button type="button" class="sf-chip" aria-pressed="false"&gt;תאורה&lt;/button&gt;
+      &lt;button type="button" class="sf-chip" aria-pressed="false"&gt;נגרות בהתאמה&lt;/button&gt;
+      &lt;button type="button" class="sf-chip" aria-pressed="false"&gt;שיפוץ דירות&lt;/button&gt;
+      &lt;button type="button" class="sf-chip" aria-pressed="false"&gt;וילונות ובדים&lt;/button&gt;
+      &lt;button type="button" class="sf-chip" aria-pressed="false"&gt;מרפסות וגינות&lt;/button&gt;
+      &lt;button type="button" class="sf-chip" aria-pressed="false"&gt;חללים קטנים&lt;/button&gt;
+      &lt;button type="button" class="sf-chip" aria-pressed="false"&gt;דירות להשכרה&lt;/button&gt;
+      &lt;button type="button" class="sf-chip" aria-pressed="false"&gt;בתים פרטיים&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+  &lt;section&gt;
+    &lt;h3&gt;השוואת חבילות&lt;/h3&gt;
+    &lt;p&gt;טבלה רחבה בתוך עטיפה אופקית. בטלפון היא גולשת מיד, ובמחשב מעט. כשהיא נכנסת כולה לא תראו דהייה בכלל.&lt;/p&gt;
+    &lt;div class="sf sf-x sf-tw" tabindex="0" role="region" aria-label="השוואת חבילות עיצוב, גללו הצידה כדי לראות את כל העמודות"&gt;
+      &lt;table class="sf-t"&gt;
+        &lt;caption class="sf-sr"&gt;השוואה בין חמש חבילות עיצוב פנים&lt;/caption&gt;
+        &lt;thead&gt;&lt;tr&gt;&lt;th scope="col"&gt;מה כלול&lt;/th&gt;&lt;th scope="col"&gt;ייעוץ נקודתי&lt;/th&gt;&lt;th scope="col"&gt;תכנון חדר&lt;/th&gt;&lt;th scope="col"&gt;תכנון דירה&lt;/th&gt;&lt;th scope="col"&gt;ליווי מלא&lt;/th&gt;&lt;th scope="col"&gt;מפתח ביד&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+        &lt;tbody&gt;
+          &lt;tr&gt;&lt;th scope="row"&gt;מחיר התחלתי&lt;/th&gt;&lt;td&gt;2,400 ₪&lt;/td&gt;&lt;td&gt;7,800 ₪&lt;/td&gt;&lt;td&gt;18,500 ₪&lt;/td&gt;&lt;td&gt;32,000 ₪&lt;/td&gt;&lt;td&gt;48,000 ₪&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;th scope="row"&gt;פגישות בבית הלקוח&lt;/th&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;6&lt;/td&gt;&lt;td&gt;8&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;th scope="row"&gt;תוכניות עבודה&lt;/th&gt;&lt;td&gt;לא כלול&lt;/td&gt;&lt;td&gt;כלול&lt;/td&gt;&lt;td&gt;כלול&lt;/td&gt;&lt;td&gt;כלול&lt;/td&gt;&lt;td&gt;כלול&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;th scope="row"&gt;הדמיות תלת ממדיות&lt;/th&gt;&lt;td&gt;לא כלול&lt;/td&gt;&lt;td&gt;חדר אחד&lt;/td&gt;&lt;td&gt;כל הדירה&lt;/td&gt;&lt;td&gt;כל הדירה&lt;/td&gt;&lt;td&gt;כל הדירה&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;th scope="row"&gt;בחירת חומרים וריהוט&lt;/th&gt;&lt;td&gt;המלצות&lt;/td&gt;&lt;td&gt;כלול&lt;/td&gt;&lt;td&gt;כלול&lt;/td&gt;&lt;td&gt;כלול&lt;/td&gt;&lt;td&gt;כלול&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;th scope="row"&gt;פיקוח בשטח&lt;/th&gt;&lt;td&gt;לא כלול&lt;/td&gt;&lt;td&gt;לא כלול&lt;/td&gt;&lt;td&gt;אפשר להוסיף&lt;/td&gt;&lt;td&gt;כלול&lt;/td&gt;&lt;td&gt;כלול&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;th scope="row"&gt;ניהול קבלנים וספקים&lt;/th&gt;&lt;td&gt;לא כלול&lt;/td&gt;&lt;td&gt;לא כלול&lt;/td&gt;&lt;td&gt;לא כלול&lt;/td&gt;&lt;td&gt;כלול&lt;/td&gt;&lt;td&gt;כלול&lt;/td&gt;&lt;/tr&gt;
+          &lt;tr&gt;&lt;th scope="row"&gt;משך העבודה&lt;/th&gt;&lt;td&gt;שבוע&lt;/td&gt;&lt;td&gt;5 שבועות&lt;/td&gt;&lt;td&gt;10 שבועות&lt;/td&gt;&lt;td&gt;עד 6 חודשים&lt;/td&gt;&lt;td&gt;עד 9 חודשים&lt;/td&gt;&lt;/tr&gt;
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+  &lt;section&gt;
+    &lt;h3&gt;תורים קרובים&lt;/h3&gt;
+    &lt;p&gt;רשימה ארוכה בפאנל בגובה קבוע. למעלה היא חדה, ובתחתית יש עוד, ולכן הקצה התחתון דוהה.&lt;/p&gt;
+    &lt;div class="sf sf-y sf-list" tabindex="0" role="region" aria-label="תורים קרובים, גללו כדי לראות את כל הרשימה"&gt;
+      &lt;ul&gt;
+        &lt;li&gt;&lt;b&gt;דנה אלון&lt;/b&gt;&lt;span&gt;09:00 · היכרות&lt;/span&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;b&gt;אורי שמעוני&lt;/b&gt;&lt;span&gt;09:45 · מדידה&lt;/span&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;b&gt;משפחת בן דוד&lt;/b&gt;&lt;span&gt;10:30 · הצגת הדמיה&lt;/span&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;b&gt;נועה פרידמן&lt;/b&gt;&lt;span&gt;11:30 · בחירת חומרים&lt;/span&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;b&gt;רן ואילנית כץ&lt;/b&gt;&lt;span&gt;12:15 · היכרות&lt;/span&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;b&gt;תמר גבאי&lt;/b&gt;&lt;span&gt;13:30 · סיור בשטח&lt;/span&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;b&gt;יובל מרום&lt;/b&gt;&lt;span&gt;14:15 · הצעת מחיר&lt;/span&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;b&gt;שירה אביטל&lt;/b&gt;&lt;span&gt;15:00 · היכרות&lt;/span&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;b&gt;אסף לוי&lt;/b&gt;&lt;span&gt;15:45 · בחירת ריהוט&lt;/span&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;b&gt;מיכל רוזן&lt;/b&gt;&lt;span&gt;16:30 · מדידה&lt;/span&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;b&gt;עידו ברק&lt;/b&gt;&lt;span&gt;17:15 · הצגת הדמיה&lt;/span&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;b&gt;הילה סגל&lt;/b&gt;&lt;span&gt;18:00 · היכרות&lt;/span&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;b&gt;גיא נחמיאס&lt;/b&gt;&lt;span&gt;18:45 · סיור בשטח&lt;/span&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const reduce=()=&gt;matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // צ'יפ שנבחר מתמרכז: שני הקצוות של השורה מתעדכנים לבד, כי הם נקראים מהגלילה
+  document.querySelectorAll(".sf-chips").forEach(row=&gt;{
+    const chips=[...row.querySelectorAll(".sf-chip")];
+    chips.forEach(c=&gt;c.addEventListener("click",()=&gt;{
+      chips.forEach(x=&gt;x.setAttribute("aria-pressed",String(x===c)));
+      c.scrollIntoView({inline:"center",block:"nearest",behavior:reduce()?"auto":"smooth"});
+    }));
+  });
+  // דפדפן בלי scroll-driven animation: אותם שני משתנים, מחושבים בגלילה. בדפדפן תומך אין שורה אחת שרצה.
+  if(window.CSS&amp;&amp;CSS.supports&amp;&amp;CSS.supports("animation-timeline: scroll()"))return;
+  const clamp=v=&gt;Math.max(0,Math.min(1,v));
+  document.querySelectorAll(".sf").forEach(el=&gt;{
+    const x=el.classList.contains("sf-x"),size=parseFloat(getComputedStyle(el).getPropertyValue("--sf-size"))||48,reveal=96;
+    function sync(){
+      const pos=x?Math.abs(el.scrollLeft):el.scrollTop,max=x?el.scrollWidth-el.clientWidth:el.scrollHeight-el.clientHeight;
+      if(max&lt;=1){el.style.setProperty("--sf-s","0px");el.style.setProperty("--sf-e","0px");return;}
+      el.style.setProperty("--sf-s",size*clamp(pos/reveal)+"px");
+      el.style.setProperty("--sf-e",size*clamp((max-pos)/reveal)+"px");
+    }
+    el.addEventListener("scroll",sync,{passive:true});addEventListener("resize",sync);sync();
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:css34 · קצה שמתעמעם רק כשיש עוד\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/css/css34.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/css34.html\n\nמה זה עושה: קופסה שנגללת (שורת צ'יפים, טבלת השוואה רחבה, רשימה ארוכה) מעמעמת את הקצה שלה רק בכיוון שבו יש עוד תוכן: בתחילה ההתחלה חדה, ככל שגוללים ההתחלה דוהה בהדרגה, ובקצה האחרון הדהייה בסוף נעלמת. כשהכל נכנס ואין מה לגלול, אין דהייה בכלל.\nמתי משתמשים: שורת קטגוריות או תגיות שגולשת בטלפון, טבלת מחירים או השוואה רחבה בתוך עטיפה אופקית, רשימה ארוכה בתוך פאנל בגובה קבוע. בכל מקום שבו חיתוך חד של תוכן נראה כמו באג ולא כמו הזמנה לגלול.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית · חנות · פורטפוליו וסטודיו\nבסקשן: שירותים ומוצרים · מחירים · הדר וניווט\nאופי: גם באתר שקט\nתפקיד ומינון: שכבת בסיס, בלי הגבלה\nמתי לא: לא כשהכול נכנס במסך ואין מה לגלול, ולא ברשימה קצרה שאין בה גלישה.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS34 · קצה שמתעמעם רק כשיש עוד */\n@property --sf-s{syntax:\"<length>\";inherits:false;initial-value:0px}\n@property --sf-e{syntax:\"<length>\";inherits:false;initial-value:0px}\n@keyframes sf-in{from{--sf-s:0px}to{--sf-s:var(--sf-size)}}\n@keyframes sf-out{from{--sf-e:var(--sf-size)}to{--sf-e:0px}}\n.sf{--sf-size:56px;--sf-reveal:96px;\n  -webkit-mask-image:linear-gradient(var(--sf-dir),transparent 0,#000 var(--sf-s),#000 calc(100% - var(--sf-e)),transparent 100%);\n  mask-image:linear-gradient(var(--sf-dir),transparent 0,#000 var(--sf-s),#000 calc(100% - var(--sf-e)),transparent 100%)}\n.sf-x{--sf-dir:to left}\n.sf-x:dir(ltr){--sf-dir:to right}\n.sf-y{--sf-dir:to bottom}\n@supports (animation-timeline: scroll()){\n  .sf-x{animation:sf-in linear both,sf-out linear both;animation-timeline:scroll(self inline),scroll(self inline);animation-range:0 var(--sf-reveal),calc(100% - var(--sf-reveal)) 100%}\n  .sf-y{animation:sf-in linear both,sf-out linear both;animation-timeline:scroll(self block),scroll(self block);animation-range:0 var(--sf-reveal),calc(100% - var(--sf-reveal)) 100%}\n}\n@supports not (animation-timeline: scroll()){.sf{--sf-e:28px}}\n.sfd{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(40px,5vw,64px);max-width:760px;margin-inline:auto}\n.sfd h3{margin:0 0 4px;font-size:clamp(20px,1.8vw,26px)}\n.sfd p{margin:0 0 16px;color:var(--muted, #6a6d85);font-size:15px;line-height:1.55;max-width:56ch}\n.sf-chips{display:flex;gap:8px;overflow-x:auto;padding-block:4px;scroll-padding-inline:var(--sf-size);scrollbar-width:none;--sf-size:48px}\n.sf-chips::-webkit-scrollbar{display:none}\n.sf-chip{flex:none;min-height:44px;padding-inline:20px;border:0;border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);box-shadow:0 0 0 1px var(--line, #e4e4ee);font:inherit;font-size:15px;font-weight:500;white-space:nowrap;cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),color .18s cubic-bezier(.2,.6,.2,1)}\n.sf-chip[aria-pressed=\"true\"]{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);box-shadow:none}\n.sf-chip:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n.sf-tw{overflow-x:auto;border-radius:var(--r, 14px);background:var(--card, #fff);scrollbar-width:thin;scrollbar-color:var(--line, #e4e4ee) transparent}\n.sf-tw:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:-2px}\n.sf-t{border-collapse:collapse;width:100%;min-width:920px;font-size:15px}\n.sf-t th,.sf-t td{padding:16px 20px;text-align:start;white-space:nowrap}\n.sf-t thead th{font-weight:700}\n.sf-t tbody tr:nth-child(odd){background:color-mix(in srgb,var(--ink, #16182b) 4%,transparent)}\n.sf-t tbody th{font-weight:500;color:var(--muted, #6a6d85)}\n.sf-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.sf-list{height:clamp(256px,38vh,312px);overflow-y:auto;border-radius:var(--r, 14px);background:var(--card, #fff);scrollbar-width:thin;scrollbar-color:var(--line, #e4e4ee) transparent;--sf-size:40px}\n.sf-list:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:-2px}\n.sf-list ul{margin:0;padding:8px 0;list-style:none}\n.sf-list li{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 20px;font-size:15px}\n.sf-list li b{font-weight:600}\n.sf-list li span{color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}\n@media (prefers-reduced-motion: reduce){.sf-chip{transition:none}}\n\n=== HTML ===\n<div class=\"stage tight\"><div class=\"sfd\">\n  <section>\n    <h3>תחומי עבודה<\/h3>\n    <p>שורה שגולשת בטלפון וגם במחשב. בהתחלה הקצה הימני חד, ובכל גלילה הוא דוהה, כי יש משהו שכבר עבר.<\/p>\n    <div class=\"sf sf-x sf-chips\" role=\"group\" aria-label=\"תחומי עבודה\">\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"true\">הכול<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">מטבחים<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">חדרי רחצה<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">סלונים<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">חדרי שינה<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">משרדים<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">תאורה<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">נגרות בהתאמה<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">שיפוץ דירות<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">וילונות ובדים<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">מרפסות וגינות<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">חללים קטנים<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">דירות להשכרה<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">בתים פרטיים<\/button>\n    <\/div>\n  <\/section>\n  <section>\n    <h3>השוואת חבילות<\/h3>\n    <p>טבלה רחבה בתוך עטיפה אופקית. בטלפון היא גולשת מיד, ובמחשב מעט. כשהיא נכנסת כולה לא תראו דהייה בכלל.<\/p>\n    <div class=\"sf sf-x sf-tw\" tabindex=\"0\" role=\"region\" aria-label=\"השוואת חבילות עיצוב, גללו הצידה כדי לראות את כל העמודות\">\n      <table class=\"sf-t\">\n        <caption class=\"sf-sr\">השוואה בין חמש חבילות עיצוב פנים<\/caption>\n        <thead><tr><th scope=\"col\">מה כלול<\/th><th scope=\"col\">ייעוץ נקודתי<\/th><th scope=\"col\">תכנון חדר<\/th><th scope=\"col\">תכנון דירה<\/th><th scope=\"col\">ליווי מלא<\/th><th scope=\"col\">מפתח ביד<\/th><\/tr><\/thead>\n        <tbody>\n          <tr><th scope=\"row\">מחיר התחלתי<\/th><td>2,400 ₪<\/td><td>7,800 ₪<\/td><td>18,500 ₪<\/td><td>32,000 ₪<\/td><td>48,000 ₪<\/td><\/tr>\n          <tr><th scope=\"row\">פגישות בבית הלקוח<\/th><td>1<\/td><td>2<\/td><td>4<\/td><td>6<\/td><td>8<\/td><\/tr>\n          <tr><th scope=\"row\">תוכניות עבודה<\/th><td>לא כלול<\/td><td>כלול<\/td><td>כלול<\/td><td>כלול<\/td><td>כלול<\/td><\/tr>\n          <tr><th scope=\"row\">הדמיות תלת ממדיות<\/th><td>לא כלול<\/td><td>חדר אחד<\/td><td>כל הדירה<\/td><td>כל הדירה<\/td><td>כל הדירה<\/td><\/tr>\n          <tr><th scope=\"row\">בחירת חומרים וריהוט<\/th><td>המלצות<\/td><td>כלול<\/td><td>כלול<\/td><td>כלול<\/td><td>כלול<\/td><\/tr>\n          <tr><th scope=\"row\">פיקוח בשטח<\/th><td>לא כלול<\/td><td>לא כלול<\/td><td>אפשר להוסיף<\/td><td>כלול<\/td><td>כלול<\/td><\/tr>\n          <tr><th scope=\"row\">ניהול קבלנים וספקים<\/th><td>לא כלול<\/td><td>לא כלול<\/td><td>לא כלול<\/td><td>כלול<\/td><td>כלול<\/td><\/tr>\n          <tr><th scope=\"row\">משך העבודה<\/th><td>שבוע<\/td><td>5 שבועות<\/td><td>10 שבועות<\/td><td>עד 6 חודשים<\/td><td>עד 9 חודשים<\/td><\/tr>\n        <\/tbody>\n      <\/table>\n    <\/div>\n  <\/section>\n  <section>\n    <h3>תורים קרובים<\/h3>\n    <p>רשימה ארוכה בפאנל בגובה קבוע. למעלה היא חדה, ובתחתית יש עוד, ולכן הקצה התחתון דוהה.<\/p>\n    <div class=\"sf sf-y sf-list\" tabindex=\"0\" role=\"region\" aria-label=\"תורים קרובים, גללו כדי לראות את כל הרשימה\">\n      <ul>\n        <li><b>דנה אלון<\/b><span>09:00 · היכרות<\/span><\/li>\n        <li><b>אורי שמעוני<\/b><span>09:45 · מדידה<\/span><\/li>\n        <li><b>משפחת בן דוד<\/b><span>10:30 · הצגת הדמיה<\/span><\/li>\n        <li><b>נועה פרידמן<\/b><span>11:30 · בחירת חומרים<\/span><\/li>\n        <li><b>רן ואילנית כץ<\/b><span>12:15 · היכרות<\/span><\/li>\n        <li><b>תמר גבאי<\/b><span>13:30 · סיור בשטח<\/span><\/li>\n        <li><b>יובל מרום<\/b><span>14:15 · הצעת מחיר<\/span><\/li>\n        <li><b>שירה אביטל<\/b><span>15:00 · היכרות<\/span><\/li>\n        <li><b>אסף לוי<\/b><span>15:45 · בחירת ריהוט<\/span><\/li>\n        <li><b>מיכל רוזן<\/b><span>16:30 · מדידה<\/span><\/li>\n        <li><b>עידו ברק<\/b><span>17:15 · הצגת הדמיה<\/span><\/li>\n        <li><b>הילה סגל<\/b><span>18:00 · היכרות<\/span><\/li>\n        <li><b>גיא נחמיאס<\/b><span>18:45 · סיור בשטח<\/span><\/li>\n      <\/ul>\n    <\/div>\n  <\/section>\n<\/div><\/div>\n\n=== JS ===\n(function(){\n  const reduce=()=>matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  // צ'יפ שנבחר מתמרכז: שני הקצוות של השורה מתעדכנים לבד, כי הם נקראים מהגלילה\n  document.querySelectorAll(\".sf-chips\").forEach(row=>{\n    const chips=[...row.querySelectorAll(\".sf-chip\")];\n    chips.forEach(c=>c.addEventListener(\"click\",()=>{\n      chips.forEach(x=>x.setAttribute(\"aria-pressed\",String(x===c)));\n      c.scrollIntoView({inline:\"center\",block:\"nearest\",behavior:reduce()?\"auto\":\"smooth\"});\n    }));\n  });\n  // דפדפן בלי scroll-driven animation: אותם שני משתנים, מחושבים בגלילה. בדפדפן תומך אין שורה אחת שרצה.\n  if(window.CSS&&CSS.supports&&CSS.supports(\"animation-timeline: scroll()\"))return;\n  const clamp=v=>Math.max(0,Math.min(1,v));\n  document.querySelectorAll(\".sf\").forEach(el=>{\n    const x=el.classList.contains(\"sf-x\"),size=parseFloat(getComputedStyle(el).getPropertyValue(\"--sf-size\"))||48,reveal=96;\n    function sync(){\n      const pos=x?Math.abs(el.scrollLeft):el.scrollTop,max=x?el.scrollWidth-el.clientWidth:el.scrollHeight-el.clientHeight;\n      if(max<=1){el.style.setProperty(\"--sf-s\",\"0px\");el.style.setProperty(\"--sf-e\",\"0px\");return;}\n      el.style.setProperty(\"--sf-s\",size*clamp(pos/reveal)+\"px\");\n      el.style.setProperty(\"--sf-e\",size*clamp((max-pos)/reveal)+\"px\");\n    }\n    el.addEventListener(\"scroll\",sync,{passive:true});addEventListener(\"resize\",sync);sync();\n  });\n})();\n\nהערת מימוש מהמאגר:\nמקור: shadcn/ui, תוסף scroll-fade, https://github.com/shadcn-ui/ui (packages/shadcn/src/tailwind.css), רישיון MIT, והרעיון של Shu Ding, https://codepen.io/shuding/pen/WNLGQor (CodePen, MIT). הקוד נכתב מחדש בלי Tailwind: שני משתנים רשומים (@property, מסוג length) --sf-s ו---sf-e שמייצגים את גודל הדהייה בהתחלה ובסוף, שני keyframes שמגדלים את הראשון מ-0 לגודל המלא ומקטינים את השני לאפס, ושתי אנימציות שכל אחת מחוברת ל-scroll(self inline) (או block לאנכי) עם animation-range משלה: 0 עד 96px בהתחלה, ו-calc(100% - 96px) עד 100% בסוף. המסכה היא linear-gradient אחד שקורא את שני המשתנים. הערך 96px הוא כמה גוללים עד שהדהייה מלאה, וה---sf-size הוא רוחב הדהייה עצמה (48 עד 56 פיקסלים), והם בכוונה נפרדים. כשאין גלישה, ציר הגלילה לא פעיל והאנימציות לא רצות, ולכן אין דהייה בכלל, בלי שורה אחת של קוד לבדיקה. RTL: הכיוון נקבע ב-:dir(rtl) ו-:dir(ltr) (ברירת המחדל עברית: to left), וציר ה-inline של הגלילה מתחיל מהצד הימני, כך שההתחלה בעברית היא הימנית ונבדקה בכרום: בטעינה הצד הימני חד והשמאלי דוהה. מלכודות: animation בקיצור מאפס את animation-timeline ואת animation-range ולכן הם מוגדרים אחריו; המסכה נחתכת לפי תיבת הגבול ולכן אין צל חיצוני על האלמנט המוסתר (הרקע נשאר, הצל לא); scroll-padding בצ'יפים מונע ממקלדת להביא צ'יפ אל תוך הדהייה. מסלול נפילה: ב-@supports not (animation-timeline: scroll()) נשארת דהייה סטטית קטנה בסוף ו-JS קטן מחשב את אותם שני משתנים בגלילה, כך שגם דפדפן בלי התמיכה מקבל את אותה התנהגות, והתוכן אף פעם לא מוסתר. תנועה מופחתת: זה מחוון מצב ולא קישוט, ולכן לא מכבים אותו. בלי JS: הדהייה עצמה בלי JS בכלל בדפדפן תומך; רק בחירת הצ'יפ דורשת JS. שלוש התשובות: (1) הגרסה הבנאלית היא דהייה קבועה בשני הצדדים, או צל פנימי שנשאר גם כשהגעתם לסוף ומסתיר את הפריט האחרון, או חיתוך חד בלי שום רמז; כאן הדהייה מדווחת על המצב האמיתי של הקופסה בכל רגע. (2) המיקרו-אינטראקציה שנושאת מצב: הדהייה עצמה, שגדלה ונעלמת עם הגלילה, ובחירת צ'יפ שמרכזת אותו ומעדכנת את שני הקצוות. (3) הפעולה שזה מקל: הבנה שיש עוד בלי לנחש, ותנועה לצד הנכון בלי חצים.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS34 · קצה שמתעמעם רק כשיש עוד */\n@property --sf-s{syntax:\"<length>\";inherits:false;initial-value:0px}\n@property --sf-e{syntax:\"<length>\";inherits:false;initial-value:0px}\n@keyframes sf-in{from{--sf-s:0px}to{--sf-s:var(--sf-size)}}\n@keyframes sf-out{from{--sf-e:var(--sf-size)}to{--sf-e:0px}}\n.sf{--sf-size:56px;--sf-reveal:96px;\n  -webkit-mask-image:linear-gradient(var(--sf-dir),transparent 0,#000 var(--sf-s),#000 calc(100% - var(--sf-e)),transparent 100%);\n  mask-image:linear-gradient(var(--sf-dir),transparent 0,#000 var(--sf-s),#000 calc(100% - var(--sf-e)),transparent 100%)}\n.sf-x{--sf-dir:to left}\n.sf-x:dir(ltr){--sf-dir:to right}\n.sf-y{--sf-dir:to bottom}\n@supports (animation-timeline: scroll()){\n  .sf-x{animation:sf-in linear both,sf-out linear both;animation-timeline:scroll(self inline),scroll(self inline);animation-range:0 var(--sf-reveal),calc(100% - var(--sf-reveal)) 100%}\n  .sf-y{animation:sf-in linear both,sf-out linear both;animation-timeline:scroll(self block),scroll(self block);animation-range:0 var(--sf-reveal),calc(100% - var(--sf-reveal)) 100%}\n}\n@supports not (animation-timeline: scroll()){.sf{--sf-e:28px}}\n.sfd{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(40px,5vw,64px);max-width:760px;margin-inline:auto}\n.sfd h3{margin:0 0 4px;font-size:clamp(20px,1.8vw,26px)}\n.sfd p{margin:0 0 16px;color:var(--muted, #6a6d85);font-size:15px;line-height:1.55;max-width:56ch}\n.sf-chips{display:flex;gap:8px;overflow-x:auto;padding-block:4px;scroll-padding-inline:var(--sf-size);scrollbar-width:none;--sf-size:48px}\n.sf-chips::-webkit-scrollbar{display:none}\n.sf-chip{flex:none;min-height:44px;padding-inline:20px;border:0;border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);box-shadow:0 0 0 1px var(--line, #e4e4ee);font:inherit;font-size:15px;font-weight:500;white-space:nowrap;cursor:pointer;transition:background .18s cubic-bezier(.2,.6,.2,1),color .18s cubic-bezier(.2,.6,.2,1)}\n.sf-chip[aria-pressed=\"true\"]{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);box-shadow:none}\n.sf-chip:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n.sf-tw{overflow-x:auto;border-radius:var(--r, 14px);background:var(--card, #fff);scrollbar-width:thin;scrollbar-color:var(--line, #e4e4ee) transparent}\n.sf-tw:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:-2px}\n.sf-t{border-collapse:collapse;width:100%;min-width:920px;font-size:15px}\n.sf-t th,.sf-t td{padding:16px 20px;text-align:start;white-space:nowrap}\n.sf-t thead th{font-weight:700}\n.sf-t tbody tr:nth-child(odd){background:color-mix(in srgb,var(--ink, #16182b) 4%,transparent)}\n.sf-t tbody th{font-weight:500;color:var(--muted, #6a6d85)}\n.sf-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.sf-list{height:clamp(256px,38vh,312px);overflow-y:auto;border-radius:var(--r, 14px);background:var(--card, #fff);scrollbar-width:thin;scrollbar-color:var(--line, #e4e4ee) transparent;--sf-size:40px}\n.sf-list:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:-2px}\n.sf-list ul{margin:0;padding:8px 0;list-style:none}\n.sf-list li{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding:14px 20px;font-size:15px}\n.sf-list li b{font-weight:600}\n.sf-list li span{color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}\n@media (prefers-reduced-motion: reduce){.sf-chip{transition:none}}","html":"<div class=\"stage tight\"><div class=\"sfd\">\n  <section>\n    <h3>תחומי עבודה<\/h3>\n    <p>שורה שגולשת בטלפון וגם במחשב. בהתחלה הקצה הימני חד, ובכל גלילה הוא דוהה, כי יש משהו שכבר עבר.<\/p>\n    <div class=\"sf sf-x sf-chips\" role=\"group\" aria-label=\"תחומי עבודה\">\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"true\">הכול<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">מטבחים<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">חדרי רחצה<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">סלונים<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">חדרי שינה<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">משרדים<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">תאורה<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">נגרות בהתאמה<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">שיפוץ דירות<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">וילונות ובדים<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">מרפסות וגינות<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">חללים קטנים<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">דירות להשכרה<\/button>\n      <button type=\"button\" class=\"sf-chip\" aria-pressed=\"false\">בתים פרטיים<\/button>\n    <\/div>\n  <\/section>\n  <section>\n    <h3>השוואת חבילות<\/h3>\n    <p>טבלה רחבה בתוך עטיפה אופקית. בטלפון היא גולשת מיד, ובמחשב מעט. כשהיא נכנסת כולה לא תראו דהייה בכלל.<\/p>\n    <div class=\"sf sf-x sf-tw\" tabindex=\"0\" role=\"region\" aria-label=\"השוואת חבילות עיצוב, גללו הצידה כדי לראות את כל העמודות\">\n      <table class=\"sf-t\">\n        <caption class=\"sf-sr\">השוואה בין חמש חבילות עיצוב פנים<\/caption>\n        <thead><tr><th scope=\"col\">מה כלול<\/th><th scope=\"col\">ייעוץ נקודתי<\/th><th scope=\"col\">תכנון חדר<\/th><th scope=\"col\">תכנון דירה<\/th><th scope=\"col\">ליווי מלא<\/th><th scope=\"col\">מפתח ביד<\/th><\/tr><\/thead>\n        <tbody>\n          <tr><th scope=\"row\">מחיר התחלתי<\/th><td>2,400 ₪<\/td><td>7,800 ₪<\/td><td>18,500 ₪<\/td><td>32,000 ₪<\/td><td>48,000 ₪<\/td><\/tr>\n          <tr><th scope=\"row\">פגישות בבית הלקוח<\/th><td>1<\/td><td>2<\/td><td>4<\/td><td>6<\/td><td>8<\/td><\/tr>\n          <tr><th scope=\"row\">תוכניות עבודה<\/th><td>לא כלול<\/td><td>כלול<\/td><td>כלול<\/td><td>כלול<\/td><td>כלול<\/td><\/tr>\n          <tr><th scope=\"row\">הדמיות תלת ממדיות<\/th><td>לא כלול<\/td><td>חדר אחד<\/td><td>כל הדירה<\/td><td>כל הדירה<\/td><td>כל הדירה<\/td><\/tr>\n          <tr><th scope=\"row\">בחירת חומרים וריהוט<\/th><td>המלצות<\/td><td>כלול<\/td><td>כלול<\/td><td>כלול<\/td><td>כלול<\/td><\/tr>\n          <tr><th scope=\"row\">פיקוח בשטח<\/th><td>לא כלול<\/td><td>לא כלול<\/td><td>אפשר להוסיף<\/td><td>כלול<\/td><td>כלול<\/td><\/tr>\n          <tr><th scope=\"row\">ניהול קבלנים וספקים<\/th><td>לא כלול<\/td><td>לא כלול<\/td><td>לא כלול<\/td><td>כלול<\/td><td>כלול<\/td><\/tr>\n          <tr><th scope=\"row\">משך העבודה<\/th><td>שבוע<\/td><td>5 שבועות<\/td><td>10 שבועות<\/td><td>עד 6 חודשים<\/td><td>עד 9 חודשים<\/td><\/tr>\n        <\/tbody>\n      <\/table>\n    <\/div>\n  <\/section>\n  <section>\n    <h3>תורים קרובים<\/h3>\n    <p>רשימה ארוכה בפאנל בגובה קבוע. למעלה היא חדה, ובתחתית יש עוד, ולכן הקצה התחתון דוהה.<\/p>\n    <div class=\"sf sf-y sf-list\" tabindex=\"0\" role=\"region\" aria-label=\"תורים קרובים, גללו כדי לראות את כל הרשימה\">\n      <ul>\n        <li><b>דנה אלון<\/b><span>09:00 · היכרות<\/span><\/li>\n        <li><b>אורי שמעוני<\/b><span>09:45 · מדידה<\/span><\/li>\n        <li><b>משפחת בן דוד<\/b><span>10:30 · הצגת הדמיה<\/span><\/li>\n        <li><b>נועה פרידמן<\/b><span>11:30 · בחירת חומרים<\/span><\/li>\n        <li><b>רן ואילנית כץ<\/b><span>12:15 · היכרות<\/span><\/li>\n        <li><b>תמר גבאי<\/b><span>13:30 · סיור בשטח<\/span><\/li>\n        <li><b>יובל מרום<\/b><span>14:15 · הצעת מחיר<\/span><\/li>\n        <li><b>שירה אביטל<\/b><span>15:00 · היכרות<\/span><\/li>\n        <li><b>אסף לוי<\/b><span>15:45 · בחירת ריהוט<\/span><\/li>\n        <li><b>מיכל רוזן<\/b><span>16:30 · מדידה<\/span><\/li>\n        <li><b>עידו ברק<\/b><span>17:15 · הצגת הדמיה<\/span><\/li>\n        <li><b>הילה סגל<\/b><span>18:00 · היכרות<\/span><\/li>\n        <li><b>גיא נחמיאס<\/b><span>18:45 · סיור בשטח<\/span><\/li>\n      <\/ul>\n    <\/div>\n  <\/section>\n<\/div><\/div>","js":"(function(){\n  const reduce=()=>matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  // צ'יפ שנבחר מתמרכז: שני הקצוות של השורה מתעדכנים לבד, כי הם נקראים מהגלילה\n  document.querySelectorAll(\".sf-chips\").forEach(row=>{\n    const chips=[...row.querySelectorAll(\".sf-chip\")];\n    chips.forEach(c=>c.addEventListener(\"click\",()=>{\n      chips.forEach(x=>x.setAttribute(\"aria-pressed\",String(x===c)));\n      c.scrollIntoView({inline:\"center\",block:\"nearest\",behavior:reduce()?\"auto\":\"smooth\"});\n    }));\n  });\n  // דפדפן בלי scroll-driven animation: אותם שני משתנים, מחושבים בגלילה. בדפדפן תומך אין שורה אחת שרצה.\n  if(window.CSS&&CSS.supports&&CSS.supports(\"animation-timeline: scroll()\"))return;\n  const clamp=v=>Math.max(0,Math.min(1,v));\n  document.querySelectorAll(\".sf\").forEach(el=>{\n    const x=el.classList.contains(\"sf-x\"),size=parseFloat(getComputedStyle(el).getPropertyValue(\"--sf-size\"))||48,reveal=96;\n    function sync(){\n      const pos=x?Math.abs(el.scrollLeft):el.scrollTop,max=x?el.scrollWidth-el.clientWidth:el.scrollHeight-el.clientHeight;\n      if(max<=1){el.style.setProperty(\"--sf-s\",\"0px\");el.style.setProperty(\"--sf-e\",\"0px\");return;}\n      el.style.setProperty(\"--sf-s\",size*clamp(pos/reveal)+\"px\");\n      el.style.setProperty(\"--sf-e\",size*clamp((max-pos)/reveal)+\"px\");\n    }\n    el.addEventListener(\"scroll\",sync,{passive:true});addEventListener(\"resize\",sync);sync();\n  });\n})();","scripts":"","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="css33.html" rel="prev"><small>→ הקודם</small><b>טשטוש הדרגתי בקצה</b></a><a href="css35.html" rel="next"><small>הבא ←</small><b>תמונה שגולשת בתוך המסגרת בהחלקה</b></a></nav>
+
+<script src="../assets/baseline.js?v=ec615858"></script>
+<script src="../assets/status.js"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · קצה שמתעמעם רק כשיש עוד").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+(function(){
+  const reduce=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // צ'יפ שנבחר מתמרכז: שני הקצוות של השורה מתעדכנים לבד, כי הם נקראים מהגלילה
+  document.querySelectorAll(".sf-chips").forEach(row=>{
+    const chips=[...row.querySelectorAll(".sf-chip")];
+    chips.forEach(c=>c.addEventListener("click",()=>{
+      chips.forEach(x=>x.setAttribute("aria-pressed",String(x===c)));
+      c.scrollIntoView({inline:"center",block:"nearest",behavior:reduce()?"auto":"smooth"});
+    }));
+  });
+  // דפדפן בלי scroll-driven animation: אותם שני משתנים, מחושבים בגלילה. בדפדפן תומך אין שורה אחת שרצה.
+  if(window.CSS&&CSS.supports&&CSS.supports("animation-timeline: scroll()"))return;
+  const clamp=v=>Math.max(0,Math.min(1,v));
+  document.querySelectorAll(".sf").forEach(el=>{
+    const x=el.classList.contains("sf-x"),size=parseFloat(getComputedStyle(el).getPropertyValue("--sf-size"))||48,reveal=96;
+    function sync(){
+      const pos=x?Math.abs(el.scrollLeft):el.scrollTop,max=x?el.scrollWidth-el.clientWidth:el.scrollHeight-el.clientHeight;
+      if(max<=1){el.style.setProperty("--sf-s","0px");el.style.setProperty("--sf-e","0px");return;}
+      el.style.setProperty("--sf-s",size*clamp(pos/reveal)+"px");
+      el.style.setProperty("--sf-e",size*clamp((max-pos)/reveal)+"px");
+    }
+    el.addEventListener("scroll",sync,{passive:true});addEventListener("resize",sync);sync();
+  });
+})();
+</script>
+</body>
+</html>
