@@ -119,8 +119,14 @@ const MEASURE = `(function(SEL, PROJECT, DUR, TOK){
   const nums=textEls.filter(e=>txt(e).length<20&&e.children.length===0&&/\\d/.test(txt(e))&&digitShare(txt(e))>=.4);
   if(nums.length){const styled=nums.some(e=>px(cs(e).fontSize)>=bodyFs*1.4||px(cs(e).fontWeight)>=600&&px(cs(e).fontSize)>bodyFs);add(6,false,"מספרים עם טיפול משלהם",styled?"pass":"fail",nums.length+" מספרים, הגדול "+Math.round(Math.max(...nums.map(e=>px(cs(e).fontSize))))+"px");}else add(6,false,"מספרים כאלמנט עיצובי","na","אין מספרים");
   // 7 eyebrow אחיד
-  const eyes=q('[class*="eyebrow"],[class*="kicker"]');
-  if(eyes.length>=2){const sig=uniq(eyes.map(e=>[cs(e).fontSize,cs(e).fontWeight,cs(e).color,cs(e).letterSpacing].join("|")));add(7,false,"eyebrow בסגנון אחד",sig.length<=1?"pass":"fail",eyes.length+" eyebrows, "+sig.length+" סגנונות");}else add(7,false,"eyebrow עם תפקיד","na",eyes.length+" eyebrows");
+  // by class or by role: a short line right above a section heading, no bigger than body (17.10.2026: only class names counted)
+  const byRole=q("h1,h2").map(h=>h.previousElementSibling).filter(e=>e&&vis(e)&&!/^H[1-6]$/.test(e.tagName)&&txt(e).length>=2&&txt(e).length<=50&&px(cs(e).fontSize)<=bodyFs+1&&e.children.length<=2);
+  const eyes=uniq(q('[class*="eyebrow"],[class*="kicker"]').concat(byRole));
+  // colour is compared per surface: on a dark panel the same eyebrow must change colour to stay readable (17.10.2026, s01 failed for that)
+  const lum=c=>{const m=(c||"").match(/[\\d.]+/g);if(!m)return 1;const [r,g,b]=m.map(Number);return (0.2126*r+0.7152*g+0.0722*b)/255;};
+  const surf=el=>{for(let n=el;n&&n!==document.documentElement;n=n.parentElement){const b=cs(n).backgroundColor;const a=(b.match(/[\\d.]+/g)||[])[3];if(b!=="rgba(0, 0, 0, 0)"&&(a===undefined||+a>.5))return lum(b)<.4?"dark":"light";}return "light";};
+  if(eyes.length>=2){const shape=uniq(eyes.map(e=>[cs(e).fontSize,cs(e).fontWeight,cs(e).letterSpacing,cs(e).textTransform].join("|")));const tone=uniq(["light","dark"].map(k=>uniq(eyes.filter(e=>surf(e)===k).map(e=>cs(e).color)).length));const ok=shape.length<=1&&Math.max(...tone)<=1;
+    add(7,false,"eyebrow בסגנון אחד (צבע נבדק לכל משטח בנפרד)",ok?"pass":"fail",eyes.length+" eyebrows, "+shape.length+" צורות"+(Math.max(...tone)>1?", יותר מצבע אחד על אותו סוג משטח":""));}else add(7,false,"eyebrow עם תפקיד","na",eyes.length+" eyebrows");
   // 8 ★ סולם ריווח
   const ladder=TOK?TOK.ladder:[0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,32,36,40,44,48,56,64,72,80,88,96,112,128,150,160];
   const onL=v=>ladder.some(l=>Math.abs(l-v)<=.6);
@@ -143,15 +149,33 @@ const MEASURE = `(function(SEL, PROJECT, DUR, TOK){
   add(12,false,"הפוגה אחרי שיא (כבד/קל לסירוגין)","manual","");
   // 13 ★ טיפול תמונה אחד
   const imgs=q('img,.ph,.hero-v,[class*="visual"],figure');
-  if(imgs.length){const radii=uniq(imgs.map(i=>cs(i).borderRadius));add(13,true,"טיפול תמונה אחד (רדיוס אחיד)",radii.length<=2?"pass":"fail",imgs.length+" תמונות, רדיוסים: "+radii.slice(0,4).join(" · "));}else add(13,true,"טיפול תמונה אחד","na","אין תמונות");
+  // 17.10.2026: radius only was counted. Now the radius of the image or of the frame that clips it, the mask or clip-path, and the grading
+  // filter; images under 96px (avatars, logos, thumbnails in a list) are a different object and are left out
+  // the radius family is the largest corner: an image that fills one side of a rounded card (6px 0 0 6px) carries the card's 6px.
+  // a pill or an arch (50%, 999px) is its own shape and keeps its full value
+  const corner=c=>Math.max(px(c.borderTopLeftRadius),px(c.borderTopRightRadius),px(c.borderBottomLeftRadius),px(c.borderBottomRightRadius));
+  const radFam=c=>/%/.test(c.borderRadius)?c.borderRadius:Math.round(corner(c))+"px";
+  const frameR=i=>{if(corner(cs(i))>0)return radFam(cs(i));for(let n=i.parentElement,k=0;n&&k<3;n=n.parentElement,k++){const c=cs(n);if(c.overflow!=="visible"&&corner(c)>0)return radFam(c);}return "0px";};
+  const photos=imgs.filter(i=>{const r=i.getBoundingClientRect();return r.width>=96&&r.height>=96;});
+  const treat=i=>{const c=cs(i);return [frameR(i),c.clipPath!=="none"?"clip":"",(c.maskImage&&c.maskImage!=="none")||(c.webkitMaskImage&&c.webkitMaskImage!=="none")?"mask":"",c.filter!=="none"?c.filter:""].join("|");};
+  if(photos.length){const radii=uniq(photos.map(frameR)),tr=uniq(photos.map(treat)),extra=uniq(photos.map(i=>treat(i).split("|").slice(1).join("|")));const ok=radii.length<=2&&extra.length<=2;
+    add(13,true,"טיפול תמונה אחד (רדיוס, מסכה וגריידינג)",ok?"pass":"fail",photos.length+" תמונות, רדיוסים: "+radii.slice(0,4).join(" · ")+(extra.filter(Boolean).length?" · מסכה/פילטר: "+extra.filter(Boolean).slice(0,3).join(" · "):""));}else add(13,true,"טיפול תמונה אחד","na","אין תמונות");
   // 14 תמונה שנוגעת במשהו
-  if(imgs.length&&secs.length){const touch=imgs.some(i=>{const r=i.getBoundingClientRect();const s=i.closest('section,[class*="sec"],.hero');if(!s)return false;const b=s.getBoundingClientRect();return r.top<b.top-2||r.bottom>b.bottom+2||r.left<b.left-2||r.right>b.right+2;});add(14,false,"תמונה אחת חורגת מהקופסה שלה",touch?"pass":"fail","");}else add(14,false,"תמונה שנוגעת במשהו","na","");
+  // studio-bar.md 14: crosses a section edge, goes under a heading, or leaves its container, "when the page asks" (17.10.2026: only the first counted, and missing it failed)
+  const hit=(a,b)=>{const w=Math.min(a.right,b.right)-Math.max(a.left,b.left),h=Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top);return w>8&&h>8;};
+  const over=q('h1,h2,.card,article,[class*="card"],[class*="badge"],[class*="tag"],[class*="note"],[class*="ticket"]');
+  const how=i=>{const r=i.getBoundingClientRect(),s=i.closest('section,[class*="sec"],.hero');if(s){const b=s.getBoundingClientRect();if(r.top<b.top-2||r.bottom>b.bottom+2||r.left<b.left-2||r.right>b.right+2)return "חוצה סקשן";}
+    if(over.some(o=>!o.contains(i)&&!i.contains(o)&&hit(r,o.getBoundingClientRect())))return "משהו יושב עליה";
+    const p=i.parentElement&&i.parentElement.closest("div,figure,picture");if(p&&cs(p).overflow==="visible"){const b=p.getBoundingClientRect();if(r.left<b.left-12||r.right>b.right+12||r.top<b.top-12||r.bottom>b.bottom+12)return "יוצאת מהמסגרת";}return "";};
+  if(photos.length&&secs.length){const ways=uniq(photos.map(how).filter(Boolean));add(14,false,"תמונה שנוגעת במשהו",ways.length?"pass":"manual",ways.length?ways.join(", "):"לא נמצא: לבדוק בעין אם העמוד מבקש");}else add(14,false,"תמונה שנוגעת במשהו","na","");
   // 15 ממלאי מקום
   const phs=q(".ph").filter(p=>/תמונה|ויז|image/i.test(txt(p)));
   add(15,false,"ממלא מקום שנראה מעוצב",PROJECT?(phs.length?"fail":"pass"):"na",PROJECT?phs.length+" ממלאי מקום גולמיים":"במאגר פטור בכוונה");
   // 16 אייקונים ממשפחה אחת
   // SVG פנימי (כולל ספרייט <use href="#i-...">), גדלים 16/20/24/32 בלבד, או stroke או filled. mask-image ו-background-image על אלמנט קטן אסורים (visual-language.md, אייקונים).
-  const svgs=q("svg").filter(s=>s.getBoundingClientRect().width<=48);  // מעל 48 זה איור, לא אייקון (g86: שלושה איורים של 64)
+  // מעל 48 זה איור, לא אייקון (g86: שלושה איורים של 64). הלוגו אינו אייקון (17.10.2026: סימן הלוגו נספר כגודל ועובי חריגים)
+  const logoish=s=>!!s.closest('[class*="logo"],[class*="brand"],[aria-label*="לוגו"],[aria-label*="logo" i]')||(()=>{const a=s.closest("header a,.hd a");return !!a&&a===(a.closest("header,.hd")||document).querySelector("a");})();
+  const svgs=q("svg").filter(s=>s.getBoundingClientRect().width<=48&&!logoish(s));
   const isUrl=v=>/url\\(/.test(v||"");
   const maskHit=(c,mask)=>isUrl(c.maskImage)||isUrl(c.webkitMaskImage)||(mask&&/url\\([^)]*(\\.svg|image\\/svg)/.test(c.backgroundImage||""));
   const mIcons=[];
@@ -180,7 +204,9 @@ const MEASURE = `(function(SEL, PROJECT, DUR, TOK){
   const hasBtn=/\\.btn|button/.test(css);
   const st=n=>new RegExp("(\\\\.btn|button)[^{,]*:"+n).test(css);
   const btnTrans=/(\\.btn|button)[^{]*\\{[^}]*transition/.test(css);
-  add(18,true,"כפתור: hover, active, focus-visible + transition",hasBtn?((st("hover")&&st("active")&&st("focus-visible")&&btnTrans)?"pass":"fail"):"na","hover "+st("hover")+" · active "+st("active")+" · focus-visible "+st("focus-visible")+" · transition "+btnTrans);
+  // a global ring covers buttons too (17.10.2026: only .btn:focus-visible / button:focus-visible was read)
+  const fv=st("focus-visible")||/(^|[\\s,}>])(\\*|[.#][\\w-]+\\s+)?:focus-visible\\s*[,{]/m.test(css)||/:(where|is)\\([^)]*(button|btn)[^)]*\\):focus-visible/.test(css);
+  add(18,true,"כפתור: hover, active, focus-visible + transition",hasBtn?((st("hover")&&st("active")&&fv&&btnTrans)?"pass":"fail"):"na","hover "+st("hover")+" · active "+st("active")+" · focus-visible "+fv+" · transition "+btnTrans);
   // 19 רמה שלישית: טקסט + חץ
   const tert=q("a").some(a=>/[→←↗›‹»«]/.test(txt(a))||a.querySelector("svg")&&(cs(a).backgroundColor==="rgba(0, 0, 0, 0)"&&cs(a).borderStyle==="none"));
   add(19,false,"היררכיית כפתורים: יש קישור טקסט + חץ",tert?"pass":"fail","");
@@ -188,7 +214,7 @@ const MEASURE = `(function(SEL, PROJECT, DUR, TOK){
   const inFocus=/(input|\\.in\\b|\\.field)[^{,]*:focus[^{]*\\{[^}]*(box-shadow|outline|border)/.test(css);
   add(20,false,"שדה טופס: טבעת focus של העור",q("input,textarea,select").length?(inFocus?"pass":"fail"):"na","");
   // 21 כרטיס: סיגנל עומק אחד
-  const cards=q(".card,article");
+  const cards=q('.card,article,[class*="card"],[class*="tile"]').filter(c=>c.getBoundingClientRect().width>=140);
   if(cards.length){const c=cards[0],p=c.parentElement;const sig=[cs(c).boxShadow!=="none",px(cs(c).borderTopWidth)>0&&cs(c).borderTopColor!=="rgba(0, 0, 0, 0)",cs(c).backgroundColor!==cs(p).backgroundColor&&cs(c).backgroundColor!=="rgba(0, 0, 0, 0)"].filter(Boolean).length;add(21,false,"כרטיס עם עד שני סיגנלי עומק",sig<=2?"pass":"fail",sig+" סיגנלים");}else add(21,false,"כרטיס עם עומק של שכבה אחת","na","");
   // 22 מפרידים
   const seps=q("hr").map(h=>cs(h).borderTopColor+" "+cs(h).borderTopWidth).concat(q("header,.hd,footer,.ft").map(e=>(px(cs(e).borderBottomWidth)?cs(e).borderBottomColor+" "+cs(e).borderBottomWidth:"")+(px(cs(e).borderTopWidth)?cs(e).borderTopColor+" "+cs(e).borderTopWidth:"")).filter(Boolean));
@@ -197,18 +223,22 @@ const MEASURE = `(function(SEL, PROJECT, DUR, TOK){
   const chips=q(".chip,[class*='chip']");
   if(chips.length){const hs=chips.map(c=>Math.round(c.getBoundingClientRect().height));add(23,false,"צ'יפ בגובה 30 עד 36",hs.every(h=>h>=30&&h<=36)?"pass":"fail",hs.join(", "));}else add(23,false,"תגיות וצ'יפים בפרופורציה","na","אין צ'יפים");
   // 24 ★ כוריאוגרפיית כניסה
-  const revealRules=[...css.matchAll(/\\.(reveal|is-in|lad|fade-?in|rise)\\b[^{]*\\{[^}]*\\}/g)].map(m=>m[0]);
+  const revealRules=[...css.matchAll(/(\\.(reveal|is-in|lad|fade-?in|rise|in-view|is-visible|shown)\\b|\\[data-reveal\\b)[^{]*\\{[^}]*\\}/g)].map(m=>m[0]);
+  // 17.10.2026: every time token was read, so a stagger delay of .3s counted as a second reveal duration. Now only the duration slot.
+  const durOf=r=>{const body=(r.split("{")[1]||"");const out=[];for(const m of body.matchAll(/(?:^|;)\\s*(transition|animation)(-duration)?\\s*:([^;}]*)/g)){const items=m[3].split(/,(?![^(]*\\))/);items.forEach(it=>{if(m[2]){for(const t of it.matchAll(/(\\d*\\.?\\d+)(m?s)\\b/g))out.push(Math.round(parseFloat(t[1])*(t[2]==="s"?1000:1)));}else{if(/infinite/.test(it))return;const t=it.match(/(?<![\\w.-])(\\d*\\.?\\d+)(m?s)(?![\\w-])/);if(t)out.push(Math.round(parseFloat(t[1])*(t[2]==="s"?1000:1)));}});}return out;};
   // a time token that stands alone: the 14s inside a keyframe name like s14spin is not a duration (s14, 6.10.2026)
-  const durs=uniq([...css.matchAll(/(?:transition|animation)(?:-duration)?:[^;]*?(?<![\\w.-])(\\d*\\.?\\d+)(ms|s)(?![\\w-])/g)].map(m=>Math.round(parseFloat(m[1])*(m[2]==="s"?1000:1)))).filter(d=>d>0);
-  const rdAll=uniq(revealRules.flatMap(r=>[...r.matchAll(/(\\d*\\.?\\d+)(m?s)/g)].map(m=>Math.round(parseFloat(m[1])*(m[2]==="s"?1000:1))))).filter(v=>v>=300);
-  if(revealRules.length&&rdAll.length){const rd=uniq(revealRules.flatMap(r=>[...r.matchAll(/(\\d*\\.?\\d+)(m?s)/g)].map(m=>Math.round(parseFloat(m[1])*(m[2]==="s"?1000:1)))).filter(v=>v>=300));add(24,true,"reveal אחד: משך אחיד",rd.length<=1?"pass":"fail","משכי reveal: "+rd.join(", ")+"ms");}else add(24,true,"כוריאוגרפיית כניסה אחת",PROJECT?"fail":"na",PROJECT?"אין מערכת reveal":"אין reveal בעמוד ייחוס");
+  // 17.10.2026: continuous motion (an infinite loop, a marquee of 40s) was read as a fourth speed. It is not a transition; motion.md §9.
+  const durs=uniq([...css.matchAll(/(?:transition|animation)(?:-duration)?:([^;]*?)(?<![\\w.-])(\\d*\\.?\\d+)(ms|s)(?![\\w-])([^;}]*)/g)].filter(m=>!/infinite/.test(m[1]+m[4])).map(m=>Math.round(parseFloat(m[2])*(m[3]==="s"?1000:1)))).filter(d=>d>0&&d<3000);
+  const rdAll=uniq(revealRules.flatMap(durOf)).filter(v=>v>=300);
+  if(revealRules.length&&rdAll.length){const rd=rdAll;add(24,true,"reveal אחד: משך אחיד",rd.length<=1?"pass":"fail","משכי reveal: "+rd.join(", ")+"ms");}else add(24,true,"כוריאוגרפיית כניסה אחת",PROJECT?"fail":"na",PROJECT?"אין מערכת reveal":"אין reveal בעמוד ייחוס");
   // 25 שלוש מהירויות
   // עם התורה: מיקרו = רק הערכים של tokens.json וטבלת §3, מעבר 500-700, סצנה 900-1200. בלעדיה: הטווחים הקשיחים הישנים.
   const bad=durs.filter(d=>DUR?!(DUR.some(m=>Math.abs(m-d)<=2)||(d>=500&&d<=700)||(d>=900&&d<=1200)):!((d>=120&&d<=250)||(d>=450&&d<=750)||(d>=900&&d<=1200)));
   add(25,false,DUR?"תזמונים בשלוש קבוצות (ערכי הטבלה / 500-700 / 900-1200)":"תזמונים בשלוש קבוצות (150-200 / 500-700 / 900-1200)",durs.length?(bad.length<=1?"pass":"fail"):"na","משכים: "+durs.join(", ")+(bad.length?" · חריגים: "+bad.join(", "):""));
   add(26,false,"מעבר סקשנים אחד שאינו קו ישר","manual","");
   // 27 hover על כרטיס
-  const cardHover=/\\.card[^{,]*:hover[^{]*\\{[^}]*(transform|box-shadow|border|translate)/.test(css);
+  // 17.10.2026: only .card:hover counted. Any card-like or image hover with movement or depth (studio-bar.md 27: "על כרטיסים ותמונות")
+  const cardHover=/(card|tile|article|figure|item|poster|img|photo|media)[^{,]*:hover[^{]*\\{[^}]*(transform|box-shadow|translate|scale)/i.test(css)||/:hover[^{,]*\\s(img|picture|figure|\\.[\\w-]*(img|photo|media)[\\w-]*)\\s*\\{[^}]*(transform|scale)/i.test(css);
   add(27,false,"hover על כרטיס עם תנועה קטנה",cards.length?(cardHover?"pass":"fail"):"na","");
   // 28 reduced-motion
   const anim=/transition|animation|@keyframes/.test(css);

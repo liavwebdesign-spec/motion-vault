@@ -6,12 +6,12 @@ export default [
 {
   id:"g74", cat:"gsap", name:"משקל הפונט זורם בגלילה", tech:"GSAP · ScrollTrigger", status:"ממתין",
   desc:"כותרת גדולה שהמילים בה מתעבות מדק לשמן בגל שעובר מימין לשמאל, בכיוון הקריאה, עם הגלילה, וחוזר. פונט משתנה עושה את זה בלי שום שכבה נוספת.",
-  when:"כותרת מניפסט, משפט ערך מרכזי, פתיח לסקשן. פעם אחת בעמוד, על פונט משתנה (Heebo, Ploni Variable).",
-  note:"דורש פונט משתנה עם ציר משקל רציף. הדמו רץ על Heebo (100 עד 900). אסור להצהיר font-variation-settings ב-CSS: היא דורסת את font-weight, האנימציה רצה ושום דבר לא נראה. font-weight היא תכונת layout שגורמת reflow, לכן מנפישים מילה-מילה בסקראב ולא באנימציה רצה, ובמובייל הטווח קטן (300 עד 700) כדי שהשורות לא יישברו מחדש.",
+  when:"כותרת מניפסט, משפט ערך מרכזי, פתיח לסקשן. פעם אחת בעמוד, על פונט משתנה (Google Sans, Ploni Variable).",
+  note:"דורש פונט משתנה עם ציר משקל רציף. הדמו רץ על Google Sans המאוחסן מקומית (400 עד 700; עד 17.10.2026 רץ על Heebo מגוגל, 200 עד 900). אסור להצהיר font-variation-settings ב-CSS: היא דורסת את font-weight, האנימציה רצה ושום דבר לא נראה. font-weight היא תכונת layout שגורמת reflow, לכן מנפישים מילה-מילה בסקראב ולא באנימציה רצה, ובמובייל הטווח קטן (300 עד 700) כדי שהשורות לא יישברו מחדש.",
   libs:["gsap","ScrollTrigger"],
   css:`.wv{max-width:min(900px,92vw);margin-inline:auto;padding-block:20vh}
-.wv h2{font-family:"Heebo",system-ui,sans-serif;font-size:clamp(34px,6vw,96px);line-height:1.15;margin:0;font-weight:200;text-align:center}
-.wv .w{display:inline-block;margin-inline:.14em;font-weight:200}
+.wv h2{font-family:"Google Sans",system-ui,sans-serif;font-size:clamp(34px,6vw,96px);line-height:1.15;margin:0;font-weight:400;text-align:center}
+.wv .w{display:inline-block;margin-inline:.14em;font-weight:400}
 .wv-hint{text-align:center;color:var(--muted);font-size:14px;margin-top:20px}`,
   html:`<div class="stage"><div class="wv">
   <h2><span class="w">אתר</span><span class="w">טוב</span><span class="w">לא</span><span class="w">צועק.</span><br><span class="w">הוא</span><span class="w">מסביר,</span><span class="w">ואז</span><span class="w">מוכר.</span></h2>
@@ -22,7 +22,7 @@ export default [
   if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(words,{fontWeight:600});return;}
   const mm=gsap.matchMedia();
   mm.add({desk:"(min-width:768px)",mob:"(max-width:767px)"},ctx=>{
-    const [lo,hi]=ctx.conditions.desk?[200,900]:[300,700];
+    const [lo,hi]=ctx.conditions.desk?[400,700]:[400,650];
     const tl=gsap.timeline({scrollTrigger:{trigger:".wv",start:"top 70%",end:"bottom 30%",scrub:.6}});
     words.forEach((w,i)=>{
       // כל מילה עולה ויורדת בתורה: גל שעובר על המשפט

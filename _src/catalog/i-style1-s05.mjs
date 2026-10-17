@@ -19,7 +19,7 @@ const TOKENS = `/* Google Sans בגודל האמיתי שלו. המאגר מגי
  --ink:#111;--muted:#6b7280;--muted-strong:#4b5563;--border:#eaeaea;--border-2:#e5e7eb;--surface:#fff;--surface-muted:#f3f4f6;--err:#d92d20;
  --r-control:12px;--r-card:16px;--ease:${EASE};--shadow-soft:0 6px 20px rgba(17,24,39,.08);--shadow-shot:0 30px 60px rgba(17,24,39,.16);
  --sec:112px;--gut:clamp(20px,4cqi,64px);
- background:var(--surface);color:var(--ink);font-family:"MV Google Sans","Google Sans","Heebo",system-ui,sans-serif;font-size:15px;line-height:1.68;overflow:clip;position:relative;isolation:isolate;-webkit-font-smoothing:antialiased}
+ background:var(--surface);color:var(--ink);font-family:"MV Google Sans","Google Sans",system-ui,sans-serif;font-size:15px;line-height:1.68;overflow:clip;position:relative;isolation:isolate;-webkit-font-smoothing:antialiased}
 .q *{box-sizing:border-box}
 .q h1,.q h2,.q h3,.q p,.q ul{margin:0}
 .q a{color:inherit;text-decoration:none}

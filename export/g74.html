@@ -42,8 +42,8 @@ img{max-width:100%}
 
 /* G74 · משקל הפונט זורם בגלילה */
 .wv{max-width:min(900px,92vw);margin-inline:auto;padding-block:20vh}
-.wv h2{font-family:"Heebo",system-ui,sans-serif;font-size:clamp(34px,6vw,96px);line-height:1.15;margin:0;font-weight:200;text-align:center}
-.wv .w{display:inline-block;margin-inline:.14em;font-weight:200}
+.wv h2{font-family:"Google Sans",system-ui,sans-serif;font-size:clamp(34px,6vw,96px);line-height:1.15;margin:0;font-weight:400;text-align:center}
+.wv .w{display:inline-block;margin-inline:.14em;font-weight:400}
 .wv-hint{text-align:center;color:var(--muted, #6a6d85);font-size:14px;margin-top:20px}
 </style>
 </head>
@@ -64,7 +64,7 @@ if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
   if(matchMedia("(prefers-reduced-motion: reduce)").matches){gsap.set(words,{fontWeight:600});return;}
   const mm=gsap.matchMedia();
   mm.add({desk:"(min-width:768px)",mob:"(max-width:767px)"},ctx=>{
-    const [lo,hi]=ctx.conditions.desk?[200,900]:[300,700];
+    const [lo,hi]=ctx.conditions.desk?[400,700]:[400,650];
     const tl=gsap.timeline({scrollTrigger:{trigger:".wv",start:"top 70%",end:"bottom 30%",scrub:.6}});
     words.forEach((w,i)=>{
       // כל מילה עולה ויורדת בתורה: גל שעובר על המשפט

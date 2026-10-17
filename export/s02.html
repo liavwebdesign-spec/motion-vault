@@ -180,6 +180,8 @@ img{max-width:100%}
 .q .ctrl-grid{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:96px;align-items:start;max-width:1200px;margin-inline:auto}
 .q .dial-col{display:flex;flex-direction:column;align-items:center;gap:40px;position:sticky;top:112px}
 .q .dial{position:relative;width:clamp(272px,34cqi,400px);aspect-ratio:1;border-radius:50%;background:var(--g);box-shadow:var(--sh-l);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none;transition:box-shadow .5s var(--ease);-webkit-tap-highlight-color:transparent}
+/* in a phone the dial is most of the screen width: vertical swipes scroll the page, a sideways drag turns the dial, + and - stay for exact steps (17.10.2026) */
+@media (pointer:coarse){.dial{touch-action:pan-y}}
 .q .dial.drag{cursor:grabbing}
 .q .dial.is-off{box-shadow:var(--flat);cursor:default}
 .q .dial:focus-visible{outline-offset:6px}

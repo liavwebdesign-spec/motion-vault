@@ -559,8 +559,9 @@ for (const e of entries) (SIBS[e.cat] = SIBS[e.cat] || []).push(e);
 // Ids without a number (the frames) keep their catalog order.
 const idKey = id => { const m = /(\d+)([a-z]*)$/.exec(id); return m ? [Number(m[1]), m[2]] : null; };
 for (const L of Object.values(SIBS)) if (L.every(e => idKey(e.id))) L.sort((a, b) => { const x = idKey(a.id), y = idKey(b.id); return x[0] - y[0] || x[1].localeCompare(y[1]); });
-// טווח משקלים רציף ולא ערכים בדידים: קובץ אחד במקום חמישה, ומשקל שאפשר להנפיש בלי קפיצות
-const FONT = `<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">`;
+// פונט המאגר הוא Google Sans המאוחסן מקומית (assets/fonts, נטען ב-vault.css). עד 17.10.2026 נטען כאן גם Heebo מגוגל
+// כגיבוי בכל עמוד; Google Sans מכסה את כל העברית, ₪, גרש וגרשיים, כך שהגיבוי רק הוסיף בקשה חיצונית.
+const FONT = "";
 
 const LIVE = "https://liavwebdesign-spec.github.io/motion-vault";
 // שפת עיצוב יכולה לדרוש פונט משלה (Suez One לרטרו, Karantina לברוטליזם). הקישור נבנה מהשדה fonts.
@@ -791,13 +792,13 @@ const BP_BAR = `<div class="bpbar"><span class="flabel">רוחב תצוגה:</sp
   <button class="bpbtn" data-bp="tablet">טאבלט 768</button>
   <button class="bpbtn" data-bp="mobile">מובייל 375</button></div>`;
 // מתג הפונט (עמודי שפה בלבד): מחליף את גופן עמוד הייחוס ומחיל את פקטור הכיול ו-λ מ-font-calibration.md.
-// למה: כל הדמואים רצים על Heebo, והאתרים האמיתיים על פלוני, גולן ופרנק. שפה שאושרה ב-Heebo נראית
+// למה: כל הדמואים רצים על Google Sans, והאתרים האמיתיים על פלוני, גולן ופרנק. שפה שאושרה ב-Google Sans נראית
 // אחרת בפלוני. פונטים מקומיים (aaa) קיימים רק במחשב של ליאב; במכונה אחרת הכפתור מנוטרל.
 const FONTS = [
-  { id: "heebo", label: "Heebo", note: "ברירת המחדל", stack: "'Heebo',system-ui,sans-serif", fz: 1, lh: 1, local: false },
-  { id: "ploni", label: "פלוני", note: "מקומי · פקטור 1.19 · λ 0.80", stack: "'Ploni','Heebo',system-ui,sans-serif", fz: 1.19, lh: 0.80, local: true, family: "Ploni" },
-  { id: "frankre", label: "פרנק רי", note: "מקומי · פקטור 1.02 · λ 1.07", stack: "'FrankRe DL v2 AAA','Heebo',system-ui,sans-serif", fz: 1.02, lh: 1.07, local: true, family: "FrankRe DL v2 AAA" },
-  { id: "frl", label: "Frank Ruhl Libre", note: "גוגל · פקטור 0.96 · λ 1.04 (נמדד ב-canvas, לא בפרוטוקול המלא)", stack: "'Frank Ruhl Libre','Heebo',serif", fz: 0.96, lh: 1.04, local: false },
+  { id: "gsans", label: "Google Sans", note: "ברירת המחדל", stack: "'Google Sans',system-ui,sans-serif", fz: 1, lh: 1, local: false },
+  { id: "ploni", label: "פלוני", note: "מקומי · פקטור 1.19 · λ 0.80", stack: "'Ploni','Google Sans',system-ui,sans-serif", fz: 1.19, lh: 0.80, local: true, family: "Ploni" },
+  { id: "frankre", label: "פרנק רי", note: "מקומי · פקטור 1.02 · λ 1.07", stack: "'FrankRe DL v2 AAA','Google Sans',system-ui,sans-serif", fz: 1.02, lh: 1.07, local: true, family: "FrankRe DL v2 AAA" },
+  { id: "frl", label: "Frank Ruhl Libre", note: "גוגל · פקטור 0.96 · λ 1.04 (נמדד ב-canvas, לא בפרוטוקול המלא)", stack: "'Frank Ruhl Libre','Google Sans',serif", fz: 0.96, lh: 1.04, local: false },
 ];
 const FRL_LINK = '<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;500;700&display=swap" rel="stylesheet">';
 const FONT_BAR = `<div class="bpbar fontbar"><span class="flabel">פונט מכויל:</span>${FONTS.map((f, i) => `<button class="bpbtn${i ? "" : " on"}" data-font="${f.id}" title="${f.note}">${f.label}${f.local ? " <small>מקומי</small>" : ""}</button>`).join("")}</div>`;
@@ -849,10 +850,10 @@ ${e.css || ""}${e.demoCss ? "\n/* פיגום של עמוד הדמו בלבד: ל
   <a class="vback" href="../index.html#c=${e.cat}">→ לספרייה</a>
   <nav class="vpn" aria-label="פריטים סמוכים"><a href="${sibs(e).prev.id}.html" rel="prev" title="הקודם: ${esc(sibs(e).prev.name)}">→<span class="sr-only">הקודם</span></a><span class="vpn-n">${sibs(e).n}/${sibs(e).of}</span><a href="${sibs(e).next.id}.html" rel="next" title="הבא: ${esc(sibs(e).next.name)}">←<span class="sr-only">הבא</span></a></nav>
   <h1><span class="vid">${e.id.toUpperCase()}</span> · ${e.name}</h1>
-  <span class="chip cat-${e.cat}">${CATS[e.cat]}</span>
-  <span class="chip">${e.tech}</span>
-  ${(USES[e.id] || []).map(u => `<span class="chip use">${USES_LABELS[u]}</span>`).join("")}
-  <span class="chip st-pending" data-mvchip>ממתין</span>
+  <span class="vchip cat-${e.cat}">${CATS[e.cat]}</span>
+  <span class="vchip">${e.tech}</span>
+  ${(USES[e.id] || []).map(u => `<span class="vchip use">${USES_LABELS[u]}</span>`).join("")}
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:${e.id}"><code>MV:${e.id}</code> העתק מזהה</button>
   <button class="vtray" type="button" data-tray="${e.id}">+ לסל הפרויקט</button>
 </div></div>
@@ -1055,9 +1056,9 @@ ${existsSync(join(ROOT, "assets", "changes.js")) ? `<script src="assets/changes.
 
 function indexPage() {
   const cards = entries.map(e => `<a class="vcard" data-id="${e.id}" data-cat="${e.cat}" data-area="${CAT_AREA[e.cat]}" data-uses="${(USES[e.id] || []).join(" ")}" data-elems="${(ELEMS[e.id] || []).join(" ")}" data-fit="${(FIT[e.id] || []).join(" ")}" data-txt="${("MV:" + e.id + " " + e.name + " " + e.desc + " " + e.tech + " " + (USES[e.id] || []).map(u => USES_LABELS[u]).join(" ") + " " + (ELEMS[e.id] || []).map(u => ELEMS_LABELS[u]).join(" ") + " " + (FIT[e.id] || []).map(u => FIT_LABELS[u]).join(" ")).replace(/"/g, "")}" href="${e.cat}/${e.id}.html">
-  <div class="row"><span class="vid">MV:${e.id}</span><span class="chip cat-${e.cat}">${CATS[e.cat]}</span><span class="chip stchip st-pending">ממתין</span></div>
+  <div class="row"><span class="vid">MV:${e.id}</span><span class="vchip cat-${e.cat}">${CATS[e.cat]}</span><span class="vchip stchip st-pending">ממתין</span></div>
   <h3>${e.name}</h3><p>${e.desc}</p>
-  <div class="row">${e.archived ? `<span class="chip">ארכיון</span>` : ""}<span class="chip">${e.tech}</span>${(USES[e.id] || []).map(u => `<span class="chip use">${USES_LABELS[u]}</span>`).join("")}${(ELEMS[e.id] || []).map(u => `<span class="chip elem">${ELEMS_LABELS[u]}</span>`).join("")}</div>
+  <div class="row">${e.archived ? `<span class="vchip">ארכיון</span>` : ""}<span class="vchip">${e.tech}</span>${(USES[e.id] || []).map(u => `<span class="vchip use">${USES_LABELS[u]}</span>`).join("")}${(ELEMS[e.id] || []).map(u => `<span class="vchip elem">${ELEMS_LABELS[u]}</span>`).join("")}</div>
 </a>`).join("\n");
   const REPORT_LIST = JSON.stringify(entries.map(e => ({ id: e.id, name: e.name, cat: e.cat })));
   const counts = Object.fromEntries(Object.keys(CATS).map(c => [c, entries.filter(e => e.cat === c).length]));
@@ -1088,13 +1089,13 @@ ${FONT}
 </div>
 <div class="vtoolbar">
   <div class="vtoolbar-row">
-    <div class="seg area-seg" role="tablist" aria-label="אזור">
+    <div class="vseg area-seg" role="tablist" aria-label="אזור">
       <button class="abtn on" data-a="all">הכל · ${entries.length}</button>
       ${abtns}
     </div>
   </div>
   <div class="vtoolbar-row">
-    <div class="seg" role="tablist" aria-label="קטגוריה">
+    <div class="vseg" role="tablist" aria-label="קטגוריה">
       <button class="fbtn on" data-f="all">הכל · ${entries.length}</button>
       ${fbtns}
     </div>
@@ -1142,7 +1143,7 @@ function paintStatus(){
   const tally={ok:0,no:0,pending:0};
   cards.forEach(c=>{
     const s=MV.state(c.dataset.id),chip=c.querySelector('.stchip');
-    chip.textContent=MV.label(s);chip.className='chip stchip st-'+s;
+    chip.textContent=MV.label(s);chip.className='vchip stchip st-'+s;
     c.dataset.status=s;tally[s]=(tally[s]||0)+1;
   });
   // הספירה חיה: היא נגזרת מהאישורים בפועל ולא מהבנייה

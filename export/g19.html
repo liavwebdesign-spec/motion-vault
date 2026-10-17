@@ -72,7 +72,7 @@ if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
   const CFG=[["-2em",50,"left bottom"],["-2em",30,"top right"],["-2em",-50,"top center"],["-2em",50,"left bottom"],
     ["-4em",-30,"top center"],["-4em",30,"center bottom"],["-6em",-50,"top right"],["-8em",-30,"center center"]];
   gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
-    const tl=gsap.timeline({scrollTrigger:{trigger:".coins",start:"top 75%",end:"top 30%",scrub:1}});
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:".coins",start:"top 75%",end:"top 30%",scrub:1}});
     gsap.utils.toArray(".coin").forEach((el,i)=>{
       const c=CFG[i%CFG.length];
       tl.from(el,{y:c[0],rotate:c[1],transformOrigin:c[2],opacity:0,duration:1},0);

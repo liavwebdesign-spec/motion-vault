@@ -228,10 +228,10 @@ else{addEventListener("load",first);setTimeout(first,3000)}`,
   js:`(function(){
   if(typeof gsap==="undefined")return;      // בלי GSAP הכרטיסים במקומם
   gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
-    const st=()=>({trigger:".fan",start:"top 78%",end:"top 45%",scrub:1});
-    gsap.from(".fc-l",{x:"30vw",rotate:10,scrollTrigger:st()});    // הראשון בסדר הקריאה: בעברית בצד ימין, ונכנס מימין
-    gsap.from(".fc-c",{y:"4vw",rotate:-5,scrollTrigger:st()});
-    gsap.from(".fc-r",{x:"-30vw",rotate:-10,scrollTrigger:st()});
+    const st=()=>({trigger:".fan",start:"top 78%",end:"top 45%",scrub:1});   // scrub: הגלילה היא העקומה, ולכן ease:"none"
+    gsap.from(".fc-l",{x:"30vw",rotate:10,ease:"none",scrollTrigger:st()});    // הראשון בסדר הקריאה: בעברית בצד ימין, ונכנס מימין
+    gsap.from(".fc-c",{y:"4vw",rotate:-5,ease:"none",scrollTrigger:st()});
+    gsap.from(".fc-r",{x:"-30vw",rotate:-10,ease:"none",scrollTrigger:st()});
   });
 })();`,
   note:"אין transition על transform של הכרטיסים: ה-scrub מציב transform בכל פריים וה-transition רודף אחריו ומורח את המהלך. הובר עובר ל-box-shadow או לאלמנט פנימי (סיני, 12.8.2026). fc-l הוא הכרטיס הראשון בסדר הקריאה, בעברית בצד ימין, ונכנס מימין. הכרטיסים מתחילים מחוץ למסך, ולכן בעמוד חובה html,body{overflow-x:clip}."
@@ -304,7 +304,7 @@ else{addEventListener("load",first);setTimeout(first,3000)}`,
   const CFG=[["-2em",50,"left bottom"],["-2em",30,"top right"],["-2em",-50,"top center"],["-2em",50,"left bottom"],
     ["-4em",-30,"top center"],["-4em",30,"center bottom"],["-6em",-50,"top right"],["-8em",-30,"center center"]];
   gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
-    const tl=gsap.timeline({scrollTrigger:{trigger:".coins",start:"top 75%",end:"top 30%",scrub:1}});
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:".coins",start:"top 75%",end:"top 30%",scrub:1}});
     gsap.utils.toArray(".coin").forEach((el,i)=>{
       const c=CFG[i%CFG.length];
       tl.from(el,{y:c[0],rotate:c[1],transformOrigin:c[2],opacity:0,duration:1},0);

@@ -71,11 +71,11 @@ if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger, SplitText);
     // עברית: מפצלים למילים בלבד. בלי lines: ב-RTL הפיצול לשורות מזהה כל כותרת כשורה אחת
     const words=h=>{const s=new SplitText(h,{type:"words"});splits.push(s);return s.words;};
     // רמה ב: המילים מתבהרות. stagger 0.5 בטווין scrub הוא חלק ממרחק הגלילה, לא מילישניות
-    const fade=h=>gsap.from(words(h),{opacity:.15,stagger:.5,scrollTrigger:st(h,"top 80%","top 30%")});
+    const fade=h=>gsap.from(words(h),{opacity:.15,stagger:.5,ease:"none",scrollTrigger:st(h,"top 80%","top 30%")});
     // רמה א: המילים עולות מ-clip. בטלפון clip על מילים קטנות מרצד, ולכן שם היא מקבלת את רמה ב
     document.querySelectorAll(".t-clip").forEach(h=>{
       if(mob)return fade(h);
-      gsap.from(words(h),{clipPath:"inset(100% 0% 0% 0%)",opacity:0,stagger:.5,scrollTrigger:st(h,"top 80%","top 30%")});
+      gsap.from(words(h),{clipPath:"inset(100% 0% 0% 0%)",opacity:0,stagger:.5,ease:"none",scrollTrigger:st(h,"top 80%","top 30%")});
     });
     document.querySelectorAll(".t-fade").forEach(fade);
     // רמה ג: הכותרת כולה נמחקת מהצד, בלי פיצול. scrub: הגלילה היא העקומה, ולכן ease:"none"

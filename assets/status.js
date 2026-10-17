@@ -43,7 +43,7 @@
             '<textarea class="mvp-ta" rows="3" placeholder="לדוגמה: הכרטיסים קופצים בכניסה, הטקסט נחתך במובייל...">' +
             note.replace(/</g, "&lt;") + '</textarea><span class="mvp-saved"></span></div>'
           : "");
-      if (chip) { chip.textContent = MV.label(s); chip.className = "chip st-" + s; }
+      if (chip) { chip.textContent = MV.label(s); chip.className = "vchip st-" + s; }
       el.querySelectorAll(".stbtn").forEach(function (b) {
         b.addEventListener("click", function () {
           var want = b.dataset.s;
