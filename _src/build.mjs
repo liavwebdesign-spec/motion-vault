@@ -10,6 +10,9 @@ import { readFileSync as __rf } from "node:fs";
 import { createHash as __ch } from "node:crypto";
 // baseline.js carries a content hash (23.9.2026): after syncing a review report, browsers kept the old file and old statuses won
 const BV = __ch("sha1").update(__rf(new URL("../assets/baseline.js", import.meta.url))).digest("hex").slice(0, 8);
+// vault.css and status.js too (17.10.2026): the .chip -> .vchip rename showed bare labels for ten minutes from the browser cache
+const __hv = f => __ch("sha1").update(__rf(new URL("../assets/" + f, import.meta.url))).digest("hex").slice(0, 8);
+const ASSETV = html => html.replace(/(assets\/vault\.css)"/g, `$1?v=${__hv("vault.css")}"`).replace(/(assets\/status\.js)"/g, `$1?v=${__hv("status.js")}"`);
 import { writeCompositionsSkill, writeStylesSkill, writeAntiSkill, writeArchSkill } from "./skill.mjs";
 import { SITES, SECS, TONES, ROLES, doseLabel, loadPlace, validatePlace } from "./place.mjs";
 
@@ -1214,7 +1217,7 @@ addEventListener('pageshow',()=>{paintStatus();apply();});
 for (const cat of Object.keys(CATS)) mkdirSync(join(ROOT, cat), { recursive: true });
 mkdirSync(join(ROOT, "export"), { recursive: true });
 let n = 0;
-for (const e of entries) { writeFileSync(join(ROOT, e.cat, e.id + ".html"), page(e)); n++; }
+for (const e of entries) { writeFileSync(join(ROOT, e.cat, e.id + ".html"), ASSETV(page(e))); n++; }
 // ייצוא נייד: קובץ עצמאי לכל מהלך + מניפסט מובנה לסוכן קוד
 const manifest = [];
 for (const e of entries) {
@@ -1238,12 +1241,12 @@ writeFileSync(join(ROOT, "export", "manifest.json"), JSON.stringify({
 
 // 23.9.2026: Liav approved the library view ("היא מעולה כן"), so it is the home page now.
 // The old flat grid stays reachable as classic.html; library.html (the prototype URL he got) forwards with its hash.
-writeFileSync(join(ROOT, "index.html"), libraryPage({ entries: Object.values(SIBS).flat(), CATS, FIT, FIT_LABELS, USES, USES_LABELS, ELEMS, ELEMS_LABELS, BV, PLACE, SITES, SECS }));
-writeFileSync(join(ROOT, "classic.html"), indexPage());
+writeFileSync(join(ROOT, "index.html"), ASSETV(libraryPage({ entries: Object.values(SIBS).flat(), CATS, FIT, FIT_LABELS, USES, USES_LABELS, ELEMS, ELEMS_LABELS, BV, PLACE, SITES, SECS })));
+writeFileSync(join(ROOT, "classic.html"), ASSETV(indexPage()));
 writeFileSync(join(ROOT, "library.html"), `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><title>Design DNA · הספרייה</title>
 <script>location.replace("index.html"+location.hash)</script><meta http-equiv="refresh" content="0;url=index.html"></head><body><a href="index.html">לספרייה</a></body></html>`);
-writeFileSync(join(ROOT, "review.html"), reviewPage());
-writeFileSync(join(ROOT, "legend.html"), legendPage());
+writeFileSync(join(ROOT, "review.html"), ASSETV(reviewPage()));
+writeFileSync(join(ROOT, "legend.html"), ASSETV(legendPage()));
 // התורה נכתבת לסקיל מהקטלוג: המאגר הוא מקור האמת (6.9.2026)
 const skillTargets = [...writeCompositionsSkill(entries, ROOT), ...writeStylesSkill(entries, ROOT), ...writeAntiSkill(entries, ROOT), ...writeArchSkill(entries, ROOT)];
 console.log("doctrine -> " + skillTargets.join(" , "));
