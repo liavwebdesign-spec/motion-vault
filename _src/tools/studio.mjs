@@ -37,6 +37,26 @@ const CHROME = [process.env.CHROME_PATH, "C:/Program Files/Google/Chrome/Applica
   process.env.LOCALAPPDATA && join(process.env.LOCALAPPDATA, "Google/Chrome/Application/chrome.exe")].filter(Boolean).find(existsSync);
 if (!CHROME) { console.error("Chrome לא נמצא"); process.exit(1); }
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+// 17 (18.10.2026): text over an image was "manual" here, and the vault language pages had no contrast check at all. Now it is
+// measured against the pixels by site-qa/image-contrast.mjs, which finds by itself which text sits on a photo (--auto) and walks
+// the whole page (--full), at 1280 and at 390. --no-image skips it (it adds about a minute).
+const IMGC = join(homedir(), ".claude", "skills", "design-dna", "tools", "site-qa", "image-contrast.mjs");
+const VAULT_CHROME = ".vtop,.vintro,.mvcode,.vpn-foot,.mvpanel,.demo-note,.bpbar,.runway";
+function imageContrast(url, root, isVault) {
+  const one = (w, h) => new Promise(res => {
+    const a = [IMGC, url, "--w", String(w), "--h", String(h), "--auto", "--full"];
+    if (root) a.push("--root", root);
+    if (isVault) a.push("--hide", VAULT_CHROME);
+    const p = spawn(process.execPath, a, { stdio: ["ignore", "pipe", "pipe"] }); let out = "";
+    p.stdout.on("data", d => out += d); p.stderr.on("data", d => out += d);
+    p.on("close", () => {
+      const m = out.match(/נבדקו (\d+) · נכשלו (\d+)/);
+      const bad = [...out.matchAll(/^\s+✗ (\S+) "([^"]*)" ([\d.]+) < ([\d.]+)/gm)].map(x => `${x[1]} "${x[2]}" ${x[3]}<${x[4]}@${w}`);
+      res(m ? { n: +m[1], f: +m[2], bad } : { n: 0, f: 0, bad: [], err: out.trim().split("\n").pop() });
+    });
+  });
+  return Promise.all([one(1280, 900), one(390, 844)]);
+}
 const PORT = 9900 + (process.pid % 90);
 const chrome = spawn(CHROME, ["--headless=new", "--disable-gpu", "--hide-scrollbars", "--no-first-run", "--allow-file-access-from-files", `--remote-debugging-port=${PORT}`, "--window-size=1280,900", "about:blank"], { stdio: "ignore" });
 let ws, mid = 0; const pend = new Map();
@@ -269,6 +289,16 @@ const MEASURE = `(function(SEL, PROJECT, DUR, TOK){
     const r = await send("Runtime.evaluate", { expression: MEASURE, returnByValue: true }, sessionId);
     if (r.exceptionDetails) throw new Error("מדידה נכשלה: " + (r.exceptionDetails.exception?.description || r.exceptionDetails.text));
     const { results } = r.result.value;
+    const i17 = results.findIndex(x => x.n === 17);
+    if (i17 >= 0 && !args.includes("--no-image") && existsSync(IMGC)) {
+      const isVault = !PROJECT && url.startsWith("file:") && url.includes("Motion%20Vault");
+      const ic = await imageContrast(url, isVault ? ".bpwrap,.ref" : (sel === "body" ? "" : sel), isVault);
+      const n = ic.reduce((t, x) => t + x.n, 0), f = ic.reduce((t, x) => t + x.f, 0), err = ic.find(x => x.err);
+      const x = results[i17];
+      if (err && !n) x.evidence = "המדידה לא רצה: " + err.err;
+      else if (!n) { x.status = "na"; x.evidence = "אין טקסט על תמונה (1280 ו-390, כל העמוד)"; }
+      else { x.status = f ? "fail" : "pass"; x.evidence = `נמדדו ${n} מול הפיקסלים (1280 ו-390), נכשלו ${f}` + (f ? ": " + ic.flatMap(y => y.bad).slice(0, 4).join(" · ") : "") + " · הסקרים עצמו נבדק בעין"; }
+    }
     const pass = results.filter(x => x.status === "pass").length, fail = results.filter(x => x.status === "fail"), manual = results.filter(x => x.status === "manual").length, na = results.filter(x => x.status === "na").length;
     const starsFailed = fail.filter(x => x.star).map(x => x.n);
     const mark = { pass: "✓", fail: "✗", manual: "עין", na: "לא רלוונטי" };
