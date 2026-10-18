@@ -543,6 +543,10 @@ const badPlace = validatePlace(PLACE, new Set(entries.map(e => e.id)));
 if (badPlace.length) throw new Error("place.json: " + badPlace.join("; "));
 const untagged = entries.filter(e => !PLACE[e.id]).map(e => e.id);
 if (untagged.length) console.log(`place: ${untagged.length} פריטים עוד בלי "איפה ומתי"`);
+// a language closed for good (Liav, 18.10.2026: s03 merged into s08): no page of its own, not in the library, not in prev/next;
+// its old address stays alive as a redirect so a saved link does not break
+const REDIRECTS = entries.filter(e => e.redirect);
+for (const r of REDIRECTS) entries.splice(entries.indexOf(r), 1);
 // השורות של "איפה ומתי" לעמוד הפריט, להנחיה לסוכן ולמניפסט: אותו מקור לכולם
 function placeRows(e) {
   const p = PLACE[e.id];
@@ -1218,6 +1222,8 @@ for (const cat of Object.keys(CATS)) mkdirSync(join(ROOT, cat), { recursive: tru
 mkdirSync(join(ROOT, "export"), { recursive: true });
 let n = 0;
 for (const e of entries) { writeFileSync(join(ROOT, e.cat, e.id + ".html"), ASSETV(page(e))); n++; }
+for (const r of REDIRECTS) writeFileSync(join(ROOT, r.cat, r.id + ".html"), `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><title>${esc(r.name)} · עבר ל-${r.redirect}</title><meta http-equiv="refresh" content="0; url=${r.redirect}.html"><link rel="canonical" href="${r.redirect}.html"></head><body><p><a href="${r.redirect}.html">${esc(r.name)} אוחדה לתוך MV:${r.redirect}</a></p></body></html>
+`);
 // ייצוא נייד: קובץ עצמאי לכל מהלך + מניפסט מובנה לסוכן קוד
 const manifest = [];
 for (const e of entries) {

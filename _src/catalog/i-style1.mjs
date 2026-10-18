@@ -119,7 +119,7 @@ export const sk = (o) => ({
 
 export default [
 sk({
-  id: "s03", archived: true, archiveNote: "מאוחדת לתוך ליקוויד גלאס (MV:s08)", name: "גלסמורפיזם", en: "Glassmorphism", group: "עומק ומרקם",
+  id: "s03", archived: true, redirect: "s08", archiveNote: "מאוחדת לתוך ליקוויד גלאס (MV:s08)", name: "גלסמורפיזם", en: "Glassmorphism", group: "עומק ומרקם",
   desc: "משטחי זכוכית חצי-שקופים מטושטשים מעל רקע צבעוני עשיר. פרימיום, שכבות, Apple.",
   when: "דפי נחיתה, פינטק, קריפטו, דשבורדים מודרניים, פרימיום.",
   no: "מעל רקע לבן או חלש. הזכוכית נעלמת. חייבים רקע עשיר.",
