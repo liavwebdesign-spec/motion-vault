@@ -1,4 +1,4 @@
-// גלריית אנטי-פטרנים A1-A15: כל עמוד מציג "ככה לא" מול "ככה כן" על אותו
+// גלריית אנטי-פטרנים A1-A16: כל עמוד מציג "ככה לא" מול "ככה כן" על אותו
 // בלוק ניטרלי בדיוק. המקור לכל פריט הוא לקח שכבר רשום בתורה (צ'קליסט ה-QA
 // של design-dna, קריקטורות השפות, כללי המנוע), וכאן הוא מקבל עיניים.
 //
@@ -275,7 +275,7 @@ doc({
   when: "שורות שירותים, טורי יתרונות, כרטיסי המלצה, פוטר, תוויות סקשן. בעיקר אחרי שמורידים כרטיסים ומחליפים אותם בקווים.",
   rule: "ליאב, 22.9.2026: שימוש יתר במסגרות ומפרידונים מזוהה עם עיצוב AI. מפרידים ברווח, במשטח ובטיפוגרפיה. קו או מסגרת רק כשהם המידע עצמו (שדה, ציר זמן, טבלה), ולכל היותר משפחה אחת לסקשן ושלוש לעמוד. נאכף ב-site-qa/qa.mjs סעיף 12.",
   why: "קו הוא הפתרון הזול לשאלה 'איך אני מפריד את זה'. כשהוא חוזר בכל רמה, העין לא מבחינה בין הפרדה חשובה להפרדה טכנית, והקצב של העמוד נעלם מאחורי רשת.",
-  fix: "מוחקים את הקו ושואלים מה חסר. בדרך כלל רווח גדול יותר בין קבוצות, מספר גדול או משקל שמסמן התחלה, או משטח בגוון אחר לפריט הפעיל. כרטיס מקבל משטח או מסגרת, לעולם לא את שניהם.",
+  fix: "מוחקים את הקו ושואלים מה חסר. בדרך כלל רווח גדול יותר בין קבוצות, כותרת במשקל שמסמן התחלה, או משטח בגוון אחר לפריט הפעיל. מספר רק כשהטורים הם שלבים (a16). כרטיס מקבל משטח או מסגרת, לעולם לא את שניהם.",
   spot: "סופרים קווים במסך אחד. יותר משניים, או קו וגם הפרש משטח על אותו גבול, זה זה.",
   css: `${AP_BASE}
 .a15 .row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
@@ -288,12 +288,44 @@ doc({
 .a15 .bad .it{border-top:1px solid #d9d9e0;padding-top:14px;border-inline-start:1px solid #ececf1;padding-inline-start:10px}
 .a15 .bad .q{border:1px solid #d9d9e0;background:#f7f7f9;border-radius:12px;padding:14px;margin-top:16px;font-size:13px}
 .a15 .good .row{gap:28px}
+.a15 .good .it .h{font-size:17px;margin-top:0}
 .a15 .good .q{background:#f3f3f6;border-radius:12px;padding:16px;margin-top:26px;font-size:13px}
 @container (max-width:480px){.a15 .row{grid-template-columns:1fr}}`,
   html: wrap("a15",
     `<p class="ey">למה אנחנו</p><div class="row"><div class="it"><div class="n">01</div><p class="h">מתכננים קודם</p><p>עובדים מול האדריכל לפני שהקירות נסגרים.</p></div><div class="it"><div class="n">02</div><p class="h">נשארים אחרי</p><p>מי שהתקין הוא מי שעונה.</p></div><div class="it"><div class="n">03</div><p class="h">בודקים בשטח</p><p>הצעה לפי מה שבאמת צריך.</p></div></div><div class="q">"ענו תוך שעה, והגיעו באותו יום."</div>`,
     "קו לפני התווית, קו מעל השורה, קו מעל כל טור, קו צד, ומסגרת וגם משטח לציטוט. חמש משפחות קו במסך אחד.",
-    `<p class="ey">למה אנחנו</p><div class="row"><div class="it"><div class="n">01</div><p class="h">מתכננים קודם</p><p>עובדים מול האדריכל לפני שהקירות נסגרים.</p></div><div class="it"><div class="n">02</div><p class="h">נשארים אחרי</p><p>מי שהתקין הוא מי שעונה.</p></div><div class="it"><div class="n">03</div><p class="h">בודקים בשטח</p><p>הצעה לפי מה שבאמת צריך.</p></div></div><div class="q">"ענו תוך שעה, והגיעו באותו יום."</div>`,
-    "אפס קווים. המספר הכתום פותח כל טור, הרווח מפריד בין הטורים, והציטוט עומד על משטח בלבד."),
+    `<p class="ey">למה אנחנו</p><div class="row"><div class="it"><p class="h">מתכננים קודם</p><p>עובדים מול האדריכל לפני שהקירות נסגרים.</p></div><div class="it"><p class="h">נשארים אחרי</p><p>מי שהתקין הוא מי שעונה.</p></div><div class="it"><p class="h">בודקים בשטח</p><p>הצעה לפי מה שבאמת צריך.</p></div></div><div class="q">"ענו תוך שעה, והגיעו באותו יום."</div>`,
+    "אפס קווים. הכותרת הכבדה פותחת כל טור, הרווח מפריד בין הטורים, והציטוט עומד על משטח בלבד. בלי מספרים: שלוש סיבות שוות הן לא רצף."),
+}),
+doc({
+  id: "a16", name: "מספור וכרטיס תבנית",
+  desc: "כל סקשן נפתח ב-01, 02, וכל כרטיס בנוי מאותו מכלול: מספר, קטגוריה, כותרת, שורת תיאור וקישור עם חץ, על משטח תכלת מעוגל. כל חלק נראה סביר לבד, וביחד זו התבנית שכל מחולל מוציא.",
+  when: "ראשי סקשן, כרטיסי מדריכים ומאמרים, שירותים, דרכי קשר (01 התקשרו, 02 וואטסאפ, 03 השאירו פרטים).",
+  rule: "ליאב, 19.10.2026: \"בתתי הכותרות AI נוטה תמיד להוסיף מספר וזה ישר מסגיר... יש לך מבנה קלאסי של AI לקופסת תוכן\", ועל דרכי הקשר בויזואל: \"ל-AI יש קטע שהוא אוהב למספר כמעט הכל. שזה לפעמים לא דבר רע אבל בטוב טעם ורק כשבאמת יש סיבה אמיתית לכך\". מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), מסומן ב-ol או data-order. נאכף ב-project-check (deco-number, card-template), צ'קליסט 11ב.",
+  why: "מספר מבטיח סדר. כשאין סדר, הקורא מחפש אותו ולא מוצא, והמספר נשאר כקישוט שאומר רק דבר אחד: התבנית מילאה את עצמה. אותו דבר בכרטיס: חלקים שלא נבחרו בגלל התוכן נראים כמו טופס שמולא.",
+  fix: "שואלים על כל חלק \"מה הקורא מפסיד אם הוא יורד?\". סקשן נפתח בכותרת, ובלי מספר. כרטיס מדריך: כותרת ושורה, וכל הכרטיס הוא הקישור. קטגוריה רק כשהיא עוזרת לסנן, ואז פעם אחת כמסנן מעל הגריד ולא בכל כרטיס. מספר נשאר רק לשלבים, לציר זמן ולדירוג.",
+  spot: "מכסים את המספרים ושואלים אם משהו חסר. אם לא, הם קישוט. ובכרטיס: סופרים חלקים. חמישה בכל כרטיס, באותו סדר, זה זה.",
+  css: `${AP_BASE}
+.a16 .k{font-size:12px;color:#6a6d85;margin:0}
+.a16 .h2{font-weight:700;font-size:clamp(17px,1.8cqi,22px);margin:2px 0 12px;line-height:1.2}
+.a16 .g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.a16 .c{border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:6px;color:inherit;text-decoration:none}
+.a16 .bad .c{background:#e8f1fb}
+.a16 .c .n{font-size:12px;color:#6a6d85}
+.a16 .c .cat{font-size:11px;color:#3d6fa8;font-weight:600}
+.a16 .c .h{font-weight:700;font-size:14px;line-height:1.3;margin:0}
+.a16 .c p{margin:0;font-size:12px;color:#5b5b66;line-height:1.45}
+.a16 .c .go{font-size:12px;font-weight:600;margin-top:auto}
+.a16 .good .c{background:#f3f3f6;transition:background .2s}
+.a16 .good .c:hover{background:#e9e9ef}
+.a16 .filt{display:flex;gap:6px;margin:-4px 0 10px;flex-wrap:wrap}
+.a16 .filt span{font-size:11px;padding:4px 10px;border-radius:999px;background:#f3f3f6;color:#5b5b66}
+.a16 .filt span:first-child{background:var(--ink,#16182b);color:#fff}
+@container (max-width:480px){.a16 .g{grid-template-columns:1fr}}`,
+  html: wrap("a16",
+    `<p class="k">08 · מרכז הידע</p><p class="h2">ידע שמוסיף פרספקטיבה</p><div class="g"><a class="c" href="#"><span class="n">01</span><span class="cat">מוצרים מובנים</span><p class="h">מה זה מוצר מובנה</p><p>למי זה מתאים ומה בודקים לפני.</p><span class="go">פתיחת המדריך ←</span></a><a class="c" href="#"><span class="n">02</span><span class="cat">קרנות השתלמות</span><p class="h">איך בוחרים מסלול</p><p>דמי ניהול לאורך שנים.</p><span class="go">פתיחת המדריך ←</span></a><a class="c" href="#"><span class="n">03</span><span class="cat">פנסיה</span><p class="h">דוח המסלקה בעשר דקות</p><p>איפה מסתתר כפל ביטוחים.</p><span class="go">פתיחת המדריך ←</span></a></div>`,
+    "מספר סקשן, ובכל כרטיס חמישה חלקים באותו סדר. המדריכים לא נקראים לפי סדר, ואף אחד לא יחפש את מדריך 02.",
+    `<p class="h2">ידע שמוסיף פרספקטיבה</p><div class="filt"><span>הכל</span><span>מוצרים מובנים</span><span>השתלמות</span><span>פנסיה</span></div><div class="g"><a class="c" href="#"><p class="h">מה זה מוצר מובנה</p><p>למי זה מתאים ומה בודקים לפני.</p></a><a class="c" href="#"><p class="h">איך בוחרים מסלול</p><p>דמי ניהול לאורך שנים.</p></a><a class="c" href="#"><p class="h">דוח המסלקה בעשר דקות</p><p>איפה מסתתר כפל ביטוחים.</p></a></div>`,
+    "כותרת בלי מספר. הקטגוריה עברה למסנן אחד מעל הגריד, וכל כרטיס הוא כותרת ושורה, והכרטיס כולו הוא הקישור."),
 }),
 ];
