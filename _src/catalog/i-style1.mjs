@@ -74,7 +74,7 @@ const price = (t, amt, items, cls, btn) => `<article class="card price${cls ? " 
 export const REF_HTML = `<div class="ref">
 <header class="hd"><span class="logo">שם העסק</span><nav class="nav" aria-label="ראשי"><a href="#ref-bens">שירותים</a><a href="#ref-prices">מחירים</a><a href="#">אודות</a></nav><a class="btn sm" href="#ref-form">לשיחה קצרה</a></header>
 <section class="hero">
-<div class="hero-t"><span class="eyebrow">מה העסק עושה, בשבע מילים</span><h1>כותרת שאומרת מה מקבלים</h1><p class="lead">משפט תמיכה קצר שמסביר במה זה שונה ולמי זה מתאים, בלי להבטיח יותר מדי.</p><div class="ctas"><a class="btn" href="#ref-form">הפעולה הראשית</a><a class="btn ghost" href="#ref-bens">לראות דוגמאות</a></div></div>
+<div class="hero-t"><span class="eyebrow">מה העסק עושה</span><h1>כותרת שאומרת מה מקבלים</h1><p class="lead">משפט תמיכה קצר שמסביר במה זה שונה ולמי זה מתאים, בלי להבטיח יותר מדי.</p><div class="ctas"><a class="btn" href="#ref-form">הפעולה הראשית</a><a class="btn ghost" href="#ref-bens">לראות דוגמאות</a></div></div>
 <div class="hero-v"><i class="hv-a"></i><i class="hv-b"></i><span class="hv-l">ויז'ואל</span></div>
 </section>
 <section class="sec bens" id="ref-bens"><h2>שלושה יתרונות</h2><div class="grid3">
