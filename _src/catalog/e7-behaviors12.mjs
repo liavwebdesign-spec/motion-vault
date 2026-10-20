@@ -20,7 +20,6 @@ export default [
 .ss-item{border-top:1px solid var(--line);padding-block:clamp(16px,2vw,26px)}
 .ss-item:last-child{border-bottom:1px solid var(--line)}
 .ss-head{display:flex;align-items:center;gap:14px}
-.ss-idx{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
 .ss-item h3{margin:0;font-size:clamp(19px,2.1vw,30px);color:var(--ink);transition:color .35s}
 .ss.mv-on .ss-item:not(.on) h3{color:var(--muted)}
 .ss-body{display:grid;grid-template-rows:1fr;transition:grid-template-rows .5s cubic-bezier(.2,.6,.2,1)}
@@ -39,13 +38,13 @@ export default [
     <div class="ph ph-a on">1</div><div class="ph ph-c">2</div><div class="ph ph-d">3</div><div class="ph ph-e">4</div>
   </div>
   <div class="ss-list">
-    <div class="ss-item" data-i="0"><div class="ss-head"><span class="ss-idx">01</span><h3>אפיון לפני עיצוב</h3></div>
+    <div class="ss-item" data-i="0"><div class="ss-head"><h3>אפיון לפני עיצוב</h3></div>
       <div class="ss-body"><div><p>מתחילים בהבנה של העסק ושל הלקוח, ורק אחר כך פותחים כלי עיצוב. זה השלב שקובע אם האתר יביא פניות.</p></div></div></div>
-    <div class="ss-item" data-i="1"><div class="ss-head"><span class="ss-idx">02</span><h3>קופי שמדבר אל הלקוח</h3></div>
+    <div class="ss-item" data-i="1"><div class="ss-head"><h3>קופי שמדבר אל הלקוח</h3></div>
       <div class="ss-body"><div><p>כל כותרת עונה על שאלה אמיתית שיש למי שנחת בעמוד, במקום לתאר את העסק מבפנים.</p></div></div></div>
-    <div class="ss-item" data-i="2"><div class="ss-head"><span class="ss-idx">03</span><h3>עיצוב בשפה אחת</h3></div>
+    <div class="ss-item" data-i="2"><div class="ss-head"><h3>עיצוב בשפה אחת</h3></div>
       <div class="ss-body"><div><p>מערכת אחת של צבעים, טיפוגרפיה וריווח שחוזרת בכל עמוד, כך שהאתר מרגיש שלם ולא אוסף מסכים.</p></div></div></div>
-    <div class="ss-item" data-i="3"><div class="ss-head"><span class="ss-idx">04</span><h3>מדידה מהיום הראשון</h3></div>
+    <div class="ss-item" data-i="3"><div class="ss-head"><h3>מדידה מהיום הראשון</h3></div>
       <div class="ss-body"><div><p>מחברים מעקב לפני העלייה לאוויר, כדי שנדע מה עובד במקום לנחש חודש אחרי.</p></div></div></div>
   </div>
 </div></div></div>`,

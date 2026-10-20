@@ -31,7 +31,6 @@ export default [
   .nv-link:hover span{transform:translateX(-14px);color:var(--accent)}
   [dir="ltr"] .nv-link:hover span{transform:translateX(14px)}
 }
-.nv-link small{font-size:14px;font-weight:500;opacity:.55;margin-inline-start:14px;vertical-align:middle}
 .nv-foot{margin-top:8vh;display:flex;gap:22px;flex-wrap:wrap;font-size:14px;color:var(--bg);opacity:0;transition:opacity .5s .5s}
 .nv-foot span{opacity:.62}
 .nv-open .nv-foot{opacity:1}
@@ -46,10 +45,10 @@ export default [
   <button class="nv-toggle" aria-expanded="false" aria-controls="nvmenu"><span class="nv-label">תפריט</span><span class="nv-burger" aria-hidden="true"><i></i><i></i><i></i></span></button>
 </header>
 <nav class="nv-overlay" id="nvmenu" aria-hidden="true">
-  <a class="nv-link" href="#"><span>עבודות</span><small>01</small></a>
-  <a class="nv-link" href="#"><span>שירותים</span><small>02</small></a>
-  <a class="nv-link" href="#"><span>אודות</span><small>03</small></a>
-  <a class="nv-link" href="#"><span>יצירת קשר</span><small>04</small></a>
+  <a class="nv-link" href="#"><span>עבודות</span></a>
+  <a class="nv-link" href="#"><span>שירותים</span></a>
+  <a class="nv-link" href="#"><span>אודות</span></a>
+  <a class="nv-link" href="#"><span>יצירת קשר</span></a>
   <div class="nv-foot"><span>info@example.com</span><span>03-1234567</span><span>אינסטגרם</span></div>
 </nav>
 <div class="nv-body"><p>גלול קצת, ואז פתח את התפריט. הגלילה מאחור ננעלת בלי שהעמוד יקפוץ.</p><p style="height:150vh"></p><p>סוף העמוד.</p></div>`,

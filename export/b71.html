@@ -44,17 +44,16 @@ img{max-width:100%}
 .fm{max-width:1200px;margin-inline:auto;--fm-e:cubic-bezier(.2,.6,.2,1)}
 .fm-list{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .fm-row{position:relative;isolation:isolate;display:grid;align-items:center;column-gap:var(--gap, clamp(16px, 1.6vw, 36px));row-gap:4px;
-  grid-template-columns:auto 1fr auto;grid-template-areas:"idx label thumb" ". meta thumb";
+  grid-template-columns:1fr auto;grid-template-areas:"label thumb" "meta thumb";
   min-height:clamp(96px,10vw,160px);padding:clamp(20px,2.4vw,40px) clamp(20px,3vw,48px);
   background:var(--card, #fff);border-radius:var(--r, 14px);color:var(--ink, #16182b);text-decoration:none}
 .fm-row:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:3px}
-.fm-idx{grid-area:idx;font-size:14px;font-weight:600;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums;min-width:2ch}
 .fm-label{grid-area:label;font-size:clamp(28px,5vw,80px);font-weight:800;line-height:1.1;letter-spacing:-.02em;transition:opacity .35s var(--fm-e)}
 .fm-meta{grid-area:meta;font-size:15px;color:var(--muted, #6a6d85)}
 .fm-thumb{grid-area:thumb;display:block;width:88px;height:48px;border-radius:999px;overflow:hidden;background:var(--line, #e4e4ee)}
 .fm-thumb img,.fm-pill img{display:block;width:100%;height:100%;object-fit:cover}
 @media(min-width:768px){
-  .fm-row{grid-template-columns:auto 1fr auto auto;grid-template-areas:"idx label meta thumb"}
+  .fm-row{grid-template-columns:1fr auto auto;grid-template-areas:"label meta thumb"}
   .fm-thumb{width:clamp(120px,12vw,176px);height:clamp(52px,5.2vw,76px)}
 }
 /* הרצועה: קיימת רק כש-JS הפעיל את המצב החי (.is-live: סמן עדין ו-GSAP). הרצועה היא המסכה (overflow:hidden) והשכבה הפנימית מתקזזת מולה */
@@ -80,11 +79,11 @@ html[dir="ltr"] .fm-track{animation-name:fm-run-ltr}
 <div class="stage tight">
 <nav class="fm" aria-label="פרויקטים נבחרים">
 <ul class="fm-list">
-  <li><a class="fm-row" href="#"><span class="fm-idx">01</span><span class="fm-label">בית פרטי בכפר שמריהו</span><span class="fm-meta">מגורים · 2025</span><span class="fm-thumb"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp" alt="" loading="lazy" style="object-position:50% 45%"></span><span class="fm-clip" aria-hidden="true"><span class="fm-band"><span class="fm-bandin"><span class="fm-track"></span></span></span></span></a></li>
-  <li><a class="fm-row" href="#"><span class="fm-idx">02</span><span class="fm-label">מטבח בדירת גג</span><span class="fm-meta">מטבחים · 2025</span><span class="fm-thumb"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" alt="" loading="lazy" style="object-position:50% 55%"></span><span class="fm-clip" aria-hidden="true"><span class="fm-band"><span class="fm-bandin"><span class="fm-track"></span></span></span></span></a></li>
-  <li><a class="fm-row" href="#"><span class="fm-idx">03</span><span class="fm-label">חדר רחצה בוטיק</span><span class="fm-meta">חדרי רחצה · 2024</span><span class="fm-thumb"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp" alt="" loading="lazy" style="object-position:50% 45%"></span><span class="fm-clip" aria-hidden="true"><span class="fm-band"><span class="fm-bandin"><span class="fm-track"></span></span></span></span></a></li>
-  <li><a class="fm-row" href="#"><span class="fm-idx">04</span><span class="fm-label">פינת קריאה בסלון</span><span class="fm-meta">ריהוט ותאורה · 2024</span><span class="fm-thumb"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp" alt="" loading="lazy" style="object-position:40% 60%"></span><span class="fm-clip" aria-hidden="true"><span class="fm-band"><span class="fm-bandin"><span class="fm-track"></span></span></span></span></a></li>
-  <li><a class="fm-row" href="#"><span class="fm-idx">05</span><span class="fm-label">דירה קטנה, הרבה אור</span><span class="fm-meta">ייעוץ · 2023</span><span class="fm-thumb"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp" alt="" loading="lazy" style="object-position:35% 50%"></span><span class="fm-clip" aria-hidden="true"><span class="fm-band"><span class="fm-bandin"><span class="fm-track"></span></span></span></span></a></li>
+  <li><a class="fm-row" href="#"><span class="fm-label">בית פרטי בכפר שמריהו</span><span class="fm-meta">מגורים · 2025</span><span class="fm-thumb"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp" alt="" loading="lazy" style="object-position:50% 45%"></span><span class="fm-clip" aria-hidden="true"><span class="fm-band"><span class="fm-bandin"><span class="fm-track"></span></span></span></span></a></li>
+  <li><a class="fm-row" href="#"><span class="fm-label">מטבח בדירת גג</span><span class="fm-meta">מטבחים · 2025</span><span class="fm-thumb"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" alt="" loading="lazy" style="object-position:50% 55%"></span><span class="fm-clip" aria-hidden="true"><span class="fm-band"><span class="fm-bandin"><span class="fm-track"></span></span></span></span></a></li>
+  <li><a class="fm-row" href="#"><span class="fm-label">חדר רחצה בוטיק</span><span class="fm-meta">חדרי רחצה · 2024</span><span class="fm-thumb"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp" alt="" loading="lazy" style="object-position:50% 45%"></span><span class="fm-clip" aria-hidden="true"><span class="fm-band"><span class="fm-bandin"><span class="fm-track"></span></span></span></span></a></li>
+  <li><a class="fm-row" href="#"><span class="fm-label">פינת קריאה בסלון</span><span class="fm-meta">ריהוט ותאורה · 2024</span><span class="fm-thumb"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp" alt="" loading="lazy" style="object-position:40% 60%"></span><span class="fm-clip" aria-hidden="true"><span class="fm-band"><span class="fm-bandin"><span class="fm-track"></span></span></span></span></a></li>
+  <li><a class="fm-row" href="#"><span class="fm-label">דירה קטנה, הרבה אור</span><span class="fm-meta">ייעוץ · 2023</span><span class="fm-thumb"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp" alt="" loading="lazy" style="object-position:35% 50%"></span><span class="fm-clip" aria-hidden="true"><span class="fm-band"><span class="fm-bandin"><span class="fm-track"></span></span></span></span></a></li>
 </ul>
 </nav>
 </div>

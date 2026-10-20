@@ -45,7 +45,7 @@ const SERVICES = [
   ["פיתוח וסריקה", "שחור-לבן וצבע, מפותח ביד ונסרק ברזולוציה גבוהה. דחיפה או משיכה בתוספת 10 שקלים.", "59", "לגליל"],
   ["שירות לפני טיול", "ניקוי, בדיקת אטמים וגליל בדיקה, כדי שלא תגלו בחו\"ל שהתריס לא נסגר.", "150", "הכל כלול"],
 ];
-const svcHtml = (s, i) => `<li class="reveal" style="--i:${i}"><a class="svc" href="#s01-visit" data-svc="${s[0]}"><span class="no mono" aria-hidden="true">0${i + 1}</span><span class="sv-t"><h3>${s[0]}</h3><p>${s[1]}</p></span><span class="sv-p"><b class="mono">₪${s[2]}</b><small>${s[3]}</small></span></a></li>`;
+const svcHtml = (s, i) => `<li class="reveal" style="--i:${i}"><a class="svc" href="#s01-visit" data-svc="${s[0]}"><span class="sv-t"><h3>${s[0]}</h3><p>${s[1]}</p></span><span class="sv-p"><b class="mono">₪${s[2]}</b><small>${s[3]}</small></span></a></li>`;
 const keyHtml = (s, i) => `<label class="key"><input type="radio" name="svc" value="${s[0]}"${i === 0 ? " checked" : ""}><span>${s[0]}</span></label>`;
 
 // ───────── CSS ─────────
@@ -233,8 +233,7 @@ const CSS = `@font-face{font-family:"MV Google Sans";src:url("../assets/fonts/go
 .q .offer{padding:var(--sec) var(--gut)}
 .q .offer-in{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:72px;align-items:start;max-width:1240px;margin-inline:auto}
 .q .rack{display:flex;flex-direction:column;gap:4px;padding:16px;border-radius:28px;background:var(--plate);box-shadow:var(--lift)}
-.q .svc{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:20px;align-items:center;padding:24px;border-radius:var(--r);background:var(--plate);box-shadow:inset 0 0 0 rgba(0,0,0,0);transition:background .3s var(--ease),box-shadow .3s var(--ease)}
-.q .svc .no{font-size:18px;font-weight:700;line-height:1;color:var(--muted)}
+.q .svc{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center;padding:24px;border-radius:var(--r);background:var(--plate);box-shadow:inset 0 0 0 rgba(0,0,0,0);transition:background .3s var(--ease),box-shadow .3s var(--ease)}
 .q .sv-t{display:flex;flex-direction:column;gap:6px}
 .q .sv-t p{font-size:15px;line-height:1.55;color:var(--muted);max-width:440px}
 .q .sv-p{display:flex;flex-direction:column;align-items:flex-end;gap:4px;white-space:nowrap}
@@ -353,7 +352,6 @@ const CSS = `@font-face{font-family:"MV Google Sans";src:url("../assets/fonts/go
 .q .rd small{font-size:13px}
 .q .rack{padding:8px;border-radius:24px}
 .q .svc{grid-template-columns:1fr auto;gap:12px;padding:20px 16px}
-.q .svc .no{display:none}
 .q .of-vis .pic{aspect-ratio:4/3}
 .q .tag{padding:64px 20px 32px}
 .q .form .row{grid-template-columns:1fr}

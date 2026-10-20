@@ -163,7 +163,6 @@ export default [
 .co-step{transition:opacity .4s cubic-bezier(.2,.6,.2,1)}
 .co.mv-on .co-step{opacity:.25}
 .co.mv-on .co-step.on{opacity:1}
-.co-step b{display:block;font-size:13px;color:var(--accent);letter-spacing:.14em;margin-bottom:8px}
 .co-step h3{margin:0 0 8px;font-size:clamp(20px,2.4vw,32px)}
 .co-step p{margin:0;color:var(--muted);line-height:1.7;max-width:36ch}
 @media(max-width:767px){
@@ -176,9 +175,9 @@ export default [
   <div class="co-pin"><div class="co-fig"><div class="ph ph-b">המוצר</div>
     <span class="co-dot" style="left:28%;top:22%"></span><span class="co-dot" style="left:70%;top:48%"></span><span class="co-dot" style="left:40%;top:78%"></span></div></div>
   <div class="co-steps">
-    <div class="co-step"><b>01</b><h3>לוח בקרה אחד</h3><p>כל הלידים, ההצעות והתשלומים במסך אחד. בלי לעבור בין חמש מערכות.</p></div>
-    <div class="co-step"><b>02</b><h3>התראות בזמן אמת</h3><p>פנייה חדשה מגיעה לוואטסאפ תוך שניות, עם כל הפרטים.</p></div>
-    <div class="co-step"><b>03</b><h3>דוח שבועי אוטומטי</h3><p>כמה נכנס, כמה נסגר, ומה עדיין פתוח. כל יום ראשון בבוקר.</p></div>
+    <div class="co-step"><h3>לוח בקרה אחד</h3><p>כל הלידים, ההצעות והתשלומים במסך אחד. בלי לעבור בין חמש מערכות.</p></div>
+    <div class="co-step"><h3>התראות בזמן אמת</h3><p>פנייה חדשה מגיעה לוואטסאפ תוך שניות, עם כל הפרטים.</p></div>
+    <div class="co-step"><h3>דוח שבועי אוטומטי</h3><p>כמה נכנס, כמה נסגר, ומה עדיין פתוח. כל יום ראשון בבוקר.</p></div>
   </div>
 </div></div>`,
   js:`(function(){

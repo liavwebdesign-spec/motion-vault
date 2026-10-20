@@ -67,7 +67,6 @@ export default [
 .ex-copy p{margin:0 0 22px;color:var(--muted)}
 .ex-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .ex-list li{display:flex;gap:12px;align-items:baseline}
-.ex-list b{font-size:12px;color:var(--accent);letter-spacing:.12em;min-width:2.4em}
 .ex.mv-on{height:260vh}
 @media(max-width:767px){.ex.mv-on{height:200vh}.ex-pin{grid-template-columns:1fr;align-content:center;gap:10px}.ex-stage{height:44vh}.ex:not(.mv-on) .ex-stage{translate:0 6vh}.ex-stack{--gap:90px;width:56vw;transform:rotateX(52deg) rotateZ(-28deg)}.ex-copy h2{font-size:clamp(22px,6vw,32px)}}`,
   html:`<div class="ex">
@@ -79,7 +78,7 @@ export default [
       <div class="ex-layer" style="background:linear-gradient(160deg,#e8590c,#ffa94d)">מעטפת</div>
     </div></div>
     <div class="ex-copy"><h2>מה יש בפנים</h2><p>ארבע שכבות שעובדות ביחד. גלול כדי לפרק.</p>
-      <ul class="ex-list"><li><b>01</b>בסיס נתונים מאובטח, גיבוי יומי</li><li><b>02</b>מנוע אוטומציות שרץ ברקע</li><li><b>03</b>ממשק בעברית, לכל מכשיר</li><li><b>04</b>מעטפת שירות ותמיכה</li></ul></div>
+      <ul class="ex-list"><li>בסיס נתונים מאובטח, גיבוי יומי</li><li>מנוע אוטומציות שרץ ברקע</li><li>ממשק בעברית, לכל מכשיר</li><li>מעטפת שירות ותמיכה</li></ul></div>
   </div>
 </div>`,
   js:`(function(){
@@ -169,7 +168,6 @@ export default [
 .fk-card q{font-size:clamp(18px,2.4vw,30px);font-weight:600;line-height:1.35;quotes:none}
 .fk-card q::before{content:"״"}.fk-card q::after{content:"״"}
 .fk-card cite{font-style:normal;color:var(--muted);font-size:15px}
-.fk-card b{font-size:12px;color:var(--accent);letter-spacing:.14em}
 .fk-hint{position:absolute;bottom:22px;font-size:13px;color:var(--muted);display:none}
 /* הערימה וההצמדה: רק תחת .mv-on. בלעדיו הקלפים הם רשימה */
 .fk.mv-on{height:calc(100vh + var(--fk-n,4) * 70vh)}
@@ -180,10 +178,10 @@ export default [
 @media(max-width:767px){.fk.mv-on .fk-deck{aspect-ratio:4/5}.fk.mv-on{height:calc(100vh + var(--fk-n,4) * 55vh)}}`,
   html:`<div class="fk" style="--fk-n:4">
   <div class="fk-pin"><div class="fk-deck">
-    <article class="fk-card"><b>01</b><q>תוך שבועיים מהעלייה לאוויר קיבלנו יותר פניות מאשר בחצי השנה שלפני.</q><cite>ד"ר נועה לוי, קליניקה בתל אביב</cite></article>
-    <article class="fk-card"><b>02</b><q>הפעם הראשונה שמישהו שאל אותנו מה הלקוח צריך לפני שדיבר על צבעים.</q><cite>רועי ברק, משרד עורכי דין</cite></article>
-    <article class="fk-card"><b>03</b><q>האתר מסביר את העסק טוב יותר ממני. וזה בסדר.</q><cite>מיכל אדר, סטודיו לעיצוב פנים</cite></article>
-    <article class="fk-card"><b>04</b><q>המספרים בדשבורד הם מה ששכנע את השותף שלי שזה עובד.</q><cite>אייל כהן, חנות אונליין</cite></article>
+    <article class="fk-card"><q>תוך שבועיים מהעלייה לאוויר קיבלנו יותר פניות מאשר בחצי השנה שלפני.</q><cite>ד"ר נועה לוי, קליניקה בתל אביב</cite></article>
+    <article class="fk-card"><q>הפעם הראשונה שמישהו שאל אותנו מה הלקוח צריך לפני שדיבר על צבעים.</q><cite>רועי ברק, משרד עורכי דין</cite></article>
+    <article class="fk-card"><q>האתר מסביר את העסק טוב יותר ממני. וזה בסדר.</q><cite>מיכל אדר, סטודיו לעיצוב פנים</cite></article>
+    <article class="fk-card"><q>המספרים בדשבורד הם מה ששכנע את השותף שלי שזה עובד.</q><cite>אייל כהן, חנות אונליין</cite></article>
   </div><p class="fk-hint">גלול כדי להפוך</p></div>
 </div>`,
   js:`(function(){
@@ -271,7 +269,6 @@ export default [
 .cb-face{position:relative;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,4vw,44px);display:flex;flex-direction:column;justify-content:center;gap:12px;box-shadow:0 30px 70px rgba(0,0,0,.12)}
 .cb-face q{font-size:clamp(18px,2.4vw,30px);font-weight:600;line-height:1.35;quotes:none}
 .cb-face cite{font-style:normal;color:var(--muted);font-size:15px}
-.cb-face b{font-size:12px;color:var(--accent);letter-spacing:.14em}
 .cb-dots{position:absolute;bottom:26px;display:none;gap:8px}
 .cb-dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
 .cb-dots i.on{background:var(--accent)}
@@ -284,10 +281,10 @@ export default [
 @media(max-width:767px){.cb.mv-on{height:240vh}.cb.mv-on .cb-cube{aspect-ratio:4/5}}`,
   html:`<div class="cb">
   <div class="cb-pin"><div class="cb-cube">
-    <div class="cb-face"><b>01</b><q>האתר מסביר את העסק טוב יותר ממני.</q><cite>מיכל אדר, סטודיו לעיצוב פנים</cite></div>
-    <div class="cb-face"><b>02</b><q>תוך שבועיים קיבלנו יותר פניות מחצי השנה שלפני.</q><cite>ד"ר נועה לוי, קליניקה</cite></div>
-    <div class="cb-face"><b>03</b><q>הפעם הראשונה שמישהו שאל מה הלקוח צריך.</q><cite>רועי ברק, עורך דין</cite></div>
-    <div class="cb-face"><b>04</b><q>המספרים שכנעו את השותף שלי.</q><cite>אייל כהן, חנות אונליין</cite></div>
+    <div class="cb-face"><q>האתר מסביר את העסק טוב יותר ממני.</q><cite>מיכל אדר, סטודיו לעיצוב פנים</cite></div>
+    <div class="cb-face"><q>תוך שבועיים קיבלנו יותר פניות מחצי השנה שלפני.</q><cite>ד"ר נועה לוי, קליניקה</cite></div>
+    <div class="cb-face"><q>הפעם הראשונה שמישהו שאל מה הלקוח צריך.</q><cite>רועי ברק, עורך דין</cite></div>
+    <div class="cb-face"><q>המספרים שכנעו את השותף שלי.</q><cite>אייל כהן, חנות אונליין</cite></div>
   </div><div class="cb-dots"><i class="on"></i><i></i><i></i><i></i></div></div>
 </div>`,
   js:`(function(){

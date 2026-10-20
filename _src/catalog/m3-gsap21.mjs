@@ -11,7 +11,6 @@ export default [
 .cyl-pin{position:relative;display:grid;place-items:center;padding-block:10vh;overflow:hidden}
 .cyl-drum{position:relative;width:min(900px,92vw);display:grid;gap:.25em;font-size:clamp(26px,4.6vw,64px);font-weight:800}
 .cyl-line{display:flex;align-items:baseline;justify-content:center;gap:.5em;white-space:nowrap;color:var(--ink)}
-.cyl-line small{font-size:max(12px,.38em);font-weight:500;color:var(--accent);margin-inline-start:.6em;letter-spacing:.1em}
 /* הדעיכה ביחידות של גופן הגליל: 7em מכסים את שלוש השורות מעל ומתחת בכל רוחב; השורות הסמוכות למרכז נשארות חדות */
 .cyl-fade{position:absolute;inset-inline:0;top:50%;height:7em;translate:0 -50%;font-size:clamp(26px,4.6vw,64px);pointer-events:none;display:none;background:linear-gradient(180deg,var(--bg) 8%,transparent 34%,transparent 66%,var(--bg) 92%)}
 /* הגליל וההצמדה: רק תחת .mv-on. בלעדיו השורות הן רשימה */
@@ -23,8 +22,8 @@ export default [
 @media(max-width:767px){.cyl.mv-on{height:200vh}.cyl.mv-on .cyl-pin{perspective:700px}}`,
   html:`<div class="cyl">
   <div class="cyl-pin"><div class="cyl-drum">
-    <div class="cyl-line">אתרי תדמית<small>01</small></div><div class="cyl-line">דפי נחיתה<small>02</small></div><div class="cyl-line">חנויות אונליין<small>03</small></div>
-    <div class="cyl-line">מערכות ניהול<small>04</small></div><div class="cyl-line">אוטומציות<small>05</small></div><div class="cyl-line">קופי ואסטרטגיה<small>06</small></div><div class="cyl-line">ליווי שוטף<small>07</small></div>
+    <div class="cyl-line">אתרי תדמית</div><div class="cyl-line">דפי נחיתה</div><div class="cyl-line">חנויות אונליין</div>
+    <div class="cyl-line">מערכות ניהול</div><div class="cyl-line">אוטומציות</div><div class="cyl-line">קופי ואסטרטגיה</div><div class="cyl-line">ליווי שוטף</div>
   </div><div class="cyl-fade"></div></div>
 </div>`,
   js:`(function(){

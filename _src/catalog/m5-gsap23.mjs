@@ -60,18 +60,18 @@ html[dir="ltr"] .fe-it b{transform-origin:0 50%}
 .fe-it span{font-size:14px;color:var(--muted);transition:opacity .3s,translate .3s}
 .fe-live .fe-it span{opacity:0;translate:0 4px}
 .fe-live .fe-it.on span{opacity:1;translate:0 0}
-.fe-it i{font-style:normal;font-size:12px;color:var(--accent);letter-spacing:.12em;min-width:2.4em}`,
+`,
   html:`<div class="fe">
-  <div class="fe-it"><i>01</i><b>אפיון ואסטרטגיה</b><span>שיחה, מסמך, החלטות</span></div>
-  <div class="fe-it"><i>02</i><b>קופי בעברית</b><span>כל משפט עונה על שאלה</span></div>
-  <div class="fe-it"><i>03</i><b>עיצוב ממשק</b><span>מובייל קודם, תמיד</span></div>
-  <div class="fe-it"><i>04</i><b>בניית אתר</b><span>מהיר, נגיש, מדיד</span></div>
-  <div class="fe-it"><i>05</i><b>חנות אונליין</b><span>סליקה, מלאי, משלוחים</span></div>
-  <div class="fe-it"><i>06</i><b>מערכות ניהול</b><span>CRM, פורטלים, דוחות</span></div>
-  <div class="fe-it"><i>07</i><b>אוטומציות</b><span>מה שחוזר על עצמו, רץ לבד</span></div>
-  <div class="fe-it"><i>08</i><b>ליווי שוטף</b><span>חודש בחודשו, בלי התחייבות</span></div>
-  <div class="fe-it"><i>09</i><b>קמפיינים</b><span>מטא וגוגל, עם מדידה</span></div>
-  <div class="fe-it"><i>10</i><b>תחזוקה ואבטחה</b><span>עדכונים, גיבויים, שקט</span></div>
+  <div class="fe-it"><b>אפיון ואסטרטגיה</b><span>שיחה, מסמך, החלטות</span></div>
+  <div class="fe-it"><b>קופי בעברית</b><span>כל משפט עונה על שאלה</span></div>
+  <div class="fe-it"><b>עיצוב ממשק</b><span>מובייל קודם, תמיד</span></div>
+  <div class="fe-it"><b>בניית אתר</b><span>מהיר, נגיש, מדיד</span></div>
+  <div class="fe-it"><b>חנות אונליין</b><span>סליקה, מלאי, משלוחים</span></div>
+  <div class="fe-it"><b>מערכות ניהול</b><span>CRM, פורטלים, דוחות</span></div>
+  <div class="fe-it"><b>אוטומציות</b><span>מה שחוזר על עצמו, רץ לבד</span></div>
+  <div class="fe-it"><b>ליווי שוטף</b><span>חודש בחודשו, בלי התחייבות</span></div>
+  <div class="fe-it"><b>קמפיינים</b><span>מטא וגוגל, עם מדידה</span></div>
+  <div class="fe-it"><b>תחזוקה ואבטחה</b><span>עדכונים, גיבויים, שקט</span></div>
 </div>`,
   js:`(function(){
   if(typeof gsap==="undefined")return;      // בלי GSAP כל הפריטים מלאים וכל התיאורים גלויים

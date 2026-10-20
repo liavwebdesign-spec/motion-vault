@@ -143,8 +143,6 @@ const CSS = `/* Google Sans בגודל האמיתי שלו, מקומי. בפרו
 .q .dec.is-on{background:var(--surface)}
 .q .dec-h{display:flex;align-items:center;gap:16px;width:100%;min-height:60px;padding:14px 20px;background:none;border:0;border-radius:var(--r-card);cursor:pointer;text-align:start;transition:background-color .3s var(--ease)}
 .q .dec-h:hover{background:var(--surface)}
-.q .dn{font-size:var(--fs-meta);font-weight:500;letter-spacing:.14em;font-variant-numeric:tabular-nums;color:var(--muted);transition:color .15s var(--ease)}
-.q .dec.is-on .dn{color:var(--accent)}
 .q .dt{flex:1;font-size:clamp(18px, .7cqi + .8rem, 24px);font-weight:500;line-height:1.3}
 .q .dec-h .ico{color:var(--muted);transition:transform .2s var(--ease)}
 .q .dec.is-on .dec-h .ico{transform:rotate(180deg)}
@@ -202,8 +200,7 @@ const CSS = `/* Google Sans בגודל האמיתי שלו, מקומי. בפרו
 @keyframes s13drift{from{transform:translate(0,0)}to{transform:translate(-5%,5%)}}
 /* ───── דרכי עבודה: רשימה ולא כרטיסים. ההפרדה ברווח, וב-hover במשטח ───── */
 .q .offers{display:flex;flex-direction:column;gap:8px}
-.q .offer-in{display:grid;grid-template-columns:64px minmax(0,1.7fr) minmax(0,1fr) minmax(0,.7fr) 24px;align-items:center;gap:var(--gap);padding:32px 24px;border-radius:var(--r-card);transition:background-color .3s var(--ease)}
-.q .offer-in .on{font-size:var(--fs-meta);font-weight:500;letter-spacing:.14em;font-variant-numeric:tabular-nums;color:var(--muted)}
+.q .offer-in{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr) minmax(0,.7fr) 24px;align-items:center;gap:var(--gap);padding:32px 24px;border-radius:var(--r-card);transition:background-color .3s var(--ease)}
 .q .offer-in h3{font-size:clamp(22px, 1.5cqi + .6rem, 34px);line-height:1.2;margin-bottom:12px;transition:color .15s var(--ease)}
 .q .offer-in .body{font-size:var(--fs-meta);line-height:1.6;color:var(--ink-soft);max-width:52ch}
 .q .o-price{display:grid;gap:4px;justify-items:start}
@@ -286,9 +283,9 @@ const CSS = `/* Google Sans בגודל האמיתי שלו, מקומי. בפרו
  .q .proj-b{margin-top:0;align-self:start}
  .q .quote{max-width:100%}
  .q .pieces{position:relative;inset:auto;width:160px;height:160px;margin-top:32px;margin-inline-start:auto}
- .q .offer-in{grid-template-columns:48px minmax(0,1fr) auto;column-gap:var(--gap);row-gap:12px;align-items:start}
- .q .offer-in .o-for{grid-column:2;grid-row:2}
- .q .offer-in .o-price{grid-column:3;grid-row:1 / span 2}
+ .q .offer-in{grid-template-columns:minmax(0,1fr) auto;column-gap:var(--gap);row-gap:12px;align-items:start}
+ .q .offer-in .o-for{grid-column:1;grid-row:2}
+ .q .offer-in .o-price{grid-column:2;grid-row:1 / span 2}
  .q .offer-in .ico{display:none}
  .q .ft-cols{grid-template-columns:1fr 1fr}
  .q .ft-brand{grid-column:1 / -1}
@@ -314,8 +311,8 @@ const CSS = `/* Google Sans בגודל האמיתי שלו, מקומי. בפרו
  .q .stat:first-child{grid-column:1 / -1}
  .q .work-grid{grid-template-columns:1fr}
  .q .proj-c .ph-fig{aspect-ratio:3/2}
- .q .offer-in{padding:24px 20px;grid-template-columns:40px minmax(0,1fr)}
- .q .offer-in .o-for,.q .offer-in .o-price{grid-column:2;grid-row:auto}
+ .q .offer-in{padding:24px 20px;grid-template-columns:minmax(0,1fr)}
+ .q .offer-in .o-for,.q .offer-in .o-price{grid-column:1;grid-row:auto}
  .q .light{padding-bottom:var(--sec-s)}
  .q .form .btn,.q .contact .btn{width:100%}
  .q .ft-cols{grid-template-columns:1fr;gap:var(--gap-l)}
@@ -332,8 +329,8 @@ const CHECK = `<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="
 // הסימן: חלון וקרן אור אלכסונית. קווים בלבד, באותו עובי של כל האייקונים
 const MARK = `<svg class="ico l" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 17 17 8"/><path d="m13 17 4-4"/></svg>`;
 
-const dec = (i, n, t, p, on) => `<li class="dec${on ? " is-on" : ""}" data-i="${i}"><button class="dec-h" type="button" id="dh-${i}" aria-expanded="${on ? "true" : "false"}" aria-controls="db-${i}"><span class="dn">${n}</span><span class="dt">${t}</span>${CHEV}</button><div class="dec-b" id="db-${i}" role="region" aria-labelledby="dh-${i}"><div><p class="body">${p}</p></div></div></li>`;
-const offer = (n, t, p, who, price, unit) => `<li class="reveal"><a class="offer-in" href="#contact"><span class="on">${n}</span><div><h3>${t}</h3><p class="body">${p}</p></div><p class="o-for meta">${who}</p><p class="o-price"><span class="meta">החל מ-</span><b>${price} ₪</b><span class="meta">${unit}</span></p>${ARROW}</a></li>`;
+const dec = (i, n, t, p, on) => `<li class="dec${on ? " is-on" : ""}" data-i="${i}"><button class="dec-h" type="button" id="dh-${i}" aria-expanded="${on ? "true" : "false"}" aria-controls="db-${i}"><span class="dt">${t}</span>${CHEV}</button><div class="dec-b" id="db-${i}" role="region" aria-labelledby="dh-${i}"><div><p class="body">${p}</p></div></div></li>`;
+const offer = (n, t, p, who, price, unit) => `<li class="reveal"><a class="offer-in" href="#contact"><div><h3>${t}</h3><p class="body">${p}</p></div><p class="o-for meta">${who}</p><p class="o-price"><span class="meta">החל מ-</span><b>${price} ₪</b><span class="meta">${unit}</span></p>${ARROW}</a></li>`;
 
 const HTML = `<div class="cwrap sk-s13"><div class="q">
 <header class="hd"><a class="logo" href="#top">${MARK}אלכסון</a><nav class="nav-main" aria-label="ראשי"><a href="#light">שיטת העבודה</a><a href="#projects">פרויקטים</a><a href="#ways">דרכי עבודה</a></nav><div class="acts"><a class="btn sm" href="#contact">שיחת היכרות</a><button class="hd-menu" type="button" aria-expanded="false" aria-controls="mnav" aria-label="תפריט"><svg class="ico l m" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg><svg class="ico l x" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button></div>
@@ -358,11 +355,11 @@ const HTML = `<div class="cwrap sk-s13"><div class="q">
 </div></section>
 <section class="light" id="light"><div class="light-grid">
 <div class="head reveal"><span class="eyebrow">שיטת העבודה</span><h2>חדר אחד, שלוש החלטות על אור</h2><p class="lead">בוחרים נקודה בתמונה, והאור נדלק איפה שמסבירים.</p></div>
-<ol class="decs reveal">
+<ul class="decs reveal">
 ${dec(0, "01", "אור שמגיע מהצד", "המנורה עומדת מאחורי הכורסה, וראש המנורה מופנה אל הקיר. האור חוזר אל החדר רך וחם, והעיניים לא נתקלות בנורה.", true)}
 ${dec(1, "02", "אור שמסתתר בנגרות", "בכל תא במדף יושב פס אור חם ב-2700 קלווין. החפצים נראים, והמדף עצמו מאיר את החדר בלי עוד מנורה.", false)}
 ${dec(2, "03", "כתם צבע אחד", "הקיר ירוק עמוק ומט, והכורסה בורדו שחוק. זה כתם הצבע היחיד בחדר, ולכן העין נחה עליו. את הגוונים בחרנו על הקיר עצמו, בשלוש שעות ביום.", false)}
-</ol>
+</ul>
 <figure class="room reveal" data-room>
 <div class="room-frame"><img src="${IMG}room.webp" width="2200" height="1469" alt="פינת ישיבה בחדר כהה: מנורת רצפה מפליז, כורסת קטיפה בורדו ומדף עץ עם תאורה חמה בכל תא" loading="lazy">
 <div class="room-dim"></div>

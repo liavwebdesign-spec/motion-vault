@@ -55,7 +55,6 @@ const CSS = `/* Google Sans מקומי, בשם משלו (כמו ב-s05). בפר�
 .q .sec-hd{display:flex;flex-direction:column;align-items:flex-start;gap:24px;margin-bottom:64px}
 /* שורת פתיחה אחת בכל העמוד: מספר מונו וטקסט, בלוק דיו (על דיו: בלוק כתום) */
 .q .eyebrow{display:inline-flex;align-items:center;gap:12px;height:32px;padding:0 12px;background:var(--ac);color:var(--ink);font-size:13px;font-weight:500;line-height:1}
-.q .eyebrow .ix{font-family:var(--mono);font-weight:700;font-size:13px;color:var(--ink);unicode-bidi:isolate}
 .q .or .eyebrow{background:var(--paper)}
 /* כפתורים: קצה עבה אחד, צל קשיח, לחיצה מכנית */
 .q .btn{display:inline-flex;align-items:center;justify-content:center;gap:12px;font:inherit;font-size:17px;font-weight:700;line-height:1;padding:14px 28px;min-height:52px;border:3px solid var(--ink);border-radius:0;cursor:pointer;background:var(--ac);color:var(--ink);box-shadow:var(--sh) var(--sh) 0 var(--edge);transition:transform .12s var(--ease),box-shadow .12s var(--ease),background-color .18s var(--ease)}
@@ -163,16 +162,14 @@ const CSS = `/* Google Sans מקומי, בשם משלו (כמו ב-s05). בפר�
 /* אינדקס העבודות: רגע החתימה */
 .q .idx{--pvw:400px;position:relative;padding-inline-end:calc(var(--pvw) + 72px);min-height:760px}
 .q .idx-list{display:flex;flex-direction:column;gap:8px}
-.q .idx-b{display:grid;grid-template-columns:56px minmax(0,1fr) 24px;align-items:center;gap:20px;width:100%;min-height:96px;padding:20px 24px;border:0;border-radius:0;background:var(--paper-2);color:var(--ink);font:inherit;text-align:start;cursor:pointer;transition:background-color .18s var(--ease),color .18s var(--ease)}
+.q .idx-b{display:grid;grid-template-columns:minmax(0,1fr) 24px;align-items:center;gap:20px;width:100%;min-height:96px;padding:20px 24px;border:0;border-radius:0;background:var(--paper-2);color:var(--ink);font:inherit;text-align:start;cursor:pointer;transition:background-color .18s var(--ease),color .18s var(--ease)}
 .q .idx-b:hover{background:var(--paper-3)}
-.q .idx-b .ix{font-family:var(--mono);font-weight:700;font-size:20px;line-height:1;unicode-bidi:isolate}
 .q .idx-b .tx{display:flex;flex-direction:column;gap:6px;min-width:0}
 .q .idx-b .nm{font-size:clamp(24px,2.6cqi,34px);line-height:1.1;font-weight:700;letter-spacing:-.02em}
 .q .idx-b .sp{font-size:15px;color:var(--muted);line-height:1.3}
 .q .idx-b .sp .m{font-weight:700;color:inherit}
 .q .idx-b .ico{transition:transform .2s var(--ease)}
 .q .idx-it.is-on .idx-b{background:var(--ink);color:var(--paper)}
-.q .idx-it.is-on .idx-b .ix{color:var(--ac)}
 .q .idx-it.is-on .idx-b .sp{color:var(--muted-k)}
 .q .idx-it.is-on .idx-b:focus-visible{outline-color:var(--ink)}
 .q .pv{display:none;position:absolute;inset-block:0;inset-inline-end:0;width:var(--pvw)}
@@ -289,7 +286,7 @@ const CSS = `/* Google Sans מקומי, בשם משלו (כמו ב-s05). בפר�
 .q .stats{grid-template-columns:1fr;gap:16px}
 .q .st{flex-direction:row;align-items:baseline;gap:24px;padding:24px 32px 28px}
 .q .idx{--pvw:320px;padding-inline-end:calc(var(--pvw) + 40px)}
-.q .idx-b{grid-template-columns:40px minmax(0,1fr) 24px}
+.q .idx-b{grid-template-columns:minmax(0,1fr) 24px}
 .q .how-in,.q .ord-in{grid-template-columns:1fr;gap:56px}
 .q .how .pic,.q .ord .pic{aspect-ratio:4/3;max-width:560px;margin-top:0}
 .q .plans{grid-template-columns:1fr;gap:32px;max-width:560px}
@@ -320,7 +317,7 @@ const CSS = `/* Google Sans מקומי, בשם משלו (כמו ב-s05). בפר�
 .q .rv{padding:24px 24px 32px}
 .q .rv blockquote{font-size:19px}
 .q .idx{padding-inline-end:0;min-height:0}
-.q .idx-b{grid-template-columns:32px minmax(0,1fr) 24px;gap:12px;padding:16px 16px}
+.q .idx-b{grid-template-columns:minmax(0,1fr) 24px;gap:12px;padding:16px 16px}
 .q .idx-it.is-on .idx-b .ico{transform:rotate(-90deg)}
 .q .pv{position:static;width:auto}
 .q .idx-it.is-on .pv{display:block;margin:16px 0 24px}
@@ -355,7 +352,7 @@ const jobs = [
   { nm: "חוברת תערוכה לגלריה", sp: `<span class="m">A5</span> 150 עותקים`, a: "A5, 24 עמודים", c: "3 צבעים", q: "150 עותקים", t: "4 ימי עבודה", sheet: `<div class="sheet s6" aria-hidden="true"><div class="g"><span>01</span><span>02</span><span>03</span><span>04</span></div><b class="big">תערוכה</b></div>` },
 ];
 const idxHtml = jobs.map((j, i) => `<li class="idx-it${i === 0 ? " is-on" : ""}">
-<button class="idx-b" type="button" id="s07-b${i + 1}" aria-expanded="${i === 0}" aria-controls="s07-pv${i + 1}"><span class="ix">0${i + 1}</span><span class="tx"><span class="nm">${j.nm}</span><span class="sp">${j.sp}</span></span>${I.arrow}</button>
+<button class="idx-b" type="button" id="s07-b${i + 1}" aria-expanded="${i === 0}" aria-controls="s07-pv${i + 1}"><span class="tx"><span class="nm">${j.nm}</span><span class="sp">${j.sp}</span></span>${I.arrow}</button>
 <div class="pv" id="s07-pv${i + 1}" role="region" aria-labelledby="s07-b${i + 1}"><div class="pv-in"><div class="sheet-w">${j.sheet}</div>
 <dl class="pv-meta"><div><dt>גודל</dt><dd>${j.a}</dd></div><div><dt>צבעי דיו</dt><dd>${j.c}</dd></div><div><dt>כמות</dt><dd>${j.q}</dd></div><div><dt>זמן אספקה</dt><dd>${j.t}</dd></div></dl></div></div>
 </li>`).join("\n");
@@ -409,9 +406,9 @@ const HTML = `<div class="cwrap sk-s07"><div class="q" id="s07-top">
 
 <section class="sec paper" id="s07-work" aria-labelledby="s07-h2c"><div class="wrap">
 <header class="sec-hd reveal"><p class="eyebrow"><span>עבודות</span></p><h2 id="s07-h2c">אינדקס העבודות</h2><p class="lead">בוחרים שורה ורואים מה יצא מהמכונה: הגודל, הדיו, הכמות וכמה זמן זה לקח.</p></header>
-<div class="idx reveal"><ol class="idx-list">
+<div class="idx reveal"><ul class="idx-list">
 ${idxHtml}
-</ol></div>
+</ul></div>
 <p class="micro idx-note">העבודות, הכמויות והשמות בעמוד הם דוגמאות.</p>
 </div></section>
 

@@ -86,7 +86,6 @@ export default [
 .pm:not(.pm-live) .pm-s+.pm-s{display:none}
 .pm-live .pm-step{opacity:.3;transition:opacity .4s}
 .pm-live .pm-step.on{opacity:1}
-.pm-step b{display:block;font-size:12px;color:var(--accent);letter-spacing:.14em;margin-bottom:8px}
 .pm-step h3{margin:0 0 8px;font-size:clamp(22px,2.6vw,36px)}
 .pm-step p{margin:0;color:var(--muted);line-height:1.7;max-width:36ch}
 @media(max-width:767px){.pm{grid-template-columns:1fr}.pm-pin{height:46vh;top:0;z-index:2;background:var(--bg)}.pm-phone{width:min(40vw,190px);box-shadow:0 14px 28px rgba(0,0,0,.18)}.pm-steps{gap:26vh;padding-block:6vh 30vh}}`,
@@ -97,9 +96,9 @@ export default [
     <div class="pm-s"><b>דוחות</b><i></i><i class="big"></i><i></i><i></i><i></i></div>
   </div></div></div>
   <div class="pm-steps">
-    <div class="pm-step"><b>01</b><h3>מסך הבית</h3><p>מה קרה היום, במבט אחד. בלי לחפור.</p></div>
-    <div class="pm-step"><b>02</b><h3>לידים בזמן אמת</h3><p>כל פנייה נכנסת לרשימה עם מקור, שעה ומי מטפל.</p></div>
-    <div class="pm-step"><b>03</b><h3>דוח שבועי</h3><p>כמה נכנס, כמה נסגר, ומה פתוח. נשלח לבד.</p></div>
+    <div class="pm-step"><h3>מסך הבית</h3><p>מה קרה היום, במבט אחד. בלי לחפור.</p></div>
+    <div class="pm-step"><h3>לידים בזמן אמת</h3><p>כל פנייה נכנסת לרשימה עם מקור, שעה ומי מטפל.</p></div>
+    <div class="pm-step"><h3>דוח שבועי</h3><p>כמה נכנס, כמה נסגר, ומה פתוח. נשלח לבד.</p></div>
   </div>
 </div></div>`,
   js:`(function(){
