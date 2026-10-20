@@ -22,7 +22,7 @@ export default [
 .stk-foot{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:26px;font-size:14px;opacity:.85}
 .stk-tag{border:1px solid color-mix(in srgb,currentColor 35%,transparent);border-radius:999px;padding:6px 14px}
 .stk-end{height:30vh}`,
-  html:`<div class="stk">
+  html:`<div class="stk" data-order="steps">
   <article class="stk-card" style="--i:0"><div><span class="stk-num">01</span><h3>אפיון ואסטרטגיה</h3><p>מבינים את העסק, את הלקוח ואת מה שצריך לקרות באתר לפני שנוגעים בעיצוב.</p></div>
     <div class="stk-foot"><span class="stk-tag">שבוע</span><span>כלול בכל חבילה</span></div></article>
   <article class="stk-card" style="--i:1"><div><span class="stk-num">02</span><h3>עיצוב שמותאם למותג</h3><p>סקיצה של עמוד הבית לאישור, ואחריה שאר העמודים באותה שפה עיצובית.</p></div>

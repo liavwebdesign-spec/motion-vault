@@ -34,10 +34,10 @@ html[dir="ltr"] .bn-ic{transform-origin:top left}
 @media (max-width:767px){.bn{grid-template-columns:1fr}.bn-card.wide{grid-column:auto}}
 @media (prefers-reduced-motion: reduce){.bn-body,.bn-ic,.bn-cta,.bn-card::after{transition:none}}`,
   html:`<div class="stage tight"><div class="bn">
-  <article class="bn-card wide"><div class="bn-ic">01</div><div class="bn-body"><h3>אפיון לפני עיצוב</h3><p>שיחה אחת שממפה מי הלקוח, מה הוא מחפש ומה מונע ממנו לפנות. משם נגזר כל העמוד.</p></div><a class="bn-cta" href="#">איך זה עובד</a></article>
-  <article class="bn-card"><div class="bn-ic">02</div><div class="bn-body"><h3>קופי שמוכר</h3><p>כל משפט עונה על שאלה שהגולש שואל.</p></div><a class="bn-cta" href="#">דוגמאות</a></article>
-  <article class="bn-card"><div class="bn-ic">03</div><div class="bn-body"><h3>מובייל קודם</h3><p>שבעים אחוז מהתנועה. שם מתחילים.</p></div><a class="bn-cta" href="#">למה</a></article>
-  <article class="bn-card wide"><div class="bn-ic">04</div><div class="bn-body"><h3>מדידה מהיום הראשון</h3><p>טפסים, שיחות, וואטסאפ. כל פנייה נספרת, וכל שינוי נבחן מול מספר.</p></div><a class="bn-cta" href="#">מה מודדים</a></article>
+  <article class="bn-card wide"><div class="bn-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></svg></div><div class="bn-body"><h3>אפיון לפני עיצוב</h3><p>שיחה אחת שממפה מי הלקוח, מה הוא מחפש ומה מונע ממנו לפנות. משם נגזר כל העמוד.</p></div><a class="bn-cta" href="#">איך זה עובד</a></article>
+  <article class="bn-card"><div class="bn-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/></svg></div><div class="bn-body"><h3>קופי שמוכר</h3><p>כל משפט עונה על שאלה שהגולש שואל.</p></div><a class="bn-cta" href="#">דוגמאות</a></article>
+  <article class="bn-card"><div class="bn-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><rect x="7" y="3" width="10" height="18"/><path d="M11 18h2"/></svg></div><div class="bn-body"><h3>מובייל קודם</h3><p>שבעים אחוז מהתנועה. שם מתחילים.</p></div><a class="bn-cta" href="#">למה</a></article>
+  <article class="bn-card wide"><div class="bn-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div><div class="bn-body"><h3>מדידה מהיום הראשון</h3><p>טפסים, שיחות, וואטסאפ. כל פנייה נספרת, וכל שינוי נבחן מול מספר.</p></div><a class="bn-cta" href="#">מה מודדים</a></article>
 </div></div>`
 },
 {

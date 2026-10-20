@@ -369,7 +369,7 @@ const HTML = `<div class="cwrap sk-s07"><div class="q" id="s07-top">
 <main>
 <section class="hero paper" aria-labelledby="s07-h1"><div class="hero-in">
 <div class="hero-tx">
-<p class="eyebrow oi"><span class="ix">01</span><span>מכבש, דפוס ריזו בתל אביב</span></p>
+<p class="eyebrow oi"><span>מכבש, דפוס ריזו בתל אביב</span></p>
 <h1 class="oi" id="s07-h1"><span>מדפיסים היום,</span><span class="mk">אוספים מחר</span></h1>
 <p class="lead oi">פוסטרים, זינים ותפריטים בדיו אמיתי, מעשרה עותקים ומעלה. שולחים קובץ עד 17:00, ומחר אוספים מהסטודיו או מקבלים בשליח.</p>
 <div class="cta oi"><a class="btn lg" href="#s07-order">פותחים כרטיס עבודה</a><a class="lnk" href="#s07-work">לראות עבודות${I.arrow}</a></div>
@@ -385,7 +385,7 @@ const HTML = `<div class="cwrap sk-s07"><div class="q" id="s07-top">
 <section class="band" aria-labelledby="s07-h2a">
 <img class="band-img" src="${IMG}band-type.webp" width="2560" height="1000" alt="ערימת אותיות מתכת של דפוס, מצולמת מקרוב על רקע בהיר" loading="lazy" decoding="async">
 <div class="band-w"><div class="band-card reveal">
-<p class="eyebrow"><span class="ix">02</span><span>מה זה ריזו</span></p>
+<p class="eyebrow"><span>מה זה ריזו</span></p>
 <h2 id="s07-h2a">דיו אמיתי, שכבה אחרי שכבה</h2>
 <p class="body">כל צבע עובר בנפרד במכונה, והשכבות נופלות זו על זו בסטייה קטנה שרואים בעין. ככה נראים הזינים והפוסטרים שאנשים שומרים אצלם בבית.</p>
 <div class="specs"><p class="spec"><span class="m" dir="ltr">A5-A3</span><span>גדלי נייר</span></p><p class="spec"><span class="m" dir="ltr">1-3</span><span>צבעי דיו</span></p><p class="spec"><span class="m" dir="ltr">10+</span><span>עותקים בהזמנה</span></p></div>
@@ -393,7 +393,7 @@ const HTML = `<div class="cwrap sk-s07"><div class="q" id="s07-top">
 </section>
 
 <section class="sec dk proof" id="s07-proof" aria-labelledby="s07-h2b"><div class="wrap">
-<header class="sec-hd reveal"><p class="eyebrow"><span class="ix">03</span><span>לקוחות</span></p><h2 id="s07-h2b">מה אומרים אחרי שהנייר נאסף</h2></header>
+<header class="sec-hd reveal"><p class="eyebrow"><span>לקוחות</span></p><h2 id="s07-h2b">מה אומרים אחרי שהנייר נאסף</h2></header>
 <div class="stats">
 <div class="st hi reveal"><b class="n" dir="ltr"><span data-count="312">312</span></b><span class="l">פרויקטים הודפסו השנה</span></div>
 <div class="st reveal" style="--i:1"><b class="n" dir="ltr"><span data-count="24">24</span></b><span class="l">שעות מקובץ לנייר</span></div>
@@ -408,7 +408,7 @@ const HTML = `<div class="cwrap sk-s07"><div class="q" id="s07-top">
 </div></section>
 
 <section class="sec paper" id="s07-work" aria-labelledby="s07-h2c"><div class="wrap">
-<header class="sec-hd reveal"><p class="eyebrow"><span class="ix">04</span><span>עבודות</span></p><h2 id="s07-h2c">אינדקס העבודות</h2><p class="lead">בוחרים שורה ורואים מה יצא מהמכונה: הגודל, הדיו, הכמות וכמה זמן זה לקח.</p></header>
+<header class="sec-hd reveal"><p class="eyebrow"><span>עבודות</span></p><h2 id="s07-h2c">אינדקס העבודות</h2><p class="lead">בוחרים שורה ורואים מה יצא מהמכונה: הגודל, הדיו, הכמות וכמה זמן זה לקח.</p></header>
 <div class="idx reveal"><ol class="idx-list">
 ${idxHtml}
 </ol></div>
@@ -417,7 +417,7 @@ ${idxHtml}
 
 <section class="sec or how" id="s07-how" aria-labelledby="s07-h2d"><div class="how-in">
 <div>
-<header class="sec-hd reveal"><p class="eyebrow"><span class="ix">05</span><span>איך זה עובד</span></p><h2 id="s07-h2d">שלושה צעדים, בלי טפסים</h2></header>
+<header class="sec-hd reveal"><p class="eyebrow"><span>איך זה עובד</span></p><h2 id="s07-h2d">שלושה צעדים, בלי טפסים</h2></header>
 <ol class="steps">
 <li class="stp reveal"><span class="no" aria-hidden="true">1</span><div><h3>שולחים קובץ</h3><p>PDF או תמונה, עד 17:00. אנחנו בודקים אותו ומחזירים הערות באותו יום.</p></div></li>
 <li class="stp reveal" style="--i:1"><span class="no" aria-hidden="true">2</span><div><h3>מכונה, דיו, ייבוש</h3><p>כל צבע עובר בנפרד. אחרי כל מעבר הנייר מתייבש, ורק אז מגיעה השכבה הבאה.</p></div></li>
@@ -428,7 +428,7 @@ ${idxHtml}
 </div></section>
 
 <section class="sec paper" id="s07-prices" aria-labelledby="s07-h2e"><div class="wrap">
-<header class="sec-hd reveal"><p class="eyebrow"><span class="ix">06</span><span>מחירון</span></p><h2 id="s07-h2e">מחיר ברור לפני שמתחילים</h2></header>
+<header class="sec-hd reveal"><p class="eyebrow"><span>מחירון</span></p><h2 id="s07-h2e">מחיר ברור לפני שמתחילים</h2></header>
 <div class="plans">
 <article class="plan card reveal"><p class="plan-t"><span>פוסטר</span><span class="m">A3</span></p><h3>פוסטר בשני צבעים</h3>
 <p class="pr"><span class="cur">₪</span><span class="n" dir="ltr">6</span><span class="per">ליחידה, בהזמנה של 50 עותקים</span></p>
@@ -448,7 +448,7 @@ ${idxHtml}
 
 <section class="sec paper2 ord" id="s07-order" aria-labelledby="s07-h2f"><div class="ord-in">
 <div class="vpanel">
-<header class="sec-hd reveal"><p class="eyebrow"><span class="ix">07</span><span>כרטיס עבודה</span></p><h2 id="s07-h2f">פותחים כרטיס, ומחר זה אצלכם</h2><p class="lead">משאירים שם וטלפון, ואנחנו חוזרים עם מחיר וזמן אספקה עוד היום.</p></header>
+<header class="sec-hd reveal"><p class="eyebrow"><span>כרטיס עבודה</span></p><h2 id="s07-h2f">פותחים כרטיס, ומחר זה אצלכם</h2><p class="lead">משאירים שם וטלפון, ואנחנו חוזרים עם מחיר וזמן אספקה עוד היום.</p></header>
 <form class="form reveal" novalidate>
 <div class="row">
 <div class="fld"><label for="s07-name">שם</label><input class="in" id="s07-name" name="name" autocomplete="name" required aria-describedby="s07-name-m"><span class="msg" id="s07-name-m">${I.alert}איך נקרא לכם?</span></div>

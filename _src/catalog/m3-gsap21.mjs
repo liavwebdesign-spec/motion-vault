@@ -204,7 +204,7 @@ export default [
 .ch-sec h2{margin:0;font-size:var(--fs-h2)}
 .ch-sec p{margin:0;color:var(--muted);line-height:1.7;max-width:52ch}
 @media(max-width:767px){.ch-num{place-items:start end;padding:16px}.ch-clip{font-size:120px;opacity:.1}}`,
-  html:`<div class="ch">
+  html:`<div class="ch" data-order="chapters">
   <div class="ch-num" aria-hidden="true"><div class="ch-clip"><span>01</span><span>02</span><span>03</span><span>04</span></div></div>
   <div class="ch-body">
     <section class="ch-sec"><b>פרק 01</b><h2>אפיון</h2><p>מי הלקוח, מה הוא מחפש, ומה עוצר אותו. שיחה אחת, ומסמך של עמוד.</p></section>

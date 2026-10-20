@@ -185,8 +185,7 @@ const CSS = `/* Google Sans בגודל האמיתי שלו, מקומי. בפרו
 .q .proj-b .ph-fig{aspect-ratio:3/4}
 .q .proj-c .ph-fig{aspect-ratio:2.34/1}
 .q .ph-fig .veil{position:absolute;inset:0;background:rgba(12,16,15,.2);transition:opacity .3s var(--ease)}
-.q .proj-cap{display:grid;grid-template-columns:auto 1fr auto;align-items:start;gap:16px;padding-top:20px}
-.q .pn{font-size:var(--fs-meta);font-weight:500;letter-spacing:.14em;font-variant-numeric:tabular-nums;color:var(--muted);padding-top:6px;transition:color .15s var(--ease)}
+.q .proj-cap{display:grid;grid-template-columns:1fr auto;align-items:start;gap:16px;padding-top:20px}
 .q .proj-cap h3{transition:color .15s var(--ease)}
 .q .proj-cap .meta{margin-top:4px}
 .q .proj-cap .ico{color:var(--muted);margin-top:6px;transition:transform .18s var(--ease),color .15s var(--ease)}
@@ -255,7 +254,6 @@ const CSS = `/* Google Sans בגודל האמיתי שלו, מקומי. בפרו
  .q .card:hover .ph-fig img{transform:scale(1.03)}
  .q .card:hover .ph-fig .veil{opacity:0}
  .q .card:hover h3{color:var(--accent)}
- .q .card:hover .pn{color:var(--accent)}
  .q .card:hover .proj-cap .ico{transform:translateX(-4px);color:var(--accent)}
  .q .offer-in:hover{background:var(--surface-hi)}
  .q .offer-in:hover h3{color:var(--accent)}
@@ -351,7 +349,7 @@ const HTML = `<div class="cwrap sk-s13"><div class="q">
 <p class="hero-cap"><b>בתמונה</b><span class="meta">קיר בחדר עבודה, בית בכפר שמריהו, שש בערב</span></p>
 </section>
 <section class="proof"><div class="wrap">
-<span class="eyebrow reveal"><b>01</b>הסטודיו בקצרה</span>
+<span class="eyebrow reveal">הסטודיו בקצרה</span>
 <div class="stats">
 <div class="stat reveal"><b data-count="112">112</b><span class="meta">בתים ודירות שנמסרו מאז 2012</span></div>
 <div class="stat reveal" style="--i:1"><b data-count="6">6</b><span class="meta">פרויקטים חדשים בשנה, לא יותר</span></div>
@@ -359,7 +357,7 @@ const HTML = `<div class="cwrap sk-s13"><div class="q">
 </div>
 </div></section>
 <section class="light" id="light"><div class="light-grid">
-<div class="head reveal"><span class="eyebrow"><b>02</b>שיטת העבודה</span><h2>חדר אחד, שלוש החלטות על אור</h2><p class="lead">בוחרים נקודה בתמונה, והאור נדלק איפה שמסבירים.</p></div>
+<div class="head reveal"><span class="eyebrow">שיטת העבודה</span><h2>חדר אחד, שלוש החלטות על אור</h2><p class="lead">בוחרים נקודה בתמונה, והאור נדלק איפה שמסבירים.</p></div>
 <ol class="decs reveal">
 ${dec(0, "01", "אור שמגיע מהצד", "המנורה עומדת מאחורי הכורסה, וראש המנורה מופנה אל הקיר. האור חוזר אל החדר רך וחם, והעיניים לא נתקלות בנורה.", true)}
 ${dec(1, "02", "אור שמסתתר בנגרות", "בכל תא במדף יושב פס אור חם ב-2700 קלווין. החפצים נראים, והמדף עצמו מאיר את החדר בלי עוד מנורה.", false)}
@@ -379,16 +377,16 @@ ${dec(2, "03", "כתם צבע אחד", "הקיר ירוק עמוק ומט, וה�
 <div class="pieces" aria-hidden="true"><svg class="p1" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" stroke-width="2.2"><rect x="14" y="14" width="72" height="72" rx="9"/></svg><svg class="p2" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet" stroke-width="2.2"><path d="M30 70 70 30"/><path d="m52 70 18-18"/></svg></div>
 </div></section>
 <section class="work" id="projects"><div class="wrap">
-<div class="head reveal"><span class="eyebrow"><b>03</b>פרויקטים נבחרים</span><h2>שלושה בתים שמסרנו בשנתיים האחרונות</h2></div>
+<div class="head reveal"><span class="eyebrow">פרויקטים נבחרים</span><h2>שלושה בתים שמסרנו בשנתיים האחרונות</h2></div>
 <div class="work-grid">
-<div class="work-a"><article class="card proj-a reveal"><a class="proj-link" href="#"><figure class="ph-fig"><img src="${IMG}proj-a.webp" width="1800" height="1200" alt="סלון בדירת גג עם קיר בטון, שלוש מנורות קיר ותליון וחלון רצפה לשקיעה" loading="lazy"><span class="veil"></span></figure><div class="proj-cap"><span class="pn">01</span><div><h3>דירת גג, תל אביב</h3><p class="meta">165 מ"ר · נמסרה ב-2025 · סלון וחדר עבודה</p></div>${ARROW}</div></a></article>
+<div class="work-a"><article class="card proj-a reveal"><a class="proj-link" href="#"><figure class="ph-fig"><img src="${IMG}proj-a.webp" width="1800" height="1200" alt="סלון בדירת גג עם קיר בטון, שלוש מנורות קיר ותליון וחלון רצפה לשקיעה" loading="lazy"><span class="veil"></span></figure><div class="proj-cap"><div><h3>דירת גג, תל אביב</h3><p class="meta">165 מ"ר · נמסרה ב-2025 · סלון וחדר עבודה</p></div>${ARROW}</div></a></article>
 <div class="work-note reveal"><p class="lead">אנחנו מציגים רק בתים שנמסרו, ושהדיירים הסכימו שנצלם.</p><a class="lnk" href="#">לכל הפרויקטים${ARROW}</a></div></div>
-<article class="card proj-b reveal" style="--i:1"><a class="proj-link" href="#"><figure class="ph-fig"><img src="${IMG}proj-b.webp" width="1200" height="1600" alt="חדר רחצה בירוק עמוק עם מראה עגולה מוארת, ברז פליז ושיש שחור" loading="lazy"><span class="veil"></span></figure><div class="proj-cap"><span class="pn">02</span><div><h3>בית פרטי, כפר שמריהו</h3><p class="meta">340 מ"ר · נמסר ב-2024 · חדר רחצה ראשי</p></div>${ARROW}</div></a></article>
-<article class="card proj-c reveal"><a class="proj-link" href="#"><figure class="ph-fig"><img src="${IMG}proj-c.webp" width="2400" height="1026" alt="מטבח בגוון פחם עם ארבעה תליונים עם זכוכית ענבר, חיפוי אבן וידיות פליז" loading="lazy"><span class="veil"></span></figure><div class="proj-cap"><span class="pn">03</span><div><h3>בית בהרצליה פיתוח</h3><p class="meta">290 מ"ר · נמסר ב-2025 · מטבח וחלל אוכל</p></div>${ARROW}</div></a></article>
+<article class="card proj-b reveal" style="--i:1"><a class="proj-link" href="#"><figure class="ph-fig"><img src="${IMG}proj-b.webp" width="1200" height="1600" alt="חדר רחצה בירוק עמוק עם מראה עגולה מוארת, ברז פליז ושיש שחור" loading="lazy"><span class="veil"></span></figure><div class="proj-cap"><div><h3>בית פרטי, כפר שמריהו</h3><p class="meta">340 מ"ר · נמסר ב-2024 · חדר רחצה ראשי</p></div>${ARROW}</div></a></article>
+<article class="card proj-c reveal"><a class="proj-link" href="#"><figure class="ph-fig"><img src="${IMG}proj-c.webp" width="2400" height="1026" alt="מטבח בגוון פחם עם ארבעה תליונים עם זכוכית ענבר, חיפוי אבן וידיות פליז" loading="lazy"><span class="veil"></span></figure><div class="proj-cap"><div><h3>בית בהרצליה פיתוח</h3><p class="meta">290 מ"ר · נמסר ב-2025 · מטבח וחלל אוכל</p></div>${ARROW}</div></a></article>
 </div>
 </div></section>
 <section class="sec" id="ways"><div class="wrap">
-<div class="head reveal"><span class="eyebrow"><b>04</b>דרכי עבודה</span><h2>שלוש דרכים לעבוד איתנו</h2></div>
+<div class="head reveal"><span class="eyebrow">דרכי עבודה</span><h2>שלוש דרכים לעבוד איתנו</h2></div>
 <ul class="offers">
 ${offer("01", "ייעוץ אור", "ביקור של חצי יום בבית או בדירה שכבר בנויים, ותוכנית כתובה: איפה יושבים בכל שעה, ואיזה אור צריך בכל מקום.", "למי שכבר בנה ולא מרוצה מהאור", "2,400", "לביקור")}
 ${offer("02", "תכנון מלא", "תכנון פנים ותאורה, נגרות בהתאמה אישית ופיקוח על הביצוע עד המסירה.", "לבית חדש או לשיפוץ מלא", "38,000", "לפרויקט")}
@@ -397,7 +395,7 @@ ${offer("03", "ליווי בנייה", "שותף בשטח לאורך הבניי�
 </div></section>
 <section class="contact sink end" id="contact"><div class="wrap contact-grid">
 <div class="contact-copy">
-<div class="head reveal" style="margin-bottom:0"><span class="eyebrow"><b>05</b>שיחת היכרות</span><h2>נתחיל בשיחה של חצי שעה</h2><p class="lead">משאירים פרטים, ואחד השותפים חוזר אליכם עד סוף יום העבודה. בשיחה נבין מה בונים ואם יש בינינו התאמה. בלי עלות ובלי התחייבות.</p></div>
+<div class="head reveal" style="margin-bottom:0"><span class="eyebrow">שיחת היכרות</span><h2>נתחיל בשיחה של חצי שעה</h2><p class="lead">משאירים פרטים, ואחד השותפים חוזר אליכם עד סוף יום העבודה. בשיחה נבין מה בונים ואם יש בינינו התאמה. בלי עלות ובלי התחייבות.</p></div>
 <ol class="steps reveal"><li><b>01</b>חוזרים אליכם עד סוף יום העבודה</li><li><b>02</b>שיחה של חצי שעה, בטלפון או בזום</li><li><b>03</b>אם מתאים, קובעים ביקור בשטח</li></ol>
 </div>
 <div class="reveal">

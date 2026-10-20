@@ -2,6 +2,7 @@
 // gate.mjs: השער לפני שמהלך מגיע לליאב. רץ בסדר קבוע ועוצר בכשל הראשון:
 //   1. build            (כל העמודים והייצוא)
 //   2. qa               (דוקטרינה סטטית: easing, טוקנים, צבעים, transition על layout)
+//   2ב. numbering <ids> (מספור דקורטיבי וכרטיס תבנית בדמו, qa-checklist 11ב; 20.10.2026)
 //   3. behave <ids>     (משהו זז? משהו ברח? שגיאת JS?)
 //   4. skins  <ids>     (ניגודיות בארבעה עורות)
 //   5. shots  <ids>     (שלושה מצבי גלילה בדסקטופ ובמובייל, ושגיאות קונסולה)
@@ -33,6 +34,7 @@ const step = (name, file, extra = [], allowCodes = [0]) => {
 step("build", join("..", "build.mjs"));
 step("qa", join("..", "qa.mjs"), [ROOT]);
 const sel = all ? [] : ids;
+step("numbering", "numbering.mjs", all ? ["--all"] : ids);
 step("behave", "behave.mjs", sel);
 step("skins", "skins.mjs", [...sel, "--no-shots"]);
 step("shots", "shots.mjs", [...(all ? ["--all"] : ids), ...(args.includes("--hover") ? ["--hover"] : [])]);

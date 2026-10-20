@@ -367,17 +367,16 @@ export default [
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;opacity:.5;pointer-events:none}
 .sp-card::after{content:"";position:absolute;inset:0;background:radial-gradient(300px circle at var(--mx) var(--my),color-mix(in srgb,var(--accent) 18%,transparent),transparent 60%);opacity:0;transition:opacity .4s;pointer-events:none;z-index:-1}
 @media (hover:hover) and (pointer:fine){.sp:hover .sp-card::after{opacity:1}}
-.sp-card b{display:block;font-size:13px;color:color-mix(in srgb,var(--accent) 45%,var(--bg));letter-spacing:.12em;margin-bottom:10px}
 .sp-card h3{margin:0 0 8px;font-size:19px}
 .sp-card p{margin:0;font-size:14.5px;line-height:1.65;opacity:.75}
 @media(max-width:767px){.sp{grid-template-columns:1fr}}`,
   html:`<div class="stage tight"><div class="sp">
-  <div class="sp-card"><b>01</b><h3>סנכרון בזמן אמת</h3><p>כל שינוי מופיע אצל כולם בו-זמנית, בלי רענון.</p></div>
-  <div class="sp-card"><b>02</b><h3>הרשאות לפי תפקיד</h3><p>כל אחד רואה רק את מה שהוא צריך.</p></div>
-  <div class="sp-card"><b>03</b><h3>גיבוי יומי</h3><p>שלושה עותקים, שני אזורים, אפס דאגה.</p></div>
-  <div class="sp-card"><b>04</b><h3>ממשק API פתוח</h3><p>מתחבר לכל מה שכבר יש לכם.</p></div>
-  <div class="sp-card"><b>05</b><h3>תמיכה בעברית</h3><p>אנשים, לא בוטים. בשעות העבודה שלכם.</p></div>
-  <div class="sp-card"><b>06</b><h3>ללא התחייבות</h3><p>חודש בחודשו. עוזבים מתי שרוצים.</p></div>
+  <div class="sp-card"><h3>סנכרון בזמן אמת</h3><p>כל שינוי מופיע אצל כולם בו-זמנית, בלי רענון.</p></div>
+  <div class="sp-card"><h3>הרשאות לפי תפקיד</h3><p>כל אחד רואה רק את מה שהוא צריך.</p></div>
+  <div class="sp-card"><h3>גיבוי יומי</h3><p>שלושה עותקים, שני אזורים, אפס דאגה.</p></div>
+  <div class="sp-card"><h3>ממשק API פתוח</h3><p>מתחבר לכל מה שכבר יש לכם.</p></div>
+  <div class="sp-card"><h3>תמיכה בעברית</h3><p>אנשים, לא בוטים. בשעות העבודה שלכם.</p></div>
+  <div class="sp-card"><h3>ללא התחייבות</h3><p>חודש בחודשו. עוזבים מתי שרוצים.</p></div>
 </div></div>`,
   js:`(function(){
   if(!matchMedia("(hover:hover) and (pointer:fine)").matches)return;

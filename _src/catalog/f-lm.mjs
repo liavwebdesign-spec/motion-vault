@@ -109,14 +109,13 @@ if(!matchMedia("(prefers-reduced-motion: reduce)").matches){
 .scard{position:sticky;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:clamp(24px,3vw,44px);box-shadow:0 -18px 46px rgba(22,24,43,.09)}
 /* מדרגה של 40 פיקסלים לכל כרטיס, עד חמישה (ה-when). כרטיס בלי top לא נדבק בכלל */
 .scard:nth-child(1){top:110px}.scard:nth-child(2){top:150px}.scard:nth-child(3){top:190px}.scard:nth-child(4){top:230px}.scard:nth-child(5){top:270px}
-.snum{font-size:clamp(40px,4vw,80px);font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--accent)}
 .scard h3{margin:10px 0 6px;font-size:22px}.scard p{margin:0;color:var(--muted);max-width:55ch}
 .stail{height:30vh}`,
   html:`<div class="stackw">
-<div class="scard"><div class="snum">01</div><h3>תוכנית שנבנית ממדידה</h3><p>כל החלטה מגיעה מנתון, לא מתבנית.</p></div>
-<div class="scard"><div class="snum">02</div><h3>מלווה אחד, אחריות אחת</h3><p>מי שהתחיל איתך נשאר איתך.</p></div>
-<div class="scard"><div class="snum">03</div><h3>שקיפות מלאה</h3><p>דוח מדיד כל חודש, בלי סיפורים.</p></div>
-<div class="scard"><div class="snum">04</div><h3>תוצאות שרואים</h3><p>אם המספרים לא זזים, התוכנית משתנה.</p></div>
+<div class="scard"><h3>תוכנית שנבנית ממדידה</h3><p>כל החלטה מגיעה מנתון, לא מתבנית.</p></div>
+<div class="scard"><h3>מלווה אחד, אחריות אחת</h3><p>מי שהתחיל איתך נשאר איתך.</p></div>
+<div class="scard"><h3>שקיפות מלאה</h3><p>דוח מדיד כל חודש, בלי סיפורים.</p></div>
+<div class="scard"><h3>תוצאות שרואים</h3><p>אם המספרים לא זזים, התוכנית משתנה.</p></div>
 </div><div class="stail"></div>`,
   js:``
 },

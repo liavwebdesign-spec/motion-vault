@@ -577,6 +577,9 @@ const fontLink = e => e.fonts && e.fonts.length ? `<link href="https://fonts.goo
 // כולל הדברים שנשארים מאחור בהעתקה ידנית: כיוון המסמך, סדר הסקריפטים והרישום.
 // "איפה ומתי" נכנס להנחיה, כדי שסוכן שמייבא את הפריט יידע גם איפה הוא יושב ומתי לא
 const placeBrief = (L, e) => placeRows(e).forEach(([k, v]) => L.push(`${k}: ${v}`));
+// the demo's text travels inside the HTML below. It is a placeholder, never the project's copy (CEO 20.10.2026, after Liav's
+// 19.10 rule on decorative numbering): it says where the text comes from, never how to write it
+const TEXT_RULE = "הטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.";
 function briefFor(e, p) {
   const L = [];
   // תורה: התדריך הוא על פריסה, לא על סקריפטים. אין GSAP, אין המרת React מיוחדת.
@@ -621,6 +624,8 @@ function briefFor(e, p) {
     L.push("3. חוק הגיוון נשמר בארכיטיפ עצמו: אין אותה קומפוזיציה פעמיים ברצף.");
     L.push("4. הקריסה כתובה ב-@container. העטיפה .cwrap צריכה container-type:inline-size (כלולה).");
     L.push("");
+    L.push(TEXT_RULE);
+    L.push("");
     L.push("=== CSS ===");
     L.push(p.css);
     L.push("");
@@ -656,6 +661,8 @@ function briefFor(e, p) {
     L.push("4. המנוע לא מתפשר: כיול פונטים, סולם ריווחים, גריד, RTL ונגישות AA נשמרים גם בשפה הקיצונית ביותר.");
     if (e.fonts && e.fonts.length) L.push(`5. הדמו טוען מגוגל: ${e.fonts.join(", ")}, כמחליף ציבורי בלבד. בפרויקט לא משתמשים בהם: בוחרים צימוד מ-library/fonts.md לפי אופי העסק, ומכיילים לפי engine/font-calibration.md.`);
     L.push("");
+    L.push(TEXT_RULE);
+    L.push("");
     L.push("=== CSS ===");
     L.push(p.css);
     L.push("");
@@ -679,6 +686,8 @@ function briefFor(e, p) {
     L.push("3. הקוד למטה ניטרלי בכוונה: הוא מגדיר מבנה בלבד. צבעים, רדיוסים, גופנים וריווח נלקחים מהעור של הפרויקט. המחלקות .ph ו-.tx הן ממלאי מקום להחלפה בתוכן אמיתי.");
     L.push("4. הקריסה למובייל כתובה ב-@container. העטיפה .cwrap חייבת container-type:inline-size (היא כלולה בקוד). אם הפרויקט מעדיף @media, להמיר את @container (max-width:767px) ל-@media (max-width:767px).");
     L.push("");
+    L.push(TEXT_RULE);
+    L.push("");
     L.push("=== CSS ===");
     L.push(p.css);
     L.push("");
@@ -701,7 +710,9 @@ function briefFor(e, p) {
   if (p.scripts.length) L.push(`${p.needsRtl ? 3 : 2}. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n${p.scripts.join("\n")}`);
   L.push(`${(p.needsRtl ? 3 : 2) + (p.scripts.length ? 1 : 0)}. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.`);
   L.push("");
-  L.push("=== CSS ===");
+  L.push(TEXT_RULE);
+    L.push("");
+    L.push("=== CSS ===");
   L.push(p.css);
   L.push("");
   L.push("=== HTML ===");
@@ -1242,6 +1253,7 @@ writeFileSync(join(ROOT, "export", "manifest.json"), JSON.stringify({
   generated: new Date().toISOString(), count: manifest.length,
   place: { sites: SITES, secs: SECS, tones: TONES, roles: ROLES, dose: "1, 2, 3 = כמה פעמים בעמוד; 0 = בלי הגבלה" },
   readme: "כל כניסה כאן עומדת בפני עצמה. place אומר איפה נכון להשתמש בפריט (סוג אתר, סקשן, אופי, תפקיד, מינון, מתי לא). css נושא ברירות מחדל לכל טוקן ומהלות העזר מוטמעות בו. scripts כולל את כל תגי ה-CDN לפי הסדר. js מתחיל ברישום הפלאגינים, מוגן למקרה שהספרייה לא נטענה. needsRtl אומר אם הרכיב מסתמך על dir=rtl.",
+  text: TEXT_RULE,
   entries: manifest,
 }, null, 1));
 

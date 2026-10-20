@@ -96,7 +96,7 @@ const K = {
   g4: (t) => `<h2 class="ttl">${t}</h2><div class="g4">${card.repeat(4)}</div>`,
   bento: (t) => `<h2 class="ttl">${t}</h2><div class="bento"><div class="card">${tx("m", "l", "s")}</div><div class="card">${tx("m", "l")}</div><div class="card">${tx("m", "l")}</div><div class="card">${tx("m", "l")}</div><div class="card">${tx("m", "l")}</div></div>`,
   zz: (t) => `<h2 class="ttl">${t}</h2><div class="zz"><div>${tx("m", "l", "s")}</div><div class="ph">תמונה</div></div><div class="zz flip"><div>${tx("m", "l", "s")}</div><div class="ph">תמונה</div></div>`,
-  steps: (t) => `<h2 class="ttl">${t}</h2><div class="steps">${[1, 2, 3, 4].map(n => `<div class="step"><b>${n}</b>${tx("m", "l")}</div>`).join("")}</div>`,
+  steps: (t) => `<h2 class="ttl">${t}</h2><div class="steps" data-order="steps">${[1, 2, 3, 4].map(n => `<div class="step"><b>${n}</b>${tx("m", "l")}</div>`).join("")}</div>`,
   // C13: עדויות באורכים שונים, כל אחת בגובה שלה (פסיפס, לא גריד שטוח)
   quotes: (t = "מה אומרים") => `<h2 class="ttl">${t}</h2><div class="g3 mos">${[["l", "l", "m"], ["l", "l", "l", "l", "s"], ["l", "m"]].map(k => `<div class="quote">${tx(...k)}<i></i></div>`).join("")}</div>`,
   // C14 או C10: ציטוט אחד עם הרבה אוויר
@@ -123,7 +123,7 @@ const K = {
   specs: `<h2 class="ttl">פרטים ומפרט</h2><div class="g2"><div>${tx("l", "l", "m", "l")}</div><div class="card">${tx("m", "m", "m", "m")}</div></div>`,
   spine: `<div class="spine">${[1, 2, 3].map(n => `<div class="chap"><h2 class="ttl">פרק ${n}</h2>${tx("l", "l", "m")}</div>`).join("")}</div>`,
   team: `<h2 class="ttl">הצוות</h2><div class="g4">${`<div class="c"><div class="ph" style="width:100%;min-height:120px">תמונה</div>${tx("m", "s")}</div>`.repeat(4)}</div>`,
-  next: `<h2 class="ttl">מה קורה עכשיו</h2><div class="steps n3">${[1, 2, 3].map(n => `<div class="step"><b>${n}</b>${tx("m", "l")}</div>`).join("")}</div>`,
+  next: `<h2 class="ttl">מה קורה עכשיו</h2><div class="steps n3" data-order="steps">${[1, 2, 3].map(n => `<div class="step"><b>${n}</b>${tx("m", "l")}</div>`).join("")}</div>`,
   syllabus: `<h2 class="ttl">הסילבוס</h2><div class="spine">${[1, 2, 3, 4].map(n => `<div class="chap"><b style="font-size:14px">מפגש ${n}</b>${tx("l", "m")}</div>`).join("")}</div>`,
   instructor: `<div class="split"><div class="ph tall">המרצה</div><div><span class="eyebrow">מי מלמד</span><h2 class="ttl">שם המרצה</h2>${tx("l", "l", "m")}</div></div>`,
   plate: `<div class="c"><div class="price hi" style="width:min(100%,420px)"><span class="eyebrow" style="color:#b9b6ff">מחיר ההשקה</span><b class="amt">₪297</b>${tx("m", "m", "m")}<span class="btn">להרשמה</span></div></div>`,
