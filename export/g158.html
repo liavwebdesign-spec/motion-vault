@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G158 · צורה אחת שעוברת בין מצבי המוצר</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G158 · צורה אחת שעוברת בין מצבי המוצר */
+.sm{--sm-bg:var(--ink, #16182b);--sm-fg:var(--bg, #f7f7fa);max-width:1100px;margin-inline:auto}
+.sm-steps{list-style:none;margin:0;padding:0;display:grid;gap:clamp(56px,8vw,112px)}
+.sm-step{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,72px)}
+.sm-txt h3{margin:0 0 10px;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}
+.sm-txt p{margin:0;max-width:36ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+/* כל מצב נושא את הפינות (--r) והצבע (--b) שלו: בלוח הסיפור הם מציירים אותו, בבמה הצורה עוברת ביניהם */
+.sm-st{justify-self:center;box-sizing:border-box;background:var(--b);border-radius:var(--r, 14px);color:var(--sm-fg)}
+.sm-pill{--r:999px;--b:var(--sm-bg);display:inline-flex;align-items:center;gap:12px;padding:16px 28px;font-size:18px;font-weight:600;white-space:nowrap}
+.sm-pill svg{width:18px;height:18px}
+.sm-cal{--r:28px;--b:var(--sm-bg);width:min(380px,100%);padding:24px;display:grid;gap:16px}
+.sm-cal b{font-size:17px}
+.sm-days{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center;font-size:13px}
+.sm-days span{padding:8px 0;border-radius:14px;color:color-mix(in srgb,var(--sm-fg) 70%,transparent)}
+.sm-days i{display:block;margin-top:2px;font-size:19px;font-style:normal;font-weight:600;color:var(--sm-fg)}
+.sm-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:15px;font-variant-numeric:tabular-nums}
+.sm-slots span{padding:10px 0;text-align:center;border-radius:12px;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--sm-fg) 22%,transparent)}
+.sm-days .on,.sm-slots .on{background:var(--accent, #4a3aff);box-shadow:none;color:var(--accent-ink, #fff)}
+.sm-days .on i{color:inherit}
+.sm-toast{--r:22px;--b:var(--sm-bg);display:flex;align-items:center;gap:14px;padding-block:14px;padding-inline:14px 24px;width:max-content;white-space:nowrap}
+.sm-ava{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:15px;font-weight:700}
+.sm-toast b{display:block;font-size:16px}
+.sm-toast small{font-size:14px;color:color-mix(in srgb,var(--sm-fg) 70%,transparent)}
+.sm-done{--r:999px;--b:var(--accent, #4a3aff);display:grid;place-items:center;width:112px;height:112px;color:var(--accent-ink, #fff)}
+.sm-done svg{width:56px;height:56px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+/* המהלך רץ: במה נעוצה בעמודה השנייה עם צורה אחת, והמצבים שליד הטקסט מוסתרים */
+.sm.is-live{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(24px,5vw,72px)}
+.sm.is-live>.sm-stage{grid-area:1/2;align-self:start;position:sticky;top:0;height:100vh;height:100svh;display:grid;place-items:center;container-type:size}
+.sm.is-live>.sm-steps{grid-area:1/1;gap:0}
+.sm.is-live .sm-step{display:flex;align-items:center;min-height:85vh}
+.sm.is-live .sm-step>.sm-st{display:none}
+.sm-shape{position:relative;overflow:hidden}
+.sm-shape>.sm-st{position:absolute;top:50%;left:50%;translate:-50% -50%;background:none;border-radius:0}
+.sm-shape>.sm-cal{width:min(380px,92cqw)}
+.sm-shape>.sm-done svg path{stroke-dasharray:1}
+@media(max-width:767px){
+  .sm-step{grid-template-columns:minmax(0,1fr)}
+  .sm.is-live{grid-template-columns:minmax(0,1fr)}
+  .sm.is-live>.sm-stage{grid-area:1/1;z-index:1;height:48svh;background:linear-gradient(var(--bg, #f7f7fa) 84%,transparent)}
+  .sm.is-live>.sm-steps{grid-area:1/1;padding-top:48svh}
+  .sm.is-live .sm-step{min-height:70svh}
+}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="sm">
+  <div class="sm-stage" aria-hidden="true"></div>
+  <ol class="sm-steps">
+    <li class="sm-step">
+      <div class="sm-txt"><h3>לוחצים פעם אחת</h3><p>כפתור אחד בעמוד, בלי טופס ארוך ובלי לחפש מספר טלפון.</p></div>
+      <div class="sm-st sm-pill" aria-hidden="true"><span>קביעת פגישה</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></div>
+    </li>
+    <li class="sm-step">
+      <div class="sm-txt"><h3>בוחרים מועד שנוח לכם</h3><p>היומן מראה רק שעות שבאמת פנויות, אז אין הלוך ושוב בוואטסאפ.</p></div>
+      <div class="sm-st sm-cal" aria-hidden="true">
+        <b>בחרו מועד</b>
+        <div class="sm-days"><span>א׳<i>12</i></span><span class="on">ב׳<i>13</i></span><span>ג׳<i>14</i></span><span>ד׳<i>15</i></span><span>ה׳<i>16</i></span></div>
+        <div class="sm-slots"><span>09:00</span><span class="on">10:30</span><span>12:00</span><span>14:30</span><span>16:00</span><span>17:30</span></div>
+      </div>
+    </li>
+    <li class="sm-step">
+      <div class="sm-txt"><h3>מקבלים אישור מיד</h3><p>הודעה עם היום והשעה מגיעה לטלפון, ואפשר להוסיף אותה ליומן בלחיצה.</p></div>
+      <div class="sm-st sm-toast" aria-hidden="true"><span class="sm-ava">ד״ל</span><span><b>הפגישה נקבעה</b><small>יום שני, 10:30</small></span></div>
+    </li>
+    <li class="sm-step">
+      <div class="sm-txt"><h3>ונתראה</h3><p>יום לפני מגיעה תזכורת, ואם משהו משתנה מזיזים את הפגישה באותו קישור.</p></div>
+      <div class="sm-st sm-done" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M13 25l7 7 15-16" pathLength="1"/></svg></div>
+    </li>
+  </ol>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר לוח הסיפור: כל מצב ליד השלב שלו
+  const root=document.querySelector(".sm"),stage=root.querySelector(".sm-stage"),sts=[...root.querySelectorAll(".sm-step>.sm-st")];
+  // בהפחתת תנועה הפונקציה לא רצה, ולוח הסיפור נשאר
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const shape=document.createElement("div");shape.className="sm-shape";
+    const L=sts.map(s=>shape.appendChild(s.cloneNode(true)));
+    stage.appendChild(shape);root.classList.add("is-live");
+    const cs=L.map(c=>getComputedStyle(c));
+    const W=i=>L[i].offsetWidth,H=i=>L[i].offsetHeight,B=i=>cs[i].getPropertyValue("--b").trim();
+    const R=i=>Math.min(parseFloat(cs[i].getPropertyValue("--r"))||0,W(i)/2,H(i)/2);   // 999px הופך לחצי הגובה, אחרת המעבר "מת" ברובו
+    const box=i=>({width:()=>W(i),height:()=>H(i),borderRadius:()=>R(i),backgroundColor:()=>B(i)});
+    gsap.set(shape,box(0));gsap.set(L.slice(1),{autoAlpha:0});
+    // ההתקדמות נמדדת ממרכז השלב הראשון ועד מרכז האחרון, על קו הקריאה: מרכז המסך, ובטלפון מרכז השטח שמתחת לבמה.
+    // כך כל מצב נמצא באמצע העצירה שלו בדיוק כשהטקסט שלו באמצע
+    const steps=root.querySelectorAll(".sm-step"),line=()=>matchMedia("(max-width:767px)").matches?"74%":"center";
+    const tl=gsap.timeline({scrollTrigger:{trigger:root.querySelector(".sm-steps"),scrub:.6,invalidateOnRefresh:true,
+      start:()=>"top+="+(steps[0].offsetTop-root.querySelector(".sm-steps").offsetTop+steps[0].offsetHeight/2)+" "+line(),
+      end:()=>"bottom-="+steps[steps.length-1].offsetHeight/2+" "+line()}});
+    tl.to({},{duration:.6});
+    for(let i=1;i<L.length;i++){
+      // immediateRender:false: אחרת כל קטע מצייר את נקודת ההתחלה שלו מיד, והאחרון שנבנה קובע את הצורה בטעינה
+      tl.fromTo(shape,box(i-1),{...box(i),duration:1,ease:"power3.inOut",immediateRender:false})
+        .to(L[i-1],{autoAlpha:0,scale:.92,duration:.35,ease:"power1.in"},"<")
+        .fromTo(L[i],{autoAlpha:0,scale:1.06},{autoAlpha:1,scale:1,duration:.45,ease:"power1.out"},"<.55");
+      const tick=L[i].querySelector(".sm-done path");
+      if(tick)tl.fromTo(tick,{strokeDashoffset:1},{strokeDashoffset:0,duration:.4,ease:"power1.inOut"},"<.15");
+      tl.to({},{duration:i<L.length-1?1.2:.6});
+    }
+    const sync=()=>{if(tl.progress()===0)gsap.set(shape,box(0));};   // שינוי גודל מסך כשעוד לא התחילו לגלול
+    ScrollTrigger.addEventListener("refresh",sync);
+    return()=>{ScrollTrigger.removeEventListener("refresh",sync);root.classList.remove("is-live");shape.remove();};
+  });
+})();
+</script>
+</body>
+</html>
