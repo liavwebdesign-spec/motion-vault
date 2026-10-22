@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B86 · טבעת פינג בנקודת הלחיצה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B86 · טבעת פינג בנקודת הלחיצה */
+.pg{max-width:960px;margin-inline:auto;display:grid;justify-items:center;gap:24px;padding:clamp(48px,7vw,96px) clamp(24px,5vw,64px);overflow:clip;border-radius:32px;background:var(--card, #fff);text-align:center}
+.pg h2{margin:0;max-width:20ch;font-size:clamp(30px,4vw,56px);line-height:1.12;text-wrap:balance}
+.pg-p{margin:0;max-width:44ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.pg-row{display:flex;flex-wrap:wrap;justify-content:center;gap:16px;width:100%}
+.pg-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;min-height:68px;padding:0 40px;border:0;border-radius:999px;font:inherit;font-size:22px;font-weight:600;cursor:pointer;transition:transform .16s cubic-bezier(.2,.6,.2,1)}
+.pg-btn:active{transform:scale(.97)}
+.pg-btn:focus-visible{outline:3px solid var(--ink, #16182b);outline-offset:4px}
+.pg-main{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);--ring-in:var(--accent-ink, #fff)}
+.pg-alt{background:var(--bg, #f7f7fa);color:var(--ink, #16182b);--ring-in:transparent}
+.pg-ink{background:var(--ink, #16182b);color:var(--bg, #f7f7fa);--ring-in:var(--bg, #f7f7fa)}
+/* טבעת כפולה: חיצונית בצבע המותג, פנימית בצבע שנראה על הכפתור עצמו. מקום הלחיצה מגיע מ---px ו---py */
+.pg-btn::after{content:"";position:absolute;left:var(--px,50%);top:var(--py,50%);width:72px;height:72px;box-sizing:border-box;border:3px solid var(--accent, #4a3aff);border-radius:50%;box-shadow:inset 0 0 0 2px var(--ring-in,transparent);opacity:0;pointer-events:none;transform:translate(-50%,-50%) scale(0)}
+.pg-btn.is-ping::after{animation:pgRing .7s cubic-bezier(.2,.6,.2,1) both}
+@keyframes pgRing{from{opacity:.8;transform:translate(-50%,-50%) scale(0)}to{opacity:0;transform:translate(-50%,-50%) scale(3.2)}}
+@media(max-width:767px){.pg-btn{width:100%}}
+@media(prefers-reduced-motion:reduce){.pg-btn{transition:none}.pg-btn::after{display:none}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><section class="pg" aria-labelledby="pg-h">
+  <h2 id="pg-h">נקבע שיחה על האתר שלכם</h2>
+  <p class="pg-p">שיחה של עשרים דקות, בטלפון או בזום, בלי התחייבות.</p>
+  <div class="pg-row">
+    <button class="pg-btn pg-main" type="button" data-ping>קביעת שיחה</button>
+    <button class="pg-btn pg-alt" type="button" data-ping>הודעה בוואטסאפ</button>
+    <button class="pg-btn pg-ink" type="button" data-ping>התקשרו אליי</button>
+  </div>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+
+<script>
+(function(){
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)");
+  document.querySelectorAll("[data-ping]").forEach(b=>{
+    // הטבעת מתחילה מנקודת הלחיצה. מורידים ומחזירים את המחלקה, כדי שלחיצה מהירה תתחיל טבעת חדשה
+    const ping=(x,y)=>{
+      if(reduce.matches)return;
+      b.style.setProperty("--px",x+"px");b.style.setProperty("--py",y+"px");
+      b.classList.remove("is-ping");void b.offsetWidth;b.classList.add("is-ping");
+    };
+    b.addEventListener("pointerdown",e=>{
+      if(e.pointerType==="mouse"&&e.button!==0)return;
+      const r=b.getBoundingClientRect();ping(e.clientX-r.left,e.clientY-r.top);
+    });
+    // Enter או רווח מגיעים כ-click בלי מיקום: הטבעת יוצאת מהמרכז
+    b.addEventListener("click",e=>{if(e.detail===0)ping(b.offsetWidth/2,b.offsetHeight/2);});
+    b.addEventListener("animationend",e=>{if(e.animationName==="pgRing")b.classList.remove("is-ping");});
+  });
+})();
+</script>
+</body>
+</html>

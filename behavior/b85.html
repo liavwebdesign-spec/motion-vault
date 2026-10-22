@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B85 · כפתור שהופך לפס התקדמות ולאישור | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.ap{max-width:1040px;margin-inline:auto;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr);border-radius:28px;background:var(--card)}
+.ap .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.ap-ph{margin:0}
+.ap-ph img{display:block;width:100%;height:auto;aspect-ratio:21 / 9;object-fit:cover}
+@media(min-width:768px){
+  .ap{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}
+  .ap-ph{position:relative;order:2}
+  .ap-ph img{position:absolute;inset:0;height:100%;aspect-ratio:auto;object-position:58% 50%}
+}
+.ap-body{display:grid;gap:12px;padding:32px clamp(24px,4vw,48px) 40px}
+.ap-eyebrow{margin:0;color:var(--muted);font-size:16px;font-weight:600}
+.ap-body h2{margin:0;max-width:24ch;font-size:clamp(26px,3vw,40px);line-height:1.15;text-wrap:balance}
+.ap-price{margin:0;font-size:clamp(34px,4vw,52px);font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.ap-note{margin:0;max-width:52ch;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.ap-act{display:grid;justify-items:start;gap:16px;padding-top:12px}
+.ap-btn{position:relative;overflow:hidden;display:grid;place-items:center;width:100%;max-width:360px;height:64px;padding:0;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font:inherit;font-size:20px;font-weight:600;cursor:pointer;transition:background-color .4s cubic-bezier(.2,.6,.2,1),color .4s cubic-bezier(.2,.6,.2,1)}
+.ap-btn:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
+.ap-btn.is-busy{width:260px;cursor:progress}
+.ap-btn.is-done{width:184px;background:var(--ink);color:var(--bg);cursor:default}
+.ap-s{grid-area:1/1;display:flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;transition:transform .35s cubic-bezier(.2,.6,.2,1),opacity .25s cubic-bezier(.2,.6,.2,1)}
+.ap-s2,.ap-s3{opacity:0;transform:translateY(60%)}
+.ap-btn.is-busy .ap-s1,.ap-btn.is-done .ap-s1,.ap-btn.is-done .ap-s2{opacity:0;transform:translateY(-60%)}
+.ap-btn.is-busy .ap-s2,.ap-btn.is-done .ap-s3{opacity:1;transform:none}
+.ap-s svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.ap-spin{animation:apSpin .9s linear infinite}
+@keyframes apSpin{to{transform:rotate(360deg)}}
+.ap-pct{min-width:3.2ch;font-variant-numeric:tabular-nums;text-align:end}
+.ap-s3 path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .4s cubic-bezier(.2,.6,.2,1) .25s}
+.ap-btn.is-done .ap-s3 path{stroke-dashoffset:0}
+.ap-bar{position:absolute;inset-inline:28px;bottom:10px;height:4px;overflow:hidden;border-radius:2px;background:color-mix(in oklab,var(--accent-ink) 28%,transparent);opacity:0;transition:opacity .25s cubic-bezier(.2,.6,.2,1)}
+.ap-bar i{display:block;height:100%;background:var(--accent-ink);transform:scaleX(0);transform-origin:100% 50%}
+.ap-btn.is-busy .ap-bar{opacity:1}
+.ap-ok{margin:0;min-height:1.5em;color:var(--muted);font-size:16px;visibility:hidden}
+.ap.is-locked .ap-ok{visibility:visible}
+.ap.is-locked .ap-price,.ap.is-locked .ap-note{opacity:.55}
+.ap-reset{padding:8px 16px;border:0;border-radius:999px;background:var(--bg);color:var(--ink);font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.ap-reset:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.ap-btn,.ap-s,.ap-bar,.ap-s3 path{transition:none}.ap-spin{animation:none}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=behavior">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="b84.html" rel="prev" title="הקודם: מספרים שקופצים ונערמים בכל לחיצה">→<span class="sr-only">הקודם</span></a><span class="vpn-n">73/74</span><a href="b86.html" rel="next" title="הבא: טבעת פינג בנקודת הלחיצה">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">B85</span> · כפתור שהופך לפס התקדמות ולאישור</h1>
+  <span class="vchip cat-behavior">התנהגויות</span>
+  <span class="vchip">GSAP width · CSS state roll · aria-live</span>
+  <span class="vchip use">טעינה ופידבק</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b85"><code>MV:b85</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="b85">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>כפתור "אישור ההצעה" רחב. בלחיצה הוא מתכווץ לגלולה: התווית מתגלגלת למעלה ומוחלפת באייקון, במילה "מאשרים" ובאחוז שעולה, ופס דק בתוכה מתמלא. בסוף הגלולה מתכווצת עוד, הצבע מתהפך, וי מצטייר ועולה המילה "אושרה", והכרטיס ננעל.</p>
+  <p class="when"><b>מתי משתמשים:</b> פעולה שיש לה אורך אמיתי: אישור הצעת מחיר או הזמנה, שליחת קבצים, תשלום, חתימה על מסמך. כשהכפתור הוא הרגע שהמבקר מחליט, והוא צריך לראות שמשהו קורה ושזה נגמר. לא כשהפעולה מיידית, ולא כשהאחוזים לא משקפים תהליך אמיתי.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>חנות · אתר תדמית · וואן-פייג'ר</dd></div><div><dt>בסקשן</dt><dd>סגירה, טופס וקשר · מחירים · כל העמוד</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>משרת תוכן, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשהפעולה מיידית, ולא כשהאחוזים אינם משקפים תהליך אמיתי.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="b85"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><section class="ap" aria-labelledby="ap-h">
+  <figure class="ap-ph"><img src="../assets/media/real/s13/proj-c.webp" alt="מטבח כהה עם אי ארוך ותאורה תלויה" width="2400" height="1026" loading="lazy" decoding="async"></figure>
+  <div class="ap-body">
+    <p class="ap-eyebrow">הצעת מחיר 1053</p>
+    <h2 id="ap-h">שיפוץ מטבח בארבעה עשר ימי עבודה</h2>
+    <p class="ap-price">₪48,600</p>
+    <p class="ap-note">כולל תכנון, ארונות, שיש והתקנה. ההצעה תקפה עד סוף החודש.</p>
+    <div class="ap-act">
+      <button class="ap-btn" type="button">
+        <span class="ap-s ap-s1">אישור ההצעה</span>
+        <span class="ap-s ap-s2" aria-hidden="true"><svg class="ap-spin" viewBox="0 0 24 24" focusable="false"><path d="M12 3a9 9 0 1 1-9 9"/></svg><span>מאשרים</span><b class="ap-pct">0%</b></span>
+        <span class="ap-s ap-s3" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg><span>אושרה</span></span>
+        <span class="ap-bar" aria-hidden="true"><i></i></span>
+      </button>
+      <p class="ap-ok">ההצעה אושרה. הודעת אישור נשלחה אליכם במייל.</p>
+      <button class="ap-reset" type="button" inert>להדגמה חוזרת</button>
+    </div>
+    <p class="ap-live sr-only" role="status"></p>
+  </div>
+</section></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: שני סרטוני מוצר ב-prompt-motion.com (21.10.2026): כפתור הזמנה שהופך לגלולה עם אחוז עולה ופס דק, וכפתור אישור שמשנה צבע, מקבל וי ומילה ננעלת. נבנה מאפס מהצפייה. <b>שלושה מצבים בכפתור אחד</b> (<code>is-busy</code>, <code>is-done</code>, ובלי מחלקה זה המצב הרגיל). שלוש שכבות טקסט יושבות באותו תא בגריד, והמעבר ביניהן הוא גלילה אנכית של <code>transform</code> ו-<code>opacity</code> בלבד. הרוחב של כל מצב קבוע ב-CSS (רגיל, 260px, 184px), ו-GSAP מטווין את ה-<code>width</code> מהערך הנוכחי ליעד ב-<code>power3.inOut</code> ומנקה אחר כך, כי מעבר CSS על רוחב אסור במאגר. בלי GSAP הרוחב מתחלף מיד. הכפתור מעוגן לצד ההתחלה (ימין), ולכן הוא מתכווץ לתוך עצמו. <b>ההתקדמות</b> רצה 2.6 שניות בעקומה של פתיחה מהירה, אמצע איטי וסיום מהיר, כדי שתרגיש כמו עבודה אמיתית. הפס הוא <code>scaleX</code> בלבד. באתר אמיתי מחברים את האחוז להתקדמות אמיתית, או לא מציגים אחוז. <b>הצבע הסופי</b> הוא <code>--ink</code> עם טקסט <code>--bg</code> (אין טוקן ירוק, והמצב הנעול צריך להיראות שונה בכל עור). <b>נעילה:</b> הכפתור עובר ל-<code>aria-disabled</code> ולא ל-<code>disabled</code>, כך שהפוקוס נשאר עליו ושם הכפתור מתעדכן (<code>aria-label</code>: מאשרים, אושרה). מעל זה <code>aria-busy</code> בזמן ההתקדמות, אזור <code>role="status"</code> שמכריז את שני השלבים, וכפתור "להדגמה חוזרת" שהוא <code>inert</code> עד האישור. בהפחתת תנועה אין גלילת טקסט, אין אחוז ואין פס: אחרי חצי שנייה המצב עובר ל"אושרה". <b>באתר משמאל לימין:</b> מחליפים את <code>transform-origin</code> של הפס ל-<code>0 50%</code>.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/b85.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B85 · כפתור שהופך לפס התקדמות ולאישור */
+.ap{max-width:1040px;margin-inline:auto;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr);border-radius:28px;background:var(--card, #fff)}
+.ap .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.ap-ph{margin:0}
+.ap-ph img{display:block;width:100%;height:auto;aspect-ratio:21 / 9;object-fit:cover}
+@media(min-width:768px){
+  .ap{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}
+  .ap-ph{position:relative;order:2}
+  .ap-ph img{position:absolute;inset:0;height:100%;aspect-ratio:auto;object-position:58% 50%}
+}
+.ap-body{display:grid;gap:12px;padding:32px clamp(24px,4vw,48px) 40px}
+.ap-eyebrow{margin:0;color:var(--muted, #6a6d85);font-size:16px;font-weight:600}
+.ap-body h2{margin:0;max-width:24ch;font-size:clamp(26px,3vw,40px);line-height:1.15;text-wrap:balance}
+.ap-price{margin:0;font-size:clamp(34px,4vw,52px);font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.ap-note{margin:0;max-width:52ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.ap-act{display:grid;justify-items:start;gap:16px;padding-top:12px}
+.ap-btn{position:relative;overflow:hidden;display:grid;place-items:center;width:100%;max-width:360px;height:64px;padding:0;border:0;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:20px;font-weight:600;cursor:pointer;transition:background-color .4s cubic-bezier(.2,.6,.2,1),color .4s cubic-bezier(.2,.6,.2,1)}
+.ap-btn:focus-visible{outline:3px solid var(--ink, #16182b);outline-offset:4px}
+.ap-btn.is-busy{width:260px;cursor:progress}
+.ap-btn.is-done{width:184px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);cursor:default}
+.ap-s{grid-area:1/1;display:flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;transition:transform .35s cubic-bezier(.2,.6,.2,1),opacity .25s cubic-bezier(.2,.6,.2,1)}
+.ap-s2,.ap-s3{opacity:0;transform:translateY(60%)}
+.ap-btn.is-busy .ap-s1,.ap-btn.is-done .ap-s1,.ap-btn.is-done .ap-s2{opacity:0;transform:translateY(-60%)}
+.ap-btn.is-busy .ap-s2,.ap-btn.is-done .ap-s3{opacity:1;transform:none}
+.ap-s svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.ap-spin{animation:apSpin .9s linear infinite}
+@keyframes apSpin{to{transform:rotate(360deg)}}
+.ap-pct{min-width:3.2ch;font-variant-numeric:tabular-nums;text-align:end}
+.ap-s3 path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .4s cubic-bezier(.2,.6,.2,1) .25s}
+.ap-btn.is-done .ap-s3 path{stroke-dashoffset:0}
+.ap-bar{position:absolute;inset-inline:28px;bottom:10px;height:4px;overflow:hidden;border-radius:2px;background:color-mix(in oklab,var(--accent-ink, #fff) 28%,transparent);opacity:0;transition:opacity .25s cubic-bezier(.2,.6,.2,1)}
+.ap-bar i{display:block;height:100%;background:var(--accent-ink, #fff);transform:scaleX(0);transform-origin:100% 50%}
+.ap-btn.is-busy .ap-bar{opacity:1}
+.ap-ok{margin:0;min-height:1.5em;color:var(--muted, #6a6d85);font-size:16px;visibility:hidden}
+.ap.is-locked .ap-ok{visibility:visible}
+.ap.is-locked .ap-price,.ap.is-locked .ap-note{opacity:.55}
+.ap-reset{padding:8px 16px;border:0;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.ap-reset:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.ap-btn,.ap-s,.ap-bar,.ap-s3 path{transition:none}.ap-spin{animation:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;section class="ap" aria-labelledby="ap-h"&gt;
+  &lt;figure class="ap-ph"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" alt="מטבח כהה עם אי ארוך ותאורה תלויה" width="2400" height="1026" loading="lazy" decoding="async"&gt;&lt;/figure&gt;
+  &lt;div class="ap-body"&gt;
+    &lt;p class="ap-eyebrow"&gt;הצעת מחיר 1053&lt;/p&gt;
+    &lt;h2 id="ap-h"&gt;שיפוץ מטבח בארבעה עשר ימי עבודה&lt;/h2&gt;
+    &lt;p class="ap-price"&gt;₪48,600&lt;/p&gt;
+    &lt;p class="ap-note"&gt;כולל תכנון, ארונות, שיש והתקנה. ההצעה תקפה עד סוף החודש.&lt;/p&gt;
+    &lt;div class="ap-act"&gt;
+      &lt;button class="ap-btn" type="button"&gt;
+        &lt;span class="ap-s ap-s1"&gt;אישור ההצעה&lt;/span&gt;
+        &lt;span class="ap-s ap-s2" aria-hidden="true"&gt;&lt;svg class="ap-spin" viewBox="0 0 24 24" focusable="false"&gt;&lt;path d="M12 3a9 9 0 1 1-9 9"/&gt;&lt;/svg&gt;&lt;span&gt;מאשרים&lt;/span&gt;&lt;b class="ap-pct"&gt;0%&lt;/b&gt;&lt;/span&gt;
+        &lt;span class="ap-s ap-s3" aria-hidden="true"&gt;&lt;svg viewBox="0 0 24 24" focusable="false"&gt;&lt;path d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/&gt;&lt;/svg&gt;&lt;span&gt;אושרה&lt;/span&gt;&lt;/span&gt;
+        &lt;span class="ap-bar" aria-hidden="true"&gt;&lt;i&gt;&lt;/i&gt;&lt;/span&gt;
+      &lt;/button&gt;
+      &lt;p class="ap-ok"&gt;ההצעה אושרה. הודעת אישור נשלחה אליכם במייל.&lt;/p&gt;
+      &lt;button class="ap-reset" type="button" inert&gt;להדגמה חוזרת&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;p class="ap-live sr-only" role="status"&gt;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const root=document.querySelector(".ap"),q=s=&gt;root.querySelector(s);
+  const btn=q(".ap-btn"),s1=q(".ap-s1"),pct=q(".ap-pct"),bar=q(".ap-bar i"),reset=q(".ap-reset"),live=q(".ap-live");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)");
+  let state="idle",raf=0,timer=0;
+  const canTween=()=&gt;typeof gsap!=="undefined"&amp;&amp;!reduce.matches;
+  // המצב קובע מחלקות. הרוחב של כל מצב ב-CSS, ו-GSAP רק מטווין אליו מהערך הנוכחי (מעבר CSS על רוחב אסור במאגר)
+  function go(s){
+    const from=btn.offsetWidth;
+    state=s;
+    btn.classList.toggle("is-busy",s==="busy");btn.classList.toggle("is-done",s==="done");
+    root.classList.toggle("is-locked",s==="done");
+    btn.setAttribute("aria-disabled",s==="idle"?"false":"true");
+    if(s==="busy")btn.setAttribute("aria-busy","true");else btn.removeAttribute("aria-busy");
+    // שם הכפתור מתעדכן עם המצב: שכבת הטקסט הרגילה מוסתרת כשהיא לא פעילה
+    if(s==="idle")btn.removeAttribute("aria-label");else btn.setAttribute("aria-label",s==="busy"?"מאשרים את ההצעה":"ההצעה אושרה");
+    s1.setAttribute("aria-hidden",String(s!=="idle"));
+    reset.inert=s!=="done";
+    const to=btn.offsetWidth;
+    if(canTween()&amp;&amp;from!==to)gsap.fromTo(btn,{width:from},{width:to,duration:.55,ease:"power3.inOut",clearProps:"width"});
+  }
+  function finish(){go("done");live.textContent="ההצעה אושרה";}
+  // עקומה של פתיחה מהירה, אמצע איטי וסיום מהיר, כדי שזה ירגיש כמו עבודה אמיתית
+  const curve=k=&gt;k&lt;.45?k/.45*.42:k&lt;.8?.42+(k-.45)/.35*.3:.72+(k-.8)/.2*.28;
+  btn.addEventListener("click",()=&gt;{
+    if(state!=="idle")return;
+    live.textContent="מאשרים את ההצעה";
+    go("busy");
+    if(reduce.matches){pct.hidden=true;timer=setTimeout(finish,500);return;}
+    const t0=performance.now(),dur=2600;
+    const step=t=&gt;{
+      const k=Math.min((t-t0)/dur,1),p=curve(k);
+      pct.textContent=Math.round(p*100)+"%";bar.style.transform="scaleX("+p+")";
+      if(k&lt;1)raf=requestAnimationFrame(step);else timer=setTimeout(finish,260);
+    };
+    raf=requestAnimationFrame(step);
+  });
+  reset.addEventListener("click",()=&gt;{
+    cancelAnimationFrame(raf);clearTimeout(timer);
+    go("idle");pct.hidden=false;pct.textContent="0%";bar.style.transform="";live.textContent="";
+    btn.focus({preventScroll:true});
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b85 · כפתור שהופך לפס התקדמות ולאישור\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b85.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b85.html\n\nמה זה עושה: כפתור \"אישור ההצעה\" רחב. בלחיצה הוא מתכווץ לגלולה: התווית מתגלגלת למעלה ומוחלפת באייקון, במילה \"מאשרים\" ובאחוז שעולה, ופס דק בתוכה מתמלא. בסוף הגלולה מתכווצת עוד, הצבע מתהפך, וי מצטייר ועולה המילה \"אושרה\", והכרטיס ננעל.\nמתי משתמשים: פעולה שיש לה אורך אמיתי: אישור הצעת מחיר או הזמנה, שליחת קבצים, תשלום, חתימה על מסמך. כשהכפתור הוא הרגע שהמבקר מחליט, והוא צריך לראות שמשהו קורה ושזה נגמר. לא כשהפעולה מיידית, ולא כשהאחוזים לא משקפים תהליך אמיתי.\nסוג אתר: חנות · אתר תדמית · וואן-פייג'ר\nבסקשן: סגירה, טופס וקשר · מחירים · כל העמוד\nאופי: גם באתר שקט\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא כשהפעולה מיידית, ולא כשהאחוזים אינם משקפים תהליך אמיתי.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B85 · כפתור שהופך לפס התקדמות ולאישור */\n.ap{max-width:1040px;margin-inline:auto;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr);border-radius:28px;background:var(--card, #fff)}\n.ap .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.ap-ph{margin:0}\n.ap-ph img{display:block;width:100%;height:auto;aspect-ratio:21 / 9;object-fit:cover}\n@media(min-width:768px){\n  .ap{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}\n  .ap-ph{position:relative;order:2}\n  .ap-ph img{position:absolute;inset:0;height:100%;aspect-ratio:auto;object-position:58% 50%}\n}\n.ap-body{display:grid;gap:12px;padding:32px clamp(24px,4vw,48px) 40px}\n.ap-eyebrow{margin:0;color:var(--muted, #6a6d85);font-size:16px;font-weight:600}\n.ap-body h2{margin:0;max-width:24ch;font-size:clamp(26px,3vw,40px);line-height:1.15;text-wrap:balance}\n.ap-price{margin:0;font-size:clamp(34px,4vw,52px);font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}\n.ap-note{margin:0;max-width:52ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.ap-act{display:grid;justify-items:start;gap:16px;padding-top:12px}\n.ap-btn{position:relative;overflow:hidden;display:grid;place-items:center;width:100%;max-width:360px;height:64px;padding:0;border:0;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:20px;font-weight:600;cursor:pointer;transition:background-color .4s cubic-bezier(.2,.6,.2,1),color .4s cubic-bezier(.2,.6,.2,1)}\n.ap-btn:focus-visible{outline:3px solid var(--ink, #16182b);outline-offset:4px}\n.ap-btn.is-busy{width:260px;cursor:progress}\n.ap-btn.is-done{width:184px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);cursor:default}\n.ap-s{grid-area:1/1;display:flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;transition:transform .35s cubic-bezier(.2,.6,.2,1),opacity .25s cubic-bezier(.2,.6,.2,1)}\n.ap-s2,.ap-s3{opacity:0;transform:translateY(60%)}\n.ap-btn.is-busy .ap-s1,.ap-btn.is-done .ap-s1,.ap-btn.is-done .ap-s2{opacity:0;transform:translateY(-60%)}\n.ap-btn.is-busy .ap-s2,.ap-btn.is-done .ap-s3{opacity:1;transform:none}\n.ap-s svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}\n.ap-spin{animation:apSpin .9s linear infinite}\n@keyframes apSpin{to{transform:rotate(360deg)}}\n.ap-pct{min-width:3.2ch;font-variant-numeric:tabular-nums;text-align:end}\n.ap-s3 path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .4s cubic-bezier(.2,.6,.2,1) .25s}\n.ap-btn.is-done .ap-s3 path{stroke-dashoffset:0}\n.ap-bar{position:absolute;inset-inline:28px;bottom:10px;height:4px;overflow:hidden;border-radius:2px;background:color-mix(in oklab,var(--accent-ink, #fff) 28%,transparent);opacity:0;transition:opacity .25s cubic-bezier(.2,.6,.2,1)}\n.ap-bar i{display:block;height:100%;background:var(--accent-ink, #fff);transform:scaleX(0);transform-origin:100% 50%}\n.ap-btn.is-busy .ap-bar{opacity:1}\n.ap-ok{margin:0;min-height:1.5em;color:var(--muted, #6a6d85);font-size:16px;visibility:hidden}\n.ap.is-locked .ap-ok{visibility:visible}\n.ap.is-locked .ap-price,.ap.is-locked .ap-note{opacity:.55}\n.ap-reset{padding:8px 16px;border:0;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font:inherit;font-size:15px;font-weight:600;cursor:pointer}\n.ap-reset:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:2px}\n@media(prefers-reduced-motion:reduce){.ap-btn,.ap-s,.ap-bar,.ap-s3 path{transition:none}.ap-spin{animation:none}}\n\n=== HTML ===\n<div class=\"stage\"><section class=\"ap\" aria-labelledby=\"ap-h\">\n  <figure class=\"ap-ph\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp\" alt=\"מטבח כהה עם אי ארוך ותאורה תלויה\" width=\"2400\" height=\"1026\" loading=\"lazy\" decoding=\"async\"><\/figure>\n  <div class=\"ap-body\">\n    <p class=\"ap-eyebrow\">הצעת מחיר 1053<\/p>\n    <h2 id=\"ap-h\">שיפוץ מטבח בארבעה עשר ימי עבודה<\/h2>\n    <p class=\"ap-price\">₪48,600<\/p>\n    <p class=\"ap-note\">כולל תכנון, ארונות, שיש והתקנה. ההצעה תקפה עד סוף החודש.<\/p>\n    <div class=\"ap-act\">\n      <button class=\"ap-btn\" type=\"button\">\n        <span class=\"ap-s ap-s1\">אישור ההצעה<\/span>\n        <span class=\"ap-s ap-s2\" aria-hidden=\"true\"><svg class=\"ap-spin\" viewBox=\"0 0 24 24\" focusable=\"false\"><path d=\"M12 3a9 9 0 1 1-9 9\"/><\/svg><span>מאשרים<\/span><b class=\"ap-pct\">0%<\/b><\/span>\n        <span class=\"ap-s ap-s3\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" focusable=\"false\"><path d=\"M5 12.5l4.5 4.5L19 7.5\" pathLength=\"1\"/><\/svg><span>אושרה<\/span><\/span>\n        <span class=\"ap-bar\" aria-hidden=\"true\"><i><\/i><\/span>\n      <\/button>\n      <p class=\"ap-ok\">ההצעה אושרה. הודעת אישור נשלחה אליכם במייל.<\/p>\n      <button class=\"ap-reset\" type=\"button\" inert>להדגמה חוזרת<\/button>\n    <\/div>\n    <p class=\"ap-live sr-only\" role=\"status\"><\/p>\n  <\/div>\n<\/section><\/div>\n\n=== JS ===\n(function(){\n  const root=document.querySelector(\".ap\"),q=s=>root.querySelector(s);\n  const btn=q(\".ap-btn\"),s1=q(\".ap-s1\"),pct=q(\".ap-pct\"),bar=q(\".ap-bar i\"),reset=q(\".ap-reset\"),live=q(\".ap-live\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\");\n  let state=\"idle\",raf=0,timer=0;\n  const canTween=()=>typeof gsap!==\"undefined\"&&!reduce.matches;\n  // המצב קובע מחלקות. הרוחב של כל מצב ב-CSS, ו-GSAP רק מטווין אליו מהערך הנוכחי (מעבר CSS על רוחב אסור במאגר)\n  function go(s){\n    const from=btn.offsetWidth;\n    state=s;\n    btn.classList.toggle(\"is-busy\",s===\"busy\");btn.classList.toggle(\"is-done\",s===\"done\");\n    root.classList.toggle(\"is-locked\",s===\"done\");\n    btn.setAttribute(\"aria-disabled\",s===\"idle\"?\"false\":\"true\");\n    if(s===\"busy\")btn.setAttribute(\"aria-busy\",\"true\");else btn.removeAttribute(\"aria-busy\");\n    // שם הכפתור מתעדכן עם המצב: שכבת הטקסט הרגילה מוסתרת כשהיא לא פעילה\n    if(s===\"idle\")btn.removeAttribute(\"aria-label\");else btn.setAttribute(\"aria-label\",s===\"busy\"?\"מאשרים את ההצעה\":\"ההצעה אושרה\");\n    s1.setAttribute(\"aria-hidden\",String(s!==\"idle\"));\n    reset.inert=s!==\"done\";\n    const to=btn.offsetWidth;\n    if(canTween()&&from!==to)gsap.fromTo(btn,{width:from},{width:to,duration:.55,ease:\"power3.inOut\",clearProps:\"width\"});\n  }\n  function finish(){go(\"done\");live.textContent=\"ההצעה אושרה\";}\n  // עקומה של פתיחה מהירה, אמצע איטי וסיום מהיר, כדי שזה ירגיש כמו עבודה אמיתית\n  const curve=k=>k<.45?k/.45*.42:k<.8?.42+(k-.45)/.35*.3:.72+(k-.8)/.2*.28;\n  btn.addEventListener(\"click\",()=>{\n    if(state!==\"idle\")return;\n    live.textContent=\"מאשרים את ההצעה\";\n    go(\"busy\");\n    if(reduce.matches){pct.hidden=true;timer=setTimeout(finish,500);return;}\n    const t0=performance.now(),dur=2600;\n    const step=t=>{\n      const k=Math.min((t-t0)/dur,1),p=curve(k);\n      pct.textContent=Math.round(p*100)+\"%\";bar.style.transform=\"scaleX(\"+p+\")\";\n      if(k<1)raf=requestAnimationFrame(step);else timer=setTimeout(finish,260);\n    };\n    raf=requestAnimationFrame(step);\n  });\n  reset.addEventListener(\"click\",()=>{\n    cancelAnimationFrame(raf);clearTimeout(timer);\n    go(\"idle\");pct.hidden=false;pct.textContent=\"0%\";bar.style.transform=\"\";live.textContent=\"\";\n    btn.focus({preventScroll:true});\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: שני סרטוני מוצר ב-prompt-motion.com (21.10.2026): כפתור הזמנה שהופך לגלולה עם אחוז עולה ופס דק, וכפתור אישור שמשנה צבע, מקבל וי ומילה ננעלת. נבנה מאפס מהצפייה. שלושה מצבים בכפתור אחד (`is-busy`, `is-done`, ובלי מחלקה זה המצב הרגיל). שלוש שכבות טקסט יושבות באותו תא בגריד, והמעבר ביניהן הוא גלילה אנכית של `transform` ו-`opacity` בלבד. הרוחב של כל מצב קבוע ב-CSS (רגיל, 260px, 184px), ו-GSAP מטווין את ה-`width` מהערך הנוכחי ליעד ב-`power3.inOut` ומנקה אחר כך, כי מעבר CSS על רוחב אסור במאגר. בלי GSAP הרוחב מתחלף מיד. הכפתור מעוגן לצד ההתחלה (ימין), ולכן הוא מתכווץ לתוך עצמו. ההתקדמות רצה 2.6 שניות בעקומה של פתיחה מהירה, אמצע איטי וסיום מהיר, כדי שתרגיש כמו עבודה אמיתית. הפס הוא `scaleX` בלבד. באתר אמיתי מחברים את האחוז להתקדמות אמיתית, או לא מציגים אחוז. הצבע הסופי הוא `--ink` עם טקסט `--bg` (אין טוקן ירוק, והמצב הנעול צריך להיראות שונה בכל עור). נעילה: הכפתור עובר ל-`aria-disabled` ולא ל-`disabled`, כך שהפוקוס נשאר עליו ושם הכפתור מתעדכן (`aria-label`: מאשרים, אושרה). מעל זה `aria-busy` בזמן ההתקדמות, אזור `role=\"status\"` שמכריז את שני השלבים, וכפתור \"להדגמה חוזרת\" שהוא `inert` עד האישור. בהפחתת תנועה אין גלילת טקסט, אין אחוז ואין פס: אחרי חצי שנייה המצב עובר ל\"אושרה\". באתר משמאל לימין: מחליפים את `transform-origin` של הפס ל-`0 50%`.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B85 · כפתור שהופך לפס התקדמות ולאישור */\n.ap{max-width:1040px;margin-inline:auto;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr);border-radius:28px;background:var(--card, #fff)}\n.ap .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.ap-ph{margin:0}\n.ap-ph img{display:block;width:100%;height:auto;aspect-ratio:21 / 9;object-fit:cover}\n@media(min-width:768px){\n  .ap{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}\n  .ap-ph{position:relative;order:2}\n  .ap-ph img{position:absolute;inset:0;height:100%;aspect-ratio:auto;object-position:58% 50%}\n}\n.ap-body{display:grid;gap:12px;padding:32px clamp(24px,4vw,48px) 40px}\n.ap-eyebrow{margin:0;color:var(--muted, #6a6d85);font-size:16px;font-weight:600}\n.ap-body h2{margin:0;max-width:24ch;font-size:clamp(26px,3vw,40px);line-height:1.15;text-wrap:balance}\n.ap-price{margin:0;font-size:clamp(34px,4vw,52px);font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}\n.ap-note{margin:0;max-width:52ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.ap-act{display:grid;justify-items:start;gap:16px;padding-top:12px}\n.ap-btn{position:relative;overflow:hidden;display:grid;place-items:center;width:100%;max-width:360px;height:64px;padding:0;border:0;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:20px;font-weight:600;cursor:pointer;transition:background-color .4s cubic-bezier(.2,.6,.2,1),color .4s cubic-bezier(.2,.6,.2,1)}\n.ap-btn:focus-visible{outline:3px solid var(--ink, #16182b);outline-offset:4px}\n.ap-btn.is-busy{width:260px;cursor:progress}\n.ap-btn.is-done{width:184px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);cursor:default}\n.ap-s{grid-area:1/1;display:flex;align-items:center;justify-content:center;gap:12px;white-space:nowrap;transition:transform .35s cubic-bezier(.2,.6,.2,1),opacity .25s cubic-bezier(.2,.6,.2,1)}\n.ap-s2,.ap-s3{opacity:0;transform:translateY(60%)}\n.ap-btn.is-busy .ap-s1,.ap-btn.is-done .ap-s1,.ap-btn.is-done .ap-s2{opacity:0;transform:translateY(-60%)}\n.ap-btn.is-busy .ap-s2,.ap-btn.is-done .ap-s3{opacity:1;transform:none}\n.ap-s svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}\n.ap-spin{animation:apSpin .9s linear infinite}\n@keyframes apSpin{to{transform:rotate(360deg)}}\n.ap-pct{min-width:3.2ch;font-variant-numeric:tabular-nums;text-align:end}\n.ap-s3 path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .4s cubic-bezier(.2,.6,.2,1) .25s}\n.ap-btn.is-done .ap-s3 path{stroke-dashoffset:0}\n.ap-bar{position:absolute;inset-inline:28px;bottom:10px;height:4px;overflow:hidden;border-radius:2px;background:color-mix(in oklab,var(--accent-ink, #fff) 28%,transparent);opacity:0;transition:opacity .25s cubic-bezier(.2,.6,.2,1)}\n.ap-bar i{display:block;height:100%;background:var(--accent-ink, #fff);transform:scaleX(0);transform-origin:100% 50%}\n.ap-btn.is-busy .ap-bar{opacity:1}\n.ap-ok{margin:0;min-height:1.5em;color:var(--muted, #6a6d85);font-size:16px;visibility:hidden}\n.ap.is-locked .ap-ok{visibility:visible}\n.ap.is-locked .ap-price,.ap.is-locked .ap-note{opacity:.55}\n.ap-reset{padding:8px 16px;border:0;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font:inherit;font-size:15px;font-weight:600;cursor:pointer}\n.ap-reset:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:2px}\n@media(prefers-reduced-motion:reduce){.ap-btn,.ap-s,.ap-bar,.ap-s3 path{transition:none}.ap-spin{animation:none}}","html":"<div class=\"stage\"><section class=\"ap\" aria-labelledby=\"ap-h\">\n  <figure class=\"ap-ph\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp\" alt=\"מטבח כהה עם אי ארוך ותאורה תלויה\" width=\"2400\" height=\"1026\" loading=\"lazy\" decoding=\"async\"><\/figure>\n  <div class=\"ap-body\">\n    <p class=\"ap-eyebrow\">הצעת מחיר 1053<\/p>\n    <h2 id=\"ap-h\">שיפוץ מטבח בארבעה עשר ימי עבודה<\/h2>\n    <p class=\"ap-price\">₪48,600<\/p>\n    <p class=\"ap-note\">כולל תכנון, ארונות, שיש והתקנה. ההצעה תקפה עד סוף החודש.<\/p>\n    <div class=\"ap-act\">\n      <button class=\"ap-btn\" type=\"button\">\n        <span class=\"ap-s ap-s1\">אישור ההצעה<\/span>\n        <span class=\"ap-s ap-s2\" aria-hidden=\"true\"><svg class=\"ap-spin\" viewBox=\"0 0 24 24\" focusable=\"false\"><path d=\"M12 3a9 9 0 1 1-9 9\"/><\/svg><span>מאשרים<\/span><b class=\"ap-pct\">0%<\/b><\/span>\n        <span class=\"ap-s ap-s3\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\" focusable=\"false\"><path d=\"M5 12.5l4.5 4.5L19 7.5\" pathLength=\"1\"/><\/svg><span>אושרה<\/span><\/span>\n        <span class=\"ap-bar\" aria-hidden=\"true\"><i><\/i><\/span>\n      <\/button>\n      <p class=\"ap-ok\">ההצעה אושרה. הודעת אישור נשלחה אליכם במייל.<\/p>\n      <button class=\"ap-reset\" type=\"button\" inert>להדגמה חוזרת<\/button>\n    <\/div>\n    <p class=\"ap-live sr-only\" role=\"status\"><\/p>\n  <\/div>\n<\/section><\/div>","js":"(function(){\n  const root=document.querySelector(\".ap\"),q=s=>root.querySelector(s);\n  const btn=q(\".ap-btn\"),s1=q(\".ap-s1\"),pct=q(\".ap-pct\"),bar=q(\".ap-bar i\"),reset=q(\".ap-reset\"),live=q(\".ap-live\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\");\n  let state=\"idle\",raf=0,timer=0;\n  const canTween=()=>typeof gsap!==\"undefined\"&&!reduce.matches;\n  // המצב קובע מחלקות. הרוחב של כל מצב ב-CSS, ו-GSAP רק מטווין אליו מהערך הנוכחי (מעבר CSS על רוחב אסור במאגר)\n  function go(s){\n    const from=btn.offsetWidth;\n    state=s;\n    btn.classList.toggle(\"is-busy\",s===\"busy\");btn.classList.toggle(\"is-done\",s===\"done\");\n    root.classList.toggle(\"is-locked\",s===\"done\");\n    btn.setAttribute(\"aria-disabled\",s===\"idle\"?\"false\":\"true\");\n    if(s===\"busy\")btn.setAttribute(\"aria-busy\",\"true\");else btn.removeAttribute(\"aria-busy\");\n    // שם הכפתור מתעדכן עם המצב: שכבת הטקסט הרגילה מוסתרת כשהיא לא פעילה\n    if(s===\"idle\")btn.removeAttribute(\"aria-label\");else btn.setAttribute(\"aria-label\",s===\"busy\"?\"מאשרים את ההצעה\":\"ההצעה אושרה\");\n    s1.setAttribute(\"aria-hidden\",String(s!==\"idle\"));\n    reset.inert=s!==\"done\";\n    const to=btn.offsetWidth;\n    if(canTween()&&from!==to)gsap.fromTo(btn,{width:from},{width:to,duration:.55,ease:\"power3.inOut\",clearProps:\"width\"});\n  }\n  function finish(){go(\"done\");live.textContent=\"ההצעה אושרה\";}\n  // עקומה של פתיחה מהירה, אמצע איטי וסיום מהיר, כדי שזה ירגיש כמו עבודה אמיתית\n  const curve=k=>k<.45?k/.45*.42:k<.8?.42+(k-.45)/.35*.3:.72+(k-.8)/.2*.28;\n  btn.addEventListener(\"click\",()=>{\n    if(state!==\"idle\")return;\n    live.textContent=\"מאשרים את ההצעה\";\n    go(\"busy\");\n    if(reduce.matches){pct.hidden=true;timer=setTimeout(finish,500);return;}\n    const t0=performance.now(),dur=2600;\n    const step=t=>{\n      const k=Math.min((t-t0)/dur,1),p=curve(k);\n      pct.textContent=Math.round(p*100)+\"%\";bar.style.transform=\"scaleX(\"+p+\")\";\n      if(k<1)raf=requestAnimationFrame(step);else timer=setTimeout(finish,260);\n    };\n    raf=requestAnimationFrame(step);\n  });\n  reset.addEventListener(\"click\",()=>{\n    cancelAnimationFrame(raf);clearTimeout(timer);\n    go(\"idle\");pct.hidden=false;pct.textContent=\"0%\";bar.style.transform=\"\";live.textContent=\"\";\n    btn.focus({preventScroll:true});\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="b84.html" rel="prev"><small>→ הקודם</small><b>מספרים שקופצים ונערמים בכל לחיצה</b></a><a href="b86.html" rel="next"><small>הבא ←</small><b>טבעת פינג בנקודת הלחיצה</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · כפתור שהופך לפס התקדמות ולאישור").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+(function(){
+  const root=document.querySelector(".ap"),q=s=>root.querySelector(s);
+  const btn=q(".ap-btn"),s1=q(".ap-s1"),pct=q(".ap-pct"),bar=q(".ap-bar i"),reset=q(".ap-reset"),live=q(".ap-live");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)");
+  let state="idle",raf=0,timer=0;
+  const canTween=()=>typeof gsap!=="undefined"&&!reduce.matches;
+  // המצב קובע מחלקות. הרוחב של כל מצב ב-CSS, ו-GSAP רק מטווין אליו מהערך הנוכחי (מעבר CSS על רוחב אסור במאגר)
+  function go(s){
+    const from=btn.offsetWidth;
+    state=s;
+    btn.classList.toggle("is-busy",s==="busy");btn.classList.toggle("is-done",s==="done");
+    root.classList.toggle("is-locked",s==="done");
+    btn.setAttribute("aria-disabled",s==="idle"?"false":"true");
+    if(s==="busy")btn.setAttribute("aria-busy","true");else btn.removeAttribute("aria-busy");
+    // שם הכפתור מתעדכן עם המצב: שכבת הטקסט הרגילה מוסתרת כשהיא לא פעילה
+    if(s==="idle")btn.removeAttribute("aria-label");else btn.setAttribute("aria-label",s==="busy"?"מאשרים את ההצעה":"ההצעה אושרה");
+    s1.setAttribute("aria-hidden",String(s!=="idle"));
+    reset.inert=s!=="done";
+    const to=btn.offsetWidth;
+    if(canTween()&&from!==to)gsap.fromTo(btn,{width:from},{width:to,duration:.55,ease:"power3.inOut",clearProps:"width"});
+  }
+  function finish(){go("done");live.textContent="ההצעה אושרה";}
+  // עקומה של פתיחה מהירה, אמצע איטי וסיום מהיר, כדי שזה ירגיש כמו עבודה אמיתית
+  const curve=k=>k<.45?k/.45*.42:k<.8?.42+(k-.45)/.35*.3:.72+(k-.8)/.2*.28;
+  btn.addEventListener("click",()=>{
+    if(state!=="idle")return;
+    live.textContent="מאשרים את ההצעה";
+    go("busy");
+    if(reduce.matches){pct.hidden=true;timer=setTimeout(finish,500);return;}
+    const t0=performance.now(),dur=2600;
+    const step=t=>{
+      const k=Math.min((t-t0)/dur,1),p=curve(k);
+      pct.textContent=Math.round(p*100)+"%";bar.style.transform="scaleX("+p+")";
+      if(k<1)raf=requestAnimationFrame(step);else timer=setTimeout(finish,260);
+    };
+    raf=requestAnimationFrame(step);
+  });
+  reset.addEventListener("click",()=>{
+    cancelAnimationFrame(raf);clearTimeout(timer);
+    go("idle");pct.hidden=false;pct.textContent="0%";bar.style.transform="";live.textContent="";
+    btn.focus({preventScroll:true});
+  });
+})();
+</script>
+</body>
+</html>

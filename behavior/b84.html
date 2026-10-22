@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B84 · מספרים שקופצים ונערמים בכל לחיצה | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.pv{max-width:1080px;margin-inline:auto;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:start;gap:clamp(24px,4vw,56px)}
+.pv .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.pv-main{display:grid;gap:20px}
+.pv-main h2{margin:0;font-size:clamp(28px,3.2vw,44px);line-height:1.15;text-wrap:balance}
+.pv-opts{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.pv-opt{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;width:100%;padding:12px;border:0;border-radius:20px;background:var(--card);color:var(--ink);font:inherit;text-align:start;cursor:pointer;transition:transform .16s cubic-bezier(.2,.6,.2,1)}
+.pv-opt:active{transform:scale(.985)}
+.pv-opt:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.pv-ph{position:relative;width:112px;height:84px}
+.pv-ph img{display:block;width:100%;height:100%;object-fit:cover;border-radius:14px}
+.pv-cnt{position:absolute;inset-block-start:-6px;inset-inline-start:-6px;display:none;place-items:center;min-width:28px;height:28px;padding:0 6px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+.pv-opt.has .pv-cnt{display:grid}
+.pv-name{font-size:clamp(18px,1.6vw,22px);font-weight:600}
+.pv-price{padding-inline:8px;font-size:clamp(18px,1.6vw,22px);font-weight:700;font-variant-numeric:tabular-nums}
+.pv-float{position:absolute;inset-inline-end:20px;top:8px;padding:4px 12px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;unicode-bidi:plaintext;pointer-events:none;opacity:0}
+.pv-panel{display:grid;align-content:start;gap:20px;padding:28px;border-radius:28px;background:var(--card)}
+.pv-lab{margin:0;color:var(--muted);font-size:16px}
+.pv-total{margin:0;font-size:clamp(48px,6vw,84px);font-weight:700;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;transform-origin:100% 50%}
+.pv-stack{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;min-height:184px}
+.pv-stack li{padding:6px 16px;border-radius:999px;background:var(--bg);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;unicode-bidi:plaintext;align-self:flex-start;transform-origin:100% 50%}
+.pv-stack:empty::after{content:"עוד לא נבחר כלום";color:var(--muted);font-size:16px}
+.pv-reset{justify-self:start;padding:8px 16px;border:0;border-radius:999px;background:var(--bg);color:var(--ink);font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.pv-reset:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@media(max-width:767px){.pv{grid-template-columns:minmax(0,1fr)}.pv-ph{width:88px;height:68px}}
+@media(prefers-reduced-motion:reduce){.pv-opt{transition:none}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=behavior">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="b83.html" rel="prev" title="הקודם: פיצוץ קונפטי או ניצוצות בהצלחה">→<span class="sr-only">הקודם</span></a><span class="vpn-n">72/74</span><a href="b85.html" rel="next" title="הבא: כפתור שהופך לפס התקדמות ולאישור">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">B84</span> · מספרים שקופצים ונערמים בכל לחיצה</h1>
+  <span class="vchip cat-behavior">התנהגויות</span>
+  <span class="vchip">vanilla JS · WAAPI · aria-live</span>
+  <span class="vchip use">מספרים ונתונים</span><span class="vchip use">טעינה ופידבק</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b84"><code>MV:b84</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="b84">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>בונים הצעה בלחיצות. כל לחיצה על שירות מקפיצה את המחיר שלו כמספר "+" מעל השורה, והמספר נוחת בראש ערימה בצד: השורות הישנות יורדות, הישנה ביותר יוצאת, וסך ההצעה שבפינה רץ למעלה אל הערך החדש ונדחף קצת. אפשר לראות מה נוסף ומה זה עשה לסכום, בלי לחפש.</p>
+  <p class="when"><b>מתי משתמשים:</b> מחשבון הצעת מחיר, בחירת תוספות, חבילת שירותים שמרכיבים בעצמם, או כל מקום שבו כל פעולה מוסיפה ערך שהמבקר רוצה לראות נצבר. שלוש עד שש אפשרויות. לא כשיש בחירה אחת או מחיר קבוע.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>חנות · אתר תדמית · וואן-פייג'ר</dd></div><div><dt>בסקשן</dt><dd>מחירים · מוצר וקטלוג · שירותים ומוצרים</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>משרת תוכן, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשיש בחירה אחת או מחיר קבוע, ולא ביותר משש אפשרויות.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="b84"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><section class="pv" aria-labelledby="pv-h">
+  <div class="pv-main">
+    <h2 id="pv-h">בחרו מה לכלול בתכנון</h2>
+    <ul class="pv-opts">
+      <li><button class="pv-opt has" type="button" data-v="1800" data-c="1" data-n="תכנון תאורה">
+        <span class="pv-ph"><img src="../assets/media/real/s13/proj-b.webp" alt="" width="1200" height="1600" loading="lazy" decoding="async"><span class="pv-cnt" aria-hidden="true">1</span></span>
+        <span class="pv-name">תכנון תאורה</span><span class="pv-price">₪1,800</span></button></li>
+      <li><button class="pv-opt has" type="button" data-v="2400" data-c="1" data-n="הדמיות תלת ממד">
+        <span class="pv-ph"><img src="../assets/media/real/s13/proj-a.webp" alt="" width="1800" height="1200" loading="lazy" decoding="async"><span class="pv-cnt" aria-hidden="true">1</span></span>
+        <span class="pv-name">הדמיות תלת ממד</span><span class="pv-price">₪2,400</span></button></li>
+      <li><button class="pv-opt" type="button" data-v="3200" data-c="0" data-n="ליווי בבחירת ריהוט">
+        <span class="pv-ph"><img src="../assets/media/real/s13/room.webp" alt="" width="2200" height="1469" loading="lazy" decoding="async"><span class="pv-cnt" aria-hidden="true"></span></span>
+        <span class="pv-name">ליווי בבחירת ריהוט</span><span class="pv-price">₪3,200</span></button></li>
+    </ul>
+  </div>
+  <div class="pv-panel">
+    <p class="pv-lab">סך ההצעה</p>
+    <p class="pv-total" aria-hidden="true" data-v="4200">₪4,200</p>
+    <ul class="pv-stack" aria-hidden="true"><li>+2,400</li><li>+1,800</li></ul>
+    <button class="pv-reset" type="button">איפוס</button>
+    <p class="pv-live sr-only" role="status"></p>
+  </div>
+</section></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטונים ב-prompt-motion.com (21.10.2026) שבהם מספרים גדולים קופצים מעל יעד ונערמים ברשימה כשהסכום בפינה עולה בכל פגיעה. נבנה מאפס מהצפייה. <b>שלושה חלקים לכל לחיצה:</b> (1) המספר הצף (<code>.pv-float</code>) נולד בתוך הכפתור, מתחיל קטן, גדל ל-1.15 תוך עלייה של 16px ואז ממשיך לעלות עד 72px ודועך, ב-900ms, ונמחק בסיום. (2) שורה חדשה נכנסת בראש הערימה בגדול (1.5) ומתכווצת למקומה, והשורות הישנות זזות למטה ב-FLIP ידני: מודדים לפני ואחרי, ומריצים <code>translateY</code> מההפרש לאפס. הערימה נשמרת על ארבע שורות, והישנה יוצאת. גובה הערימה קבוע (<code>min-height</code>), ולכן הפריסה לא קופצת. (3) הסכום רץ מהערך הנוכחי לחדש ב-520ms עם עקומה של יציאה רכה, ונדחף ל-1.06 וחוזר. <b>מצב התחלתי במארקאפ:</b> שני שירותים כבר נבחרו, והסכום והערימה מציגים אותם. בלי JS זה מה שרואים, וה-JS ממשיך משם. <b>מספרים:</b> <code>font-variant-numeric:tabular-nums</code> ולא גופן מונו, כדי לרשת את הגופן של האתר. <b>נגישות:</b> הכפתורים אמיתיים עם <code>aria-label</code> שמתעדכן (שם, מחיר, כמה נוספו), המספרים הצפים והערימה מוסתרים (<code>aria-hidden</code>), והסכום מוכרז ב-<code>role="status"</code> אחרי 400ms מהלחיצה האחרונה, כדי שקורא מסך לא יקריא את כל הערכים שבדרך. בהפחתת תנועה אין מספרים צפים, אין תנועה בערימה והסכום מתעדכן מיד. <b>באתר משמאל לימין:</b> מחליפים את <code>transform-origin</code> של הסכום והשורות מימין לשמאל.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b84.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B84 · מספרים שקופצים ונערמים בכל לחיצה */
+.pv{max-width:1080px;margin-inline:auto;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:start;gap:clamp(24px,4vw,56px)}
+.pv .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.pv-main{display:grid;gap:20px}
+.pv-main h2{margin:0;font-size:clamp(28px,3.2vw,44px);line-height:1.15;text-wrap:balance}
+.pv-opts{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.pv-opt{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;width:100%;padding:12px;border:0;border-radius:20px;background:var(--card, #fff);color:var(--ink, #16182b);font:inherit;text-align:start;cursor:pointer;transition:transform .16s cubic-bezier(.2,.6,.2,1)}
+.pv-opt:active{transform:scale(.985)}
+.pv-opt:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:3px}
+.pv-ph{position:relative;width:112px;height:84px}
+.pv-ph img{display:block;width:100%;height:100%;object-fit:cover;border-radius:14px}
+.pv-cnt{position:absolute;inset-block-start:-6px;inset-inline-start:-6px;display:none;place-items:center;min-width:28px;height:28px;padding:0 6px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}
+.pv-opt.has .pv-cnt{display:grid}
+.pv-name{font-size:clamp(18px,1.6vw,22px);font-weight:600}
+.pv-price{padding-inline:8px;font-size:clamp(18px,1.6vw,22px);font-weight:700;font-variant-numeric:tabular-nums}
+.pv-float{position:absolute;inset-inline-end:20px;top:8px;padding:4px 12px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;unicode-bidi:plaintext;pointer-events:none;opacity:0}
+.pv-panel{display:grid;align-content:start;gap:20px;padding:28px;border-radius:28px;background:var(--card, #fff)}
+.pv-lab{margin:0;color:var(--muted, #6a6d85);font-size:16px}
+.pv-total{margin:0;font-size:clamp(48px,6vw,84px);font-weight:700;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;transform-origin:100% 50%}
+.pv-stack{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;min-height:184px}
+.pv-stack li{padding:6px 16px;border-radius:999px;background:var(--bg, #f7f7fa);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;unicode-bidi:plaintext;align-self:flex-start;transform-origin:100% 50%}
+.pv-stack:empty::after{content:"עוד לא נבחר כלום";color:var(--muted, #6a6d85);font-size:16px}
+.pv-reset{justify-self:start;padding:8px 16px;border:0;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.pv-reset:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:2px}
+@media(max-width:767px){.pv{grid-template-columns:minmax(0,1fr)}.pv-ph{width:88px;height:68px}}
+@media(prefers-reduced-motion:reduce){.pv-opt{transition:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;section class="pv" aria-labelledby="pv-h"&gt;
+  &lt;div class="pv-main"&gt;
+    &lt;h2 id="pv-h"&gt;בחרו מה לכלול בתכנון&lt;/h2&gt;
+    &lt;ul class="pv-opts"&gt;
+      &lt;li&gt;&lt;button class="pv-opt has" type="button" data-v="1800" data-c="1" data-n="תכנון תאורה"&gt;
+        &lt;span class="pv-ph"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp" alt="" width="1200" height="1600" loading="lazy" decoding="async"&gt;&lt;span class="pv-cnt" aria-hidden="true"&gt;1&lt;/span&gt;&lt;/span&gt;
+        &lt;span class="pv-name"&gt;תכנון תאורה&lt;/span&gt;&lt;span class="pv-price"&gt;₪1,800&lt;/span&gt;&lt;/button&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;button class="pv-opt has" type="button" data-v="2400" data-c="1" data-n="הדמיות תלת ממד"&gt;
+        &lt;span class="pv-ph"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp" alt="" width="1800" height="1200" loading="lazy" decoding="async"&gt;&lt;span class="pv-cnt" aria-hidden="true"&gt;1&lt;/span&gt;&lt;/span&gt;
+        &lt;span class="pv-name"&gt;הדמיות תלת ממד&lt;/span&gt;&lt;span class="pv-price"&gt;₪2,400&lt;/span&gt;&lt;/button&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;button class="pv-opt" type="button" data-v="3200" data-c="0" data-n="ליווי בבחירת ריהוט"&gt;
+        &lt;span class="pv-ph"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp" alt="" width="2200" height="1469" loading="lazy" decoding="async"&gt;&lt;span class="pv-cnt" aria-hidden="true"&gt;&lt;/span&gt;&lt;/span&gt;
+        &lt;span class="pv-name"&gt;ליווי בבחירת ריהוט&lt;/span&gt;&lt;span class="pv-price"&gt;₪3,200&lt;/span&gt;&lt;/button&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div class="pv-panel"&gt;
+    &lt;p class="pv-lab"&gt;סך ההצעה&lt;/p&gt;
+    &lt;p class="pv-total" aria-hidden="true" data-v="4200"&gt;₪4,200&lt;/p&gt;
+    &lt;ul class="pv-stack" aria-hidden="true"&gt;&lt;li&gt;+2,400&lt;/li&gt;&lt;li&gt;+1,800&lt;/li&gt;&lt;/ul&gt;
+    &lt;button class="pv-reset" type="button"&gt;איפוס&lt;/button&gt;
+    &lt;p class="pv-live sr-only" role="status"&gt;&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const root=document.querySelector(".pv"),opts=[...root.querySelectorAll(".pv-opt")];
+  const totalEl=root.querySelector(".pv-total"),stack=root.querySelector(".pv-stack"),live=root.querySelector(".pv-live"),reset=root.querySelector(".pv-reset");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)"),EASE="cubic-bezier(.2,.6,.2,1)",MAX=4;
+  const fmt=n=&gt;Math.round(n).toLocaleString("he-IL");
+  const count=new Map(opts.map(o=&gt;[o,parseInt(o.dataset.c,10)||0]));
+  let total=parseInt(totalEl.dataset.v,10)||0,shown=total,raf=0,saidT=0;
+  const paint=n=&gt;{totalEl.textContent="₪"+fmt(n);};
+  // התווית של הכפתור נושאת שם, מחיר וכמה נוספו, ומתעדכנת. המספר הצף והערימה מוסתרים מקורא מסך
+  function label(b){
+    const c=count.get(b),v=parseInt(b.dataset.v,10);
+    b.classList.toggle("has",c&gt;0);b.querySelector(".pv-cnt").textContent=c&gt;0?String(c):"";
+    b.setAttribute("aria-label",b.dataset.n+", "+fmt(v)+" שקלים"+(c&gt;0?", נוספו "+c:""));
+  }
+  function tick(to){
+    cancelAnimationFrame(raf);
+    if(reduce.matches){shown=to;paint(to);return;}
+    const from=shown,t0=performance.now(),dur=520;
+    const step=t=&gt;{const k=Math.min((t-t0)/dur,1),e=1-Math.pow(1-k,3);shown=from+(to-from)*e;paint(shown);if(k&lt;1)raf=requestAnimationFrame(step);else shown=to;};
+    raf=requestAnimationFrame(step);
+    totalEl.animate([{transform:"scale(1)"},{transform:"scale(1.06)"},{transform:"scale(1)"}],{duration:320,easing:EASE});
+  }
+  // שורה חדשה בראש הערימה. הישנות יורדות ב-FLIP ידני: מודדים לפני ואחרי, ומריצים מההפרש לאפס
+  function addLine(v){
+    const li=document.createElement("li");li.textContent="+"+fmt(v);
+    const old=[...stack.children],tops=old.map(e=&gt;e.getBoundingClientRect().top);
+    stack.prepend(li);
+    while(stack.children.length&gt;MAX)stack.lastElementChild.remove();
+    if(reduce.matches)return;
+    old.forEach((e,i)=&gt;{if(!e.isConnected)return;const dy=tops[i]-e.getBoundingClientRect().top;if(dy)e.animate([{transform:"translateY("+dy+"px)"},{transform:"none"}],{duration:320,easing:EASE});});
+    li.animate([{transform:"translateY(-10px) scale(1.5)",opacity:0},{transform:"none",opacity:1}],{duration:320,easing:EASE});
+  }
+  function pop(b,v){
+    if(reduce.matches)return;
+    const f=document.createElement("span");f.className="pv-float";f.setAttribute("aria-hidden","true");f.textContent="+"+fmt(v);b.appendChild(f);
+    const a=f.animate([
+      {transform:"translateY(8px) scale(.6)",opacity:0},
+      {transform:"translateY(-16px) scale(1.15)",opacity:1,offset:.28},
+      {transform:"translateY(-72px) scale(1)",opacity:0}
+    ],{duration:900,easing:EASE,fill:"both"});
+    a.onfinish=()=&gt;f.remove();
+  }
+  // הסכום מוכרז רק אחרי שהלחיצות נרגעות, כדי שקורא מסך לא יקריא כל ערך בדרך
+  function say(){clearTimeout(saidT);saidT=setTimeout(()=&gt;{live.textContent="סך ההצעה "+fmt(total)+" שקלים";},400);}
+  opts.forEach(b=&gt;{
+    label(b);
+    b.addEventListener("click",()=&gt;{
+      const v=parseInt(b.dataset.v,10);
+      count.set(b,count.get(b)+1);total+=v;
+      label(b);pop(b,v);addLine(v);tick(total);say();
+    });
+  });
+  reset.addEventListener("click",()=&gt;{
+    opts.forEach(b=&gt;{count.set(b,0);label(b);});
+    total=0;stack.textContent="";tick(0);say();
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b84 · מספרים שקופצים ונערמים בכל לחיצה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b84.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b84.html\n\nמה זה עושה: בונים הצעה בלחיצות. כל לחיצה על שירות מקפיצה את המחיר שלו כמספר \"+\" מעל השורה, והמספר נוחת בראש ערימה בצד: השורות הישנות יורדות, הישנה ביותר יוצאת, וסך ההצעה שבפינה רץ למעלה אל הערך החדש ונדחף קצת. אפשר לראות מה נוסף ומה זה עשה לסכום, בלי לחפש.\nמתי משתמשים: מחשבון הצעת מחיר, בחירת תוספות, חבילת שירותים שמרכיבים בעצמם, או כל מקום שבו כל פעולה מוסיפה ערך שהמבקר רוצה לראות נצבר. שלוש עד שש אפשרויות. לא כשיש בחירה אחת או מחיר קבוע.\nסוג אתר: חנות · אתר תדמית · וואן-פייג'ר\nבסקשן: מחירים · מוצר וקטלוג · שירותים ומוצרים\nאופי: רק באתר חוויתי\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא כשיש בחירה אחת או מחיר קבוע, ולא ביותר משש אפשרויות.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B84 · מספרים שקופצים ונערמים בכל לחיצה */\n.pv{max-width:1080px;margin-inline:auto;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:start;gap:clamp(24px,4vw,56px)}\n.pv .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.pv-main{display:grid;gap:20px}\n.pv-main h2{margin:0;font-size:clamp(28px,3.2vw,44px);line-height:1.15;text-wrap:balance}\n.pv-opts{list-style:none;margin:0;padding:0;display:grid;gap:12px}\n.pv-opt{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;width:100%;padding:12px;border:0;border-radius:20px;background:var(--card, #fff);color:var(--ink, #16182b);font:inherit;text-align:start;cursor:pointer;transition:transform .16s cubic-bezier(.2,.6,.2,1)}\n.pv-opt:active{transform:scale(.985)}\n.pv-opt:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:3px}\n.pv-ph{position:relative;width:112px;height:84px}\n.pv-ph img{display:block;width:100%;height:100%;object-fit:cover;border-radius:14px}\n.pv-cnt{position:absolute;inset-block-start:-6px;inset-inline-start:-6px;display:none;place-items:center;min-width:28px;height:28px;padding:0 6px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}\n.pv-opt.has .pv-cnt{display:grid}\n.pv-name{font-size:clamp(18px,1.6vw,22px);font-weight:600}\n.pv-price{padding-inline:8px;font-size:clamp(18px,1.6vw,22px);font-weight:700;font-variant-numeric:tabular-nums}\n.pv-float{position:absolute;inset-inline-end:20px;top:8px;padding:4px 12px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;unicode-bidi:plaintext;pointer-events:none;opacity:0}\n.pv-panel{display:grid;align-content:start;gap:20px;padding:28px;border-radius:28px;background:var(--card, #fff)}\n.pv-lab{margin:0;color:var(--muted, #6a6d85);font-size:16px}\n.pv-total{margin:0;font-size:clamp(48px,6vw,84px);font-weight:700;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;transform-origin:100% 50%}\n.pv-stack{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;min-height:184px}\n.pv-stack li{padding:6px 16px;border-radius:999px;background:var(--bg, #f7f7fa);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;unicode-bidi:plaintext;align-self:flex-start;transform-origin:100% 50%}\n.pv-stack:empty::after{content:\"עוד לא נבחר כלום\";color:var(--muted, #6a6d85);font-size:16px}\n.pv-reset{justify-self:start;padding:8px 16px;border:0;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font:inherit;font-size:15px;font-weight:600;cursor:pointer}\n.pv-reset:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:2px}\n@media(max-width:767px){.pv{grid-template-columns:minmax(0,1fr)}.pv-ph{width:88px;height:68px}}\n@media(prefers-reduced-motion:reduce){.pv-opt{transition:none}}\n\n=== HTML ===\n<div class=\"stage\"><section class=\"pv\" aria-labelledby=\"pv-h\">\n  <div class=\"pv-main\">\n    <h2 id=\"pv-h\">בחרו מה לכלול בתכנון<\/h2>\n    <ul class=\"pv-opts\">\n      <li><button class=\"pv-opt has\" type=\"button\" data-v=\"1800\" data-c=\"1\" data-n=\"תכנון תאורה\">\n        <span class=\"pv-ph\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp\" alt=\"\" width=\"1200\" height=\"1600\" loading=\"lazy\" decoding=\"async\"><span class=\"pv-cnt\" aria-hidden=\"true\">1<\/span><\/span>\n        <span class=\"pv-name\">תכנון תאורה<\/span><span class=\"pv-price\">₪1,800<\/span><\/button><\/li>\n      <li><button class=\"pv-opt has\" type=\"button\" data-v=\"2400\" data-c=\"1\" data-n=\"הדמיות תלת ממד\">\n        <span class=\"pv-ph\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp\" alt=\"\" width=\"1800\" height=\"1200\" loading=\"lazy\" decoding=\"async\"><span class=\"pv-cnt\" aria-hidden=\"true\">1<\/span><\/span>\n        <span class=\"pv-name\">הדמיות תלת ממד<\/span><span class=\"pv-price\">₪2,400<\/span><\/button><\/li>\n      <li><button class=\"pv-opt\" type=\"button\" data-v=\"3200\" data-c=\"0\" data-n=\"ליווי בבחירת ריהוט\">\n        <span class=\"pv-ph\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp\" alt=\"\" width=\"2200\" height=\"1469\" loading=\"lazy\" decoding=\"async\"><span class=\"pv-cnt\" aria-hidden=\"true\"><\/span><\/span>\n        <span class=\"pv-name\">ליווי בבחירת ריהוט<\/span><span class=\"pv-price\">₪3,200<\/span><\/button><\/li>\n    <\/ul>\n  <\/div>\n  <div class=\"pv-panel\">\n    <p class=\"pv-lab\">סך ההצעה<\/p>\n    <p class=\"pv-total\" aria-hidden=\"true\" data-v=\"4200\">₪4,200<\/p>\n    <ul class=\"pv-stack\" aria-hidden=\"true\"><li>+2,400<\/li><li>+1,800<\/li><\/ul>\n    <button class=\"pv-reset\" type=\"button\">איפוס<\/button>\n    <p class=\"pv-live sr-only\" role=\"status\"><\/p>\n  <\/div>\n<\/section><\/div>\n\n=== JS ===\n(function(){\n  const root=document.querySelector(\".pv\"),opts=[...root.querySelectorAll(\".pv-opt\")];\n  const totalEl=root.querySelector(\".pv-total\"),stack=root.querySelector(\".pv-stack\"),live=root.querySelector(\".pv-live\"),reset=root.querySelector(\".pv-reset\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\"),EASE=\"cubic-bezier(.2,.6,.2,1)\",MAX=4;\n  const fmt=n=>Math.round(n).toLocaleString(\"he-IL\");\n  const count=new Map(opts.map(o=>[o,parseInt(o.dataset.c,10)||0]));\n  let total=parseInt(totalEl.dataset.v,10)||0,shown=total,raf=0,saidT=0;\n  const paint=n=>{totalEl.textContent=\"₪\"+fmt(n);};\n  // התווית של הכפתור נושאת שם, מחיר וכמה נוספו, ומתעדכנת. המספר הצף והערימה מוסתרים מקורא מסך\n  function label(b){\n    const c=count.get(b),v=parseInt(b.dataset.v,10);\n    b.classList.toggle(\"has\",c>0);b.querySelector(\".pv-cnt\").textContent=c>0?String(c):\"\";\n    b.setAttribute(\"aria-label\",b.dataset.n+\", \"+fmt(v)+\" שקלים\"+(c>0?\", נוספו \"+c:\"\"));\n  }\n  function tick(to){\n    cancelAnimationFrame(raf);\n    if(reduce.matches){shown=to;paint(to);return;}\n    const from=shown,t0=performance.now(),dur=520;\n    const step=t=>{const k=Math.min((t-t0)/dur,1),e=1-Math.pow(1-k,3);shown=from+(to-from)*e;paint(shown);if(k<1)raf=requestAnimationFrame(step);else shown=to;};\n    raf=requestAnimationFrame(step);\n    totalEl.animate([{transform:\"scale(1)\"},{transform:\"scale(1.06)\"},{transform:\"scale(1)\"}],{duration:320,easing:EASE});\n  }\n  // שורה חדשה בראש הערימה. הישנות יורדות ב-FLIP ידני: מודדים לפני ואחרי, ומריצים מההפרש לאפס\n  function addLine(v){\n    const li=document.createElement(\"li\");li.textContent=\"+\"+fmt(v);\n    const old=[...stack.children],tops=old.map(e=>e.getBoundingClientRect().top);\n    stack.prepend(li);\n    while(stack.children.length>MAX)stack.lastElementChild.remove();\n    if(reduce.matches)return;\n    old.forEach((e,i)=>{if(!e.isConnected)return;const dy=tops[i]-e.getBoundingClientRect().top;if(dy)e.animate([{transform:\"translateY(\"+dy+\"px)\"},{transform:\"none\"}],{duration:320,easing:EASE});});\n    li.animate([{transform:\"translateY(-10px) scale(1.5)\",opacity:0},{transform:\"none\",opacity:1}],{duration:320,easing:EASE});\n  }\n  function pop(b,v){\n    if(reduce.matches)return;\n    const f=document.createElement(\"span\");f.className=\"pv-float\";f.setAttribute(\"aria-hidden\",\"true\");f.textContent=\"+\"+fmt(v);b.appendChild(f);\n    const a=f.animate([\n      {transform:\"translateY(8px) scale(.6)\",opacity:0},\n      {transform:\"translateY(-16px) scale(1.15)\",opacity:1,offset:.28},\n      {transform:\"translateY(-72px) scale(1)\",opacity:0}\n    ],{duration:900,easing:EASE,fill:\"both\"});\n    a.onfinish=()=>f.remove();\n  }\n  // הסכום מוכרז רק אחרי שהלחיצות נרגעות, כדי שקורא מסך לא יקריא כל ערך בדרך\n  function say(){clearTimeout(saidT);saidT=setTimeout(()=>{live.textContent=\"סך ההצעה \"+fmt(total)+\" שקלים\";},400);}\n  opts.forEach(b=>{\n    label(b);\n    b.addEventListener(\"click\",()=>{\n      const v=parseInt(b.dataset.v,10);\n      count.set(b,count.get(b)+1);total+=v;\n      label(b);pop(b,v);addLine(v);tick(total);say();\n    });\n  });\n  reset.addEventListener(\"click\",()=>{\n    opts.forEach(b=>{count.set(b,0);label(b);});\n    total=0;stack.textContent=\"\";tick(0);say();\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטונים ב-prompt-motion.com (21.10.2026) שבהם מספרים גדולים קופצים מעל יעד ונערמים ברשימה כשהסכום בפינה עולה בכל פגיעה. נבנה מאפס מהצפייה. שלושה חלקים לכל לחיצה: (1) המספר הצף (`.pv-float`) נולד בתוך הכפתור, מתחיל קטן, גדל ל-1.15 תוך עלייה של 16px ואז ממשיך לעלות עד 72px ודועך, ב-900ms, ונמחק בסיום. (2) שורה חדשה נכנסת בראש הערימה בגדול (1.5) ומתכווצת למקומה, והשורות הישנות זזות למטה ב-FLIP ידני: מודדים לפני ואחרי, ומריצים `translateY` מההפרש לאפס. הערימה נשמרת על ארבע שורות, והישנה יוצאת. גובה הערימה קבוע (`min-height`), ולכן הפריסה לא קופצת. (3) הסכום רץ מהערך הנוכחי לחדש ב-520ms עם עקומה של יציאה רכה, ונדחף ל-1.06 וחוזר. מצב התחלתי במארקאפ: שני שירותים כבר נבחרו, והסכום והערימה מציגים אותם. בלי JS זה מה שרואים, וה-JS ממשיך משם. מספרים: `font-variant-numeric:tabular-nums` ולא גופן מונו, כדי לרשת את הגופן של האתר. נגישות: הכפתורים אמיתיים עם `aria-label` שמתעדכן (שם, מחיר, כמה נוספו), המספרים הצפים והערימה מוסתרים (`aria-hidden`), והסכום מוכרז ב-`role=\"status\"` אחרי 400ms מהלחיצה האחרונה, כדי שקורא מסך לא יקריא את כל הערכים שבדרך. בהפחתת תנועה אין מספרים צפים, אין תנועה בערימה והסכום מתעדכן מיד. באתר משמאל לימין: מחליפים את `transform-origin` של הסכום והשורות מימין לשמאל.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B84 · מספרים שקופצים ונערמים בכל לחיצה */\n.pv{max-width:1080px;margin-inline:auto;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);align-items:start;gap:clamp(24px,4vw,56px)}\n.pv .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.pv-main{display:grid;gap:20px}\n.pv-main h2{margin:0;font-size:clamp(28px,3.2vw,44px);line-height:1.15;text-wrap:balance}\n.pv-opts{list-style:none;margin:0;padding:0;display:grid;gap:12px}\n.pv-opt{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;width:100%;padding:12px;border:0;border-radius:20px;background:var(--card, #fff);color:var(--ink, #16182b);font:inherit;text-align:start;cursor:pointer;transition:transform .16s cubic-bezier(.2,.6,.2,1)}\n.pv-opt:active{transform:scale(.985)}\n.pv-opt:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:3px}\n.pv-ph{position:relative;width:112px;height:84px}\n.pv-ph img{display:block;width:100%;height:100%;object-fit:cover;border-radius:14px}\n.pv-cnt{position:absolute;inset-block-start:-6px;inset-inline-start:-6px;display:none;place-items:center;min-width:28px;height:28px;padding:0 6px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:14px;font-weight:700;font-variant-numeric:tabular-nums}\n.pv-opt.has .pv-cnt{display:grid}\n.pv-name{font-size:clamp(18px,1.6vw,22px);font-weight:600}\n.pv-price{padding-inline:8px;font-size:clamp(18px,1.6vw,22px);font-weight:700;font-variant-numeric:tabular-nums}\n.pv-float{position:absolute;inset-inline-end:20px;top:8px;padding:4px 12px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;unicode-bidi:plaintext;pointer-events:none;opacity:0}\n.pv-panel{display:grid;align-content:start;gap:20px;padding:28px;border-radius:28px;background:var(--card, #fff)}\n.pv-lab{margin:0;color:var(--muted, #6a6d85);font-size:16px}\n.pv-total{margin:0;font-size:clamp(48px,6vw,84px);font-weight:700;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums;transform-origin:100% 50%}\n.pv-stack{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;min-height:184px}\n.pv-stack li{padding:6px 16px;border-radius:999px;background:var(--bg, #f7f7fa);font-size:20px;font-weight:700;font-variant-numeric:tabular-nums;unicode-bidi:plaintext;align-self:flex-start;transform-origin:100% 50%}\n.pv-stack:empty::after{content:\"עוד לא נבחר כלום\";color:var(--muted, #6a6d85);font-size:16px}\n.pv-reset{justify-self:start;padding:8px 16px;border:0;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font:inherit;font-size:15px;font-weight:600;cursor:pointer}\n.pv-reset:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:2px}\n@media(max-width:767px){.pv{grid-template-columns:minmax(0,1fr)}.pv-ph{width:88px;height:68px}}\n@media(prefers-reduced-motion:reduce){.pv-opt{transition:none}}","html":"<div class=\"stage\"><section class=\"pv\" aria-labelledby=\"pv-h\">\n  <div class=\"pv-main\">\n    <h2 id=\"pv-h\">בחרו מה לכלול בתכנון<\/h2>\n    <ul class=\"pv-opts\">\n      <li><button class=\"pv-opt has\" type=\"button\" data-v=\"1800\" data-c=\"1\" data-n=\"תכנון תאורה\">\n        <span class=\"pv-ph\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp\" alt=\"\" width=\"1200\" height=\"1600\" loading=\"lazy\" decoding=\"async\"><span class=\"pv-cnt\" aria-hidden=\"true\">1<\/span><\/span>\n        <span class=\"pv-name\">תכנון תאורה<\/span><span class=\"pv-price\">₪1,800<\/span><\/button><\/li>\n      <li><button class=\"pv-opt has\" type=\"button\" data-v=\"2400\" data-c=\"1\" data-n=\"הדמיות תלת ממד\">\n        <span class=\"pv-ph\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp\" alt=\"\" width=\"1800\" height=\"1200\" loading=\"lazy\" decoding=\"async\"><span class=\"pv-cnt\" aria-hidden=\"true\">1<\/span><\/span>\n        <span class=\"pv-name\">הדמיות תלת ממד<\/span><span class=\"pv-price\">₪2,400<\/span><\/button><\/li>\n      <li><button class=\"pv-opt\" type=\"button\" data-v=\"3200\" data-c=\"0\" data-n=\"ליווי בבחירת ריהוט\">\n        <span class=\"pv-ph\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp\" alt=\"\" width=\"2200\" height=\"1469\" loading=\"lazy\" decoding=\"async\"><span class=\"pv-cnt\" aria-hidden=\"true\"><\/span><\/span>\n        <span class=\"pv-name\">ליווי בבחירת ריהוט<\/span><span class=\"pv-price\">₪3,200<\/span><\/button><\/li>\n    <\/ul>\n  <\/div>\n  <div class=\"pv-panel\">\n    <p class=\"pv-lab\">סך ההצעה<\/p>\n    <p class=\"pv-total\" aria-hidden=\"true\" data-v=\"4200\">₪4,200<\/p>\n    <ul class=\"pv-stack\" aria-hidden=\"true\"><li>+2,400<\/li><li>+1,800<\/li><\/ul>\n    <button class=\"pv-reset\" type=\"button\">איפוס<\/button>\n    <p class=\"pv-live sr-only\" role=\"status\"><\/p>\n  <\/div>\n<\/section><\/div>","js":"(function(){\n  const root=document.querySelector(\".pv\"),opts=[...root.querySelectorAll(\".pv-opt\")];\n  const totalEl=root.querySelector(\".pv-total\"),stack=root.querySelector(\".pv-stack\"),live=root.querySelector(\".pv-live\"),reset=root.querySelector(\".pv-reset\");\n  const reduce=matchMedia(\"(prefers-reduced-motion: reduce)\"),EASE=\"cubic-bezier(.2,.6,.2,1)\",MAX=4;\n  const fmt=n=>Math.round(n).toLocaleString(\"he-IL\");\n  const count=new Map(opts.map(o=>[o,parseInt(o.dataset.c,10)||0]));\n  let total=parseInt(totalEl.dataset.v,10)||0,shown=total,raf=0,saidT=0;\n  const paint=n=>{totalEl.textContent=\"₪\"+fmt(n);};\n  // התווית של הכפתור נושאת שם, מחיר וכמה נוספו, ומתעדכנת. המספר הצף והערימה מוסתרים מקורא מסך\n  function label(b){\n    const c=count.get(b),v=parseInt(b.dataset.v,10);\n    b.classList.toggle(\"has\",c>0);b.querySelector(\".pv-cnt\").textContent=c>0?String(c):\"\";\n    b.setAttribute(\"aria-label\",b.dataset.n+\", \"+fmt(v)+\" שקלים\"+(c>0?\", נוספו \"+c:\"\"));\n  }\n  function tick(to){\n    cancelAnimationFrame(raf);\n    if(reduce.matches){shown=to;paint(to);return;}\n    const from=shown,t0=performance.now(),dur=520;\n    const step=t=>{const k=Math.min((t-t0)/dur,1),e=1-Math.pow(1-k,3);shown=from+(to-from)*e;paint(shown);if(k<1)raf=requestAnimationFrame(step);else shown=to;};\n    raf=requestAnimationFrame(step);\n    totalEl.animate([{transform:\"scale(1)\"},{transform:\"scale(1.06)\"},{transform:\"scale(1)\"}],{duration:320,easing:EASE});\n  }\n  // שורה חדשה בראש הערימה. הישנות יורדות ב-FLIP ידני: מודדים לפני ואחרי, ומריצים מההפרש לאפס\n  function addLine(v){\n    const li=document.createElement(\"li\");li.textContent=\"+\"+fmt(v);\n    const old=[...stack.children],tops=old.map(e=>e.getBoundingClientRect().top);\n    stack.prepend(li);\n    while(stack.children.length>MAX)stack.lastElementChild.remove();\n    if(reduce.matches)return;\n    old.forEach((e,i)=>{if(!e.isConnected)return;const dy=tops[i]-e.getBoundingClientRect().top;if(dy)e.animate([{transform:\"translateY(\"+dy+\"px)\"},{transform:\"none\"}],{duration:320,easing:EASE});});\n    li.animate([{transform:\"translateY(-10px) scale(1.5)\",opacity:0},{transform:\"none\",opacity:1}],{duration:320,easing:EASE});\n  }\n  function pop(b,v){\n    if(reduce.matches)return;\n    const f=document.createElement(\"span\");f.className=\"pv-float\";f.setAttribute(\"aria-hidden\",\"true\");f.textContent=\"+\"+fmt(v);b.appendChild(f);\n    const a=f.animate([\n      {transform:\"translateY(8px) scale(.6)\",opacity:0},\n      {transform:\"translateY(-16px) scale(1.15)\",opacity:1,offset:.28},\n      {transform:\"translateY(-72px) scale(1)\",opacity:0}\n    ],{duration:900,easing:EASE,fill:\"both\"});\n    a.onfinish=()=>f.remove();\n  }\n  // הסכום מוכרז רק אחרי שהלחיצות נרגעות, כדי שקורא מסך לא יקריא כל ערך בדרך\n  function say(){clearTimeout(saidT);saidT=setTimeout(()=>{live.textContent=\"סך ההצעה \"+fmt(total)+\" שקלים\";},400);}\n  opts.forEach(b=>{\n    label(b);\n    b.addEventListener(\"click\",()=>{\n      const v=parseInt(b.dataset.v,10);\n      count.set(b,count.get(b)+1);total+=v;\n      label(b);pop(b,v);addLine(v);tick(total);say();\n    });\n  });\n  reset.addEventListener(\"click\",()=>{\n    opts.forEach(b=>{count.set(b,0);label(b);});\n    total=0;stack.textContent=\"\";tick(0);say();\n  });\n})();","scripts":"","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="b83.html" rel="prev"><small>→ הקודם</small><b>פיצוץ קונפטי או ניצוצות בהצלחה</b></a><a href="b85.html" rel="next"><small>הבא ←</small><b>כפתור שהופך לפס התקדמות ולאישור</b></a></nav>
+
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מספרים שקופצים ונערמים בכל לחיצה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+(function(){
+  const root=document.querySelector(".pv"),opts=[...root.querySelectorAll(".pv-opt")];
+  const totalEl=root.querySelector(".pv-total"),stack=root.querySelector(".pv-stack"),live=root.querySelector(".pv-live"),reset=root.querySelector(".pv-reset");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)"),EASE="cubic-bezier(.2,.6,.2,1)",MAX=4;
+  const fmt=n=>Math.round(n).toLocaleString("he-IL");
+  const count=new Map(opts.map(o=>[o,parseInt(o.dataset.c,10)||0]));
+  let total=parseInt(totalEl.dataset.v,10)||0,shown=total,raf=0,saidT=0;
+  const paint=n=>{totalEl.textContent="₪"+fmt(n);};
+  // התווית של הכפתור נושאת שם, מחיר וכמה נוספו, ומתעדכנת. המספר הצף והערימה מוסתרים מקורא מסך
+  function label(b){
+    const c=count.get(b),v=parseInt(b.dataset.v,10);
+    b.classList.toggle("has",c>0);b.querySelector(".pv-cnt").textContent=c>0?String(c):"";
+    b.setAttribute("aria-label",b.dataset.n+", "+fmt(v)+" שקלים"+(c>0?", נוספו "+c:""));
+  }
+  function tick(to){
+    cancelAnimationFrame(raf);
+    if(reduce.matches){shown=to;paint(to);return;}
+    const from=shown,t0=performance.now(),dur=520;
+    const step=t=>{const k=Math.min((t-t0)/dur,1),e=1-Math.pow(1-k,3);shown=from+(to-from)*e;paint(shown);if(k<1)raf=requestAnimationFrame(step);else shown=to;};
+    raf=requestAnimationFrame(step);
+    totalEl.animate([{transform:"scale(1)"},{transform:"scale(1.06)"},{transform:"scale(1)"}],{duration:320,easing:EASE});
+  }
+  // שורה חדשה בראש הערימה. הישנות יורדות ב-FLIP ידני: מודדים לפני ואחרי, ומריצים מההפרש לאפס
+  function addLine(v){
+    const li=document.createElement("li");li.textContent="+"+fmt(v);
+    const old=[...stack.children],tops=old.map(e=>e.getBoundingClientRect().top);
+    stack.prepend(li);
+    while(stack.children.length>MAX)stack.lastElementChild.remove();
+    if(reduce.matches)return;
+    old.forEach((e,i)=>{if(!e.isConnected)return;const dy=tops[i]-e.getBoundingClientRect().top;if(dy)e.animate([{transform:"translateY("+dy+"px)"},{transform:"none"}],{duration:320,easing:EASE});});
+    li.animate([{transform:"translateY(-10px) scale(1.5)",opacity:0},{transform:"none",opacity:1}],{duration:320,easing:EASE});
+  }
+  function pop(b,v){
+    if(reduce.matches)return;
+    const f=document.createElement("span");f.className="pv-float";f.setAttribute("aria-hidden","true");f.textContent="+"+fmt(v);b.appendChild(f);
+    const a=f.animate([
+      {transform:"translateY(8px) scale(.6)",opacity:0},
+      {transform:"translateY(-16px) scale(1.15)",opacity:1,offset:.28},
+      {transform:"translateY(-72px) scale(1)",opacity:0}
+    ],{duration:900,easing:EASE,fill:"both"});
+    a.onfinish=()=>f.remove();
+  }
+  // הסכום מוכרז רק אחרי שהלחיצות נרגעות, כדי שקורא מסך לא יקריא כל ערך בדרך
+  function say(){clearTimeout(saidT);saidT=setTimeout(()=>{live.textContent="סך ההצעה "+fmt(total)+" שקלים";},400);}
+  opts.forEach(b=>{
+    label(b);
+    b.addEventListener("click",()=>{
+      const v=parseInt(b.dataset.v,10);
+      count.set(b,count.get(b)+1);total+=v;
+      label(b);pop(b,v);addLine(v);tick(total);say();
+    });
+  });
+  reset.addEventListener("click",()=>{
+    opts.forEach(b=>{count.set(b,0);label(b);});
+    total=0;stack.textContent="";tick(0);say();
+  });
+})();
+</script>
+</body>
+</html>

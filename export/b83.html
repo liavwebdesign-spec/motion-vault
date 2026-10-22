@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B83 · פיצוץ קונפטי או ניצוצות בהצלחה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B83 · פיצוץ קונפטי או ניצוצות בהצלחה */
+.bs{max-width:960px;margin-inline:auto}
+.bs .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.bs-card{display:grid;min-height:clamp(420px,56vh,500px);padding:clamp(32px,5vw,64px);border-radius:32px;background:var(--card, #fff)}
+.bs-form,.bs-done{grid-area:1/1;display:grid;align-content:center;justify-self:center;width:min(100%,440px);gap:14px}
+.bs-form{text-align:start;transition:opacity .2s cubic-bezier(.2,.6,.2,1)}
+.bs-form h2{margin:0;font-size:clamp(28px,3.4vw,44px);line-height:1.15;text-wrap:balance}
+.bs-p{margin:0 0 6px;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.bs-lab{font-size:15px;font-weight:600}
+.bs-in{box-sizing:border-box;width:100%;min-height:60px;padding:0 20px;border:0;border-radius:16px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font:inherit;font-size:20px;text-align:right}
+.bs-in:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:2px}
+.bs-in[aria-invalid="true"]{box-shadow:inset 0 0 0 2px var(--ink, #16182b)}
+.bs-err{min-height:1.4em;margin:0;font-size:15px;font-weight:600}
+.bs-btn{min-height:60px;border:0;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font:inherit;font-size:20px;font-weight:600;cursor:pointer}
+.bs-btn:focus-visible{outline:3px solid var(--ink, #16182b);outline-offset:4px}
+.bs-btn[aria-busy="true"]{opacity:.75;cursor:progress}
+.bs-done{justify-items:center;text-align:center;visibility:hidden;opacity:0;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}
+.bs-done h3{margin:8px 0 0;font-size:clamp(26px,2.8vw,36px);line-height:1.15}
+.bs-done p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.bs-card.is-done .bs-form{visibility:hidden;opacity:0}
+.bs-card.is-done .bs-done{visibility:visible;opacity:1}
+.bs-okw{position:relative;width:112px;height:112px;margin-bottom:16px}
+.bs-ok{display:grid;place-items:center;width:100%;height:100%;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.bs-ok svg{width:52px;height:52px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.bs-ok path{stroke-dasharray:1}
+/* מרכז הפיצוץ הוא מרכז העיגול. הפריטים נוצרים ב-JS ונמחקים בסיום */
+.bs-fx{position:absolute;left:50%;top:50%;width:0;height:0;pointer-events:none}
+.bs-fx i{position:absolute;left:0;top:0;transform-origin:0 0;opacity:0}
+.bs-fx .d{width:4px;height:16px;border-radius:2px;background:var(--accent, #4a3aff)}
+.bs-fx .d.s{height:10px;background:var(--ink, #16182b)}
+.bs-fx .p{width:6px;height:6px;border-radius:50%;background:var(--accent, #4a3aff)}
+.bs-fx .p.s{background:var(--muted, #6a6d85)}
+.bs-again{margin-top:12px;padding:10px 20px;border:0;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font:inherit;font-size:16px;font-weight:600;cursor:pointer}
+.bs-again:focus-visible{outline:3px solid var(--accent, #4a3aff);outline-offset:2px}
+@media(prefers-reduced-motion:no-preference){
+  .bs-card.is-done .bs-ok{animation:bsPop .45s cubic-bezier(.05,.7,.1,1) both}
+  .bs-card.is-done .bs-ok path{animation:bsDraw .45s cubic-bezier(.2,.6,.2,1) .15s both}
+}
+@keyframes bsPop{from{transform:scale(.6)}to{transform:scale(1)}}
+@keyframes bsDraw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+@media(prefers-reduced-motion:reduce){.bs-form,.bs-done{transition:none}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><section class="bs" aria-labelledby="bs-h">
+  <div class="bs-card">
+    <form class="bs-form" novalidate>
+      <h2 id="bs-h">נחזור אליכם עוד היום</h2>
+      <p class="bs-p">השאירו מספר טלפון ונתקשר בין תשע לחמש, בימים א׳ עד ה׳.</p>
+      <span class="bs-lab" id="bs-lab">מספר טלפון</span>
+      <input class="bs-in" id="bs-tel" aria-labelledby="bs-lab" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" value="050-1234567" placeholder="050-0000000" aria-describedby="bs-err">
+      <p class="bs-err" id="bs-err"></p>
+      <button class="bs-btn" type="submit"><span>בקשת שיחה חוזרת</span></button>
+    </form>
+    <div class="bs-done" inert>
+      <div class="bs-okw">
+        <div class="bs-fx" aria-hidden="true"></div>
+        <div class="bs-ok" aria-hidden="true"><svg viewBox="0 0 48 48" focusable="false"><path d="M13 25l7 7 15-16" pathLength="1"/></svg></div>
+      </div>
+      <h3>קיבלנו את המספר</h3>
+      <p>נתקשר אליכם היום, עד חמש אחר הצהריים.</p>
+      <button class="bs-again" type="button">להדגמה חוזרת</button>
+    </div>
+    <p class="bs-live sr-only" role="status"></p>
+  </div>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+
+<script>
+(function(){
+  const card=document.querySelector(".bs-card"),q=s=>card.querySelector(s);
+  const form=q(".bs-form"),inp=q(".bs-in"),err=q(".bs-err"),btn=q(".bs-btn"),lab=btn.firstElementChild;
+  const done=q(".bs-done"),again=q(".bs-again"),okw=q(".bs-okw"),fx=q(".bs-fx"),live=q(".bs-live");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)"),EASE="cubic-bezier(.2,.6,.2,1)";
+  let timer=0;
+  // הפיצוץ: 12 קווים ו-8 נקודות. כל אחד זז החוצה בקו ישר ודועך, ונמחק בסיום
+  function piece(cls,angle,r0,r1,delay){
+    const el=document.createElement("i");el.className=cls;fx.appendChild(el);
+    const rot="rotate("+angle+"deg) ",ctr=" translate(-50%,-50%)";
+    const a=el.animate([
+      {transform:rot+"translateY(-"+r0+"px)"+ctr,opacity:0},
+      {transform:rot+"translateY(-"+Math.round((r0+r1)/2)+"px)"+ctr,opacity:1,offset:.3},
+      {transform:rot+"translateY(-"+r1+"px)"+ctr,opacity:0}
+    ],{duration:640,delay:delay,easing:EASE,fill:"both"});
+    a.onfinish=()=>el.remove();
+  }
+  function burst(){
+    fx.textContent="";
+    for(let i=0;i<12;i++)piece("d"+(i%2?" s":""),i*30,64,i%2?84:96,0);
+    const far=[92,104,88,100,94,106,90,102];
+    for(let i=0;i<8;i++)piece("p"+(i%2?" s":""),i*45+22,60,far[i],40);
+    okw.animate([{transform:"translateX(0)"},{transform:"translateX(-4px)"},{transform:"translateX(4px)"},{transform:"translateX(-3px)"},{transform:"translateX(2px)"},{transform:"translateX(0)"}],{duration:300,easing:"linear"});
+  }
+  function finish(){
+    btn.removeAttribute("aria-busy");lab.textContent="בקשת שיחה חוזרת";
+    card.classList.add("is-done");form.inert=true;done.inert=false;
+    live.textContent="קיבלנו את המספר, נתקשר אליכם היום";
+    again.focus({preventScroll:true});
+    if(!reduce.matches)setTimeout(burst,480);
+  }
+  form.addEventListener("submit",e=>{
+    e.preventDefault();
+    if(btn.getAttribute("aria-busy")==="true")return;
+    if(inp.value.replace(/\D/g,"").length<9){
+      inp.setAttribute("aria-invalid","true");err.textContent="נא להזין מספר טלפון תקין";inp.focus();return;
+    }
+    inp.removeAttribute("aria-invalid");err.textContent="";
+    btn.setAttribute("aria-busy","true");lab.textContent="שולחים";
+    timer=setTimeout(finish,reduce.matches?300:900);
+  });
+  inp.addEventListener("input",()=>{if(inp.getAttribute("aria-invalid")){inp.removeAttribute("aria-invalid");err.textContent="";}});
+  again.addEventListener("click",()=>{
+    clearTimeout(timer);fx.textContent="";
+    card.classList.remove("is-done");form.inert=false;done.inert=true;live.textContent="";
+    inp.focus({preventScroll:true});
+  });
+})();
+</script>
+</body>
+</html>
