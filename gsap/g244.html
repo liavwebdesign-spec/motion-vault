@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G244 · חלון טרמינל שמקליד פלט | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.tm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);align-items:center;gap:clamp(32px,6vw,96px);max-width:1160px;margin-inline:auto}
+.tm .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.tm-txt{display:grid;gap:14px;max-width:36ch}
+.tm-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}
+.tm-txt p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.tm-win{justify-self:center;box-sizing:border-box;width:min(640px,100%);overflow:hidden;border-radius:18px;background:var(--ink);color:var(--bg);box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink) 55%,transparent)}
+.tm-bar{display:flex;align-items:center;gap:8px;padding:14px 18px;background:color-mix(in srgb,var(--bg) 9%,var(--ink))}
+.tm-bar i{width:10px;height:10px;border-radius:50%;background:color-mix(in srgb,var(--bg) 30%,var(--ink))}
+.tm-ttl{margin-inline-start:12px;font-size:13px;color:color-mix(in srgb,var(--bg) 62%,var(--ink))}
+.tm-body{display:grid;gap:12px;padding:24px 24px 28px;font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-size:clamp(14px,1.3vw,16px);line-height:1.5}
+.tm-ln{display:flex;align-items:center;gap:12px;min-height:24px;white-space:nowrap}
+.tm-pr{flex:none;color:color-mix(in srgb,var(--bg) 55%,var(--ink))}
+.tm-ck{flex:none;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--accent)}
+.tm-ck svg{width:11px;height:11px;fill:none;stroke:var(--accent-ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.tm-t{white-space:pre}
+.tm-k{display:inline-block;padding:0 6px;border-radius:4px;transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s cubic-bezier(.2,.6,.2,1)}
+.tm-k.is-hot{background:var(--accent);color:var(--accent-ink)}
+.tm-end{margin-top:8px;font-size:1.1em;font-weight:700}
+.tm-caret{display:inline-block;width:8px;height:1.2em;vertical-align:text-bottom;background:var(--bg);animation:tm-blink 1s steps(1) infinite}
+@keyframes tm-blink{50%{opacity:0}}
+@media(max-width:767px){.tm{grid-template-columns:minmax(0,1fr)}.tm-txt{max-width:none}.tm-body{padding:20px 16px 24px}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g243.html" rel="prev" title="הקודם: כרטיסי משימה שעוברים בין עמודות בלוח וגרף שיורד יחד איתם">→<span class="sr-only">הקודם</span></a><span class="vpn-n">220/227</span><a href="g245.html" rel="next" title="הבא: אתר בתוך חלון דפדפן שעובר בין עמודים">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G244</span> · חלון טרמינל שמקליד פלט</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · Timeline · ScrollTrigger once</span>
+  <span class="vchip use">תהליך ושלבים</span><span class="vchip use">טקסט וכותרות</span><span class="vchip use">טעינה ופידבק</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g244"><code>MV:g244</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g244">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>חלון כהה עם שלוש נקודות בכותרת. שורת הפקודה מוקלדת תו אחרי תו עם סמן שנע אחרי התו האחרון, ומתחתיה שלוש שורות תוצאה שנכתבות מהר יותר, כל אחת עם סימן וי שקופץ לפניה. כשהשורה נגמרת המספרים והמילים החשובות בה נצבעים, ובסוף מגיעה שורת סיכום עם הזמן שלקח.</p>
+  <p class="when"><b>מתי משתמשים:</b> שירות שמריץ משהו מאחורי הקלעים ויכול להראות את זה בשלוש שורות: אוטומציה, סנכרון הזמנות, גיבוי, מערכת חשבוניות, חיבור בין כלים. מתאים לסקשן ״איך זה עובד״ או להוכחה שהשירות באמת עושה את העבודה. לא לשירות שאין לו תוצאה שאפשר למנות: שורות של יומן עבודה בלי מספר אמיתי נראות מוזרות.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית</dd></div><div><dt>בסקשן</dt><dd>תהליך ושלבים · בעיה ויתרונות · הירו</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא לעסק שלא מפעיל שום מערכת: טרמינל על שירות של אדם מול אדם נראה כמו תחפושת.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g244"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="tm">
+  <div class="tm-txt"><h3>הזמנות חדשות מסתדרות לבד</h3><p>בכל בוקר המערכת מושכת את ההזמנות מהחנות, מוציאה חשבוניות ושולחת ללקוחות אישור. ככה זה נראה ביומן העבודה, שורה אחרי שורה.</p></div>
+  <div class="tm-win" aria-hidden="true">
+    <div class="tm-bar"><i></i><i></i><i></i><span class="tm-ttl">סנכרון בוקר</span></div>
+    <div class="tm-body">
+      <div class="tm-ln"><span class="tm-pr">$</span><span class="tm-t">סנכרון הזמנות מהחנות</span></div>
+      <div class="tm-ln"><span class="tm-ck"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><span class="tm-t">נמצאו <span class="tm-k is-hot">12</span> הזמנות חדשות</span></div>
+      <div class="tm-ln"><span class="tm-ck"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><span class="tm-t">הופקו <span class="tm-k is-hot">12</span> חשבוניות</span></div>
+      <div class="tm-ln"><span class="tm-ck"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><span class="tm-t">נשלחו אישורים ל-<span class="tm-k is-hot">12 לקוחות</span></span></div>
+      <div class="tm-ln tm-end"><span class="tm-t">הסנכרון הסתיים תוך <span class="tm-k is-hot">4 שניות</span></span></div>
+    </div>
+  </div>
+  <span class="sr-only">יומן העבודה: נמצאו 12 הזמנות חדשות, הופקו 12 חשבוניות, נשלחו אישורים ל-12 לקוחות והסנכרון הסתיים תוך 4 שניות.</span>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטוני מוצר טכני בגלריה של prompt-motion.com (21.10.2026), שבהם חלון טרמינל מקליד פקודה ומציג מתחתיה פלט עם סימני וי ושורת תוצאה. נבנה מאפס מהצפייה. <b>המארקאפ הוא מצב הסיום:</b> כל השורות כתובות והמילים החשובות צבועות. רק כשיש GSAP ואין הפחתת תנועה הסקריפט עוטף כל תו בספאן, מסתיר אותם, וחושף אותם בזה אחר זה בטיימליין אחד שרץ פעם אחת כשהחלון נכנס למסך; בניקוי הוא מחזיר את ה-HTML המקורי של כל שורה. הסמן הוא ספאן אחד שעובר ממקום למקום, ולכן הוא תמיד צמוד לתו האחרון. <b>החלון כהה בכוונה</b> (<code>--ink</code> כרקע ו-<code>--bg</code> לטקסט), והמילים הצבועות משתמשות ב-<code>--accent</code> עם <code>--accent-ink</code>, כך שהניגודיות נשמרת בכל עור. הכול <code>aria-hidden</code>, ומתחתיו טקסט לקוראי מסך עם תוכן היומן. <b>RTL:</b> השורות נכתבות מימין לשמאל והסמן נשאר צמוד לתו האחרון, ולכן באתר LTR אין מה להפוך; מחליפים רק את תוכן השורות. בטלפון העמודות הופכות לעמודה אחת ושורות הפלט קצרות כדי שלא ייחתכו.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g244.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G244 · חלון טרמינל שמקליד פלט */
+.tm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);align-items:center;gap:clamp(32px,6vw,96px);max-width:1160px;margin-inline:auto}
+.tm .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.tm-txt{display:grid;gap:14px;max-width:36ch}
+.tm-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}
+.tm-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.tm-win{justify-self:center;box-sizing:border-box;width:min(640px,100%);overflow:hidden;border-radius:18px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink, #16182b) 55%,transparent)}
+.tm-bar{display:flex;align-items:center;gap:8px;padding:14px 18px;background:color-mix(in srgb,var(--bg, #f7f7fa) 9%,var(--ink, #16182b))}
+.tm-bar i{width:10px;height:10px;border-radius:50%;background:color-mix(in srgb,var(--bg, #f7f7fa) 30%,var(--ink, #16182b))}
+.tm-ttl{margin-inline-start:12px;font-size:13px;color:color-mix(in srgb,var(--bg, #f7f7fa) 62%,var(--ink, #16182b))}
+.tm-body{display:grid;gap:12px;padding:24px 24px 28px;font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-size:clamp(14px,1.3vw,16px);line-height:1.5}
+.tm-ln{display:flex;align-items:center;gap:12px;min-height:24px;white-space:nowrap}
+.tm-pr{flex:none;color:color-mix(in srgb,var(--bg, #f7f7fa) 55%,var(--ink, #16182b))}
+.tm-ck{flex:none;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--accent, #4a3aff)}
+.tm-ck svg{width:11px;height:11px;fill:none;stroke:var(--accent-ink, #fff);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.tm-t{white-space:pre}
+.tm-k{display:inline-block;padding:0 6px;border-radius:4px;transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s cubic-bezier(.2,.6,.2,1)}
+.tm-k.is-hot{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.tm-end{margin-top:8px;font-size:1.1em;font-weight:700}
+.tm-caret{display:inline-block;width:8px;height:1.2em;vertical-align:text-bottom;background:var(--bg, #f7f7fa);animation:tm-blink 1s steps(1) infinite}
+@keyframes tm-blink{50%{opacity:0}}
+@media(max-width:767px){.tm{grid-template-columns:minmax(0,1fr)}.tm-txt{max-width:none}.tm-body{padding:20px 16px 24px}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;div class="tm"&gt;
+  &lt;div class="tm-txt"&gt;&lt;h3&gt;הזמנות חדשות מסתדרות לבד&lt;/h3&gt;&lt;p&gt;בכל בוקר המערכת מושכת את ההזמנות מהחנות, מוציאה חשבוניות ושולחת ללקוחות אישור. ככה זה נראה ביומן העבודה, שורה אחרי שורה.&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="tm-win" aria-hidden="true"&gt;
+    &lt;div class="tm-bar"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;span class="tm-ttl"&gt;סנכרון בוקר&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="tm-body"&gt;
+      &lt;div class="tm-ln"&gt;&lt;span class="tm-pr"&gt;$&lt;/span&gt;&lt;span class="tm-t"&gt;סנכרון הזמנות מהחנות&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="tm-ln"&gt;&lt;span class="tm-ck"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M6 12.5l4 4 8-9"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span class="tm-t"&gt;נמצאו &lt;span class="tm-k is-hot"&gt;12&lt;/span&gt; הזמנות חדשות&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="tm-ln"&gt;&lt;span class="tm-ck"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M6 12.5l4 4 8-9"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span class="tm-t"&gt;הופקו &lt;span class="tm-k is-hot"&gt;12&lt;/span&gt; חשבוניות&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="tm-ln"&gt;&lt;span class="tm-ck"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M6 12.5l4 4 8-9"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span class="tm-t"&gt;נשלחו אישורים ל-&lt;span class="tm-k is-hot"&gt;12 לקוחות&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="tm-ln tm-end"&gt;&lt;span class="tm-t"&gt;הסנכרון הסתיים תוך &lt;span class="tm-k is-hot"&gt;4 שניות&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;span class="sr-only"&gt;יומן העבודה: נמצאו 12 הזמנות חדשות, הופקו 12 חשבוניות, נשלחו אישורים ל-12 לקוחות והסנכרון הסתיים תוך 4 שניות.&lt;/span&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP: כל השורות כתובות והמילים החשובות צבועות (במארקאפ)
+  const root=document.querySelector(".tm"),lines=[...root.querySelectorAll(".tm-ln")];
+  const saved=lines.map(l=&gt;l.innerHTML);
+  // כל תו הופך לספאן, כדי לחשוף אותם אחד אחרי השני גם כשבתוך השורה יש מילים צבועות
+  const split=el=&gt;{
+    const out=[];
+    const walk=node=&gt;[...node.childNodes].forEach(n=&gt;{
+      if(n.nodeType===3){
+        const f=document.createDocumentFragment();
+        [...n.textContent].forEach(ch=&gt;{const s=document.createElement("span");s.textContent=ch;f.appendChild(s);out.push(s);});
+        n.replaceWith(f);
+      }else if(n.nodeType===1)walk(n);
+    });
+    walk(el);return out;
+  };
+  // בהפחתת תנועה הפונקציה לא רצה, והחלון נשאר במצב הסיום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    const caret=document.createElement("span");caret.className="tm-caret";caret.style.opacity=0;
+    const rows=lines.map(l=&gt;{const t=l.querySelector(".tm-t");return{t,ck:l.querySelector(".tm-ck"),keys:[...t.querySelectorAll(".tm-k")],chars:split(t)};});
+    rows.forEach(r=&gt;{
+      r.chars.forEach(c=&gt;{c.style.opacity=0;});
+      r.keys.forEach(k=&gt;k.classList.remove("is-hot"));
+      if(r.ck)gsap.set(r.ck,{opacity:0,scale:.5});
+    });
+    rows[0].t.prepend(caret);
+    const tl=gsap.timeline({paused:true});
+    // הקלדה של שורה: n עולה מ-0 למספר התווים, והסמן נצמד לתו האחרון שנחשף
+    const typeLine=(r,per)=&gt;{
+      const o={n:0};let shown=0;
+      tl.call(()=&gt;{r.t.prepend(caret);caret.style.opacity=1;},null,"&gt;");
+      tl.to(o,{n:r.chars.length,duration:r.chars.length*per,ease:"none",onUpdate:()=&gt;{
+        const k=Math.round(o.n);if(k===shown)return;
+        for(let i=shown;i&lt;k;i++)r.chars[i].style.opacity=1;
+        shown=k;r.chars[k-1].after(caret);
+      }},"&gt;");
+      tl.call(()=&gt;r.keys.forEach(k=&gt;k.classList.add("is-hot")),null,"&gt;");
+    };
+    tl.to({},{duration:.3});
+    typeLine(rows[0],.055);
+    rows.slice(1).forEach((r,i)=&gt;{
+      if(r.ck)tl.to(r.ck,{opacity:1,scale:1,duration:.25,ease:"power2.out"},"&gt;+=.35");
+      typeLine(r,i&lt;3?.026:.032);
+    });
+    tl.call(()=&gt;caret.remove(),null,"&gt;+=1");
+    const st=ScrollTrigger.create({trigger:root,start:"top 65%",once:true,onEnter:()=&gt;tl.play()});
+    return()=&gt;{st.kill();tl.kill();caret.remove();lines.forEach((l,i)=&gt;{l.innerHTML=saved[i];});};
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g244 · חלון טרמינל שמקליד פלט\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g244.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g244.html\n\nמה זה עושה: חלון כהה עם שלוש נקודות בכותרת. שורת הפקודה מוקלדת תו אחרי תו עם סמן שנע אחרי התו האחרון, ומתחתיה שלוש שורות תוצאה שנכתבות מהר יותר, כל אחת עם סימן וי שקופץ לפניה. כשהשורה נגמרת המספרים והמילים החשובות בה נצבעים, ובסוף מגיעה שורת סיכום עם הזמן שלקח.\nמתי משתמשים: שירות שמריץ משהו מאחורי הקלעים ויכול להראות את זה בשלוש שורות: אוטומציה, סנכרון הזמנות, גיבוי, מערכת חשבוניות, חיבור בין כלים. מתאים לסקשן ״איך זה עובד״ או להוכחה שהשירות באמת עושה את העבודה. לא לשירות שאין לו תוצאה שאפשר למנות: שורות של יומן עבודה בלי מספר אמיתי נראות מוזרות.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית\nבסקשן: תהליך ושלבים · בעיה ויתרונות · הירו\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא לעסק שלא מפעיל שום מערכת: טרמינל על שירות של אדם מול אדם נראה כמו תחפושת.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G244 · חלון טרמינל שמקליד פלט */\n.tm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);align-items:center;gap:clamp(32px,6vw,96px);max-width:1160px;margin-inline:auto}\n.tm .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.tm-txt{display:grid;gap:14px;max-width:36ch}\n.tm-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}\n.tm-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.tm-win{justify-self:center;box-sizing:border-box;width:min(640px,100%);overflow:hidden;border-radius:18px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink, #16182b) 55%,transparent)}\n.tm-bar{display:flex;align-items:center;gap:8px;padding:14px 18px;background:color-mix(in srgb,var(--bg, #f7f7fa) 9%,var(--ink, #16182b))}\n.tm-bar i{width:10px;height:10px;border-radius:50%;background:color-mix(in srgb,var(--bg, #f7f7fa) 30%,var(--ink, #16182b))}\n.tm-ttl{margin-inline-start:12px;font-size:13px;color:color-mix(in srgb,var(--bg, #f7f7fa) 62%,var(--ink, #16182b))}\n.tm-body{display:grid;gap:12px;padding:24px 24px 28px;font-family:ui-monospace,\"SF Mono\",Menlo,Consolas,\"Liberation Mono\",monospace;font-size:clamp(14px,1.3vw,16px);line-height:1.5}\n.tm-ln{display:flex;align-items:center;gap:12px;min-height:24px;white-space:nowrap}\n.tm-pr{flex:none;color:color-mix(in srgb,var(--bg, #f7f7fa) 55%,var(--ink, #16182b))}\n.tm-ck{flex:none;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--accent, #4a3aff)}\n.tm-ck svg{width:11px;height:11px;fill:none;stroke:var(--accent-ink, #fff);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}\n.tm-t{white-space:pre}\n.tm-k{display:inline-block;padding:0 6px;border-radius:4px;transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s cubic-bezier(.2,.6,.2,1)}\n.tm-k.is-hot{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.tm-end{margin-top:8px;font-size:1.1em;font-weight:700}\n.tm-caret{display:inline-block;width:8px;height:1.2em;vertical-align:text-bottom;background:var(--bg, #f7f7fa);animation:tm-blink 1s steps(1) infinite}\n@keyframes tm-blink{50%{opacity:0}}\n@media(max-width:767px){.tm{grid-template-columns:minmax(0,1fr)}.tm-txt{max-width:none}.tm-body{padding:20px 16px 24px}}\n\n=== HTML ===\n<div class=\"stage\"><div class=\"tm\">\n  <div class=\"tm-txt\"><h3>הזמנות חדשות מסתדרות לבד<\/h3><p>בכל בוקר המערכת מושכת את ההזמנות מהחנות, מוציאה חשבוניות ושולחת ללקוחות אישור. ככה זה נראה ביומן העבודה, שורה אחרי שורה.<\/p><\/div>\n  <div class=\"tm-win\" aria-hidden=\"true\">\n    <div class=\"tm-bar\"><i><\/i><i><\/i><i><\/i><span class=\"tm-ttl\">סנכרון בוקר<\/span><\/div>\n    <div class=\"tm-body\">\n      <div class=\"tm-ln\"><span class=\"tm-pr\">$<\/span><span class=\"tm-t\">סנכרון הזמנות מהחנות<\/span><\/div>\n      <div class=\"tm-ln\"><span class=\"tm-ck\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\"/><\/svg><\/span><span class=\"tm-t\">נמצאו <span class=\"tm-k is-hot\">12<\/span> הזמנות חדשות<\/span><\/div>\n      <div class=\"tm-ln\"><span class=\"tm-ck\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\"/><\/svg><\/span><span class=\"tm-t\">הופקו <span class=\"tm-k is-hot\">12<\/span> חשבוניות<\/span><\/div>\n      <div class=\"tm-ln\"><span class=\"tm-ck\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\"/><\/svg><\/span><span class=\"tm-t\">נשלחו אישורים ל-<span class=\"tm-k is-hot\">12 לקוחות<\/span><\/span><\/div>\n      <div class=\"tm-ln tm-end\"><span class=\"tm-t\">הסנכרון הסתיים תוך <span class=\"tm-k is-hot\">4 שניות<\/span><\/span><\/div>\n    <\/div>\n  <\/div>\n  <span class=\"sr-only\">יומן העבודה: נמצאו 12 הזמנות חדשות, הופקו 12 חשבוניות, נשלחו אישורים ל-12 לקוחות והסנכרון הסתיים תוך 4 שניות.<\/span>\n<\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP: כל השורות כתובות והמילים החשובות צבועות (במארקאפ)\n  const root=document.querySelector(\".tm\"),lines=[...root.querySelectorAll(\".tm-ln\")];\n  const saved=lines.map(l=>l.innerHTML);\n  // כל תו הופך לספאן, כדי לחשוף אותם אחד אחרי השני גם כשבתוך השורה יש מילים צבועות\n  const split=el=>{\n    const out=[];\n    const walk=node=>[...node.childNodes].forEach(n=>{\n      if(n.nodeType===3){\n        const f=document.createDocumentFragment();\n        [...n.textContent].forEach(ch=>{const s=document.createElement(\"span\");s.textContent=ch;f.appendChild(s);out.push(s);});\n        n.replaceWith(f);\n      }else if(n.nodeType===1)walk(n);\n    });\n    walk(el);return out;\n  };\n  // בהפחתת תנועה הפונקציה לא רצה, והחלון נשאר במצב הסיום\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    const caret=document.createElement(\"span\");caret.className=\"tm-caret\";caret.style.opacity=0;\n    const rows=lines.map(l=>{const t=l.querySelector(\".tm-t\");return{t,ck:l.querySelector(\".tm-ck\"),keys:[...t.querySelectorAll(\".tm-k\")],chars:split(t)};});\n    rows.forEach(r=>{\n      r.chars.forEach(c=>{c.style.opacity=0;});\n      r.keys.forEach(k=>k.classList.remove(\"is-hot\"));\n      if(r.ck)gsap.set(r.ck,{opacity:0,scale:.5});\n    });\n    rows[0].t.prepend(caret);\n    const tl=gsap.timeline({paused:true});\n    // הקלדה של שורה: n עולה מ-0 למספר התווים, והסמן נצמד לתו האחרון שנחשף\n    const typeLine=(r,per)=>{\n      const o={n:0};let shown=0;\n      tl.call(()=>{r.t.prepend(caret);caret.style.opacity=1;},null,\">\");\n      tl.to(o,{n:r.chars.length,duration:r.chars.length*per,ease:\"none\",onUpdate:()=>{\n        const k=Math.round(o.n);if(k===shown)return;\n        for(let i=shown;i<k;i++)r.chars[i].style.opacity=1;\n        shown=k;r.chars[k-1].after(caret);\n      }},\">\");\n      tl.call(()=>r.keys.forEach(k=>k.classList.add(\"is-hot\")),null,\">\");\n    };\n    tl.to({},{duration:.3});\n    typeLine(rows[0],.055);\n    rows.slice(1).forEach((r,i)=>{\n      if(r.ck)tl.to(r.ck,{opacity:1,scale:1,duration:.25,ease:\"power2.out\"},\">+=.35\");\n      typeLine(r,i<3?.026:.032);\n    });\n    tl.call(()=>caret.remove(),null,\">+=1\");\n    const st=ScrollTrigger.create({trigger:root,start:\"top 65%\",once:true,onEnter:()=>tl.play()});\n    return()=>{st.kill();tl.kill();caret.remove();lines.forEach((l,i)=>{l.innerHTML=saved[i];});};\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטוני מוצר טכני בגלריה של prompt-motion.com (21.10.2026), שבהם חלון טרמינל מקליד פקודה ומציג מתחתיה פלט עם סימני וי ושורת תוצאה. נבנה מאפס מהצפייה. המארקאפ הוא מצב הסיום: כל השורות כתובות והמילים החשובות צבועות. רק כשיש GSAP ואין הפחתת תנועה הסקריפט עוטף כל תו בספאן, מסתיר אותם, וחושף אותם בזה אחר זה בטיימליין אחד שרץ פעם אחת כשהחלון נכנס למסך; בניקוי הוא מחזיר את ה-HTML המקורי של כל שורה. הסמן הוא ספאן אחד שעובר ממקום למקום, ולכן הוא תמיד צמוד לתו האחרון. החלון כהה בכוונה (`--ink` כרקע ו-`--bg` לטקסט), והמילים הצבועות משתמשות ב-`--accent` עם `--accent-ink`, כך שהניגודיות נשמרת בכל עור. הכול `aria-hidden`, ומתחתיו טקסט לקוראי מסך עם תוכן היומן. RTL: השורות נכתבות מימין לשמאל והסמן נשאר צמוד לתו האחרון, ולכן באתר LTR אין מה להפוך; מחליפים רק את תוכן השורות. בטלפון העמודות הופכות לעמודה אחת ושורות הפלט קצרות כדי שלא ייחתכו.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G244 · חלון טרמינל שמקליד פלט */\n.tm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);align-items:center;gap:clamp(32px,6vw,96px);max-width:1160px;margin-inline:auto}\n.tm .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.tm-txt{display:grid;gap:14px;max-width:36ch}\n.tm-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}\n.tm-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.tm-win{justify-self:center;box-sizing:border-box;width:min(640px,100%);overflow:hidden;border-radius:18px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink, #16182b) 55%,transparent)}\n.tm-bar{display:flex;align-items:center;gap:8px;padding:14px 18px;background:color-mix(in srgb,var(--bg, #f7f7fa) 9%,var(--ink, #16182b))}\n.tm-bar i{width:10px;height:10px;border-radius:50%;background:color-mix(in srgb,var(--bg, #f7f7fa) 30%,var(--ink, #16182b))}\n.tm-ttl{margin-inline-start:12px;font-size:13px;color:color-mix(in srgb,var(--bg, #f7f7fa) 62%,var(--ink, #16182b))}\n.tm-body{display:grid;gap:12px;padding:24px 24px 28px;font-family:ui-monospace,\"SF Mono\",Menlo,Consolas,\"Liberation Mono\",monospace;font-size:clamp(14px,1.3vw,16px);line-height:1.5}\n.tm-ln{display:flex;align-items:center;gap:12px;min-height:24px;white-space:nowrap}\n.tm-pr{flex:none;color:color-mix(in srgb,var(--bg, #f7f7fa) 55%,var(--ink, #16182b))}\n.tm-ck{flex:none;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--accent, #4a3aff)}\n.tm-ck svg{width:11px;height:11px;fill:none;stroke:var(--accent-ink, #fff);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}\n.tm-t{white-space:pre}\n.tm-k{display:inline-block;padding:0 6px;border-radius:4px;transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s cubic-bezier(.2,.6,.2,1)}\n.tm-k.is-hot{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.tm-end{margin-top:8px;font-size:1.1em;font-weight:700}\n.tm-caret{display:inline-block;width:8px;height:1.2em;vertical-align:text-bottom;background:var(--bg, #f7f7fa);animation:tm-blink 1s steps(1) infinite}\n@keyframes tm-blink{50%{opacity:0}}\n@media(max-width:767px){.tm{grid-template-columns:minmax(0,1fr)}.tm-txt{max-width:none}.tm-body{padding:20px 16px 24px}}","html":"<div class=\"stage\"><div class=\"tm\">\n  <div class=\"tm-txt\"><h3>הזמנות חדשות מסתדרות לבד<\/h3><p>בכל בוקר המערכת מושכת את ההזמנות מהחנות, מוציאה חשבוניות ושולחת ללקוחות אישור. ככה זה נראה ביומן העבודה, שורה אחרי שורה.<\/p><\/div>\n  <div class=\"tm-win\" aria-hidden=\"true\">\n    <div class=\"tm-bar\"><i><\/i><i><\/i><i><\/i><span class=\"tm-ttl\">סנכרון בוקר<\/span><\/div>\n    <div class=\"tm-body\">\n      <div class=\"tm-ln\"><span class=\"tm-pr\">$<\/span><span class=\"tm-t\">סנכרון הזמנות מהחנות<\/span><\/div>\n      <div class=\"tm-ln\"><span class=\"tm-ck\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\"/><\/svg><\/span><span class=\"tm-t\">נמצאו <span class=\"tm-k is-hot\">12<\/span> הזמנות חדשות<\/span><\/div>\n      <div class=\"tm-ln\"><span class=\"tm-ck\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\"/><\/svg><\/span><span class=\"tm-t\">הופקו <span class=\"tm-k is-hot\">12<\/span> חשבוניות<\/span><\/div>\n      <div class=\"tm-ln\"><span class=\"tm-ck\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\"/><\/svg><\/span><span class=\"tm-t\">נשלחו אישורים ל-<span class=\"tm-k is-hot\">12 לקוחות<\/span><\/span><\/div>\n      <div class=\"tm-ln tm-end\"><span class=\"tm-t\">הסנכרון הסתיים תוך <span class=\"tm-k is-hot\">4 שניות<\/span><\/span><\/div>\n    <\/div>\n  <\/div>\n  <span class=\"sr-only\">יומן העבודה: נמצאו 12 הזמנות חדשות, הופקו 12 חשבוניות, נשלחו אישורים ל-12 לקוחות והסנכרון הסתיים תוך 4 שניות.<\/span>\n<\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP: כל השורות כתובות והמילים החשובות צבועות (במארקאפ)\n  const root=document.querySelector(\".tm\"),lines=[...root.querySelectorAll(\".tm-ln\")];\n  const saved=lines.map(l=>l.innerHTML);\n  // כל תו הופך לספאן, כדי לחשוף אותם אחד אחרי השני גם כשבתוך השורה יש מילים צבועות\n  const split=el=>{\n    const out=[];\n    const walk=node=>[...node.childNodes].forEach(n=>{\n      if(n.nodeType===3){\n        const f=document.createDocumentFragment();\n        [...n.textContent].forEach(ch=>{const s=document.createElement(\"span\");s.textContent=ch;f.appendChild(s);out.push(s);});\n        n.replaceWith(f);\n      }else if(n.nodeType===1)walk(n);\n    });\n    walk(el);return out;\n  };\n  // בהפחתת תנועה הפונקציה לא רצה, והחלון נשאר במצב הסיום\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    const caret=document.createElement(\"span\");caret.className=\"tm-caret\";caret.style.opacity=0;\n    const rows=lines.map(l=>{const t=l.querySelector(\".tm-t\");return{t,ck:l.querySelector(\".tm-ck\"),keys:[...t.querySelectorAll(\".tm-k\")],chars:split(t)};});\n    rows.forEach(r=>{\n      r.chars.forEach(c=>{c.style.opacity=0;});\n      r.keys.forEach(k=>k.classList.remove(\"is-hot\"));\n      if(r.ck)gsap.set(r.ck,{opacity:0,scale:.5});\n    });\n    rows[0].t.prepend(caret);\n    const tl=gsap.timeline({paused:true});\n    // הקלדה של שורה: n עולה מ-0 למספר התווים, והסמן נצמד לתו האחרון שנחשף\n    const typeLine=(r,per)=>{\n      const o={n:0};let shown=0;\n      tl.call(()=>{r.t.prepend(caret);caret.style.opacity=1;},null,\">\");\n      tl.to(o,{n:r.chars.length,duration:r.chars.length*per,ease:\"none\",onUpdate:()=>{\n        const k=Math.round(o.n);if(k===shown)return;\n        for(let i=shown;i<k;i++)r.chars[i].style.opacity=1;\n        shown=k;r.chars[k-1].after(caret);\n      }},\">\");\n      tl.call(()=>r.keys.forEach(k=>k.classList.add(\"is-hot\")),null,\">\");\n    };\n    tl.to({},{duration:.3});\n    typeLine(rows[0],.055);\n    rows.slice(1).forEach((r,i)=>{\n      if(r.ck)tl.to(r.ck,{opacity:1,scale:1,duration:.25,ease:\"power2.out\"},\">+=.35\");\n      typeLine(r,i<3?.026:.032);\n    });\n    tl.call(()=>caret.remove(),null,\">+=1\");\n    const st=ScrollTrigger.create({trigger:root,start:\"top 65%\",once:true,onEnter:()=>tl.play()});\n    return()=>{st.kill();tl.kill();caret.remove();lines.forEach((l,i)=>{l.innerHTML=saved[i];});};\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g243.html" rel="prev"><small>→ הקודם</small><b>כרטיסי משימה שעוברים בין עמודות בלוח וגרף שיורד יחד איתם</b></a><a href="g245.html" rel="next"><small>הבא ←</small><b>אתר בתוך חלון דפדפן שעובר בין עמודים</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · חלון טרמינל שמקליד פלט").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP: כל השורות כתובות והמילים החשובות צבועות (במארקאפ)
+  const root=document.querySelector(".tm"),lines=[...root.querySelectorAll(".tm-ln")];
+  const saved=lines.map(l=>l.innerHTML);
+  // כל תו הופך לספאן, כדי לחשוף אותם אחד אחרי השני גם כשבתוך השורה יש מילים צבועות
+  const split=el=>{
+    const out=[];
+    const walk=node=>[...node.childNodes].forEach(n=>{
+      if(n.nodeType===3){
+        const f=document.createDocumentFragment();
+        [...n.textContent].forEach(ch=>{const s=document.createElement("span");s.textContent=ch;f.appendChild(s);out.push(s);});
+        n.replaceWith(f);
+      }else if(n.nodeType===1)walk(n);
+    });
+    walk(el);return out;
+  };
+  // בהפחתת תנועה הפונקציה לא רצה, והחלון נשאר במצב הסיום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const caret=document.createElement("span");caret.className="tm-caret";caret.style.opacity=0;
+    const rows=lines.map(l=>{const t=l.querySelector(".tm-t");return{t,ck:l.querySelector(".tm-ck"),keys:[...t.querySelectorAll(".tm-k")],chars:split(t)};});
+    rows.forEach(r=>{
+      r.chars.forEach(c=>{c.style.opacity=0;});
+      r.keys.forEach(k=>k.classList.remove("is-hot"));
+      if(r.ck)gsap.set(r.ck,{opacity:0,scale:.5});
+    });
+    rows[0].t.prepend(caret);
+    const tl=gsap.timeline({paused:true});
+    // הקלדה של שורה: n עולה מ-0 למספר התווים, והסמן נצמד לתו האחרון שנחשף
+    const typeLine=(r,per)=>{
+      const o={n:0};let shown=0;
+      tl.call(()=>{r.t.prepend(caret);caret.style.opacity=1;},null,">");
+      tl.to(o,{n:r.chars.length,duration:r.chars.length*per,ease:"none",onUpdate:()=>{
+        const k=Math.round(o.n);if(k===shown)return;
+        for(let i=shown;i<k;i++)r.chars[i].style.opacity=1;
+        shown=k;r.chars[k-1].after(caret);
+      }},">");
+      tl.call(()=>r.keys.forEach(k=>k.classList.add("is-hot")),null,">");
+    };
+    tl.to({},{duration:.3});
+    typeLine(rows[0],.055);
+    rows.slice(1).forEach((r,i)=>{
+      if(r.ck)tl.to(r.ck,{opacity:1,scale:1,duration:.25,ease:"power2.out"},">+=.35");
+      typeLine(r,i<3?.026:.032);
+    });
+    tl.call(()=>caret.remove(),null,">+=1");
+    const st=ScrollTrigger.create({trigger:root,start:"top 65%",once:true,onEnter:()=>tl.play()});
+    return()=>{st.kill();tl.kill();caret.remove();lines.forEach((l,i)=>{l.innerHTML=saved[i];});};
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G244 · חלון טרמינל שמקליד פלט</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G244 · חלון טרמינל שמקליד פלט */
+.tm{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);align-items:center;gap:clamp(32px,6vw,96px);max-width:1160px;margin-inline:auto}
+.tm .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.tm-txt{display:grid;gap:14px;max-width:36ch}
+.tm-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}
+.tm-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.tm-win{justify-self:center;box-sizing:border-box;width:min(640px,100%);overflow:hidden;border-radius:18px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink, #16182b) 55%,transparent)}
+.tm-bar{display:flex;align-items:center;gap:8px;padding:14px 18px;background:color-mix(in srgb,var(--bg, #f7f7fa) 9%,var(--ink, #16182b))}
+.tm-bar i{width:10px;height:10px;border-radius:50%;background:color-mix(in srgb,var(--bg, #f7f7fa) 30%,var(--ink, #16182b))}
+.tm-ttl{margin-inline-start:12px;font-size:13px;color:color-mix(in srgb,var(--bg, #f7f7fa) 62%,var(--ink, #16182b))}
+.tm-body{display:grid;gap:12px;padding:24px 24px 28px;font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-size:clamp(14px,1.3vw,16px);line-height:1.5}
+.tm-ln{display:flex;align-items:center;gap:12px;min-height:24px;white-space:nowrap}
+.tm-pr{flex:none;color:color-mix(in srgb,var(--bg, #f7f7fa) 55%,var(--ink, #16182b))}
+.tm-ck{flex:none;display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--accent, #4a3aff)}
+.tm-ck svg{width:11px;height:11px;fill:none;stroke:var(--accent-ink, #fff);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.tm-t{white-space:pre}
+.tm-k{display:inline-block;padding:0 6px;border-radius:4px;transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s cubic-bezier(.2,.6,.2,1)}
+.tm-k.is-hot{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.tm-end{margin-top:8px;font-size:1.1em;font-weight:700}
+.tm-caret{display:inline-block;width:8px;height:1.2em;vertical-align:text-bottom;background:var(--bg, #f7f7fa);animation:tm-blink 1s steps(1) infinite}
+@keyframes tm-blink{50%{opacity:0}}
+@media(max-width:767px){.tm{grid-template-columns:minmax(0,1fr)}.tm-txt{max-width:none}.tm-body{padding:20px 16px 24px}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="tm">
+  <div class="tm-txt"><h3>הזמנות חדשות מסתדרות לבד</h3><p>בכל בוקר המערכת מושכת את ההזמנות מהחנות, מוציאה חשבוניות ושולחת ללקוחות אישור. ככה זה נראה ביומן העבודה, שורה אחרי שורה.</p></div>
+  <div class="tm-win" aria-hidden="true">
+    <div class="tm-bar"><i></i><i></i><i></i><span class="tm-ttl">סנכרון בוקר</span></div>
+    <div class="tm-body">
+      <div class="tm-ln"><span class="tm-pr">$</span><span class="tm-t">סנכרון הזמנות מהחנות</span></div>
+      <div class="tm-ln"><span class="tm-ck"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><span class="tm-t">נמצאו <span class="tm-k is-hot">12</span> הזמנות חדשות</span></div>
+      <div class="tm-ln"><span class="tm-ck"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><span class="tm-t">הופקו <span class="tm-k is-hot">12</span> חשבוניות</span></div>
+      <div class="tm-ln"><span class="tm-ck"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></span><span class="tm-t">נשלחו אישורים ל-<span class="tm-k is-hot">12 לקוחות</span></span></div>
+      <div class="tm-ln tm-end"><span class="tm-t">הסנכרון הסתיים תוך <span class="tm-k is-hot">4 שניות</span></span></div>
+    </div>
+  </div>
+  <span class="sr-only">יומן העבודה: נמצאו 12 הזמנות חדשות, הופקו 12 חשבוניות, נשלחו אישורים ל-12 לקוחות והסנכרון הסתיים תוך 4 שניות.</span>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP: כל השורות כתובות והמילים החשובות צבועות (במארקאפ)
+  const root=document.querySelector(".tm"),lines=[...root.querySelectorAll(".tm-ln")];
+  const saved=lines.map(l=>l.innerHTML);
+  // כל תו הופך לספאן, כדי לחשוף אותם אחד אחרי השני גם כשבתוך השורה יש מילים צבועות
+  const split=el=>{
+    const out=[];
+    const walk=node=>[...node.childNodes].forEach(n=>{
+      if(n.nodeType===3){
+        const f=document.createDocumentFragment();
+        [...n.textContent].forEach(ch=>{const s=document.createElement("span");s.textContent=ch;f.appendChild(s);out.push(s);});
+        n.replaceWith(f);
+      }else if(n.nodeType===1)walk(n);
+    });
+    walk(el);return out;
+  };
+  // בהפחתת תנועה הפונקציה לא רצה, והחלון נשאר במצב הסיום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const caret=document.createElement("span");caret.className="tm-caret";caret.style.opacity=0;
+    const rows=lines.map(l=>{const t=l.querySelector(".tm-t");return{t,ck:l.querySelector(".tm-ck"),keys:[...t.querySelectorAll(".tm-k")],chars:split(t)};});
+    rows.forEach(r=>{
+      r.chars.forEach(c=>{c.style.opacity=0;});
+      r.keys.forEach(k=>k.classList.remove("is-hot"));
+      if(r.ck)gsap.set(r.ck,{opacity:0,scale:.5});
+    });
+    rows[0].t.prepend(caret);
+    const tl=gsap.timeline({paused:true});
+    // הקלדה של שורה: n עולה מ-0 למספר התווים, והסמן נצמד לתו האחרון שנחשף
+    const typeLine=(r,per)=>{
+      const o={n:0};let shown=0;
+      tl.call(()=>{r.t.prepend(caret);caret.style.opacity=1;},null,">");
+      tl.to(o,{n:r.chars.length,duration:r.chars.length*per,ease:"none",onUpdate:()=>{
+        const k=Math.round(o.n);if(k===shown)return;
+        for(let i=shown;i<k;i++)r.chars[i].style.opacity=1;
+        shown=k;r.chars[k-1].after(caret);
+      }},">");
+      tl.call(()=>r.keys.forEach(k=>k.classList.add("is-hot")),null,">");
+    };
+    tl.to({},{duration:.3});
+    typeLine(rows[0],.055);
+    rows.slice(1).forEach((r,i)=>{
+      if(r.ck)tl.to(r.ck,{opacity:1,scale:1,duration:.25,ease:"power2.out"},">+=.35");
+      typeLine(r,i<3?.026:.032);
+    });
+    tl.call(()=>caret.remove(),null,">+=1");
+    const st=ScrollTrigger.create({trigger:root,start:"top 65%",once:true,onEnter:()=>tl.play()});
+    return()=>{st.kill();tl.kill();caret.remove();lines.forEach((l,i)=>{l.innerHTML=saved[i];});};
+  });
+})();
+</script>
+</body>
+</html>

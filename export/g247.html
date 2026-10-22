@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G247 · מקלדת על המסך שמקישה את ההודעה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G247 · מקלדת על המסך שמקישה את ההודעה */
+.kb{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);align-items:center;gap:clamp(32px,6vw,96px);max-width:1160px;margin-inline:auto}
+.kb .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.kb-txt{display:grid;gap:14px;max-width:36ch}
+.kb-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}
+.kb-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.kb-ph{justify-self:center;box-sizing:border-box;width:min(340px,100%);height:560px;display:grid;grid-template-rows:auto minmax(0,1fr) auto auto;overflow:hidden;border:1px solid var(--line, #e4e4ee);border-radius:32px;background:var(--bg, #f7f7fa);box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}
+.kb-hd{display:flex;align-items:center;gap:12px;padding:16px 20px;background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--card, #fff))}
+.kb-av{flex:none;width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:47% 18%}
+.kb-nm{display:grid;gap:4px;font-size:14px;font-weight:700;line-height:1.2}
+.kb-nm small{font-size:12px;font-weight:400;color:var(--muted, #6a6d85)}
+.kb-chat{display:flex;flex-direction:column;justify-content:flex-end;gap:10px;padding:16px;overflow:hidden}
+.kb-b{max-width:84%;padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.45}
+.kb-in{align-self:flex-start;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee)}
+.kb-out{align-self:flex-end;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.kb-cmp{display:flex;align-items:center;gap:10px;padding:12px 16px}
+.kb-fld{flex:1;min-width:0;display:flex;align-items:center;min-height:44px;padding:0 16px;border:1.5px solid var(--line, #e4e4ee);border-radius:999px;background:var(--card, #fff);font-size:15px;white-space:nowrap;overflow:hidden;transition:border-color .25s linear}
+.kb-fld.is-focus{border-color:var(--accent, #4a3aff)}
+.kb-pl{color:var(--muted, #6a6d85)}
+.kb-fld:not(.is-empty) .kb-pl{display:none}
+.kb-car{flex:none;width:2px;height:20px;margin-inline-start:2px;background:var(--accent, #4a3aff);opacity:0}
+.kb-fld.is-focus .kb-car{opacity:1;animation:kb-blink 1s steps(1) infinite}
+@keyframes kb-blink{50%{opacity:0}}
+.kb-send{flex:none;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--line, #e4e4ee);transition:background-color .25s linear}
+.kb-send svg{width:20px;height:20px;fill:none;stroke:var(--muted, #6a6d85);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke .25s linear}
+.kb-send.is-ready{background:var(--accent, #4a3aff)}
+.kb-send.is-ready svg{stroke:var(--accent-ink, #fff)}
+.kb-slot{height:0;overflow:hidden}
+.kb-pad{direction:ltr;display:grid;gap:6px;padding:8px 6px 14px;background:color-mix(in srgb,var(--ink, #16182b) 7%,var(--bg, #f7f7fa))}
+.kb-r{display:flex;gap:4px}
+.kb-k{flex:1 1 0;min-width:0;display:grid;place-items:center;min-height:36px;border-radius:6px;background:var(--card, #fff);box-shadow:0 1px 0 var(--line, #e4e4ee);color:var(--ink, #16182b);font-size:16px;line-height:1;transition:transform .1s linear,background-color .1s linear}
+.kb-k svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.kb-k.is-down{transform:translateY(1px) scale(.92);background:color-mix(in srgb,var(--accent, #4a3aff) 24%,var(--card, #fff))}
+.kb-w{flex:1.45 1 0;background:color-mix(in srgb,var(--ink, #16182b) 10%,var(--card, #fff));font-size:13px}
+.kb-sp{flex:5 1 0;font-size:13px;color:var(--muted, #6a6d85)}
+.kb-go{flex:2 1 0;background:color-mix(in srgb,var(--ink, #16182b) 10%,var(--card, #fff));font-size:13px;font-weight:700}
+.kb-go.is-hot{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+@media(max-width:767px){.kb{grid-template-columns:minmax(0,1fr)}.kb-txt{max-width:none}.kb-ph{height:520px}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="kb">
+  <div class="kb-txt"><h3>תשובה אחת מהטלפון וסגרנו</h3><p>הלקוח כותב את התשובה על המקלדת, ובשליחה השיחה נסגרת על מועד אחד. אפשר לראות כל מקש נלחץ באותו רגע שהאות מופיעה.</p><span class="sr-only">בשיחה נשלחה התשובה: יום שלישי בארבע מתאים לי.</span></div>
+  <div class="kb-ph" aria-hidden="true">
+    <div class="kb-hd"><img class="kb-av" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/dive/portrait.webp" width="2400" height="1600" alt="" loading="lazy" decoding="async"><span class="kb-nm">קליניקת נועה<small>עונים בדרך כלל תוך דקות</small></span></div>
+    <div class="kb-chat">
+      <span class="kb-b kb-in">היי דנה, התור שלך נקבע לשבוע הבא. נוח לך יום שלישי או רביעי?</span>
+      <span class="kb-b kb-in">יש לנו פנוי ביום שלישי בארבע וביום רביעי בעשר.</span>
+      <span class="kb-b kb-out">יום שלישי בארבע מתאים לי</span>
+    </div>
+    <div class="kb-cmp"><span class="kb-fld is-empty"><span class="kb-pl">כתבו הודעה</span><span class="kb-txt2"></span><span class="kb-car"></span></span><span class="kb-send"><svg viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></span></div>
+    <div class="kb-slot"><div class="kb-pad">
+      <span class="kb-r"><span class="kb-k" data-k="/">/</span><span class="kb-k" data-k="'">'</span><span class="kb-k" data-k="ק">ק</span><span class="kb-k" data-k="ר">ר</span><span class="kb-k" data-k="א">א</span><span class="kb-k" data-k="ט">ט</span><span class="kb-k" data-k="ו">ו</span><span class="kb-k" data-k="ן">ן</span><span class="kb-k" data-k="ם">ם</span><span class="kb-k" data-k="פ">פ</span></span>
+      <span class="kb-r"><span class="kb-k" data-k="ש">ש</span><span class="kb-k" data-k="ד">ד</span><span class="kb-k" data-k="ג">ג</span><span class="kb-k" data-k="כ">כ</span><span class="kb-k" data-k="ע">ע</span><span class="kb-k" data-k="י">י</span><span class="kb-k" data-k="ח">ח</span><span class="kb-k" data-k="ל">ל</span><span class="kb-k" data-k="ך">ך</span><span class="kb-k" data-k="ף">ף</span></span>
+      <span class="kb-r"><span class="kb-k kb-w"><svg viewBox="0 0 24 24"><path d="M12 5l7 8h-4v6H9v-6H5z"/></svg></span><span class="kb-k" data-k="ז">ז</span><span class="kb-k" data-k="ס">ס</span><span class="kb-k" data-k="ב">ב</span><span class="kb-k" data-k="ה">ה</span><span class="kb-k" data-k="נ">נ</span><span class="kb-k" data-k="מ">מ</span><span class="kb-k" data-k="צ">צ</span><span class="kb-k" data-k="ת">ת</span><span class="kb-k" data-k="ץ">ץ</span><span class="kb-k kb-w"><svg viewBox="0 0 24 24"><path d="M9 6h11v12H9l-6-6zM12.5 9.5l5 5m0-5l-5 5"/></svg></span></span>
+      <span class="kb-r"><span class="kb-k kb-w">123</span><span class="kb-k kb-sp" data-k="space">רווח</span><span class="kb-k kb-go">שליחה</span></span>
+    </div></div>
+  </div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP: המקלדת סגורה וההודעה כבר בשיחה (במארקאפ)
+  const root=document.querySelector(".kb"),ph=root.querySelector(".kb-ph"),slot=root.querySelector(".kb-slot"),pad=root.querySelector(".kb-pad"),
+    fld=root.querySelector(".kb-fld"),typed=root.querySelector(".kb-txt2"),send=root.querySelector(".kb-send"),out=root.querySelector(".kb-out"),
+    keys=[...root.querySelectorAll(".kb-k")],go=root.querySelector(".kb-go");
+  const text=out.textContent.trim();
+  const keyOf=ch=>keys.find(k=>k.dataset.k===(ch===" "?"space":ch));
+  const idle=()=>{typed.textContent="";fld.classList.add("is-empty");fld.classList.remove("is-focus");send.classList.remove("is-ready");};
+  // בהפחתת תנועה הפונקציה לא רצה, והמקלדת נשארת סגורה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    gsap.set(out,{autoAlpha:0,y:12});
+    const tl=gsap.timeline({paused:true});
+    tl.call(()=>fld.classList.add("is-focus"),null,.2);
+    tl.to(slot,{height:()=>pad.offsetHeight,duration:.6,ease:"power3.out"},.2);
+    // כל לחיצה: מקש יורד והאות מופיעה באותו רגע, ואחרי רגע קצר המקש חוזר
+    let t=1;
+    [...text].forEach((ch,i)=>{
+      const k=keyOf(ch);
+      tl.call(()=>{if(k)k.classList.add("is-down");typed.textContent=text.slice(0,i+1);fld.classList.remove("is-empty");send.classList.add("is-ready");},null,t);
+      tl.call(()=>{if(k)k.classList.remove("is-down");},null,t+.09);
+      t+=.115+((i*37)%5)*.012;
+    });
+    tl.call(()=>go.classList.add("is-hot"),null,t+.2);
+    tl.call(()=>go.classList.add("is-down"),null,t+.45);
+    tl.call(()=>{go.classList.remove("is-down");idle();},null,t+.55);
+    tl.to(slot,{height:0,duration:.6,ease:"power3.inOut"},t+.7);
+    tl.to(out,{autoAlpha:1,y:0,duration:.5,ease:"power3.out"},t+.9);
+    tl.call(()=>go.classList.remove("is-hot"),null,t+1.4);
+    const st=ScrollTrigger.create({trigger:ph,start:"top 70%",once:true,onEnter:()=>tl.play()});
+    return()=>{st.kill();tl.kill();gsap.set([slot,out],{clearProps:"all"});idle();keys.forEach(k=>k.classList.remove("is-down","is-hot"));};
+  });
+})();
+</script>
+</body>
+</html>

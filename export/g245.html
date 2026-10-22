@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G245 · אתר בתוך חלון דפדפן שעובר בין עמודים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G245 · אתר בתוך חלון דפדפן שעובר בין עמודים */
+.bf{max-width:1160px;margin-inline:auto}
+.bf .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.bf-pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.8fr);align-content:center;align-items:center;column-gap:clamp(32px,6vw,96px);row-gap:24px}
+.bf-txt{display:grid;gap:14px;max-width:34ch}
+.bf-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}
+.bf-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.bf-win{justify-self:center;box-sizing:border-box;width:min(740px,100%);overflow:hidden;border:1px solid var(--line, #e4e4ee);border-radius:16px;background:var(--card, #fff);box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}
+.bf-bar{direction:ltr;display:flex;align-items:center;gap:8px;padding:12px 16px;background:color-mix(in srgb,var(--ink, #16182b) 5%,var(--card, #fff))}
+.bf-bar i{flex:none;width:10px;height:10px;border-radius:50%;background:var(--line, #e4e4ee)}
+.bf-url{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:28px;margin-inline:12px;padding:0 12px;overflow:hidden;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--muted, #6a6d85);font-size:12px;white-space:nowrap}
+.bf-url svg{flex:none;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bf-view{position:relative;height:clamp(320px,38vw,440px);overflow:hidden;background:var(--bg, #f7f7fa)}
+.bf-scr{position:absolute;inset:0;overflow:hidden}
+.bf-scr+.bf-scr{opacity:0;visibility:hidden}
+.bf-page{display:grid;gap:20px;align-content:start;padding:16px 20px 28px}
+.bf-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px}
+.bf-logo{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700}
+.bf-logo i{width:18px;height:18px;border-radius:50%;background:var(--accent, #4a3aff)}
+.bf-lk{display:flex;gap:16px;color:var(--muted, #6a6d85)}
+.bf-hero{position:relative;overflow:hidden;border-radius:12px;aspect-ratio:2/1}
+.bf-hero img{display:block;width:100%;height:100%;object-fit:cover}
+.bf-cap{position:absolute;inset-inline-start:12px;inset-block-end:12px;display:grid;gap:8px;justify-items:start;padding:12px 14px;border-radius:10px;background:var(--card, #fff);font-size:14px}
+.bf-btn{display:grid;place-items:center;min-height:32px;padding:0 14px;border-radius:8px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:12px;font-weight:700}
+.bf-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.bf-card{display:grid;gap:6px;font-size:12px}
+.bf-card img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:10px}
+.bf-card span{color:var(--muted, #6a6d85)}
+.bf-info{display:grid;gap:6px;padding:14px 16px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:var(--card, #fff);font-size:12px}
+.bf-info span{color:var(--muted, #6a6d85)}
+.bf-h{margin:0;font-size:18px;line-height:1.2}
+.bf-item{display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:var(--card, #fff)}
+.bf-item img{display:block;width:56px;height:56px;object-fit:cover;border-radius:8px}
+.bf-item b{display:block;font-size:13px}
+.bf-item small{display:block;margin-top:4px;color:var(--muted, #6a6d85);font-size:12px}
+.bf-price{padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent, #4a3aff) 14%,var(--card, #fff));font-size:12px;font-weight:700}
+.bf-ban{display:block;width:100%;height:auto;aspect-ratio:3/1;object-fit:cover;object-position:50% 20%;border-radius:12px}
+.bf-fld{display:grid;gap:4px;font-size:12px;color:var(--muted, #6a6d85)}
+.bf-in{display:flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid var(--line, #e4e4ee);border-radius:10px;background:var(--card, #fff);color:var(--ink, #16182b);font-size:13px}
+.bf-sum{display:flex;justify-content:space-between;gap:12px;font-size:13px}
+.bf-sum b{font-variant-numeric:tabular-nums}
+.bf-send{min-height:40px;font-size:13px;border-radius:10px}
+.bf.is-live .bf-run{height:360vh}
+.bf.is-live .bf-pin{position:sticky;top:0;min-height:100vh;min-height:100svh}
+@media(max-width:767px){.bf-pin{grid-template-columns:minmax(0,1fr)}.bf-txt{max-width:none}.bf-view{height:320px}.bf-page{padding:12px 14px 24px}.bf-lk{gap:12px}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="bf"><div class="bf-run"><div class="bf-pin">
+  <div class="bf-txt"><h3>שלושה עמודים בחלון אחד</h3><p>בזמן שגוללים, החלון עובר מדף הבית אל התפריט ואחר כך אל טופס ההזמנה, וכתובת האתר למעלה מתעדכנת בכל מעבר.</p><span class="sr-only">באתר הדוגמה שלושה עמודים: דף הבית, התפריט וטופס הזמנה לאיסוף.</span></div>
+  <div class="bf-win" aria-hidden="true">
+    <div class="bf-bar"><i></i><i></i><i></i><span class="bf-url"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span class="bf-path">harechov.co.il</span></span></div>
+    <div class="bf-view">
+      <div class="bf-scr"><div class="bf-page">
+        <div class="bf-nav"><span class="bf-logo"><i></i>מאפיית הרחוב</span><span class="bf-lk"><span>תפריט</span><span>הזמנות</span><span>אודות</span></span></div>
+        <div class="bf-hero"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/hero-bread.webp" width="1600" height="1333" alt="" loading="lazy" decoding="async"><div class="bf-cap"><b>לחם שנאפה הבוקר</b><span class="bf-btn">להזמנה</span></div></div>
+        <div class="bf-cards">
+          <div class="bf-card"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/croissants.webp" width="1250" height="1000" alt="" loading="lazy" decoding="async"><b>קרואסון חמאה</b><span>14 ש״ח</span></div>
+          <div class="bf-card"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/baker-hands.webp" width="1100" height="1320" alt="" loading="lazy" decoding="async"><b>לחמניות שמרים</b><span>6 ש״ח</span></div>
+          <div class="bf-card"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/cafe-window.webp" width="1400" height="1050" alt="" loading="lazy" decoding="async"><b>ישיבה בפנים</b><span>עד 24 מקומות</span></div>
+        </div>
+        <div class="bf-info"><b>שעות פתיחה</b><span>ראשון עד חמישי, 6:30 עד 18:00</span><span>שישי, 6:30 עד 14:00</span></div>
+      </div></div>
+      <div class="bf-scr"><div class="bf-page">
+        <div class="bf-nav"><span class="bf-logo"><i></i>מאפיית הרחוב</span><span class="bf-lk"><span>תפריט</span><span>הזמנות</span><span>אודות</span></span></div>
+        <h4 class="bf-h">התפריט של הבוקר</h4>
+        <div class="bf-item"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/hero-bread.webp" width="1600" height="1333" alt="" loading="lazy" decoding="async"><span><b>לחם מחמצת</b><small>אפייה איטית, קרום פריך</small></span><span class="bf-price">28 ש״ח</span></div>
+        <div class="bf-item"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/croissants.webp" width="1250" height="1000" alt="" loading="lazy" decoding="async"><span><b>קרואסון חמאה</b><small>שכבות דקות, יוצא מהתנור בשבע</small></span><span class="bf-price">14 ש״ח</span></div>
+        <div class="bf-item"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/baker-hands.webp" width="1100" height="1320" alt="" loading="lazy" decoding="async"><span><b>לחמניות שמרים</b><small>בצק שנילוש בבוקר</small></span><span class="bf-price">6 ש״ח</span></div>
+        <div class="bf-item"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/croissants.webp" width="1250" height="1000" alt="" loading="lazy" decoding="async" style="object-position:80% 20%"><span><b>קפה ומאפה</b><small>קפה הפוך וקרואסון</small></span><span class="bf-price">22 ש״ח</span></div>
+        <div class="bf-item"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/cafe-window.webp" width="1400" height="1050" alt="" loading="lazy" decoding="async"><span><b>ארוחת בוקר בפנים</b><small>עד 24 מקומות ליד החלון</small></span><span class="bf-price">48 ש״ח</span></div>
+      </div></div>
+      <div class="bf-scr"><div class="bf-page">
+        <div class="bf-nav"><span class="bf-logo"><i></i>מאפיית הרחוב</span><span class="bf-lk"><span>תפריט</span><span>הזמנות</span><span>אודות</span></span></div>
+        <img class="bf-ban" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/baker-hands.webp" width="1100" height="1320" alt="" loading="lazy" decoding="async">
+        <h4 class="bf-h">הזמנה לאיסוף</h4>
+        <div class="bf-fld">שם מלא<span class="bf-in">דנה לוי</span></div>
+        <div class="bf-fld">שעת איסוף<span class="bf-in">מחר, 8:30</span></div>
+        <div class="bf-fld">מה להזמין<span class="bf-in">לחם מחמצת ושני קרואסונים</span></div>
+        <div class="bf-sum"><span>סה״כ לתשלום באיסוף</span><b>56 ש״ח</b></div>
+        <span class="bf-btn bf-send">שליחת ההזמנה</span>
+      </div></div>
+    </div>
+  </div>
+</div></div></div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP: המסך הראשון במנוחה והעמוד קצר (במארקאפ)
+  const root=document.querySelector(".bf"),run=root.querySelector(".bf-run"),view=root.querySelector(".bf-view"),
+    scr=[...root.querySelectorAll(".bf-scr")],pages=scr.map(s=>s.querySelector(".bf-page")),path=root.querySelector(".bf-path");
+  const urls=["harechov.co.il","harechov.co.il/menu","harechov.co.il/order"];
+  // זמני המעבר בציר: הכתובת נגזרת מהזמן בלבד, ולכן נכונה גם בגלילה אחורה
+  const swapAt=[3.2,6.1],D=9;
+  let cur=0;
+  const paint=t=>{
+    const i=t>=swapAt[1]?2:t>=swapAt[0]?1:0;
+    if(i===cur)return;
+    cur=i;path.textContent=urls[i];
+    gsap.fromTo(path,{opacity:0,y:4},{opacity:1,y:0,duration:.25,ease:"power2.out",overwrite:true});
+  };
+  // בהפחתת תנועה לא רצים, והחלון נשאר במצב ההתחלה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const max=i=>()=>-Math.max(0,pages[i].offsetHeight-view.clientHeight);
+    const tl=gsap.timeline({defaults:{ease:"power1.inOut"},scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
+    tl.to(pages[0],{y:max(0),duration:2},.5);
+    tl.to(scr[0],{autoAlpha:0,y:-16,duration:.6,ease:"power2.in"},2.9);
+    tl.fromTo(scr[1],{autoAlpha:0,y:32},{autoAlpha:1,y:0,duration:.6,ease:"power2.out"},3.0);
+    tl.to(pages[1],{y:max(1),duration:1.6},3.8);
+    tl.to(scr[1],{autoAlpha:0,y:-16,duration:.6,ease:"power2.in"},5.8);
+    tl.fromTo(scr[2],{autoAlpha:0,y:32},{autoAlpha:1,y:0,duration:.6,ease:"power2.out"},5.9);
+    tl.to(pages[2],{y:max(2),duration:1.4},6.8);
+    tl.set({},{},D);                          // רגע מנוחה בסוף
+    tl.eventCallback("onUpdate",()=>paint(tl.time()));
+    return()=>{tl.scrollTrigger.kill();tl.kill();root.classList.remove("is-live");gsap.killTweensOf(path);
+      gsap.set([...scr,...pages,path],{clearProps:"all"});cur=0;path.textContent=urls[0];};
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G245 · אתר בתוך חלון דפדפן שעובר בין עמודים | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.bf{max-width:1160px;margin-inline:auto}
+.bf .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.bf-pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.8fr);align-content:center;align-items:center;column-gap:clamp(32px,6vw,96px);row-gap:24px}
+.bf-txt{display:grid;gap:14px;max-width:34ch}
+.bf-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}
+.bf-txt p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.bf-win{justify-self:center;box-sizing:border-box;width:min(740px,100%);overflow:hidden;border:1px solid var(--line);border-radius:16px;background:var(--card);box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink) 40%,transparent)}
+.bf-bar{direction:ltr;display:flex;align-items:center;gap:8px;padding:12px 16px;background:color-mix(in srgb,var(--ink) 5%,var(--card))}
+.bf-bar i{flex:none;width:10px;height:10px;border-radius:50%;background:var(--line)}
+.bf-url{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:28px;margin-inline:12px;padding:0 12px;overflow:hidden;border-radius:999px;background:var(--bg);color:var(--muted);font-size:12px;white-space:nowrap}
+.bf-url svg{flex:none;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bf-view{position:relative;height:clamp(320px,38vw,440px);overflow:hidden;background:var(--bg)}
+.bf-scr{position:absolute;inset:0;overflow:hidden}
+.bf-scr+.bf-scr{opacity:0;visibility:hidden}
+.bf-page{display:grid;gap:20px;align-content:start;padding:16px 20px 28px}
+.bf-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px}
+.bf-logo{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700}
+.bf-logo i{width:18px;height:18px;border-radius:50%;background:var(--accent)}
+.bf-lk{display:flex;gap:16px;color:var(--muted)}
+.bf-hero{position:relative;overflow:hidden;border-radius:12px;aspect-ratio:2/1}
+.bf-hero img{display:block;width:100%;height:100%;object-fit:cover}
+.bf-cap{position:absolute;inset-inline-start:12px;inset-block-end:12px;display:grid;gap:8px;justify-items:start;padding:12px 14px;border-radius:10px;background:var(--card);font-size:14px}
+.bf-btn{display:grid;place-items:center;min-height:32px;padding:0 14px;border-radius:8px;background:var(--accent);color:var(--accent-ink);font-size:12px;font-weight:700}
+.bf-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.bf-card{display:grid;gap:6px;font-size:12px}
+.bf-card img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:10px}
+.bf-card span{color:var(--muted)}
+.bf-info{display:grid;gap:6px;padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--card);font-size:12px}
+.bf-info span{color:var(--muted)}
+.bf-h{margin:0;font-size:18px;line-height:1.2}
+.bf-item{display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+.bf-item img{display:block;width:56px;height:56px;object-fit:cover;border-radius:8px}
+.bf-item b{display:block;font-size:13px}
+.bf-item small{display:block;margin-top:4px;color:var(--muted);font-size:12px}
+.bf-price{padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 14%,var(--card));font-size:12px;font-weight:700}
+.bf-ban{display:block;width:100%;height:auto;aspect-ratio:3/1;object-fit:cover;object-position:50% 20%;border-radius:12px}
+.bf-fld{display:grid;gap:4px;font-size:12px;color:var(--muted)}
+.bf-in{display:flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);color:var(--ink);font-size:13px}
+.bf-sum{display:flex;justify-content:space-between;gap:12px;font-size:13px}
+.bf-sum b{font-variant-numeric:tabular-nums}
+.bf-send{min-height:40px;font-size:13px;border-radius:10px}
+.bf.is-live .bf-run{height:360vh}
+.bf.is-live .bf-pin{position:sticky;top:0;min-height:100vh;min-height:100svh}
+@media(max-width:767px){.bf-pin{grid-template-columns:minmax(0,1fr)}.bf-txt{max-width:none}.bf-view{height:320px}.bf-page{padding:12px 14px 24px}.bf-lk{gap:12px}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g244.html" rel="prev" title="הקודם: חלון טרמינל שמקליד פלט">→<span class="sr-only">הקודם</span></a><span class="vpn-n">221/227</span><a href="g246.html" rel="next" title="הבא: ידיות בחירה שמותחות ומסובבות תמונה">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G245</span> · אתר בתוך חלון דפדפן שעובר בין עמודים</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · sticky</span>
+  <span class="vchip use">תמונות וגלריות</span><span class="vchip use">תהליך ושלבים</span><span class="vchip use">כרטיסים</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g245"><code>MV:g245</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g245">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>חלון דפדפן עם שורת כתובת, ובתוכו אתר של מאפייה. העמוד גולל לאט כלפי מטה, ואז מתחלף לעמוד הבא שעולה מלמטה, וכתובת האתר למעלה מתעדכנת בכל מעבר: דף הבית, התפריט, ובסוף טופס הזמנה. כל זה קורה בזמן הגלילה, ואפשר לעצור באמצע ולחזור אחורה.</p>
+  <p class="when"><b>מתי משתמשים:</b> סקשן שמראה את האתר או המוצר של הלקוח כמו שהוא נראה: תיק עבודות של סטודיו, הצגת מערכת הזמנות, דוגמה לאתר שנבנה, הסבר על שלושה עמודים שהשירות כולל. כדאי שיהיו שלושה עד ארבעה מסכים אמיתיים של אתר אחד. לא לאתר שאין לו מה להראות בפנים: חלון דפדפן ריק רק מסתיר את העמוד.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>וואן-פייג'ר · אתר תדמית · פורטפוליו וסטודיו</dd></div><div><dt>בסקשן</dt><dd>עבודות וגלריה · תהליך ושלבים · שירותים ומוצרים</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשאין אתר או מערכת שאפשר להראות בשלושה מסכים: חלון דפדפן ריק מבטיח מוצר שלא קיים.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g245"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="bf"><div class="bf-run"><div class="bf-pin">
+  <div class="bf-txt"><h3>שלושה עמודים בחלון אחד</h3><p>בזמן שגוללים, החלון עובר מדף הבית אל התפריט ואחר כך אל טופס ההזמנה, וכתובת האתר למעלה מתעדכנת בכל מעבר.</p><span class="sr-only">באתר הדוגמה שלושה עמודים: דף הבית, התפריט וטופס הזמנה לאיסוף.</span></div>
+  <div class="bf-win" aria-hidden="true">
+    <div class="bf-bar"><i></i><i></i><i></i><span class="bf-url"><svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span class="bf-path">harechov.co.il</span></span></div>
+    <div class="bf-view">
+      <div class="bf-scr"><div class="bf-page">
+        <div class="bf-nav"><span class="bf-logo"><i></i>מאפיית הרחוב</span><span class="bf-lk"><span>תפריט</span><span>הזמנות</span><span>אודות</span></span></div>
+        <div class="bf-hero"><img src="../assets/media/real/s14/hero-bread.webp" width="1600" height="1333" alt="" loading="lazy" decoding="async"><div class="bf-cap"><b>לחם שנאפה הבוקר</b><span class="bf-btn">להזמנה</span></div></div>
+        <div class="bf-cards">
+          <div class="bf-card"><img src="../assets/media/real/s14/croissants.webp" width="1250" height="1000" alt="" loading="lazy" decoding="async"><b>קרואסון חמאה</b><span>14 ש״ח</span></div>
+          <div class="bf-card"><img src="../assets/media/real/s14/baker-hands.webp" width="1100" height="1320" alt="" loading="lazy" decoding="async"><b>לחמניות שמרים</b><span>6 ש״ח</span></div>
+          <div class="bf-card"><img src="../assets/media/real/s14/cafe-window.webp" width="1400" height="1050" alt="" loading="lazy" decoding="async"><b>ישיבה בפנים</b><span>עד 24 מקומות</span></div>
+        </div>
+        <div class="bf-info"><b>שעות פתיחה</b><span>ראשון עד חמישי, 6:30 עד 18:00</span><span>שישי, 6:30 עד 14:00</span></div>
+      </div></div>
+      <div class="bf-scr"><div class="bf-page">
+        <div class="bf-nav"><span class="bf-logo"><i></i>מאפיית הרחוב</span><span class="bf-lk"><span>תפריט</span><span>הזמנות</span><span>אודות</span></span></div>
+        <h4 class="bf-h">התפריט של הבוקר</h4>
+        <div class="bf-item"><img src="../assets/media/real/s14/hero-bread.webp" width="1600" height="1333" alt="" loading="lazy" decoding="async"><span><b>לחם מחמצת</b><small>אפייה איטית, קרום פריך</small></span><span class="bf-price">28 ש״ח</span></div>
+        <div class="bf-item"><img src="../assets/media/real/s14/croissants.webp" width="1250" height="1000" alt="" loading="lazy" decoding="async"><span><b>קרואסון חמאה</b><small>שכבות דקות, יוצא מהתנור בשבע</small></span><span class="bf-price">14 ש״ח</span></div>
+        <div class="bf-item"><img src="../assets/media/real/s14/baker-hands.webp" width="1100" height="1320" alt="" loading="lazy" decoding="async"><span><b>לחמניות שמרים</b><small>בצק שנילוש בבוקר</small></span><span class="bf-price">6 ש״ח</span></div>
+        <div class="bf-item"><img src="../assets/media/real/s14/croissants.webp" width="1250" height="1000" alt="" loading="lazy" decoding="async" style="object-position:80% 20%"><span><b>קפה ומאפה</b><small>קפה הפוך וקרואסון</small></span><span class="bf-price">22 ש״ח</span></div>
+        <div class="bf-item"><img src="../assets/media/real/s14/cafe-window.webp" width="1400" height="1050" alt="" loading="lazy" decoding="async"><span><b>ארוחת בוקר בפנים</b><small>עד 24 מקומות ליד החלון</small></span><span class="bf-price">48 ש״ח</span></div>
+      </div></div>
+      <div class="bf-scr"><div class="bf-page">
+        <div class="bf-nav"><span class="bf-logo"><i></i>מאפיית הרחוב</span><span class="bf-lk"><span>תפריט</span><span>הזמנות</span><span>אודות</span></span></div>
+        <img class="bf-ban" src="../assets/media/real/s14/baker-hands.webp" width="1100" height="1320" alt="" loading="lazy" decoding="async">
+        <h4 class="bf-h">הזמנה לאיסוף</h4>
+        <div class="bf-fld">שם מלא<span class="bf-in">דנה לוי</span></div>
+        <div class="bf-fld">שעת איסוף<span class="bf-in">מחר, 8:30</span></div>
+        <div class="bf-fld">מה להזמין<span class="bf-in">לחם מחמצת ושני קרואסונים</span></div>
+        <div class="bf-sum"><span>סה״כ לתשלום באיסוף</span><b>56 ש״ח</b></div>
+        <span class="bf-btn bf-send">שליחת ההזמנה</span>
+      </div></div>
+    </div>
+  </div>
+</div></div></div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטוני הצגת אתרים בגלריה של prompt-motion.com (21.10.2026), שבהם אתר עומד בתוך חלון דפדפן, גולל, ומתחלף בין מסכים. נבנה מאפס מהצפייה. <b>המארקאפ הוא מצב ההתחלה:</b> המסך הראשון במנוחה והשניים האחרים מוסתרים. <code>is-live</code> מתווסף רק ב-JS ומפעיל את הקטע הדביק (<code>.bf-run</code> גבוה, <code>.bf-pin</code> דביק), כך שבלי GSAP העמוד קצר ונקרא. <b>הציר:</b> כל מסך גולל בתוך החלון בהזזת <code>.bf-page</code> (המרחק נמדד מהגובה האמיתי ומחושב מחדש בכל רענון), והמעבר בין מסכים הוא התעמעמות עם עלייה קלה. טקסט הכתובת נגזר מזמן הציר בלבד, ולכן נכון גם בגלילה אחורה. <b>הכתובת היא התווית של הצעד,</b> ואין תווית נפרדת. שורת הכתובת וחלון הדפדפן הם <code>direction:ltr</code> כמו בדפדפן אמיתי, והאתר שבפנים יורש RTL. התמונות הן תמונות אמיתיות מהמאגר עם <code>loading=lazy</code> וגדלים מפורשים. הדמו כולו <code>aria-hidden</code>. בטלפון הטקסט עובר מעל החלון וגובה החלון קטן. החלפה לאתר LTR: אין מה להפוך.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g245.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G245 · אתר בתוך חלון דפדפן שעובר בין עמודים */
+.bf{max-width:1160px;margin-inline:auto}
+.bf .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.bf-pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.8fr);align-content:center;align-items:center;column-gap:clamp(32px,6vw,96px);row-gap:24px}
+.bf-txt{display:grid;gap:14px;max-width:34ch}
+.bf-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}
+.bf-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.bf-win{justify-self:center;box-sizing:border-box;width:min(740px,100%);overflow:hidden;border:1px solid var(--line, #e4e4ee);border-radius:16px;background:var(--card, #fff);box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}
+.bf-bar{direction:ltr;display:flex;align-items:center;gap:8px;padding:12px 16px;background:color-mix(in srgb,var(--ink, #16182b) 5%,var(--card, #fff))}
+.bf-bar i{flex:none;width:10px;height:10px;border-radius:50%;background:var(--line, #e4e4ee)}
+.bf-url{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:28px;margin-inline:12px;padding:0 12px;overflow:hidden;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--muted, #6a6d85);font-size:12px;white-space:nowrap}
+.bf-url svg{flex:none;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bf-view{position:relative;height:clamp(320px,38vw,440px);overflow:hidden;background:var(--bg, #f7f7fa)}
+.bf-scr{position:absolute;inset:0;overflow:hidden}
+.bf-scr+.bf-scr{opacity:0;visibility:hidden}
+.bf-page{display:grid;gap:20px;align-content:start;padding:16px 20px 28px}
+.bf-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px}
+.bf-logo{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700}
+.bf-logo i{width:18px;height:18px;border-radius:50%;background:var(--accent, #4a3aff)}
+.bf-lk{display:flex;gap:16px;color:var(--muted, #6a6d85)}
+.bf-hero{position:relative;overflow:hidden;border-radius:12px;aspect-ratio:2/1}
+.bf-hero img{display:block;width:100%;height:100%;object-fit:cover}
+.bf-cap{position:absolute;inset-inline-start:12px;inset-block-end:12px;display:grid;gap:8px;justify-items:start;padding:12px 14px;border-radius:10px;background:var(--card, #fff);font-size:14px}
+.bf-btn{display:grid;place-items:center;min-height:32px;padding:0 14px;border-radius:8px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:12px;font-weight:700}
+.bf-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.bf-card{display:grid;gap:6px;font-size:12px}
+.bf-card img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:10px}
+.bf-card span{color:var(--muted, #6a6d85)}
+.bf-info{display:grid;gap:6px;padding:14px 16px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:var(--card, #fff);font-size:12px}
+.bf-info span{color:var(--muted, #6a6d85)}
+.bf-h{margin:0;font-size:18px;line-height:1.2}
+.bf-item{display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:var(--card, #fff)}
+.bf-item img{display:block;width:56px;height:56px;object-fit:cover;border-radius:8px}
+.bf-item b{display:block;font-size:13px}
+.bf-item small{display:block;margin-top:4px;color:var(--muted, #6a6d85);font-size:12px}
+.bf-price{padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent, #4a3aff) 14%,var(--card, #fff));font-size:12px;font-weight:700}
+.bf-ban{display:block;width:100%;height:auto;aspect-ratio:3/1;object-fit:cover;object-position:50% 20%;border-radius:12px}
+.bf-fld{display:grid;gap:4px;font-size:12px;color:var(--muted, #6a6d85)}
+.bf-in{display:flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid var(--line, #e4e4ee);border-radius:10px;background:var(--card, #fff);color:var(--ink, #16182b);font-size:13px}
+.bf-sum{display:flex;justify-content:space-between;gap:12px;font-size:13px}
+.bf-sum b{font-variant-numeric:tabular-nums}
+.bf-send{min-height:40px;font-size:13px;border-radius:10px}
+.bf.is-live .bf-run{height:360vh}
+.bf.is-live .bf-pin{position:sticky;top:0;min-height:100vh;min-height:100svh}
+@media(max-width:767px){.bf-pin{grid-template-columns:minmax(0,1fr)}.bf-txt{max-width:none}.bf-view{height:320px}.bf-page{padding:12px 14px 24px}.bf-lk{gap:12px}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;div class="bf"&gt;&lt;div class="bf-run"&gt;&lt;div class="bf-pin"&gt;
+  &lt;div class="bf-txt"&gt;&lt;h3&gt;שלושה עמודים בחלון אחד&lt;/h3&gt;&lt;p&gt;בזמן שגוללים, החלון עובר מדף הבית אל התפריט ואחר כך אל טופס ההזמנה, וכתובת האתר למעלה מתעדכנת בכל מעבר.&lt;/p&gt;&lt;span class="sr-only"&gt;באתר הדוגמה שלושה עמודים: דף הבית, התפריט וטופס הזמנה לאיסוף.&lt;/span&gt;&lt;/div&gt;
+  &lt;div class="bf-win" aria-hidden="true"&gt;
+    &lt;div class="bf-bar"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;span class="bf-url"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;rect x="5" y="11" width="14" height="9" rx="2"/&gt;&lt;path d="M8 11V8a4 4 0 0 1 8 0v3"/&gt;&lt;/svg&gt;&lt;span class="bf-path"&gt;harechov.co.il&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="bf-view"&gt;
+      &lt;div class="bf-scr"&gt;&lt;div class="bf-page"&gt;
+        &lt;div class="bf-nav"&gt;&lt;span class="bf-logo"&gt;&lt;i&gt;&lt;/i&gt;מאפיית הרחוב&lt;/span&gt;&lt;span class="bf-lk"&gt;&lt;span&gt;תפריט&lt;/span&gt;&lt;span&gt;הזמנות&lt;/span&gt;&lt;span&gt;אודות&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="bf-hero"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/hero-bread.webp" width="1600" height="1333" alt="" loading="lazy" decoding="async"&gt;&lt;div class="bf-cap"&gt;&lt;b&gt;לחם שנאפה הבוקר&lt;/b&gt;&lt;span class="bf-btn"&gt;להזמנה&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="bf-cards"&gt;
+          &lt;div class="bf-card"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/croissants.webp" width="1250" height="1000" alt="" loading="lazy" decoding="async"&gt;&lt;b&gt;קרואסון חמאה&lt;/b&gt;&lt;span&gt;14 ש״ח&lt;/span&gt;&lt;/div&gt;
+          &lt;div class="bf-card"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/baker-hands.webp" width="1100" height="1320" alt="" loading="lazy" decoding="async"&gt;&lt;b&gt;לחמניות שמרים&lt;/b&gt;&lt;span&gt;6 ש״ח&lt;/span&gt;&lt;/div&gt;
+          &lt;div class="bf-card"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/cafe-window.webp" width="1400" height="1050" alt="" loading="lazy" decoding="async"&gt;&lt;b&gt;ישיבה בפנים&lt;/b&gt;&lt;span&gt;עד 24 מקומות&lt;/span&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="bf-info"&gt;&lt;b&gt;שעות פתיחה&lt;/b&gt;&lt;span&gt;ראשון עד חמישי, 6:30 עד 18:00&lt;/span&gt;&lt;span&gt;שישי, 6:30 עד 14:00&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;&lt;/div&gt;
+      &lt;div class="bf-scr"&gt;&lt;div class="bf-page"&gt;
+        &lt;div class="bf-nav"&gt;&lt;span class="bf-logo"&gt;&lt;i&gt;&lt;/i&gt;מאפיית הרחוב&lt;/span&gt;&lt;span class="bf-lk"&gt;&lt;span&gt;תפריט&lt;/span&gt;&lt;span&gt;הזמנות&lt;/span&gt;&lt;span&gt;אודות&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+        &lt;h4 class="bf-h"&gt;התפריט של הבוקר&lt;/h4&gt;
+        &lt;div class="bf-item"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/hero-bread.webp" width="1600" height="1333" alt="" loading="lazy" decoding="async"&gt;&lt;span&gt;&lt;b&gt;לחם מחמצת&lt;/b&gt;&lt;small&gt;אפייה איטית, קרום פריך&lt;/small&gt;&lt;/span&gt;&lt;span class="bf-price"&gt;28 ש״ח&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="bf-item"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/croissants.webp" width="1250" height="1000" alt="" loading="lazy" decoding="async"&gt;&lt;span&gt;&lt;b&gt;קרואסון חמאה&lt;/b&gt;&lt;small&gt;שכבות דקות, יוצא מהתנור בשבע&lt;/small&gt;&lt;/span&gt;&lt;span class="bf-price"&gt;14 ש״ח&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="bf-item"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/baker-hands.webp" width="1100" height="1320" alt="" loading="lazy" decoding="async"&gt;&lt;span&gt;&lt;b&gt;לחמניות שמרים&lt;/b&gt;&lt;small&gt;בצק שנילוש בבוקר&lt;/small&gt;&lt;/span&gt;&lt;span class="bf-price"&gt;6 ש״ח&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="bf-item"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/croissants.webp" width="1250" height="1000" alt="" loading="lazy" decoding="async" style="object-position:80% 20%"&gt;&lt;span&gt;&lt;b&gt;קפה ומאפה&lt;/b&gt;&lt;small&gt;קפה הפוך וקרואסון&lt;/small&gt;&lt;/span&gt;&lt;span class="bf-price"&gt;22 ש״ח&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="bf-item"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/cafe-window.webp" width="1400" height="1050" alt="" loading="lazy" decoding="async"&gt;&lt;span&gt;&lt;b&gt;ארוחת בוקר בפנים&lt;/b&gt;&lt;small&gt;עד 24 מקומות ליד החלון&lt;/small&gt;&lt;/span&gt;&lt;span class="bf-price"&gt;48 ש״ח&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;&lt;/div&gt;
+      &lt;div class="bf-scr"&gt;&lt;div class="bf-page"&gt;
+        &lt;div class="bf-nav"&gt;&lt;span class="bf-logo"&gt;&lt;i&gt;&lt;/i&gt;מאפיית הרחוב&lt;/span&gt;&lt;span class="bf-lk"&gt;&lt;span&gt;תפריט&lt;/span&gt;&lt;span&gt;הזמנות&lt;/span&gt;&lt;span&gt;אודות&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+        &lt;img class="bf-ban" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/baker-hands.webp" width="1100" height="1320" alt="" loading="lazy" decoding="async"&gt;
+        &lt;h4 class="bf-h"&gt;הזמנה לאיסוף&lt;/h4&gt;
+        &lt;div class="bf-fld"&gt;שם מלא&lt;span class="bf-in"&gt;דנה לוי&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="bf-fld"&gt;שעת איסוף&lt;span class="bf-in"&gt;מחר, 8:30&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="bf-fld"&gt;מה להזמין&lt;span class="bf-in"&gt;לחם מחמצת ושני קרואסונים&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="bf-sum"&gt;&lt;span&gt;סה״כ לתשלום באיסוף&lt;/span&gt;&lt;b&gt;56 ש״ח&lt;/b&gt;&lt;/div&gt;
+        &lt;span class="bf-btn bf-send"&gt;שליחת ההזמנה&lt;/span&gt;
+      &lt;/div&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP: המסך הראשון במנוחה והעמוד קצר (במארקאפ)
+  const root=document.querySelector(".bf"),run=root.querySelector(".bf-run"),view=root.querySelector(".bf-view"),
+    scr=[...root.querySelectorAll(".bf-scr")],pages=scr.map(s=&gt;s.querySelector(".bf-page")),path=root.querySelector(".bf-path");
+  const urls=["harechov.co.il","harechov.co.il/menu","harechov.co.il/order"];
+  // זמני המעבר בציר: הכתובת נגזרת מהזמן בלבד, ולכן נכונה גם בגלילה אחורה
+  const swapAt=[3.2,6.1],D=9;
+  let cur=0;
+  const paint=t=&gt;{
+    const i=t&gt;=swapAt[1]?2:t&gt;=swapAt[0]?1:0;
+    if(i===cur)return;
+    cur=i;path.textContent=urls[i];
+    gsap.fromTo(path,{opacity:0,y:4},{opacity:1,y:0,duration:.25,ease:"power2.out",overwrite:true});
+  };
+  // בהפחתת תנועה לא רצים, והחלון נשאר במצב ההתחלה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    const max=i=&gt;()=&gt;-Math.max(0,pages[i].offsetHeight-view.clientHeight);
+    const tl=gsap.timeline({defaults:{ease:"power1.inOut"},scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
+    tl.to(pages[0],{y:max(0),duration:2},.5);
+    tl.to(scr[0],{autoAlpha:0,y:-16,duration:.6,ease:"power2.in"},2.9);
+    tl.fromTo(scr[1],{autoAlpha:0,y:32},{autoAlpha:1,y:0,duration:.6,ease:"power2.out"},3.0);
+    tl.to(pages[1],{y:max(1),duration:1.6},3.8);
+    tl.to(scr[1],{autoAlpha:0,y:-16,duration:.6,ease:"power2.in"},5.8);
+    tl.fromTo(scr[2],{autoAlpha:0,y:32},{autoAlpha:1,y:0,duration:.6,ease:"power2.out"},5.9);
+    tl.to(pages[2],{y:max(2),duration:1.4},6.8);
+    tl.set({},{},D);                          // רגע מנוחה בסוף
+    tl.eventCallback("onUpdate",()=&gt;paint(tl.time()));
+    return()=&gt;{tl.scrollTrigger.kill();tl.kill();root.classList.remove("is-live");gsap.killTweensOf(path);
+      gsap.set([...scr,...pages,path],{clearProps:"all"});cur=0;path.textContent=urls[0];};
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g245 · אתר בתוך חלון דפדפן שעובר בין עמודים\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g245.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g245.html\n\nמה זה עושה: חלון דפדפן עם שורת כתובת, ובתוכו אתר של מאפייה. העמוד גולל לאט כלפי מטה, ואז מתחלף לעמוד הבא שעולה מלמטה, וכתובת האתר למעלה מתעדכנת בכל מעבר: דף הבית, התפריט, ובסוף טופס הזמנה. כל זה קורה בזמן הגלילה, ואפשר לעצור באמצע ולחזור אחורה.\nמתי משתמשים: סקשן שמראה את האתר או המוצר של הלקוח כמו שהוא נראה: תיק עבודות של סטודיו, הצגת מערכת הזמנות, דוגמה לאתר שנבנה, הסבר על שלושה עמודים שהשירות כולל. כדאי שיהיו שלושה עד ארבעה מסכים אמיתיים של אתר אחד. לא לאתר שאין לו מה להראות בפנים: חלון דפדפן ריק רק מסתיר את העמוד.\nסוג אתר: וואן-פייג'ר · אתר תדמית · פורטפוליו וסטודיו\nבסקשן: עבודות וגלריה · תהליך ושלבים · שירותים ומוצרים\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא כשאין אתר או מערכת שאפשר להראות בשלושה מסכים: חלון דפדפן ריק מבטיח מוצר שלא קיים.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G245 · אתר בתוך חלון דפדפן שעובר בין עמודים */\n.bf{max-width:1160px;margin-inline:auto}\n.bf .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.bf-pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.8fr);align-content:center;align-items:center;column-gap:clamp(32px,6vw,96px);row-gap:24px}\n.bf-txt{display:grid;gap:14px;max-width:34ch}\n.bf-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}\n.bf-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.bf-win{justify-self:center;box-sizing:border-box;width:min(740px,100%);overflow:hidden;border:1px solid var(--line, #e4e4ee);border-radius:16px;background:var(--card, #fff);box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}\n.bf-bar{direction:ltr;display:flex;align-items:center;gap:8px;padding:12px 16px;background:color-mix(in srgb,var(--ink, #16182b) 5%,var(--card, #fff))}\n.bf-bar i{flex:none;width:10px;height:10px;border-radius:50%;background:var(--line, #e4e4ee)}\n.bf-url{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:28px;margin-inline:12px;padding:0 12px;overflow:hidden;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--muted, #6a6d85);font-size:12px;white-space:nowrap}\n.bf-url svg{flex:none;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}\n.bf-view{position:relative;height:clamp(320px,38vw,440px);overflow:hidden;background:var(--bg, #f7f7fa)}\n.bf-scr{position:absolute;inset:0;overflow:hidden}\n.bf-scr+.bf-scr{opacity:0;visibility:hidden}\n.bf-page{display:grid;gap:20px;align-content:start;padding:16px 20px 28px}\n.bf-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px}\n.bf-logo{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700}\n.bf-logo i{width:18px;height:18px;border-radius:50%;background:var(--accent, #4a3aff)}\n.bf-lk{display:flex;gap:16px;color:var(--muted, #6a6d85)}\n.bf-hero{position:relative;overflow:hidden;border-radius:12px;aspect-ratio:2/1}\n.bf-hero img{display:block;width:100%;height:100%;object-fit:cover}\n.bf-cap{position:absolute;inset-inline-start:12px;inset-block-end:12px;display:grid;gap:8px;justify-items:start;padding:12px 14px;border-radius:10px;background:var(--card, #fff);font-size:14px}\n.bf-btn{display:grid;place-items:center;min-height:32px;padding:0 14px;border-radius:8px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:12px;font-weight:700}\n.bf-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}\n.bf-card{display:grid;gap:6px;font-size:12px}\n.bf-card img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:10px}\n.bf-card span{color:var(--muted, #6a6d85)}\n.bf-info{display:grid;gap:6px;padding:14px 16px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:var(--card, #fff);font-size:12px}\n.bf-info span{color:var(--muted, #6a6d85)}\n.bf-h{margin:0;font-size:18px;line-height:1.2}\n.bf-item{display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:var(--card, #fff)}\n.bf-item img{display:block;width:56px;height:56px;object-fit:cover;border-radius:8px}\n.bf-item b{display:block;font-size:13px}\n.bf-item small{display:block;margin-top:4px;color:var(--muted, #6a6d85);font-size:12px}\n.bf-price{padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent, #4a3aff) 14%,var(--card, #fff));font-size:12px;font-weight:700}\n.bf-ban{display:block;width:100%;height:auto;aspect-ratio:3/1;object-fit:cover;object-position:50% 20%;border-radius:12px}\n.bf-fld{display:grid;gap:4px;font-size:12px;color:var(--muted, #6a6d85)}\n.bf-in{display:flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid var(--line, #e4e4ee);border-radius:10px;background:var(--card, #fff);color:var(--ink, #16182b);font-size:13px}\n.bf-sum{display:flex;justify-content:space-between;gap:12px;font-size:13px}\n.bf-sum b{font-variant-numeric:tabular-nums}\n.bf-send{min-height:40px;font-size:13px;border-radius:10px}\n.bf.is-live .bf-run{height:360vh}\n.bf.is-live .bf-pin{position:sticky;top:0;min-height:100vh;min-height:100svh}\n@media(max-width:767px){.bf-pin{grid-template-columns:minmax(0,1fr)}.bf-txt{max-width:none}.bf-view{height:320px}.bf-page{padding:12px 14px 24px}.bf-lk{gap:12px}}\n\n=== HTML ===\n<div class=\"stage\"><div class=\"bf\"><div class=\"bf-run\"><div class=\"bf-pin\">\n  <div class=\"bf-txt\"><h3>שלושה עמודים בחלון אחד<\/h3><p>בזמן שגוללים, החלון עובר מדף הבית אל התפריט ואחר כך אל טופס ההזמנה, וכתובת האתר למעלה מתעדכנת בכל מעבר.<\/p><span class=\"sr-only\">באתר הדוגמה שלושה עמודים: דף הבית, התפריט וטופס הזמנה לאיסוף.<\/span><\/div>\n  <div class=\"bf-win\" aria-hidden=\"true\">\n    <div class=\"bf-bar\"><i><\/i><i><\/i><i><\/i><span class=\"bf-url\"><svg viewBox=\"0 0 24 24\"><rect x=\"5\" y=\"11\" width=\"14\" height=\"9\" rx=\"2\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\"/><\/svg><span class=\"bf-path\">harechov.co.il<\/span><\/span><\/div>\n    <div class=\"bf-view\">\n      <div class=\"bf-scr\"><div class=\"bf-page\">\n        <div class=\"bf-nav\"><span class=\"bf-logo\"><i><\/i>מאפיית הרחוב<\/span><span class=\"bf-lk\"><span>תפריט<\/span><span>הזמנות<\/span><span>אודות<\/span><\/span><\/div>\n        <div class=\"bf-hero\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/hero-bread.webp\" width=\"1600\" height=\"1333\" alt=\"\" loading=\"lazy\" decoding=\"async\"><div class=\"bf-cap\"><b>לחם שנאפה הבוקר<\/b><span class=\"bf-btn\">להזמנה<\/span><\/div><\/div>\n        <div class=\"bf-cards\">\n          <div class=\"bf-card\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/croissants.webp\" width=\"1250\" height=\"1000\" alt=\"\" loading=\"lazy\" decoding=\"async\"><b>קרואסון חמאה<\/b><span>14 ש״ח<\/span><\/div>\n          <div class=\"bf-card\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/baker-hands.webp\" width=\"1100\" height=\"1320\" alt=\"\" loading=\"lazy\" decoding=\"async\"><b>לחמניות שמרים<\/b><span>6 ש״ח<\/span><\/div>\n          <div class=\"bf-card\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/cafe-window.webp\" width=\"1400\" height=\"1050\" alt=\"\" loading=\"lazy\" decoding=\"async\"><b>ישיבה בפנים<\/b><span>עד 24 מקומות<\/span><\/div>\n        <\/div>\n        <div class=\"bf-info\"><b>שעות פתיחה<\/b><span>ראשון עד חמישי, 6:30 עד 18:00<\/span><span>שישי, 6:30 עד 14:00<\/span><\/div>\n      <\/div><\/div>\n      <div class=\"bf-scr\"><div class=\"bf-page\">\n        <div class=\"bf-nav\"><span class=\"bf-logo\"><i><\/i>מאפיית הרחוב<\/span><span class=\"bf-lk\"><span>תפריט<\/span><span>הזמנות<\/span><span>אודות<\/span><\/span><\/div>\n        <h4 class=\"bf-h\">התפריט של הבוקר<\/h4>\n        <div class=\"bf-item\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/hero-bread.webp\" width=\"1600\" height=\"1333\" alt=\"\" loading=\"lazy\" decoding=\"async\"><span><b>לחם מחמצת<\/b><small>אפייה איטית, קרום פריך<\/small><\/span><span class=\"bf-price\">28 ש״ח<\/span><\/div>\n        <div class=\"bf-item\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/croissants.webp\" width=\"1250\" height=\"1000\" alt=\"\" loading=\"lazy\" decoding=\"async\"><span><b>קרואסון חמאה<\/b><small>שכבות דקות, יוצא מהתנור בשבע<\/small><\/span><span class=\"bf-price\">14 ש״ח<\/span><\/div>\n        <div class=\"bf-item\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/baker-hands.webp\" width=\"1100\" height=\"1320\" alt=\"\" loading=\"lazy\" decoding=\"async\"><span><b>לחמניות שמרים<\/b><small>בצק שנילוש בבוקר<\/small><\/span><span class=\"bf-price\">6 ש״ח<\/span><\/div>\n        <div class=\"bf-item\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/croissants.webp\" width=\"1250\" height=\"1000\" alt=\"\" loading=\"lazy\" decoding=\"async\" style=\"object-position:80% 20%\"><span><b>קפה ומאפה<\/b><small>קפה הפוך וקרואסון<\/small><\/span><span class=\"bf-price\">22 ש״ח<\/span><\/div>\n        <div class=\"bf-item\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/cafe-window.webp\" width=\"1400\" height=\"1050\" alt=\"\" loading=\"lazy\" decoding=\"async\"><span><b>ארוחת בוקר בפנים<\/b><small>עד 24 מקומות ליד החלון<\/small><\/span><span class=\"bf-price\">48 ש״ח<\/span><\/div>\n      <\/div><\/div>\n      <div class=\"bf-scr\"><div class=\"bf-page\">\n        <div class=\"bf-nav\"><span class=\"bf-logo\"><i><\/i>מאפיית הרחוב<\/span><span class=\"bf-lk\"><span>תפריט<\/span><span>הזמנות<\/span><span>אודות<\/span><\/span><\/div>\n        <img class=\"bf-ban\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/baker-hands.webp\" width=\"1100\" height=\"1320\" alt=\"\" loading=\"lazy\" decoding=\"async\">\n        <h4 class=\"bf-h\">הזמנה לאיסוף<\/h4>\n        <div class=\"bf-fld\">שם מלא<span class=\"bf-in\">דנה לוי<\/span><\/div>\n        <div class=\"bf-fld\">שעת איסוף<span class=\"bf-in\">מחר, 8:30<\/span><\/div>\n        <div class=\"bf-fld\">מה להזמין<span class=\"bf-in\">לחם מחמצת ושני קרואסונים<\/span><\/div>\n        <div class=\"bf-sum\"><span>סה״כ לתשלום באיסוף<\/span><b>56 ש״ח<\/b><\/div>\n        <span class=\"bf-btn bf-send\">שליחת ההזמנה<\/span>\n      <\/div><\/div>\n    <\/div>\n  <\/div>\n<\/div><\/div><\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP: המסך הראשון במנוחה והעמוד קצר (במארקאפ)\n  const root=document.querySelector(\".bf\"),run=root.querySelector(\".bf-run\"),view=root.querySelector(\".bf-view\"),\n    scr=[...root.querySelectorAll(\".bf-scr\")],pages=scr.map(s=>s.querySelector(\".bf-page\")),path=root.querySelector(\".bf-path\");\n  const urls=[\"harechov.co.il\",\"harechov.co.il/menu\",\"harechov.co.il/order\"];\n  // זמני המעבר בציר: הכתובת נגזרת מהזמן בלבד, ולכן נכונה גם בגלילה אחורה\n  const swapAt=[3.2,6.1],D=9;\n  let cur=0;\n  const paint=t=>{\n    const i=t>=swapAt[1]?2:t>=swapAt[0]?1:0;\n    if(i===cur)return;\n    cur=i;path.textContent=urls[i];\n    gsap.fromTo(path,{opacity:0,y:4},{opacity:1,y:0,duration:.25,ease:\"power2.out\",overwrite:true});\n  };\n  // בהפחתת תנועה לא רצים, והחלון נשאר במצב ההתחלה\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const max=i=>()=>-Math.max(0,pages[i].offsetHeight-view.clientHeight);\n    const tl=gsap.timeline({defaults:{ease:\"power1.inOut\"},scrollTrigger:{trigger:run,start:\"top top\",end:\"bottom bottom\",scrub:.5,invalidateOnRefresh:true}});\n    tl.to(pages[0],{y:max(0),duration:2},.5);\n    tl.to(scr[0],{autoAlpha:0,y:-16,duration:.6,ease:\"power2.in\"},2.9);\n    tl.fromTo(scr[1],{autoAlpha:0,y:32},{autoAlpha:1,y:0,duration:.6,ease:\"power2.out\"},3.0);\n    tl.to(pages[1],{y:max(1),duration:1.6},3.8);\n    tl.to(scr[1],{autoAlpha:0,y:-16,duration:.6,ease:\"power2.in\"},5.8);\n    tl.fromTo(scr[2],{autoAlpha:0,y:32},{autoAlpha:1,y:0,duration:.6,ease:\"power2.out\"},5.9);\n    tl.to(pages[2],{y:max(2),duration:1.4},6.8);\n    tl.set({},{},D);                          // רגע מנוחה בסוף\n    tl.eventCallback(\"onUpdate\",()=>paint(tl.time()));\n    return()=>{tl.scrollTrigger.kill();tl.kill();root.classList.remove(\"is-live\");gsap.killTweensOf(path);\n      gsap.set([...scr,...pages,path],{clearProps:\"all\"});cur=0;path.textContent=urls[0];};\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטוני הצגת אתרים בגלריה של prompt-motion.com (21.10.2026), שבהם אתר עומד בתוך חלון דפדפן, גולל, ומתחלף בין מסכים. נבנה מאפס מהצפייה. המארקאפ הוא מצב ההתחלה: המסך הראשון במנוחה והשניים האחרים מוסתרים. `is-live` מתווסף רק ב-JS ומפעיל את הקטע הדביק (`.bf-run` גבוה, `.bf-pin` דביק), כך שבלי GSAP העמוד קצר ונקרא. הציר: כל מסך גולל בתוך החלון בהזזת `.bf-page` (המרחק נמדד מהגובה האמיתי ומחושב מחדש בכל רענון), והמעבר בין מסכים הוא התעמעמות עם עלייה קלה. טקסט הכתובת נגזר מזמן הציר בלבד, ולכן נכון גם בגלילה אחורה. הכתובת היא התווית של הצעד, ואין תווית נפרדת. שורת הכתובת וחלון הדפדפן הם `direction:ltr` כמו בדפדפן אמיתי, והאתר שבפנים יורש RTL. התמונות הן תמונות אמיתיות מהמאגר עם `loading=lazy` וגדלים מפורשים. הדמו כולו `aria-hidden`. בטלפון הטקסט עובר מעל החלון וגובה החלון קטן. החלפה לאתר LTR: אין מה להפוך.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G245 · אתר בתוך חלון דפדפן שעובר בין עמודים */\n.bf{max-width:1160px;margin-inline:auto}\n.bf .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.bf-pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.8fr);align-content:center;align-items:center;column-gap:clamp(32px,6vw,96px);row-gap:24px}\n.bf-txt{display:grid;gap:14px;max-width:34ch}\n.bf-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}\n.bf-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.bf-win{justify-self:center;box-sizing:border-box;width:min(740px,100%);overflow:hidden;border:1px solid var(--line, #e4e4ee);border-radius:16px;background:var(--card, #fff);box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}\n.bf-bar{direction:ltr;display:flex;align-items:center;gap:8px;padding:12px 16px;background:color-mix(in srgb,var(--ink, #16182b) 5%,var(--card, #fff))}\n.bf-bar i{flex:none;width:10px;height:10px;border-radius:50%;background:var(--line, #e4e4ee)}\n.bf-url{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:28px;margin-inline:12px;padding:0 12px;overflow:hidden;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--muted, #6a6d85);font-size:12px;white-space:nowrap}\n.bf-url svg{flex:none;width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}\n.bf-view{position:relative;height:clamp(320px,38vw,440px);overflow:hidden;background:var(--bg, #f7f7fa)}\n.bf-scr{position:absolute;inset:0;overflow:hidden}\n.bf-scr+.bf-scr{opacity:0;visibility:hidden}\n.bf-page{display:grid;gap:20px;align-content:start;padding:16px 20px 28px}\n.bf-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px}\n.bf-logo{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700}\n.bf-logo i{width:18px;height:18px;border-radius:50%;background:var(--accent, #4a3aff)}\n.bf-lk{display:flex;gap:16px;color:var(--muted, #6a6d85)}\n.bf-hero{position:relative;overflow:hidden;border-radius:12px;aspect-ratio:2/1}\n.bf-hero img{display:block;width:100%;height:100%;object-fit:cover}\n.bf-cap{position:absolute;inset-inline-start:12px;inset-block-end:12px;display:grid;gap:8px;justify-items:start;padding:12px 14px;border-radius:10px;background:var(--card, #fff);font-size:14px}\n.bf-btn{display:grid;place-items:center;min-height:32px;padding:0 14px;border-radius:8px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:12px;font-weight:700}\n.bf-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}\n.bf-card{display:grid;gap:6px;font-size:12px}\n.bf-card img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:10px}\n.bf-card span{color:var(--muted, #6a6d85)}\n.bf-info{display:grid;gap:6px;padding:14px 16px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:var(--card, #fff);font-size:12px}\n.bf-info span{color:var(--muted, #6a6d85)}\n.bf-h{margin:0;font-size:18px;line-height:1.2}\n.bf-item{display:grid;grid-template-columns:56px minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px;border:1px solid var(--line, #e4e4ee);border-radius:12px;background:var(--card, #fff)}\n.bf-item img{display:block;width:56px;height:56px;object-fit:cover;border-radius:8px}\n.bf-item b{display:block;font-size:13px}\n.bf-item small{display:block;margin-top:4px;color:var(--muted, #6a6d85);font-size:12px}\n.bf-price{padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent, #4a3aff) 14%,var(--card, #fff));font-size:12px;font-weight:700}\n.bf-ban{display:block;width:100%;height:auto;aspect-ratio:3/1;object-fit:cover;object-position:50% 20%;border-radius:12px}\n.bf-fld{display:grid;gap:4px;font-size:12px;color:var(--muted, #6a6d85)}\n.bf-in{display:flex;align-items:center;min-height:36px;padding:0 12px;border:1px solid var(--line, #e4e4ee);border-radius:10px;background:var(--card, #fff);color:var(--ink, #16182b);font-size:13px}\n.bf-sum{display:flex;justify-content:space-between;gap:12px;font-size:13px}\n.bf-sum b{font-variant-numeric:tabular-nums}\n.bf-send{min-height:40px;font-size:13px;border-radius:10px}\n.bf.is-live .bf-run{height:360vh}\n.bf.is-live .bf-pin{position:sticky;top:0;min-height:100vh;min-height:100svh}\n@media(max-width:767px){.bf-pin{grid-template-columns:minmax(0,1fr)}.bf-txt{max-width:none}.bf-view{height:320px}.bf-page{padding:12px 14px 24px}.bf-lk{gap:12px}}","html":"<div class=\"stage\"><div class=\"bf\"><div class=\"bf-run\"><div class=\"bf-pin\">\n  <div class=\"bf-txt\"><h3>שלושה עמודים בחלון אחד<\/h3><p>בזמן שגוללים, החלון עובר מדף הבית אל התפריט ואחר כך אל טופס ההזמנה, וכתובת האתר למעלה מתעדכנת בכל מעבר.<\/p><span class=\"sr-only\">באתר הדוגמה שלושה עמודים: דף הבית, התפריט וטופס הזמנה לאיסוף.<\/span><\/div>\n  <div class=\"bf-win\" aria-hidden=\"true\">\n    <div class=\"bf-bar\"><i><\/i><i><\/i><i><\/i><span class=\"bf-url\"><svg viewBox=\"0 0 24 24\"><rect x=\"5\" y=\"11\" width=\"14\" height=\"9\" rx=\"2\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\"/><\/svg><span class=\"bf-path\">harechov.co.il<\/span><\/span><\/div>\n    <div class=\"bf-view\">\n      <div class=\"bf-scr\"><div class=\"bf-page\">\n        <div class=\"bf-nav\"><span class=\"bf-logo\"><i><\/i>מאפיית הרחוב<\/span><span class=\"bf-lk\"><span>תפריט<\/span><span>הזמנות<\/span><span>אודות<\/span><\/span><\/div>\n        <div class=\"bf-hero\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/hero-bread.webp\" width=\"1600\" height=\"1333\" alt=\"\" loading=\"lazy\" decoding=\"async\"><div class=\"bf-cap\"><b>לחם שנאפה הבוקר<\/b><span class=\"bf-btn\">להזמנה<\/span><\/div><\/div>\n        <div class=\"bf-cards\">\n          <div class=\"bf-card\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/croissants.webp\" width=\"1250\" height=\"1000\" alt=\"\" loading=\"lazy\" decoding=\"async\"><b>קרואסון חמאה<\/b><span>14 ש״ח<\/span><\/div>\n          <div class=\"bf-card\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/baker-hands.webp\" width=\"1100\" height=\"1320\" alt=\"\" loading=\"lazy\" decoding=\"async\"><b>לחמניות שמרים<\/b><span>6 ש״ח<\/span><\/div>\n          <div class=\"bf-card\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/cafe-window.webp\" width=\"1400\" height=\"1050\" alt=\"\" loading=\"lazy\" decoding=\"async\"><b>ישיבה בפנים<\/b><span>עד 24 מקומות<\/span><\/div>\n        <\/div>\n        <div class=\"bf-info\"><b>שעות פתיחה<\/b><span>ראשון עד חמישי, 6:30 עד 18:00<\/span><span>שישי, 6:30 עד 14:00<\/span><\/div>\n      <\/div><\/div>\n      <div class=\"bf-scr\"><div class=\"bf-page\">\n        <div class=\"bf-nav\"><span class=\"bf-logo\"><i><\/i>מאפיית הרחוב<\/span><span class=\"bf-lk\"><span>תפריט<\/span><span>הזמנות<\/span><span>אודות<\/span><\/span><\/div>\n        <h4 class=\"bf-h\">התפריט של הבוקר<\/h4>\n        <div class=\"bf-item\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/hero-bread.webp\" width=\"1600\" height=\"1333\" alt=\"\" loading=\"lazy\" decoding=\"async\"><span><b>לחם מחמצת<\/b><small>אפייה איטית, קרום פריך<\/small><\/span><span class=\"bf-price\">28 ש״ח<\/span><\/div>\n        <div class=\"bf-item\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/croissants.webp\" width=\"1250\" height=\"1000\" alt=\"\" loading=\"lazy\" decoding=\"async\"><span><b>קרואסון חמאה<\/b><small>שכבות דקות, יוצא מהתנור בשבע<\/small><\/span><span class=\"bf-price\">14 ש״ח<\/span><\/div>\n        <div class=\"bf-item\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/baker-hands.webp\" width=\"1100\" height=\"1320\" alt=\"\" loading=\"lazy\" decoding=\"async\"><span><b>לחמניות שמרים<\/b><small>בצק שנילוש בבוקר<\/small><\/span><span class=\"bf-price\">6 ש״ח<\/span><\/div>\n        <div class=\"bf-item\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/croissants.webp\" width=\"1250\" height=\"1000\" alt=\"\" loading=\"lazy\" decoding=\"async\" style=\"object-position:80% 20%\"><span><b>קפה ומאפה<\/b><small>קפה הפוך וקרואסון<\/small><\/span><span class=\"bf-price\">22 ש״ח<\/span><\/div>\n        <div class=\"bf-item\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/cafe-window.webp\" width=\"1400\" height=\"1050\" alt=\"\" loading=\"lazy\" decoding=\"async\"><span><b>ארוחת בוקר בפנים<\/b><small>עד 24 מקומות ליד החלון<\/small><\/span><span class=\"bf-price\">48 ש״ח<\/span><\/div>\n      <\/div><\/div>\n      <div class=\"bf-scr\"><div class=\"bf-page\">\n        <div class=\"bf-nav\"><span class=\"bf-logo\"><i><\/i>מאפיית הרחוב<\/span><span class=\"bf-lk\"><span>תפריט<\/span><span>הזמנות<\/span><span>אודות<\/span><\/span><\/div>\n        <img class=\"bf-ban\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/baker-hands.webp\" width=\"1100\" height=\"1320\" alt=\"\" loading=\"lazy\" decoding=\"async\">\n        <h4 class=\"bf-h\">הזמנה לאיסוף<\/h4>\n        <div class=\"bf-fld\">שם מלא<span class=\"bf-in\">דנה לוי<\/span><\/div>\n        <div class=\"bf-fld\">שעת איסוף<span class=\"bf-in\">מחר, 8:30<\/span><\/div>\n        <div class=\"bf-fld\">מה להזמין<span class=\"bf-in\">לחם מחמצת ושני קרואסונים<\/span><\/div>\n        <div class=\"bf-sum\"><span>סה״כ לתשלום באיסוף<\/span><b>56 ש״ח<\/b><\/div>\n        <span class=\"bf-btn bf-send\">שליחת ההזמנה<\/span>\n      <\/div><\/div>\n    <\/div>\n  <\/div>\n<\/div><\/div><\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP: המסך הראשון במנוחה והעמוד קצר (במארקאפ)\n  const root=document.querySelector(\".bf\"),run=root.querySelector(\".bf-run\"),view=root.querySelector(\".bf-view\"),\n    scr=[...root.querySelectorAll(\".bf-scr\")],pages=scr.map(s=>s.querySelector(\".bf-page\")),path=root.querySelector(\".bf-path\");\n  const urls=[\"harechov.co.il\",\"harechov.co.il/menu\",\"harechov.co.il/order\"];\n  // זמני המעבר בציר: הכתובת נגזרת מהזמן בלבד, ולכן נכונה גם בגלילה אחורה\n  const swapAt=[3.2,6.1],D=9;\n  let cur=0;\n  const paint=t=>{\n    const i=t>=swapAt[1]?2:t>=swapAt[0]?1:0;\n    if(i===cur)return;\n    cur=i;path.textContent=urls[i];\n    gsap.fromTo(path,{opacity:0,y:4},{opacity:1,y:0,duration:.25,ease:\"power2.out\",overwrite:true});\n  };\n  // בהפחתת תנועה לא רצים, והחלון נשאר במצב ההתחלה\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const max=i=>()=>-Math.max(0,pages[i].offsetHeight-view.clientHeight);\n    const tl=gsap.timeline({defaults:{ease:\"power1.inOut\"},scrollTrigger:{trigger:run,start:\"top top\",end:\"bottom bottom\",scrub:.5,invalidateOnRefresh:true}});\n    tl.to(pages[0],{y:max(0),duration:2},.5);\n    tl.to(scr[0],{autoAlpha:0,y:-16,duration:.6,ease:\"power2.in\"},2.9);\n    tl.fromTo(scr[1],{autoAlpha:0,y:32},{autoAlpha:1,y:0,duration:.6,ease:\"power2.out\"},3.0);\n    tl.to(pages[1],{y:max(1),duration:1.6},3.8);\n    tl.to(scr[1],{autoAlpha:0,y:-16,duration:.6,ease:\"power2.in\"},5.8);\n    tl.fromTo(scr[2],{autoAlpha:0,y:32},{autoAlpha:1,y:0,duration:.6,ease:\"power2.out\"},5.9);\n    tl.to(pages[2],{y:max(2),duration:1.4},6.8);\n    tl.set({},{},D);                          // רגע מנוחה בסוף\n    tl.eventCallback(\"onUpdate\",()=>paint(tl.time()));\n    return()=>{tl.scrollTrigger.kill();tl.kill();root.classList.remove(\"is-live\");gsap.killTweensOf(path);\n      gsap.set([...scr,...pages,path],{clearProps:\"all\"});cur=0;path.textContent=urls[0];};\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g244.html" rel="prev"><small>→ הקודם</small><b>חלון טרמינל שמקליד פלט</b></a><a href="g246.html" rel="next"><small>הבא ←</small><b>ידיות בחירה שמותחות ומסובבות תמונה</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · אתר בתוך חלון דפדפן שעובר בין עמודים").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP: המסך הראשון במנוחה והעמוד קצר (במארקאפ)
+  const root=document.querySelector(".bf"),run=root.querySelector(".bf-run"),view=root.querySelector(".bf-view"),
+    scr=[...root.querySelectorAll(".bf-scr")],pages=scr.map(s=>s.querySelector(".bf-page")),path=root.querySelector(".bf-path");
+  const urls=["harechov.co.il","harechov.co.il/menu","harechov.co.il/order"];
+  // זמני המעבר בציר: הכתובת נגזרת מהזמן בלבד, ולכן נכונה גם בגלילה אחורה
+  const swapAt=[3.2,6.1],D=9;
+  let cur=0;
+  const paint=t=>{
+    const i=t>=swapAt[1]?2:t>=swapAt[0]?1:0;
+    if(i===cur)return;
+    cur=i;path.textContent=urls[i];
+    gsap.fromTo(path,{opacity:0,y:4},{opacity:1,y:0,duration:.25,ease:"power2.out",overwrite:true});
+  };
+  // בהפחתת תנועה לא רצים, והחלון נשאר במצב ההתחלה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const max=i=>()=>-Math.max(0,pages[i].offsetHeight-view.clientHeight);
+    const tl=gsap.timeline({defaults:{ease:"power1.inOut"},scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
+    tl.to(pages[0],{y:max(0),duration:2},.5);
+    tl.to(scr[0],{autoAlpha:0,y:-16,duration:.6,ease:"power2.in"},2.9);
+    tl.fromTo(scr[1],{autoAlpha:0,y:32},{autoAlpha:1,y:0,duration:.6,ease:"power2.out"},3.0);
+    tl.to(pages[1],{y:max(1),duration:1.6},3.8);
+    tl.to(scr[1],{autoAlpha:0,y:-16,duration:.6,ease:"power2.in"},5.8);
+    tl.fromTo(scr[2],{autoAlpha:0,y:32},{autoAlpha:1,y:0,duration:.6,ease:"power2.out"},5.9);
+    tl.to(pages[2],{y:max(2),duration:1.4},6.8);
+    tl.set({},{},D);                          // רגע מנוחה בסוף
+    tl.eventCallback("onUpdate",()=>paint(tl.time()));
+    return()=>{tl.scrollTrigger.kill();tl.kill();root.classList.remove("is-live");gsap.killTweensOf(path);
+      gsap.set([...scr,...pages,path],{clearProps:"all"});cur=0;path.textContent=urls[0];};
+  });
+})();
+</script>
+</body>
+</html>
