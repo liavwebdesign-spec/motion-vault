@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G183 · כרטיס מוצר שנבנה שלב אחר שלב</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G183 · כרטיס מוצר שנבנה שלב אחר שלב */
+.pc{--sx:-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,96px);max-width:1040px;margin-inline:auto}
+.pc-ui{display:grid;gap:14px;justify-self:center;width:min(420px,100%)}
+.pc-note{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:18px;box-shadow:0 20px 40px -26px color-mix(in srgb,var(--ink, #16182b) 38%,transparent)}
+.pc-ava{flex:none;display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.pc-ava svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pc-note b{display:block;font-size:15px}
+.pc-note small{font-size:13px;color:var(--muted, #6a6d85)}
+.pc-card{display:grid;gap:20px;padding:20px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:20px;box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}
+.pc-title{font-size:17px;font-weight:700}
+.pc-tgl{display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:15px}
+.pc-sw{flex:none;display:flex;align-items:center;box-sizing:border-box;width:40px;height:24px;padding:4px;border-radius:999px;background:var(--line, #e4e4ee);transition:background-color .3s cubic-bezier(.2,.6,.2,1)}
+.pc-sw i{width:16px;height:16px;border-radius:50%;background:var(--muted, #6a6d85);transition:transform .3s cubic-bezier(.2,.6,.2,1),background-color .3s cubic-bezier(.2,.6,.2,1)}
+.pc-sw.is-on{background:var(--accent, #4a3aff)}
+.pc-sw.is-on i{background:var(--accent-ink, #fff);transform:translateX(calc(var(--sx) * 16px))}
+.pc-stat{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:end;gap:24px}
+.pc-num{display:block;font-size:56px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.pc-lab{display:block;margin-top:8px;font-size:14px;color:var(--muted, #6a6d85)}
+.pc-bars{display:flex;align-items:flex-end;gap:6px;height:72px}
+.pc-bars i{flex:1;height:var(--h);border-radius:6px;background:color-mix(in srgb,var(--ink, #16182b) 16%,var(--card, #fff));transform-origin:50% 100%}
+.pc-bars i:last-child{background:var(--accent, #4a3aff)}
+.pc-done{display:flex;align-items:center;gap:12px;font-size:15px}
+.pc-ok{flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.pc-ok svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.pc-ok path{stroke-dasharray:1}
+.pc-send{display:grid;place-items:center;min-height:48px;border-radius:14px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:16px;font-weight:600;transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s linear}
+.pc-send>span{grid-area:1/1;transition:opacity .25s linear}
+.pc-s-a{opacity:0}
+.pc-send.is-sent{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.pc-send:not(.is-sent) .pc-s-b{opacity:0}
+.pc-send:not(.is-sent) .pc-s-a{opacity:1}
+.pc-txt{display:grid;gap:14px;max-width:36ch}
+.pc-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}
+.pc-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+@media(max-width:767px){.pc{grid-template-columns:minmax(0,1fr)}.pc-txt{max-width:none}.pc-num{font-size:48px}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="pc">
+  <div class="pc-ui" aria-hidden="true">
+    <div class="pc-note"><span class="pc-ava"><svg viewBox="0 0 24 24"><path d="M6 17h12l-1.6-2.4V10.5a4.4 4.4 0 00-8.8 0v4.1zM10 20h4"/></svg></span><span><b>הדוח השבועי שלך מוכן</b><small>עכשיו</small></span></div>
+    <div class="pc-card">
+      <span class="pc-title">סיכום השבוע</span>
+      <span class="pc-tgl"><span>שליחה אוטומטית בימי ראשון</span><span class="pc-sw is-on"><i></i></span></span>
+      <div class="pc-stat">
+        <span><b class="pc-num">38</b><span class="pc-lab">פניות חדשות</span></span>
+        <span class="pc-bars"><i style="--h:44%"></i><i style="--h:62%"></i><i style="--h:50%"></i><i style="--h:76%"></i><i style="--h:56%"></i><i style="--h:68%"></i><i style="--h:100%"></i></span>
+      </div>
+      <span class="pc-done"><span class="pc-ok"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9" pathLength="1"/></svg></span><span>הדוח נשלח לשלושה נמענים</span></span>
+      <span class="pc-send is-sent"><span class="pc-s-a">שליחה עכשיו</span><span class="pc-s-b">נשלח</span></span>
+    </div>
+  </div>
+  <div class="pc-txt"><h3>הדוח מגיע לבד, בכל יום ראשון</h3><p>בשבוע האחרון נכנסו 38 פניות חדשות. סיכום קצר נשלח לשלושה אנשים בצוות, וכל אחד רואה מיד איפה העסק עומד.</p></div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הכרטיס כבר שלם: מתג דולק, מספר סופי, כפתור במצב נשלח (במארקאפ)
+  const root=document.querySelector(".pc"),note=root.querySelector(".pc-note"),card=root.querySelector(".pc-card"),
+    sw=root.querySelector(".pc-sw"),num=root.querySelector(".pc-num"),bars=[...root.querySelectorAll(".pc-bars i")],
+    done=root.querySelector(".pc-done"),tick=done.querySelector("path"),send=root.querySelector(".pc-send");
+  const total=parseInt(num.textContent,10)||0;
+  const finish=()=>{sw.classList.add("is-on");num.textContent=total;send.classList.add("is-sent");};
+  // בהפחתת תנועה הפונקציה לא רצה, והכרטיס נשאר במצב הסיום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    sw.classList.remove("is-on");send.classList.remove("is-sent");num.textContent="0";
+    gsap.set(note,{autoAlpha:0,y:-28,filter:"blur(14px)"});
+    gsap.set(card,{autoAlpha:0,y:24});
+    gsap.set(bars,{scaleY:0});
+    gsap.set(done,{autoAlpha:0,y:10});
+    gsap.set(tick,{strokeDashoffset:1});
+    const c={v:0},tl=gsap.timeline({paused:true});
+    tl.to(note,{autoAlpha:1,y:0,filter:"blur(0px)",duration:.8,ease:"power3.out"})
+      .to(card,{autoAlpha:1,y:0,duration:.6,ease:"power2.out"},"-=.35")
+      .call(()=>sw.classList.add("is-on"),null,">+=.2")
+      .to(c,{v:total,duration:1,ease:"power2.out",onUpdate:()=>{num.textContent=Math.round(c.v);}},">+=.1")
+      .to(bars,{scaleY:1,duration:.5,stagger:.12,ease:"power3.out"},"<.15")
+      .to(done,{autoAlpha:1,y:0,duration:.45,ease:"power2.out"},">+=.1")
+      .to(tick,{strokeDashoffset:0,duration:.35,ease:"power1.inOut"},"<.15")
+      .to(send,{scale:.96,duration:.1,ease:"power1.out"},">+=.35")
+      .call(()=>send.classList.add("is-sent"),null,">")
+      .to(send,{scale:1,duration:.2,ease:"power1.out"},">");
+    const st=ScrollTrigger.create({trigger:root,start:"top 65%",once:true,onEnter:()=>tl.play()});
+    return()=>{st.kill();tl.kill();gsap.set([note,card,bars,done,tick,send],{clearProps:"all"});finish();};
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B77 · שדה ריבועים שגל עובר עליו ומנפח את המילה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B77 · שדה ריבועים שגל עובר עליו ומנפח את המילה */
+.dw{max-width:1100px;margin-inline:auto}
+.dw-field{position:relative;isolation:isolate;display:grid;place-items:center;height:clamp(280px,50vh,520px);overflow:hidden;touch-action:pan-y}
+/* בלי JS: רשת נקודות רכה והמילה בטקסט. כשהקנבס נחשף, הרשת הזו נעלמת והמילה הופכת שקופה */
+.dw-field::before{content:"";position:absolute;inset:0;z-index:-1;background-image:radial-gradient(circle,color-mix(in srgb,var(--ink, #16182b) 32%,transparent) 1.7px,transparent 2.3px);background-size:12px 12px;transition:opacity .6s cubic-bezier(.2,.6,.2,1)}
+.dw-cv{position:absolute;inset:0;z-index:-1;width:100%;height:100%;opacity:0;transition:opacity .6s cubic-bezier(.2,.6,.2,1)}
+.dw-field.is-on::before{opacity:0}
+.dw-field.is-on .dw-cv{opacity:1}
+.dw-word{position:relative;margin:0;font-size:clamp(96px,24vw,280px);font-weight:800;line-height:1;letter-spacing:-.02em;transition:color .6s cubic-bezier(.2,.6,.2,1)}
+.dw-field.is-on .dw-word{color:transparent}
+.dw-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px 48px;padding-top:24px}
+.dw-kicker{margin:0;font-size:15px;font-weight:600;color:var(--muted, #6a6d85)}
+.dw-lead{margin:0;max-width:48ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+@media(prefers-reduced-motion:reduce){.dw-field::before,.dw-cv,.dw-word{transition:none}}
+@media(max-width:767px){.dw-foot{gap:8px}}
+</style>
+</head>
+<body>
+
+<div class="stage"><section class="dw">
+  <div class="dw-field">
+    <canvas class="dw-cv" aria-hidden="true"></canvas>
+    <h2 class="dw-word">דיוק</h2>
+  </div>
+  <div class="dw-foot">
+    <p class="dw-kicker">משרד מדידות והנדסה, תל אביב</p>
+    <p class="dw-lead">מודדים בשטח, מחשבים במשרד, ומוסרים תוכנית שאפשר לבנות לפיה בלי לחזור ולשאול.</p>
+  </div>
+</section></div>
+
+
+<script>
+(function(){
+  const root=document.querySelector(".dw"),field=root.querySelector(".dw-field"),cv=root.querySelector(".dw-cv"),ctx=cv.getContext("2d"),h2=root.querySelector(".dw-word");
+  const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches,rtl=getComputedStyle(root).direction==="rtl",word=h2.textContent.trim();
+  const A=[.14,.22,.3,.4,.52,.78,.84,.9,.95,1],LAM=32;
+  let W=0,H=0,g=10,n=0,cols=0,rows=0,PX,PY,IN,HS,TH,BK,COL=[],running=false,vis=false,raf=0,ro=null;
+  const O={x:0,y:0,tx:0,ty:0,on:false},t0=performance.now();
+  // הצבעים נקראים מהטוקנים בזמן ריצה, אז הרשת יורשת כל עור
+  const probe=document.createElement("canvas").getContext("2d");
+  const rgb=c=>{probe.fillStyle="#000";probe.fillStyle=c;const h=probe.fillStyle;
+    if(h.charAt(0)==="#")return[1,3,5].map(k=>parseInt(h.slice(k,k+2),16));
+    return h.slice(h.indexOf("(")+1,h.lastIndexOf(")")).split(",").slice(0,3).map(Number);};
+  const colors=()=>{const cs=getComputedStyle(root),ink=rgb(cs.color),acc=rgb(cs.getPropertyValue("--accent").trim()||cs.color);
+    COL=["rgb("+ink.join(",")+")","rgb("+acc.join(",")+")"];};
+  // המילה מצוירת פעם אחת על קנבס נסתר, באותו פונט, ומשם נקרא איזה תא יושב בתוך אות
+  function mask(){
+    const cs=getComputedStyle(h2),m=document.createElement("canvas");m.width=W;m.height=H;const c=m.getContext("2d");
+    c.font=cs.fontWeight+" 100px "+cs.fontFamily;const w100=c.measureText(word).width||300,fs=Math.min(H*.86,W*.8/w100*100);
+    c.font=cs.fontWeight+" "+fs+"px "+cs.fontFamily;c.textAlign="center";c.textBaseline="middle";c.fillStyle="#000";c.fillText(word,W/2,H/2+fs*.04);
+    return c.getImageData(0,0,W,H).data;
+  }
+  function build(){
+    const dpr=Math.min(2,devicePixelRatio||1),r=field.getBoundingClientRect();W=Math.round(r.width);H=Math.round(r.height);if(!W||!H)return;
+    cv.width=W*dpr;cv.height=H*dpr;ctx.setTransform(dpr,0,0,dpr,0,0);
+    g=Math.max(7,Math.min(11,W/110));while(Math.floor(W/g)*Math.floor(H/g)>6500)g+=.5;
+    cols=Math.floor(W/g);rows=Math.floor(H/g);n=cols*rows;
+    PX=new Float32Array(n);PY=new Float32Array(n);IN=new Uint8Array(n);HS=new Float32Array(n);TH=new Float32Array(n);BK=new Uint8Array(n);
+    const ox=(W-cols*g)/2,oy=(H-rows*g)/2,md=mask();let i=0;
+    for(let y=0;y<rows;y++)for(let x=0;x<cols;x++,i++){PX[i]=ox+(x+.5)*g;PY[i]=oy+(y+.5)*g;IN[i]=md[((PY[i]|0)*W+(PX[i]|0))*4+3]>110?1:0;}
+    O.x=O.tx=rtl?W:0;O.y=O.ty=0;colors();paint(2.4);
+  }
+  function paint(t){
+    const hm=g*.5;
+    for(let i=0;i<n;i++){
+      const w=.5+.5*Math.sin(Math.hypot(PX[i]-O.x,PY[i]-O.y)/LAM-t);
+      if(IN[i]){HS[i]=(.66+.5*w)*hm;BK[i]=5+Math.min(4,Math.floor(w*4.99));TH[i]=0;}
+      else{HS[i]=(.12+.58*w*w+.1*w)*hm;BK[i]=Math.min(4,Math.floor(w*4.99));TH[i]=w*1.5708;}
+    }
+    ctx.clearRect(0,0,W,H);
+    for(let b=0;b<10;b++){
+      ctx.globalAlpha=A[b];ctx.fillStyle=b<5?COL[0]:COL[1];ctx.beginPath();
+      for(let i=0;i<n;i++){
+        if(BK[i]!==b)continue;
+        const x=PX[i],y=PY[i],a=HS[i]*Math.cos(TH[i]),s=HS[i]*Math.sin(TH[i]);
+        ctx.moveTo(x-a+s,y-s-a);ctx.lineTo(x+a+s,y+s-a);ctx.lineTo(x+a-s,y+s+a);ctx.lineTo(x-a-s,y-s+a);ctx.closePath();
+      }
+      ctx.fill();
+    }
+    ctx.globalAlpha=1;
+  }
+  function loop(now){
+    const t=(now-t0)/1000;
+    // בלי סמן נקודת המוצא נודדת לאט לאורך הקצה העליון, מהפינה של צד ההתחלה פנימה
+    if(!O.on){O.tx=(rtl?W:0)+(rtl?-1:1)*(.5+.5*Math.sin(t*.22))*W*.12;O.ty=H*.02;}
+    O.x+=(O.tx-O.x)*.07;O.y+=(O.ty-O.y)*.07;
+    paint(t*3);
+    raf=running?requestAnimationFrame(loop):0;
+  }
+  function sync(){running=!reduced&&vis&&!document.hidden;if(running&&!raf)raf=requestAnimationFrame(loop);}
+  const at=e=>{const r=field.getBoundingClientRect();O.tx=e.clientX-r.left;O.ty=e.clientY-r.top;O.on=true;};
+  field.addEventListener("pointermove",e=>{if(e.pointerType!=="touch")at(e);});
+  field.addEventListener("pointerdown",e=>{if(!reduced)at(e);});
+  field.addEventListener("pointerleave",()=>{O.on=false;});
+  field.addEventListener("pointerup",e=>{if(e.pointerType==="touch")O.on=false;});
+  document.addEventListener("visibilitychange",sync);
+  (document.fonts&&document.fonts.ready||Promise.resolve()).then(()=>{
+    build();
+    new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis){field.classList.add("is-on");colors();}sync();},{rootMargin:"20% 0px"}).observe(field);
+    ro=new ResizeObserver(()=>{build();});ro.observe(field);
+    if(reduced)field.classList.add("is-on");   // פריים אחד, בלי לולאה
+  });
+})();
+</script>
+</body>
+</html>

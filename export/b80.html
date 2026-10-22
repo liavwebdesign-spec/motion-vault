@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B80 · פאנל סליידרים שמשנה את התמונה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B80 · פאנל סליידרים שמשנה את התמונה */
+.sp{--to:to left;--br:1;--hue:0deg;position:relative;max-width:1040px;margin-inline:auto;isolation:isolate}
+.sp:dir(ltr){--to:to right}
+.sp-glow{position:absolute;inset:-12% -6%;z-index:-1;border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent, #4a3aff) 62%,transparent) 55%,transparent 100%);filter:hue-rotate(var(--hue)) blur(32px)}
+.sp-view{margin:0;position:relative;aspect-ratio:16/10;overflow:hidden;border-radius:24px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 28px 64px color-mix(in srgb,var(--ink, #16182b) 14%,transparent)}
+.sp-stack{position:absolute;inset:0;filter:brightness(var(--br))}
+.sp-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sp-img.k0{filter:sepia(.3) hue-rotate(168deg) saturate(1.05) brightness(1.04)}
+.sp-img.k2{filter:sepia(.5) saturate(1.35) hue-rotate(-10deg)}
+.sp-img.k3{filter:sepia(.7) saturate(1.6) hue-rotate(-24deg) brightness(.66) contrast(1.1)}
+.sp-panel{position:absolute;inset-block-end:24px;inset-inline-start:24px;width:min(352px,44%);display:grid;gap:14px;padding:20px;border-radius:20px;color:var(--ink, #16182b);background:color-mix(in srgb,var(--card, #fff) 72%,transparent);-webkit-backdrop-filter:blur(18px) saturate(1.5);backdrop-filter:blur(18px) saturate(1.5);box-shadow:0 0 0 1px color-mix(in srgb,var(--card, #fff) 80%,transparent),0 20px 48px color-mix(in srgb,var(--ink, #16182b) 18%,transparent)}
+.sp-panel h2{margin:0;font-size:20px;font-weight:700;line-height:1.2}
+.sp-panel p{margin:0;color:var(--muted, #6a6d85);font-size:15px;line-height:1.5}
+.sp-row{display:grid;grid-template-columns:1fr auto;align-items:baseline;gap:0 12px}
+.sp-row label{font-size:15px;font-weight:600}
+.sp-row output{display:inline-flex;align-items:center;gap:8px;min-width:48px;justify-content:flex-end;font-size:15px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}
+.sp-row input{grid-column:1/-1}
+.sp-dot{display:block;width:14px;height:14px;border-radius:50%;background:var(--accent, #4a3aff);filter:hue-rotate(var(--hue))}
+.sp input[type=range]{--p:50%;-webkit-appearance:none;appearance:none;width:100%;height:36px;margin:0;background:transparent;cursor:pointer;border-radius:99px}
+.sp input[type=range]::-webkit-slider-runnable-track{height:8px;border-radius:99px;background:linear-gradient(var(--to),var(--accent, #4a3aff) var(--p),color-mix(in srgb,var(--ink, #16182b) 18%,transparent) var(--p))}
+.sp input[type=range]::-moz-range-track{height:8px;border-radius:99px;background:linear-gradient(var(--to),var(--accent, #4a3aff) var(--p),color-mix(in srgb,var(--ink, #16182b) 18%,transparent) var(--p))}
+.sp input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:24px;height:24px;margin-top:-8px;border:0;border-radius:50%;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 2px 8px color-mix(in srgb,var(--ink, #16182b) 28%,transparent)}
+.sp input[type=range]::-moz-range-thumb{width:24px;height:24px;border:0;border-radius:50%;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 2px 8px color-mix(in srgb,var(--ink, #16182b) 28%,transparent)}
+.sp input[type=range]:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.sp input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 3px var(--card, #fff),0 0 0 6px var(--accent, #4a3aff)}
+.sp input[type=range]:focus-visible::-moz-range-thumb{box-shadow:0 0 0 3px var(--card, #fff),0 0 0 6px var(--accent, #4a3aff)}
+.sp .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:767px){.sp-view{aspect-ratio:4/3;border-radius:20px 20px 0 0}.sp-panel{position:relative;inset:auto;width:auto;margin-top:0;border-radius:0 0 20px 20px;background:var(--card, #fff);-webkit-backdrop-filter:none;backdrop-filter:none}.sp-glow{inset:-6% -4%}}
+</style>
+</head>
+<body>
+
+<div class="stage"><section class="sp" aria-labelledby="sp-h">
+  <div class="sp-glow" aria-hidden="true"></div>
+  <figure class="sp-view">
+    <div class="sp-stack">
+      <img class="sp-img k0" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s02/night-room.webp" alt="חדר שינה לבן עם מיטה מוצעת ושתי מנורות קש תלויות" width="2000" height="1333" loading="lazy" decoding="async" style="opacity:1">
+      <img class="sp-img k1" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s02/night-room.webp" alt="" aria-hidden="true" width="2000" height="1333" loading="lazy" decoding="async" style="opacity:1">
+      <img class="sp-img k2" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s02/night-room.webp" alt="" aria-hidden="true" width="2000" height="1333" loading="lazy" decoding="async" style="opacity:0">
+      <img class="sp-img k3" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s02/night-room.webp" alt="" aria-hidden="true" width="2000" height="1333" loading="lazy" decoding="async" style="opacity:0">
+    </div>
+  </figure>
+  <div class="sp-panel" role="group" aria-labelledby="sp-h">
+    <div><h2 id="sp-h">איך החדר ייראה בערב</h2><p>מזיזים את המחוונים ורואים את התאורה משתנה, עוד לפני שמזמינים.</p></div>
+    <div class="sp-row"><label for="sp-v">גוון האור</label><output id="sp-vo" for="sp-v">טבעי</output><input id="sp-v" type="range" min="0" max="300" step="1" value="100" aria-valuetext="טבעי" style="--p:33.33%"></div>
+    <div class="sp-row"><label for="sp-b">עוצמה</label><output id="sp-bo" for="sp-b">100%</output><input id="sp-b" type="range" min="0" max="100" step="1" value="50" style="--p:50%"></div>
+    <div class="sp-row"><label for="sp-g">גוון הזוהר</label><output id="sp-go" for="sp-g"><i class="sp-dot" aria-hidden="true"></i></output><input id="sp-g" type="range" min="0" max="100" step="1" value="50" style="--p:50%"></div>
+  </div>
+</section></div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+(function(){
+  const root=document.querySelector(".sp");
+  if(!root)return;
+  const L=[...root.querySelectorAll(".sp-img")].slice(1);                 // השכבות שמתמזגות מעל הבסיס
+  const inV=root.querySelector("#sp-v"),inB=root.querySelector("#sp-b"),inG=root.querySelector("#sp-g");
+  const outV=root.querySelector("#sp-vo"),outB=root.querySelector("#sp-bo");
+  const NAMES=["קריר","טבעי","חם","ערב"];
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)");
+  const smooth=typeof gsap!=="undefined"&&!reduce.matches;               // בלי GSAP או בהפחתת תנועה: שינוי מיידי
+  const cur={v:+inV.value,b:+inB.value,g:+inG.value};                     // המצב המוצג (מוחלק), לא הערך של הפקד
+  function paint(){
+    L.forEach((im,k)=>{im.style.opacity=Math.max(0,Math.min(1,cur.v/100-k)).toFixed(3);});
+    root.style.setProperty("--br",(.6+cur.b/100*.8).toFixed(3));
+    root.style.setProperty("--hue",((cur.g-50)*2.4).toFixed(1)+"deg");
+  }
+  function labels(){                                                      // תוויות ומילוי מסלול: תמיד מהערך האמיתי, בלי השהיה
+    const i=Math.max(0,Math.min(NAMES.length-1,Math.round(inV.value/100)));
+    outV.textContent=NAMES[i];inV.setAttribute("aria-valuetext",NAMES[i]);
+    outB.textContent=Math.round((.6+inB.value/100*.8)*100)+"%";
+    [inV,inB,inG].forEach(el=>el.style.setProperty("--p",((el.value-el.min)/(el.max-el.min)*100).toFixed(2)+"%"));
+  }
+  const q=smooth?{
+    "sp-v":gsap.quickTo(cur,"v",{duration:.55,ease:"power3.out",onUpdate:paint}),
+    "sp-b":gsap.quickTo(cur,"b",{duration:.55,ease:"power3.out",onUpdate:paint}),
+    "sp-g":gsap.quickTo(cur,"g",{duration:.55,ease:"power3.out",onUpdate:paint})}:null;
+  const key={"sp-v":"v","sp-b":"b","sp-g":"g"};
+  let intro=null;
+  const stopIntro=()=>{if(intro){intro.kill();intro=null;}};
+  root.addEventListener("input",e=>{
+    stopIntro();labels();
+    const k=key[e.target.id];if(!k)return;
+    if(q)q[e.target.id](+e.target.value);else{cur[k]=+e.target.value;paint();}
+  });
+  ["pointerdown","keydown"].forEach(t=>root.addEventListener(t,stopIntro));
+  // הדגמה עצמית אחת בכניסה למסך: המחוונים זזים וחוזרים לברירת המחדל, ונעצרים בנגיעה הראשונה
+  if(smooth&&"IntersectionObserver" in window){
+    const sync=()=>{inV.value=cur.v;inB.value=cur.b;inG.value=cur.g;labels();paint();};
+    const io=new IntersectionObserver(es=>{
+      if(!es.some(e=>e.isIntersecting))return;
+      io.disconnect();
+      intro=gsap.timeline({delay:.5,onUpdate:sync,onComplete:()=>{intro=null;}})
+        .to(cur,{v:250,duration:1.4,ease:"power2.inOut"})
+        .to(cur,{b:78,g:82,duration:1,ease:"power2.inOut"},"-=.4")
+        .to(cur,{v:100,b:50,g:50,duration:1.3,ease:"power2.inOut"},"+=.3");
+    },{threshold:.45});
+    io.observe(root);
+  }
+  labels();paint();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G169 · אותו איור עובר בין עונות עם חלקיקים | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.se{position:relative;max-width:none}
+.se-pin{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:16px;padding:20px var(--gutter);box-sizing:border-box}
+.se-hd{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px}
+.se-hd h2{margin:0;font-size:clamp(20px,2.2vw,28px);font-weight:700;line-height:1.3;color:var(--ink)}
+.se-tabs{display:flex;gap:8px}
+.se-tab{padding:6px 16px;border-radius:99px;box-shadow:inset 0 0 0 1px var(--line);color:var(--muted);font-size:14px;font-weight:600;line-height:1.5}
+.se-tab.on{background:var(--accent);color:var(--accent-ink);box-shadow:none}
+.se-art{position:relative;isolation:isolate;overflow:hidden;border-radius:24px;aspect-ratio:16/9;max-height:72vh;max-height:72svh;background:var(--card);box-shadow:0 0 0 1px var(--line)}
+.se-l{position:absolute;inset:0;--sk1:#bfe3f7;--sk2:#f1faff;--sun:#ffe58f;--suno:.95;--cloud:#fff;--h1:#b9dfbd;--h2:#9bd3a3;--fd:#86c98d;--wall:#f8f0e4;--wall2:#e6d9c5;--roof:#bd5a42;--door:#5f4f78;--win:#fff3cf;--glowo:.12;--steamo:0;--snowo:0;--trunk:#7c5b3d;--fol:#f5bccb;--folo:1;--baro:0;--pine:#3f8060;--flo:#fff;--floo:1;--fence:#fffaf2}
+.se-l.su{--sk1:#6fbcf0;--sk2:#d6efff;--sun:#ffd43b;--suno:1;--h1:#86c98a;--h2:#5fb36a;--fd:#49a65a;--wall:#fbf3e7;--wall2:#e8dcc8;--roof:#b3513a;--door:#3f6b8a;--win:#fff0c0;--glowo:0;--fol:#3e9a4e;--pine:#2f7650;--flo:#ffd84a;--fence:#fff}
+.se-l.au{--sk1:#f2b98a;--sk2:#fde9d0;--sun:#ff9f52;--cloud:#fff3e6;--h1:#dfae72;--h2:#c78d4f;--fd:#c9a35a;--wall:#f6ebdc;--wall2:#e1d0b8;--roof:#9e4631;--door:#6a3f2c;--win:#ffdf8f;--glowo:.5;--steamo:.55;--trunk:#6e4b30;--fol:#e5792b;--baro:.3;--pine:#4a6f4c;--floo:0;--fence:#f3e3cc}
+.se-l.wi{--sk1:#7d93b3;--sk2:#c9d6e6;--sun:#eef3f9;--suno:.5;--cloud:#e9eff7;--h1:#d3deec;--h2:#bccbe0;--fd:#eef4fb;--wall:#f2ebe0;--wall2:#ddd2bf;--roof:#8c3f2d;--door:#4e3a30;--win:#ffd573;--glowo:1;--steamo:.9;--snowo:1;--trunk:#5f4630;--folo:0;--baro:1;--pine:#2f5a4a;--floo:0;--fence:#fff}
+.se-sky{position:absolute;inset:0;background:linear-gradient(to bottom,var(--sk1),var(--sk2))}
+.se-l svg{position:absolute;inset:0;display:block;width:100%;height:100%}
+.se-l .sun{fill:var(--sun);opacity:var(--suno)}
+.se-l .halo{fill:var(--sun);opacity:calc(var(--suno) * .25)}
+
+.se-l .cloud{fill:var(--cloud);opacity:.85}
+.se-l .h1{fill:var(--h1)}
+.se-l .h2{fill:var(--h2)}
+.se-l .fd{fill:var(--fd)}
+.se-l .flo{fill:var(--flo);opacity:var(--floo)}
+.se-l .fence{fill:var(--fence)}
+.se-l .tk{fill:var(--trunk)}
+.se-l .br{fill:none;stroke:var(--trunk);stroke-width:5;stroke-linecap:round;opacity:var(--baro)}
+.se-l .fol{fill:var(--fol);opacity:var(--folo)}
+.se-l .pine path{fill:var(--pine)}
+.se-l .wall{fill:var(--wall)}
+.se-l .wall2{fill:var(--wall2)}
+.se-l .roof{fill:var(--roof)}
+.se-l .snow{fill:#fff;opacity:var(--snowo)}
+.se-l .door{fill:var(--door)}
+.se-l .win{fill:var(--win)}
+.se-l .glow{opacity:var(--glowo)}
+.se-l .glow circle{fill:var(--win)}
+.se-l .steam{opacity:var(--steamo)}
+.se-l .steam circle{fill:#fff;opacity:0;transform-box:fill-box;transform-origin:center}
+.se.is-live .se-l .steam circle{animation:se-steam 3.6s linear infinite}
+@keyframes se-steam{0%{opacity:0;transform:translate(0,0) scale(.6)}25%{opacity:.8}100%{opacity:0;transform:translate(10px,-46px) scale(1.7)}}
+.se-cv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.se-foot{display:grid}
+.se-cap{grid-area:1/1;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+.se-cap:not(:first-child){opacity:0}
+.se-cap b{font-size:clamp(24px,3vw,36px);font-weight:700;line-height:1.2;color:var(--ink)}
+.se-cap span{font-size:var(--fs-body);line-height:1.5;color:var(--muted)}
+.se.is-live{height:340vh}
+.se.is-live .se-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.se.is-live .se-art{aspect-ratio:auto;max-height:none;height:100%}
+.se .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:767px),(max-aspect-ratio:1/1){
+  .se-pin{grid-template-rows:auto auto auto;align-content:center;gap:12px}
+  .se-art,.se.is-live .se-art{aspect-ratio:1/1;max-height:none;height:auto}
+  .se-l .ta{translate:90px 0}.se-l .tb{translate:-76px 0}.se-l .pine{translate:-40px 0}.se-l .sun,.se-l .halo{translate:-96px 0}
+}
+@media(max-width:767px){.se-tab{padding:4px 12px;font-size:13px}.se-tabs{gap:6px}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g168.html" rel="prev" title="הקודם: מצלמה שעפה לאורך עמוד בפרספקטיבה">→<span class="sr-only">הקודם</span></a><span class="vpn-n">145/162</span><a href="g170.html" rel="next" title="הבא: חלקים שמתכנסים ונעולים למוצר אחד">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G169</span> · אותו איור עובר בין עונות עם חלקיקים</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · שכבות SVG · canvas</span>
+  <span class="vchip use">תמונות וגלריות</span><span class="vchip use">רקע ואווירה</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g169"><code>MV:g169</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g169">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>איור נוף אחד של בית עם חצר, בארבע שכבות מוערמות שמתחלפות בגלילה: אביב בפריחה, קיץ ירוק, סתיו כתום והעצים מתפשטים, חורף עם שדה לבן. מעל האיור חלקיקים שמתחלפים עם העונה, עלי כותרת, אבקה, עלים ושלג, והאור בחלון ואדי הארובה מתחזקים ככל שהיום קצר יותר.</p>
+  <p class="when"><b>מתי משתמשים:</b> סקשן שמספר סיפור שנמשך לאורך השנה, כמו גינון ותחזוקה, אירוח, אירועים או כל שירות שהעבודה בו חוזרת בכל עונה. מתאים כשצריך להסביר ללקוח שהקשר לא נגמר אחרי הביקור הראשון, וכשיש איור או צילום אחד שאפשר לצבוע מחדש בשלושה או ארבעה מצבים. לא כשהסיפור לא משתנה בין המצבים, ולא באתר שמרני. פעם אחת בעמוד.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>אתר תדמית · וואן-פייג'ר · פורטפוליו וסטודיו</dd></div><div><dt>בסקשן</dt><dd>נשימה ומעבר · אודות וצוות · מאמר ותוכן ארוך</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשהסיפור לא באמת משתנה בין מצבים (עונות, לפני ואחרי, בוקר וערב), לא בלי איור או צילום בכל מצב, ולא באתר שמרני.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g169"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage tight"><section class="se" aria-labelledby="se-h">
+  <div class="se-pin">
+    <header class="se-hd">
+      <h2 id="se-h">גינה שמתוחזקת כל השנה</h2>
+      <div class="se-tabs" aria-hidden="true"><span class="se-tab on">אביב</span><span class="se-tab">קיץ</span><span class="se-tab">סתיו</span><span class="se-tab">חורף</span></div>
+    </header>
+    <div class="se-art" aria-hidden="true">
+      <div class="se-l sp">
+        <div class="se-sky"></div>
+        <svg viewBox="0 0 1000 560" preserveAspectRatio="xMidYMax slice" focusable="false">
+          <circle class="halo" cx="790" cy="118" r="78"/>
+          <circle class="sun" cx="790" cy="118" r="46"/>
+          <g class="cloud"><ellipse cx="220" cy="110" rx="70" ry="20"/><ellipse cx="262" cy="96" rx="44" ry="20"/><ellipse cx="640" cy="70" rx="56" ry="15"/><ellipse cx="672" cy="60" rx="34" ry="14"/></g>
+          <path class="h1" d="M0 360C140 300 260 310 380 345S620 330 760 300S920 320 1000 340V560H0Z"/>
+          <path class="h2" d="M0 400C120 360 260 372 400 395S700 380 840 360S960 372 1000 380V560H0Z"/>
+          <g class="tc" transform="translate(66 178) scale(.6)"><rect class="tk" x="-8" y="320" width="16" height="124" rx="6"/><path class="br" d="M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296"/><g class="fol"><circle cx="0" cy="282" r="54"/><circle cx="-42" cy="316" r="40"/><circle cx="44" cy="314" r="42"/><circle cx="0" cy="318" r="44"/></g></g>
+          <g class="td" transform="translate(930 151) scale(.66)"><rect class="tk" x="-8" y="320" width="16" height="124" rx="6"/><path class="br" d="M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296"/><g class="fol"><circle cx="0" cy="282" r="54"/><circle cx="-42" cy="316" r="40"/><circle cx="44" cy="314" r="42"/><circle cx="0" cy="318" r="44"/></g></g>
+          <path class="fd" d="M0 452C200 430 380 438 520 448S820 442 1000 432V560H0Z"/>
+          <g class="flo"><circle cx="140" cy="486" r="4"/><circle cx="232" cy="504" r="4"/><circle cx="320" cy="478" r="4"/><circle cx="610" cy="492" r="4"/><circle cx="690" cy="480" r="4"/><circle cx="770" cy="500" r="4"/><circle cx="880" cy="484" r="4"/><circle cx="110" cy="516" r="4"/><circle cx="410" cy="520" r="4"/><circle cx="560" cy="510" r="4"/><circle cx="840" cy="520" r="4"/><circle cx="480" cy="530" r="4"/></g>
+          <g class="ta" transform="translate(190 0)"><rect class="tk" x="-8" y="320" width="16" height="124" rx="6"/><path class="br" d="M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296"/><g class="fol"><circle cx="0" cy="282" r="54"/><circle cx="-42" cy="316" r="40"/><circle cx="44" cy="314" r="42"/><circle cx="0" cy="318" r="44"/></g></g>
+          <g class="pine" transform="translate(690 0)"><rect class="tk" x="-5" y="410" width="10" height="34"/><path d="M0 292L-34 352H34ZM0 322L-42 390H42ZM0 354L-52 428H52Z"/></g>
+          <g class="tb" transform="translate(810 62) scale(.86)"><rect class="tk" x="-8" y="320" width="16" height="124" rx="6"/><path class="br" d="M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296"/><g class="fol"><circle cx="0" cy="282" r="54"/><circle cx="-42" cy="316" r="40"/><circle cx="44" cy="314" r="42"/><circle cx="0" cy="318" r="44"/></g></g>
+          <g class="fence"><rect x="232" y="434" width="122" height="4"/><rect x="236" y="424" width="6" height="28"/><rect x="272" y="424" width="6" height="28"/><rect x="308" y="424" width="6" height="28"/><rect x="344" y="424" width="6" height="28"/></g>
+          <g class="lamp"><rect class="tk" x="378" y="378" width="5" height="64"/><circle class="win" cx="380.5" cy="372" r="9"/><g class="glow"><circle cx="380" cy="372" r="46" fill-opacity=".14"/><circle cx="380" cy="372" r="30" fill-opacity=".2"/><circle cx="380" cy="372" r="18" fill-opacity=".3"/></g></g>
+          <rect class="wall2" x="548" y="262" width="22" height="46" rx="2"/>
+          <rect class="wall" x="410" y="330" width="180" height="112" rx="4"/>
+          <path class="roof" d="M394 334L500 260L606 334Z"/>
+          <path class="snow" d="M402 330L500 262L598 330L586 330L500 274L414 330Z"/>
+          <rect class="wall2" x="545" y="258" width="28" height="8" rx="2"/>
+          <rect class="door" x="482" y="380" width="36" height="62" rx="5"/>
+          <rect class="win" x="428" y="360" width="36" height="36" rx="4"/>
+          <rect class="win" x="536" y="360" width="36" height="36" rx="4"/>
+          <path class="wall2" d="M446 360V396M428 378H464M554 360V396M536 378H572"/>
+          <g class="glow"><circle cx="554" cy="378" r="58" fill-opacity=".12"/><circle cx="554" cy="378" r="40" fill-opacity=".18"/><circle cx="554" cy="378" r="24" fill-opacity=".28"/></g>
+          <g class="steam"><circle cx="559" cy="246" r="7"/><circle cx="562" cy="246" r="6" style="animation-delay:-1.2s"/><circle cx="557" cy="246" r="7" style="animation-delay:-2.4s"/></g>
+        </svg>
+      </div>
+    </div>
+    <div class="se-foot" aria-hidden="true">
+      <div class="se-cap"><b>אביב</b><span>שתילה ובדיקה של מערכת ההשקיה.</span></div>
+      <div class="se-cap"><b>קיץ</b><span>גיזום קל והשקיה שמותאמת לימים החמים.</span></div>
+      <div class="se-cap"><b>סתיו</b><span>איסוף עלים וניקוז לפני הגשמים הראשונים.</span></div>
+      <div class="se-cap"><b>חורף</b><span>הגנה על צמחים רגישים ותאורה שנדלקת מוקדם.</span></div>
+    </div>
+    <ul class="sr-only"><li>אביב: שתילה ובדיקה של מערכת ההשקיה.</li><li>קיץ: גיזום קל והשקיה שמותאמת לימים החמים.</li><li>סתיו: איסוף עלים וניקוז לפני הגשמים הראשונים.</li><li>חורף: הגנה על צמחים רגישים ותאורה שנדלקת מוקדם.</li></ul>
+  </div>
+</section></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: איור שטוח אחד של כפר שעובר בין עונות, עם עלווה שמכתימה בכתום, עצים שמשילים עלים, שדות שמלבינים וחלקיקים שמתחלפים מעלי כותרת לעלים ולשלג (21.10.2026). נבנה מאפס מהצפייה. <b>המבנה:</b> <code>.se-art</code> מחזיק ארבע שכבות <code>.se-l</code> זו על זו, וכל אחת היא עותק מלא של אותו איור עם מחלקת עונה (<code>sp</code>, <code>su</code>, <code>au</code>, <code>wi</code>). הצבעים, השמש, הזוהר בחלון, האדים והשלג הם משתני CSS על מחלקת העונה, ולכן הוספת עונה היא עוד בלוק צבעים ולא עוד איור. ב-HTML נמצאת רק העונה הראשונה, ו-JS משכפל אותה בעת ההרצה. <b>ההחלפה:</b> שכבה חדשה מתגלה ב-opacity מעל הקודמת, בין <code>s = k + .3</code> ל-<code>s = k + .7</code>, כך שהשכבות שמתחת נשארות מלאות ואין שום רגע של שקיפות כפולה. השמיים הם <code>linear-gradient</code> ב-HTML ולא מעבר צבע בתוך ה-SVG, כי מעבר צבע בתוך ה-SVG משתכפל עם אותו מזהה ויקבל את הצבעים של העותק הראשון. <b>החלקיקים:</b> <code>canvas</code> אחד מעל האיור עם ארבעה מאגרים (כ-34, 26, 32 ו-80 חלקיקים, ופחות במסך קטן). משקל כל מאגר נגזר מאותה אטימות של השכבות, ומאגר שמשקלו נמוך מ-2 אחוזים לא מצויר ולא מתקדם. הציור דל: סיבוב ב-<code>setTransform</code>, בלי מסננים. הוא מתחשב ב-<code>devicePixelRatio</code> עד 2, מוסר מה-ticker של GSAP כשהאיור מחוץ למסך (<code>IntersectionObserver</code>) ומשנה גודל עם <code>ResizeObserver</code>. <b>הכיתוב:</b> ארבע שורות מוערמות באותה תא רשת, שנעלמות ונכנסות בזו אחר זו עם הפסקה קצרה ביניהן כדי שלא ייראו שתי שורות על גבי שתיים. הרשימה המלאה גם נמצאת ב-<code>sr-only</code>. <b>הצבעים:</b> צבעי האיור עצמו (שמיים, עלווה, שלג) כתובים ישירות, כי הם חלק מהנוף ולא מהערכה של האתר, וכל השאר (כותרת, לשוניות, מסגרת) נשאר בטוקנים. כשמחליפים את האיור באיור אחר, מחליפים רק את גוף ה-SVG ואת בלוקי הצבעים. <b>מצב סטטי:</b> בלי GSAP ובהפחתת תנועה רואים את האביב בלבד, בלי חלקיקים. <b>כיוון:</b> האיור אינו תלוי בכיוון, והלשוניות והכיתוב מתהפכים לבד עם <code>dir</code>.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g169.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G169 · אותו איור עובר בין עונות עם חלקיקים */
+.se{position:relative;max-width:none}
+.se-pin{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:16px;padding:20px var(--gutter, clamp(24px, 5vw, 96px));box-sizing:border-box}
+.se-hd{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px}
+.se-hd h2{margin:0;font-size:clamp(20px,2.2vw,28px);font-weight:700;line-height:1.3;color:var(--ink, #16182b)}
+.se-tabs{display:flex;gap:8px}
+.se-tab{padding:6px 16px;border-radius:99px;box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);color:var(--muted, #6a6d85);font-size:14px;font-weight:600;line-height:1.5}
+.se-tab.on{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);box-shadow:none}
+.se-art{position:relative;isolation:isolate;overflow:hidden;border-radius:24px;aspect-ratio:16/9;max-height:72vh;max-height:72svh;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee)}
+.se-l{position:absolute;inset:0;--sk1:#bfe3f7;--sk2:#f1faff;--sun:#ffe58f;--suno:.95;--cloud:#fff;--h1:#b9dfbd;--h2:#9bd3a3;--fd:#86c98d;--wall:#f8f0e4;--wall2:#e6d9c5;--roof:#bd5a42;--door:#5f4f78;--win:#fff3cf;--glowo:.12;--steamo:0;--snowo:0;--trunk:#7c5b3d;--fol:#f5bccb;--folo:1;--baro:0;--pine:#3f8060;--flo:#fff;--floo:1;--fence:#fffaf2}
+.se-l.su{--sk1:#6fbcf0;--sk2:#d6efff;--sun:#ffd43b;--suno:1;--h1:#86c98a;--h2:#5fb36a;--fd:#49a65a;--wall:#fbf3e7;--wall2:#e8dcc8;--roof:#b3513a;--door:#3f6b8a;--win:#fff0c0;--glowo:0;--fol:#3e9a4e;--pine:#2f7650;--flo:#ffd84a;--fence:#fff}
+.se-l.au{--sk1:#f2b98a;--sk2:#fde9d0;--sun:#ff9f52;--cloud:#fff3e6;--h1:#dfae72;--h2:#c78d4f;--fd:#c9a35a;--wall:#f6ebdc;--wall2:#e1d0b8;--roof:#9e4631;--door:#6a3f2c;--win:#ffdf8f;--glowo:.5;--steamo:.55;--trunk:#6e4b30;--fol:#e5792b;--baro:.3;--pine:#4a6f4c;--floo:0;--fence:#f3e3cc}
+.se-l.wi{--sk1:#7d93b3;--sk2:#c9d6e6;--sun:#eef3f9;--suno:.5;--cloud:#e9eff7;--h1:#d3deec;--h2:#bccbe0;--fd:#eef4fb;--wall:#f2ebe0;--wall2:#ddd2bf;--roof:#8c3f2d;--door:#4e3a30;--win:#ffd573;--glowo:1;--steamo:.9;--snowo:1;--trunk:#5f4630;--folo:0;--baro:1;--pine:#2f5a4a;--floo:0;--fence:#fff}
+.se-sky{position:absolute;inset:0;background:linear-gradient(to bottom,var(--sk1),var(--sk2))}
+.se-l svg{position:absolute;inset:0;display:block;width:100%;height:100%}
+.se-l .sun{fill:var(--sun);opacity:var(--suno)}
+.se-l .halo{fill:var(--sun);opacity:calc(var(--suno) * .25)}
+
+.se-l .cloud{fill:var(--cloud);opacity:.85}
+.se-l .h1{fill:var(--h1)}
+.se-l .h2{fill:var(--h2)}
+.se-l .fd{fill:var(--fd)}
+.se-l .flo{fill:var(--flo);opacity:var(--floo)}
+.se-l .fence{fill:var(--fence)}
+.se-l .tk{fill:var(--trunk)}
+.se-l .br{fill:none;stroke:var(--trunk);stroke-width:5;stroke-linecap:round;opacity:var(--baro)}
+.se-l .fol{fill:var(--fol);opacity:var(--folo)}
+.se-l .pine path{fill:var(--pine)}
+.se-l .wall{fill:var(--wall)}
+.se-l .wall2{fill:var(--wall2)}
+.se-l .roof{fill:var(--roof)}
+.se-l .snow{fill:#fff;opacity:var(--snowo)}
+.se-l .door{fill:var(--door)}
+.se-l .win{fill:var(--win)}
+.se-l .glow{opacity:var(--glowo)}
+.se-l .glow circle{fill:var(--win)}
+.se-l .steam{opacity:var(--steamo)}
+.se-l .steam circle{fill:#fff;opacity:0;transform-box:fill-box;transform-origin:center}
+.se.is-live .se-l .steam circle{animation:se-steam 3.6s linear infinite}
+@keyframes se-steam{0%{opacity:0;transform:translate(0,0) scale(.6)}25%{opacity:.8}100%{opacity:0;transform:translate(10px,-46px) scale(1.7)}}
+.se-cv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.se-foot{display:grid}
+.se-cap{grid-area:1/1;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+.se-cap:not(:first-child){opacity:0}
+.se-cap b{font-size:clamp(24px,3vw,36px);font-weight:700;line-height:1.2;color:var(--ink, #16182b)}
+.se-cap span{font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.5;color:var(--muted, #6a6d85)}
+.se.is-live{height:340vh}
+.se.is-live .se-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.se.is-live .se-art{aspect-ratio:auto;max-height:none;height:100%}
+.se .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:767px),(max-aspect-ratio:1/1){
+  .se-pin{grid-template-rows:auto auto auto;align-content:center;gap:12px}
+  .se-art,.se.is-live .se-art{aspect-ratio:1/1;max-height:none;height:auto}
+  .se-l .ta{translate:90px 0}.se-l .tb{translate:-76px 0}.se-l .pine{translate:-40px 0}.se-l .sun,.se-l .halo{translate:-96px 0}
+}
+@media(max-width:767px){.se-tab{padding:4px 12px;font-size:13px}.se-tabs{gap:6px}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;section class="se" aria-labelledby="se-h"&gt;
+  &lt;div class="se-pin"&gt;
+    &lt;header class="se-hd"&gt;
+      &lt;h2 id="se-h"&gt;גינה שמתוחזקת כל השנה&lt;/h2&gt;
+      &lt;div class="se-tabs" aria-hidden="true"&gt;&lt;span class="se-tab on"&gt;אביב&lt;/span&gt;&lt;span class="se-tab"&gt;קיץ&lt;/span&gt;&lt;span class="se-tab"&gt;סתיו&lt;/span&gt;&lt;span class="se-tab"&gt;חורף&lt;/span&gt;&lt;/div&gt;
+    &lt;/header&gt;
+    &lt;div class="se-art" aria-hidden="true"&gt;
+      &lt;div class="se-l sp"&gt;
+        &lt;div class="se-sky"&gt;&lt;/div&gt;
+        &lt;svg viewBox="0 0 1000 560" preserveAspectRatio="xMidYMax slice" focusable="false"&gt;
+          &lt;circle class="halo" cx="790" cy="118" r="78"/&gt;
+          &lt;circle class="sun" cx="790" cy="118" r="46"/&gt;
+          &lt;g class="cloud"&gt;&lt;ellipse cx="220" cy="110" rx="70" ry="20"/&gt;&lt;ellipse cx="262" cy="96" rx="44" ry="20"/&gt;&lt;ellipse cx="640" cy="70" rx="56" ry="15"/&gt;&lt;ellipse cx="672" cy="60" rx="34" ry="14"/&gt;&lt;/g&gt;
+          &lt;path class="h1" d="M0 360C140 300 260 310 380 345S620 330 760 300S920 320 1000 340V560H0Z"/&gt;
+          &lt;path class="h2" d="M0 400C120 360 260 372 400 395S700 380 840 360S960 372 1000 380V560H0Z"/&gt;
+          &lt;g class="tc" transform="translate(66 178) scale(.6)"&gt;&lt;rect class="tk" x="-8" y="320" width="16" height="124" rx="6"/&gt;&lt;path class="br" d="M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296"/&gt;&lt;g class="fol"&gt;&lt;circle cx="0" cy="282" r="54"/&gt;&lt;circle cx="-42" cy="316" r="40"/&gt;&lt;circle cx="44" cy="314" r="42"/&gt;&lt;circle cx="0" cy="318" r="44"/&gt;&lt;/g&gt;&lt;/g&gt;
+          &lt;g class="td" transform="translate(930 151) scale(.66)"&gt;&lt;rect class="tk" x="-8" y="320" width="16" height="124" rx="6"/&gt;&lt;path class="br" d="M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296"/&gt;&lt;g class="fol"&gt;&lt;circle cx="0" cy="282" r="54"/&gt;&lt;circle cx="-42" cy="316" r="40"/&gt;&lt;circle cx="44" cy="314" r="42"/&gt;&lt;circle cx="0" cy="318" r="44"/&gt;&lt;/g&gt;&lt;/g&gt;
+          &lt;path class="fd" d="M0 452C200 430 380 438 520 448S820 442 1000 432V560H0Z"/&gt;
+          &lt;g class="flo"&gt;&lt;circle cx="140" cy="486" r="4"/&gt;&lt;circle cx="232" cy="504" r="4"/&gt;&lt;circle cx="320" cy="478" r="4"/&gt;&lt;circle cx="610" cy="492" r="4"/&gt;&lt;circle cx="690" cy="480" r="4"/&gt;&lt;circle cx="770" cy="500" r="4"/&gt;&lt;circle cx="880" cy="484" r="4"/&gt;&lt;circle cx="110" cy="516" r="4"/&gt;&lt;circle cx="410" cy="520" r="4"/&gt;&lt;circle cx="560" cy="510" r="4"/&gt;&lt;circle cx="840" cy="520" r="4"/&gt;&lt;circle cx="480" cy="530" r="4"/&gt;&lt;/g&gt;
+          &lt;g class="ta" transform="translate(190 0)"&gt;&lt;rect class="tk" x="-8" y="320" width="16" height="124" rx="6"/&gt;&lt;path class="br" d="M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296"/&gt;&lt;g class="fol"&gt;&lt;circle cx="0" cy="282" r="54"/&gt;&lt;circle cx="-42" cy="316" r="40"/&gt;&lt;circle cx="44" cy="314" r="42"/&gt;&lt;circle cx="0" cy="318" r="44"/&gt;&lt;/g&gt;&lt;/g&gt;
+          &lt;g class="pine" transform="translate(690 0)"&gt;&lt;rect class="tk" x="-5" y="410" width="10" height="34"/&gt;&lt;path d="M0 292L-34 352H34ZM0 322L-42 390H42ZM0 354L-52 428H52Z"/&gt;&lt;/g&gt;
+          &lt;g class="tb" transform="translate(810 62) scale(.86)"&gt;&lt;rect class="tk" x="-8" y="320" width="16" height="124" rx="6"/&gt;&lt;path class="br" d="M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296"/&gt;&lt;g class="fol"&gt;&lt;circle cx="0" cy="282" r="54"/&gt;&lt;circle cx="-42" cy="316" r="40"/&gt;&lt;circle cx="44" cy="314" r="42"/&gt;&lt;circle cx="0" cy="318" r="44"/&gt;&lt;/g&gt;&lt;/g&gt;
+          &lt;g class="fence"&gt;&lt;rect x="232" y="434" width="122" height="4"/&gt;&lt;rect x="236" y="424" width="6" height="28"/&gt;&lt;rect x="272" y="424" width="6" height="28"/&gt;&lt;rect x="308" y="424" width="6" height="28"/&gt;&lt;rect x="344" y="424" width="6" height="28"/&gt;&lt;/g&gt;
+          &lt;g class="lamp"&gt;&lt;rect class="tk" x="378" y="378" width="5" height="64"/&gt;&lt;circle class="win" cx="380.5" cy="372" r="9"/&gt;&lt;g class="glow"&gt;&lt;circle cx="380" cy="372" r="46" fill-opacity=".14"/&gt;&lt;circle cx="380" cy="372" r="30" fill-opacity=".2"/&gt;&lt;circle cx="380" cy="372" r="18" fill-opacity=".3"/&gt;&lt;/g&gt;&lt;/g&gt;
+          &lt;rect class="wall2" x="548" y="262" width="22" height="46" rx="2"/&gt;
+          &lt;rect class="wall" x="410" y="330" width="180" height="112" rx="4"/&gt;
+          &lt;path class="roof" d="M394 334L500 260L606 334Z"/&gt;
+          &lt;path class="snow" d="M402 330L500 262L598 330L586 330L500 274L414 330Z"/&gt;
+          &lt;rect class="wall2" x="545" y="258" width="28" height="8" rx="2"/&gt;
+          &lt;rect class="door" x="482" y="380" width="36" height="62" rx="5"/&gt;
+          &lt;rect class="win" x="428" y="360" width="36" height="36" rx="4"/&gt;
+          &lt;rect class="win" x="536" y="360" width="36" height="36" rx="4"/&gt;
+          &lt;path class="wall2" d="M446 360V396M428 378H464M554 360V396M536 378H572"/&gt;
+          &lt;g class="glow"&gt;&lt;circle cx="554" cy="378" r="58" fill-opacity=".12"/&gt;&lt;circle cx="554" cy="378" r="40" fill-opacity=".18"/&gt;&lt;circle cx="554" cy="378" r="24" fill-opacity=".28"/&gt;&lt;/g&gt;
+          &lt;g class="steam"&gt;&lt;circle cx="559" cy="246" r="7"/&gt;&lt;circle cx="562" cy="246" r="6" style="animation-delay:-1.2s"/&gt;&lt;circle cx="557" cy="246" r="7" style="animation-delay:-2.4s"/&gt;&lt;/g&gt;
+        &lt;/svg&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="se-foot" aria-hidden="true"&gt;
+      &lt;div class="se-cap"&gt;&lt;b&gt;אביב&lt;/b&gt;&lt;span&gt;שתילה ובדיקה של מערכת ההשקיה.&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="se-cap"&gt;&lt;b&gt;קיץ&lt;/b&gt;&lt;span&gt;גיזום קל והשקיה שמותאמת לימים החמים.&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="se-cap"&gt;&lt;b&gt;סתיו&lt;/b&gt;&lt;span&gt;איסוף עלים וניקוז לפני הגשמים הראשונים.&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="se-cap"&gt;&lt;b&gt;חורף&lt;/b&gt;&lt;span&gt;הגנה על צמחים רגישים ותאורה שנדלקת מוקדם.&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;ul class="sr-only"&gt;&lt;li&gt;אביב: שתילה ובדיקה של מערכת ההשקיה.&lt;/li&gt;&lt;li&gt;קיץ: גיזום קל והשקיה שמותאמת לימים החמים.&lt;/li&gt;&lt;li&gt;סתיו: איסוף עלים וניקוז לפני הגשמים הראשונים.&lt;/li&gt;&lt;li&gt;חורף: הגנה על צמחים רגישים ותאורה שנדלקת מוקדם.&lt;/li&gt;&lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשארת העונה הראשונה בלבד
+  const root=document.querySelector(".se"),art=root.querySelector(".se-art"),first=art.querySelector(".se-l"),
+    tabs=[...root.querySelectorAll(".se-tab")],caps=[...root.querySelectorAll(".se-cap")];
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    const names=["sp","su","au","wi"],layers=[first],W=[1,0,0,0],R=(a,b)=&gt;a+Math.random()*(b-a),sm=x=&gt;x*x*(3-2*x);
+    for(let k=1;k&lt;4;k++){const c=first.cloneNode(true);c.className="se-l "+names[k];art.appendChild(c);layers.push(c);}
+    const cv=document.createElement("canvas");cv.className="se-cv";cv.setAttribute("aria-hidden","true");art.appendChild(cv);
+    const ctx=cv.getContext("2d"),LEAF=["#d9702a","#c2501f","#e8a03a","#b5651d"];
+    let w=0,h=0,dpr=1,time=0,pools=[],on=false;
+    // ארבעה סוגי חלקיקים: עלי כותרת, אבקה, עלים, שלג
+    const mk=[
+      ()=&gt;({x0:R(0,w),y:R(0,h),r:R(3.5,6),v:R(24,44),sw:R(10,26),ph:R(0,6.28),sp:R(.6,1.4),rot:R(0,6.28),rs:R(-2,2),c:Math.random()&lt;.5?"#f7c4d2":"#fde3ea"}),
+      ()=&gt;({x0:R(0,w),y:R(0,h),r:R(1.2,2.6),v:-R(8,18),sw:R(8,22),ph:R(0,6.28),sp:R(.4,1),rot:0,rs:0,c:"#ffe08a"}),
+      ()=&gt;({x0:R(0,w),y:R(0,h),r:R(4,7),v:R(36,66),sw:R(14,34),ph:R(0,6.28),sp:R(.8,1.8),rot:R(0,6.28),rs:R(-3,3),c:LEAF[Math.floor(Math.random()*4)]}),
+      ()=&gt;({x0:R(0,w),y:R(0,h),r:R(1.4,3.4),v:R(26,58),sw:R(6,18),ph:R(0,6.28),sp:R(.5,1.2),rot:0,rs:0,c:"#fff"})
+    ];
+    function fit(){
+      const r=art.getBoundingClientRect();w=r.width;h=r.height;dpr=Math.min(devicePixelRatio||1,2);
+      cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+      const f=Math.max(.45,Math.min(1,w*h/450000));
+      pools=[34,26,32,80].map((n,k)=&gt;Array.from({length:Math.round(n*f)},()=&gt;mk[k]()));
+    }
+    function tick(t,dt){
+      const d=Math.min(dt,50)/1000;time+=d;ctx.clearRect(0,0,w,h);
+      for(let k=0;k&lt;4;k++){
+        if(W[k]&lt;.02)continue;
+        ctx.globalAlpha=W[k];
+        for(const p of pools[k]){
+          p.y+=p.v*d;
+          if(p.v&gt;0&amp;&amp;p.y&gt;h+12){p.y=-12;p.x0=R(0,w);}else if(p.v&lt;0&amp;&amp;p.y&lt;-12){p.y=h+12;p.x0=R(0,w);}
+          p.rot+=p.rs*d;
+          const x=p.x0+Math.sin(time*p.sp+p.ph)*p.sw;
+          ctx.fillStyle=p.c;ctx.beginPath();
+          if(k===1){ctx.globalAlpha=W[k]*(.5+.5*Math.sin(time*1.6+p.ph));ctx.arc(x,p.y,p.r,0,6.283);}
+          else if(k===3){ctx.arc(x,p.y,p.r,0,6.283);}
+          else{const c=Math.cos(p.rot)*dpr,s=Math.sin(p.rot)*dpr;ctx.setTransform(c,s,-s,c,x*dpr,p.y*dpr);ctx.ellipse(0,0,p.r*(k===2?1.5:1),p.r*(k===2?.75:.55),0,0,6.283);}
+          ctx.fill();ctx.setTransform(dpr,0,0,dpr,0,0);
+        }
+      }
+      ctx.globalAlpha=1;
+    }
+    fit();
+    const ro=new ResizeObserver(fit);ro.observe(art);
+    const io=new IntersectionObserver(e=&gt;{const v=e[0].isIntersecting;if(v&amp;&amp;!on){gsap.ticker.add(tick);on=true;}else if(!v&amp;&amp;on){gsap.ticker.remove(tick);on=false;}});io.observe(art);
+    // s עובר מ-0 עד 3: אביב, קיץ, סתיו, חורף. כל שכבה מתגלה בין k+.3 ל-k+.7
+    function draw(s){
+      const o=[1,0,0,0];
+      for(let k=1;k&lt;4;k++)o[k]=sm(Math.max(0,Math.min(1,(s-(k-1)-.3)/.4)));
+      const idx=Math.round(s);
+      for(let k=0;k&lt;4;k++){
+        layers[k].style.opacity=o[k];W[k]=o[k]*(k&lt;3?1-o[k+1]:1);
+        tabs[k].classList.toggle("on",k===idx);
+        const a=Math.max(0,Math.min(1,(.5-Math.abs(s-k))/.2));
+        caps[k].style.opacity=a;caps[k].style.transform="translateY("+((1-a)*10).toFixed(1)+"px)";
+      }
+    }
+    const st={s:0};
+    gsap.to(st,{s:3,ease:"none",onUpdate:()=&gt;draw(st.s),scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}});
+    draw(0);
+    return()=&gt;{
+      if(on){gsap.ticker.remove(tick);on=false;}
+      io.disconnect();ro.disconnect();
+      layers.slice(1).forEach(l=&gt;l.remove());cv.remove();first.style.opacity="";
+      tabs.forEach((t,k)=&gt;t.classList.toggle("on",k===0));
+      caps.forEach(c=&gt;{c.style.opacity="";c.style.transform="";});
+      root.classList.remove("is-live");
+    };
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g169 · אותו איור עובר בין עונות עם חלקיקים\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g169.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g169.html\n\nמה זה עושה: איור נוף אחד של בית עם חצר, בארבע שכבות מוערמות שמתחלפות בגלילה: אביב בפריחה, קיץ ירוק, סתיו כתום והעצים מתפשטים, חורף עם שדה לבן. מעל האיור חלקיקים שמתחלפים עם העונה, עלי כותרת, אבקה, עלים ושלג, והאור בחלון ואדי הארובה מתחזקים ככל שהיום קצר יותר.\nמתי משתמשים: סקשן שמספר סיפור שנמשך לאורך השנה, כמו גינון ותחזוקה, אירוח, אירועים או כל שירות שהעבודה בו חוזרת בכל עונה. מתאים כשצריך להסביר ללקוח שהקשר לא נגמר אחרי הביקור הראשון, וכשיש איור או צילום אחד שאפשר לצבוע מחדש בשלושה או ארבעה מצבים. לא כשהסיפור לא משתנה בין המצבים, ולא באתר שמרני. פעם אחת בעמוד.\nסוג אתר: אתר תדמית · וואן-פייג'ר · פורטפוליו וסטודיו\nבסקשן: נשימה ומעבר · אודות וצוות · מאמר ותוכן ארוך\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא כשהסיפור לא באמת משתנה בין מצבים (עונות, לפני ואחרי, בוקר וערב), לא בלי איור או צילום בכל מצב, ולא באתר שמרני.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G169 · אותו איור עובר בין עונות עם חלקיקים */\n.se{position:relative;max-width:none}\n.se-pin{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:16px;padding:20px var(--gutter, clamp(24px, 5vw, 96px));box-sizing:border-box}\n.se-hd{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px}\n.se-hd h2{margin:0;font-size:clamp(20px,2.2vw,28px);font-weight:700;line-height:1.3;color:var(--ink, #16182b)}\n.se-tabs{display:flex;gap:8px}\n.se-tab{padding:6px 16px;border-radius:99px;box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);color:var(--muted, #6a6d85);font-size:14px;font-weight:600;line-height:1.5}\n.se-tab.on{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);box-shadow:none}\n.se-art{position:relative;isolation:isolate;overflow:hidden;border-radius:24px;aspect-ratio:16/9;max-height:72vh;max-height:72svh;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee)}\n.se-l{position:absolute;inset:0;--sk1:#bfe3f7;--sk2:#f1faff;--sun:#ffe58f;--suno:.95;--cloud:#fff;--h1:#b9dfbd;--h2:#9bd3a3;--fd:#86c98d;--wall:#f8f0e4;--wall2:#e6d9c5;--roof:#bd5a42;--door:#5f4f78;--win:#fff3cf;--glowo:.12;--steamo:0;--snowo:0;--trunk:#7c5b3d;--fol:#f5bccb;--folo:1;--baro:0;--pine:#3f8060;--flo:#fff;--floo:1;--fence:#fffaf2}\n.se-l.su{--sk1:#6fbcf0;--sk2:#d6efff;--sun:#ffd43b;--suno:1;--h1:#86c98a;--h2:#5fb36a;--fd:#49a65a;--wall:#fbf3e7;--wall2:#e8dcc8;--roof:#b3513a;--door:#3f6b8a;--win:#fff0c0;--glowo:0;--fol:#3e9a4e;--pine:#2f7650;--flo:#ffd84a;--fence:#fff}\n.se-l.au{--sk1:#f2b98a;--sk2:#fde9d0;--sun:#ff9f52;--cloud:#fff3e6;--h1:#dfae72;--h2:#c78d4f;--fd:#c9a35a;--wall:#f6ebdc;--wall2:#e1d0b8;--roof:#9e4631;--door:#6a3f2c;--win:#ffdf8f;--glowo:.5;--steamo:.55;--trunk:#6e4b30;--fol:#e5792b;--baro:.3;--pine:#4a6f4c;--floo:0;--fence:#f3e3cc}\n.se-l.wi{--sk1:#7d93b3;--sk2:#c9d6e6;--sun:#eef3f9;--suno:.5;--cloud:#e9eff7;--h1:#d3deec;--h2:#bccbe0;--fd:#eef4fb;--wall:#f2ebe0;--wall2:#ddd2bf;--roof:#8c3f2d;--door:#4e3a30;--win:#ffd573;--glowo:1;--steamo:.9;--snowo:1;--trunk:#5f4630;--folo:0;--baro:1;--pine:#2f5a4a;--floo:0;--fence:#fff}\n.se-sky{position:absolute;inset:0;background:linear-gradient(to bottom,var(--sk1),var(--sk2))}\n.se-l svg{position:absolute;inset:0;display:block;width:100%;height:100%}\n.se-l .sun{fill:var(--sun);opacity:var(--suno)}\n.se-l .halo{fill:var(--sun);opacity:calc(var(--suno) * .25)}\n\n.se-l .cloud{fill:var(--cloud);opacity:.85}\n.se-l .h1{fill:var(--h1)}\n.se-l .h2{fill:var(--h2)}\n.se-l .fd{fill:var(--fd)}\n.se-l .flo{fill:var(--flo);opacity:var(--floo)}\n.se-l .fence{fill:var(--fence)}\n.se-l .tk{fill:var(--trunk)}\n.se-l .br{fill:none;stroke:var(--trunk);stroke-width:5;stroke-linecap:round;opacity:var(--baro)}\n.se-l .fol{fill:var(--fol);opacity:var(--folo)}\n.se-l .pine path{fill:var(--pine)}\n.se-l .wall{fill:var(--wall)}\n.se-l .wall2{fill:var(--wall2)}\n.se-l .roof{fill:var(--roof)}\n.se-l .snow{fill:#fff;opacity:var(--snowo)}\n.se-l .door{fill:var(--door)}\n.se-l .win{fill:var(--win)}\n.se-l .glow{opacity:var(--glowo)}\n.se-l .glow circle{fill:var(--win)}\n.se-l .steam{opacity:var(--steamo)}\n.se-l .steam circle{fill:#fff;opacity:0;transform-box:fill-box;transform-origin:center}\n.se.is-live .se-l .steam circle{animation:se-steam 3.6s linear infinite}\n@keyframes se-steam{0%{opacity:0;transform:translate(0,0) scale(.6)}25%{opacity:.8}100%{opacity:0;transform:translate(10px,-46px) scale(1.7)}}\n.se-cv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}\n.se-foot{display:grid}\n.se-cap{grid-area:1/1;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}\n.se-cap:not(:first-child){opacity:0}\n.se-cap b{font-size:clamp(24px,3vw,36px);font-weight:700;line-height:1.2;color:var(--ink, #16182b)}\n.se-cap span{font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.5;color:var(--muted, #6a6d85)}\n.se.is-live{height:340vh}\n.se.is-live .se-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}\n.se.is-live .se-art{aspect-ratio:auto;max-height:none;height:100%}\n.se .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n@media(max-width:767px),(max-aspect-ratio:1/1){\n  .se-pin{grid-template-rows:auto auto auto;align-content:center;gap:12px}\n  .se-art,.se.is-live .se-art{aspect-ratio:1/1;max-height:none;height:auto}\n  .se-l .ta{translate:90px 0}.se-l .tb{translate:-76px 0}.se-l .pine{translate:-40px 0}.se-l .sun,.se-l .halo{translate:-96px 0}\n}\n@media(max-width:767px){.se-tab{padding:4px 12px;font-size:13px}.se-tabs{gap:6px}}\n\n=== HTML ===\n<div class=\"stage tight\"><section class=\"se\" aria-labelledby=\"se-h\">\n  <div class=\"se-pin\">\n    <header class=\"se-hd\">\n      <h2 id=\"se-h\">גינה שמתוחזקת כל השנה<\/h2>\n      <div class=\"se-tabs\" aria-hidden=\"true\"><span class=\"se-tab on\">אביב<\/span><span class=\"se-tab\">קיץ<\/span><span class=\"se-tab\">סתיו<\/span><span class=\"se-tab\">חורף<\/span><\/div>\n    <\/header>\n    <div class=\"se-art\" aria-hidden=\"true\">\n      <div class=\"se-l sp\">\n        <div class=\"se-sky\"><\/div>\n        <svg viewBox=\"0 0 1000 560\" preserveAspectRatio=\"xMidYMax slice\" focusable=\"false\">\n          <circle class=\"halo\" cx=\"790\" cy=\"118\" r=\"78\"/>\n          <circle class=\"sun\" cx=\"790\" cy=\"118\" r=\"46\"/>\n          <g class=\"cloud\"><ellipse cx=\"220\" cy=\"110\" rx=\"70\" ry=\"20\"/><ellipse cx=\"262\" cy=\"96\" rx=\"44\" ry=\"20\"/><ellipse cx=\"640\" cy=\"70\" rx=\"56\" ry=\"15\"/><ellipse cx=\"672\" cy=\"60\" rx=\"34\" ry=\"14\"/><\/g>\n          <path class=\"h1\" d=\"M0 360C140 300 260 310 380 345S620 330 760 300S920 320 1000 340V560H0Z\"/>\n          <path class=\"h2\" d=\"M0 400C120 360 260 372 400 395S700 380 840 360S960 372 1000 380V560H0Z\"/>\n          <g class=\"tc\" transform=\"translate(66 178) scale(.6)\"><rect class=\"tk\" x=\"-8\" y=\"320\" width=\"16\" height=\"124\" rx=\"6\"/><path class=\"br\" d=\"M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296\"/><g class=\"fol\"><circle cx=\"0\" cy=\"282\" r=\"54\"/><circle cx=\"-42\" cy=\"316\" r=\"40\"/><circle cx=\"44\" cy=\"314\" r=\"42\"/><circle cx=\"0\" cy=\"318\" r=\"44\"/><\/g><\/g>\n          <g class=\"td\" transform=\"translate(930 151) scale(.66)\"><rect class=\"tk\" x=\"-8\" y=\"320\" width=\"16\" height=\"124\" rx=\"6\"/><path class=\"br\" d=\"M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296\"/><g class=\"fol\"><circle cx=\"0\" cy=\"282\" r=\"54\"/><circle cx=\"-42\" cy=\"316\" r=\"40\"/><circle cx=\"44\" cy=\"314\" r=\"42\"/><circle cx=\"0\" cy=\"318\" r=\"44\"/><\/g><\/g>\n          <path class=\"fd\" d=\"M0 452C200 430 380 438 520 448S820 442 1000 432V560H0Z\"/>\n          <g class=\"flo\"><circle cx=\"140\" cy=\"486\" r=\"4\"/><circle cx=\"232\" cy=\"504\" r=\"4\"/><circle cx=\"320\" cy=\"478\" r=\"4\"/><circle cx=\"610\" cy=\"492\" r=\"4\"/><circle cx=\"690\" cy=\"480\" r=\"4\"/><circle cx=\"770\" cy=\"500\" r=\"4\"/><circle cx=\"880\" cy=\"484\" r=\"4\"/><circle cx=\"110\" cy=\"516\" r=\"4\"/><circle cx=\"410\" cy=\"520\" r=\"4\"/><circle cx=\"560\" cy=\"510\" r=\"4\"/><circle cx=\"840\" cy=\"520\" r=\"4\"/><circle cx=\"480\" cy=\"530\" r=\"4\"/><\/g>\n          <g class=\"ta\" transform=\"translate(190 0)\"><rect class=\"tk\" x=\"-8\" y=\"320\" width=\"16\" height=\"124\" rx=\"6\"/><path class=\"br\" d=\"M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296\"/><g class=\"fol\"><circle cx=\"0\" cy=\"282\" r=\"54\"/><circle cx=\"-42\" cy=\"316\" r=\"40\"/><circle cx=\"44\" cy=\"314\" r=\"42\"/><circle cx=\"0\" cy=\"318\" r=\"44\"/><\/g><\/g>\n          <g class=\"pine\" transform=\"translate(690 0)\"><rect class=\"tk\" x=\"-5\" y=\"410\" width=\"10\" height=\"34\"/><path d=\"M0 292L-34 352H34ZM0 322L-42 390H42ZM0 354L-52 428H52Z\"/><\/g>\n          <g class=\"tb\" transform=\"translate(810 62) scale(.86)\"><rect class=\"tk\" x=\"-8\" y=\"320\" width=\"16\" height=\"124\" rx=\"6\"/><path class=\"br\" d=\"M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296\"/><g class=\"fol\"><circle cx=\"0\" cy=\"282\" r=\"54\"/><circle cx=\"-42\" cy=\"316\" r=\"40\"/><circle cx=\"44\" cy=\"314\" r=\"42\"/><circle cx=\"0\" cy=\"318\" r=\"44\"/><\/g><\/g>\n          <g class=\"fence\"><rect x=\"232\" y=\"434\" width=\"122\" height=\"4\"/><rect x=\"236\" y=\"424\" width=\"6\" height=\"28\"/><rect x=\"272\" y=\"424\" width=\"6\" height=\"28\"/><rect x=\"308\" y=\"424\" width=\"6\" height=\"28\"/><rect x=\"344\" y=\"424\" width=\"6\" height=\"28\"/><\/g>\n          <g class=\"lamp\"><rect class=\"tk\" x=\"378\" y=\"378\" width=\"5\" height=\"64\"/><circle class=\"win\" cx=\"380.5\" cy=\"372\" r=\"9\"/><g class=\"glow\"><circle cx=\"380\" cy=\"372\" r=\"46\" fill-opacity=\".14\"/><circle cx=\"380\" cy=\"372\" r=\"30\" fill-opacity=\".2\"/><circle cx=\"380\" cy=\"372\" r=\"18\" fill-opacity=\".3\"/><\/g><\/g>\n          <rect class=\"wall2\" x=\"548\" y=\"262\" width=\"22\" height=\"46\" rx=\"2\"/>\n          <rect class=\"wall\" x=\"410\" y=\"330\" width=\"180\" height=\"112\" rx=\"4\"/>\n          <path class=\"roof\" d=\"M394 334L500 260L606 334Z\"/>\n          <path class=\"snow\" d=\"M402 330L500 262L598 330L586 330L500 274L414 330Z\"/>\n          <rect class=\"wall2\" x=\"545\" y=\"258\" width=\"28\" height=\"8\" rx=\"2\"/>\n          <rect class=\"door\" x=\"482\" y=\"380\" width=\"36\" height=\"62\" rx=\"5\"/>\n          <rect class=\"win\" x=\"428\" y=\"360\" width=\"36\" height=\"36\" rx=\"4\"/>\n          <rect class=\"win\" x=\"536\" y=\"360\" width=\"36\" height=\"36\" rx=\"4\"/>\n          <path class=\"wall2\" d=\"M446 360V396M428 378H464M554 360V396M536 378H572\"/>\n          <g class=\"glow\"><circle cx=\"554\" cy=\"378\" r=\"58\" fill-opacity=\".12\"/><circle cx=\"554\" cy=\"378\" r=\"40\" fill-opacity=\".18\"/><circle cx=\"554\" cy=\"378\" r=\"24\" fill-opacity=\".28\"/><\/g>\n          <g class=\"steam\"><circle cx=\"559\" cy=\"246\" r=\"7\"/><circle cx=\"562\" cy=\"246\" r=\"6\" style=\"animation-delay:-1.2s\"/><circle cx=\"557\" cy=\"246\" r=\"7\" style=\"animation-delay:-2.4s\"/><\/g>\n        <\/svg>\n      <\/div>\n    <\/div>\n    <div class=\"se-foot\" aria-hidden=\"true\">\n      <div class=\"se-cap\"><b>אביב<\/b><span>שתילה ובדיקה של מערכת ההשקיה.<\/span><\/div>\n      <div class=\"se-cap\"><b>קיץ<\/b><span>גיזום קל והשקיה שמותאמת לימים החמים.<\/span><\/div>\n      <div class=\"se-cap\"><b>סתיו<\/b><span>איסוף עלים וניקוז לפני הגשמים הראשונים.<\/span><\/div>\n      <div class=\"se-cap\"><b>חורף<\/b><span>הגנה על צמחים רגישים ותאורה שנדלקת מוקדם.<\/span><\/div>\n    <\/div>\n    <ul class=\"sr-only\"><li>אביב: שתילה ובדיקה של מערכת ההשקיה.<\/li><li>קיץ: גיזום קל והשקיה שמותאמת לימים החמים.<\/li><li>סתיו: איסוף עלים וניקוז לפני הגשמים הראשונים.<\/li><li>חורף: הגנה על צמחים רגישים ותאורה שנדלקת מוקדם.<\/li><\/ul>\n  <\/div>\n<\/section><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשארת העונה הראשונה בלבד\n  const root=document.querySelector(\".se\"),art=root.querySelector(\".se-art\"),first=art.querySelector(\".se-l\"),\n    tabs=[...root.querySelectorAll(\".se-tab\")],caps=[...root.querySelectorAll(\".se-cap\")];\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const names=[\"sp\",\"su\",\"au\",\"wi\"],layers=[first],W=[1,0,0,0],R=(a,b)=>a+Math.random()*(b-a),sm=x=>x*x*(3-2*x);\n    for(let k=1;k<4;k++){const c=first.cloneNode(true);c.className=\"se-l \"+names[k];art.appendChild(c);layers.push(c);}\n    const cv=document.createElement(\"canvas\");cv.className=\"se-cv\";cv.setAttribute(\"aria-hidden\",\"true\");art.appendChild(cv);\n    const ctx=cv.getContext(\"2d\"),LEAF=[\"#d9702a\",\"#c2501f\",\"#e8a03a\",\"#b5651d\"];\n    let w=0,h=0,dpr=1,time=0,pools=[],on=false;\n    // ארבעה סוגי חלקיקים: עלי כותרת, אבקה, עלים, שלג\n    const mk=[\n      ()=>({x0:R(0,w),y:R(0,h),r:R(3.5,6),v:R(24,44),sw:R(10,26),ph:R(0,6.28),sp:R(.6,1.4),rot:R(0,6.28),rs:R(-2,2),c:Math.random()<.5?\"#f7c4d2\":\"#fde3ea\"}),\n      ()=>({x0:R(0,w),y:R(0,h),r:R(1.2,2.6),v:-R(8,18),sw:R(8,22),ph:R(0,6.28),sp:R(.4,1),rot:0,rs:0,c:\"#ffe08a\"}),\n      ()=>({x0:R(0,w),y:R(0,h),r:R(4,7),v:R(36,66),sw:R(14,34),ph:R(0,6.28),sp:R(.8,1.8),rot:R(0,6.28),rs:R(-3,3),c:LEAF[Math.floor(Math.random()*4)]}),\n      ()=>({x0:R(0,w),y:R(0,h),r:R(1.4,3.4),v:R(26,58),sw:R(6,18),ph:R(0,6.28),sp:R(.5,1.2),rot:0,rs:0,c:\"#fff\"})\n    ];\n    function fit(){\n      const r=art.getBoundingClientRect();w=r.width;h=r.height;dpr=Math.min(devicePixelRatio||1,2);\n      cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);\n      const f=Math.max(.45,Math.min(1,w*h/450000));\n      pools=[34,26,32,80].map((n,k)=>Array.from({length:Math.round(n*f)},()=>mk[k]()));\n    }\n    function tick(t,dt){\n      const d=Math.min(dt,50)/1000;time+=d;ctx.clearRect(0,0,w,h);\n      for(let k=0;k<4;k++){\n        if(W[k]<.02)continue;\n        ctx.globalAlpha=W[k];\n        for(const p of pools[k]){\n          p.y+=p.v*d;\n          if(p.v>0&&p.y>h+12){p.y=-12;p.x0=R(0,w);}else if(p.v<0&&p.y<-12){p.y=h+12;p.x0=R(0,w);}\n          p.rot+=p.rs*d;\n          const x=p.x0+Math.sin(time*p.sp+p.ph)*p.sw;\n          ctx.fillStyle=p.c;ctx.beginPath();\n          if(k===1){ctx.globalAlpha=W[k]*(.5+.5*Math.sin(time*1.6+p.ph));ctx.arc(x,p.y,p.r,0,6.283);}\n          else if(k===3){ctx.arc(x,p.y,p.r,0,6.283);}\n          else{const c=Math.cos(p.rot)*dpr,s=Math.sin(p.rot)*dpr;ctx.setTransform(c,s,-s,c,x*dpr,p.y*dpr);ctx.ellipse(0,0,p.r*(k===2?1.5:1),p.r*(k===2?.75:.55),0,0,6.283);}\n          ctx.fill();ctx.setTransform(dpr,0,0,dpr,0,0);\n        }\n      }\n      ctx.globalAlpha=1;\n    }\n    fit();\n    const ro=new ResizeObserver(fit);ro.observe(art);\n    const io=new IntersectionObserver(e=>{const v=e[0].isIntersecting;if(v&&!on){gsap.ticker.add(tick);on=true;}else if(!v&&on){gsap.ticker.remove(tick);on=false;}});io.observe(art);\n    // s עובר מ-0 עד 3: אביב, קיץ, סתיו, חורף. כל שכבה מתגלה בין k+.3 ל-k+.7\n    function draw(s){\n      const o=[1,0,0,0];\n      for(let k=1;k<4;k++)o[k]=sm(Math.max(0,Math.min(1,(s-(k-1)-.3)/.4)));\n      const idx=Math.round(s);\n      for(let k=0;k<4;k++){\n        layers[k].style.opacity=o[k];W[k]=o[k]*(k<3?1-o[k+1]:1);\n        tabs[k].classList.toggle(\"on\",k===idx);\n        const a=Math.max(0,Math.min(1,(.5-Math.abs(s-k))/.2));\n        caps[k].style.opacity=a;caps[k].style.transform=\"translateY(\"+((1-a)*10).toFixed(1)+\"px)\";\n      }\n    }\n    const st={s:0};\n    gsap.to(st,{s:3,ease:\"none\",onUpdate:()=>draw(st.s),scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.6}});\n    draw(0);\n    return()=>{\n      if(on){gsap.ticker.remove(tick);on=false;}\n      io.disconnect();ro.disconnect();\n      layers.slice(1).forEach(l=>l.remove());cv.remove();first.style.opacity=\"\";\n      tabs.forEach((t,k)=>t.classList.toggle(\"on\",k===0));\n      caps.forEach(c=>{c.style.opacity=\"\";c.style.transform=\"\";});\n      root.classList.remove(\"is-live\");\n    };\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: איור שטוח אחד של כפר שעובר בין עונות, עם עלווה שמכתימה בכתום, עצים שמשילים עלים, שדות שמלבינים וחלקיקים שמתחלפים מעלי כותרת לעלים ולשלג (21.10.2026). נבנה מאפס מהצפייה. המבנה: `.se-art` מחזיק ארבע שכבות `.se-l` זו על זו, וכל אחת היא עותק מלא של אותו איור עם מחלקת עונה (`sp`, `su`, `au`, `wi`). הצבעים, השמש, הזוהר בחלון, האדים והשלג הם משתני CSS על מחלקת העונה, ולכן הוספת עונה היא עוד בלוק צבעים ולא עוד איור. ב-HTML נמצאת רק העונה הראשונה, ו-JS משכפל אותה בעת ההרצה. ההחלפה: שכבה חדשה מתגלה ב-opacity מעל הקודמת, בין `s = k + .3` ל-`s = k + .7`, כך שהשכבות שמתחת נשארות מלאות ואין שום רגע של שקיפות כפולה. השמיים הם `linear-gradient` ב-HTML ולא מעבר צבע בתוך ה-SVG, כי מעבר צבע בתוך ה-SVG משתכפל עם אותו מזהה ויקבל את הצבעים של העותק הראשון. החלקיקים: `canvas` אחד מעל האיור עם ארבעה מאגרים (כ-34, 26, 32 ו-80 חלקיקים, ופחות במסך קטן). משקל כל מאגר נגזר מאותה אטימות של השכבות, ומאגר שמשקלו נמוך מ-2 אחוזים לא מצויר ולא מתקדם. הציור דל: סיבוב ב-`setTransform`, בלי מסננים. הוא מתחשב ב-`devicePixelRatio` עד 2, מוסר מה-ticker של GSAP כשהאיור מחוץ למסך (`IntersectionObserver`) ומשנה גודל עם `ResizeObserver`. הכיתוב: ארבע שורות מוערמות באותה תא רשת, שנעלמות ונכנסות בזו אחר זו עם הפסקה קצרה ביניהן כדי שלא ייראו שתי שורות על גבי שתיים. הרשימה המלאה גם נמצאת ב-`sr-only`. הצבעים: צבעי האיור עצמו (שמיים, עלווה, שלג) כתובים ישירות, כי הם חלק מהנוף ולא מהערכה של האתר, וכל השאר (כותרת, לשוניות, מסגרת) נשאר בטוקנים. כשמחליפים את האיור באיור אחר, מחליפים רק את גוף ה-SVG ואת בלוקי הצבעים. מצב סטטי: בלי GSAP ובהפחתת תנועה רואים את האביב בלבד, בלי חלקיקים. כיוון: האיור אינו תלוי בכיוון, והלשוניות והכיתוב מתהפכים לבד עם `dir`.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G169 · אותו איור עובר בין עונות עם חלקיקים */\n.se{position:relative;max-width:none}\n.se-pin{display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:16px;padding:20px var(--gutter, clamp(24px, 5vw, 96px));box-sizing:border-box}\n.se-hd{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px}\n.se-hd h2{margin:0;font-size:clamp(20px,2.2vw,28px);font-weight:700;line-height:1.3;color:var(--ink, #16182b)}\n.se-tabs{display:flex;gap:8px}\n.se-tab{padding:6px 16px;border-radius:99px;box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);color:var(--muted, #6a6d85);font-size:14px;font-weight:600;line-height:1.5}\n.se-tab.on{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);box-shadow:none}\n.se-art{position:relative;isolation:isolate;overflow:hidden;border-radius:24px;aspect-ratio:16/9;max-height:72vh;max-height:72svh;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee)}\n.se-l{position:absolute;inset:0;--sk1:#bfe3f7;--sk2:#f1faff;--sun:#ffe58f;--suno:.95;--cloud:#fff;--h1:#b9dfbd;--h2:#9bd3a3;--fd:#86c98d;--wall:#f8f0e4;--wall2:#e6d9c5;--roof:#bd5a42;--door:#5f4f78;--win:#fff3cf;--glowo:.12;--steamo:0;--snowo:0;--trunk:#7c5b3d;--fol:#f5bccb;--folo:1;--baro:0;--pine:#3f8060;--flo:#fff;--floo:1;--fence:#fffaf2}\n.se-l.su{--sk1:#6fbcf0;--sk2:#d6efff;--sun:#ffd43b;--suno:1;--h1:#86c98a;--h2:#5fb36a;--fd:#49a65a;--wall:#fbf3e7;--wall2:#e8dcc8;--roof:#b3513a;--door:#3f6b8a;--win:#fff0c0;--glowo:0;--fol:#3e9a4e;--pine:#2f7650;--flo:#ffd84a;--fence:#fff}\n.se-l.au{--sk1:#f2b98a;--sk2:#fde9d0;--sun:#ff9f52;--cloud:#fff3e6;--h1:#dfae72;--h2:#c78d4f;--fd:#c9a35a;--wall:#f6ebdc;--wall2:#e1d0b8;--roof:#9e4631;--door:#6a3f2c;--win:#ffdf8f;--glowo:.5;--steamo:.55;--trunk:#6e4b30;--fol:#e5792b;--baro:.3;--pine:#4a6f4c;--floo:0;--fence:#f3e3cc}\n.se-l.wi{--sk1:#7d93b3;--sk2:#c9d6e6;--sun:#eef3f9;--suno:.5;--cloud:#e9eff7;--h1:#d3deec;--h2:#bccbe0;--fd:#eef4fb;--wall:#f2ebe0;--wall2:#ddd2bf;--roof:#8c3f2d;--door:#4e3a30;--win:#ffd573;--glowo:1;--steamo:.9;--snowo:1;--trunk:#5f4630;--folo:0;--baro:1;--pine:#2f5a4a;--floo:0;--fence:#fff}\n.se-sky{position:absolute;inset:0;background:linear-gradient(to bottom,var(--sk1),var(--sk2))}\n.se-l svg{position:absolute;inset:0;display:block;width:100%;height:100%}\n.se-l .sun{fill:var(--sun);opacity:var(--suno)}\n.se-l .halo{fill:var(--sun);opacity:calc(var(--suno) * .25)}\n\n.se-l .cloud{fill:var(--cloud);opacity:.85}\n.se-l .h1{fill:var(--h1)}\n.se-l .h2{fill:var(--h2)}\n.se-l .fd{fill:var(--fd)}\n.se-l .flo{fill:var(--flo);opacity:var(--floo)}\n.se-l .fence{fill:var(--fence)}\n.se-l .tk{fill:var(--trunk)}\n.se-l .br{fill:none;stroke:var(--trunk);stroke-width:5;stroke-linecap:round;opacity:var(--baro)}\n.se-l .fol{fill:var(--fol);opacity:var(--folo)}\n.se-l .pine path{fill:var(--pine)}\n.se-l .wall{fill:var(--wall)}\n.se-l .wall2{fill:var(--wall2)}\n.se-l .roof{fill:var(--roof)}\n.se-l .snow{fill:#fff;opacity:var(--snowo)}\n.se-l .door{fill:var(--door)}\n.se-l .win{fill:var(--win)}\n.se-l .glow{opacity:var(--glowo)}\n.se-l .glow circle{fill:var(--win)}\n.se-l .steam{opacity:var(--steamo)}\n.se-l .steam circle{fill:#fff;opacity:0;transform-box:fill-box;transform-origin:center}\n.se.is-live .se-l .steam circle{animation:se-steam 3.6s linear infinite}\n@keyframes se-steam{0%{opacity:0;transform:translate(0,0) scale(.6)}25%{opacity:.8}100%{opacity:0;transform:translate(10px,-46px) scale(1.7)}}\n.se-cv{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}\n.se-foot{display:grid}\n.se-cap{grid-area:1/1;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}\n.se-cap:not(:first-child){opacity:0}\n.se-cap b{font-size:clamp(24px,3vw,36px);font-weight:700;line-height:1.2;color:var(--ink, #16182b)}\n.se-cap span{font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.5;color:var(--muted, #6a6d85)}\n.se.is-live{height:340vh}\n.se.is-live .se-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}\n.se.is-live .se-art{aspect-ratio:auto;max-height:none;height:100%}\n.se .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n@media(max-width:767px),(max-aspect-ratio:1/1){\n  .se-pin{grid-template-rows:auto auto auto;align-content:center;gap:12px}\n  .se-art,.se.is-live .se-art{aspect-ratio:1/1;max-height:none;height:auto}\n  .se-l .ta{translate:90px 0}.se-l .tb{translate:-76px 0}.se-l .pine{translate:-40px 0}.se-l .sun,.se-l .halo{translate:-96px 0}\n}\n@media(max-width:767px){.se-tab{padding:4px 12px;font-size:13px}.se-tabs{gap:6px}}","html":"<div class=\"stage tight\"><section class=\"se\" aria-labelledby=\"se-h\">\n  <div class=\"se-pin\">\n    <header class=\"se-hd\">\n      <h2 id=\"se-h\">גינה שמתוחזקת כל השנה<\/h2>\n      <div class=\"se-tabs\" aria-hidden=\"true\"><span class=\"se-tab on\">אביב<\/span><span class=\"se-tab\">קיץ<\/span><span class=\"se-tab\">סתיו<\/span><span class=\"se-tab\">חורף<\/span><\/div>\n    <\/header>\n    <div class=\"se-art\" aria-hidden=\"true\">\n      <div class=\"se-l sp\">\n        <div class=\"se-sky\"><\/div>\n        <svg viewBox=\"0 0 1000 560\" preserveAspectRatio=\"xMidYMax slice\" focusable=\"false\">\n          <circle class=\"halo\" cx=\"790\" cy=\"118\" r=\"78\"/>\n          <circle class=\"sun\" cx=\"790\" cy=\"118\" r=\"46\"/>\n          <g class=\"cloud\"><ellipse cx=\"220\" cy=\"110\" rx=\"70\" ry=\"20\"/><ellipse cx=\"262\" cy=\"96\" rx=\"44\" ry=\"20\"/><ellipse cx=\"640\" cy=\"70\" rx=\"56\" ry=\"15\"/><ellipse cx=\"672\" cy=\"60\" rx=\"34\" ry=\"14\"/><\/g>\n          <path class=\"h1\" d=\"M0 360C140 300 260 310 380 345S620 330 760 300S920 320 1000 340V560H0Z\"/>\n          <path class=\"h2\" d=\"M0 400C120 360 260 372 400 395S700 380 840 360S960 372 1000 380V560H0Z\"/>\n          <g class=\"tc\" transform=\"translate(66 178) scale(.6)\"><rect class=\"tk\" x=\"-8\" y=\"320\" width=\"16\" height=\"124\" rx=\"6\"/><path class=\"br\" d=\"M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296\"/><g class=\"fol\"><circle cx=\"0\" cy=\"282\" r=\"54\"/><circle cx=\"-42\" cy=\"316\" r=\"40\"/><circle cx=\"44\" cy=\"314\" r=\"42\"/><circle cx=\"0\" cy=\"318\" r=\"44\"/><\/g><\/g>\n          <g class=\"td\" transform=\"translate(930 151) scale(.66)\"><rect class=\"tk\" x=\"-8\" y=\"320\" width=\"16\" height=\"124\" rx=\"6\"/><path class=\"br\" d=\"M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296\"/><g class=\"fol\"><circle cx=\"0\" cy=\"282\" r=\"54\"/><circle cx=\"-42\" cy=\"316\" r=\"40\"/><circle cx=\"44\" cy=\"314\" r=\"42\"/><circle cx=\"0\" cy=\"318\" r=\"44\"/><\/g><\/g>\n          <path class=\"fd\" d=\"M0 452C200 430 380 438 520 448S820 442 1000 432V560H0Z\"/>\n          <g class=\"flo\"><circle cx=\"140\" cy=\"486\" r=\"4\"/><circle cx=\"232\" cy=\"504\" r=\"4\"/><circle cx=\"320\" cy=\"478\" r=\"4\"/><circle cx=\"610\" cy=\"492\" r=\"4\"/><circle cx=\"690\" cy=\"480\" r=\"4\"/><circle cx=\"770\" cy=\"500\" r=\"4\"/><circle cx=\"880\" cy=\"484\" r=\"4\"/><circle cx=\"110\" cy=\"516\" r=\"4\"/><circle cx=\"410\" cy=\"520\" r=\"4\"/><circle cx=\"560\" cy=\"510\" r=\"4\"/><circle cx=\"840\" cy=\"520\" r=\"4\"/><circle cx=\"480\" cy=\"530\" r=\"4\"/><\/g>\n          <g class=\"ta\" transform=\"translate(190 0)\"><rect class=\"tk\" x=\"-8\" y=\"320\" width=\"16\" height=\"124\" rx=\"6\"/><path class=\"br\" d=\"M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296\"/><g class=\"fol\"><circle cx=\"0\" cy=\"282\" r=\"54\"/><circle cx=\"-42\" cy=\"316\" r=\"40\"/><circle cx=\"44\" cy=\"314\" r=\"42\"/><circle cx=\"0\" cy=\"318\" r=\"44\"/><\/g><\/g>\n          <g class=\"pine\" transform=\"translate(690 0)\"><rect class=\"tk\" x=\"-5\" y=\"410\" width=\"10\" height=\"34\"/><path d=\"M0 292L-34 352H34ZM0 322L-42 390H42ZM0 354L-52 428H52Z\"/><\/g>\n          <g class=\"tb\" transform=\"translate(810 62) scale(.86)\"><rect class=\"tk\" x=\"-8\" y=\"320\" width=\"16\" height=\"124\" rx=\"6\"/><path class=\"br\" d=\"M0 352L-34 308M0 364L38 316M0 332L0 286M-34 308L-48 288M38 316L52 296\"/><g class=\"fol\"><circle cx=\"0\" cy=\"282\" r=\"54\"/><circle cx=\"-42\" cy=\"316\" r=\"40\"/><circle cx=\"44\" cy=\"314\" r=\"42\"/><circle cx=\"0\" cy=\"318\" r=\"44\"/><\/g><\/g>\n          <g class=\"fence\"><rect x=\"232\" y=\"434\" width=\"122\" height=\"4\"/><rect x=\"236\" y=\"424\" width=\"6\" height=\"28\"/><rect x=\"272\" y=\"424\" width=\"6\" height=\"28\"/><rect x=\"308\" y=\"424\" width=\"6\" height=\"28\"/><rect x=\"344\" y=\"424\" width=\"6\" height=\"28\"/><\/g>\n          <g class=\"lamp\"><rect class=\"tk\" x=\"378\" y=\"378\" width=\"5\" height=\"64\"/><circle class=\"win\" cx=\"380.5\" cy=\"372\" r=\"9\"/><g class=\"glow\"><circle cx=\"380\" cy=\"372\" r=\"46\" fill-opacity=\".14\"/><circle cx=\"380\" cy=\"372\" r=\"30\" fill-opacity=\".2\"/><circle cx=\"380\" cy=\"372\" r=\"18\" fill-opacity=\".3\"/><\/g><\/g>\n          <rect class=\"wall2\" x=\"548\" y=\"262\" width=\"22\" height=\"46\" rx=\"2\"/>\n          <rect class=\"wall\" x=\"410\" y=\"330\" width=\"180\" height=\"112\" rx=\"4\"/>\n          <path class=\"roof\" d=\"M394 334L500 260L606 334Z\"/>\n          <path class=\"snow\" d=\"M402 330L500 262L598 330L586 330L500 274L414 330Z\"/>\n          <rect class=\"wall2\" x=\"545\" y=\"258\" width=\"28\" height=\"8\" rx=\"2\"/>\n          <rect class=\"door\" x=\"482\" y=\"380\" width=\"36\" height=\"62\" rx=\"5\"/>\n          <rect class=\"win\" x=\"428\" y=\"360\" width=\"36\" height=\"36\" rx=\"4\"/>\n          <rect class=\"win\" x=\"536\" y=\"360\" width=\"36\" height=\"36\" rx=\"4\"/>\n          <path class=\"wall2\" d=\"M446 360V396M428 378H464M554 360V396M536 378H572\"/>\n          <g class=\"glow\"><circle cx=\"554\" cy=\"378\" r=\"58\" fill-opacity=\".12\"/><circle cx=\"554\" cy=\"378\" r=\"40\" fill-opacity=\".18\"/><circle cx=\"554\" cy=\"378\" r=\"24\" fill-opacity=\".28\"/><\/g>\n          <g class=\"steam\"><circle cx=\"559\" cy=\"246\" r=\"7\"/><circle cx=\"562\" cy=\"246\" r=\"6\" style=\"animation-delay:-1.2s\"/><circle cx=\"557\" cy=\"246\" r=\"7\" style=\"animation-delay:-2.4s\"/><\/g>\n        <\/svg>\n      <\/div>\n    <\/div>\n    <div class=\"se-foot\" aria-hidden=\"true\">\n      <div class=\"se-cap\"><b>אביב<\/b><span>שתילה ובדיקה של מערכת ההשקיה.<\/span><\/div>\n      <div class=\"se-cap\"><b>קיץ<\/b><span>גיזום קל והשקיה שמותאמת לימים החמים.<\/span><\/div>\n      <div class=\"se-cap\"><b>סתיו<\/b><span>איסוף עלים וניקוז לפני הגשמים הראשונים.<\/span><\/div>\n      <div class=\"se-cap\"><b>חורף<\/b><span>הגנה על צמחים רגישים ותאורה שנדלקת מוקדם.<\/span><\/div>\n    <\/div>\n    <ul class=\"sr-only\"><li>אביב: שתילה ובדיקה של מערכת ההשקיה.<\/li><li>קיץ: גיזום קל והשקיה שמותאמת לימים החמים.<\/li><li>סתיו: איסוף עלים וניקוז לפני הגשמים הראשונים.<\/li><li>חורף: הגנה על צמחים רגישים ותאורה שנדלקת מוקדם.<\/li><\/ul>\n  <\/div>\n<\/section><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשארת העונה הראשונה בלבד\n  const root=document.querySelector(\".se\"),art=root.querySelector(\".se-art\"),first=art.querySelector(\".se-l\"),\n    tabs=[...root.querySelectorAll(\".se-tab\")],caps=[...root.querySelectorAll(\".se-cap\")];\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const names=[\"sp\",\"su\",\"au\",\"wi\"],layers=[first],W=[1,0,0,0],R=(a,b)=>a+Math.random()*(b-a),sm=x=>x*x*(3-2*x);\n    for(let k=1;k<4;k++){const c=first.cloneNode(true);c.className=\"se-l \"+names[k];art.appendChild(c);layers.push(c);}\n    const cv=document.createElement(\"canvas\");cv.className=\"se-cv\";cv.setAttribute(\"aria-hidden\",\"true\");art.appendChild(cv);\n    const ctx=cv.getContext(\"2d\"),LEAF=[\"#d9702a\",\"#c2501f\",\"#e8a03a\",\"#b5651d\"];\n    let w=0,h=0,dpr=1,time=0,pools=[],on=false;\n    // ארבעה סוגי חלקיקים: עלי כותרת, אבקה, עלים, שלג\n    const mk=[\n      ()=>({x0:R(0,w),y:R(0,h),r:R(3.5,6),v:R(24,44),sw:R(10,26),ph:R(0,6.28),sp:R(.6,1.4),rot:R(0,6.28),rs:R(-2,2),c:Math.random()<.5?\"#f7c4d2\":\"#fde3ea\"}),\n      ()=>({x0:R(0,w),y:R(0,h),r:R(1.2,2.6),v:-R(8,18),sw:R(8,22),ph:R(0,6.28),sp:R(.4,1),rot:0,rs:0,c:\"#ffe08a\"}),\n      ()=>({x0:R(0,w),y:R(0,h),r:R(4,7),v:R(36,66),sw:R(14,34),ph:R(0,6.28),sp:R(.8,1.8),rot:R(0,6.28),rs:R(-3,3),c:LEAF[Math.floor(Math.random()*4)]}),\n      ()=>({x0:R(0,w),y:R(0,h),r:R(1.4,3.4),v:R(26,58),sw:R(6,18),ph:R(0,6.28),sp:R(.5,1.2),rot:0,rs:0,c:\"#fff\"})\n    ];\n    function fit(){\n      const r=art.getBoundingClientRect();w=r.width;h=r.height;dpr=Math.min(devicePixelRatio||1,2);\n      cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);\n      const f=Math.max(.45,Math.min(1,w*h/450000));\n      pools=[34,26,32,80].map((n,k)=>Array.from({length:Math.round(n*f)},()=>mk[k]()));\n    }\n    function tick(t,dt){\n      const d=Math.min(dt,50)/1000;time+=d;ctx.clearRect(0,0,w,h);\n      for(let k=0;k<4;k++){\n        if(W[k]<.02)continue;\n        ctx.globalAlpha=W[k];\n        for(const p of pools[k]){\n          p.y+=p.v*d;\n          if(p.v>0&&p.y>h+12){p.y=-12;p.x0=R(0,w);}else if(p.v<0&&p.y<-12){p.y=h+12;p.x0=R(0,w);}\n          p.rot+=p.rs*d;\n          const x=p.x0+Math.sin(time*p.sp+p.ph)*p.sw;\n          ctx.fillStyle=p.c;ctx.beginPath();\n          if(k===1){ctx.globalAlpha=W[k]*(.5+.5*Math.sin(time*1.6+p.ph));ctx.arc(x,p.y,p.r,0,6.283);}\n          else if(k===3){ctx.arc(x,p.y,p.r,0,6.283);}\n          else{const c=Math.cos(p.rot)*dpr,s=Math.sin(p.rot)*dpr;ctx.setTransform(c,s,-s,c,x*dpr,p.y*dpr);ctx.ellipse(0,0,p.r*(k===2?1.5:1),p.r*(k===2?.75:.55),0,0,6.283);}\n          ctx.fill();ctx.setTransform(dpr,0,0,dpr,0,0);\n        }\n      }\n      ctx.globalAlpha=1;\n    }\n    fit();\n    const ro=new ResizeObserver(fit);ro.observe(art);\n    const io=new IntersectionObserver(e=>{const v=e[0].isIntersecting;if(v&&!on){gsap.ticker.add(tick);on=true;}else if(!v&&on){gsap.ticker.remove(tick);on=false;}});io.observe(art);\n    // s עובר מ-0 עד 3: אביב, קיץ, סתיו, חורף. כל שכבה מתגלה בין k+.3 ל-k+.7\n    function draw(s){\n      const o=[1,0,0,0];\n      for(let k=1;k<4;k++)o[k]=sm(Math.max(0,Math.min(1,(s-(k-1)-.3)/.4)));\n      const idx=Math.round(s);\n      for(let k=0;k<4;k++){\n        layers[k].style.opacity=o[k];W[k]=o[k]*(k<3?1-o[k+1]:1);\n        tabs[k].classList.toggle(\"on\",k===idx);\n        const a=Math.max(0,Math.min(1,(.5-Math.abs(s-k))/.2));\n        caps[k].style.opacity=a;caps[k].style.transform=\"translateY(\"+((1-a)*10).toFixed(1)+\"px)\";\n      }\n    }\n    const st={s:0};\n    gsap.to(st,{s:3,ease:\"none\",onUpdate:()=>draw(st.s),scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.6}});\n    draw(0);\n    return()=>{\n      if(on){gsap.ticker.remove(tick);on=false;}\n      io.disconnect();ro.disconnect();\n      layers.slice(1).forEach(l=>l.remove());cv.remove();first.style.opacity=\"\";\n      tabs.forEach((t,k)=>t.classList.toggle(\"on\",k===0));\n      caps.forEach(c=>{c.style.opacity=\"\";c.style.transform=\"\";});\n      root.classList.remove(\"is-live\");\n    };\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":false}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g168.html" rel="prev"><small>→ הקודם</small><b>מצלמה שעפה לאורך עמוד בפרספקטיבה</b></a><a href="g170.html" rel="next"><small>הבא ←</small><b>חלקים שמתכנסים ונעולים למוצר אחד</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · אותו איור עובר בין עונות עם חלקיקים").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשארת העונה הראשונה בלבד
+  const root=document.querySelector(".se"),art=root.querySelector(".se-art"),first=art.querySelector(".se-l"),
+    tabs=[...root.querySelectorAll(".se-tab")],caps=[...root.querySelectorAll(".se-cap")];
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const names=["sp","su","au","wi"],layers=[first],W=[1,0,0,0],R=(a,b)=>a+Math.random()*(b-a),sm=x=>x*x*(3-2*x);
+    for(let k=1;k<4;k++){const c=first.cloneNode(true);c.className="se-l "+names[k];art.appendChild(c);layers.push(c);}
+    const cv=document.createElement("canvas");cv.className="se-cv";cv.setAttribute("aria-hidden","true");art.appendChild(cv);
+    const ctx=cv.getContext("2d"),LEAF=["#d9702a","#c2501f","#e8a03a","#b5651d"];
+    let w=0,h=0,dpr=1,time=0,pools=[],on=false;
+    // ארבעה סוגי חלקיקים: עלי כותרת, אבקה, עלים, שלג
+    const mk=[
+      ()=>({x0:R(0,w),y:R(0,h),r:R(3.5,6),v:R(24,44),sw:R(10,26),ph:R(0,6.28),sp:R(.6,1.4),rot:R(0,6.28),rs:R(-2,2),c:Math.random()<.5?"#f7c4d2":"#fde3ea"}),
+      ()=>({x0:R(0,w),y:R(0,h),r:R(1.2,2.6),v:-R(8,18),sw:R(8,22),ph:R(0,6.28),sp:R(.4,1),rot:0,rs:0,c:"#ffe08a"}),
+      ()=>({x0:R(0,w),y:R(0,h),r:R(4,7),v:R(36,66),sw:R(14,34),ph:R(0,6.28),sp:R(.8,1.8),rot:R(0,6.28),rs:R(-3,3),c:LEAF[Math.floor(Math.random()*4)]}),
+      ()=>({x0:R(0,w),y:R(0,h),r:R(1.4,3.4),v:R(26,58),sw:R(6,18),ph:R(0,6.28),sp:R(.5,1.2),rot:0,rs:0,c:"#fff"})
+    ];
+    function fit(){
+      const r=art.getBoundingClientRect();w=r.width;h=r.height;dpr=Math.min(devicePixelRatio||1,2);
+      cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+      const f=Math.max(.45,Math.min(1,w*h/450000));
+      pools=[34,26,32,80].map((n,k)=>Array.from({length:Math.round(n*f)},()=>mk[k]()));
+    }
+    function tick(t,dt){
+      const d=Math.min(dt,50)/1000;time+=d;ctx.clearRect(0,0,w,h);
+      for(let k=0;k<4;k++){
+        if(W[k]<.02)continue;
+        ctx.globalAlpha=W[k];
+        for(const p of pools[k]){
+          p.y+=p.v*d;
+          if(p.v>0&&p.y>h+12){p.y=-12;p.x0=R(0,w);}else if(p.v<0&&p.y<-12){p.y=h+12;p.x0=R(0,w);}
+          p.rot+=p.rs*d;
+          const x=p.x0+Math.sin(time*p.sp+p.ph)*p.sw;
+          ctx.fillStyle=p.c;ctx.beginPath();
+          if(k===1){ctx.globalAlpha=W[k]*(.5+.5*Math.sin(time*1.6+p.ph));ctx.arc(x,p.y,p.r,0,6.283);}
+          else if(k===3){ctx.arc(x,p.y,p.r,0,6.283);}
+          else{const c=Math.cos(p.rot)*dpr,s=Math.sin(p.rot)*dpr;ctx.setTransform(c,s,-s,c,x*dpr,p.y*dpr);ctx.ellipse(0,0,p.r*(k===2?1.5:1),p.r*(k===2?.75:.55),0,0,6.283);}
+          ctx.fill();ctx.setTransform(dpr,0,0,dpr,0,0);
+        }
+      }
+      ctx.globalAlpha=1;
+    }
+    fit();
+    const ro=new ResizeObserver(fit);ro.observe(art);
+    const io=new IntersectionObserver(e=>{const v=e[0].isIntersecting;if(v&&!on){gsap.ticker.add(tick);on=true;}else if(!v&&on){gsap.ticker.remove(tick);on=false;}});io.observe(art);
+    // s עובר מ-0 עד 3: אביב, קיץ, סתיו, חורף. כל שכבה מתגלה בין k+.3 ל-k+.7
+    function draw(s){
+      const o=[1,0,0,0];
+      for(let k=1;k<4;k++)o[k]=sm(Math.max(0,Math.min(1,(s-(k-1)-.3)/.4)));
+      const idx=Math.round(s);
+      for(let k=0;k<4;k++){
+        layers[k].style.opacity=o[k];W[k]=o[k]*(k<3?1-o[k+1]:1);
+        tabs[k].classList.toggle("on",k===idx);
+        const a=Math.max(0,Math.min(1,(.5-Math.abs(s-k))/.2));
+        caps[k].style.opacity=a;caps[k].style.transform="translateY("+((1-a)*10).toFixed(1)+"px)";
+      }
+    }
+    const st={s:0};
+    gsap.to(st,{s:3,ease:"none",onUpdate:()=>draw(st.s),scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}});
+    draw(0);
+    return()=>{
+      if(on){gsap.ticker.remove(tick);on=false;}
+      io.disconnect();ro.disconnect();
+      layers.slice(1).forEach(l=>l.remove());cv.remove();first.style.opacity="";
+      tabs.forEach((t,k)=>t.classList.toggle("on",k===0));
+      caps.forEach(c=>{c.style.opacity="";c.style.transform="";});
+      root.classList.remove("is-live");
+    };
+  });
+})();
+</script>
+</body>
+</html>

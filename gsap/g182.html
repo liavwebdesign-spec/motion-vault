@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G182 · רשימת שלבים עם שבבי סטטוס שמתחלפים | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.cl{max-width:1040px;margin-inline:auto}
+.cl-pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;align-content:center;gap:clamp(32px,6vw,96px)}
+.cl-txt{display:grid;gap:14px;max-width:36ch}
+.cl-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}
+.cl-txt p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.cl-card{display:grid;gap:16px;padding:24px;background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink) 40%,transparent)}
+.cl-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.cl-title{font-size:18px;font-weight:700}
+.cl-count{font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.cl-count b{color:var(--ink);font-weight:600}
+.cl-bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.cl-fill{display:block;height:100%;background:var(--accent);transform-origin:right center}
+.cl-list{list-style:none;margin:0;padding:0}
+.cl-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.cl-row:first-child{border-top:0}
+.cl-ck{flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--line);transition:background-color .3s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.cl-ck svg{width:14px;height:14px;fill:none;stroke:var(--accent-ink);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.cl-ck path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .35s cubic-bezier(.2,.6,.2,1)}
+.cl-name{flex:1;min-width:0;font-size:16px;font-weight:500;line-height:1.35;transition:color .3s linear}
+.cl-chip{display:grid;justify-items:center;align-items:center;min-height:28px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--muted);box-shadow:inset 0 0 0 1px var(--line);transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s linear,box-shadow .3s linear}
+.cl-chip>span{grid-area:1/1;display:inline-flex;align-items:center;gap:8px;opacity:0;transition:opacity .25s linear}
+.cl-sp{width:12px;height:12px;box-sizing:border-box;border:2px solid color-mix(in srgb,var(--accent) 30%,transparent);border-top-color:var(--accent);border-radius:50%}
+.cl-row[data-s=pending] .cl-name{color:var(--muted)}
+.cl-row[data-s=pending] .cl-w,.cl-row[data-s=busy] .cl-b,.cl-row[data-s=done] .cl-d{opacity:1}
+.cl-row[data-s=busy] .cl-ck{box-shadow:inset 0 0 0 2px var(--accent)}
+.cl-row[data-s=busy] .cl-chip{background:color-mix(in srgb,var(--accent) 12%,var(--card));color:var(--ink);box-shadow:inset 0 0 0 1px var(--accent)}
+.cl-row[data-s=busy] .cl-sp{animation:cl-rot .8s linear infinite}
+@keyframes cl-rot{to{transform:rotate(360deg)}}
+.cl-row[data-s=done] .cl-ck{background:var(--accent);box-shadow:inset 0 0 0 2px var(--accent)}
+.cl-row[data-s=done] .cl-ck path{stroke-dashoffset:0}
+.cl-row[data-s=done] .cl-chip{background:var(--accent);color:var(--accent-ink);box-shadow:none}
+.cl.is-live .cl-run{height:300vh}
+.cl.is-live .cl-pin{position:sticky;top:0;min-height:100vh;min-height:100svh}
+@media(max-width:767px){.cl-pin{grid-template-columns:minmax(0,1fr);gap:24px}.cl-txt{max-width:none}.cl-card{padding:20px}.cl-row{padding:12px 0}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g181.html" rel="prev" title="הקודם: שדה שמקליד שאלה ומחזיר תשובה">→<span class="sr-only">הקודם</span></a><span class="vpn-n">158/162</span><a href="g183.html" rel="next" title="הבא: כרטיס מוצר שנבנה שלב אחר שלב">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G182</span> · רשימת שלבים עם שבבי סטטוס שמתחלפים</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger · sticky</span>
+  <span class="vchip use">תהליך ושלבים</span><span class="vchip use">טעינה ופידבק</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g182"><code>MV:g182</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g182">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>כרטיס עם חמישה שלבים, ובכל שלב שבב סטטוס: ״ממתין״ באפור, ״בטיפול״ עם ספינר, ״הושלם״ בצבע המותג עם וי שמצטייר. הכרטיס נעוץ במסך והגלילה מקדמת אותו: שלב אחרי שלב הסטטוס מתחלף, פס ההתקדמות מתמלא והמונה למעלה עולה מאפס לחמש. זה תהליך שרואים מתקדם, לא רשימה שקוראים.</p>
+  <p class="when"><b>מתי משתמשים:</b> תהליך אמיתי של שלושה עד שישה שלבים שיש להם סטטוס: קליטת לקוח, מעבר דירה או משרד, הקמת חשבון, הזמנה עם כמה שלבי טיפול. סקשן ״איך זה עובד״ או ״מה קורה אחרי שמצטרפים״. השלבים והסטטוסים צריכים להיות אמיתיים ובאים בסדר הזה. פעם אחת בעמוד.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית</dd></div><div><dt>בסקשן</dt><dd>תהליך ושלבים · שירותים ומוצרים · בעיה ויתרונות</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>משרת תוכן, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשיש פחות משלושה שלבים או יותר משישה, ולא כשהסטטוסים לא אמיתיים או לא באים בסדר הזה.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g182"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="cl"><div class="cl-run"><div class="cl-pin">
+  <div class="cl-txt"><h3>ככה נראה השבוע הראשון שלכם איתנו</h3><p>אתם חותמים ומעבירים מסמכים. את השאר אנחנו עושים, ובכל שלב רואים בדיוק מה הושלם ומה עוד בדרך.</p></div>
+  <div class="cl-card">
+    <div class="cl-head"><span class="cl-title">הצטרפות של לקוח חדש</span><span class="cl-count">הושלמו <b>5</b> מתוך 5</span></div>
+    <div class="cl-bar" aria-hidden="true"><i class="cl-fill"></i></div>
+    <ol class="cl-list">
+      <li class="cl-row" data-s="done"><span class="cl-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9" pathLength="1"/></svg></span><span class="cl-name">חתימה על הסכם ייצוג</span><span class="cl-chip"><span class="cl-w" aria-hidden="true">ממתין</span><span class="cl-b" aria-hidden="true"><i class="cl-sp"></i>בטיפול</span><span class="cl-d">הושלם</span></span></li>
+      <li class="cl-row" data-s="done"><span class="cl-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9" pathLength="1"/></svg></span><span class="cl-name">העברת מסמכי העסק</span><span class="cl-chip"><span class="cl-w" aria-hidden="true">ממתין</span><span class="cl-b" aria-hidden="true"><i class="cl-sp"></i>בטיפול</span><span class="cl-d">הושלם</span></span></li>
+      <li class="cl-row" data-s="done"><span class="cl-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9" pathLength="1"/></svg></span><span class="cl-name">פתיחת תיק ברשויות</span><span class="cl-chip"><span class="cl-w" aria-hidden="true">ממתין</span><span class="cl-b" aria-hidden="true"><i class="cl-sp"></i>בטיפול</span><span class="cl-d">הושלם</span></span></li>
+      <li class="cl-row" data-s="done"><span class="cl-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9" pathLength="1"/></svg></span><span class="cl-name">חיבור לתוכנת הנהלת החשבונות</span><span class="cl-chip"><span class="cl-w" aria-hidden="true">ממתין</span><span class="cl-b" aria-hidden="true"><i class="cl-sp"></i>בטיפול</span><span class="cl-d">הושלם</span></span></li>
+      <li class="cl-row" data-s="done"><span class="cl-ck" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9" pathLength="1"/></svg></span><span class="cl-name">פגישת היכרות ראשונה</span><span class="cl-chip"><span class="cl-w" aria-hidden="true">ממתין</span><span class="cl-b" aria-hidden="true"><i class="cl-sp"></i>בטיפול</span><span class="cl-d">הושלם</span></span></li>
+    </ol>
+  </div>
+</div></div></div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטוני תהליך בגלריה של prompt-motion.com (21.10.2026), שבהם רשימת שלבים מחליפה סטטוסים בזה אחר זה ופס ההתקדמות עולה איתה. נבנה מאפס מהצפייה. <b>המארקאפ הוא מצב הסיום:</b> <code>ol</code> אמיתי, בכל שורה <code>data-s="done"</code>, והמונה על 5. בלי GSAP ובהפחתת תנועה זו רשימה רגילה בזרימת העמוד. הקורא מסך מקבל את שם השלב ואת ״הושלם״, והתוויות האחרות של השבב מסומנות <code>aria-hidden</code>. <b>כשהמהלך רץ</b> הכרטיס נעוץ ב-<code>position:sticky</code> בתוך אזור גלילה גבוה (300vh, רק כשה-JS חי, כדי שבלעדיו לא יהיה רווח ריק). פונקציה אחת <code>paint(p)</code> מקבלת את ההתקדמות וקובעת לכל שורה את המצב (<code>pending</code>, <code>busy</code>, <code>done</code>) לפי הטווח שלה, ולכן אותו קוד עובד בגלילה למעלה ולמטה, ואין צורך בשום callback של ציר זמן. את המעבר בין שבבים עושה ה-CSS: שלוש תוויות חופפות שמתחלפות באטימות, ווי שמצטייר ב-<code>stroke-dashoffset</code>. <b>להתאים:</b> שלבים, שמות וסטטוסים הם התוכן, והטווח של כל שלב הוא <code>T</code> בקוד. <b>RTL:</b> הפס מתמלא מימין. ב-LTR משנים את <code>transform-origin</code> של <code>.cl-fill</code> ל-<code>left center</code>. בנייד הטקסט נמצא מעל הכרטיס, ושניהם נכנסים במסך אחד.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g182.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G182 · רשימת שלבים עם שבבי סטטוס שמתחלפים */
+.cl{max-width:1040px;margin-inline:auto}
+.cl-pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;align-content:center;gap:clamp(32px,6vw,96px)}
+.cl-txt{display:grid;gap:14px;max-width:36ch}
+.cl-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}
+.cl-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.cl-card{display:grid;gap:16px;padding:24px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:20px;box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}
+.cl-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.cl-title{font-size:18px;font-weight:700}
+.cl-count{font-size:14px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}
+.cl-count b{color:var(--ink, #16182b);font-weight:600}
+.cl-bar{height:8px;border-radius:4px;background:var(--line, #e4e4ee);overflow:hidden}
+.cl-fill{display:block;height:100%;background:var(--accent, #4a3aff);transform-origin:right center}
+.cl-list{list-style:none;margin:0;padding:0}
+.cl-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-top:1px solid var(--line, #e4e4ee)}
+.cl-row:first-child{border-top:0}
+.cl-ck{flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--line, #e4e4ee);transition:background-color .3s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.cl-ck svg{width:14px;height:14px;fill:none;stroke:var(--accent-ink, #fff);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.cl-ck path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .35s cubic-bezier(.2,.6,.2,1)}
+.cl-name{flex:1;min-width:0;font-size:16px;font-weight:500;line-height:1.35;transition:color .3s linear}
+.cl-chip{display:grid;justify-items:center;align-items:center;min-height:28px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--muted, #6a6d85);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s linear,box-shadow .3s linear}
+.cl-chip&gt;span{grid-area:1/1;display:inline-flex;align-items:center;gap:8px;opacity:0;transition:opacity .25s linear}
+.cl-sp{width:12px;height:12px;box-sizing:border-box;border:2px solid color-mix(in srgb,var(--accent, #4a3aff) 30%,transparent);border-top-color:var(--accent, #4a3aff);border-radius:50%}
+.cl-row[data-s=pending] .cl-name{color:var(--muted, #6a6d85)}
+.cl-row[data-s=pending] .cl-w,.cl-row[data-s=busy] .cl-b,.cl-row[data-s=done] .cl-d{opacity:1}
+.cl-row[data-s=busy] .cl-ck{box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}
+.cl-row[data-s=busy] .cl-chip{background:color-mix(in srgb,var(--accent, #4a3aff) 12%,var(--card, #fff));color:var(--ink, #16182b);box-shadow:inset 0 0 0 1px var(--accent, #4a3aff)}
+.cl-row[data-s=busy] .cl-sp{animation:cl-rot .8s linear infinite}
+@keyframes cl-rot{to{transform:rotate(360deg)}}
+.cl-row[data-s=done] .cl-ck{background:var(--accent, #4a3aff);box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}
+.cl-row[data-s=done] .cl-ck path{stroke-dashoffset:0}
+.cl-row[data-s=done] .cl-chip{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);box-shadow:none}
+.cl.is-live .cl-run{height:300vh}
+.cl.is-live .cl-pin{position:sticky;top:0;min-height:100vh;min-height:100svh}
+@media(max-width:767px){.cl-pin{grid-template-columns:minmax(0,1fr);gap:24px}.cl-txt{max-width:none}.cl-card{padding:20px}.cl-row{padding:12px 0}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;div class="cl"&gt;&lt;div class="cl-run"&gt;&lt;div class="cl-pin"&gt;
+  &lt;div class="cl-txt"&gt;&lt;h3&gt;ככה נראה השבוע הראשון שלכם איתנו&lt;/h3&gt;&lt;p&gt;אתם חותמים ומעבירים מסמכים. את השאר אנחנו עושים, ובכל שלב רואים בדיוק מה הושלם ומה עוד בדרך.&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="cl-card"&gt;
+    &lt;div class="cl-head"&gt;&lt;span class="cl-title"&gt;הצטרפות של לקוח חדש&lt;/span&gt;&lt;span class="cl-count"&gt;הושלמו &lt;b&gt;5&lt;/b&gt; מתוך 5&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="cl-bar" aria-hidden="true"&gt;&lt;i class="cl-fill"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;ol class="cl-list"&gt;
+      &lt;li class="cl-row" data-s="done"&gt;&lt;span class="cl-ck" aria-hidden="true"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M6 12.5l4 4 8-9" pathLength="1"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span class="cl-name"&gt;חתימה על הסכם ייצוג&lt;/span&gt;&lt;span class="cl-chip"&gt;&lt;span class="cl-w" aria-hidden="true"&gt;ממתין&lt;/span&gt;&lt;span class="cl-b" aria-hidden="true"&gt;&lt;i class="cl-sp"&gt;&lt;/i&gt;בטיפול&lt;/span&gt;&lt;span class="cl-d"&gt;הושלם&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;
+      &lt;li class="cl-row" data-s="done"&gt;&lt;span class="cl-ck" aria-hidden="true"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M6 12.5l4 4 8-9" pathLength="1"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span class="cl-name"&gt;העברת מסמכי העסק&lt;/span&gt;&lt;span class="cl-chip"&gt;&lt;span class="cl-w" aria-hidden="true"&gt;ממתין&lt;/span&gt;&lt;span class="cl-b" aria-hidden="true"&gt;&lt;i class="cl-sp"&gt;&lt;/i&gt;בטיפול&lt;/span&gt;&lt;span class="cl-d"&gt;הושלם&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;
+      &lt;li class="cl-row" data-s="done"&gt;&lt;span class="cl-ck" aria-hidden="true"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M6 12.5l4 4 8-9" pathLength="1"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span class="cl-name"&gt;פתיחת תיק ברשויות&lt;/span&gt;&lt;span class="cl-chip"&gt;&lt;span class="cl-w" aria-hidden="true"&gt;ממתין&lt;/span&gt;&lt;span class="cl-b" aria-hidden="true"&gt;&lt;i class="cl-sp"&gt;&lt;/i&gt;בטיפול&lt;/span&gt;&lt;span class="cl-d"&gt;הושלם&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;
+      &lt;li class="cl-row" data-s="done"&gt;&lt;span class="cl-ck" aria-hidden="true"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M6 12.5l4 4 8-9" pathLength="1"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span class="cl-name"&gt;חיבור לתוכנת הנהלת החשבונות&lt;/span&gt;&lt;span class="cl-chip"&gt;&lt;span class="cl-w" aria-hidden="true"&gt;ממתין&lt;/span&gt;&lt;span class="cl-b" aria-hidden="true"&gt;&lt;i class="cl-sp"&gt;&lt;/i&gt;בטיפול&lt;/span&gt;&lt;span class="cl-d"&gt;הושלם&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;
+      &lt;li class="cl-row" data-s="done"&gt;&lt;span class="cl-ck" aria-hidden="true"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M6 12.5l4 4 8-9" pathLength="1"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;span class="cl-name"&gt;פגישת היכרות ראשונה&lt;/span&gt;&lt;span class="cl-chip"&gt;&lt;span class="cl-w" aria-hidden="true"&gt;ממתין&lt;/span&gt;&lt;span class="cl-b" aria-hidden="true"&gt;&lt;i class="cl-sp"&gt;&lt;/i&gt;בטיפול&lt;/span&gt;&lt;span class="cl-d"&gt;הושלם&lt;/span&gt;&lt;/span&gt;&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP זו רשימה רגילה, וכל השלבים במצב הושלם (במארקאפ)
+  const root=document.querySelector(".cl"),run=root.querySelector(".cl-run"),rows=[...root.querySelectorAll(".cl-row")],
+    fill=root.querySelector(".cl-fill"),cnt=root.querySelector(".cl-count b");
+  const n=rows.length,T=.17,L=.06,fin=T*.65;     // כל שלב תופס T מההתקדמות, הראשון מתחיל ב-L, ו-fin הוא הנקודה שבה הוא מושלם
+  const end=L+(n-1)*T+fin;
+  // מצב כל שורה נגזר מההתקדמות בלבד, ולכן אותו קוד נכון בגלילה קדימה ואחורה
+  const paint=p=&gt;{
+    let done=0;
+    rows.forEach((r,i)=&gt;{const a=L+i*T,s=p&gt;=a+fin?"done":p&gt;=a?"busy":"pending";if(s==="done")done++;if(r.dataset.s!==s)r.dataset.s=s;});
+    cnt.textContent=done;
+    gsap.to(fill,{scaleX:Math.min(1,Math.max(0,(p-L)/(end-L))),duration:.35,ease:"power2.out",overwrite:true});
+  };
+  // בהפחתת תנועה הפונקציה לא רצה, והרשימה נשארת במצב הסיום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    gsap.set(fill,{scaleX:0});paint(0);
+    const st=ScrollTrigger.create({trigger:run,start:"top top",end:"bottom bottom",invalidateOnRefresh:true,onUpdate:s=&gt;paint(s.progress)});
+    return()=&gt;{st.kill();root.classList.remove("is-live");rows.forEach(r=&gt;{r.dataset.s="done";});cnt.textContent=n;gsap.killTweensOf(fill);gsap.set(fill,{clearProps:"all"});};
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g182 · רשימת שלבים עם שבבי סטטוס שמתחלפים\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g182.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g182.html\n\nמה זה עושה: כרטיס עם חמישה שלבים, ובכל שלב שבב סטטוס: ״ממתין״ באפור, ״בטיפול״ עם ספינר, ״הושלם״ בצבע המותג עם וי שמצטייר. הכרטיס נעוץ במסך והגלילה מקדמת אותו: שלב אחרי שלב הסטטוס מתחלף, פס ההתקדמות מתמלא והמונה למעלה עולה מאפס לחמש. זה תהליך שרואים מתקדם, לא רשימה שקוראים.\nמתי משתמשים: תהליך אמיתי של שלושה עד שישה שלבים שיש להם סטטוס: קליטת לקוח, מעבר דירה או משרד, הקמת חשבון, הזמנה עם כמה שלבי טיפול. סקשן ״איך זה עובד״ או ״מה קורה אחרי שמצטרפים״. השלבים והסטטוסים צריכים להיות אמיתיים ובאים בסדר הזה. פעם אחת בעמוד.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית\nבסקשן: תהליך ושלבים · שירותים ומוצרים · בעיה ויתרונות\nאופי: גם באתר שקט\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא כשיש פחות משלושה שלבים או יותר משישה, ולא כשהסטטוסים לא אמיתיים או לא באים בסדר הזה.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G182 · רשימת שלבים עם שבבי סטטוס שמתחלפים */\n.cl{max-width:1040px;margin-inline:auto}\n.cl-pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;align-content:center;gap:clamp(32px,6vw,96px)}\n.cl-txt{display:grid;gap:14px;max-width:36ch}\n.cl-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}\n.cl-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.cl-card{display:grid;gap:16px;padding:24px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:20px;box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}\n.cl-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px}\n.cl-title{font-size:18px;font-weight:700}\n.cl-count{font-size:14px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}\n.cl-count b{color:var(--ink, #16182b);font-weight:600}\n.cl-bar{height:8px;border-radius:4px;background:var(--line, #e4e4ee);overflow:hidden}\n.cl-fill{display:block;height:100%;background:var(--accent, #4a3aff);transform-origin:right center}\n.cl-list{list-style:none;margin:0;padding:0}\n.cl-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-top:1px solid var(--line, #e4e4ee)}\n.cl-row:first-child{border-top:0}\n.cl-ck{flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--line, #e4e4ee);transition:background-color .3s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.cl-ck svg{width:14px;height:14px;fill:none;stroke:var(--accent-ink, #fff);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}\n.cl-ck path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .35s cubic-bezier(.2,.6,.2,1)}\n.cl-name{flex:1;min-width:0;font-size:16px;font-weight:500;line-height:1.35;transition:color .3s linear}\n.cl-chip{display:grid;justify-items:center;align-items:center;min-height:28px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--muted, #6a6d85);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s linear,box-shadow .3s linear}\n.cl-chip>span{grid-area:1/1;display:inline-flex;align-items:center;gap:8px;opacity:0;transition:opacity .25s linear}\n.cl-sp{width:12px;height:12px;box-sizing:border-box;border:2px solid color-mix(in srgb,var(--accent, #4a3aff) 30%,transparent);border-top-color:var(--accent, #4a3aff);border-radius:50%}\n.cl-row[data-s=pending] .cl-name{color:var(--muted, #6a6d85)}\n.cl-row[data-s=pending] .cl-w,.cl-row[data-s=busy] .cl-b,.cl-row[data-s=done] .cl-d{opacity:1}\n.cl-row[data-s=busy] .cl-ck{box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}\n.cl-row[data-s=busy] .cl-chip{background:color-mix(in srgb,var(--accent, #4a3aff) 12%,var(--card, #fff));color:var(--ink, #16182b);box-shadow:inset 0 0 0 1px var(--accent, #4a3aff)}\n.cl-row[data-s=busy] .cl-sp{animation:cl-rot .8s linear infinite}\n@keyframes cl-rot{to{transform:rotate(360deg)}}\n.cl-row[data-s=done] .cl-ck{background:var(--accent, #4a3aff);box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}\n.cl-row[data-s=done] .cl-ck path{stroke-dashoffset:0}\n.cl-row[data-s=done] .cl-chip{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);box-shadow:none}\n.cl.is-live .cl-run{height:300vh}\n.cl.is-live .cl-pin{position:sticky;top:0;min-height:100vh;min-height:100svh}\n@media(max-width:767px){.cl-pin{grid-template-columns:minmax(0,1fr);gap:24px}.cl-txt{max-width:none}.cl-card{padding:20px}.cl-row{padding:12px 0}}\n\n=== HTML ===\n<div class=\"stage\"><div class=\"cl\"><div class=\"cl-run\"><div class=\"cl-pin\">\n  <div class=\"cl-txt\"><h3>ככה נראה השבוע הראשון שלכם איתנו<\/h3><p>אתם חותמים ומעבירים מסמכים. את השאר אנחנו עושים, ובכל שלב רואים בדיוק מה הושלם ומה עוד בדרך.<\/p><\/div>\n  <div class=\"cl-card\">\n    <div class=\"cl-head\"><span class=\"cl-title\">הצטרפות של לקוח חדש<\/span><span class=\"cl-count\">הושלמו <b>5<\/b> מתוך 5<\/span><\/div>\n    <div class=\"cl-bar\" aria-hidden=\"true\"><i class=\"cl-fill\"><\/i><\/div>\n    <ol class=\"cl-list\">\n      <li class=\"cl-row\" data-s=\"done\"><span class=\"cl-ck\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\" pathLength=\"1\"/><\/svg><\/span><span class=\"cl-name\">חתימה על הסכם ייצוג<\/span><span class=\"cl-chip\"><span class=\"cl-w\" aria-hidden=\"true\">ממתין<\/span><span class=\"cl-b\" aria-hidden=\"true\"><i class=\"cl-sp\"><\/i>בטיפול<\/span><span class=\"cl-d\">הושלם<\/span><\/span><\/li>\n      <li class=\"cl-row\" data-s=\"done\"><span class=\"cl-ck\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\" pathLength=\"1\"/><\/svg><\/span><span class=\"cl-name\">העברת מסמכי העסק<\/span><span class=\"cl-chip\"><span class=\"cl-w\" aria-hidden=\"true\">ממתין<\/span><span class=\"cl-b\" aria-hidden=\"true\"><i class=\"cl-sp\"><\/i>בטיפול<\/span><span class=\"cl-d\">הושלם<\/span><\/span><\/li>\n      <li class=\"cl-row\" data-s=\"done\"><span class=\"cl-ck\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\" pathLength=\"1\"/><\/svg><\/span><span class=\"cl-name\">פתיחת תיק ברשויות<\/span><span class=\"cl-chip\"><span class=\"cl-w\" aria-hidden=\"true\">ממתין<\/span><span class=\"cl-b\" aria-hidden=\"true\"><i class=\"cl-sp\"><\/i>בטיפול<\/span><span class=\"cl-d\">הושלם<\/span><\/span><\/li>\n      <li class=\"cl-row\" data-s=\"done\"><span class=\"cl-ck\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\" pathLength=\"1\"/><\/svg><\/span><span class=\"cl-name\">חיבור לתוכנת הנהלת החשבונות<\/span><span class=\"cl-chip\"><span class=\"cl-w\" aria-hidden=\"true\">ממתין<\/span><span class=\"cl-b\" aria-hidden=\"true\"><i class=\"cl-sp\"><\/i>בטיפול<\/span><span class=\"cl-d\">הושלם<\/span><\/span><\/li>\n      <li class=\"cl-row\" data-s=\"done\"><span class=\"cl-ck\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\" pathLength=\"1\"/><\/svg><\/span><span class=\"cl-name\">פגישת היכרות ראשונה<\/span><span class=\"cl-chip\"><span class=\"cl-w\" aria-hidden=\"true\">ממתין<\/span><span class=\"cl-b\" aria-hidden=\"true\"><i class=\"cl-sp\"><\/i>בטיפול<\/span><span class=\"cl-d\">הושלם<\/span><\/span><\/li>\n    <\/ol>\n  <\/div>\n<\/div><\/div><\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP זו רשימה רגילה, וכל השלבים במצב הושלם (במארקאפ)\n  const root=document.querySelector(\".cl\"),run=root.querySelector(\".cl-run\"),rows=[...root.querySelectorAll(\".cl-row\")],\n    fill=root.querySelector(\".cl-fill\"),cnt=root.querySelector(\".cl-count b\");\n  const n=rows.length,T=.17,L=.06,fin=T*.65;     // כל שלב תופס T מההתקדמות, הראשון מתחיל ב-L, ו-fin הוא הנקודה שבה הוא מושלם\n  const end=L+(n-1)*T+fin;\n  // מצב כל שורה נגזר מההתקדמות בלבד, ולכן אותו קוד נכון בגלילה קדימה ואחורה\n  const paint=p=>{\n    let done=0;\n    rows.forEach((r,i)=>{const a=L+i*T,s=p>=a+fin?\"done\":p>=a?\"busy\":\"pending\";if(s===\"done\")done++;if(r.dataset.s!==s)r.dataset.s=s;});\n    cnt.textContent=done;\n    gsap.to(fill,{scaleX:Math.min(1,Math.max(0,(p-L)/(end-L))),duration:.35,ease:\"power2.out\",overwrite:true});\n  };\n  // בהפחתת תנועה הפונקציה לא רצה, והרשימה נשארת במצב הסיום\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    gsap.set(fill,{scaleX:0});paint(0);\n    const st=ScrollTrigger.create({trigger:run,start:\"top top\",end:\"bottom bottom\",invalidateOnRefresh:true,onUpdate:s=>paint(s.progress)});\n    return()=>{st.kill();root.classList.remove(\"is-live\");rows.forEach(r=>{r.dataset.s=\"done\";});cnt.textContent=n;gsap.killTweensOf(fill);gsap.set(fill,{clearProps:\"all\"});};\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטוני תהליך בגלריה של prompt-motion.com (21.10.2026), שבהם רשימת שלבים מחליפה סטטוסים בזה אחר זה ופס ההתקדמות עולה איתה. נבנה מאפס מהצפייה. המארקאפ הוא מצב הסיום: `ol` אמיתי, בכל שורה `data-s=\"done\"`, והמונה על 5. בלי GSAP ובהפחתת תנועה זו רשימה רגילה בזרימת העמוד. הקורא מסך מקבל את שם השלב ואת ״הושלם״, והתוויות האחרות של השבב מסומנות `aria-hidden`. כשהמהלך רץ הכרטיס נעוץ ב-`position:sticky` בתוך אזור גלילה גבוה (300vh, רק כשה-JS חי, כדי שבלעדיו לא יהיה רווח ריק). פונקציה אחת `paint(p)` מקבלת את ההתקדמות וקובעת לכל שורה את המצב (`pending`, `busy`, `done`) לפי הטווח שלה, ולכן אותו קוד עובד בגלילה למעלה ולמטה, ואין צורך בשום callback של ציר זמן. את המעבר בין שבבים עושה ה-CSS: שלוש תוויות חופפות שמתחלפות באטימות, ווי שמצטייר ב-`stroke-dashoffset`. להתאים: שלבים, שמות וסטטוסים הם התוכן, והטווח של כל שלב הוא `T` בקוד. RTL: הפס מתמלא מימין. ב-LTR משנים את `transform-origin` של `.cl-fill` ל-`left center`. בנייד הטקסט נמצא מעל הכרטיס, ושניהם נכנסים במסך אחד.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G182 · רשימת שלבים עם שבבי סטטוס שמתחלפים */\n.cl{max-width:1040px;margin-inline:auto}\n.cl-pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;align-content:center;gap:clamp(32px,6vw,96px)}\n.cl-txt{display:grid;gap:14px;max-width:36ch}\n.cl-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}\n.cl-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.cl-card{display:grid;gap:16px;padding:24px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:20px;box-shadow:0 28px 56px -32px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}\n.cl-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px}\n.cl-title{font-size:18px;font-weight:700}\n.cl-count{font-size:14px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}\n.cl-count b{color:var(--ink, #16182b);font-weight:600}\n.cl-bar{height:8px;border-radius:4px;background:var(--line, #e4e4ee);overflow:hidden}\n.cl-fill{display:block;height:100%;background:var(--accent, #4a3aff);transform-origin:right center}\n.cl-list{list-style:none;margin:0;padding:0}\n.cl-row{display:flex;align-items:center;gap:14px;padding:14px 0;border-top:1px solid var(--line, #e4e4ee)}\n.cl-row:first-child{border-top:0}\n.cl-ck{flex:none;display:grid;place-items:center;width:24px;height:24px;border-radius:50%;box-shadow:inset 0 0 0 2px var(--line, #e4e4ee);transition:background-color .3s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.cl-ck svg{width:14px;height:14px;fill:none;stroke:var(--accent-ink, #fff);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}\n.cl-ck path{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .35s cubic-bezier(.2,.6,.2,1)}\n.cl-name{flex:1;min-width:0;font-size:16px;font-weight:500;line-height:1.35;transition:color .3s linear}\n.cl-chip{display:grid;justify-items:center;align-items:center;min-height:28px;padding:0 14px;border-radius:999px;font-size:13px;font-weight:600;color:var(--muted, #6a6d85);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s linear,box-shadow .3s linear}\n.cl-chip>span{grid-area:1/1;display:inline-flex;align-items:center;gap:8px;opacity:0;transition:opacity .25s linear}\n.cl-sp{width:12px;height:12px;box-sizing:border-box;border:2px solid color-mix(in srgb,var(--accent, #4a3aff) 30%,transparent);border-top-color:var(--accent, #4a3aff);border-radius:50%}\n.cl-row[data-s=pending] .cl-name{color:var(--muted, #6a6d85)}\n.cl-row[data-s=pending] .cl-w,.cl-row[data-s=busy] .cl-b,.cl-row[data-s=done] .cl-d{opacity:1}\n.cl-row[data-s=busy] .cl-ck{box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}\n.cl-row[data-s=busy] .cl-chip{background:color-mix(in srgb,var(--accent, #4a3aff) 12%,var(--card, #fff));color:var(--ink, #16182b);box-shadow:inset 0 0 0 1px var(--accent, #4a3aff)}\n.cl-row[data-s=busy] .cl-sp{animation:cl-rot .8s linear infinite}\n@keyframes cl-rot{to{transform:rotate(360deg)}}\n.cl-row[data-s=done] .cl-ck{background:var(--accent, #4a3aff);box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}\n.cl-row[data-s=done] .cl-ck path{stroke-dashoffset:0}\n.cl-row[data-s=done] .cl-chip{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);box-shadow:none}\n.cl.is-live .cl-run{height:300vh}\n.cl.is-live .cl-pin{position:sticky;top:0;min-height:100vh;min-height:100svh}\n@media(max-width:767px){.cl-pin{grid-template-columns:minmax(0,1fr);gap:24px}.cl-txt{max-width:none}.cl-card{padding:20px}.cl-row{padding:12px 0}}","html":"<div class=\"stage\"><div class=\"cl\"><div class=\"cl-run\"><div class=\"cl-pin\">\n  <div class=\"cl-txt\"><h3>ככה נראה השבוע הראשון שלכם איתנו<\/h3><p>אתם חותמים ומעבירים מסמכים. את השאר אנחנו עושים, ובכל שלב רואים בדיוק מה הושלם ומה עוד בדרך.<\/p><\/div>\n  <div class=\"cl-card\">\n    <div class=\"cl-head\"><span class=\"cl-title\">הצטרפות של לקוח חדש<\/span><span class=\"cl-count\">הושלמו <b>5<\/b> מתוך 5<\/span><\/div>\n    <div class=\"cl-bar\" aria-hidden=\"true\"><i class=\"cl-fill\"><\/i><\/div>\n    <ol class=\"cl-list\">\n      <li class=\"cl-row\" data-s=\"done\"><span class=\"cl-ck\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\" pathLength=\"1\"/><\/svg><\/span><span class=\"cl-name\">חתימה על הסכם ייצוג<\/span><span class=\"cl-chip\"><span class=\"cl-w\" aria-hidden=\"true\">ממתין<\/span><span class=\"cl-b\" aria-hidden=\"true\"><i class=\"cl-sp\"><\/i>בטיפול<\/span><span class=\"cl-d\">הושלם<\/span><\/span><\/li>\n      <li class=\"cl-row\" data-s=\"done\"><span class=\"cl-ck\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\" pathLength=\"1\"/><\/svg><\/span><span class=\"cl-name\">העברת מסמכי העסק<\/span><span class=\"cl-chip\"><span class=\"cl-w\" aria-hidden=\"true\">ממתין<\/span><span class=\"cl-b\" aria-hidden=\"true\"><i class=\"cl-sp\"><\/i>בטיפול<\/span><span class=\"cl-d\">הושלם<\/span><\/span><\/li>\n      <li class=\"cl-row\" data-s=\"done\"><span class=\"cl-ck\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\" pathLength=\"1\"/><\/svg><\/span><span class=\"cl-name\">פתיחת תיק ברשויות<\/span><span class=\"cl-chip\"><span class=\"cl-w\" aria-hidden=\"true\">ממתין<\/span><span class=\"cl-b\" aria-hidden=\"true\"><i class=\"cl-sp\"><\/i>בטיפול<\/span><span class=\"cl-d\">הושלם<\/span><\/span><\/li>\n      <li class=\"cl-row\" data-s=\"done\"><span class=\"cl-ck\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\" pathLength=\"1\"/><\/svg><\/span><span class=\"cl-name\">חיבור לתוכנת הנהלת החשבונות<\/span><span class=\"cl-chip\"><span class=\"cl-w\" aria-hidden=\"true\">ממתין<\/span><span class=\"cl-b\" aria-hidden=\"true\"><i class=\"cl-sp\"><\/i>בטיפול<\/span><span class=\"cl-d\">הושלם<\/span><\/span><\/li>\n      <li class=\"cl-row\" data-s=\"done\"><span class=\"cl-ck\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M6 12.5l4 4 8-9\" pathLength=\"1\"/><\/svg><\/span><span class=\"cl-name\">פגישת היכרות ראשונה<\/span><span class=\"cl-chip\"><span class=\"cl-w\" aria-hidden=\"true\">ממתין<\/span><span class=\"cl-b\" aria-hidden=\"true\"><i class=\"cl-sp\"><\/i>בטיפול<\/span><span class=\"cl-d\">הושלם<\/span><\/span><\/li>\n    <\/ol>\n  <\/div>\n<\/div><\/div><\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP זו רשימה רגילה, וכל השלבים במצב הושלם (במארקאפ)\n  const root=document.querySelector(\".cl\"),run=root.querySelector(\".cl-run\"),rows=[...root.querySelectorAll(\".cl-row\")],\n    fill=root.querySelector(\".cl-fill\"),cnt=root.querySelector(\".cl-count b\");\n  const n=rows.length,T=.17,L=.06,fin=T*.65;     // כל שלב תופס T מההתקדמות, הראשון מתחיל ב-L, ו-fin הוא הנקודה שבה הוא מושלם\n  const end=L+(n-1)*T+fin;\n  // מצב כל שורה נגזר מההתקדמות בלבד, ולכן אותו קוד נכון בגלילה קדימה ואחורה\n  const paint=p=>{\n    let done=0;\n    rows.forEach((r,i)=>{const a=L+i*T,s=p>=a+fin?\"done\":p>=a?\"busy\":\"pending\";if(s===\"done\")done++;if(r.dataset.s!==s)r.dataset.s=s;});\n    cnt.textContent=done;\n    gsap.to(fill,{scaleX:Math.min(1,Math.max(0,(p-L)/(end-L))),duration:.35,ease:\"power2.out\",overwrite:true});\n  };\n  // בהפחתת תנועה הפונקציה לא רצה, והרשימה נשארת במצב הסיום\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    gsap.set(fill,{scaleX:0});paint(0);\n    const st=ScrollTrigger.create({trigger:run,start:\"top top\",end:\"bottom bottom\",invalidateOnRefresh:true,onUpdate:s=>paint(s.progress)});\n    return()=>{st.kill();root.classList.remove(\"is-live\");rows.forEach(r=>{r.dataset.s=\"done\";});cnt.textContent=n;gsap.killTweensOf(fill);gsap.set(fill,{clearProps:\"all\"});};\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g181.html" rel="prev"><small>→ הקודם</small><b>שדה שמקליד שאלה ומחזיר תשובה</b></a><a href="g183.html" rel="next"><small>הבא ←</small><b>כרטיס מוצר שנבנה שלב אחר שלב</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · רשימת שלבים עם שבבי סטטוס שמתחלפים").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP זו רשימה רגילה, וכל השלבים במצב הושלם (במארקאפ)
+  const root=document.querySelector(".cl"),run=root.querySelector(".cl-run"),rows=[...root.querySelectorAll(".cl-row")],
+    fill=root.querySelector(".cl-fill"),cnt=root.querySelector(".cl-count b");
+  const n=rows.length,T=.17,L=.06,fin=T*.65;     // כל שלב תופס T מההתקדמות, הראשון מתחיל ב-L, ו-fin הוא הנקודה שבה הוא מושלם
+  const end=L+(n-1)*T+fin;
+  // מצב כל שורה נגזר מההתקדמות בלבד, ולכן אותו קוד נכון בגלילה קדימה ואחורה
+  const paint=p=>{
+    let done=0;
+    rows.forEach((r,i)=>{const a=L+i*T,s=p>=a+fin?"done":p>=a?"busy":"pending";if(s==="done")done++;if(r.dataset.s!==s)r.dataset.s=s;});
+    cnt.textContent=done;
+    gsap.to(fill,{scaleX:Math.min(1,Math.max(0,(p-L)/(end-L))),duration:.35,ease:"power2.out",overwrite:true});
+  };
+  // בהפחתת תנועה הפונקציה לא רצה, והרשימה נשארת במצב הסיום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    gsap.set(fill,{scaleX:0});paint(0);
+    const st=ScrollTrigger.create({trigger:run,start:"top top",end:"bottom bottom",invalidateOnRefresh:true,onUpdate:s=>paint(s.progress)});
+    return()=>{st.kill();root.classList.remove("is-live");rows.forEach(r=>{r.dataset.s="done";});cnt.textContent=n;gsap.killTweensOf(fill);gsap.set(fill,{clearProps:"all"});};
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS36 · כתם שמשנה צורה ומהפך את המילה | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.mb{display:grid;gap:24px;justify-items:center;text-align:center;padding:clamp(48px,6vw,96px) var(--gutter)}
+.mb-k{margin:0;font-size:15px;font-weight:600;color:var(--muted)}
+.mb-field{position:relative;isolation:isolate;container-type:size;display:grid;place-items:center;width:100%;height:clamp(320px,60vh,600px)}
+.mb-word{margin:0;font-size:clamp(80px,22cqw,300px);font-weight:800;line-height:1;letter-spacing:-.02em;white-space:nowrap}
+.mb-base{position:relative;z-index:1;color:var(--ink)}
+.mb-art{--s:min(50cqw,86cqh);position:absolute;inset:0;pointer-events:none}
+.mb-blob{position:absolute;z-index:2;left:calc(50% - var(--s)/2);top:calc(50% - var(--s)/2);width:var(--s);height:var(--s);overflow:hidden;background:var(--accent);border-radius:58% 42% 61% 39% / 46% 55% 45% 54%;transform:translate(calc(var(--s)*-.14),calc(var(--s)*-.05)) rotate(0deg);animation:mb-blob 18s cubic-bezier(.4,0,.2,1) infinite alternate}
+/* העותק ההפוך: בגודל המסגרת, מוזז כך שמרכזו במרכז המסגרת, ורץ בתנועה ההופכית לכתם */
+.mb-in{position:absolute;left:calc(var(--s)/2 - 50cqw);top:calc(var(--s)/2 - 50cqh);width:100cqw;height:100cqh;display:grid;place-items:center;transform:rotate(0deg) translate(calc(var(--s)*.14),calc(var(--s)*.05));animation:mb-inner 18s cubic-bezier(.4,0,.2,1) infinite alternate}
+.mb-in .mb-word{color:var(--accent-ink)}
+.mb-ring{position:absolute;z-index:0;width:calc(var(--s)*var(--g));height:calc(var(--s)*var(--g));left:calc(50% - var(--s)*var(--g)/2);top:calc(50% - var(--s)*var(--g)/2);border:1px solid color-mix(in srgb,var(--accent) 55%,transparent);border-radius:58% 42% 61% 39% / 46% 55% 45% 54%;transform:translate(calc(var(--s)*-.14),calc(var(--s)*-.05)) rotate(0deg);animation:mb-blob 18s cubic-bezier(.4,0,.2,1) infinite alternate;animation-delay:var(--o)}
+.mb-ring.r1{--g:1.12;--o:-4s}
+.mb-ring.r2{--g:1.24;--o:-8s}
+@keyframes mb-blob{
+  0%{border-radius:58% 42% 61% 39% / 46% 55% 45% 54%;transform:translate(calc(var(--s)*-.14),calc(var(--s)*-.05)) rotate(0deg)}
+  33%{border-radius:41% 59% 44% 56% / 58% 41% 59% 42%;transform:translate(calc(var(--s)*.16),calc(var(--s)*.07)) rotate(60deg)}
+  66%{border-radius:62% 38% 52% 48% / 40% 62% 38% 60%;transform:translate(calc(var(--s)*-.05),calc(var(--s)*.12)) rotate(130deg)}
+  100%{border-radius:48% 52% 38% 62% / 55% 45% 57% 43%;transform:translate(calc(var(--s)*.14),calc(var(--s)*-.09)) rotate(200deg)}
+}
+@keyframes mb-inner{
+  0%{transform:rotate(0deg) translate(calc(var(--s)*.14),calc(var(--s)*.05))}
+  33%{transform:rotate(-60deg) translate(calc(var(--s)*-.16),calc(var(--s)*-.07))}
+  66%{transform:rotate(-130deg) translate(calc(var(--s)*.05),calc(var(--s)*-.12))}
+  100%{transform:rotate(-200deg) translate(calc(var(--s)*-.14),calc(var(--s)*.09))}
+}
+.mb-lead{margin:0;max-width:44ch;font-size:var(--fs-body);line-height:1.6;color:var(--muted)}
+@media(prefers-reduced-motion:reduce){.mb-blob,.mb-in,.mb-ring{animation:none}}
+@media(max-width:767px){.mb{gap:16px}.mb-field{height:clamp(280px,48vh,420px)}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=css">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="css35.html" rel="prev" title="הקודם: תמונה שגולשת בתוך המסגרת בהחלקה">→<span class="sr-only">הקודם</span></a><span class="vpn-n">29/29</span><a href="css01.html" rel="next" title="הבא: הרמת כרטיס בהובר">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">CSS36</span> · כתם שמשנה צורה ומהפך את המילה</h1>
+  <span class="vchip cat-css">CSS טהור</span>
+  <span class="vchip">CSS keyframes · border-radius · container units</span>
+  <span class="vchip use">טקסט וכותרות</span><span class="vchip use">רקע ואווירה</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:css36"><code>MV:css36</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="css36">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>כתם בצבע המותג משנה את קו המתאר שלו לאט, נע ומסתובב מאחורי מילה גדולה, ובכל מקום שהכתם מכסה את האותיות הן מתהפכות לצבע הטקסט שעל המשטח. שני קווי מתאר דקים מהדהדים את הצורה בפאזה אחרת. הכול CSS, בלי JS ובלי SVG.</p>
+  <p class="when"><b>מתי משתמשים:</b> כותרת הפתיחה של אתר שהמילה היא הנכס שלו: סטודיו, גלריה, מותג בוטיק, אירוע, מרצה. עובד הכי טוב עם מילה אחת קצרה וגדולה. לא לכותרת של משפט שלם ולא לאתר שצריך להרגיש רציני ושקט.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>אתר תדמית · דף נחיתה · וואן-פייג'ר · פורטפוליו וסטודיו</dd></div><div><dt>בסקשן</dt><dd>הירו · נשימה ומעבר · אודות וצוות</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא למילה ארוכה מחמש אותיות ולא לכותרת של כמה שורות, ולא באתר שקט.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="css36"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="stage"><section class="mb">
+  <p class="mb-k">סטודיו קרמיקה, יפו</p>
+  <div class="mb-field">
+    <h2 class="mb-word mb-base">קרמיקה</h2>
+    <div class="mb-art" aria-hidden="true">
+      <div class="mb-ring r2"></div>
+      <div class="mb-ring r1"></div>
+      <div class="mb-blob"><div class="mb-in"><span class="mb-word">קרמיקה</span></div></div>
+    </div>
+  </div>
+  <p class="mb-lead">סדנאות לקבוצות קטנות, כלים בהזמנה אישית וחנות עם כלי בית שנשרפו בתנור שלנו.</p>
+</section></div>
+
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטונים ב-prompt-motion.com (21.10.2026) שבהם כתם צבעוני מתפתל מאחורי מילה, והאותיות מתהפכות בצבען במקום שהכתם עובר, עם קווי מתאר דקים סביבו. נבנה מאפס מהצפייה. <b>ההיפוך:</b> במקום <code>mix-blend-mode: difference</code>, שנותן צבעים אקראיים ולא שייכים לערכת הנושא, יש במילה עותק שני בתוך הכתם (<code>overflow: hidden</code> ו-<code>border-radius</code> חותכים אותו) בצבע <code>var(--accent-ink)</code>. העותק עומד בדיוק מעל המילה המקורית, כי הוא מקבל את ההופכי של תזוזת הכתם: מסלול הכתם הוא <code>translate(x,y) rotate(r)</code> והעותק רץ באותם keyframes, אותו משך ואותו easing, עם <code>rotate(-r) translate(-x,-y)</code>, ולכן בכל פריים הוא יושב במקום. כל שינוי במסלול הכתם חייב להיכנס לשני ה-keyframes יחד. <b>הצורה:</b> האנימציה של <code>border-radius</code> בשמונה ערכים עם אחוזים מעבירה את הכתם בין ארבע צורות, ו-<code>alternate</code> מחזיר אותו לאחור. <b>יחידות:</b> <code>container-type: size</code> על המסגרת ו-<code>--s: min(50cqw, 86cqh)</code> לגודל הכתם, כך שהכתם והעותק גדלים עם המסגרת ולא יוצאים ממנה. בדפדפן בלי יחידות מכולה הכתם נעלם והמילה נשארת קריאה. <b>הטבעות:</b> אותו keyframe עם <code>animation-delay</code> שלילי וגודל גדול ב-12% וב-24%. <b>נגישות:</b> המילה היא כותרת אמיתית, והעותק והכתם <code>aria-hidden</code>. <b>RTL:</b> המילה במרכז והכתם ממורכז, לכן אין מה להפוך באתר LTR. <b>בלי תנועה:</b> <code>animation: none</code> והכתם נשאר בצורת הפתיחה, כשהעותק ההפוך עדיין מיושר בדיוק.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    
+    
+    <a class="cp cp-link" href="../export/css36.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS36 · כתם שמשנה צורה ומהפך את המילה */
+.mb{display:grid;gap:24px;justify-items:center;text-align:center;padding:clamp(48px,6vw,96px) var(--gutter, clamp(24px, 5vw, 96px))}
+.mb-k{margin:0;font-size:15px;font-weight:600;color:var(--muted, #6a6d85)}
+.mb-field{position:relative;isolation:isolate;container-type:size;display:grid;place-items:center;width:100%;height:clamp(320px,60vh,600px)}
+.mb-word{margin:0;font-size:clamp(80px,22cqw,300px);font-weight:800;line-height:1;letter-spacing:-.02em;white-space:nowrap}
+.mb-base{position:relative;z-index:1;color:var(--ink, #16182b)}
+.mb-art{--s:min(50cqw,86cqh);position:absolute;inset:0;pointer-events:none}
+.mb-blob{position:absolute;z-index:2;left:calc(50% - var(--s)/2);top:calc(50% - var(--s)/2);width:var(--s);height:var(--s);overflow:hidden;background:var(--accent, #4a3aff);border-radius:58% 42% 61% 39% / 46% 55% 45% 54%;transform:translate(calc(var(--s)*-.14),calc(var(--s)*-.05)) rotate(0deg);animation:mb-blob 18s cubic-bezier(.4,0,.2,1) infinite alternate}
+/* העותק ההפוך: בגודל המסגרת, מוזז כך שמרכזו במרכז המסגרת, ורץ בתנועה ההופכית לכתם */
+.mb-in{position:absolute;left:calc(var(--s)/2 - 50cqw);top:calc(var(--s)/2 - 50cqh);width:100cqw;height:100cqh;display:grid;place-items:center;transform:rotate(0deg) translate(calc(var(--s)*.14),calc(var(--s)*.05));animation:mb-inner 18s cubic-bezier(.4,0,.2,1) infinite alternate}
+.mb-in .mb-word{color:var(--accent-ink, #fff)}
+.mb-ring{position:absolute;z-index:0;width:calc(var(--s)*var(--g));height:calc(var(--s)*var(--g));left:calc(50% - var(--s)*var(--g)/2);top:calc(50% - var(--s)*var(--g)/2);border:1px solid color-mix(in srgb,var(--accent, #4a3aff) 55%,transparent);border-radius:58% 42% 61% 39% / 46% 55% 45% 54%;transform:translate(calc(var(--s)*-.14),calc(var(--s)*-.05)) rotate(0deg);animation:mb-blob 18s cubic-bezier(.4,0,.2,1) infinite alternate;animation-delay:var(--o)}
+.mb-ring.r1{--g:1.12;--o:-4s}
+.mb-ring.r2{--g:1.24;--o:-8s}
+@keyframes mb-blob{
+  0%{border-radius:58% 42% 61% 39% / 46% 55% 45% 54%;transform:translate(calc(var(--s)*-.14),calc(var(--s)*-.05)) rotate(0deg)}
+  33%{border-radius:41% 59% 44% 56% / 58% 41% 59% 42%;transform:translate(calc(var(--s)*.16),calc(var(--s)*.07)) rotate(60deg)}
+  66%{border-radius:62% 38% 52% 48% / 40% 62% 38% 60%;transform:translate(calc(var(--s)*-.05),calc(var(--s)*.12)) rotate(130deg)}
+  100%{border-radius:48% 52% 38% 62% / 55% 45% 57% 43%;transform:translate(calc(var(--s)*.14),calc(var(--s)*-.09)) rotate(200deg)}
+}
+@keyframes mb-inner{
+  0%{transform:rotate(0deg) translate(calc(var(--s)*.14),calc(var(--s)*.05))}
+  33%{transform:rotate(-60deg) translate(calc(var(--s)*-.16),calc(var(--s)*-.07))}
+  66%{transform:rotate(-130deg) translate(calc(var(--s)*.05),calc(var(--s)*-.12))}
+  100%{transform:rotate(-200deg) translate(calc(var(--s)*-.14),calc(var(--s)*.09))}
+}
+.mb-lead{margin:0;max-width:44ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6;color:var(--muted, #6a6d85)}
+@media(prefers-reduced-motion:reduce){.mb-blob,.mb-in,.mb-ring{animation:none}}
+@media(max-width:767px){.mb{gap:16px}.mb-field{height:clamp(280px,48vh,420px)}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;section class="mb"&gt;
+  &lt;p class="mb-k"&gt;סטודיו קרמיקה, יפו&lt;/p&gt;
+  &lt;div class="mb-field"&gt;
+    &lt;h2 class="mb-word mb-base"&gt;קרמיקה&lt;/h2&gt;
+    &lt;div class="mb-art" aria-hidden="true"&gt;
+      &lt;div class="mb-ring r2"&gt;&lt;/div&gt;
+      &lt;div class="mb-ring r1"&gt;&lt;/div&gt;
+      &lt;div class="mb-blob"&gt;&lt;div class="mb-in"&gt;&lt;span class="mb-word"&gt;קרמיקה&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;p class="mb-lead"&gt;סדנאות לקבוצות קטנות, כלים בהזמנה אישית וחנות עם כלי בית שנשרפו בתנור שלנו.&lt;/p&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:css36 · כתם שמשנה צורה ומהפך את המילה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/css/css36.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/css36.html\n\nמה זה עושה: כתם בצבע המותג משנה את קו המתאר שלו לאט, נע ומסתובב מאחורי מילה גדולה, ובכל מקום שהכתם מכסה את האותיות הן מתהפכות לצבע הטקסט שעל המשטח. שני קווי מתאר דקים מהדהדים את הצורה בפאזה אחרת. הכול CSS, בלי JS ובלי SVG.\nמתי משתמשים: כותרת הפתיחה של אתר שהמילה היא הנכס שלו: סטודיו, גלריה, מותג בוטיק, אירוע, מרצה. עובד הכי טוב עם מילה אחת קצרה וגדולה. לא לכותרת של משפט שלם ולא לאתר שצריך להרגיש רציני ושקט.\nסוג אתר: אתר תדמית · דף נחיתה · וואן-פייג'ר · פורטפוליו וסטודיו\nבסקשן: הירו · נשימה ומעבר · אודות וצוות\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא למילה ארוכה מחמש אותיות ולא לכותרת של כמה שורות, ולא באתר שקט.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS36 · כתם שמשנה צורה ומהפך את המילה */\n.mb{display:grid;gap:24px;justify-items:center;text-align:center;padding:clamp(48px,6vw,96px) var(--gutter, clamp(24px, 5vw, 96px))}\n.mb-k{margin:0;font-size:15px;font-weight:600;color:var(--muted, #6a6d85)}\n.mb-field{position:relative;isolation:isolate;container-type:size;display:grid;place-items:center;width:100%;height:clamp(320px,60vh,600px)}\n.mb-word{margin:0;font-size:clamp(80px,22cqw,300px);font-weight:800;line-height:1;letter-spacing:-.02em;white-space:nowrap}\n.mb-base{position:relative;z-index:1;color:var(--ink, #16182b)}\n.mb-art{--s:min(50cqw,86cqh);position:absolute;inset:0;pointer-events:none}\n.mb-blob{position:absolute;z-index:2;left:calc(50% - var(--s)/2);top:calc(50% - var(--s)/2);width:var(--s);height:var(--s);overflow:hidden;background:var(--accent, #4a3aff);border-radius:58% 42% 61% 39% / 46% 55% 45% 54%;transform:translate(calc(var(--s)*-.14),calc(var(--s)*-.05)) rotate(0deg);animation:mb-blob 18s cubic-bezier(.4,0,.2,1) infinite alternate}\n/* העותק ההפוך: בגודל המסגרת, מוזז כך שמרכזו במרכז המסגרת, ורץ בתנועה ההופכית לכתם */\n.mb-in{position:absolute;left:calc(var(--s)/2 - 50cqw);top:calc(var(--s)/2 - 50cqh);width:100cqw;height:100cqh;display:grid;place-items:center;transform:rotate(0deg) translate(calc(var(--s)*.14),calc(var(--s)*.05));animation:mb-inner 18s cubic-bezier(.4,0,.2,1) infinite alternate}\n.mb-in .mb-word{color:var(--accent-ink, #fff)}\n.mb-ring{position:absolute;z-index:0;width:calc(var(--s)*var(--g));height:calc(var(--s)*var(--g));left:calc(50% - var(--s)*var(--g)/2);top:calc(50% - var(--s)*var(--g)/2);border:1px solid color-mix(in srgb,var(--accent, #4a3aff) 55%,transparent);border-radius:58% 42% 61% 39% / 46% 55% 45% 54%;transform:translate(calc(var(--s)*-.14),calc(var(--s)*-.05)) rotate(0deg);animation:mb-blob 18s cubic-bezier(.4,0,.2,1) infinite alternate;animation-delay:var(--o)}\n.mb-ring.r1{--g:1.12;--o:-4s}\n.mb-ring.r2{--g:1.24;--o:-8s}\n@keyframes mb-blob{\n  0%{border-radius:58% 42% 61% 39% / 46% 55% 45% 54%;transform:translate(calc(var(--s)*-.14),calc(var(--s)*-.05)) rotate(0deg)}\n  33%{border-radius:41% 59% 44% 56% / 58% 41% 59% 42%;transform:translate(calc(var(--s)*.16),calc(var(--s)*.07)) rotate(60deg)}\n  66%{border-radius:62% 38% 52% 48% / 40% 62% 38% 60%;transform:translate(calc(var(--s)*-.05),calc(var(--s)*.12)) rotate(130deg)}\n  100%{border-radius:48% 52% 38% 62% / 55% 45% 57% 43%;transform:translate(calc(var(--s)*.14),calc(var(--s)*-.09)) rotate(200deg)}\n}\n@keyframes mb-inner{\n  0%{transform:rotate(0deg) translate(calc(var(--s)*.14),calc(var(--s)*.05))}\n  33%{transform:rotate(-60deg) translate(calc(var(--s)*-.16),calc(var(--s)*-.07))}\n  66%{transform:rotate(-130deg) translate(calc(var(--s)*.05),calc(var(--s)*-.12))}\n  100%{transform:rotate(-200deg) translate(calc(var(--s)*-.14),calc(var(--s)*.09))}\n}\n.mb-lead{margin:0;max-width:44ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6;color:var(--muted, #6a6d85)}\n@media(prefers-reduced-motion:reduce){.mb-blob,.mb-in,.mb-ring{animation:none}}\n@media(max-width:767px){.mb{gap:16px}.mb-field{height:clamp(280px,48vh,420px)}}\n\n=== HTML ===\n<div class=\"stage\"><section class=\"mb\">\n  <p class=\"mb-k\">סטודיו קרמיקה, יפו<\/p>\n  <div class=\"mb-field\">\n    <h2 class=\"mb-word mb-base\">קרמיקה<\/h2>\n    <div class=\"mb-art\" aria-hidden=\"true\">\n      <div class=\"mb-ring r2\"><\/div>\n      <div class=\"mb-ring r1\"><\/div>\n      <div class=\"mb-blob\"><div class=\"mb-in\"><span class=\"mb-word\">קרמיקה<\/span><\/div><\/div>\n    <\/div>\n  <\/div>\n  <p class=\"mb-lead\">סדנאות לקבוצות קטנות, כלים בהזמנה אישית וחנות עם כלי בית שנשרפו בתנור שלנו.<\/p>\n<\/section><\/div>\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטונים ב-prompt-motion.com (21.10.2026) שבהם כתם צבעוני מתפתל מאחורי מילה, והאותיות מתהפכות בצבען במקום שהכתם עובר, עם קווי מתאר דקים סביבו. נבנה מאפס מהצפייה. ההיפוך: במקום `mix-blend-mode: difference`, שנותן צבעים אקראיים ולא שייכים לערכת הנושא, יש במילה עותק שני בתוך הכתם (`overflow: hidden` ו-`border-radius` חותכים אותו) בצבע `var(--accent-ink)`. העותק עומד בדיוק מעל המילה המקורית, כי הוא מקבל את ההופכי של תזוזת הכתם: מסלול הכתם הוא `translate(x,y) rotate(r)` והעותק רץ באותם keyframes, אותו משך ואותו easing, עם `rotate(-r) translate(-x,-y)`, ולכן בכל פריים הוא יושב במקום. כל שינוי במסלול הכתם חייב להיכנס לשני ה-keyframes יחד. הצורה: האנימציה של `border-radius` בשמונה ערכים עם אחוזים מעבירה את הכתם בין ארבע צורות, ו-`alternate` מחזיר אותו לאחור. יחידות: `container-type: size` על המסגרת ו-`--s: min(50cqw, 86cqh)` לגודל הכתם, כך שהכתם והעותק גדלים עם המסגרת ולא יוצאים ממנה. בדפדפן בלי יחידות מכולה הכתם נעלם והמילה נשארת קריאה. הטבעות: אותו keyframe עם `animation-delay` שלילי וגודל גדול ב-12% וב-24%. נגישות: המילה היא כותרת אמיתית, והעותק והכתם `aria-hidden`. RTL: המילה במרכז והכתם ממורכז, לכן אין מה להפוך באתר LTR. בלי תנועה: `animation: none` והכתם נשאר בצורת הפתיחה, כשהעותק ההפוך עדיין מיושר בדיוק.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS36 · כתם שמשנה צורה ומהפך את המילה */\n.mb{display:grid;gap:24px;justify-items:center;text-align:center;padding:clamp(48px,6vw,96px) var(--gutter, clamp(24px, 5vw, 96px))}\n.mb-k{margin:0;font-size:15px;font-weight:600;color:var(--muted, #6a6d85)}\n.mb-field{position:relative;isolation:isolate;container-type:size;display:grid;place-items:center;width:100%;height:clamp(320px,60vh,600px)}\n.mb-word{margin:0;font-size:clamp(80px,22cqw,300px);font-weight:800;line-height:1;letter-spacing:-.02em;white-space:nowrap}\n.mb-base{position:relative;z-index:1;color:var(--ink, #16182b)}\n.mb-art{--s:min(50cqw,86cqh);position:absolute;inset:0;pointer-events:none}\n.mb-blob{position:absolute;z-index:2;left:calc(50% - var(--s)/2);top:calc(50% - var(--s)/2);width:var(--s);height:var(--s);overflow:hidden;background:var(--accent, #4a3aff);border-radius:58% 42% 61% 39% / 46% 55% 45% 54%;transform:translate(calc(var(--s)*-.14),calc(var(--s)*-.05)) rotate(0deg);animation:mb-blob 18s cubic-bezier(.4,0,.2,1) infinite alternate}\n/* העותק ההפוך: בגודל המסגרת, מוזז כך שמרכזו במרכז המסגרת, ורץ בתנועה ההופכית לכתם */\n.mb-in{position:absolute;left:calc(var(--s)/2 - 50cqw);top:calc(var(--s)/2 - 50cqh);width:100cqw;height:100cqh;display:grid;place-items:center;transform:rotate(0deg) translate(calc(var(--s)*.14),calc(var(--s)*.05));animation:mb-inner 18s cubic-bezier(.4,0,.2,1) infinite alternate}\n.mb-in .mb-word{color:var(--accent-ink, #fff)}\n.mb-ring{position:absolute;z-index:0;width:calc(var(--s)*var(--g));height:calc(var(--s)*var(--g));left:calc(50% - var(--s)*var(--g)/2);top:calc(50% - var(--s)*var(--g)/2);border:1px solid color-mix(in srgb,var(--accent, #4a3aff) 55%,transparent);border-radius:58% 42% 61% 39% / 46% 55% 45% 54%;transform:translate(calc(var(--s)*-.14),calc(var(--s)*-.05)) rotate(0deg);animation:mb-blob 18s cubic-bezier(.4,0,.2,1) infinite alternate;animation-delay:var(--o)}\n.mb-ring.r1{--g:1.12;--o:-4s}\n.mb-ring.r2{--g:1.24;--o:-8s}\n@keyframes mb-blob{\n  0%{border-radius:58% 42% 61% 39% / 46% 55% 45% 54%;transform:translate(calc(var(--s)*-.14),calc(var(--s)*-.05)) rotate(0deg)}\n  33%{border-radius:41% 59% 44% 56% / 58% 41% 59% 42%;transform:translate(calc(var(--s)*.16),calc(var(--s)*.07)) rotate(60deg)}\n  66%{border-radius:62% 38% 52% 48% / 40% 62% 38% 60%;transform:translate(calc(var(--s)*-.05),calc(var(--s)*.12)) rotate(130deg)}\n  100%{border-radius:48% 52% 38% 62% / 55% 45% 57% 43%;transform:translate(calc(var(--s)*.14),calc(var(--s)*-.09)) rotate(200deg)}\n}\n@keyframes mb-inner{\n  0%{transform:rotate(0deg) translate(calc(var(--s)*.14),calc(var(--s)*.05))}\n  33%{transform:rotate(-60deg) translate(calc(var(--s)*-.16),calc(var(--s)*-.07))}\n  66%{transform:rotate(-130deg) translate(calc(var(--s)*.05),calc(var(--s)*-.12))}\n  100%{transform:rotate(-200deg) translate(calc(var(--s)*-.14),calc(var(--s)*.09))}\n}\n.mb-lead{margin:0;max-width:44ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6;color:var(--muted, #6a6d85)}\n@media(prefers-reduced-motion:reduce){.mb-blob,.mb-in,.mb-ring{animation:none}}\n@media(max-width:767px){.mb{gap:16px}.mb-field{height:clamp(280px,48vh,420px)}}","html":"<div class=\"stage\"><section class=\"mb\">\n  <p class=\"mb-k\">סטודיו קרמיקה, יפו<\/p>\n  <div class=\"mb-field\">\n    <h2 class=\"mb-word mb-base\">קרמיקה<\/h2>\n    <div class=\"mb-art\" aria-hidden=\"true\">\n      <div class=\"mb-ring r2\"><\/div>\n      <div class=\"mb-ring r1\"><\/div>\n      <div class=\"mb-blob\"><div class=\"mb-in\"><span class=\"mb-word\">קרמיקה<\/span><\/div><\/div>\n    <\/div>\n  <\/div>\n  <p class=\"mb-lead\">סדנאות לקבוצות קטנות, כלים בהזמנה אישית וחנות עם כלי בית שנשרפו בתנור שלנו.<\/p>\n<\/section><\/div>","js":"","scripts":"","rtl":false}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="css35.html" rel="prev"><small>→ הקודם</small><b>תמונה שגולשת בתוך המסגרת בהחלקה</b></a><a href="css01.html" rel="next"><small>הבא ←</small><b>הרמת כרטיס בהובר</b></a></nav>
+
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · כתם שמשנה צורה ומהפך את המילה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+</script>
+</body>
+</html>

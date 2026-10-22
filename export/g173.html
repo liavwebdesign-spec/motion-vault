@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G173 · שלושה כרטיסים מחוברים בקו שנחתך ומתוקן</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G173 · שלושה כרטיסים מחוברים בקו שנחתך ומתוקן */
+.cn{display:grid;gap:56px;max-width:1120px;margin-inline:auto}
+.cn-head{display:grid;gap:16px;max-width:44ch}
+.cn-head h2{margin:0;font-size:clamp(30px,3.4vw,52px);font-weight:700;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.cn-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.cn-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(56px,.4fr) minmax(0,1fr) minmax(56px,.4fr) minmax(0,1fr);align-items:start}
+.cn-card{background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:16px;overflow:hidden;min-height:136px}
+.cn-card.is-low{margin-top:56px}
+.cn-bar{height:40px;display:flex;align-items:center;gap:6px;padding:0 14px;border-bottom:1px solid var(--line, #e4e4ee)}
+.cn-bar i{width:8px;height:8px;border-radius:50%;background:var(--line, #e4e4ee)}
+.cn-bar span{margin-inline-start:8px;font-size:13px;font-weight:600;color:var(--muted, #6a6d85)}
+.cn-body{display:grid;gap:6px;padding:16px;justify-items:start}
+.cn-body b{font-size:18px;font-weight:600;line-height:1.3}
+.cn-body p{margin:0;font-size:15px;line-height:1.5;color:var(--muted, #6a6d85)}
+.cn-st{display:inline-block;margin-top:8px;padding:4px 12px;border-radius:99px;font-size:13px;font-weight:600;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.cn-st.is-wait{background:transparent;color:var(--ink, #16182b);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}
+.cn-link{position:relative;align-self:stretch}
+.cn-link svg{position:absolute;left:0;top:0;width:100%;height:80px;overflow:visible}
+.cn-base{fill:none;stroke:var(--muted, #6a6d85);stroke-width:2;stroke-dasharray:4 6;stroke-linecap:round}
+.cn-flow{fill:none;stroke:var(--accent, #4a3aff);stroke-width:2.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0}
+.cn-port{fill:var(--card, #fff);stroke:var(--accent, #4a3aff);stroke-width:2}
+.cn-dot{position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 5px color-mix(in srgb,var(--accent, #4a3aff) 22%,transparent);opacity:0;pointer-events:none}
+.cn-mk{position:absolute;left:50%;top:48px;width:0;height:0}
+.cn-mk i{position:absolute;left:-14px;top:-14px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center}
+.cn-link .cn-mk svg{position:static;width:14px;height:14px;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.cn-bad i{background:var(--ink, #16182b);opacity:0}
+.cn-link .cn-bad svg{stroke:var(--bg, #f7f7fa)}
+.cn-ok i{background:var(--accent, #4a3aff)}
+.cn-link .cn-ok svg{stroke:var(--accent-ink, #fff)}
+@media(max-width:767px){
+.cn{gap:40px}
+.cn-row{grid-template-columns:minmax(0,1fr)}
+.cn-card{width:82%;min-height:0}
+.cn-card.is-low{margin-top:0;justify-self:end}
+.cn-row>.cn-card:nth-of-type(1),.cn-row>.cn-card:nth-of-type(3){justify-self:start}
+.cn-link{height:72px;align-self:auto}
+.cn-link svg{height:72px}
+}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="cn">
+  <div class="cn-head">
+    <h2>המערכות שלכם מדברות זו עם זו</h2>
+    <p>אנחנו מחברים את החנות להנהלת החשבונות ולמחסן, כדי שהזמנה תעבור ביניהן בלי שמישהו יעתיק אותה ביד.</p>
+  </div>
+  <div class="cn-row">
+    <article class="cn-card"><div class="cn-bar"><i></i><i></i><i></i><span>החנות</span></div><div class="cn-body"><b>הזמנה חדשה מרונית כהן</b><p>שלושה פריטים, סך הכול 480 ש"ח</p><span class="cn-st">נשלחה</span></div></article>
+    <div class="cn-link" aria-hidden="true"><svg viewBox="0 0 100 80" preserveAspectRatio="none" focusable="false"><path class="cn-base" d="M100 20C50 20 50 76 0 76"/><path class="cn-flow" pathLength="1" d="M100 20C50 20 50 76 0 76"/><circle class="cn-port" cx="100" cy="20" r="5"/><circle class="cn-port" cx="0" cy="76" r="5"/></svg><span class="cn-dot"></span><span class="cn-mk cn-bad"><i><svg viewBox="0 0 14 14"><path d="M3 3l8 8M11 3l-8 8"/></svg></i></span><span class="cn-mk cn-ok"><i><svg viewBox="0 0 14 14"><path d="M2.5 7.5l3 3 6-7"/></svg></i></span></div>
+    <article class="cn-card is-low"><div class="cn-bar"><i></i><i></i><i></i><span>הנהלת חשבונות</span></div><div class="cn-body"><b>חשבונית מס</b><p>נוצרת לבד מכל הזמנה ונשלחת ללקוחה</p><span class="cn-st">הופקה</span></div></article>
+    <div class="cn-link" aria-hidden="true"><svg viewBox="0 0 100 80" preserveAspectRatio="none" focusable="false"><path class="cn-base" d="M100 76C50 76 50 20 0 20"/><path class="cn-flow" pathLength="1" d="M100 76C50 76 50 20 0 20"/><circle class="cn-port" cx="100" cy="76" r="5"/><circle class="cn-port" cx="0" cy="20" r="5"/></svg><span class="cn-dot"></span></div>
+    <article class="cn-card"><div class="cn-bar"><i></i><i></i><i></i><span>המחסן</span></div><div class="cn-body"><b>רשימת איסוף</b><p>מגיעה למחסן יחד עם ההזמנה</p><span class="cn-st">מוכנה לאיסוף</span></div></article>
+  </div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const root=document.querySelector(".cn");if(!root)return;
+  const links=[...root.querySelectorAll(".cn-link")],mq=matchMedia("(max-width:767px)");
+  const PORT=20,STAG=56,H=80,VH=72;               // גובה נמל החיבור בכותרת הכרטיס, ההסטה של הכרטיס האמצעי
+  const curve=(x1,y1,x2,y2,v)=>v
+    ?"M"+x1+" "+y1+"C"+x1+" "+(y1+(y2-y1)*.55)+" "+x2+" "+(y1+(y2-y1)*.45)+" "+x2+" "+y2
+    :"M"+x1+" "+y1+"C"+(x1+(x2-x1)/2)+" "+y1+" "+(x1+(x2-x1)/2)+" "+y2+" "+x2+" "+y2;
+  // מחשב את הקווים מחדש לפי הרוחב האמיתי של התא, בכל טעינה ובכל שינוי גודל
+  function layout(){
+    const rtl=getComputedStyle(root).direction==="rtl",v=mq.matches;
+    links.forEach((L,i)=>{
+      const w=L.clientWidth,svg=L.querySelector("svg"),h=v?VH:H;if(!w)return;
+      svg.setAttribute("viewBox","0 0 "+w+" "+h);svg.removeAttribute("preserveAspectRatio");
+      let xa,ya,xb,yb;
+      if(v){xa=((i%2===0)===rtl?.59:.41)*w;xb=w-xa;ya=0;yb=h;}
+      else{xa=rtl?w:0;xb=rtl?0:w;ya=i%2===0?PORT:PORT+STAG;yb=i%2===0?PORT+STAG:PORT;}
+      const d=curve(xa,ya,xb,yb,v);
+      L.querySelectorAll(".cn-base,.cn-flow").forEach(p=>p.setAttribute("d",d));
+      const ports=L.querySelectorAll(".cn-port");
+      ports[0].setAttribute("cx",xa);ports[0].setAttribute("cy",ya);ports[1].setAttribute("cx",xb);ports[1].setAttribute("cy",yb);
+      const f=L.querySelector(".cn-flow"),m=f.getPointAtLength(f.getTotalLength()/2);
+      L.querySelectorAll(".cn-mk").forEach(k=>{k.style.left=m.x+"px";k.style.top=m.y+"px";});
+    });
+  }
+  layout();new ResizeObserver(layout).observe(root);mq.addEventListener("change",layout);
+  if(typeof gsap==="undefined")return;       // בלי GSAP: הקווים מחוברים והסימונים מציגים את התוצאה
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const q=s=>[...root.querySelectorAll(s)],cards=q(".cn-card"),st=q(".cn-st"),finals=st.map(e=>e.textContent);
+    const [l1,l2]=links,f1=l1.querySelector(".cn-flow"),f2=l2.querySelector(".cn-flow"),b1=l1.querySelector(".cn-base"),b2=l2.querySelector(".cn-base");
+    const d1=l1.querySelector(".cn-dot"),d2=l2.querySelector(".cn-dot"),bad=l1.querySelector(".cn-bad i"),ok=l1.querySelector(".cn-ok i");
+    const p1=[...l1.querySelectorAll(".cn-port")],p2=[...l2.querySelectorAll(".cn-port")];
+    const at=(path,dot,t)=>{const pt=path.getPointAtLength(t*path.getTotalLength());dot.style.transform="translate("+pt.x+"px,"+pt.y+"px)";};
+    const t={p:0};
+    const setSt=i=>{st[i].textContent=finals[i];st[i].classList.remove("is-wait");};
+    [1,2].forEach(i=>{st[i].textContent="ממתין";st[i].classList.add("is-wait");});
+    gsap.set(cards,{autoAlpha:0,y:16});
+    gsap.set([f1,f2],{strokeDashoffset:1});
+    gsap.set([b1,b2,...p1,...p2],{autoAlpha:0});
+    gsap.set(bad,{scale:0,autoAlpha:1});gsap.set(ok,{scale:0});
+    const tl=gsap.timeline({scrollTrigger:{trigger:root.querySelector(".cn-row"),start:"top 78%",once:true}});
+    tl.to(cards,{autoAlpha:1,y:0,duration:.55,stagger:.2,ease:"power2.out"})
+      .to([b1,...p1],{autoAlpha:1,duration:.4},"-=.3")
+      .set(d1,{autoAlpha:1}).set(t,{p:0})
+      .to(t,{p:.47,duration:.9,ease:"power1.in",onUpdate:()=>at(f1,d1,t.p)})
+      .to(bad,{scale:1,duration:.4,ease:"power3.out"},"-=.12")
+      .to(t,{p:.36,duration:.3,ease:"power2.out",onUpdate:()=>at(f1,d1,t.p)},"<")
+      .to(d1,{autoAlpha:0,duration:.25},">-.05")
+      .to(bad,{scale:0,rotate:90,duration:.35,ease:"power2.in"},"+=.6")
+      .set(d1,{autoAlpha:1}).set(t,{p:0})
+      .to(f1,{strokeDashoffset:0,duration:1.1,ease:"power1.inOut"})
+      .to(t,{p:1,duration:1.1,ease:"power1.inOut",onUpdate:()=>at(f1,d1,t.p)},"<")
+      .to(d1,{autoAlpha:0,duration:.2})
+      .to(ok,{scale:1,duration:.45,ease:"power3.out"},"<")
+      .call(()=>setSt(1))
+      .fromTo(st[1],{scale:.8},{scale:1,duration:.4,ease:"power3.out"},"<")
+      .to([b2,...p2],{autoAlpha:1,duration:.3},"+=.2")
+      .set(d2,{autoAlpha:1}).set(t,{p:0})
+      .to(f2,{strokeDashoffset:0,duration:1,ease:"power1.inOut"})
+      .to(t,{p:1,duration:1,ease:"power1.inOut",onUpdate:()=>at(f2,d2,t.p)},"<")
+      .to(d2,{autoAlpha:0,duration:.2})
+      .call(()=>setSt(2))
+      .fromTo(st[2],{scale:.8},{scale:1,duration:.4,ease:"power3.out"},"<");
+    return()=>{
+      gsap.set([...cards,f1,f2,b1,b2,...p1,...p2,bad,ok,d1,d2,...st],{clearProps:"all"});
+      st.forEach((e,i)=>{e.textContent=finals[i];e.classList.remove("is-wait");});
+      layout();
+    };
+  });
+})();
+</script>
+</body>
+</html>

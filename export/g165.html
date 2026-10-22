@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G165 · ראש הפעלה על סרגל שמחליף כרטיס</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G165 · ראש הפעלה על סרגל שמחליף כרטיס */
+.pr{--pr-a:color-mix(in srgb,var(--ink, #16182b) 9%,transparent);--sh:100%;max-width:1040px;margin-inline:auto}
+.pr:dir(ltr){--sh:-100%}
+.pr-pin{display:grid;gap:40px}
+.pr-copy{display:grid;gap:10px;max-width:46ch}
+.pr-copy h2{margin:0;font-size:clamp(28px,3.4vw,48px);font-weight:700;line-height:1.1;text-wrap:balance}
+.pr-copy p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.pr-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,224px),1fr));gap:20px}
+.pr-card{display:grid;gap:16px;align-content:start;padding:16px;border-radius:24px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 20px 44px color-mix(in srgb,var(--ink, #16182b) 7%,transparent)}
+.pr-cap b{display:block;font-size:19px;font-weight:700}
+.pr-cap span{display:block;margin-top:4px;color:var(--muted, #6a6d85);font-size:15px;line-height:1.5}
+/* התצוגות: ארבעה שרטוטים מקווים וריבועים, כדי שהדמו לא יישען על תמונה */
+.pr-shot{aspect-ratio:4/3;display:grid;gap:10px;padding:14px;overflow:hidden;border-radius:14px;background:var(--bg, #f7f7fa);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}
+.pr-shot i{display:block;border-radius:6px;background:var(--pr-a)}
+.pr-shot .k{background:var(--accent, #4a3aff)}
+.pr-shot .t{height:8px}
+.pr-shot .h{height:14px}
+.pr-shot .col{display:grid;gap:8px;align-content:center}
+.pr-shot .pill{width:46%;height:18px;border-radius:99px}
+.pr-shot .img{border-radius:10px;background:linear-gradient(145deg,color-mix(in srgb,var(--accent, #4a3aff) 38%,transparent),color-mix(in srgb,var(--accent, #4a3aff) 8%,transparent))}
+.pr-shot.a{grid-template:auto 1fr/1.15fr 1fr}
+.pr-shot.a .nav{grid-column:1/-1;width:55%}
+.pr-shot.b{grid-template:auto 1fr/1fr .85fr}
+.pr-shot.b .nav{grid-column:1/-1;width:55%}
+.pr-shot .form{display:grid;gap:8px;align-content:center;padding:12px;border-radius:10px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee)}
+.pr-shot .form i{height:14px;background:var(--bg, #f7f7fa);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}
+.pr-shot .form .k{height:16px;box-shadow:none}
+.pr-shot.c{grid-template:1fr 1fr/1fr 1fr;gap:10px}
+.pr-shot .tile{display:grid;grid-template-rows:1fr auto;gap:6px}
+.pr-shot.d{grid-template:1fr/.4fr 1fr}
+.pr-shot .row{display:grid;grid-template-columns:1.4fr 1fr .6fr;gap:6px}
+.pr-shot .row i{height:10px}
+/* הסרגל: מוסתר בלי תנועה. הסימנים והתוויות יושבים לפי --k (0 עד 1) מצד ההתחלה */
+.pr-ruler{display:none}
+.pr-track{position:absolute;inset-inline:0;top:24px;height:20px;background:repeating-linear-gradient(to right,color-mix(in srgb,var(--muted, #6a6d85) 55%,transparent) 0 1px,transparent 1px 10px) bottom/100% 8px no-repeat;border-bottom:1px solid var(--line, #e4e4ee)}
+.pr-mk{position:absolute;top:-4px;height:26px;inset-inline-start:calc(var(--k) * 100% - 1px);width:2px;border-radius:2px;background:var(--ink, #16182b)}
+.pr-lb{position:absolute;top:52px;inset-inline-start:calc(var(--k) * 100%);translate:calc(var(--k) * var(--sh));font-size:14px;font-weight:600;white-space:nowrap;color:var(--muted, #6a6d85)}
+.pr-lb.on{color:var(--ink, #16182b)}
+.pr-ph{position:absolute;top:0;inset-inline-start:-1px;width:2px;height:56px;border-radius:2px;background:var(--accent, #4a3aff);pointer-events:none}
+.pr-ph::before{content:"";position:absolute;top:-2px;left:50%;translate:-50% 0;width:14px;height:12px;background:var(--accent, #4a3aff);clip-path:polygon(0 0,100% 0,50% 100%)}
+/* המהלך רץ: הסקשן גבוה, השכבה הדביקה נעוצה, והכרטיסים נערמים */
+.pr.is-live{height:380vh}
+.pr.is-live .pr-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center;gap:clamp(20px,4vh,40px)}
+.pr.is-live .pr-list{position:relative;display:block;width:min(400px,84vw);aspect-ratio:4/3.5;margin-inline:auto;perspective:1100px}
+.pr.is-live .pr-card{position:absolute;inset:0;grid-template-rows:1fr auto;backface-visibility:hidden}
+.pr.is-live .pr-shot{aspect-ratio:auto}
+.pr.is-live .pr-ruler{display:block;position:relative;width:min(720px,100%);height:76px;margin-inline:auto}
+@media(max-height:760px){.pr.is-live .pr-list{width:min(320px,84vw)}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage tight"><section class="pr" aria-labelledby="pr-h">
+  <div class="pr-pin">
+    <div class="pr-copy"><h2 id="pr-h">ארבעה דברים שאנחנו בונים לעסקים</h2><p>כל פרויקט מתחיל בצורך אחר, ולכן לכל סוג יש מבנה, זמן עבודה ומחיר משלו.</p></div>
+    <ul class="pr-list">
+      <li class="pr-card">
+        <div class="pr-shot a" aria-hidden="true"><i class="t nav"></i><div class="col"><i class="h"></i><i class="h" style="width:70%"></i><i class="t"></i><i class="t" style="width:80%"></i><i class="k pill"></i></div><i class="img"></i></div>
+        <div class="pr-cap"><b>אתר תדמית</b><span>מציג את העסק ומוביל מבקרים לפנייה.</span></div>
+      </li>
+      <li class="pr-card">
+        <div class="pr-shot b" aria-hidden="true"><i class="t nav"></i><div class="col"><i class="h"></i><i class="h" style="width:60%"></i><i class="t"></i><i class="t" style="width:75%"></i></div><div class="form"><i></i><i></i><i></i><i class="k"></i></div></div>
+        <div class="pr-cap"><b>דף נחיתה</b><span>עמוד אחד לקמפיין, עם טופס אחד ברור.</span></div>
+      </li>
+      <li class="pr-card">
+        <div class="pr-shot c" aria-hidden="true"><div class="tile"><i class="img"></i><i class="t" style="width:60%"></i></div><div class="tile"><i class="img"></i><i class="t" style="width:45%"></i></div><div class="tile"><i class="img"></i><i class="t" style="width:70%"></i></div><div class="tile"><i class="img"></i><i class="t" style="width:55%"></i></div></div>
+        <div class="pr-cap"><b>חנות אונליין</b><span>קטלוג, עגלה ותשלום מאובטח.</span></div>
+      </li>
+      <li class="pr-card">
+        <div class="pr-shot d" aria-hidden="true"><div class="col" style="align-content:start"><i class="t"></i><i class="t k"></i><i class="t"></i><i class="t"></i></div><div class="col" style="align-content:start"><i class="h" style="width:50%"></i><div class="row"><i></i><i></i><i class="k"></i></div><div class="row"><i></i><i></i><i></i></div><div class="row"><i></i><i></i><i class="k"></i></div><div class="row"><i></i><i></i><i></i></div></div></div>
+        <div class="pr-cap"><b>מערכת ניהול</b><span>פניות, לקוחות ותשלומים במקום אחד.</span></div>
+      </li>
+    </ul>
+    <div class="pr-ruler" aria-hidden="true">
+      <div class="pr-track"><i class="pr-mk" style="--k:0"></i><i class="pr-mk" style="--k:.3333"></i><i class="pr-mk" style="--k:.6667"></i><i class="pr-mk" style="--k:1"></i></div>
+      <span class="pr-lb on" style="--k:0">אתר תדמית</span><span class="pr-lb" style="--k:.3333">דף נחיתה</span><span class="pr-lb" style="--k:.6667">חנות אונליין</span><span class="pr-lb" style="--k:1">מערכת ניהול</span>
+      <i class="pr-ph"></i>
+    </div>
+  </div>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשארת הרשימה: כרטיסים זה לצד זה, בלי סרגל
+  const root=document.querySelector(".pr"),cards=[...root.querySelectorAll(".pr-card")],track=root.querySelector(".pr-track"),
+    ph=root.querySelector(".pr-ph"),lbs=[...root.querySelectorAll(".pr-lb")],n=cards.length;
+  // בהפחתת תנועה הפונקציה לא רצה, והרשימה נשארת
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const dir=getComputedStyle(root).direction==="rtl"?-1:1;           // הראש מתקדם בכיוון הקריאה
+    const lead=.4,seg=1.2,flip=.34,tail=.4,at=k=>lead+k*seg;           // at(k): הרגע שבו הראש על הסימן k
+    gsap.set(cards.slice(1),{opacity:0,rotationY:-90});
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
+    tl.fromTo(ph,{x:0},{x:()=>dir*track.clientWidth,duration:(n-1)*seg},lead);
+    for(let k=1;k<n;k++){
+      // הכרטיס היוצא מסתובב עד הקצה, והנכנס ממשיך משם: ההחלפה קורית כשאין מה לראות
+      tl.to(cards[k-1],{rotationY:90,opacity:0,duration:flip/2,ease:"power2.in"},at(k)-flip/2)
+        .fromTo(cards[k],{rotationY:-90,opacity:0},{rotationY:0,opacity:1,duration:flip/2,ease:"power2.out",immediateRender:false},at(k));
+    }
+    tl.to({},{duration:tail});
+    let cur=0;
+    tl.eventCallback("onUpdate",()=>{
+      const i=Math.max(0,Math.min(n-1,Math.floor((tl.time()-lead)/seg+.001)));   // התווית מתחלפת על הסימן, באותו רגע שהכרטיס מסתובב
+      if(i!==cur){cur=i;lbs.forEach((l,j)=>l.classList.toggle("on",j===i));}
+    });
+    return()=>{root.classList.remove("is-live");gsap.set([...cards,ph],{clearProps:"all"});lbs.forEach((l,j)=>l.classList.toggle("on",j===0));};
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G160 · ענן נקודות שמתכנס לגרף | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.sw{position:relative;max-width:1100px;margin-inline:auto}
+.sw-pin{display:grid;gap:clamp(24px,4vw,48px);padding-block:clamp(24px,4vw,64px)}
+.sw-top{position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 48px}
+.sw-head{display:grid;gap:12px;max-width:44ch}
+.sw-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}
+.sw-head p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.sw-count{display:flex;align-items:baseline;gap:12px;margin:0;font-size:clamp(56px,8vw,112px);font-weight:700;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.sw-count small{font-size:max(.2em,16px);font-weight:500;letter-spacing:0;color:var(--muted)}
+.sw .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.sw-fig{position:relative;margin:0;aspect-ratio:5 / 2}
+/* הגרף הסטטי: אותו אזור שאליו הנקודות מתיישבות. בטלפון הוא יושב בתחתית ומעליו נשאר מקום לענן */
+.sw-plot{position:absolute;inset:0}
+.sw-svg{display:block;width:100%;height:100%;overflow:visible;transition:opacity .6s cubic-bezier(.2,.6,.2,1)}
+.sw-svg:dir(ltr){transform:scaleX(-1)}
+.sw-pd1 circle{fill:color-mix(in srgb,var(--ink) 48%,transparent)}
+.sw-pd2 circle{fill:var(--accent)}
+.sw-ln{stroke:var(--ink);stroke-width:2;stroke-linejoin:round;vector-effect:non-scaling-stroke;opacity:.7}
+.sw-ax{stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke}
+.sw-tag{position:absolute;left:33.3%;top:17.5%;translate:-50% calc(-100% - 10px);padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font-size:14px;font-weight:600;white-space:nowrap}
+.sw-tag::after{content:"";position:absolute;left:50%;top:100%;height:10px;border-inline-start:1px solid var(--line)}
+.sw-tag:dir(ltr){left:66.7%}
+.sw-cv{position:absolute;left:-6%;top:-18%;width:112%;height:136%;pointer-events:none;opacity:0;transition:opacity .6s cubic-bezier(.2,.6,.2,1)}
+.sw-fig.is-on .sw-cv{opacity:1}
+.sw-fig.is-on .sw-svg{opacity:0}
+/* המהלך רץ: הסקשן גבוה והבמה נעוצה במסך, והגלילה מקדמת את הנקודות */
+.sw.is-live{height:260vh}
+.sw.is-live .sw-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center;overflow:hidden}
+@media(prefers-reduced-motion:reduce){.sw-svg,.sw-cv{transition:none}}
+@media(max-width:767px){
+  .sw-top{gap:16px}
+  .sw.is-live .sw-fig{aspect-ratio:1 / 1}
+  .sw.is-live .sw-plot{inset:auto 0 0 0;aspect-ratio:5 / 2}
+  .sw.is-live .sw-cv{left:0;width:100%}
+}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g159.html" rel="prev" title="הקודם: נקודה שקופצת מכותרת לכותרת">→<span class="sr-only">הקודם</span></a><span class="vpn-n">136/162</span><a href="g161.html" rel="next" title="הבא: קו אות שהופך לדופק וגלים">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G160</span> · ענן נקודות שמתכנס לגרף</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · Canvas 2D</span>
+  <span class="vchip use">מספרים ונתונים</span><span class="vchip use">רקע ואווירה</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g160"><code>MV:g160</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g160">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>ענן של כאלף ותשע מאות נקודות מסתובב לאט מעל הגרף. כשגוללים, כל נקודה נדלקת בצבע המותג, יוצאת בקשת למקום שלה ומתיישבת בגרף נקודות של פניות לפי שבוע, מהשבוע הראשון ועד האחרון. בשבוע אחד העמודה גבוהה בהרבה מכל השאר, התווית נדלקת מעליה והמספר מגיע לערך הסופי. בלי GSAP העמוד מציג את הגרף המוכן.</p>
+  <p class="when"><b>מתי משתמשים:</b> נתון אחד עם סיפור: גרף שבו שבוע, חודש או מוצר אחד בולט מכל השאר. סקשן תוצאות או הוכחה באתר של סוכנות, קליניקה או שירות שיש לו מספרים אמיתיים להראות. פעם אחת בעמוד, ורק כשהנתון אמיתי.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>אתר תדמית · וואן-פייג'ר · פורטפוליו וסטודיו · דף נחיתה</dd></div><div><dt>בסקשן</dt><dd>מספרים ולקוחות · בעיה ויתרונות</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא בלי נתון אמיתי שיש בו שיא אחד ברור, ולא באתר שקט, ולא כשיש כבר בעמוד מהלך נעוץ אחר.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g160"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><section class="sw">
+  <div class="sw-pin">
+    <div class="sw-top">
+      <div class="sw-head">
+        <h2>כל הפניות של השנה האחרונה, שבוע אחרי שבוע</h2>
+        <p>רוב השבועות עברו בקצב קבוע. בשבוע אחד, אחרי שהקמפיין עלה, הגיעו יותר מפי שניים פניות מהרגיל.</p>
+      </div>
+      <p class="sw-count"><span class="sr-only">214 פניות בשבוע השיא</span><b aria-hidden="true">214</b><small aria-hidden="true">פניות בשבוע השיא</small></p>
+    </div>
+    <figure class="sw-fig">
+      <canvas class="sw-cv" aria-hidden="true"></canvas>
+      <div class="sw-plot">
+        <svg class="sw-svg" viewBox="0 0 1000 400" role="img" aria-label="גרף פניות לפי שבוע: עלייה מתונה לאורך השנה ושבוע אחד גבוה בהרבה מכל השאר">
+          <defs>
+            <pattern id="sw-p1" class="sw-pd1" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="4.5" cy="4.5" r="1.9"/></pattern>
+            <pattern id="sw-p2" class="sw-pd2" width="9" height="9" patternUnits="userSpaceOnUse"><circle cx="4.5" cy="4.5" r="2.3"/></pattern>
+          </defs>
+          <path fill="url(#sw-p1)" d="M1000 400L1000 347.2L991.7 345.8L983.3 342.9L975 340.8L966.7 340.9L958.3 342.3L950 343.6L941.7 343.7L933.3 340.5L925 336L916.7 334L908.3 332.6L900 329.7L891.7 327.6L883.3 327.7L875 329.1L866.7 330.4L858.3 330.5L850 327.3L841.7 322.8L833.3 320.8L825 321.5L816.7 323L808.3 324L800 323.2L791.7 319.2L783.3 315.1L775 314.3L766.7 315.3L758.3 316.8L750 317.5L741.7 315.5L733.3 311L725 307.8L716.7 307L708.3 304.3L700 301.6L691.7 301.1L683.3 302.1L675 303.6L666.7 304.3L658.3 302.9L650 300L641.7 297.9L633.3 298L625 299.4L616.7 300.7L608.3 300.8L600 297.6L591.7 293.1L583.3 291.1L575 291.8L566.7 293.3L558.3 294.3L550 293.5L541.7 289.5L533.3 285.4L525 284.6L516.7 285.6L508.3 287.1L500 287.8L491.7 286.4L483.3 283.5L475 281.4L466.7 281.5L458.3 282.9L450 284.2L441.7 284.3L433.3 281.1L425 276.6L416.7 274.6L408.3 273.2L400 270.3L391.7 268.2L383.3 261.1L375 231.7L366.7 202.3L358.3 192.3L350 152.1L341.7 95.8L333.3 70L325 98.6L316.7 160.7L308.3 205.2L300 213.6L291.7 235L283.3 256.4L275 261.2L266.7 259.1L258.3 256.2L250 254.8L241.7 256.8L233.3 261.3L225 264.5L216.7 264.1L208.3 261.4L200 258.7L191.7 257.9L183.3 255.8L175 252.9L166.7 251.5L158.3 253.5L150 258L141.7 261.2L133.3 260.8L125 258.1L116.7 255.4L108.3 254.6L100 252.5L91.7 249.6L83.3 248.2L75 248.9L66.7 250.4L58.3 251.4L50 250.9L41.7 248.2L33.3 245.5L25 245L16.7 246L8.3 247.5L0 248.2L0 400Z"/>
+          <path fill="url(#sw-p2)" d="M400 400L400 270.3L396.5 269.1L393 268.4L389.5 268L386 266.1L382.5 258.9L379 247.6L375.5 233.8L372 219.6L368.5 207.4L365 198.9L361.5 195.4L358 191.6L354.5 178.7L351 158.7L347.5 134.7L344 110.4L340.5 89.5L337 75.3L333.5 70L330 74.9L326.5 89.7L323 112.2L319.5 138.9L316 165.6L312.5 188.3L309 203.4L305.5 208.6L302 210.7L298.5 216.6L295 225.3L291.5 235.5L288 245.6L284.5 254.1L281 259.7L277.5 261.4L274 261.1L270.5 260.3L267 259.2L263.5 258L260 256.7L260 400Z"/>
+          <path class="sw-ln" fill="none" d="M1000 347.2L975 340.8L950 343.6L925 336L900 329.7L875 329.1L850 327.3L825 321.5L800 323.2L775 314.3L750 317.5L725 307.8L700 301.6L675 303.6L650 300L625 299.4L600 297.6L575 291.8L550 293.5L525 284.6L500 287.8L475 281.4L450 284.2L425 276.6L400 270.3L383.3 261.1L375 231.7L366.7 202.3L358.3 192.3L350 152.1L341.7 95.8L333.3 70L325 98.6L316.7 160.7L308.3 205.2L300 213.6L291.7 235L283.3 256.4L275 261.2L250 254.8L225 264.5L200 258.7L175 252.9L150 258L125 258.1L100 252.5L75 248.9L50 250.9L25 245L0 248.2"/>
+          <path class="sw-ax" d="M0 399.5H1000"/>
+        </svg>
+        <span class="sw-tag" aria-hidden="true">שבוע הקמפיין</span>
+      </div>
+    </figure>
+  </div>
+</section></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטונים ב-prompt-motion.com (21.10.2026) שבהם ענן נקודות מתכנס לצורה, ובאחד מהם לגרף עם עמודה גבוהה אחת. נבנה מאפס מהצפייה. <b>הצורה היא נתונים:</b> <code>SER</code> הוא מערך של 37 ערכים (שבוע אחרי שבוע), <code>curve(u)</code> מחבר ביניהם בעקומה חלקה, והיעדים של הנקודות הם רשת שממלאת את השטח מתחת לעקומה, עמודה אחר עמודה. להחלפת הנתונים מחליפים את <code>SER</code> ואת המספר והתווית במארקאפ, וגם את ה-SVG הסטטי (הוא נוצר מאותה עקומה). <b>ארבעה דברים שומרים את זה קל:</b> (1) כמות הנקודות נגזרת ממרווח הרשת ומוגבלת ל-1900 בדסקטופ ול-900 בטלפון, והמרווח גדל עד שהכמות מתאימה. (2) הציור מקובץ לשש קבוצות של צבע ושקיפות, ומסלול אחד לכל קבוצה במקום מחרוזת צבע לכל נקודה. (3) DPR עד 2, והלולאה רצה רק כשהסקשן קרוב למסך (IntersectionObserver עם שוליים). (4) הצבעים נקראים מהטוקנים בזמן ריצה, אז כל עור מחליף אותם. <b>התנועה:</b> התקדמות הגלילה (<code>scrub</code>) היא המספר היחיד שמזיז הכול. לכל נקודה יש רגע התחלה שנקבע לפי העמודה שלה, מצד ההתחלה של הגרף, וקשת צד אקראית (<code>bend</code>) כדי שהנקודות יזרמו בקווים עקומים. נקודות עודפות נשארות בענן ודועכות. <b>RTL:</b> ציר הזמן מתחיל מימין והעמודה הראשונה מתיישבת ראשונה מימין, כי <code>direction</code> נקרא מהעמוד. באתר LTR הקוד מתהפך לבד, וב-SVG הסטטי יש היפוך עם <code>:dir(ltr)</code> (ושם התווית עוברת לצד השני). <b>בלי GSAP ובהפחתת תנועה</b> מוצג גרף נקודות ב-SVG (דפוס עיגולים) עם התווית והמספר הסופי, וה-canvas נחשף רק כשהמהלך רץ. <b>בטלפון</b> הענן גדול מהגרף ונופל אליו מלמעלה, והסקשן נעוץ במסך כמו בדסקטופ.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g160.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G160 · ענן נקודות שמתכנס לגרף */
+.sw{position:relative;max-width:1100px;margin-inline:auto}
+.sw-pin{display:grid;gap:clamp(24px,4vw,48px);padding-block:clamp(24px,4vw,64px)}
+.sw-top{position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 48px}
+.sw-head{display:grid;gap:12px;max-width:44ch}
+.sw-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}
+.sw-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.sw-count{display:flex;align-items:baseline;gap:12px;margin:0;font-size:clamp(56px,8vw,112px);font-weight:700;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.sw-count small{font-size:max(.2em,16px);font-weight:500;letter-spacing:0;color:var(--muted, #6a6d85)}
+.sw .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.sw-fig{position:relative;margin:0;aspect-ratio:5 / 2}
+/* הגרף הסטטי: אותו אזור שאליו הנקודות מתיישבות. בטלפון הוא יושב בתחתית ומעליו נשאר מקום לענן */
+.sw-plot{position:absolute;inset:0}
+.sw-svg{display:block;width:100%;height:100%;overflow:visible;transition:opacity .6s cubic-bezier(.2,.6,.2,1)}
+.sw-svg:dir(ltr){transform:scaleX(-1)}
+.sw-pd1 circle{fill:color-mix(in srgb,var(--ink, #16182b) 48%,transparent)}
+.sw-pd2 circle{fill:var(--accent, #4a3aff)}
+.sw-ln{stroke:var(--ink, #16182b);stroke-width:2;stroke-linejoin:round;vector-effect:non-scaling-stroke;opacity:.7}
+.sw-ax{stroke:var(--line, #e4e4ee);stroke-width:1;vector-effect:non-scaling-stroke}
+.sw-tag{position:absolute;left:33.3%;top:17.5%;translate:-50% calc(-100% - 10px);padding:6px 14px;border:1px solid var(--line, #e4e4ee);border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);font-size:14px;font-weight:600;white-space:nowrap}
+.sw-tag::after{content:"";position:absolute;left:50%;top:100%;height:10px;border-inline-start:1px solid var(--line, #e4e4ee)}
+.sw-tag:dir(ltr){left:66.7%}
+.sw-cv{position:absolute;left:-6%;top:-18%;width:112%;height:136%;pointer-events:none;opacity:0;transition:opacity .6s cubic-bezier(.2,.6,.2,1)}
+.sw-fig.is-on .sw-cv{opacity:1}
+.sw-fig.is-on .sw-svg{opacity:0}
+/* המהלך רץ: הסקשן גבוה והבמה נעוצה במסך, והגלילה מקדמת את הנקודות */
+.sw.is-live{height:260vh}
+.sw.is-live .sw-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center;overflow:hidden}
+@media(prefers-reduced-motion:reduce){.sw-svg,.sw-cv{transition:none}}
+@media(max-width:767px){
+  .sw-top{gap:16px}
+  .sw.is-live .sw-fig{aspect-ratio:1 / 1}
+  .sw.is-live .sw-plot{inset:auto 0 0 0;aspect-ratio:5 / 2}
+  .sw.is-live .sw-cv{left:0;width:100%}
+}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;section class="sw"&gt;
+  &lt;div class="sw-pin"&gt;
+    &lt;div class="sw-top"&gt;
+      &lt;div class="sw-head"&gt;
+        &lt;h2&gt;כל הפניות של השנה האחרונה, שבוע אחרי שבוע&lt;/h2&gt;
+        &lt;p&gt;רוב השבועות עברו בקצב קבוע. בשבוע אחד, אחרי שהקמפיין עלה, הגיעו יותר מפי שניים פניות מהרגיל.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;p class="sw-count"&gt;&lt;span class="sr-only"&gt;214 פניות בשבוע השיא&lt;/span&gt;&lt;b aria-hidden="true"&gt;214&lt;/b&gt;&lt;small aria-hidden="true"&gt;פניות בשבוע השיא&lt;/small&gt;&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;figure class="sw-fig"&gt;
+      &lt;canvas class="sw-cv" aria-hidden="true"&gt;&lt;/canvas&gt;
+      &lt;div class="sw-plot"&gt;
+        &lt;svg class="sw-svg" viewBox="0 0 1000 400" role="img" aria-label="גרף פניות לפי שבוע: עלייה מתונה לאורך השנה ושבוע אחד גבוה בהרבה מכל השאר"&gt;
+          &lt;defs&gt;
+            &lt;pattern id="sw-p1" class="sw-pd1" width="9" height="9" patternUnits="userSpaceOnUse"&gt;&lt;circle cx="4.5" cy="4.5" r="1.9"/&gt;&lt;/pattern&gt;
+            &lt;pattern id="sw-p2" class="sw-pd2" width="9" height="9" patternUnits="userSpaceOnUse"&gt;&lt;circle cx="4.5" cy="4.5" r="2.3"/&gt;&lt;/pattern&gt;
+          &lt;/defs&gt;
+          &lt;path fill="url(#sw-p1)" d="M1000 400L1000 347.2L991.7 345.8L983.3 342.9L975 340.8L966.7 340.9L958.3 342.3L950 343.6L941.7 343.7L933.3 340.5L925 336L916.7 334L908.3 332.6L900 329.7L891.7 327.6L883.3 327.7L875 329.1L866.7 330.4L858.3 330.5L850 327.3L841.7 322.8L833.3 320.8L825 321.5L816.7 323L808.3 324L800 323.2L791.7 319.2L783.3 315.1L775 314.3L766.7 315.3L758.3 316.8L750 317.5L741.7 315.5L733.3 311L725 307.8L716.7 307L708.3 304.3L700 301.6L691.7 301.1L683.3 302.1L675 303.6L666.7 304.3L658.3 302.9L650 300L641.7 297.9L633.3 298L625 299.4L616.7 300.7L608.3 300.8L600 297.6L591.7 293.1L583.3 291.1L575 291.8L566.7 293.3L558.3 294.3L550 293.5L541.7 289.5L533.3 285.4L525 284.6L516.7 285.6L508.3 287.1L500 287.8L491.7 286.4L483.3 283.5L475 281.4L466.7 281.5L458.3 282.9L450 284.2L441.7 284.3L433.3 281.1L425 276.6L416.7 274.6L408.3 273.2L400 270.3L391.7 268.2L383.3 261.1L375 231.7L366.7 202.3L358.3 192.3L350 152.1L341.7 95.8L333.3 70L325 98.6L316.7 160.7L308.3 205.2L300 213.6L291.7 235L283.3 256.4L275 261.2L266.7 259.1L258.3 256.2L250 254.8L241.7 256.8L233.3 261.3L225 264.5L216.7 264.1L208.3 261.4L200 258.7L191.7 257.9L183.3 255.8L175 252.9L166.7 251.5L158.3 253.5L150 258L141.7 261.2L133.3 260.8L125 258.1L116.7 255.4L108.3 254.6L100 252.5L91.7 249.6L83.3 248.2L75 248.9L66.7 250.4L58.3 251.4L50 250.9L41.7 248.2L33.3 245.5L25 245L16.7 246L8.3 247.5L0 248.2L0 400Z"/&gt;
+          &lt;path fill="url(#sw-p2)" d="M400 400L400 270.3L396.5 269.1L393 268.4L389.5 268L386 266.1L382.5 258.9L379 247.6L375.5 233.8L372 219.6L368.5 207.4L365 198.9L361.5 195.4L358 191.6L354.5 178.7L351 158.7L347.5 134.7L344 110.4L340.5 89.5L337 75.3L333.5 70L330 74.9L326.5 89.7L323 112.2L319.5 138.9L316 165.6L312.5 188.3L309 203.4L305.5 208.6L302 210.7L298.5 216.6L295 225.3L291.5 235.5L288 245.6L284.5 254.1L281 259.7L277.5 261.4L274 261.1L270.5 260.3L267 259.2L263.5 258L260 256.7L260 400Z"/&gt;
+          &lt;path class="sw-ln" fill="none" d="M1000 347.2L975 340.8L950 343.6L925 336L900 329.7L875 329.1L850 327.3L825 321.5L800 323.2L775 314.3L750 317.5L725 307.8L700 301.6L675 303.6L650 300L625 299.4L600 297.6L575 291.8L550 293.5L525 284.6L500 287.8L475 281.4L450 284.2L425 276.6L400 270.3L383.3 261.1L375 231.7L366.7 202.3L358.3 192.3L350 152.1L341.7 95.8L333.3 70L325 98.6L316.7 160.7L308.3 205.2L300 213.6L291.7 235L283.3 256.4L275 261.2L250 254.8L225 264.5L200 258.7L175 252.9L150 258L125 258.1L100 252.5L75 248.9L50 250.9L25 245L0 248.2"/&gt;
+          &lt;path class="sw-ax" d="M0 399.5H1000"/&gt;
+        &lt;/svg&gt;
+        &lt;span class="sw-tag" aria-hidden="true"&gt;שבוע הקמפיין&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/figure&gt;
+  &lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר הגרף הסטטי עם המספר הסופי
+  const root=document.querySelector(".sw"),fig=root.querySelector(".sw-fig"),plot=root.querySelector(".sw-plot"),cv=root.querySelector(".sw-cv"),
+    ctx=cv.getContext("2d"),num=root.querySelector(".sw-count b"),tag=root.querySelector(".sw-tag");
+  const FINAL=parseInt(num.textContent,10)||0;
+  // 37 שבועות. הפסגה באינדקס 24, והעקומה מחברת ביניהם בקוסינוס
+  const SER=[.16,.18,.17,.2,.22,.21,.24,.23,.26,.25,.28,.3,.29,.31,.3,.33,.32,.35,.34,.36,.35,.38,.4,.62,1,.58,.42,.44,.41,.43,.45,.42,.44,.46,.45,.47,.46];
+  const curve=u=&gt;{const x=Math.min(Math.max(u,0),1)*(SER.length-1),i=Math.min(Math.floor(x),SER.length-2),f=(1-Math.cos(Math.PI*(x-i)))/2;return SER[i]+(SER[i+1]-SER[i])*f;};
+  const cl=x=&gt;Math.min(1,Math.max(0,x)),ease=e=&gt;e&lt;.5?4*e*e*e:1-Math.pow(-2*e+2,3)/2,sm=(a,b,x)=&gt;{x=cl((x-a)/(b-a));return x*x*(3-2*x);};
+  // בהפחתת תנועה הפונקציה לא רצה, והגרף הסטטי נשאר
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    const rtl=getComputedStyle(root).direction==="rtl",mob=()=&gt;innerWidth&lt;768;
+    const probe=document.createElement("canvas").getContext("2d");
+    const rgb=c=&gt;{probe.fillStyle="#000";probe.fillStyle=c;const h=probe.fillStyle;
+      if(h.charAt(0)==="#")return[1,3,5].map(k=&gt;parseInt(h.slice(k,k+2),16));
+      return h.slice(h.indexOf("(")+1,h.lastIndexOf(")")).split(",").slice(0,3).map(Number);};
+    let W=0,H=0,n=0,cnt=0,P=0,vis=false,raf=0,COL=[],tx,ty,kd,S,ang,rad,spd,wob,bend,X,Y,B,RX,RY,PL,PT,PW,PH;
+    const A=[.5,.92,1,.85,.55,.55],R=[1.5,1.9,2.3,1.7,1.4,1.4],t0=performance.now();
+    const colors=()=&gt;{const cs=getComputedStyle(root),ink=rgb(cs.color),acc=rgb(cs.getPropertyValue("--accent").trim()||cs.color);
+      const f=a=&gt;"rgb("+a.join(",")+")";COL=[f(ink),f(ink),f(acc),f(acc),f(ink),f(ink)];};
+    function build(){
+      const dpr=Math.min(2,devicePixelRatio||1),cr=cv.getBoundingClientRect(),pr=plot.getBoundingClientRect();
+      W=cr.width;H=cr.height;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+      PL=pr.left-cr.left;PT=pr.top-cr.top;PW=pr.width;PH=pr.height;
+      const hmax=PH*.825,cap=mob()?900:1900;let g=mob()?5:6.5,nc,c,total;
+      // מרווח הרשת גדל עד שכמות היעדים נכנסת בתקרה
+      for(;;){nc=Math.max(8,Math.floor(PW/g));total=0;for(c=0;c&lt;nc;c++)total+=Math.floor(curve((c+.5)/nc)*hmax/g);if(total&lt;=cap||g&gt;16)break;g+=.5;}
+      const gx=PW/nc,tg=[];
+      for(c=0;c&lt;nc;c++){const u=(c+.5)/nc,rows=Math.floor(curve(u)*hmax/g),x=rtl?PL+PW-(c+.5)*gx:PL+(c+.5)*gx,spike=u&gt;.58&amp;&amp;u&lt;.76&amp;&amp;curve(u)&gt;.5;
+        for(let r=0;r&lt;rows;r++)tg.push([x,PT+PH-(r+.5)*g,spike?2:r&gt;=rows-2?1:0,u]);}
+      cnt=tg.length;n=cnt+Math.round(cnt*.2);
+      tx=new Float32Array(n);ty=new Float32Array(n);kd=new Uint8Array(n);S=new Float32Array(n);ang=new Float32Array(n);rad=new Float32Array(n);
+      spd=new Float32Array(n);wob=new Float32Array(n);bend=new Float32Array(n);X=new Float32Array(n);Y=new Float32Array(n);B=new Uint8Array(n);
+      let s=7;const rnd=()=&gt;{s=(s*16807)%2147483647;return(s-1)/2147483646;};
+      for(let i=0;i&lt;n;i++){
+        if(i&lt;cnt){const q=tg[i];tx[i]=q[0];ty[i]=q[1];kd[i]=q[2];S[i]=.04+.5*q[3]+.07*rnd();}
+        ang[i]=rnd()*6.2832;rad[i]=Math.sqrt(rnd())*.98+.02;spd[i]=.08+.18*(1-rad[i]);wob[i]=rnd()*6.2832;bend[i]=(rnd()-.5)*.9;
+      }
+      RX=W*.44;RY=H*.42;colors();frame(performance.now());
+    }
+    function frame(now){
+      const t=(now-t0)/1000,ct=Math.cos(-.18),st=Math.sin(-.18),fade=1-sm(.1,.75,P),DUR=.36;
+      for(let i=0;i&lt;n;i++){
+        const a=ang[i]+spd[i]*t,rr=rad[i],ox=Math.cos(a)*rr*RX,oy=Math.sin(a)*rr*RY+Math.sin(a*2+wob[i])*6;
+        const cx=W/2+ox*ct-oy*st,cy=H/2+ox*st+oy*ct;
+        if(i&gt;=cnt){X[i]=cx;Y[i]=cy;B[i]=5;continue;}
+        const e=ease(cl((P-S[i])/DUR));
+        if(e&lt;=0){X[i]=cx;Y[i]=cy;B[i]=4;}
+        else if(e&gt;=1){X[i]=tx[i];Y[i]=ty[i];B[i]=kd[i];}
+        else{const dx=tx[i]-cx,dy=ty[i]-cy,len=Math.hypot(dx,dy)||1,bump=Math.sin(Math.PI*e)*bend[i]*len*.35;
+          X[i]=cx+dx*e-dy/len*bump;Y[i]=cy+dy*e+dx/len*bump;B[i]=3;}
+      }
+      ctx.clearRect(0,0,W,H);
+      ctx.globalAlpha=.28*sm(.2,.6,P);ctx.strokeStyle=COL[0];ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(PL,PT+PH+3);ctx.lineTo(PL+PW,PT+PH+3);ctx.stroke();
+      for(let b=0;b&lt;6;b++){
+        ctx.globalAlpha=b===5?A[b]*fade:A[b];ctx.fillStyle=COL[b];ctx.beginPath();const r=R[b];
+        for(let i=0;i&lt;n;i++)if(B[i]===b){ctx.moveTo(X[i]+r,Y[i]);ctx.arc(X[i],Y[i],r,0,6.2832);}
+        ctx.fill();
+      }
+      ctx.globalAlpha=1;
+      num.textContent=Math.round(FINAL*ease(cl((P-.12)/.8)));
+    }
+    const loop=now=&gt;{frame(now);raf=vis?requestAnimationFrame(loop):0;};
+    const run=()=&gt;{if(vis&amp;&amp;!raf)raf=requestAnimationFrame(loop);};
+    const io=new IntersectionObserver(es=&gt;{vis=es[0].isIntersecting;if(vis)fig.classList.add("is-on");run();},{rootMargin:"40% 0px"});
+    const ro=new ResizeObserver(build);
+    // התקדמות הגלילה היא המספר היחיד שמזיז את כל הנקודות. התווית מתוזמנת על אותו ציר
+    const st={p:0},tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
+    tl.to(st,{p:1,duration:1,ease:"none",onUpdate:()=&gt;{P=st.p;}},0)
+      .fromTo(tag,{autoAlpha:0,y:10},{autoAlpha:1,y:0,duration:.08,ease:"power2.out"},.9);
+    build();io.observe(root);ro.observe(fig);
+    return()=&gt;{cancelAnimationFrame(raf);raf=0;vis=false;io.disconnect();ro.disconnect();root.classList.remove("is-live");fig.classList.remove("is-on");
+      num.textContent=FINAL;gsap.set(tag,{clearProps:"all"});};
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g160 · ענן נקודות שמתכנס לגרף\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g160.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g160.html\n\nמה זה עושה: ענן של כאלף ותשע מאות נקודות מסתובב לאט מעל הגרף. כשגוללים, כל נקודה נדלקת בצבע המותג, יוצאת בקשת למקום שלה ומתיישבת בגרף נקודות של פניות לפי שבוע, מהשבוע הראשון ועד האחרון. בשבוע אחד העמודה גבוהה בהרבה מכל השאר, התווית נדלקת מעליה והמספר מגיע לערך הסופי. בלי GSAP העמוד מציג את הגרף המוכן.\nמתי משתמשים: נתון אחד עם סיפור: גרף שבו שבוע, חודש או מוצר אחד בולט מכל השאר. סקשן תוצאות או הוכחה באתר של סוכנות, קליניקה או שירות שיש לו מספרים אמיתיים להראות. פעם אחת בעמוד, ורק כשהנתון אמיתי.\nסוג אתר: אתר תדמית · וואן-פייג'ר · פורטפוליו וסטודיו · דף נחיתה\nבסקשן: מספרים ולקוחות · בעיה ויתרונות\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא בלי נתון אמיתי שיש בו שיא אחד ברור, ולא באתר שקט, ולא כשיש כבר בעמוד מהלך נעוץ אחר.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G160 · ענן נקודות שמתכנס לגרף */\n.sw{position:relative;max-width:1100px;margin-inline:auto}\n.sw-pin{display:grid;gap:clamp(24px,4vw,48px);padding-block:clamp(24px,4vw,64px)}\n.sw-top{position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 48px}\n.sw-head{display:grid;gap:12px;max-width:44ch}\n.sw-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}\n.sw-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.sw-count{display:flex;align-items:baseline;gap:12px;margin:0;font-size:clamp(56px,8vw,112px);font-weight:700;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums}\n.sw-count small{font-size:max(.2em,16px);font-weight:500;letter-spacing:0;color:var(--muted, #6a6d85)}\n.sw .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.sw-fig{position:relative;margin:0;aspect-ratio:5 / 2}\n/* הגרף הסטטי: אותו אזור שאליו הנקודות מתיישבות. בטלפון הוא יושב בתחתית ומעליו נשאר מקום לענן */\n.sw-plot{position:absolute;inset:0}\n.sw-svg{display:block;width:100%;height:100%;overflow:visible;transition:opacity .6s cubic-bezier(.2,.6,.2,1)}\n.sw-svg:dir(ltr){transform:scaleX(-1)}\n.sw-pd1 circle{fill:color-mix(in srgb,var(--ink, #16182b) 48%,transparent)}\n.sw-pd2 circle{fill:var(--accent, #4a3aff)}\n.sw-ln{stroke:var(--ink, #16182b);stroke-width:2;stroke-linejoin:round;vector-effect:non-scaling-stroke;opacity:.7}\n.sw-ax{stroke:var(--line, #e4e4ee);stroke-width:1;vector-effect:non-scaling-stroke}\n.sw-tag{position:absolute;left:33.3%;top:17.5%;translate:-50% calc(-100% - 10px);padding:6px 14px;border:1px solid var(--line, #e4e4ee);border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);font-size:14px;font-weight:600;white-space:nowrap}\n.sw-tag::after{content:\"\";position:absolute;left:50%;top:100%;height:10px;border-inline-start:1px solid var(--line, #e4e4ee)}\n.sw-tag:dir(ltr){left:66.7%}\n.sw-cv{position:absolute;left:-6%;top:-18%;width:112%;height:136%;pointer-events:none;opacity:0;transition:opacity .6s cubic-bezier(.2,.6,.2,1)}\n.sw-fig.is-on .sw-cv{opacity:1}\n.sw-fig.is-on .sw-svg{opacity:0}\n/* המהלך רץ: הסקשן גבוה והבמה נעוצה במסך, והגלילה מקדמת את הנקודות */\n.sw.is-live{height:260vh}\n.sw.is-live .sw-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center;overflow:hidden}\n@media(prefers-reduced-motion:reduce){.sw-svg,.sw-cv{transition:none}}\n@media(max-width:767px){\n  .sw-top{gap:16px}\n  .sw.is-live .sw-fig{aspect-ratio:1 / 1}\n  .sw.is-live .sw-plot{inset:auto 0 0 0;aspect-ratio:5 / 2}\n  .sw.is-live .sw-cv{left:0;width:100%}\n}\n\n=== HTML ===\n<div class=\"stage\"><section class=\"sw\">\n  <div class=\"sw-pin\">\n    <div class=\"sw-top\">\n      <div class=\"sw-head\">\n        <h2>כל הפניות של השנה האחרונה, שבוע אחרי שבוע<\/h2>\n        <p>רוב השבועות עברו בקצב קבוע. בשבוע אחד, אחרי שהקמפיין עלה, הגיעו יותר מפי שניים פניות מהרגיל.<\/p>\n      <\/div>\n      <p class=\"sw-count\"><span class=\"sr-only\">214 פניות בשבוע השיא<\/span><b aria-hidden=\"true\">214<\/b><small aria-hidden=\"true\">פניות בשבוע השיא<\/small><\/p>\n    <\/div>\n    <figure class=\"sw-fig\">\n      <canvas class=\"sw-cv\" aria-hidden=\"true\"><\/canvas>\n      <div class=\"sw-plot\">\n        <svg class=\"sw-svg\" viewBox=\"0 0 1000 400\" role=\"img\" aria-label=\"גרף פניות לפי שבוע: עלייה מתונה לאורך השנה ושבוע אחד גבוה בהרבה מכל השאר\">\n          <defs>\n            <pattern id=\"sw-p1\" class=\"sw-pd1\" width=\"9\" height=\"9\" patternUnits=\"userSpaceOnUse\"><circle cx=\"4.5\" cy=\"4.5\" r=\"1.9\"/><\/pattern>\n            <pattern id=\"sw-p2\" class=\"sw-pd2\" width=\"9\" height=\"9\" patternUnits=\"userSpaceOnUse\"><circle cx=\"4.5\" cy=\"4.5\" r=\"2.3\"/><\/pattern>\n          <\/defs>\n          <path fill=\"url(#sw-p1)\" d=\"M1000 400L1000 347.2L991.7 345.8L983.3 342.9L975 340.8L966.7 340.9L958.3 342.3L950 343.6L941.7 343.7L933.3 340.5L925 336L916.7 334L908.3 332.6L900 329.7L891.7 327.6L883.3 327.7L875 329.1L866.7 330.4L858.3 330.5L850 327.3L841.7 322.8L833.3 320.8L825 321.5L816.7 323L808.3 324L800 323.2L791.7 319.2L783.3 315.1L775 314.3L766.7 315.3L758.3 316.8L750 317.5L741.7 315.5L733.3 311L725 307.8L716.7 307L708.3 304.3L700 301.6L691.7 301.1L683.3 302.1L675 303.6L666.7 304.3L658.3 302.9L650 300L641.7 297.9L633.3 298L625 299.4L616.7 300.7L608.3 300.8L600 297.6L591.7 293.1L583.3 291.1L575 291.8L566.7 293.3L558.3 294.3L550 293.5L541.7 289.5L533.3 285.4L525 284.6L516.7 285.6L508.3 287.1L500 287.8L491.7 286.4L483.3 283.5L475 281.4L466.7 281.5L458.3 282.9L450 284.2L441.7 284.3L433.3 281.1L425 276.6L416.7 274.6L408.3 273.2L400 270.3L391.7 268.2L383.3 261.1L375 231.7L366.7 202.3L358.3 192.3L350 152.1L341.7 95.8L333.3 70L325 98.6L316.7 160.7L308.3 205.2L300 213.6L291.7 235L283.3 256.4L275 261.2L266.7 259.1L258.3 256.2L250 254.8L241.7 256.8L233.3 261.3L225 264.5L216.7 264.1L208.3 261.4L200 258.7L191.7 257.9L183.3 255.8L175 252.9L166.7 251.5L158.3 253.5L150 258L141.7 261.2L133.3 260.8L125 258.1L116.7 255.4L108.3 254.6L100 252.5L91.7 249.6L83.3 248.2L75 248.9L66.7 250.4L58.3 251.4L50 250.9L41.7 248.2L33.3 245.5L25 245L16.7 246L8.3 247.5L0 248.2L0 400Z\"/>\n          <path fill=\"url(#sw-p2)\" d=\"M400 400L400 270.3L396.5 269.1L393 268.4L389.5 268L386 266.1L382.5 258.9L379 247.6L375.5 233.8L372 219.6L368.5 207.4L365 198.9L361.5 195.4L358 191.6L354.5 178.7L351 158.7L347.5 134.7L344 110.4L340.5 89.5L337 75.3L333.5 70L330 74.9L326.5 89.7L323 112.2L319.5 138.9L316 165.6L312.5 188.3L309 203.4L305.5 208.6L302 210.7L298.5 216.6L295 225.3L291.5 235.5L288 245.6L284.5 254.1L281 259.7L277.5 261.4L274 261.1L270.5 260.3L267 259.2L263.5 258L260 256.7L260 400Z\"/>\n          <path class=\"sw-ln\" fill=\"none\" d=\"M1000 347.2L975 340.8L950 343.6L925 336L900 329.7L875 329.1L850 327.3L825 321.5L800 323.2L775 314.3L750 317.5L725 307.8L700 301.6L675 303.6L650 300L625 299.4L600 297.6L575 291.8L550 293.5L525 284.6L500 287.8L475 281.4L450 284.2L425 276.6L400 270.3L383.3 261.1L375 231.7L366.7 202.3L358.3 192.3L350 152.1L341.7 95.8L333.3 70L325 98.6L316.7 160.7L308.3 205.2L300 213.6L291.7 235L283.3 256.4L275 261.2L250 254.8L225 264.5L200 258.7L175 252.9L150 258L125 258.1L100 252.5L75 248.9L50 250.9L25 245L0 248.2\"/>\n          <path class=\"sw-ax\" d=\"M0 399.5H1000\"/>\n        <\/svg>\n        <span class=\"sw-tag\" aria-hidden=\"true\">שבוע הקמפיין<\/span>\n      <\/div>\n    <\/figure>\n  <\/div>\n<\/section><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשאר הגרף הסטטי עם המספר הסופי\n  const root=document.querySelector(\".sw\"),fig=root.querySelector(\".sw-fig\"),plot=root.querySelector(\".sw-plot\"),cv=root.querySelector(\".sw-cv\"),\n    ctx=cv.getContext(\"2d\"),num=root.querySelector(\".sw-count b\"),tag=root.querySelector(\".sw-tag\");\n  const FINAL=parseInt(num.textContent,10)||0;\n  // 37 שבועות. הפסגה באינדקס 24, והעקומה מחברת ביניהם בקוסינוס\n  const SER=[.16,.18,.17,.2,.22,.21,.24,.23,.26,.25,.28,.3,.29,.31,.3,.33,.32,.35,.34,.36,.35,.38,.4,.62,1,.58,.42,.44,.41,.43,.45,.42,.44,.46,.45,.47,.46];\n  const curve=u=>{const x=Math.min(Math.max(u,0),1)*(SER.length-1),i=Math.min(Math.floor(x),SER.length-2),f=(1-Math.cos(Math.PI*(x-i)))/2;return SER[i]+(SER[i+1]-SER[i])*f;};\n  const cl=x=>Math.min(1,Math.max(0,x)),ease=e=>e<.5?4*e*e*e:1-Math.pow(-2*e+2,3)/2,sm=(a,b,x)=>{x=cl((x-a)/(b-a));return x*x*(3-2*x);};\n  // בהפחתת תנועה הפונקציה לא רצה, והגרף הסטטי נשאר\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const rtl=getComputedStyle(root).direction===\"rtl\",mob=()=>innerWidth<768;\n    const probe=document.createElement(\"canvas\").getContext(\"2d\");\n    const rgb=c=>{probe.fillStyle=\"#000\";probe.fillStyle=c;const h=probe.fillStyle;\n      if(h.charAt(0)===\"#\")return[1,3,5].map(k=>parseInt(h.slice(k,k+2),16));\n      return h.slice(h.indexOf(\"(\")+1,h.lastIndexOf(\")\")).split(\",\").slice(0,3).map(Number);};\n    let W=0,H=0,n=0,cnt=0,P=0,vis=false,raf=0,COL=[],tx,ty,kd,S,ang,rad,spd,wob,bend,X,Y,B,RX,RY,PL,PT,PW,PH;\n    const A=[.5,.92,1,.85,.55,.55],R=[1.5,1.9,2.3,1.7,1.4,1.4],t0=performance.now();\n    const colors=()=>{const cs=getComputedStyle(root),ink=rgb(cs.color),acc=rgb(cs.getPropertyValue(\"--accent\").trim()||cs.color);\n      const f=a=>\"rgb(\"+a.join(\",\")+\")\";COL=[f(ink),f(ink),f(acc),f(acc),f(ink),f(ink)];};\n    function build(){\n      const dpr=Math.min(2,devicePixelRatio||1),cr=cv.getBoundingClientRect(),pr=plot.getBoundingClientRect();\n      W=cr.width;H=cr.height;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);\n      PL=pr.left-cr.left;PT=pr.top-cr.top;PW=pr.width;PH=pr.height;\n      const hmax=PH*.825,cap=mob()?900:1900;let g=mob()?5:6.5,nc,c,total;\n      // מרווח הרשת גדל עד שכמות היעדים נכנסת בתקרה\n      for(;;){nc=Math.max(8,Math.floor(PW/g));total=0;for(c=0;c<nc;c++)total+=Math.floor(curve((c+.5)/nc)*hmax/g);if(total<=cap||g>16)break;g+=.5;}\n      const gx=PW/nc,tg=[];\n      for(c=0;c<nc;c++){const u=(c+.5)/nc,rows=Math.floor(curve(u)*hmax/g),x=rtl?PL+PW-(c+.5)*gx:PL+(c+.5)*gx,spike=u>.58&&u<.76&&curve(u)>.5;\n        for(let r=0;r<rows;r++)tg.push([x,PT+PH-(r+.5)*g,spike?2:r>=rows-2?1:0,u]);}\n      cnt=tg.length;n=cnt+Math.round(cnt*.2);\n      tx=new Float32Array(n);ty=new Float32Array(n);kd=new Uint8Array(n);S=new Float32Array(n);ang=new Float32Array(n);rad=new Float32Array(n);\n      spd=new Float32Array(n);wob=new Float32Array(n);bend=new Float32Array(n);X=new Float32Array(n);Y=new Float32Array(n);B=new Uint8Array(n);\n      let s=7;const rnd=()=>{s=(s*16807)%2147483647;return(s-1)/2147483646;};\n      for(let i=0;i<n;i++){\n        if(i<cnt){const q=tg[i];tx[i]=q[0];ty[i]=q[1];kd[i]=q[2];S[i]=.04+.5*q[3]+.07*rnd();}\n        ang[i]=rnd()*6.2832;rad[i]=Math.sqrt(rnd())*.98+.02;spd[i]=.08+.18*(1-rad[i]);wob[i]=rnd()*6.2832;bend[i]=(rnd()-.5)*.9;\n      }\n      RX=W*.44;RY=H*.42;colors();frame(performance.now());\n    }\n    function frame(now){\n      const t=(now-t0)/1000,ct=Math.cos(-.18),st=Math.sin(-.18),fade=1-sm(.1,.75,P),DUR=.36;\n      for(let i=0;i<n;i++){\n        const a=ang[i]+spd[i]*t,rr=rad[i],ox=Math.cos(a)*rr*RX,oy=Math.sin(a)*rr*RY+Math.sin(a*2+wob[i])*6;\n        const cx=W/2+ox*ct-oy*st,cy=H/2+ox*st+oy*ct;\n        if(i>=cnt){X[i]=cx;Y[i]=cy;B[i]=5;continue;}\n        const e=ease(cl((P-S[i])/DUR));\n        if(e<=0){X[i]=cx;Y[i]=cy;B[i]=4;}\n        else if(e>=1){X[i]=tx[i];Y[i]=ty[i];B[i]=kd[i];}\n        else{const dx=tx[i]-cx,dy=ty[i]-cy,len=Math.hypot(dx,dy)||1,bump=Math.sin(Math.PI*e)*bend[i]*len*.35;\n          X[i]=cx+dx*e-dy/len*bump;Y[i]=cy+dy*e+dx/len*bump;B[i]=3;}\n      }\n      ctx.clearRect(0,0,W,H);\n      ctx.globalAlpha=.28*sm(.2,.6,P);ctx.strokeStyle=COL[0];ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(PL,PT+PH+3);ctx.lineTo(PL+PW,PT+PH+3);ctx.stroke();\n      for(let b=0;b<6;b++){\n        ctx.globalAlpha=b===5?A[b]*fade:A[b];ctx.fillStyle=COL[b];ctx.beginPath();const r=R[b];\n        for(let i=0;i<n;i++)if(B[i]===b){ctx.moveTo(X[i]+r,Y[i]);ctx.arc(X[i],Y[i],r,0,6.2832);}\n        ctx.fill();\n      }\n      ctx.globalAlpha=1;\n      num.textContent=Math.round(FINAL*ease(cl((P-.12)/.8)));\n    }\n    const loop=now=>{frame(now);raf=vis?requestAnimationFrame(loop):0;};\n    const run=()=>{if(vis&&!raf)raf=requestAnimationFrame(loop);};\n    const io=new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis)fig.classList.add(\"is-on\");run();},{rootMargin:\"40% 0px\"});\n    const ro=new ResizeObserver(build);\n    // התקדמות הגלילה היא המספר היחיד שמזיז את כל הנקודות. התווית מתוזמנת על אותו ציר\n    const st={p:0},tl=gsap.timeline({scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.6,invalidateOnRefresh:true}});\n    tl.to(st,{p:1,duration:1,ease:\"none\",onUpdate:()=>{P=st.p;}},0)\n      .fromTo(tag,{autoAlpha:0,y:10},{autoAlpha:1,y:0,duration:.08,ease:\"power2.out\"},.9);\n    build();io.observe(root);ro.observe(fig);\n    return()=>{cancelAnimationFrame(raf);raf=0;vis=false;io.disconnect();ro.disconnect();root.classList.remove(\"is-live\");fig.classList.remove(\"is-on\");\n      num.textContent=FINAL;gsap.set(tag,{clearProps:\"all\"});};\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטונים ב-prompt-motion.com (21.10.2026) שבהם ענן נקודות מתכנס לצורה, ובאחד מהם לגרף עם עמודה גבוהה אחת. נבנה מאפס מהצפייה. הצורה היא נתונים: `SER` הוא מערך של 37 ערכים (שבוע אחרי שבוע), `curve(u)` מחבר ביניהם בעקומה חלקה, והיעדים של הנקודות הם רשת שממלאת את השטח מתחת לעקומה, עמודה אחר עמודה. להחלפת הנתונים מחליפים את `SER` ואת המספר והתווית במארקאפ, וגם את ה-SVG הסטטי (הוא נוצר מאותה עקומה). ארבעה דברים שומרים את זה קל: (1) כמות הנקודות נגזרת ממרווח הרשת ומוגבלת ל-1900 בדסקטופ ול-900 בטלפון, והמרווח גדל עד שהכמות מתאימה. (2) הציור מקובץ לשש קבוצות של צבע ושקיפות, ומסלול אחד לכל קבוצה במקום מחרוזת צבע לכל נקודה. (3) DPR עד 2, והלולאה רצה רק כשהסקשן קרוב למסך (IntersectionObserver עם שוליים). (4) הצבעים נקראים מהטוקנים בזמן ריצה, אז כל עור מחליף אותם. התנועה: התקדמות הגלילה (`scrub`) היא המספר היחיד שמזיז הכול. לכל נקודה יש רגע התחלה שנקבע לפי העמודה שלה, מצד ההתחלה של הגרף, וקשת צד אקראית (`bend`) כדי שהנקודות יזרמו בקווים עקומים. נקודות עודפות נשארות בענן ודועכות. RTL: ציר הזמן מתחיל מימין והעמודה הראשונה מתיישבת ראשונה מימין, כי `direction` נקרא מהעמוד. באתר LTR הקוד מתהפך לבד, וב-SVG הסטטי יש היפוך עם `:dir(ltr)` (ושם התווית עוברת לצד השני). בלי GSAP ובהפחתת תנועה מוצג גרף נקודות ב-SVG (דפוס עיגולים) עם התווית והמספר הסופי, וה-canvas נחשף רק כשהמהלך רץ. בטלפון הענן גדול מהגרף ונופל אליו מלמעלה, והסקשן נעוץ במסך כמו בדסקטופ.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G160 · ענן נקודות שמתכנס לגרף */\n.sw{position:relative;max-width:1100px;margin-inline:auto}\n.sw-pin{display:grid;gap:clamp(24px,4vw,48px);padding-block:clamp(24px,4vw,64px)}\n.sw-top{position:relative;z-index:1;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 48px}\n.sw-head{display:grid;gap:12px;max-width:44ch}\n.sw-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}\n.sw-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.sw-count{display:flex;align-items:baseline;gap:12px;margin:0;font-size:clamp(56px,8vw,112px);font-weight:700;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums}\n.sw-count small{font-size:max(.2em,16px);font-weight:500;letter-spacing:0;color:var(--muted, #6a6d85)}\n.sw .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.sw-fig{position:relative;margin:0;aspect-ratio:5 / 2}\n/* הגרף הסטטי: אותו אזור שאליו הנקודות מתיישבות. בטלפון הוא יושב בתחתית ומעליו נשאר מקום לענן */\n.sw-plot{position:absolute;inset:0}\n.sw-svg{display:block;width:100%;height:100%;overflow:visible;transition:opacity .6s cubic-bezier(.2,.6,.2,1)}\n.sw-svg:dir(ltr){transform:scaleX(-1)}\n.sw-pd1 circle{fill:color-mix(in srgb,var(--ink, #16182b) 48%,transparent)}\n.sw-pd2 circle{fill:var(--accent, #4a3aff)}\n.sw-ln{stroke:var(--ink, #16182b);stroke-width:2;stroke-linejoin:round;vector-effect:non-scaling-stroke;opacity:.7}\n.sw-ax{stroke:var(--line, #e4e4ee);stroke-width:1;vector-effect:non-scaling-stroke}\n.sw-tag{position:absolute;left:33.3%;top:17.5%;translate:-50% calc(-100% - 10px);padding:6px 14px;border:1px solid var(--line, #e4e4ee);border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);font-size:14px;font-weight:600;white-space:nowrap}\n.sw-tag::after{content:\"\";position:absolute;left:50%;top:100%;height:10px;border-inline-start:1px solid var(--line, #e4e4ee)}\n.sw-tag:dir(ltr){left:66.7%}\n.sw-cv{position:absolute;left:-6%;top:-18%;width:112%;height:136%;pointer-events:none;opacity:0;transition:opacity .6s cubic-bezier(.2,.6,.2,1)}\n.sw-fig.is-on .sw-cv{opacity:1}\n.sw-fig.is-on .sw-svg{opacity:0}\n/* המהלך רץ: הסקשן גבוה והבמה נעוצה במסך, והגלילה מקדמת את הנקודות */\n.sw.is-live{height:260vh}\n.sw.is-live .sw-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center;overflow:hidden}\n@media(prefers-reduced-motion:reduce){.sw-svg,.sw-cv{transition:none}}\n@media(max-width:767px){\n  .sw-top{gap:16px}\n  .sw.is-live .sw-fig{aspect-ratio:1 / 1}\n  .sw.is-live .sw-plot{inset:auto 0 0 0;aspect-ratio:5 / 2}\n  .sw.is-live .sw-cv{left:0;width:100%}\n}","html":"<div class=\"stage\"><section class=\"sw\">\n  <div class=\"sw-pin\">\n    <div class=\"sw-top\">\n      <div class=\"sw-head\">\n        <h2>כל הפניות של השנה האחרונה, שבוע אחרי שבוע<\/h2>\n        <p>רוב השבועות עברו בקצב קבוע. בשבוע אחד, אחרי שהקמפיין עלה, הגיעו יותר מפי שניים פניות מהרגיל.<\/p>\n      <\/div>\n      <p class=\"sw-count\"><span class=\"sr-only\">214 פניות בשבוע השיא<\/span><b aria-hidden=\"true\">214<\/b><small aria-hidden=\"true\">פניות בשבוע השיא<\/small><\/p>\n    <\/div>\n    <figure class=\"sw-fig\">\n      <canvas class=\"sw-cv\" aria-hidden=\"true\"><\/canvas>\n      <div class=\"sw-plot\">\n        <svg class=\"sw-svg\" viewBox=\"0 0 1000 400\" role=\"img\" aria-label=\"גרף פניות לפי שבוע: עלייה מתונה לאורך השנה ושבוע אחד גבוה בהרבה מכל השאר\">\n          <defs>\n            <pattern id=\"sw-p1\" class=\"sw-pd1\" width=\"9\" height=\"9\" patternUnits=\"userSpaceOnUse\"><circle cx=\"4.5\" cy=\"4.5\" r=\"1.9\"/><\/pattern>\n            <pattern id=\"sw-p2\" class=\"sw-pd2\" width=\"9\" height=\"9\" patternUnits=\"userSpaceOnUse\"><circle cx=\"4.5\" cy=\"4.5\" r=\"2.3\"/><\/pattern>\n          <\/defs>\n          <path fill=\"url(#sw-p1)\" d=\"M1000 400L1000 347.2L991.7 345.8L983.3 342.9L975 340.8L966.7 340.9L958.3 342.3L950 343.6L941.7 343.7L933.3 340.5L925 336L916.7 334L908.3 332.6L900 329.7L891.7 327.6L883.3 327.7L875 329.1L866.7 330.4L858.3 330.5L850 327.3L841.7 322.8L833.3 320.8L825 321.5L816.7 323L808.3 324L800 323.2L791.7 319.2L783.3 315.1L775 314.3L766.7 315.3L758.3 316.8L750 317.5L741.7 315.5L733.3 311L725 307.8L716.7 307L708.3 304.3L700 301.6L691.7 301.1L683.3 302.1L675 303.6L666.7 304.3L658.3 302.9L650 300L641.7 297.9L633.3 298L625 299.4L616.7 300.7L608.3 300.8L600 297.6L591.7 293.1L583.3 291.1L575 291.8L566.7 293.3L558.3 294.3L550 293.5L541.7 289.5L533.3 285.4L525 284.6L516.7 285.6L508.3 287.1L500 287.8L491.7 286.4L483.3 283.5L475 281.4L466.7 281.5L458.3 282.9L450 284.2L441.7 284.3L433.3 281.1L425 276.6L416.7 274.6L408.3 273.2L400 270.3L391.7 268.2L383.3 261.1L375 231.7L366.7 202.3L358.3 192.3L350 152.1L341.7 95.8L333.3 70L325 98.6L316.7 160.7L308.3 205.2L300 213.6L291.7 235L283.3 256.4L275 261.2L266.7 259.1L258.3 256.2L250 254.8L241.7 256.8L233.3 261.3L225 264.5L216.7 264.1L208.3 261.4L200 258.7L191.7 257.9L183.3 255.8L175 252.9L166.7 251.5L158.3 253.5L150 258L141.7 261.2L133.3 260.8L125 258.1L116.7 255.4L108.3 254.6L100 252.5L91.7 249.6L83.3 248.2L75 248.9L66.7 250.4L58.3 251.4L50 250.9L41.7 248.2L33.3 245.5L25 245L16.7 246L8.3 247.5L0 248.2L0 400Z\"/>\n          <path fill=\"url(#sw-p2)\" d=\"M400 400L400 270.3L396.5 269.1L393 268.4L389.5 268L386 266.1L382.5 258.9L379 247.6L375.5 233.8L372 219.6L368.5 207.4L365 198.9L361.5 195.4L358 191.6L354.5 178.7L351 158.7L347.5 134.7L344 110.4L340.5 89.5L337 75.3L333.5 70L330 74.9L326.5 89.7L323 112.2L319.5 138.9L316 165.6L312.5 188.3L309 203.4L305.5 208.6L302 210.7L298.5 216.6L295 225.3L291.5 235.5L288 245.6L284.5 254.1L281 259.7L277.5 261.4L274 261.1L270.5 260.3L267 259.2L263.5 258L260 256.7L260 400Z\"/>\n          <path class=\"sw-ln\" fill=\"none\" d=\"M1000 347.2L975 340.8L950 343.6L925 336L900 329.7L875 329.1L850 327.3L825 321.5L800 323.2L775 314.3L750 317.5L725 307.8L700 301.6L675 303.6L650 300L625 299.4L600 297.6L575 291.8L550 293.5L525 284.6L500 287.8L475 281.4L450 284.2L425 276.6L400 270.3L383.3 261.1L375 231.7L366.7 202.3L358.3 192.3L350 152.1L341.7 95.8L333.3 70L325 98.6L316.7 160.7L308.3 205.2L300 213.6L291.7 235L283.3 256.4L275 261.2L250 254.8L225 264.5L200 258.7L175 252.9L150 258L125 258.1L100 252.5L75 248.9L50 250.9L25 245L0 248.2\"/>\n          <path class=\"sw-ax\" d=\"M0 399.5H1000\"/>\n        <\/svg>\n        <span class=\"sw-tag\" aria-hidden=\"true\">שבוע הקמפיין<\/span>\n      <\/div>\n    <\/figure>\n  <\/div>\n<\/section><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשאר הגרף הסטטי עם המספר הסופי\n  const root=document.querySelector(\".sw\"),fig=root.querySelector(\".sw-fig\"),plot=root.querySelector(\".sw-plot\"),cv=root.querySelector(\".sw-cv\"),\n    ctx=cv.getContext(\"2d\"),num=root.querySelector(\".sw-count b\"),tag=root.querySelector(\".sw-tag\");\n  const FINAL=parseInt(num.textContent,10)||0;\n  // 37 שבועות. הפסגה באינדקס 24, והעקומה מחברת ביניהם בקוסינוס\n  const SER=[.16,.18,.17,.2,.22,.21,.24,.23,.26,.25,.28,.3,.29,.31,.3,.33,.32,.35,.34,.36,.35,.38,.4,.62,1,.58,.42,.44,.41,.43,.45,.42,.44,.46,.45,.47,.46];\n  const curve=u=>{const x=Math.min(Math.max(u,0),1)*(SER.length-1),i=Math.min(Math.floor(x),SER.length-2),f=(1-Math.cos(Math.PI*(x-i)))/2;return SER[i]+(SER[i+1]-SER[i])*f;};\n  const cl=x=>Math.min(1,Math.max(0,x)),ease=e=>e<.5?4*e*e*e:1-Math.pow(-2*e+2,3)/2,sm=(a,b,x)=>{x=cl((x-a)/(b-a));return x*x*(3-2*x);};\n  // בהפחתת תנועה הפונקציה לא רצה, והגרף הסטטי נשאר\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const rtl=getComputedStyle(root).direction===\"rtl\",mob=()=>innerWidth<768;\n    const probe=document.createElement(\"canvas\").getContext(\"2d\");\n    const rgb=c=>{probe.fillStyle=\"#000\";probe.fillStyle=c;const h=probe.fillStyle;\n      if(h.charAt(0)===\"#\")return[1,3,5].map(k=>parseInt(h.slice(k,k+2),16));\n      return h.slice(h.indexOf(\"(\")+1,h.lastIndexOf(\")\")).split(\",\").slice(0,3).map(Number);};\n    let W=0,H=0,n=0,cnt=0,P=0,vis=false,raf=0,COL=[],tx,ty,kd,S,ang,rad,spd,wob,bend,X,Y,B,RX,RY,PL,PT,PW,PH;\n    const A=[.5,.92,1,.85,.55,.55],R=[1.5,1.9,2.3,1.7,1.4,1.4],t0=performance.now();\n    const colors=()=>{const cs=getComputedStyle(root),ink=rgb(cs.color),acc=rgb(cs.getPropertyValue(\"--accent\").trim()||cs.color);\n      const f=a=>\"rgb(\"+a.join(\",\")+\")\";COL=[f(ink),f(ink),f(acc),f(acc),f(ink),f(ink)];};\n    function build(){\n      const dpr=Math.min(2,devicePixelRatio||1),cr=cv.getBoundingClientRect(),pr=plot.getBoundingClientRect();\n      W=cr.width;H=cr.height;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);\n      PL=pr.left-cr.left;PT=pr.top-cr.top;PW=pr.width;PH=pr.height;\n      const hmax=PH*.825,cap=mob()?900:1900;let g=mob()?5:6.5,nc,c,total;\n      // מרווח הרשת גדל עד שכמות היעדים נכנסת בתקרה\n      for(;;){nc=Math.max(8,Math.floor(PW/g));total=0;for(c=0;c<nc;c++)total+=Math.floor(curve((c+.5)/nc)*hmax/g);if(total<=cap||g>16)break;g+=.5;}\n      const gx=PW/nc,tg=[];\n      for(c=0;c<nc;c++){const u=(c+.5)/nc,rows=Math.floor(curve(u)*hmax/g),x=rtl?PL+PW-(c+.5)*gx:PL+(c+.5)*gx,spike=u>.58&&u<.76&&curve(u)>.5;\n        for(let r=0;r<rows;r++)tg.push([x,PT+PH-(r+.5)*g,spike?2:r>=rows-2?1:0,u]);}\n      cnt=tg.length;n=cnt+Math.round(cnt*.2);\n      tx=new Float32Array(n);ty=new Float32Array(n);kd=new Uint8Array(n);S=new Float32Array(n);ang=new Float32Array(n);rad=new Float32Array(n);\n      spd=new Float32Array(n);wob=new Float32Array(n);bend=new Float32Array(n);X=new Float32Array(n);Y=new Float32Array(n);B=new Uint8Array(n);\n      let s=7;const rnd=()=>{s=(s*16807)%2147483647;return(s-1)/2147483646;};\n      for(let i=0;i<n;i++){\n        if(i<cnt){const q=tg[i];tx[i]=q[0];ty[i]=q[1];kd[i]=q[2];S[i]=.04+.5*q[3]+.07*rnd();}\n        ang[i]=rnd()*6.2832;rad[i]=Math.sqrt(rnd())*.98+.02;spd[i]=.08+.18*(1-rad[i]);wob[i]=rnd()*6.2832;bend[i]=(rnd()-.5)*.9;\n      }\n      RX=W*.44;RY=H*.42;colors();frame(performance.now());\n    }\n    function frame(now){\n      const t=(now-t0)/1000,ct=Math.cos(-.18),st=Math.sin(-.18),fade=1-sm(.1,.75,P),DUR=.36;\n      for(let i=0;i<n;i++){\n        const a=ang[i]+spd[i]*t,rr=rad[i],ox=Math.cos(a)*rr*RX,oy=Math.sin(a)*rr*RY+Math.sin(a*2+wob[i])*6;\n        const cx=W/2+ox*ct-oy*st,cy=H/2+ox*st+oy*ct;\n        if(i>=cnt){X[i]=cx;Y[i]=cy;B[i]=5;continue;}\n        const e=ease(cl((P-S[i])/DUR));\n        if(e<=0){X[i]=cx;Y[i]=cy;B[i]=4;}\n        else if(e>=1){X[i]=tx[i];Y[i]=ty[i];B[i]=kd[i];}\n        else{const dx=tx[i]-cx,dy=ty[i]-cy,len=Math.hypot(dx,dy)||1,bump=Math.sin(Math.PI*e)*bend[i]*len*.35;\n          X[i]=cx+dx*e-dy/len*bump;Y[i]=cy+dy*e+dx/len*bump;B[i]=3;}\n      }\n      ctx.clearRect(0,0,W,H);\n      ctx.globalAlpha=.28*sm(.2,.6,P);ctx.strokeStyle=COL[0];ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(PL,PT+PH+3);ctx.lineTo(PL+PW,PT+PH+3);ctx.stroke();\n      for(let b=0;b<6;b++){\n        ctx.globalAlpha=b===5?A[b]*fade:A[b];ctx.fillStyle=COL[b];ctx.beginPath();const r=R[b];\n        for(let i=0;i<n;i++)if(B[i]===b){ctx.moveTo(X[i]+r,Y[i]);ctx.arc(X[i],Y[i],r,0,6.2832);}\n        ctx.fill();\n      }\n      ctx.globalAlpha=1;\n      num.textContent=Math.round(FINAL*ease(cl((P-.12)/.8)));\n    }\n    const loop=now=>{frame(now);raf=vis?requestAnimationFrame(loop):0;};\n    const run=()=>{if(vis&&!raf)raf=requestAnimationFrame(loop);};\n    const io=new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis)fig.classList.add(\"is-on\");run();},{rootMargin:\"40% 0px\"});\n    const ro=new ResizeObserver(build);\n    // התקדמות הגלילה היא המספר היחיד שמזיז את כל הנקודות. התווית מתוזמנת על אותו ציר\n    const st={p:0},tl=gsap.timeline({scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.6,invalidateOnRefresh:true}});\n    tl.to(st,{p:1,duration:1,ease:\"none\",onUpdate:()=>{P=st.p;}},0)\n      .fromTo(tag,{autoAlpha:0,y:10},{autoAlpha:1,y:0,duration:.08,ease:\"power2.out\"},.9);\n    build();io.observe(root);ro.observe(fig);\n    return()=>{cancelAnimationFrame(raf);raf=0;vis=false;io.disconnect();ro.disconnect();root.classList.remove(\"is-live\");fig.classList.remove(\"is-on\");\n      num.textContent=FINAL;gsap.set(tag,{clearProps:\"all\"});};\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g159.html" rel="prev"><small>→ הקודם</small><b>נקודה שקופצת מכותרת לכותרת</b></a><a href="g161.html" rel="next"><small>הבא ←</small><b>קו אות שהופך לדופק וגלים</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · ענן נקודות שמתכנס לגרף").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר הגרף הסטטי עם המספר הסופי
+  const root=document.querySelector(".sw"),fig=root.querySelector(".sw-fig"),plot=root.querySelector(".sw-plot"),cv=root.querySelector(".sw-cv"),
+    ctx=cv.getContext("2d"),num=root.querySelector(".sw-count b"),tag=root.querySelector(".sw-tag");
+  const FINAL=parseInt(num.textContent,10)||0;
+  // 37 שבועות. הפסגה באינדקס 24, והעקומה מחברת ביניהם בקוסינוס
+  const SER=[.16,.18,.17,.2,.22,.21,.24,.23,.26,.25,.28,.3,.29,.31,.3,.33,.32,.35,.34,.36,.35,.38,.4,.62,1,.58,.42,.44,.41,.43,.45,.42,.44,.46,.45,.47,.46];
+  const curve=u=>{const x=Math.min(Math.max(u,0),1)*(SER.length-1),i=Math.min(Math.floor(x),SER.length-2),f=(1-Math.cos(Math.PI*(x-i)))/2;return SER[i]+(SER[i+1]-SER[i])*f;};
+  const cl=x=>Math.min(1,Math.max(0,x)),ease=e=>e<.5?4*e*e*e:1-Math.pow(-2*e+2,3)/2,sm=(a,b,x)=>{x=cl((x-a)/(b-a));return x*x*(3-2*x);};
+  // בהפחתת תנועה הפונקציה לא רצה, והגרף הסטטי נשאר
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const rtl=getComputedStyle(root).direction==="rtl",mob=()=>innerWidth<768;
+    const probe=document.createElement("canvas").getContext("2d");
+    const rgb=c=>{probe.fillStyle="#000";probe.fillStyle=c;const h=probe.fillStyle;
+      if(h.charAt(0)==="#")return[1,3,5].map(k=>parseInt(h.slice(k,k+2),16));
+      return h.slice(h.indexOf("(")+1,h.lastIndexOf(")")).split(",").slice(0,3).map(Number);};
+    let W=0,H=0,n=0,cnt=0,P=0,vis=false,raf=0,COL=[],tx,ty,kd,S,ang,rad,spd,wob,bend,X,Y,B,RX,RY,PL,PT,PW,PH;
+    const A=[.5,.92,1,.85,.55,.55],R=[1.5,1.9,2.3,1.7,1.4,1.4],t0=performance.now();
+    const colors=()=>{const cs=getComputedStyle(root),ink=rgb(cs.color),acc=rgb(cs.getPropertyValue("--accent").trim()||cs.color);
+      const f=a=>"rgb("+a.join(",")+")";COL=[f(ink),f(ink),f(acc),f(acc),f(ink),f(ink)];};
+    function build(){
+      const dpr=Math.min(2,devicePixelRatio||1),cr=cv.getBoundingClientRect(),pr=plot.getBoundingClientRect();
+      W=cr.width;H=cr.height;cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+      PL=pr.left-cr.left;PT=pr.top-cr.top;PW=pr.width;PH=pr.height;
+      const hmax=PH*.825,cap=mob()?900:1900;let g=mob()?5:6.5,nc,c,total;
+      // מרווח הרשת גדל עד שכמות היעדים נכנסת בתקרה
+      for(;;){nc=Math.max(8,Math.floor(PW/g));total=0;for(c=0;c<nc;c++)total+=Math.floor(curve((c+.5)/nc)*hmax/g);if(total<=cap||g>16)break;g+=.5;}
+      const gx=PW/nc,tg=[];
+      for(c=0;c<nc;c++){const u=(c+.5)/nc,rows=Math.floor(curve(u)*hmax/g),x=rtl?PL+PW-(c+.5)*gx:PL+(c+.5)*gx,spike=u>.58&&u<.76&&curve(u)>.5;
+        for(let r=0;r<rows;r++)tg.push([x,PT+PH-(r+.5)*g,spike?2:r>=rows-2?1:0,u]);}
+      cnt=tg.length;n=cnt+Math.round(cnt*.2);
+      tx=new Float32Array(n);ty=new Float32Array(n);kd=new Uint8Array(n);S=new Float32Array(n);ang=new Float32Array(n);rad=new Float32Array(n);
+      spd=new Float32Array(n);wob=new Float32Array(n);bend=new Float32Array(n);X=new Float32Array(n);Y=new Float32Array(n);B=new Uint8Array(n);
+      let s=7;const rnd=()=>{s=(s*16807)%2147483647;return(s-1)/2147483646;};
+      for(let i=0;i<n;i++){
+        if(i<cnt){const q=tg[i];tx[i]=q[0];ty[i]=q[1];kd[i]=q[2];S[i]=.04+.5*q[3]+.07*rnd();}
+        ang[i]=rnd()*6.2832;rad[i]=Math.sqrt(rnd())*.98+.02;spd[i]=.08+.18*(1-rad[i]);wob[i]=rnd()*6.2832;bend[i]=(rnd()-.5)*.9;
+      }
+      RX=W*.44;RY=H*.42;colors();frame(performance.now());
+    }
+    function frame(now){
+      const t=(now-t0)/1000,ct=Math.cos(-.18),st=Math.sin(-.18),fade=1-sm(.1,.75,P),DUR=.36;
+      for(let i=0;i<n;i++){
+        const a=ang[i]+spd[i]*t,rr=rad[i],ox=Math.cos(a)*rr*RX,oy=Math.sin(a)*rr*RY+Math.sin(a*2+wob[i])*6;
+        const cx=W/2+ox*ct-oy*st,cy=H/2+ox*st+oy*ct;
+        if(i>=cnt){X[i]=cx;Y[i]=cy;B[i]=5;continue;}
+        const e=ease(cl((P-S[i])/DUR));
+        if(e<=0){X[i]=cx;Y[i]=cy;B[i]=4;}
+        else if(e>=1){X[i]=tx[i];Y[i]=ty[i];B[i]=kd[i];}
+        else{const dx=tx[i]-cx,dy=ty[i]-cy,len=Math.hypot(dx,dy)||1,bump=Math.sin(Math.PI*e)*bend[i]*len*.35;
+          X[i]=cx+dx*e-dy/len*bump;Y[i]=cy+dy*e+dx/len*bump;B[i]=3;}
+      }
+      ctx.clearRect(0,0,W,H);
+      ctx.globalAlpha=.28*sm(.2,.6,P);ctx.strokeStyle=COL[0];ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(PL,PT+PH+3);ctx.lineTo(PL+PW,PT+PH+3);ctx.stroke();
+      for(let b=0;b<6;b++){
+        ctx.globalAlpha=b===5?A[b]*fade:A[b];ctx.fillStyle=COL[b];ctx.beginPath();const r=R[b];
+        for(let i=0;i<n;i++)if(B[i]===b){ctx.moveTo(X[i]+r,Y[i]);ctx.arc(X[i],Y[i],r,0,6.2832);}
+        ctx.fill();
+      }
+      ctx.globalAlpha=1;
+      num.textContent=Math.round(FINAL*ease(cl((P-.12)/.8)));
+    }
+    const loop=now=>{frame(now);raf=vis?requestAnimationFrame(loop):0;};
+    const run=()=>{if(vis&&!raf)raf=requestAnimationFrame(loop);};
+    const io=new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis)fig.classList.add("is-on");run();},{rootMargin:"40% 0px"});
+    const ro=new ResizeObserver(build);
+    // התקדמות הגלילה היא המספר היחיד שמזיז את כל הנקודות. התווית מתוזמנת על אותו ציר
+    const st={p:0},tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
+    tl.to(st,{p:1,duration:1,ease:"none",onUpdate:()=>{P=st.p;}},0)
+      .fromTo(tag,{autoAlpha:0,y:10},{autoAlpha:1,y:0,duration:.08,ease:"power2.out"},.9);
+    build();io.observe(root);ro.observe(fig);
+    return()=>{cancelAnimationFrame(raf);raf=0;vis=false;io.disconnect();ro.disconnect();root.classList.remove("is-live");fig.classList.remove("is-on");
+      num.textContent=FINAL;gsap.set(tag,{clearProps:"all"});};
+  });
+})();
+</script>
+</body>
+</html>

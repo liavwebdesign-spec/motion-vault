@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G168 · מצלמה שעפה לאורך עמוד בפרספקטיבה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G168 · מצלמה שעפה לאורך עמוד בפרספקטיבה */
+.fp{position:relative;max-width:none}
+.fp-pin{--pw:min(84cqw,1040px);container-type:inline-size;position:relative;height:min(100vh,760px);height:min(100svh,760px);overflow:hidden}
+.fp-cam{position:absolute;inset:0;perspective:1200px;perspective-origin:50% 36%}
+.fp-tilt{position:absolute;top:0;inset-inline:0;margin-inline:auto;width:var(--pw);transform-origin:50% 0}
+.fp-plane{container:fp / inline-size;overflow:hidden;border-radius:1.2em;background:var(--card, #fff);color:var(--ink, #16182b);font-size:calc(var(--pw) / 62);line-height:1.5;box-shadow:0 0 0 1px var(--line, #e4e4ee),0 3em 7em color-mix(in srgb,var(--ink, #16182b) 16%,transparent)}
+.fp-hd{display:flex;align-items:center;gap:2em;padding:1.5em 3em}
+.fp-hd b{font-size:1.5em}
+.fp-hd nav{display:flex;gap:1.8em;margin-inline-start:auto;color:var(--muted, #6a6d85)}
+.fp-btn{display:inline-block;padding:.7em 1.6em;border-radius:99px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:600}
+.fp-btn.o{background:transparent;color:var(--ink, #16182b);box-shadow:inset 0 0 0 .1em var(--line, #e4e4ee)}
+.fp-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:3em;align-items:center;padding:3em 3em 5em}
+.fp-hero h3{margin:0 0 .5em;font-size:3.4em;line-height:1.08;font-weight:700;text-wrap:balance}
+.fp-hero p{margin:0 0 1.6em;font-size:1.3em;color:var(--muted, #6a6d85)}
+.fp-hero .acts{display:flex;gap:1em;flex-wrap:wrap}
+.fp-hero img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:1.4em}
+.fp-logos{display:flex;gap:3em;justify-content:center;align-items:center;padding:2.4em 3em;background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--card, #fff))}
+.fp-logos i{display:block;width:8em;height:1.8em;border-radius:.5em;background:color-mix(in srgb,var(--ink, #16182b) 14%,transparent)}
+.fp-sec{padding:5em 3em}
+.fp-sec h4{margin:0 0 1.2em;font-size:2.2em;font-weight:700}
+.fp-svc{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.6em}
+.fp-svc div{padding:2em;border-radius:1.2em;background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--card, #fff))}
+.fp-svc i{display:block;width:3em;height:3em;margin-bottom:1.2em;border-radius:.9em;background:color-mix(in srgb,var(--accent, #4a3aff) 18%,transparent)}
+.fp-svc b{display:block;margin-bottom:.4em;font-size:1.4em}
+.fp-svc span{color:var(--muted, #6a6d85)}
+.fp-gal{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:1.4em}
+.fp-gal img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;border-radius:1.2em}
+.fp-quote{padding:5em 8em;text-align:center;background:color-mix(in srgb,var(--accent, #4a3aff) 8%,var(--card, #fff))}
+.fp-quote p{margin:0 0 1em;font-size:2.1em;font-weight:600;line-height:1.35;text-wrap:balance}
+.fp-quote span{color:var(--muted, #6a6d85)}
+.fp-faq{display:grid;gap:1em}
+.fp-faq div{display:flex;justify-content:space-between;padding:1.4em 1.8em;border-radius:1em;background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--card, #fff));font-size:1.2em;font-weight:600}
+.fp-faq i{width:.7em;height:.7em;margin-top:.5em;border:solid var(--muted, #6a6d85);border-width:0 .15em .15em 0;rotate:45deg}
+.fp-cta{margin:1em 3em 4em;padding:5em 3em;border-radius:1.6em;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-align:center}
+.fp-cta h4{margin:0 0 1em;font-size:2.4em;font-weight:700}
+.fp-cta .fp-btn{background:var(--accent-ink, #fff);color:var(--accent, #4a3aff)}
+.fp-ft{display:flex;gap:3em;padding:3em;background:color-mix(in srgb,var(--ink, #16182b) 5%,var(--card, #fff));color:var(--muted, #6a6d85)}
+.fp-ft b{margin-inline-end:auto;color:var(--ink, #16182b);font-size:1.4em}
+.fp-dof{position:absolute;inset-inline:0;bottom:0;height:34%;pointer-events:none;background:linear-gradient(to top,var(--bg, #f7f7fa),transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);-webkit-mask-image:linear-gradient(to top,black 15%,transparent);mask-image:linear-gradient(to top,black 15%,transparent)}
+.fp-fade{position:absolute;inset-inline:0;top:0;height:30%;pointer-events:none;opacity:0;background:linear-gradient(to bottom,var(--bg, #f7f7fa) 12%,transparent)}
+.fp-ico{position:absolute;display:grid;place-items:center;width:64px;height:64px;border-radius:20px;opacity:0;pointer-events:none;background:var(--card, #fff);color:var(--accent, #4a3aff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 18px 40px color-mix(in srgb,var(--ink, #16182b) 16%,transparent)}
+.fp-ico svg{width:28px;height:28px}
+.fp-ico.i1{inset-inline-start:8%;top:22%}
+.fp-ico.i2{inset-inline-end:8%;top:16%}
+.fp-ico.i3{inset-inline-start:14%;bottom:20%}
+.fp-ico.i4{inset-inline-end:12%;bottom:26%}
+.fp.is-live .fp-ico{animation:fp-float 6s cubic-bezier(.4,0,.2,1) infinite alternate}
+.fp.is-live .fp-ico.i2{animation-delay:-1.5s}
+.fp.is-live .fp-ico.i3{animation-delay:-3s}
+.fp.is-live .fp-ico.i4{animation-delay:-4.5s}
+@keyframes fp-float{to{translate:0 -12px}}
+.fp.is-live{height:420vh}
+.fp.is-live .fp-pin{position:sticky;top:0;height:100vh;height:100svh}
+.fp .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@container fp (max-width:640px){
+  .fp-hd{padding:1.2em 1.6em}.fp-hd nav{display:none}.fp-hd .fp-btn{margin-inline-start:auto}
+  .fp-hero{grid-template-columns:minmax(0,1fr);gap:2em;padding:2em 1.6em 3em}.fp-hero h3{font-size:2.8em}
+  .fp-logos{gap:1.4em;padding:1.6em}.fp-logos i{width:5em}.fp-logos i:nth-child(n+4){display:none}
+  .fp-sec{padding:3em 1.6em}.fp-svc{grid-template-columns:minmax(0,1fr)}.fp-gal{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.fp-gal img:first-child{grid-column:1/-1;aspect-ratio:3/2}
+  .fp-quote{padding:3em 2em}.fp-cta{margin:1em 1.6em 2em;padding:3em 1.6em}.fp-ft{flex-wrap:wrap;gap:1.6em;padding:2em 1.6em}
+}
+@media(max-width:767px){.fp-pin{--pw:92cqw}.fp-plane{font-size:calc(var(--pw) / 38)}.fp-ico{width:48px;height:48px;border-radius:16px}.fp-ico svg{width:22px;height:22px}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage tight"><section class="fp" aria-labelledby="fp-h">
+  <h2 id="fp-h" class="sr-only">עמוד הבית של סטודיו לעיצוב פנים, בתצוגה מלאה מלמעלה</h2>
+  <div class="fp-pin" aria-hidden="true">
+    <div class="fp-cam">
+      <div class="fp-tilt">
+        <div class="fp-plane">
+          <header class="fp-hd"><b>סטודיו מורן</b><nav><span>פרויקטים</span><span>שירותים</span><span>אודות</span><span>צור קשר</span></nav><span class="fp-btn">תיאום פגישה</span></header>
+          <div class="fp-hero">
+            <div><h3>בית שמתאים לאיך שאתם חיים</h3><p>תכנון ועיצוב פנים לדירות ולבתים, מהשרטוט הראשון ועד המפתח.</p><div class="acts"><span class="fp-btn">תיאום פגישה</span><span class="fp-btn o">לפרויקטים</span></div></div>
+            <img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp" alt="" width="2560" height="1435" decoding="async">
+          </div>
+          <div class="fp-logos"><i></i><i></i><i></i><i></i><i></i></div>
+          <section class="fp-sec"><h4>מה אנחנו עושים</h4>
+            <div class="fp-svc">
+              <div><i></i><b>ליווי מלא</b><span>מהתכנון ועד ההתקנה, עם איש קשר אחד.</span></div>
+              <div><i></i><b>עיצוב חדר</b><span>חדר אחד, בלי להתחיל מחדש את כל הבית.</span></div>
+              <div><i></i><b>תכנון תאורה</b><span>שכבות אור שמתאימות לשעות היום.</span></div>
+            </div>
+          </section>
+          <section class="fp-sec"><h4>פרויקטים אחרונים</h4>
+            <div class="fp-gal"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp" alt="" width="1800" height="1200" loading="lazy" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp" alt="" width="1200" height="1600" loading="lazy" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp" alt="" width="2200" height="1469" loading="lazy" decoding="async"></div>
+          </section>
+          <div class="fp-quote"><p>הגענו עם תמונות מפינטרסט ויצאנו עם בית שנראה כמו שלנו.</p><span>משפחת לוי, רעננה</span></div>
+          <section class="fp-sec"><h4>שאלות נפוצות</h4>
+            <div class="fp-faq"><div><span>כמה זמן לוקח פרויקט?</span><i></i></div><div><span>אפשר להתחיל בחדר אחד?</span><i></i></div><div><span>איך נקבע המחיר?</span><i></i></div></div>
+          </section>
+          <div class="fp-cta"><h4>נתאם פגישה ונראה את הבית שלכם</h4><span class="fp-btn">לתיאום פגישה</span></div>
+          <footer class="fp-ft"><b>סטודיו מורן</b><span>פרויקטים</span><span>שירותים</span><span>צור קשר</span></footer>
+        </div>
+      </div>
+    </div>
+    <div class="fp-fade"></div>
+    <div class="fp-dof"></div>
+    <span class="fp-ico i1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></span>
+    <span class="fp-ico i2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="15" rx="3"/><circle cx="12" cy="12.5" r="3.5"/><path d="M8 5l1.5-2h5L16 5"/></svg></span>
+    <span class="fp-ico i3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></span>
+    <span class="fp-ico i4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></span>
+  </div>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשארת תחילת העמוד, ישרה ובגובה מסך
+  const root=document.querySelector(".fp"),pin=root.querySelector(".fp-pin"),tilt=root.querySelector(".fp-tilt"),
+    plane=root.querySelector(".fp-plane"),fade=root.querySelector(".fp-fade"),icos=[...root.querySelectorAll(".fp-ico")];
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const H=()=>pin.clientHeight,PH=()=>plane.offsetHeight;
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
+    const mob=()=>innerWidth<768;
+    tl.to(tilt,{rotationX:()=>mob()?54:60,scale:()=>mob()?.64:.74,y:()=>H()*.1,duration:.22,ease:"power2.inOut"},0)   // העמוד נשכב
+      .to(fade,{opacity:1,duration:.22},0)
+      .fromTo(icos,{opacity:0,scale:.6},{opacity:1,scale:1,duration:.14,stagger:.03,ease:"power2.out"},.1)
+      .to(plane,{y:()=>-(PH()-H()*.7),duration:.48,ease:"power1.inOut"},.22)                       // המצלמה גולשת לאורך העמוד
+      .to(tilt,{rotationX:0,scale:()=>.84*H()/PH(),y:()=>.08*H(),duration:.15,ease:"power2.inOut"},.7) // כל העמוד כפס צר
+      .to(plane,{y:0,duration:.15,ease:"power2.inOut"},.7)
+      .to([fade,...icos],{opacity:0,duration:.12},.7)
+      .to(tilt,{scale:1,y:0,duration:.15,ease:"power2.inOut"},.85);                                // וחוזר לעמוד הבית
+    return()=>{root.classList.remove("is-live");gsap.set([tilt,plane,fade,...icos],{clearProps:"all"});};
+  });
+})();
+</script>
+</body>
+</html>

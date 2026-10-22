@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G161 · קו אות שהופך לדופק וגלים | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.sg{position:relative;max-width:1100px;margin-inline:auto}
+.sg-pin{display:grid;gap:clamp(24px,3vw,40px);padding-block:clamp(24px,4vw,64px)}
+.sg-head{display:grid;gap:12px;max-width:52ch}
+.sg-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}
+.sg-head p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.sg-fig{margin:0;display:grid;gap:12px}
+.sg-plot{position:relative;height:clamp(200px,40svh,360px)}
+.sg-svg{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible}
+.sg-glow{filter:drop-shadow(0 0 8px color-mix(in srgb,var(--accent) 50%,transparent))}
+.sg-svg:dir(ltr){transform:scaleX(-1)}
+.sg-grid{fill:none;stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke}
+.sg-line{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.sg-thr{position:absolute;inset-inline:0;top:30%;border-top:1px dashed color-mix(in srgb,var(--ink) 30%,transparent);pointer-events:none}
+.sg-thr span{position:absolute;inset-inline-start:0;bottom:6px;font-size:13px;color:var(--muted)}
+.sg-dot{position:absolute;left:50%;top:60%;width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent) 22%,transparent);transform:translate(-50%,-50%)}
+.sg.is-live .sg-dot{top:0;transform:translate(-50%,-6px)}
+.sg-val{position:absolute;inset-inline-start:calc(100% + 18px);top:-34px;padding:4px 12px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font-size:13px;font-weight:600;white-space:nowrap}
+.sg-ticks{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.sg-caps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px}
+.sg-caps li{display:grid;gap:6px;align-content:start;padding-top:14px;border-top:1px solid var(--line)}
+.sg-caps b{font-size:15px}
+.sg-caps span{font-size:14px;line-height:1.55;color:var(--muted)}
+.sg-prog{display:none;height:2px;border-radius:999px;background:var(--line);overflow:hidden}
+.sg-prog i{display:block;height:100%;background:var(--accent);transform-origin:right center;transform:scaleX(0)}
+.sg:dir(ltr) .sg-prog i{transform-origin:left center}
+/* המהלך רץ: הסקשן גבוה והבמה נעוצה במסך, ההסברים נערמים בתא אחד */
+.sg.is-live{height:420vh}
+.sg.is-live .sg-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center;overflow:hidden}
+.sg.is-live .sg-prog{display:block}
+.sg.is-live .sg-caps{grid-template-columns:minmax(0,1fr);gap:0;max-width:56ch}
+.sg.is-live .sg-caps li{grid-area:1 / 1;padding-top:0;border-top:0}
+@media(max-width:767px){
+  .sg-plot{height:clamp(200px,36svh,300px)}
+  .sg-ticks span:nth-child(even){visibility:hidden}
+}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g160.html" rel="prev" title="הקודם: ענן נקודות שמתכנס לגרף">→<span class="sr-only">הקודם</span></a><span class="vpn-n">137/162</span><a href="g162.html" rel="next" title="הבא: פאות שנצמדות לסמל שלד">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G161</span> · קו אות שהופך לדופק וגלים</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · SVG path</span>
+  <span class="vchip use">מספרים ונתונים</span><span class="vchip use">תהליך ושלבים</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g161"><code>MV:g161</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g161">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>קו דק וזוהר מתחיל שטוח ועובר בגלילה דרך חמש צורות: דופק חד אחד, גל סינוס, גל מרובע ובסוף חזרה לקו שקט. נקודה עם תווית ערך רוכבת על הקו, קו סף מקווקו חוצה את הדופק, ומתחת לקו מתחלפת כותרת עם הסבר לכל צורה. בלי GSAP העמוד מציג את הקו השקט ואת חמשת ההסברים ברשימה.</p>
+  <p class="when"><b>מתי משתמשים:</b> שירות שמראה אות לאורך זמן: ניטור אתרים, תחזוקה, אבטחה, בריאות, אנרגיה, תשתיות. הצורה נקבעת לפי הנתון עצמו, ולכל שלב צריכה להיות שורה אמיתית להגיד. לא כאיור כללי של ״טכנולוגיה״ ולא כשאין מה למדוד.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>אתר תדמית · וואן-פייג'ר · דף נחיתה</dd></div><div><dt>בסקשן</dt><dd>מספרים ולקוחות · בעיה ויתרונות · תהליך ושלבים</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא בלי שלושה עד חמישה נתונים אמיתיים שאפשר לתאר כקו, ולא כשהקו לא קשור לשירות (דופק בעסק שלא קשור לבריאות או ניטור).</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g161"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><section class="sg">
+  <div class="sg-pin">
+    <div class="sg-head">
+      <h2>האתר שלכם נבדק כל דקה, גם בשבת</h2>
+      <p>כך נראה זמן התגובה של אתר במשך יממה: רוב הזמן קו שטוח, ולפעמים אירוע שעליו מגיעה התראה.</p>
+    </div>
+    <figure class="sg-fig">
+      <div class="sg-plot" role="img" aria-label="גרף זמן התגובה של האתר במשך יממה: קו שטוח, חריגה אחת חדה שנשלחה עליה התראה, ואחריה חזרה לקו שקט">
+        <svg class="sg-svg" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+          <path class="sg-grid" d="M0 0V300M250 0V300M500 0V300M750 0V300M1000 0V300"/>
+        </svg>
+        <svg class="sg-svg sg-glow" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true">
+          <path class="sg-line" d="M1000.0 180.0L995.0 175.1L990.0 171.1L985.0 168.5L980.0 167.4L975.0 167.9L970.0 169.8L965.0 172.8L960.0 176.4L955.0 180.1L950.0 183.5L945.0 186.3L940.0 188.1L935.0 188.8L930.0 188.4L925.0 187.1L920.0 185.0L915.0 182.5L910.0 179.9L905.0 177.5L900.0 175.6L895.0 174.3L890.0 173.9L885.0 174.1L880.0 175.1L875.0 176.6L870.0 178.3L865.0 180.1L860.0 181.8L855.0 183.1L850.0 184.0L845.0 184.3L840.0 184.1L835.0 183.4L830.0 182.4L825.0 181.2L820.0 179.9L815.0 178.7L810.0 177.8L805.0 177.2L800.0 177.0L795.0 177.2L790.0 177.6L785.0 178.4L780.0 179.2L775.0 180.1L770.0 180.9L765.0 181.5L760.0 182.0L755.0 182.1L750.0 182.0L745.0 181.6L740.0 181.1L735.0 180.5L730.0 179.9L725.0 179.4L720.0 178.9L715.0 178.6L710.0 178.5L705.0 178.6L700.0 178.9L695.0 179.2L690.0 179.6L685.0 180.1L680.0 180.5L675.0 180.8L670.0 181.0L665.0 181.0L660.0 181.0L655.0 180.8L650.0 180.5L645.0 180.2L640.0 179.9L635.0 179.7L630.0 179.5L625.0 179.3L620.0 179.3L615.0 179.3L610.0 179.5L605.0 179.6L600.0 179.8L595.0 180.0L590.0 180.2L585.0 180.4L580.0 180.5L575.0 180.5L570.0 180.5L565.0 180.4L560.0 180.3L555.0 180.1L550.0 180.0L545.0 179.8L540.0 179.7L535.0 179.7L530.0 179.7L525.0 179.7L520.0 179.7L515.0 179.8L510.0 179.9L505.0 180.0L500.0 180.1L495.0 180.2L490.0 180.2L485.0 180.2L480.0 180.2L475.0 180.2L470.0 180.1L465.0 180.1L460.0 180.0L455.0 179.9L450.0 179.9L445.0 179.8L440.0 179.8L435.0 179.8L430.0 179.9L425.0 179.9L420.0 180.0L415.0 180.0L410.0 180.1L405.0 180.1L400.0 180.1L395.0 180.1L390.0 180.1L385.0 180.1L380.0 180.1L375.0 180.0L370.0 180.0L365.0 180.0L360.0 179.9L355.0 179.9L350.0 179.9L345.0 179.9L340.0 179.9L335.0 180.0L330.0 180.0L325.0 180.0L320.0 180.0L315.0 180.0L310.0 180.1L305.0 180.1L300.0 180.1L295.0 180.0L290.0 180.0L285.0 180.0L280.0 180.0L275.0 180.0L270.0 180.0L265.0 180.0L260.0 180.0L255.0 180.0L250.0 180.0L245.0 180.0L240.0 180.0L235.0 180.0L230.0 180.0L225.0 180.0L220.0 180.0L215.0 180.0L210.0 180.0L205.0 180.0L200.0 180.0L195.0 180.0L190.0 180.0L185.0 180.0L180.0 180.0L175.0 180.0L170.0 180.0L165.0 180.0L160.0 180.0L155.0 180.0L150.0 180.0L145.0 180.0L140.0 180.0L135.0 180.0L130.0 180.0L125.0 180.0L120.0 180.0L115.0 180.0L110.0 180.0L105.0 180.0L100.0 180.0L95.0 180.0L90.0 180.0L85.0 180.0L80.0 180.0L75.0 180.0L70.0 180.0L65.0 180.0L60.0 180.0L55.0 180.0L50.0 180.0L45.0 180.0L40.0 180.0L35.0 180.0L30.0 180.0L25.0 180.0L20.0 180.0L15.0 180.0L10.0 180.0L5.0 180.0L0.0 180.0"/>
+        </svg>
+        <div class="sg-thr" aria-hidden="true"><span>סף התראה</span></div>
+        <span class="sg-dot" aria-hidden="true"><span class="sg-val">96 מ״ש</span></span>
+      </div>
+      <div class="sg-ticks" aria-hidden="true"><span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span></div>
+      <div class="sg-prog" aria-hidden="true"><i></i></div>
+    </figure>
+    <ul class="sg-caps">
+      <li><b>יציב</b><span>זמן תגובה ממוצע של 98 מילישניות. בדיקה כל דקה, בלי חריגות.</span></li>
+      <li><b>חריגה</b><span>בשעה 12:41 זמן התגובה עלה ל-2.4 שניות. ההתראה נשלחה אליך בתוך דקה.</span></li>
+      <li><b>עומס יומי</b><span>בשעות הערב העומס עולה ויורד בקצב קבוע. זה תקין ואין צורך להגיב.</span></li>
+      <li><b>תחזוקה</b><span>חלונות עדכון מתוזמנים נרשמים בנפרד, כדי שלא ייספרו כהשבתה.</span></li>
+      <li><b>חזר לשגרה</b><span>זמינות של 99.98% ב-30 הימים האחרונים. הדוח השבועי מגיע אליך במייל.</span></li>
+    </ul>
+  </div>
+</section></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטונים ב-prompt-motion.com (21.10.2026) שבהם קו אחד דק מתחיל שטוח ומצמיח דופק, רעש, גל סינוס וגל מרובע, עם תוויות קטנות על הקו. נבנה מאפס מהצפייה. <b>הקו הוא פונקציה של התקדמות:</b> <code>y(u) = בסיס - (w1*s1(u) + w2*s2(u) + w3*s3(u) + w4*s4(u))</code>, כש-<code>s1</code> דופק (גאוסיאנים: פסגה, שתי שקיעות וגל T), <code>s2</code> סינוס, <code>s3</code> גל מרובע רך (<code>tanh(5*sin(...))</code>) ו-<code>s4</code> רעד שדועך. המשקלים <code>w</code> הם גשר משולש בין חמש עמדות על ציר ההתקדמות (0, .25, .5, .75, 1), עם <code>smoothstep</code>, ולכן כל צורה מתמזגת בצורה הבאה ולא קופצת. בכל עדכון נבנה מחדש <code>d</code> של מסלול אחד עם 200 נקודות. <b>SVG:</b> <code>preserveAspectRatio=none</code> ו-<code>vector-effect: non-scaling-stroke</code>, כדי שהקו יימתח לרוחב המסגרת בלי להתעבות. הזוהר הוא <code>drop-shadow</code> על SVG נפרד שמכיל רק את הקו, כדי שקווי הרשת לא ינצנצו. <b>נקודה ותווית:</b> ה-HTML ממוקם ב-50% רוחב ו-<code>translateY</code> מחושב מאותה פונקציה, כך שאין שינוי של <code>top</code> בגלילה. הערך בתווית מתחלף לפי העמדה הקרובה. <b>הכותרות:</b> חמש פריטי רשימה. במצב חי הם נערמים בתא אחד של גריד, והשקיפות והתזוזה של כל אחד נגזרות מההתקדמות (<code>scrub</code>), בלי טווינים של זמן. <b>RTL:</b> הקו נבנה תמיד מימין (<code>x = 1 - u</code>), וב-LTR ה-SVG מתהפך עם <code>:dir(ltr)</code>. התוויות נשארות קריאות כי הן HTML. ציר הזמן ושורת השעות לפי כיוון המסמך. <b>בלי GSAP ובהפחתת תנועה:</b> הקו השקט (מצב אחרון) מוטבע ב-<code>d</code>, הנקודה על קו הבסיס וחמשת ההסברים מוצגים ברשימה אחת מתחת לקו. <b>בטלפון</b> הסצנה נעוצה כמו בדסקטופ, הגרף נמוך יותר ושעות הציר מצטמצמות.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g161.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G161 · קו אות שהופך לדופק וגלים */
+.sg{position:relative;max-width:1100px;margin-inline:auto}
+.sg-pin{display:grid;gap:clamp(24px,3vw,40px);padding-block:clamp(24px,4vw,64px)}
+.sg-head{display:grid;gap:12px;max-width:52ch}
+.sg-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}
+.sg-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.sg-fig{margin:0;display:grid;gap:12px}
+.sg-plot{position:relative;height:clamp(200px,40svh,360px)}
+.sg-svg{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible}
+.sg-glow{filter:drop-shadow(0 0 8px color-mix(in srgb,var(--accent, #4a3aff) 50%,transparent))}
+.sg-svg:dir(ltr){transform:scaleX(-1)}
+.sg-grid{fill:none;stroke:var(--line, #e4e4ee);stroke-width:1;vector-effect:non-scaling-stroke}
+.sg-line{fill:none;stroke:var(--accent, #4a3aff);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.sg-thr{position:absolute;inset-inline:0;top:30%;border-top:1px dashed color-mix(in srgb,var(--ink, #16182b) 30%,transparent);pointer-events:none}
+.sg-thr span{position:absolute;inset-inline-start:0;bottom:6px;font-size:13px;color:var(--muted, #6a6d85)}
+.sg-dot{position:absolute;left:50%;top:60%;width:12px;height:12px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent, #4a3aff) 22%,transparent);transform:translate(-50%,-50%)}
+.sg.is-live .sg-dot{top:0;transform:translate(-50%,-6px)}
+.sg-val{position:absolute;inset-inline-start:calc(100% + 18px);top:-34px;padding:4px 12px;border:1px solid var(--line, #e4e4ee);border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);font-size:13px;font-weight:600;white-space:nowrap}
+.sg-ticks{display:flex;justify-content:space-between;font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}
+.sg-caps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px}
+.sg-caps li{display:grid;gap:6px;align-content:start;padding-top:14px;border-top:1px solid var(--line, #e4e4ee)}
+.sg-caps b{font-size:15px}
+.sg-caps span{font-size:14px;line-height:1.55;color:var(--muted, #6a6d85)}
+.sg-prog{display:none;height:2px;border-radius:999px;background:var(--line, #e4e4ee);overflow:hidden}
+.sg-prog i{display:block;height:100%;background:var(--accent, #4a3aff);transform-origin:right center;transform:scaleX(0)}
+.sg:dir(ltr) .sg-prog i{transform-origin:left center}
+/* המהלך רץ: הסקשן גבוה והבמה נעוצה במסך, ההסברים נערמים בתא אחד */
+.sg.is-live{height:420vh}
+.sg.is-live .sg-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center;overflow:hidden}
+.sg.is-live .sg-prog{display:block}
+.sg.is-live .sg-caps{grid-template-columns:minmax(0,1fr);gap:0;max-width:56ch}
+.sg.is-live .sg-caps li{grid-area:1 / 1;padding-top:0;border-top:0}
+@media(max-width:767px){
+  .sg-plot{height:clamp(200px,36svh,300px)}
+  .sg-ticks span:nth-child(even){visibility:hidden}
+}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;section class="sg"&gt;
+  &lt;div class="sg-pin"&gt;
+    &lt;div class="sg-head"&gt;
+      &lt;h2&gt;האתר שלכם נבדק כל דקה, גם בשבת&lt;/h2&gt;
+      &lt;p&gt;כך נראה זמן התגובה של אתר במשך יממה: רוב הזמן קו שטוח, ולפעמים אירוע שעליו מגיעה התראה.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;figure class="sg-fig"&gt;
+      &lt;div class="sg-plot" role="img" aria-label="גרף זמן התגובה של האתר במשך יממה: קו שטוח, חריגה אחת חדה שנשלחה עליה התראה, ואחריה חזרה לקו שקט"&gt;
+        &lt;svg class="sg-svg" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true"&gt;
+          &lt;path class="sg-grid" d="M0 0V300M250 0V300M500 0V300M750 0V300M1000 0V300"/&gt;
+        &lt;/svg&gt;
+        &lt;svg class="sg-svg sg-glow" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-hidden="true"&gt;
+          &lt;path class="sg-line" d="M1000.0 180.0L995.0 175.1L990.0 171.1L985.0 168.5L980.0 167.4L975.0 167.9L970.0 169.8L965.0 172.8L960.0 176.4L955.0 180.1L950.0 183.5L945.0 186.3L940.0 188.1L935.0 188.8L930.0 188.4L925.0 187.1L920.0 185.0L915.0 182.5L910.0 179.9L905.0 177.5L900.0 175.6L895.0 174.3L890.0 173.9L885.0 174.1L880.0 175.1L875.0 176.6L870.0 178.3L865.0 180.1L860.0 181.8L855.0 183.1L850.0 184.0L845.0 184.3L840.0 184.1L835.0 183.4L830.0 182.4L825.0 181.2L820.0 179.9L815.0 178.7L810.0 177.8L805.0 177.2L800.0 177.0L795.0 177.2L790.0 177.6L785.0 178.4L780.0 179.2L775.0 180.1L770.0 180.9L765.0 181.5L760.0 182.0L755.0 182.1L750.0 182.0L745.0 181.6L740.0 181.1L735.0 180.5L730.0 179.9L725.0 179.4L720.0 178.9L715.0 178.6L710.0 178.5L705.0 178.6L700.0 178.9L695.0 179.2L690.0 179.6L685.0 180.1L680.0 180.5L675.0 180.8L670.0 181.0L665.0 181.0L660.0 181.0L655.0 180.8L650.0 180.5L645.0 180.2L640.0 179.9L635.0 179.7L630.0 179.5L625.0 179.3L620.0 179.3L615.0 179.3L610.0 179.5L605.0 179.6L600.0 179.8L595.0 180.0L590.0 180.2L585.0 180.4L580.0 180.5L575.0 180.5L570.0 180.5L565.0 180.4L560.0 180.3L555.0 180.1L550.0 180.0L545.0 179.8L540.0 179.7L535.0 179.7L530.0 179.7L525.0 179.7L520.0 179.7L515.0 179.8L510.0 179.9L505.0 180.0L500.0 180.1L495.0 180.2L490.0 180.2L485.0 180.2L480.0 180.2L475.0 180.2L470.0 180.1L465.0 180.1L460.0 180.0L455.0 179.9L450.0 179.9L445.0 179.8L440.0 179.8L435.0 179.8L430.0 179.9L425.0 179.9L420.0 180.0L415.0 180.0L410.0 180.1L405.0 180.1L400.0 180.1L395.0 180.1L390.0 180.1L385.0 180.1L380.0 180.1L375.0 180.0L370.0 180.0L365.0 180.0L360.0 179.9L355.0 179.9L350.0 179.9L345.0 179.9L340.0 179.9L335.0 180.0L330.0 180.0L325.0 180.0L320.0 180.0L315.0 180.0L310.0 180.1L305.0 180.1L300.0 180.1L295.0 180.0L290.0 180.0L285.0 180.0L280.0 180.0L275.0 180.0L270.0 180.0L265.0 180.0L260.0 180.0L255.0 180.0L250.0 180.0L245.0 180.0L240.0 180.0L235.0 180.0L230.0 180.0L225.0 180.0L220.0 180.0L215.0 180.0L210.0 180.0L205.0 180.0L200.0 180.0L195.0 180.0L190.0 180.0L185.0 180.0L180.0 180.0L175.0 180.0L170.0 180.0L165.0 180.0L160.0 180.0L155.0 180.0L150.0 180.0L145.0 180.0L140.0 180.0L135.0 180.0L130.0 180.0L125.0 180.0L120.0 180.0L115.0 180.0L110.0 180.0L105.0 180.0L100.0 180.0L95.0 180.0L90.0 180.0L85.0 180.0L80.0 180.0L75.0 180.0L70.0 180.0L65.0 180.0L60.0 180.0L55.0 180.0L50.0 180.0L45.0 180.0L40.0 180.0L35.0 180.0L30.0 180.0L25.0 180.0L20.0 180.0L15.0 180.0L10.0 180.0L5.0 180.0L0.0 180.0"/&gt;
+        &lt;/svg&gt;
+        &lt;div class="sg-thr" aria-hidden="true"&gt;&lt;span&gt;סף התראה&lt;/span&gt;&lt;/div&gt;
+        &lt;span class="sg-dot" aria-hidden="true"&gt;&lt;span class="sg-val"&gt;96 מ״ש&lt;/span&gt;&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class="sg-ticks" aria-hidden="true"&gt;&lt;span&gt;00:00&lt;/span&gt;&lt;span&gt;06:00&lt;/span&gt;&lt;span&gt;12:00&lt;/span&gt;&lt;span&gt;18:00&lt;/span&gt;&lt;span&gt;24:00&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="sg-prog" aria-hidden="true"&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;/figure&gt;
+    &lt;ul class="sg-caps"&gt;
+      &lt;li&gt;&lt;b&gt;יציב&lt;/b&gt;&lt;span&gt;זמן תגובה ממוצע של 98 מילישניות. בדיקה כל דקה, בלי חריגות.&lt;/span&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;b&gt;חריגה&lt;/b&gt;&lt;span&gt;בשעה 12:41 זמן התגובה עלה ל-2.4 שניות. ההתראה נשלחה אליך בתוך דקה.&lt;/span&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;b&gt;עומס יומי&lt;/b&gt;&lt;span&gt;בשעות הערב העומס עולה ויורד בקצב קבוע. זה תקין ואין צורך להגיב.&lt;/span&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;b&gt;תחזוקה&lt;/b&gt;&lt;span&gt;חלונות עדכון מתוזמנים נרשמים בנפרד, כדי שלא ייספרו כהשבתה.&lt;/span&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;b&gt;חזר לשגרה&lt;/b&gt;&lt;span&gt;זמינות של 99.98% ב-30 הימים האחרונים. הדוח השבועי מגיע אליך במייל.&lt;/span&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר הקו השקט עם חמשת ההסברים
+  const root=document.querySelector(".sg"),plot=root.querySelector(".sg-plot"),path=root.querySelector(".sg-line"),dot=root.querySelector(".sg-dot"),
+    val=root.querySelector(".sg-val"),fill=root.querySelector(".sg-prog i"),caps=[].slice.call(root.querySelectorAll(".sg-caps li"));
+  const STATIC=path.getAttribute("d"),VAL=["98 מ״ש","2.4 שנ׳","420 מ״ש","3 דק׳ כבוי","96 מ״ש"];
+  const N=200,BASE=.6,W=1000,H=300;
+  const cl=x=&gt;Math.min(1,Math.max(0,x)),sm=(a,b,x)=&gt;{x=cl((x-a)/(b-a));return x*x*(3-2*x);};
+  const g=(u,c,w)=&gt;Math.exp(-((u-c)*(u-c))/(w*w));
+  // חמש צורות, כל אחת כהיסט מקו הבסיס (חיובי למעלה): דופק, סינוס, גל מרובע רך, רעד שדועך
+  const S1=u=&gt;.46*g(u,.5,.009)-.1*g(u,.478,.008)-.13*g(u,.524,.008)+.09*g(u,.58,.03)+.05*g(u,.4,.022)+.15*g(u,.2,.008)-.04*g(u,.18,.007)+.15*g(u,.8,.008)-.04*g(u,.78,.007);
+  const S2=u=&gt;.17*Math.sin(6.2832*3.2*u+.4);
+  const S3=u=&gt;.15*Math.tanh(5*Math.sin(6.2832*2.5*u+.3));
+  const S4=u=&gt;.05*Math.exp(-u*8)*Math.sin(u*70);
+  const CEN=[0,.25,.5,.75,1];
+  const off=(u,w)=&gt;w[1]*S1(u)+w[2]*S2(u)+w[3]*S3(u)+w[4]*S4(u);
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    const st={p:0};let h=plot.clientHeight,last=-1;
+    function render(){
+      const p=st.p,w=CEN.map(c=&gt;sm(0,1,1-Math.abs(p-c)/.25));
+      let d="";
+      for(let k=0;k&lt;=N;k++){const u=k/N;d+=(k?"L":"M")+((1-u)*W).toFixed(1)+" "+((BASE-off(u,w))*H).toFixed(1);}
+      path.setAttribute("d",d);
+      dot.style.transform="translate(-50%,"+(((BASE-off(.5,w))*h)-6).toFixed(1)+"px)";
+      const idx=Math.round(p*4);if(idx!==last){last=idx;val.textContent=VAL[idx];}
+      caps.forEach((li,i)=&gt;{const dist=Math.abs(p-i/4);li.style.opacity=cl(1-(dist-.075)/.05).toFixed(3);li.style.transform="translateY("+(Math.max(-16,Math.min(16,(i/4-p)*80))).toFixed(1)+"px)";});
+      fill.style.transform="scaleX("+p.toFixed(3)+")";
+    }
+    const ro=new ResizeObserver(()=&gt;{h=plot.clientHeight;render();});
+    // ההתקדמות היא המספר היחיד שמזיז את הקו, הנקודה וההסברים
+    gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}})
+      .to(st,{p:1,duration:1,ease:"none",onUpdate:render},0);
+    render();ro.observe(plot);
+    return()=&gt;{ro.disconnect();root.classList.remove("is-live");path.setAttribute("d",STATIC);dot.style.transform="";val.textContent=VAL[4];
+      caps.forEach(li=&gt;{li.style.opacity="";li.style.transform="";});fill.style.transform="";};
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g161 · קו אות שהופך לדופק וגלים\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g161.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g161.html\n\nמה זה עושה: קו דק וזוהר מתחיל שטוח ועובר בגלילה דרך חמש צורות: דופק חד אחד, גל סינוס, גל מרובע ובסוף חזרה לקו שקט. נקודה עם תווית ערך רוכבת על הקו, קו סף מקווקו חוצה את הדופק, ומתחת לקו מתחלפת כותרת עם הסבר לכל צורה. בלי GSAP העמוד מציג את הקו השקט ואת חמשת ההסברים ברשימה.\nמתי משתמשים: שירות שמראה אות לאורך זמן: ניטור אתרים, תחזוקה, אבטחה, בריאות, אנרגיה, תשתיות. הצורה נקבעת לפי הנתון עצמו, ולכל שלב צריכה להיות שורה אמיתית להגיד. לא כאיור כללי של ״טכנולוגיה״ ולא כשאין מה למדוד.\nסוג אתר: אתר תדמית · וואן-פייג'ר · דף נחיתה\nבסקשן: מספרים ולקוחות · בעיה ויתרונות · תהליך ושלבים\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא בלי שלושה עד חמישה נתונים אמיתיים שאפשר לתאר כקו, ולא כשהקו לא קשור לשירות (דופק בעסק שלא קשור לבריאות או ניטור).\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G161 · קו אות שהופך לדופק וגלים */\n.sg{position:relative;max-width:1100px;margin-inline:auto}\n.sg-pin{display:grid;gap:clamp(24px,3vw,40px);padding-block:clamp(24px,4vw,64px)}\n.sg-head{display:grid;gap:12px;max-width:52ch}\n.sg-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}\n.sg-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.sg-fig{margin:0;display:grid;gap:12px}\n.sg-plot{position:relative;height:clamp(200px,40svh,360px)}\n.sg-svg{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible}\n.sg-glow{filter:drop-shadow(0 0 8px color-mix(in srgb,var(--accent, #4a3aff) 50%,transparent))}\n.sg-svg:dir(ltr){transform:scaleX(-1)}\n.sg-grid{fill:none;stroke:var(--line, #e4e4ee);stroke-width:1;vector-effect:non-scaling-stroke}\n.sg-line{fill:none;stroke:var(--accent, #4a3aff);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}\n.sg-thr{position:absolute;inset-inline:0;top:30%;border-top:1px dashed color-mix(in srgb,var(--ink, #16182b) 30%,transparent);pointer-events:none}\n.sg-thr span{position:absolute;inset-inline-start:0;bottom:6px;font-size:13px;color:var(--muted, #6a6d85)}\n.sg-dot{position:absolute;left:50%;top:60%;width:12px;height:12px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent, #4a3aff) 22%,transparent);transform:translate(-50%,-50%)}\n.sg.is-live .sg-dot{top:0;transform:translate(-50%,-6px)}\n.sg-val{position:absolute;inset-inline-start:calc(100% + 18px);top:-34px;padding:4px 12px;border:1px solid var(--line, #e4e4ee);border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);font-size:13px;font-weight:600;white-space:nowrap}\n.sg-ticks{display:flex;justify-content:space-between;font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}\n.sg-caps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px}\n.sg-caps li{display:grid;gap:6px;align-content:start;padding-top:14px;border-top:1px solid var(--line, #e4e4ee)}\n.sg-caps b{font-size:15px}\n.sg-caps span{font-size:14px;line-height:1.55;color:var(--muted, #6a6d85)}\n.sg-prog{display:none;height:2px;border-radius:999px;background:var(--line, #e4e4ee);overflow:hidden}\n.sg-prog i{display:block;height:100%;background:var(--accent, #4a3aff);transform-origin:right center;transform:scaleX(0)}\n.sg:dir(ltr) .sg-prog i{transform-origin:left center}\n/* המהלך רץ: הסקשן גבוה והבמה נעוצה במסך, ההסברים נערמים בתא אחד */\n.sg.is-live{height:420vh}\n.sg.is-live .sg-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center;overflow:hidden}\n.sg.is-live .sg-prog{display:block}\n.sg.is-live .sg-caps{grid-template-columns:minmax(0,1fr);gap:0;max-width:56ch}\n.sg.is-live .sg-caps li{grid-area:1 / 1;padding-top:0;border-top:0}\n@media(max-width:767px){\n  .sg-plot{height:clamp(200px,36svh,300px)}\n  .sg-ticks span:nth-child(even){visibility:hidden}\n}\n\n=== HTML ===\n<div class=\"stage\"><section class=\"sg\">\n  <div class=\"sg-pin\">\n    <div class=\"sg-head\">\n      <h2>האתר שלכם נבדק כל דקה, גם בשבת<\/h2>\n      <p>כך נראה זמן התגובה של אתר במשך יממה: רוב הזמן קו שטוח, ולפעמים אירוע שעליו מגיעה התראה.<\/p>\n    <\/div>\n    <figure class=\"sg-fig\">\n      <div class=\"sg-plot\" role=\"img\" aria-label=\"גרף זמן התגובה של האתר במשך יממה: קו שטוח, חריגה אחת חדה שנשלחה עליה התראה, ואחריה חזרה לקו שקט\">\n        <svg class=\"sg-svg\" viewBox=\"0 0 1000 300\" preserveAspectRatio=\"none\" aria-hidden=\"true\">\n          <path class=\"sg-grid\" d=\"M0 0V300M250 0V300M500 0V300M750 0V300M1000 0V300\"/>\n        <\/svg>\n        <svg class=\"sg-svg sg-glow\" viewBox=\"0 0 1000 300\" preserveAspectRatio=\"none\" aria-hidden=\"true\">\n          <path class=\"sg-line\" d=\"M1000.0 180.0L995.0 175.1L990.0 171.1L985.0 168.5L980.0 167.4L975.0 167.9L970.0 169.8L965.0 172.8L960.0 176.4L955.0 180.1L950.0 183.5L945.0 186.3L940.0 188.1L935.0 188.8L930.0 188.4L925.0 187.1L920.0 185.0L915.0 182.5L910.0 179.9L905.0 177.5L900.0 175.6L895.0 174.3L890.0 173.9L885.0 174.1L880.0 175.1L875.0 176.6L870.0 178.3L865.0 180.1L860.0 181.8L855.0 183.1L850.0 184.0L845.0 184.3L840.0 184.1L835.0 183.4L830.0 182.4L825.0 181.2L820.0 179.9L815.0 178.7L810.0 177.8L805.0 177.2L800.0 177.0L795.0 177.2L790.0 177.6L785.0 178.4L780.0 179.2L775.0 180.1L770.0 180.9L765.0 181.5L760.0 182.0L755.0 182.1L750.0 182.0L745.0 181.6L740.0 181.1L735.0 180.5L730.0 179.9L725.0 179.4L720.0 178.9L715.0 178.6L710.0 178.5L705.0 178.6L700.0 178.9L695.0 179.2L690.0 179.6L685.0 180.1L680.0 180.5L675.0 180.8L670.0 181.0L665.0 181.0L660.0 181.0L655.0 180.8L650.0 180.5L645.0 180.2L640.0 179.9L635.0 179.7L630.0 179.5L625.0 179.3L620.0 179.3L615.0 179.3L610.0 179.5L605.0 179.6L600.0 179.8L595.0 180.0L590.0 180.2L585.0 180.4L580.0 180.5L575.0 180.5L570.0 180.5L565.0 180.4L560.0 180.3L555.0 180.1L550.0 180.0L545.0 179.8L540.0 179.7L535.0 179.7L530.0 179.7L525.0 179.7L520.0 179.7L515.0 179.8L510.0 179.9L505.0 180.0L500.0 180.1L495.0 180.2L490.0 180.2L485.0 180.2L480.0 180.2L475.0 180.2L470.0 180.1L465.0 180.1L460.0 180.0L455.0 179.9L450.0 179.9L445.0 179.8L440.0 179.8L435.0 179.8L430.0 179.9L425.0 179.9L420.0 180.0L415.0 180.0L410.0 180.1L405.0 180.1L400.0 180.1L395.0 180.1L390.0 180.1L385.0 180.1L380.0 180.1L375.0 180.0L370.0 180.0L365.0 180.0L360.0 179.9L355.0 179.9L350.0 179.9L345.0 179.9L340.0 179.9L335.0 180.0L330.0 180.0L325.0 180.0L320.0 180.0L315.0 180.0L310.0 180.1L305.0 180.1L300.0 180.1L295.0 180.0L290.0 180.0L285.0 180.0L280.0 180.0L275.0 180.0L270.0 180.0L265.0 180.0L260.0 180.0L255.0 180.0L250.0 180.0L245.0 180.0L240.0 180.0L235.0 180.0L230.0 180.0L225.0 180.0L220.0 180.0L215.0 180.0L210.0 180.0L205.0 180.0L200.0 180.0L195.0 180.0L190.0 180.0L185.0 180.0L180.0 180.0L175.0 180.0L170.0 180.0L165.0 180.0L160.0 180.0L155.0 180.0L150.0 180.0L145.0 180.0L140.0 180.0L135.0 180.0L130.0 180.0L125.0 180.0L120.0 180.0L115.0 180.0L110.0 180.0L105.0 180.0L100.0 180.0L95.0 180.0L90.0 180.0L85.0 180.0L80.0 180.0L75.0 180.0L70.0 180.0L65.0 180.0L60.0 180.0L55.0 180.0L50.0 180.0L45.0 180.0L40.0 180.0L35.0 180.0L30.0 180.0L25.0 180.0L20.0 180.0L15.0 180.0L10.0 180.0L5.0 180.0L0.0 180.0\"/>\n        <\/svg>\n        <div class=\"sg-thr\" aria-hidden=\"true\"><span>סף התראה<\/span><\/div>\n        <span class=\"sg-dot\" aria-hidden=\"true\"><span class=\"sg-val\">96 מ״ש<\/span><\/span>\n      <\/div>\n      <div class=\"sg-ticks\" aria-hidden=\"true\"><span>00:00<\/span><span>06:00<\/span><span>12:00<\/span><span>18:00<\/span><span>24:00<\/span><\/div>\n      <div class=\"sg-prog\" aria-hidden=\"true\"><i><\/i><\/div>\n    <\/figure>\n    <ul class=\"sg-caps\">\n      <li><b>יציב<\/b><span>זמן תגובה ממוצע של 98 מילישניות. בדיקה כל דקה, בלי חריגות.<\/span><\/li>\n      <li><b>חריגה<\/b><span>בשעה 12:41 זמן התגובה עלה ל-2.4 שניות. ההתראה נשלחה אליך בתוך דקה.<\/span><\/li>\n      <li><b>עומס יומי<\/b><span>בשעות הערב העומס עולה ויורד בקצב קבוע. זה תקין ואין צורך להגיב.<\/span><\/li>\n      <li><b>תחזוקה<\/b><span>חלונות עדכון מתוזמנים נרשמים בנפרד, כדי שלא ייספרו כהשבתה.<\/span><\/li>\n      <li><b>חזר לשגרה<\/b><span>זמינות של 99.98% ב-30 הימים האחרונים. הדוח השבועי מגיע אליך במייל.<\/span><\/li>\n    <\/ul>\n  <\/div>\n<\/section><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשאר הקו השקט עם חמשת ההסברים\n  const root=document.querySelector(\".sg\"),plot=root.querySelector(\".sg-plot\"),path=root.querySelector(\".sg-line\"),dot=root.querySelector(\".sg-dot\"),\n    val=root.querySelector(\".sg-val\"),fill=root.querySelector(\".sg-prog i\"),caps=[].slice.call(root.querySelectorAll(\".sg-caps li\"));\n  const STATIC=path.getAttribute(\"d\"),VAL=[\"98 מ״ש\",\"2.4 שנ׳\",\"420 מ״ש\",\"3 דק׳ כבוי\",\"96 מ״ש\"];\n  const N=200,BASE=.6,W=1000,H=300;\n  const cl=x=>Math.min(1,Math.max(0,x)),sm=(a,b,x)=>{x=cl((x-a)/(b-a));return x*x*(3-2*x);};\n  const g=(u,c,w)=>Math.exp(-((u-c)*(u-c))/(w*w));\n  // חמש צורות, כל אחת כהיסט מקו הבסיס (חיובי למעלה): דופק, סינוס, גל מרובע רך, רעד שדועך\n  const S1=u=>.46*g(u,.5,.009)-.1*g(u,.478,.008)-.13*g(u,.524,.008)+.09*g(u,.58,.03)+.05*g(u,.4,.022)+.15*g(u,.2,.008)-.04*g(u,.18,.007)+.15*g(u,.8,.008)-.04*g(u,.78,.007);\n  const S2=u=>.17*Math.sin(6.2832*3.2*u+.4);\n  const S3=u=>.15*Math.tanh(5*Math.sin(6.2832*2.5*u+.3));\n  const S4=u=>.05*Math.exp(-u*8)*Math.sin(u*70);\n  const CEN=[0,.25,.5,.75,1];\n  const off=(u,w)=>w[1]*S1(u)+w[2]*S2(u)+w[3]*S3(u)+w[4]*S4(u);\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const st={p:0};let h=plot.clientHeight,last=-1;\n    function render(){\n      const p=st.p,w=CEN.map(c=>sm(0,1,1-Math.abs(p-c)/.25));\n      let d=\"\";\n      for(let k=0;k<=N;k++){const u=k/N;d+=(k?\"L\":\"M\")+((1-u)*W).toFixed(1)+\" \"+((BASE-off(u,w))*H).toFixed(1);}\n      path.setAttribute(\"d\",d);\n      dot.style.transform=\"translate(-50%,\"+(((BASE-off(.5,w))*h)-6).toFixed(1)+\"px)\";\n      const idx=Math.round(p*4);if(idx!==last){last=idx;val.textContent=VAL[idx];}\n      caps.forEach((li,i)=>{const dist=Math.abs(p-i/4);li.style.opacity=cl(1-(dist-.075)/.05).toFixed(3);li.style.transform=\"translateY(\"+(Math.max(-16,Math.min(16,(i/4-p)*80))).toFixed(1)+\"px)\";});\n      fill.style.transform=\"scaleX(\"+p.toFixed(3)+\")\";\n    }\n    const ro=new ResizeObserver(()=>{h=plot.clientHeight;render();});\n    // ההתקדמות היא המספר היחיד שמזיז את הקו, הנקודה וההסברים\n    gsap.timeline({scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.5,invalidateOnRefresh:true}})\n      .to(st,{p:1,duration:1,ease:\"none\",onUpdate:render},0);\n    render();ro.observe(plot);\n    return()=>{ro.disconnect();root.classList.remove(\"is-live\");path.setAttribute(\"d\",STATIC);dot.style.transform=\"\";val.textContent=VAL[4];\n      caps.forEach(li=>{li.style.opacity=\"\";li.style.transform=\"\";});fill.style.transform=\"\";};\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטונים ב-prompt-motion.com (21.10.2026) שבהם קו אחד דק מתחיל שטוח ומצמיח דופק, רעש, גל סינוס וגל מרובע, עם תוויות קטנות על הקו. נבנה מאפס מהצפייה. הקו הוא פונקציה של התקדמות: `y(u) = בסיס - (w1*s1(u) + w2*s2(u) + w3*s3(u) + w4*s4(u))`, כש-`s1` דופק (גאוסיאנים: פסגה, שתי שקיעות וגל T), `s2` סינוס, `s3` גל מרובע רך (`tanh(5*sin(...))`) ו-`s4` רעד שדועך. המשקלים `w` הם גשר משולש בין חמש עמדות על ציר ההתקדמות (0, .25, .5, .75, 1), עם `smoothstep`, ולכן כל צורה מתמזגת בצורה הבאה ולא קופצת. בכל עדכון נבנה מחדש `d` של מסלול אחד עם 200 נקודות. SVG: `preserveAspectRatio=none` ו-`vector-effect: non-scaling-stroke`, כדי שהקו יימתח לרוחב המסגרת בלי להתעבות. הזוהר הוא `drop-shadow` על SVG נפרד שמכיל רק את הקו, כדי שקווי הרשת לא ינצנצו. נקודה ותווית: ה-HTML ממוקם ב-50% רוחב ו-`translateY` מחושב מאותה פונקציה, כך שאין שינוי של `top` בגלילה. הערך בתווית מתחלף לפי העמדה הקרובה. הכותרות: חמש פריטי רשימה. במצב חי הם נערמים בתא אחד של גריד, והשקיפות והתזוזה של כל אחד נגזרות מההתקדמות (`scrub`), בלי טווינים של זמן. RTL: הקו נבנה תמיד מימין (`x = 1 - u`), וב-LTR ה-SVG מתהפך עם `:dir(ltr)`. התוויות נשארות קריאות כי הן HTML. ציר הזמן ושורת השעות לפי כיוון המסמך. בלי GSAP ובהפחתת תנועה: הקו השקט (מצב אחרון) מוטבע ב-`d`, הנקודה על קו הבסיס וחמשת ההסברים מוצגים ברשימה אחת מתחת לקו. בטלפון הסצנה נעוצה כמו בדסקטופ, הגרף נמוך יותר ושעות הציר מצטמצמות.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G161 · קו אות שהופך לדופק וגלים */\n.sg{position:relative;max-width:1100px;margin-inline:auto}\n.sg-pin{display:grid;gap:clamp(24px,3vw,40px);padding-block:clamp(24px,4vw,64px)}\n.sg-head{display:grid;gap:12px;max-width:52ch}\n.sg-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}\n.sg-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.sg-fig{margin:0;display:grid;gap:12px}\n.sg-plot{position:relative;height:clamp(200px,40svh,360px)}\n.sg-svg{position:absolute;inset:0;display:block;width:100%;height:100%;overflow:visible}\n.sg-glow{filter:drop-shadow(0 0 8px color-mix(in srgb,var(--accent, #4a3aff) 50%,transparent))}\n.sg-svg:dir(ltr){transform:scaleX(-1)}\n.sg-grid{fill:none;stroke:var(--line, #e4e4ee);stroke-width:1;vector-effect:non-scaling-stroke}\n.sg-line{fill:none;stroke:var(--accent, #4a3aff);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}\n.sg-thr{position:absolute;inset-inline:0;top:30%;border-top:1px dashed color-mix(in srgb,var(--ink, #16182b) 30%,transparent);pointer-events:none}\n.sg-thr span{position:absolute;inset-inline-start:0;bottom:6px;font-size:13px;color:var(--muted, #6a6d85)}\n.sg-dot{position:absolute;left:50%;top:60%;width:12px;height:12px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 6px color-mix(in srgb,var(--accent, #4a3aff) 22%,transparent);transform:translate(-50%,-50%)}\n.sg.is-live .sg-dot{top:0;transform:translate(-50%,-6px)}\n.sg-val{position:absolute;inset-inline-start:calc(100% + 18px);top:-34px;padding:4px 12px;border:1px solid var(--line, #e4e4ee);border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);font-size:13px;font-weight:600;white-space:nowrap}\n.sg-ticks{display:flex;justify-content:space-between;font-size:13px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}\n.sg-caps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px}\n.sg-caps li{display:grid;gap:6px;align-content:start;padding-top:14px;border-top:1px solid var(--line, #e4e4ee)}\n.sg-caps b{font-size:15px}\n.sg-caps span{font-size:14px;line-height:1.55;color:var(--muted, #6a6d85)}\n.sg-prog{display:none;height:2px;border-radius:999px;background:var(--line, #e4e4ee);overflow:hidden}\n.sg-prog i{display:block;height:100%;background:var(--accent, #4a3aff);transform-origin:right center;transform:scaleX(0)}\n.sg:dir(ltr) .sg-prog i{transform-origin:left center}\n/* המהלך רץ: הסקשן גבוה והבמה נעוצה במסך, ההסברים נערמים בתא אחד */\n.sg.is-live{height:420vh}\n.sg.is-live .sg-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center;overflow:hidden}\n.sg.is-live .sg-prog{display:block}\n.sg.is-live .sg-caps{grid-template-columns:minmax(0,1fr);gap:0;max-width:56ch}\n.sg.is-live .sg-caps li{grid-area:1 / 1;padding-top:0;border-top:0}\n@media(max-width:767px){\n  .sg-plot{height:clamp(200px,36svh,300px)}\n  .sg-ticks span:nth-child(even){visibility:hidden}\n}","html":"<div class=\"stage\"><section class=\"sg\">\n  <div class=\"sg-pin\">\n    <div class=\"sg-head\">\n      <h2>האתר שלכם נבדק כל דקה, גם בשבת<\/h2>\n      <p>כך נראה זמן התגובה של אתר במשך יממה: רוב הזמן קו שטוח, ולפעמים אירוע שעליו מגיעה התראה.<\/p>\n    <\/div>\n    <figure class=\"sg-fig\">\n      <div class=\"sg-plot\" role=\"img\" aria-label=\"גרף זמן התגובה של האתר במשך יממה: קו שטוח, חריגה אחת חדה שנשלחה עליה התראה, ואחריה חזרה לקו שקט\">\n        <svg class=\"sg-svg\" viewBox=\"0 0 1000 300\" preserveAspectRatio=\"none\" aria-hidden=\"true\">\n          <path class=\"sg-grid\" d=\"M0 0V300M250 0V300M500 0V300M750 0V300M1000 0V300\"/>\n        <\/svg>\n        <svg class=\"sg-svg sg-glow\" viewBox=\"0 0 1000 300\" preserveAspectRatio=\"none\" aria-hidden=\"true\">\n          <path class=\"sg-line\" d=\"M1000.0 180.0L995.0 175.1L990.0 171.1L985.0 168.5L980.0 167.4L975.0 167.9L970.0 169.8L965.0 172.8L960.0 176.4L955.0 180.1L950.0 183.5L945.0 186.3L940.0 188.1L935.0 188.8L930.0 188.4L925.0 187.1L920.0 185.0L915.0 182.5L910.0 179.9L905.0 177.5L900.0 175.6L895.0 174.3L890.0 173.9L885.0 174.1L880.0 175.1L875.0 176.6L870.0 178.3L865.0 180.1L860.0 181.8L855.0 183.1L850.0 184.0L845.0 184.3L840.0 184.1L835.0 183.4L830.0 182.4L825.0 181.2L820.0 179.9L815.0 178.7L810.0 177.8L805.0 177.2L800.0 177.0L795.0 177.2L790.0 177.6L785.0 178.4L780.0 179.2L775.0 180.1L770.0 180.9L765.0 181.5L760.0 182.0L755.0 182.1L750.0 182.0L745.0 181.6L740.0 181.1L735.0 180.5L730.0 179.9L725.0 179.4L720.0 178.9L715.0 178.6L710.0 178.5L705.0 178.6L700.0 178.9L695.0 179.2L690.0 179.6L685.0 180.1L680.0 180.5L675.0 180.8L670.0 181.0L665.0 181.0L660.0 181.0L655.0 180.8L650.0 180.5L645.0 180.2L640.0 179.9L635.0 179.7L630.0 179.5L625.0 179.3L620.0 179.3L615.0 179.3L610.0 179.5L605.0 179.6L600.0 179.8L595.0 180.0L590.0 180.2L585.0 180.4L580.0 180.5L575.0 180.5L570.0 180.5L565.0 180.4L560.0 180.3L555.0 180.1L550.0 180.0L545.0 179.8L540.0 179.7L535.0 179.7L530.0 179.7L525.0 179.7L520.0 179.7L515.0 179.8L510.0 179.9L505.0 180.0L500.0 180.1L495.0 180.2L490.0 180.2L485.0 180.2L480.0 180.2L475.0 180.2L470.0 180.1L465.0 180.1L460.0 180.0L455.0 179.9L450.0 179.9L445.0 179.8L440.0 179.8L435.0 179.8L430.0 179.9L425.0 179.9L420.0 180.0L415.0 180.0L410.0 180.1L405.0 180.1L400.0 180.1L395.0 180.1L390.0 180.1L385.0 180.1L380.0 180.1L375.0 180.0L370.0 180.0L365.0 180.0L360.0 179.9L355.0 179.9L350.0 179.9L345.0 179.9L340.0 179.9L335.0 180.0L330.0 180.0L325.0 180.0L320.0 180.0L315.0 180.0L310.0 180.1L305.0 180.1L300.0 180.1L295.0 180.0L290.0 180.0L285.0 180.0L280.0 180.0L275.0 180.0L270.0 180.0L265.0 180.0L260.0 180.0L255.0 180.0L250.0 180.0L245.0 180.0L240.0 180.0L235.0 180.0L230.0 180.0L225.0 180.0L220.0 180.0L215.0 180.0L210.0 180.0L205.0 180.0L200.0 180.0L195.0 180.0L190.0 180.0L185.0 180.0L180.0 180.0L175.0 180.0L170.0 180.0L165.0 180.0L160.0 180.0L155.0 180.0L150.0 180.0L145.0 180.0L140.0 180.0L135.0 180.0L130.0 180.0L125.0 180.0L120.0 180.0L115.0 180.0L110.0 180.0L105.0 180.0L100.0 180.0L95.0 180.0L90.0 180.0L85.0 180.0L80.0 180.0L75.0 180.0L70.0 180.0L65.0 180.0L60.0 180.0L55.0 180.0L50.0 180.0L45.0 180.0L40.0 180.0L35.0 180.0L30.0 180.0L25.0 180.0L20.0 180.0L15.0 180.0L10.0 180.0L5.0 180.0L0.0 180.0\"/>\n        <\/svg>\n        <div class=\"sg-thr\" aria-hidden=\"true\"><span>סף התראה<\/span><\/div>\n        <span class=\"sg-dot\" aria-hidden=\"true\"><span class=\"sg-val\">96 מ״ש<\/span><\/span>\n      <\/div>\n      <div class=\"sg-ticks\" aria-hidden=\"true\"><span>00:00<\/span><span>06:00<\/span><span>12:00<\/span><span>18:00<\/span><span>24:00<\/span><\/div>\n      <div class=\"sg-prog\" aria-hidden=\"true\"><i><\/i><\/div>\n    <\/figure>\n    <ul class=\"sg-caps\">\n      <li><b>יציב<\/b><span>זמן תגובה ממוצע של 98 מילישניות. בדיקה כל דקה, בלי חריגות.<\/span><\/li>\n      <li><b>חריגה<\/b><span>בשעה 12:41 זמן התגובה עלה ל-2.4 שניות. ההתראה נשלחה אליך בתוך דקה.<\/span><\/li>\n      <li><b>עומס יומי<\/b><span>בשעות הערב העומס עולה ויורד בקצב קבוע. זה תקין ואין צורך להגיב.<\/span><\/li>\n      <li><b>תחזוקה<\/b><span>חלונות עדכון מתוזמנים נרשמים בנפרד, כדי שלא ייספרו כהשבתה.<\/span><\/li>\n      <li><b>חזר לשגרה<\/b><span>זמינות של 99.98% ב-30 הימים האחרונים. הדוח השבועי מגיע אליך במייל.<\/span><\/li>\n    <\/ul>\n  <\/div>\n<\/section><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשאר הקו השקט עם חמשת ההסברים\n  const root=document.querySelector(\".sg\"),plot=root.querySelector(\".sg-plot\"),path=root.querySelector(\".sg-line\"),dot=root.querySelector(\".sg-dot\"),\n    val=root.querySelector(\".sg-val\"),fill=root.querySelector(\".sg-prog i\"),caps=[].slice.call(root.querySelectorAll(\".sg-caps li\"));\n  const STATIC=path.getAttribute(\"d\"),VAL=[\"98 מ״ש\",\"2.4 שנ׳\",\"420 מ״ש\",\"3 דק׳ כבוי\",\"96 מ״ש\"];\n  const N=200,BASE=.6,W=1000,H=300;\n  const cl=x=>Math.min(1,Math.max(0,x)),sm=(a,b,x)=>{x=cl((x-a)/(b-a));return x*x*(3-2*x);};\n  const g=(u,c,w)=>Math.exp(-((u-c)*(u-c))/(w*w));\n  // חמש צורות, כל אחת כהיסט מקו הבסיס (חיובי למעלה): דופק, סינוס, גל מרובע רך, רעד שדועך\n  const S1=u=>.46*g(u,.5,.009)-.1*g(u,.478,.008)-.13*g(u,.524,.008)+.09*g(u,.58,.03)+.05*g(u,.4,.022)+.15*g(u,.2,.008)-.04*g(u,.18,.007)+.15*g(u,.8,.008)-.04*g(u,.78,.007);\n  const S2=u=>.17*Math.sin(6.2832*3.2*u+.4);\n  const S3=u=>.15*Math.tanh(5*Math.sin(6.2832*2.5*u+.3));\n  const S4=u=>.05*Math.exp(-u*8)*Math.sin(u*70);\n  const CEN=[0,.25,.5,.75,1];\n  const off=(u,w)=>w[1]*S1(u)+w[2]*S2(u)+w[3]*S3(u)+w[4]*S4(u);\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const st={p:0};let h=plot.clientHeight,last=-1;\n    function render(){\n      const p=st.p,w=CEN.map(c=>sm(0,1,1-Math.abs(p-c)/.25));\n      let d=\"\";\n      for(let k=0;k<=N;k++){const u=k/N;d+=(k?\"L\":\"M\")+((1-u)*W).toFixed(1)+\" \"+((BASE-off(u,w))*H).toFixed(1);}\n      path.setAttribute(\"d\",d);\n      dot.style.transform=\"translate(-50%,\"+(((BASE-off(.5,w))*h)-6).toFixed(1)+\"px)\";\n      const idx=Math.round(p*4);if(idx!==last){last=idx;val.textContent=VAL[idx];}\n      caps.forEach((li,i)=>{const dist=Math.abs(p-i/4);li.style.opacity=cl(1-(dist-.075)/.05).toFixed(3);li.style.transform=\"translateY(\"+(Math.max(-16,Math.min(16,(i/4-p)*80))).toFixed(1)+\"px)\";});\n      fill.style.transform=\"scaleX(\"+p.toFixed(3)+\")\";\n    }\n    const ro=new ResizeObserver(()=>{h=plot.clientHeight;render();});\n    // ההתקדמות היא המספר היחיד שמזיז את הקו, הנקודה וההסברים\n    gsap.timeline({scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.5,invalidateOnRefresh:true}})\n      .to(st,{p:1,duration:1,ease:\"none\",onUpdate:render},0);\n    render();ro.observe(plot);\n    return()=>{ro.disconnect();root.classList.remove(\"is-live\");path.setAttribute(\"d\",STATIC);dot.style.transform=\"\";val.textContent=VAL[4];\n      caps.forEach(li=>{li.style.opacity=\"\";li.style.transform=\"\";});fill.style.transform=\"\";};\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g160.html" rel="prev"><small>→ הקודם</small><b>ענן נקודות שמתכנס לגרף</b></a><a href="g162.html" rel="next"><small>הבא ←</small><b>פאות שנצמדות לסמל שלד</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · קו אות שהופך לדופק וגלים").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר הקו השקט עם חמשת ההסברים
+  const root=document.querySelector(".sg"),plot=root.querySelector(".sg-plot"),path=root.querySelector(".sg-line"),dot=root.querySelector(".sg-dot"),
+    val=root.querySelector(".sg-val"),fill=root.querySelector(".sg-prog i"),caps=[].slice.call(root.querySelectorAll(".sg-caps li"));
+  const STATIC=path.getAttribute("d"),VAL=["98 מ״ש","2.4 שנ׳","420 מ״ש","3 דק׳ כבוי","96 מ״ש"];
+  const N=200,BASE=.6,W=1000,H=300;
+  const cl=x=>Math.min(1,Math.max(0,x)),sm=(a,b,x)=>{x=cl((x-a)/(b-a));return x*x*(3-2*x);};
+  const g=(u,c,w)=>Math.exp(-((u-c)*(u-c))/(w*w));
+  // חמש צורות, כל אחת כהיסט מקו הבסיס (חיובי למעלה): דופק, סינוס, גל מרובע רך, רעד שדועך
+  const S1=u=>.46*g(u,.5,.009)-.1*g(u,.478,.008)-.13*g(u,.524,.008)+.09*g(u,.58,.03)+.05*g(u,.4,.022)+.15*g(u,.2,.008)-.04*g(u,.18,.007)+.15*g(u,.8,.008)-.04*g(u,.78,.007);
+  const S2=u=>.17*Math.sin(6.2832*3.2*u+.4);
+  const S3=u=>.15*Math.tanh(5*Math.sin(6.2832*2.5*u+.3));
+  const S4=u=>.05*Math.exp(-u*8)*Math.sin(u*70);
+  const CEN=[0,.25,.5,.75,1];
+  const off=(u,w)=>w[1]*S1(u)+w[2]*S2(u)+w[3]*S3(u)+w[4]*S4(u);
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const st={p:0};let h=plot.clientHeight,last=-1;
+    function render(){
+      const p=st.p,w=CEN.map(c=>sm(0,1,1-Math.abs(p-c)/.25));
+      let d="";
+      for(let k=0;k<=N;k++){const u=k/N;d+=(k?"L":"M")+((1-u)*W).toFixed(1)+" "+((BASE-off(u,w))*H).toFixed(1);}
+      path.setAttribute("d",d);
+      dot.style.transform="translate(-50%,"+(((BASE-off(.5,w))*h)-6).toFixed(1)+"px)";
+      const idx=Math.round(p*4);if(idx!==last){last=idx;val.textContent=VAL[idx];}
+      caps.forEach((li,i)=>{const dist=Math.abs(p-i/4);li.style.opacity=cl(1-(dist-.075)/.05).toFixed(3);li.style.transform="translateY("+(Math.max(-16,Math.min(16,(i/4-p)*80))).toFixed(1)+"px)";});
+      fill.style.transform="scaleX("+p.toFixed(3)+")";
+    }
+    const ro=new ResizeObserver(()=>{h=plot.clientHeight;render();});
+    // ההתקדמות היא המספר היחיד שמזיז את הקו, הנקודה וההסברים
+    gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}})
+      .to(st,{p:1,duration:1,ease:"none",onUpdate:render},0);
+    render();ro.observe(plot);
+    return()=>{ro.disconnect();root.classList.remove("is-live");path.setAttribute("d",STATIC);dot.style.transform="";val.textContent=VAL[4];
+      caps.forEach(li=>{li.style.opacity="";li.style.transform="";});fill.style.transform="";};
+  });
+})();
+</script>
+</body>
+</html>

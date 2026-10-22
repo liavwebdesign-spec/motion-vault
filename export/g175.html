@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G175 · דיאגרמת מערכת שנבנית על רשת</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G175 · דיאגרמת מערכת שנבנית על רשת */
+.ar{display:grid;gap:56px;max-width:1120px;margin-inline:auto}
+.ar-head{display:grid;gap:16px;max-width:44ch}
+.ar-head h2{margin:0;font-size:clamp(30px,3.4vw,52px);font-weight:700;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.ar-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.ar-grid{padding:40px;border-radius:24px;border:1px solid var(--line, #e4e4ee);background-color:var(--card, #fff);background-image:linear-gradient(var(--line, #e4e4ee) 1px,transparent 1px),linear-gradient(90deg,var(--line, #e4e4ee) 1px,transparent 1px);background-size:32px 32px;background-position:center}
+.ar-tree{display:grid;grid-template-columns:minmax(0,1.1fr) 72px minmax(0,1fr) 48px minmax(0,1fr);grid-template-rows:repeat(3,88px)}
+.ar-b{align-self:center;height:72px;box-sizing:border-box;padding:0 16px;display:grid;align-content:center;gap:4px;border-radius:14px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);}
+.ar-b b{font-size:16px;font-weight:600;line-height:1.3}
+.ar-b span{font-size:13px;line-height:1.3;color:var(--muted, #6a6d85)}
+.ar-root{grid-column:1;grid-row:1/4;background:var(--accent, #4a3aff);border-color:var(--accent, #4a3aff)}
+.ar-root b,.ar-root span{color:var(--accent-ink, #fff)}
+.ar-sd{grid-column:2;grid-row:1/4;width:72px;height:264px;overflow:visible}
+.ar-sm{display:none}
+.ar-l{width:48px;height:88px;overflow:visible}
+.ar-p{fill:none;stroke:var(--muted, #6a6d85);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0}
+.ar-a{fill:none;stroke:var(--muted, #6a6d85);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ar-dot{fill:var(--accent, #4a3aff);opacity:0}
+.ar-m1{grid-column:3;grid-row:1}.ar-m2{grid-column:3;grid-row:2}.ar-m3{grid-column:3;grid-row:3}
+.ar-l1{grid-column:4;grid-row:1}.ar-l2{grid-column:4;grid-row:2}.ar-l3{grid-column:4;grid-row:3}
+.ar-f1{grid-column:5;grid-row:1}.ar-f2{grid-column:5;grid-row:2}.ar-f3{grid-column:5;grid-row:3}
+.ar-m1,.ar-m2,.ar-m3,.ar-f1,.ar-f2,.ar-f3{align-self:center}
+.ar-l1,.ar-l2,.ar-l3{align-self:center}
+@media(max-width:767px){
+.ar{gap:40px}
+.ar-grid{padding:16px}
+.ar-tree{grid-template-columns:16px minmax(0,1fr) 48px minmax(0,1fr);grid-template-rows:auto repeat(3,88px)}
+.ar-root{grid-column:1/5;grid-row:1;justify-self:start;align-self:auto;width:min(100%,208px)}
+.ar-sd{display:none}
+.ar-sm{display:block;grid-column:1;grid-row:2/5;width:16px;height:264px;overflow:visible}
+.ar-m1{grid-column:2;grid-row:2}.ar-m2{grid-column:2;grid-row:3}.ar-m3{grid-column:2;grid-row:4}
+.ar-l1{grid-column:3;grid-row:2}.ar-l2{grid-column:3;grid-row:3}.ar-l3{grid-column:3;grid-row:4}
+.ar-f1{grid-column:4;grid-row:2}.ar-f2{grid-column:4;grid-row:3}.ar-f3{grid-column:4;grid-row:4}
+.ar-b{padding:0 10px}
+.ar-b b{font-size:15px}
+.ar-b span{font-size:12px}
+}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="ar">
+  <div class="ar-head">
+    <h2>איך האתר של הקליניקה עובד מאחורי הקלעים</h2>
+    <p>כל פעולה של מטופל באתר מגיעה למקום הנכון: ליומן של הרופא, לתיק המטופל ולהנהלת החשבונות.</p>
+  </div>
+  <div class="ar-grid"><div class="ar-tree">
+    <div class="ar-b ar-root"><b>האתר של הקליניקה</b><span>הכניסה של המטופלים</span></div>
+    <svg class="ar-sd" viewBox="0 0 72 264" aria-hidden="true" focusable="false"><path class="ar-p" pathLength="1" d="M72 132H48Q36 132 36 120V56Q36 44 24 44H0"/><path class="ar-p" pathLength="1" d="M72 132H0"/><path class="ar-p" pathLength="1" d="M72 132H48Q36 132 36 144V208Q36 220 24 220H0"/><circle class="ar-dot" r="4.5" cx="72" cy="132"/><circle class="ar-dot" r="4.5" cx="72" cy="132"/><circle class="ar-dot" r="4.5" cx="72" cy="132"/></svg>
+    <svg class="ar-sm" viewBox="0 0 16 264" aria-hidden="true" focusable="false"><path class="ar-p" pathLength="1" d="M8 0V32Q8 44 0 44"/><path class="ar-p" pathLength="1" d="M8 0V120Q8 132 0 132"/><path class="ar-p" pathLength="1" d="M8 0V208Q8 220 0 220"/><circle class="ar-dot" r="4.5" cx="8" cy="0"/><circle class="ar-dot" r="4.5" cx="8" cy="0"/><circle class="ar-dot" r="4.5" cx="8" cy="0"/></svg>
+    <div class="ar-b ar-m1"><b>קביעת תור</b><span>מטופל בוחר מועד</span></div>
+    <svg class="ar-l ar-l1" viewBox="0 0 48 88" aria-hidden="true" focusable="false"><path class="ar-p" pathLength="1" d="M48 44H2"/><path class="ar-a" d="M9 38L3 44L9 50"/><circle class="ar-dot" r="4.5" cx="48" cy="44"/></svg>
+    <div class="ar-b ar-f1"><b>יומן הרופא</b><span>התור נרשם</span></div>
+    <div class="ar-b ar-m2"><b>שאלון מקדים</b><span>נשלח במייל</span></div>
+    <svg class="ar-l ar-l2" viewBox="0 0 48 88" aria-hidden="true" focusable="false"><path class="ar-p" pathLength="1" d="M48 44H2"/><path class="ar-a" d="M9 38L3 44L9 50"/><circle class="ar-dot" r="4.5" cx="48" cy="44"/></svg>
+    <div class="ar-b ar-f2"><b>תיק המטופל</b><span>השאלון נשמר</span></div>
+    <div class="ar-b ar-m3"><b>תשלום מראש</b><span>בכרטיס אשראי</span></div>
+    <svg class="ar-l ar-l3" viewBox="0 0 48 88" aria-hidden="true" focusable="false"><path class="ar-p" pathLength="1" d="M48 44H2"/><path class="ar-a" d="M9 38L3 44L9 50"/><circle class="ar-dot" r="4.5" cx="48" cy="44"/></svg>
+    <div class="ar-b ar-f3"><b>הנהלת חשבונות</b><span>קבלה נשלחת</span></div>
+  </div></div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const root=document.querySelector(".ar");if(!root)return;
+  if(typeof gsap==="undefined")return;       // בלי GSAP: הדיאגרמה גמורה, בלי הנקודות
+  gsap.registerPlugin(ScrollTrigger);
+  const tree=root.querySelector(".ar-tree"),mm=gsap.matchMedia(),q=(s,r=root)=>[...r.querySelectorAll(s)];
+  // בונה את ציר הזמן על סט הקווים הגלוי: mob = תצורת הטלפון
+  const build=mob=>{
+    const spine=root.querySelector(mob?".ar-sm":".ar-sd"),sp=q(".ar-p",spine),sd=q(".ar-dot",spine);
+    const rb=root.querySelector(".ar-root"),mids=q(".ar-m1,.ar-m2,.ar-m3"),leaves=q(".ar-f1,.ar-f2,.ar-f3"),links=q(".ar-l");
+    const lp=links.map(l=>l.querySelector(".ar-p")),la=links.map(l=>l.querySelector(".ar-a")),ld=links.map(l=>l.querySelector(".ar-dot"));
+    const all=[...sp,...lp];
+    gsap.set(all,{strokeDashoffset:1});gsap.set([rb,...mids,...leaves],{autoAlpha:0,y:12});gsap.set(la,{autoAlpha:0});
+    const mover=(path,dot)=>{const o={p:0},L=path.getTotalLength();return gsap.timeline()
+      .set(dot,{autoAlpha:1}).fromTo(o,{p:0},{p:1,duration:path===lp[0]||lp.includes(path)?.7:1.1,ease:"none",onUpdate:()=>{const pt=path.getPointAtLength(o.p*L);dot.setAttribute("cx",pt.x);dot.setAttribute("cy",pt.y);}}).set(dot,{autoAlpha:0});};
+    const flow=gsap.timeline({paused:true,repeat:-1,repeatDelay:1});
+    sp.forEach((p,i)=>flow.add(mover(p,sd[i]),i*.45).add(mover(lp[i],ld[i]),i*.45+1.1));
+    let built=false,st=null;
+    const tl=gsap.timeline({scrollTrigger:{trigger:tree,start:"top 78%",once:true},onComplete(){built=true;st=ScrollTrigger.create({trigger:tree,start:"top bottom",end:"bottom top",onToggle:s=>s.isActive?flow.play():flow.pause()});flow.play();}});
+    tl.to(rb,{autoAlpha:1,y:0,duration:.5,ease:"power2.out"});
+    sp.forEach((p,i)=>{
+      const t0=.5+i*.35;
+      tl.to(p,{strokeDashoffset:0,duration:.8,ease:"power1.inOut"},t0)
+        .to(mids[i],{autoAlpha:1,y:0,duration:.4,ease:"power2.out"},t0+.7)
+        .to(lp[i],{strokeDashoffset:0,duration:.5,ease:"power1.inOut"},t0+1)
+        .to(la[i],{autoAlpha:1,duration:.2},t0+1.4)
+        .to(leaves[i],{autoAlpha:1,y:0,duration:.4,ease:"power2.out"},t0+1.4);
+    });
+    return()=>{flow.kill();if(st)st.kill();gsap.set([...all,rb,...mids,...leaves,...la,...sd,...ld],{clearProps:"all"});};
+  };
+  mm.add("(prefers-reduced-motion: no-preference) and (min-width: 768px)",()=>build(false));
+  mm.add("(prefers-reduced-motion: no-preference) and (max-width: 767px)",()=>build(true));
+})();
+</script>
+</body>
+</html>

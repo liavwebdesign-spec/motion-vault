@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G181 · שדה שמקליד שאלה ומחזיר תשובה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G181 · שדה שמקליד שאלה ומחזיר תשובה */
+@property --qf-ang{syntax:"<angle>";inherits:true;initial-value:0deg}
+.qf{--qf-ring:conic-gradient(from var(--qf-ang),var(--accent, #4a3aff),color-mix(in srgb,var(--accent, #4a3aff) 55%,var(--card, #fff)),color-mix(in srgb,var(--accent, #4a3aff) 82%,var(--ink, #16182b)),color-mix(in srgb,var(--accent, #4a3aff) 40%,var(--card, #fff)),var(--accent, #4a3aff));display:grid;gap:32px;max-width:680px;margin-inline:auto}
+@media(prefers-reduced-motion:no-preference){.qf-field{animation:qf-spin 7s linear infinite}}
+@keyframes qf-spin{to{--qf-ang:360deg}}
+.qf-txt{display:grid;gap:14px;justify-items:center;text-align:center}
+.qf-txt h3{margin:0;font-size:clamp(26px,2.6vw,40px);line-height:1.15;text-wrap:balance}
+.qf-txt p{margin:0;max-width:44ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.qf-ui{display:grid;gap:20px}
+.qf-field{position:relative;isolation:isolate}
+.qf-field::after{content:"";position:absolute;inset:-4px;z-index:-1;border-radius:999px;background:var(--qf-ring);filter:blur(16px);opacity:.3;transition:opacity .5s cubic-bezier(.2,.6,.2,1)}
+.qf-field.is-focus::after{opacity:.5}
+.qf-field.is-ask::after{opacity:.9}
+.qf-pill{display:flex;align-items:center;gap:12px;padding-block:8px;padding-inline:20px 8px;border:2px solid transparent;border-radius:999px;background:linear-gradient(var(--card, #fff) 0 0) padding-box,var(--qf-ring) border-box}
+.qf-ico{flex:none;width:20px;height:20px;fill:none;stroke:var(--muted, #6a6d85);stroke-width:2;stroke-linecap:round}
+.qf-q{flex:1;min-width:0;display:flex;align-items:center;font-size:clamp(15px,1.4vw,18px);white-space:nowrap}
+.qf-typed{min-width:0;overflow:hidden}
+.qf-caret{flex:none;width:2px;height:22px;margin-inline-start:4px;background:var(--accent, #4a3aff);opacity:0}
+.qf-field.is-typing .qf-caret{opacity:1;animation:qf-blink 1s steps(1) infinite}
+@keyframes qf-blink{50%{opacity:0}}
+.qf-btn{flex:none;display:grid;place-items:center;min-width:104px;min-height:44px;padding:0 20px;border-radius:999px;background:var(--line, #e4e4ee);color:var(--ink, #16182b);font-size:15px;font-weight:600;transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s linear}
+.qf-btn.is-ready{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.qf-lab{grid-area:1/1;transition:opacity .2s linear}
+.qf-spin{grid-area:1/1;box-sizing:border-box;width:18px;height:18px;border:2px solid color-mix(in srgb,var(--accent-ink, #fff) 30%,transparent);border-top-color:var(--accent-ink, #fff);border-radius:50%;opacity:0}
+.qf-btn.is-busy .qf-lab{opacity:0}
+.qf-btn.is-busy .qf-spin{opacity:1;animation:qf-rot .8s linear infinite}
+@keyframes qf-rot{to{transform:rotate(360deg)}}
+.qf-res{display:grid;gap:14px;padding:20px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);border-radius:18px}
+.qf-lead{margin:0;font-size:16px;font-weight:600;line-height:1.4}
+.qf-rows{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.qf-row{display:flex;align-items:center;gap:14px;padding:12px 14px;border:1px solid var(--line, #e4e4ee);border-radius:12px;font-size:15px}
+.qf-row b{font-weight:600}
+.qf-row small{margin-inline-end:auto;color:var(--muted, #6a6d85);font-size:14px}
+.qf-pick{flex:none;padding:6px 14px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:13px;font-weight:600}
+@media(max-width:767px){.qf-ico{display:none}.qf-pill{padding-inline:16px 6px}.qf-btn{min-width:80px;padding:0 14px}.qf-res{padding:16px}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="qf">
+  <div class="qf-txt"><h3>שואלים בשפה רגילה ומקבלים תור</h3><p>בלי טפסים ובלי לחכות לשיחה חוזרת. המערכת מחפשת ביומן של הקליניקה ומציעה את המועדים הקרובים.</p></div>
+  <div class="qf-ui" aria-hidden="true">
+    <div class="qf-field">
+      <div class="qf-pill">
+        <svg class="qf-ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+        <span class="qf-q"><span class="qf-typed">יש תור פנוי לפיזיותרפיה השבוע?</span><span class="qf-caret"></span></span>
+        <span class="qf-btn is-ready"><span class="qf-lab">חיפוש</span><span class="qf-spin"></span></span>
+      </div>
+    </div>
+    <div class="qf-res">
+      <p class="qf-lead">מצאתי שלושה תורים פנויים השבוע. איזה מהם מתאים לך?</p>
+      <ul class="qf-rows">
+        <li class="qf-row"><b>יום שלישי, 17:30</b><small>עם הדס</small><span class="qf-pick">הכי קרוב</span></li>
+        <li class="qf-row"><b>יום רביעי, 09:00</b><small>עם אורי</small></li>
+        <li class="qf-row"><b>יום חמישי, 12:15</b><small>עם הדס</small></li>
+      </ul>
+    </div>
+  </div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP השאלה כבר מוקלדת והתשובה מוצגת (במארקאפ)
+  const root=document.querySelector(".qf"),field=root.querySelector(".qf-field"),typed=root.querySelector(".qf-typed"),
+    btn=root.querySelector(".qf-btn"),card=root.querySelector(".qf-res"),parts=[...root.querySelectorAll(".qf-lead,.qf-row")];
+  const full=typed.textContent;
+  const finish=()=>{typed.textContent=full;field.classList.remove("is-focus","is-typing","is-ask");btn.classList.remove("is-busy");btn.classList.add("is-ready");};
+  // בהפחתת תנועה הפונקציה לא רצה, והשאלה והתשובה נשארות במצב הסיום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    typed.textContent="";btn.classList.remove("is-ready");
+    gsap.set(card,{autoAlpha:0});gsap.set(parts,{autoAlpha:0,y:14});
+    const k={n:0},tl=gsap.timeline({paused:true});
+    tl.call(()=>field.classList.add("is-focus","is-typing"),null,.3)
+      .to(k,{n:full.length,duration:1.5,ease:"none",onUpdate:()=>{typed.textContent=full.slice(0,Math.round(k.n));}})
+      .call(()=>{field.classList.remove("is-typing");btn.classList.add("is-ready");})
+      .to(btn,{scale:.94,duration:.12,ease:"power1.out"},"+=.55")
+      .to(btn,{scale:1,duration:.2,ease:"power1.out"})
+      .call(()=>{btn.classList.add("is-busy");field.classList.add("is-ask");})
+      .call(()=>{btn.classList.remove("is-busy");field.classList.remove("is-focus");},null,"+=1.2")
+      .to(card,{autoAlpha:1,duration:.4,ease:"power1.out"},"<.1")
+      .to(parts,{autoAlpha:1,y:0,duration:.55,stagger:.14,ease:"power2.out"},"<.15")
+      .call(()=>field.classList.remove("is-ask"),null,"+=.8");
+    const st=ScrollTrigger.create({trigger:root,start:"top 70%",once:true,onEnter:()=>tl.play()});
+    return()=>{st.kill();tl.kill();gsap.set([btn,card,...parts],{clearProps:"all"});finish();};
+  });
+})();
+</script>
+</body>
+</html>

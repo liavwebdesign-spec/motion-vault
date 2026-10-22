@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G165 · ראש הפעלה על סרגל שמחליף כרטיס | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.pr{--pr-a:color-mix(in srgb,var(--ink) 9%,transparent);--sh:100%;max-width:1040px;margin-inline:auto}
+.pr:dir(ltr){--sh:-100%}
+.pr-pin{display:grid;gap:40px}
+.pr-copy{display:grid;gap:10px;max-width:46ch}
+.pr-copy h2{margin:0;font-size:clamp(28px,3.4vw,48px);font-weight:700;line-height:1.1;text-wrap:balance}
+.pr-copy p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.pr-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,224px),1fr));gap:20px}
+.pr-card{display:grid;gap:16px;align-content:start;padding:16px;border-radius:24px;background:var(--card);box-shadow:0 0 0 1px var(--line),0 20px 44px color-mix(in srgb,var(--ink) 7%,transparent)}
+.pr-cap b{display:block;font-size:19px;font-weight:700}
+.pr-cap span{display:block;margin-top:4px;color:var(--muted);font-size:15px;line-height:1.5}
+/* התצוגות: ארבעה שרטוטים מקווים וריבועים, כדי שהדמו לא יישען על תמונה */
+.pr-shot{aspect-ratio:4/3;display:grid;gap:10px;padding:14px;overflow:hidden;border-radius:14px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line)}
+.pr-shot i{display:block;border-radius:6px;background:var(--pr-a)}
+.pr-shot .k{background:var(--accent)}
+.pr-shot .t{height:8px}
+.pr-shot .h{height:14px}
+.pr-shot .col{display:grid;gap:8px;align-content:center}
+.pr-shot .pill{width:46%;height:18px;border-radius:99px}
+.pr-shot .img{border-radius:10px;background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 38%,transparent),color-mix(in srgb,var(--accent) 8%,transparent))}
+.pr-shot.a{grid-template:auto 1fr/1.15fr 1fr}
+.pr-shot.a .nav{grid-column:1/-1;width:55%}
+.pr-shot.b{grid-template:auto 1fr/1fr .85fr}
+.pr-shot.b .nav{grid-column:1/-1;width:55%}
+.pr-shot .form{display:grid;gap:8px;align-content:center;padding:12px;border-radius:10px;background:var(--card);box-shadow:0 0 0 1px var(--line)}
+.pr-shot .form i{height:14px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line)}
+.pr-shot .form .k{height:16px;box-shadow:none}
+.pr-shot.c{grid-template:1fr 1fr/1fr 1fr;gap:10px}
+.pr-shot .tile{display:grid;grid-template-rows:1fr auto;gap:6px}
+.pr-shot.d{grid-template:1fr/.4fr 1fr}
+.pr-shot .row{display:grid;grid-template-columns:1.4fr 1fr .6fr;gap:6px}
+.pr-shot .row i{height:10px}
+/* הסרגל: מוסתר בלי תנועה. הסימנים והתוויות יושבים לפי --k (0 עד 1) מצד ההתחלה */
+.pr-ruler{display:none}
+.pr-track{position:absolute;inset-inline:0;top:24px;height:20px;background:repeating-linear-gradient(to right,color-mix(in srgb,var(--muted) 55%,transparent) 0 1px,transparent 1px 10px) bottom/100% 8px no-repeat;border-bottom:1px solid var(--line)}
+.pr-mk{position:absolute;top:-4px;height:26px;inset-inline-start:calc(var(--k) * 100% - 1px);width:2px;border-radius:2px;background:var(--ink)}
+.pr-lb{position:absolute;top:52px;inset-inline-start:calc(var(--k) * 100%);translate:calc(var(--k) * var(--sh));font-size:14px;font-weight:600;white-space:nowrap;color:var(--muted)}
+.pr-lb.on{color:var(--ink)}
+.pr-ph{position:absolute;top:0;inset-inline-start:-1px;width:2px;height:56px;border-radius:2px;background:var(--accent);pointer-events:none}
+.pr-ph::before{content:"";position:absolute;top:-2px;left:50%;translate:-50% 0;width:14px;height:12px;background:var(--accent);clip-path:polygon(0 0,100% 0,50% 100%)}
+/* המהלך רץ: הסקשן גבוה, השכבה הדביקה נעוצה, והכרטיסים נערמים */
+.pr.is-live{height:380vh}
+.pr.is-live .pr-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center;gap:clamp(20px,4vh,40px)}
+.pr.is-live .pr-list{position:relative;display:block;width:min(400px,84vw);aspect-ratio:4/3.5;margin-inline:auto;perspective:1100px}
+.pr.is-live .pr-card{position:absolute;inset:0;grid-template-rows:1fr auto;backface-visibility:hidden}
+.pr.is-live .pr-shot{aspect-ratio:auto}
+.pr.is-live .pr-ruler{display:block;position:relative;width:min(720px,100%);height:76px;margin-inline:auto}
+@media(max-height:760px){.pr.is-live .pr-list{width:min(320px,84vw)}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g164.html" rel="prev" title="הקודם: שמש שעולה מאחורי קו האופק">→<span class="sr-only">הקודם</span></a><span class="vpn-n">141/162</span><a href="g166.html" rel="next" title="הבא: עורך עם תצוגה חיה בצד">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G165</span> · ראש הפעלה על סרגל שמחליף כרטיס</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · sticky · 3D</span>
+  <span class="vchip use">כרטיסים</span><span class="vchip use">תהליך ושלבים</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g165"><code>MV:g165</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g165">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>כרטיס תצוגה אחד נעוץ במסך, ומתחתיו סרגל עם שנתות וראש הפעלה. כשגוללים הראש נע לאורך הסרגל, ובכל סימן הכרטיס מסתובב עד שהוא נעלם על הקצה, וחוזר עם התוכן הבא. הכיתוב והתווית שעל הסרגל מתחלפים יחד איתו. התוכן אחד, אבל רואים אותו נע בציר זמן.</p>
+  <p class="when"><b>מתי משתמשים:</b> סקשן שמציג שלושה עד ארבעה סוגי עבודה, חבילות או שלבים מאותו סוג: סוגי פרויקטים של סטודיו, חבילות שירות, שימושים של מוצר. מתאים כשיש משהו להראות בכל אחד (לא רק כותרת), ורוצים שהקורא ירגיש שהוא עובר ביניהם בעצמו. פעם אחת בעמוד, ולא כשיש יותר מחמישה פריטים.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>וואן-פייג'ר · אתר תדמית · דף נחיתה · פורטפוליו וסטודיו</dd></div><div><dt>בסקשן</dt><dd>שירותים ומוצרים · תהליך ושלבים · עבודות וגלריה</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשיש יותר מחמישה פריטים או פחות משלושה, לא כשאין מה להראות בכל פריט מעבר לכותרת, ולא יותר מפעם אחת בעמוד.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g165"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage tight"><section class="pr" aria-labelledby="pr-h">
+  <div class="pr-pin">
+    <div class="pr-copy"><h2 id="pr-h">ארבעה דברים שאנחנו בונים לעסקים</h2><p>כל פרויקט מתחיל בצורך אחר, ולכן לכל סוג יש מבנה, זמן עבודה ומחיר משלו.</p></div>
+    <ul class="pr-list">
+      <li class="pr-card">
+        <div class="pr-shot a" aria-hidden="true"><i class="t nav"></i><div class="col"><i class="h"></i><i class="h" style="width:70%"></i><i class="t"></i><i class="t" style="width:80%"></i><i class="k pill"></i></div><i class="img"></i></div>
+        <div class="pr-cap"><b>אתר תדמית</b><span>מציג את העסק ומוביל מבקרים לפנייה.</span></div>
+      </li>
+      <li class="pr-card">
+        <div class="pr-shot b" aria-hidden="true"><i class="t nav"></i><div class="col"><i class="h"></i><i class="h" style="width:60%"></i><i class="t"></i><i class="t" style="width:75%"></i></div><div class="form"><i></i><i></i><i></i><i class="k"></i></div></div>
+        <div class="pr-cap"><b>דף נחיתה</b><span>עמוד אחד לקמפיין, עם טופס אחד ברור.</span></div>
+      </li>
+      <li class="pr-card">
+        <div class="pr-shot c" aria-hidden="true"><div class="tile"><i class="img"></i><i class="t" style="width:60%"></i></div><div class="tile"><i class="img"></i><i class="t" style="width:45%"></i></div><div class="tile"><i class="img"></i><i class="t" style="width:70%"></i></div><div class="tile"><i class="img"></i><i class="t" style="width:55%"></i></div></div>
+        <div class="pr-cap"><b>חנות אונליין</b><span>קטלוג, עגלה ותשלום מאובטח.</span></div>
+      </li>
+      <li class="pr-card">
+        <div class="pr-shot d" aria-hidden="true"><div class="col" style="align-content:start"><i class="t"></i><i class="t k"></i><i class="t"></i><i class="t"></i></div><div class="col" style="align-content:start"><i class="h" style="width:50%"></i><div class="row"><i></i><i></i><i class="k"></i></div><div class="row"><i></i><i></i><i></i></div><div class="row"><i></i><i></i><i class="k"></i></div><div class="row"><i></i><i></i><i></i></div></div></div>
+        <div class="pr-cap"><b>מערכת ניהול</b><span>פניות, לקוחות ותשלומים במקום אחד.</span></div>
+      </li>
+    </ul>
+    <div class="pr-ruler" aria-hidden="true">
+      <div class="pr-track"><i class="pr-mk" style="--k:0"></i><i class="pr-mk" style="--k:.3333"></i><i class="pr-mk" style="--k:.6667"></i><i class="pr-mk" style="--k:1"></i></div>
+      <span class="pr-lb on" style="--k:0">אתר תדמית</span><span class="pr-lb" style="--k:.3333">דף נחיתה</span><span class="pr-lb" style="--k:.6667">חנות אונליין</span><span class="pr-lb" style="--k:1">מערכת ניהול</span>
+      <i class="pr-ph"></i>
+    </div>
+  </div>
+</section></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטוני מוצר ב-prompt-motion.com (21.10.2026), שבהם כרטיס תצוגה אחד מתחלף מעל סרגל זמן עם ראש הפעלה. נבנה מאפס מהצפייה. <b>המארקאפ הוא רשימה:</b> כל סוג עבודה הוא <code>li</code> עם התצוגה והכיתוב שלו. בלי GSAP ובהפחתת תנועה זה מה שרואים, כרטיסים זה לצד זה (ובטלפון זה מתחת לזה), והסרגל מוסתר. <b>כשהמהלך רץ</b> הסקריפט מוסיף <code>is-live</code>: הרשימה הופכת למקבץ כרטיסים באותו מקום, והסקשן נעשה גבוה עם שכבה דביקה (<code>sticky</code>) שנעוצה במסך. <b>הציר:</b> ראש ההפעלה זז לאורך הסרגל לפי ההתקדמות, והסימנים (<code>.pr-mk</code>) יושבים בדיוק במקומות שבהם הכרטיס מתחלף. הסרגל, הסימנים והתוויות הם <code>span</code> ו-<code>i</code> ולא כפתורים, כי זה איור ולא פקד. <b>המעבר:</b> הכרטיס היוצא מסתובב סביב הציר האנכי (<code>rotationY</code> עד 90 מעלות) עד שהוא על הקצה ולא נראה, והנכנס ממשיך מאותה נקודה מהצד השני ומסתובב חזרה עד שהוא שטוח. התוכן מוחלף ברגע שאין מה לראות, ולכן המעבר לא נראה כמו חיתוך. כל הכרטיסים נשארים ב-DOM בשקיפות 0 ולא ב-<code>display:none</code>, כדי שקורא מסך יקרא את כולם. <b>כיוון:</b> הראש זז מימין לשמאל, כי זה כיוון ההתקדמות בעמוד בעברית. הכיוון נקבע מ-<code>direction</code> של הסקשן, ולכן באתר משמאל לימין הוא מתהפך לבד. את התוויות מיישרים לשוליים עם <code>:dir(ltr)</code>. <b>מדידה:</b> הרוחב נמדד מהסרגל בכל refresh (<code>invalidateOnRefresh</code>), ולכן זה נכון בכל רוחב מסך. כדי להחליף את התצוגות בתמונות או בסרטונים מחליפים את ה-<code>.pr-shot</code> בתוך כל כרטיס, והשאר נשאר.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g165.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G165 · ראש הפעלה על סרגל שמחליף כרטיס */
+.pr{--pr-a:color-mix(in srgb,var(--ink, #16182b) 9%,transparent);--sh:100%;max-width:1040px;margin-inline:auto}
+.pr:dir(ltr){--sh:-100%}
+.pr-pin{display:grid;gap:40px}
+.pr-copy{display:grid;gap:10px;max-width:46ch}
+.pr-copy h2{margin:0;font-size:clamp(28px,3.4vw,48px);font-weight:700;line-height:1.1;text-wrap:balance}
+.pr-copy p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.pr-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,224px),1fr));gap:20px}
+.pr-card{display:grid;gap:16px;align-content:start;padding:16px;border-radius:24px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 20px 44px color-mix(in srgb,var(--ink, #16182b) 7%,transparent)}
+.pr-cap b{display:block;font-size:19px;font-weight:700}
+.pr-cap span{display:block;margin-top:4px;color:var(--muted, #6a6d85);font-size:15px;line-height:1.5}
+/* התצוגות: ארבעה שרטוטים מקווים וריבועים, כדי שהדמו לא יישען על תמונה */
+.pr-shot{aspect-ratio:4/3;display:grid;gap:10px;padding:14px;overflow:hidden;border-radius:14px;background:var(--bg, #f7f7fa);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}
+.pr-shot i{display:block;border-radius:6px;background:var(--pr-a)}
+.pr-shot .k{background:var(--accent, #4a3aff)}
+.pr-shot .t{height:8px}
+.pr-shot .h{height:14px}
+.pr-shot .col{display:grid;gap:8px;align-content:center}
+.pr-shot .pill{width:46%;height:18px;border-radius:99px}
+.pr-shot .img{border-radius:10px;background:linear-gradient(145deg,color-mix(in srgb,var(--accent, #4a3aff) 38%,transparent),color-mix(in srgb,var(--accent, #4a3aff) 8%,transparent))}
+.pr-shot.a{grid-template:auto 1fr/1.15fr 1fr}
+.pr-shot.a .nav{grid-column:1/-1;width:55%}
+.pr-shot.b{grid-template:auto 1fr/1fr .85fr}
+.pr-shot.b .nav{grid-column:1/-1;width:55%}
+.pr-shot .form{display:grid;gap:8px;align-content:center;padding:12px;border-radius:10px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee)}
+.pr-shot .form i{height:14px;background:var(--bg, #f7f7fa);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}
+.pr-shot .form .k{height:16px;box-shadow:none}
+.pr-shot.c{grid-template:1fr 1fr/1fr 1fr;gap:10px}
+.pr-shot .tile{display:grid;grid-template-rows:1fr auto;gap:6px}
+.pr-shot.d{grid-template:1fr/.4fr 1fr}
+.pr-shot .row{display:grid;grid-template-columns:1.4fr 1fr .6fr;gap:6px}
+.pr-shot .row i{height:10px}
+/* הסרגל: מוסתר בלי תנועה. הסימנים והתוויות יושבים לפי --k (0 עד 1) מצד ההתחלה */
+.pr-ruler{display:none}
+.pr-track{position:absolute;inset-inline:0;top:24px;height:20px;background:repeating-linear-gradient(to right,color-mix(in srgb,var(--muted, #6a6d85) 55%,transparent) 0 1px,transparent 1px 10px) bottom/100% 8px no-repeat;border-bottom:1px solid var(--line, #e4e4ee)}
+.pr-mk{position:absolute;top:-4px;height:26px;inset-inline-start:calc(var(--k) * 100% - 1px);width:2px;border-radius:2px;background:var(--ink, #16182b)}
+.pr-lb{position:absolute;top:52px;inset-inline-start:calc(var(--k) * 100%);translate:calc(var(--k) * var(--sh));font-size:14px;font-weight:600;white-space:nowrap;color:var(--muted, #6a6d85)}
+.pr-lb.on{color:var(--ink, #16182b)}
+.pr-ph{position:absolute;top:0;inset-inline-start:-1px;width:2px;height:56px;border-radius:2px;background:var(--accent, #4a3aff);pointer-events:none}
+.pr-ph::before{content:"";position:absolute;top:-2px;left:50%;translate:-50% 0;width:14px;height:12px;background:var(--accent, #4a3aff);clip-path:polygon(0 0,100% 0,50% 100%)}
+/* המהלך רץ: הסקשן גבוה, השכבה הדביקה נעוצה, והכרטיסים נערמים */
+.pr.is-live{height:380vh}
+.pr.is-live .pr-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center;gap:clamp(20px,4vh,40px)}
+.pr.is-live .pr-list{position:relative;display:block;width:min(400px,84vw);aspect-ratio:4/3.5;margin-inline:auto;perspective:1100px}
+.pr.is-live .pr-card{position:absolute;inset:0;grid-template-rows:1fr auto;backface-visibility:hidden}
+.pr.is-live .pr-shot{aspect-ratio:auto}
+.pr.is-live .pr-ruler{display:block;position:relative;width:min(720px,100%);height:76px;margin-inline:auto}
+@media(max-height:760px){.pr.is-live .pr-list{width:min(320px,84vw)}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage tight"&gt;&lt;section class="pr" aria-labelledby="pr-h"&gt;
+  &lt;div class="pr-pin"&gt;
+    &lt;div class="pr-copy"&gt;&lt;h2 id="pr-h"&gt;ארבעה דברים שאנחנו בונים לעסקים&lt;/h2&gt;&lt;p&gt;כל פרויקט מתחיל בצורך אחר, ולכן לכל סוג יש מבנה, זמן עבודה ומחיר משלו.&lt;/p&gt;&lt;/div&gt;
+    &lt;ul class="pr-list"&gt;
+      &lt;li class="pr-card"&gt;
+        &lt;div class="pr-shot a" aria-hidden="true"&gt;&lt;i class="t nav"&gt;&lt;/i&gt;&lt;div class="col"&gt;&lt;i class="h"&gt;&lt;/i&gt;&lt;i class="h" style="width:70%"&gt;&lt;/i&gt;&lt;i class="t"&gt;&lt;/i&gt;&lt;i class="t" style="width:80%"&gt;&lt;/i&gt;&lt;i class="k pill"&gt;&lt;/i&gt;&lt;/div&gt;&lt;i class="img"&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;div class="pr-cap"&gt;&lt;b&gt;אתר תדמית&lt;/b&gt;&lt;span&gt;מציג את העסק ומוביל מבקרים לפנייה.&lt;/span&gt;&lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li class="pr-card"&gt;
+        &lt;div class="pr-shot b" aria-hidden="true"&gt;&lt;i class="t nav"&gt;&lt;/i&gt;&lt;div class="col"&gt;&lt;i class="h"&gt;&lt;/i&gt;&lt;i class="h" style="width:60%"&gt;&lt;/i&gt;&lt;i class="t"&gt;&lt;/i&gt;&lt;i class="t" style="width:75%"&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class="form"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i class="k"&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="pr-cap"&gt;&lt;b&gt;דף נחיתה&lt;/b&gt;&lt;span&gt;עמוד אחד לקמפיין, עם טופס אחד ברור.&lt;/span&gt;&lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li class="pr-card"&gt;
+        &lt;div class="pr-shot c" aria-hidden="true"&gt;&lt;div class="tile"&gt;&lt;i class="img"&gt;&lt;/i&gt;&lt;i class="t" style="width:60%"&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class="tile"&gt;&lt;i class="img"&gt;&lt;/i&gt;&lt;i class="t" style="width:45%"&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class="tile"&gt;&lt;i class="img"&gt;&lt;/i&gt;&lt;i class="t" style="width:70%"&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class="tile"&gt;&lt;i class="img"&gt;&lt;/i&gt;&lt;i class="t" style="width:55%"&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="pr-cap"&gt;&lt;b&gt;חנות אונליין&lt;/b&gt;&lt;span&gt;קטלוג, עגלה ותשלום מאובטח.&lt;/span&gt;&lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li class="pr-card"&gt;
+        &lt;div class="pr-shot d" aria-hidden="true"&gt;&lt;div class="col" style="align-content:start"&gt;&lt;i class="t"&gt;&lt;/i&gt;&lt;i class="t k"&gt;&lt;/i&gt;&lt;i class="t"&gt;&lt;/i&gt;&lt;i class="t"&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class="col" style="align-content:start"&gt;&lt;i class="h" style="width:50%"&gt;&lt;/i&gt;&lt;div class="row"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i class="k"&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class="row"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class="row"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i class="k"&gt;&lt;/i&gt;&lt;/div&gt;&lt;div class="row"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="pr-cap"&gt;&lt;b&gt;מערכת ניהול&lt;/b&gt;&lt;span&gt;פניות, לקוחות ותשלומים במקום אחד.&lt;/span&gt;&lt;/div&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div class="pr-ruler" aria-hidden="true"&gt;
+      &lt;div class="pr-track"&gt;&lt;i class="pr-mk" style="--k:0"&gt;&lt;/i&gt;&lt;i class="pr-mk" style="--k:.3333"&gt;&lt;/i&gt;&lt;i class="pr-mk" style="--k:.6667"&gt;&lt;/i&gt;&lt;i class="pr-mk" style="--k:1"&gt;&lt;/i&gt;&lt;/div&gt;
+      &lt;span class="pr-lb on" style="--k:0"&gt;אתר תדמית&lt;/span&gt;&lt;span class="pr-lb" style="--k:.3333"&gt;דף נחיתה&lt;/span&gt;&lt;span class="pr-lb" style="--k:.6667"&gt;חנות אונליין&lt;/span&gt;&lt;span class="pr-lb" style="--k:1"&gt;מערכת ניהול&lt;/span&gt;
+      &lt;i class="pr-ph"&gt;&lt;/i&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשארת הרשימה: כרטיסים זה לצד זה, בלי סרגל
+  const root=document.querySelector(".pr"),cards=[...root.querySelectorAll(".pr-card")],track=root.querySelector(".pr-track"),
+    ph=root.querySelector(".pr-ph"),lbs=[...root.querySelectorAll(".pr-lb")],n=cards.length;
+  // בהפחתת תנועה הפונקציה לא רצה, והרשימה נשארת
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    const dir=getComputedStyle(root).direction==="rtl"?-1:1;           // הראש מתקדם בכיוון הקריאה
+    const lead=.4,seg=1.2,flip=.34,tail=.4,at=k=&gt;lead+k*seg;           // at(k): הרגע שבו הראש על הסימן k
+    gsap.set(cards.slice(1),{opacity:0,rotationY:-90});
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
+    tl.fromTo(ph,{x:0},{x:()=&gt;dir*track.clientWidth,duration:(n-1)*seg},lead);
+    for(let k=1;k&lt;n;k++){
+      // הכרטיס היוצא מסתובב עד הקצה, והנכנס ממשיך משם: ההחלפה קורית כשאין מה לראות
+      tl.to(cards[k-1],{rotationY:90,opacity:0,duration:flip/2,ease:"power2.in"},at(k)-flip/2)
+        .fromTo(cards[k],{rotationY:-90,opacity:0},{rotationY:0,opacity:1,duration:flip/2,ease:"power2.out",immediateRender:false},at(k));
+    }
+    tl.to({},{duration:tail});
+    let cur=0;
+    tl.eventCallback("onUpdate",()=&gt;{
+      const i=Math.max(0,Math.min(n-1,Math.floor((tl.time()-lead)/seg+.001)));   // התווית מתחלפת על הסימן, באותו רגע שהכרטיס מסתובב
+      if(i!==cur){cur=i;lbs.forEach((l,j)=&gt;l.classList.toggle("on",j===i));}
+    });
+    return()=&gt;{root.classList.remove("is-live");gsap.set([...cards,ph],{clearProps:"all"});lbs.forEach((l,j)=&gt;l.classList.toggle("on",j===0));};
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g165 · ראש הפעלה על סרגל שמחליף כרטיס\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g165.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g165.html\n\nמה זה עושה: כרטיס תצוגה אחד נעוץ במסך, ומתחתיו סרגל עם שנתות וראש הפעלה. כשגוללים הראש נע לאורך הסרגל, ובכל סימן הכרטיס מסתובב עד שהוא נעלם על הקצה, וחוזר עם התוכן הבא. הכיתוב והתווית שעל הסרגל מתחלפים יחד איתו. התוכן אחד, אבל רואים אותו נע בציר זמן.\nמתי משתמשים: סקשן שמציג שלושה עד ארבעה סוגי עבודה, חבילות או שלבים מאותו סוג: סוגי פרויקטים של סטודיו, חבילות שירות, שימושים של מוצר. מתאים כשיש משהו להראות בכל אחד (לא רק כותרת), ורוצים שהקורא ירגיש שהוא עובר ביניהם בעצמו. פעם אחת בעמוד, ולא כשיש יותר מחמישה פריטים.\nסוג אתר: וואן-פייג'ר · אתר תדמית · דף נחיתה · פורטפוליו וסטודיו\nבסקשן: שירותים ומוצרים · תהליך ושלבים · עבודות וגלריה\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא כשיש יותר מחמישה פריטים או פחות משלושה, לא כשאין מה להראות בכל פריט מעבר לכותרת, ולא יותר מפעם אחת בעמוד.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G165 · ראש הפעלה על סרגל שמחליף כרטיס */\n.pr{--pr-a:color-mix(in srgb,var(--ink, #16182b) 9%,transparent);--sh:100%;max-width:1040px;margin-inline:auto}\n.pr:dir(ltr){--sh:-100%}\n.pr-pin{display:grid;gap:40px}\n.pr-copy{display:grid;gap:10px;max-width:46ch}\n.pr-copy h2{margin:0;font-size:clamp(28px,3.4vw,48px);font-weight:700;line-height:1.1;text-wrap:balance}\n.pr-copy p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.pr-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,224px),1fr));gap:20px}\n.pr-card{display:grid;gap:16px;align-content:start;padding:16px;border-radius:24px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 20px 44px color-mix(in srgb,var(--ink, #16182b) 7%,transparent)}\n.pr-cap b{display:block;font-size:19px;font-weight:700}\n.pr-cap span{display:block;margin-top:4px;color:var(--muted, #6a6d85);font-size:15px;line-height:1.5}\n/* התצוגות: ארבעה שרטוטים מקווים וריבועים, כדי שהדמו לא יישען על תמונה */\n.pr-shot{aspect-ratio:4/3;display:grid;gap:10px;padding:14px;overflow:hidden;border-radius:14px;background:var(--bg, #f7f7fa);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}\n.pr-shot i{display:block;border-radius:6px;background:var(--pr-a)}\n.pr-shot .k{background:var(--accent, #4a3aff)}\n.pr-shot .t{height:8px}\n.pr-shot .h{height:14px}\n.pr-shot .col{display:grid;gap:8px;align-content:center}\n.pr-shot .pill{width:46%;height:18px;border-radius:99px}\n.pr-shot .img{border-radius:10px;background:linear-gradient(145deg,color-mix(in srgb,var(--accent, #4a3aff) 38%,transparent),color-mix(in srgb,var(--accent, #4a3aff) 8%,transparent))}\n.pr-shot.a{grid-template:auto 1fr/1.15fr 1fr}\n.pr-shot.a .nav{grid-column:1/-1;width:55%}\n.pr-shot.b{grid-template:auto 1fr/1fr .85fr}\n.pr-shot.b .nav{grid-column:1/-1;width:55%}\n.pr-shot .form{display:grid;gap:8px;align-content:center;padding:12px;border-radius:10px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee)}\n.pr-shot .form i{height:14px;background:var(--bg, #f7f7fa);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}\n.pr-shot .form .k{height:16px;box-shadow:none}\n.pr-shot.c{grid-template:1fr 1fr/1fr 1fr;gap:10px}\n.pr-shot .tile{display:grid;grid-template-rows:1fr auto;gap:6px}\n.pr-shot.d{grid-template:1fr/.4fr 1fr}\n.pr-shot .row{display:grid;grid-template-columns:1.4fr 1fr .6fr;gap:6px}\n.pr-shot .row i{height:10px}\n/* הסרגל: מוסתר בלי תנועה. הסימנים והתוויות יושבים לפי --k (0 עד 1) מצד ההתחלה */\n.pr-ruler{display:none}\n.pr-track{position:absolute;inset-inline:0;top:24px;height:20px;background:repeating-linear-gradient(to right,color-mix(in srgb,var(--muted, #6a6d85) 55%,transparent) 0 1px,transparent 1px 10px) bottom/100% 8px no-repeat;border-bottom:1px solid var(--line, #e4e4ee)}\n.pr-mk{position:absolute;top:-4px;height:26px;inset-inline-start:calc(var(--k) * 100% - 1px);width:2px;border-radius:2px;background:var(--ink, #16182b)}\n.pr-lb{position:absolute;top:52px;inset-inline-start:calc(var(--k) * 100%);translate:calc(var(--k) * var(--sh));font-size:14px;font-weight:600;white-space:nowrap;color:var(--muted, #6a6d85)}\n.pr-lb.on{color:var(--ink, #16182b)}\n.pr-ph{position:absolute;top:0;inset-inline-start:-1px;width:2px;height:56px;border-radius:2px;background:var(--accent, #4a3aff);pointer-events:none}\n.pr-ph::before{content:\"\";position:absolute;top:-2px;left:50%;translate:-50% 0;width:14px;height:12px;background:var(--accent, #4a3aff);clip-path:polygon(0 0,100% 0,50% 100%)}\n/* המהלך רץ: הסקשן גבוה, השכבה הדביקה נעוצה, והכרטיסים נערמים */\n.pr.is-live{height:380vh}\n.pr.is-live .pr-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center;gap:clamp(20px,4vh,40px)}\n.pr.is-live .pr-list{position:relative;display:block;width:min(400px,84vw);aspect-ratio:4/3.5;margin-inline:auto;perspective:1100px}\n.pr.is-live .pr-card{position:absolute;inset:0;grid-template-rows:1fr auto;backface-visibility:hidden}\n.pr.is-live .pr-shot{aspect-ratio:auto}\n.pr.is-live .pr-ruler{display:block;position:relative;width:min(720px,100%);height:76px;margin-inline:auto}\n@media(max-height:760px){.pr.is-live .pr-list{width:min(320px,84vw)}}\n\n=== HTML ===\n<div class=\"stage tight\"><section class=\"pr\" aria-labelledby=\"pr-h\">\n  <div class=\"pr-pin\">\n    <div class=\"pr-copy\"><h2 id=\"pr-h\">ארבעה דברים שאנחנו בונים לעסקים<\/h2><p>כל פרויקט מתחיל בצורך אחר, ולכן לכל סוג יש מבנה, זמן עבודה ומחיר משלו.<\/p><\/div>\n    <ul class=\"pr-list\">\n      <li class=\"pr-card\">\n        <div class=\"pr-shot a\" aria-hidden=\"true\"><i class=\"t nav\"><\/i><div class=\"col\"><i class=\"h\"><\/i><i class=\"h\" style=\"width:70%\"><\/i><i class=\"t\"><\/i><i class=\"t\" style=\"width:80%\"><\/i><i class=\"k pill\"><\/i><\/div><i class=\"img\"><\/i><\/div>\n        <div class=\"pr-cap\"><b>אתר תדמית<\/b><span>מציג את העסק ומוביל מבקרים לפנייה.<\/span><\/div>\n      <\/li>\n      <li class=\"pr-card\">\n        <div class=\"pr-shot b\" aria-hidden=\"true\"><i class=\"t nav\"><\/i><div class=\"col\"><i class=\"h\"><\/i><i class=\"h\" style=\"width:60%\"><\/i><i class=\"t\"><\/i><i class=\"t\" style=\"width:75%\"><\/i><\/div><div class=\"form\"><i><\/i><i><\/i><i><\/i><i class=\"k\"><\/i><\/div><\/div>\n        <div class=\"pr-cap\"><b>דף נחיתה<\/b><span>עמוד אחד לקמפיין, עם טופס אחד ברור.<\/span><\/div>\n      <\/li>\n      <li class=\"pr-card\">\n        <div class=\"pr-shot c\" aria-hidden=\"true\"><div class=\"tile\"><i class=\"img\"><\/i><i class=\"t\" style=\"width:60%\"><\/i><\/div><div class=\"tile\"><i class=\"img\"><\/i><i class=\"t\" style=\"width:45%\"><\/i><\/div><div class=\"tile\"><i class=\"img\"><\/i><i class=\"t\" style=\"width:70%\"><\/i><\/div><div class=\"tile\"><i class=\"img\"><\/i><i class=\"t\" style=\"width:55%\"><\/i><\/div><\/div>\n        <div class=\"pr-cap\"><b>חנות אונליין<\/b><span>קטלוג, עגלה ותשלום מאובטח.<\/span><\/div>\n      <\/li>\n      <li class=\"pr-card\">\n        <div class=\"pr-shot d\" aria-hidden=\"true\"><div class=\"col\" style=\"align-content:start\"><i class=\"t\"><\/i><i class=\"t k\"><\/i><i class=\"t\"><\/i><i class=\"t\"><\/i><\/div><div class=\"col\" style=\"align-content:start\"><i class=\"h\" style=\"width:50%\"><\/i><div class=\"row\"><i><\/i><i><\/i><i class=\"k\"><\/i><\/div><div class=\"row\"><i><\/i><i><\/i><i><\/i><\/div><div class=\"row\"><i><\/i><i><\/i><i class=\"k\"><\/i><\/div><div class=\"row\"><i><\/i><i><\/i><i><\/i><\/div><\/div><\/div>\n        <div class=\"pr-cap\"><b>מערכת ניהול<\/b><span>פניות, לקוחות ותשלומים במקום אחד.<\/span><\/div>\n      <\/li>\n    <\/ul>\n    <div class=\"pr-ruler\" aria-hidden=\"true\">\n      <div class=\"pr-track\"><i class=\"pr-mk\" style=\"--k:0\"><\/i><i class=\"pr-mk\" style=\"--k:.3333\"><\/i><i class=\"pr-mk\" style=\"--k:.6667\"><\/i><i class=\"pr-mk\" style=\"--k:1\"><\/i><\/div>\n      <span class=\"pr-lb on\" style=\"--k:0\">אתר תדמית<\/span><span class=\"pr-lb\" style=\"--k:.3333\">דף נחיתה<\/span><span class=\"pr-lb\" style=\"--k:.6667\">חנות אונליין<\/span><span class=\"pr-lb\" style=\"--k:1\">מערכת ניהול<\/span>\n      <i class=\"pr-ph\"><\/i>\n    <\/div>\n  <\/div>\n<\/section><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשארת הרשימה: כרטיסים זה לצד זה, בלי סרגל\n  const root=document.querySelector(\".pr\"),cards=[...root.querySelectorAll(\".pr-card\")],track=root.querySelector(\".pr-track\"),\n    ph=root.querySelector(\".pr-ph\"),lbs=[...root.querySelectorAll(\".pr-lb\")],n=cards.length;\n  // בהפחתת תנועה הפונקציה לא רצה, והרשימה נשארת\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const dir=getComputedStyle(root).direction===\"rtl\"?-1:1;           // הראש מתקדם בכיוון הקריאה\n    const lead=.4,seg=1.2,flip=.34,tail=.4,at=k=>lead+k*seg;           // at(k): הרגע שבו הראש על הסימן k\n    gsap.set(cards.slice(1),{opacity:0,rotationY:-90});\n    const tl=gsap.timeline({defaults:{ease:\"none\"},scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.5,invalidateOnRefresh:true}});\n    tl.fromTo(ph,{x:0},{x:()=>dir*track.clientWidth,duration:(n-1)*seg},lead);\n    for(let k=1;k<n;k++){\n      // הכרטיס היוצא מסתובב עד הקצה, והנכנס ממשיך משם: ההחלפה קורית כשאין מה לראות\n      tl.to(cards[k-1],{rotationY:90,opacity:0,duration:flip/2,ease:\"power2.in\"},at(k)-flip/2)\n        .fromTo(cards[k],{rotationY:-90,opacity:0},{rotationY:0,opacity:1,duration:flip/2,ease:\"power2.out\",immediateRender:false},at(k));\n    }\n    tl.to({},{duration:tail});\n    let cur=0;\n    tl.eventCallback(\"onUpdate\",()=>{\n      const i=Math.max(0,Math.min(n-1,Math.floor((tl.time()-lead)/seg+.001)));   // התווית מתחלפת על הסימן, באותו רגע שהכרטיס מסתובב\n      if(i!==cur){cur=i;lbs.forEach((l,j)=>l.classList.toggle(\"on\",j===i));}\n    });\n    return()=>{root.classList.remove(\"is-live\");gsap.set([...cards,ph],{clearProps:\"all\"});lbs.forEach((l,j)=>l.classList.toggle(\"on\",j===0));};\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטוני מוצר ב-prompt-motion.com (21.10.2026), שבהם כרטיס תצוגה אחד מתחלף מעל סרגל זמן עם ראש הפעלה. נבנה מאפס מהצפייה. המארקאפ הוא רשימה: כל סוג עבודה הוא `li` עם התצוגה והכיתוב שלו. בלי GSAP ובהפחתת תנועה זה מה שרואים, כרטיסים זה לצד זה (ובטלפון זה מתחת לזה), והסרגל מוסתר. כשהמהלך רץ הסקריפט מוסיף `is-live`: הרשימה הופכת למקבץ כרטיסים באותו מקום, והסקשן נעשה גבוה עם שכבה דביקה (`sticky`) שנעוצה במסך. הציר: ראש ההפעלה זז לאורך הסרגל לפי ההתקדמות, והסימנים (`.pr-mk`) יושבים בדיוק במקומות שבהם הכרטיס מתחלף. הסרגל, הסימנים והתוויות הם `span` ו-`i` ולא כפתורים, כי זה איור ולא פקד. המעבר: הכרטיס היוצא מסתובב סביב הציר האנכי (`rotationY` עד 90 מעלות) עד שהוא על הקצה ולא נראה, והנכנס ממשיך מאותה נקודה מהצד השני ומסתובב חזרה עד שהוא שטוח. התוכן מוחלף ברגע שאין מה לראות, ולכן המעבר לא נראה כמו חיתוך. כל הכרטיסים נשארים ב-DOM בשקיפות 0 ולא ב-`display:none`, כדי שקורא מסך יקרא את כולם. כיוון: הראש זז מימין לשמאל, כי זה כיוון ההתקדמות בעמוד בעברית. הכיוון נקבע מ-`direction` של הסקשן, ולכן באתר משמאל לימין הוא מתהפך לבד. את התוויות מיישרים לשוליים עם `:dir(ltr)`. מדידה: הרוחב נמדד מהסרגל בכל refresh (`invalidateOnRefresh`), ולכן זה נכון בכל רוחב מסך. כדי להחליף את התצוגות בתמונות או בסרטונים מחליפים את ה-`.pr-shot` בתוך כל כרטיס, והשאר נשאר.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G165 · ראש הפעלה על סרגל שמחליף כרטיס */\n.pr{--pr-a:color-mix(in srgb,var(--ink, #16182b) 9%,transparent);--sh:100%;max-width:1040px;margin-inline:auto}\n.pr:dir(ltr){--sh:-100%}\n.pr-pin{display:grid;gap:40px}\n.pr-copy{display:grid;gap:10px;max-width:46ch}\n.pr-copy h2{margin:0;font-size:clamp(28px,3.4vw,48px);font-weight:700;line-height:1.1;text-wrap:balance}\n.pr-copy p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.pr-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,224px),1fr));gap:20px}\n.pr-card{display:grid;gap:16px;align-content:start;padding:16px;border-radius:24px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 20px 44px color-mix(in srgb,var(--ink, #16182b) 7%,transparent)}\n.pr-cap b{display:block;font-size:19px;font-weight:700}\n.pr-cap span{display:block;margin-top:4px;color:var(--muted, #6a6d85);font-size:15px;line-height:1.5}\n/* התצוגות: ארבעה שרטוטים מקווים וריבועים, כדי שהדמו לא יישען על תמונה */\n.pr-shot{aspect-ratio:4/3;display:grid;gap:10px;padding:14px;overflow:hidden;border-radius:14px;background:var(--bg, #f7f7fa);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}\n.pr-shot i{display:block;border-radius:6px;background:var(--pr-a)}\n.pr-shot .k{background:var(--accent, #4a3aff)}\n.pr-shot .t{height:8px}\n.pr-shot .h{height:14px}\n.pr-shot .col{display:grid;gap:8px;align-content:center}\n.pr-shot .pill{width:46%;height:18px;border-radius:99px}\n.pr-shot .img{border-radius:10px;background:linear-gradient(145deg,color-mix(in srgb,var(--accent, #4a3aff) 38%,transparent),color-mix(in srgb,var(--accent, #4a3aff) 8%,transparent))}\n.pr-shot.a{grid-template:auto 1fr/1.15fr 1fr}\n.pr-shot.a .nav{grid-column:1/-1;width:55%}\n.pr-shot.b{grid-template:auto 1fr/1fr .85fr}\n.pr-shot.b .nav{grid-column:1/-1;width:55%}\n.pr-shot .form{display:grid;gap:8px;align-content:center;padding:12px;border-radius:10px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee)}\n.pr-shot .form i{height:14px;background:var(--bg, #f7f7fa);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}\n.pr-shot .form .k{height:16px;box-shadow:none}\n.pr-shot.c{grid-template:1fr 1fr/1fr 1fr;gap:10px}\n.pr-shot .tile{display:grid;grid-template-rows:1fr auto;gap:6px}\n.pr-shot.d{grid-template:1fr/.4fr 1fr}\n.pr-shot .row{display:grid;grid-template-columns:1.4fr 1fr .6fr;gap:6px}\n.pr-shot .row i{height:10px}\n/* הסרגל: מוסתר בלי תנועה. הסימנים והתוויות יושבים לפי --k (0 עד 1) מצד ההתחלה */\n.pr-ruler{display:none}\n.pr-track{position:absolute;inset-inline:0;top:24px;height:20px;background:repeating-linear-gradient(to right,color-mix(in srgb,var(--muted, #6a6d85) 55%,transparent) 0 1px,transparent 1px 10px) bottom/100% 8px no-repeat;border-bottom:1px solid var(--line, #e4e4ee)}\n.pr-mk{position:absolute;top:-4px;height:26px;inset-inline-start:calc(var(--k) * 100% - 1px);width:2px;border-radius:2px;background:var(--ink, #16182b)}\n.pr-lb{position:absolute;top:52px;inset-inline-start:calc(var(--k) * 100%);translate:calc(var(--k) * var(--sh));font-size:14px;font-weight:600;white-space:nowrap;color:var(--muted, #6a6d85)}\n.pr-lb.on{color:var(--ink, #16182b)}\n.pr-ph{position:absolute;top:0;inset-inline-start:-1px;width:2px;height:56px;border-radius:2px;background:var(--accent, #4a3aff);pointer-events:none}\n.pr-ph::before{content:\"\";position:absolute;top:-2px;left:50%;translate:-50% 0;width:14px;height:12px;background:var(--accent, #4a3aff);clip-path:polygon(0 0,100% 0,50% 100%)}\n/* המהלך רץ: הסקשן גבוה, השכבה הדביקה נעוצה, והכרטיסים נערמים */\n.pr.is-live{height:380vh}\n.pr.is-live .pr-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center;gap:clamp(20px,4vh,40px)}\n.pr.is-live .pr-list{position:relative;display:block;width:min(400px,84vw);aspect-ratio:4/3.5;margin-inline:auto;perspective:1100px}\n.pr.is-live .pr-card{position:absolute;inset:0;grid-template-rows:1fr auto;backface-visibility:hidden}\n.pr.is-live .pr-shot{aspect-ratio:auto}\n.pr.is-live .pr-ruler{display:block;position:relative;width:min(720px,100%);height:76px;margin-inline:auto}\n@media(max-height:760px){.pr.is-live .pr-list{width:min(320px,84vw)}}","html":"<div class=\"stage tight\"><section class=\"pr\" aria-labelledby=\"pr-h\">\n  <div class=\"pr-pin\">\n    <div class=\"pr-copy\"><h2 id=\"pr-h\">ארבעה דברים שאנחנו בונים לעסקים<\/h2><p>כל פרויקט מתחיל בצורך אחר, ולכן לכל סוג יש מבנה, זמן עבודה ומחיר משלו.<\/p><\/div>\n    <ul class=\"pr-list\">\n      <li class=\"pr-card\">\n        <div class=\"pr-shot a\" aria-hidden=\"true\"><i class=\"t nav\"><\/i><div class=\"col\"><i class=\"h\"><\/i><i class=\"h\" style=\"width:70%\"><\/i><i class=\"t\"><\/i><i class=\"t\" style=\"width:80%\"><\/i><i class=\"k pill\"><\/i><\/div><i class=\"img\"><\/i><\/div>\n        <div class=\"pr-cap\"><b>אתר תדמית<\/b><span>מציג את העסק ומוביל מבקרים לפנייה.<\/span><\/div>\n      <\/li>\n      <li class=\"pr-card\">\n        <div class=\"pr-shot b\" aria-hidden=\"true\"><i class=\"t nav\"><\/i><div class=\"col\"><i class=\"h\"><\/i><i class=\"h\" style=\"width:60%\"><\/i><i class=\"t\"><\/i><i class=\"t\" style=\"width:75%\"><\/i><\/div><div class=\"form\"><i><\/i><i><\/i><i><\/i><i class=\"k\"><\/i><\/div><\/div>\n        <div class=\"pr-cap\"><b>דף נחיתה<\/b><span>עמוד אחד לקמפיין, עם טופס אחד ברור.<\/span><\/div>\n      <\/li>\n      <li class=\"pr-card\">\n        <div class=\"pr-shot c\" aria-hidden=\"true\"><div class=\"tile\"><i class=\"img\"><\/i><i class=\"t\" style=\"width:60%\"><\/i><\/div><div class=\"tile\"><i class=\"img\"><\/i><i class=\"t\" style=\"width:45%\"><\/i><\/div><div class=\"tile\"><i class=\"img\"><\/i><i class=\"t\" style=\"width:70%\"><\/i><\/div><div class=\"tile\"><i class=\"img\"><\/i><i class=\"t\" style=\"width:55%\"><\/i><\/div><\/div>\n        <div class=\"pr-cap\"><b>חנות אונליין<\/b><span>קטלוג, עגלה ותשלום מאובטח.<\/span><\/div>\n      <\/li>\n      <li class=\"pr-card\">\n        <div class=\"pr-shot d\" aria-hidden=\"true\"><div class=\"col\" style=\"align-content:start\"><i class=\"t\"><\/i><i class=\"t k\"><\/i><i class=\"t\"><\/i><i class=\"t\"><\/i><\/div><div class=\"col\" style=\"align-content:start\"><i class=\"h\" style=\"width:50%\"><\/i><div class=\"row\"><i><\/i><i><\/i><i class=\"k\"><\/i><\/div><div class=\"row\"><i><\/i><i><\/i><i><\/i><\/div><div class=\"row\"><i><\/i><i><\/i><i class=\"k\"><\/i><\/div><div class=\"row\"><i><\/i><i><\/i><i><\/i><\/div><\/div><\/div>\n        <div class=\"pr-cap\"><b>מערכת ניהול<\/b><span>פניות, לקוחות ותשלומים במקום אחד.<\/span><\/div>\n      <\/li>\n    <\/ul>\n    <div class=\"pr-ruler\" aria-hidden=\"true\">\n      <div class=\"pr-track\"><i class=\"pr-mk\" style=\"--k:0\"><\/i><i class=\"pr-mk\" style=\"--k:.3333\"><\/i><i class=\"pr-mk\" style=\"--k:.6667\"><\/i><i class=\"pr-mk\" style=\"--k:1\"><\/i><\/div>\n      <span class=\"pr-lb on\" style=\"--k:0\">אתר תדמית<\/span><span class=\"pr-lb\" style=\"--k:.3333\">דף נחיתה<\/span><span class=\"pr-lb\" style=\"--k:.6667\">חנות אונליין<\/span><span class=\"pr-lb\" style=\"--k:1\">מערכת ניהול<\/span>\n      <i class=\"pr-ph\"><\/i>\n    <\/div>\n  <\/div>\n<\/section><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשארת הרשימה: כרטיסים זה לצד זה, בלי סרגל\n  const root=document.querySelector(\".pr\"),cards=[...root.querySelectorAll(\".pr-card\")],track=root.querySelector(\".pr-track\"),\n    ph=root.querySelector(\".pr-ph\"),lbs=[...root.querySelectorAll(\".pr-lb\")],n=cards.length;\n  // בהפחתת תנועה הפונקציה לא רצה, והרשימה נשארת\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const dir=getComputedStyle(root).direction===\"rtl\"?-1:1;           // הראש מתקדם בכיוון הקריאה\n    const lead=.4,seg=1.2,flip=.34,tail=.4,at=k=>lead+k*seg;           // at(k): הרגע שבו הראש על הסימן k\n    gsap.set(cards.slice(1),{opacity:0,rotationY:-90});\n    const tl=gsap.timeline({defaults:{ease:\"none\"},scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.5,invalidateOnRefresh:true}});\n    tl.fromTo(ph,{x:0},{x:()=>dir*track.clientWidth,duration:(n-1)*seg},lead);\n    for(let k=1;k<n;k++){\n      // הכרטיס היוצא מסתובב עד הקצה, והנכנס ממשיך משם: ההחלפה קורית כשאין מה לראות\n      tl.to(cards[k-1],{rotationY:90,opacity:0,duration:flip/2,ease:\"power2.in\"},at(k)-flip/2)\n        .fromTo(cards[k],{rotationY:-90,opacity:0},{rotationY:0,opacity:1,duration:flip/2,ease:\"power2.out\",immediateRender:false},at(k));\n    }\n    tl.to({},{duration:tail});\n    let cur=0;\n    tl.eventCallback(\"onUpdate\",()=>{\n      const i=Math.max(0,Math.min(n-1,Math.floor((tl.time()-lead)/seg+.001)));   // התווית מתחלפת על הסימן, באותו רגע שהכרטיס מסתובב\n      if(i!==cur){cur=i;lbs.forEach((l,j)=>l.classList.toggle(\"on\",j===i));}\n    });\n    return()=>{root.classList.remove(\"is-live\");gsap.set([...cards,ph],{clearProps:\"all\"});lbs.forEach((l,j)=>l.classList.toggle(\"on\",j===0));};\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g164.html" rel="prev"><small>→ הקודם</small><b>שמש שעולה מאחורי קו האופק</b></a><a href="g166.html" rel="next"><small>הבא ←</small><b>עורך עם תצוגה חיה בצד</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · ראש הפעלה על סרגל שמחליף כרטיס").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשארת הרשימה: כרטיסים זה לצד זה, בלי סרגל
+  const root=document.querySelector(".pr"),cards=[...root.querySelectorAll(".pr-card")],track=root.querySelector(".pr-track"),
+    ph=root.querySelector(".pr-ph"),lbs=[...root.querySelectorAll(".pr-lb")],n=cards.length;
+  // בהפחתת תנועה הפונקציה לא רצה, והרשימה נשארת
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const dir=getComputedStyle(root).direction==="rtl"?-1:1;           // הראש מתקדם בכיוון הקריאה
+    const lead=.4,seg=1.2,flip=.34,tail=.4,at=k=>lead+k*seg;           // at(k): הרגע שבו הראש על הסימן k
+    gsap.set(cards.slice(1),{opacity:0,rotationY:-90});
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
+    tl.fromTo(ph,{x:0},{x:()=>dir*track.clientWidth,duration:(n-1)*seg},lead);
+    for(let k=1;k<n;k++){
+      // הכרטיס היוצא מסתובב עד הקצה, והנכנס ממשיך משם: ההחלפה קורית כשאין מה לראות
+      tl.to(cards[k-1],{rotationY:90,opacity:0,duration:flip/2,ease:"power2.in"},at(k)-flip/2)
+        .fromTo(cards[k],{rotationY:-90,opacity:0},{rotationY:0,opacity:1,duration:flip/2,ease:"power2.out",immediateRender:false},at(k));
+    }
+    tl.to({},{duration:tail});
+    let cur=0;
+    tl.eventCallback("onUpdate",()=>{
+      const i=Math.max(0,Math.min(n-1,Math.floor((tl.time()-lead)/seg+.001)));   // התווית מתחלפת על הסימן, באותו רגע שהכרטיס מסתובב
+      if(i!==cur){cur=i;lbs.forEach((l,j)=>l.classList.toggle("on",j===i));}
+    });
+    return()=>{root.classList.remove("is-live");gsap.set([...cards,ph],{clearProps:"all"});lbs.forEach((l,j)=>l.classList.toggle("on",j===0));};
+  });
+})();
+</script>
+</body>
+</html>

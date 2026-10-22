@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G179 · מכ"ם שמגלה צמתים ומסמן אחד</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G179 · מכ"ם שמגלה צמתים ומסמן אחד */
+.rd{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);grid-template-areas:"head field" "card field";gap:32px 72px;align-items:center;max-width:1120px;margin-inline:auto}
+.rd-head{grid-area:head;display:grid;gap:16px;align-self:end}
+.rd-head h2{margin:0;font-size:clamp(30px,3.4vw,52px);font-weight:700;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.rd-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6;max-width:44ch}
+.rd-field{grid-area:field;position:relative;width:100%;max-width:520px;aspect-ratio:1;justify-self:center;border-radius:50%;border:1px solid var(--line, #e4e4ee);background:color-mix(in srgb,var(--accent, #4a3aff) 5%,var(--card, #fff))}
+.rd-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.rd-ring{fill:none;stroke:var(--muted, #6a6d85);stroke-opacity:.35;stroke-width:1}
+.rd-cross{stroke:var(--muted, #6a6d85);stroke-opacity:.18;stroke-width:1}
+.rd-s{fill:var(--muted, #6a6d85);fill-opacity:.5}
+.rd-core{fill:var(--accent, #4a3aff)}
+.rd-sweep{position:absolute;inset:0;border-radius:50%;opacity:0;background:conic-gradient(from 0deg at 50% 50%,transparent 0deg 270deg,color-mix(in srgb,var(--accent, #4a3aff) 34%,transparent) 360deg)}
+.rd-sweep::after{content:"";position:absolute;left:50%;top:0;width:2px;height:50%;background:var(--accent, #4a3aff);translate:-50% 0}
+.rd-nodes{list-style:none;margin:0;padding:0;position:absolute;inset:0}
+.rd-n{position:absolute;left:var(--x);top:var(--y);width:0;height:0}
+.rd-n i,.rd-n b,.rd-n u{position:absolute;left:0;top:0;width:10px;height:10px;border-radius:50%;translate:-50% -50%}
+.rd-n i{background:var(--muted, #6a6d85);opacity:.7}
+.rd-n b{background:var(--accent, #4a3aff)}
+.rd-n u{border:2px solid var(--accent, #4a3aff);opacity:0}
+.rd-n em{display:none;position:absolute;left:0;top:0;width:24px;height:24px;border-radius:50%;border:2px solid var(--accent, #4a3aff);translate:-50% -50%}
+.rd-n.is-sel em{display:block}
+.rd-n span{position:absolute;left:0;top:12px;translate:-50% 0;white-space:nowrap;font-size:12px;font-weight:600;line-height:1.3}
+.rd-n s{text-decoration:none;font-weight:400;color:var(--muted, #6a6d85)}
+.rd-card{grid-area:card;align-self:start;display:grid;gap:12px;padding:20px;border-radius:20px;background:var(--card, #fff);border:1px solid var(--line, #e4e4ee);max-width:380px;box-shadow:0 12px 32px color-mix(in srgb,var(--ink, #16182b) 10%,transparent)}
+.rd-who{display:flex;align-items:center;gap:12px}
+.rd-av{flex:none;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:700;font-size:15px}
+.rd-who b{display:block;font-size:17px;font-weight:700;line-height:1.3}
+.rd-who span{display:block;font-size:14px;color:var(--muted, #6a6d85);line-height:1.3}
+.rd-card p{margin:0;font-size:15px;line-height:1.55}
+.rd-card em{justify-self:start;font-style:normal;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;background:color-mix(in srgb,var(--accent, #4a3aff) 14%,var(--card, #fff))}
+@media(max-width:767px){
+.rd{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "field" "card";gap:32px}
+.rd-n span{font-size:11px}
+.rd-n s{display:none}
+.rd-card{max-width:none}
+}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="rd">
+  <div class="rd-head">
+    <h2>המערכת סורקת ומוצאת מי מחכה לשיחה</h2>
+    <p>כל נקודה היא אדם שביקר באתר או כתב הודעה בשבוע האחרון. הסריקה מסמנת מי מהם מתאים לשיחה, ומציגה את המתאים ביותר בכרטיס אחד.</p>
+  </div>
+  <div class="rd-field">
+    <svg class="rd-svg" viewBox="0 0 520 520" aria-hidden="true" focusable="false">
+      <circle class="rd-ring" cx="260" cy="260" r="60"/>
+      <circle class="rd-ring" cx="260" cy="260" r="120"/>
+      <circle class="rd-ring" cx="260" cy="260" r="180"/>
+      <circle class="rd-ring" cx="260" cy="260" r="240"/>
+      <line class="rd-cross" x1="20" y1="260" x2="500" y2="260"/>
+      <line class="rd-cross" x1="260" y1="20" x2="260" y2="500"/>
+      <circle class="rd-s" cx="416.5" cy="406.9" r="2.3"/><circle class="rd-s" cx="431.8" cy="302.5" r="1.9"/><circle class="rd-s" cx="285.3" cy="415.3" r="1.8"/><circle class="rd-s" cx="318.2" cy="139.4" r="1.8"/><circle class="rd-s" cx="356.5" cy="370.8" r="1.8"/><circle class="rd-s" cx="45.1" cy="324.7" r="2.1"/><circle class="rd-s" cx="210.5" cy="148.8" r="2"/><circle class="rd-s" cx="197.5" cy="90.2" r="1.6"/><circle class="rd-s" cx="474.2" cy="190.8" r="1.3"/><circle class="rd-s" cx="434.2" cy="125.5" r="1.9"/><circle class="rd-s" cx="129.1" cy="166.4" r="1.5"/><circle class="rd-s" cx="157.5" cy="105.5" r="1.6"/><circle class="rd-s" cx="393.5" cy="345.4" r="2.2"/><circle class="rd-s" cx="71.5" cy="281.9" r="1.8"/><circle class="rd-s" cx="309.4" cy="186.3" r="1.2"/><circle class="rd-s" cx="435.7" cy="235.7" r="1.2"/><circle class="rd-s" cx="481.8" cy="219.8" r="1.3"/><circle class="rd-s" cx="307.8" cy="395.5" r="1.9"/><circle class="rd-s" cx="115.5" cy="386.7" r="1.8"/><circle class="rd-s" cx="94.3" cy="372.7" r="1.3"/><circle class="rd-s" cx="429.8" cy="258.2" r="2.4"/><circle class="rd-s" cx="294.1" cy="146.7" r="1.7"/><circle class="rd-s" cx="404.6" cy="400.5" r="2.4"/><circle class="rd-s" cx="305.4" cy="364.8" r="1.6"/><circle class="rd-s" cx="438.8" cy="192.5" r="1.6"/><circle class="rd-s" cx="469.1" cy="263.3" r="1.6"/><circle class="rd-s" cx="431.3" cy="255.7" r="1.3"/><circle class="rd-s" cx="164.2" cy="389" r="1.2"/><circle class="rd-s" cx="105.7" cy="140.2" r="2.3"/><circle class="rd-s" cx="168.4" cy="98.4" r="1.4"/>
+      <circle class="rd-core" cx="260" cy="260" r="6"/>
+    </svg>
+    <div class="rd-sweep" aria-hidden="true"></div>
+    <ul class="rd-nodes">
+      <li class="rd-n" data-a="18" style="--x:57.1%;--y:28.1%"><i></i><b></b><u></u><em></em><span>אורי<s>, חנות פרחים</s></span></li>
+      <li class="rd-n" data-a="52" style="--x:81.5%;--y:25.4%"><i></i><b></b><u></u><em></em><span>נועה<s>, קליניקה</s></span></li>
+      <li class="rd-n" data-a="88" style="--x:70%;--y:49.3%"><i></i><b></b><u></u><em></em><span>מאיה<s>, סטודיו</s></span></li>
+      <li class="rd-n is-sel" data-a="118" style="--x:81.8%;--y:66.9%"><i></i><b></b><u></u><em></em><span>דנה<s>, עורכת דין</s></span></li>
+      <li class="rd-n" data-a="150" style="--x:60.5%;--y:68.2%"><i></i><b></b><u></u><em></em><span>ניר<s>, מסעדה</s></span></li>
+      <li class="rd-n" data-a="186" style="--x:45.8%;--y:89.8%"><i></i><b></b><u></u><em></em><span>רונית<s>, גן אירועים</s></span></li>
+      <li class="rd-n" data-a="214" style="--x:35.5%;--y:71.6%"><i></i><b></b><u></u><em></em><span>יואב<s>, מוסך</s></span></li>
+      <li class="rd-n" data-a="246" style="--x:15.3%;--y:65.5%"><i></i><b></b><u></u><em></em><span>לילך<s>, מרצה</s></span></li>
+      <li class="rd-n" data-a="276" style="--x:32.1%;--y:48.1%"><i></i><b></b><u></u><em></em><span>גיא<s>, יועץ מס</s></span></li>
+      <li class="rd-n" data-a="304" style="--x:21.8%;--y:31%"><i></i><b></b><u></u><em></em><span>שירן<s>, מאמנת</s></span></li>
+      <li class="rd-n" data-a="336" style="--x:32.9%;--y:11.6%"><i></i><b></b><u></u><em></em><span>עומר<s>, מעצב</s></span></li>
+    </ul>
+  </div>
+  <article class="rd-card">
+    <div class="rd-who"><div class="rd-av" aria-hidden="true">דכ</div><div><b>דנה כהן</b><span>עורכת דין</span></div></div>
+    <p>ביקרה בדף המחירים פעמיים בשעה האחרונה ופתחה את המייל האחרון.</p>
+    <em>כדאי להתקשר היום</em>
+  </article>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const root=document.querySelector(".rd");if(!root)return;
+  if(typeof gsap==="undefined")return;       // בלי GSAP: כל הצמתים דולקים והכרטיס במקומו
+  gsap.registerPlugin(ScrollTrigger);
+  const q=s=>[...root.querySelectorAll(s)];
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const rings=q(".rd-ring"),scat=q(".rd-s"),core=q(".rd-core"),nodes=q(".rd-n"),sweep=root.querySelector(".rd-sweep"),
+          card=root.querySelector(".rd-card"),sel=root.querySelector(".rd-n.is-sel"),pick=sel.querySelector("em"),
+          dots=q(".rd-n i"),lit=q(".rd-n b"),waves=q(".rd-n u"),tags=q(".rd-n span");
+    const O="260 260",DUR=4,T0=1.4;
+    gsap.set([...rings,...core],{scale:0,svgOrigin:O});
+    gsap.set(scat,{opacity:0});
+    gsap.set(dots,{scale:0});
+    gsap.set(lit,{opacity:0});
+    gsap.set(tags,{autoAlpha:0,y:4});
+    gsap.set(pick,{opacity:0,scale:.6});
+    gsap.set(card,{autoAlpha:0});
+    let tl=null;
+    const run=()=>{
+      // המיקום של הצומת והכרטיס נמדד כאן, כדי שיהיה נכון בכל רוחב
+      const nb=sel.querySelector("i").getBoundingClientRect(),cb=card.getBoundingClientRect();
+      gsap.set(card,{x:nb.left+nb.width/2-(cb.left+cb.width/2),y:nb.top+nb.height/2-(cb.top+cb.height/2),scale:.12,autoAlpha:0});
+      tl=gsap.timeline();
+      tl.to(core,{scale:1,duration:.4,ease:"power3.out"},0)
+        .to(rings,{scale:1,duration:.8,ease:"power3.out",stagger:.15},.2)
+        .to(scat,{opacity:1,duration:.5,stagger:{each:.02,from:"random"}},.6)
+        .to(dots,{scale:1,duration:.35,ease:"power3.out",stagger:{each:.05,from:"random"}},1)
+        .to(sweep,{autoAlpha:1,duration:.3},T0-.2)
+        .fromTo(sweep,{rotation:0},{rotation:360,duration:DUR,ease:"none"},T0)
+        .to(sweep,{autoAlpha:0,duration:.5},T0+DUR);
+      nodes.forEach((n,i)=>{
+        const T=T0+(+n.dataset.a)/360*DUR;
+        tl.fromTo(lit[i],{opacity:0,scale:.4},{opacity:1,scale:1,duration:.35,ease:"power3.out"},T)
+          .fromTo(waves[i],{opacity:.6,scale:1},{opacity:0,scale:3.4,duration:.8,ease:"power2.out"},T)
+          .to(tags[i],{autoAlpha:1,y:0,duration:.35,ease:"power2.out"},T+.05);
+      });
+      const P=T0+DUR+.2;
+      tl.to(pick,{opacity:1,scale:1,duration:.4,ease:"power3.out"},P)
+        .to(card,{x:0,y:0,scale:1,autoAlpha:1,duration:.9,ease:"power3.out"},P+.3);
+    };
+    const st=ScrollTrigger.create({trigger:root.querySelector(".rd-field"),start:"top 75%",once:true,onEnter:run});
+    return()=>{st.kill();if(tl)tl.kill();gsap.set([...rings,...core,...scat,...dots,...lit,...waves,...tags,pick,card,sweep],{clearProps:"all"});};
+  });
+})();
+</script>
+</body>
+</html>

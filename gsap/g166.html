@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G166 · עורך עם תצוגה חיה בצד | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.lp{max-width:1000px;margin-inline:auto;display:grid;gap:40px;justify-items:center}
+.lp-copy{display:grid;gap:10px;max-width:52ch;text-align:center}
+.lp-copy h2{margin:0;font-size:clamp(28px,3.4vw,44px);font-weight:700;line-height:1.1;text-wrap:balance}
+.lp-copy p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.lp-stage{width:100%;perspective:1500px}
+.lp-win{overflow:hidden;border-radius:20px;background:var(--card);box-shadow:0 0 0 1px var(--line),0 32px 72px color-mix(in srgb,var(--ink) 14%,transparent)}
+.lp-bar{display:flex;align-items:center;gap:12px;padding:12px 16px;background:color-mix(in srgb,var(--ink) 4%,var(--card))}
+.lp-dots{display:flex;gap:6px}
+.lp-dots i{display:block;width:10px;height:10px;border-radius:50%;background:color-mix(in srgb,var(--ink) 18%,transparent)}
+.lp-file{margin-inline-start:auto;font-size:13px;color:var(--muted)}
+.lp-heads,.lp-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.lp-heads span{padding:10px 20px;font-size:13px;font-weight:600;color:var(--muted)}
+.lp-heads span:first-child{background:color-mix(in srgb,var(--ink) 4%,var(--card))}
+.lp-body{position:relative}
+.lp-row{display:contents}
+.lp-src,.lp-out{padding:10px 20px;font-size:15px;line-height:1.7}
+.lp-src{background:color-mix(in srgb,var(--ink) 4%,var(--card));font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;white-space:pre-wrap}
+.lp-src .mk{display:inline;direction:ltr;unicode-bidi:isolate;white-space:pre;color:var(--accent);font-weight:700}
+.lp-rest{visibility:hidden}
+.lp-caret{display:none;position:relative;width:0;height:1.15em;vertical-align:text-bottom}
+.lp-caret::after{content:"";position:absolute;inset-block:0;inset-inline-start:0;width:2px;background:var(--accent)}
+.lp-out.h1 .ot{font-size:clamp(20px,2.4vw,26px);font-weight:700;line-height:1.2}
+.lp-out.h2 .ot{font-size:18px;font-weight:700}
+.lp-out.p{color:var(--muted)}
+.lp-out.li,.lp-out.todo{display:flex;gap:10px;align-items:baseline}
+.lp-out.li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent);translate:0 -2px}
+.lp-chk{flex:none;position:relative;width:16px;height:16px;border-radius:5px;background:var(--accent);translate:0 2px}
+.lp-chk::after{content:"";position:absolute;inset-inline-start:5px;top:2px;width:4px;height:8px;border:solid var(--accent-ink);border-width:0 2px 2px 0;rotate:45deg}
+.lp-out.quote{align-self:center}
+.lp-out.quote .ot{display:block;padding:12px 16px;border-radius:12px;font-weight:600;background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.lp-band,.lp-line{position:absolute;inset-inline:0;top:0;opacity:0;pointer-events:none}
+.lp-band{height:1px;transform-origin:0 0;background:color-mix(in srgb,var(--accent) 9%,transparent)}
+.lp-line{height:2px;background:linear-gradient(to left,transparent,var(--accent) 24%,var(--accent) 76%,transparent)}
+.lp.is-live .lp-src.cur .lp-caret{display:inline-block;animation:lp-blink 1.1s steps(1) infinite}
+@keyframes lp-blink{50%{opacity:0}}
+.lp .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:767px){.lp{gap:32px}.lp-src,.lp-out{padding:8px 12px;font-size:13px}.lp-heads span{padding:8px 12px}.lp-bar{padding:10px 12px}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g165.html" rel="prev" title="הקודם: ראש הפעלה על סרגל שמחליף כרטיס">→<span class="sr-only">הקודם</span></a><span class="vpn-n">142/162</span><a href="g167.html" rel="next" title="הבא: תמונה שעוברת מטלפון למחשב">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G166</span> · עורך עם תצוגה חיה בצד</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · 3D tilt</span>
+  <span class="vchip use">טקסט וכותרות</span><span class="vchip use">תהליך ושלבים</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g166"><code>MV:g166</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g166">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>חלון של כלי כתיבה בפרספקטיבה, ובו שני צדדים: בימין הטקסט הגולמי עם סימני העיצוב, ובשמאל איך הוא ייראה. בגלילה השורות נכתבות אות אחר אות, וכל אחת מופיעה בצד השני בצורתה הסופית באותו רגע: כותרת, פסקה, רשימה, תיבת סימון ומשפט מודגש. פס סריקה וצבע רקע קל עוברים בין שני הצדדים ומראים איזו שורה כותבים עכשיו, והחלון מתיישר ככל שהמסמך מתמלא.</p>
+  <p class="when"><b>מתי משתמשים:</b> סקשן של מוצר או כלי שבו הערך הוא ההתאמה בין מה שכותבים למה שמקבלים: עורך הצעות, בונה טפסים, מערכת תבניות, כלי תיעוד. מתאים למסמך קצר אחד (עד שמונה שורות) שיש לו צורה כתובה וצורה מוצגת. לא כשהקהל לא מכיר כלי כתיבה, ולא כשהטקסט ארוך.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית</dd></div><div><dt>בסקשן</dt><dd>בעיה ויתרונות · מאמר ותוכן ארוך · תהליך ושלבים</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>משרת תוכן, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשאין מסמך קצר אחד שיש לו צורה כתובה וצורה מוצגת, לא כשהטקסט ארוך מכ-8 שורות, ולא באתר שהקהל שלו לא מכיר כלי כתיבה.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g166"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><section class="lp" aria-labelledby="lp-h">
+  <div class="lp-copy"><h2 id="lp-h">ההצעה נכתבת ונראית בו זמנית</h2><p>בכלי שלנו כל שורה שנכתבת מופיעה מיד בצורתה הסופית, וכך הלקוח רואה איך המסמך ייראה עוד לפני שהוא נשלח.</p></div>
+  <p class="sr-only">הצעה לאתר החדש. אתר תדמית קצר לקליניקה, שמוביל כל מבקר לפנייה בפחות מדקה. מה כלול: אפיון ומבנה העמודים, עיצוב ופיתוח למובייל ולמחשב, חיבור טופס הפנייה למייל. המחיר: 8,500 ש"ח, כולל שני סבבי תיקונים.</p>
+  <div class="lp-stage" aria-hidden="true">
+    <div class="lp-win">
+      <div class="lp-bar"><span class="lp-dots"><i></i><i></i><i></i></span><span class="lp-file"><bdi dir="ltr">proposal.md</bdi></span></div>
+      <div class="lp-heads"><span>עריכה</span><span>תצוגה</span></div>
+      <div class="lp-body">
+        <i class="lp-band"></i><i class="lp-line"></i>
+        <div class="lp-row"><div class="lp-src"><span class="mk"># </span><span class="tx">הצעה לאתר החדש</span></div><div class="lp-out h1"><span class="ot">הצעה לאתר החדש</span></div></div>
+        <div class="lp-row"><div class="lp-src"><span class="tx">אתר תדמית קצר לקליניקה, שמוביל כל מבקר לפנייה בפחות מדקה.</span></div><div class="lp-out p"><span class="ot">אתר תדמית קצר לקליניקה, שמוביל כל מבקר לפנייה בפחות מדקה.</span></div></div>
+        <div class="lp-row"><div class="lp-src"><span class="mk">## </span><span class="tx">מה כלול</span></div><div class="lp-out h2"><span class="ot">מה כלול</span></div></div>
+        <div class="lp-row"><div class="lp-src"><span class="mk">- </span><span class="tx">אפיון ומבנה העמודים</span></div><div class="lp-out li"><span class="ot">אפיון ומבנה העמודים</span></div></div>
+        <div class="lp-row"><div class="lp-src"><span class="mk">- </span><span class="tx">עיצוב ופיתוח למובייל ולמחשב</span></div><div class="lp-out li"><span class="ot">עיצוב ופיתוח למובייל ולמחשב</span></div></div>
+        <div class="lp-row"><div class="lp-src"><span class="mk">- [x] </span><span class="tx">חיבור טופס הפנייה למייל</span></div><div class="lp-out todo"><span class="lp-chk"></span><span class="ot">חיבור טופס הפנייה למייל</span></div></div>
+        <div class="lp-row"><div class="lp-src"><span class="mk">## </span><span class="tx">המחיר</span></div><div class="lp-out h2"><span class="ot">המחיר</span></div></div>
+        <div class="lp-row"><div class="lp-src"><span class="mk">&gt; </span><span class="tx">8,500 ש"ח, כולל שני סבבי תיקונים</span></div><div class="lp-out quote"><span class="ot">8,500 ש"ח, כולל שני סבבי תיקונים</span></div></div>
+      </div>
+    </div>
+  </div>
+</section></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: שני סרטוני מוצר ב-prompt-motion.com (21.10.2026), שבהם חלון עורך בפרספקטיבה מציג טקסט שנכתב בצד אחד ותצוגה מעוצבת שלו בצד השני. נבנה מאפס מהצפייה. <b>המארקאפ הוא המסמך השלם:</b> כל שורה היא <code>.lp-row</code> עם תא כתיבה (<code>.lp-src</code>, הסימן ב-<code>.mk</code> והטקסט ב-<code>.tx</code>) ותא תצוגה (<code>.lp-out</code>). השורות הן <code>display:contents</code> בתוך גריד אחד, ולכן שני התאים בכל שורה תמיד באותו גובה והפס יכול לחצות את שני הצדדים. בלי GSAP ובהפחתת תנועה רואים את המסמך המלא והחלון שטוח, והחלון כולו <code>aria-hidden</code> עם פסקה ל-<code>sr-only</code> שמקריאה את המסמך. <b>ההקלדה:</b> פונקציה אחת, <code>draw(t)</code>, שמקבלת התקדמות בין 0 ל-1 וממפה אותה למספר תווים כולל. כל שורה מציגה את החלק שהוקלד, וכל מה שעוד לא הוקלד נשאר במקומו בתוך <code>span</code> נסתר (<code>visibility:hidden</code>), כך שגלישת השורות והגובה לא משתנים בזמן הכתיבה. טווין אחד על אובייקט עזר מזין את הפונקציה, ולכן גלילה אחורה מוחקת בדיוק כמו שכתבה. התצוגה של שורה מופיעה עם התו הראשון של הטקסט, אחרי הסימן. <b>הפס:</b> שני אלמנטים (רקע וקו) עוברים לשורה הפעילה רק כשהשורה מתחלפת, ב-<code>y</code> ו-<code>scaleY</code>, ולא בכל פריים. הגבהים נמדדים מהשורה עצמה. <b>הנטייה:</b> <code>rotationY</code> ו-<code>rotationX</code> של החלון יורדים לאפס בשני השלישים הראשונים של הגלילה, בתוך קונטיינר עם <code>perspective</code>. כיוון הנטייה נקבע מ-<code>direction</code>. <b>סמן:</b> פס מהבהב (<code>steps(1)</code>) בשורה הפעילה, רק במצב חי. <b>כיוון:</b> הכתיבה בימין והתצוגה בשמאל כי זה סדר הקריאה בעברית. באתר משמאל לימין העמודות מתהפכות לבד. סימני העיצוב מבודדים ב-<code>unicode-bidi:isolate</code> כדי שלא יתהפכו בתוך שורה בעברית. אין גלילה נעוצה, ולכן אין מה להתאים בטלפון חוץ מרווחים וגודל כתב.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g166.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G166 · עורך עם תצוגה חיה בצד */
+.lp{max-width:1000px;margin-inline:auto;display:grid;gap:40px;justify-items:center}
+.lp-copy{display:grid;gap:10px;max-width:52ch;text-align:center}
+.lp-copy h2{margin:0;font-size:clamp(28px,3.4vw,44px);font-weight:700;line-height:1.1;text-wrap:balance}
+.lp-copy p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.lp-stage{width:100%;perspective:1500px}
+.lp-win{overflow:hidden;border-radius:20px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 32px 72px color-mix(in srgb,var(--ink, #16182b) 14%,transparent)}
+.lp-bar{display:flex;align-items:center;gap:12px;padding:12px 16px;background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--card, #fff))}
+.lp-dots{display:flex;gap:6px}
+.lp-dots i{display:block;width:10px;height:10px;border-radius:50%;background:color-mix(in srgb,var(--ink, #16182b) 18%,transparent)}
+.lp-file{margin-inline-start:auto;font-size:13px;color:var(--muted, #6a6d85)}
+.lp-heads,.lp-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.lp-heads span{padding:10px 20px;font-size:13px;font-weight:600;color:var(--muted, #6a6d85)}
+.lp-heads span:first-child{background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--card, #fff))}
+.lp-body{position:relative}
+.lp-row{display:contents}
+.lp-src,.lp-out{padding:10px 20px;font-size:15px;line-height:1.7}
+.lp-src{background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--card, #fff));font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;white-space:pre-wrap}
+.lp-src .mk{display:inline;direction:ltr;unicode-bidi:isolate;white-space:pre;color:var(--accent, #4a3aff);font-weight:700}
+.lp-rest{visibility:hidden}
+.lp-caret{display:none;position:relative;width:0;height:1.15em;vertical-align:text-bottom}
+.lp-caret::after{content:"";position:absolute;inset-block:0;inset-inline-start:0;width:2px;background:var(--accent, #4a3aff)}
+.lp-out.h1 .ot{font-size:clamp(20px,2.4vw,26px);font-weight:700;line-height:1.2}
+.lp-out.h2 .ot{font-size:18px;font-weight:700}
+.lp-out.p{color:var(--muted, #6a6d85)}
+.lp-out.li,.lp-out.todo{display:flex;gap:10px;align-items:baseline}
+.lp-out.li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent, #4a3aff);translate:0 -2px}
+.lp-chk{flex:none;position:relative;width:16px;height:16px;border-radius:5px;background:var(--accent, #4a3aff);translate:0 2px}
+.lp-chk::after{content:"";position:absolute;inset-inline-start:5px;top:2px;width:4px;height:8px;border:solid var(--accent-ink, #fff);border-width:0 2px 2px 0;rotate:45deg}
+.lp-out.quote{align-self:center}
+.lp-out.quote .ot{display:block;padding:12px 16px;border-radius:12px;font-weight:600;background:color-mix(in srgb,var(--accent, #4a3aff) 12%,transparent)}
+.lp-band,.lp-line{position:absolute;inset-inline:0;top:0;opacity:0;pointer-events:none}
+.lp-band{height:1px;transform-origin:0 0;background:color-mix(in srgb,var(--accent, #4a3aff) 9%,transparent)}
+.lp-line{height:2px;background:linear-gradient(to left,transparent,var(--accent, #4a3aff) 24%,var(--accent, #4a3aff) 76%,transparent)}
+.lp.is-live .lp-src.cur .lp-caret{display:inline-block;animation:lp-blink 1.1s steps(1) infinite}
+@keyframes lp-blink{50%{opacity:0}}
+.lp .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:767px){.lp{gap:32px}.lp-src,.lp-out{padding:8px 12px;font-size:13px}.lp-heads span{padding:8px 12px}.lp-bar{padding:10px 12px}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;section class="lp" aria-labelledby="lp-h"&gt;
+  &lt;div class="lp-copy"&gt;&lt;h2 id="lp-h"&gt;ההצעה נכתבת ונראית בו זמנית&lt;/h2&gt;&lt;p&gt;בכלי שלנו כל שורה שנכתבת מופיעה מיד בצורתה הסופית, וכך הלקוח רואה איך המסמך ייראה עוד לפני שהוא נשלח.&lt;/p&gt;&lt;/div&gt;
+  &lt;p class="sr-only"&gt;הצעה לאתר החדש. אתר תדמית קצר לקליניקה, שמוביל כל מבקר לפנייה בפחות מדקה. מה כלול: אפיון ומבנה העמודים, עיצוב ופיתוח למובייל ולמחשב, חיבור טופס הפנייה למייל. המחיר: 8,500 ש"ח, כולל שני סבבי תיקונים.&lt;/p&gt;
+  &lt;div class="lp-stage" aria-hidden="true"&gt;
+    &lt;div class="lp-win"&gt;
+      &lt;div class="lp-bar"&gt;&lt;span class="lp-dots"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/span&gt;&lt;span class="lp-file"&gt;&lt;bdi dir="ltr"&gt;proposal.md&lt;/bdi&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="lp-heads"&gt;&lt;span&gt;עריכה&lt;/span&gt;&lt;span&gt;תצוגה&lt;/span&gt;&lt;/div&gt;
+      &lt;div class="lp-body"&gt;
+        &lt;i class="lp-band"&gt;&lt;/i&gt;&lt;i class="lp-line"&gt;&lt;/i&gt;
+        &lt;div class="lp-row"&gt;&lt;div class="lp-src"&gt;&lt;span class="mk"&gt;# &lt;/span&gt;&lt;span class="tx"&gt;הצעה לאתר החדש&lt;/span&gt;&lt;/div&gt;&lt;div class="lp-out h1"&gt;&lt;span class="ot"&gt;הצעה לאתר החדש&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="lp-row"&gt;&lt;div class="lp-src"&gt;&lt;span class="tx"&gt;אתר תדמית קצר לקליניקה, שמוביל כל מבקר לפנייה בפחות מדקה.&lt;/span&gt;&lt;/div&gt;&lt;div class="lp-out p"&gt;&lt;span class="ot"&gt;אתר תדמית קצר לקליניקה, שמוביל כל מבקר לפנייה בפחות מדקה.&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="lp-row"&gt;&lt;div class="lp-src"&gt;&lt;span class="mk"&gt;## &lt;/span&gt;&lt;span class="tx"&gt;מה כלול&lt;/span&gt;&lt;/div&gt;&lt;div class="lp-out h2"&gt;&lt;span class="ot"&gt;מה כלול&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="lp-row"&gt;&lt;div class="lp-src"&gt;&lt;span class="mk"&gt;- &lt;/span&gt;&lt;span class="tx"&gt;אפיון ומבנה העמודים&lt;/span&gt;&lt;/div&gt;&lt;div class="lp-out li"&gt;&lt;span class="ot"&gt;אפיון ומבנה העמודים&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="lp-row"&gt;&lt;div class="lp-src"&gt;&lt;span class="mk"&gt;- &lt;/span&gt;&lt;span class="tx"&gt;עיצוב ופיתוח למובייל ולמחשב&lt;/span&gt;&lt;/div&gt;&lt;div class="lp-out li"&gt;&lt;span class="ot"&gt;עיצוב ופיתוח למובייל ולמחשב&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="lp-row"&gt;&lt;div class="lp-src"&gt;&lt;span class="mk"&gt;- [x] &lt;/span&gt;&lt;span class="tx"&gt;חיבור טופס הפנייה למייל&lt;/span&gt;&lt;/div&gt;&lt;div class="lp-out todo"&gt;&lt;span class="lp-chk"&gt;&lt;/span&gt;&lt;span class="ot"&gt;חיבור טופס הפנייה למייל&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="lp-row"&gt;&lt;div class="lp-src"&gt;&lt;span class="mk"&gt;## &lt;/span&gt;&lt;span class="tx"&gt;המחיר&lt;/span&gt;&lt;/div&gt;&lt;div class="lp-out h2"&gt;&lt;span class="ot"&gt;המחיר&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="lp-row"&gt;&lt;div class="lp-src"&gt;&lt;span class="mk"&gt;&amp;gt; &lt;/span&gt;&lt;span class="tx"&gt;8,500 ש"ח, כולל שני סבבי תיקונים&lt;/span&gt;&lt;/div&gt;&lt;div class="lp-out quote"&gt;&lt;span class="ot"&gt;8,500 ש"ח, כולל שני סבבי תיקונים&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר המסמך המלא והחלון שטוח
+  const root=document.querySelector(".lp"),stage=root.querySelector(".lp-stage"),win=root.querySelector(".lp-win"),
+    band=root.querySelector(".lp-band"),line=root.querySelector(".lp-line");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    const dir=getComputedStyle(root).direction==="rtl"?-1:1;
+    // כל מקטע טקסט הופך לשלושה חלקים: מה שהוקלד, סמן, וההמשך הנסתר ששומר על גלישת השורות
+    const split=(el,caret)=&gt;{
+      const full=el.textContent;el.textContent="";
+      const a=document.createTextNode(full),b=document.createElement("span");b.className="lp-rest";
+      const c=caret?Object.assign(document.createElement("i"),{className:"lp-caret"}):null;
+      if(c)c.setAttribute("aria-hidden","true");
+      el.append(...[a,c,b].filter(Boolean));
+      return {el,full,a,b};
+    };
+    const put=(p,k)=&gt;{p.a.nodeValue=p.full.slice(0,k);p.b.textContent=p.full.slice(k);};
+    let N=0;
+    const R=[...root.querySelectorAll(".lp-row")].map(r=&gt;{
+      const src=r.querySelector(".lp-src"),out=r.querySelector(".lp-out"),mk=src.querySelector(".mk"),tx=src.querySelector(".tx");
+      const row={src,out,mk:mk&amp;&amp;split(mk),tx:split(tx,true),ot:split(out.querySelector(".ot")),off:N};
+      row.m=mk?row.mk.full.length:0;row.len=row.m+row.tx.full.length;N+=row.len;
+      return row;
+    });
+    let cur=-2;
+    const focusRow=i=&gt;{
+      if(i===cur)return;
+      const first=cur&lt;0;cur=i;
+      R.forEach((r,j)=&gt;{r.src.classList.toggle("cur",j===i);});
+      if(i&lt;0){gsap.to([band,line],{opacity:0,duration:.3,overwrite:"auto"});return;}
+      const top=R[i].src.offsetTop,h=R[i].src.offsetHeight;
+      if(first)gsap.set([band,line],{y:top});                           // בכניסה הראשונה הפס כבר על השורה, בלי לטוס מלמעלה
+      gsap.to(band,{y:top,scaleY:h,opacity:1,duration:.3,ease:"power2.out",overwrite:"auto"});
+      gsap.to(line,{y:top+h-1,opacity:1,duration:.3,ease:"power2.out",overwrite:"auto"});
+    };
+    const draw=t=&gt;{
+      const n=t*N;let last=-1;
+      R.forEach((r,i)=&gt;{
+        const k=Math.max(0,Math.min(r.len,Math.round(n-r.off))),km=Math.min(k,r.m),kt=Math.max(0,k-r.m);
+        if(r.mk)put(r.mk,km);
+        put(r.tx,kt);put(r.ot,kt);
+        r.out.style.opacity=kt&gt;0?1:0;
+        if(k&gt;0)last=i;
+      });
+      focusRow(t&gt;=.999?-1:last);
+    };
+    const st={t:0};
+    gsap.set(win,{rotationY:12*dir,rotationX:6});
+    draw(0);
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:stage,start:"top 75%",end:"bottom 66%",scrub:.4,invalidateOnRefresh:true}});
+    tl.to(win,{rotationY:0,rotationX:0,duration:.66},0)
+      .to(st,{t:1,duration:1,onUpdate:()=&gt;draw(st.t)},0);
+    const refit=()=&gt;{if(cur&gt;=0){const i=cur;cur=-2;focusRow(i);}};
+    ScrollTrigger.addEventListener("refresh",refit);
+    return()=&gt;{
+      ScrollTrigger.removeEventListener("refresh",refit);
+      root.classList.remove("is-live");
+      R.forEach(r=&gt;{[r.mk,r.tx,r.ot].forEach(p=&gt;{if(p)p.el.textContent=p.full;});r.out.style.opacity="";r.src.classList.remove("cur");});
+      gsap.set([win,band,line],{clearProps:"all"});
+    };
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g166 · עורך עם תצוגה חיה בצד\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g166.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g166.html\n\nמה זה עושה: חלון של כלי כתיבה בפרספקטיבה, ובו שני צדדים: בימין הטקסט הגולמי עם סימני העיצוב, ובשמאל איך הוא ייראה. בגלילה השורות נכתבות אות אחר אות, וכל אחת מופיעה בצד השני בצורתה הסופית באותו רגע: כותרת, פסקה, רשימה, תיבת סימון ומשפט מודגש. פס סריקה וצבע רקע קל עוברים בין שני הצדדים ומראים איזו שורה כותבים עכשיו, והחלון מתיישר ככל שהמסמך מתמלא.\nמתי משתמשים: סקשן של מוצר או כלי שבו הערך הוא ההתאמה בין מה שכותבים למה שמקבלים: עורך הצעות, בונה טפסים, מערכת תבניות, כלי תיעוד. מתאים למסמך קצר אחד (עד שמונה שורות) שיש לו צורה כתובה וצורה מוצגת. לא כשהקהל לא מכיר כלי כתיבה, ולא כשהטקסט ארוך.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית\nבסקשן: בעיה ויתרונות · מאמר ותוכן ארוך · תהליך ושלבים\nאופי: גם באתר שקט\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא כשאין מסמך קצר אחד שיש לו צורה כתובה וצורה מוצגת, לא כשהטקסט ארוך מכ-8 שורות, ולא באתר שהקהל שלו לא מכיר כלי כתיבה.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G166 · עורך עם תצוגה חיה בצד */\n.lp{max-width:1000px;margin-inline:auto;display:grid;gap:40px;justify-items:center}\n.lp-copy{display:grid;gap:10px;max-width:52ch;text-align:center}\n.lp-copy h2{margin:0;font-size:clamp(28px,3.4vw,44px);font-weight:700;line-height:1.1;text-wrap:balance}\n.lp-copy p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.lp-stage{width:100%;perspective:1500px}\n.lp-win{overflow:hidden;border-radius:20px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 32px 72px color-mix(in srgb,var(--ink, #16182b) 14%,transparent)}\n.lp-bar{display:flex;align-items:center;gap:12px;padding:12px 16px;background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--card, #fff))}\n.lp-dots{display:flex;gap:6px}\n.lp-dots i{display:block;width:10px;height:10px;border-radius:50%;background:color-mix(in srgb,var(--ink, #16182b) 18%,transparent)}\n.lp-file{margin-inline-start:auto;font-size:13px;color:var(--muted, #6a6d85)}\n.lp-heads,.lp-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}\n.lp-heads span{padding:10px 20px;font-size:13px;font-weight:600;color:var(--muted, #6a6d85)}\n.lp-heads span:first-child{background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--card, #fff))}\n.lp-body{position:relative}\n.lp-row{display:contents}\n.lp-src,.lp-out{padding:10px 20px;font-size:15px;line-height:1.7}\n.lp-src{background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--card, #fff));font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;white-space:pre-wrap}\n.lp-src .mk{display:inline;direction:ltr;unicode-bidi:isolate;white-space:pre;color:var(--accent, #4a3aff);font-weight:700}\n.lp-rest{visibility:hidden}\n.lp-caret{display:none;position:relative;width:0;height:1.15em;vertical-align:text-bottom}\n.lp-caret::after{content:\"\";position:absolute;inset-block:0;inset-inline-start:0;width:2px;background:var(--accent, #4a3aff)}\n.lp-out.h1 .ot{font-size:clamp(20px,2.4vw,26px);font-weight:700;line-height:1.2}\n.lp-out.h2 .ot{font-size:18px;font-weight:700}\n.lp-out.p{color:var(--muted, #6a6d85)}\n.lp-out.li,.lp-out.todo{display:flex;gap:10px;align-items:baseline}\n.lp-out.li::before{content:\"\";flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent, #4a3aff);translate:0 -2px}\n.lp-chk{flex:none;position:relative;width:16px;height:16px;border-radius:5px;background:var(--accent, #4a3aff);translate:0 2px}\n.lp-chk::after{content:\"\";position:absolute;inset-inline-start:5px;top:2px;width:4px;height:8px;border:solid var(--accent-ink, #fff);border-width:0 2px 2px 0;rotate:45deg}\n.lp-out.quote{align-self:center}\n.lp-out.quote .ot{display:block;padding:12px 16px;border-radius:12px;font-weight:600;background:color-mix(in srgb,var(--accent, #4a3aff) 12%,transparent)}\n.lp-band,.lp-line{position:absolute;inset-inline:0;top:0;opacity:0;pointer-events:none}\n.lp-band{height:1px;transform-origin:0 0;background:color-mix(in srgb,var(--accent, #4a3aff) 9%,transparent)}\n.lp-line{height:2px;background:linear-gradient(to left,transparent,var(--accent, #4a3aff) 24%,var(--accent, #4a3aff) 76%,transparent)}\n.lp.is-live .lp-src.cur .lp-caret{display:inline-block;animation:lp-blink 1.1s steps(1) infinite}\n@keyframes lp-blink{50%{opacity:0}}\n.lp .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n@media(max-width:767px){.lp{gap:32px}.lp-src,.lp-out{padding:8px 12px;font-size:13px}.lp-heads span{padding:8px 12px}.lp-bar{padding:10px 12px}}\n\n=== HTML ===\n<div class=\"stage\"><section class=\"lp\" aria-labelledby=\"lp-h\">\n  <div class=\"lp-copy\"><h2 id=\"lp-h\">ההצעה נכתבת ונראית בו זמנית<\/h2><p>בכלי שלנו כל שורה שנכתבת מופיעה מיד בצורתה הסופית, וכך הלקוח רואה איך המסמך ייראה עוד לפני שהוא נשלח.<\/p><\/div>\n  <p class=\"sr-only\">הצעה לאתר החדש. אתר תדמית קצר לקליניקה, שמוביל כל מבקר לפנייה בפחות מדקה. מה כלול: אפיון ומבנה העמודים, עיצוב ופיתוח למובייל ולמחשב, חיבור טופס הפנייה למייל. המחיר: 8,500 ש\"ח, כולל שני סבבי תיקונים.<\/p>\n  <div class=\"lp-stage\" aria-hidden=\"true\">\n    <div class=\"lp-win\">\n      <div class=\"lp-bar\"><span class=\"lp-dots\"><i><\/i><i><\/i><i><\/i><\/span><span class=\"lp-file\"><bdi dir=\"ltr\">proposal.md<\/bdi><\/span><\/div>\n      <div class=\"lp-heads\"><span>עריכה<\/span><span>תצוגה<\/span><\/div>\n      <div class=\"lp-body\">\n        <i class=\"lp-band\"><\/i><i class=\"lp-line\"><\/i>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"mk\"># <\/span><span class=\"tx\">הצעה לאתר החדש<\/span><\/div><div class=\"lp-out h1\"><span class=\"ot\">הצעה לאתר החדש<\/span><\/div><\/div>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"tx\">אתר תדמית קצר לקליניקה, שמוביל כל מבקר לפנייה בפחות מדקה.<\/span><\/div><div class=\"lp-out p\"><span class=\"ot\">אתר תדמית קצר לקליניקה, שמוביל כל מבקר לפנייה בפחות מדקה.<\/span><\/div><\/div>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"mk\">## <\/span><span class=\"tx\">מה כלול<\/span><\/div><div class=\"lp-out h2\"><span class=\"ot\">מה כלול<\/span><\/div><\/div>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"mk\">- <\/span><span class=\"tx\">אפיון ומבנה העמודים<\/span><\/div><div class=\"lp-out li\"><span class=\"ot\">אפיון ומבנה העמודים<\/span><\/div><\/div>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"mk\">- <\/span><span class=\"tx\">עיצוב ופיתוח למובייל ולמחשב<\/span><\/div><div class=\"lp-out li\"><span class=\"ot\">עיצוב ופיתוח למובייל ולמחשב<\/span><\/div><\/div>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"mk\">- [x] <\/span><span class=\"tx\">חיבור טופס הפנייה למייל<\/span><\/div><div class=\"lp-out todo\"><span class=\"lp-chk\"><\/span><span class=\"ot\">חיבור טופס הפנייה למייל<\/span><\/div><\/div>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"mk\">## <\/span><span class=\"tx\">המחיר<\/span><\/div><div class=\"lp-out h2\"><span class=\"ot\">המחיר<\/span><\/div><\/div>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"mk\">&gt; <\/span><span class=\"tx\">8,500 ש\"ח, כולל שני סבבי תיקונים<\/span><\/div><div class=\"lp-out quote\"><span class=\"ot\">8,500 ש\"ח, כולל שני סבבי תיקונים<\/span><\/div><\/div>\n      <\/div>\n    <\/div>\n  <\/div>\n<\/section><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשאר המסמך המלא והחלון שטוח\n  const root=document.querySelector(\".lp\"),stage=root.querySelector(\".lp-stage\"),win=root.querySelector(\".lp-win\"),\n    band=root.querySelector(\".lp-band\"),line=root.querySelector(\".lp-line\");\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const dir=getComputedStyle(root).direction===\"rtl\"?-1:1;\n    // כל מקטע טקסט הופך לשלושה חלקים: מה שהוקלד, סמן, וההמשך הנסתר ששומר על גלישת השורות\n    const split=(el,caret)=>{\n      const full=el.textContent;el.textContent=\"\";\n      const a=document.createTextNode(full),b=document.createElement(\"span\");b.className=\"lp-rest\";\n      const c=caret?Object.assign(document.createElement(\"i\"),{className:\"lp-caret\"}):null;\n      if(c)c.setAttribute(\"aria-hidden\",\"true\");\n      el.append(...[a,c,b].filter(Boolean));\n      return {el,full,a,b};\n    };\n    const put=(p,k)=>{p.a.nodeValue=p.full.slice(0,k);p.b.textContent=p.full.slice(k);};\n    let N=0;\n    const R=[...root.querySelectorAll(\".lp-row\")].map(r=>{\n      const src=r.querySelector(\".lp-src\"),out=r.querySelector(\".lp-out\"),mk=src.querySelector(\".mk\"),tx=src.querySelector(\".tx\");\n      const row={src,out,mk:mk&&split(mk),tx:split(tx,true),ot:split(out.querySelector(\".ot\")),off:N};\n      row.m=mk?row.mk.full.length:0;row.len=row.m+row.tx.full.length;N+=row.len;\n      return row;\n    });\n    let cur=-2;\n    const focusRow=i=>{\n      if(i===cur)return;\n      const first=cur<0;cur=i;\n      R.forEach((r,j)=>{r.src.classList.toggle(\"cur\",j===i);});\n      if(i<0){gsap.to([band,line],{opacity:0,duration:.3,overwrite:\"auto\"});return;}\n      const top=R[i].src.offsetTop,h=R[i].src.offsetHeight;\n      if(first)gsap.set([band,line],{y:top});                           // בכניסה הראשונה הפס כבר על השורה, בלי לטוס מלמעלה\n      gsap.to(band,{y:top,scaleY:h,opacity:1,duration:.3,ease:\"power2.out\",overwrite:\"auto\"});\n      gsap.to(line,{y:top+h-1,opacity:1,duration:.3,ease:\"power2.out\",overwrite:\"auto\"});\n    };\n    const draw=t=>{\n      const n=t*N;let last=-1;\n      R.forEach((r,i)=>{\n        const k=Math.max(0,Math.min(r.len,Math.round(n-r.off))),km=Math.min(k,r.m),kt=Math.max(0,k-r.m);\n        if(r.mk)put(r.mk,km);\n        put(r.tx,kt);put(r.ot,kt);\n        r.out.style.opacity=kt>0?1:0;\n        if(k>0)last=i;\n      });\n      focusRow(t>=.999?-1:last);\n    };\n    const st={t:0};\n    gsap.set(win,{rotationY:12*dir,rotationX:6});\n    draw(0);\n    const tl=gsap.timeline({defaults:{ease:\"none\"},scrollTrigger:{trigger:stage,start:\"top 75%\",end:\"bottom 66%\",scrub:.4,invalidateOnRefresh:true}});\n    tl.to(win,{rotationY:0,rotationX:0,duration:.66},0)\n      .to(st,{t:1,duration:1,onUpdate:()=>draw(st.t)},0);\n    const refit=()=>{if(cur>=0){const i=cur;cur=-2;focusRow(i);}};\n    ScrollTrigger.addEventListener(\"refresh\",refit);\n    return()=>{\n      ScrollTrigger.removeEventListener(\"refresh\",refit);\n      root.classList.remove(\"is-live\");\n      R.forEach(r=>{[r.mk,r.tx,r.ot].forEach(p=>{if(p)p.el.textContent=p.full;});r.out.style.opacity=\"\";r.src.classList.remove(\"cur\");});\n      gsap.set([win,band,line],{clearProps:\"all\"});\n    };\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: שני סרטוני מוצר ב-prompt-motion.com (21.10.2026), שבהם חלון עורך בפרספקטיבה מציג טקסט שנכתב בצד אחד ותצוגה מעוצבת שלו בצד השני. נבנה מאפס מהצפייה. המארקאפ הוא המסמך השלם: כל שורה היא `.lp-row` עם תא כתיבה (`.lp-src`, הסימן ב-`.mk` והטקסט ב-`.tx`) ותא תצוגה (`.lp-out`). השורות הן `display:contents` בתוך גריד אחד, ולכן שני התאים בכל שורה תמיד באותו גובה והפס יכול לחצות את שני הצדדים. בלי GSAP ובהפחתת תנועה רואים את המסמך המלא והחלון שטוח, והחלון כולו `aria-hidden` עם פסקה ל-`sr-only` שמקריאה את המסמך. ההקלדה: פונקציה אחת, `draw(t)`, שמקבלת התקדמות בין 0 ל-1 וממפה אותה למספר תווים כולל. כל שורה מציגה את החלק שהוקלד, וכל מה שעוד לא הוקלד נשאר במקומו בתוך `span` נסתר (`visibility:hidden`), כך שגלישת השורות והגובה לא משתנים בזמן הכתיבה. טווין אחד על אובייקט עזר מזין את הפונקציה, ולכן גלילה אחורה מוחקת בדיוק כמו שכתבה. התצוגה של שורה מופיעה עם התו הראשון של הטקסט, אחרי הסימן. הפס: שני אלמנטים (רקע וקו) עוברים לשורה הפעילה רק כשהשורה מתחלפת, ב-`y` ו-`scaleY`, ולא בכל פריים. הגבהים נמדדים מהשורה עצמה. הנטייה: `rotationY` ו-`rotationX` של החלון יורדים לאפס בשני השלישים הראשונים של הגלילה, בתוך קונטיינר עם `perspective`. כיוון הנטייה נקבע מ-`direction`. סמן: פס מהבהב (`steps(1)`) בשורה הפעילה, רק במצב חי. כיוון: הכתיבה בימין והתצוגה בשמאל כי זה סדר הקריאה בעברית. באתר משמאל לימין העמודות מתהפכות לבד. סימני העיצוב מבודדים ב-`unicode-bidi:isolate` כדי שלא יתהפכו בתוך שורה בעברית. אין גלילה נעוצה, ולכן אין מה להתאים בטלפון חוץ מרווחים וגודל כתב.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G166 · עורך עם תצוגה חיה בצד */\n.lp{max-width:1000px;margin-inline:auto;display:grid;gap:40px;justify-items:center}\n.lp-copy{display:grid;gap:10px;max-width:52ch;text-align:center}\n.lp-copy h2{margin:0;font-size:clamp(28px,3.4vw,44px);font-weight:700;line-height:1.1;text-wrap:balance}\n.lp-copy p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.lp-stage{width:100%;perspective:1500px}\n.lp-win{overflow:hidden;border-radius:20px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 32px 72px color-mix(in srgb,var(--ink, #16182b) 14%,transparent)}\n.lp-bar{display:flex;align-items:center;gap:12px;padding:12px 16px;background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--card, #fff))}\n.lp-dots{display:flex;gap:6px}\n.lp-dots i{display:block;width:10px;height:10px;border-radius:50%;background:color-mix(in srgb,var(--ink, #16182b) 18%,transparent)}\n.lp-file{margin-inline-start:auto;font-size:13px;color:var(--muted, #6a6d85)}\n.lp-heads,.lp-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}\n.lp-heads span{padding:10px 20px;font-size:13px;font-weight:600;color:var(--muted, #6a6d85)}\n.lp-heads span:first-child{background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--card, #fff))}\n.lp-body{position:relative}\n.lp-row{display:contents}\n.lp-src,.lp-out{padding:10px 20px;font-size:15px;line-height:1.7}\n.lp-src{background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--card, #fff));font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;white-space:pre-wrap}\n.lp-src .mk{display:inline;direction:ltr;unicode-bidi:isolate;white-space:pre;color:var(--accent, #4a3aff);font-weight:700}\n.lp-rest{visibility:hidden}\n.lp-caret{display:none;position:relative;width:0;height:1.15em;vertical-align:text-bottom}\n.lp-caret::after{content:\"\";position:absolute;inset-block:0;inset-inline-start:0;width:2px;background:var(--accent, #4a3aff)}\n.lp-out.h1 .ot{font-size:clamp(20px,2.4vw,26px);font-weight:700;line-height:1.2}\n.lp-out.h2 .ot{font-size:18px;font-weight:700}\n.lp-out.p{color:var(--muted, #6a6d85)}\n.lp-out.li,.lp-out.todo{display:flex;gap:10px;align-items:baseline}\n.lp-out.li::before{content:\"\";flex:none;width:6px;height:6px;border-radius:50%;background:var(--accent, #4a3aff);translate:0 -2px}\n.lp-chk{flex:none;position:relative;width:16px;height:16px;border-radius:5px;background:var(--accent, #4a3aff);translate:0 2px}\n.lp-chk::after{content:\"\";position:absolute;inset-inline-start:5px;top:2px;width:4px;height:8px;border:solid var(--accent-ink, #fff);border-width:0 2px 2px 0;rotate:45deg}\n.lp-out.quote{align-self:center}\n.lp-out.quote .ot{display:block;padding:12px 16px;border-radius:12px;font-weight:600;background:color-mix(in srgb,var(--accent, #4a3aff) 12%,transparent)}\n.lp-band,.lp-line{position:absolute;inset-inline:0;top:0;opacity:0;pointer-events:none}\n.lp-band{height:1px;transform-origin:0 0;background:color-mix(in srgb,var(--accent, #4a3aff) 9%,transparent)}\n.lp-line{height:2px;background:linear-gradient(to left,transparent,var(--accent, #4a3aff) 24%,var(--accent, #4a3aff) 76%,transparent)}\n.lp.is-live .lp-src.cur .lp-caret{display:inline-block;animation:lp-blink 1.1s steps(1) infinite}\n@keyframes lp-blink{50%{opacity:0}}\n.lp .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n@media(max-width:767px){.lp{gap:32px}.lp-src,.lp-out{padding:8px 12px;font-size:13px}.lp-heads span{padding:8px 12px}.lp-bar{padding:10px 12px}}","html":"<div class=\"stage\"><section class=\"lp\" aria-labelledby=\"lp-h\">\n  <div class=\"lp-copy\"><h2 id=\"lp-h\">ההצעה נכתבת ונראית בו זמנית<\/h2><p>בכלי שלנו כל שורה שנכתבת מופיעה מיד בצורתה הסופית, וכך הלקוח רואה איך המסמך ייראה עוד לפני שהוא נשלח.<\/p><\/div>\n  <p class=\"sr-only\">הצעה לאתר החדש. אתר תדמית קצר לקליניקה, שמוביל כל מבקר לפנייה בפחות מדקה. מה כלול: אפיון ומבנה העמודים, עיצוב ופיתוח למובייל ולמחשב, חיבור טופס הפנייה למייל. המחיר: 8,500 ש\"ח, כולל שני סבבי תיקונים.<\/p>\n  <div class=\"lp-stage\" aria-hidden=\"true\">\n    <div class=\"lp-win\">\n      <div class=\"lp-bar\"><span class=\"lp-dots\"><i><\/i><i><\/i><i><\/i><\/span><span class=\"lp-file\"><bdi dir=\"ltr\">proposal.md<\/bdi><\/span><\/div>\n      <div class=\"lp-heads\"><span>עריכה<\/span><span>תצוגה<\/span><\/div>\n      <div class=\"lp-body\">\n        <i class=\"lp-band\"><\/i><i class=\"lp-line\"><\/i>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"mk\"># <\/span><span class=\"tx\">הצעה לאתר החדש<\/span><\/div><div class=\"lp-out h1\"><span class=\"ot\">הצעה לאתר החדש<\/span><\/div><\/div>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"tx\">אתר תדמית קצר לקליניקה, שמוביל כל מבקר לפנייה בפחות מדקה.<\/span><\/div><div class=\"lp-out p\"><span class=\"ot\">אתר תדמית קצר לקליניקה, שמוביל כל מבקר לפנייה בפחות מדקה.<\/span><\/div><\/div>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"mk\">## <\/span><span class=\"tx\">מה כלול<\/span><\/div><div class=\"lp-out h2\"><span class=\"ot\">מה כלול<\/span><\/div><\/div>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"mk\">- <\/span><span class=\"tx\">אפיון ומבנה העמודים<\/span><\/div><div class=\"lp-out li\"><span class=\"ot\">אפיון ומבנה העמודים<\/span><\/div><\/div>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"mk\">- <\/span><span class=\"tx\">עיצוב ופיתוח למובייל ולמחשב<\/span><\/div><div class=\"lp-out li\"><span class=\"ot\">עיצוב ופיתוח למובייל ולמחשב<\/span><\/div><\/div>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"mk\">- [x] <\/span><span class=\"tx\">חיבור טופס הפנייה למייל<\/span><\/div><div class=\"lp-out todo\"><span class=\"lp-chk\"><\/span><span class=\"ot\">חיבור טופס הפנייה למייל<\/span><\/div><\/div>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"mk\">## <\/span><span class=\"tx\">המחיר<\/span><\/div><div class=\"lp-out h2\"><span class=\"ot\">המחיר<\/span><\/div><\/div>\n        <div class=\"lp-row\"><div class=\"lp-src\"><span class=\"mk\">&gt; <\/span><span class=\"tx\">8,500 ש\"ח, כולל שני סבבי תיקונים<\/span><\/div><div class=\"lp-out quote\"><span class=\"ot\">8,500 ש\"ח, כולל שני סבבי תיקונים<\/span><\/div><\/div>\n      <\/div>\n    <\/div>\n  <\/div>\n<\/section><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשאר המסמך המלא והחלון שטוח\n  const root=document.querySelector(\".lp\"),stage=root.querySelector(\".lp-stage\"),win=root.querySelector(\".lp-win\"),\n    band=root.querySelector(\".lp-band\"),line=root.querySelector(\".lp-line\");\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const dir=getComputedStyle(root).direction===\"rtl\"?-1:1;\n    // כל מקטע טקסט הופך לשלושה חלקים: מה שהוקלד, סמן, וההמשך הנסתר ששומר על גלישת השורות\n    const split=(el,caret)=>{\n      const full=el.textContent;el.textContent=\"\";\n      const a=document.createTextNode(full),b=document.createElement(\"span\");b.className=\"lp-rest\";\n      const c=caret?Object.assign(document.createElement(\"i\"),{className:\"lp-caret\"}):null;\n      if(c)c.setAttribute(\"aria-hidden\",\"true\");\n      el.append(...[a,c,b].filter(Boolean));\n      return {el,full,a,b};\n    };\n    const put=(p,k)=>{p.a.nodeValue=p.full.slice(0,k);p.b.textContent=p.full.slice(k);};\n    let N=0;\n    const R=[...root.querySelectorAll(\".lp-row\")].map(r=>{\n      const src=r.querySelector(\".lp-src\"),out=r.querySelector(\".lp-out\"),mk=src.querySelector(\".mk\"),tx=src.querySelector(\".tx\");\n      const row={src,out,mk:mk&&split(mk),tx:split(tx,true),ot:split(out.querySelector(\".ot\")),off:N};\n      row.m=mk?row.mk.full.length:0;row.len=row.m+row.tx.full.length;N+=row.len;\n      return row;\n    });\n    let cur=-2;\n    const focusRow=i=>{\n      if(i===cur)return;\n      const first=cur<0;cur=i;\n      R.forEach((r,j)=>{r.src.classList.toggle(\"cur\",j===i);});\n      if(i<0){gsap.to([band,line],{opacity:0,duration:.3,overwrite:\"auto\"});return;}\n      const top=R[i].src.offsetTop,h=R[i].src.offsetHeight;\n      if(first)gsap.set([band,line],{y:top});                           // בכניסה הראשונה הפס כבר על השורה, בלי לטוס מלמעלה\n      gsap.to(band,{y:top,scaleY:h,opacity:1,duration:.3,ease:\"power2.out\",overwrite:\"auto\"});\n      gsap.to(line,{y:top+h-1,opacity:1,duration:.3,ease:\"power2.out\",overwrite:\"auto\"});\n    };\n    const draw=t=>{\n      const n=t*N;let last=-1;\n      R.forEach((r,i)=>{\n        const k=Math.max(0,Math.min(r.len,Math.round(n-r.off))),km=Math.min(k,r.m),kt=Math.max(0,k-r.m);\n        if(r.mk)put(r.mk,km);\n        put(r.tx,kt);put(r.ot,kt);\n        r.out.style.opacity=kt>0?1:0;\n        if(k>0)last=i;\n      });\n      focusRow(t>=.999?-1:last);\n    };\n    const st={t:0};\n    gsap.set(win,{rotationY:12*dir,rotationX:6});\n    draw(0);\n    const tl=gsap.timeline({defaults:{ease:\"none\"},scrollTrigger:{trigger:stage,start:\"top 75%\",end:\"bottom 66%\",scrub:.4,invalidateOnRefresh:true}});\n    tl.to(win,{rotationY:0,rotationX:0,duration:.66},0)\n      .to(st,{t:1,duration:1,onUpdate:()=>draw(st.t)},0);\n    const refit=()=>{if(cur>=0){const i=cur;cur=-2;focusRow(i);}};\n    ScrollTrigger.addEventListener(\"refresh\",refit);\n    return()=>{\n      ScrollTrigger.removeEventListener(\"refresh\",refit);\n      root.classList.remove(\"is-live\");\n      R.forEach(r=>{[r.mk,r.tx,r.ot].forEach(p=>{if(p)p.el.textContent=p.full;});r.out.style.opacity=\"\";r.src.classList.remove(\"cur\");});\n      gsap.set([win,band,line],{clearProps:\"all\"});\n    };\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g165.html" rel="prev"><small>→ הקודם</small><b>ראש הפעלה על סרגל שמחליף כרטיס</b></a><a href="g167.html" rel="next"><small>הבא ←</small><b>תמונה שעוברת מטלפון למחשב</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · עורך עם תצוגה חיה בצד").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר המסמך המלא והחלון שטוח
+  const root=document.querySelector(".lp"),stage=root.querySelector(".lp-stage"),win=root.querySelector(".lp-win"),
+    band=root.querySelector(".lp-band"),line=root.querySelector(".lp-line");
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const dir=getComputedStyle(root).direction==="rtl"?-1:1;
+    // כל מקטע טקסט הופך לשלושה חלקים: מה שהוקלד, סמן, וההמשך הנסתר ששומר על גלישת השורות
+    const split=(el,caret)=>{
+      const full=el.textContent;el.textContent="";
+      const a=document.createTextNode(full),b=document.createElement("span");b.className="lp-rest";
+      const c=caret?Object.assign(document.createElement("i"),{className:"lp-caret"}):null;
+      if(c)c.setAttribute("aria-hidden","true");
+      el.append(...[a,c,b].filter(Boolean));
+      return {el,full,a,b};
+    };
+    const put=(p,k)=>{p.a.nodeValue=p.full.slice(0,k);p.b.textContent=p.full.slice(k);};
+    let N=0;
+    const R=[...root.querySelectorAll(".lp-row")].map(r=>{
+      const src=r.querySelector(".lp-src"),out=r.querySelector(".lp-out"),mk=src.querySelector(".mk"),tx=src.querySelector(".tx");
+      const row={src,out,mk:mk&&split(mk),tx:split(tx,true),ot:split(out.querySelector(".ot")),off:N};
+      row.m=mk?row.mk.full.length:0;row.len=row.m+row.tx.full.length;N+=row.len;
+      return row;
+    });
+    let cur=-2;
+    const focusRow=i=>{
+      if(i===cur)return;
+      const first=cur<0;cur=i;
+      R.forEach((r,j)=>{r.src.classList.toggle("cur",j===i);});
+      if(i<0){gsap.to([band,line],{opacity:0,duration:.3,overwrite:"auto"});return;}
+      const top=R[i].src.offsetTop,h=R[i].src.offsetHeight;
+      if(first)gsap.set([band,line],{y:top});                           // בכניסה הראשונה הפס כבר על השורה, בלי לטוס מלמעלה
+      gsap.to(band,{y:top,scaleY:h,opacity:1,duration:.3,ease:"power2.out",overwrite:"auto"});
+      gsap.to(line,{y:top+h-1,opacity:1,duration:.3,ease:"power2.out",overwrite:"auto"});
+    };
+    const draw=t=>{
+      const n=t*N;let last=-1;
+      R.forEach((r,i)=>{
+        const k=Math.max(0,Math.min(r.len,Math.round(n-r.off))),km=Math.min(k,r.m),kt=Math.max(0,k-r.m);
+        if(r.mk)put(r.mk,km);
+        put(r.tx,kt);put(r.ot,kt);
+        r.out.style.opacity=kt>0?1:0;
+        if(k>0)last=i;
+      });
+      focusRow(t>=.999?-1:last);
+    };
+    const st={t:0};
+    gsap.set(win,{rotationY:12*dir,rotationX:6});
+    draw(0);
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:stage,start:"top 75%",end:"bottom 66%",scrub:.4,invalidateOnRefresh:true}});
+    tl.to(win,{rotationY:0,rotationX:0,duration:.66},0)
+      .to(st,{t:1,duration:1,onUpdate:()=>draw(st.t)},0);
+    const refit=()=>{if(cur>=0){const i=cur;cur=-2;focusRow(i);}};
+    ScrollTrigger.addEventListener("refresh",refit);
+    return()=>{
+      ScrollTrigger.removeEventListener("refresh",refit);
+      root.classList.remove("is-live");
+      R.forEach(r=>{[r.mk,r.tx,r.ot].forEach(p=>{if(p)p.el.textContent=p.full;});r.out.style.opacity="";r.src.classList.remove("cur");});
+      gsap.set([win,band,line],{clearProps:"all"});
+    };
+  });
+})();
+</script>
+</body>
+</html>
