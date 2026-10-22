@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G254 · תרשים עוגה מנקודות</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G254 · תרשים עוגה מנקודות */
+.dg{max-width:1200px;margin-inline:auto;display:grid;gap:clamp(24px,4vw,48px)}
+.dg .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.dg-pin{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);grid-template-areas:"head ring" "legend ring";gap:clamp(20px,3vw,32px) clamp(24px,5vw,64px);align-items:center}
+.dg-head{grid-area:head;align-self:end;display:grid;gap:16px}
+.dg-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}
+.dg-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.dg-legend{grid-area:legend;align-self:start;list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.dg-row{display:grid;grid-template-columns:20px minmax(0,1fr) auto;align-items:center;gap:16px;font-size:clamp(16px,1.4vw,20px);line-height:1.3}
+.dg-sw{width:20px;height:20px;border-radius:50%;background:var(--c)}
+.dg-pc{min-width:2.4em;text-align:end;font-size:clamp(28px,3vw,44px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.dg-ring{grid-area:ring;position:relative;width:min(100%,70svh);justify-self:center;aspect-ratio:1;container-type:inline-size}
+.dg-svg{display:block;width:100%;height:100%}
+.dg-svg:dir(rtl){transform:scaleX(-1)}
+.s0{--c:var(--accent, #4a3aff)}
+.s1{--c:color-mix(in oklab,var(--accent, #4a3aff) 45%,var(--card, #fff))}
+.s2{--c:color-mix(in oklab,var(--ink, #16182b) 55%,var(--card, #fff))}
+.dg-d{fill:var(--c);transition:fill .3s linear}
+.dg-mid{position:absolute;inset:0;display:grid;place-content:center;gap:8px;text-align:center}
+.dg-mid b{display:block;font-size:17cqw;line-height:1;font-weight:700;color:var(--accent, #4a3aff);font-variant-numeric:tabular-nums}
+.dg-mid small{display:block;color:var(--muted, #6a6d85);font-size:clamp(14px,3.4cqw,18px);line-height:1.3}
+/* המהלך רץ: סצנה נעוצה, הנקודות מתחילות אפורות ומתמלאות לפי הגלילה */
+.dg.is-live .dg-run{height:240vh}
+.dg.is-live .dg-pin{position:sticky;top:0;height:100vh;height:100svh}
+.dg.is-live .dg-d{fill:var(--line, #e4e4ee)}
+.dg.is-live .dg-d.on{fill:var(--c)}
+.dg.is-live .dg-row{opacity:.4;transition:opacity .3s linear}
+.dg.is-live .dg-row.is-on{opacity:1}
+@media(max-width:767px){
+  .dg-pin{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "ring" "legend";gap:12px;align-content:center}
+  .dg-head{align-self:auto;gap:8px}
+  .dg-head p{font-size:15px;line-height:1.5}
+  .dg-ring{width:min(100%,42svh)}
+  .dg-legend{gap:8px}
+  .dg-row{gap:12px;font-size:16px}
+  .dg-pc{font-size:28px}
+}
+@media(prefers-reduced-motion:reduce){.dg-d,.dg-row{transition:none}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><section class="dg">
+  <div class="dg-run">
+    <div class="dg-pin">
+      <div class="dg-head">
+        <h2>מאיפה מגיעים הלקוחות החדשים</h2>
+        <p>כל נקודה היא פנייה אחת מתוך 425 הפניות של השנה האחרונה, לפי מה שהלקוח סיפר לנו כששאלנו איך הגיע.</p>
+      </div>
+      <ul class="dg-legend">
+        <li class="dg-row s0" data-a="0" data-n="264"><span class="dg-sw" aria-hidden="true"></span><span>המלצות של לקוחות קודמים</span><b class="dg-pc" aria-hidden="true" data-to="62">62%</b><span class="sr-only">62 אחוז</span></li>
+        <li class="dg-row s1" data-a="264" data-n="127"><span class="dg-sw" aria-hidden="true"></span><span>חיפוש בגוגל</span><b class="dg-pc" aria-hidden="true" data-to="30">30%</b><span class="sr-only">30 אחוז</span></li>
+        <li class="dg-row s2" data-a="391" data-n="34"><span class="dg-sw" aria-hidden="true"></span><span>מודעות ורשתות חברתיות</span><b class="dg-pc" aria-hidden="true" data-to="8">8%</b><span class="sr-only">8 אחוז</span></li>
+      </ul>
+      <div class="dg-ring">
+        <svg class="dg-svg" viewBox="0 0 400 400" aria-hidden="true" focusable="false"><circle class="dg-d s0" cx="200" cy="100" r="5"/><circle class="dg-d s0" cx="200" cy="70" r="5"/><circle class="dg-d s0" cx="200" cy="40" r="5"/><circle class="dg-d s0" cx="200" cy="10" r="5"/><circle class="dg-d s0" cx="207.5" cy="25.2" r="5"/><circle class="dg-d s0" cx="207.5" cy="55.2" r="5"/><circle class="dg-d s0" cx="207.5" cy="85.2" r="5"/><circle class="dg-d s0" cx="214.9" cy="10.6" r="5"/><circle class="dg-d s0" cx="215" cy="40.7" r="5"/><circle class="dg-d s0" cx="215.1" cy="70.9" r="5"/><circle class="dg-d s0" cx="222.5" cy="26.5" r="5"/><circle class="dg-d s0" cx="214.9" cy="101.1" r="5"/><circle class="dg-d s0" cx="222.3" cy="56.7" r="5"/><circle class="dg-d s0" cx="229.7" cy="12.3" r="5"/><circle class="dg-d s0" cx="229.8" cy="42.8" r="5"/><circle class="dg-d s0" cx="222.4" cy="87.2" r="5"/><circle class="dg-d s0" cx="237.4" cy="29" r="5"/><circle class="dg-d s0" cx="230" cy="73.5" r="5"/><circle class="dg-d s0" cx="244.4" cy="15.2" r="5"/><circle class="dg-d s0" cx="236.9" cy="59.8" r="5"/><circle class="dg-d s0" cx="244.4" cy="46.3" r="5"/><circle class="dg-d s0" cx="229.5" cy="104.4" r="5"/><circle class="dg-d s0" cx="251.9" cy="32.9" r="5"/><circle class="dg-d s0" cx="258.7" cy="19.3" r="5"/><circle class="dg-d s0" cx="237" cy="91.1" r="5"/><circle class="dg-d s0" cx="244.5" cy="77.8" r="5"/><circle class="dg-d s0" cx="251.1" cy="64.3" r="5"/><circle class="dg-d s0" cx="258.6" cy="51.1" r="5"/><circle class="dg-d s0" cx="266.1" cy="38" r="5"/><circle class="dg-d s0" cx="272.7" cy="24.5" r="5"/><circle class="dg-d s0" cx="243.4" cy="109.9" r="5"/><circle class="dg-d s0" cx="250.9" cy="96.9" r="5"/><circle class="dg-d s0" cx="264.8" cy="70.3" r="5"/><circle class="dg-d s0" cx="258.3" cy="83.8" r="5"/><circle class="dg-d s0" cx="272.3" cy="57.3" r="5"/><circle class="dg-d s0" cx="286.3" cy="30.7" r="5"/><circle class="dg-d s0" cx="279.8" cy="44.2" r="5"/><circle class="dg-d s0" cx="299.3" cy="38" r="5"/><circle class="dg-d s0" cx="292.9" cy="51.7" r="5"/><circle class="dg-d s0" cx="285.4" cy="64.7" r="5"/><circle class="dg-d s0" cx="277.8" cy="77.7" r="5"/><circle class="dg-d s0" cx="271.4" cy="91.4" r="5"/><circle class="dg-d s0" cx="263.9" cy="104.4" r="5"/><circle class="dg-d s0" cx="256.3" cy="117.4" r="5"/><circle class="dg-d s0" cx="311.7" cy="46.3" r="5"/><circle class="dg-d s0" cx="305.3" cy="60.2" r="5"/><circle class="dg-d s0" cx="297.6" cy="73.3" r="5"/><circle class="dg-d s0" cx="290" cy="86.3" r="5"/><circle class="dg-d s0" cx="283.6" cy="100.4" r="5"/><circle class="dg-d s0" cx="323.4" cy="55.5" r="5"/><circle class="dg-d s0" cx="275.8" cy="113.5" r="5"/><circle class="dg-d s0" cx="316.9" cy="69.8" r="5"/><circle class="dg-d s0" cx="268" cy="126.7" r="5"/><circle class="dg-d s0" cx="309.1" cy="83" r="5"/><circle class="dg-d s0" cx="301.2" cy="96.2" r="5"/><circle class="dg-d s0" cx="334.4" cy="65.6" r="5"/><circle class="dg-d s0" cx="294.6" cy="110.8" r="5"/><circle class="dg-d s0" cx="327.7" cy="80.3" r="5"/><circle class="dg-d s0" cx="319.6" cy="93.7" r="5"/><circle class="dg-d s0" cx="286.5" cy="124.2" r="5"/><circle class="dg-d s0" cx="344.5" cy="76.6" r="5"/><circle class="dg-d s0" cx="311.3" cy="107.1" r="5"/><circle class="dg-d s0" cx="278.2" cy="137.7" r="5"/><circle class="dg-d s0" cx="337.5" cy="91.7" r="5"/><circle class="dg-d s0" cx="304.3" cy="122.4" r="5"/><circle class="dg-d s0" cx="329" cy="105.3" r="5"/><circle class="dg-d s0" cx="353.7" cy="88.3" r="5"/><circle class="dg-d s0" cx="320.3" cy="119.1" r="5"/><circle class="dg-d s0" cx="295.6" cy="136.1" r="5"/><circle class="dg-d s0" cx="346.3" cy="104" r="5"/><circle class="dg-d s0" cx="362" cy="100.7" r="5"/><circle class="dg-d s0" cx="337.3" cy="117.8" r="5"/><circle class="dg-d s0" cx="286.6" cy="150" r="5"/><circle class="dg-d s0" cx="312.6" cy="135" r="5"/><circle class="dg-d s0" cx="354" cy="116.9" r="5"/><circle class="dg-d s0" cx="328" cy="131.9" r="5"/><circle class="dg-d s0" cx="369.3" cy="113.7" r="5"/><circle class="dg-d s0" cx="303.1" cy="149.1" r="5"/><circle class="dg-d s0" cx="344.4" cy="131.1" r="5"/><circle class="dg-d s0" cx="360.6" cy="130.4" r="5"/><circle class="dg-d s0" cx="319.4" cy="148.5" r="5"/><circle class="dg-d s0" cx="375.5" cy="127.3" r="5"/><circle class="dg-d s0" cx="334.3" cy="145.4" r="5"/><circle class="dg-d s0" cx="293.1" cy="163.5" r="5"/><circle class="dg-d s0" cx="350.2" cy="144.9" r="5"/><circle class="dg-d s0" cx="308.9" cy="163" r="5"/><circle class="dg-d s0" cx="366" cy="144.5" r="5"/><circle class="dg-d s0" cx="380.7" cy="141.3" r="5"/><circle class="dg-d s0" cx="324.5" cy="162.7" r="5"/><circle class="dg-d s0" cx="339.2" cy="159.5" r="5"/><circle class="dg-d s0" cx="354.7" cy="159.2" r="5"/><circle class="dg-d s0" cx="370.1" cy="159" r="5"/><circle class="dg-d s0" cx="384.8" cy="155.6" r="5"/><circle class="dg-d s0" cx="297.5" cy="177.7" r="5"/><circle class="dg-d s0" cx="312.8" cy="177.6" r="5"/><circle class="dg-d s0" cx="342.7" cy="174" r="5"/><circle class="dg-d s0" cx="328" cy="177.4" r="5"/><circle class="dg-d s0" cx="357.9" cy="173.9" r="5"/><circle class="dg-d s0" cx="387.7" cy="170.3" r="5"/><circle class="dg-d s0" cx="373" cy="173.7" r="5"/><circle class="dg-d s0" cx="389.4" cy="185.1" r="5"/><circle class="dg-d s0" cx="344.6" cy="188.8" r="5"/><circle class="dg-d s0" cx="299.7" cy="192.5" r="5"/><circle class="dg-d s0" cx="359.6" cy="188.8" r="5"/><circle class="dg-d s0" cx="314.8" cy="192.5" r="5"/><circle class="dg-d s0" cx="374.6" cy="188.7" r="5"/><circle class="dg-d s0" cx="329.8" cy="192.4" r="5"/><circle class="dg-d s0" cx="390" cy="200" r="5"/><circle class="dg-d s0" cx="375" cy="203.8" r="5"/><circle class="dg-d s0" cx="360" cy="203.8" r="5"/><circle class="dg-d s0" cx="345" cy="203.7" r="5"/><circle class="dg-d s0" cx="329.8" cy="207.6" r="5"/><circle class="dg-d s0" cx="314.8" cy="207.5" r="5"/><circle class="dg-d s0" cx="299.7" cy="207.5" r="5"/><circle class="dg-d s0" cx="389.4" cy="214.9" r="5"/><circle class="dg-d s0" cx="374" cy="218.8" r="5"/><circle class="dg-d s0" cx="358.9" cy="218.7" r="5"/><circle class="dg-d s0" cx="343.8" cy="218.6" r="5"/><circle class="dg-d s0" cx="387.7" cy="229.7" r="5"/><circle class="dg-d s0" cx="328" cy="222.6" r="5"/><circle class="dg-d s0" cx="371.7" cy="233.7" r="5"/><circle class="dg-d s0" cx="312.8" cy="222.4" r="5"/><circle class="dg-d s0" cx="356.5" cy="233.5" r="5"/><circle class="dg-d s0" cx="297.5" cy="222.3" r="5"/><circle class="dg-d s0" cx="341.1" cy="233.3" r="5"/><circle class="dg-d s0" cx="384.8" cy="244.4" r="5"/><circle class="dg-d s0" cx="368.2" cy="248.3" r="5"/><circle class="dg-d s0" cx="324.5" cy="237.3" r="5"/><circle class="dg-d s0" cx="352.6" cy="248" r="5"/><circle class="dg-d s0" cx="380.7" cy="258.7" r="5"/><circle class="dg-d s0" cx="308.9" cy="237" r="5"/><circle class="dg-d s0" cx="337" cy="247.6" r="5"/><circle class="dg-d s0" cx="363.4" cy="262.6" r="5"/><circle class="dg-d s0" cx="293.1" cy="236.5" r="5"/><circle class="dg-d s0" cx="375.5" cy="272.7" r="5"/><circle class="dg-d s0" cx="347.5" cy="262.1" r="5"/><circle class="dg-d s0" cx="319.4" cy="251.5" r="5"/><circle class="dg-d s0" cx="331.3" cy="261.5" r="5"/><circle class="dg-d s0" cx="357.4" cy="276.4" r="5"/><circle class="dg-d s0" cx="303.1" cy="250.9" r="5"/><circle class="dg-d s0" cx="369.3" cy="286.3" r="5"/><circle class="dg-d s0" cx="341" cy="275.6" r="5"/><circle class="dg-d s0" cx="286.6" cy="250" r="5"/><circle class="dg-d s0" cx="312.6" cy="265" r="5"/><circle class="dg-d s0" cx="350.3" cy="289.7" r="5"/><circle class="dg-d s0" cx="324.3" cy="274.6" r="5"/><circle class="dg-d s0" cx="362" cy="299.3" r="5"/><circle class="dg-d s0" cx="333.3" cy="288.5" r="5"/><circle class="dg-d s0" cx="295.6" cy="263.9" r="5"/><circle class="dg-d s0" cx="342" cy="302.3" r="5"/><circle class="dg-d s0" cx="353.7" cy="311.7" r="5"/><circle class="dg-d s0" cx="304.3" cy="277.6" r="5"/><circle class="dg-d s0" cx="316" cy="287" r="5"/><circle class="dg-d s0" cx="278.2" cy="262.3" r="5"/><circle class="dg-d s0" cx="324.4" cy="300.6" r="5"/><circle class="dg-d s0" cx="344.5" cy="323.4" r="5"/><circle class="dg-d s0" cx="332.7" cy="314.1" r="5"/><circle class="dg-d s0" cx="286.5" cy="275.8" r="5"/><circle class="dg-d s0" cx="306.4" cy="298.5" r="5"/><circle class="dg-d s0" cx="294.6" cy="289.2" r="5"/><circle class="dg-d s0" cx="314.5" cy="311.8" r="5"/><circle class="dg-d s0" cx="334.4" cy="334.4" r="5"/><circle class="dg-d s0" cx="322.4" cy="325.1" r="5"/><circle class="dg-d s0" cx="268" cy="273.3" r="5"/><circle class="dg-d s0" cx="295.7" cy="308.9" r="5"/><circle class="dg-d s0" cx="275.8" cy="286.5" r="5"/><circle class="dg-d s0" cx="323.4" cy="344.5" r="5"/><circle class="dg-d s0" cx="303.5" cy="322" r="5"/><circle class="dg-d s0" cx="283.6" cy="299.6" r="5"/><circle class="dg-d s0" cx="311.2" cy="335.1" r="5"/><circle class="dg-d s0" cx="311.7" cy="353.7" r="5"/><circle class="dg-d s0" cx="284" cy="318.2" r="5"/><circle class="dg-d s0" cx="291.6" cy="331.2" r="5"/><circle class="dg-d s0" cx="299.2" cy="344.2" r="5"/><circle class="dg-d s0" cx="256.3" cy="282.6" r="5"/><circle class="dg-d s0" cx="263.9" cy="295.6" r="5"/><circle class="dg-d s0" cx="271.4" cy="308.6" r="5"/><circle class="dg-d s0" cx="299.3" cy="362" r="5"/><circle class="dg-d s0" cx="286.4" cy="352.2" r="5"/><circle class="dg-d s0" cx="278.9" cy="339.2" r="5"/><circle class="dg-d s0" cx="271.4" cy="326.2" r="5"/><circle class="dg-d s0" cx="286.3" cy="369.3" r="5"/><circle class="dg-d s0" cx="258.3" cy="316.2" r="5"/><circle class="dg-d s0" cx="250.9" cy="303.1" r="5"/><circle class="dg-d s0" cx="243.4" cy="290.1" r="5"/><circle class="dg-d s0" cx="273" cy="359" r="5"/><circle class="dg-d s0" cx="265.5" cy="346" r="5"/><circle class="dg-d s0" cx="258.1" cy="332.9" r="5"/><circle class="dg-d s0" cx="272.7" cy="375.5" r="5"/><circle class="dg-d s0" cx="244.5" cy="322.2" r="5"/><circle class="dg-d s0" cx="259.1" cy="364.7" r="5"/><circle class="dg-d s0" cx="251.6" cy="351.5" r="5"/><circle class="dg-d s0" cx="237" cy="308.9" r="5"/><circle class="dg-d s0" cx="258.7" cy="380.7" r="5"/><circle class="dg-d s0" cx="244.1" cy="338.1" r="5"/><circle class="dg-d s0" cx="229.5" cy="295.6" r="5"/><circle class="dg-d s0" cx="244.7" cy="369.2" r="5"/><circle class="dg-d s0" cx="244.4" cy="384.8" r="5"/><circle class="dg-d s0" cx="237.2" cy="355.6" r="5"/><circle class="dg-d s0" cx="230" cy="326.5" r="5"/><circle class="dg-d s0" cx="229.7" cy="341.9" r="5"/><circle class="dg-d s0" cx="222.4" cy="312.8" r="5"/><circle class="dg-d s0" cx="230" cy="372.4" r="5"/><circle class="dg-d s0" cx="229.7" cy="387.7" r="5"/><circle class="dg-d s0" cx="214.9" cy="298.9" r="5"/><circle class="dg-d s0" cx="222.4" cy="358.4" r="5"/><circle class="dg-d s0" cx="215.1" cy="329.1" r="5"/><circle class="dg-d s0" cx="214.9" cy="344.2" r="5"/><circle class="dg-d s0" cx="215" cy="374.4" r="5"/><circle class="dg-d s0" cx="214.9" cy="389.4" r="5"/><circle class="dg-d s0" cx="207.5" cy="314.8" r="5"/><circle class="dg-d s0" cx="207.5" cy="359.8" r="5"/><circle class="dg-d s0" cx="200" cy="300" r="5"/><circle class="dg-d s0" cx="200" cy="330" r="5"/><circle class="dg-d s0" cx="200" cy="345" r="5"/><circle class="dg-d s0" cx="200" cy="375" r="5"/><circle class="dg-d s0" cx="200" cy="390" r="5"/><circle class="dg-d s0" cx="192.5" cy="359.8" r="5"/><circle class="dg-d s0" cx="192.5" cy="314.8" r="5"/><circle class="dg-d s0" cx="185.1" cy="389.4" r="5"/><circle class="dg-d s0" cx="185" cy="374.4" r="5"/><circle class="dg-d s0" cx="185.1" cy="344.2" r="5"/><circle class="dg-d s0" cx="184.9" cy="329.1" r="5"/><circle class="dg-d s0" cx="177.6" cy="358.4" r="5"/><circle class="dg-d s0" cx="185.1" cy="298.9" r="5"/><circle class="dg-d s0" cx="170.3" cy="387.7" r="5"/><circle class="dg-d s0" cx="170" cy="372.4" r="5"/><circle class="dg-d s0" cx="177.6" cy="312.8" r="5"/><circle class="dg-d s0" cx="170.3" cy="341.9" r="5"/><circle class="dg-d s0" cx="170" cy="326.5" r="5"/><circle class="dg-d s0" cx="162.8" cy="355.6" r="5"/><circle class="dg-d s0" cx="155.6" cy="384.8" r="5"/><circle class="dg-d s0" cx="155.3" cy="369.2" r="5"/><circle class="dg-d s0" cx="170.5" cy="295.6" r="5"/><circle class="dg-d s0" cx="155.9" cy="338.1" r="5"/><circle class="dg-d s0" cx="141.3" cy="380.7" r="5"/><circle class="dg-d s0" cx="163" cy="308.9" r="5"/><circle class="dg-d s0" cx="148.4" cy="351.5" r="5"/><circle class="dg-d s0" cx="140.9" cy="364.7" r="5"/><circle class="dg-d s0" cx="155.5" cy="322.2" r="5"/><circle class="dg-d s0" cx="127.3" cy="375.5" r="5"/><circle class="dg-d s0" cx="141.9" cy="332.9" r="5"/><circle class="dg-d s0" cx="134.5" cy="346" r="5"/><circle class="dg-d s0" cx="127" cy="359" r="5"/><circle class="dg-d s0" cx="156.6" cy="290.1" r="5"/><circle class="dg-d s0" cx="149.1" cy="303.1" r="5"/><circle class="dg-d s0" cx="141.7" cy="316.2" r="5"/><circle class="dg-d s0" cx="113.7" cy="369.3" r="5"/><circle class="dg-d s0" cx="128.6" cy="326.2" r="5"/><circle class="dg-d s0" cx="121.1" cy="339.2" r="5"/><circle class="dg-d s0" cx="113.6" cy="352.2" r="5"/><circle class="dg-d s0" cx="100.7" cy="362" r="5"/><circle class="dg-d s0" cx="128.6" cy="308.6" r="5"/><circle class="dg-d s0" cx="136.1" cy="295.6" r="5"/><circle class="dg-d s0" cx="143.7" cy="282.6" r="5"/><circle class="dg-d s0" cx="100.8" cy="344.2" r="5"/><circle class="dg-d s0" cx="108.4" cy="331.2" r="5"/><circle class="dg-d s0" cx="116" cy="318.2" r="5"/><circle class="dg-d s0" cx="88.3" cy="353.7" r="5"/><circle class="dg-d s0" cx="88.8" cy="335.1" r="5"/><circle class="dg-d s0" cx="116.4" cy="299.6" r="5"/><circle class="dg-d s0" cx="96.5" cy="322" r="5"/><circle class="dg-d s0" cx="76.6" cy="344.5" r="5"/><circle class="dg-d s0" cx="124.2" cy="286.5" r="5"/><circle class="dg-d s1" cx="104.3" cy="308.9" r="5"/><circle class="dg-d s1" cx="132" cy="273.3" r="5"/><circle class="dg-d s1" cx="77.6" cy="325.1" r="5"/><circle class="dg-d s1" cx="65.6" cy="334.4" r="5"/><circle class="dg-d s1" cx="85.5" cy="311.8" r="5"/><circle class="dg-d s1" cx="105.4" cy="289.2" r="5"/><circle class="dg-d s1" cx="93.6" cy="298.5" r="5"/><circle class="dg-d s1" cx="113.5" cy="275.8" r="5"/><circle class="dg-d s1" cx="67.3" cy="314.1" r="5"/><circle class="dg-d s1" cx="55.5" cy="323.4" r="5"/><circle class="dg-d s1" cx="75.6" cy="300.6" r="5"/><circle class="dg-d s1" cx="121.8" cy="262.3" r="5"/><circle class="dg-d s1" cx="84" cy="287" r="5"/><circle class="dg-d s1" cx="95.7" cy="277.6" r="5"/><circle class="dg-d s1" cx="46.3" cy="311.7" r="5"/><circle class="dg-d s1" cx="58" cy="302.3" r="5"/><circle class="dg-d s1" cx="104.4" cy="263.9" r="5"/><circle class="dg-d s1" cx="66.7" cy="288.5" r="5"/><circle class="dg-d s1" cx="38" cy="299.3" r="5"/><circle class="dg-d s1" cx="75.7" cy="274.6" r="5"/><circle class="dg-d s1" cx="49.7" cy="289.7" r="5"/><circle class="dg-d s1" cx="113.4" cy="250" r="5"/><circle class="dg-d s1" cx="87.4" cy="265" r="5"/><circle class="dg-d s1" cx="59" cy="275.6" r="5"/><circle class="dg-d s1" cx="30.7" cy="286.3" r="5"/><circle class="dg-d s1" cx="96.9" cy="250.9" r="5"/><circle class="dg-d s1" cx="42.6" cy="276.4" r="5"/><circle class="dg-d s1" cx="68.7" cy="261.5" r="5"/><circle class="dg-d s1" cx="80.6" cy="251.5" r="5"/><circle class="dg-d s1" cx="52.5" cy="262.1" r="5"/><circle class="dg-d s1" cx="24.5" cy="272.7" r="5"/><circle class="dg-d s1" cx="106.9" cy="236.5" r="5"/><circle class="dg-d s1" cx="36.6" cy="262.6" r="5"/><circle class="dg-d s1" cx="63" cy="247.6" r="5"/><circle class="dg-d s1" cx="91.1" cy="237" r="5"/><circle class="dg-d s1" cx="19.3" cy="258.7" r="5"/><circle class="dg-d s1" cx="47.4" cy="248" r="5"/><circle class="dg-d s1" cx="75.5" cy="237.3" r="5"/><circle class="dg-d s1" cx="31.8" cy="248.3" r="5"/><circle class="dg-d s1" cx="15.2" cy="244.4" r="5"/><circle class="dg-d s1" cx="58.9" cy="233.3" r="5"/><circle class="dg-d s1" cx="102.5" cy="222.3" r="5"/><circle class="dg-d s1" cx="43.5" cy="233.5" r="5"/><circle class="dg-d s1" cx="87.2" cy="222.4" r="5"/><circle class="dg-d s1" cx="28.3" cy="233.7" r="5"/><circle class="dg-d s1" cx="72" cy="222.6" r="5"/><circle class="dg-d s1" cx="12.3" cy="229.7" r="5"/><circle class="dg-d s1" cx="56.2" cy="218.6" r="5"/><circle class="dg-d s1" cx="41.1" cy="218.7" r="5"/><circle class="dg-d s1" cx="26" cy="218.8" r="5"/><circle class="dg-d s1" cx="10.6" cy="214.9" r="5"/><circle class="dg-d s1" cx="100.3" cy="207.5" r="5"/><circle class="dg-d s1" cx="85.2" cy="207.5" r="5"/><circle class="dg-d s1" cx="70.2" cy="207.6" r="5"/><circle class="dg-d s1" cx="55" cy="203.7" r="5"/><circle class="dg-d s1" cx="40" cy="203.8" r="5"/><circle class="dg-d s1" cx="25" cy="203.8" r="5"/><circle class="dg-d s1" cx="10" cy="200" r="5"/><circle class="dg-d s1" cx="70.2" cy="192.4" r="5"/><circle class="dg-d s1" cx="25.4" cy="188.7" r="5"/><circle class="dg-d s1" cx="85.2" cy="192.5" r="5"/><circle class="dg-d s1" cx="40.4" cy="188.8" r="5"/><circle class="dg-d s1" cx="100.3" cy="192.5" r="5"/><circle class="dg-d s1" cx="55.4" cy="188.8" r="5"/><circle class="dg-d s1" cx="10.6" cy="185.1" r="5"/><circle class="dg-d s1" cx="27" cy="173.7" r="5"/><circle class="dg-d s1" cx="12.3" cy="170.3" r="5"/><circle class="dg-d s1" cx="42.1" cy="173.9" r="5"/><circle class="dg-d s1" cx="72" cy="177.4" r="5"/><circle class="dg-d s1" cx="57.3" cy="174" r="5"/><circle class="dg-d s1" cx="87.2" cy="177.6" r="5"/><circle class="dg-d s1" cx="102.5" cy="177.7" r="5"/><circle class="dg-d s1" cx="15.2" cy="155.6" r="5"/><circle class="dg-d s1" cx="29.9" cy="159" r="5"/><circle class="dg-d s1" cx="45.3" cy="159.2" r="5"/><circle class="dg-d s1" cx="60.8" cy="159.5" r="5"/><circle class="dg-d s1" cx="75.5" cy="162.7" r="5"/><circle class="dg-d s1" cx="19.3" cy="141.3" r="5"/><circle class="dg-d s1" cx="34" cy="144.5" r="5"/><circle class="dg-d s1" cx="91.1" cy="163" r="5"/><circle class="dg-d s1" cx="49.8" cy="144.9" r="5"/><circle class="dg-d s1" cx="106.9" cy="163.5" r="5"/><circle class="dg-d s1" cx="65.7" cy="145.4" r="5"/><circle class="dg-d s1" cx="24.5" cy="127.3" r="5"/><circle class="dg-d s1" cx="80.6" cy="148.5" r="5"/><circle class="dg-d s1" cx="39.4" cy="130.4" r="5"/><circle class="dg-d s1" cx="55.6" cy="131.1" r="5"/><circle class="dg-d s1" cx="96.9" cy="149.1" r="5"/><circle class="dg-d s1" cx="30.7" cy="113.7" r="5"/><circle class="dg-d s1" cx="72" cy="131.9" r="5"/><circle class="dg-d s1" cx="46" cy="116.9" r="5"/><circle class="dg-d s1" cx="113.4" cy="150" r="5"/><circle class="dg-d s1" cx="87.4" cy="135" r="5"/><circle class="dg-d s1" cx="62.7" cy="117.8" r="5"/><circle class="dg-d s1" cx="38" cy="100.7" r="5"/><circle class="dg-d s1" cx="53.7" cy="104" r="5"/><circle class="dg-d s1" cx="104.4" cy="136.1" r="5"/><circle class="dg-d s1" cx="79.7" cy="119.1" r="5"/><circle class="dg-d s1" cx="46.3" cy="88.3" r="5"/><circle class="dg-d s1" cx="71" cy="105.3" r="5"/><circle class="dg-d s1" cx="95.7" cy="122.4" r="5"/><circle class="dg-d s1" cx="62.5" cy="91.7" r="5"/><circle class="dg-d s1" cx="121.8" cy="137.7" r="5"/><circle class="dg-d s1" cx="88.7" cy="107.1" r="5"/><circle class="dg-d s1" cx="55.5" cy="76.6" r="5"/><circle class="dg-d s1" cx="113.5" cy="124.2" r="5"/><circle class="dg-d s1" cx="80.4" cy="93.7" r="5"/><circle class="dg-d s1" cx="72.3" cy="80.3" r="5"/><circle class="dg-d s1" cx="105.4" cy="110.8" r="5"/><circle class="dg-d s1" cx="65.6" cy="65.6" r="5"/><circle class="dg-d s1" cx="98.8" cy="96.2" r="5"/><circle class="dg-d s1" cx="90.9" cy="83" r="5"/><circle class="dg-d s1" cx="132" cy="126.7" r="5"/><circle class="dg-d s1" cx="83.1" cy="69.8" r="5"/><circle class="dg-d s1" cx="124.2" cy="113.5" r="5"/><circle class="dg-d s1" cx="76.6" cy="55.5" r="5"/><circle class="dg-d s1" cx="116.4" cy="100.4" r="5"/><circle class="dg-d s1" cx="110" cy="86.3" r="5"/><circle class="dg-d s1" cx="102.4" cy="73.3" r="5"/><circle class="dg-d s1" cx="94.7" cy="60.2" r="5"/><circle class="dg-d s1" cx="88.3" cy="46.3" r="5"/><circle class="dg-d s1" cx="143.7" cy="117.4" r="5"/><circle class="dg-d s1" cx="136.1" cy="104.4" r="5"/><circle class="dg-d s1" cx="128.6" cy="91.4" r="5"/><circle class="dg-d s1" cx="122.2" cy="77.7" r="5"/><circle class="dg-d s1" cx="114.6" cy="64.7" r="5"/><circle class="dg-d s1" cx="107.1" cy="51.7" r="5"/><circle class="dg-d s2" cx="100.7" cy="38" r="5"/><circle class="dg-d s2" cx="120.2" cy="44.2" r="5"/><circle class="dg-d s2" cx="113.7" cy="30.7" r="5"/><circle class="dg-d s2" cx="127.7" cy="57.3" r="5"/><circle class="dg-d s2" cx="141.7" cy="83.8" r="5"/><circle class="dg-d s2" cx="135.2" cy="70.3" r="5"/><circle class="dg-d s2" cx="149.1" cy="96.9" r="5"/><circle class="dg-d s2" cx="156.6" cy="109.9" r="5"/><circle class="dg-d s2" cx="127.3" cy="24.5" r="5"/><circle class="dg-d s2" cx="133.9" cy="38" r="5"/><circle class="dg-d s2" cx="141.4" cy="51.1" r="5"/><circle class="dg-d s2" cx="148.9" cy="64.3" r="5"/><circle class="dg-d s2" cx="155.5" cy="77.8" r="5"/><circle class="dg-d s2" cx="163" cy="91.1" r="5"/><circle class="dg-d s2" cx="141.3" cy="19.3" r="5"/><circle class="dg-d s2" cx="148.1" cy="32.9" r="5"/><circle class="dg-d s2" cx="170.5" cy="104.4" r="5"/><circle class="dg-d s2" cx="155.6" cy="46.3" r="5"/><circle class="dg-d s2" cx="163.1" cy="59.8" r="5"/><circle class="dg-d s2" cx="155.6" cy="15.2" r="5"/><circle class="dg-d s2" cx="170" cy="73.5" r="5"/><circle class="dg-d s2" cx="162.6" cy="29" r="5"/><circle class="dg-d s2" cx="177.6" cy="87.2" r="5"/><circle class="dg-d s2" cx="170.2" cy="42.8" r="5"/><circle class="dg-d s2" cx="170.3" cy="12.3" r="5"/><circle class="dg-d s2" cx="177.7" cy="56.7" r="5"/><circle class="dg-d s2" cx="185.1" cy="101.1" r="5"/><circle class="dg-d s2" cx="177.5" cy="26.5" r="5"/><circle class="dg-d s2" cx="184.9" cy="70.9" r="5"/><circle class="dg-d s2" cx="185" cy="40.7" r="5"/><circle class="dg-d s2" cx="185.1" cy="10.6" r="5"/><circle class="dg-d s2" cx="192.5" cy="85.2" r="5"/><circle class="dg-d s2" cx="192.5" cy="55.2" r="5"/><circle class="dg-d s2" cx="192.5" cy="25.2" r="5"/></svg>
+        <div class="dg-mid"><b aria-hidden="true" data-to="62">62%</b><small>מגיעים בהמלצה</small></div>
+        <p class="sr-only">מתוך 425 פניות: 62 אחוז בהמלצה של לקוחות קודמים, 30 אחוז בחיפוש בגוגל ו-8 אחוז במודעות וברשתות חברתיות.</p>
+      </div>
+    </div>
+  </div>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP כל הנקודות צבועות והאחוזים כתובים (בסימון)
+  const root=document.querySelector(".dg"),run=root.querySelector(".dg-run");
+  const dots=[...root.querySelectorAll(".dg-d")],N=dots.length;
+  const rows=[...root.querySelectorAll(".dg-row")].map(el=>{const num=el.querySelector("[data-to]");return{el,num,to:Number(num.dataset.to),a:Number(el.dataset.a),n:Number(el.dataset.n)};});
+  const mid=root.querySelector(".dg-mid [data-to]"),midTo=Number(mid.dataset.to);
+  let shown=N;
+  // הנקודות כבר ממוינות לפי הזווית, ולכן "כמה נקודות דולקות" קובע גם את הקטע הפעיל וגם את האחוזים
+  const render=P=>{
+    const n=Math.round(P*N);
+    if(n>shown)for(let i=shown;i<n;i++)dots[i].classList.add("on");
+    else for(let i=n;i<shown;i++)dots[i].classList.remove("on");
+    shown=n;
+    rows.forEach(r=>{
+      const f=Math.min(1,Math.max(0,(n-r.a)/r.n));
+      r.num.textContent=Math.round(f*r.to)+"%";
+      r.el.classList.toggle("is-on",f>0);
+    });
+    const f0=Math.min(1,n/rows[0].n);
+    mid.textContent=Math.round(f0*midTo)+"%";
+  };
+  // בהפחתת תנועה הפונקציה לא רצה, ורואים את המצב הסופי מהסימון
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    shown=0;
+    const st={p:0};
+    render(0);
+    gsap.timeline({scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}})
+      .to({},{duration:.08})
+      .to(st,{p:1,duration:1,ease:"none",onUpdate:()=>render(st.p)})
+      .to({},{duration:.15});
+    return()=>{
+      root.classList.remove("is-live");
+      dots.forEach(d=>d.classList.remove("on"));
+      rows.forEach(r=>{r.num.textContent=r.to+"%";r.el.classList.remove("is-on");});
+      mid.textContent=midTo+"%";
+      shown=N;
+    };
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G252 · גרף עקומת האטה עם נקודה נעה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G252 · גרף עקומת האטה עם נקודה נעה */
+.eg{--eg-h:56svh;max-width:1200px;margin-inline:auto;display:grid;gap:clamp(24px,4vw,48px)}
+.eg-head{display:grid;gap:12px;max-width:54ch}
+.eg-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}
+.eg-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.eg .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.eg-pin{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(16px,2.4vw,32px);align-items:stretch}
+.eg-card{margin:0;padding:clamp(16px,2.2vw,32px);border-radius:24px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee);display:grid;gap:16px;align-content:start}
+/* גרף: SVG בלי טקסט, מצויר משמאל לימין ומתהפך ב-RTL. הכיתובים הם HTML בפינות */
+.eg-fig{position:relative;width:min(100%,calc(var(--eg-h) * 400 / 340));margin-inline:auto}
+.eg-lanes{align-content:center}
+.eg-svg{display:block;width:100%;height:auto}
+.eg-svg:dir(rtl){transform:scaleX(-1)}
+.eg-ax{position:absolute;font-size:14px;color:var(--muted, #6a6d85)}
+.eg-ax-y{inset-block-start:0;inset-inline-start:0}
+.eg-ax-x{inset-block-end:0;inset-inline-end:0}
+.eg-g{stroke:var(--line, #e4e4ee);stroke-width:1;stroke-dasharray:2 6}
+.eg-axl{stroke:var(--muted, #6a6d85);stroke-width:1.5;opacity:.5}
+.eg-ref{stroke:var(--muted, #6a6d85);stroke-width:1.5;stroke-dasharray:5 6;opacity:.6}
+.eg-curve{fill:none;stroke:var(--accent, #4a3aff);stroke-width:4;stroke-linecap:round}
+.eg-hd{stroke:var(--muted, #6a6d85);stroke-width:1;opacity:.5}
+.eg-hk{fill:var(--card, #fff);stroke:var(--accent, #4a3aff);stroke-width:2}
+.eg-gd{stroke:var(--accent, #4a3aff);stroke-width:1.5;stroke-dasharray:3 4;opacity:.7}
+.eg-halo{fill:var(--accent, #4a3aff);opacity:.18}
+.eg-mk{fill:var(--accent, #4a3aff);stroke:var(--card, #fff);stroke-width:3}
+.eg-cap{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:8px 16px}
+.eg-cap b{display:block;font-size:clamp(18px,1.5vw,22px);line-height:1.25}
+.eg-cap small{display:block;margin-top:4px;color:var(--muted, #6a6d85);font-size:14px;line-height:1.5}
+.eg-read{display:flex;gap:20px;color:var(--muted, #6a6d85);font-size:14px;font-variant-numeric:tabular-nums}
+.eg-read b{display:block;margin-top:2px;color:var(--ink, #16182b);font-size:clamp(20px,1.8vw,26px);font-weight:700;line-height:1.1}
+/* שורות הקצבים: לכל שורה כיתוב, עקומה קטנה ומסלול. מיקום הנקודה הוא --p בין 0 ל-1 (ברירת מחדל 1, כלומר בסוף) */
+.eg-tracks{list-style:none;margin:0;padding:0;display:grid;gap:clamp(16px,3.2vw,40px);align-content:center}
+.eg-tr{--c:color-mix(in oklab,var(--ink, #16182b) 72%,var(--card, #fff));display:grid;grid-template-columns:minmax(0,9.5em) 28px minmax(0,1fr);align-items:center;gap:12px;font-size:16px;line-height:1.25}
+.eg-tr.is-main{--c:var(--accent, #4a3aff);font-weight:700}
+.eg-ic{width:28px;height:28px;fill:none;stroke:var(--muted, #6a6d85);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.eg-tr.is-main .eg-ic{stroke:var(--accent, #4a3aff)}
+.eg-rail{--d:28px;position:relative;height:var(--d);container-type:inline-size}
+.eg-rail::before{content:"";position:absolute;inset-inline:0;top:50%;height:2px;translate:0 -50%;border-radius:2px;background:var(--line, #e4e4ee)}
+.eg-rail::after{content:"";position:absolute;inset-inline-end:0;top:0;width:2px;height:100%;border-radius:2px;background:var(--line, #e4e4ee)}
+.eg-dot,.eg-gh{--sx:-1;position:absolute;top:50%;inset-inline-start:0;width:var(--d);height:var(--d);translate:calc(var(--p,1) * (100cqw - var(--d)) * var(--sx)) -50%}
+.eg-rail:dir(ltr) .eg-dot,.eg-rail:dir(ltr) .eg-gh{--sx:1}
+.eg-dot{border-radius:50%;background:var(--c)}
+.eg-gh{display:grid;place-items:center;opacity:.4}
+.eg-gh::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+/* המהלך רץ: סצנה נעוצה, והנקודות הקטנות נדלקות כשהנקודה הגדולה עוברת עליהן */
+.eg.is-live .eg-run{height:260vh}
+.eg.is-live .eg-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center}
+.eg.is-live .eg-gh{opacity:0;transition:opacity .25s linear}
+.eg.is-live .eg-gh.on{opacity:.4}
+@media(max-width:767px){
+  .eg{--eg-h:30svh}
+  .eg-pin{grid-template-columns:minmax(0,1fr);gap:12px}
+  .eg-card{padding:16px;border-radius:20px;gap:12px}
+  .eg-tracks{gap:10px}
+  .eg-tr{grid-template-columns:28px minmax(0,1fr);row-gap:4px;column-gap:10px}
+  .eg-ic{grid-column:1;grid-row:1}
+  .eg-lb{grid-column:2;grid-row:1}
+  .eg-rail{--d:20px;grid-column:1 / -1;grid-row:2}
+  .eg-gh::after{width:6px;height:6px}
+  .eg-cap{gap:4px 12px}
+}
+@media(prefers-reduced-motion:reduce){.eg-gh{transition:none}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><section class="eg">
+  <header class="eg-head">
+    <h2>קצב של תנועה נראה כמו עקומה</h2>
+    <p>בכל השורות אותה נקודה עוברת אותו מרחק באותו זמן. רק הקצב שונה, ואת ההבדל מרגישים מיד כשהיא זזה.</p>
+  </header>
+  <div class="eg-run">
+    <div class="eg-pin">
+      <figure class="eg-card eg-graph">
+        <div class="eg-fig">
+          <svg class="eg-svg" viewBox="0 0 400 340" aria-hidden="true" focusable="false">
+            <path class="eg-g" d="M118 32V296M208 32V296M298 32V296M28 98H388M28 164H388M28 230H388"/>
+            <path class="eg-axl" d="M28 32V296H388" fill="none"/>
+            <path class="eg-ref" d="M28 296L388 32" fill="none"/>
+            <path class="eg-hd" d="M28 296H301.6M388 32H114.4" fill="none"/>
+            <path class="eg-curve" d="M28 296C301.6 296 114.4 32 388 32"/>
+            <circle class="eg-hk" cx="301.6" cy="296" r="6"/><circle class="eg-hk" cx="114.4" cy="32" r="6"/>
+            <line class="eg-gd eg-gx" x1="388" y1="32" x2="388" y2="296"/><line class="eg-gd eg-gy" x1="28" y1="32" x2="388" y2="32"/>
+            <circle class="eg-halo" cx="388" cy="32" r="16"/><circle class="eg-mk" cx="388" cy="32" r="8"/>
+          </svg>
+          <span class="eg-ax eg-ax-y" aria-hidden="true">מרחק</span><span class="eg-ax eg-ax-x" aria-hidden="true">זמן</span>
+        </div>
+        <figcaption class="eg-cap">
+          <span><b>מתחיל ונגמר לאט</b><small>הקו המקווקו הוא קצב אחיד. באמצע התנועה הנקודה מהירה ביותר.</small></span>
+          <span class="eg-read" aria-hidden="true"><span>זמן<b data-t>100%</b></span><span>מרחק<b data-d>100%</b></span></span>
+          <span class="sr-only">אחרי רבע מהזמן הנקודה עברה 5% מהמרחק, אחרי חצי מהזמן 50%, ואחרי שלושה רבעים 95%.</span>
+        </figcaption>
+      </figure>
+      <div class="eg-card eg-lanes">
+        <ul class="eg-tracks" aria-label="שישה קצבים לאותה תנועה">
+    <li class="eg-tr">
+      <span class="eg-lb">קצב אחיד</span>
+      <svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21L3.4 20.6L3.8 20.3L4.1 19.9L4.5 19.5L4.9 19.1L5.3 18.8L5.6 18.4L6 18L6.4 17.6L6.8 17.3L7.1 16.9L7.5 16.5L7.9 16.1L8.3 15.8L8.6 15.4L9 15L9.4 14.6L9.8 14.3L10.1 13.9L10.5 13.5L10.9 13.1L11.3 12.8L11.6 12.4L12 12L12.4 11.6L12.8 11.3L13.1 10.9L13.5 10.5L13.9 10.1L14.3 9.8L14.6 9.4L15 9L15.4 8.6L15.8 8.3L16.1 7.9L16.5 7.5L16.9 7.1L17.3 6.8L17.6 6.4L18 6L18.4 5.6L18.8 5.3L19.1 4.9L19.5 4.5L19.9 4.1L20.3 3.8L20.6 3.4L21 3"/></svg>
+      <span class="eg-rail" aria-hidden="true"><i class="eg-gh" style="--p:0.1" data-t="0.1"></i><i class="eg-gh" style="--p:0.2" data-t="0.2"></i><i class="eg-gh" style="--p:0.3" data-t="0.3"></i><i class="eg-gh" style="--p:0.4" data-t="0.4"></i><i class="eg-gh" style="--p:0.5" data-t="0.5"></i><i class="eg-gh" style="--p:0.6" data-t="0.6"></i><i class="eg-gh" style="--p:0.7" data-t="0.7"></i><i class="eg-gh" style="--p:0.8" data-t="0.8"></i><i class="eg-gh" style="--p:0.9" data-t="0.9"></i><b class="eg-dot"></b></span>
+      <span class="sr-only">עד חצי מהזמן הנקודה כבר ב-50% מהדרך.</span>
+    </li>
+    <li class="eg-tr">
+      <span class="eg-lb">מתחיל לאט</span>
+      <svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21L3.4 21L3.8 21L4.1 21L4.5 21L4.9 21L5.3 21L5.6 20.9L6 20.9L6.4 20.9L6.8 20.8L7.1 20.8L7.5 20.7L7.9 20.6L8.3 20.6L8.6 20.5L9 20.3L9.4 20.2L9.8 20.1L10.1 19.9L10.5 19.7L10.9 19.5L11.3 19.3L11.6 19L12 18.8L12.4 18.5L12.8 18.1L13.1 17.8L13.5 17.4L13.9 17L14.3 16.6L14.6 16.2L15 15.7L15.4 15.2L15.8 14.6L16.1 14L16.5 13.4L16.9 12.8L17.3 12.1L17.6 11.3L18 10.6L18.4 9.8L18.8 8.9L19.1 8.1L19.5 7.1L19.9 6.2L20.3 5.2L20.6 4.1L21 3"/></svg>
+      <span class="eg-rail" aria-hidden="true"><i class="eg-gh" style="--p:0.001" data-t="0.1"></i><i class="eg-gh" style="--p:0.008" data-t="0.2"></i><i class="eg-gh" style="--p:0.027" data-t="0.3"></i><i class="eg-gh" style="--p:0.064" data-t="0.4"></i><i class="eg-gh" style="--p:0.125" data-t="0.5"></i><i class="eg-gh" style="--p:0.216" data-t="0.6"></i><i class="eg-gh" style="--p:0.343" data-t="0.7"></i><i class="eg-gh" style="--p:0.512" data-t="0.8"></i><i class="eg-gh" style="--p:0.729" data-t="0.9"></i><b class="eg-dot"></b></span>
+      <span class="sr-only">עד חצי מהזמן הנקודה כבר ב-13% מהדרך.</span>
+    </li>
+    <li class="eg-tr">
+      <span class="eg-lb">נגמר לאט</span>
+      <svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21L3.4 19.9L3.8 18.8L4.1 17.8L4.5 16.9L4.9 15.9L5.3 15.1L5.6 14.2L6 13.4L6.4 12.7L6.8 11.9L7.1 11.2L7.5 10.6L7.9 10L8.3 9.4L8.6 8.8L9 8.3L9.4 7.8L9.8 7.4L10.1 7L10.5 6.6L10.9 6.2L11.3 5.9L11.6 5.5L12 5.3L12.4 5L12.8 4.7L13.1 4.5L13.5 4.3L13.9 4.1L14.3 3.9L14.6 3.8L15 3.7L15.4 3.5L15.8 3.4L16.1 3.4L16.5 3.3L16.9 3.2L17.3 3.2L17.6 3.1L18 3.1L18.4 3.1L18.8 3L19.1 3L19.5 3L19.9 3L20.3 3L20.6 3L21 3"/></svg>
+      <span class="eg-rail" aria-hidden="true"><i class="eg-gh" style="--p:0.271" data-t="0.1"></i><i class="eg-gh" style="--p:0.488" data-t="0.2"></i><i class="eg-gh" style="--p:0.657" data-t="0.3"></i><i class="eg-gh" style="--p:0.784" data-t="0.4"></i><i class="eg-gh" style="--p:0.875" data-t="0.5"></i><i class="eg-gh" style="--p:0.936" data-t="0.6"></i><i class="eg-gh" style="--p:0.973" data-t="0.7"></i><i class="eg-gh" style="--p:0.992" data-t="0.8"></i><i class="eg-gh" style="--p:0.999" data-t="0.9"></i><b class="eg-dot"></b></span>
+      <span class="sr-only">עד חצי מהזמן הנקודה כבר ב-88% מהדרך.</span>
+    </li>
+    <li class="eg-tr is-main">
+      <span class="eg-lb">מתחיל ונגמר לאט</span>
+      <svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21L3.4 21L3.8 21L4.1 21L4.5 20.9L4.9 20.9L5.3 20.8L5.6 20.7L6 20.6L6.4 20.5L6.8 20.4L7.1 20.2L7.5 20L7.9 19.8L8.3 19.6L8.6 19.3L9 18.9L9.4 18.5L9.8 18.1L10.1 17.5L10.5 16.8L10.9 15.9L11.3 14.8L11.6 13.5L12 12L12.4 10.5L12.8 9.2L13.1 8.1L13.5 7.2L13.9 6.5L14.3 5.9L14.6 5.5L15 5.1L15.4 4.7L15.8 4.4L16.1 4.2L16.5 4L16.9 3.8L17.3 3.6L17.6 3.5L18 3.4L18.4 3.3L18.8 3.2L19.1 3.1L19.5 3.1L19.9 3L20.3 3L20.6 3L21 3"/></svg>
+      <span class="eg-rail" aria-hidden="true"><i class="eg-gh" style="--p:0.007" data-t="0.1"></i><i class="eg-gh" style="--p:0.031" data-t="0.2"></i><i class="eg-gh" style="--p:0.085" data-t="0.3"></i><i class="eg-gh" style="--p:0.202" data-t="0.4"></i><i class="eg-gh" style="--p:0.5" data-t="0.5"></i><i class="eg-gh" style="--p:0.798" data-t="0.6"></i><i class="eg-gh" style="--p:0.915" data-t="0.7"></i><i class="eg-gh" style="--p:0.969" data-t="0.8"></i><i class="eg-gh" style="--p:0.993" data-t="0.9"></i><b class="eg-dot"></b></span>
+      <span class="sr-only">עד חצי מהזמן הנקודה כבר ב-50% מהדרך.</span>
+    </li>
+    <li class="eg-tr">
+      <span class="eg-lb">זינוק ונחיתה רכה</span>
+      <svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21L3.4 18.6L3.8 16.5L4.1 14.7L4.5 13.1L4.9 11.7L5.3 10.6L5.6 9.5L6 8.7L6.4 7.9L6.8 7.2L7.1 6.7L7.5 6.2L7.9 5.7L8.3 5.4L8.6 5L9 4.8L9.4 4.5L9.8 4.3L10.1 4.1L10.5 4L10.9 3.9L11.3 3.7L11.6 3.6L12 3.5L12.4 3.5L12.8 3.4L13.1 3.3L13.5 3.3L13.9 3.3L14.3 3.2L14.6 3.2L15 3.2L15.4 3.1L15.8 3.1L16.1 3.1L16.5 3.1L16.9 3.1L17.3 3.1L17.6 3L18 3L18.4 3L18.8 3L19.1 3L19.5 3L19.9 3L20.3 3L20.6 3L21 3"/></svg>
+      <span class="eg-rail" aria-hidden="true"><i class="eg-gh" style="--p:0.5" data-t="0.1"></i><i class="eg-gh" style="--p:0.751" data-t="0.2"></i><i class="eg-gh" style="--p:0.876" data-t="0.3"></i><i class="eg-gh" style="--p:0.938" data-t="0.4"></i><i class="eg-gh" style="--p:0.97" data-t="0.5"></i><i class="eg-gh" style="--p:0.985" data-t="0.6"></i><i class="eg-gh" style="--p:0.993" data-t="0.7"></i><i class="eg-gh" style="--p:0.997" data-t="0.8"></i><i class="eg-gh" style="--p:0.999" data-t="0.9"></i><b class="eg-dot"></b></span>
+      <span class="sr-only">עד חצי מהזמן הנקודה כבר ב-97% מהדרך.</span>
+    </li>
+    <li class="eg-tr">
+      <span class="eg-lb">בקפיצות</span>
+      <svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21L3.4 21L3.8 21L4.1 21L4.5 21L4.9 21L5.3 21L5.6 21L6 18L6.4 18L6.8 18L7.1 18L7.5 18L7.9 18L8.3 18L8.6 18L9 15L9.4 15L9.8 15L10.1 15L10.5 15L10.9 15L11.3 15L11.6 15L12 12L12.4 12L12.8 12L13.1 12L13.5 12L13.9 12L14.3 12L14.6 12L15 9L15.4 9L15.8 9L16.1 9L16.5 9L16.9 9L17.3 9L17.6 9L18 6L18.4 6L18.8 6L19.1 6L19.5 6L19.9 6L20.3 6L20.6 6L21 3"/></svg>
+      <span class="eg-rail" aria-hidden="true"><i class="eg-gh" style="--p:0" data-t="0.1"></i><i class="eg-gh" style="--p:0.167" data-t="0.2"></i><i class="eg-gh" style="--p:0.167" data-t="0.3"></i><i class="eg-gh" style="--p:0.333" data-t="0.4"></i><i class="eg-gh" style="--p:0.5" data-t="0.5"></i><i class="eg-gh" style="--p:0.5" data-t="0.6"></i><i class="eg-gh" style="--p:0.667" data-t="0.7"></i><i class="eg-gh" style="--p:0.667" data-t="0.8"></i><i class="eg-gh" style="--p:0.833" data-t="0.9"></i><b class="eg-dot"></b></span>
+      <span class="sr-only">עד חצי מהזמן הנקודה כבר ב-50% מהדרך.</span>
+    </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP כל הנקודות בסוף והגרף שלם (בסימון)
+  const root=document.querySelector(".eg"),run=root.querySelector(".eg-run");
+  const mk=root.querySelector(".eg-mk"),halo=root.querySelector(".eg-halo"),gx=root.querySelector(".eg-gx"),gy=root.querySelector(".eg-gy");
+  const rt=root.querySelector("[data-t]"),rd=root.querySelector("[data-d]");
+  const rows=[...root.querySelectorAll(".eg-tr")].map(r=>({dot:r.querySelector(".eg-dot"),gh:[...r.querySelectorAll(".eg-gh")].map(g=>({el:g,t:Number(g.dataset.t)}))}));
+  // ששת הקצבים: מקור האמת היחיד. הרביעי הוא העקומה שבגרף
+  const E=[t => t,t => t * t * t,t => 1 - Math.pow(1 - t, 3),t => { let lo = 0, hi = 1, s = .5; for (let i = 0; i < 28; i++) { s = (lo + hi) / 2; const x = 3 * (1 - s) * (1 - s) * s * .76 + 3 * (1 - s) * s * s * .24 + s * s * s; if (x < t) lo = s; else hi = s; } return 3 * (1 - s) * s * s + s * s * s; },t => (1 - Math.pow(2, -10 * t)) / (1 - Math.pow(2, -10)),t => t >= 1 ? 1 : Math.floor(t * 6) / 6];
+  const L=28,R=388,T=32,B=296;      // אזור הציור בתוך ה-viewBox של ה-SVG
+  const draw=P=>{
+    const d=E[3](P),x=L+(R-L)*P,y=B-(B-T)*d;
+    mk.setAttribute("cx",x);mk.setAttribute("cy",y);halo.setAttribute("cx",x);halo.setAttribute("cy",y);
+    gx.setAttribute("x1",x);gx.setAttribute("x2",x);gx.setAttribute("y1",y);
+    gy.setAttribute("x2",x);gy.setAttribute("y1",y);gy.setAttribute("y2",y);
+    rt.textContent=Math.round(P*100)+"%";rd.textContent=Math.round(d*100)+"%";
+    rows.forEach((r,i)=>{r.dot.style.setProperty("--p",E[i](P).toFixed(4));r.gh.forEach(g=>g.el.classList.toggle("on",P>=g.t-.001));});
+  };
+  // בהפחתת תנועה הפונקציה לא רצה, ורואים את המצב הסופי מהסימון
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const st={p:0};
+    draw(0);
+    // עצירה קצרה בהתחלה ובסוף, כדי שמרגישים את נקודת היציאה ואת ההגעה
+    const tl=gsap.timeline({scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
+    tl.to({},{duration:.1}).to(st,{p:1,duration:1,ease:"none",onUpdate:()=>draw(st.p)}).to({},{duration:.1});
+    return()=>{
+      root.classList.remove("is-live");
+      mk.setAttribute("cx",R);mk.setAttribute("cy",T);halo.setAttribute("cx",R);halo.setAttribute("cy",T);
+      gx.setAttribute("x1",R);gx.setAttribute("x2",R);gx.setAttribute("y1",T);
+      gy.setAttribute("x2",R);gy.setAttribute("y1",T);gy.setAttribute("y2",T);
+      rt.textContent="100%";rd.textContent="100%";
+      rows.forEach(r=>{r.dot.style.removeProperty("--p");r.gh.forEach(g=>g.el.classList.remove("on"));});
+    };
+  });
+})();
+</script>
+</body>
+</html>

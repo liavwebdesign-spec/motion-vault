@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G252 · גרף עקומת האטה עם נקודה נעה | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.eg{--eg-h:56svh;max-width:1200px;margin-inline:auto;display:grid;gap:clamp(24px,4vw,48px)}
+.eg-head{display:grid;gap:12px;max-width:54ch}
+.eg-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}
+.eg-head p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.eg .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.eg-pin{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(16px,2.4vw,32px);align-items:stretch}
+.eg-card{margin:0;padding:clamp(16px,2.2vw,32px);border-radius:24px;background:var(--card);box-shadow:0 0 0 1px var(--line);display:grid;gap:16px;align-content:start}
+/* גרף: SVG בלי טקסט, מצויר משמאל לימין ומתהפך ב-RTL. הכיתובים הם HTML בפינות */
+.eg-fig{position:relative;width:min(100%,calc(var(--eg-h) * 400 / 340));margin-inline:auto}
+.eg-lanes{align-content:center}
+.eg-svg{display:block;width:100%;height:auto}
+.eg-svg:dir(rtl){transform:scaleX(-1)}
+.eg-ax{position:absolute;font-size:14px;color:var(--muted)}
+.eg-ax-y{inset-block-start:0;inset-inline-start:0}
+.eg-ax-x{inset-block-end:0;inset-inline-end:0}
+.eg-g{stroke:var(--line);stroke-width:1;stroke-dasharray:2 6}
+.eg-axl{stroke:var(--muted);stroke-width:1.5;opacity:.5}
+.eg-ref{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:5 6;opacity:.6}
+.eg-curve{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round}
+.eg-hd{stroke:var(--muted);stroke-width:1;opacity:.5}
+.eg-hk{fill:var(--card);stroke:var(--accent);stroke-width:2}
+.eg-gd{stroke:var(--accent);stroke-width:1.5;stroke-dasharray:3 4;opacity:.7}
+.eg-halo{fill:var(--accent);opacity:.18}
+.eg-mk{fill:var(--accent);stroke:var(--card);stroke-width:3}
+.eg-cap{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:8px 16px}
+.eg-cap b{display:block;font-size:clamp(18px,1.5vw,22px);line-height:1.25}
+.eg-cap small{display:block;margin-top:4px;color:var(--muted);font-size:14px;line-height:1.5}
+.eg-read{display:flex;gap:20px;color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums}
+.eg-read b{display:block;margin-top:2px;color:var(--ink);font-size:clamp(20px,1.8vw,26px);font-weight:700;line-height:1.1}
+/* שורות הקצבים: לכל שורה כיתוב, עקומה קטנה ומסלול. מיקום הנקודה הוא --p בין 0 ל-1 (ברירת מחדל 1, כלומר בסוף) */
+.eg-tracks{list-style:none;margin:0;padding:0;display:grid;gap:clamp(16px,3.2vw,40px);align-content:center}
+.eg-tr{--c:color-mix(in oklab,var(--ink) 72%,var(--card));display:grid;grid-template-columns:minmax(0,9.5em) 28px minmax(0,1fr);align-items:center;gap:12px;font-size:16px;line-height:1.25}
+.eg-tr.is-main{--c:var(--accent);font-weight:700}
+.eg-ic{width:28px;height:28px;fill:none;stroke:var(--muted);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.eg-tr.is-main .eg-ic{stroke:var(--accent)}
+.eg-rail{--d:28px;position:relative;height:var(--d);container-type:inline-size}
+.eg-rail::before{content:"";position:absolute;inset-inline:0;top:50%;height:2px;translate:0 -50%;border-radius:2px;background:var(--line)}
+.eg-rail::after{content:"";position:absolute;inset-inline-end:0;top:0;width:2px;height:100%;border-radius:2px;background:var(--line)}
+.eg-dot,.eg-gh{--sx:-1;position:absolute;top:50%;inset-inline-start:0;width:var(--d);height:var(--d);translate:calc(var(--p,1) * (100cqw - var(--d)) * var(--sx)) -50%}
+.eg-rail:dir(ltr) .eg-dot,.eg-rail:dir(ltr) .eg-gh{--sx:1}
+.eg-dot{border-radius:50%;background:var(--c)}
+.eg-gh{display:grid;place-items:center;opacity:.4}
+.eg-gh::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+/* המהלך רץ: סצנה נעוצה, והנקודות הקטנות נדלקות כשהנקודה הגדולה עוברת עליהן */
+.eg.is-live .eg-run{height:260vh}
+.eg.is-live .eg-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center}
+.eg.is-live .eg-gh{opacity:0;transition:opacity .25s linear}
+.eg.is-live .eg-gh.on{opacity:.4}
+@media(max-width:767px){
+  .eg{--eg-h:30svh}
+  .eg-pin{grid-template-columns:minmax(0,1fr);gap:12px}
+  .eg-card{padding:16px;border-radius:20px;gap:12px}
+  .eg-tracks{gap:10px}
+  .eg-tr{grid-template-columns:28px minmax(0,1fr);row-gap:4px;column-gap:10px}
+  .eg-ic{grid-column:1;grid-row:1}
+  .eg-lb{grid-column:2;grid-row:1}
+  .eg-rail{--d:20px;grid-column:1 / -1;grid-row:2}
+  .eg-gh::after{width:6px;height:6px}
+  .eg-cap{gap:4px 12px}
+}
+@media(prefers-reduced-motion:reduce){.eg-gh{transition:none}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g251.html" rel="prev" title="הקודם: קשקוש על תמונה שמוחק את האובייקט">→<span class="sr-only">הקודם</span></a><span class="vpn-n">228/233</span><a href="g253.html" rel="next" title="הבא: רשת אריחים שמתרוממת למפת גבהים">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G252</span> · גרף עקומת האטה עם נקודה נעה</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · SVG · sticky</span>
+  <span class="vchip use">תהליך ושלבים</span><span class="vchip use">מספרים ונתונים</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g252"><code>MV:g252</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g252">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>גרף גדול של עקומת קצב, ונקודה שרצה עליה בקצב הגלילה עם קווי עזר לשני הצירים. לידו שש שורות, ובכל אחת נקודה שעוברת אותו מרחק באותו זמן בקצב אחר: אחיד, מתחיל לאט, נגמר לאט, זינוק, קפיצות. אחרי כל עשירית מהזמן נשארת בשורה נקודה קטנה, והמרווחים ביניהן מראים איפה התנועה מהירה ואיפה איטית. לא קוראים את העקומה, מרגישים אותה.</p>
+  <p class="when"><b>מתי משתמשים:</b> הסבר על קצב, בלי קשר לתחום: איך אנחנו עובדים (שלב איטי ויסודי בהתחלה, מהיר באמצע, גימור רגוע בסוף), סטודיו לאנימציה או עיצוב ממשקים שמסביר למה תנועה אחת מרגישה נכונה, קורס, או כל שירות שמתקדם בקצב לא אחיד. פעם אחת בעמוד, ורק כשהקצב הוא באמת חלק מהסיפור.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>אתר תדמית · פורטפוליו וסטודיו · דף נחיתה</dd></div><div><dt>בסקשן</dt><dd>תהליך ושלבים · בעיה ויתרונות · אודות וצוות</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>משרת תוכן, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשהקהל לא מתעניין בתנועה עצמה, ולא כשהעקומה לא מלמדת דבר על השירות או על המוצר שמציגים לידה.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g252"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><section class="eg">
+  <header class="eg-head">
+    <h2>קצב של תנועה נראה כמו עקומה</h2>
+    <p>בכל השורות אותה נקודה עוברת אותו מרחק באותו זמן. רק הקצב שונה, ואת ההבדל מרגישים מיד כשהיא זזה.</p>
+  </header>
+  <div class="eg-run">
+    <div class="eg-pin">
+      <figure class="eg-card eg-graph">
+        <div class="eg-fig">
+          <svg class="eg-svg" viewBox="0 0 400 340" aria-hidden="true" focusable="false">
+            <path class="eg-g" d="M118 32V296M208 32V296M298 32V296M28 98H388M28 164H388M28 230H388"/>
+            <path class="eg-axl" d="M28 32V296H388" fill="none"/>
+            <path class="eg-ref" d="M28 296L388 32" fill="none"/>
+            <path class="eg-hd" d="M28 296H301.6M388 32H114.4" fill="none"/>
+            <path class="eg-curve" d="M28 296C301.6 296 114.4 32 388 32"/>
+            <circle class="eg-hk" cx="301.6" cy="296" r="6"/><circle class="eg-hk" cx="114.4" cy="32" r="6"/>
+            <line class="eg-gd eg-gx" x1="388" y1="32" x2="388" y2="296"/><line class="eg-gd eg-gy" x1="28" y1="32" x2="388" y2="32"/>
+            <circle class="eg-halo" cx="388" cy="32" r="16"/><circle class="eg-mk" cx="388" cy="32" r="8"/>
+          </svg>
+          <span class="eg-ax eg-ax-y" aria-hidden="true">מרחק</span><span class="eg-ax eg-ax-x" aria-hidden="true">זמן</span>
+        </div>
+        <figcaption class="eg-cap">
+          <span><b>מתחיל ונגמר לאט</b><small>הקו המקווקו הוא קצב אחיד. באמצע התנועה הנקודה מהירה ביותר.</small></span>
+          <span class="eg-read" aria-hidden="true"><span>זמן<b data-t>100%</b></span><span>מרחק<b data-d>100%</b></span></span>
+          <span class="sr-only">אחרי רבע מהזמן הנקודה עברה 5% מהמרחק, אחרי חצי מהזמן 50%, ואחרי שלושה רבעים 95%.</span>
+        </figcaption>
+      </figure>
+      <div class="eg-card eg-lanes">
+        <ul class="eg-tracks" aria-label="שישה קצבים לאותה תנועה">
+    <li class="eg-tr">
+      <span class="eg-lb">קצב אחיד</span>
+      <svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21L3.4 20.6L3.8 20.3L4.1 19.9L4.5 19.5L4.9 19.1L5.3 18.8L5.6 18.4L6 18L6.4 17.6L6.8 17.3L7.1 16.9L7.5 16.5L7.9 16.1L8.3 15.8L8.6 15.4L9 15L9.4 14.6L9.8 14.3L10.1 13.9L10.5 13.5L10.9 13.1L11.3 12.8L11.6 12.4L12 12L12.4 11.6L12.8 11.3L13.1 10.9L13.5 10.5L13.9 10.1L14.3 9.8L14.6 9.4L15 9L15.4 8.6L15.8 8.3L16.1 7.9L16.5 7.5L16.9 7.1L17.3 6.8L17.6 6.4L18 6L18.4 5.6L18.8 5.3L19.1 4.9L19.5 4.5L19.9 4.1L20.3 3.8L20.6 3.4L21 3"/></svg>
+      <span class="eg-rail" aria-hidden="true"><i class="eg-gh" style="--p:0.1" data-t="0.1"></i><i class="eg-gh" style="--p:0.2" data-t="0.2"></i><i class="eg-gh" style="--p:0.3" data-t="0.3"></i><i class="eg-gh" style="--p:0.4" data-t="0.4"></i><i class="eg-gh" style="--p:0.5" data-t="0.5"></i><i class="eg-gh" style="--p:0.6" data-t="0.6"></i><i class="eg-gh" style="--p:0.7" data-t="0.7"></i><i class="eg-gh" style="--p:0.8" data-t="0.8"></i><i class="eg-gh" style="--p:0.9" data-t="0.9"></i><b class="eg-dot"></b></span>
+      <span class="sr-only">עד חצי מהזמן הנקודה כבר ב-50% מהדרך.</span>
+    </li>
+    <li class="eg-tr">
+      <span class="eg-lb">מתחיל לאט</span>
+      <svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21L3.4 21L3.8 21L4.1 21L4.5 21L4.9 21L5.3 21L5.6 20.9L6 20.9L6.4 20.9L6.8 20.8L7.1 20.8L7.5 20.7L7.9 20.6L8.3 20.6L8.6 20.5L9 20.3L9.4 20.2L9.8 20.1L10.1 19.9L10.5 19.7L10.9 19.5L11.3 19.3L11.6 19L12 18.8L12.4 18.5L12.8 18.1L13.1 17.8L13.5 17.4L13.9 17L14.3 16.6L14.6 16.2L15 15.7L15.4 15.2L15.8 14.6L16.1 14L16.5 13.4L16.9 12.8L17.3 12.1L17.6 11.3L18 10.6L18.4 9.8L18.8 8.9L19.1 8.1L19.5 7.1L19.9 6.2L20.3 5.2L20.6 4.1L21 3"/></svg>
+      <span class="eg-rail" aria-hidden="true"><i class="eg-gh" style="--p:0.001" data-t="0.1"></i><i class="eg-gh" style="--p:0.008" data-t="0.2"></i><i class="eg-gh" style="--p:0.027" data-t="0.3"></i><i class="eg-gh" style="--p:0.064" data-t="0.4"></i><i class="eg-gh" style="--p:0.125" data-t="0.5"></i><i class="eg-gh" style="--p:0.216" data-t="0.6"></i><i class="eg-gh" style="--p:0.343" data-t="0.7"></i><i class="eg-gh" style="--p:0.512" data-t="0.8"></i><i class="eg-gh" style="--p:0.729" data-t="0.9"></i><b class="eg-dot"></b></span>
+      <span class="sr-only">עד חצי מהזמן הנקודה כבר ב-13% מהדרך.</span>
+    </li>
+    <li class="eg-tr">
+      <span class="eg-lb">נגמר לאט</span>
+      <svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21L3.4 19.9L3.8 18.8L4.1 17.8L4.5 16.9L4.9 15.9L5.3 15.1L5.6 14.2L6 13.4L6.4 12.7L6.8 11.9L7.1 11.2L7.5 10.6L7.9 10L8.3 9.4L8.6 8.8L9 8.3L9.4 7.8L9.8 7.4L10.1 7L10.5 6.6L10.9 6.2L11.3 5.9L11.6 5.5L12 5.3L12.4 5L12.8 4.7L13.1 4.5L13.5 4.3L13.9 4.1L14.3 3.9L14.6 3.8L15 3.7L15.4 3.5L15.8 3.4L16.1 3.4L16.5 3.3L16.9 3.2L17.3 3.2L17.6 3.1L18 3.1L18.4 3.1L18.8 3L19.1 3L19.5 3L19.9 3L20.3 3L20.6 3L21 3"/></svg>
+      <span class="eg-rail" aria-hidden="true"><i class="eg-gh" style="--p:0.271" data-t="0.1"></i><i class="eg-gh" style="--p:0.488" data-t="0.2"></i><i class="eg-gh" style="--p:0.657" data-t="0.3"></i><i class="eg-gh" style="--p:0.784" data-t="0.4"></i><i class="eg-gh" style="--p:0.875" data-t="0.5"></i><i class="eg-gh" style="--p:0.936" data-t="0.6"></i><i class="eg-gh" style="--p:0.973" data-t="0.7"></i><i class="eg-gh" style="--p:0.992" data-t="0.8"></i><i class="eg-gh" style="--p:0.999" data-t="0.9"></i><b class="eg-dot"></b></span>
+      <span class="sr-only">עד חצי מהזמן הנקודה כבר ב-88% מהדרך.</span>
+    </li>
+    <li class="eg-tr is-main">
+      <span class="eg-lb">מתחיל ונגמר לאט</span>
+      <svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21L3.4 21L3.8 21L4.1 21L4.5 20.9L4.9 20.9L5.3 20.8L5.6 20.7L6 20.6L6.4 20.5L6.8 20.4L7.1 20.2L7.5 20L7.9 19.8L8.3 19.6L8.6 19.3L9 18.9L9.4 18.5L9.8 18.1L10.1 17.5L10.5 16.8L10.9 15.9L11.3 14.8L11.6 13.5L12 12L12.4 10.5L12.8 9.2L13.1 8.1L13.5 7.2L13.9 6.5L14.3 5.9L14.6 5.5L15 5.1L15.4 4.7L15.8 4.4L16.1 4.2L16.5 4L16.9 3.8L17.3 3.6L17.6 3.5L18 3.4L18.4 3.3L18.8 3.2L19.1 3.1L19.5 3.1L19.9 3L20.3 3L20.6 3L21 3"/></svg>
+      <span class="eg-rail" aria-hidden="true"><i class="eg-gh" style="--p:0.007" data-t="0.1"></i><i class="eg-gh" style="--p:0.031" data-t="0.2"></i><i class="eg-gh" style="--p:0.085" data-t="0.3"></i><i class="eg-gh" style="--p:0.202" data-t="0.4"></i><i class="eg-gh" style="--p:0.5" data-t="0.5"></i><i class="eg-gh" style="--p:0.798" data-t="0.6"></i><i class="eg-gh" style="--p:0.915" data-t="0.7"></i><i class="eg-gh" style="--p:0.969" data-t="0.8"></i><i class="eg-gh" style="--p:0.993" data-t="0.9"></i><b class="eg-dot"></b></span>
+      <span class="sr-only">עד חצי מהזמן הנקודה כבר ב-50% מהדרך.</span>
+    </li>
+    <li class="eg-tr">
+      <span class="eg-lb">זינוק ונחיתה רכה</span>
+      <svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21L3.4 18.6L3.8 16.5L4.1 14.7L4.5 13.1L4.9 11.7L5.3 10.6L5.6 9.5L6 8.7L6.4 7.9L6.8 7.2L7.1 6.7L7.5 6.2L7.9 5.7L8.3 5.4L8.6 5L9 4.8L9.4 4.5L9.8 4.3L10.1 4.1L10.5 4L10.9 3.9L11.3 3.7L11.6 3.6L12 3.5L12.4 3.5L12.8 3.4L13.1 3.3L13.5 3.3L13.9 3.3L14.3 3.2L14.6 3.2L15 3.2L15.4 3.1L15.8 3.1L16.1 3.1L16.5 3.1L16.9 3.1L17.3 3.1L17.6 3L18 3L18.4 3L18.8 3L19.1 3L19.5 3L19.9 3L20.3 3L20.6 3L21 3"/></svg>
+      <span class="eg-rail" aria-hidden="true"><i class="eg-gh" style="--p:0.5" data-t="0.1"></i><i class="eg-gh" style="--p:0.751" data-t="0.2"></i><i class="eg-gh" style="--p:0.876" data-t="0.3"></i><i class="eg-gh" style="--p:0.938" data-t="0.4"></i><i class="eg-gh" style="--p:0.97" data-t="0.5"></i><i class="eg-gh" style="--p:0.985" data-t="0.6"></i><i class="eg-gh" style="--p:0.993" data-t="0.7"></i><i class="eg-gh" style="--p:0.997" data-t="0.8"></i><i class="eg-gh" style="--p:0.999" data-t="0.9"></i><b class="eg-dot"></b></span>
+      <span class="sr-only">עד חצי מהזמן הנקודה כבר ב-97% מהדרך.</span>
+    </li>
+    <li class="eg-tr">
+      <span class="eg-lb">בקפיצות</span>
+      <svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 21L3.4 21L3.8 21L4.1 21L4.5 21L4.9 21L5.3 21L5.6 21L6 18L6.4 18L6.8 18L7.1 18L7.5 18L7.9 18L8.3 18L8.6 18L9 15L9.4 15L9.8 15L10.1 15L10.5 15L10.9 15L11.3 15L11.6 15L12 12L12.4 12L12.8 12L13.1 12L13.5 12L13.9 12L14.3 12L14.6 12L15 9L15.4 9L15.8 9L16.1 9L16.5 9L16.9 9L17.3 9L17.6 9L18 6L18.4 6L18.8 6L19.1 6L19.5 6L19.9 6L20.3 6L20.6 6L21 3"/></svg>
+      <span class="eg-rail" aria-hidden="true"><i class="eg-gh" style="--p:0" data-t="0.1"></i><i class="eg-gh" style="--p:0.167" data-t="0.2"></i><i class="eg-gh" style="--p:0.167" data-t="0.3"></i><i class="eg-gh" style="--p:0.333" data-t="0.4"></i><i class="eg-gh" style="--p:0.5" data-t="0.5"></i><i class="eg-gh" style="--p:0.5" data-t="0.6"></i><i class="eg-gh" style="--p:0.667" data-t="0.7"></i><i class="eg-gh" style="--p:0.667" data-t="0.8"></i><i class="eg-gh" style="--p:0.833" data-t="0.9"></i><b class="eg-dot"></b></span>
+      <span class="sr-only">עד חצי מהזמן הנקודה כבר ב-50% מהדרך.</span>
+    </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטוני תנועה ב-prompt-motion.com (21.10.2026), בכל אחד גרף של עקומת האטה לצד שורות של נקודות שמתחרות בקצבים שונים. נבנה מאפס מהצפייה. <b>מקור אמת אחד:</b> ששת הקצבים הם מערך <code>E</code> של פונקציות בקוד, והוא הדבר היחיד שמזיז הכול. הגרף, הנקודות והמספרים מתעדכנים מאותו ערך התקדמות (<code>P</code>, בין 0 ל-1), ולכן הם תמיד מסונכרנים. הקצב הרביעי הוא עקומת בזייה (0.76, 0, 0.24, 1), הקצב החתום של הספרייה, ונפתר מ-x ל-y בחיפוש בינארי. <b>הערך הסופי בסימון:</b> כל נקודה יושבת בקצה השורה דרך <code>--p:1</code> ברירת מחדל, הנקודות הקטנות (<code>.eg-gh</code>) כולן מוצגות, והסמן בפינה העליונה של הגרף. רק כשהמהלך רץ הוא מאפס אותם ומקדם בגלילה. <b>בלי מדידות ב-JS:</b> מיקום הנקודה בשורה הוא <code>translate</code> ב-CSS מתוך <code>--p</code> וממידת השורה (<code>cqw</code>), ולכן שינוי רוחב המסך לא דורש חישוב מחדש. <b>הגרף:</b> SVG בלי טקסט (הכיתובים הם HTML), כדי שיהפוך בלי לקלקל אותיות. <b>RTL:</b> הזמן זורם מימין לשמאל, והגרף הוא SVG שמצויר משמאל לימין ומתהפך ב-<code>:dir(rtl)</code>. באתר LTR מוחקים את שורת ההיפוך, והנקודות בשורות ממשיכות מעצמן כי הכיוון נקרא מ-<code>:dir()</code>. <b>נגישות:</b> הנקודות והעקומות מוסתרות מקורא מסך. מה שנקרא הוא טקסט מוסתר: עד כמה כל קצב התקדם בחצי הזמן, ומשפט שמתאר את העקומה (בנוי מאותה פונקציה, לא כתוב ביד). <b>בטלפון</b> הגרף מוגבל בגובה כדי ששתי הכרטיסיות נכנסות יחד במסך נעוץ, והשורות עוברות לשתי שורות: כיתוב ועקומה קטנה מעל, ומסלול ברוחב מלא מתחת.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g252.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G252 · גרף עקומת האטה עם נקודה נעה */
+.eg{--eg-h:56svh;max-width:1200px;margin-inline:auto;display:grid;gap:clamp(24px,4vw,48px)}
+.eg-head{display:grid;gap:12px;max-width:54ch}
+.eg-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}
+.eg-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.eg .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.eg-pin{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(16px,2.4vw,32px);align-items:stretch}
+.eg-card{margin:0;padding:clamp(16px,2.2vw,32px);border-radius:24px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee);display:grid;gap:16px;align-content:start}
+/* גרף: SVG בלי טקסט, מצויר משמאל לימין ומתהפך ב-RTL. הכיתובים הם HTML בפינות */
+.eg-fig{position:relative;width:min(100%,calc(var(--eg-h) * 400 / 340));margin-inline:auto}
+.eg-lanes{align-content:center}
+.eg-svg{display:block;width:100%;height:auto}
+.eg-svg:dir(rtl){transform:scaleX(-1)}
+.eg-ax{position:absolute;font-size:14px;color:var(--muted, #6a6d85)}
+.eg-ax-y{inset-block-start:0;inset-inline-start:0}
+.eg-ax-x{inset-block-end:0;inset-inline-end:0}
+.eg-g{stroke:var(--line, #e4e4ee);stroke-width:1;stroke-dasharray:2 6}
+.eg-axl{stroke:var(--muted, #6a6d85);stroke-width:1.5;opacity:.5}
+.eg-ref{stroke:var(--muted, #6a6d85);stroke-width:1.5;stroke-dasharray:5 6;opacity:.6}
+.eg-curve{fill:none;stroke:var(--accent, #4a3aff);stroke-width:4;stroke-linecap:round}
+.eg-hd{stroke:var(--muted, #6a6d85);stroke-width:1;opacity:.5}
+.eg-hk{fill:var(--card, #fff);stroke:var(--accent, #4a3aff);stroke-width:2}
+.eg-gd{stroke:var(--accent, #4a3aff);stroke-width:1.5;stroke-dasharray:3 4;opacity:.7}
+.eg-halo{fill:var(--accent, #4a3aff);opacity:.18}
+.eg-mk{fill:var(--accent, #4a3aff);stroke:var(--card, #fff);stroke-width:3}
+.eg-cap{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:8px 16px}
+.eg-cap b{display:block;font-size:clamp(18px,1.5vw,22px);line-height:1.25}
+.eg-cap small{display:block;margin-top:4px;color:var(--muted, #6a6d85);font-size:14px;line-height:1.5}
+.eg-read{display:flex;gap:20px;color:var(--muted, #6a6d85);font-size:14px;font-variant-numeric:tabular-nums}
+.eg-read b{display:block;margin-top:2px;color:var(--ink, #16182b);font-size:clamp(20px,1.8vw,26px);font-weight:700;line-height:1.1}
+/* שורות הקצבים: לכל שורה כיתוב, עקומה קטנה ומסלול. מיקום הנקודה הוא --p בין 0 ל-1 (ברירת מחדל 1, כלומר בסוף) */
+.eg-tracks{list-style:none;margin:0;padding:0;display:grid;gap:clamp(16px,3.2vw,40px);align-content:center}
+.eg-tr{--c:color-mix(in oklab,var(--ink, #16182b) 72%,var(--card, #fff));display:grid;grid-template-columns:minmax(0,9.5em) 28px minmax(0,1fr);align-items:center;gap:12px;font-size:16px;line-height:1.25}
+.eg-tr.is-main{--c:var(--accent, #4a3aff);font-weight:700}
+.eg-ic{width:28px;height:28px;fill:none;stroke:var(--muted, #6a6d85);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.eg-tr.is-main .eg-ic{stroke:var(--accent, #4a3aff)}
+.eg-rail{--d:28px;position:relative;height:var(--d);container-type:inline-size}
+.eg-rail::before{content:"";position:absolute;inset-inline:0;top:50%;height:2px;translate:0 -50%;border-radius:2px;background:var(--line, #e4e4ee)}
+.eg-rail::after{content:"";position:absolute;inset-inline-end:0;top:0;width:2px;height:100%;border-radius:2px;background:var(--line, #e4e4ee)}
+.eg-dot,.eg-gh{--sx:-1;position:absolute;top:50%;inset-inline-start:0;width:var(--d);height:var(--d);translate:calc(var(--p,1) * (100cqw - var(--d)) * var(--sx)) -50%}
+.eg-rail:dir(ltr) .eg-dot,.eg-rail:dir(ltr) .eg-gh{--sx:1}
+.eg-dot{border-radius:50%;background:var(--c)}
+.eg-gh{display:grid;place-items:center;opacity:.4}
+.eg-gh::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--c)}
+/* המהלך רץ: סצנה נעוצה, והנקודות הקטנות נדלקות כשהנקודה הגדולה עוברת עליהן */
+.eg.is-live .eg-run{height:260vh}
+.eg.is-live .eg-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center}
+.eg.is-live .eg-gh{opacity:0;transition:opacity .25s linear}
+.eg.is-live .eg-gh.on{opacity:.4}
+@media(max-width:767px){
+  .eg{--eg-h:30svh}
+  .eg-pin{grid-template-columns:minmax(0,1fr);gap:12px}
+  .eg-card{padding:16px;border-radius:20px;gap:12px}
+  .eg-tracks{gap:10px}
+  .eg-tr{grid-template-columns:28px minmax(0,1fr);row-gap:4px;column-gap:10px}
+  .eg-ic{grid-column:1;grid-row:1}
+  .eg-lb{grid-column:2;grid-row:1}
+  .eg-rail{--d:20px;grid-column:1 / -1;grid-row:2}
+  .eg-gh::after{width:6px;height:6px}
+  .eg-cap{gap:4px 12px}
+}
+@media(prefers-reduced-motion:reduce){.eg-gh{transition:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;section class="eg"&gt;
+  &lt;header class="eg-head"&gt;
+    &lt;h2&gt;קצב של תנועה נראה כמו עקומה&lt;/h2&gt;
+    &lt;p&gt;בכל השורות אותה נקודה עוברת אותו מרחק באותו זמן. רק הקצב שונה, ואת ההבדל מרגישים מיד כשהיא זזה.&lt;/p&gt;
+  &lt;/header&gt;
+  &lt;div class="eg-run"&gt;
+    &lt;div class="eg-pin"&gt;
+      &lt;figure class="eg-card eg-graph"&gt;
+        &lt;div class="eg-fig"&gt;
+          &lt;svg class="eg-svg" viewBox="0 0 400 340" aria-hidden="true" focusable="false"&gt;
+            &lt;path class="eg-g" d="M118 32V296M208 32V296M298 32V296M28 98H388M28 164H388M28 230H388"/&gt;
+            &lt;path class="eg-axl" d="M28 32V296H388" fill="none"/&gt;
+            &lt;path class="eg-ref" d="M28 296L388 32" fill="none"/&gt;
+            &lt;path class="eg-hd" d="M28 296H301.6M388 32H114.4" fill="none"/&gt;
+            &lt;path class="eg-curve" d="M28 296C301.6 296 114.4 32 388 32"/&gt;
+            &lt;circle class="eg-hk" cx="301.6" cy="296" r="6"/&gt;&lt;circle class="eg-hk" cx="114.4" cy="32" r="6"/&gt;
+            &lt;line class="eg-gd eg-gx" x1="388" y1="32" x2="388" y2="296"/&gt;&lt;line class="eg-gd eg-gy" x1="28" y1="32" x2="388" y2="32"/&gt;
+            &lt;circle class="eg-halo" cx="388" cy="32" r="16"/&gt;&lt;circle class="eg-mk" cx="388" cy="32" r="8"/&gt;
+          &lt;/svg&gt;
+          &lt;span class="eg-ax eg-ax-y" aria-hidden="true"&gt;מרחק&lt;/span&gt;&lt;span class="eg-ax eg-ax-x" aria-hidden="true"&gt;זמן&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;figcaption class="eg-cap"&gt;
+          &lt;span&gt;&lt;b&gt;מתחיל ונגמר לאט&lt;/b&gt;&lt;small&gt;הקו המקווקו הוא קצב אחיד. באמצע התנועה הנקודה מהירה ביותר.&lt;/small&gt;&lt;/span&gt;
+          &lt;span class="eg-read" aria-hidden="true"&gt;&lt;span&gt;זמן&lt;b data-t&gt;100%&lt;/b&gt;&lt;/span&gt;&lt;span&gt;מרחק&lt;b data-d&gt;100%&lt;/b&gt;&lt;/span&gt;&lt;/span&gt;
+          &lt;span class="sr-only"&gt;אחרי רבע מהזמן הנקודה עברה 5% מהמרחק, אחרי חצי מהזמן 50%, ואחרי שלושה רבעים 95%.&lt;/span&gt;
+        &lt;/figcaption&gt;
+      &lt;/figure&gt;
+      &lt;div class="eg-card eg-lanes"&gt;
+        &lt;ul class="eg-tracks" aria-label="שישה קצבים לאותה תנועה"&gt;
+    &lt;li class="eg-tr"&gt;
+      &lt;span class="eg-lb"&gt;קצב אחיד&lt;/span&gt;
+      &lt;svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"&gt;&lt;path d="M3 21L3.4 20.6L3.8 20.3L4.1 19.9L4.5 19.5L4.9 19.1L5.3 18.8L5.6 18.4L6 18L6.4 17.6L6.8 17.3L7.1 16.9L7.5 16.5L7.9 16.1L8.3 15.8L8.6 15.4L9 15L9.4 14.6L9.8 14.3L10.1 13.9L10.5 13.5L10.9 13.1L11.3 12.8L11.6 12.4L12 12L12.4 11.6L12.8 11.3L13.1 10.9L13.5 10.5L13.9 10.1L14.3 9.8L14.6 9.4L15 9L15.4 8.6L15.8 8.3L16.1 7.9L16.5 7.5L16.9 7.1L17.3 6.8L17.6 6.4L18 6L18.4 5.6L18.8 5.3L19.1 4.9L19.5 4.5L19.9 4.1L20.3 3.8L20.6 3.4L21 3"/&gt;&lt;/svg&gt;
+      &lt;span class="eg-rail" aria-hidden="true"&gt;&lt;i class="eg-gh" style="--p:0.1" data-t="0.1"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.2" data-t="0.2"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.3" data-t="0.3"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.4" data-t="0.4"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.5" data-t="0.5"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.6" data-t="0.6"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.7" data-t="0.7"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.8" data-t="0.8"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.9" data-t="0.9"&gt;&lt;/i&gt;&lt;b class="eg-dot"&gt;&lt;/b&gt;&lt;/span&gt;
+      &lt;span class="sr-only"&gt;עד חצי מהזמן הנקודה כבר ב-50% מהדרך.&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="eg-tr"&gt;
+      &lt;span class="eg-lb"&gt;מתחיל לאט&lt;/span&gt;
+      &lt;svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"&gt;&lt;path d="M3 21L3.4 21L3.8 21L4.1 21L4.5 21L4.9 21L5.3 21L5.6 20.9L6 20.9L6.4 20.9L6.8 20.8L7.1 20.8L7.5 20.7L7.9 20.6L8.3 20.6L8.6 20.5L9 20.3L9.4 20.2L9.8 20.1L10.1 19.9L10.5 19.7L10.9 19.5L11.3 19.3L11.6 19L12 18.8L12.4 18.5L12.8 18.1L13.1 17.8L13.5 17.4L13.9 17L14.3 16.6L14.6 16.2L15 15.7L15.4 15.2L15.8 14.6L16.1 14L16.5 13.4L16.9 12.8L17.3 12.1L17.6 11.3L18 10.6L18.4 9.8L18.8 8.9L19.1 8.1L19.5 7.1L19.9 6.2L20.3 5.2L20.6 4.1L21 3"/&gt;&lt;/svg&gt;
+      &lt;span class="eg-rail" aria-hidden="true"&gt;&lt;i class="eg-gh" style="--p:0.001" data-t="0.1"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.008" data-t="0.2"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.027" data-t="0.3"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.064" data-t="0.4"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.125" data-t="0.5"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.216" data-t="0.6"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.343" data-t="0.7"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.512" data-t="0.8"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.729" data-t="0.9"&gt;&lt;/i&gt;&lt;b class="eg-dot"&gt;&lt;/b&gt;&lt;/span&gt;
+      &lt;span class="sr-only"&gt;עד חצי מהזמן הנקודה כבר ב-13% מהדרך.&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="eg-tr"&gt;
+      &lt;span class="eg-lb"&gt;נגמר לאט&lt;/span&gt;
+      &lt;svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"&gt;&lt;path d="M3 21L3.4 19.9L3.8 18.8L4.1 17.8L4.5 16.9L4.9 15.9L5.3 15.1L5.6 14.2L6 13.4L6.4 12.7L6.8 11.9L7.1 11.2L7.5 10.6L7.9 10L8.3 9.4L8.6 8.8L9 8.3L9.4 7.8L9.8 7.4L10.1 7L10.5 6.6L10.9 6.2L11.3 5.9L11.6 5.5L12 5.3L12.4 5L12.8 4.7L13.1 4.5L13.5 4.3L13.9 4.1L14.3 3.9L14.6 3.8L15 3.7L15.4 3.5L15.8 3.4L16.1 3.4L16.5 3.3L16.9 3.2L17.3 3.2L17.6 3.1L18 3.1L18.4 3.1L18.8 3L19.1 3L19.5 3L19.9 3L20.3 3L20.6 3L21 3"/&gt;&lt;/svg&gt;
+      &lt;span class="eg-rail" aria-hidden="true"&gt;&lt;i class="eg-gh" style="--p:0.271" data-t="0.1"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.488" data-t="0.2"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.657" data-t="0.3"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.784" data-t="0.4"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.875" data-t="0.5"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.936" data-t="0.6"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.973" data-t="0.7"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.992" data-t="0.8"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.999" data-t="0.9"&gt;&lt;/i&gt;&lt;b class="eg-dot"&gt;&lt;/b&gt;&lt;/span&gt;
+      &lt;span class="sr-only"&gt;עד חצי מהזמן הנקודה כבר ב-88% מהדרך.&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="eg-tr is-main"&gt;
+      &lt;span class="eg-lb"&gt;מתחיל ונגמר לאט&lt;/span&gt;
+      &lt;svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"&gt;&lt;path d="M3 21L3.4 21L3.8 21L4.1 21L4.5 20.9L4.9 20.9L5.3 20.8L5.6 20.7L6 20.6L6.4 20.5L6.8 20.4L7.1 20.2L7.5 20L7.9 19.8L8.3 19.6L8.6 19.3L9 18.9L9.4 18.5L9.8 18.1L10.1 17.5L10.5 16.8L10.9 15.9L11.3 14.8L11.6 13.5L12 12L12.4 10.5L12.8 9.2L13.1 8.1L13.5 7.2L13.9 6.5L14.3 5.9L14.6 5.5L15 5.1L15.4 4.7L15.8 4.4L16.1 4.2L16.5 4L16.9 3.8L17.3 3.6L17.6 3.5L18 3.4L18.4 3.3L18.8 3.2L19.1 3.1L19.5 3.1L19.9 3L20.3 3L20.6 3L21 3"/&gt;&lt;/svg&gt;
+      &lt;span class="eg-rail" aria-hidden="true"&gt;&lt;i class="eg-gh" style="--p:0.007" data-t="0.1"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.031" data-t="0.2"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.085" data-t="0.3"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.202" data-t="0.4"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.5" data-t="0.5"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.798" data-t="0.6"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.915" data-t="0.7"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.969" data-t="0.8"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.993" data-t="0.9"&gt;&lt;/i&gt;&lt;b class="eg-dot"&gt;&lt;/b&gt;&lt;/span&gt;
+      &lt;span class="sr-only"&gt;עד חצי מהזמן הנקודה כבר ב-50% מהדרך.&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="eg-tr"&gt;
+      &lt;span class="eg-lb"&gt;זינוק ונחיתה רכה&lt;/span&gt;
+      &lt;svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"&gt;&lt;path d="M3 21L3.4 18.6L3.8 16.5L4.1 14.7L4.5 13.1L4.9 11.7L5.3 10.6L5.6 9.5L6 8.7L6.4 7.9L6.8 7.2L7.1 6.7L7.5 6.2L7.9 5.7L8.3 5.4L8.6 5L9 4.8L9.4 4.5L9.8 4.3L10.1 4.1L10.5 4L10.9 3.9L11.3 3.7L11.6 3.6L12 3.5L12.4 3.5L12.8 3.4L13.1 3.3L13.5 3.3L13.9 3.3L14.3 3.2L14.6 3.2L15 3.2L15.4 3.1L15.8 3.1L16.1 3.1L16.5 3.1L16.9 3.1L17.3 3.1L17.6 3L18 3L18.4 3L18.8 3L19.1 3L19.5 3L19.9 3L20.3 3L20.6 3L21 3"/&gt;&lt;/svg&gt;
+      &lt;span class="eg-rail" aria-hidden="true"&gt;&lt;i class="eg-gh" style="--p:0.5" data-t="0.1"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.751" data-t="0.2"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.876" data-t="0.3"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.938" data-t="0.4"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.97" data-t="0.5"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.985" data-t="0.6"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.993" data-t="0.7"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.997" data-t="0.8"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.999" data-t="0.9"&gt;&lt;/i&gt;&lt;b class="eg-dot"&gt;&lt;/b&gt;&lt;/span&gt;
+      &lt;span class="sr-only"&gt;עד חצי מהזמן הנקודה כבר ב-97% מהדרך.&lt;/span&gt;
+    &lt;/li&gt;
+    &lt;li class="eg-tr"&gt;
+      &lt;span class="eg-lb"&gt;בקפיצות&lt;/span&gt;
+      &lt;svg class="eg-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"&gt;&lt;path d="M3 21L3.4 21L3.8 21L4.1 21L4.5 21L4.9 21L5.3 21L5.6 21L6 18L6.4 18L6.8 18L7.1 18L7.5 18L7.9 18L8.3 18L8.6 18L9 15L9.4 15L9.8 15L10.1 15L10.5 15L10.9 15L11.3 15L11.6 15L12 12L12.4 12L12.8 12L13.1 12L13.5 12L13.9 12L14.3 12L14.6 12L15 9L15.4 9L15.8 9L16.1 9L16.5 9L16.9 9L17.3 9L17.6 9L18 6L18.4 6L18.8 6L19.1 6L19.5 6L19.9 6L20.3 6L20.6 6L21 3"/&gt;&lt;/svg&gt;
+      &lt;span class="eg-rail" aria-hidden="true"&gt;&lt;i class="eg-gh" style="--p:0" data-t="0.1"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.167" data-t="0.2"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.167" data-t="0.3"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.333" data-t="0.4"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.5" data-t="0.5"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.5" data-t="0.6"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.667" data-t="0.7"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.667" data-t="0.8"&gt;&lt;/i&gt;&lt;i class="eg-gh" style="--p:0.833" data-t="0.9"&gt;&lt;/i&gt;&lt;b class="eg-dot"&gt;&lt;/b&gt;&lt;/span&gt;
+      &lt;span class="sr-only"&gt;עד חצי מהזמן הנקודה כבר ב-50% מהדרך.&lt;/span&gt;
+    &lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP כל הנקודות בסוף והגרף שלם (בסימון)
+  const root=document.querySelector(".eg"),run=root.querySelector(".eg-run");
+  const mk=root.querySelector(".eg-mk"),halo=root.querySelector(".eg-halo"),gx=root.querySelector(".eg-gx"),gy=root.querySelector(".eg-gy");
+  const rt=root.querySelector("[data-t]"),rd=root.querySelector("[data-d]");
+  const rows=[...root.querySelectorAll(".eg-tr")].map(r=&gt;({dot:r.querySelector(".eg-dot"),gh:[...r.querySelectorAll(".eg-gh")].map(g=&gt;({el:g,t:Number(g.dataset.t)}))}));
+  // ששת הקצבים: מקור האמת היחיד. הרביעי הוא העקומה שבגרף
+  const E=[t =&gt; t,t =&gt; t * t * t,t =&gt; 1 - Math.pow(1 - t, 3),t =&gt; { let lo = 0, hi = 1, s = .5; for (let i = 0; i &lt; 28; i++) { s = (lo + hi) / 2; const x = 3 * (1 - s) * (1 - s) * s * .76 + 3 * (1 - s) * s * s * .24 + s * s * s; if (x &lt; t) lo = s; else hi = s; } return 3 * (1 - s) * s * s + s * s * s; },t =&gt; (1 - Math.pow(2, -10 * t)) / (1 - Math.pow(2, -10)),t =&gt; t &gt;= 1 ? 1 : Math.floor(t * 6) / 6];
+  const L=28,R=388,T=32,B=296;      // אזור הציור בתוך ה-viewBox של ה-SVG
+  const draw=P=&gt;{
+    const d=E[3](P),x=L+(R-L)*P,y=B-(B-T)*d;
+    mk.setAttribute("cx",x);mk.setAttribute("cy",y);halo.setAttribute("cx",x);halo.setAttribute("cy",y);
+    gx.setAttribute("x1",x);gx.setAttribute("x2",x);gx.setAttribute("y1",y);
+    gy.setAttribute("x2",x);gy.setAttribute("y1",y);gy.setAttribute("y2",y);
+    rt.textContent=Math.round(P*100)+"%";rd.textContent=Math.round(d*100)+"%";
+    rows.forEach((r,i)=&gt;{r.dot.style.setProperty("--p",E[i](P).toFixed(4));r.gh.forEach(g=&gt;g.el.classList.toggle("on",P&gt;=g.t-.001));});
+  };
+  // בהפחתת תנועה הפונקציה לא רצה, ורואים את המצב הסופי מהסימון
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    const st={p:0};
+    draw(0);
+    // עצירה קצרה בהתחלה ובסוף, כדי שמרגישים את נקודת היציאה ואת ההגעה
+    const tl=gsap.timeline({scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
+    tl.to({},{duration:.1}).to(st,{p:1,duration:1,ease:"none",onUpdate:()=&gt;draw(st.p)}).to({},{duration:.1});
+    return()=&gt;{
+      root.classList.remove("is-live");
+      mk.setAttribute("cx",R);mk.setAttribute("cy",T);halo.setAttribute("cx",R);halo.setAttribute("cy",T);
+      gx.setAttribute("x1",R);gx.setAttribute("x2",R);gx.setAttribute("y1",T);
+      gy.setAttribute("x2",R);gy.setAttribute("y1",T);gy.setAttribute("y2",T);
+      rt.textContent="100%";rd.textContent="100%";
+      rows.forEach(r=&gt;{r.dot.style.removeProperty("--p");r.gh.forEach(g=&gt;g.el.classList.remove("on"));});
+    };
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g252 · גרף עקומת האטה עם נקודה נעה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g252.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g252.html\n\nמה זה עושה: גרף גדול של עקומת קצב, ונקודה שרצה עליה בקצב הגלילה עם קווי עזר לשני הצירים. לידו שש שורות, ובכל אחת נקודה שעוברת אותו מרחק באותו זמן בקצב אחר: אחיד, מתחיל לאט, נגמר לאט, זינוק, קפיצות. אחרי כל עשירית מהזמן נשארת בשורה נקודה קטנה, והמרווחים ביניהן מראים איפה התנועה מהירה ואיפה איטית. לא קוראים את העקומה, מרגישים אותה.\nמתי משתמשים: הסבר על קצב, בלי קשר לתחום: איך אנחנו עובדים (שלב איטי ויסודי בהתחלה, מהיר באמצע, גימור רגוע בסוף), סטודיו לאנימציה או עיצוב ממשקים שמסביר למה תנועה אחת מרגישה נכונה, קורס, או כל שירות שמתקדם בקצב לא אחיד. פעם אחת בעמוד, ורק כשהקצב הוא באמת חלק מהסיפור.\nסוג אתר: אתר תדמית · פורטפוליו וסטודיו · דף נחיתה\nבסקשן: תהליך ושלבים · בעיה ויתרונות · אודות וצוות\nאופי: גם באתר שקט\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא כשהקהל לא מתעניין בתנועה עצמה, ולא כשהעקומה לא מלמדת דבר על השירות או על המוצר שמציגים לידה.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G252 · גרף עקומת האטה עם נקודה נעה */\n.eg{--eg-h:56svh;max-width:1200px;margin-inline:auto;display:grid;gap:clamp(24px,4vw,48px)}\n.eg-head{display:grid;gap:12px;max-width:54ch}\n.eg-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}\n.eg-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.eg .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.eg-pin{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(16px,2.4vw,32px);align-items:stretch}\n.eg-card{margin:0;padding:clamp(16px,2.2vw,32px);border-radius:24px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee);display:grid;gap:16px;align-content:start}\n/* גרף: SVG בלי טקסט, מצויר משמאל לימין ומתהפך ב-RTL. הכיתובים הם HTML בפינות */\n.eg-fig{position:relative;width:min(100%,calc(var(--eg-h) * 400 / 340));margin-inline:auto}\n.eg-lanes{align-content:center}\n.eg-svg{display:block;width:100%;height:auto}\n.eg-svg:dir(rtl){transform:scaleX(-1)}\n.eg-ax{position:absolute;font-size:14px;color:var(--muted, #6a6d85)}\n.eg-ax-y{inset-block-start:0;inset-inline-start:0}\n.eg-ax-x{inset-block-end:0;inset-inline-end:0}\n.eg-g{stroke:var(--line, #e4e4ee);stroke-width:1;stroke-dasharray:2 6}\n.eg-axl{stroke:var(--muted, #6a6d85);stroke-width:1.5;opacity:.5}\n.eg-ref{stroke:var(--muted, #6a6d85);stroke-width:1.5;stroke-dasharray:5 6;opacity:.6}\n.eg-curve{fill:none;stroke:var(--accent, #4a3aff);stroke-width:4;stroke-linecap:round}\n.eg-hd{stroke:var(--muted, #6a6d85);stroke-width:1;opacity:.5}\n.eg-hk{fill:var(--card, #fff);stroke:var(--accent, #4a3aff);stroke-width:2}\n.eg-gd{stroke:var(--accent, #4a3aff);stroke-width:1.5;stroke-dasharray:3 4;opacity:.7}\n.eg-halo{fill:var(--accent, #4a3aff);opacity:.18}\n.eg-mk{fill:var(--accent, #4a3aff);stroke:var(--card, #fff);stroke-width:3}\n.eg-cap{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:8px 16px}\n.eg-cap b{display:block;font-size:clamp(18px,1.5vw,22px);line-height:1.25}\n.eg-cap small{display:block;margin-top:4px;color:var(--muted, #6a6d85);font-size:14px;line-height:1.5}\n.eg-read{display:flex;gap:20px;color:var(--muted, #6a6d85);font-size:14px;font-variant-numeric:tabular-nums}\n.eg-read b{display:block;margin-top:2px;color:var(--ink, #16182b);font-size:clamp(20px,1.8vw,26px);font-weight:700;line-height:1.1}\n/* שורות הקצבים: לכל שורה כיתוב, עקומה קטנה ומסלול. מיקום הנקודה הוא --p בין 0 ל-1 (ברירת מחדל 1, כלומר בסוף) */\n.eg-tracks{list-style:none;margin:0;padding:0;display:grid;gap:clamp(16px,3.2vw,40px);align-content:center}\n.eg-tr{--c:color-mix(in oklab,var(--ink, #16182b) 72%,var(--card, #fff));display:grid;grid-template-columns:minmax(0,9.5em) 28px minmax(0,1fr);align-items:center;gap:12px;font-size:16px;line-height:1.25}\n.eg-tr.is-main{--c:var(--accent, #4a3aff);font-weight:700}\n.eg-ic{width:28px;height:28px;fill:none;stroke:var(--muted, #6a6d85);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}\n.eg-tr.is-main .eg-ic{stroke:var(--accent, #4a3aff)}\n.eg-rail{--d:28px;position:relative;height:var(--d);container-type:inline-size}\n.eg-rail::before{content:\"\";position:absolute;inset-inline:0;top:50%;height:2px;translate:0 -50%;border-radius:2px;background:var(--line, #e4e4ee)}\n.eg-rail::after{content:\"\";position:absolute;inset-inline-end:0;top:0;width:2px;height:100%;border-radius:2px;background:var(--line, #e4e4ee)}\n.eg-dot,.eg-gh{--sx:-1;position:absolute;top:50%;inset-inline-start:0;width:var(--d);height:var(--d);translate:calc(var(--p,1) * (100cqw - var(--d)) * var(--sx)) -50%}\n.eg-rail:dir(ltr) .eg-dot,.eg-rail:dir(ltr) .eg-gh{--sx:1}\n.eg-dot{border-radius:50%;background:var(--c)}\n.eg-gh{display:grid;place-items:center;opacity:.4}\n.eg-gh::after{content:\"\";width:8px;height:8px;border-radius:50%;background:var(--c)}\n/* המהלך רץ: סצנה נעוצה, והנקודות הקטנות נדלקות כשהנקודה הגדולה עוברת עליהן */\n.eg.is-live .eg-run{height:260vh}\n.eg.is-live .eg-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center}\n.eg.is-live .eg-gh{opacity:0;transition:opacity .25s linear}\n.eg.is-live .eg-gh.on{opacity:.4}\n@media(max-width:767px){\n  .eg{--eg-h:30svh}\n  .eg-pin{grid-template-columns:minmax(0,1fr);gap:12px}\n  .eg-card{padding:16px;border-radius:20px;gap:12px}\n  .eg-tracks{gap:10px}\n  .eg-tr{grid-template-columns:28px minmax(0,1fr);row-gap:4px;column-gap:10px}\n  .eg-ic{grid-column:1;grid-row:1}\n  .eg-lb{grid-column:2;grid-row:1}\n  .eg-rail{--d:20px;grid-column:1 / -1;grid-row:2}\n  .eg-gh::after{width:6px;height:6px}\n  .eg-cap{gap:4px 12px}\n}\n@media(prefers-reduced-motion:reduce){.eg-gh{transition:none}}\n\n=== HTML ===\n<div class=\"stage\"><section class=\"eg\">\n  <header class=\"eg-head\">\n    <h2>קצב של תנועה נראה כמו עקומה<\/h2>\n    <p>בכל השורות אותה נקודה עוברת אותו מרחק באותו זמן. רק הקצב שונה, ואת ההבדל מרגישים מיד כשהיא זזה.<\/p>\n  <\/header>\n  <div class=\"eg-run\">\n    <div class=\"eg-pin\">\n      <figure class=\"eg-card eg-graph\">\n        <div class=\"eg-fig\">\n          <svg class=\"eg-svg\" viewBox=\"0 0 400 340\" aria-hidden=\"true\" focusable=\"false\">\n            <path class=\"eg-g\" d=\"M118 32V296M208 32V296M298 32V296M28 98H388M28 164H388M28 230H388\"/>\n            <path class=\"eg-axl\" d=\"M28 32V296H388\" fill=\"none\"/>\n            <path class=\"eg-ref\" d=\"M28 296L388 32\" fill=\"none\"/>\n            <path class=\"eg-hd\" d=\"M28 296H301.6M388 32H114.4\" fill=\"none\"/>\n            <path class=\"eg-curve\" d=\"M28 296C301.6 296 114.4 32 388 32\"/>\n            <circle class=\"eg-hk\" cx=\"301.6\" cy=\"296\" r=\"6\"/><circle class=\"eg-hk\" cx=\"114.4\" cy=\"32\" r=\"6\"/>\n            <line class=\"eg-gd eg-gx\" x1=\"388\" y1=\"32\" x2=\"388\" y2=\"296\"/><line class=\"eg-gd eg-gy\" x1=\"28\" y1=\"32\" x2=\"388\" y2=\"32\"/>\n            <circle class=\"eg-halo\" cx=\"388\" cy=\"32\" r=\"16\"/><circle class=\"eg-mk\" cx=\"388\" cy=\"32\" r=\"8\"/>\n          <\/svg>\n          <span class=\"eg-ax eg-ax-y\" aria-hidden=\"true\">מרחק<\/span><span class=\"eg-ax eg-ax-x\" aria-hidden=\"true\">זמן<\/span>\n        <\/div>\n        <figcaption class=\"eg-cap\">\n          <span><b>מתחיל ונגמר לאט<\/b><small>הקו המקווקו הוא קצב אחיד. באמצע התנועה הנקודה מהירה ביותר.<\/small><\/span>\n          <span class=\"eg-read\" aria-hidden=\"true\"><span>זמן<b data-t>100%<\/b><\/span><span>מרחק<b data-d>100%<\/b><\/span><\/span>\n          <span class=\"sr-only\">אחרי רבע מהזמן הנקודה עברה 5% מהמרחק, אחרי חצי מהזמן 50%, ואחרי שלושה רבעים 95%.<\/span>\n        <\/figcaption>\n      <\/figure>\n      <div class=\"eg-card eg-lanes\">\n        <ul class=\"eg-tracks\" aria-label=\"שישה קצבים לאותה תנועה\">\n    <li class=\"eg-tr\">\n      <span class=\"eg-lb\">קצב אחיד<\/span>\n      <svg class=\"eg-ic\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3 21L3.4 20.6L3.8 20.3L4.1 19.9L4.5 19.5L4.9 19.1L5.3 18.8L5.6 18.4L6 18L6.4 17.6L6.8 17.3L7.1 16.9L7.5 16.5L7.9 16.1L8.3 15.8L8.6 15.4L9 15L9.4 14.6L9.8 14.3L10.1 13.9L10.5 13.5L10.9 13.1L11.3 12.8L11.6 12.4L12 12L12.4 11.6L12.8 11.3L13.1 10.9L13.5 10.5L13.9 10.1L14.3 9.8L14.6 9.4L15 9L15.4 8.6L15.8 8.3L16.1 7.9L16.5 7.5L16.9 7.1L17.3 6.8L17.6 6.4L18 6L18.4 5.6L18.8 5.3L19.1 4.9L19.5 4.5L19.9 4.1L20.3 3.8L20.6 3.4L21 3\"/><\/svg>\n      <span class=\"eg-rail\" aria-hidden=\"true\"><i class=\"eg-gh\" style=\"--p:0.1\" data-t=\"0.1\"><\/i><i class=\"eg-gh\" style=\"--p:0.2\" data-t=\"0.2\"><\/i><i class=\"eg-gh\" style=\"--p:0.3\" data-t=\"0.3\"><\/i><i class=\"eg-gh\" style=\"--p:0.4\" data-t=\"0.4\"><\/i><i class=\"eg-gh\" style=\"--p:0.5\" data-t=\"0.5\"><\/i><i class=\"eg-gh\" style=\"--p:0.6\" data-t=\"0.6\"><\/i><i class=\"eg-gh\" style=\"--p:0.7\" data-t=\"0.7\"><\/i><i class=\"eg-gh\" style=\"--p:0.8\" data-t=\"0.8\"><\/i><i class=\"eg-gh\" style=\"--p:0.9\" data-t=\"0.9\"><\/i><b class=\"eg-dot\"><\/b><\/span>\n      <span class=\"sr-only\">עד חצי מהזמן הנקודה כבר ב-50% מהדרך.<\/span>\n    <\/li>\n    <li class=\"eg-tr\">\n      <span class=\"eg-lb\">מתחיל לאט<\/span>\n      <svg class=\"eg-ic\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3 21L3.4 21L3.8 21L4.1 21L4.5 21L4.9 21L5.3 21L5.6 20.9L6 20.9L6.4 20.9L6.8 20.8L7.1 20.8L7.5 20.7L7.9 20.6L8.3 20.6L8.6 20.5L9 20.3L9.4 20.2L9.8 20.1L10.1 19.9L10.5 19.7L10.9 19.5L11.3 19.3L11.6 19L12 18.8L12.4 18.5L12.8 18.1L13.1 17.8L13.5 17.4L13.9 17L14.3 16.6L14.6 16.2L15 15.7L15.4 15.2L15.8 14.6L16.1 14L16.5 13.4L16.9 12.8L17.3 12.1L17.6 11.3L18 10.6L18.4 9.8L18.8 8.9L19.1 8.1L19.5 7.1L19.9 6.2L20.3 5.2L20.6 4.1L21 3\"/><\/svg>\n      <span class=\"eg-rail\" aria-hidden=\"true\"><i class=\"eg-gh\" style=\"--p:0.001\" data-t=\"0.1\"><\/i><i class=\"eg-gh\" style=\"--p:0.008\" data-t=\"0.2\"><\/i><i class=\"eg-gh\" style=\"--p:0.027\" data-t=\"0.3\"><\/i><i class=\"eg-gh\" style=\"--p:0.064\" data-t=\"0.4\"><\/i><i class=\"eg-gh\" style=\"--p:0.125\" data-t=\"0.5\"><\/i><i class=\"eg-gh\" style=\"--p:0.216\" data-t=\"0.6\"><\/i><i class=\"eg-gh\" style=\"--p:0.343\" data-t=\"0.7\"><\/i><i class=\"eg-gh\" style=\"--p:0.512\" data-t=\"0.8\"><\/i><i class=\"eg-gh\" style=\"--p:0.729\" data-t=\"0.9\"><\/i><b class=\"eg-dot\"><\/b><\/span>\n      <span class=\"sr-only\">עד חצי מהזמן הנקודה כבר ב-13% מהדרך.<\/span>\n    <\/li>\n    <li class=\"eg-tr\">\n      <span class=\"eg-lb\">נגמר לאט<\/span>\n      <svg class=\"eg-ic\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3 21L3.4 19.9L3.8 18.8L4.1 17.8L4.5 16.9L4.9 15.9L5.3 15.1L5.6 14.2L6 13.4L6.4 12.7L6.8 11.9L7.1 11.2L7.5 10.6L7.9 10L8.3 9.4L8.6 8.8L9 8.3L9.4 7.8L9.8 7.4L10.1 7L10.5 6.6L10.9 6.2L11.3 5.9L11.6 5.5L12 5.3L12.4 5L12.8 4.7L13.1 4.5L13.5 4.3L13.9 4.1L14.3 3.9L14.6 3.8L15 3.7L15.4 3.5L15.8 3.4L16.1 3.4L16.5 3.3L16.9 3.2L17.3 3.2L17.6 3.1L18 3.1L18.4 3.1L18.8 3L19.1 3L19.5 3L19.9 3L20.3 3L20.6 3L21 3\"/><\/svg>\n      <span class=\"eg-rail\" aria-hidden=\"true\"><i class=\"eg-gh\" style=\"--p:0.271\" data-t=\"0.1\"><\/i><i class=\"eg-gh\" style=\"--p:0.488\" data-t=\"0.2\"><\/i><i class=\"eg-gh\" style=\"--p:0.657\" data-t=\"0.3\"><\/i><i class=\"eg-gh\" style=\"--p:0.784\" data-t=\"0.4\"><\/i><i class=\"eg-gh\" style=\"--p:0.875\" data-t=\"0.5\"><\/i><i class=\"eg-gh\" style=\"--p:0.936\" data-t=\"0.6\"><\/i><i class=\"eg-gh\" style=\"--p:0.973\" data-t=\"0.7\"><\/i><i class=\"eg-gh\" style=\"--p:0.992\" data-t=\"0.8\"><\/i><i class=\"eg-gh\" style=\"--p:0.999\" data-t=\"0.9\"><\/i><b class=\"eg-dot\"><\/b><\/span>\n      <span class=\"sr-only\">עד חצי מהזמן הנקודה כבר ב-88% מהדרך.<\/span>\n    <\/li>\n    <li class=\"eg-tr is-main\">\n      <span class=\"eg-lb\">מתחיל ונגמר לאט<\/span>\n      <svg class=\"eg-ic\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3 21L3.4 21L3.8 21L4.1 21L4.5 20.9L4.9 20.9L5.3 20.8L5.6 20.7L6 20.6L6.4 20.5L6.8 20.4L7.1 20.2L7.5 20L7.9 19.8L8.3 19.6L8.6 19.3L9 18.9L9.4 18.5L9.8 18.1L10.1 17.5L10.5 16.8L10.9 15.9L11.3 14.8L11.6 13.5L12 12L12.4 10.5L12.8 9.2L13.1 8.1L13.5 7.2L13.9 6.5L14.3 5.9L14.6 5.5L15 5.1L15.4 4.7L15.8 4.4L16.1 4.2L16.5 4L16.9 3.8L17.3 3.6L17.6 3.5L18 3.4L18.4 3.3L18.8 3.2L19.1 3.1L19.5 3.1L19.9 3L20.3 3L20.6 3L21 3\"/><\/svg>\n      <span class=\"eg-rail\" aria-hidden=\"true\"><i class=\"eg-gh\" style=\"--p:0.007\" data-t=\"0.1\"><\/i><i class=\"eg-gh\" style=\"--p:0.031\" data-t=\"0.2\"><\/i><i class=\"eg-gh\" style=\"--p:0.085\" data-t=\"0.3\"><\/i><i class=\"eg-gh\" style=\"--p:0.202\" data-t=\"0.4\"><\/i><i class=\"eg-gh\" style=\"--p:0.5\" data-t=\"0.5\"><\/i><i class=\"eg-gh\" style=\"--p:0.798\" data-t=\"0.6\"><\/i><i class=\"eg-gh\" style=\"--p:0.915\" data-t=\"0.7\"><\/i><i class=\"eg-gh\" style=\"--p:0.969\" data-t=\"0.8\"><\/i><i class=\"eg-gh\" style=\"--p:0.993\" data-t=\"0.9\"><\/i><b class=\"eg-dot\"><\/b><\/span>\n      <span class=\"sr-only\">עד חצי מהזמן הנקודה כבר ב-50% מהדרך.<\/span>\n    <\/li>\n    <li class=\"eg-tr\">\n      <span class=\"eg-lb\">זינוק ונחיתה רכה<\/span>\n      <svg class=\"eg-ic\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3 21L3.4 18.6L3.8 16.5L4.1 14.7L4.5 13.1L4.9 11.7L5.3 10.6L5.6 9.5L6 8.7L6.4 7.9L6.8 7.2L7.1 6.7L7.5 6.2L7.9 5.7L8.3 5.4L8.6 5L9 4.8L9.4 4.5L9.8 4.3L10.1 4.1L10.5 4L10.9 3.9L11.3 3.7L11.6 3.6L12 3.5L12.4 3.5L12.8 3.4L13.1 3.3L13.5 3.3L13.9 3.3L14.3 3.2L14.6 3.2L15 3.2L15.4 3.1L15.8 3.1L16.1 3.1L16.5 3.1L16.9 3.1L17.3 3.1L17.6 3L18 3L18.4 3L18.8 3L19.1 3L19.5 3L19.9 3L20.3 3L20.6 3L21 3\"/><\/svg>\n      <span class=\"eg-rail\" aria-hidden=\"true\"><i class=\"eg-gh\" style=\"--p:0.5\" data-t=\"0.1\"><\/i><i class=\"eg-gh\" style=\"--p:0.751\" data-t=\"0.2\"><\/i><i class=\"eg-gh\" style=\"--p:0.876\" data-t=\"0.3\"><\/i><i class=\"eg-gh\" style=\"--p:0.938\" data-t=\"0.4\"><\/i><i class=\"eg-gh\" style=\"--p:0.97\" data-t=\"0.5\"><\/i><i class=\"eg-gh\" style=\"--p:0.985\" data-t=\"0.6\"><\/i><i class=\"eg-gh\" style=\"--p:0.993\" data-t=\"0.7\"><\/i><i class=\"eg-gh\" style=\"--p:0.997\" data-t=\"0.8\"><\/i><i class=\"eg-gh\" style=\"--p:0.999\" data-t=\"0.9\"><\/i><b class=\"eg-dot\"><\/b><\/span>\n      <span class=\"sr-only\">עד חצי מהזמן הנקודה כבר ב-97% מהדרך.<\/span>\n    <\/li>\n    <li class=\"eg-tr\">\n      <span class=\"eg-lb\">בקפיצות<\/span>\n      <svg class=\"eg-ic\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3 21L3.4 21L3.8 21L4.1 21L4.5 21L4.9 21L5.3 21L5.6 21L6 18L6.4 18L6.8 18L7.1 18L7.5 18L7.9 18L8.3 18L8.6 18L9 15L9.4 15L9.8 15L10.1 15L10.5 15L10.9 15L11.3 15L11.6 15L12 12L12.4 12L12.8 12L13.1 12L13.5 12L13.9 12L14.3 12L14.6 12L15 9L15.4 9L15.8 9L16.1 9L16.5 9L16.9 9L17.3 9L17.6 9L18 6L18.4 6L18.8 6L19.1 6L19.5 6L19.9 6L20.3 6L20.6 6L21 3\"/><\/svg>\n      <span class=\"eg-rail\" aria-hidden=\"true\"><i class=\"eg-gh\" style=\"--p:0\" data-t=\"0.1\"><\/i><i class=\"eg-gh\" style=\"--p:0.167\" data-t=\"0.2\"><\/i><i class=\"eg-gh\" style=\"--p:0.167\" data-t=\"0.3\"><\/i><i class=\"eg-gh\" style=\"--p:0.333\" data-t=\"0.4\"><\/i><i class=\"eg-gh\" style=\"--p:0.5\" data-t=\"0.5\"><\/i><i class=\"eg-gh\" style=\"--p:0.5\" data-t=\"0.6\"><\/i><i class=\"eg-gh\" style=\"--p:0.667\" data-t=\"0.7\"><\/i><i class=\"eg-gh\" style=\"--p:0.667\" data-t=\"0.8\"><\/i><i class=\"eg-gh\" style=\"--p:0.833\" data-t=\"0.9\"><\/i><b class=\"eg-dot\"><\/b><\/span>\n      <span class=\"sr-only\">עד חצי מהזמן הנקודה כבר ב-50% מהדרך.<\/span>\n    <\/li>\n        <\/ul>\n      <\/div>\n    <\/div>\n  <\/div>\n<\/section><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\"||typeof ScrollTrigger===\"undefined\")return;      // בלי GSAP כל הנקודות בסוף והגרף שלם (בסימון)\n  const root=document.querySelector(\".eg\"),run=root.querySelector(\".eg-run\");\n  const mk=root.querySelector(\".eg-mk\"),halo=root.querySelector(\".eg-halo\"),gx=root.querySelector(\".eg-gx\"),gy=root.querySelector(\".eg-gy\");\n  const rt=root.querySelector(\"[data-t]\"),rd=root.querySelector(\"[data-d]\");\n  const rows=[...root.querySelectorAll(\".eg-tr\")].map(r=>({dot:r.querySelector(\".eg-dot\"),gh:[...r.querySelectorAll(\".eg-gh\")].map(g=>({el:g,t:Number(g.dataset.t)}))}));\n  // ששת הקצבים: מקור האמת היחיד. הרביעי הוא העקומה שבגרף\n  const E=[t => t,t => t * t * t,t => 1 - Math.pow(1 - t, 3),t => { let lo = 0, hi = 1, s = .5; for (let i = 0; i < 28; i++) { s = (lo + hi) / 2; const x = 3 * (1 - s) * (1 - s) * s * .76 + 3 * (1 - s) * s * s * .24 + s * s * s; if (x < t) lo = s; else hi = s; } return 3 * (1 - s) * s * s + s * s * s; },t => (1 - Math.pow(2, -10 * t)) / (1 - Math.pow(2, -10)),t => t >= 1 ? 1 : Math.floor(t * 6) / 6];\n  const L=28,R=388,T=32,B=296;      // אזור הציור בתוך ה-viewBox של ה-SVG\n  const draw=P=>{\n    const d=E[3](P),x=L+(R-L)*P,y=B-(B-T)*d;\n    mk.setAttribute(\"cx\",x);mk.setAttribute(\"cy\",y);halo.setAttribute(\"cx\",x);halo.setAttribute(\"cy\",y);\n    gx.setAttribute(\"x1\",x);gx.setAttribute(\"x2\",x);gx.setAttribute(\"y1\",y);\n    gy.setAttribute(\"x2\",x);gy.setAttribute(\"y1\",y);gy.setAttribute(\"y2\",y);\n    rt.textContent=Math.round(P*100)+\"%\";rd.textContent=Math.round(d*100)+\"%\";\n    rows.forEach((r,i)=>{r.dot.style.setProperty(\"--p\",E[i](P).toFixed(4));r.gh.forEach(g=>g.el.classList.toggle(\"on\",P>=g.t-.001));});\n  };\n  // בהפחתת תנועה הפונקציה לא רצה, ורואים את המצב הסופי מהסימון\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const st={p:0};\n    draw(0);\n    // עצירה קצרה בהתחלה ובסוף, כדי שמרגישים את נקודת היציאה ואת ההגעה\n    const tl=gsap.timeline({scrollTrigger:{trigger:run,start:\"top top\",end:\"bottom bottom\",scrub:.6,invalidateOnRefresh:true}});\n    tl.to({},{duration:.1}).to(st,{p:1,duration:1,ease:\"none\",onUpdate:()=>draw(st.p)}).to({},{duration:.1});\n    return()=>{\n      root.classList.remove(\"is-live\");\n      mk.setAttribute(\"cx\",R);mk.setAttribute(\"cy\",T);halo.setAttribute(\"cx\",R);halo.setAttribute(\"cy\",T);\n      gx.setAttribute(\"x1\",R);gx.setAttribute(\"x2\",R);gx.setAttribute(\"y1\",T);\n      gy.setAttribute(\"x2\",R);gy.setAttribute(\"y1\",T);gy.setAttribute(\"y2\",T);\n      rt.textContent=\"100%\";rd.textContent=\"100%\";\n      rows.forEach(r=>{r.dot.style.removeProperty(\"--p\");r.gh.forEach(g=>g.el.classList.remove(\"on\"));});\n    };\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטוני תנועה ב-prompt-motion.com (21.10.2026), בכל אחד גרף של עקומת האטה לצד שורות של נקודות שמתחרות בקצבים שונים. נבנה מאפס מהצפייה. מקור אמת אחד: ששת הקצבים הם מערך `E` של פונקציות בקוד, והוא הדבר היחיד שמזיז הכול. הגרף, הנקודות והמספרים מתעדכנים מאותו ערך התקדמות (`P`, בין 0 ל-1), ולכן הם תמיד מסונכרנים. הקצב הרביעי הוא עקומת בזייה (0.76, 0, 0.24, 1), הקצב החתום של הספרייה, ונפתר מ-x ל-y בחיפוש בינארי. הערך הסופי בסימון: כל נקודה יושבת בקצה השורה דרך `--p:1` ברירת מחדל, הנקודות הקטנות (`.eg-gh`) כולן מוצגות, והסמן בפינה העליונה של הגרף. רק כשהמהלך רץ הוא מאפס אותם ומקדם בגלילה. בלי מדידות ב-JS: מיקום הנקודה בשורה הוא `translate` ב-CSS מתוך `--p` וממידת השורה (`cqw`), ולכן שינוי רוחב המסך לא דורש חישוב מחדש. הגרף: SVG בלי טקסט (הכיתובים הם HTML), כדי שיהפוך בלי לקלקל אותיות. RTL: הזמן זורם מימין לשמאל, והגרף הוא SVG שמצויר משמאל לימין ומתהפך ב-`:dir(rtl)`. באתר LTR מוחקים את שורת ההיפוך, והנקודות בשורות ממשיכות מעצמן כי הכיוון נקרא מ-`:dir()`. נגישות: הנקודות והעקומות מוסתרות מקורא מסך. מה שנקרא הוא טקסט מוסתר: עד כמה כל קצב התקדם בחצי הזמן, ומשפט שמתאר את העקומה (בנוי מאותה פונקציה, לא כתוב ביד). בטלפון הגרף מוגבל בגובה כדי ששתי הכרטיסיות נכנסות יחד במסך נעוץ, והשורות עוברות לשתי שורות: כיתוב ועקומה קטנה מעל, ומסלול ברוחב מלא מתחת.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G252 · גרף עקומת האטה עם נקודה נעה */\n.eg{--eg-h:56svh;max-width:1200px;margin-inline:auto;display:grid;gap:clamp(24px,4vw,48px)}\n.eg-head{display:grid;gap:12px;max-width:54ch}\n.eg-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}\n.eg-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.eg .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.eg-pin{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:clamp(16px,2.4vw,32px);align-items:stretch}\n.eg-card{margin:0;padding:clamp(16px,2.2vw,32px);border-radius:24px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee);display:grid;gap:16px;align-content:start}\n/* גרף: SVG בלי טקסט, מצויר משמאל לימין ומתהפך ב-RTL. הכיתובים הם HTML בפינות */\n.eg-fig{position:relative;width:min(100%,calc(var(--eg-h) * 400 / 340));margin-inline:auto}\n.eg-lanes{align-content:center}\n.eg-svg{display:block;width:100%;height:auto}\n.eg-svg:dir(rtl){transform:scaleX(-1)}\n.eg-ax{position:absolute;font-size:14px;color:var(--muted, #6a6d85)}\n.eg-ax-y{inset-block-start:0;inset-inline-start:0}\n.eg-ax-x{inset-block-end:0;inset-inline-end:0}\n.eg-g{stroke:var(--line, #e4e4ee);stroke-width:1;stroke-dasharray:2 6}\n.eg-axl{stroke:var(--muted, #6a6d85);stroke-width:1.5;opacity:.5}\n.eg-ref{stroke:var(--muted, #6a6d85);stroke-width:1.5;stroke-dasharray:5 6;opacity:.6}\n.eg-curve{fill:none;stroke:var(--accent, #4a3aff);stroke-width:4;stroke-linecap:round}\n.eg-hd{stroke:var(--muted, #6a6d85);stroke-width:1;opacity:.5}\n.eg-hk{fill:var(--card, #fff);stroke:var(--accent, #4a3aff);stroke-width:2}\n.eg-gd{stroke:var(--accent, #4a3aff);stroke-width:1.5;stroke-dasharray:3 4;opacity:.7}\n.eg-halo{fill:var(--accent, #4a3aff);opacity:.18}\n.eg-mk{fill:var(--accent, #4a3aff);stroke:var(--card, #fff);stroke-width:3}\n.eg-cap{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:8px 16px}\n.eg-cap b{display:block;font-size:clamp(18px,1.5vw,22px);line-height:1.25}\n.eg-cap small{display:block;margin-top:4px;color:var(--muted, #6a6d85);font-size:14px;line-height:1.5}\n.eg-read{display:flex;gap:20px;color:var(--muted, #6a6d85);font-size:14px;font-variant-numeric:tabular-nums}\n.eg-read b{display:block;margin-top:2px;color:var(--ink, #16182b);font-size:clamp(20px,1.8vw,26px);font-weight:700;line-height:1.1}\n/* שורות הקצבים: לכל שורה כיתוב, עקומה קטנה ומסלול. מיקום הנקודה הוא --p בין 0 ל-1 (ברירת מחדל 1, כלומר בסוף) */\n.eg-tracks{list-style:none;margin:0;padding:0;display:grid;gap:clamp(16px,3.2vw,40px);align-content:center}\n.eg-tr{--c:color-mix(in oklab,var(--ink, #16182b) 72%,var(--card, #fff));display:grid;grid-template-columns:minmax(0,9.5em) 28px minmax(0,1fr);align-items:center;gap:12px;font-size:16px;line-height:1.25}\n.eg-tr.is-main{--c:var(--accent, #4a3aff);font-weight:700}\n.eg-ic{width:28px;height:28px;fill:none;stroke:var(--muted, #6a6d85);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}\n.eg-tr.is-main .eg-ic{stroke:var(--accent, #4a3aff)}\n.eg-rail{--d:28px;position:relative;height:var(--d);container-type:inline-size}\n.eg-rail::before{content:\"\";position:absolute;inset-inline:0;top:50%;height:2px;translate:0 -50%;border-radius:2px;background:var(--line, #e4e4ee)}\n.eg-rail::after{content:\"\";position:absolute;inset-inline-end:0;top:0;width:2px;height:100%;border-radius:2px;background:var(--line, #e4e4ee)}\n.eg-dot,.eg-gh{--sx:-1;position:absolute;top:50%;inset-inline-start:0;width:var(--d);height:var(--d);translate:calc(var(--p,1) * (100cqw - var(--d)) * var(--sx)) -50%}\n.eg-rail:dir(ltr) .eg-dot,.eg-rail:dir(ltr) .eg-gh{--sx:1}\n.eg-dot{border-radius:50%;background:var(--c)}\n.eg-gh{display:grid;place-items:center;opacity:.4}\n.eg-gh::after{content:\"\";width:8px;height:8px;border-radius:50%;background:var(--c)}\n/* המהלך רץ: סצנה נעוצה, והנקודות הקטנות נדלקות כשהנקודה הגדולה עוברת עליהן */\n.eg.is-live .eg-run{height:260vh}\n.eg.is-live .eg-pin{position:sticky;top:0;height:100vh;height:100svh;align-content:center}\n.eg.is-live .eg-gh{opacity:0;transition:opacity .25s linear}\n.eg.is-live .eg-gh.on{opacity:.4}\n@media(max-width:767px){\n  .eg{--eg-h:30svh}\n  .eg-pin{grid-template-columns:minmax(0,1fr);gap:12px}\n  .eg-card{padding:16px;border-radius:20px;gap:12px}\n  .eg-tracks{gap:10px}\n  .eg-tr{grid-template-columns:28px minmax(0,1fr);row-gap:4px;column-gap:10px}\n  .eg-ic{grid-column:1;grid-row:1}\n  .eg-lb{grid-column:2;grid-row:1}\n  .eg-rail{--d:20px;grid-column:1 / -1;grid-row:2}\n  .eg-gh::after{width:6px;height:6px}\n  .eg-cap{gap:4px 12px}\n}\n@media(prefers-reduced-motion:reduce){.eg-gh{transition:none}}","html":"<div class=\"stage\"><section class=\"eg\">\n  <header class=\"eg-head\">\n    <h2>קצב של תנועה נראה כמו עקומה<\/h2>\n    <p>בכל השורות אותה נקודה עוברת אותו מרחק באותו זמן. רק הקצב שונה, ואת ההבדל מרגישים מיד כשהיא זזה.<\/p>\n  <\/header>\n  <div class=\"eg-run\">\n    <div class=\"eg-pin\">\n      <figure class=\"eg-card eg-graph\">\n        <div class=\"eg-fig\">\n          <svg class=\"eg-svg\" viewBox=\"0 0 400 340\" aria-hidden=\"true\" focusable=\"false\">\n            <path class=\"eg-g\" d=\"M118 32V296M208 32V296M298 32V296M28 98H388M28 164H388M28 230H388\"/>\n            <path class=\"eg-axl\" d=\"M28 32V296H388\" fill=\"none\"/>\n            <path class=\"eg-ref\" d=\"M28 296L388 32\" fill=\"none\"/>\n            <path class=\"eg-hd\" d=\"M28 296H301.6M388 32H114.4\" fill=\"none\"/>\n            <path class=\"eg-curve\" d=\"M28 296C301.6 296 114.4 32 388 32\"/>\n            <circle class=\"eg-hk\" cx=\"301.6\" cy=\"296\" r=\"6\"/><circle class=\"eg-hk\" cx=\"114.4\" cy=\"32\" r=\"6\"/>\n            <line class=\"eg-gd eg-gx\" x1=\"388\" y1=\"32\" x2=\"388\" y2=\"296\"/><line class=\"eg-gd eg-gy\" x1=\"28\" y1=\"32\" x2=\"388\" y2=\"32\"/>\n            <circle class=\"eg-halo\" cx=\"388\" cy=\"32\" r=\"16\"/><circle class=\"eg-mk\" cx=\"388\" cy=\"32\" r=\"8\"/>\n          <\/svg>\n          <span class=\"eg-ax eg-ax-y\" aria-hidden=\"true\">מרחק<\/span><span class=\"eg-ax eg-ax-x\" aria-hidden=\"true\">זמן<\/span>\n        <\/div>\n        <figcaption class=\"eg-cap\">\n          <span><b>מתחיל ונגמר לאט<\/b><small>הקו המקווקו הוא קצב אחיד. באמצע התנועה הנקודה מהירה ביותר.<\/small><\/span>\n          <span class=\"eg-read\" aria-hidden=\"true\"><span>זמן<b data-t>100%<\/b><\/span><span>מרחק<b data-d>100%<\/b><\/span><\/span>\n          <span class=\"sr-only\">אחרי רבע מהזמן הנקודה עברה 5% מהמרחק, אחרי חצי מהזמן 50%, ואחרי שלושה רבעים 95%.<\/span>\n        <\/figcaption>\n      <\/figure>\n      <div class=\"eg-card eg-lanes\">\n        <ul class=\"eg-tracks\" aria-label=\"שישה קצבים לאותה תנועה\">\n    <li class=\"eg-tr\">\n      <span class=\"eg-lb\">קצב אחיד<\/span>\n      <svg class=\"eg-ic\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3 21L3.4 20.6L3.8 20.3L4.1 19.9L4.5 19.5L4.9 19.1L5.3 18.8L5.6 18.4L6 18L6.4 17.6L6.8 17.3L7.1 16.9L7.5 16.5L7.9 16.1L8.3 15.8L8.6 15.4L9 15L9.4 14.6L9.8 14.3L10.1 13.9L10.5 13.5L10.9 13.1L11.3 12.8L11.6 12.4L12 12L12.4 11.6L12.8 11.3L13.1 10.9L13.5 10.5L13.9 10.1L14.3 9.8L14.6 9.4L15 9L15.4 8.6L15.8 8.3L16.1 7.9L16.5 7.5L16.9 7.1L17.3 6.8L17.6 6.4L18 6L18.4 5.6L18.8 5.3L19.1 4.9L19.5 4.5L19.9 4.1L20.3 3.8L20.6 3.4L21 3\"/><\/svg>\n      <span class=\"eg-rail\" aria-hidden=\"true\"><i class=\"eg-gh\" style=\"--p:0.1\" data-t=\"0.1\"><\/i><i class=\"eg-gh\" style=\"--p:0.2\" data-t=\"0.2\"><\/i><i class=\"eg-gh\" style=\"--p:0.3\" data-t=\"0.3\"><\/i><i class=\"eg-gh\" style=\"--p:0.4\" data-t=\"0.4\"><\/i><i class=\"eg-gh\" style=\"--p:0.5\" data-t=\"0.5\"><\/i><i class=\"eg-gh\" style=\"--p:0.6\" data-t=\"0.6\"><\/i><i class=\"eg-gh\" style=\"--p:0.7\" data-t=\"0.7\"><\/i><i class=\"eg-gh\" style=\"--p:0.8\" data-t=\"0.8\"><\/i><i class=\"eg-gh\" style=\"--p:0.9\" data-t=\"0.9\"><\/i><b class=\"eg-dot\"><\/b><\/span>\n      <span class=\"sr-only\">עד חצי מהזמן הנקודה כבר ב-50% מהדרך.<\/span>\n    <\/li>\n    <li class=\"eg-tr\">\n      <span class=\"eg-lb\">מתחיל לאט<\/span>\n      <svg class=\"eg-ic\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3 21L3.4 21L3.8 21L4.1 21L4.5 21L4.9 21L5.3 21L5.6 20.9L6 20.9L6.4 20.9L6.8 20.8L7.1 20.8L7.5 20.7L7.9 20.6L8.3 20.6L8.6 20.5L9 20.3L9.4 20.2L9.8 20.1L10.1 19.9L10.5 19.7L10.9 19.5L11.3 19.3L11.6 19L12 18.8L12.4 18.5L12.8 18.1L13.1 17.8L13.5 17.4L13.9 17L14.3 16.6L14.6 16.2L15 15.7L15.4 15.2L15.8 14.6L16.1 14L16.5 13.4L16.9 12.8L17.3 12.1L17.6 11.3L18 10.6L18.4 9.8L18.8 8.9L19.1 8.1L19.5 7.1L19.9 6.2L20.3 5.2L20.6 4.1L21 3\"/><\/svg>\n      <span class=\"eg-rail\" aria-hidden=\"true\"><i class=\"eg-gh\" style=\"--p:0.001\" data-t=\"0.1\"><\/i><i class=\"eg-gh\" style=\"--p:0.008\" data-t=\"0.2\"><\/i><i class=\"eg-gh\" style=\"--p:0.027\" data-t=\"0.3\"><\/i><i class=\"eg-gh\" style=\"--p:0.064\" data-t=\"0.4\"><\/i><i class=\"eg-gh\" style=\"--p:0.125\" data-t=\"0.5\"><\/i><i class=\"eg-gh\" style=\"--p:0.216\" data-t=\"0.6\"><\/i><i class=\"eg-gh\" style=\"--p:0.343\" data-t=\"0.7\"><\/i><i class=\"eg-gh\" style=\"--p:0.512\" data-t=\"0.8\"><\/i><i class=\"eg-gh\" style=\"--p:0.729\" data-t=\"0.9\"><\/i><b class=\"eg-dot\"><\/b><\/span>\n      <span class=\"sr-only\">עד חצי מהזמן הנקודה כבר ב-13% מהדרך.<\/span>\n    <\/li>\n    <li class=\"eg-tr\">\n      <span class=\"eg-lb\">נגמר לאט<\/span>\n      <svg class=\"eg-ic\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3 21L3.4 19.9L3.8 18.8L4.1 17.8L4.5 16.9L4.9 15.9L5.3 15.1L5.6 14.2L6 13.4L6.4 12.7L6.8 11.9L7.1 11.2L7.5 10.6L7.9 10L8.3 9.4L8.6 8.8L9 8.3L9.4 7.8L9.8 7.4L10.1 7L10.5 6.6L10.9 6.2L11.3 5.9L11.6 5.5L12 5.3L12.4 5L12.8 4.7L13.1 4.5L13.5 4.3L13.9 4.1L14.3 3.9L14.6 3.8L15 3.7L15.4 3.5L15.8 3.4L16.1 3.4L16.5 3.3L16.9 3.2L17.3 3.2L17.6 3.1L18 3.1L18.4 3.1L18.8 3L19.1 3L19.5 3L19.9 3L20.3 3L20.6 3L21 3\"/><\/svg>\n      <span class=\"eg-rail\" aria-hidden=\"true\"><i class=\"eg-gh\" style=\"--p:0.271\" data-t=\"0.1\"><\/i><i class=\"eg-gh\" style=\"--p:0.488\" data-t=\"0.2\"><\/i><i class=\"eg-gh\" style=\"--p:0.657\" data-t=\"0.3\"><\/i><i class=\"eg-gh\" style=\"--p:0.784\" data-t=\"0.4\"><\/i><i class=\"eg-gh\" style=\"--p:0.875\" data-t=\"0.5\"><\/i><i class=\"eg-gh\" style=\"--p:0.936\" data-t=\"0.6\"><\/i><i class=\"eg-gh\" style=\"--p:0.973\" data-t=\"0.7\"><\/i><i class=\"eg-gh\" style=\"--p:0.992\" data-t=\"0.8\"><\/i><i class=\"eg-gh\" style=\"--p:0.999\" data-t=\"0.9\"><\/i><b class=\"eg-dot\"><\/b><\/span>\n      <span class=\"sr-only\">עד חצי מהזמן הנקודה כבר ב-88% מהדרך.<\/span>\n    <\/li>\n    <li class=\"eg-tr is-main\">\n      <span class=\"eg-lb\">מתחיל ונגמר לאט<\/span>\n      <svg class=\"eg-ic\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3 21L3.4 21L3.8 21L4.1 21L4.5 20.9L4.9 20.9L5.3 20.8L5.6 20.7L6 20.6L6.4 20.5L6.8 20.4L7.1 20.2L7.5 20L7.9 19.8L8.3 19.6L8.6 19.3L9 18.9L9.4 18.5L9.8 18.1L10.1 17.5L10.5 16.8L10.9 15.9L11.3 14.8L11.6 13.5L12 12L12.4 10.5L12.8 9.2L13.1 8.1L13.5 7.2L13.9 6.5L14.3 5.9L14.6 5.5L15 5.1L15.4 4.7L15.8 4.4L16.1 4.2L16.5 4L16.9 3.8L17.3 3.6L17.6 3.5L18 3.4L18.4 3.3L18.8 3.2L19.1 3.1L19.5 3.1L19.9 3L20.3 3L20.6 3L21 3\"/><\/svg>\n      <span class=\"eg-rail\" aria-hidden=\"true\"><i class=\"eg-gh\" style=\"--p:0.007\" data-t=\"0.1\"><\/i><i class=\"eg-gh\" style=\"--p:0.031\" data-t=\"0.2\"><\/i><i class=\"eg-gh\" style=\"--p:0.085\" data-t=\"0.3\"><\/i><i class=\"eg-gh\" style=\"--p:0.202\" data-t=\"0.4\"><\/i><i class=\"eg-gh\" style=\"--p:0.5\" data-t=\"0.5\"><\/i><i class=\"eg-gh\" style=\"--p:0.798\" data-t=\"0.6\"><\/i><i class=\"eg-gh\" style=\"--p:0.915\" data-t=\"0.7\"><\/i><i class=\"eg-gh\" style=\"--p:0.969\" data-t=\"0.8\"><\/i><i class=\"eg-gh\" style=\"--p:0.993\" data-t=\"0.9\"><\/i><b class=\"eg-dot\"><\/b><\/span>\n      <span class=\"sr-only\">עד חצי מהזמן הנקודה כבר ב-50% מהדרך.<\/span>\n    <\/li>\n    <li class=\"eg-tr\">\n      <span class=\"eg-lb\">זינוק ונחיתה רכה<\/span>\n      <svg class=\"eg-ic\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3 21L3.4 18.6L3.8 16.5L4.1 14.7L4.5 13.1L4.9 11.7L5.3 10.6L5.6 9.5L6 8.7L6.4 7.9L6.8 7.2L7.1 6.7L7.5 6.2L7.9 5.7L8.3 5.4L8.6 5L9 4.8L9.4 4.5L9.8 4.3L10.1 4.1L10.5 4L10.9 3.9L11.3 3.7L11.6 3.6L12 3.5L12.4 3.5L12.8 3.4L13.1 3.3L13.5 3.3L13.9 3.3L14.3 3.2L14.6 3.2L15 3.2L15.4 3.1L15.8 3.1L16.1 3.1L16.5 3.1L16.9 3.1L17.3 3.1L17.6 3L18 3L18.4 3L18.8 3L19.1 3L19.5 3L19.9 3L20.3 3L20.6 3L21 3\"/><\/svg>\n      <span class=\"eg-rail\" aria-hidden=\"true\"><i class=\"eg-gh\" style=\"--p:0.5\" data-t=\"0.1\"><\/i><i class=\"eg-gh\" style=\"--p:0.751\" data-t=\"0.2\"><\/i><i class=\"eg-gh\" style=\"--p:0.876\" data-t=\"0.3\"><\/i><i class=\"eg-gh\" style=\"--p:0.938\" data-t=\"0.4\"><\/i><i class=\"eg-gh\" style=\"--p:0.97\" data-t=\"0.5\"><\/i><i class=\"eg-gh\" style=\"--p:0.985\" data-t=\"0.6\"><\/i><i class=\"eg-gh\" style=\"--p:0.993\" data-t=\"0.7\"><\/i><i class=\"eg-gh\" style=\"--p:0.997\" data-t=\"0.8\"><\/i><i class=\"eg-gh\" style=\"--p:0.999\" data-t=\"0.9\"><\/i><b class=\"eg-dot\"><\/b><\/span>\n      <span class=\"sr-only\">עד חצי מהזמן הנקודה כבר ב-97% מהדרך.<\/span>\n    <\/li>\n    <li class=\"eg-tr\">\n      <span class=\"eg-lb\">בקפיצות<\/span>\n      <svg class=\"eg-ic\" viewBox=\"0 0 24 24\" aria-hidden=\"true\" focusable=\"false\"><path d=\"M3 21L3.4 21L3.8 21L4.1 21L4.5 21L4.9 21L5.3 21L5.6 21L6 18L6.4 18L6.8 18L7.1 18L7.5 18L7.9 18L8.3 18L8.6 18L9 15L9.4 15L9.8 15L10.1 15L10.5 15L10.9 15L11.3 15L11.6 15L12 12L12.4 12L12.8 12L13.1 12L13.5 12L13.9 12L14.3 12L14.6 12L15 9L15.4 9L15.8 9L16.1 9L16.5 9L16.9 9L17.3 9L17.6 9L18 6L18.4 6L18.8 6L19.1 6L19.5 6L19.9 6L20.3 6L20.6 6L21 3\"/><\/svg>\n      <span class=\"eg-rail\" aria-hidden=\"true\"><i class=\"eg-gh\" style=\"--p:0\" data-t=\"0.1\"><\/i><i class=\"eg-gh\" style=\"--p:0.167\" data-t=\"0.2\"><\/i><i class=\"eg-gh\" style=\"--p:0.167\" data-t=\"0.3\"><\/i><i class=\"eg-gh\" style=\"--p:0.333\" data-t=\"0.4\"><\/i><i class=\"eg-gh\" style=\"--p:0.5\" data-t=\"0.5\"><\/i><i class=\"eg-gh\" style=\"--p:0.5\" data-t=\"0.6\"><\/i><i class=\"eg-gh\" style=\"--p:0.667\" data-t=\"0.7\"><\/i><i class=\"eg-gh\" style=\"--p:0.667\" data-t=\"0.8\"><\/i><i class=\"eg-gh\" style=\"--p:0.833\" data-t=\"0.9\"><\/i><b class=\"eg-dot\"><\/b><\/span>\n      <span class=\"sr-only\">עד חצי מהזמן הנקודה כבר ב-50% מהדרך.<\/span>\n    <\/li>\n        <\/ul>\n      <\/div>\n    <\/div>\n  <\/div>\n<\/section><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\"||typeof ScrollTrigger===\"undefined\")return;      // בלי GSAP כל הנקודות בסוף והגרף שלם (בסימון)\n  const root=document.querySelector(\".eg\"),run=root.querySelector(\".eg-run\");\n  const mk=root.querySelector(\".eg-mk\"),halo=root.querySelector(\".eg-halo\"),gx=root.querySelector(\".eg-gx\"),gy=root.querySelector(\".eg-gy\");\n  const rt=root.querySelector(\"[data-t]\"),rd=root.querySelector(\"[data-d]\");\n  const rows=[...root.querySelectorAll(\".eg-tr\")].map(r=>({dot:r.querySelector(\".eg-dot\"),gh:[...r.querySelectorAll(\".eg-gh\")].map(g=>({el:g,t:Number(g.dataset.t)}))}));\n  // ששת הקצבים: מקור האמת היחיד. הרביעי הוא העקומה שבגרף\n  const E=[t => t,t => t * t * t,t => 1 - Math.pow(1 - t, 3),t => { let lo = 0, hi = 1, s = .5; for (let i = 0; i < 28; i++) { s = (lo + hi) / 2; const x = 3 * (1 - s) * (1 - s) * s * .76 + 3 * (1 - s) * s * s * .24 + s * s * s; if (x < t) lo = s; else hi = s; } return 3 * (1 - s) * s * s + s * s * s; },t => (1 - Math.pow(2, -10 * t)) / (1 - Math.pow(2, -10)),t => t >= 1 ? 1 : Math.floor(t * 6) / 6];\n  const L=28,R=388,T=32,B=296;      // אזור הציור בתוך ה-viewBox של ה-SVG\n  const draw=P=>{\n    const d=E[3](P),x=L+(R-L)*P,y=B-(B-T)*d;\n    mk.setAttribute(\"cx\",x);mk.setAttribute(\"cy\",y);halo.setAttribute(\"cx\",x);halo.setAttribute(\"cy\",y);\n    gx.setAttribute(\"x1\",x);gx.setAttribute(\"x2\",x);gx.setAttribute(\"y1\",y);\n    gy.setAttribute(\"x2\",x);gy.setAttribute(\"y1\",y);gy.setAttribute(\"y2\",y);\n    rt.textContent=Math.round(P*100)+\"%\";rd.textContent=Math.round(d*100)+\"%\";\n    rows.forEach((r,i)=>{r.dot.style.setProperty(\"--p\",E[i](P).toFixed(4));r.gh.forEach(g=>g.el.classList.toggle(\"on\",P>=g.t-.001));});\n  };\n  // בהפחתת תנועה הפונקציה לא רצה, ורואים את המצב הסופי מהסימון\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const st={p:0};\n    draw(0);\n    // עצירה קצרה בהתחלה ובסוף, כדי שמרגישים את נקודת היציאה ואת ההגעה\n    const tl=gsap.timeline({scrollTrigger:{trigger:run,start:\"top top\",end:\"bottom bottom\",scrub:.6,invalidateOnRefresh:true}});\n    tl.to({},{duration:.1}).to(st,{p:1,duration:1,ease:\"none\",onUpdate:()=>draw(st.p)}).to({},{duration:.1});\n    return()=>{\n      root.classList.remove(\"is-live\");\n      mk.setAttribute(\"cx\",R);mk.setAttribute(\"cy\",T);halo.setAttribute(\"cx\",R);halo.setAttribute(\"cy\",T);\n      gx.setAttribute(\"x1\",R);gx.setAttribute(\"x2\",R);gx.setAttribute(\"y1\",T);\n      gy.setAttribute(\"x2\",R);gy.setAttribute(\"y1\",T);gy.setAttribute(\"y2\",T);\n      rt.textContent=\"100%\";rd.textContent=\"100%\";\n      rows.forEach(r=>{r.dot.style.removeProperty(\"--p\");r.gh.forEach(g=>g.el.classList.remove(\"on\"));});\n    };\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g251.html" rel="prev"><small>→ הקודם</small><b>קשקוש על תמונה שמוחק את האובייקט</b></a><a href="g253.html" rel="next"><small>הבא ←</small><b>רשת אריחים שמתרוממת למפת גבהים</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · גרף עקומת האטה עם נקודה נעה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP כל הנקודות בסוף והגרף שלם (בסימון)
+  const root=document.querySelector(".eg"),run=root.querySelector(".eg-run");
+  const mk=root.querySelector(".eg-mk"),halo=root.querySelector(".eg-halo"),gx=root.querySelector(".eg-gx"),gy=root.querySelector(".eg-gy");
+  const rt=root.querySelector("[data-t]"),rd=root.querySelector("[data-d]");
+  const rows=[...root.querySelectorAll(".eg-tr")].map(r=>({dot:r.querySelector(".eg-dot"),gh:[...r.querySelectorAll(".eg-gh")].map(g=>({el:g,t:Number(g.dataset.t)}))}));
+  // ששת הקצבים: מקור האמת היחיד. הרביעי הוא העקומה שבגרף
+  const E=[t => t,t => t * t * t,t => 1 - Math.pow(1 - t, 3),t => { let lo = 0, hi = 1, s = .5; for (let i = 0; i < 28; i++) { s = (lo + hi) / 2; const x = 3 * (1 - s) * (1 - s) * s * .76 + 3 * (1 - s) * s * s * .24 + s * s * s; if (x < t) lo = s; else hi = s; } return 3 * (1 - s) * s * s + s * s * s; },t => (1 - Math.pow(2, -10 * t)) / (1 - Math.pow(2, -10)),t => t >= 1 ? 1 : Math.floor(t * 6) / 6];
+  const L=28,R=388,T=32,B=296;      // אזור הציור בתוך ה-viewBox של ה-SVG
+  const draw=P=>{
+    const d=E[3](P),x=L+(R-L)*P,y=B-(B-T)*d;
+    mk.setAttribute("cx",x);mk.setAttribute("cy",y);halo.setAttribute("cx",x);halo.setAttribute("cy",y);
+    gx.setAttribute("x1",x);gx.setAttribute("x2",x);gx.setAttribute("y1",y);
+    gy.setAttribute("x2",x);gy.setAttribute("y1",y);gy.setAttribute("y2",y);
+    rt.textContent=Math.round(P*100)+"%";rd.textContent=Math.round(d*100)+"%";
+    rows.forEach((r,i)=>{r.dot.style.setProperty("--p",E[i](P).toFixed(4));r.gh.forEach(g=>g.el.classList.toggle("on",P>=g.t-.001));});
+  };
+  // בהפחתת תנועה הפונקציה לא רצה, ורואים את המצב הסופי מהסימון
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const st={p:0};
+    draw(0);
+    // עצירה קצרה בהתחלה ובסוף, כדי שמרגישים את נקודת היציאה ואת ההגעה
+    const tl=gsap.timeline({scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
+    tl.to({},{duration:.1}).to(st,{p:1,duration:1,ease:"none",onUpdate:()=>draw(st.p)}).to({},{duration:.1});
+    return()=>{
+      root.classList.remove("is-live");
+      mk.setAttribute("cx",R);mk.setAttribute("cy",T);halo.setAttribute("cx",R);halo.setAttribute("cy",T);
+      gx.setAttribute("x1",R);gx.setAttribute("x2",R);gx.setAttribute("y1",T);
+      gy.setAttribute("x2",R);gy.setAttribute("y1",T);gy.setAttribute("y2",T);
+      rt.textContent="100%";rd.textContent="100%";
+      rows.forEach(r=>{r.dot.style.removeProperty("--p");r.gh.forEach(g=>g.el.classList.remove("on"));});
+    };
+  });
+})();
+</script>
+</body>
+</html>

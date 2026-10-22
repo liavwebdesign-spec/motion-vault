@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G257 · היסטוגרמה עם הדגשה שנודדת מעמודה לעמודה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G257 · היסטוגרמה עם הדגשה שנודדת מעמודה לעמודה */
+.hs{--s:1;--n:30;max-width:1200px;margin-inline:auto;display:grid;gap:clamp(24px,4vw,48px)}
+.hs:dir(rtl){--s:-1}
+.hs .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.hs-pin{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"head read" "chart chart";gap:clamp(24px,3vw,40px) clamp(24px,5vw,64px);align-content:center;align-items:end}
+.hs-head{grid-area:head;display:grid;gap:12px;max-width:46ch}
+.hs-head h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.12;text-wrap:balance}
+.hs-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.hs-read{grid-area:read;display:grid;gap:16px;justify-items:start;width:clamp(320px,32vw,440px)}
+.hs-big{display:grid;gap:4px}
+.hs-num{font-size:clamp(88px,13vw,184px);line-height:.9;font-weight:700;letter-spacing:-.03em;color:var(--accent, #4a3aff);font-variant-numeric:tabular-nums}
+.hs-lab{color:var(--muted, #6a6d85);font-size:clamp(15px,1.3vw,18px)}
+.hs-st{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);gap:12px clamp(16px,2.4vw,32px);margin:0;width:100%}
+.hs-st div{display:grid;gap:4px}
+.hs-st dt{color:var(--muted, #6a6d85);font-size:13px;line-height:1.3}
+.hs-st dd{margin:0;font-size:clamp(15px,1.3vw,18px);font-weight:700;line-height:1.3;font-variant-numeric:tabular-nums}
+.hs-chart{grid-area:chart;padding-bottom:40px}
+.hs-plot{position:relative;height:clamp(200px,40svh,400px)}
+.hs-bars{list-style:none;margin:0;padding:0;height:100%;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr))}
+.hs-b{position:relative;display:flex;align-items:flex-end;padding-inline:clamp(1px,.3vw,4px)}
+.hs-b i{display:block;width:100%;height:calc(var(--v) * 100%);border-radius:4px 4px 0 0;transform-origin:50% 100%;transform:scaleY(var(--g,1));background:color-mix(in oklab,var(--ink, #16182b) 28%,var(--card, #fff));transition:background-color .2s linear}
+.hs-b.is-on i{background:var(--accent, #4a3aff)}
+.hs-b small{position:absolute;inset-inline:0;top:100%;margin-top:8px;text-align:center;color:var(--muted, #6a6d85);font-size:13px;line-height:1;font-variant-numeric:tabular-nums}
+.hs-ph{position:absolute;top:0;bottom:0;inset-inline-start:0;width:calc(100% / var(--n));translate:calc(var(--x,29) * 100% * var(--s)) 0;pointer-events:none}
+.hs-ph::before{content:"";position:absolute;inset:-8px 0 0;border-radius:8px;background:color-mix(in oklab,var(--accent, #4a3aff) 9%,transparent)}
+.hs-flag{position:absolute;left:50%;top:calc(100% + 8px);translate:-50% 0;min-width:28px;padding:4px 8px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:13px;font-weight:700;line-height:1.2;text-align:center;font-variant-numeric:tabular-nums}
+/* המהלך רץ: סצנה נעוצה, העמודות מתחילות נמוכות ובצבע העתיד, וההדגשה נודדת לפי הגלילה */
+.hs.is-live .hs-run{height:280vh}
+.hs.is-live .hs-pin{position:sticky;top:0;height:100vh;height:100svh}
+.hs.is-live .hs-b{--g:0}
+.hs.is-live .hs-b i{background:color-mix(in oklab,var(--ink, #16182b) 9%,var(--card, #fff))}
+.hs.is-live .hs-b.is-past i{background:color-mix(in oklab,var(--ink, #16182b) 28%,var(--card, #fff))}
+.hs.is-live .hs-b.is-on i{background:var(--accent, #4a3aff)}
+.hs.is-live .hs-ph{--x:0}
+@media(max-width:767px){
+  .hs-pin{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "read" "chart";gap:16px;align-content:center}
+  .hs-head{gap:8px}
+  .hs-head p{font-size:15px;line-height:1.5}
+  .hs-read{width:auto;grid-template-columns:auto minmax(0,1fr);align-items:end;gap:16px}
+  .hs-num{font-size:88px}
+  .hs-st{grid-template-columns:minmax(0,1fr);gap:8px}
+  .hs-st div{grid-template-columns:auto auto;justify-content:space-between;align-items:baseline}
+  .hs-plot{height:clamp(160px,28svh,260px)}
+  .hs-b small{font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){.hs-b i{transition:none}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><section class="hs">
+  <div class="hs-run">
+    <div class="hs-pin">
+      <div class="hs-head">
+        <h2>כמה פניות נכנסו בכל יום בספטמבר</h2>
+        <p>כל עמודה היא יום אחד של פניות חדשות מהאתר. שימו לב לסופי השבוע, ולעלייה שבאה אחרי שהקמפיין עלה באמצע החודש. אלה נתוני הדגמה.</p>
+      </div>
+      <div class="hs-read">
+        <div class="hs-big"><b class="hs-num" aria-hidden="true" data-num>27</b><span class="hs-lab" aria-hidden="true">פניות ביום הזה</span></div>
+        <dl class="hs-st" aria-hidden="true">
+          <div><dt>תאריך</dt><dd data-dt>יום רביעי, 30 בספטמבר</dd></div>
+          <div><dt>סך הפניות עד כאן</dt><dd data-sum>665</dd></div>
+          <div><dt>ממוצע ליום</dt><dd data-avg>22.2</dd></div>
+        </dl>
+      </div>
+      <div class="hs-chart">
+        <div class="hs-plot">
+          <ol class="hs-bars" aria-hidden="true"><li class="hs-b is-past" style="--v:0.472"><i></i><small>1</small></li><li class="hs-b is-past" style="--v:0.571"><i></i></li><li class="hs-b is-past" style="--v:0.497"><i></i></li><li class="hs-b is-past" style="--v:0.248"><i></i></li><li class="hs-b is-past" style="--v:0.099"><i></i><small>5</small></li><li class="hs-b is-past" style="--v:0.521"><i></i></li><li class="hs-b is-past" style="--v:0.571"><i></i></li><li class="hs-b is-past" style="--v:0.67"><i></i></li><li class="hs-b is-past" style="--v:0.472"><i></i></li><li class="hs-b is-past" style="--v:0.596"><i></i><small>10</small></li><li class="hs-b is-past" style="--v:0.273"><i></i></li><li class="hs-b is-past" style="--v:0.124"><i></i></li><li class="hs-b is-past" style="--v:0.596"><i></i></li><li class="hs-b is-past" style="--v:0.695"><i></i></li><li class="hs-b is-past" style="--v:0.844"><i></i><small>15</small></li><li class="hs-b is-past" style="--v:0.943"><i></i></li><li class="hs-b is-past" style="--v:0.77"><i></i></li><li class="hs-b is-past" style="--v:0.397"><i></i></li><li class="hs-b is-past" style="--v:0.174"><i></i></li><li class="hs-b is-past" style="--v:0.819"><i></i><small>20</small></li><li class="hs-b is-past" style="--v:0.596"><i></i></li><li class="hs-b is-past" style="--v:0.745"><i></i></li><li class="hs-b is-past" style="--v:0.745"><i></i></li><li class="hs-b is-past" style="--v:0.695"><i></i></li><li class="hs-b is-past" style="--v:0.298"><i></i><small>25</small></li><li class="hs-b is-past" style="--v:0.124"><i></i></li><li class="hs-b is-past" style="--v:0.745"><i></i></li><li class="hs-b is-past" style="--v:0.819"><i></i></li><li class="hs-b is-past" style="--v:0.72"><i></i></li><li class="hs-b is-on" style="--v:0.67"><i></i><small>30</small></li></ol>
+          <div class="hs-ph" aria-hidden="true"><span class="hs-flag" data-flag>30</span></div>
+        </div>
+        <p class="sr-only">נתוני הדגמה: 665 פניות בספטמבר, ממוצע של 22.2 ליום. היום העמוס ביותר היה ה-16 בחודש עם 38 פניות, והיום האחרון הסתיים עם 27.</p>
+        <table class="sr-only"><caption>פניות חדשות לפי יום בספטמבר</caption><thead><tr><th scope="col">יום</th><th scope="col">פניות</th></tr></thead><tbody><tr><th scope="row">יום שלישי, 1 בספטמבר</th><td>19</td></tr><tr><th scope="row">יום רביעי, 2 בספטמבר</th><td>23</td></tr><tr><th scope="row">יום חמישי, 3 בספטמבר</th><td>20</td></tr><tr><th scope="row">יום שישי, 4 בספטמבר</th><td>10</td></tr><tr><th scope="row">יום שבת, 5 בספטמבר</th><td>4</td></tr><tr><th scope="row">יום ראשון, 6 בספטמבר</th><td>21</td></tr><tr><th scope="row">יום שני, 7 בספטמבר</th><td>23</td></tr><tr><th scope="row">יום שלישי, 8 בספטמבר</th><td>27</td></tr><tr><th scope="row">יום רביעי, 9 בספטמבר</th><td>19</td></tr><tr><th scope="row">יום חמישי, 10 בספטמבר</th><td>24</td></tr><tr><th scope="row">יום שישי, 11 בספטמבר</th><td>11</td></tr><tr><th scope="row">יום שבת, 12 בספטמבר</th><td>5</td></tr><tr><th scope="row">יום ראשון, 13 בספטמבר</th><td>24</td></tr><tr><th scope="row">יום שני, 14 בספטמבר</th><td>28</td></tr><tr><th scope="row">יום שלישי, 15 בספטמבר</th><td>34</td></tr><tr><th scope="row">יום רביעי, 16 בספטמבר</th><td>38</td></tr><tr><th scope="row">יום חמישי, 17 בספטמבר</th><td>31</td></tr><tr><th scope="row">יום שישי, 18 בספטמבר</th><td>16</td></tr><tr><th scope="row">יום שבת, 19 בספטמבר</th><td>7</td></tr><tr><th scope="row">יום ראשון, 20 בספטמבר</th><td>33</td></tr><tr><th scope="row">יום שני, 21 בספטמבר</th><td>24</td></tr><tr><th scope="row">יום שלישי, 22 בספטמבר</th><td>30</td></tr><tr><th scope="row">יום רביעי, 23 בספטמבר</th><td>30</td></tr><tr><th scope="row">יום חמישי, 24 בספטמבר</th><td>28</td></tr><tr><th scope="row">יום שישי, 25 בספטמבר</th><td>12</td></tr><tr><th scope="row">יום שבת, 26 בספטמבר</th><td>5</td></tr><tr><th scope="row">יום ראשון, 27 בספטמבר</th><td>30</td></tr><tr><th scope="row">יום שני, 28 בספטמבר</th><td>33</td></tr><tr><th scope="row">יום שלישי, 29 בספטמבר</th><td>29</td></tr><tr><th scope="row">יום רביעי, 30 בספטמבר</th><td>27</td></tr></tbody></table>
+      </div>
+    </div>
+  </div>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP נשאר המצב הסופי מהסימון: העמודה האחרונה דולקת
+  const root=document.querySelector(".hs"),run=root.querySelector(".hs-run");
+  const bars=[...root.querySelectorAll(".hs-b")],N=bars.length,ph=root.querySelector(".hs-ph");
+  const V=[19,23,20,10,4,21,23,27,19,24,11,5,24,28,34,38,31,16,7,33,24,30,30,28,12,5,30,33,29,27],D=["יום שלישי, 1 בספטמבר","יום רביעי, 2 בספטמבר","יום חמישי, 3 בספטמבר","יום שישי, 4 בספטמבר","יום שבת, 5 בספטמבר","יום ראשון, 6 בספטמבר","יום שני, 7 בספטמבר","יום שלישי, 8 בספטמבר","יום רביעי, 9 בספטמבר","יום חמישי, 10 בספטמבר","יום שישי, 11 בספטמבר","יום שבת, 12 בספטמבר","יום ראשון, 13 בספטמבר","יום שני, 14 בספטמבר","יום שלישי, 15 בספטמבר","יום רביעי, 16 בספטמבר","יום חמישי, 17 בספטמבר","יום שישי, 18 בספטמבר","יום שבת, 19 בספטמבר","יום ראשון, 20 בספטמבר","יום שני, 21 בספטמבר","יום שלישי, 22 בספטמבר","יום רביעי, 23 בספטמבר","יום חמישי, 24 בספטמבר","יום שישי, 25 בספטמבר","יום שבת, 26 בספטמבר","יום ראשון, 27 בספטמבר","יום שני, 28 בספטמבר","יום שלישי, 29 בספטמבר","יום רביעי, 30 בספטמבר"];
+  const num=root.querySelector("[data-num]"),dt=root.querySelector("[data-dt]"),sum=root.querySelector("[data-sum]"),avg=root.querySelector("[data-avg]"),flag=root.querySelector("[data-flag]");
+  const fin=[num,dt,sum,avg,flag].map(el=>el.textContent);
+  const cum=V.reduce((a,v,i)=>{a.push((a[i-1]||0)+v);return a;},[]);
+  let cur=-1;
+  // עמודה פעילה אחת, מה שלפניה "עבר", והמספרים כולם נגזרים מהאינדקס
+  const show=i=>{
+    if(i===cur)return;
+    cur=i;
+    bars.forEach((b,j)=>{b.classList.toggle("is-on",j===i);b.classList.toggle("is-past",j<i);});
+    num.textContent=V[i];dt.textContent=D[i];sum.textContent=cum[i];avg.textContent=(cum[i]/(i+1)).toFixed(1);flag.textContent=i+1;
+  };
+  // בהפחתת תנועה הפונקציה לא רצה, ורואים את המצב הסופי מהסימון
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const st={x:0};
+    show(0);
+    gsap.timeline({scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}})
+      .to(bars,{"--g":1,duration:.2,ease:"power2.out",stagger:{amount:.16,from:"start"}},0)
+      .to(st,{x:N-1,duration:1,ease:"none",onUpdate:()=>{ph.style.setProperty("--x",st.x.toFixed(3));show(Math.round(st.x));}},.14)
+      .to({},{duration:.1});
+    return()=>{
+      root.classList.remove("is-live");
+      ph.style.removeProperty("--x");
+      bars.forEach((b,j)=>{b.classList.toggle("is-on",j===N-1);b.classList.toggle("is-past",j<N-1);});
+      [num,dt,sum,avg,flag].forEach((el,k)=>{el.textContent=fin[k];});
+      cur=-1;
+    };
+  });
+})();
+</script>
+</body>
+</html>
