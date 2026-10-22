@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B104 · הדפס כפול עם סטייה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B104 · הדפס כפול עם סטייה */
+.rz{--grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2.2 0 0 0 -.55'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");--dx:0;--dy:0;position:relative;isolation:isolate;overflow:clip;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,4vw,64px);min-height:clamp(520px,52vw,680px);padding:clamp(40px,6vw,96px);border-radius:clamp(20px,2.4vw,32px);background:var(--card, #fff);color:var(--ink, #16182b)}
+.rz-art{position:relative;isolation:isolate;aspect-ratio:1;width:min(100%,520px);justify-self:center}
+.rz-c1,.rz-c2{position:absolute;display:block;border-radius:50%;mix-blend-mode:multiply}
+.rz-c1{left:0;top:0;width:76%;aspect-ratio:1;background:var(--accent, #4a3aff)}
+.rz-c2{left:30%;top:28%;width:70%;aspect-ratio:1;background:repeating-linear-gradient(135deg,color-mix(in oklab,var(--ink, #16182b) 62%,var(--card, #fff)) 0 3px,transparent 3px 8px);translate:calc(var(--dx) * 16px) calc(var(--dy) * 12px);transition:translate .5s cubic-bezier(.2,.6,.2,1)}
+.rz-art::after{content:"";position:absolute;inset:0;background:var(--card, #fff);opacity:.6;-webkit-mask:var(--grain) 0 0 / 160px 160px;mask:var(--grain) 0 0 / 160px 160px}
+.rz-txt{display:grid;gap:18px;justify-items:start;max-width:30rem}
+.rz-txt .rz-k{margin:0;font-size:15px;font-weight:600;letter-spacing:.02em}
+.rz-h{position:relative;margin:0;font-size:clamp(34px,4.4vw,62px);font-weight:900;line-height:1.08;letter-spacing:-.02em;text-wrap:balance}
+.rz-t{position:relative;display:block}
+.rz-t2{position:absolute;inset:0;display:block;color:transparent;background:repeating-linear-gradient(135deg,var(--accent, #4a3aff) 0 2px,transparent 2px 5px);-webkit-background-clip:text;background-clip:text;translate:calc(5px + var(--dx) * 9px) calc(4px + var(--dy) * 7px);transition:translate .5s cubic-bezier(.2,.6,.2,1)}
+.rz-txt p{margin:0;max-width:34ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.rz-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 28px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-weight:600;text-decoration:none}
+@media(prefers-reduced-motion:reduce){.rz-c2,.rz-t2{transition:none}}
+@media(max-width:767px){.rz{grid-template-columns:minmax(0,1fr);padding:40px 20px}.rz-art{order:-1;width:min(300px,76vw)}}
+</style>
+</head>
+<body>
+
+<div class="stage"><section class="rz" data-rz>
+  <div class="rz-txt">
+    <p class="rz-k">סדנת הדפס בשכונה</p>
+    <h2 class="rz-h"><span class="rz-t2" aria-hidden="true">הדפסה על נייר, בשני צבעים בלבד</span><span class="rz-t">הדפסה על נייר, בשני צבעים בלבד</span></h2>
+    <p>בסדנה של שלוש שעות מכינים פוסטר בהדפס ריזו: בוחרים שני צבעים, מדפיסים כל שכבה בנפרד ורואים איך הם נחתכים. כל משתתף יוצא עם חמישה עותקים.</p>
+    <a class="rz-cta" href="#">לסדנה הקרובה</a>
+  </div>
+  <div class="rz-art" aria-hidden="true"><span class="rz-c1"></span><span class="rz-c2"></span></div>
+</section></div>
+
+
+<script>
+(function(){
+  const root=document.querySelector("[data-rz]");
+  const mq=window.matchMedia("(prefers-reduced-motion: reduce)");
+  if(!root||mq.matches)return;                  // בהפחתת תנועה נשארת הסטייה הקבועה
+  let raf=0,nx=0,ny=0;
+  const apply=()=>{raf=0;root.style.setProperty("--dx",nx.toFixed(3));root.style.setProperty("--dy",ny.toFixed(3));};
+  const queue=()=>{if(!raf)raf=requestAnimationFrame(apply);};
+  const move=e=>{
+    const r=root.getBoundingClientRect();
+    nx=Math.max(-1,Math.min(1,((e.clientX-r.left)/r.width-.5)*2));
+    ny=Math.max(-1,Math.min(1,((e.clientY-r.top)/r.height-.5)*2));
+    queue();
+  };
+  const leave=()=>{nx=0;ny=0;queue();};
+  root.addEventListener("pointermove",move);
+  root.addEventListener("pointerleave",leave);
+  mq.addEventListener("change",e=>{if(e.matches){root.removeEventListener("pointermove",move);root.removeEventListener("pointerleave",leave);leave();}});
+})();
+</script>
+</body>
+</html>

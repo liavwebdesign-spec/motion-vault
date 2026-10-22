@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B103 · כוכבי שביט שמקפצים בין שני פסים ומדליקים אותם</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B103 · כוכבי שביט שמקפצים בין שני פסים ומדליקים אותם */
+.cb{position:relative;isolation:isolate;overflow:hidden;min-height:clamp(480px,70vh,640px);display:grid;place-items:center;border-radius:28px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);padding:clamp(72px,10vw,96px) var(--gutter, clamp(24px, 5vw, 96px))}
+.cb-art{--bar:color-mix(in oklab,var(--bg, #f7f7fa) 16%,var(--ink, #16182b));position:absolute;inset:0;z-index:0;pointer-events:none}
+.cb-rail{position:absolute;inset-inline:clamp(16px,3vw,32px);display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(8px,1.2vw,12px)}
+.cb-top{top:clamp(24px,3vw,32px)}
+.cb-bot{bottom:clamp(24px,3vw,32px)}
+.cb-rail i{display:block;height:10px;border-radius:5px;background:var(--bar);transition:background-color .6s cubic-bezier(.2,.6,.2,1)}
+.cb-rail i.on{background:var(--accent, #4a3aff)}
+.cb-art.is-on .cb-rail i.on{background:var(--bar)}
+/* כוכבי שביט סטטיים: מה שרואים בלי JS ובהפחתת תנועה, עד שהקנבס נחשף */
+.cb-sc{position:absolute;left:var(--x);top:var(--y);width:6px;height:var(--l);border-radius:3px;rotate:var(--r, 14px);background:linear-gradient(to bottom,transparent,var(--accent, #4a3aff));
+  box-shadow:0 0 16px 3px color-mix(in oklab,var(--accent, #4a3aff) 60%,transparent);transition:opacity .6s cubic-bezier(.2,.6,.2,1)}
+.cb-art.is-on .cb-sc{opacity:0}
+.cb-cv{position:absolute;inset:0;width:100%;height:100%;opacity:0;transition:opacity .6s cubic-bezier(.2,.6,.2,1)}
+.cb-art.is-on .cb-cv{opacity:1}
+.cb-in{position:relative;z-index:1;display:grid;gap:16px;justify-items:center;text-align:center;max-width:44ch}
+.cb-in::before{content:"";position:absolute;inset:-40px -56px;z-index:-1;pointer-events:none;background:radial-gradient(closest-side,color-mix(in oklab,var(--ink, #16182b) 90%,transparent) 55%,transparent)}
+.cb-k{margin:0;font-size:15px;font-weight:600;color:color-mix(in oklab,var(--bg, #f7f7fa) 70%,var(--ink, #16182b))}
+.cb h2{margin:0;font-size:clamp(32px,4.4vw,60px);line-height:1.1;text-wrap:balance;color:var(--bg, #f7f7fa)}
+.cb-lead{margin:0;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6;color:color-mix(in oklab,var(--bg, #f7f7fa) 78%,var(--ink, #16182b))}
+.cb-btn{display:inline-flex;align-items:center;padding:14px 28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:700;text-decoration:none;transition:transform .2s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.cb-btn:hover{transform:translateY(-2px)}}
+.cb-btn:focus-visible{outline:2px solid var(--bg, #f7f7fa);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.cb-cv,.cb-sc,.cb-rail i{transition:none}}
+@media(max-width:767px){
+  .cb{min-height:560px}
+  .cb-rail{grid-template-columns:repeat(8,minmax(0,1fr))}
+  .cb-rail i:nth-child(n+9){display:none}
+  .cb-in::before{inset:-32px -24px}
+}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><section class="cb">
+  <div class="cb-art" aria-hidden="true">
+    <div class="cb-rail cb-top"><i></i><i></i><i></i><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="cb-rail cb-bot"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="on"></i><i></i><i></i><i></i><i></i></div>
+    <span class="cb-sc" style="--x:22%;--y:24%;--l:92px;--r:8deg"></span>
+    <span class="cb-sc" style="--x:52%;--y:56%;--l:76px;--r:-6deg"></span>
+    <span class="cb-sc" style="--x:78%;--y:30%;--l:84px;--r:5deg"></span>
+    <canvas class="cb-cv"></canvas>
+  </div>
+  <div class="cb-in">
+    <p class="cb-k">סטודיו למשחקי מובייל בתל אביב</p>
+    <h2>משחקים קצרים שחוזרים אליהם כל יום</h2>
+    <p class="cb-lead">אנחנו מפתחים משחקי מובייל של שתיים עד חמש דקות. אין פרסומות באמצע המשחק ואין צורך בהרשמה, וכל משחק מקבל עדכון חדש פעם בחודש.</p>
+    <a class="cb-btn" href="#">למשחקים שלנו</a>
+  </div>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+
+<script>
+(function(){
+  const root=document.querySelector(".cb"),art=root.querySelector(".cb-art"),cv=art.querySelector(".cb-cv"),ctx=cv.getContext("2d"),
+    bars=[].slice.call(art.querySelectorAll(".cb-rail i"));
+  const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W=0,H=0,B=[],C=[],S=[],spr=null,col="#fff",SPR=64,K=1,NC=3,MAXS=60,yT=0,yB=0,vis=false,running=false,raf=0,last=0;
+  const R=(a,b)=>a+Math.random()*(b-a);
+  // הצבע נקרא מהטוקן בזמן ריצה (פיקסל אחד בקנבס, כך שכל פורמט צבע עובד), ו-sprite אחד מצויר מראש
+  const pcv=document.createElement("canvas");pcv.width=pcv.height=1;const pc=pcv.getContext("2d",{willReadFrequently:true});
+  const rgb=c=>{pc.clearRect(0,0,1,1);pc.fillStyle=c;pc.fillRect(0,0,1,1);const d=pc.getImageData(0,0,1,1).data;return[d[0],d[1],d[2]];};
+  function sprite(){
+    const a=rgb(getComputedStyle(root).getPropertyValue("--accent").trim()||"#888"),c=document.createElement("canvas");
+    col="rgb("+a.join(",")+")";c.width=c.height=SPR;
+    const g=c.getContext("2d"),gr=g.createRadialGradient(SPR/2,SPR/2,0,SPR/2,SPR/2,SPR/2),k="rgba("+a.join(",")+",",hi="rgba("+a.map(v=>Math.round(v+(255-v)*.72)).join(",")+",";
+    gr.addColorStop(0,hi+"1)");gr.addColorStop(.2,hi+".9)");gr.addColorStop(.45,k+".6)");gr.addColorStop(1,k+"0)");g.fillStyle=gr;g.fillRect(0,0,SPR,SPR);spr=c;
+  }
+  // פגיעה: הפס שמתחת לכוכב נדלק, ויוצאת חבורת ניצוצות מנקודת המגע בכיוון הפוך לשורה
+  function hit(c,row){
+    let bar=null;
+    for(let i=0;i<B.length;i++){const b=B[i];if(b.row===row&&c.x>=b.x0-4&&c.x<=b.x1+4){bar=b;break;}}
+    if(bar)bar.f=1;
+    for(let k=0;k<(bar?8:4)&&S.length<MAXS;k++){
+      const a=R(-1.2,1.2),sp=R(70,170);
+      S.push({x:c.x,y:row?yB:yT,vx:Math.sin(a)*sp,vy:(row?-1:1)*Math.cos(a)*sp,s:R(1.4,2.6)*K,age:0,life:R(.45,.8)});
+    }
+  }
+  function step(dt){
+    C.forEach(c=>{
+      c.x+=c.vx*dt;c.y+=c.vy*dt;
+      if(c.x<16){c.x=16;c.vx=Math.abs(c.vx);}else if(c.x>W-16){c.x=W-16;c.vx=-Math.abs(c.vx);}
+      const top=yT+c.r+2,bot=yB-c.r-2;
+      if(c.y<top){c.y=top;c.vy=Math.abs(c.vy);hit(c,0);}else if(c.y>bot){c.y=bot;c.vy=-Math.abs(c.vy);hit(c,1);}
+      c.tr.push(c.x,c.y);if(c.tr.length>44)c.tr.splice(0,2);
+    });
+    B.forEach(b=>{if(b.f>0)b.f=Math.max(0,b.f-dt/.35);});
+    for(let i=S.length-1;i>=0;i--){const s=S[i];s.age+=dt;if(s.age>=s.life){S.splice(i,1);continue;}s.x+=s.vx*dt;s.y+=s.vy*dt;s.vx*=1-dt*1.5;s.vy*=1-dt*1.5;}
+  }
+  function paint(){
+    ctx.clearRect(0,0,W,H);
+    B.forEach(b=>{
+      if(b.f<=.01)return;const w=b.x1-b.x0,h=b.b-b.t;
+      ctx.globalAlpha=b.f*.55;ctx.drawImage(spr,b.x0-w*.5,b.t-h*4.5,w*2,h*10);
+      ctx.globalAlpha=b.f;ctx.fillStyle=col;
+      if(ctx.roundRect){ctx.beginPath();ctx.roundRect(b.x0,b.t,w,h,h/2);ctx.fill();}else ctx.fillRect(b.x0,b.t,w,h);
+    });
+    C.forEach(c=>{
+      const n=c.tr.length/2;
+      for(let i=0;i<n;i++){const t=(i+1)/n,s=c.r*2.4*t+1.5;ctx.globalAlpha=Math.pow(t,1.5)*.85;ctx.drawImage(spr,c.tr[i*2]-s,c.tr[i*2+1]-s,s*2,s*2);}
+      ctx.globalAlpha=1;let g=c.r*3.4;ctx.drawImage(spr,c.x-g,c.y-g,g*2,g*2);g=c.r*1.5;ctx.drawImage(spr,c.x-g,c.y-g,g*2,g*2);
+    });
+    S.forEach(s=>{const t=s.age/s.life,z=s.s*(1-.5*t)*2;ctx.globalAlpha=(1-t)*.9;ctx.drawImage(spr,s.x-z,s.y-z,z*2,z*2);});
+    ctx.globalAlpha=1;
+  }
+  function build(){
+    const dpr=Math.min(2,devicePixelRatio||1),r=art.getBoundingClientRect();W=r.width;H=r.height;if(!W||!H)return;
+    cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
+    const small=W<600;K=small?.8:1;NC=small?2:3;MAXS=small?30:60;
+    // הפסים נמדדים מה-DOM: אותם מלבנים שהקנבס מדליק ושמהם הכוכבים חוזרים
+    B=[];bars.forEach(b=>{const q=b.getBoundingClientRect();if(!q.width)return;B.push({x0:q.left-r.left,x1:q.right-r.left,t:q.top-r.top,b:q.bottom-r.top,row:q.top-r.top<H/2?0:1,f:0});});
+    yT=0;yB=H;B.forEach(b=>{if(b.row===0)yT=Math.max(yT,b.b);else yB=Math.min(yB,b.t);});
+    sprite();S=[];C=[];
+    for(let i=0;i<NC;i++)C.push({x:W*(.2+.3*i),y:yT+(yB-yT)*(.2+.3*i),vx:(i%2?1:-1)*R(50,95)*K,vy:(i%2?-1:1)*R(200,240)*K,tr:[],r:5*K});
+    for(let i=0;i<70;i++)step(.016);      // חימום: הפריים הראשון כבר עם זנבות
+    if(reduced){B.forEach((b,i)=>{if(i===3||i===B.length/2+3)b.f=.8;});}
+    paint();
+  }
+  function loop(now){
+    const dt=Math.min(.05,(now-last)/1000);last=now;
+    step(dt);paint();raf=running?requestAnimationFrame(loop):0;
+  }
+  function sync(){running=!reduced&&vis&&!document.hidden;if(running&&!raf){last=performance.now();raf=requestAnimationFrame(loop);}}
+  document.addEventListener("visibilitychange",sync);
+  new ResizeObserver(build).observe(art);
+  new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis)art.classList.add("is-on");sync();},{rootMargin:"20% 0px"}).observe(root);
+  if(reduced)art.classList.add("is-on");     // פריים אחד, בלי לולאה
+  build();
+})();
+</script>
+</body>
+</html>

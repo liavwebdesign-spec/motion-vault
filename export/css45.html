@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS45 · פסי מואר מסתובבים זה מול זה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS45 · פסי מואר מסתובבים זה מול זה */
+.mo{--ca:color-mix(in oklab,var(--accent, #4a3aff) 12%,transparent);--cb:color-mix(in oklab,var(--ink, #16182b) 6%,transparent);position:relative;isolation:isolate;overflow:clip;display:grid;place-items:center;min-height:clamp(480px,50vw,640px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--card, #fff);color:var(--ink, #16182b);text-align:center}
+.mo-a,.mo-b{position:absolute;z-index:-1;width:200%;aspect-ratio:1;translate:-50% -50%;pointer-events:none;will-change:transform;
+  -webkit-mask-image:radial-gradient(closest-side,transparent 3%,#000 30%,transparent 100%);mask-image:radial-gradient(closest-side,transparent 3%,#000 30%,transparent 100%)}
+.mo-a{left:50%;top:50%;background:repeating-conic-gradient(var(--ca) 0 3deg,transparent 3deg 6deg);animation:mo-cw 140s linear infinite}
+.mo-b{left:57%;top:46%;background:repeating-conic-gradient(var(--cb) 0 2.6deg,transparent 2.6deg 5.2deg);animation:mo-ccw 110s linear infinite}
+@keyframes mo-cw{to{rotate:360deg}}
+@keyframes mo-ccw{to{rotate:-360deg}}
+.mo-txt{display:grid;justify-items:center;gap:18px;max-width:44rem;text-shadow:0 0 .5em var(--card, #fff),0 0 1.1em var(--card, #fff)}
+.mo-txt h2{margin:0;font-size:clamp(34px,5vw,72px);font-weight:800;line-height:1.05;letter-spacing:-.02em;text-wrap:balance}
+.mo-txt p{margin:0;max-width:38ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.mo-txt .mo-k{font-size:15px;font-weight:600}
+.mo-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:600;text-decoration:none;text-shadow:none}
+@media(prefers-reduced-motion:reduce){.mo-a,.mo-b{animation:none}}
+@media(max-width:767px){.mo{padding:48px 20px}}
+</style>
+</head>
+<body>
+
+<div class="stage"><section class="mo">
+  <span class="mo-a" aria-hidden="true"></span><span class="mo-b" aria-hidden="true"></span>
+  <div class="mo-txt">
+    <p class="mo-k">קורס צילום, מחזור נובמבר</p>
+    <h2>ללמוד לצלם בארבעה ערבים בתל אביב</h2>
+    <p>קבוצה של עד שמונה משתתפים עם מרצה אחד. מביאים מצלמה משלכם, ובערב האחרון יוצאים לצלם ברחוב.</p>
+    <a class="mo-cta" href="#">להרשמה לקורס</a>
+  </div>
+</section></div>
+
+
+
+</body>
+</html>

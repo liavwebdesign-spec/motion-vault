@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G276 · טבעות מקטעים שמסתובבות בקצבים שונים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G276 · טבעות מקטעים שמסתובבות בקצבים שונים */
+.rn{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,96px);max-width:1160px;margin-inline:auto;padding:clamp(32px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--card, #fff);color:var(--ink, #16182b)}
+.rn-txt{display:grid;gap:20px;max-width:36rem}
+.rn-txt h2{margin:0;font-size:clamp(30px,3.6vw,52px);font-weight:800;line-height:1.1;letter-spacing:-.015em;text-wrap:balance}
+.rn-txt>p{margin:0;max-width:40ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.rn-leg{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.rn-leg li{display:grid;grid-template-columns:28px minmax(0,1fr);align-items:center;gap:14px}
+.rn-leg i{display:block;height:10px;border-radius:5px;background:var(--k)}
+.rn-leg b{display:block;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));font-weight:600;line-height:1.35}
+.rn-leg small{display:block;font-size:14px;line-height:1.4;color:var(--muted, #6a6d85)}
+.rn-fig{position:relative;margin:0;justify-self:center;width:min(540px,100%)}
+.rn-svg{display:block;width:100%;height:auto;overflow:visible}
+.rn-ring{fill:none}
+.rn-r0{stroke:color-mix(in oklab,var(--ink, #16182b) 32%,transparent);stroke-width:12;stroke-dasharray:1 4}
+.rn-r1{stroke:var(--accent, #4a3aff);stroke-width:16;stroke-dasharray:100 14 60 22 110 54}
+.rn-r2{stroke:color-mix(in oklab,var(--ink, #16182b) 70%,transparent);stroke-width:10;stroke-dasharray:150 20 90 20 60 20}
+.rn-r3{stroke:color-mix(in oklab,var(--accent, #4a3aff) 55%,transparent);stroke-width:22;stroke-dasharray:70 20}
+.rn-r4{stroke:color-mix(in oklab,var(--ink, #16182b) 40%,transparent);stroke-width:8;stroke-dasharray:200 40 80 40}
+.rn-r5{stroke:var(--accent, #4a3aff);stroke-width:14;stroke-dasharray:30 10}
+.rn-burst line{stroke:var(--accent, #4a3aff);stroke-width:1.5;stroke-linecap:round;stroke-dasharray:190;opacity:0}
+.rn-core{position:absolute;inset:0;margin:auto;display:grid;place-content:center;gap:2px;width:29%;aspect-ratio:1;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-align:center}
+.rn-core b{font-size:clamp(15px,1.8vw,24px);font-weight:700;line-height:1.15}
+.rn-core small{font-size:clamp(12px,1.2vw,15px);line-height:1.2}
+@media(max-width:767px){.rn{grid-template-columns:minmax(0,1fr);padding:32px 20px}.rn-fig{width:min(420px,88vw)}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><section class="rn">
+  <div class="rn-txt">
+    <h2>כל מערכת בבניין נבדקת במחזור משלה</h2>
+    <p>אנחנו מנהלים את כל המחזורים בלוח אחד ושולחים לוועד תזכורת לפני כל ביקור, כך שאף בדיקה לא נשכחת.</p>
+    <ul class="rn-leg">
+      <li style="--k:var(--accent)"><i></i><span><b>ניקיון חדרי מדרגות ותאורה</b><small>כל שבוע</small></span></li>
+      <li style="--k:color-mix(in oklab,var(--ink) 40%,transparent)"><i></i><span><b>גינון והשקיה</b><small>כל חודש</small></span></li>
+      <li style="--k:color-mix(in oklab,var(--accent) 55%,transparent)"><i></i><span><b>בדיקת מעליות ומערכות כיבוי אש</b><small>כל רבעון</small></span></li>
+      <li style="--k:color-mix(in oklab,var(--ink) 70%,transparent)"><i></i><span><b>ניקוי מרזבים ובדיקת הגג</b><small>פעמיים בשנה</small></span></li>
+      <li style="--k:var(--accent)"><i></i><span><b>בדיקת תקינות החשמל והמים</b><small>פעם בשנה</small></span></li>
+    </ul>
+  </div>
+  <figure class="rn-fig" aria-hidden="true">
+    <svg class="rn-svg" viewBox="0 0 600 600" focusable="false">
+      <g class="rn-burst"><line x1="404.0" y1="300.0" x2="594.0" y2="300.0"/><line x1="402.4" y1="318.1" x2="589.5" y2="351.1"/><line x1="397.7" y1="335.6" x2="576.3" y2="400.6"/><line x1="390.1" y1="352.0" x2="554.6" y2="447.0"/><line x1="379.7" y1="366.8" x2="525.2" y2="489.0"/><line x1="366.8" y1="379.7" x2="489.0" y2="525.2"/><line x1="352.0" y1="390.1" x2="447.0" y2="554.6"/><line x1="335.6" y1="397.7" x2="400.6" y2="576.3"/><line x1="318.1" y1="402.4" x2="351.1" y2="589.5"/><line x1="300.0" y1="404.0" x2="300.0" y2="594.0"/><line x1="281.9" y1="402.4" x2="248.9" y2="589.5"/><line x1="264.4" y1="397.7" x2="199.4" y2="576.3"/><line x1="248.0" y1="390.1" x2="153.0" y2="554.6"/><line x1="233.2" y1="379.7" x2="111.0" y2="525.2"/><line x1="220.3" y1="366.8" x2="74.8" y2="489.0"/><line x1="209.9" y1="352.0" x2="45.4" y2="447.0"/><line x1="202.3" y1="335.6" x2="23.7" y2="400.6"/><line x1="197.6" y1="318.1" x2="10.5" y2="351.1"/><line x1="196.0" y1="300.0" x2="6.0" y2="300.0"/><line x1="197.6" y1="281.9" x2="10.5" y2="248.9"/><line x1="202.3" y1="264.4" x2="23.7" y2="199.4"/><line x1="209.9" y1="248.0" x2="45.4" y2="153.0"/><line x1="220.3" y1="233.2" x2="74.8" y2="111.0"/><line x1="233.2" y1="220.3" x2="111.0" y2="74.8"/><line x1="248.0" y1="209.9" x2="153.0" y2="45.4"/><line x1="264.4" y1="202.3" x2="199.4" y2="23.7"/><line x1="281.9" y1="197.6" x2="248.9" y2="10.5"/><line x1="300.0" y1="196.0" x2="300.0" y2="6.0"/><line x1="318.1" y1="197.6" x2="351.1" y2="10.5"/><line x1="335.6" y1="202.3" x2="400.6" y2="23.7"/><line x1="352.0" y1="209.9" x2="447.0" y2="45.4"/><line x1="366.8" y1="220.3" x2="489.0" y2="74.8"/><line x1="379.7" y1="233.2" x2="525.2" y2="111.0"/><line x1="390.1" y1="248.0" x2="554.6" y2="153.0"/><line x1="397.7" y1="264.4" x2="576.3" y2="199.4"/><line x1="402.4" y1="281.9" x2="589.5" y2="248.9"/></g>
+      <circle class="rn-ring rn-r0" cx="300" cy="300" r="284" pathLength="360"/>
+      <circle class="rn-ring rn-r1" cx="300" cy="300" r="250" pathLength="360"/>
+      <circle class="rn-ring rn-r2" cx="300" cy="300" r="212" pathLength="360"/>
+      <circle class="rn-ring rn-r3" cx="300" cy="300" r="178" pathLength="360"/>
+      <circle class="rn-ring rn-r4" cx="300" cy="300" r="140" pathLength="360"/>
+      <circle class="rn-ring rn-r5" cx="300" cy="300" r="108" pathLength="360"/>
+    </svg>
+    <div class="rn-core"><b>לוח תחזוקה</b><small>לכל הבניין</small></div>
+  </figure>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הטבעות סטטיות והקווים נסתרים (במארקאפ)
+  const root=document.querySelector(".rn"),fig=root.querySelector(".rn-fig"),rings=gsap.utils.toArray(".rn-ring",root),lines=gsap.utils.toArray(".rn-burst line",root);
+  const SPIN=[[90,1],[36,-1],[28,1],[22,-1],[17,1],[12,-1]];     // [שניות לסיבוב, כיוון] לכל טבעת, מהחיצונית לפנימית
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    // מרכז הסיבוב נקבע פעם אחת לכל הטבעות, לפני כל טווין. אם svgOrigin מופיע רק בחלק מהטוויינים,
+    // GSAP מתחיל מהפינה של התיבה ומשאיר הסטה קבועה במרכז
+    gsap.set(rings,{svgOrigin:"300 300"});
+    const spins=rings.map((el,i)=>gsap.to(el,{rotation:SPIN[i][1]*360,duration:SPIN[i][0],ease:"none",repeat:-1,paused:true}));
+    // כניסה חד פעמית: הטבעות גדלות אחת אחת, והקווים נמשכים מהמרכז החוצה ואז נמחקים החוצה
+    gsap.timeline({scrollTrigger:{trigger:fig,start:"top 78%",once:true}})
+      .fromTo(rings,{opacity:0,scale:.82},{opacity:1,scale:1,duration:.9,ease:"power3.out",stagger:.09},0)
+      .set(lines,{opacity:.7,strokeDashoffset:190},.15)
+      .to(lines,{strokeDashoffset:0,duration:.7,ease:"power2.out",stagger:{each:.012,from:"random"}},.15)
+      .to(lines,{strokeDashoffset:-190,duration:.7,ease:"power2.in",stagger:{each:.012,from:"random"}},.75)
+      .set(lines,{opacity:0});
+    // הסיבובים רצים רק כשהגרפיקה על המסך
+    ScrollTrigger.create({trigger:fig,start:"top bottom",end:"bottom top",onToggle:s=>spins.forEach(t=>s.isActive?t.play():t.pause())});
+    // גלילה מהירה מאיצה את כל הטבעות לרגע, ודועכת בחזרה לקצב הרגיל
+    let boost=1,target=1;
+    ScrollTrigger.create({trigger:root,start:"top bottom",end:"bottom top",onUpdate:s=>{target=Math.max(target,1+Math.min(5,Math.abs(s.getVelocity())/450));}});
+    const tick=()=>{boost+=(target-boost)*.12;target=1+(target-1)*.92;spins.forEach(t=>t.timeScale(boost));};
+    gsap.ticker.add(tick);
+    return()=>{gsap.ticker.remove(tick);spins.forEach(t=>t.kill());gsap.set(rings,{clearProps:"all"});gsap.set(lines,{clearProps:"opacity,strokeDashoffset"});};
+  });
+})();
+</script>
+</body>
+</html>
