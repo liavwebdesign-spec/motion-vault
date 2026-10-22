@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS38 · מילה ענקית שגולשת מהמסגרת עם עותקים מטושטשים בעומק</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS38 · מילה ענקית שגולשת מהמסגרת עם עותקים מטושטשים בעומק */
+.gt-wrap{max-width:1200px;margin-inline:auto;display:grid;gap:24px}
+.gt{view-timeline:--gt block;position:relative;display:grid;place-items:center;min-height:clamp(480px,72vh,760px);border-radius:32px;overflow:clip;background:var(--card, #fff)}
+.gt-w{position:absolute;inset:0;display:grid;place-items:center;margin:0;font-size:clamp(200px,58vw,980px);font-weight:700;line-height:.8;letter-spacing:-.04em;white-space:nowrap;user-select:none}
+.gt-b2{color:color-mix(in oklab,var(--accent, #4a3aff) 62%,transparent);filter:blur(34px)}
+.gt-b1{color:color-mix(in oklab,var(--accent, #4a3aff) 40%,transparent);filter:blur(14px)}
+.gt-s{color:var(--ink, #16182b)}
+.gt-p{margin:0;max-width:46ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+@supports (animation-timeline:view()){
+  .gt-w{animation-timing-function:linear;animation-fill-mode:both;animation-timeline:--gt;animation-range:cover 0% cover 100%}
+  .gt-b2{animation-name:gt-far}
+  .gt-b1{animation-name:gt-mid}
+  .gt-s{animation-name:gt-near}
+  @keyframes gt-far{from{transform:translateY(26%) scale(1.06)}to{transform:translateY(-26%) scale(1.06)}}
+  @keyframes gt-mid{from{transform:translateY(14%)}to{transform:translateY(-14%)}}
+  @keyframes gt-near{from{transform:translateY(4%)}to{transform:translateY(-4%)}}
+}
+@media(prefers-reduced-motion:reduce){.gt-w{animation:none}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="gt-wrap"><section class="gt">
+  <span class="gt-w gt-b2" aria-hidden="true">קפה</span>
+  <span class="gt-w gt-b1" aria-hidden="true">קפה</span>
+  <h2 class="gt-w gt-s">קפה</h2>
+</section>
+<p class="gt-p">קלייה קטנה בתל אביב. השקית נארזת ביום ההזמנה ומגיעה אליכם טרייה.</p>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+
+
+</body>
+</html>
