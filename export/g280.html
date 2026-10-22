@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G280 · קו מפותל שהופך לישר בין שני צמתים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G280 · קו מפותל שהופך לישר בין שני צמתים */
+.sq{max-width:1120px;margin-inline:auto}
+.sq-pin{display:grid;align-content:center;gap:40px}
+.sq-head{display:grid;gap:12px;max-width:52ch}
+.sq-head h2{margin:0;font-size:clamp(28px,3.2vw,48px);font-weight:700;line-height:1.12;text-wrap:balance}
+.sq-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.sq-d{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;min-height:300px}
+.sq-ov{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none;display:none}
+.sq.is-live .sq-ov{display:block}
+.sq-ln{fill:none;stroke:color-mix(in srgb,var(--accent, #4a3aff) calc((1 - var(--k,0)) * 100%),var(--muted, #6a6d85));stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.sq-n{position:relative;z-index:1;display:grid;place-content:center;gap:4px;width:152px;height:152px;padding:0 16px;text-align:center}
+.sq-n b{font-size:18px;font-weight:700;line-height:1.25}
+.sq-n small{font-size:14px;line-height:1.3}
+.sq-a{border-radius:50%;background:var(--card, #fff);box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent)}
+.sq-a small{color:var(--muted, #6a6d85)}
+.sq-b{border-radius:24px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.sq-chips{list-style:none;margin:0;padding:0 24px;position:relative;align-self:stretch;display:flex;align-items:center;justify-content:space-around;gap:12px}
+.sq-chips::before{content:"";position:absolute;left:0;right:0;top:50%;height:3px;border-radius:2px;background:var(--accent, #4a3aff);transform:translateY(-50%)}
+.sq.is-live .sq-chips::before{opacity:0}
+.sq-c{position:relative;z-index:1;padding:10px 18px;border-radius:999px;background:var(--card, #fff);box-shadow:0 1px 3px color-mix(in srgb,var(--ink, #16182b) 10%,transparent);font-size:15px;font-weight:600;line-height:1.3;white-space:nowrap;will-change:transform}
+.sq.is-live .sq-run{height:300vh}
+.sq.is-live .sq-pin{position:sticky;top:0;height:100vh;height:100svh}
+@media(max-width:1023px){
+  .sq-d{grid-template-columns:minmax(0,1fr);justify-items:center;min-height:0}
+  .sq-chips{flex-direction:column;width:100%;height:300px;padding:24px 0}
+  .sq-chips::before{left:50%;right:auto;top:0;bottom:0;width:3px;height:auto;transform:translateX(-50%)}
+}
+@media(max-width:767px){
+  .sq-pin{gap:24px}
+  .sq-n{width:112px;height:112px;padding:0 8px}
+  .sq-n b{font-size:16px}
+  .sq-n small{font-size:13px}
+  .sq.is-live .sq-head p{display:none}
+}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><figure class="sq" style="margin-block:0"><div class="sq-run"><div class="sq-pin">
+  <figcaption class="sq-head"><h2>דרישות מפוזרות שהופכות לתוכנית עבודה אחת</h2><p>הלקוח שולח חומרים מכל כיוון. אנחנו מסדרים אותם למסמך אחד, ומשם ברור מה מתחילים לעשות.</p></figcaption>
+  <div class="sq-d">
+    <svg class="sq-ov" aria-hidden="true" focusable="false"><path class="sq-ln" d=""/></svg>
+    <div class="sq-n sq-a"><b>מה הלקוח שלח</b><small>חומר מכמה ערוצים</small></div>
+    <ul class="sq-chips">
+      <li class="sq-c">הודעה בוואטסאפ</li>
+      <li class="sq-c">הערות מהשיחה</li>
+      <li class="sq-c">קובץ במייל</li>
+      <li class="sq-c">תמונות מהדרייב</li>
+    </ul>
+    <div class="sq-n sq-b"><b>תוכנית עבודה</b><small>מה קודם ומה אחר כך</small></div>
+  </div>
+</div></div></figure></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP: עיגול, קו ישר וריבוע עם התוויות על הקו (במארקאפ ו-CSS)
+  const root=document.querySelector(".sq");if(!root)return;
+  gsap.registerPlugin(ScrollTrigger);
+  const run=root.querySelector(".sq-run"),d=root.querySelector(".sq-d"),svg=root.querySelector(".sq-ov"),ln=svg.querySelector(".sq-ln"),
+    na=root.querySelector(".sq-a"),nb=root.querySelector(".sq-b"),chips=[...root.querySelectorAll(".sq-c")];
+  const cl=v=>Math.min(1,Math.max(0,v)),seg=(p,a,b)=>cl((p-a)/(b-a)),E=gsap.parseEase("power2.inOut");
+  let G=null;
+  // מעטפת: המשרעת מתאפסת בקצוות, כדי שהקו ייכנס לצמתים ישר
+  const env=u=>{const a=cl((u-.06)/.14),b=cl((.94-u)/.14);return a*a*(3-2*a)*b*b*(3-2*b);};
+  function measure(){
+    chips.forEach(c=>{c.style.transform="";});     // מודדים בלי ההיסט, אחרת המדידה מושפעת מהפריים הקודם
+    const r=d.getBoundingClientRect(),mid=el=>{const q=el.getBoundingClientRect();return{x:q.left-r.left+q.width/2,y:q.top-r.top+q.height/2};};
+    const A=mid(na),B=mid(nb),dx=B.x-A.x,dy=B.y-A.y,D=Math.hypot(dx,dy),T={x:dx/D,y:dy/D},N={x:-T.y,y:T.x};
+    const vert=Math.abs(T.y)>Math.abs(T.x),n=vert?5:6,c0=D/(2*Math.PI*n),a0=Math.min(vert?44:68,3.1*c0);
+    const us=chips.map(el=>{const q=mid(el);return cl(((q.x-A.x)*T.x+(q.y-A.y)*T.y)/D);});
+    svg.setAttribute("viewBox","0 0 "+r.width.toFixed(1)+" "+r.height.toFixed(1));
+    G={A,T,N,D,n,a0,us};
+  }
+  // נקודה לאורך הקו: s לאורך הציר בין הצמתים, w לרוחב. b (לאורך הציר) יורד לאט מ-a (לרוחב), ולכן הלולאות משתטחות ולא עוברות דרך חוד
+  const at=(u,k)=>{const th=2*Math.PI*G.n*u,e=env(u),b=G.a0*k*e,a=G.a0*Math.pow(k,1.7)*e;return{s:G.D*u-b*Math.sin(th),w:a*Math.cos(th)};};
+  const xy=(s,w)=>[G.A.x+G.T.x*s+G.N.x*w,G.A.y+G.T.y*s+G.N.y*w];
+  function paint(p){
+    if(!G)return;
+    const k=1-E(seg(p,.08,.86)),M=240;let s="";
+    for(let j=0;j<=M;j++){const l=at(j/M,k),q=xy(l.s,l.w);s+=(j?"L":"M")+q[0].toFixed(1)+" "+q[1].toFixed(1);}
+    ln.setAttribute("d",s);
+    root.style.setProperty("--k",k.toFixed(3));
+    chips.forEach((c,i)=>{
+      const l=at(G.us[i],k),ds=l.s-G.D*G.us[i],x=(G.T.x*ds+G.N.x*l.w)*.55,y=(G.T.y*ds+G.N.y*l.w)*.55;
+      c.style.transform="translate("+x.toFixed(1)+"px,"+y.toFixed(1)+"px)";
+    });
+  }
+  // בהפחתת תנועה הפונקציה לא רצה, ונשאר מצב הסיום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference) and (min-height: 600px)",()=>{
+    root.classList.add("is-live");measure();paint(0);
+    const o={p:0};
+    const tw=gsap.to(o,{p:1,ease:"none",onUpdate:()=>paint(o.p),
+      scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.4,invalidateOnRefresh:true}});
+    const onRefresh=()=>{measure();paint(o.p);};
+    ScrollTrigger.addEventListener("refresh",onRefresh);
+    return()=>{
+      ScrollTrigger.removeEventListener("refresh",onRefresh);
+      tw.scrollTrigger.kill();tw.kill();root.classList.remove("is-live");
+      chips.forEach(c=>c.removeAttribute("style"));root.style.removeProperty("--k");ln.setAttribute("d","");
+    };
+  });
+})();
+</script>
+</body>
+</html>

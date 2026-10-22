@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G283 · מעגל תהליך עם הדגשה שנודדת</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G283 · מעגל תהליך עם הדגשה שנודדת */
+.lp{max-width:1120px;margin-inline:auto}
+.lp-head{display:grid;gap:12px;max-width:52ch;margin-bottom:56px}
+.lp-head h2{margin:0;font-size:clamp(28px,3.2vw,48px);font-weight:700;line-height:1.12;text-wrap:balance}
+.lp-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.lp-ring{position:relative;width:min(100%,880px);aspect-ratio:880 / 420;margin-inline:auto}
+.lp-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+:dir(ltr) .lp-svg{transform:scaleX(-1)}
+.lp-b{fill:none;stroke:var(--muted, #6a6d85);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:.5}
+.lp-h{fill:none;stroke:var(--accent, #4a3aff);stroke-width:3.5;stroke-linecap:butt;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:0}
+.lp-mid{position:absolute;inset:0;display:grid;place-content:center;gap:4px;margin:0;text-align:center;pointer-events:none}
+.lp-mid b{font-size:20px;font-weight:700;line-height:1.3}
+.lp-mid span{font-size:14px;color:var(--muted, #6a6d85);line-height:1.3}
+.lp-ol{list-style:none;margin:0;padding:0}
+.lp-n{--act:1;--b:1;position:absolute;width:230px;transform:translate(50%,-50%)}
+:dir(ltr) .lp-n{transform:translate(-50%,-50%)}
+.lp-n1{inset-inline-start:21.9%;top:22.2%}
+.lp-n2{inset-inline-start:78.1%;top:22.2%}
+.lp-n3{inset-inline-start:78.1%;top:77.8%}
+.lp-n4{inset-inline-start:21.9%;top:77.8%}
+.lp-c{box-sizing:border-box;height:96px;display:grid;align-content:center;gap:4px;padding:0 20px;border-radius:16px;
+  background:color-mix(in srgb,var(--accent, #4a3aff) calc(var(--act) * 14%),var(--card, #fff));
+  box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent)}
+.lp-c b{font-size:17px;font-weight:700;line-height:1.25}
+.lp-c small{font-size:14px;line-height:1.3;color:var(--muted, #6a6d85)}
+.lp-bar{display:block;height:6px;margin-top:6px;border-radius:999px;background:var(--line, #e4e4ee);overflow:hidden}
+.lp-bar i{display:block;height:100%;background:var(--accent, #4a3aff);transform:scaleX(var(--b));transform-origin:100% 50%}
+:dir(ltr) .lp-bar i{transform-origin:0 50%}
+.lp-am,.lp-br{display:none}
+@media(max-width:999px){
+  .lp-head{margin-bottom:40px}
+  .lp-ring{width:100%;max-width:520px;aspect-ratio:auto;container-type:normal}
+  .lp-svg,.lp-mid{display:none}
+  .lp-ol{position:relative;display:grid;padding-inline-end:48px}
+  .lp-n{position:static;width:auto;transform:none;display:grid;grid-template-rows:96px 36px}
+  :dir(ltr) .lp-n{transform:none}
+  .lp-n4{grid-template-rows:96px}
+  .lp-am{display:block;width:24px;height:36px;justify-self:center;overflow:visible}
+  .lp-br{display:block;position:absolute;inset-block:0;inset-inline-end:0;width:48px;height:100%;overflow:visible}
+  :dir(ltr) .lp-br{transform:scaleX(-1)}
+}
+.lp .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="lp">
+  <div class="lp-head"><h2>כל חודש האתר עובר אותו מחזור</h2><p>הסדר קבוע, ולכן הלקוח יודע מה קורה עם האתר גם כשהוא לא חושב עליו.</p></div>
+  <div class="lp-ring">
+    <svg class="lp-svg" viewBox="0 0 880 420" aria-hidden="true" focusable="false"><path class="lp-b" d="M564.4 55.8A350 165 0 0 0 313.6 56.1M323.4 48.3L313.6 56.1L325.5 60.1"/><path class="lp-b" d="M114.4 149.5A350 165 0 0 0 116.2 272.6M104.5 268.3L116.2 272.6L113.5 260.4"/><path class="lp-b" d="M315.6 364.2A350 165 0 0 0 566.4 363.9M556.6 371.7L566.4 363.9L554.5 359.9"/><path class="lp-b" d="M765.6 270.5A350 165 0 0 0 763.8 147.4M775.5 151.7L763.8 147.4L766.5 159.6"/><path class="lp-h" pathLength="1" d="M564.4 55.8A350 165 0 0 0 313.6 56.1M323.4 48.3L313.6 56.1L325.5 60.1"/><path class="lp-h" pathLength="1" d="M114.4 149.5A350 165 0 0 0 116.2 272.6M104.5 268.3L116.2 272.6L113.5 260.4"/><path class="lp-h" pathLength="1" d="M315.6 364.2A350 165 0 0 0 566.4 363.9M556.6 371.7L566.4 363.9L554.5 359.9"/><path class="lp-h" pathLength="1" d="M765.6 270.5A350 165 0 0 0 763.8 147.4M775.5 151.7L763.8 147.4L766.5 159.6"/></svg>
+    <p class="lp-mid"><b>מחזור חודשי</b><span>חוזר מההתחלה כל חודש</span></p>
+    <ol class="lp-ol">
+      <li class="lp-n lp-n1"><div class="lp-c"><b>סורקים את האתר</b><small>מהירות, נגישות ושגיאות</small><span class="lp-bar" aria-hidden="true"><i></i></span></div><svg class="lp-am" viewBox="0 0 24 36" aria-hidden="true" focusable="false"><path class="lp-b" d="M12 4V28M6 22L12 30L18 22"/><path class="lp-h" pathLength="1" d="M12 4V28M6 22L12 30L18 22"/></svg></li>
+      <li class="lp-n lp-n2"><div class="lp-c"><b>מעדכנים ומתקנים</b><small>תוספים, תוכן ותקלות</small><span class="lp-bar" aria-hidden="true"><i></i></span></div><svg class="lp-am" viewBox="0 0 24 36" aria-hidden="true" focusable="false"><path class="lp-b" d="M12 4V28M6 22L12 30L18 22"/><path class="lp-h" pathLength="1" d="M12 4V28M6 22L12 30L18 22"/></svg></li>
+      <li class="lp-n lp-n3"><div class="lp-c"><b>בודקים שהכל עובד</b><small>טפסים, תשלום וטלפון</small><span class="lp-bar" aria-hidden="true"><i></i></span></div><svg class="lp-am" viewBox="0 0 24 36" aria-hidden="true" focusable="false"><path class="lp-b" d="M12 4V28M6 22L12 30L18 22"/><path class="lp-h" pathLength="1" d="M12 4V28M6 22L12 30L18 22"/></svg></li>
+      <li class="lp-n lp-n4"><div class="lp-c"><b>שולחים דוח ללקוח</b><small>מה נעשה ומה בא אחר כך</small><span class="lp-bar" aria-hidden="true"><i></i></span></div></li>
+    </ol>
+    <svg class="lp-br" viewBox="0 0 48 492" aria-hidden="true" focusable="false"><path class="lp-b" d="M46 444H22Q10 444 10 432V60Q10 48 22 48H44M38 42L45 48L38 54"/><path class="lp-h" pathLength="1" d="M46 444H22Q10 444 10 432V60Q10 48 22 48H44M38 42L45 48L38 54"/></svg>
+  </div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP: כל השלבים דולקים, הפסים מלאים והחצים בצבע (במארקאפ)
+  const root=document.querySelector(".lp");if(!root)return;
+  gsap.registerPlugin(ScrollTrigger);
+  const nodes=[...root.querySelectorAll(".lp-n")],bars=[...root.querySelectorAll(".lp-bar")];
+  const SLOT=2.6,mm=gsap.matchMedia();
+  // mob: רשימה אנכית. הקשת הרביעית (חזרה לראשון) היא הסוגר שבצד
+  const build=mob=>{
+    const arcs=mob?[...root.querySelectorAll(".lp-am .lp-h"),root.querySelector(".lp-br .lp-h")]:[...root.querySelectorAll(".lp-svg .lp-h")];
+    gsap.set(nodes,{"--act":0});gsap.set(bars,{"--b":0});gsap.set(arcs,{strokeDashoffset:1});
+    const tl=gsap.timeline({repeat:-1,paused:true}),end=nodes.length*SLOT;
+    nodes.forEach((n,i)=>{
+      const t=i*SLOT;
+      tl.to(n,{"--act":1,duration:.35,ease:"power1.out"},t)
+        .to(bars[i],{"--b":1,duration:SLOT-.6,ease:"none"},t+.15)
+        .to(arcs[i],{strokeDashoffset:0,duration:.7,ease:"power1.inOut"},t+SLOT-.75);
+      if(i<nodes.length-1)tl.to(n,{"--act":0,duration:.35,ease:"power1.in"},t+SLOT);
+    });
+    // סוף המחזור: הכל מתאפס, והשלב הראשון נדלק מחדש בהתחלה הבאה
+    tl.to(nodes[nodes.length-1],{"--act":0,duration:.5},end+.2).to(bars,{"--b":0,duration:.5},end+.2).to(arcs,{strokeDashoffset:1,duration:.5},end+.2);
+    // רץ רק כשהסקשן על המסך
+    const st=ScrollTrigger.create({trigger:root,start:"top bottom",end:"bottom top",onToggle:s=>{if(s.isActive)tl.play();else tl.pause();}});
+    if(st.isActive)tl.play();
+    return()=>{
+      st.kill();tl.kill();
+      nodes.forEach(n=>n.style.removeProperty("--act"));bars.forEach(b=>b.style.removeProperty("--b"));
+      arcs.forEach(a=>a.removeAttribute("style"));
+    };
+  };
+  mm.add("(prefers-reduced-motion: no-preference) and (min-width: 1000px)",()=>build(false));
+  mm.add("(prefers-reduced-motion: no-preference) and (max-width: 999px)",()=>build(true));
+})();
+</script>
+</body>
+</html>
