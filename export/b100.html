@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B100 · לוגו שבנוי ממטריצת תווים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B100 · לוגו שבנוי ממטריצת תווים */
+.al{max-width:1100px;margin-inline:auto}
+.al-panel{display:grid;place-items:center;padding:clamp(24px,5vw,56px);overflow:hidden;border-radius:24px;background:var(--card, #fff);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}
+.al-name,.al-art{grid-area:1/1;transition:opacity .4s cubic-bezier(.2,.6,.2,1)}
+.al-name{margin:0;font-size:clamp(96px,22vw,260px);font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--ink, #16182b)}
+.al-art{width:100%;display:grid;justify-items:center;opacity:0}
+/* כשהלוח פעיל השם נשאר בדף, שקוף ובאותו מקום, כדי שקורא מסך ימשיך לקרוא אותו */
+.al.is-live .al-art{opacity:1}
+.al.is-live .al-name{opacity:0;pointer-events:none;user-select:none}
+.al-art pre{grid-area:1/1;margin:0;font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-weight:600;line-height:1;letter-spacing:0;white-space:pre;direction:ltr;unicode-bidi:isolate;user-select:none}
+.al-a{color:var(--ink, #16182b)}
+.al-b{color:var(--muted, #6a6d85)}
+.al-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px 48px;padding-top:24px}
+.al-kicker{margin:0;font-size:15px;font-weight:600;color:var(--muted, #6a6d85)}
+.al-lead{margin:0;max-width:48ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+@media(prefers-reduced-motion:reduce){.al-name,.al-art{transition:none}}
+@media(max-width:767px){.al-foot{gap:8px}}
+</style>
+</head>
+<body>
+
+<div class="stage"><section class="al">
+  <div class="al-panel">
+    <h2 class="al-name">נחושת</h2>
+    <div class="al-art" aria-hidden="true"><pre class="al-a"></pre><pre class="al-b"></pre></div>
+  </div>
+  <div class="al-foot">
+    <p class="al-kicker">קפה קלוי בקטנה, חיפה</p>
+    <p class="al-lead">קולים בכל שבוע כמה שקי קפה בלבד, וארוזים ביום הקלייה עצמו. אפשר לבוא לקחת מהסדנה או להזמין למשלוח.</p>
+  </div>
+</section></div>
+
+
+<script>
+(function(){
+  const root=document.querySelector(".al"),panel=root.querySelector(".al-panel"),name=root.querySelector(".al-name"),art=root.querySelector(".al-art"),pa=art.children[0],pb=art.children[1];
+  const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches,rtl=getComputedStyle(root).direction==="rtl",word=name.textContent.trim();
+  const RAMP=" .:-=+*#%@",BAND=12,HR=9,NL=String.fromCharCode(10);
+  let COLS=0,ROWS=0,cw=8,lh=13,T=null,HEAT=null,front=0,sweepT=0,sweeping=false,vis=false,raf=0,last=0,ready=false,lastW=0;
+  // המילה נדגמת פעם אחת: מצוירת על קנבס נסתר באותו פונט, והכיסוי של כל תא בוחר תו מהסולם
+  function build(){
+    const W=Math.floor(art.clientWidth);if(!W)return;lastW=W;
+    COLS=Math.max(60,Math.min(120,Math.round(W/5)));
+    const mcs=getComputedStyle(pa),span=document.createElement("span");
+    span.style.cssText="position:absolute;visibility:hidden;white-space:pre;font:"+mcs.fontWeight+" 100px "+mcs.fontFamily;
+    span.textContent="M".repeat(40);document.body.appendChild(span);
+    const ratio=span.getBoundingClientRect().width/40/100;span.remove();
+    const f=W/(COLS*ratio);cw=f*ratio;lh=f;pa.style.fontSize=pb.style.fontSize=f+"px";
+    const ncs=getComputedStyle(name),m=document.createElement("canvas").getContext("2d");
+    m.font=ncs.fontWeight+" 100px "+ncs.fontFamily;
+    const fs=Math.min(W*.92/(m.measureText(word).width||300)*100,W*.6);
+    m.font=ncs.fontWeight+" "+fs+"px "+ncs.fontFamily;
+    const mt=m.measureText(word),asc=mt.actualBoundingBoxAscent,desc=mt.actualBoundingBoxDescent;
+    ROWS=Math.max(6,Math.ceil((asc+desc)/lh)+2);
+    const bw=Math.round(COLS*cw),bh=Math.round(ROWS*lh),big=document.createElement("canvas");big.width=bw;big.height=bh;
+    const bc=big.getContext("2d");bc.font=m.font;bc.textAlign="center";bc.textBaseline="alphabetic";bc.fillStyle="black";
+    bc.fillText(word,bw/2,(bh-(asc+desc))/2+asc);
+    const bd=bc.getImageData(0,0,bw,bh).data;T=new Uint8Array(COLS*ROWS);HEAT=new Float32Array(COLS*ROWS);
+    for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
+      let sum=0,n=0;const x0=Math.floor(c*cw),x1=Math.min(bw,Math.floor((c+1)*cw)),y0=Math.floor(r*lh),y1=Math.min(bh,Math.floor((r+1)*lh));
+      for(let y=y0;y<y1;y++)for(let x=x0;x<x1;x++){sum+=bd[(y*bw+x)*4+3];n++;}
+      const a=n?sum/n/255:0;T[r*COLS+c]=a<.08?0:Math.min(9,1+Math.floor(a*8.99));      // אינדקס בסולם, 0 = תא ריק
+    }
+    compose();
+  }
+  // שתי שכבות: a לתווים שהתייצבו, b לרעש שלפני החזית ולמעבר העכבר
+  function compose(){
+    let sa="",sb="";const rnd=Math.random;
+    for(let r=0;r<ROWS;r++){
+      let la="",lb="";
+      for(let c=0;c<COLS;c++){
+        const k=r*COLS+c,t=T[k],cr=rtl?COLS-1-c:c;let ca=" ",cb=" ";
+        if(sweeping&&cr>front){}
+        else if(sweeping&&cr>front-BAND){if(t||rnd()<.06)cb=RAMP[1+Math.floor(rnd()*9)];}
+        else if(HEAT[k]>.2){if(t||rnd()<.25)cb=RAMP[1+Math.floor(rnd()*9)];}
+        else if(t){ca=RAMP[t];if(!reduced&&!sweeping&&rnd()<.012)ca=RAMP[Math.max(1,Math.min(9,t+(rnd()<.5?-1:1)))];}
+        la+=ca;lb+=cb;
+      }
+      sa+=la+(r<ROWS-1?NL:"");sb+=lb+(r<ROWS-1?NL:"");
+    }
+    pa.textContent=sa;pb.textContent=sb;
+  }
+  function frame(now){
+    raf=0;if(!vis||document.hidden||!ready)return;
+    if(now-last>=(sweeping?33:90)){
+      last=now;
+      if(sweeping){front=(now-sweepT)/1600*(COLS+BAND);if(front>=COLS+BAND)sweeping=false;}
+      for(let k=0;k<HEAT.length;k++)if(HEAT[k]){HEAT[k]*=.8;if(HEAT[k]<.03)HEAT[k]=0;}
+      compose();
+    }
+    raf=requestAnimationFrame(frame);
+  }
+  const kick=()=>{if(!raf&&vis&&!document.hidden&&ready)raf=requestAnimationFrame(frame);};
+  // מעבר עכבר או נגיעה מחממים תאים ברדיוס HR, והם מתקררים בפריימים הבאים
+  const warm=e=>{
+    if(!ready)return;const r=art.getBoundingClientRect(),cx=(e.clientX-r.left)/cw,cy=(e.clientY-r.top)/lh;
+    for(let y=Math.max(0,Math.floor(cy-HR));y<=Math.min(ROWS-1,Math.ceil(cy+HR));y++)for(let x=Math.max(0,Math.floor(cx-HR));x<=Math.min(COLS-1,Math.ceil(cx+HR));x++)
+      if(Math.hypot(x+.5-cx,y+.5-cy)<HR)HEAT[y*COLS+x]=1;
+    kick();
+  };
+  (document.fonts&&document.fonts.ready||Promise.resolve()).then(()=>{
+    build();ready=true;
+    new ResizeObserver(()=>{if(Math.floor(art.clientWidth)!==lastW){build();kick();}}).observe(art);
+    if(reduced){root.classList.add("is-live");return;}      // פריים אחד מתייצב, בלי לולאה ובלי מאזינים
+    panel.addEventListener("pointermove",e=>{if(e.pointerType!=="touch")warm(e);});
+    panel.addEventListener("pointerdown",warm);
+    document.addEventListener("visibilitychange",kick);
+    new IntersectionObserver(es=>{
+      vis=es[0].isIntersecting;
+      if(vis){sweeping=true;sweepT=performance.now();front=0;compose();root.classList.add("is-live");}
+      kick();
+    },{rootMargin:"10% 0px"}).observe(panel);
+  });
+})();
+</script>
+</body>
+</html>

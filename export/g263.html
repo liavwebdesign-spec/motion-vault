@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G263 · צורות גיאומטריות שנכנסות להרכב</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G263 · צורות גיאומטריות שנכנסות להרכב */
+.bh{max-width:1100px;margin-inline:auto}
+.bh-pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,96px)}
+.bh-copy{display:grid;gap:16px;justify-items:start}
+.bh-kicker{margin:0;font-size:15px;font-weight:600;color:var(--muted, #6a6d85)}
+.bh-copy h2{margin:0;font-size:clamp(32px,4vw,56px);font-weight:700;line-height:1.08;letter-spacing:-.01em;text-wrap:balance}
+.bh-copy p:not(.bh-kicker){margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.bh-cta{display:inline-flex;align-items:center;padding:14px 28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:600;text-decoration:none}
+.bh-cta:focus-visible{outline:2px solid var(--ink, #16182b);outline-offset:4px}
+.bh-vis{display:grid;place-items:center}
+.bh-board{width:min(100%,560px);aspect-ratio:1;border-radius:28px;overflow:hidden;background:var(--card, #fff);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}
+.bh-svg{display:block;width:100%;height:100%;overflow:hidden}
+.bh-c{fill:var(--accent, #4a3aff)}
+.bh-tri,.bh-dot,.bh-sq{fill:var(--ink, #16182b)}
+.bh-bar{fill:color-mix(in oklab,var(--accent, #4a3aff) 38%,var(--card, #fff))}
+.bh-q{fill:color-mix(in oklab,var(--ink, #16182b) 14%,var(--card, #fff))}
+.bh-t.a{fill:var(--accent, #4a3aff)}
+.bh-t.b{fill:color-mix(in oklab,var(--accent, #4a3aff) 28%,var(--card, #fff))}
+.bh.is-live{height:240vh;height:240svh}
+.bh.is-live .bh-pin{position:sticky;top:0;height:100vh;height:100svh}
+@media(max-width:767px){
+  .bh-pin{grid-template-columns:minmax(0,1fr);align-content:center;gap:24px}
+  .bh-vis{order:-1}
+  .bh-board{width:min(100%,56svh)}
+  .bh-copy h2{font-size:clamp(28px,8vw,36px)}
+}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><section class="bh">
+  <div class="bh-pin">
+    <div class="bh-copy">
+      <p class="bh-kicker">סטודיו למיתוג, תל אביב</p>
+      <h2>עיצוב שמתחיל מצורות פשוטות</h2>
+      <p>כל מותג שאנחנו בונים מתחיל מכמה צורות בסיס. מהן מגיעים לסימן, לצבעים ולאותיות, ואחר כך לכל מה שהעסק מדפיס או מעלה לרשת.</p>
+      <a class="bh-cta" href="#">לצפייה בעבודות</a>
+    </div>
+    <div class="bh-vis" aria-hidden="true"><div class="bh-board">
+      <svg class="bh-svg" viewBox="0 0 100 100" focusable="false">
+        <path class="bh-q" data-from="-50,50" d="M0 100V70A30 30 0 0 1 30 100Z"/>
+        <circle class="bh-c" data-from="-90,-60" cx="38" cy="40" r="26"/>
+        <g transform="rotate(-20 37 64.5)"><rect class="bh-bar" data-from="-110,10" x="10" y="60" width="54" height="9" rx="1"/></g>
+        <path class="bh-tri" data-from="60,70" d="M94 52V92H62Z"/>
+        <circle class="bh-dot" data-from="0,-70" cx="82" cy="42" r="4.5"/>
+        <rect class="bh-sq" data-from="-60,-40" x="10" y="8" width="9" height="9" rx="1"/>
+        <rect class="bh-t a" x="66.0" y="8.0" width="5.5" height="5.5" rx=".8"/><rect class="bh-t b" x="72.7" y="8.0" width="5.5" height="5.5" rx=".8"/><rect class="bh-t b" x="79.4" y="8.0" width="5.5" height="5.5" rx=".8"/><rect class="bh-t b" x="86.1" y="8.0" width="5.5" height="5.5" rx=".8"/><rect class="bh-t b" x="66.0" y="14.7" width="5.5" height="5.5" rx=".8"/><rect class="bh-t b" x="72.7" y="14.7" width="5.5" height="5.5" rx=".8"/><rect class="bh-t b" x="79.4" y="14.7" width="5.5" height="5.5" rx=".8"/><rect class="bh-t a" x="86.1" y="14.7" width="5.5" height="5.5" rx=".8"/><rect class="bh-t b" x="66.0" y="21.4" width="5.5" height="5.5" rx=".8"/><rect class="bh-t a" x="72.7" y="21.4" width="5.5" height="5.5" rx=".8"/><rect class="bh-t b" x="79.4" y="21.4" width="5.5" height="5.5" rx=".8"/><rect class="bh-t b" x="86.1" y="21.4" width="5.5" height="5.5" rx=".8"/><rect class="bh-t b" x="66.0" y="28.1" width="5.5" height="5.5" rx=".8"/><rect class="bh-t b" x="72.7" y="28.1" width="5.5" height="5.5" rx=".8"/><rect class="bh-t b" x="79.4" y="28.1" width="5.5" height="5.5" rx=".8"/><rect class="bh-t b" x="86.1" y="28.1" width="5.5" height="5.5" rx=".8"/>
+      </svg>
+    </div></div>
+  </div>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP רואים את הלוח השלם
+  const root=document.querySelector(".bh"),shapes=[...root.querySelectorAll("[data-from]")],tiles=[...root.querySelectorAll(".bh-t")];
+  // בהפחתת תנועה הפונקציה לא רצה, וההרכב נשאר שלם
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    gsap.set(tiles,{scale:0,transformOrigin:"50% 50%"});      // האריחים מתחילים מגודל אפס, והטיימליין רק מגדיל אותם
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
+    shapes.forEach((el,i)=>{
+      const f=el.getAttribute("data-from").split(",").map(Number);
+      tl.from(el,{x:f[0],y:f[1],duration:1,ease:"power3.out"},i*.28);      // כל צורה נכנסת מקצה אחר של הלוח
+    });
+    tl.to(tiles,{scale:1,duration:.5,ease:"power2.out",stagger:{each:.05,from:"random"}},shapes.length*.28)
+      .to({},{duration:.4});      // עצירה בסוף, כדי שההרכב השלם יישאר רגע על המסך
+    return()=>{root.classList.remove("is-live");gsap.set(shapes.concat(tiles),{clearProps:"all"});};
+  });
+})();
+</script>
+</body>
+</html>

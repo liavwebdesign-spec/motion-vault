@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS42 · שני מישורי נקודות מוטים בעומק | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.dp{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:center;gap:clamp(32px,6vw,96px);max-width:1100px;margin-inline:auto}
+.dp-copy{display:grid;gap:16px;justify-items:start}
+.dp-kicker{margin:0;font-size:15px;font-weight:600;color:var(--muted)}
+.dp-copy h2{margin:0;font-size:clamp(30px,3.6vw,52px);font-weight:700;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.dp-copy p:not(.dp-kicker){margin:0;max-width:40ch;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.dp-legend{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:12px}
+.dp-legend li{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--card);font-size:14px;font-weight:600}
+.dp-legend i{width:10px;height:10px;border-radius:50%;background:var(--ink)}
+.dp-legend li:nth-child(2) i{background:color-mix(in oklab,var(--ink) 40%,var(--bg))}
+.dp-scene{position:relative;overflow:hidden;height:clamp(340px,56vh,560px);border-radius:28px;background:var(--ink);perspective:900px;perspective-origin:50% 40%}
+.dp-rig{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(62deg) rotateZ(-28deg);transition:transform .9s cubic-bezier(.2,.6,.2,1);animation:dp-bob 8s cubic-bezier(.4,0,.2,1) infinite alternate}
+.dp-plane,.dp-glow{position:absolute;left:50%;top:50%;width:62%;aspect-ratio:1.25;translate:-50% -50%}
+.dp-plane{overflow:hidden;border-radius:18px;background:color-mix(in oklab,var(--dot) 8%,transparent);box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--dot) 38%,transparent);transition:transform .9s cubic-bezier(.2,.6,.2,1)}
+.dp-plane::before{content:"";position:absolute;inset:-18px;background:radial-gradient(circle,var(--dot) 0 2px,transparent 2.8px) 0 0 / 18px 18px}
+.dp-top{--dot:var(--bg);transform:translateZ(90px)}
+.dp-top::before{animation:dp-a 7s linear infinite}
+.dp-bot{--dot:color-mix(in oklab,var(--bg) 62%,var(--ink));transform:translateZ(-90px)}
+.dp-bot::before{animation:dp-b 9s linear infinite}
+.dp-glow{width:96%;background:radial-gradient(closest-side,color-mix(in oklab,var(--accent) 80%,transparent),transparent)}
+.dp-scene:hover .dp-rig{transform:rotateX(52deg) rotateZ(-16deg)}
+.dp-scene:hover .dp-top{transform:translateZ(130px)}
+.dp-scene:hover .dp-bot{transform:translateZ(-130px)}
+/* כל מישור זז בדיוק אורך תא אחד (18px) בלולאה, ולכן אין קפיצה בחזרה להתחלה */
+@keyframes dp-a{to{transform:translate(18px,0)}}
+@keyframes dp-b{to{transform:translate(0,-18px)}}
+@keyframes dp-bob{to{translate:0 -12px}}
+@media(prefers-reduced-motion:reduce){.dp-rig,.dp-top::before,.dp-bot::before{animation:none}.dp-rig,.dp-plane{transition:none}}
+@media(max-width:767px){.dp{grid-template-columns:minmax(0,1fr)}.dp-scene{height:clamp(300px,48svh,420px)}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=css">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="css41.html" rel="prev" title="הקודם: צל עלים שמתנדנד על קיר ועל מסגרת">→<span class="sr-only">הקודם</span></a><span class="vpn-n">35/36</span><a href="css43.html" rel="next" title="הבא: פסי אזהרה אלכסוניים עם תיבת מילה">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">CSS42</span> · שני מישורי נקודות מוטים בעומק</h1>
+  <span class="vchip cat-css">CSS טהור</span>
+  <span class="vchip">CSS 3D · perspective · keyframes</span>
+  <span class="vchip use">רקע ואווירה</span><span class="vchip use">תמונות וגלריות</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:css42"><code>MV:css42</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="css42">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>שני מישורי נקודות צפים אחד מעל השני בזווית, על שדה כהה ועם אור חם שביניהם. הנקודות של כל מישור נעות לאט בכיוון אחר, והמישורים עצמם מתנדנדים קלות. במעבר עכבר הזווית נפתחת והמרחק בין השכבות גדל.</p>
+  <p class="when"><b>מתי משתמשים:</b> סקשן שמסביר עניין של שכבות: נתונים ודוחות מעליהם, תשתית ואפליקציה, בסיס ושירות. התמונה אומרת שכבה על שכבה בלי לצייר מוצר. מתאים לעסקי טכנולוגיה, דאטה ותשתיות, ליד כותרת קצרה. פעם אחת בעמוד.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית</dd></div><div><dt>בסקשן</dt><dd>בעיה ויתרונות · מאמר ותוכן ארוך · שירותים ומוצרים</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>משרת תוכן, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשאין עניין של שכבות להסביר, ולא ליד טקסט ארוך שמתחרה בעומק.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="css42"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="stage"><section class="dp">
+  <div class="dp-copy">
+    <p class="dp-kicker">תשתית נתונים לעסקים קטנים</p>
+    <h2>הנתונים בשכבה אחת, הדוחות מעליה</h2>
+    <p>אנחנו מחברים את מערכת הקופה, ההזמנות והחשבוניות למקום אחד, ובונים מעליו דוחות שבעל העסק יכול לקרוא בלי לבקש עזרה.</p>
+    <ul class="dp-legend"><li><i></i>שכבת דוחות</li><li><i></i>שכבת נתונים</li></ul>
+  </div>
+  <div class="dp-scene" aria-hidden="true">
+    <div class="dp-rig">
+      <div class="dp-plane dp-top"></div>
+      <div class="dp-glow"></div>
+      <div class="dp-plane dp-bot"></div>
+    </div>
+  </div>
+</section></div>
+
+<div class="demo-note"><b>שחזור.</b> השראה: שני סרטונים בגלריה של prompt-motion.com (21.10.2026) עם שני מישורי נקודות זוהרים בפרספקטיבה, על רקע כהה ועם אור חם ביניהם. נבנה מאפס מהצפייה, ב-CSS בלבד. <b>3D:</b> על הבמה <code>perspective: 900px</code>, בתוכה <code>rig</code> עם <code>transform-style: preserve-3d</code> ו-<code>rotateX(62deg) rotateZ(-28deg)</code>, ובו שני מישורים ב-<code>translateZ</code> של 90px ומינוס 90px ושכבת זוהר שטוחה ביניהם, כך שהאור באמת מופיע בין המישורים. על ה-rig אין <code>overflow</code>, מסכה או <code>filter</code>, כי כל אחד מהם משטח את ה-3D. <b>הנקודות:</b> גרדיאנט רדיאלי אחד שחוזר כל 18px, בתוך מישור עם פינות מעוגלות, מילוי שקוף קל וקו מתאר דק בצבע הנקודות, שמראה שזה מישור ולא ענן. בלי מסכה על המישור, כי היא מטשטשת את הקצוות והשכבות נראות כמו כתם אחד. התנועה היא אלמנט <code>::before</code> שגדול ב-18px מכל צד וזז ב-<code>transform</code> בדיוק 18px בלולאה לינארית, ולכן הלולאה חלקה בלי קפיצה. כל מישור זז בכיוון אחר ובזמן אחר, ונדנוד ה-rig הוא על המאפיין <code>translate</code>, נפרד מה-<code>transform</code>. <b>בלי אנימציה</b> (ובהפחתת תנועה, שבה האנימציות כבויות) רואים את המישורים הנייחים. <b>צבעים:</b> הבמה ב-<code>--ink</code>, הנקודות ב-<code>--bg</code> ובתערובת שלו עם <code>--ink</code>, הזוהר ב-<code>--accent</code>. בעור כהה הבמה בהירה והנקודות כהות, אותו הרכב הפוך. <b>מעבר עכבר:</b> הזווית עוברת ל-52 מעלות והמישורים מתרחקים ל-130px, ב-<code>transform</code> עם <code>cubic-bezier(.2,.6,.2,1)</code>, בלי שינוי בפריסה. <b>RTL:</b> הכיוון של הסחיפה לא נושא משמעות. אם צריך, הופכים אותו עם <code>scaleX(-1)</code> על ה-rig. <b>נגישות:</b> כל הבמה <code>aria-hidden</code>; הכותרת והתוויות הן טקסט רגיל מחוץ ל-3D.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    
+    
+    <a class="cp cp-link" href="../export/css42.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS42 · שני מישורי נקודות מוטים בעומק */
+.dp{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:center;gap:clamp(32px,6vw,96px);max-width:1100px;margin-inline:auto}
+.dp-copy{display:grid;gap:16px;justify-items:start}
+.dp-kicker{margin:0;font-size:15px;font-weight:600;color:var(--muted, #6a6d85)}
+.dp-copy h2{margin:0;font-size:clamp(30px,3.6vw,52px);font-weight:700;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.dp-copy p:not(.dp-kicker){margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.dp-legend{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:12px}
+.dp-legend li{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--card, #fff);font-size:14px;font-weight:600}
+.dp-legend i{width:10px;height:10px;border-radius:50%;background:var(--ink, #16182b)}
+.dp-legend li:nth-child(2) i{background:color-mix(in oklab,var(--ink, #16182b) 40%,var(--bg, #f7f7fa))}
+.dp-scene{position:relative;overflow:hidden;height:clamp(340px,56vh,560px);border-radius:28px;background:var(--ink, #16182b);perspective:900px;perspective-origin:50% 40%}
+.dp-rig{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(62deg) rotateZ(-28deg);transition:transform .9s cubic-bezier(.2,.6,.2,1);animation:dp-bob 8s cubic-bezier(.4,0,.2,1) infinite alternate}
+.dp-plane,.dp-glow{position:absolute;left:50%;top:50%;width:62%;aspect-ratio:1.25;translate:-50% -50%}
+.dp-plane{overflow:hidden;border-radius:18px;background:color-mix(in oklab,var(--dot) 8%,transparent);box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--dot) 38%,transparent);transition:transform .9s cubic-bezier(.2,.6,.2,1)}
+.dp-plane::before{content:"";position:absolute;inset:-18px;background:radial-gradient(circle,var(--dot) 0 2px,transparent 2.8px) 0 0 / 18px 18px}
+.dp-top{--dot:var(--bg, #f7f7fa);transform:translateZ(90px)}
+.dp-top::before{animation:dp-a 7s linear infinite}
+.dp-bot{--dot:color-mix(in oklab,var(--bg, #f7f7fa) 62%,var(--ink, #16182b));transform:translateZ(-90px)}
+.dp-bot::before{animation:dp-b 9s linear infinite}
+.dp-glow{width:96%;background:radial-gradient(closest-side,color-mix(in oklab,var(--accent, #4a3aff) 80%,transparent),transparent)}
+.dp-scene:hover .dp-rig{transform:rotateX(52deg) rotateZ(-16deg)}
+.dp-scene:hover .dp-top{transform:translateZ(130px)}
+.dp-scene:hover .dp-bot{transform:translateZ(-130px)}
+/* כל מישור זז בדיוק אורך תא אחד (18px) בלולאה, ולכן אין קפיצה בחזרה להתחלה */
+@keyframes dp-a{to{transform:translate(18px,0)}}
+@keyframes dp-b{to{transform:translate(0,-18px)}}
+@keyframes dp-bob{to{translate:0 -12px}}
+@media(prefers-reduced-motion:reduce){.dp-rig,.dp-top::before,.dp-bot::before{animation:none}.dp-rig,.dp-plane{transition:none}}
+@media(max-width:767px){.dp{grid-template-columns:minmax(0,1fr)}.dp-scene{height:clamp(300px,48svh,420px)}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;section class="dp"&gt;
+  &lt;div class="dp-copy"&gt;
+    &lt;p class="dp-kicker"&gt;תשתית נתונים לעסקים קטנים&lt;/p&gt;
+    &lt;h2&gt;הנתונים בשכבה אחת, הדוחות מעליה&lt;/h2&gt;
+    &lt;p&gt;אנחנו מחברים את מערכת הקופה, ההזמנות והחשבוניות למקום אחד, ובונים מעליו דוחות שבעל העסק יכול לקרוא בלי לבקש עזרה.&lt;/p&gt;
+    &lt;ul class="dp-legend"&gt;&lt;li&gt;&lt;i&gt;&lt;/i&gt;שכבת דוחות&lt;/li&gt;&lt;li&gt;&lt;i&gt;&lt;/i&gt;שכבת נתונים&lt;/li&gt;&lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;div class="dp-scene" aria-hidden="true"&gt;
+    &lt;div class="dp-rig"&gt;
+      &lt;div class="dp-plane dp-top"&gt;&lt;/div&gt;
+      &lt;div class="dp-glow"&gt;&lt;/div&gt;
+      &lt;div class="dp-plane dp-bot"&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:css42 · שני מישורי נקודות מוטים בעומק\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/css/css42.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/css42.html\n\nמה זה עושה: שני מישורי נקודות צפים אחד מעל השני בזווית, על שדה כהה ועם אור חם שביניהם. הנקודות של כל מישור נעות לאט בכיוון אחר, והמישורים עצמם מתנדנדים קלות. במעבר עכבר הזווית נפתחת והמרחק בין השכבות גדל.\nמתי משתמשים: סקשן שמסביר עניין של שכבות: נתונים ודוחות מעליהם, תשתית ואפליקציה, בסיס ושירות. התמונה אומרת שכבה על שכבה בלי לצייר מוצר. מתאים לעסקי טכנולוגיה, דאטה ותשתיות, ליד כותרת קצרה. פעם אחת בעמוד.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית\nבסקשן: בעיה ויתרונות · מאמר ותוכן ארוך · שירותים ומוצרים\nאופי: רק באתר חוויתי\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא כשאין עניין של שכבות להסביר, ולא ליד טקסט ארוך שמתחרה בעומק.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS42 · שני מישורי נקודות מוטים בעומק */\n.dp{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:center;gap:clamp(32px,6vw,96px);max-width:1100px;margin-inline:auto}\n.dp-copy{display:grid;gap:16px;justify-items:start}\n.dp-kicker{margin:0;font-size:15px;font-weight:600;color:var(--muted, #6a6d85)}\n.dp-copy h2{margin:0;font-size:clamp(30px,3.6vw,52px);font-weight:700;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}\n.dp-copy p:not(.dp-kicker){margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.dp-legend{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:12px}\n.dp-legend li{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--card, #fff);font-size:14px;font-weight:600}\n.dp-legend i{width:10px;height:10px;border-radius:50%;background:var(--ink, #16182b)}\n.dp-legend li:nth-child(2) i{background:color-mix(in oklab,var(--ink, #16182b) 40%,var(--bg, #f7f7fa))}\n.dp-scene{position:relative;overflow:hidden;height:clamp(340px,56vh,560px);border-radius:28px;background:var(--ink, #16182b);perspective:900px;perspective-origin:50% 40%}\n.dp-rig{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(62deg) rotateZ(-28deg);transition:transform .9s cubic-bezier(.2,.6,.2,1);animation:dp-bob 8s cubic-bezier(.4,0,.2,1) infinite alternate}\n.dp-plane,.dp-glow{position:absolute;left:50%;top:50%;width:62%;aspect-ratio:1.25;translate:-50% -50%}\n.dp-plane{overflow:hidden;border-radius:18px;background:color-mix(in oklab,var(--dot) 8%,transparent);box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--dot) 38%,transparent);transition:transform .9s cubic-bezier(.2,.6,.2,1)}\n.dp-plane::before{content:\"\";position:absolute;inset:-18px;background:radial-gradient(circle,var(--dot) 0 2px,transparent 2.8px) 0 0 / 18px 18px}\n.dp-top{--dot:var(--bg, #f7f7fa);transform:translateZ(90px)}\n.dp-top::before{animation:dp-a 7s linear infinite}\n.dp-bot{--dot:color-mix(in oklab,var(--bg, #f7f7fa) 62%,var(--ink, #16182b));transform:translateZ(-90px)}\n.dp-bot::before{animation:dp-b 9s linear infinite}\n.dp-glow{width:96%;background:radial-gradient(closest-side,color-mix(in oklab,var(--accent, #4a3aff) 80%,transparent),transparent)}\n.dp-scene:hover .dp-rig{transform:rotateX(52deg) rotateZ(-16deg)}\n.dp-scene:hover .dp-top{transform:translateZ(130px)}\n.dp-scene:hover .dp-bot{transform:translateZ(-130px)}\n/* כל מישור זז בדיוק אורך תא אחד (18px) בלולאה, ולכן אין קפיצה בחזרה להתחלה */\n@keyframes dp-a{to{transform:translate(18px,0)}}\n@keyframes dp-b{to{transform:translate(0,-18px)}}\n@keyframes dp-bob{to{translate:0 -12px}}\n@media(prefers-reduced-motion:reduce){.dp-rig,.dp-top::before,.dp-bot::before{animation:none}.dp-rig,.dp-plane{transition:none}}\n@media(max-width:767px){.dp{grid-template-columns:minmax(0,1fr)}.dp-scene{height:clamp(300px,48svh,420px)}}\n\n=== HTML ===\n<div class=\"stage\"><section class=\"dp\">\n  <div class=\"dp-copy\">\n    <p class=\"dp-kicker\">תשתית נתונים לעסקים קטנים<\/p>\n    <h2>הנתונים בשכבה אחת, הדוחות מעליה<\/h2>\n    <p>אנחנו מחברים את מערכת הקופה, ההזמנות והחשבוניות למקום אחד, ובונים מעליו דוחות שבעל העסק יכול לקרוא בלי לבקש עזרה.<\/p>\n    <ul class=\"dp-legend\"><li><i><\/i>שכבת דוחות<\/li><li><i><\/i>שכבת נתונים<\/li><\/ul>\n  <\/div>\n  <div class=\"dp-scene\" aria-hidden=\"true\">\n    <div class=\"dp-rig\">\n      <div class=\"dp-plane dp-top\"><\/div>\n      <div class=\"dp-glow\"><\/div>\n      <div class=\"dp-plane dp-bot\"><\/div>\n    <\/div>\n  <\/div>\n<\/section><\/div>\n\nהערת מימוש מהמאגר:\nשחזור. השראה: שני סרטונים בגלריה של prompt-motion.com (21.10.2026) עם שני מישורי נקודות זוהרים בפרספקטיבה, על רקע כהה ועם אור חם ביניהם. נבנה מאפס מהצפייה, ב-CSS בלבד. 3D: על הבמה `perspective: 900px`, בתוכה `rig` עם `transform-style: preserve-3d` ו-`rotateX(62deg) rotateZ(-28deg)`, ובו שני מישורים ב-`translateZ` של 90px ומינוס 90px ושכבת זוהר שטוחה ביניהם, כך שהאור באמת מופיע בין המישורים. על ה-rig אין `overflow`, מסכה או `filter`, כי כל אחד מהם משטח את ה-3D. הנקודות: גרדיאנט רדיאלי אחד שחוזר כל 18px, בתוך מישור עם פינות מעוגלות, מילוי שקוף קל וקו מתאר דק בצבע הנקודות, שמראה שזה מישור ולא ענן. בלי מסכה על המישור, כי היא מטשטשת את הקצוות והשכבות נראות כמו כתם אחד. התנועה היא אלמנט `::before` שגדול ב-18px מכל צד וזז ב-`transform` בדיוק 18px בלולאה לינארית, ולכן הלולאה חלקה בלי קפיצה. כל מישור זז בכיוון אחר ובזמן אחר, ונדנוד ה-rig הוא על המאפיין `translate`, נפרד מה-`transform`. בלי אנימציה (ובהפחתת תנועה, שבה האנימציות כבויות) רואים את המישורים הנייחים. צבעים: הבמה ב-`--ink`, הנקודות ב-`--bg` ובתערובת שלו עם `--ink`, הזוהר ב-`--accent`. בעור כהה הבמה בהירה והנקודות כהות, אותו הרכב הפוך. מעבר עכבר: הזווית עוברת ל-52 מעלות והמישורים מתרחקים ל-130px, ב-`transform` עם `cubic-bezier(.2,.6,.2,1)`, בלי שינוי בפריסה. RTL: הכיוון של הסחיפה לא נושא משמעות. אם צריך, הופכים אותו עם `scaleX(-1)` על ה-rig. נגישות: כל הבמה `aria-hidden`; הכותרת והתוויות הן טקסט רגיל מחוץ ל-3D.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* CSS42 · שני מישורי נקודות מוטים בעומק */\n.dp{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:center;gap:clamp(32px,6vw,96px);max-width:1100px;margin-inline:auto}\n.dp-copy{display:grid;gap:16px;justify-items:start}\n.dp-kicker{margin:0;font-size:15px;font-weight:600;color:var(--muted, #6a6d85)}\n.dp-copy h2{margin:0;font-size:clamp(30px,3.6vw,52px);font-weight:700;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}\n.dp-copy p:not(.dp-kicker){margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.dp-legend{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:12px}\n.dp-legend li{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:var(--card, #fff);font-size:14px;font-weight:600}\n.dp-legend i{width:10px;height:10px;border-radius:50%;background:var(--ink, #16182b)}\n.dp-legend li:nth-child(2) i{background:color-mix(in oklab,var(--ink, #16182b) 40%,var(--bg, #f7f7fa))}\n.dp-scene{position:relative;overflow:hidden;height:clamp(340px,56vh,560px);border-radius:28px;background:var(--ink, #16182b);perspective:900px;perspective-origin:50% 40%}\n.dp-rig{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(62deg) rotateZ(-28deg);transition:transform .9s cubic-bezier(.2,.6,.2,1);animation:dp-bob 8s cubic-bezier(.4,0,.2,1) infinite alternate}\n.dp-plane,.dp-glow{position:absolute;left:50%;top:50%;width:62%;aspect-ratio:1.25;translate:-50% -50%}\n.dp-plane{overflow:hidden;border-radius:18px;background:color-mix(in oklab,var(--dot) 8%,transparent);box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--dot) 38%,transparent);transition:transform .9s cubic-bezier(.2,.6,.2,1)}\n.dp-plane::before{content:\"\";position:absolute;inset:-18px;background:radial-gradient(circle,var(--dot) 0 2px,transparent 2.8px) 0 0 / 18px 18px}\n.dp-top{--dot:var(--bg, #f7f7fa);transform:translateZ(90px)}\n.dp-top::before{animation:dp-a 7s linear infinite}\n.dp-bot{--dot:color-mix(in oklab,var(--bg, #f7f7fa) 62%,var(--ink, #16182b));transform:translateZ(-90px)}\n.dp-bot::before{animation:dp-b 9s linear infinite}\n.dp-glow{width:96%;background:radial-gradient(closest-side,color-mix(in oklab,var(--accent, #4a3aff) 80%,transparent),transparent)}\n.dp-scene:hover .dp-rig{transform:rotateX(52deg) rotateZ(-16deg)}\n.dp-scene:hover .dp-top{transform:translateZ(130px)}\n.dp-scene:hover .dp-bot{transform:translateZ(-130px)}\n/* כל מישור זז בדיוק אורך תא אחד (18px) בלולאה, ולכן אין קפיצה בחזרה להתחלה */\n@keyframes dp-a{to{transform:translate(18px,0)}}\n@keyframes dp-b{to{transform:translate(0,-18px)}}\n@keyframes dp-bob{to{translate:0 -12px}}\n@media(prefers-reduced-motion:reduce){.dp-rig,.dp-top::before,.dp-bot::before{animation:none}.dp-rig,.dp-plane{transition:none}}\n@media(max-width:767px){.dp{grid-template-columns:minmax(0,1fr)}.dp-scene{height:clamp(300px,48svh,420px)}}","html":"<div class=\"stage\"><section class=\"dp\">\n  <div class=\"dp-copy\">\n    <p class=\"dp-kicker\">תשתית נתונים לעסקים קטנים<\/p>\n    <h2>הנתונים בשכבה אחת, הדוחות מעליה<\/h2>\n    <p>אנחנו מחברים את מערכת הקופה, ההזמנות והחשבוניות למקום אחד, ובונים מעליו דוחות שבעל העסק יכול לקרוא בלי לבקש עזרה.<\/p>\n    <ul class=\"dp-legend\"><li><i><\/i>שכבת דוחות<\/li><li><i><\/i>שכבת נתונים<\/li><\/ul>\n  <\/div>\n  <div class=\"dp-scene\" aria-hidden=\"true\">\n    <div class=\"dp-rig\">\n      <div class=\"dp-plane dp-top\"><\/div>\n      <div class=\"dp-glow\"><\/div>\n      <div class=\"dp-plane dp-bot\"><\/div>\n    <\/div>\n  <\/div>\n<\/section><\/div>","js":"","scripts":"","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="css41.html" rel="prev"><small>→ הקודם</small><b>צל עלים שמתנדנד על קיר ועל מסגרת</b></a><a href="css43.html" rel="next"><small>הבא ←</small><b>פסי אזהרה אלכסוניים עם תיבת מילה</b></a></nav>
+
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · שני מישורי נקודות מוטים בעומק").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+</script>
+</body>
+</html>
