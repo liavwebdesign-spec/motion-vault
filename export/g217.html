@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G217 · גרף קו עם פסי תקופות מסומנים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G217 · גרף קו עם פסי תקופות מסומנים */
+.pb{max-width:1040px;margin-inline:auto}
+.pb-card{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);align-items:center;gap:clamp(32px,5vw,72px)}
+.pb-txt{display:grid;gap:16px}
+.pb-big{margin:0;font-size:clamp(48px,7vw,96px);font-weight:700;line-height:1;letter-spacing:-.02em}
+.pb-txt p{margin:0;max-width:34ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.pb-chart{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:12px}
+.pb-y{position:relative;min-width:28px}
+.pb-y span{position:absolute;inset-inline-end:0;translate:0 -50%;color:var(--muted, #6a6d85);font-size:13px;font-variant-numeric:tabular-nums}
+.pb-y span:nth-child(1){top:16.67%}.pb-y span:nth-child(2){top:53.33%}.pb-y span:nth-child(3){top:90%}
+.pb-plot{position:relative;aspect-ratio:720 / 300;container-type:size}
+.pb-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+.pb-grid line{stroke:var(--line, #e4e4ee);stroke-width:1}
+.pb-line{fill:none;stroke:var(--ink, #16182b);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 2;stroke-dashoffset:0}
+/* פסי התקופות: left ו-width באחוזים מרוחב הגרף, באותה מערכת קואורדינטות של ה-viewBox */
+.pb-band{position:absolute;top:0;bottom:0;left:var(--l);width:var(--w);display:grid;justify-items:center;align-content:start;padding-top:8px;border-radius:10px;background:var(--tone)}
+.pb-band span{font-size:13px;font-weight:600;line-height:1.2;text-align:center}
+.is-dip{--tone:color-mix(in oklab,var(--accent, #4a3aff) 22%,transparent)}
+.is-peak{--tone:color-mix(in oklab,var(--ink, #16182b) 7%,transparent)}
+.pb-dot{position:absolute;left:0;top:0;z-index:2;width:14px;height:14px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 6px color-mix(in oklab,var(--accent, #4a3aff) 24%,transparent),0 0 24px color-mix(in oklab,var(--accent, #4a3aff) 55%,transparent);translate:calc(var(--fx) * 100cqw - 50%) calc(var(--fy) * 100cqh - 50%)}
+.pb-ax{position:relative;grid-column:2;height:24px;margin-top:8px;color:var(--muted, #6a6d85);font-size:13px}
+.pb-ax span{position:absolute;top:0;left:var(--l);translate:-50% 0;white-space:nowrap}
+.pb .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.pb.is-live .pb-run{height:320vh}
+.pb.is-live .pb-pin{position:sticky;top:0;min-height:100vh;min-height:100svh;display:grid;align-content:center}
+@media(max-width:767px){.pb-card{grid-template-columns:minmax(0,1fr);gap:28px}.pb-band span{font-size:12px}.pb-line{stroke-width:4.5}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="pb"><div class="pb-run"><div class="pb-pin">
+<section class="pb-card" aria-labelledby="pb-h">
+  <div class="pb-txt">
+    <h3 class="pb-big" id="pb-h">עונתיות</h3>
+    <p>בכל שנה הפניות יורדות סביב פסח ובחופש הגדול, ועולות שוב כמה שבועות אחר כך. כדאי לתכנן את הקמפיינים לפי זה.</p>
+    <p class="sr-only">מספר הפניות בחודש, מאוקטובר עד ספטמבר: ירידה ל-63 באפריל, שיא של 97 ביוני וירידה ל-58 באוגוסט.</p>
+  </div>
+  <div class="pb-chart">
+    <div class="pb-y" aria-hidden="true"><span>100</span><span>75</span><span>50</span></div>
+    <div class="pb-plot" style="--fx:0.0278;--fy:0.6507">
+      <svg class="pb-svg" viewBox="0 0 720 300" aria-hidden="true" focusable="false">
+        <g class="pb-grid"><line x1="0" y1="50" x2="720" y2="50"/><line x1="0" y1="160" x2="720" y2="160"/><line x1="0" y1="270" x2="720" y2="270"/></g>
+        <path class="pb-line" pathLength="1" d="M700 164.4 C689.7 166.6 658.8 171.7 638.2 177.6 C617.6 183.5 597 207.7 576.4 199.6 C555.8 191.5 535.2 149.7 514.5 129.2 C493.9 108.7 473.3 80.8 452.7 76.4 C432.1 72 411.5 80.1 390.9 102.8 C370.3 125.5 349.7 215 329.1 212.8 C308.5 210.6 287.9 114.5 267.3 89.6 C246.7 64.7 226.1 50.7 205.5 63.2 C184.8 75.7 164.2 135.8 143.6 164.4 C123 193 102.4 229.7 81.8 234.8 C61.2 239.9 30.3 201.8 20 195.2"/>
+      </svg>
+      <div class="pb-band is-dip" style="--l:41.41%;--w:8.59%"><span>פסח</span></div>
+      <div class="pb-band is-peak" style="--l:24.24%;--w:17.17%"><span>עונת השיא</span></div>
+      <div class="pb-band is-dip" style="--l:7.07%;--w:17.17%"><span>החופש הגדול</span></div>
+      <span class="pb-dot" aria-hidden="true"></span>
+    </div>
+    <div class="pb-ax" aria-hidden="true"><span style="--l:97.2%">אוק׳</span><span style="--l:71.5%">ינו׳</span><span style="--l:45.7%">אפר׳</span><span style="--l:19.9%">יול׳</span><span style="--l:2.8%">ספט׳</span></div>
+  </div>
+</section>
+</div></div></div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP: קו שלם, שלושה פסים עם תוויות והנקודה בקצה (במארקאפ)
+  const root=document.querySelector(".pb"),run=root.querySelector(".pb-run"),plot=root.querySelector(".pb-plot");
+  const line=plot.querySelector(".pb-line"),bands=[...plot.querySelectorAll(".pb-band")];
+  const X0=700,X1=20,fx0=plot.style.getPropertyValue("--fx"),fy0=plot.style.getPropertyValue("--fy");   // X0 אוקטובר (ימין), X1 ספטמבר (שמאל)
+  // בהפחתת תנועה הפונקציה לא רצה, והגרף המלא נשאר
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const L=line.getTotalLength(),o={p:0};
+    const place=()=>{
+      const pt=line.getPointAtLength(L*o.p);line.style.strokeDashoffset=1-o.p;
+      plot.style.setProperty("--fx",(pt.x/720).toFixed(4));plot.style.setProperty("--fy",(pt.y/300).toFixed(4));
+    };
+    // ההתקדמות שבה הקו עובר במרכז הפס: חיפוש בינארי על אורך הנתיב (ה-x יורד לאורכו)
+    const when=b=>{
+      const cx=(parseFloat(b.style.getPropertyValue("--l"))+parseFloat(b.style.getPropertyValue("--w"))/2)/100*720;
+      let a=0,z=1;for(let i=0;i<24;i++){const m=(a+z)/2;if(line.getPointAtLength(L*m).x>cx)a=m;else z=m;}return z;
+    };
+    const D=4,T0=.4,tl=gsap.timeline({scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
+    place();
+    tl.to(o,{p:1,duration:D,ease:"none",onUpdate:place},T0);
+    bands.forEach(b=>tl.fromTo(b,{opacity:0},{opacity:1,duration:.5,ease:"power1.out"},T0+when(b)*D));
+    tl.to({},{duration:.8});
+    return()=>{
+      tl.scrollTrigger.kill();tl.kill();root.classList.remove("is-live");line.style.strokeDashoffset="";
+      plot.style.setProperty("--fx",fx0);plot.style.setProperty("--fy",fy0);gsap.set(bands,{clearProps:"opacity"});
+    };
+  });
+})();
+</script>
+</body>
+</html>

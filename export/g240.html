@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G240 · מסמך שמסמנים בו משפטים והערה צפה עוברת ביניהם</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G240 · מסמך שמסמנים בו משפטים והערה צפה עוברת ביניהם */
+.dan{max-width:1100px;margin-inline:auto}
+.dan-pin{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px)}
+.dan-head{display:grid;gap:12px;max-width:36ch}
+.dan-head h2{margin:0;font-size:clamp(28px,3vw,44px);line-height:1.15;text-wrap:balance}
+.dan-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.dan-col{display:grid;gap:24px;min-width:0}
+.dan-doc{position:relative;display:grid;gap:16px;padding:32px;border:1px solid var(--line, #e4e4ee);border-radius:20px;background:var(--card, #fff);box-shadow:0 28px 56px -36px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}
+.dan-dh{display:flex;justify-content:space-between;gap:16px;font-size:14px;color:var(--muted, #6a6d85)}
+.dan-dtl{margin:0;font-size:22px;line-height:1.25}
+.dan-p{margin:0;font-size:17px;line-height:1.85}
+.dan-df{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding-top:16px;border-top:1px solid var(--line, #e4e4ee);font-size:15px;color:var(--muted, #6a6d85)}
+.dan-df b{font-size:20px;color:var(--ink, #16182b)}
+.dan-hl{--k:1;padding:0 2px;border-radius:4px;background-image:linear-gradient(color-mix(in srgb,var(--accent, #4a3aff) 24%,transparent),color-mix(in srgb,var(--accent, #4a3aff) 24%,transparent)),linear-gradient(var(--accent, #4a3aff),var(--accent, #4a3aff));background-repeat:no-repeat;background-position:100% 100%,100% 100%;background-size:calc(var(--k) * 100%) 100%,calc(var(--k) * 100%) 2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.dan-notes{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.dan-note{display:grid;gap:4px;padding-inline-start:16px;border-inline-start:2px solid var(--accent, #4a3aff)}
+.dan-q{font-size:16px}
+.dan-note p{margin:0;font-size:15px;line-height:1.6;color:var(--muted, #6a6d85)}
+.dan-pop{display:none}
+/* מצב חי: ההערות הופכות לקריאות לקורא מסך בלבד, וההערה הצפה לוקחת את מקומן */
+.dan.is-live .dan-run{height:300vh}
+.dan.is-live .dan-pin{position:sticky;top:0;height:100vh;height:100svh}
+.dan.is-live .dan-notes{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.dan.is-live .dan-pop{position:absolute;left:0;top:0;z-index:3;display:grid;gap:8px;box-sizing:border-box;width:min(300px,calc(100% - 16px));padding:16px;border-radius:16px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);box-shadow:0 20px 40px -20px color-mix(in srgb,var(--ink, #16182b) 60%,transparent);opacity:0;visibility:hidden;pointer-events:none}
+.dan-ar{position:absolute;left:0;top:-6px;width:12px;height:12px;border-radius:2px;background:var(--ink, #16182b);transform:translateX(-50%) rotate(45deg)}
+.dan-pop.is-above .dan-ar{top:auto;bottom:-6px}
+.dan-who{display:flex;align-items:center;gap:10px;font-size:14px;color:color-mix(in srgb,var(--bg, #f7f7fa) 72%,transparent)}
+.dan-who b{color:var(--bg, #f7f7fa)}
+.dan-av{display:grid;place-items:center;flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:14px;font-weight:700}
+.dan-txt{margin:0;font-size:15px;line-height:1.55}
+@media(max-width:767px){
+  .dan-pin{grid-template-columns:minmax(0,1fr);gap:24px}
+  .dan.is-live .dan-pin{align-content:center}
+  .dan.is-live .dan-head p{display:none}
+  .dan-doc{padding:20px;gap:12px}
+  .dan-dtl{font-size:19px}
+  .dan-p{font-size:16px;line-height:1.75}
+}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="dan"><div class="dan-run"><div class="dan-pin">
+  <div class="dan-head"><h2>ככה אנחנו עוברים איתכם על ההצעה לפני שחותמים</h2><p>דנה, מנהלת הפרויקטים, מסמנת בהצעה את שלושת הסעיפים ששואלים עליהם הכי הרבה, ומסבירה כל אחד במילים פשוטות.</p></div>
+  <div class="dan-col">
+    <article class="dan-doc">
+      <header class="dan-dh"><span>הצעת מחיר 1042</span><span>12 באוקטובר 2026</span></header>
+      <h3 class="dan-dtl">שיפוץ מטבח בדירה ברמת גן</h3>
+      <p class="dan-p">העבודה כוללת פירוק המטבח הקיים, החלפת הצנרת והתקנת מטבח חדש לפי התוכנית שאושרה. משך העבודה הוא <span class="dan-hl">שלושה שבועות מיום תחילתה</span>, והמחיר כולל חומרים ופינוי פסולת.</p>
+      <p class="dan-p">התשלום מתחלק לשלוש פעימות, והאחרונה <span class="dan-hl">משולמת רק לאחר מסירה וביקורת משותפת</span>. שינויים בתוכנית שיבקש הלקוח במהלך העבודה <span class="dan-hl">יתומחרו בנפרד</span> לפני שמתחילים בהם.</p>
+      <footer class="dan-df"><span>סה״כ כולל מע״מ</span><b>48,500 ₪</b></footer>
+      <div class="dan-pop" aria-hidden="true"><i class="dan-ar"></i><div class="dan-who"><span class="dan-av">ד</span><span><b>דנה</b> מנהלת פרויקטים</span></div><p class="dan-txt"></p></div>
+    </article>
+    <ol class="dan-notes">
+      <li class="dan-note"><b class="dan-q">שלושה שבועות מיום תחילתה</b><p>הלו״ז מתחיל ביום שהחומרים הגיעו לאתר ולא ביום החתימה. כתבנו את זה כדי שלא יהיה ויכוח על התאריך.</p></li>
+      <li class="dan-note"><b class="dan-q">משולמת רק לאחר מסירה וביקורת משותפת</b><p>את הסכום האחרון משלמים רק אחרי שעברתם על העבודה יחד עם מנהל הפרויקט. ככה אתם יודעים שהכל נבדק לפני שהכסף עובר.</p></li>
+      <li class="dan-note"><b class="dan-q">יתומחרו בנפרד</b><p>כל שינוי מקבל הצעה קצרה, והעבודה עליו מתחילה רק אחרי שאישרתם אותה. החשבון הסופי לא מפתיע אף אחד.</p></li>
+    </ol>
+  </div>
+</div></div></div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר מסמך מסומן במלואו ומתחתיו רשימת ההערות (במארקאפ)
+  const root=document.querySelector(".dan"),run=root.querySelector(".dan-run"),doc=root.querySelector(".dan-doc"),
+    hl=[...root.querySelectorAll(".dan-hl")],body=[...root.querySelectorAll(".dan-note p")].map(p=>p.textContent.trim()),
+    pop=root.querySelector(".dan-pop"),txt=pop.querySelector(".dan-txt"),ar=pop.querySelector(".dan-ar");
+  const n=hl.length,S=hl.map((_,i)=>.1+i*.3),clamp=v=>Math.min(1,Math.max(0,v));
+  // בהפחתת תנועה הפונקציה לא רצה, והמסמך נשאר מסומן עם הרשימה
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    let pos=[],k=-1;
+    // מיקום ההערה לכל משפט: מתחת לשורה האחרונה שלו, ומעליו אם אין מקום. כולל גובה ההערה של אותו משפט
+    const meas=()=>{
+      const d=doc.getBoundingClientRect(),pw=pop.offsetWidth;
+      pos=hl.map((h,i)=>{
+        txt.textContent=body[i];const ph=pop.offsetHeight;
+        const rs=[...h.getClientRects()].filter(r=>r.width>2),f=rs[0],l=rs[rs.length-1];
+        const below=d.bottom-l.bottom>ph+24,r=below?l:f,cx=r.left+r.width/2-d.left;
+        const x=Math.min(d.width-pw-8,Math.max(8,cx-pw/2));
+        return{x,y:below?r.bottom-d.top+12:r.top-d.top-ph-12,ax:Math.min(pw-24,Math.max(24,cx-x)),above:!below};
+      });
+      if(k>=0)txt.textContent=body[k];
+    };
+    const show=(i,from)=>{
+      if(i<0){gsap.to(pop,{autoAlpha:0,duration:.25,overwrite:"auto"});return;}
+      const q=pos[i];
+      pop.classList.toggle("is-above",q.above);ar.style.left=q.ax+"px";txt.textContent=body[i];
+      if(from<0){gsap.set(pop,{x:q.x});gsap.fromTo(pop,{y:q.y+8,autoAlpha:0},{y:q.y,autoAlpha:1,duration:.35,ease:"power3.out",overwrite:"auto"});}
+      else{gsap.to(pop,{x:q.x,y:q.y,autoAlpha:1,duration:.5,ease:"power3.out",overwrite:"auto"});gsap.fromTo(txt,{autoAlpha:0,y:6},{autoAlpha:1,y:0,duration:.35,delay:.1,ease:"power2.out",overwrite:"auto"});}
+    };
+    // הסימון נגזר מ-p בלבד, ההערה מתחלפת רק כשהמשפט הפעיל משתנה
+    const paint=p=>{
+      hl.forEach((h,i)=>h.style.setProperty("--k",clamp((p-S[i])/.07)));
+      let a=-1;hl.forEach((_,i)=>{if(p>=S[i]+.035)a=i;});
+      if(a!==k){const from=k;k=a;if(pos.length)show(a,from);}
+    };
+    ScrollTrigger.addEventListener("refresh",meas);
+    meas();paint(0);
+    const st=ScrollTrigger.create({trigger:run,start:"top top",end:"bottom bottom",invalidateOnRefresh:true,onUpdate:s=>paint(s.progress)});
+    return()=>{
+      st.kill();ScrollTrigger.removeEventListener("refresh",meas);root.classList.remove("is-live");
+      hl.forEach(h=>h.style.removeProperty("--k"));gsap.killTweensOf([pop,txt]);gsap.set([pop,txt],{clearProps:"all"});
+      pop.classList.remove("is-above");txt.textContent="";
+    };
+  });
+})();
+</script>
+</body>
+</html>

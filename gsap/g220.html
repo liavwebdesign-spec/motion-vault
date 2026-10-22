@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G220 · סרט פסים עבה שנמתח על המסך וחושף את הסקשן הבא | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+/* בלי GSAP ובהפחתת תנועה: שני הסקשנים זה מתחת לזה. ההצמדה, הסרט והמסכה רק כשהמהלך רץ (.is-live) */
+.rb{position:relative}
+.rb-scene{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,72px);min-height:80svh;padding:var(--gutter)}
+.rb-a{background:var(--card)}
+.rb-b{background:color-mix(in oklab,var(--accent) 14%,var(--bg))}
+.rb-txt{display:grid;gap:14px;max-width:40ch;justify-self:center}
+.rb-txt h2{margin:0;font-size:clamp(32px,3.8vw,60px);font-weight:700;line-height:1.08;text-wrap:balance}
+.rb-txt p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.rb-photo{margin:0;justify-self:center;width:100%;max-width:560px;aspect-ratio:5/4;max-height:68svh}
+.rb-photo img{display:block;width:100%;height:100%;object-fit:cover;border-radius:24px}
+.rb-b .rb-photo{order:-1}
+.rb-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible}
+.rb-l{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.rb-l0{stroke:var(--ink)}
+.rb-l1{stroke:var(--accent)}
+.rb-l2{stroke:var(--card)}
+.rb-l3{stroke:color-mix(in oklab,var(--accent) 50%,var(--ink))}
+.rb.is-live{height:300svh}
+.rb.is-live .rb-pin{position:sticky;top:0;height:100svh;overflow:hidden}
+.rb.is-live .rb-scene{position:absolute;inset:0;min-height:0}
+.rb.is-live .rb-b{-webkit-mask:url(#rb-m);mask:url(#rb-m)}
+@media(max-width:767px){
+  .rb-scene{grid-template-columns:minmax(0,1fr);align-content:center;gap:20px}
+  .rb-photo,.rb-b .rb-photo{order:-1;aspect-ratio:16/10;max-height:34svh}
+}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g219.html" rel="prev" title="הקודם: לוח צבע אלכסוני שעובר ומחליף תמונה">→<span class="sr-only">הקודם</span></a><span class="vpn-n">196/219</span><a href="g221.html" rel="next" title="הבא: מעבר מהיר בין מסכי מוצר עם טשטוש תנועה">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G220</span> · סרט פסים עבה שנמתח על המסך וחושף את הסקשן הבא</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · SVG stroke + mask</span>
+  <span class="vchip use">תהליך ושלבים</span><span class="vchip use">תמונות וגלריות</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g220"><code>MV:g220</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g220">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>סרט עבה בכמה פסי צבע, עם מסגרת כהה וראש מעוגל, נכנס מימין המסך ושוחה במסלול מתעקל עד הקצה השמאלי. מאחורי הראש נחשף הסקשן הבא, והזנב ממשיך לחלוף עד שהסרט יוצא מהמסך. המעבר מרגיש כמו משיכת קו אחת שמעבירה אתכם הלאה.</p>
+  <p class="when"><b>מתי משתמשים:</b> מעבר בין שני סקשנים חזקים באתר שיש לו אופי גרפי ושובב: סטודיו, מותג לילדים, אירוע, מרפאה ידידותית. פעם אחת בעמוד, כשיש סקשן אחד שנגמר ואחד שמתחיל, ושניהם עם תוכן. באתר רציני וקפדני עדיף לוח שקט.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · פורטפוליו וסטודיו</dd></div><div><dt>בסקשן</dt><dd>תהליך ושלבים · שירותים ומוצרים · מאמר ותוכן ארוך</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא באתר רציני וקפדני (משפטי, פיננסי), ולא כשהסקשן הבא הוא טופס שצריך להיות נגיש מיד.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g220"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage full" style="padding-block:0"><div class="rb">
+  <div class="rb-pin">
+    <section class="rb-scene rb-a">
+      <div class="rb-txt"><h2>מתחילים בשיחה קצרה</h2><p>אתם מספרים מה מטריד, אנחנו מסבירים מה אפשר לעשות. בלי בדיקות ובלי למהר.</p></div>
+      <figure class="rb-photo"><img src="../assets/media/real/s09/step-1-booking.webp" alt="אמא וילד על ספה מביטים בטלפון" width="1500" height="1200" loading="lazy" decoding="async"></figure>
+    </section>
+    <section class="rb-scene rb-b">
+      <div class="rb-txt"><h2>ואז מגיעה הבדיקה</h2><p>הבדיקה נעשית בחדר שקט, אצל הרופא שהכרתם בשיחה. הוא מסביר כל שלב לפני שהוא מתחיל.</p></div>
+      <figure class="rb-photo"><img src="../assets/media/real/s09/step-3-exam.webp" alt="רופא בודק ילדה בנוכחות אמה" width="1500" height="1200" loading="lazy" decoding="async"></figure>
+    </section>
+  </div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: סרטוני קידום ב-prompt-motion.com (21.10.2026) שבהם צינור עבה בפסי צבע עם מסגרת כהה נמתח על פני הפריים בקשת. נבנה מאפס מהצפייה. <b>ארבעה נתיבים באותו מסלול:</b> מסגרת כהה, פס צבע, פס בהיר וקו דק במרכז, כל אחד בעובי קטן יותר, עם <code>stroke-linecap:round</code>. <b>הנתיבים נבנים בפיקסלים של הבמה:</b> הסקריפט מחשב את המסלול מהרוחב והגובה (נבנה מחדש ב-refresh), ולכן הסרט עובר מקצה לקצה בכל מסך, ובטלפון הוא לא נחתך. כל הנתיבים עם <code>pathLength=1</code>, כך שההתקדמות היא מספר בין 0 ל-1 ולא אורך בפיקסלים. <b>נחש ולא קו:</b> הקטע הנראה הוא <code>stroke-dasharray</code> באורך קבוע שזז לאורך המסלול, עם ראש וזנב, ולכן הסרט גם נמתח וגם יוצא מהמסך. <b>החשיפה:</b> הסקשן השני מוסתר ב-<code>mask:url(#rb-m)</code> שמצויר מאותו מסלול בקו עבה מאוד (פי 1.9 מגובה הבמה, כדי לכסות את כל הגובה), ומתקדם מעט אחרי ראש הסרט (<code>LAG</code>). שים לב: <code>mask</code> שמפנה ל-SVG עובד ב-Chrome וב-Firefox, ב-Safari צריך לבדוק; חלופה בטוחה היא <code>clip-path</code> עם קצה משופע כמו ב-g219. <b>בלי GSAP ובהפחתת תנועה</b> שני הסקשנים זה מתחת לזה והסרט לא נוצר בכלל. <b>כיוון:</b> הסרט נכנס מימין ויוצא בשמאל (קריאה בעברית). באתר משמאל לימין הופכים את הסדר של נקודות המסלול. <b>נגישות:</b> ה-SVG קישוט (<code>aria-hidden</code>), והתוכן של שני הסקשנים הוא טקסט ותמונה רגילים.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g220.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G220 · סרט פסים עבה שנמתח על המסך וחושף את הסקשן הבא */
+/* בלי GSAP ובהפחתת תנועה: שני הסקשנים זה מתחת לזה. ההצמדה, הסרט והמסכה רק כשהמהלך רץ (.is-live) */
+.rb{position:relative}
+.rb-scene{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,72px);min-height:80svh;padding:var(--gutter, clamp(24px, 5vw, 96px))}
+.rb-a{background:var(--card, #fff)}
+.rb-b{background:color-mix(in oklab,var(--accent, #4a3aff) 14%,var(--bg, #f7f7fa))}
+.rb-txt{display:grid;gap:14px;max-width:40ch;justify-self:center}
+.rb-txt h2{margin:0;font-size:clamp(32px,3.8vw,60px);font-weight:700;line-height:1.08;text-wrap:balance}
+.rb-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.rb-photo{margin:0;justify-self:center;width:100%;max-width:560px;aspect-ratio:5/4;max-height:68svh}
+.rb-photo img{display:block;width:100%;height:100%;object-fit:cover;border-radius:24px}
+.rb-b .rb-photo{order:-1}
+.rb-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible}
+.rb-l{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.rb-l0{stroke:var(--ink, #16182b)}
+.rb-l1{stroke:var(--accent, #4a3aff)}
+.rb-l2{stroke:var(--card, #fff)}
+.rb-l3{stroke:color-mix(in oklab,var(--accent, #4a3aff) 50%,var(--ink, #16182b))}
+.rb.is-live{height:300svh}
+.rb.is-live .rb-pin{position:sticky;top:0;height:100svh;overflow:hidden}
+.rb.is-live .rb-scene{position:absolute;inset:0;min-height:0}
+.rb.is-live .rb-b{-webkit-mask:url(#rb-m);mask:url(#rb-m)}
+@media(max-width:767px){
+  .rb-scene{grid-template-columns:minmax(0,1fr);align-content:center;gap:20px}
+  .rb-photo,.rb-b .rb-photo{order:-1;aspect-ratio:16/10;max-height:34svh}
+}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage full" style="padding-block:0"&gt;&lt;div class="rb"&gt;
+  &lt;div class="rb-pin"&gt;
+    &lt;section class="rb-scene rb-a"&gt;
+      &lt;div class="rb-txt"&gt;&lt;h2&gt;מתחילים בשיחה קצרה&lt;/h2&gt;&lt;p&gt;אתם מספרים מה מטריד, אנחנו מסבירים מה אפשר לעשות. בלי בדיקות ובלי למהר.&lt;/p&gt;&lt;/div&gt;
+      &lt;figure class="rb-photo"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-1-booking.webp" alt="אמא וילד על ספה מביטים בטלפון" width="1500" height="1200" loading="lazy" decoding="async"&gt;&lt;/figure&gt;
+    &lt;/section&gt;
+    &lt;section class="rb-scene rb-b"&gt;
+      &lt;div class="rb-txt"&gt;&lt;h2&gt;ואז מגיעה הבדיקה&lt;/h2&gt;&lt;p&gt;הבדיקה נעשית בחדר שקט, אצל הרופא שהכרתם בשיחה. הוא מסביר כל שלב לפני שהוא מתחיל.&lt;/p&gt;&lt;/div&gt;
+      &lt;figure class="rb-photo"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-3-exam.webp" alt="רופא בודק ילדה בנוכחות אמה" width="1500" height="1200" loading="lazy" decoding="async"&gt;&lt;/figure&gt;
+    &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP שני הסקשנים זה מתחת לזה
+  const root=document.querySelector(".rb"),pin=root.querySelector(".rb-pin");
+  // בהפחתת תנועה הפונקציה לא רצה, והסרט לא נוצר
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    const NS="http://www.w3.org/2000/svg";
+    const mk=(n,a,p)=&gt;{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;};
+    const svg=mk("svg",{"class":"rb-svg","aria-hidden":"true","focusable":"false"});
+    const mask=mk("mask",{id:"rb-m",maskUnits:"userSpaceOnUse"},mk("defs",{},svg));
+    const mp=mk("path",{fill:"none",stroke:"white",pathLength:1,"stroke-linecap":"butt"},mask);
+    const L=["rb-l0","rb-l1","rb-l2","rb-l3"].map(c=&gt;mk("path",{"class":"rb-l "+c,pathLength:1},svg));
+    pin.appendChild(svg);root.classList.add("is-live");
+    const o={h:0},SEG=.5,LAG=.09;let w=0,h=0;
+    // המסלול נבנה מהמידות של הבמה: נכנס מימין, יורד, עולה ויוצא משמאל
+    const layout=()=&gt;{
+      w=pin.clientWidth;h=pin.clientHeight;
+      const P=[[w+90,h*.3],[w*.85,h*.3],[w*.8,h*.7],[w*.58,h*.66],[w*.4,h*.62],[w*.38,h*.26],[w*.18,h*.32],[w*.08,h*.35],[-w*.04,h*.6],[-90,h*.6]];      // המסלול נגמר במשיק אופקי מחוץ למסך, כדי שהמסכה תכסה את כל הפינה
+      const d="M"+P[0]+"C"+P.slice(1).map(p=&gt;p.join(" ")).join(" ");
+      const t=Math.min(Math.max(w*.045,26),60);
+      svg.setAttribute("viewBox","0 0 "+w+" "+h);
+      [mp].concat(L).forEach(p=&gt;p.setAttribute("d",d));
+      [1,.8,.5,.16].forEach((f,i)=&gt;L[i].setAttribute("stroke-width",(t*f).toFixed(1)));
+      mp.setAttribute("stroke-width",(h*1.9).toFixed(0));
+      ["x","y"].forEach(a=&gt;mask.setAttribute(a,0));mask.setAttribute("width",w);mask.setAttribute("height",h);
+    };
+    const draw=()=&gt;{
+      const head=o.h,tail=Math.max(head-SEG,0),vis=Math.max(Math.min(head,1)-tail,0);
+      L.forEach(p=&gt;{p.setAttribute("stroke-dasharray",vis+" 3");p.setAttribute("stroke-dashoffset",-tail);p.style.opacity=vis&gt;.002?1:0;});
+      mp.setAttribute("stroke-dasharray",Math.min(Math.max(head-LAG,0),1)+" 3");
+    };
+    const size=()=&gt;{layout();draw();};
+    ScrollTrigger.addEventListener("refresh",size);size();
+    gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}})
+      .to({},{duration:.12})
+      .to(o,{h:1+SEG,duration:.76,ease:"power1.inOut",onUpdate:draw})
+      .to({},{duration:.12});
+    return()=&gt;{ScrollTrigger.removeEventListener("refresh",size);root.classList.remove("is-live");svg.remove();};
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g220 · סרט פסים עבה שנמתח על המסך וחושף את הסקשן הבא\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g220.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g220.html\n\nמה זה עושה: סרט עבה בכמה פסי צבע, עם מסגרת כהה וראש מעוגל, נכנס מימין המסך ושוחה במסלול מתעקל עד הקצה השמאלי. מאחורי הראש נחשף הסקשן הבא, והזנב ממשיך לחלוף עד שהסרט יוצא מהמסך. המעבר מרגיש כמו משיכת קו אחת שמעבירה אתכם הלאה.\nמתי משתמשים: מעבר בין שני סקשנים חזקים באתר שיש לו אופי גרפי ושובב: סטודיו, מותג לילדים, אירוע, מרפאה ידידותית. פעם אחת בעמוד, כשיש סקשן אחד שנגמר ואחד שמתחיל, ושניהם עם תוכן. באתר רציני וקפדני עדיף לוח שקט.\nסוג אתר: דף נחיתה · וואן-פייג'ר · פורטפוליו וסטודיו\nבסקשן: תהליך ושלבים · שירותים ומוצרים · מאמר ותוכן ארוך\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא באתר רציני וקפדני (משפטי, פיננסי), ולא כשהסקשן הבא הוא טופס שצריך להיות נגיש מיד.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G220 · סרט פסים עבה שנמתח על המסך וחושף את הסקשן הבא */\n/* בלי GSAP ובהפחתת תנועה: שני הסקשנים זה מתחת לזה. ההצמדה, הסרט והמסכה רק כשהמהלך רץ (.is-live) */\n.rb{position:relative}\n.rb-scene{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,72px);min-height:80svh;padding:var(--gutter, clamp(24px, 5vw, 96px))}\n.rb-a{background:var(--card, #fff)}\n.rb-b{background:color-mix(in oklab,var(--accent, #4a3aff) 14%,var(--bg, #f7f7fa))}\n.rb-txt{display:grid;gap:14px;max-width:40ch;justify-self:center}\n.rb-txt h2{margin:0;font-size:clamp(32px,3.8vw,60px);font-weight:700;line-height:1.08;text-wrap:balance}\n.rb-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.rb-photo{margin:0;justify-self:center;width:100%;max-width:560px;aspect-ratio:5/4;max-height:68svh}\n.rb-photo img{display:block;width:100%;height:100%;object-fit:cover;border-radius:24px}\n.rb-b .rb-photo{order:-1}\n.rb-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible}\n.rb-l{fill:none;stroke-linecap:round;stroke-linejoin:round}\n.rb-l0{stroke:var(--ink, #16182b)}\n.rb-l1{stroke:var(--accent, #4a3aff)}\n.rb-l2{stroke:var(--card, #fff)}\n.rb-l3{stroke:color-mix(in oklab,var(--accent, #4a3aff) 50%,var(--ink, #16182b))}\n.rb.is-live{height:300svh}\n.rb.is-live .rb-pin{position:sticky;top:0;height:100svh;overflow:hidden}\n.rb.is-live .rb-scene{position:absolute;inset:0;min-height:0}\n.rb.is-live .rb-b{-webkit-mask:url(#rb-m);mask:url(#rb-m)}\n@media(max-width:767px){\n  .rb-scene{grid-template-columns:minmax(0,1fr);align-content:center;gap:20px}\n  .rb-photo,.rb-b .rb-photo{order:-1;aspect-ratio:16/10;max-height:34svh}\n}\n\n=== HTML ===\n<div class=\"stage full\" style=\"padding-block:0\"><div class=\"rb\">\n  <div class=\"rb-pin\">\n    <section class=\"rb-scene rb-a\">\n      <div class=\"rb-txt\"><h2>מתחילים בשיחה קצרה<\/h2><p>אתם מספרים מה מטריד, אנחנו מסבירים מה אפשר לעשות. בלי בדיקות ובלי למהר.<\/p><\/div>\n      <figure class=\"rb-photo\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-1-booking.webp\" alt=\"אמא וילד על ספה מביטים בטלפון\" width=\"1500\" height=\"1200\" loading=\"lazy\" decoding=\"async\"><\/figure>\n    <\/section>\n    <section class=\"rb-scene rb-b\">\n      <div class=\"rb-txt\"><h2>ואז מגיעה הבדיקה<\/h2><p>הבדיקה נעשית בחדר שקט, אצל הרופא שהכרתם בשיחה. הוא מסביר כל שלב לפני שהוא מתחיל.<\/p><\/div>\n      <figure class=\"rb-photo\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-3-exam.webp\" alt=\"רופא בודק ילדה בנוכחות אמה\" width=\"1500\" height=\"1200\" loading=\"lazy\" decoding=\"async\"><\/figure>\n    <\/section>\n  <\/div>\n<\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\"||typeof ScrollTrigger===\"undefined\")return;      // בלי GSAP שני הסקשנים זה מתחת לזה\n  const root=document.querySelector(\".rb\"),pin=root.querySelector(\".rb-pin\");\n  // בהפחתת תנועה הפונקציה לא רצה, והסרט לא נוצר\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    const NS=\"http://www.w3.org/2000/svg\";\n    const mk=(n,a,p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;};\n    const svg=mk(\"svg\",{\"class\":\"rb-svg\",\"aria-hidden\":\"true\",\"focusable\":\"false\"});\n    const mask=mk(\"mask\",{id:\"rb-m\",maskUnits:\"userSpaceOnUse\"},mk(\"defs\",{},svg));\n    const mp=mk(\"path\",{fill:\"none\",stroke:\"white\",pathLength:1,\"stroke-linecap\":\"butt\"},mask);\n    const L=[\"rb-l0\",\"rb-l1\",\"rb-l2\",\"rb-l3\"].map(c=>mk(\"path\",{\"class\":\"rb-l \"+c,pathLength:1},svg));\n    pin.appendChild(svg);root.classList.add(\"is-live\");\n    const o={h:0},SEG=.5,LAG=.09;let w=0,h=0;\n    // המסלול נבנה מהמידות של הבמה: נכנס מימין, יורד, עולה ויוצא משמאל\n    const layout=()=>{\n      w=pin.clientWidth;h=pin.clientHeight;\n      const P=[[w+90,h*.3],[w*.85,h*.3],[w*.8,h*.7],[w*.58,h*.66],[w*.4,h*.62],[w*.38,h*.26],[w*.18,h*.32],[w*.08,h*.35],[-w*.04,h*.6],[-90,h*.6]];      // המסלול נגמר במשיק אופקי מחוץ למסך, כדי שהמסכה תכסה את כל הפינה\n      const d=\"M\"+P[0]+\"C\"+P.slice(1).map(p=>p.join(\" \")).join(\" \");\n      const t=Math.min(Math.max(w*.045,26),60);\n      svg.setAttribute(\"viewBox\",\"0 0 \"+w+\" \"+h);\n      [mp].concat(L).forEach(p=>p.setAttribute(\"d\",d));\n      [1,.8,.5,.16].forEach((f,i)=>L[i].setAttribute(\"stroke-width\",(t*f).toFixed(1)));\n      mp.setAttribute(\"stroke-width\",(h*1.9).toFixed(0));\n      [\"x\",\"y\"].forEach(a=>mask.setAttribute(a,0));mask.setAttribute(\"width\",w);mask.setAttribute(\"height\",h);\n    };\n    const draw=()=>{\n      const head=o.h,tail=Math.max(head-SEG,0),vis=Math.max(Math.min(head,1)-tail,0);\n      L.forEach(p=>{p.setAttribute(\"stroke-dasharray\",vis+\" 3\");p.setAttribute(\"stroke-dashoffset\",-tail);p.style.opacity=vis>.002?1:0;});\n      mp.setAttribute(\"stroke-dasharray\",Math.min(Math.max(head-LAG,0),1)+\" 3\");\n    };\n    const size=()=>{layout();draw();};\n    ScrollTrigger.addEventListener(\"refresh\",size);size();\n    gsap.timeline({scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.6}})\n      .to({},{duration:.12})\n      .to(o,{h:1+SEG,duration:.76,ease:\"power1.inOut\",onUpdate:draw})\n      .to({},{duration:.12});\n    return()=>{ScrollTrigger.removeEventListener(\"refresh\",size);root.classList.remove(\"is-live\");svg.remove();};\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: סרטוני קידום ב-prompt-motion.com (21.10.2026) שבהם צינור עבה בפסי צבע עם מסגרת כהה נמתח על פני הפריים בקשת. נבנה מאפס מהצפייה. ארבעה נתיבים באותו מסלול: מסגרת כהה, פס צבע, פס בהיר וקו דק במרכז, כל אחד בעובי קטן יותר, עם `stroke-linecap:round`. הנתיבים נבנים בפיקסלים של הבמה: הסקריפט מחשב את המסלול מהרוחב והגובה (נבנה מחדש ב-refresh), ולכן הסרט עובר מקצה לקצה בכל מסך, ובטלפון הוא לא נחתך. כל הנתיבים עם `pathLength=1`, כך שההתקדמות היא מספר בין 0 ל-1 ולא אורך בפיקסלים. נחש ולא קו: הקטע הנראה הוא `stroke-dasharray` באורך קבוע שזז לאורך המסלול, עם ראש וזנב, ולכן הסרט גם נמתח וגם יוצא מהמסך. החשיפה: הסקשן השני מוסתר ב-`mask:url(#rb-m)` שמצויר מאותו מסלול בקו עבה מאוד (פי 1.9 מגובה הבמה, כדי לכסות את כל הגובה), ומתקדם מעט אחרי ראש הסרט (`LAG`). שים לב: `mask` שמפנה ל-SVG עובד ב-Chrome וב-Firefox, ב-Safari צריך לבדוק; חלופה בטוחה היא `clip-path` עם קצה משופע כמו ב-g219. בלי GSAP ובהפחתת תנועה שני הסקשנים זה מתחת לזה והסרט לא נוצר בכלל. כיוון: הסרט נכנס מימין ויוצא בשמאל (קריאה בעברית). באתר משמאל לימין הופכים את הסדר של נקודות המסלול. נגישות: ה-SVG קישוט (`aria-hidden`), והתוכן של שני הסקשנים הוא טקסט ותמונה רגילים.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G220 · סרט פסים עבה שנמתח על המסך וחושף את הסקשן הבא */\n/* בלי GSAP ובהפחתת תנועה: שני הסקשנים זה מתחת לזה. ההצמדה, הסרט והמסכה רק כשהמהלך רץ (.is-live) */\n.rb{position:relative}\n.rb-scene{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,72px);min-height:80svh;padding:var(--gutter, clamp(24px, 5vw, 96px))}\n.rb-a{background:var(--card, #fff)}\n.rb-b{background:color-mix(in oklab,var(--accent, #4a3aff) 14%,var(--bg, #f7f7fa))}\n.rb-txt{display:grid;gap:14px;max-width:40ch;justify-self:center}\n.rb-txt h2{margin:0;font-size:clamp(32px,3.8vw,60px);font-weight:700;line-height:1.08;text-wrap:balance}\n.rb-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.rb-photo{margin:0;justify-self:center;width:100%;max-width:560px;aspect-ratio:5/4;max-height:68svh}\n.rb-photo img{display:block;width:100%;height:100%;object-fit:cover;border-radius:24px}\n.rb-b .rb-photo{order:-1}\n.rb-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;overflow:visible}\n.rb-l{fill:none;stroke-linecap:round;stroke-linejoin:round}\n.rb-l0{stroke:var(--ink, #16182b)}\n.rb-l1{stroke:var(--accent, #4a3aff)}\n.rb-l2{stroke:var(--card, #fff)}\n.rb-l3{stroke:color-mix(in oklab,var(--accent, #4a3aff) 50%,var(--ink, #16182b))}\n.rb.is-live{height:300svh}\n.rb.is-live .rb-pin{position:sticky;top:0;height:100svh;overflow:hidden}\n.rb.is-live .rb-scene{position:absolute;inset:0;min-height:0}\n.rb.is-live .rb-b{-webkit-mask:url(#rb-m);mask:url(#rb-m)}\n@media(max-width:767px){\n  .rb-scene{grid-template-columns:minmax(0,1fr);align-content:center;gap:20px}\n  .rb-photo,.rb-b .rb-photo{order:-1;aspect-ratio:16/10;max-height:34svh}\n}","html":"<div class=\"stage full\" style=\"padding-block:0\"><div class=\"rb\">\n  <div class=\"rb-pin\">\n    <section class=\"rb-scene rb-a\">\n      <div class=\"rb-txt\"><h2>מתחילים בשיחה קצרה<\/h2><p>אתם מספרים מה מטריד, אנחנו מסבירים מה אפשר לעשות. בלי בדיקות ובלי למהר.<\/p><\/div>\n      <figure class=\"rb-photo\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-1-booking.webp\" alt=\"אמא וילד על ספה מביטים בטלפון\" width=\"1500\" height=\"1200\" loading=\"lazy\" decoding=\"async\"><\/figure>\n    <\/section>\n    <section class=\"rb-scene rb-b\">\n      <div class=\"rb-txt\"><h2>ואז מגיעה הבדיקה<\/h2><p>הבדיקה נעשית בחדר שקט, אצל הרופא שהכרתם בשיחה. הוא מסביר כל שלב לפני שהוא מתחיל.<\/p><\/div>\n      <figure class=\"rb-photo\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-3-exam.webp\" alt=\"רופא בודק ילדה בנוכחות אמה\" width=\"1500\" height=\"1200\" loading=\"lazy\" decoding=\"async\"><\/figure>\n    <\/section>\n  <\/div>\n<\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\"||typeof ScrollTrigger===\"undefined\")return;      // בלי GSAP שני הסקשנים זה מתחת לזה\n  const root=document.querySelector(\".rb\"),pin=root.querySelector(\".rb-pin\");\n  // בהפחתת תנועה הפונקציה לא רצה, והסרט לא נוצר\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    const NS=\"http://www.w3.org/2000/svg\";\n    const mk=(n,a,p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;};\n    const svg=mk(\"svg\",{\"class\":\"rb-svg\",\"aria-hidden\":\"true\",\"focusable\":\"false\"});\n    const mask=mk(\"mask\",{id:\"rb-m\",maskUnits:\"userSpaceOnUse\"},mk(\"defs\",{},svg));\n    const mp=mk(\"path\",{fill:\"none\",stroke:\"white\",pathLength:1,\"stroke-linecap\":\"butt\"},mask);\n    const L=[\"rb-l0\",\"rb-l1\",\"rb-l2\",\"rb-l3\"].map(c=>mk(\"path\",{\"class\":\"rb-l \"+c,pathLength:1},svg));\n    pin.appendChild(svg);root.classList.add(\"is-live\");\n    const o={h:0},SEG=.5,LAG=.09;let w=0,h=0;\n    // המסלול נבנה מהמידות של הבמה: נכנס מימין, יורד, עולה ויוצא משמאל\n    const layout=()=>{\n      w=pin.clientWidth;h=pin.clientHeight;\n      const P=[[w+90,h*.3],[w*.85,h*.3],[w*.8,h*.7],[w*.58,h*.66],[w*.4,h*.62],[w*.38,h*.26],[w*.18,h*.32],[w*.08,h*.35],[-w*.04,h*.6],[-90,h*.6]];      // המסלול נגמר במשיק אופקי מחוץ למסך, כדי שהמסכה תכסה את כל הפינה\n      const d=\"M\"+P[0]+\"C\"+P.slice(1).map(p=>p.join(\" \")).join(\" \");\n      const t=Math.min(Math.max(w*.045,26),60);\n      svg.setAttribute(\"viewBox\",\"0 0 \"+w+\" \"+h);\n      [mp].concat(L).forEach(p=>p.setAttribute(\"d\",d));\n      [1,.8,.5,.16].forEach((f,i)=>L[i].setAttribute(\"stroke-width\",(t*f).toFixed(1)));\n      mp.setAttribute(\"stroke-width\",(h*1.9).toFixed(0));\n      [\"x\",\"y\"].forEach(a=>mask.setAttribute(a,0));mask.setAttribute(\"width\",w);mask.setAttribute(\"height\",h);\n    };\n    const draw=()=>{\n      const head=o.h,tail=Math.max(head-SEG,0),vis=Math.max(Math.min(head,1)-tail,0);\n      L.forEach(p=>{p.setAttribute(\"stroke-dasharray\",vis+\" 3\");p.setAttribute(\"stroke-dashoffset\",-tail);p.style.opacity=vis>.002?1:0;});\n      mp.setAttribute(\"stroke-dasharray\",Math.min(Math.max(head-LAG,0),1)+\" 3\");\n    };\n    const size=()=>{layout();draw();};\n    ScrollTrigger.addEventListener(\"refresh\",size);size();\n    gsap.timeline({scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.6}})\n      .to({},{duration:.12})\n      .to(o,{h:1+SEG,duration:.76,ease:\"power1.inOut\",onUpdate:draw})\n      .to({},{duration:.12});\n    return()=>{ScrollTrigger.removeEventListener(\"refresh\",size);root.classList.remove(\"is-live\");svg.remove();};\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":false}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g219.html" rel="prev"><small>→ הקודם</small><b>לוח צבע אלכסוני שעובר ומחליף תמונה</b></a><a href="g221.html" rel="next"><small>הבא ←</small><b>מעבר מהיר בין מסכי מוצר עם טשטוש תנועה</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · סרט פסים עבה שנמתח על המסך וחושף את הסקשן הבא").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP שני הסקשנים זה מתחת לזה
+  const root=document.querySelector(".rb"),pin=root.querySelector(".rb-pin");
+  // בהפחתת תנועה הפונקציה לא רצה, והסרט לא נוצר
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const NS="http://www.w3.org/2000/svg";
+    const mk=(n,a,p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;};
+    const svg=mk("svg",{"class":"rb-svg","aria-hidden":"true","focusable":"false"});
+    const mask=mk("mask",{id:"rb-m",maskUnits:"userSpaceOnUse"},mk("defs",{},svg));
+    const mp=mk("path",{fill:"none",stroke:"white",pathLength:1,"stroke-linecap":"butt"},mask);
+    const L=["rb-l0","rb-l1","rb-l2","rb-l3"].map(c=>mk("path",{"class":"rb-l "+c,pathLength:1},svg));
+    pin.appendChild(svg);root.classList.add("is-live");
+    const o={h:0},SEG=.5,LAG=.09;let w=0,h=0;
+    // המסלול נבנה מהמידות של הבמה: נכנס מימין, יורד, עולה ויוצא משמאל
+    const layout=()=>{
+      w=pin.clientWidth;h=pin.clientHeight;
+      const P=[[w+90,h*.3],[w*.85,h*.3],[w*.8,h*.7],[w*.58,h*.66],[w*.4,h*.62],[w*.38,h*.26],[w*.18,h*.32],[w*.08,h*.35],[-w*.04,h*.6],[-90,h*.6]];      // המסלול נגמר במשיק אופקי מחוץ למסך, כדי שהמסכה תכסה את כל הפינה
+      const d="M"+P[0]+"C"+P.slice(1).map(p=>p.join(" ")).join(" ");
+      const t=Math.min(Math.max(w*.045,26),60);
+      svg.setAttribute("viewBox","0 0 "+w+" "+h);
+      [mp].concat(L).forEach(p=>p.setAttribute("d",d));
+      [1,.8,.5,.16].forEach((f,i)=>L[i].setAttribute("stroke-width",(t*f).toFixed(1)));
+      mp.setAttribute("stroke-width",(h*1.9).toFixed(0));
+      ["x","y"].forEach(a=>mask.setAttribute(a,0));mask.setAttribute("width",w);mask.setAttribute("height",h);
+    };
+    const draw=()=>{
+      const head=o.h,tail=Math.max(head-SEG,0),vis=Math.max(Math.min(head,1)-tail,0);
+      L.forEach(p=>{p.setAttribute("stroke-dasharray",vis+" 3");p.setAttribute("stroke-dashoffset",-tail);p.style.opacity=vis>.002?1:0;});
+      mp.setAttribute("stroke-dasharray",Math.min(Math.max(head-LAG,0),1)+" 3");
+    };
+    const size=()=>{layout();draw();};
+    ScrollTrigger.addEventListener("refresh",size);size();
+    gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}})
+      .to({},{duration:.12})
+      .to(o,{h:1+SEG,duration:.76,ease:"power1.inOut",onUpdate:draw})
+      .to({},{duration:.12});
+    return()=>{ScrollTrigger.removeEventListener("refresh",size);root.classList.remove("is-live");svg.remove();};
+  });
+})();
+</script>
+</body>
+</html>

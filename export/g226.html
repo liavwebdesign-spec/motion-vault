@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G226 · תמונה מוטה שעפה אל הצופה עם טשטוש רדיאלי</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G226 · תמונה מוטה שעפה אל הצופה עם טשטוש רדיאלי */
+/* בלי GSAP ובהפחתת תנועה: התמונה במנוחה והמספר הסופי. העותקים, הקרניים וההצמדה רק כשהמהלך רץ (.is-live) */
+.zb{position:relative}
+.zb-pin{position:relative;display:grid;justify-items:center;align-content:center;gap:28px;min-height:84svh;padding:var(--gutter, clamp(24px, 5vw, 96px));overflow:hidden}
+.zb-tile{position:relative;width:min(820px,88%);aspect-ratio:3/2;border-radius:24px;will-change:transform}
+.zb-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:inherit}
+.zb-ghost{pointer-events:none}
+.zb-rays{display:none;position:absolute;inset:-30%;pointer-events:none;opacity:0;
+  background:repeating-conic-gradient(from 0deg,color-mix(in oklab,var(--ink, #16182b) 60%,transparent) 0 .4deg,transparent .4deg 3deg);
+  -webkit-mask-image:radial-gradient(circle,transparent 30%,#000 60%,transparent 82%);mask-image:radial-gradient(circle,transparent 30%,#000 60%,transparent 82%)}
+.zb-count{position:relative;margin:0;display:flex;align-items:baseline;gap:14px;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));color:var(--muted, #6a6d85)}
+.zb-count b{min-width:5ch;font-size:clamp(48px,7vw,104px);font-weight:700;line-height:1;letter-spacing:-.02em;color:var(--ink, #16182b);font-variant-numeric:tabular-nums}
+.zb .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.zb.is-live{height:300svh}
+.zb.is-live .zb-pin{position:sticky;top:0;height:100svh;min-height:0}
+.zb.is-live .zb-rays{display:block}
+@media(max-width:767px){.zb-rays{display:none!important}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage full" style="padding-block:0"><div class="zb">
+  <div class="zb-pin">
+    <span class="zb-rays" aria-hidden="true"></span>
+    <div class="zb-tile"><img class="zb-img" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s01/hero-dial.webp" alt="יד מכוונת את גלגל הצמצם של מצלמה" width="1900" height="1267" loading="lazy" decoding="async"></div>
+    <p class="zb-count"><b aria-hidden="true" data-to="12480">12,480</b><span class="sr-only">12,480 </span><span>מוצרים צולמו בסטודיו מאז שנפתח</span></p>
+  </div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP התמונה במנוחה והמספר הסופי
+  const root=document.querySelector(".zb"),tile=root.querySelector(".zb-tile"),img=tile.querySelector(".zb-img"),rays=root.querySelector(".zb-rays"),
+    num=root.querySelector(".zb-count b"),to=parseInt(num.getAttribute("data-to"),10)||0;
+  // בהפחתת תנועה הפונקציה לא רצה, והתמונה במנוחה
+  gsap.matchMedia().add({desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)",mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)"},ctx=>{
+    const mob=ctx.conditions.mob,N=mob?0:6,s0=mob?.6:.34,r0=mob?-8:-14;
+    root.classList.add("is-live");
+    const ghosts=[];
+    for(let i=0;i<N;i++){const g=img.cloneNode();g.className="zb-ghost";g.alt="";g.setAttribute("aria-hidden","true");tile.insertBefore(g,img);ghosts.push(g);}
+    const o={t:0,c:0};
+    const draw=()=>{
+      const t=o.t,s=Math.sin(Math.PI*t);      // העוצמה היא אפס בהתחלה ובסוף, התמונה נוחתת חדה
+      gsap.set(tile,{scale:s0+(1-s0)*t,rotate:r0*(1-t)});
+      ghosts.forEach((g,i)=>gsap.set(g,{scale:1+(i+1)*.035*s,opacity:s*(.2-i*.025)}));
+      if(!mob)gsap.set(rays,{opacity:s*.6,scale:.8+.5*t,rotate:t*18});
+      num.textContent=Math.round(o.c*to).toLocaleString("en-US");
+    };
+    draw();
+    gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}})
+      .to({},{duration:.1})
+      .to(o,{t:1,duration:.7,ease:"power2.inOut",onUpdate:draw})
+      .to(o,{c:1,duration:.5,ease:"power2.out",onUpdate:draw},"<.2")
+      .to({},{duration:.2});
+    return()=>{root.classList.remove("is-live");ghosts.forEach(g=>g.remove());gsap.set([tile,rays],{clearProps:"all"});num.textContent=to.toLocaleString("en-US");};
+  });
+})();
+</script>
+</body>
+</html>

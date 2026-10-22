@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G241 · זכוכית מגדלת שעוברת על גרף ומגדילה עד שהמספר נעצר | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.lns{--lr:80;max-width:1100px;margin-inline:auto}
+.lns-pin{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px)}
+.lns-txt{display:grid;gap:12px;max-width:36ch}
+.lns-txt h2{margin:0;font-size:clamp(28px,3vw,44px);line-height:1.15;text-wrap:balance}
+.lns-txt p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.lns-card{display:grid;gap:20px;padding:24px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:0 28px 56px -36px color-mix(in srgb,var(--ink) 40%,transparent)}
+.lns-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.lns-ttl{font-size:18px;font-weight:700}
+.lns-rng{font-size:14px;color:var(--muted)}
+.lns-plot{position:relative;height:clamp(260px,38svh,340px)}
+.lns-chart{position:absolute;inset:48px 0 0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px}
+.lns-bars{position:relative;display:flex;align-items:flex-end;gap:12px;background:repeating-linear-gradient(to top,var(--line) 0 1px,transparent 1px 25%)}
+.lns-b{position:relative;flex:1;min-width:0;height:calc(var(--h) * 100%);border-radius:8px 8px 4px 4px}
+.lns-b::before{content:"";position:absolute;inset:0;border-radius:inherit;background:color-mix(in srgb,var(--ink) 18%,transparent)}
+.lns-b.hi::before{background:var(--accent)}
+.lns-b em{position:absolute;bottom:100%;inset-inline:0;margin-bottom:6px;text-align:center;font-style:normal;font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
+.lns-xs{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px;font-size:13px;color:var(--muted)}
+.lns-xs span{white-space:nowrap}
+.lns-xs .a{grid-column:1;justify-self:start}
+.lns-xs .m{grid-column:7;justify-self:center}
+.lns-xs .z{grid-column:12;justify-self:end}
+.lns-foot{margin:0;font-size:15px;line-height:1.55;color:var(--muted)}
+/* הזכוכית: קיימת רק כשהמהלך חי. ההגדלה נקבעת כאן מתוך --cx --cy --z שה-JS כותב */
+.lns-lens{display:none}
+.lns.is-live .lns-lens{display:block;position:absolute;left:0;top:0;z-index:2;width:calc(var(--lr) * 2px);height:calc(var(--lr) * 2px);pointer-events:none}
+.lns-glass{position:absolute;inset:0;overflow:hidden;border-radius:50%;background:var(--card)}
+.lns-zoom{position:absolute;left:0;top:0;transform-origin:0 0;transform:translate(calc(var(--lr) * 1px - var(--cx) * var(--z) * 1px),calc(var(--lr) * 1px - var(--cy) * var(--z) * 1px)) scale(var(--z))}
+.lns-rim{position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 3px var(--ink),0 16px 32px -12px color-mix(in srgb,var(--ink) 45%,transparent)}
+.lns-hd{position:absolute;left:calc(100% - 22px);top:calc(100% - 22px);width:12px;height:64px;border-radius:6px;background:var(--ink);transform-origin:50% 0;transform:rotate(-45deg)}
+.lns-zc{position:absolute;left:50%;top:100%;margin-top:12px;translate:-50% 0;padding:6px 12px;border-radius:999px;background:var(--ink);color:var(--bg);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;font-weight:700;white-space:nowrap}
+.lns.is-live .lns-run{height:280vh}
+.lns.is-live .lns-pin{position:sticky;top:0;height:100vh;height:100svh}
+@media(max-width:767px){
+  .lns{--lr:56}
+  .lns-pin{grid-template-columns:minmax(0,1fr);gap:24px}
+  .lns.is-live .lns-pin{align-content:center}
+  .lns.is-live .lns-txt p{display:none}
+  .lns-card{padding:20px;gap:16px}
+  .lns-plot{height:clamp(240px,34svh,300px)}
+  .lns-chart{inset:40px 0 0}
+  .lns-bars,.lns-xs{gap:8px}
+  .lns-hd{height:48px;width:10px}
+}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g240.html" rel="prev" title="הקודם: מסמך שמסמנים בו משפטים והערה צפה עוברת ביניהם">→<span class="sr-only">הקודם</span></a><span class="vpn-n">217/219</span><a href="g242.html" rel="next" title="הבא: מפה מוטה שנעמדים עליה סמנים אחד אחרי השני">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G241</span> · זכוכית מגדלת שעוברת על גרף ומגדילה עד שהמספר נעצר</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · sticky · CSS variables</span>
+  <span class="vchip use">מספרים ונתונים</span><span class="vchip use">תהליך ושלבים</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g241"><code>MV:g241</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g241">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>גרף עמודות של שנים עשר שבועות, ועליו זכוכית מגדלת עגולה עם ידית וכיתוב קטן של מספר ההגדלה. בגלילה היא יוצאת מהשבוע הראשון, זזה לאורך הגרף ומגדילה יותר ויותר, והכיתוב סופר מ-1.0 עד 2.4. היא נעצרת על העמודה האחרונה ומראה אותה גדולה, עם המספר שלה. הגולש רואה בדיוק איפה הסיפור קורה בנתונים.</p>
+  <p class="when"><b>מתי משתמשים:</b> נתון אחד שיש לו רגע אחד חשוב: קפיצה במספר הפניות אחרי עליית אתר, ירידה בזמן המתנה, שיפור בציון. מתאים לסקשן תוצאות או מקרה בוחן, כשהמספר הסופי הוא ההוכחה. פעם אחת בעמוד. לא לגרף שאין בו אזור אחד שמעניין יותר מהשאר, ולא לנתונים שלא ניתן להראות.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית</dd></div><div><dt>בסקשן</dt><dd>מספרים ולקוחות · בעיה ויתרונות · מאמר ותוכן ארוך</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשאין מספר אמיתי אחד שאפשר להצביע עליו בגרף, ולא כשבגרף יש יותר משתים עשרה עמודות.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g241"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="lns"><div class="lns-run"><div class="lns-pin">
+  <div class="lns-txt"><h2>מאז שהאתר החדש עלה, מגיעים יותר מטופלים כל שבוע</h2><p>בגרף רואים שנים עשר שבועות. ההגדלה על השבועות האחרונים מראה בדיוק איפה זה התחיל לקפוץ.</p></div>
+  <div class="lns-card">
+    <div class="lns-top"><span class="lns-ttl">מטופלים חדשים בשבוע</span><span class="lns-rng">12 השבועות האחרונים</span></div>
+    <div class="lns-plot" role="img" aria-label="גרף עמודות של מטופלים חדשים בשבוע במרפאה, בשנים עשר השבועות האחרונים. מ-20 בשבוע הראשון, דרך 24 בשבוע השישי, ועד 57 בשבוע השנים עשר, אחרי עליית האתר החדש בשבוע השביעי.">
+      <div class="lns-chart">
+        <div class="lns-bars">
+          <i class="lns-b" style="--h:.33"></i><i class="lns-b" style="--h:.37"></i><i class="lns-b" style="--h:.32"></i><i class="lns-b" style="--h:.38"></i><i class="lns-b" style="--h:.35"></i><i class="lns-b" style="--h:.4"></i><i class="lns-b" style="--h:.52"></i><i class="lns-b" style="--h:.63"></i><i class="lns-b" style="--h:.73"></i><i class="lns-b" style="--h:.82"></i><i class="lns-b" style="--h:.87"></i><i class="lns-b hi" style="--h:.95"><em>57</em></i>
+        </div>
+        <div class="lns-xs"><span class="a">שבוע 1</span><span class="m">עליית האתר</span><span class="z">שבוע 12</span></div>
+      </div>
+      <div class="lns-lens" aria-hidden="true"><span class="lns-hd"></span><div class="lns-glass"><div class="lns-zoom"></div></div><span class="lns-rim"></span><span class="lns-zc">x<bdi>2.4</bdi></span></div>
+    </div>
+    <p class="lns-foot">בשבוע האחרון הגיעו 57 מטופלים חדשים, פי שניים וחצי מהשבוע הראשון.</p>
+  </div>
+</div></div></div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטוני הדגמה בגלריה של prompt-motion.com (21.10.2026) שבהם זכוכית מגדלת עוברת על ממשק ומגדילה אזור. נבנה מאפס מהצפייה. <b>המארקאפ הוא מצב הסיום:</b> הגרף המלא, העמודה האחרונה צבועה ועליה המספר, ובלי זכוכית. בלי GSAP ובהפחתת תנועה זה מה שמוצג. <b>איך ההגדלה עובדת:</b> בזמן ריצה הקוד משכפל את הגרף לתוך הזכוכית (<code>aria-hidden</code>), והעתק זה עובר <code>translate</code> ו-<code>scale</code> שנקבעים ב-CSS בלבד מתוך שלושה משתנים על הזכוכית: <code>--cx</code> ו-<code>--cy</code> (מרכז הזכוכית בקואורדינטות הגרף) ו-<code>--z</code> (ההגדלה). הנוסחה היא <code>translate(R - cx*z, R - cy*z) scale(z)</code> עם מקור בפינה, כך שהנקודה שמתחת למרכז הזכוכית תמיד זו שמוגדלת. ה-JS רק כותב את שלושת המספרים. <b>המסלול</b> מ-<code>p</code> בלבד: הזכוכית עוברת מראש העמודה הראשונה אל ראש האחרונה, מעל ראשי כל העמודות שבדרך (אינטרפולציה לפי האינדקס, כך שיש תמיד עמודה מתחתיה), ו-<code>p</code> בין 10% ל-82%. בנייד הזכוכית עצמה נעצרת לפני קצה המסך (<code>lim</code>), וההגדלה נשארת ממוקדת בעמודה. מעבר לזה הזכוכית עומדת במקום. <b>המדידה</b> מ-<code>getBoundingClientRect</code> של העמודות ביחס לאזור הגרף ונעשית מחדש בכל <code>refresh</code>, לכן המסלול נכון בכל רוחב ובכל כיוון, והזמן זורם מימין לשמאל ב-RTL. <b>גודל הזכוכית</b> הוא <code>--lr</code> (80 בדסקטופ, 56 בנייד). <b>נגישות:</b> האזור כולו <code>role="img"</code> עם תיאור שמכיל את הערכים, והזכוכית <code>aria-hidden</code>. <b>הערכים</b> נקבעים ב-<code>--h</code> של כל עמודה (חלק מהמקסימום).</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g241.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G241 · זכוכית מגדלת שעוברת על גרף ומגדילה עד שהמספר נעצר */
+.lns{--lr:80;max-width:1100px;margin-inline:auto}
+.lns-pin{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px)}
+.lns-txt{display:grid;gap:12px;max-width:36ch}
+.lns-txt h2{margin:0;font-size:clamp(28px,3vw,44px);line-height:1.15;text-wrap:balance}
+.lns-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.lns-card{display:grid;gap:20px;padding:24px;border:1px solid var(--line, #e4e4ee);border-radius:20px;background:var(--card, #fff);box-shadow:0 28px 56px -36px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}
+.lns-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.lns-ttl{font-size:18px;font-weight:700}
+.lns-rng{font-size:14px;color:var(--muted, #6a6d85)}
+.lns-plot{position:relative;height:clamp(260px,38svh,340px)}
+.lns-chart{position:absolute;inset:48px 0 0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px}
+.lns-bars{position:relative;display:flex;align-items:flex-end;gap:12px;background:repeating-linear-gradient(to top,var(--line, #e4e4ee) 0 1px,transparent 1px 25%)}
+.lns-b{position:relative;flex:1;min-width:0;height:calc(var(--h) * 100%);border-radius:8px 8px 4px 4px}
+.lns-b::before{content:"";position:absolute;inset:0;border-radius:inherit;background:color-mix(in srgb,var(--ink, #16182b) 18%,transparent)}
+.lns-b.hi::before{background:var(--accent, #4a3aff)}
+.lns-b em{position:absolute;bottom:100%;inset-inline:0;margin-bottom:6px;text-align:center;font-style:normal;font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
+.lns-xs{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px;font-size:13px;color:var(--muted, #6a6d85)}
+.lns-xs span{white-space:nowrap}
+.lns-xs .a{grid-column:1;justify-self:start}
+.lns-xs .m{grid-column:7;justify-self:center}
+.lns-xs .z{grid-column:12;justify-self:end}
+.lns-foot{margin:0;font-size:15px;line-height:1.55;color:var(--muted, #6a6d85)}
+/* הזכוכית: קיימת רק כשהמהלך חי. ההגדלה נקבעת כאן מתוך --cx --cy --z שה-JS כותב */
+.lns-lens{display:none}
+.lns.is-live .lns-lens{display:block;position:absolute;left:0;top:0;z-index:2;width:calc(var(--lr) * 2px);height:calc(var(--lr) * 2px);pointer-events:none}
+.lns-glass{position:absolute;inset:0;overflow:hidden;border-radius:50%;background:var(--card, #fff)}
+.lns-zoom{position:absolute;left:0;top:0;transform-origin:0 0;transform:translate(calc(var(--lr) * 1px - var(--cx) * var(--z) * 1px),calc(var(--lr) * 1px - var(--cy) * var(--z) * 1px)) scale(var(--z))}
+.lns-rim{position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 3px var(--ink, #16182b),0 16px 32px -12px color-mix(in srgb,var(--ink, #16182b) 45%,transparent)}
+.lns-hd{position:absolute;left:calc(100% - 22px);top:calc(100% - 22px);width:12px;height:64px;border-radius:6px;background:var(--ink, #16182b);transform-origin:50% 0;transform:rotate(-45deg)}
+.lns-zc{position:absolute;left:50%;top:100%;margin-top:12px;translate:-50% 0;padding:6px 12px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;font-weight:700;white-space:nowrap}
+.lns.is-live .lns-run{height:280vh}
+.lns.is-live .lns-pin{position:sticky;top:0;height:100vh;height:100svh}
+@media(max-width:767px){
+  .lns{--lr:56}
+  .lns-pin{grid-template-columns:minmax(0,1fr);gap:24px}
+  .lns.is-live .lns-pin{align-content:center}
+  .lns.is-live .lns-txt p{display:none}
+  .lns-card{padding:20px;gap:16px}
+  .lns-plot{height:clamp(240px,34svh,300px)}
+  .lns-chart{inset:40px 0 0}
+  .lns-bars,.lns-xs{gap:8px}
+  .lns-hd{height:48px;width:10px}
+}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;div class="lns"&gt;&lt;div class="lns-run"&gt;&lt;div class="lns-pin"&gt;
+  &lt;div class="lns-txt"&gt;&lt;h2&gt;מאז שהאתר החדש עלה, מגיעים יותר מטופלים כל שבוע&lt;/h2&gt;&lt;p&gt;בגרף רואים שנים עשר שבועות. ההגדלה על השבועות האחרונים מראה בדיוק איפה זה התחיל לקפוץ.&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="lns-card"&gt;
+    &lt;div class="lns-top"&gt;&lt;span class="lns-ttl"&gt;מטופלים חדשים בשבוע&lt;/span&gt;&lt;span class="lns-rng"&gt;12 השבועות האחרונים&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="lns-plot" role="img" aria-label="גרף עמודות של מטופלים חדשים בשבוע במרפאה, בשנים עשר השבועות האחרונים. מ-20 בשבוע הראשון, דרך 24 בשבוע השישי, ועד 57 בשבוע השנים עשר, אחרי עליית האתר החדש בשבוע השביעי."&gt;
+      &lt;div class="lns-chart"&gt;
+        &lt;div class="lns-bars"&gt;
+          &lt;i class="lns-b" style="--h:.33"&gt;&lt;/i&gt;&lt;i class="lns-b" style="--h:.37"&gt;&lt;/i&gt;&lt;i class="lns-b" style="--h:.32"&gt;&lt;/i&gt;&lt;i class="lns-b" style="--h:.38"&gt;&lt;/i&gt;&lt;i class="lns-b" style="--h:.35"&gt;&lt;/i&gt;&lt;i class="lns-b" style="--h:.4"&gt;&lt;/i&gt;&lt;i class="lns-b" style="--h:.52"&gt;&lt;/i&gt;&lt;i class="lns-b" style="--h:.63"&gt;&lt;/i&gt;&lt;i class="lns-b" style="--h:.73"&gt;&lt;/i&gt;&lt;i class="lns-b" style="--h:.82"&gt;&lt;/i&gt;&lt;i class="lns-b" style="--h:.87"&gt;&lt;/i&gt;&lt;i class="lns-b hi" style="--h:.95"&gt;&lt;em&gt;57&lt;/em&gt;&lt;/i&gt;
+        &lt;/div&gt;
+        &lt;div class="lns-xs"&gt;&lt;span class="a"&gt;שבוע 1&lt;/span&gt;&lt;span class="m"&gt;עליית האתר&lt;/span&gt;&lt;span class="z"&gt;שבוע 12&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="lns-lens" aria-hidden="true"&gt;&lt;span class="lns-hd"&gt;&lt;/span&gt;&lt;div class="lns-glass"&gt;&lt;div class="lns-zoom"&gt;&lt;/div&gt;&lt;/div&gt;&lt;span class="lns-rim"&gt;&lt;/span&gt;&lt;span class="lns-zc"&gt;x&lt;bdi&gt;2.4&lt;/bdi&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;p class="lns-foot"&gt;בשבוע האחרון הגיעו 57 מטופלים חדשים, פי שניים וחצי מהשבוע הראשון.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר הגרף המלא עם העמודה האחרונה מסומנת, בלי זכוכית (במארקאפ)
+  const root=document.querySelector(".lns"),run=root.querySelector(".lns-run"),plot=root.querySelector(".lns-plot"),
+    chart=plot.querySelector(".lns-chart"),bars=[...plot.querySelectorAll(".lns-b")],lens=plot.querySelector(".lns-lens"),
+    zoom=lens.querySelector(".lns-zoom"),zc=lens.querySelector(".lns-zc bdi");
+  const clamp=v=&gt;Math.min(1,Math.max(0,v)),eP=gsap.parseEase("power3.inOut"),eZ=gsap.parseEase("power2.inOut");
+  // בהפחתת תנועה הפונקציה לא רצה, והגרף נשאר במצב הסיום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    const copy=chart.cloneNode(true);copy.setAttribute("aria-hidden","true");zoom.appendChild(copy);   // ההעתק שמוגדל בתוך הזכוכית
+    let R=80,P=[],lim=[-1e4,1e4],last=0;
+    // כל מה שעל המסך נגזר מ-p בלבד, לכן אותו קוד נכון בגלילה קדימה ואחורה
+    const paint=p=&gt;{
+      last=p;
+      const u=clamp((p-.1)/.72),m=eP(u),z=1+1.4*eZ(u);        // ההגדלה עולה מ-1 עד 2.4
+      // הזכוכית עוברת מעל ראשי העמודות לפי האינדקס, ולכן תמיד יש עמודה מתחתיה
+      const f=m*(P.length-1),i=Math.min(P.length-2,Math.floor(f)),k=f-i;
+      const cx=P[i].x+(P[i+1].x-P[i].x)*k,cy=P[i].y+(P[i+1].y-P[i].y)*k;
+      lens.style.setProperty("--cx",cx.toFixed(1));lens.style.setProperty("--cy",cy.toFixed(1));lens.style.setProperty("--z",z.toFixed(3));
+      gsap.set(lens,{x:Math.min(lim[1],Math.max(lim[0],cx))-R,y:cy-R,autoAlpha:clamp(p/.08)});   // ההגדלה ממוקדת בעמודה, והזכוכית עצמה לא יוצאת מהמסך
+      const s=z.toFixed(1);if(zc.textContent!==s)zc.textContent=s;
+    };
+    // ראש כל עמודה, נמדד ביחס לאזור הגרף. הגבולות שומרים שהזכוכית (עם הידית) תישאר בתוך המסך
+    const meas=()=&gt;{
+      R=parseFloat(getComputedStyle(root).getPropertyValue("--lr"))||80;
+      const pr=plot.getBoundingClientRect();
+      zoom.style.width=pr.width+"px";zoom.style.height=pr.height+"px";
+      P=bars.map(b=&gt;{const r=b.getBoundingClientRect();return{x:r.left+r.width/2-pr.left,y:r.top-pr.top-8};});
+      const vw=document.documentElement.clientWidth;lim=[R+8-pr.left,vw-8-pr.left-R-Math.round(R*.55)];
+      paint(last);
+    };
+    ScrollTrigger.addEventListener("refresh",meas);
+    meas();
+    const o={p:0};
+    gsap.to(o,{p:1,ease:"none",onUpdate:()=&gt;paint(o.p),
+      scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.4,invalidateOnRefresh:true}});
+    return()=&gt;{
+      ScrollTrigger.removeEventListener("refresh",meas);root.classList.remove("is-live");
+      zoom.textContent="";zoom.removeAttribute("style");["--cx","--cy","--z"].forEach(v=&gt;lens.style.removeProperty(v));
+      gsap.set(lens,{clearProps:"all"});
+    };
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g241 · זכוכית מגדלת שעוברת על גרף ומגדילה עד שהמספר נעצר\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g241.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g241.html\n\nמה זה עושה: גרף עמודות של שנים עשר שבועות, ועליו זכוכית מגדלת עגולה עם ידית וכיתוב קטן של מספר ההגדלה. בגלילה היא יוצאת מהשבוע הראשון, זזה לאורך הגרף ומגדילה יותר ויותר, והכיתוב סופר מ-1.0 עד 2.4. היא נעצרת על העמודה האחרונה ומראה אותה גדולה, עם המספר שלה. הגולש רואה בדיוק איפה הסיפור קורה בנתונים.\nמתי משתמשים: נתון אחד שיש לו רגע אחד חשוב: קפיצה במספר הפניות אחרי עליית אתר, ירידה בזמן המתנה, שיפור בציון. מתאים לסקשן תוצאות או מקרה בוחן, כשהמספר הסופי הוא ההוכחה. פעם אחת בעמוד. לא לגרף שאין בו אזור אחד שמעניין יותר מהשאר, ולא לנתונים שלא ניתן להראות.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית\nבסקשן: מספרים ולקוחות · בעיה ויתרונות · מאמר ותוכן ארוך\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא כשאין מספר אמיתי אחד שאפשר להצביע עליו בגרף, ולא כשבגרף יש יותר משתים עשרה עמודות.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G241 · זכוכית מגדלת שעוברת על גרף ומגדילה עד שהמספר נעצר */\n.lns{--lr:80;max-width:1100px;margin-inline:auto}\n.lns-pin{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px)}\n.lns-txt{display:grid;gap:12px;max-width:36ch}\n.lns-txt h2{margin:0;font-size:clamp(28px,3vw,44px);line-height:1.15;text-wrap:balance}\n.lns-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.lns-card{display:grid;gap:20px;padding:24px;border:1px solid var(--line, #e4e4ee);border-radius:20px;background:var(--card, #fff);box-shadow:0 28px 56px -36px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}\n.lns-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px}\n.lns-ttl{font-size:18px;font-weight:700}\n.lns-rng{font-size:14px;color:var(--muted, #6a6d85)}\n.lns-plot{position:relative;height:clamp(260px,38svh,340px)}\n.lns-chart{position:absolute;inset:48px 0 0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px}\n.lns-bars{position:relative;display:flex;align-items:flex-end;gap:12px;background:repeating-linear-gradient(to top,var(--line, #e4e4ee) 0 1px,transparent 1px 25%)}\n.lns-b{position:relative;flex:1;min-width:0;height:calc(var(--h) * 100%);border-radius:8px 8px 4px 4px}\n.lns-b::before{content:\"\";position:absolute;inset:0;border-radius:inherit;background:color-mix(in srgb,var(--ink, #16182b) 18%,transparent)}\n.lns-b.hi::before{background:var(--accent, #4a3aff)}\n.lns-b em{position:absolute;bottom:100%;inset-inline:0;margin-bottom:6px;text-align:center;font-style:normal;font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}\n.lns-xs{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px;font-size:13px;color:var(--muted, #6a6d85)}\n.lns-xs span{white-space:nowrap}\n.lns-xs .a{grid-column:1;justify-self:start}\n.lns-xs .m{grid-column:7;justify-self:center}\n.lns-xs .z{grid-column:12;justify-self:end}\n.lns-foot{margin:0;font-size:15px;line-height:1.55;color:var(--muted, #6a6d85)}\n/* הזכוכית: קיימת רק כשהמהלך חי. ההגדלה נקבעת כאן מתוך --cx --cy --z שה-JS כותב */\n.lns-lens{display:none}\n.lns.is-live .lns-lens{display:block;position:absolute;left:0;top:0;z-index:2;width:calc(var(--lr) * 2px);height:calc(var(--lr) * 2px);pointer-events:none}\n.lns-glass{position:absolute;inset:0;overflow:hidden;border-radius:50%;background:var(--card, #fff)}\n.lns-zoom{position:absolute;left:0;top:0;transform-origin:0 0;transform:translate(calc(var(--lr) * 1px - var(--cx) * var(--z) * 1px),calc(var(--lr) * 1px - var(--cy) * var(--z) * 1px)) scale(var(--z))}\n.lns-rim{position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 3px var(--ink, #16182b),0 16px 32px -12px color-mix(in srgb,var(--ink, #16182b) 45%,transparent)}\n.lns-hd{position:absolute;left:calc(100% - 22px);top:calc(100% - 22px);width:12px;height:64px;border-radius:6px;background:var(--ink, #16182b);transform-origin:50% 0;transform:rotate(-45deg)}\n.lns-zc{position:absolute;left:50%;top:100%;margin-top:12px;translate:-50% 0;padding:6px 12px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;font-weight:700;white-space:nowrap}\n.lns.is-live .lns-run{height:280vh}\n.lns.is-live .lns-pin{position:sticky;top:0;height:100vh;height:100svh}\n@media(max-width:767px){\n  .lns{--lr:56}\n  .lns-pin{grid-template-columns:minmax(0,1fr);gap:24px}\n  .lns.is-live .lns-pin{align-content:center}\n  .lns.is-live .lns-txt p{display:none}\n  .lns-card{padding:20px;gap:16px}\n  .lns-plot{height:clamp(240px,34svh,300px)}\n  .lns-chart{inset:40px 0 0}\n  .lns-bars,.lns-xs{gap:8px}\n  .lns-hd{height:48px;width:10px}\n}\n\n=== HTML ===\n<div class=\"stage\"><div class=\"lns\"><div class=\"lns-run\"><div class=\"lns-pin\">\n  <div class=\"lns-txt\"><h2>מאז שהאתר החדש עלה, מגיעים יותר מטופלים כל שבוע<\/h2><p>בגרף רואים שנים עשר שבועות. ההגדלה על השבועות האחרונים מראה בדיוק איפה זה התחיל לקפוץ.<\/p><\/div>\n  <div class=\"lns-card\">\n    <div class=\"lns-top\"><span class=\"lns-ttl\">מטופלים חדשים בשבוע<\/span><span class=\"lns-rng\">12 השבועות האחרונים<\/span><\/div>\n    <div class=\"lns-plot\" role=\"img\" aria-label=\"גרף עמודות של מטופלים חדשים בשבוע במרפאה, בשנים עשר השבועות האחרונים. מ-20 בשבוע הראשון, דרך 24 בשבוע השישי, ועד 57 בשבוע השנים עשר, אחרי עליית האתר החדש בשבוע השביעי.\">\n      <div class=\"lns-chart\">\n        <div class=\"lns-bars\">\n          <i class=\"lns-b\" style=\"--h:.33\"><\/i><i class=\"lns-b\" style=\"--h:.37\"><\/i><i class=\"lns-b\" style=\"--h:.32\"><\/i><i class=\"lns-b\" style=\"--h:.38\"><\/i><i class=\"lns-b\" style=\"--h:.35\"><\/i><i class=\"lns-b\" style=\"--h:.4\"><\/i><i class=\"lns-b\" style=\"--h:.52\"><\/i><i class=\"lns-b\" style=\"--h:.63\"><\/i><i class=\"lns-b\" style=\"--h:.73\"><\/i><i class=\"lns-b\" style=\"--h:.82\"><\/i><i class=\"lns-b\" style=\"--h:.87\"><\/i><i class=\"lns-b hi\" style=\"--h:.95\"><em>57<\/em><\/i>\n        <\/div>\n        <div class=\"lns-xs\"><span class=\"a\">שבוע 1<\/span><span class=\"m\">עליית האתר<\/span><span class=\"z\">שבוע 12<\/span><\/div>\n      <\/div>\n      <div class=\"lns-lens\" aria-hidden=\"true\"><span class=\"lns-hd\"><\/span><div class=\"lns-glass\"><div class=\"lns-zoom\"><\/div><\/div><span class=\"lns-rim\"><\/span><span class=\"lns-zc\">x<bdi>2.4<\/bdi><\/span><\/div>\n    <\/div>\n    <p class=\"lns-foot\">בשבוע האחרון הגיעו 57 מטופלים חדשים, פי שניים וחצי מהשבוע הראשון.<\/p>\n  <\/div>\n<\/div><\/div><\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשאר הגרף המלא עם העמודה האחרונה מסומנת, בלי זכוכית (במארקאפ)\n  const root=document.querySelector(\".lns\"),run=root.querySelector(\".lns-run\"),plot=root.querySelector(\".lns-plot\"),\n    chart=plot.querySelector(\".lns-chart\"),bars=[...plot.querySelectorAll(\".lns-b\")],lens=plot.querySelector(\".lns-lens\"),\n    zoom=lens.querySelector(\".lns-zoom\"),zc=lens.querySelector(\".lns-zc bdi\");\n  const clamp=v=>Math.min(1,Math.max(0,v)),eP=gsap.parseEase(\"power3.inOut\"),eZ=gsap.parseEase(\"power2.inOut\");\n  // בהפחתת תנועה הפונקציה לא רצה, והגרף נשאר במצב הסיום\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const copy=chart.cloneNode(true);copy.setAttribute(\"aria-hidden\",\"true\");zoom.appendChild(copy);   // ההעתק שמוגדל בתוך הזכוכית\n    let R=80,P=[],lim=[-1e4,1e4],last=0;\n    // כל מה שעל המסך נגזר מ-p בלבד, לכן אותו קוד נכון בגלילה קדימה ואחורה\n    const paint=p=>{\n      last=p;\n      const u=clamp((p-.1)/.72),m=eP(u),z=1+1.4*eZ(u);        // ההגדלה עולה מ-1 עד 2.4\n      // הזכוכית עוברת מעל ראשי העמודות לפי האינדקס, ולכן תמיד יש עמודה מתחתיה\n      const f=m*(P.length-1),i=Math.min(P.length-2,Math.floor(f)),k=f-i;\n      const cx=P[i].x+(P[i+1].x-P[i].x)*k,cy=P[i].y+(P[i+1].y-P[i].y)*k;\n      lens.style.setProperty(\"--cx\",cx.toFixed(1));lens.style.setProperty(\"--cy\",cy.toFixed(1));lens.style.setProperty(\"--z\",z.toFixed(3));\n      gsap.set(lens,{x:Math.min(lim[1],Math.max(lim[0],cx))-R,y:cy-R,autoAlpha:clamp(p/.08)});   // ההגדלה ממוקדת בעמודה, והזכוכית עצמה לא יוצאת מהמסך\n      const s=z.toFixed(1);if(zc.textContent!==s)zc.textContent=s;\n    };\n    // ראש כל עמודה, נמדד ביחס לאזור הגרף. הגבולות שומרים שהזכוכית (עם הידית) תישאר בתוך המסך\n    const meas=()=>{\n      R=parseFloat(getComputedStyle(root).getPropertyValue(\"--lr\"))||80;\n      const pr=plot.getBoundingClientRect();\n      zoom.style.width=pr.width+\"px\";zoom.style.height=pr.height+\"px\";\n      P=bars.map(b=>{const r=b.getBoundingClientRect();return{x:r.left+r.width/2-pr.left,y:r.top-pr.top-8};});\n      const vw=document.documentElement.clientWidth;lim=[R+8-pr.left,vw-8-pr.left-R-Math.round(R*.55)];\n      paint(last);\n    };\n    ScrollTrigger.addEventListener(\"refresh\",meas);\n    meas();\n    const o={p:0};\n    gsap.to(o,{p:1,ease:\"none\",onUpdate:()=>paint(o.p),\n      scrollTrigger:{trigger:run,start:\"top top\",end:\"bottom bottom\",scrub:.4,invalidateOnRefresh:true}});\n    return()=>{\n      ScrollTrigger.removeEventListener(\"refresh\",meas);root.classList.remove(\"is-live\");\n      zoom.textContent=\"\";zoom.removeAttribute(\"style\");[\"--cx\",\"--cy\",\"--z\"].forEach(v=>lens.style.removeProperty(v));\n      gsap.set(lens,{clearProps:\"all\"});\n    };\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטוני הדגמה בגלריה של prompt-motion.com (21.10.2026) שבהם זכוכית מגדלת עוברת על ממשק ומגדילה אזור. נבנה מאפס מהצפייה. המארקאפ הוא מצב הסיום: הגרף המלא, העמודה האחרונה צבועה ועליה המספר, ובלי זכוכית. בלי GSAP ובהפחתת תנועה זה מה שמוצג. איך ההגדלה עובדת: בזמן ריצה הקוד משכפל את הגרף לתוך הזכוכית (`aria-hidden`), והעתק זה עובר `translate` ו-`scale` שנקבעים ב-CSS בלבד מתוך שלושה משתנים על הזכוכית: `--cx` ו-`--cy` (מרכז הזכוכית בקואורדינטות הגרף) ו-`--z` (ההגדלה). הנוסחה היא `translate(R - cx*z, R - cy*z) scale(z)` עם מקור בפינה, כך שהנקודה שמתחת למרכז הזכוכית תמיד זו שמוגדלת. ה-JS רק כותב את שלושת המספרים. המסלול מ-`p` בלבד: הזכוכית עוברת מראש העמודה הראשונה אל ראש האחרונה, מעל ראשי כל העמודות שבדרך (אינטרפולציה לפי האינדקס, כך שיש תמיד עמודה מתחתיה), ו-`p` בין 10% ל-82%. בנייד הזכוכית עצמה נעצרת לפני קצה המסך (`lim`), וההגדלה נשארת ממוקדת בעמודה. מעבר לזה הזכוכית עומדת במקום. המדידה מ-`getBoundingClientRect` של העמודות ביחס לאזור הגרף ונעשית מחדש בכל `refresh`, לכן המסלול נכון בכל רוחב ובכל כיוון, והזמן זורם מימין לשמאל ב-RTL. גודל הזכוכית הוא `--lr` (80 בדסקטופ, 56 בנייד). נגישות: האזור כולו `role=\"img\"` עם תיאור שמכיל את הערכים, והזכוכית `aria-hidden`. הערכים נקבעים ב-`--h` של כל עמודה (חלק מהמקסימום).\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G241 · זכוכית מגדלת שעוברת על גרף ומגדילה עד שהמספר נעצר */\n.lns{--lr:80;max-width:1100px;margin-inline:auto}\n.lns-pin{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px)}\n.lns-txt{display:grid;gap:12px;max-width:36ch}\n.lns-txt h2{margin:0;font-size:clamp(28px,3vw,44px);line-height:1.15;text-wrap:balance}\n.lns-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.lns-card{display:grid;gap:20px;padding:24px;border:1px solid var(--line, #e4e4ee);border-radius:20px;background:var(--card, #fff);box-shadow:0 28px 56px -36px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}\n.lns-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px}\n.lns-ttl{font-size:18px;font-weight:700}\n.lns-rng{font-size:14px;color:var(--muted, #6a6d85)}\n.lns-plot{position:relative;height:clamp(260px,38svh,340px)}\n.lns-chart{position:absolute;inset:48px 0 0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px}\n.lns-bars{position:relative;display:flex;align-items:flex-end;gap:12px;background:repeating-linear-gradient(to top,var(--line, #e4e4ee) 0 1px,transparent 1px 25%)}\n.lns-b{position:relative;flex:1;min-width:0;height:calc(var(--h) * 100%);border-radius:8px 8px 4px 4px}\n.lns-b::before{content:\"\";position:absolute;inset:0;border-radius:inherit;background:color-mix(in srgb,var(--ink, #16182b) 18%,transparent)}\n.lns-b.hi::before{background:var(--accent, #4a3aff)}\n.lns-b em{position:absolute;bottom:100%;inset-inline:0;margin-bottom:6px;text-align:center;font-style:normal;font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}\n.lns-xs{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px;font-size:13px;color:var(--muted, #6a6d85)}\n.lns-xs span{white-space:nowrap}\n.lns-xs .a{grid-column:1;justify-self:start}\n.lns-xs .m{grid-column:7;justify-self:center}\n.lns-xs .z{grid-column:12;justify-self:end}\n.lns-foot{margin:0;font-size:15px;line-height:1.55;color:var(--muted, #6a6d85)}\n/* הזכוכית: קיימת רק כשהמהלך חי. ההגדלה נקבעת כאן מתוך --cx --cy --z שה-JS כותב */\n.lns-lens{display:none}\n.lns.is-live .lns-lens{display:block;position:absolute;left:0;top:0;z-index:2;width:calc(var(--lr) * 2px);height:calc(var(--lr) * 2px);pointer-events:none}\n.lns-glass{position:absolute;inset:0;overflow:hidden;border-radius:50%;background:var(--card, #fff)}\n.lns-zoom{position:absolute;left:0;top:0;transform-origin:0 0;transform:translate(calc(var(--lr) * 1px - var(--cx) * var(--z) * 1px),calc(var(--lr) * 1px - var(--cy) * var(--z) * 1px)) scale(var(--z))}\n.lns-rim{position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 3px var(--ink, #16182b),0 16px 32px -12px color-mix(in srgb,var(--ink, #16182b) 45%,transparent)}\n.lns-hd{position:absolute;left:calc(100% - 22px);top:calc(100% - 22px);width:12px;height:64px;border-radius:6px;background:var(--ink, #16182b);transform-origin:50% 0;transform:rotate(-45deg)}\n.lns-zc{position:absolute;left:50%;top:100%;margin-top:12px;translate:-50% 0;padding:6px 12px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;font-weight:700;white-space:nowrap}\n.lns.is-live .lns-run{height:280vh}\n.lns.is-live .lns-pin{position:sticky;top:0;height:100vh;height:100svh}\n@media(max-width:767px){\n  .lns{--lr:56}\n  .lns-pin{grid-template-columns:minmax(0,1fr);gap:24px}\n  .lns.is-live .lns-pin{align-content:center}\n  .lns.is-live .lns-txt p{display:none}\n  .lns-card{padding:20px;gap:16px}\n  .lns-plot{height:clamp(240px,34svh,300px)}\n  .lns-chart{inset:40px 0 0}\n  .lns-bars,.lns-xs{gap:8px}\n  .lns-hd{height:48px;width:10px}\n}","html":"<div class=\"stage\"><div class=\"lns\"><div class=\"lns-run\"><div class=\"lns-pin\">\n  <div class=\"lns-txt\"><h2>מאז שהאתר החדש עלה, מגיעים יותר מטופלים כל שבוע<\/h2><p>בגרף רואים שנים עשר שבועות. ההגדלה על השבועות האחרונים מראה בדיוק איפה זה התחיל לקפוץ.<\/p><\/div>\n  <div class=\"lns-card\">\n    <div class=\"lns-top\"><span class=\"lns-ttl\">מטופלים חדשים בשבוע<\/span><span class=\"lns-rng\">12 השבועות האחרונים<\/span><\/div>\n    <div class=\"lns-plot\" role=\"img\" aria-label=\"גרף עמודות של מטופלים חדשים בשבוע במרפאה, בשנים עשר השבועות האחרונים. מ-20 בשבוע הראשון, דרך 24 בשבוע השישי, ועד 57 בשבוע השנים עשר, אחרי עליית האתר החדש בשבוע השביעי.\">\n      <div class=\"lns-chart\">\n        <div class=\"lns-bars\">\n          <i class=\"lns-b\" style=\"--h:.33\"><\/i><i class=\"lns-b\" style=\"--h:.37\"><\/i><i class=\"lns-b\" style=\"--h:.32\"><\/i><i class=\"lns-b\" style=\"--h:.38\"><\/i><i class=\"lns-b\" style=\"--h:.35\"><\/i><i class=\"lns-b\" style=\"--h:.4\"><\/i><i class=\"lns-b\" style=\"--h:.52\"><\/i><i class=\"lns-b\" style=\"--h:.63\"><\/i><i class=\"lns-b\" style=\"--h:.73\"><\/i><i class=\"lns-b\" style=\"--h:.82\"><\/i><i class=\"lns-b\" style=\"--h:.87\"><\/i><i class=\"lns-b hi\" style=\"--h:.95\"><em>57<\/em><\/i>\n        <\/div>\n        <div class=\"lns-xs\"><span class=\"a\">שבוע 1<\/span><span class=\"m\">עליית האתר<\/span><span class=\"z\">שבוע 12<\/span><\/div>\n      <\/div>\n      <div class=\"lns-lens\" aria-hidden=\"true\"><span class=\"lns-hd\"><\/span><div class=\"lns-glass\"><div class=\"lns-zoom\"><\/div><\/div><span class=\"lns-rim\"><\/span><span class=\"lns-zc\">x<bdi>2.4<\/bdi><\/span><\/div>\n    <\/div>\n    <p class=\"lns-foot\">בשבוע האחרון הגיעו 57 מטופלים חדשים, פי שניים וחצי מהשבוע הראשון.<\/p>\n  <\/div>\n<\/div><\/div><\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשאר הגרף המלא עם העמודה האחרונה מסומנת, בלי זכוכית (במארקאפ)\n  const root=document.querySelector(\".lns\"),run=root.querySelector(\".lns-run\"),plot=root.querySelector(\".lns-plot\"),\n    chart=plot.querySelector(\".lns-chart\"),bars=[...plot.querySelectorAll(\".lns-b\")],lens=plot.querySelector(\".lns-lens\"),\n    zoom=lens.querySelector(\".lns-zoom\"),zc=lens.querySelector(\".lns-zc bdi\");\n  const clamp=v=>Math.min(1,Math.max(0,v)),eP=gsap.parseEase(\"power3.inOut\"),eZ=gsap.parseEase(\"power2.inOut\");\n  // בהפחתת תנועה הפונקציה לא רצה, והגרף נשאר במצב הסיום\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const copy=chart.cloneNode(true);copy.setAttribute(\"aria-hidden\",\"true\");zoom.appendChild(copy);   // ההעתק שמוגדל בתוך הזכוכית\n    let R=80,P=[],lim=[-1e4,1e4],last=0;\n    // כל מה שעל המסך נגזר מ-p בלבד, לכן אותו קוד נכון בגלילה קדימה ואחורה\n    const paint=p=>{\n      last=p;\n      const u=clamp((p-.1)/.72),m=eP(u),z=1+1.4*eZ(u);        // ההגדלה עולה מ-1 עד 2.4\n      // הזכוכית עוברת מעל ראשי העמודות לפי האינדקס, ולכן תמיד יש עמודה מתחתיה\n      const f=m*(P.length-1),i=Math.min(P.length-2,Math.floor(f)),k=f-i;\n      const cx=P[i].x+(P[i+1].x-P[i].x)*k,cy=P[i].y+(P[i+1].y-P[i].y)*k;\n      lens.style.setProperty(\"--cx\",cx.toFixed(1));lens.style.setProperty(\"--cy\",cy.toFixed(1));lens.style.setProperty(\"--z\",z.toFixed(3));\n      gsap.set(lens,{x:Math.min(lim[1],Math.max(lim[0],cx))-R,y:cy-R,autoAlpha:clamp(p/.08)});   // ההגדלה ממוקדת בעמודה, והזכוכית עצמה לא יוצאת מהמסך\n      const s=z.toFixed(1);if(zc.textContent!==s)zc.textContent=s;\n    };\n    // ראש כל עמודה, נמדד ביחס לאזור הגרף. הגבולות שומרים שהזכוכית (עם הידית) תישאר בתוך המסך\n    const meas=()=>{\n      R=parseFloat(getComputedStyle(root).getPropertyValue(\"--lr\"))||80;\n      const pr=plot.getBoundingClientRect();\n      zoom.style.width=pr.width+\"px\";zoom.style.height=pr.height+\"px\";\n      P=bars.map(b=>{const r=b.getBoundingClientRect();return{x:r.left+r.width/2-pr.left,y:r.top-pr.top-8};});\n      const vw=document.documentElement.clientWidth;lim=[R+8-pr.left,vw-8-pr.left-R-Math.round(R*.55)];\n      paint(last);\n    };\n    ScrollTrigger.addEventListener(\"refresh\",meas);\n    meas();\n    const o={p:0};\n    gsap.to(o,{p:1,ease:\"none\",onUpdate:()=>paint(o.p),\n      scrollTrigger:{trigger:run,start:\"top top\",end:\"bottom bottom\",scrub:.4,invalidateOnRefresh:true}});\n    return()=>{\n      ScrollTrigger.removeEventListener(\"refresh\",meas);root.classList.remove(\"is-live\");\n      zoom.textContent=\"\";zoom.removeAttribute(\"style\");[\"--cx\",\"--cy\",\"--z\"].forEach(v=>lens.style.removeProperty(v));\n      gsap.set(lens,{clearProps:\"all\"});\n    };\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g240.html" rel="prev"><small>→ הקודם</small><b>מסמך שמסמנים בו משפטים והערה צפה עוברת ביניהם</b></a><a href="g242.html" rel="next"><small>הבא ←</small><b>מפה מוטה שנעמדים עליה סמנים אחד אחרי השני</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · זכוכית מגדלת שעוברת על גרף ומגדילה עד שהמספר נעצר").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר הגרף המלא עם העמודה האחרונה מסומנת, בלי זכוכית (במארקאפ)
+  const root=document.querySelector(".lns"),run=root.querySelector(".lns-run"),plot=root.querySelector(".lns-plot"),
+    chart=plot.querySelector(".lns-chart"),bars=[...plot.querySelectorAll(".lns-b")],lens=plot.querySelector(".lns-lens"),
+    zoom=lens.querySelector(".lns-zoom"),zc=lens.querySelector(".lns-zc bdi");
+  const clamp=v=>Math.min(1,Math.max(0,v)),eP=gsap.parseEase("power3.inOut"),eZ=gsap.parseEase("power2.inOut");
+  // בהפחתת תנועה הפונקציה לא רצה, והגרף נשאר במצב הסיום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const copy=chart.cloneNode(true);copy.setAttribute("aria-hidden","true");zoom.appendChild(copy);   // ההעתק שמוגדל בתוך הזכוכית
+    let R=80,P=[],lim=[-1e4,1e4],last=0;
+    // כל מה שעל המסך נגזר מ-p בלבד, לכן אותו קוד נכון בגלילה קדימה ואחורה
+    const paint=p=>{
+      last=p;
+      const u=clamp((p-.1)/.72),m=eP(u),z=1+1.4*eZ(u);        // ההגדלה עולה מ-1 עד 2.4
+      // הזכוכית עוברת מעל ראשי העמודות לפי האינדקס, ולכן תמיד יש עמודה מתחתיה
+      const f=m*(P.length-1),i=Math.min(P.length-2,Math.floor(f)),k=f-i;
+      const cx=P[i].x+(P[i+1].x-P[i].x)*k,cy=P[i].y+(P[i+1].y-P[i].y)*k;
+      lens.style.setProperty("--cx",cx.toFixed(1));lens.style.setProperty("--cy",cy.toFixed(1));lens.style.setProperty("--z",z.toFixed(3));
+      gsap.set(lens,{x:Math.min(lim[1],Math.max(lim[0],cx))-R,y:cy-R,autoAlpha:clamp(p/.08)});   // ההגדלה ממוקדת בעמודה, והזכוכית עצמה לא יוצאת מהמסך
+      const s=z.toFixed(1);if(zc.textContent!==s)zc.textContent=s;
+    };
+    // ראש כל עמודה, נמדד ביחס לאזור הגרף. הגבולות שומרים שהזכוכית (עם הידית) תישאר בתוך המסך
+    const meas=()=>{
+      R=parseFloat(getComputedStyle(root).getPropertyValue("--lr"))||80;
+      const pr=plot.getBoundingClientRect();
+      zoom.style.width=pr.width+"px";zoom.style.height=pr.height+"px";
+      P=bars.map(b=>{const r=b.getBoundingClientRect();return{x:r.left+r.width/2-pr.left,y:r.top-pr.top-8};});
+      const vw=document.documentElement.clientWidth;lim=[R+8-pr.left,vw-8-pr.left-R-Math.round(R*.55)];
+      paint(last);
+    };
+    ScrollTrigger.addEventListener("refresh",meas);
+    meas();
+    const o={p:0};
+    gsap.to(o,{p:1,ease:"none",onUpdate:()=>paint(o.p),
+      scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.4,invalidateOnRefresh:true}});
+    return()=>{
+      ScrollTrigger.removeEventListener("refresh",meas);root.classList.remove("is-live");
+      zoom.textContent="";zoom.removeAttribute("style");["--cx","--cy","--z"].forEach(v=>lens.style.removeProperty(v));
+      gsap.set(lens,{clearProps:"all"});
+    };
+  });
+})();
+</script>
+</body>
+</html>

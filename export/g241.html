@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G241 · זכוכית מגדלת שעוברת על גרף ומגדילה עד שהמספר נעצר</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G241 · זכוכית מגדלת שעוברת על גרף ומגדילה עד שהמספר נעצר */
+.lns{--lr:80;max-width:1100px;margin-inline:auto}
+.lns-pin{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px)}
+.lns-txt{display:grid;gap:12px;max-width:36ch}
+.lns-txt h2{margin:0;font-size:clamp(28px,3vw,44px);line-height:1.15;text-wrap:balance}
+.lns-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.lns-card{display:grid;gap:20px;padding:24px;border:1px solid var(--line, #e4e4ee);border-radius:20px;background:var(--card, #fff);box-shadow:0 28px 56px -36px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}
+.lns-top{display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.lns-ttl{font-size:18px;font-weight:700}
+.lns-rng{font-size:14px;color:var(--muted, #6a6d85)}
+.lns-plot{position:relative;height:clamp(260px,38svh,340px)}
+.lns-chart{position:absolute;inset:48px 0 0;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px}
+.lns-bars{position:relative;display:flex;align-items:flex-end;gap:12px;background:repeating-linear-gradient(to top,var(--line, #e4e4ee) 0 1px,transparent 1px 25%)}
+.lns-b{position:relative;flex:1;min-width:0;height:calc(var(--h) * 100%);border-radius:8px 8px 4px 4px}
+.lns-b::before{content:"";position:absolute;inset:0;border-radius:inherit;background:color-mix(in srgb,var(--ink, #16182b) 18%,transparent)}
+.lns-b.hi::before{background:var(--accent, #4a3aff)}
+.lns-b em{position:absolute;bottom:100%;inset-inline:0;margin-bottom:6px;text-align:center;font-style:normal;font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
+.lns-xs{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:12px;font-size:13px;color:var(--muted, #6a6d85)}
+.lns-xs span{white-space:nowrap}
+.lns-xs .a{grid-column:1;justify-self:start}
+.lns-xs .m{grid-column:7;justify-self:center}
+.lns-xs .z{grid-column:12;justify-self:end}
+.lns-foot{margin:0;font-size:15px;line-height:1.55;color:var(--muted, #6a6d85)}
+/* הזכוכית: קיימת רק כשהמהלך חי. ההגדלה נקבעת כאן מתוך --cx --cy --z שה-JS כותב */
+.lns-lens{display:none}
+.lns.is-live .lns-lens{display:block;position:absolute;left:0;top:0;z-index:2;width:calc(var(--lr) * 2px);height:calc(var(--lr) * 2px);pointer-events:none}
+.lns-glass{position:absolute;inset:0;overflow:hidden;border-radius:50%;background:var(--card, #fff)}
+.lns-zoom{position:absolute;left:0;top:0;transform-origin:0 0;transform:translate(calc(var(--lr) * 1px - var(--cx) * var(--z) * 1px),calc(var(--lr) * 1px - var(--cy) * var(--z) * 1px)) scale(var(--z))}
+.lns-rim{position:absolute;inset:0;border-radius:50%;box-shadow:inset 0 0 0 3px var(--ink, #16182b),0 16px 32px -12px color-mix(in srgb,var(--ink, #16182b) 45%,transparent)}
+.lns-hd{position:absolute;left:calc(100% - 22px);top:calc(100% - 22px);width:12px;height:64px;border-radius:6px;background:var(--ink, #16182b);transform-origin:50% 0;transform:rotate(-45deg)}
+.lns-zc{position:absolute;left:50%;top:100%;margin-top:12px;translate:-50% 0;padding:6px 12px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;font-weight:700;white-space:nowrap}
+.lns.is-live .lns-run{height:280vh}
+.lns.is-live .lns-pin{position:sticky;top:0;height:100vh;height:100svh}
+@media(max-width:767px){
+  .lns{--lr:56}
+  .lns-pin{grid-template-columns:minmax(0,1fr);gap:24px}
+  .lns.is-live .lns-pin{align-content:center}
+  .lns.is-live .lns-txt p{display:none}
+  .lns-card{padding:20px;gap:16px}
+  .lns-plot{height:clamp(240px,34svh,300px)}
+  .lns-chart{inset:40px 0 0}
+  .lns-bars,.lns-xs{gap:8px}
+  .lns-hd{height:48px;width:10px}
+}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="lns"><div class="lns-run"><div class="lns-pin">
+  <div class="lns-txt"><h2>מאז שהאתר החדש עלה, מגיעים יותר מטופלים כל שבוע</h2><p>בגרף רואים שנים עשר שבועות. ההגדלה על השבועות האחרונים מראה בדיוק איפה זה התחיל לקפוץ.</p></div>
+  <div class="lns-card">
+    <div class="lns-top"><span class="lns-ttl">מטופלים חדשים בשבוע</span><span class="lns-rng">12 השבועות האחרונים</span></div>
+    <div class="lns-plot" role="img" aria-label="גרף עמודות של מטופלים חדשים בשבוע במרפאה, בשנים עשר השבועות האחרונים. מ-20 בשבוע הראשון, דרך 24 בשבוע השישי, ועד 57 בשבוע השנים עשר, אחרי עליית האתר החדש בשבוע השביעי.">
+      <div class="lns-chart">
+        <div class="lns-bars">
+          <i class="lns-b" style="--h:.33"></i><i class="lns-b" style="--h:.37"></i><i class="lns-b" style="--h:.32"></i><i class="lns-b" style="--h:.38"></i><i class="lns-b" style="--h:.35"></i><i class="lns-b" style="--h:.4"></i><i class="lns-b" style="--h:.52"></i><i class="lns-b" style="--h:.63"></i><i class="lns-b" style="--h:.73"></i><i class="lns-b" style="--h:.82"></i><i class="lns-b" style="--h:.87"></i><i class="lns-b hi" style="--h:.95"><em>57</em></i>
+        </div>
+        <div class="lns-xs"><span class="a">שבוע 1</span><span class="m">עליית האתר</span><span class="z">שבוע 12</span></div>
+      </div>
+      <div class="lns-lens" aria-hidden="true"><span class="lns-hd"></span><div class="lns-glass"><div class="lns-zoom"></div></div><span class="lns-rim"></span><span class="lns-zc">x<bdi>2.4</bdi></span></div>
+    </div>
+    <p class="lns-foot">בשבוע האחרון הגיעו 57 מטופלים חדשים, פי שניים וחצי מהשבוע הראשון.</p>
+  </div>
+</div></div></div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר הגרף המלא עם העמודה האחרונה מסומנת, בלי זכוכית (במארקאפ)
+  const root=document.querySelector(".lns"),run=root.querySelector(".lns-run"),plot=root.querySelector(".lns-plot"),
+    chart=plot.querySelector(".lns-chart"),bars=[...plot.querySelectorAll(".lns-b")],lens=plot.querySelector(".lns-lens"),
+    zoom=lens.querySelector(".lns-zoom"),zc=lens.querySelector(".lns-zc bdi");
+  const clamp=v=>Math.min(1,Math.max(0,v)),eP=gsap.parseEase("power3.inOut"),eZ=gsap.parseEase("power2.inOut");
+  // בהפחתת תנועה הפונקציה לא רצה, והגרף נשאר במצב הסיום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const copy=chart.cloneNode(true);copy.setAttribute("aria-hidden","true");zoom.appendChild(copy);   // ההעתק שמוגדל בתוך הזכוכית
+    let R=80,P=[],lim=[-1e4,1e4],last=0;
+    // כל מה שעל המסך נגזר מ-p בלבד, לכן אותו קוד נכון בגלילה קדימה ואחורה
+    const paint=p=>{
+      last=p;
+      const u=clamp((p-.1)/.72),m=eP(u),z=1+1.4*eZ(u);        // ההגדלה עולה מ-1 עד 2.4
+      // הזכוכית עוברת מעל ראשי העמודות לפי האינדקס, ולכן תמיד יש עמודה מתחתיה
+      const f=m*(P.length-1),i=Math.min(P.length-2,Math.floor(f)),k=f-i;
+      const cx=P[i].x+(P[i+1].x-P[i].x)*k,cy=P[i].y+(P[i+1].y-P[i].y)*k;
+      lens.style.setProperty("--cx",cx.toFixed(1));lens.style.setProperty("--cy",cy.toFixed(1));lens.style.setProperty("--z",z.toFixed(3));
+      gsap.set(lens,{x:Math.min(lim[1],Math.max(lim[0],cx))-R,y:cy-R,autoAlpha:clamp(p/.08)});   // ההגדלה ממוקדת בעמודה, והזכוכית עצמה לא יוצאת מהמסך
+      const s=z.toFixed(1);if(zc.textContent!==s)zc.textContent=s;
+    };
+    // ראש כל עמודה, נמדד ביחס לאזור הגרף. הגבולות שומרים שהזכוכית (עם הידית) תישאר בתוך המסך
+    const meas=()=>{
+      R=parseFloat(getComputedStyle(root).getPropertyValue("--lr"))||80;
+      const pr=plot.getBoundingClientRect();
+      zoom.style.width=pr.width+"px";zoom.style.height=pr.height+"px";
+      P=bars.map(b=>{const r=b.getBoundingClientRect();return{x:r.left+r.width/2-pr.left,y:r.top-pr.top-8};});
+      const vw=document.documentElement.clientWidth;lim=[R+8-pr.left,vw-8-pr.left-R-Math.round(R*.55)];
+      paint(last);
+    };
+    ScrollTrigger.addEventListener("refresh",meas);
+    meas();
+    const o={p:0};
+    gsap.to(o,{p:1,ease:"none",onUpdate:()=>paint(o.p),
+      scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.4,invalidateOnRefresh:true}});
+    return()=>{
+      ScrollTrigger.removeEventListener("refresh",meas);root.classList.remove("is-live");
+      zoom.textContent="";zoom.removeAttribute("style");["--cx","--cy","--z"].forEach(v=>lens.style.removeProperty(v));
+      gsap.set(lens,{clearProps:"all"});
+    };
+  });
+})();
+</script>
+</body>
+</html>

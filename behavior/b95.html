@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B95 · מסגרת שמחליפה יחס בלחיצה והתמונה נחתכת מחדש תוך כדי תנועה | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.arf{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px);max-width:1100px;margin-inline:auto}
+.arf-side{display:grid;gap:24px}
+.arf-side h2{margin:0;font-size:clamp(28px,3.2vw,44px);line-height:1.12;text-wrap:balance}
+.arf-side p{margin:0;max-width:40ch;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.arf-fb{margin:0;padding:0;list-style:none;display:grid;gap:8px;color:var(--ink);font-size:16px}
+.arf-fb bdi{font-weight:700}
+.arf-ctl{display:none;gap:12px}
+.arf.is-live .arf-fb{display:none}
+.arf.is-live .arf-ctl{display:grid}
+.arf-opt{display:flex;align-items:center;gap:16px;width:100%;min-height:64px;padding:12px 16px;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1px var(--line);color:var(--ink);font:inherit;text-align:start;cursor:pointer;transition:box-shadow .3s cubic-bezier(.2,.6,.2,1),background-color .3s cubic-bezier(.2,.6,.2,1)}
+.arf-opt[aria-checked="true"]{background:var(--card);box-shadow:inset 0 0 0 2px var(--accent)}
+.arf-opt:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(hover:hover){.arf-opt[aria-checked="false"]:hover{background:var(--card)}}
+.arf-gw{display:grid;place-items:center;flex:none;width:40px;height:40px}
+.arf-gl{display:block;height:24px;width:calc(24px * var(--r));border-radius:4px;box-shadow:inset 0 0 0 2px currentColor}
+.arf-ot{display:grid;gap:2px;min-width:0}
+.arf-ot b{font-size:18px;line-height:1.2}
+.arf-ot span{font-size:14px;color:var(--muted)}
+.arf-stage{container-type:size;display:grid;place-items:center;height:clamp(320px,56svh,520px)}
+.arf-frame{--r:1.7778;position:relative;overflow:hidden;isolation:isolate;width:min(100cqw,100cqh * var(--r));height:min(100cqh,100cqw / var(--r));border-radius:20px;background:var(--card);box-shadow:0 32px 64px -36px color-mix(in srgb,var(--ink) 55%,transparent)}
+.arf-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.arf-shade{position:absolute;inset:0;background:linear-gradient(transparent 55%,color-mix(in srgb,var(--ink) 70%,transparent))}
+.arf-tag{position:absolute;top:16px;inset-inline-start:16px;padding:6px 12px;border-radius:8px;background:color-mix(in srgb,var(--ink) 74%,transparent);color:var(--bg);backdrop-filter:blur(6px);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;font-weight:600;letter-spacing:.03em}
+.arf-use{position:absolute;inset-inline:16px;bottom:16px;color:var(--bg);font-size:16px;font-weight:600;line-height:1.35}
+@media(max-width:767px){
+  .arf{grid-template-columns:minmax(0,1fr);gap:32px}
+  .arf-side{display:contents}
+  .arf-side h2{order:1}.arf-side p{order:2}
+  .arf-stage{order:3;height:clamp(280px,40svh,360px)}
+  .arf-ctl,.arf-fb{order:4}
+  .arf-ctl{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .arf-opt{padding:12px;gap:12px}
+  .arf-ot b{font-size:16px}
+}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=behavior">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="b94.html" rel="prev" title="הקודם: כרטיס מוצר שעובר בין טעינה, מצב ריק ומצב מלא">→<span class="sr-only">הקודם</span></a><span class="vpn-n">83/83</span><a href="b01.html" rel="next" title="הבא: מרקי (רצועה נעה)">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">B95</span> · מסגרת שמחליפה יחס בלחיצה והתמונה נחתכת מחדש תוך כדי תנועה</h1>
+  <span class="vchip cat-behavior">התנהגויות</span>
+  <span class="vchip">GSAP Flip · radiogroup · container query units</span>
+  <span class="vchip use">תמונות וגלריות</span><span class="vchip use">טעינה ופידבק</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b95"><code>MV:b95</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="b95">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>תמונה בתוך מסגרת, ולידה ארבע אפשרויות עם סמל קטן של היחס: רחב, ריבוע, אינסטגרם וסטורי. בלחיצה המסגרת עוברת בהחלקה ליחס החדש, והתמונה שבתוכה נחתכת מחדש בזמן אמת במקום להימתח או לקפוץ. כיתוב בפינה מתחלף ואומר איפה משתמשים בפורמט הזה. הגולש רואה את אותו צילום בכל הפורמטים בלי לדמיין.</p>
+  <p class="when"><b>מתי משתמשים:</b> עסק שמוסר אותו תוצר בכמה פורמטים: סרטוני תדמית, צילום מוצר, באנרים, תמונות לרשתות חברתיות. מתאים לסקשן ״מה מקבלים״ או לדף שירות. ארבע אפשרויות לכל היותר, פעם אחת בעמוד. לא לתוצר שיש לו פורמט אחד, ולא כשאין צילום אחד שנראה טוב בכל החיתוכים.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית · פורטפוליו וסטודיו</dd></div><div><dt>בסקשן</dt><dd>שירותים ומוצרים · בעיה ויתרונות · עבודות וגלריה</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>משרת תוכן, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשהתוצר נמסר בפורמט אחד, ולא כשאין צילום שנראה טוב בכל החיתוכים.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="b95"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="stage"><section class="arf">
+  <div class="arf-side">
+    <h2>אותו סרטון, בכל פורמט שהפלטפורמה צריכה</h2>
+    <p>הסרטון נמסר חתוך מראש לאתר, לפיד, לאינסטגרם ולסטורי, כך שאתם לא צריכים לחתוך שום דבר בעצמכם.</p>
+    <ul class="arf-fb">
+      <li><bdi dir="ltr">16:9</bdi> לאתר וליוטיוב</li>
+      <li><bdi dir="ltr">1:1</bdi> לפיד בפייסבוק ובלינקדאין</li>
+      <li><bdi dir="ltr">4:5</bdi> לפוסט באינסטגרם</li>
+      <li><bdi dir="ltr">9:16</bdi> לרילס ולסטורי</li>
+    </ul>
+    <div class="arf-ctl" role="radiogroup" aria-label="פורמט הסרטון">
+      <button class="arf-opt" type="button" role="radio" aria-checked="true" tabindex="0" data-r="1.7778" data-l="16:9" data-u="אתר ויוטיוב"><span class="arf-gw" aria-hidden="true"><i class="arf-gl" style="--r:1.7778"></i></span><span class="arf-ot"><b><bdi dir="ltr">16:9</bdi></b><span>אתר ויוטיוב</span></span></button>
+      <button class="arf-opt" type="button" role="radio" aria-checked="false" tabindex="-1" data-r="1" data-l="1:1" data-u="פיד בפייסבוק ובלינקדאין"><span class="arf-gw" aria-hidden="true"><i class="arf-gl" style="--r:1"></i></span><span class="arf-ot"><b><bdi dir="ltr">1:1</bdi></b><span>פיד בפייסבוק ובלינקדאין</span></span></button>
+      <button class="arf-opt" type="button" role="radio" aria-checked="false" tabindex="-1" data-r="0.8" data-l="4:5" data-u="פוסט באינסטגרם"><span class="arf-gw" aria-hidden="true"><i class="arf-gl" style="--r:.8"></i></span><span class="arf-ot"><b><bdi dir="ltr">4:5</bdi></b><span>פוסט באינסטגרם</span></span></button>
+      <button class="arf-opt" type="button" role="radio" aria-checked="false" tabindex="-1" data-r="0.5625" data-l="9:16" data-u="רילס וסטורי"><span class="arf-gw" aria-hidden="true"><i class="arf-gl" style="--r:.5625"></i></span><span class="arf-ot"><b><bdi dir="ltr">9:16</bdi></b><span>רילס וסטורי</span></span></button>
+    </div>
+  </div>
+  <div class="arf-stage">
+    <div class="arf-frame">
+      <img class="arf-img" src="../assets/media/real/s12/hero-window.webp" alt="שלושה חברים צוחקים מחלון של קרוואן" width="1100" height="1100" loading="lazy" decoding="async">
+      <span class="arf-shade" aria-hidden="true"></span>
+      <span class="arf-tag" aria-hidden="true"><bdi dir="ltr">16:9</bdi></span>
+      <span class="arf-use" aria-hidden="true">אתר ויוטיוב</span>
+    </div>
+  </div>
+</section></div>
+
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטוני מוצר בגלריה של prompt-motion.com (21.10.2026) שבהם מסגרת מחליפה יחס מסך והתוכן שבתוכה מסתדר מחדש. נבנה מאפס מהצפייה. <b>זה מהלך עם בקרה אמיתית:</b> <code>role="radiogroup"</code> של ארבעה <code>button</code> עם <code>aria-checked</code>, <code>tabindex</code> מתגלגל, חיצים (החצים ימינה ושמאלה מתהפכים לפי <code>direction</code>), ו-<code>:focus-visible</code> ברור. אזור המגע הוא 64px. <b>גודל המסגרת</b> מחושב ב-CSS בלבד: הבמה היא <code>container-type:size</code>, והמסגרת היא <code>min(100cqw, 100cqh * var(--r))</code> על <code>min(100cqh, 100cqw / var(--r))</code>, כש-<code>--r</code> הוא היחס כמספר. לכן המסגרת תמיד המלבן הגדול ביותר מהיחס הזה שנכנס לבמה, בכל רוחב. <b>המעבר</b> הוא <code>Flip.from(state, {scale:false})</code>: Flip מנפיש <code>width</code> ו-<code>height</code> אמיתיים ולא <code>scale</code>, והתמונה (<code>object-fit:cover</code>) נחתכת מחדש בכל פריים, בלי עיוות. קליקים מהירים מבטלים את המעבר הקודם (<code>Flip.killFlipsOf</code>) ומתחילים ממה שמוצג. <b>בלי Flip או בהפחתת תנועה</b> היחס מתחלף מיד, בלי מעבר, והבקרה עובדת כרגיל. <b>בלי JS</b> מוצגת המסגרת ביחס הרחב, והבקרה מוחלפת ברשימה פשוטה של ארבעת הפורמטים (במארקאפ), כדי שלא יוצגו כפתורים שלא עושים כלום. <b>RTL:</b> ה-<code>&lt;bdi dir="ltr"></code> שומר שיחס כמו 9:16 לא יתהפך. <b>תמונה:</b> מהמאגר, מרובעת, כדי שכל החיתוכים יראו פנים.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/b95.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B95 · מסגרת שמחליפה יחס בלחיצה והתמונה נחתכת מחדש תוך כדי תנועה */
+.arf{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px);max-width:1100px;margin-inline:auto}
+.arf-side{display:grid;gap:24px}
+.arf-side h2{margin:0;font-size:clamp(28px,3.2vw,44px);line-height:1.12;text-wrap:balance}
+.arf-side p{margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.arf-fb{margin:0;padding:0;list-style:none;display:grid;gap:8px;color:var(--ink, #16182b);font-size:16px}
+.arf-fb bdi{font-weight:700}
+.arf-ctl{display:none;gap:12px}
+.arf.is-live .arf-fb{display:none}
+.arf.is-live .arf-ctl{display:grid}
+.arf-opt{display:flex;align-items:center;gap:16px;width:100%;min-height:64px;padding:12px 16px;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);color:var(--ink, #16182b);font:inherit;text-align:start;cursor:pointer;transition:box-shadow .3s cubic-bezier(.2,.6,.2,1),background-color .3s cubic-bezier(.2,.6,.2,1)}
+.arf-opt[aria-checked="true"]{background:var(--card, #fff);box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}
+.arf-opt:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+@media(hover:hover){.arf-opt[aria-checked="false"]:hover{background:var(--card, #fff)}}
+.arf-gw{display:grid;place-items:center;flex:none;width:40px;height:40px}
+.arf-gl{display:block;height:24px;width:calc(24px * var(--r, 14px));border-radius:4px;box-shadow:inset 0 0 0 2px currentColor}
+.arf-ot{display:grid;gap:2px;min-width:0}
+.arf-ot b{font-size:18px;line-height:1.2}
+.arf-ot span{font-size:14px;color:var(--muted, #6a6d85)}
+.arf-stage{container-type:size;display:grid;place-items:center;height:clamp(320px,56svh,520px)}
+.arf-frame{--r:1.7778;position:relative;overflow:hidden;isolation:isolate;width:min(100cqw,100cqh * var(--r, 14px));height:min(100cqh,100cqw / var(--r, 14px));border-radius:20px;background:var(--card, #fff);box-shadow:0 32px 64px -36px color-mix(in srgb,var(--ink, #16182b) 55%,transparent)}
+.arf-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.arf-shade{position:absolute;inset:0;background:linear-gradient(transparent 55%,color-mix(in srgb,var(--ink, #16182b) 70%,transparent))}
+.arf-tag{position:absolute;top:16px;inset-inline-start:16px;padding:6px 12px;border-radius:8px;background:color-mix(in srgb,var(--ink, #16182b) 74%,transparent);color:var(--bg, #f7f7fa);backdrop-filter:blur(6px);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;font-weight:600;letter-spacing:.03em}
+.arf-use{position:absolute;inset-inline:16px;bottom:16px;color:var(--bg, #f7f7fa);font-size:16px;font-weight:600;line-height:1.35}
+@media(max-width:767px){
+  .arf{grid-template-columns:minmax(0,1fr);gap:32px}
+  .arf-side{display:contents}
+  .arf-side h2{order:1}.arf-side p{order:2}
+  .arf-stage{order:3;height:clamp(280px,40svh,360px)}
+  .arf-ctl,.arf-fb{order:4}
+  .arf-ctl{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .arf-opt{padding:12px;gap:12px}
+  .arf-ot b{font-size:16px}
+}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;section class="arf"&gt;
+  &lt;div class="arf-side"&gt;
+    &lt;h2&gt;אותו סרטון, בכל פורמט שהפלטפורמה צריכה&lt;/h2&gt;
+    &lt;p&gt;הסרטון נמסר חתוך מראש לאתר, לפיד, לאינסטגרם ולסטורי, כך שאתם לא צריכים לחתוך שום דבר בעצמכם.&lt;/p&gt;
+    &lt;ul class="arf-fb"&gt;
+      &lt;li&gt;&lt;bdi dir="ltr"&gt;16:9&lt;/bdi&gt; לאתר וליוטיוב&lt;/li&gt;
+      &lt;li&gt;&lt;bdi dir="ltr"&gt;1:1&lt;/bdi&gt; לפיד בפייסבוק ובלינקדאין&lt;/li&gt;
+      &lt;li&gt;&lt;bdi dir="ltr"&gt;4:5&lt;/bdi&gt; לפוסט באינסטגרם&lt;/li&gt;
+      &lt;li&gt;&lt;bdi dir="ltr"&gt;9:16&lt;/bdi&gt; לרילס ולסטורי&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div class="arf-ctl" role="radiogroup" aria-label="פורמט הסרטון"&gt;
+      &lt;button class="arf-opt" type="button" role="radio" aria-checked="true" tabindex="0" data-r="1.7778" data-l="16:9" data-u="אתר ויוטיוב"&gt;&lt;span class="arf-gw" aria-hidden="true"&gt;&lt;i class="arf-gl" style="--r:1.7778"&gt;&lt;/i&gt;&lt;/span&gt;&lt;span class="arf-ot"&gt;&lt;b&gt;&lt;bdi dir="ltr"&gt;16:9&lt;/bdi&gt;&lt;/b&gt;&lt;span&gt;אתר ויוטיוב&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+      &lt;button class="arf-opt" type="button" role="radio" aria-checked="false" tabindex="-1" data-r="1" data-l="1:1" data-u="פיד בפייסבוק ובלינקדאין"&gt;&lt;span class="arf-gw" aria-hidden="true"&gt;&lt;i class="arf-gl" style="--r:1"&gt;&lt;/i&gt;&lt;/span&gt;&lt;span class="arf-ot"&gt;&lt;b&gt;&lt;bdi dir="ltr"&gt;1:1&lt;/bdi&gt;&lt;/b&gt;&lt;span&gt;פיד בפייסבוק ובלינקדאין&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+      &lt;button class="arf-opt" type="button" role="radio" aria-checked="false" tabindex="-1" data-r="0.8" data-l="4:5" data-u="פוסט באינסטגרם"&gt;&lt;span class="arf-gw" aria-hidden="true"&gt;&lt;i class="arf-gl" style="--r:.8"&gt;&lt;/i&gt;&lt;/span&gt;&lt;span class="arf-ot"&gt;&lt;b&gt;&lt;bdi dir="ltr"&gt;4:5&lt;/bdi&gt;&lt;/b&gt;&lt;span&gt;פוסט באינסטגרם&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+      &lt;button class="arf-opt" type="button" role="radio" aria-checked="false" tabindex="-1" data-r="0.5625" data-l="9:16" data-u="רילס וסטורי"&gt;&lt;span class="arf-gw" aria-hidden="true"&gt;&lt;i class="arf-gl" style="--r:.5625"&gt;&lt;/i&gt;&lt;/span&gt;&lt;span class="arf-ot"&gt;&lt;b&gt;&lt;bdi dir="ltr"&gt;9:16&lt;/bdi&gt;&lt;/b&gt;&lt;span&gt;רילס וסטורי&lt;/span&gt;&lt;/span&gt;&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="arf-stage"&gt;
+    &lt;div class="arf-frame"&gt;
+      &lt;img class="arf-img" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/hero-window.webp" alt="שלושה חברים צוחקים מחלון של קרוואן" width="1100" height="1100" loading="lazy" decoding="async"&gt;
+      &lt;span class="arf-shade" aria-hidden="true"&gt;&lt;/span&gt;
+      &lt;span class="arf-tag" aria-hidden="true"&gt;&lt;bdi dir="ltr"&gt;16:9&lt;/bdi&gt;&lt;/span&gt;
+      &lt;span class="arf-use" aria-hidden="true"&gt;אתר ויוטיוב&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(Flip);
+
+(function(){
+  const root=document.querySelector(".arf"),frame=root.querySelector(".arf-frame"),opts=[...root.querySelectorAll(".arf-opt")],
+    tag=root.querySelector(".arf-tag bdi"),use=root.querySelector(".arf-use");
+  const rm=matchMedia("(prefers-reduced-motion: reduce)");
+  const rtl=getComputedStyle(root).direction==="rtl"?-1:1;       // החצים ימינה ושמאלה מתהפכים עם כיוון העמוד
+  let cur=0;
+  root.classList.add("is-live");
+  function pick(i,focus){
+    if(i===cur)return;
+    // החלפת היחס עצמה רצה תמיד, גם בלי Flip וגם בהפחתת תנועה. רק המעבר מותנה
+    const animate=typeof Flip!=="undefined"&amp;&amp;typeof gsap!=="undefined"&amp;&amp;!rm.matches;
+    if(animate)Flip.killFlipsOf(frame);
+    const state=animate?Flip.getState(frame):null;
+    cur=i;
+    opts.forEach((o,j)=&gt;{o.setAttribute("aria-checked",j===i?"true":"false");o.tabIndex=j===i?0:-1;});
+    const o=opts[i];
+    frame.style.setProperty("--r",o.dataset.r);
+    tag.textContent=o.dataset.l;use.textContent=o.dataset.u;
+    if(focus)o.focus();
+    if(!state)return;
+    // scale:false מנפיש width ו-height אמיתיים, והתמונה נחתכת מחדש בכל פריים
+    Flip.from(state,{duration:.6,ease:"power3.inOut",scale:false});
+    gsap.fromTo([tag,use],{y:8,autoAlpha:0},{y:0,autoAlpha:1,duration:.4,delay:.2,ease:"power2.out",stagger:.06,overwrite:true});
+  }
+  opts.forEach((o,i)=&gt;{
+    o.addEventListener("click",()=&gt;pick(i,false));
+    o.addEventListener("keydown",e=&gt;{
+      const k=e.key;let j=-1;
+      if(k==="ArrowDown")j=i+1;else if(k==="ArrowUp")j=i-1;
+      else if(k==="ArrowRight")j=i+rtl;else if(k==="ArrowLeft")j=i-rtl;
+      else if(k==="Home")j=0;else if(k==="End")j=opts.length-1;
+      if(j&lt;0)return;
+      e.preventDefault();pick((j+opts.length)%opts.length,true);
+    });
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b95 · מסגרת שמחליפה יחס בלחיצה והתמונה נחתכת מחדש תוך כדי תנועה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b95.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b95.html\n\nמה זה עושה: תמונה בתוך מסגרת, ולידה ארבע אפשרויות עם סמל קטן של היחס: רחב, ריבוע, אינסטגרם וסטורי. בלחיצה המסגרת עוברת בהחלקה ליחס החדש, והתמונה שבתוכה נחתכת מחדש בזמן אמת במקום להימתח או לקפוץ. כיתוב בפינה מתחלף ואומר איפה משתמשים בפורמט הזה. הגולש רואה את אותו צילום בכל הפורמטים בלי לדמיין.\nמתי משתמשים: עסק שמוסר אותו תוצר בכמה פורמטים: סרטוני תדמית, צילום מוצר, באנרים, תמונות לרשתות חברתיות. מתאים לסקשן ״מה מקבלים״ או לדף שירות. ארבע אפשרויות לכל היותר, פעם אחת בעמוד. לא לתוצר שיש לו פורמט אחד, ולא כשאין צילום אחד שנראה טוב בכל החיתוכים.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית · פורטפוליו וסטודיו\nבסקשן: שירותים ומוצרים · בעיה ויתרונות · עבודות וגלריה\nאופי: גם באתר שקט\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא כשהתוצר נמסר בפורמט אחד, ולא כשאין צילום שנראה טוב בכל החיתוכים.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B95 · מסגרת שמחליפה יחס בלחיצה והתמונה נחתכת מחדש תוך כדי תנועה */\n.arf{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px);max-width:1100px;margin-inline:auto}\n.arf-side{display:grid;gap:24px}\n.arf-side h2{margin:0;font-size:clamp(28px,3.2vw,44px);line-height:1.12;text-wrap:balance}\n.arf-side p{margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.arf-fb{margin:0;padding:0;list-style:none;display:grid;gap:8px;color:var(--ink, #16182b);font-size:16px}\n.arf-fb bdi{font-weight:700}\n.arf-ctl{display:none;gap:12px}\n.arf.is-live .arf-fb{display:none}\n.arf.is-live .arf-ctl{display:grid}\n.arf-opt{display:flex;align-items:center;gap:16px;width:100%;min-height:64px;padding:12px 16px;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);color:var(--ink, #16182b);font:inherit;text-align:start;cursor:pointer;transition:box-shadow .3s cubic-bezier(.2,.6,.2,1),background-color .3s cubic-bezier(.2,.6,.2,1)}\n.arf-opt[aria-checked=\"true\"]{background:var(--card, #fff);box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}\n.arf-opt:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n@media(hover:hover){.arf-opt[aria-checked=\"false\"]:hover{background:var(--card, #fff)}}\n.arf-gw{display:grid;place-items:center;flex:none;width:40px;height:40px}\n.arf-gl{display:block;height:24px;width:calc(24px * var(--r, 14px));border-radius:4px;box-shadow:inset 0 0 0 2px currentColor}\n.arf-ot{display:grid;gap:2px;min-width:0}\n.arf-ot b{font-size:18px;line-height:1.2}\n.arf-ot span{font-size:14px;color:var(--muted, #6a6d85)}\n.arf-stage{container-type:size;display:grid;place-items:center;height:clamp(320px,56svh,520px)}\n.arf-frame{--r:1.7778;position:relative;overflow:hidden;isolation:isolate;width:min(100cqw,100cqh * var(--r, 14px));height:min(100cqh,100cqw / var(--r, 14px));border-radius:20px;background:var(--card, #fff);box-shadow:0 32px 64px -36px color-mix(in srgb,var(--ink, #16182b) 55%,transparent)}\n.arf-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}\n.arf-shade{position:absolute;inset:0;background:linear-gradient(transparent 55%,color-mix(in srgb,var(--ink, #16182b) 70%,transparent))}\n.arf-tag{position:absolute;top:16px;inset-inline-start:16px;padding:6px 12px;border-radius:8px;background:color-mix(in srgb,var(--ink, #16182b) 74%,transparent);color:var(--bg, #f7f7fa);backdrop-filter:blur(6px);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;font-weight:600;letter-spacing:.03em}\n.arf-use{position:absolute;inset-inline:16px;bottom:16px;color:var(--bg, #f7f7fa);font-size:16px;font-weight:600;line-height:1.35}\n@media(max-width:767px){\n  .arf{grid-template-columns:minmax(0,1fr);gap:32px}\n  .arf-side{display:contents}\n  .arf-side h2{order:1}.arf-side p{order:2}\n  .arf-stage{order:3;height:clamp(280px,40svh,360px)}\n  .arf-ctl,.arf-fb{order:4}\n  .arf-ctl{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}\n  .arf-opt{padding:12px;gap:12px}\n  .arf-ot b{font-size:16px}\n}\n\n=== HTML ===\n<div class=\"stage\"><section class=\"arf\">\n  <div class=\"arf-side\">\n    <h2>אותו סרטון, בכל פורמט שהפלטפורמה צריכה<\/h2>\n    <p>הסרטון נמסר חתוך מראש לאתר, לפיד, לאינסטגרם ולסטורי, כך שאתם לא צריכים לחתוך שום דבר בעצמכם.<\/p>\n    <ul class=\"arf-fb\">\n      <li><bdi dir=\"ltr\">16:9<\/bdi> לאתר וליוטיוב<\/li>\n      <li><bdi dir=\"ltr\">1:1<\/bdi> לפיד בפייסבוק ובלינקדאין<\/li>\n      <li><bdi dir=\"ltr\">4:5<\/bdi> לפוסט באינסטגרם<\/li>\n      <li><bdi dir=\"ltr\">9:16<\/bdi> לרילס ולסטורי<\/li>\n    <\/ul>\n    <div class=\"arf-ctl\" role=\"radiogroup\" aria-label=\"פורמט הסרטון\">\n      <button class=\"arf-opt\" type=\"button\" role=\"radio\" aria-checked=\"true\" tabindex=\"0\" data-r=\"1.7778\" data-l=\"16:9\" data-u=\"אתר ויוטיוב\"><span class=\"arf-gw\" aria-hidden=\"true\"><i class=\"arf-gl\" style=\"--r:1.7778\"><\/i><\/span><span class=\"arf-ot\"><b><bdi dir=\"ltr\">16:9<\/bdi><\/b><span>אתר ויוטיוב<\/span><\/span><\/button>\n      <button class=\"arf-opt\" type=\"button\" role=\"radio\" aria-checked=\"false\" tabindex=\"-1\" data-r=\"1\" data-l=\"1:1\" data-u=\"פיד בפייסבוק ובלינקדאין\"><span class=\"arf-gw\" aria-hidden=\"true\"><i class=\"arf-gl\" style=\"--r:1\"><\/i><\/span><span class=\"arf-ot\"><b><bdi dir=\"ltr\">1:1<\/bdi><\/b><span>פיד בפייסבוק ובלינקדאין<\/span><\/span><\/button>\n      <button class=\"arf-opt\" type=\"button\" role=\"radio\" aria-checked=\"false\" tabindex=\"-1\" data-r=\"0.8\" data-l=\"4:5\" data-u=\"פוסט באינסטגרם\"><span class=\"arf-gw\" aria-hidden=\"true\"><i class=\"arf-gl\" style=\"--r:.8\"><\/i><\/span><span class=\"arf-ot\"><b><bdi dir=\"ltr\">4:5<\/bdi><\/b><span>פוסט באינסטגרם<\/span><\/span><\/button>\n      <button class=\"arf-opt\" type=\"button\" role=\"radio\" aria-checked=\"false\" tabindex=\"-1\" data-r=\"0.5625\" data-l=\"9:16\" data-u=\"רילס וסטורי\"><span class=\"arf-gw\" aria-hidden=\"true\"><i class=\"arf-gl\" style=\"--r:.5625\"><\/i><\/span><span class=\"arf-ot\"><b><bdi dir=\"ltr\">9:16<\/bdi><\/b><span>רילס וסטורי<\/span><\/span><\/button>\n    <\/div>\n  <\/div>\n  <div class=\"arf-stage\">\n    <div class=\"arf-frame\">\n      <img class=\"arf-img\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/hero-window.webp\" alt=\"שלושה חברים צוחקים מחלון של קרוואן\" width=\"1100\" height=\"1100\" loading=\"lazy\" decoding=\"async\">\n      <span class=\"arf-shade\" aria-hidden=\"true\"><\/span>\n      <span class=\"arf-tag\" aria-hidden=\"true\"><bdi dir=\"ltr\">16:9<\/bdi><\/span>\n      <span class=\"arf-use\" aria-hidden=\"true\">אתר ויוטיוב<\/span>\n    <\/div>\n  <\/div>\n<\/section><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(Flip);\n\n(function(){\n  const root=document.querySelector(\".arf\"),frame=root.querySelector(\".arf-frame\"),opts=[...root.querySelectorAll(\".arf-opt\")],\n    tag=root.querySelector(\".arf-tag bdi\"),use=root.querySelector(\".arf-use\");\n  const rm=matchMedia(\"(prefers-reduced-motion: reduce)\");\n  const rtl=getComputedStyle(root).direction===\"rtl\"?-1:1;       // החצים ימינה ושמאלה מתהפכים עם כיוון העמוד\n  let cur=0;\n  root.classList.add(\"is-live\");\n  function pick(i,focus){\n    if(i===cur)return;\n    // החלפת היחס עצמה רצה תמיד, גם בלי Flip וגם בהפחתת תנועה. רק המעבר מותנה\n    const animate=typeof Flip!==\"undefined\"&&typeof gsap!==\"undefined\"&&!rm.matches;\n    if(animate)Flip.killFlipsOf(frame);\n    const state=animate?Flip.getState(frame):null;\n    cur=i;\n    opts.forEach((o,j)=>{o.setAttribute(\"aria-checked\",j===i?\"true\":\"false\");o.tabIndex=j===i?0:-1;});\n    const o=opts[i];\n    frame.style.setProperty(\"--r\",o.dataset.r);\n    tag.textContent=o.dataset.l;use.textContent=o.dataset.u;\n    if(focus)o.focus();\n    if(!state)return;\n    // scale:false מנפיש width ו-height אמיתיים, והתמונה נחתכת מחדש בכל פריים\n    Flip.from(state,{duration:.6,ease:\"power3.inOut\",scale:false});\n    gsap.fromTo([tag,use],{y:8,autoAlpha:0},{y:0,autoAlpha:1,duration:.4,delay:.2,ease:\"power2.out\",stagger:.06,overwrite:true});\n  }\n  opts.forEach((o,i)=>{\n    o.addEventListener(\"click\",()=>pick(i,false));\n    o.addEventListener(\"keydown\",e=>{\n      const k=e.key;let j=-1;\n      if(k===\"ArrowDown\")j=i+1;else if(k===\"ArrowUp\")j=i-1;\n      else if(k===\"ArrowRight\")j=i+rtl;else if(k===\"ArrowLeft\")j=i-rtl;\n      else if(k===\"Home\")j=0;else if(k===\"End\")j=opts.length-1;\n      if(j<0)return;\n      e.preventDefault();pick((j+opts.length)%opts.length,true);\n    });\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטוני מוצר בגלריה של prompt-motion.com (21.10.2026) שבהם מסגרת מחליפה יחס מסך והתוכן שבתוכה מסתדר מחדש. נבנה מאפס מהצפייה. זה מהלך עם בקרה אמיתית: `role=\"radiogroup\"` של ארבעה `button` עם `aria-checked`, `tabindex` מתגלגל, חיצים (החצים ימינה ושמאלה מתהפכים לפי `direction`), ו-`:focus-visible` ברור. אזור המגע הוא 64px. גודל המסגרת מחושב ב-CSS בלבד: הבמה היא `container-type:size`, והמסגרת היא `min(100cqw, 100cqh * var(--r))` על `min(100cqh, 100cqw / var(--r))`, כש-`--r` הוא היחס כמספר. לכן המסגרת תמיד המלבן הגדול ביותר מהיחס הזה שנכנס לבמה, בכל רוחב. המעבר הוא `Flip.from(state, {scale:false})`: Flip מנפיש `width` ו-`height` אמיתיים ולא `scale`, והתמונה (`object-fit:cover`) נחתכת מחדש בכל פריים, בלי עיוות. קליקים מהירים מבטלים את המעבר הקודם (`Flip.killFlipsOf`) ומתחילים ממה שמוצג. בלי Flip או בהפחתת תנועה היחס מתחלף מיד, בלי מעבר, והבקרה עובדת כרגיל. בלי JS מוצגת המסגרת ביחס הרחב, והבקרה מוחלפת ברשימה פשוטה של ארבעת הפורמטים (במארקאפ), כדי שלא יוצגו כפתורים שלא עושים כלום. RTL: ה-`<bdi dir=\"ltr\">` שומר שיחס כמו 9:16 לא יתהפך. תמונה: מהמאגר, מרובעת, כדי שכל החיתוכים יראו פנים.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { Flip } from \"gsap/Flip\";\n  gsap.registerPlugin(Flip);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B95 · מסגרת שמחליפה יחס בלחיצה והתמונה נחתכת מחדש תוך כדי תנועה */\n.arf{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px);max-width:1100px;margin-inline:auto}\n.arf-side{display:grid;gap:24px}\n.arf-side h2{margin:0;font-size:clamp(28px,3.2vw,44px);line-height:1.12;text-wrap:balance}\n.arf-side p{margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.arf-fb{margin:0;padding:0;list-style:none;display:grid;gap:8px;color:var(--ink, #16182b);font-size:16px}\n.arf-fb bdi{font-weight:700}\n.arf-ctl{display:none;gap:12px}\n.arf.is-live .arf-fb{display:none}\n.arf.is-live .arf-ctl{display:grid}\n.arf-opt{display:flex;align-items:center;gap:16px;width:100%;min-height:64px;padding:12px 16px;border:0;border-radius:16px;background:transparent;box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);color:var(--ink, #16182b);font:inherit;text-align:start;cursor:pointer;transition:box-shadow .3s cubic-bezier(.2,.6,.2,1),background-color .3s cubic-bezier(.2,.6,.2,1)}\n.arf-opt[aria-checked=\"true\"]{background:var(--card, #fff);box-shadow:inset 0 0 0 2px var(--accent, #4a3aff)}\n.arf-opt:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n@media(hover:hover){.arf-opt[aria-checked=\"false\"]:hover{background:var(--card, #fff)}}\n.arf-gw{display:grid;place-items:center;flex:none;width:40px;height:40px}\n.arf-gl{display:block;height:24px;width:calc(24px * var(--r, 14px));border-radius:4px;box-shadow:inset 0 0 0 2px currentColor}\n.arf-ot{display:grid;gap:2px;min-width:0}\n.arf-ot b{font-size:18px;line-height:1.2}\n.arf-ot span{font-size:14px;color:var(--muted, #6a6d85)}\n.arf-stage{container-type:size;display:grid;place-items:center;height:clamp(320px,56svh,520px)}\n.arf-frame{--r:1.7778;position:relative;overflow:hidden;isolation:isolate;width:min(100cqw,100cqh * var(--r, 14px));height:min(100cqh,100cqw / var(--r, 14px));border-radius:20px;background:var(--card, #fff);box-shadow:0 32px 64px -36px color-mix(in srgb,var(--ink, #16182b) 55%,transparent)}\n.arf-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}\n.arf-shade{position:absolute;inset:0;background:linear-gradient(transparent 55%,color-mix(in srgb,var(--ink, #16182b) 70%,transparent))}\n.arf-tag{position:absolute;top:16px;inset-inline-start:16px;padding:6px 12px;border-radius:8px;background:color-mix(in srgb,var(--ink, #16182b) 74%,transparent);color:var(--bg, #f7f7fa);backdrop-filter:blur(6px);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14px;font-weight:600;letter-spacing:.03em}\n.arf-use{position:absolute;inset-inline:16px;bottom:16px;color:var(--bg, #f7f7fa);font-size:16px;font-weight:600;line-height:1.35}\n@media(max-width:767px){\n  .arf{grid-template-columns:minmax(0,1fr);gap:32px}\n  .arf-side{display:contents}\n  .arf-side h2{order:1}.arf-side p{order:2}\n  .arf-stage{order:3;height:clamp(280px,40svh,360px)}\n  .arf-ctl,.arf-fb{order:4}\n  .arf-ctl{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}\n  .arf-opt{padding:12px;gap:12px}\n  .arf-ot b{font-size:16px}\n}","html":"<div class=\"stage\"><section class=\"arf\">\n  <div class=\"arf-side\">\n    <h2>אותו סרטון, בכל פורמט שהפלטפורמה צריכה<\/h2>\n    <p>הסרטון נמסר חתוך מראש לאתר, לפיד, לאינסטגרם ולסטורי, כך שאתם לא צריכים לחתוך שום דבר בעצמכם.<\/p>\n    <ul class=\"arf-fb\">\n      <li><bdi dir=\"ltr\">16:9<\/bdi> לאתר וליוטיוב<\/li>\n      <li><bdi dir=\"ltr\">1:1<\/bdi> לפיד בפייסבוק ובלינקדאין<\/li>\n      <li><bdi dir=\"ltr\">4:5<\/bdi> לפוסט באינסטגרם<\/li>\n      <li><bdi dir=\"ltr\">9:16<\/bdi> לרילס ולסטורי<\/li>\n    <\/ul>\n    <div class=\"arf-ctl\" role=\"radiogroup\" aria-label=\"פורמט הסרטון\">\n      <button class=\"arf-opt\" type=\"button\" role=\"radio\" aria-checked=\"true\" tabindex=\"0\" data-r=\"1.7778\" data-l=\"16:9\" data-u=\"אתר ויוטיוב\"><span class=\"arf-gw\" aria-hidden=\"true\"><i class=\"arf-gl\" style=\"--r:1.7778\"><\/i><\/span><span class=\"arf-ot\"><b><bdi dir=\"ltr\">16:9<\/bdi><\/b><span>אתר ויוטיוב<\/span><\/span><\/button>\n      <button class=\"arf-opt\" type=\"button\" role=\"radio\" aria-checked=\"false\" tabindex=\"-1\" data-r=\"1\" data-l=\"1:1\" data-u=\"פיד בפייסבוק ובלינקדאין\"><span class=\"arf-gw\" aria-hidden=\"true\"><i class=\"arf-gl\" style=\"--r:1\"><\/i><\/span><span class=\"arf-ot\"><b><bdi dir=\"ltr\">1:1<\/bdi><\/b><span>פיד בפייסבוק ובלינקדאין<\/span><\/span><\/button>\n      <button class=\"arf-opt\" type=\"button\" role=\"radio\" aria-checked=\"false\" tabindex=\"-1\" data-r=\"0.8\" data-l=\"4:5\" data-u=\"פוסט באינסטגרם\"><span class=\"arf-gw\" aria-hidden=\"true\"><i class=\"arf-gl\" style=\"--r:.8\"><\/i><\/span><span class=\"arf-ot\"><b><bdi dir=\"ltr\">4:5<\/bdi><\/b><span>פוסט באינסטגרם<\/span><\/span><\/button>\n      <button class=\"arf-opt\" type=\"button\" role=\"radio\" aria-checked=\"false\" tabindex=\"-1\" data-r=\"0.5625\" data-l=\"9:16\" data-u=\"רילס וסטורי\"><span class=\"arf-gw\" aria-hidden=\"true\"><i class=\"arf-gl\" style=\"--r:.5625\"><\/i><\/span><span class=\"arf-ot\"><b><bdi dir=\"ltr\">9:16<\/bdi><\/b><span>רילס וסטורי<\/span><\/span><\/button>\n    <\/div>\n  <\/div>\n  <div class=\"arf-stage\">\n    <div class=\"arf-frame\">\n      <img class=\"arf-img\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/hero-window.webp\" alt=\"שלושה חברים צוחקים מחלון של קרוואן\" width=\"1100\" height=\"1100\" loading=\"lazy\" decoding=\"async\">\n      <span class=\"arf-shade\" aria-hidden=\"true\"><\/span>\n      <span class=\"arf-tag\" aria-hidden=\"true\"><bdi dir=\"ltr\">16:9<\/bdi><\/span>\n      <span class=\"arf-use\" aria-hidden=\"true\">אתר ויוטיוב<\/span>\n    <\/div>\n  <\/div>\n<\/section><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(Flip);\n\n(function(){\n  const root=document.querySelector(\".arf\"),frame=root.querySelector(\".arf-frame\"),opts=[...root.querySelectorAll(\".arf-opt\")],\n    tag=root.querySelector(\".arf-tag bdi\"),use=root.querySelector(\".arf-use\");\n  const rm=matchMedia(\"(prefers-reduced-motion: reduce)\");\n  const rtl=getComputedStyle(root).direction===\"rtl\"?-1:1;       // החצים ימינה ושמאלה מתהפכים עם כיוון העמוד\n  let cur=0;\n  root.classList.add(\"is-live\");\n  function pick(i,focus){\n    if(i===cur)return;\n    // החלפת היחס עצמה רצה תמיד, גם בלי Flip וגם בהפחתת תנועה. רק המעבר מותנה\n    const animate=typeof Flip!==\"undefined\"&&typeof gsap!==\"undefined\"&&!rm.matches;\n    if(animate)Flip.killFlipsOf(frame);\n    const state=animate?Flip.getState(frame):null;\n    cur=i;\n    opts.forEach((o,j)=>{o.setAttribute(\"aria-checked\",j===i?\"true\":\"false\");o.tabIndex=j===i?0:-1;});\n    const o=opts[i];\n    frame.style.setProperty(\"--r\",o.dataset.r);\n    tag.textContent=o.dataset.l;use.textContent=o.dataset.u;\n    if(focus)o.focus();\n    if(!state)return;\n    // scale:false מנפיש width ו-height אמיתיים, והתמונה נחתכת מחדש בכל פריים\n    Flip.from(state,{duration:.6,ease:\"power3.inOut\",scale:false});\n    gsap.fromTo([tag,use],{y:8,autoAlpha:0},{y:0,autoAlpha:1,duration:.4,delay:.2,ease:\"power2.out\",stagger:.06,overwrite:true});\n  }\n  opts.forEach((o,i)=>{\n    o.addEventListener(\"click\",()=>pick(i,false));\n    o.addEventListener(\"keydown\",e=>{\n      const k=e.key;let j=-1;\n      if(k===\"ArrowDown\")j=i+1;else if(k===\"ArrowUp\")j=i-1;\n      else if(k===\"ArrowRight\")j=i+rtl;else if(k===\"ArrowLeft\")j=i-rtl;\n      else if(k===\"Home\")j=0;else if(k===\"End\")j=opts.length-1;\n      if(j<0)return;\n      e.preventDefault();pick((j+opts.length)%opts.length,true);\n    });\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="b94.html" rel="prev"><small>→ הקודם</small><b>כרטיס מוצר שעובר בין טעינה, מצב ריק ומצב מלא</b></a><a href="b01.html" rel="next"><small>הבא ←</small><b>מרקי (רצועה נעה)</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מסגרת שמחליפה יחס בלחיצה והתמונה נחתכת מחדש תוך כדי תנועה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(Flip);
+(function(){
+  const root=document.querySelector(".arf"),frame=root.querySelector(".arf-frame"),opts=[...root.querySelectorAll(".arf-opt")],
+    tag=root.querySelector(".arf-tag bdi"),use=root.querySelector(".arf-use");
+  const rm=matchMedia("(prefers-reduced-motion: reduce)");
+  const rtl=getComputedStyle(root).direction==="rtl"?-1:1;       // החצים ימינה ושמאלה מתהפכים עם כיוון העמוד
+  let cur=0;
+  root.classList.add("is-live");
+  function pick(i,focus){
+    if(i===cur)return;
+    // החלפת היחס עצמה רצה תמיד, גם בלי Flip וגם בהפחתת תנועה. רק המעבר מותנה
+    const animate=typeof Flip!=="undefined"&&typeof gsap!=="undefined"&&!rm.matches;
+    if(animate)Flip.killFlipsOf(frame);
+    const state=animate?Flip.getState(frame):null;
+    cur=i;
+    opts.forEach((o,j)=>{o.setAttribute("aria-checked",j===i?"true":"false");o.tabIndex=j===i?0:-1;});
+    const o=opts[i];
+    frame.style.setProperty("--r",o.dataset.r);
+    tag.textContent=o.dataset.l;use.textContent=o.dataset.u;
+    if(focus)o.focus();
+    if(!state)return;
+    // scale:false מנפיש width ו-height אמיתיים, והתמונה נחתכת מחדש בכל פריים
+    Flip.from(state,{duration:.6,ease:"power3.inOut",scale:false});
+    gsap.fromTo([tag,use],{y:8,autoAlpha:0},{y:0,autoAlpha:1,duration:.4,delay:.2,ease:"power2.out",stagger:.06,overwrite:true});
+  }
+  opts.forEach((o,i)=>{
+    o.addEventListener("click",()=>pick(i,false));
+    o.addEventListener("keydown",e=>{
+      const k=e.key;let j=-1;
+      if(k==="ArrowDown")j=i+1;else if(k==="ArrowUp")j=i-1;
+      else if(k==="ArrowRight")j=i+rtl;else if(k==="ArrowLeft")j=i-rtl;
+      else if(k==="Home")j=0;else if(k==="End")j=opts.length-1;
+      if(j<0)return;
+      e.preventDefault();pick((j+opts.length)%opts.length,true);
+    });
+  });
+})();
+</script>
+</body>
+</html>

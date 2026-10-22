@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G215 · טולטיפ עוקב אחרי קו עם כרטיסי אירוע | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.tt{max-width:1040px;margin-inline:auto}
+.tt-card{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;padding:32px;border-radius:24px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
+.tt-head{margin:0 0 24px}
+.tt-head h3{margin:0 0 4px;font-size:clamp(20px,2.1vw,28px);font-weight:700;line-height:1.2}
+.tt-sum{margin:0;color:var(--muted);font-size:var(--fs-body);font-variant-numeric:tabular-nums}
+.tt-plot{position:relative;aspect-ratio:640 / 300;container-type:size}
+.tt-svg{position:absolute;inset:0;width:100%;height:100%}
+.tt-grid line{stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke}
+.tt-g0{stop-color:var(--accent);stop-opacity:.22}.tt-g1{stop-color:var(--accent);stop-opacity:0}
+.tt-area{fill:url(#tt-fill)}
+.tt-line{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.tt-yl{position:absolute;top:var(--t);inset-inline-start:0;translate:0 -110%;color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+/* קו השיער, הנקודה והטולטיפ ממוקמים ביחידות הקונטיינר: --fx ו--fy הם שברים מ-0 עד 1 */
+.tt-hair{position:absolute;left:0;top:0;bottom:0;width:1px;background:color-mix(in oklab,var(--ink) 20%,transparent);translate:calc(var(--fx) * 100cqw) 0}
+.tt-dot{position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--card),0 0 0 8px color-mix(in oklab,var(--accent) 26%,transparent);translate:calc(var(--fx) * 100cqw - 50%) calc(var(--fy) * 100cqh - 50%)}
+.tt-tip{position:absolute;left:0;top:0;display:grid;gap:2px;padding:8px 14px;border-radius:12px;background:var(--ink);color:var(--bg);white-space:nowrap;line-height:1.2;translate:clamp(0px, calc(var(--fx) * 100cqw - 50%), calc(100cqw - 100%)) 0}
+.tt-tip b{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.tt-tip span{font-size:13px;opacity:.82}
+.tt-ax{display:flex;justify-content:space-between;margin-top:12px;color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+/* עמודת האירועים: הכרטיס החדש למעלה. הגזירה מסתירה את הכרטיס בזמן שהוא נכנס מהקצה */
+.tt-ev{overflow:clip;overflow-clip-margin:8px}
+.tt-list{list-style:none;margin:0;padding:0;display:grid;gap:12px;align-content:start}
+.tt-c{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line)}
+.tt-c b{display:block;font-size:16px}
+.tt-c small{display:block;margin-top:2px;color:var(--muted);font-size:14px;line-height:1.35}
+.tt-c strong{font-size:17px;font-variant-numeric:tabular-nums}
+.tt-av{display:block;width:44px;height:44px;border-radius:50%;object-fit:cover}
+.tt-ic{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--accent-ink)}
+.tt-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.tt .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.tt.is-live .tt-run{height:320vh}
+.tt.is-live .tt-pin{position:sticky;top:0;min-height:100vh;min-height:100svh;display:grid;align-content:center}
+@media(max-width:767px){.tt-card{grid-template-columns:minmax(0,1fr);gap:24px;padding:20px}.tt-plot{aspect-ratio:640 / 400}.tt-tip b{font-size:16px}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g214.html" rel="prev" title="הקודם: סימונים ותוויות שנוספים אחד אחרי השני">→<span class="sr-only">הקודם</span></a><span class="vpn-n">191/219</span><a href="g216.html" rel="next" title="הבא: עמודות ושורות שמחליפות מקום לפי הערכים">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G215</span> · טולטיפ עוקב אחרי קו עם כרטיסי אירוע</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · sticky · getPointAtLength</span>
+  <span class="vchip use">מספרים ונתונים</span><span class="vchip use">טעינה ופידבק</span><span class="vchip use">כרטיסים</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g215"><code>MV:g215</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g215">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>גרף הכנסות מצטברות, ובו קו שיער אנכי ונקודה שנעים לאורך הקו בקצב הגלילה, וטולטיפ שמראה את הסכום והיום. כשהקו עובר ליד יום של פנייה או הזמנה, כרטיס חדש מחליק פנימה לעמודה שלצד הגרף ודוחף את הקודמים צעד למטה.</p>
+  <p class="when"><b>מתי משתמשים:</b> דשבורד או סקשן תוצאות שבו אירועים אמיתיים מסבירים את העלייה: פניות, הזמנות, תשלומים, הרשמות. מראה גם את הסכום וגם מה גרם לו. שלושה כרטיסים לכל היותר, וכרטיס אחד לכל קפיצה בקו.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית</dd></div><div><dt>בסקשן</dt><dd>מספרים ולקוחות · בעיה ויתרונות</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשאין אירועים אמיתיים שמסבירים את העלייה, ולא כשהסכומים קטנים מכדי להצדיק גרף.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g215"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="tt"><div class="tt-run"><div class="tt-pin">
+<div class="tt-card">
+  <section class="tt-main" aria-labelledby="tt-h">
+    <header class="tt-head"><h3 id="tt-h">הכנסות מצטברות, ספטמבר</h3><p class="tt-sum">₪78,960 עד היום</p></header>
+    <div class="tt-plot" style="--fx:0.0437;--fy:0.3887">
+      <svg class="tt-svg" viewBox="0 0 640 300" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <defs><linearGradient id="tt-fill" x1="0" y1="0" x2="0" y2="1"><stop class="tt-g0" offset="0"/><stop class="tt-g1" offset="1"/></linearGradient></defs>
+        <g class="tt-grid"><line x1="0" y1="264" x2="640" y2="264"/><line x1="0" y1="189.3" x2="640" y2="189.3"/><line x1="0" y1="114.7" x2="640" y2="114.7"/><line x1="0" y1="40.0" x2="640" y2="40.0"/></g>
+        <path class="tt-area" d="M612 260 C605 259 584.2 256.1 570.3 254.1 C556.4 252 542.5 249.8 528.6 247.9 C514.7 246.1 500.8 245.6 486.9 243 C473 240.4 459 235.2 445.1 232.3 C431.2 229.4 417.3 228.6 403.4 225.8 C389.5 223 375.6 218.3 361.7 215.7 C347.8 213.1 333.9 212.5 320 210.3 C306.1 208.1 292.2 205.9 278.3 202.4 C264.4 198.8 250.5 192.9 236.6 188.9 C222.7 184.8 208.8 181.8 194.9 177.9 C181 174 167 170.1 153.1 165.4 C139.2 160.6 125.3 155 111.4 149.6 C97.5 144.1 83.6 138.3 69.7 132.8 C55.8 127.3 35 119.3 28 116.6 L28 264 L612 264 Z"/>
+        <path class="tt-line" d="M612 260 C605 259 584.2 256.1 570.3 254.1 C556.4 252 542.5 249.8 528.6 247.9 C514.7 246.1 500.8 245.6 486.9 243 C473 240.4 459 235.2 445.1 232.3 C431.2 229.4 417.3 228.6 403.4 225.8 C389.5 223 375.6 218.3 361.7 215.7 C347.8 213.1 333.9 212.5 320 210.3 C306.1 208.1 292.2 205.9 278.3 202.4 C264.4 198.8 250.5 192.9 236.6 188.9 C222.7 184.8 208.8 181.8 194.9 177.9 C181 174 167 170.1 153.1 165.4 C139.2 160.6 125.3 155 111.4 149.6 C97.5 144.1 83.6 138.3 69.7 132.8 C55.8 127.3 35 119.3 28 116.6"/>
+      </svg>
+      <span class="tt-yl" style="--t:63.11%" aria-hidden="true">40,000</span><span class="tt-yl" style="--t:38.22%" aria-hidden="true">80,000</span>
+      <span class="tt-hair" aria-hidden="true"></span><span class="tt-dot" aria-hidden="true"></span>
+      <div class="tt-tip" aria-hidden="true"><b>₪78,960</b><span>ה-30 בחודש</span></div>
+    </div>
+    <div class="tt-ax" aria-hidden="true"><span>1</span><span>10</span><span>20</span><span>30</span></div>
+  </section>
+  <aside class="tt-ev" aria-label="אירועים אחרונים">
+    <ul class="tt-list">
+      <li class="tt-c"><span class="tt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div><b>הזמנה חדשה</b><small>קליניקה בהרצליה, תיקון תקרות</small></div><strong>₪8,900</strong></li>
+      <li class="tt-c"><span class="tt-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><div><b>הזמנה חדשה</b><small>משפחת אביטל, ריצוף וצבע</small></div><strong>₪7,150</strong></li>
+      <li class="tt-c"><img class="tt-av" src="../assets/media/dive/portrait.webp" alt="" width="44" height="44" loading="lazy" decoding="async"><div><b>פנייה חדשה</b><small>רונית כהן, שיפוץ מקלחת</small></div><span aria-hidden="true"></span></li>
+    </ul>
+  </aside>
+</div>
+</div></div></div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטונים בגלריה (21.10.2026) שבהם טולטיפ ונקודה נעים על קו הכנסות, ולצד הגרף כרטיסי התראה (פנייה חדשה, מכירה עם סכום) נכנסים זה מעל זה. נבנה מאפס מהצפייה. מהווריאנט עם תמונות ממוזערות על עקומת צמיחה נבנה רק הטולטיפ עם הכרטיסים. <b>ציר הזמן מימין לשמאל:</b> הימים הראשונים בימין והחודש מסתיים בשמאל, ליד עמודת האירועים, ולכן הטולטיפ מסיים בצד של הכרטיסים. באתר משמאל לימין מסדרים את נקודות הגרף הפוך (ההתחלה בשמאל) ומחליפים בין <code>X0</code> ל-<code>X1</code> בסקריפט. <b>הנקודה לא מתנתקת מהקו:</b> היא נקראת מ-<code>getPointAtLength</code> של אותו נתיב, והסכום והיום נגזרים ממיקומה האופקי מתוך מערך הנתונים <code>V</code>, כך שבסוף הגלילה מוצג בדיוק הסכום שבמארקאפ. הטולטיפ בנוי ב-HTML ומועבר ביחידות קונטיינר (<code>cqw</code>) עם <code>clamp</code> שמונע ממנו לצאת מהגרף. <b>הכרטיסים:</b> ב-DOM הם בסדר הסופי, החדש למעלה. בזמן הגלילה כל כרטיס נכנס כשהקו עובר ביום שלו, והישנים יורדים צעד בכל כניסה (<code>y</code> לפי גובה הכרטיס, נמדד מהמסמך ומחושב מחדש בכל <code>refresh</code>). לא צריך Flip, כי המיקומים הסופיים כבר במארקאפ. <b>הערך הסופי במארקאפ:</b> בלי GSAP ובהפחתת תנועה רואים קו שלם, טולטיפ על הסכום הסופי ושלושה כרטיסים. כשהמהלך רץ הסצנה נעוצה (<code>is-live</code>) כדי שאפשר יהיה להגיע לסוף. <b>נגישות:</b> הטולטיפ, הנקודה והגרף מוסתרים מקורא מסך. הסכום הכולל כתוב בכותרת, והכרטיסים הם רשימה אמיתית. <b>בטלפון</b> הכרטיסים יורדים מתחת לגרף והגרף גבוה יותר (ה-SVG נמתח למלוא הלוח עם <code>non-scaling-stroke</code>), כדי שהטולטיפ לא יכסה את הקו. התמונה בכרטיס הפנייה היא תמונת הדוגמה של המאגר.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g215.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G215 · טולטיפ עוקב אחרי קו עם כרטיסי אירוע */
+.tt{max-width:1040px;margin-inline:auto}
+.tt-card{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;padding:32px;border-radius:24px;background:var(--card, #fff);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}
+.tt-head{margin:0 0 24px}
+.tt-head h3{margin:0 0 4px;font-size:clamp(20px,2.1vw,28px);font-weight:700;line-height:1.2}
+.tt-sum{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));font-variant-numeric:tabular-nums}
+.tt-plot{position:relative;aspect-ratio:640 / 300;container-type:size}
+.tt-svg{position:absolute;inset:0;width:100%;height:100%}
+.tt-grid line{stroke:var(--line, #e4e4ee);stroke-width:1;vector-effect:non-scaling-stroke}
+.tt-g0{stop-color:var(--accent, #4a3aff);stop-opacity:.22}.tt-g1{stop-color:var(--accent, #4a3aff);stop-opacity:0}
+.tt-area{fill:url(#tt-fill)}
+.tt-line{fill:none;stroke:var(--accent, #4a3aff);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.tt-yl{position:absolute;top:var(--t);inset-inline-start:0;translate:0 -110%;color:var(--muted, #6a6d85);font-size:13px;font-variant-numeric:tabular-nums}
+/* קו השיער, הנקודה והטולטיפ ממוקמים ביחידות הקונטיינר: --fx ו--fy הם שברים מ-0 עד 1 */
+.tt-hair{position:absolute;left:0;top:0;bottom:0;width:1px;background:color-mix(in oklab,var(--ink, #16182b) 20%,transparent);translate:calc(var(--fx) * 100cqw) 0}
+.tt-dot{position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 4px var(--card, #fff),0 0 0 8px color-mix(in oklab,var(--accent, #4a3aff) 26%,transparent);translate:calc(var(--fx) * 100cqw - 50%) calc(var(--fy) * 100cqh - 50%)}
+.tt-tip{position:absolute;left:0;top:0;display:grid;gap:2px;padding:8px 14px;border-radius:12px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);white-space:nowrap;line-height:1.2;translate:clamp(0px, calc(var(--fx) * 100cqw - 50%), calc(100cqw - 100%)) 0}
+.tt-tip b{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}
+.tt-tip span{font-size:13px;opacity:.82}
+.tt-ax{display:flex;justify-content:space-between;margin-top:12px;color:var(--muted, #6a6d85);font-size:13px;font-variant-numeric:tabular-nums}
+/* עמודת האירועים: הכרטיס החדש למעלה. הגזירה מסתירה את הכרטיס בזמן שהוא נכנס מהקצה */
+.tt-ev{overflow:clip;overflow-clip-margin:8px}
+.tt-list{list-style:none;margin:0;padding:0;display:grid;gap:12px;align-content:start}
+.tt-c{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;background:var(--bg, #f7f7fa);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}
+.tt-c b{display:block;font-size:16px}
+.tt-c small{display:block;margin-top:2px;color:var(--muted, #6a6d85);font-size:14px;line-height:1.35}
+.tt-c strong{font-size:17px;font-variant-numeric:tabular-nums}
+.tt-av{display:block;width:44px;height:44px;border-radius:50%;object-fit:cover}
+.tt-ic{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.tt-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.tt .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.tt.is-live .tt-run{height:320vh}
+.tt.is-live .tt-pin{position:sticky;top:0;min-height:100vh;min-height:100svh;display:grid;align-content:center}
+@media(max-width:767px){.tt-card{grid-template-columns:minmax(0,1fr);gap:24px;padding:20px}.tt-plot{aspect-ratio:640 / 400}.tt-tip b{font-size:16px}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;div class="tt"&gt;&lt;div class="tt-run"&gt;&lt;div class="tt-pin"&gt;
+&lt;div class="tt-card"&gt;
+  &lt;section class="tt-main" aria-labelledby="tt-h"&gt;
+    &lt;header class="tt-head"&gt;&lt;h3 id="tt-h"&gt;הכנסות מצטברות, ספטמבר&lt;/h3&gt;&lt;p class="tt-sum"&gt;₪78,960 עד היום&lt;/p&gt;&lt;/header&gt;
+    &lt;div class="tt-plot" style="--fx:0.0437;--fy:0.3887"&gt;
+      &lt;svg class="tt-svg" viewBox="0 0 640 300" preserveAspectRatio="none" aria-hidden="true" focusable="false"&gt;
+        &lt;defs&gt;&lt;linearGradient id="tt-fill" x1="0" y1="0" x2="0" y2="1"&gt;&lt;stop class="tt-g0" offset="0"/&gt;&lt;stop class="tt-g1" offset="1"/&gt;&lt;/linearGradient&gt;&lt;/defs&gt;
+        &lt;g class="tt-grid"&gt;&lt;line x1="0" y1="264" x2="640" y2="264"/&gt;&lt;line x1="0" y1="189.3" x2="640" y2="189.3"/&gt;&lt;line x1="0" y1="114.7" x2="640" y2="114.7"/&gt;&lt;line x1="0" y1="40.0" x2="640" y2="40.0"/&gt;&lt;/g&gt;
+        &lt;path class="tt-area" d="M612 260 C605 259 584.2 256.1 570.3 254.1 C556.4 252 542.5 249.8 528.6 247.9 C514.7 246.1 500.8 245.6 486.9 243 C473 240.4 459 235.2 445.1 232.3 C431.2 229.4 417.3 228.6 403.4 225.8 C389.5 223 375.6 218.3 361.7 215.7 C347.8 213.1 333.9 212.5 320 210.3 C306.1 208.1 292.2 205.9 278.3 202.4 C264.4 198.8 250.5 192.9 236.6 188.9 C222.7 184.8 208.8 181.8 194.9 177.9 C181 174 167 170.1 153.1 165.4 C139.2 160.6 125.3 155 111.4 149.6 C97.5 144.1 83.6 138.3 69.7 132.8 C55.8 127.3 35 119.3 28 116.6 L28 264 L612 264 Z"/&gt;
+        &lt;path class="tt-line" d="M612 260 C605 259 584.2 256.1 570.3 254.1 C556.4 252 542.5 249.8 528.6 247.9 C514.7 246.1 500.8 245.6 486.9 243 C473 240.4 459 235.2 445.1 232.3 C431.2 229.4 417.3 228.6 403.4 225.8 C389.5 223 375.6 218.3 361.7 215.7 C347.8 213.1 333.9 212.5 320 210.3 C306.1 208.1 292.2 205.9 278.3 202.4 C264.4 198.8 250.5 192.9 236.6 188.9 C222.7 184.8 208.8 181.8 194.9 177.9 C181 174 167 170.1 153.1 165.4 C139.2 160.6 125.3 155 111.4 149.6 C97.5 144.1 83.6 138.3 69.7 132.8 C55.8 127.3 35 119.3 28 116.6"/&gt;
+      &lt;/svg&gt;
+      &lt;span class="tt-yl" style="--t:63.11%" aria-hidden="true"&gt;40,000&lt;/span&gt;&lt;span class="tt-yl" style="--t:38.22%" aria-hidden="true"&gt;80,000&lt;/span&gt;
+      &lt;span class="tt-hair" aria-hidden="true"&gt;&lt;/span&gt;&lt;span class="tt-dot" aria-hidden="true"&gt;&lt;/span&gt;
+      &lt;div class="tt-tip" aria-hidden="true"&gt;&lt;b&gt;₪78,960&lt;/b&gt;&lt;span&gt;ה-30 בחודש&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="tt-ax" aria-hidden="true"&gt;&lt;span&gt;1&lt;/span&gt;&lt;span&gt;10&lt;/span&gt;&lt;span&gt;20&lt;/span&gt;&lt;span&gt;30&lt;/span&gt;&lt;/div&gt;
+  &lt;/section&gt;
+  &lt;aside class="tt-ev" aria-label="אירועים אחרונים"&gt;
+    &lt;ul class="tt-list"&gt;
+      &lt;li class="tt-c"&gt;&lt;span class="tt-ic" aria-hidden="true"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M5 12.5l4.5 4.5L19 7.5"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;div&gt;&lt;b&gt;הזמנה חדשה&lt;/b&gt;&lt;small&gt;קליניקה בהרצליה, תיקון תקרות&lt;/small&gt;&lt;/div&gt;&lt;strong&gt;₪8,900&lt;/strong&gt;&lt;/li&gt;
+      &lt;li class="tt-c"&gt;&lt;span class="tt-ic" aria-hidden="true"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M5 12.5l4.5 4.5L19 7.5"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;div&gt;&lt;b&gt;הזמנה חדשה&lt;/b&gt;&lt;small&gt;משפחת אביטל, ריצוף וצבע&lt;/small&gt;&lt;/div&gt;&lt;strong&gt;₪7,150&lt;/strong&gt;&lt;/li&gt;
+      &lt;li class="tt-c"&gt;&lt;img class="tt-av" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/dive/portrait.webp" alt="" width="44" height="44" loading="lazy" decoding="async"&gt;&lt;div&gt;&lt;b&gt;פנייה חדשה&lt;/b&gt;&lt;small&gt;רונית כהן, שיפוץ מקלחת&lt;/small&gt;&lt;/div&gt;&lt;span aria-hidden="true"&gt;&lt;/span&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/aside&gt;
+&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP: הקו שלם, הטולטיפ על הסכום הסופי ושלושת הכרטיסים (במארקאפ)
+  const root=document.querySelector(".tt"),run=root.querySelector(".tt-run"),plot=root.querySelector(".tt-plot");
+  const path=plot.querySelector(".tt-line"),tv=plot.querySelector(".tt-tip b"),td=plot.querySelector(".tt-tip span");
+  const lis=[...root.querySelectorAll(".tt-c")];      // מהחדש לישן, כמו בסדר הסופי
+  const V=[2140,5330,8610,11250,16980,20470,25890,28760,33020,40250,46110,52840,61310,70280,78960],N=V.length,X0=612,X1=28,fmt=new Intl.NumberFormat("he-IL");   // X0 הוא היום הראשון (ימין), X1 האחרון (שמאל)
+  const sgn=getComputedStyle(root).direction==="rtl"?-1:1,pitch=()=&gt;lis[1].offsetTop-lis[0].offsetTop;
+  const fx0=plot.style.getPropertyValue("--fx"),fy0=plot.style.getPropertyValue("--fy"),v0=tv.textContent,d0=td.textContent;
+  // בהפחתת תנועה הפונקציה לא רצה, והערך הסופי מוצג מיד
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    const L=path.getTotalLength(),o={p:0};
+    const place=()=&gt;{
+      const pt=path.getPointAtLength(L*o.p),u=Math.min(Math.max((X0-pt.x)/(X0-X1)*(N-1),0),N-1),k=Math.min(Math.floor(u),N-2);
+      plot.style.setProperty("--fx",(pt.x/640).toFixed(4));plot.style.setProperty("--fy",(pt.y/300).toFixed(4));
+      tv.textContent="₪"+fmt.format(Math.round((V[k]+(V[k+1]-V[k])*(u-k))/10)*10);td.textContent="ה-"+Math.round(2+u*2)+" בחודש";   // 15 נקודות, כל יומיים
+    };
+    const T0=.5,D=5,at=d=&gt;T0+(d-2)/28*D;      // הרגע שבו הקו עובר ביום d
+    const tl=gsap.timeline({scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
+    place();
+    tl.to(o,{p:1,duration:D,ease:"none",onUpdate:place},T0);
+    // הכרטיסים נכנסים מהקצה כשהקו עובר ביום שלהם. הכרטיס הישן יורד צעד בכל כניסה של חדש
+    tl.set(lis[2],{y:()=&gt;-2*pitch()},0).set(lis[1],{y:()=&gt;-pitch()},0);
+    const enter=(li,t)=&gt;tl.fromTo(li,{opacity:0,x:sgn*56},{opacity:1,x:0,duration:.5,ease:"power3.out"},t);
+    enter(lis[2],at(10));
+    tl.to(lis[2],{y:()=&gt;-pitch(),duration:.5,ease:"power3.inOut"},at(18));enter(lis[1],at(18));
+    tl.to([lis[2],lis[1]],{y:0,duration:.5,ease:"power3.inOut"},at(26));enter(lis[0],at(26));
+    tl.to({},{duration:.7});
+    return()=&gt;{
+      tl.scrollTrigger.kill();tl.kill();root.classList.remove("is-live");gsap.set(lis,{clearProps:"all"});
+      plot.style.setProperty("--fx",fx0);plot.style.setProperty("--fy",fy0);tv.textContent=v0;td.textContent=d0;
+    };
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g215 · טולטיפ עוקב אחרי קו עם כרטיסי אירוע\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g215.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g215.html\n\nמה זה עושה: גרף הכנסות מצטברות, ובו קו שיער אנכי ונקודה שנעים לאורך הקו בקצב הגלילה, וטולטיפ שמראה את הסכום והיום. כשהקו עובר ליד יום של פנייה או הזמנה, כרטיס חדש מחליק פנימה לעמודה שלצד הגרף ודוחף את הקודמים צעד למטה.\nמתי משתמשים: דשבורד או סקשן תוצאות שבו אירועים אמיתיים מסבירים את העלייה: פניות, הזמנות, תשלומים, הרשמות. מראה גם את הסכום וגם מה גרם לו. שלושה כרטיסים לכל היותר, וכרטיס אחד לכל קפיצה בקו.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית\nבסקשן: מספרים ולקוחות · בעיה ויתרונות\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא כשאין אירועים אמיתיים שמסבירים את העלייה, ולא כשהסכומים קטנים מכדי להצדיק גרף.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G215 · טולטיפ עוקב אחרי קו עם כרטיסי אירוע */\n.tt{max-width:1040px;margin-inline:auto}\n.tt-card{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;padding:32px;border-radius:24px;background:var(--card, #fff);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}\n.tt-head{margin:0 0 24px}\n.tt-head h3{margin:0 0 4px;font-size:clamp(20px,2.1vw,28px);font-weight:700;line-height:1.2}\n.tt-sum{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));font-variant-numeric:tabular-nums}\n.tt-plot{position:relative;aspect-ratio:640 / 300;container-type:size}\n.tt-svg{position:absolute;inset:0;width:100%;height:100%}\n.tt-grid line{stroke:var(--line, #e4e4ee);stroke-width:1;vector-effect:non-scaling-stroke}\n.tt-g0{stop-color:var(--accent, #4a3aff);stop-opacity:.22}.tt-g1{stop-color:var(--accent, #4a3aff);stop-opacity:0}\n.tt-area{fill:url(#tt-fill)}\n.tt-line{fill:none;stroke:var(--accent, #4a3aff);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}\n.tt-yl{position:absolute;top:var(--t);inset-inline-start:0;translate:0 -110%;color:var(--muted, #6a6d85);font-size:13px;font-variant-numeric:tabular-nums}\n/* קו השיער, הנקודה והטולטיפ ממוקמים ביחידות הקונטיינר: --fx ו--fy הם שברים מ-0 עד 1 */\n.tt-hair{position:absolute;left:0;top:0;bottom:0;width:1px;background:color-mix(in oklab,var(--ink, #16182b) 20%,transparent);translate:calc(var(--fx) * 100cqw) 0}\n.tt-dot{position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 4px var(--card, #fff),0 0 0 8px color-mix(in oklab,var(--accent, #4a3aff) 26%,transparent);translate:calc(var(--fx) * 100cqw - 50%) calc(var(--fy) * 100cqh - 50%)}\n.tt-tip{position:absolute;left:0;top:0;display:grid;gap:2px;padding:8px 14px;border-radius:12px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);white-space:nowrap;line-height:1.2;translate:clamp(0px, calc(var(--fx) * 100cqw - 50%), calc(100cqw - 100%)) 0}\n.tt-tip b{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}\n.tt-tip span{font-size:13px;opacity:.82}\n.tt-ax{display:flex;justify-content:space-between;margin-top:12px;color:var(--muted, #6a6d85);font-size:13px;font-variant-numeric:tabular-nums}\n/* עמודת האירועים: הכרטיס החדש למעלה. הגזירה מסתירה את הכרטיס בזמן שהוא נכנס מהקצה */\n.tt-ev{overflow:clip;overflow-clip-margin:8px}\n.tt-list{list-style:none;margin:0;padding:0;display:grid;gap:12px;align-content:start}\n.tt-c{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;background:var(--bg, #f7f7fa);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}\n.tt-c b{display:block;font-size:16px}\n.tt-c small{display:block;margin-top:2px;color:var(--muted, #6a6d85);font-size:14px;line-height:1.35}\n.tt-c strong{font-size:17px;font-variant-numeric:tabular-nums}\n.tt-av{display:block;width:44px;height:44px;border-radius:50%;object-fit:cover}\n.tt-ic{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.tt-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}\n.tt .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.tt.is-live .tt-run{height:320vh}\n.tt.is-live .tt-pin{position:sticky;top:0;min-height:100vh;min-height:100svh;display:grid;align-content:center}\n@media(max-width:767px){.tt-card{grid-template-columns:minmax(0,1fr);gap:24px;padding:20px}.tt-plot{aspect-ratio:640 / 400}.tt-tip b{font-size:16px}}\n\n=== HTML ===\n<div class=\"stage\"><div class=\"tt\"><div class=\"tt-run\"><div class=\"tt-pin\">\n<div class=\"tt-card\">\n  <section class=\"tt-main\" aria-labelledby=\"tt-h\">\n    <header class=\"tt-head\"><h3 id=\"tt-h\">הכנסות מצטברות, ספטמבר<\/h3><p class=\"tt-sum\">₪78,960 עד היום<\/p><\/header>\n    <div class=\"tt-plot\" style=\"--fx:0.0437;--fy:0.3887\">\n      <svg class=\"tt-svg\" viewBox=\"0 0 640 300\" preserveAspectRatio=\"none\" aria-hidden=\"true\" focusable=\"false\">\n        <defs><linearGradient id=\"tt-fill\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop class=\"tt-g0\" offset=\"0\"/><stop class=\"tt-g1\" offset=\"1\"/><\/linearGradient><\/defs>\n        <g class=\"tt-grid\"><line x1=\"0\" y1=\"264\" x2=\"640\" y2=\"264\"/><line x1=\"0\" y1=\"189.3\" x2=\"640\" y2=\"189.3\"/><line x1=\"0\" y1=\"114.7\" x2=\"640\" y2=\"114.7\"/><line x1=\"0\" y1=\"40.0\" x2=\"640\" y2=\"40.0\"/><\/g>\n        <path class=\"tt-area\" d=\"M612 260 C605 259 584.2 256.1 570.3 254.1 C556.4 252 542.5 249.8 528.6 247.9 C514.7 246.1 500.8 245.6 486.9 243 C473 240.4 459 235.2 445.1 232.3 C431.2 229.4 417.3 228.6 403.4 225.8 C389.5 223 375.6 218.3 361.7 215.7 C347.8 213.1 333.9 212.5 320 210.3 C306.1 208.1 292.2 205.9 278.3 202.4 C264.4 198.8 250.5 192.9 236.6 188.9 C222.7 184.8 208.8 181.8 194.9 177.9 C181 174 167 170.1 153.1 165.4 C139.2 160.6 125.3 155 111.4 149.6 C97.5 144.1 83.6 138.3 69.7 132.8 C55.8 127.3 35 119.3 28 116.6 L28 264 L612 264 Z\"/>\n        <path class=\"tt-line\" d=\"M612 260 C605 259 584.2 256.1 570.3 254.1 C556.4 252 542.5 249.8 528.6 247.9 C514.7 246.1 500.8 245.6 486.9 243 C473 240.4 459 235.2 445.1 232.3 C431.2 229.4 417.3 228.6 403.4 225.8 C389.5 223 375.6 218.3 361.7 215.7 C347.8 213.1 333.9 212.5 320 210.3 C306.1 208.1 292.2 205.9 278.3 202.4 C264.4 198.8 250.5 192.9 236.6 188.9 C222.7 184.8 208.8 181.8 194.9 177.9 C181 174 167 170.1 153.1 165.4 C139.2 160.6 125.3 155 111.4 149.6 C97.5 144.1 83.6 138.3 69.7 132.8 C55.8 127.3 35 119.3 28 116.6\"/>\n      <\/svg>\n      <span class=\"tt-yl\" style=\"--t:63.11%\" aria-hidden=\"true\">40,000<\/span><span class=\"tt-yl\" style=\"--t:38.22%\" aria-hidden=\"true\">80,000<\/span>\n      <span class=\"tt-hair\" aria-hidden=\"true\"><\/span><span class=\"tt-dot\" aria-hidden=\"true\"><\/span>\n      <div class=\"tt-tip\" aria-hidden=\"true\"><b>₪78,960<\/b><span>ה-30 בחודש<\/span><\/div>\n    <\/div>\n    <div class=\"tt-ax\" aria-hidden=\"true\"><span>1<\/span><span>10<\/span><span>20<\/span><span>30<\/span><\/div>\n  <\/section>\n  <aside class=\"tt-ev\" aria-label=\"אירועים אחרונים\">\n    <ul class=\"tt-list\">\n      <li class=\"tt-c\"><span class=\"tt-ic\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"/><\/svg><\/span><div><b>הזמנה חדשה<\/b><small>קליניקה בהרצליה, תיקון תקרות<\/small><\/div><strong>₪8,900<\/strong><\/li>\n      <li class=\"tt-c\"><span class=\"tt-ic\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"/><\/svg><\/span><div><b>הזמנה חדשה<\/b><small>משפחת אביטל, ריצוף וצבע<\/small><\/div><strong>₪7,150<\/strong><\/li>\n      <li class=\"tt-c\"><img class=\"tt-av\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/dive/portrait.webp\" alt=\"\" width=\"44\" height=\"44\" loading=\"lazy\" decoding=\"async\"><div><b>פנייה חדשה<\/b><small>רונית כהן, שיפוץ מקלחת<\/small><\/div><span aria-hidden=\"true\"><\/span><\/li>\n    <\/ul>\n  <\/aside>\n<\/div>\n<\/div><\/div><\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP: הקו שלם, הטולטיפ על הסכום הסופי ושלושת הכרטיסים (במארקאפ)\n  const root=document.querySelector(\".tt\"),run=root.querySelector(\".tt-run\"),plot=root.querySelector(\".tt-plot\");\n  const path=plot.querySelector(\".tt-line\"),tv=plot.querySelector(\".tt-tip b\"),td=plot.querySelector(\".tt-tip span\");\n  const lis=[...root.querySelectorAll(\".tt-c\")];      // מהחדש לישן, כמו בסדר הסופי\n  const V=[2140,5330,8610,11250,16980,20470,25890,28760,33020,40250,46110,52840,61310,70280,78960],N=V.length,X0=612,X1=28,fmt=new Intl.NumberFormat(\"he-IL\");   // X0 הוא היום הראשון (ימין), X1 האחרון (שמאל)\n  const sgn=getComputedStyle(root).direction===\"rtl\"?-1:1,pitch=()=>lis[1].offsetTop-lis[0].offsetTop;\n  const fx0=plot.style.getPropertyValue(\"--fx\"),fy0=plot.style.getPropertyValue(\"--fy\"),v0=tv.textContent,d0=td.textContent;\n  // בהפחתת תנועה הפונקציה לא רצה, והערך הסופי מוצג מיד\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const L=path.getTotalLength(),o={p:0};\n    const place=()=>{\n      const pt=path.getPointAtLength(L*o.p),u=Math.min(Math.max((X0-pt.x)/(X0-X1)*(N-1),0),N-1),k=Math.min(Math.floor(u),N-2);\n      plot.style.setProperty(\"--fx\",(pt.x/640).toFixed(4));plot.style.setProperty(\"--fy\",(pt.y/300).toFixed(4));\n      tv.textContent=\"₪\"+fmt.format(Math.round((V[k]+(V[k+1]-V[k])*(u-k))/10)*10);td.textContent=\"ה-\"+Math.round(2+u*2)+\" בחודש\";   // 15 נקודות, כל יומיים\n    };\n    const T0=.5,D=5,at=d=>T0+(d-2)/28*D;      // הרגע שבו הקו עובר ביום d\n    const tl=gsap.timeline({scrollTrigger:{trigger:run,start:\"top top\",end:\"bottom bottom\",scrub:.5,invalidateOnRefresh:true}});\n    place();\n    tl.to(o,{p:1,duration:D,ease:\"none\",onUpdate:place},T0);\n    // הכרטיסים נכנסים מהקצה כשהקו עובר ביום שלהם. הכרטיס הישן יורד צעד בכל כניסה של חדש\n    tl.set(lis[2],{y:()=>-2*pitch()},0).set(lis[1],{y:()=>-pitch()},0);\n    const enter=(li,t)=>tl.fromTo(li,{opacity:0,x:sgn*56},{opacity:1,x:0,duration:.5,ease:\"power3.out\"},t);\n    enter(lis[2],at(10));\n    tl.to(lis[2],{y:()=>-pitch(),duration:.5,ease:\"power3.inOut\"},at(18));enter(lis[1],at(18));\n    tl.to([lis[2],lis[1]],{y:0,duration:.5,ease:\"power3.inOut\"},at(26));enter(lis[0],at(26));\n    tl.to({},{duration:.7});\n    return()=>{\n      tl.scrollTrigger.kill();tl.kill();root.classList.remove(\"is-live\");gsap.set(lis,{clearProps:\"all\"});\n      plot.style.setProperty(\"--fx\",fx0);plot.style.setProperty(\"--fy\",fy0);tv.textContent=v0;td.textContent=d0;\n    };\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטונים בגלריה (21.10.2026) שבהם טולטיפ ונקודה נעים על קו הכנסות, ולצד הגרף כרטיסי התראה (פנייה חדשה, מכירה עם סכום) נכנסים זה מעל זה. נבנה מאפס מהצפייה. מהווריאנט עם תמונות ממוזערות על עקומת צמיחה נבנה רק הטולטיפ עם הכרטיסים. ציר הזמן מימין לשמאל: הימים הראשונים בימין והחודש מסתיים בשמאל, ליד עמודת האירועים, ולכן הטולטיפ מסיים בצד של הכרטיסים. באתר משמאל לימין מסדרים את נקודות הגרף הפוך (ההתחלה בשמאל) ומחליפים בין `X0` ל-`X1` בסקריפט. הנקודה לא מתנתקת מהקו: היא נקראת מ-`getPointAtLength` של אותו נתיב, והסכום והיום נגזרים ממיקומה האופקי מתוך מערך הנתונים `V`, כך שבסוף הגלילה מוצג בדיוק הסכום שבמארקאפ. הטולטיפ בנוי ב-HTML ומועבר ביחידות קונטיינר (`cqw`) עם `clamp` שמונע ממנו לצאת מהגרף. הכרטיסים: ב-DOM הם בסדר הסופי, החדש למעלה. בזמן הגלילה כל כרטיס נכנס כשהקו עובר ביום שלו, והישנים יורדים צעד בכל כניסה (`y` לפי גובה הכרטיס, נמדד מהמסמך ומחושב מחדש בכל `refresh`). לא צריך Flip, כי המיקומים הסופיים כבר במארקאפ. הערך הסופי במארקאפ: בלי GSAP ובהפחתת תנועה רואים קו שלם, טולטיפ על הסכום הסופי ושלושה כרטיסים. כשהמהלך רץ הסצנה נעוצה (`is-live`) כדי שאפשר יהיה להגיע לסוף. נגישות: הטולטיפ, הנקודה והגרף מוסתרים מקורא מסך. הסכום הכולל כתוב בכותרת, והכרטיסים הם רשימה אמיתית. בטלפון הכרטיסים יורדים מתחת לגרף והגרף גבוה יותר (ה-SVG נמתח למלוא הלוח עם `non-scaling-stroke`), כדי שהטולטיפ לא יכסה את הקו. התמונה בכרטיס הפנייה היא תמונת הדוגמה של המאגר.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G215 · טולטיפ עוקב אחרי קו עם כרטיסי אירוע */\n.tt{max-width:1040px;margin-inline:auto}\n.tt-card{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:32px;padding:32px;border-radius:24px;background:var(--card, #fff);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}\n.tt-head{margin:0 0 24px}\n.tt-head h3{margin:0 0 4px;font-size:clamp(20px,2.1vw,28px);font-weight:700;line-height:1.2}\n.tt-sum{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));font-variant-numeric:tabular-nums}\n.tt-plot{position:relative;aspect-ratio:640 / 300;container-type:size}\n.tt-svg{position:absolute;inset:0;width:100%;height:100%}\n.tt-grid line{stroke:var(--line, #e4e4ee);stroke-width:1;vector-effect:non-scaling-stroke}\n.tt-g0{stop-color:var(--accent, #4a3aff);stop-opacity:.22}.tt-g1{stop-color:var(--accent, #4a3aff);stop-opacity:0}\n.tt-area{fill:url(#tt-fill)}\n.tt-line{fill:none;stroke:var(--accent, #4a3aff);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}\n.tt-yl{position:absolute;top:var(--t);inset-inline-start:0;translate:0 -110%;color:var(--muted, #6a6d85);font-size:13px;font-variant-numeric:tabular-nums}\n/* קו השיער, הנקודה והטולטיפ ממוקמים ביחידות הקונטיינר: --fx ו--fy הם שברים מ-0 עד 1 */\n.tt-hair{position:absolute;left:0;top:0;bottom:0;width:1px;background:color-mix(in oklab,var(--ink, #16182b) 20%,transparent);translate:calc(var(--fx) * 100cqw) 0}\n.tt-dot{position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 4px var(--card, #fff),0 0 0 8px color-mix(in oklab,var(--accent, #4a3aff) 26%,transparent);translate:calc(var(--fx) * 100cqw - 50%) calc(var(--fy) * 100cqh - 50%)}\n.tt-tip{position:absolute;left:0;top:0;display:grid;gap:2px;padding:8px 14px;border-radius:12px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);white-space:nowrap;line-height:1.2;translate:clamp(0px, calc(var(--fx) * 100cqw - 50%), calc(100cqw - 100%)) 0}\n.tt-tip b{font-size:18px;font-weight:700;font-variant-numeric:tabular-nums}\n.tt-tip span{font-size:13px;opacity:.82}\n.tt-ax{display:flex;justify-content:space-between;margin-top:12px;color:var(--muted, #6a6d85);font-size:13px;font-variant-numeric:tabular-nums}\n/* עמודת האירועים: הכרטיס החדש למעלה. הגזירה מסתירה את הכרטיס בזמן שהוא נכנס מהקצה */\n.tt-ev{overflow:clip;overflow-clip-margin:8px}\n.tt-list{list-style:none;margin:0;padding:0;display:grid;gap:12px;align-content:start}\n.tt-c{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;padding:14px 16px;border-radius:16px;background:var(--bg, #f7f7fa);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}\n.tt-c b{display:block;font-size:16px}\n.tt-c small{display:block;margin-top:2px;color:var(--muted, #6a6d85);font-size:14px;line-height:1.35}\n.tt-c strong{font-size:17px;font-variant-numeric:tabular-nums}\n.tt-av{display:block;width:44px;height:44px;border-radius:50%;object-fit:cover}\n.tt-ic{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.tt-ic svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}\n.tt .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n.tt.is-live .tt-run{height:320vh}\n.tt.is-live .tt-pin{position:sticky;top:0;min-height:100vh;min-height:100svh;display:grid;align-content:center}\n@media(max-width:767px){.tt-card{grid-template-columns:minmax(0,1fr);gap:24px;padding:20px}.tt-plot{aspect-ratio:640 / 400}.tt-tip b{font-size:16px}}","html":"<div class=\"stage\"><div class=\"tt\"><div class=\"tt-run\"><div class=\"tt-pin\">\n<div class=\"tt-card\">\n  <section class=\"tt-main\" aria-labelledby=\"tt-h\">\n    <header class=\"tt-head\"><h3 id=\"tt-h\">הכנסות מצטברות, ספטמבר<\/h3><p class=\"tt-sum\">₪78,960 עד היום<\/p><\/header>\n    <div class=\"tt-plot\" style=\"--fx:0.0437;--fy:0.3887\">\n      <svg class=\"tt-svg\" viewBox=\"0 0 640 300\" preserveAspectRatio=\"none\" aria-hidden=\"true\" focusable=\"false\">\n        <defs><linearGradient id=\"tt-fill\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop class=\"tt-g0\" offset=\"0\"/><stop class=\"tt-g1\" offset=\"1\"/><\/linearGradient><\/defs>\n        <g class=\"tt-grid\"><line x1=\"0\" y1=\"264\" x2=\"640\" y2=\"264\"/><line x1=\"0\" y1=\"189.3\" x2=\"640\" y2=\"189.3\"/><line x1=\"0\" y1=\"114.7\" x2=\"640\" y2=\"114.7\"/><line x1=\"0\" y1=\"40.0\" x2=\"640\" y2=\"40.0\"/><\/g>\n        <path class=\"tt-area\" d=\"M612 260 C605 259 584.2 256.1 570.3 254.1 C556.4 252 542.5 249.8 528.6 247.9 C514.7 246.1 500.8 245.6 486.9 243 C473 240.4 459 235.2 445.1 232.3 C431.2 229.4 417.3 228.6 403.4 225.8 C389.5 223 375.6 218.3 361.7 215.7 C347.8 213.1 333.9 212.5 320 210.3 C306.1 208.1 292.2 205.9 278.3 202.4 C264.4 198.8 250.5 192.9 236.6 188.9 C222.7 184.8 208.8 181.8 194.9 177.9 C181 174 167 170.1 153.1 165.4 C139.2 160.6 125.3 155 111.4 149.6 C97.5 144.1 83.6 138.3 69.7 132.8 C55.8 127.3 35 119.3 28 116.6 L28 264 L612 264 Z\"/>\n        <path class=\"tt-line\" d=\"M612 260 C605 259 584.2 256.1 570.3 254.1 C556.4 252 542.5 249.8 528.6 247.9 C514.7 246.1 500.8 245.6 486.9 243 C473 240.4 459 235.2 445.1 232.3 C431.2 229.4 417.3 228.6 403.4 225.8 C389.5 223 375.6 218.3 361.7 215.7 C347.8 213.1 333.9 212.5 320 210.3 C306.1 208.1 292.2 205.9 278.3 202.4 C264.4 198.8 250.5 192.9 236.6 188.9 C222.7 184.8 208.8 181.8 194.9 177.9 C181 174 167 170.1 153.1 165.4 C139.2 160.6 125.3 155 111.4 149.6 C97.5 144.1 83.6 138.3 69.7 132.8 C55.8 127.3 35 119.3 28 116.6\"/>\n      <\/svg>\n      <span class=\"tt-yl\" style=\"--t:63.11%\" aria-hidden=\"true\">40,000<\/span><span class=\"tt-yl\" style=\"--t:38.22%\" aria-hidden=\"true\">80,000<\/span>\n      <span class=\"tt-hair\" aria-hidden=\"true\"><\/span><span class=\"tt-dot\" aria-hidden=\"true\"><\/span>\n      <div class=\"tt-tip\" aria-hidden=\"true\"><b>₪78,960<\/b><span>ה-30 בחודש<\/span><\/div>\n    <\/div>\n    <div class=\"tt-ax\" aria-hidden=\"true\"><span>1<\/span><span>10<\/span><span>20<\/span><span>30<\/span><\/div>\n  <\/section>\n  <aside class=\"tt-ev\" aria-label=\"אירועים אחרונים\">\n    <ul class=\"tt-list\">\n      <li class=\"tt-c\"><span class=\"tt-ic\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"/><\/svg><\/span><div><b>הזמנה חדשה<\/b><small>קליניקה בהרצליה, תיקון תקרות<\/small><\/div><strong>₪8,900<\/strong><\/li>\n      <li class=\"tt-c\"><span class=\"tt-ic\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"/><\/svg><\/span><div><b>הזמנה חדשה<\/b><small>משפחת אביטל, ריצוף וצבע<\/small><\/div><strong>₪7,150<\/strong><\/li>\n      <li class=\"tt-c\"><img class=\"tt-av\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/dive/portrait.webp\" alt=\"\" width=\"44\" height=\"44\" loading=\"lazy\" decoding=\"async\"><div><b>פנייה חדשה<\/b><small>רונית כהן, שיפוץ מקלחת<\/small><\/div><span aria-hidden=\"true\"><\/span><\/li>\n    <\/ul>\n  <\/aside>\n<\/div>\n<\/div><\/div><\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP: הקו שלם, הטולטיפ על הסכום הסופי ושלושת הכרטיסים (במארקאפ)\n  const root=document.querySelector(\".tt\"),run=root.querySelector(\".tt-run\"),plot=root.querySelector(\".tt-plot\");\n  const path=plot.querySelector(\".tt-line\"),tv=plot.querySelector(\".tt-tip b\"),td=plot.querySelector(\".tt-tip span\");\n  const lis=[...root.querySelectorAll(\".tt-c\")];      // מהחדש לישן, כמו בסדר הסופי\n  const V=[2140,5330,8610,11250,16980,20470,25890,28760,33020,40250,46110,52840,61310,70280,78960],N=V.length,X0=612,X1=28,fmt=new Intl.NumberFormat(\"he-IL\");   // X0 הוא היום הראשון (ימין), X1 האחרון (שמאל)\n  const sgn=getComputedStyle(root).direction===\"rtl\"?-1:1,pitch=()=>lis[1].offsetTop-lis[0].offsetTop;\n  const fx0=plot.style.getPropertyValue(\"--fx\"),fy0=plot.style.getPropertyValue(\"--fy\"),v0=tv.textContent,d0=td.textContent;\n  // בהפחתת תנועה הפונקציה לא רצה, והערך הסופי מוצג מיד\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const L=path.getTotalLength(),o={p:0};\n    const place=()=>{\n      const pt=path.getPointAtLength(L*o.p),u=Math.min(Math.max((X0-pt.x)/(X0-X1)*(N-1),0),N-1),k=Math.min(Math.floor(u),N-2);\n      plot.style.setProperty(\"--fx\",(pt.x/640).toFixed(4));plot.style.setProperty(\"--fy\",(pt.y/300).toFixed(4));\n      tv.textContent=\"₪\"+fmt.format(Math.round((V[k]+(V[k+1]-V[k])*(u-k))/10)*10);td.textContent=\"ה-\"+Math.round(2+u*2)+\" בחודש\";   // 15 נקודות, כל יומיים\n    };\n    const T0=.5,D=5,at=d=>T0+(d-2)/28*D;      // הרגע שבו הקו עובר ביום d\n    const tl=gsap.timeline({scrollTrigger:{trigger:run,start:\"top top\",end:\"bottom bottom\",scrub:.5,invalidateOnRefresh:true}});\n    place();\n    tl.to(o,{p:1,duration:D,ease:\"none\",onUpdate:place},T0);\n    // הכרטיסים נכנסים מהקצה כשהקו עובר ביום שלהם. הכרטיס הישן יורד צעד בכל כניסה של חדש\n    tl.set(lis[2],{y:()=>-2*pitch()},0).set(lis[1],{y:()=>-pitch()},0);\n    const enter=(li,t)=>tl.fromTo(li,{opacity:0,x:sgn*56},{opacity:1,x:0,duration:.5,ease:\"power3.out\"},t);\n    enter(lis[2],at(10));\n    tl.to(lis[2],{y:()=>-pitch(),duration:.5,ease:\"power3.inOut\"},at(18));enter(lis[1],at(18));\n    tl.to([lis[2],lis[1]],{y:0,duration:.5,ease:\"power3.inOut\"},at(26));enter(lis[0],at(26));\n    tl.to({},{duration:.7});\n    return()=>{\n      tl.scrollTrigger.kill();tl.kill();root.classList.remove(\"is-live\");gsap.set(lis,{clearProps:\"all\"});\n      plot.style.setProperty(\"--fx\",fx0);plot.style.setProperty(\"--fy\",fy0);tv.textContent=v0;td.textContent=d0;\n    };\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g214.html" rel="prev"><small>→ הקודם</small><b>סימונים ותוויות שנוספים אחד אחרי השני</b></a><a href="g216.html" rel="next"><small>הבא ←</small><b>עמודות ושורות שמחליפות מקום לפי הערכים</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · טולטיפ עוקב אחרי קו עם כרטיסי אירוע").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP: הקו שלם, הטולטיפ על הסכום הסופי ושלושת הכרטיסים (במארקאפ)
+  const root=document.querySelector(".tt"),run=root.querySelector(".tt-run"),plot=root.querySelector(".tt-plot");
+  const path=plot.querySelector(".tt-line"),tv=plot.querySelector(".tt-tip b"),td=plot.querySelector(".tt-tip span");
+  const lis=[...root.querySelectorAll(".tt-c")];      // מהחדש לישן, כמו בסדר הסופי
+  const V=[2140,5330,8610,11250,16980,20470,25890,28760,33020,40250,46110,52840,61310,70280,78960],N=V.length,X0=612,X1=28,fmt=new Intl.NumberFormat("he-IL");   // X0 הוא היום הראשון (ימין), X1 האחרון (שמאל)
+  const sgn=getComputedStyle(root).direction==="rtl"?-1:1,pitch=()=>lis[1].offsetTop-lis[0].offsetTop;
+  const fx0=plot.style.getPropertyValue("--fx"),fy0=plot.style.getPropertyValue("--fy"),v0=tv.textContent,d0=td.textContent;
+  // בהפחתת תנועה הפונקציה לא רצה, והערך הסופי מוצג מיד
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const L=path.getTotalLength(),o={p:0};
+    const place=()=>{
+      const pt=path.getPointAtLength(L*o.p),u=Math.min(Math.max((X0-pt.x)/(X0-X1)*(N-1),0),N-1),k=Math.min(Math.floor(u),N-2);
+      plot.style.setProperty("--fx",(pt.x/640).toFixed(4));plot.style.setProperty("--fy",(pt.y/300).toFixed(4));
+      tv.textContent="₪"+fmt.format(Math.round((V[k]+(V[k+1]-V[k])*(u-k))/10)*10);td.textContent="ה-"+Math.round(2+u*2)+" בחודש";   // 15 נקודות, כל יומיים
+    };
+    const T0=.5,D=5,at=d=>T0+(d-2)/28*D;      // הרגע שבו הקו עובר ביום d
+    const tl=gsap.timeline({scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}});
+    place();
+    tl.to(o,{p:1,duration:D,ease:"none",onUpdate:place},T0);
+    // הכרטיסים נכנסים מהקצה כשהקו עובר ביום שלהם. הכרטיס הישן יורד צעד בכל כניסה של חדש
+    tl.set(lis[2],{y:()=>-2*pitch()},0).set(lis[1],{y:()=>-pitch()},0);
+    const enter=(li,t)=>tl.fromTo(li,{opacity:0,x:sgn*56},{opacity:1,x:0,duration:.5,ease:"power3.out"},t);
+    enter(lis[2],at(10));
+    tl.to(lis[2],{y:()=>-pitch(),duration:.5,ease:"power3.inOut"},at(18));enter(lis[1],at(18));
+    tl.to([lis[2],lis[1]],{y:0,duration:.5,ease:"power3.inOut"},at(26));enter(lis[0],at(26));
+    tl.to({},{duration:.7});
+    return()=>{
+      tl.scrollTrigger.kill();tl.kill();root.classList.remove("is-live");gsap.set(lis,{clearProps:"all"});
+      plot.style.setProperty("--fx",fx0);plot.style.setProperty("--fy",fy0);tv.textContent=v0;td.textContent=d0;
+    };
+  });
+})();
+</script>
+</body>
+</html>

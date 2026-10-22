@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B94 · כרטיס מוצר שעובר בין טעינה, מצב ריק ומצב מלא | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.ust{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px);max-width:1100px;margin-inline:auto}
+.ust-side{display:grid;gap:24px;justify-items:start}
+.ust-side h2{margin:0;font-size:clamp(28px,3.2vw,44px);line-height:1.12;text-wrap:balance}
+.ust-side p{margin:0;max-width:40ch;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.ust-tabs{display:none;gap:4px;padding:4px;border-radius:999px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
+.ust.is-live .ust-tabs{display:inline-flex}
+.ust-tab{min-height:44px;padding:0 20px;border:0;border-radius:999px;background:transparent;color:var(--muted);font:inherit;font-weight:600;cursor:pointer;transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s linear}
+.ust-tab[aria-selected="true"]{background:var(--ink);color:var(--bg)}
+.ust-tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(hover:hover){.ust-tab[aria-selected="false"]:hover{color:var(--ink)}}
+.ust-card{display:grid;gap:20px;padding:24px;border:1px solid var(--line);border-radius:20px;background:var(--card);box-shadow:0 28px 56px -36px color-mix(in srgb,var(--ink) 40%,transparent)}
+.ust-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.ust-name{font-size:18px;font-weight:700}
+.ust-cnt{display:grid;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
+.ust-cnt span{grid-area:1/1;justify-self:end;display:none;white-space:nowrap}
+.ust-cnt .on{display:block}
+.ust-body{display:grid}
+.ust-pane{grid-area:1/1;display:grid;align-content:start}
+.ust-sk,.ust-em{display:none}
+.ust-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;min-height:64px;padding:12px 0;border-top:1px solid var(--line)}
+.ust-row:first-child{border-top:0}
+.ust-ic{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:color-mix(in srgb,var(--accent) 12%,var(--card))}
+.ust-ic svg{width:20px;height:20px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ust-tx{display:grid;gap:2px;min-width:0}
+.ust-tx b{font-size:16px;font-weight:600;line-height:1.35}
+.ust-tx span{font-size:14px;color:var(--muted)}
+.ust-st{padding:4px 12px;border-radius:999px;background:color-mix(in srgb,var(--accent) 14%,var(--card));color:var(--ink);font-size:13px;font-weight:600;white-space:nowrap}
+.ust-st.w{background:transparent;box-shadow:inset 0 0 0 1px var(--line);color:var(--muted)}
+/* שלד הטעינה: אותה שורה בדיוק, כדי שהמעבר לא יזיז כלום */
+.ust-b{position:relative;display:block;overflow:hidden;border-radius:8px;background:var(--line)}
+.ust-b::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--bg) 65%,transparent),transparent);transform:translateX(100%);animation:ust-sh 1.5s linear infinite}
+.ust:dir(ltr) .ust-b::after{animation-direction:reverse}
+@keyframes ust-sh{to{transform:translateX(-100%)}}
+.ust-b.i{width:40px;height:40px;border-radius:12px}
+.ust-b.l1{width:62%;height:14px}
+.ust-b.l2{width:38%;height:12px;margin-top:8px}
+.ust-b.c{width:72px;height:26px;border-radius:999px}
+.ust-tx .ust-b{background:var(--line)}
+.ust-em{place-items:center;align-content:center;gap:12px;padding:24px 0;text-align:center}
+.ust-em svg{width:96px;height:96px;fill:none;stroke:var(--muted);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ust-em svg .a{stroke:var(--accent)}
+.ust-em h3{margin:0;font-size:18px;font-weight:700}
+.ust-em p{margin:0;max-width:32ch;font-size:15px;line-height:1.55;color:var(--muted)}
+.ust-cta{margin-top:8px;padding:12px 24px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:15px;font-weight:700}
+/* מצב חי: שלושת הלוחות באותו תא, והפעיל מוצג */
+.ust.is-live .ust-sk,.ust.is-live .ust-em{display:grid}
+.ust.is-live .ust-cnt span{display:block;opacity:0;transition:opacity .3s linear}
+.ust.is-live .ust-cnt .on{opacity:1}
+.ust.is-live .ust-pane{opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .35s cubic-bezier(.2,.6,.2,1),transform .35s cubic-bezier(.2,.6,.2,1),visibility 0s linear .35s}
+.ust.is-live .ust-pane.on{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.ust.is-live .ust-fl .ust-row{opacity:0;transform:translateY(10px);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .4s cubic-bezier(.2,.6,.2,1)}
+.ust.is-live .ust-fl.on .ust-row{opacity:1;transform:none;transition-delay:calc(var(--i) * 70ms + 120ms)}
+@media(prefers-reduced-motion:reduce){.ust *,.ust *::after{transition:none!important;animation:none!important}}
+@media(max-width:767px){
+  .ust{grid-template-columns:minmax(0,1fr);gap:32px}
+  .ust-tabs{display:none;width:100%}
+  .ust.is-live .ust-tabs{display:flex}
+  .ust-tab{flex:1;padding:0 12px}
+  .ust-card{padding:20px}
+  .ust-row{gap:12px}
+}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=behavior">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="b93.html" rel="prev" title="הקודם: מילה שמחליפה משפחת גופן במקום">→<span class="sr-only">הקודם</span></a><span class="vpn-n">82/83</span><a href="b95.html" rel="next" title="הבא: מסגרת שמחליפה יחס בלחיצה והתמונה נחתכת מחדש תוך כדי תנועה">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">B94</span> · כרטיס מוצר שעובר בין טעינה, מצב ריק ומצב מלא</h1>
+  <span class="vchip cat-behavior">התנהגויות</span>
+  <span class="vchip">Tabs · CSS transitions · IntersectionObserver</span>
+  <span class="vchip use">טעינה ופידבק</span><span class="vchip use">כרטיסים</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b94"><code>MV:b94</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="b94">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>כרטיס של פורטל לקוחות עם רשימת מסמכים, ולידו שלוש לשוניות: בטעינה, ריק, מלא. בכניסה לעמוד הכרטיס עובר לבד פעם אחת: שורות אפורות עם ברק שעובר עליהן, אחר כך מסך ריק עם הסבר, ואז רשימה שנכנסת שורה אחרי שורה. אחרי זה הגולש בוחר לבד איזה מצב לראות. הוא מבין שהמערכת חשבה גם על הרגע שבו אין עדיין כלום.</p>
+  <p class="when"><b>מתי משתמשים:</b> שירות שיש לו ממשק ללקוח: פורטל, אפליקציה, מערכת הזמנות, לוח מעקב. מתאים לסקשן ״מה הלקוח רואה״ כשהאמון תלוי בכך שגם המצבים הלא יפים מטופלים. שלוש לשוניות, פעם אחת בעמוד. לא למוצר שאין לו ממשק, ולא כשיש רק מצב אחד אמיתי להראות.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית</dd></div><div><dt>בסקשן</dt><dd>תהליך ושלבים · בעיה ויתרונות · שירותים ומוצרים</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>משרת תוכן, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשאין באמת מצב ריק או מצב טעינה במוצר, ולא כשהכרטיס הוא תוכן שלא משתנה.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="b94"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="stage"><section class="ust">
+  <div class="ust-side">
+    <h2>גם כשאין עדיין כלום, הלקוח רואה מסך ברור</h2>
+    <p>הפורטל מראה מה קורה בזמן טעינה, מה כתוב כשעוד לא הועלה אף מסמך, ואיך נראית הרשימה כשהיא מלאה.</p>
+    <div class="ust-tabs" role="tablist" aria-label="מצב המסך">
+      <button class="ust-tab" role="tab" type="button" id="ust-t0" aria-controls="ust-p0" aria-selected="false" tabindex="-1">בטעינה</button>
+      <button class="ust-tab" role="tab" type="button" id="ust-t1" aria-controls="ust-p1" aria-selected="false" tabindex="-1">ריק</button>
+      <button class="ust-tab" role="tab" type="button" id="ust-t2" aria-controls="ust-p2" aria-selected="true" tabindex="0">מלא</button>
+    </div>
+  </div>
+  <div class="ust-card">
+    <div class="ust-top"><span class="ust-name">המסמכים שלי</span>
+      <span class="ust-cnt"><span>בטעינה</span><span>אין מסמכים</span><span class="on">4 מסמכים</span></span></div>
+    <div class="ust-body">
+      <div class="ust-pane ust-sk" id="ust-p0" role="tabpanel" aria-labelledby="ust-t0" tabindex="0" aria-busy="true">
+        <div class="ust-row"><i class="ust-b i"></i><div class="ust-tx"><i class="ust-b l1"></i><i class="ust-b l2"></i></div><i class="ust-b c"></i></div>
+        <div class="ust-row"><i class="ust-b i"></i><div class="ust-tx"><i class="ust-b l1"></i><i class="ust-b l2"></i></div><i class="ust-b c"></i></div>
+        <div class="ust-row"><i class="ust-b i"></i><div class="ust-tx"><i class="ust-b l1"></i><i class="ust-b l2"></i></div><i class="ust-b c"></i></div>
+        <div class="ust-row"><i class="ust-b i"></i><div class="ust-tx"><i class="ust-b l1"></i><i class="ust-b l2"></i></div><i class="ust-b c"></i></div>
+      </div>
+      <div class="ust-pane ust-em" id="ust-p1" role="tabpanel" aria-labelledby="ust-t1" tabindex="0">
+        <svg viewBox="0 0 96 96" aria-hidden="true"><path d="M14 30h24l8 10h36v38a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4z"/><path class="a" d="M48 52v18M40 60l8-8 8 8"/></svg>
+        <h3>עוד לא הועלו מסמכים</h3>
+        <p>כשתעלו את המסמך הראשון הוא יופיע כאן, ואנחנו נעדכן אתכם ברגע שעברנו עליו.</p>
+        <span class="ust-cta" aria-hidden="true">העלאת מסמך</span>
+      </div>
+      <div class="ust-pane ust-fl on" id="ust-p2" role="tabpanel" aria-labelledby="ust-t2" tabindex="0">
+        <div class="ust-row" style="--i:0"><span class="ust-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></span><div class="ust-tx"><b>דוח רווח והפסד, ספטמבר</b><span>הועלה אתמול</span></div><span class="ust-st">אושר</span></div>
+        <div class="ust-row" style="--i:1"><span class="ust-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></span><div class="ust-tx"><b>אישור ניהול ספרים 2026</b><span>הועלה לפני שלושה ימים</span></div><span class="ust-st">אושר</span></div>
+        <div class="ust-row" style="--i:2"><span class="ust-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></span><div class="ust-tx"><b>חשבונית מס 4471</b><span>הועלה לפני שבוע</span></div><span class="ust-st w">ממתין לחתימה</span></div>
+        <div class="ust-row" style="--i:3"><span class="ust-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z"/><path d="M14 3v5h5M10 13h6M10 17h6"/></svg></span><div class="ust-tx"><b>הסכם שכירות למשרד</b><span>הועלה לפני שבועיים</span></div><span class="ust-st">אושר</span></div>
+      </div>
+    </div>
+  </div>
+</section></div>
+
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטוני מוצר בגלריה של prompt-motion.com (21.10.2026) שבהם אותו מסך עובר בין שלד טעינה, מצב ריק ומצב מלא. נבנה מאפס מהצפייה. <b>זה מהלך עם בקרה אמיתית:</b> שלוש לשוניות <code>button</code> בתוך <code>role="tablist"</code>, <code>aria-selected</code> ו-<code>tabindex</code> מתגלגל, חיצים ו-Home/End (החצים ימינה ושמאלה מתהפכים לפי <code>direction</code> של העמוד), ו-<code>:focus-visible</code> ברור. אזור המגע הוא 44px לפחות. <b>המארקאפ הוא מצב הסיום:</b> הרשימה המלאה בלבד, והלשוניות מוסתרות עד שה-JS עולה, כדי שלא יוצגו כפתורים שלא עושים כלום. <b>כשה-JS חי</b> שלושת הלוחות נערמים באותו תא של grid (לכן הגובה הוא של הגבוה ביותר, בלי קפיצה בין מצבים), והלוח הפעיל מקבל <code>.on</code>. הלוחות הלא פעילים הם <code>inert</code>, כך שקורא מסך ו-Tab מדלגים עליהם. המעבר הוא <code>opacity</code> ו-<code>transform</code> בלבד, ושורות הרשימה נכנסות עם <code>transition-delay</code> לפי <code>--i</code>. <b>הברק</b> של השלד הוא <code>translateX</code> על אלמנט מדומה, ולא תנועה של מאפיין פריסה; הוא רץ מימין לשמאל (ב-LTR הכיוון מתהפך לבד דרך <code>:dir(ltr)</code>). <b>ההפעלה האוטומטית</b> רצה פעם אחת בלבד, כשהכרטיס נכנס לחצי מהמסך (שלד, מצב ריק, מלא) ונעצרת מיד אם הגולש נגע בלשונית, כדי לא להזיז תוכן מתחת לידיים שלו. בהפחתת תנועה אין הפעלה אוטומטית, אין מעברים ואין ברק, והכרטיס נפתח על המצב המלא. הכפתור במצב הריק הוא <code>span</code> לא אינטראקטיבי (מסך דוגמה).</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b94.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B94 · כרטיס מוצר שעובר בין טעינה, מצב ריק ומצב מלא */
+.ust{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px);max-width:1100px;margin-inline:auto}
+.ust-side{display:grid;gap:24px;justify-items:start}
+.ust-side h2{margin:0;font-size:clamp(28px,3.2vw,44px);line-height:1.12;text-wrap:balance}
+.ust-side p{margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.ust-tabs{display:none;gap:4px;padding:4px;border-radius:999px;background:var(--card, #fff);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}
+.ust.is-live .ust-tabs{display:inline-flex}
+.ust-tab{min-height:44px;padding:0 20px;border:0;border-radius:999px;background:transparent;color:var(--muted, #6a6d85);font:inherit;font-weight:600;cursor:pointer;transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s linear}
+.ust-tab[aria-selected="true"]{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+.ust-tab:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+@media(hover:hover){.ust-tab[aria-selected="false"]:hover{color:var(--ink, #16182b)}}
+.ust-card{display:grid;gap:20px;padding:24px;border:1px solid var(--line, #e4e4ee);border-radius:20px;background:var(--card, #fff);box-shadow:0 28px 56px -36px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}
+.ust-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.ust-name{font-size:18px;font-weight:700}
+.ust-cnt{display:grid;font-size:14px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}
+.ust-cnt span{grid-area:1/1;justify-self:end;display:none;white-space:nowrap}
+.ust-cnt .on{display:block}
+.ust-body{display:grid}
+.ust-pane{grid-area:1/1;display:grid;align-content:start}
+.ust-sk,.ust-em{display:none}
+.ust-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;min-height:64px;padding:12px 0;border-top:1px solid var(--line, #e4e4ee)}
+.ust-row:first-child{border-top:0}
+.ust-ic{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:color-mix(in srgb,var(--accent, #4a3aff) 12%,var(--card, #fff))}
+.ust-ic svg{width:20px;height:20px;fill:none;stroke:var(--accent, #4a3aff);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ust-tx{display:grid;gap:2px;min-width:0}
+.ust-tx b{font-size:16px;font-weight:600;line-height:1.35}
+.ust-tx span{font-size:14px;color:var(--muted, #6a6d85)}
+.ust-st{padding:4px 12px;border-radius:999px;background:color-mix(in srgb,var(--accent, #4a3aff) 14%,var(--card, #fff));color:var(--ink, #16182b);font-size:13px;font-weight:600;white-space:nowrap}
+.ust-st.w{background:transparent;box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);color:var(--muted, #6a6d85)}
+/* שלד הטעינה: אותה שורה בדיוק, כדי שהמעבר לא יזיז כלום */
+.ust-b{position:relative;display:block;overflow:hidden;border-radius:8px;background:var(--line, #e4e4ee)}
+.ust-b::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--bg, #f7f7fa) 65%,transparent),transparent);transform:translateX(100%);animation:ust-sh 1.5s linear infinite}
+.ust:dir(ltr) .ust-b::after{animation-direction:reverse}
+@keyframes ust-sh{to{transform:translateX(-100%)}}
+.ust-b.i{width:40px;height:40px;border-radius:12px}
+.ust-b.l1{width:62%;height:14px}
+.ust-b.l2{width:38%;height:12px;margin-top:8px}
+.ust-b.c{width:72px;height:26px;border-radius:999px}
+.ust-tx .ust-b{background:var(--line, #e4e4ee)}
+.ust-em{place-items:center;align-content:center;gap:12px;padding:24px 0;text-align:center}
+.ust-em svg{width:96px;height:96px;fill:none;stroke:var(--muted, #6a6d85);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ust-em svg .a{stroke:var(--accent, #4a3aff)}
+.ust-em h3{margin:0;font-size:18px;font-weight:700}
+.ust-em p{margin:0;max-width:32ch;font-size:15px;line-height:1.55;color:var(--muted, #6a6d85)}
+.ust-cta{margin-top:8px;padding:12px 24px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:15px;font-weight:700}
+/* מצב חי: שלושת הלוחות באותו תא, והפעיל מוצג */
+.ust.is-live .ust-sk,.ust.is-live .ust-em{display:grid}
+.ust.is-live .ust-cnt span{display:block;opacity:0;transition:opacity .3s linear}
+.ust.is-live .ust-cnt .on{opacity:1}
+.ust.is-live .ust-pane{opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .35s cubic-bezier(.2,.6,.2,1),transform .35s cubic-bezier(.2,.6,.2,1),visibility 0s linear .35s}
+.ust.is-live .ust-pane.on{opacity:1;visibility:visible;transform:none;transition-delay:0s}
+.ust.is-live .ust-fl .ust-row{opacity:0;transform:translateY(10px);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .4s cubic-bezier(.2,.6,.2,1)}
+.ust.is-live .ust-fl.on .ust-row{opacity:1;transform:none;transition-delay:calc(var(--i) * 70ms + 120ms)}
+@media(prefers-reduced-motion:reduce){.ust *,.ust *::after{transition:none!important;animation:none!important}}
+@media(max-width:767px){
+  .ust{grid-template-columns:minmax(0,1fr);gap:32px}
+  .ust-tabs{display:none;width:100%}
+  .ust.is-live .ust-tabs{display:flex}
+  .ust-tab{flex:1;padding:0 12px}
+  .ust-card{padding:20px}
+  .ust-row{gap:12px}
+}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;section class="ust"&gt;
+  &lt;div class="ust-side"&gt;
+    &lt;h2&gt;גם כשאין עדיין כלום, הלקוח רואה מסך ברור&lt;/h2&gt;
+    &lt;p&gt;הפורטל מראה מה קורה בזמן טעינה, מה כתוב כשעוד לא הועלה אף מסמך, ואיך נראית הרשימה כשהיא מלאה.&lt;/p&gt;
+    &lt;div class="ust-tabs" role="tablist" aria-label="מצב המסך"&gt;
+      &lt;button class="ust-tab" role="tab" type="button" id="ust-t0" aria-controls="ust-p0" aria-selected="false" tabindex="-1"&gt;בטעינה&lt;/button&gt;
+      &lt;button class="ust-tab" role="tab" type="button" id="ust-t1" aria-controls="ust-p1" aria-selected="false" tabindex="-1"&gt;ריק&lt;/button&gt;
+      &lt;button class="ust-tab" role="tab" type="button" id="ust-t2" aria-controls="ust-p2" aria-selected="true" tabindex="0"&gt;מלא&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="ust-card"&gt;
+    &lt;div class="ust-top"&gt;&lt;span class="ust-name"&gt;המסמכים שלי&lt;/span&gt;
+      &lt;span class="ust-cnt"&gt;&lt;span&gt;בטעינה&lt;/span&gt;&lt;span&gt;אין מסמכים&lt;/span&gt;&lt;span class="on"&gt;4 מסמכים&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;div class="ust-body"&gt;
+      &lt;div class="ust-pane ust-sk" id="ust-p0" role="tabpanel" aria-labelledby="ust-t0" tabindex="0" aria-busy="true"&gt;
+        &lt;div class="ust-row"&gt;&lt;i class="ust-b i"&gt;&lt;/i&gt;&lt;div class="ust-tx"&gt;&lt;i class="ust-b l1"&gt;&lt;/i&gt;&lt;i class="ust-b l2"&gt;&lt;/i&gt;&lt;/div&gt;&lt;i class="ust-b c"&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;div class="ust-row"&gt;&lt;i class="ust-b i"&gt;&lt;/i&gt;&lt;div class="ust-tx"&gt;&lt;i class="ust-b l1"&gt;&lt;/i&gt;&lt;i class="ust-b l2"&gt;&lt;/i&gt;&lt;/div&gt;&lt;i class="ust-b c"&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;div class="ust-row"&gt;&lt;i class="ust-b i"&gt;&lt;/i&gt;&lt;div class="ust-tx"&gt;&lt;i class="ust-b l1"&gt;&lt;/i&gt;&lt;i class="ust-b l2"&gt;&lt;/i&gt;&lt;/div&gt;&lt;i class="ust-b c"&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;div class="ust-row"&gt;&lt;i class="ust-b i"&gt;&lt;/i&gt;&lt;div class="ust-tx"&gt;&lt;i class="ust-b l1"&gt;&lt;/i&gt;&lt;i class="ust-b l2"&gt;&lt;/i&gt;&lt;/div&gt;&lt;i class="ust-b c"&gt;&lt;/i&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="ust-pane ust-em" id="ust-p1" role="tabpanel" aria-labelledby="ust-t1" tabindex="0"&gt;
+        &lt;svg viewBox="0 0 96 96" aria-hidden="true"&gt;&lt;path d="M14 30h24l8 10h36v38a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4z"/&gt;&lt;path class="a" d="M48 52v18M40 60l8-8 8 8"/&gt;&lt;/svg&gt;
+        &lt;h3&gt;עוד לא הועלו מסמכים&lt;/h3&gt;
+        &lt;p&gt;כשתעלו את המסמך הראשון הוא יופיע כאן, ואנחנו נעדכן אתכם ברגע שעברנו עליו.&lt;/p&gt;
+        &lt;span class="ust-cta" aria-hidden="true"&gt;העלאת מסמך&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;div class="ust-pane ust-fl on" id="ust-p2" role="tabpanel" aria-labelledby="ust-t2" tabindex="0"&gt;
+        &lt;div class="ust-row" style="--i:0"&gt;&lt;span class="ust-ic" aria-hidden="true"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M7 3h7l5 5v13H7z"/&gt;&lt;path d="M14 3v5h5M10 13h6M10 17h6"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;div class="ust-tx"&gt;&lt;b&gt;דוח רווח והפסד, ספטמבר&lt;/b&gt;&lt;span&gt;הועלה אתמול&lt;/span&gt;&lt;/div&gt;&lt;span class="ust-st"&gt;אושר&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="ust-row" style="--i:1"&gt;&lt;span class="ust-ic" aria-hidden="true"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M7 3h7l5 5v13H7z"/&gt;&lt;path d="M14 3v5h5M10 13h6M10 17h6"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;div class="ust-tx"&gt;&lt;b&gt;אישור ניהול ספרים 2026&lt;/b&gt;&lt;span&gt;הועלה לפני שלושה ימים&lt;/span&gt;&lt;/div&gt;&lt;span class="ust-st"&gt;אושר&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="ust-row" style="--i:2"&gt;&lt;span class="ust-ic" aria-hidden="true"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M7 3h7l5 5v13H7z"/&gt;&lt;path d="M14 3v5h5M10 13h6M10 17h6"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;div class="ust-tx"&gt;&lt;b&gt;חשבונית מס 4471&lt;/b&gt;&lt;span&gt;הועלה לפני שבוע&lt;/span&gt;&lt;/div&gt;&lt;span class="ust-st w"&gt;ממתין לחתימה&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="ust-row" style="--i:3"&gt;&lt;span class="ust-ic" aria-hidden="true"&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M7 3h7l5 5v13H7z"/&gt;&lt;path d="M14 3v5h5M10 13h6M10 17h6"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;div class="ust-tx"&gt;&lt;b&gt;הסכם שכירות למשרד&lt;/b&gt;&lt;span&gt;הועלה לפני שבועיים&lt;/span&gt;&lt;/div&gt;&lt;span class="ust-st"&gt;אושר&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const root=document.querySelector(".ust"),tabs=[...root.querySelectorAll(".ust-tab")],panes=[...root.querySelectorAll(".ust-pane")],
+    cnt=[...root.querySelectorAll(".ust-cnt span")],sk=root.querySelector(".ust-sk");
+  const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const rtl=getComputedStyle(root).direction==="rtl"?-1:1;       // החצים ימינה ושמאלה מתהפכים עם כיוון העמוד
+  let touched=false,t1=0,t2=0;
+  const show=i=&gt;{
+    tabs.forEach((t,j)=&gt;{t.setAttribute("aria-selected",j===i?"true":"false");t.tabIndex=j===i?0:-1;});
+    panes.forEach((p,j)=&gt;{p.classList.toggle("on",j===i);p.inert=j!==i;});
+    cnt.forEach((c,j)=&gt;c.classList.toggle("on",j===i));
+    sk.setAttribute("aria-busy",i===0?"true":"false");
+  };
+  const stop=()=&gt;{touched=true;clearTimeout(t1);clearTimeout(t2);};
+  root.classList.add("is-live");
+  tabs.forEach((t,i)=&gt;{
+    t.addEventListener("click",()=&gt;{stop();show(i);});
+    t.addEventListener("keydown",e=&gt;{
+      const k=e.key;let j=-1;
+      if(k==="ArrowRight")j=i+rtl;else if(k==="ArrowLeft")j=i-rtl;else if(k==="ArrowDown")j=i+1;else if(k==="ArrowUp")j=i-1;
+      else if(k==="Home")j=0;else if(k==="End")j=tabs.length-1;
+      if(j&lt;0)return;
+      e.preventDefault();stop();j=(j+tabs.length)%tabs.length;show(j);tabs[j].focus();
+    });
+  });
+  show(2);
+  if(reduced||!("IntersectionObserver" in window))return;      // בהפחתת תנועה אין הפעלה אוטומטית
+  // מעבר אחד בלבד כשהכרטיס נכנס למסך, ונעצר ברגע שהגולש נוגע בלשונית
+  show(0);
+  const io=new IntersectionObserver(es=&gt;{
+    if(!es[0].isIntersecting)return;
+    io.disconnect();
+    t1=setTimeout(()=&gt;{if(touched)return;show(1);t2=setTimeout(()=&gt;{if(!touched)show(2);},2400);},1800);
+  },{threshold:.5});
+  io.observe(root.querySelector(".ust-card"));
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b94 · כרטיס מוצר שעובר בין טעינה, מצב ריק ומצב מלא\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b94.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b94.html\n\nמה זה עושה: כרטיס של פורטל לקוחות עם רשימת מסמכים, ולידו שלוש לשוניות: בטעינה, ריק, מלא. בכניסה לעמוד הכרטיס עובר לבד פעם אחת: שורות אפורות עם ברק שעובר עליהן, אחר כך מסך ריק עם הסבר, ואז רשימה שנכנסת שורה אחרי שורה. אחרי זה הגולש בוחר לבד איזה מצב לראות. הוא מבין שהמערכת חשבה גם על הרגע שבו אין עדיין כלום.\nמתי משתמשים: שירות שיש לו ממשק ללקוח: פורטל, אפליקציה, מערכת הזמנות, לוח מעקב. מתאים לסקשן ״מה הלקוח רואה״ כשהאמון תלוי בכך שגם המצבים הלא יפים מטופלים. שלוש לשוניות, פעם אחת בעמוד. לא למוצר שאין לו ממשק, ולא כשיש רק מצב אחד אמיתי להראות.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית\nבסקשן: תהליך ושלבים · בעיה ויתרונות · שירותים ומוצרים\nאופי: גם באתר שקט\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא כשאין באמת מצב ריק או מצב טעינה במוצר, ולא כשהכרטיס הוא תוכן שלא משתנה.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B94 · כרטיס מוצר שעובר בין טעינה, מצב ריק ומצב מלא */\n.ust{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px);max-width:1100px;margin-inline:auto}\n.ust-side{display:grid;gap:24px;justify-items:start}\n.ust-side h2{margin:0;font-size:clamp(28px,3.2vw,44px);line-height:1.12;text-wrap:balance}\n.ust-side p{margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.ust-tabs{display:none;gap:4px;padding:4px;border-radius:999px;background:var(--card, #fff);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}\n.ust.is-live .ust-tabs{display:inline-flex}\n.ust-tab{min-height:44px;padding:0 20px;border:0;border-radius:999px;background:transparent;color:var(--muted, #6a6d85);font:inherit;font-weight:600;cursor:pointer;transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s linear}\n.ust-tab[aria-selected=\"true\"]{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}\n.ust-tab:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n@media(hover:hover){.ust-tab[aria-selected=\"false\"]:hover{color:var(--ink, #16182b)}}\n.ust-card{display:grid;gap:20px;padding:24px;border:1px solid var(--line, #e4e4ee);border-radius:20px;background:var(--card, #fff);box-shadow:0 28px 56px -36px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}\n.ust-top{display:flex;align-items:center;justify-content:space-between;gap:16px}\n.ust-name{font-size:18px;font-weight:700}\n.ust-cnt{display:grid;font-size:14px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}\n.ust-cnt span{grid-area:1/1;justify-self:end;display:none;white-space:nowrap}\n.ust-cnt .on{display:block}\n.ust-body{display:grid}\n.ust-pane{grid-area:1/1;display:grid;align-content:start}\n.ust-sk,.ust-em{display:none}\n.ust-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;min-height:64px;padding:12px 0;border-top:1px solid var(--line, #e4e4ee)}\n.ust-row:first-child{border-top:0}\n.ust-ic{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:color-mix(in srgb,var(--accent, #4a3aff) 12%,var(--card, #fff))}\n.ust-ic svg{width:20px;height:20px;fill:none;stroke:var(--accent, #4a3aff);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}\n.ust-tx{display:grid;gap:2px;min-width:0}\n.ust-tx b{font-size:16px;font-weight:600;line-height:1.35}\n.ust-tx span{font-size:14px;color:var(--muted, #6a6d85)}\n.ust-st{padding:4px 12px;border-radius:999px;background:color-mix(in srgb,var(--accent, #4a3aff) 14%,var(--card, #fff));color:var(--ink, #16182b);font-size:13px;font-weight:600;white-space:nowrap}\n.ust-st.w{background:transparent;box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);color:var(--muted, #6a6d85)}\n/* שלד הטעינה: אותה שורה בדיוק, כדי שהמעבר לא יזיז כלום */\n.ust-b{position:relative;display:block;overflow:hidden;border-radius:8px;background:var(--line, #e4e4ee)}\n.ust-b::after{content:\"\";position:absolute;inset:0;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--bg, #f7f7fa) 65%,transparent),transparent);transform:translateX(100%);animation:ust-sh 1.5s linear infinite}\n.ust:dir(ltr) .ust-b::after{animation-direction:reverse}\n@keyframes ust-sh{to{transform:translateX(-100%)}}\n.ust-b.i{width:40px;height:40px;border-radius:12px}\n.ust-b.l1{width:62%;height:14px}\n.ust-b.l2{width:38%;height:12px;margin-top:8px}\n.ust-b.c{width:72px;height:26px;border-radius:999px}\n.ust-tx .ust-b{background:var(--line, #e4e4ee)}\n.ust-em{place-items:center;align-content:center;gap:12px;padding:24px 0;text-align:center}\n.ust-em svg{width:96px;height:96px;fill:none;stroke:var(--muted, #6a6d85);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}\n.ust-em svg .a{stroke:var(--accent, #4a3aff)}\n.ust-em h3{margin:0;font-size:18px;font-weight:700}\n.ust-em p{margin:0;max-width:32ch;font-size:15px;line-height:1.55;color:var(--muted, #6a6d85)}\n.ust-cta{margin-top:8px;padding:12px 24px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:15px;font-weight:700}\n/* מצב חי: שלושת הלוחות באותו תא, והפעיל מוצג */\n.ust.is-live .ust-sk,.ust.is-live .ust-em{display:grid}\n.ust.is-live .ust-cnt span{display:block;opacity:0;transition:opacity .3s linear}\n.ust.is-live .ust-cnt .on{opacity:1}\n.ust.is-live .ust-pane{opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .35s cubic-bezier(.2,.6,.2,1),transform .35s cubic-bezier(.2,.6,.2,1),visibility 0s linear .35s}\n.ust.is-live .ust-pane.on{opacity:1;visibility:visible;transform:none;transition-delay:0s}\n.ust.is-live .ust-fl .ust-row{opacity:0;transform:translateY(10px);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .4s cubic-bezier(.2,.6,.2,1)}\n.ust.is-live .ust-fl.on .ust-row{opacity:1;transform:none;transition-delay:calc(var(--i) * 70ms + 120ms)}\n@media(prefers-reduced-motion:reduce){.ust *,.ust *::after{transition:none!important;animation:none!important}}\n@media(max-width:767px){\n  .ust{grid-template-columns:minmax(0,1fr);gap:32px}\n  .ust-tabs{display:none;width:100%}\n  .ust.is-live .ust-tabs{display:flex}\n  .ust-tab{flex:1;padding:0 12px}\n  .ust-card{padding:20px}\n  .ust-row{gap:12px}\n}\n\n=== HTML ===\n<div class=\"stage\"><section class=\"ust\">\n  <div class=\"ust-side\">\n    <h2>גם כשאין עדיין כלום, הלקוח רואה מסך ברור<\/h2>\n    <p>הפורטל מראה מה קורה בזמן טעינה, מה כתוב כשעוד לא הועלה אף מסמך, ואיך נראית הרשימה כשהיא מלאה.<\/p>\n    <div class=\"ust-tabs\" role=\"tablist\" aria-label=\"מצב המסך\">\n      <button class=\"ust-tab\" role=\"tab\" type=\"button\" id=\"ust-t0\" aria-controls=\"ust-p0\" aria-selected=\"false\" tabindex=\"-1\">בטעינה<\/button>\n      <button class=\"ust-tab\" role=\"tab\" type=\"button\" id=\"ust-t1\" aria-controls=\"ust-p1\" aria-selected=\"false\" tabindex=\"-1\">ריק<\/button>\n      <button class=\"ust-tab\" role=\"tab\" type=\"button\" id=\"ust-t2\" aria-controls=\"ust-p2\" aria-selected=\"true\" tabindex=\"0\">מלא<\/button>\n    <\/div>\n  <\/div>\n  <div class=\"ust-card\">\n    <div class=\"ust-top\"><span class=\"ust-name\">המסמכים שלי<\/span>\n      <span class=\"ust-cnt\"><span>בטעינה<\/span><span>אין מסמכים<\/span><span class=\"on\">4 מסמכים<\/span><\/span><\/div>\n    <div class=\"ust-body\">\n      <div class=\"ust-pane ust-sk\" id=\"ust-p0\" role=\"tabpanel\" aria-labelledby=\"ust-t0\" tabindex=\"0\" aria-busy=\"true\">\n        <div class=\"ust-row\"><i class=\"ust-b i\"><\/i><div class=\"ust-tx\"><i class=\"ust-b l1\"><\/i><i class=\"ust-b l2\"><\/i><\/div><i class=\"ust-b c\"><\/i><\/div>\n        <div class=\"ust-row\"><i class=\"ust-b i\"><\/i><div class=\"ust-tx\"><i class=\"ust-b l1\"><\/i><i class=\"ust-b l2\"><\/i><\/div><i class=\"ust-b c\"><\/i><\/div>\n        <div class=\"ust-row\"><i class=\"ust-b i\"><\/i><div class=\"ust-tx\"><i class=\"ust-b l1\"><\/i><i class=\"ust-b l2\"><\/i><\/div><i class=\"ust-b c\"><\/i><\/div>\n        <div class=\"ust-row\"><i class=\"ust-b i\"><\/i><div class=\"ust-tx\"><i class=\"ust-b l1\"><\/i><i class=\"ust-b l2\"><\/i><\/div><i class=\"ust-b c\"><\/i><\/div>\n      <\/div>\n      <div class=\"ust-pane ust-em\" id=\"ust-p1\" role=\"tabpanel\" aria-labelledby=\"ust-t1\" tabindex=\"0\">\n        <svg viewBox=\"0 0 96 96\" aria-hidden=\"true\"><path d=\"M14 30h24l8 10h36v38a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4z\"/><path class=\"a\" d=\"M48 52v18M40 60l8-8 8 8\"/><\/svg>\n        <h3>עוד לא הועלו מסמכים<\/h3>\n        <p>כשתעלו את המסמך הראשון הוא יופיע כאן, ואנחנו נעדכן אתכם ברגע שעברנו עליו.<\/p>\n        <span class=\"ust-cta\" aria-hidden=\"true\">העלאת מסמך<\/span>\n      <\/div>\n      <div class=\"ust-pane ust-fl on\" id=\"ust-p2\" role=\"tabpanel\" aria-labelledby=\"ust-t2\" tabindex=\"0\">\n        <div class=\"ust-row\" style=\"--i:0\"><span class=\"ust-ic\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M7 3h7l5 5v13H7z\"/><path d=\"M14 3v5h5M10 13h6M10 17h6\"/><\/svg><\/span><div class=\"ust-tx\"><b>דוח רווח והפסד, ספטמבר<\/b><span>הועלה אתמול<\/span><\/div><span class=\"ust-st\">אושר<\/span><\/div>\n        <div class=\"ust-row\" style=\"--i:1\"><span class=\"ust-ic\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M7 3h7l5 5v13H7z\"/><path d=\"M14 3v5h5M10 13h6M10 17h6\"/><\/svg><\/span><div class=\"ust-tx\"><b>אישור ניהול ספרים 2026<\/b><span>הועלה לפני שלושה ימים<\/span><\/div><span class=\"ust-st\">אושר<\/span><\/div>\n        <div class=\"ust-row\" style=\"--i:2\"><span class=\"ust-ic\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M7 3h7l5 5v13H7z\"/><path d=\"M14 3v5h5M10 13h6M10 17h6\"/><\/svg><\/span><div class=\"ust-tx\"><b>חשבונית מס 4471<\/b><span>הועלה לפני שבוע<\/span><\/div><span class=\"ust-st w\">ממתין לחתימה<\/span><\/div>\n        <div class=\"ust-row\" style=\"--i:3\"><span class=\"ust-ic\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M7 3h7l5 5v13H7z\"/><path d=\"M14 3v5h5M10 13h6M10 17h6\"/><\/svg><\/span><div class=\"ust-tx\"><b>הסכם שכירות למשרד<\/b><span>הועלה לפני שבועיים<\/span><\/div><span class=\"ust-st\">אושר<\/span><\/div>\n      <\/div>\n    <\/div>\n  <\/div>\n<\/section><\/div>\n\n=== JS ===\n(function(){\n  const root=document.querySelector(\".ust\"),tabs=[...root.querySelectorAll(\".ust-tab\")],panes=[...root.querySelectorAll(\".ust-pane\")],\n    cnt=[...root.querySelectorAll(\".ust-cnt span\")],sk=root.querySelector(\".ust-sk\");\n  const reduced=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  const rtl=getComputedStyle(root).direction===\"rtl\"?-1:1;       // החצים ימינה ושמאלה מתהפכים עם כיוון העמוד\n  let touched=false,t1=0,t2=0;\n  const show=i=>{\n    tabs.forEach((t,j)=>{t.setAttribute(\"aria-selected\",j===i?\"true\":\"false\");t.tabIndex=j===i?0:-1;});\n    panes.forEach((p,j)=>{p.classList.toggle(\"on\",j===i);p.inert=j!==i;});\n    cnt.forEach((c,j)=>c.classList.toggle(\"on\",j===i));\n    sk.setAttribute(\"aria-busy\",i===0?\"true\":\"false\");\n  };\n  const stop=()=>{touched=true;clearTimeout(t1);clearTimeout(t2);};\n  root.classList.add(\"is-live\");\n  tabs.forEach((t,i)=>{\n    t.addEventListener(\"click\",()=>{stop();show(i);});\n    t.addEventListener(\"keydown\",e=>{\n      const k=e.key;let j=-1;\n      if(k===\"ArrowRight\")j=i+rtl;else if(k===\"ArrowLeft\")j=i-rtl;else if(k===\"ArrowDown\")j=i+1;else if(k===\"ArrowUp\")j=i-1;\n      else if(k===\"Home\")j=0;else if(k===\"End\")j=tabs.length-1;\n      if(j<0)return;\n      e.preventDefault();stop();j=(j+tabs.length)%tabs.length;show(j);tabs[j].focus();\n    });\n  });\n  show(2);\n  if(reduced||!(\"IntersectionObserver\" in window))return;      // בהפחתת תנועה אין הפעלה אוטומטית\n  // מעבר אחד בלבד כשהכרטיס נכנס למסך, ונעצר ברגע שהגולש נוגע בלשונית\n  show(0);\n  const io=new IntersectionObserver(es=>{\n    if(!es[0].isIntersecting)return;\n    io.disconnect();\n    t1=setTimeout(()=>{if(touched)return;show(1);t2=setTimeout(()=>{if(!touched)show(2);},2400);},1800);\n  },{threshold:.5});\n  io.observe(root.querySelector(\".ust-card\"));\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטוני מוצר בגלריה של prompt-motion.com (21.10.2026) שבהם אותו מסך עובר בין שלד טעינה, מצב ריק ומצב מלא. נבנה מאפס מהצפייה. זה מהלך עם בקרה אמיתית: שלוש לשוניות `button` בתוך `role=\"tablist\"`, `aria-selected` ו-`tabindex` מתגלגל, חיצים ו-Home/End (החצים ימינה ושמאלה מתהפכים לפי `direction` של העמוד), ו-`:focus-visible` ברור. אזור המגע הוא 44px לפחות. המארקאפ הוא מצב הסיום: הרשימה המלאה בלבד, והלשוניות מוסתרות עד שה-JS עולה, כדי שלא יוצגו כפתורים שלא עושים כלום. כשה-JS חי שלושת הלוחות נערמים באותו תא של grid (לכן הגובה הוא של הגבוה ביותר, בלי קפיצה בין מצבים), והלוח הפעיל מקבל `.on`. הלוחות הלא פעילים הם `inert`, כך שקורא מסך ו-Tab מדלגים עליהם. המעבר הוא `opacity` ו-`transform` בלבד, ושורות הרשימה נכנסות עם `transition-delay` לפי `--i`. הברק של השלד הוא `translateX` על אלמנט מדומה, ולא תנועה של מאפיין פריסה; הוא רץ מימין לשמאל (ב-LTR הכיוון מתהפך לבד דרך `:dir(ltr)`). ההפעלה האוטומטית רצה פעם אחת בלבד, כשהכרטיס נכנס לחצי מהמסך (שלד, מצב ריק, מלא) ונעצרת מיד אם הגולש נגע בלשונית, כדי לא להזיז תוכן מתחת לידיים שלו. בהפחתת תנועה אין הפעלה אוטומטית, אין מעברים ואין ברק, והכרטיס נפתח על המצב המלא. הכפתור במצב הריק הוא `span` לא אינטראקטיבי (מסך דוגמה).\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B94 · כרטיס מוצר שעובר בין טעינה, מצב ריק ומצב מלא */\n.ust{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px);max-width:1100px;margin-inline:auto}\n.ust-side{display:grid;gap:24px;justify-items:start}\n.ust-side h2{margin:0;font-size:clamp(28px,3.2vw,44px);line-height:1.12;text-wrap:balance}\n.ust-side p{margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.ust-tabs{display:none;gap:4px;padding:4px;border-radius:999px;background:var(--card, #fff);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}\n.ust.is-live .ust-tabs{display:inline-flex}\n.ust-tab{min-height:44px;padding:0 20px;border:0;border-radius:999px;background:transparent;color:var(--muted, #6a6d85);font:inherit;font-weight:600;cursor:pointer;transition:background-color .3s cubic-bezier(.2,.6,.2,1),color .3s linear}\n.ust-tab[aria-selected=\"true\"]{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}\n.ust-tab:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n@media(hover:hover){.ust-tab[aria-selected=\"false\"]:hover{color:var(--ink, #16182b)}}\n.ust-card{display:grid;gap:20px;padding:24px;border:1px solid var(--line, #e4e4ee);border-radius:20px;background:var(--card, #fff);box-shadow:0 28px 56px -36px color-mix(in srgb,var(--ink, #16182b) 40%,transparent)}\n.ust-top{display:flex;align-items:center;justify-content:space-between;gap:16px}\n.ust-name{font-size:18px;font-weight:700}\n.ust-cnt{display:grid;font-size:14px;color:var(--muted, #6a6d85);font-variant-numeric:tabular-nums}\n.ust-cnt span{grid-area:1/1;justify-self:end;display:none;white-space:nowrap}\n.ust-cnt .on{display:block}\n.ust-body{display:grid}\n.ust-pane{grid-area:1/1;display:grid;align-content:start}\n.ust-sk,.ust-em{display:none}\n.ust-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;min-height:64px;padding:12px 0;border-top:1px solid var(--line, #e4e4ee)}\n.ust-row:first-child{border-top:0}\n.ust-ic{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;background:color-mix(in srgb,var(--accent, #4a3aff) 12%,var(--card, #fff))}\n.ust-ic svg{width:20px;height:20px;fill:none;stroke:var(--accent, #4a3aff);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}\n.ust-tx{display:grid;gap:2px;min-width:0}\n.ust-tx b{font-size:16px;font-weight:600;line-height:1.35}\n.ust-tx span{font-size:14px;color:var(--muted, #6a6d85)}\n.ust-st{padding:4px 12px;border-radius:999px;background:color-mix(in srgb,var(--accent, #4a3aff) 14%,var(--card, #fff));color:var(--ink, #16182b);font-size:13px;font-weight:600;white-space:nowrap}\n.ust-st.w{background:transparent;box-shadow:inset 0 0 0 1px var(--line, #e4e4ee);color:var(--muted, #6a6d85)}\n/* שלד הטעינה: אותה שורה בדיוק, כדי שהמעבר לא יזיז כלום */\n.ust-b{position:relative;display:block;overflow:hidden;border-radius:8px;background:var(--line, #e4e4ee)}\n.ust-b::after{content:\"\";position:absolute;inset:0;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--bg, #f7f7fa) 65%,transparent),transparent);transform:translateX(100%);animation:ust-sh 1.5s linear infinite}\n.ust:dir(ltr) .ust-b::after{animation-direction:reverse}\n@keyframes ust-sh{to{transform:translateX(-100%)}}\n.ust-b.i{width:40px;height:40px;border-radius:12px}\n.ust-b.l1{width:62%;height:14px}\n.ust-b.l2{width:38%;height:12px;margin-top:8px}\n.ust-b.c{width:72px;height:26px;border-radius:999px}\n.ust-tx .ust-b{background:var(--line, #e4e4ee)}\n.ust-em{place-items:center;align-content:center;gap:12px;padding:24px 0;text-align:center}\n.ust-em svg{width:96px;height:96px;fill:none;stroke:var(--muted, #6a6d85);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}\n.ust-em svg .a{stroke:var(--accent, #4a3aff)}\n.ust-em h3{margin:0;font-size:18px;font-weight:700}\n.ust-em p{margin:0;max-width:32ch;font-size:15px;line-height:1.55;color:var(--muted, #6a6d85)}\n.ust-cta{margin-top:8px;padding:12px 24px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:15px;font-weight:700}\n/* מצב חי: שלושת הלוחות באותו תא, והפעיל מוצג */\n.ust.is-live .ust-sk,.ust.is-live .ust-em{display:grid}\n.ust.is-live .ust-cnt span{display:block;opacity:0;transition:opacity .3s linear}\n.ust.is-live .ust-cnt .on{opacity:1}\n.ust.is-live .ust-pane{opacity:0;visibility:hidden;transform:translateY(8px);transition:opacity .35s cubic-bezier(.2,.6,.2,1),transform .35s cubic-bezier(.2,.6,.2,1),visibility 0s linear .35s}\n.ust.is-live .ust-pane.on{opacity:1;visibility:visible;transform:none;transition-delay:0s}\n.ust.is-live .ust-fl .ust-row{opacity:0;transform:translateY(10px);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .4s cubic-bezier(.2,.6,.2,1)}\n.ust.is-live .ust-fl.on .ust-row{opacity:1;transform:none;transition-delay:calc(var(--i) * 70ms + 120ms)}\n@media(prefers-reduced-motion:reduce){.ust *,.ust *::after{transition:none!important;animation:none!important}}\n@media(max-width:767px){\n  .ust{grid-template-columns:minmax(0,1fr);gap:32px}\n  .ust-tabs{display:none;width:100%}\n  .ust.is-live .ust-tabs{display:flex}\n  .ust-tab{flex:1;padding:0 12px}\n  .ust-card{padding:20px}\n  .ust-row{gap:12px}\n}","html":"<div class=\"stage\"><section class=\"ust\">\n  <div class=\"ust-side\">\n    <h2>גם כשאין עדיין כלום, הלקוח רואה מסך ברור<\/h2>\n    <p>הפורטל מראה מה קורה בזמן טעינה, מה כתוב כשעוד לא הועלה אף מסמך, ואיך נראית הרשימה כשהיא מלאה.<\/p>\n    <div class=\"ust-tabs\" role=\"tablist\" aria-label=\"מצב המסך\">\n      <button class=\"ust-tab\" role=\"tab\" type=\"button\" id=\"ust-t0\" aria-controls=\"ust-p0\" aria-selected=\"false\" tabindex=\"-1\">בטעינה<\/button>\n      <button class=\"ust-tab\" role=\"tab\" type=\"button\" id=\"ust-t1\" aria-controls=\"ust-p1\" aria-selected=\"false\" tabindex=\"-1\">ריק<\/button>\n      <button class=\"ust-tab\" role=\"tab\" type=\"button\" id=\"ust-t2\" aria-controls=\"ust-p2\" aria-selected=\"true\" tabindex=\"0\">מלא<\/button>\n    <\/div>\n  <\/div>\n  <div class=\"ust-card\">\n    <div class=\"ust-top\"><span class=\"ust-name\">המסמכים שלי<\/span>\n      <span class=\"ust-cnt\"><span>בטעינה<\/span><span>אין מסמכים<\/span><span class=\"on\">4 מסמכים<\/span><\/span><\/div>\n    <div class=\"ust-body\">\n      <div class=\"ust-pane ust-sk\" id=\"ust-p0\" role=\"tabpanel\" aria-labelledby=\"ust-t0\" tabindex=\"0\" aria-busy=\"true\">\n        <div class=\"ust-row\"><i class=\"ust-b i\"><\/i><div class=\"ust-tx\"><i class=\"ust-b l1\"><\/i><i class=\"ust-b l2\"><\/i><\/div><i class=\"ust-b c\"><\/i><\/div>\n        <div class=\"ust-row\"><i class=\"ust-b i\"><\/i><div class=\"ust-tx\"><i class=\"ust-b l1\"><\/i><i class=\"ust-b l2\"><\/i><\/div><i class=\"ust-b c\"><\/i><\/div>\n        <div class=\"ust-row\"><i class=\"ust-b i\"><\/i><div class=\"ust-tx\"><i class=\"ust-b l1\"><\/i><i class=\"ust-b l2\"><\/i><\/div><i class=\"ust-b c\"><\/i><\/div>\n        <div class=\"ust-row\"><i class=\"ust-b i\"><\/i><div class=\"ust-tx\"><i class=\"ust-b l1\"><\/i><i class=\"ust-b l2\"><\/i><\/div><i class=\"ust-b c\"><\/i><\/div>\n      <\/div>\n      <div class=\"ust-pane ust-em\" id=\"ust-p1\" role=\"tabpanel\" aria-labelledby=\"ust-t1\" tabindex=\"0\">\n        <svg viewBox=\"0 0 96 96\" aria-hidden=\"true\"><path d=\"M14 30h24l8 10h36v38a4 4 0 0 1-4 4H18a4 4 0 0 1-4-4z\"/><path class=\"a\" d=\"M48 52v18M40 60l8-8 8 8\"/><\/svg>\n        <h3>עוד לא הועלו מסמכים<\/h3>\n        <p>כשתעלו את המסמך הראשון הוא יופיע כאן, ואנחנו נעדכן אתכם ברגע שעברנו עליו.<\/p>\n        <span class=\"ust-cta\" aria-hidden=\"true\">העלאת מסמך<\/span>\n      <\/div>\n      <div class=\"ust-pane ust-fl on\" id=\"ust-p2\" role=\"tabpanel\" aria-labelledby=\"ust-t2\" tabindex=\"0\">\n        <div class=\"ust-row\" style=\"--i:0\"><span class=\"ust-ic\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M7 3h7l5 5v13H7z\"/><path d=\"M14 3v5h5M10 13h6M10 17h6\"/><\/svg><\/span><div class=\"ust-tx\"><b>דוח רווח והפסד, ספטמבר<\/b><span>הועלה אתמול<\/span><\/div><span class=\"ust-st\">אושר<\/span><\/div>\n        <div class=\"ust-row\" style=\"--i:1\"><span class=\"ust-ic\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M7 3h7l5 5v13H7z\"/><path d=\"M14 3v5h5M10 13h6M10 17h6\"/><\/svg><\/span><div class=\"ust-tx\"><b>אישור ניהול ספרים 2026<\/b><span>הועלה לפני שלושה ימים<\/span><\/div><span class=\"ust-st\">אושר<\/span><\/div>\n        <div class=\"ust-row\" style=\"--i:2\"><span class=\"ust-ic\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M7 3h7l5 5v13H7z\"/><path d=\"M14 3v5h5M10 13h6M10 17h6\"/><\/svg><\/span><div class=\"ust-tx\"><b>חשבונית מס 4471<\/b><span>הועלה לפני שבוע<\/span><\/div><span class=\"ust-st w\">ממתין לחתימה<\/span><\/div>\n        <div class=\"ust-row\" style=\"--i:3\"><span class=\"ust-ic\" aria-hidden=\"true\"><svg viewBox=\"0 0 24 24\"><path d=\"M7 3h7l5 5v13H7z\"/><path d=\"M14 3v5h5M10 13h6M10 17h6\"/><\/svg><\/span><div class=\"ust-tx\"><b>הסכם שכירות למשרד<\/b><span>הועלה לפני שבועיים<\/span><\/div><span class=\"ust-st\">אושר<\/span><\/div>\n      <\/div>\n    <\/div>\n  <\/div>\n<\/section><\/div>","js":"(function(){\n  const root=document.querySelector(\".ust\"),tabs=[...root.querySelectorAll(\".ust-tab\")],panes=[...root.querySelectorAll(\".ust-pane\")],\n    cnt=[...root.querySelectorAll(\".ust-cnt span\")],sk=root.querySelector(\".ust-sk\");\n  const reduced=matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  const rtl=getComputedStyle(root).direction===\"rtl\"?-1:1;       // החצים ימינה ושמאלה מתהפכים עם כיוון העמוד\n  let touched=false,t1=0,t2=0;\n  const show=i=>{\n    tabs.forEach((t,j)=>{t.setAttribute(\"aria-selected\",j===i?\"true\":\"false\");t.tabIndex=j===i?0:-1;});\n    panes.forEach((p,j)=>{p.classList.toggle(\"on\",j===i);p.inert=j!==i;});\n    cnt.forEach((c,j)=>c.classList.toggle(\"on\",j===i));\n    sk.setAttribute(\"aria-busy\",i===0?\"true\":\"false\");\n  };\n  const stop=()=>{touched=true;clearTimeout(t1);clearTimeout(t2);};\n  root.classList.add(\"is-live\");\n  tabs.forEach((t,i)=>{\n    t.addEventListener(\"click\",()=>{stop();show(i);});\n    t.addEventListener(\"keydown\",e=>{\n      const k=e.key;let j=-1;\n      if(k===\"ArrowRight\")j=i+rtl;else if(k===\"ArrowLeft\")j=i-rtl;else if(k===\"ArrowDown\")j=i+1;else if(k===\"ArrowUp\")j=i-1;\n      else if(k===\"Home\")j=0;else if(k===\"End\")j=tabs.length-1;\n      if(j<0)return;\n      e.preventDefault();stop();j=(j+tabs.length)%tabs.length;show(j);tabs[j].focus();\n    });\n  });\n  show(2);\n  if(reduced||!(\"IntersectionObserver\" in window))return;      // בהפחתת תנועה אין הפעלה אוטומטית\n  // מעבר אחד בלבד כשהכרטיס נכנס למסך, ונעצר ברגע שהגולש נוגע בלשונית\n  show(0);\n  const io=new IntersectionObserver(es=>{\n    if(!es[0].isIntersecting)return;\n    io.disconnect();\n    t1=setTimeout(()=>{if(touched)return;show(1);t2=setTimeout(()=>{if(!touched)show(2);},2400);},1800);\n  },{threshold:.5});\n  io.observe(root.querySelector(\".ust-card\"));\n})();","scripts":"","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="b93.html" rel="prev"><small>→ הקודם</small><b>מילה שמחליפה משפחת גופן במקום</b></a><a href="b95.html" rel="next"><small>הבא ←</small><b>מסגרת שמחליפה יחס בלחיצה והתמונה נחתכת מחדש תוך כדי תנועה</b></a></nav>
+
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · כרטיס מוצר שעובר בין טעינה, מצב ריק ומצב מלא").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+(function(){
+  const root=document.querySelector(".ust"),tabs=[...root.querySelectorAll(".ust-tab")],panes=[...root.querySelectorAll(".ust-pane")],
+    cnt=[...root.querySelectorAll(".ust-cnt span")],sk=root.querySelector(".ust-sk");
+  const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const rtl=getComputedStyle(root).direction==="rtl"?-1:1;       // החצים ימינה ושמאלה מתהפכים עם כיוון העמוד
+  let touched=false,t1=0,t2=0;
+  const show=i=>{
+    tabs.forEach((t,j)=>{t.setAttribute("aria-selected",j===i?"true":"false");t.tabIndex=j===i?0:-1;});
+    panes.forEach((p,j)=>{p.classList.toggle("on",j===i);p.inert=j!==i;});
+    cnt.forEach((c,j)=>c.classList.toggle("on",j===i));
+    sk.setAttribute("aria-busy",i===0?"true":"false");
+  };
+  const stop=()=>{touched=true;clearTimeout(t1);clearTimeout(t2);};
+  root.classList.add("is-live");
+  tabs.forEach((t,i)=>{
+    t.addEventListener("click",()=>{stop();show(i);});
+    t.addEventListener("keydown",e=>{
+      const k=e.key;let j=-1;
+      if(k==="ArrowRight")j=i+rtl;else if(k==="ArrowLeft")j=i-rtl;else if(k==="ArrowDown")j=i+1;else if(k==="ArrowUp")j=i-1;
+      else if(k==="Home")j=0;else if(k==="End")j=tabs.length-1;
+      if(j<0)return;
+      e.preventDefault();stop();j=(j+tabs.length)%tabs.length;show(j);tabs[j].focus();
+    });
+  });
+  show(2);
+  if(reduced||!("IntersectionObserver" in window))return;      // בהפחתת תנועה אין הפעלה אוטומטית
+  // מעבר אחד בלבד כשהכרטיס נכנס למסך, ונעצר ברגע שהגולש נוגע בלשונית
+  show(0);
+  const io=new IntersectionObserver(es=>{
+    if(!es[0].isIntersecting)return;
+    io.disconnect();
+    t1=setTimeout(()=>{if(touched)return;show(1);t2=setTimeout(()=>{if(!touched)show(2);},2400);},1800);
+  },{threshold:.5});
+  io.observe(root.querySelector(".ust-card"));
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS40 · מערבולת אור בתוך טבעת זוהרת</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS40 · מערבולת אור בתוך טבעת זוהרת */
+.vx{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,96px);padding:clamp(48px,7vw,112px) clamp(24px,5vw,72px);background:var(--ink, #16182b);color:var(--bg, #f7f7fa);overflow:hidden}
+.vx-in{display:grid;gap:20px;justify-items:start}
+.vx-in h2{margin:0;font-size:clamp(30px,4vw,56px);line-height:1.12;text-wrap:balance}
+.vx-in p{margin:0;max-width:42ch;color:color-mix(in srgb,var(--bg, #f7f7fa) 78%,transparent);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.vx-cta{display:inline-flex;align-items:center;padding:14px 24px;border-radius:99px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:700;text-decoration:none;transition:transform .2s cubic-bezier(.2,.6,.2,1)}
+@media (hover:hover) and (pointer:fine){.vx-cta:hover{transform:translateY(-2px)}}
+.vx-cta:focus-visible{outline:2px solid var(--bg, #f7f7fa);outline-offset:4px}
+.vx-art{display:grid;place-items:center}
+.vx-ring{position:relative;display:grid;place-items:center;width:min(440px,78vw);aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:0 0 0 2px color-mix(in srgb,var(--accent, #4a3aff) 70%,transparent),0 0 56px color-mix(in srgb,var(--accent, #4a3aff) 42%,transparent),inset 0 0 72px color-mix(in srgb,var(--accent, #4a3aff) 38%,transparent)}
+.vx-swirl{position:absolute;inset:-20%;border-radius:50%;filter:blur(14px);-webkit-mask-image:radial-gradient(closest-side,transparent 22%,rgb(0 0 0) 50%,rgb(0 0 0) 66%,transparent 100%);mask-image:radial-gradient(closest-side,transparent 22%,rgb(0 0 0) 50%,rgb(0 0 0) 66%,transparent 100%);animation:vx-spin 14s linear infinite}
+.vx-s1{background:conic-gradient(from 0deg,transparent 0 40deg,color-mix(in srgb,var(--accent, #4a3aff) 80%,transparent) 90deg,transparent 150deg 220deg,color-mix(in srgb,var(--accent, #4a3aff) 50%,var(--bg, #f7f7fa)) 270deg,transparent 330deg 360deg)}
+.vx-s2{transform:scale(.82);animation-duration:9s;animation-direction:reverse;background:conic-gradient(from 90deg,transparent 0 60deg,color-mix(in srgb,var(--bg, #f7f7fa) 55%,transparent) 110deg,transparent 170deg 250deg,color-mix(in srgb,var(--accent, #4a3aff) 70%,transparent) 300deg,transparent 350deg 360deg)}
+.vx-s3{transform:scale(.64);animation-duration:6s;background:conic-gradient(from 200deg,transparent 0 50deg,color-mix(in srgb,var(--accent, #4a3aff) 60%,var(--bg, #f7f7fa)) 100deg,transparent 160deg 240deg,color-mix(in srgb,var(--accent, #4a3aff) 90%,transparent) 290deg,transparent 340deg 360deg)}
+.vx-trail{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 290deg,color-mix(in srgb,var(--bg, #f7f7fa) 88%,transparent) 359deg,transparent 360deg);-webkit-mask-image:radial-gradient(closest-side,transparent 80%,rgb(0 0 0) 82%,rgb(0 0 0) 90%,transparent 92%);mask-image:radial-gradient(closest-side,transparent 80%,rgb(0 0 0) 82%,rgb(0 0 0) 90%,transparent 92%);animation:vx-spin 5s linear infinite}
+.vx-core{position:relative;display:grid;place-items:center;width:44%;aspect-ratio:1;padding:12px;border-radius:50%;background:var(--ink, #16182b);box-shadow:0 0 40px color-mix(in srgb,var(--accent, #4a3aff) 55%,transparent);font-size:clamp(16px,2vw,24px);font-weight:700;line-height:1.15;text-align:center;text-wrap:balance}
+@keyframes vx-spin{to{rotate:360deg}}
+.vx.is-off .vx-swirl,.vx.is-off .vx-trail{animation-play-state:paused}
+@media(max-width:767px){.vx{grid-template-columns:minmax(0,1fr)}.vx-art{order:-1}}
+@media(prefers-reduced-motion:reduce){.vx-swirl,.vx-trail{animation:none}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><section class="vx" aria-labelledby="vx-h">
+  <div class="vx-in">
+    <h2 id="vx-h">מענה ללקוחות גם כשהמשרד סגור</h2>
+    <p>כל פנייה שמגיעה בלילה או בסוף שבוע מקבלת תשובה מיידית, ובבוקר מחכה לכם רשימה מסודרת של מי צריך שיחה.</p>
+    <a class="vx-cta" href="#vx-h">ראו איך זה עובד</a>
+  </div>
+  <div class="vx-art" aria-hidden="true">
+    <div class="vx-ring">
+      <span class="vx-swirl vx-s1"></span><span class="vx-swirl vx-s2"></span><span class="vx-swirl vx-s3"></span>
+      <span class="vx-trail"></span>
+      <span class="vx-core">מענה אוטומטי</span>
+    </div>
+  </div>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+
+<script>
+(function(){
+  const root=document.querySelector(".vx");
+  // התנועה היא CSS בלבד. כאן רק עוצרים אותה כשהסקשן מחוץ למסך
+  new IntersectionObserver(es=>root.classList.toggle("is-off",!es[0].isIntersecting),{rootMargin:"10% 0px"}).observe(root);
+})();
+</script>
+</body>
+</html>

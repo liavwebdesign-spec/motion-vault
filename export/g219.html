@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G219 · לוח צבע אלכסוני שעובר ומחליף תמונה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G219 · לוח צבע אלכסוני שעובר ומחליף תמונה */
+/* בלי GSAP ובהפחתת תנועה: שתי הסצנות זו מתחת לזו. ההצמדה, הלוחות והחיתוך רק כשהמהלך רץ (.is-live) */
+.ls{position:relative}
+.ls-scene{position:relative;margin:0;min-height:72svh;display:grid;align-items:end;justify-items:start;overflow:hidden;color:var(--bg, #f7f7fa);background:var(--ink, #16182b)}
+.ls-scene img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ls-scene::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,color-mix(in oklab,var(--ink, #16182b) 80%,transparent),transparent 66%)}
+.ls-scene figcaption{position:relative;z-index:1;display:grid;gap:12px;max-width:640px;padding:var(--gutter, clamp(24px, 5vw, 96px))}
+.ls-scene h2{margin:0;font-size:clamp(34px,4.8vw,76px);font-weight:700;line-height:1.05;letter-spacing:-.015em;text-wrap:balance}
+.ls-scene p{margin:0;max-width:42ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.5}
+.ls-slab{display:none;position:absolute;inset:0;pointer-events:none}
+.ls-s1{background:var(--accent, #4a3aff)}
+.ls-s2{background:color-mix(in oklab,var(--accent, #4a3aff) 40%,var(--bg, #f7f7fa))}
+.ls.is-live{height:280svh}
+.ls.is-live .ls-pin{position:sticky;top:0;height:100svh;overflow:hidden}
+.ls.is-live .ls-scene{position:absolute;inset:0;min-height:0}
+.ls.is-live .ls-b{z-index:1}
+.ls.is-live .ls-slab{display:block;z-index:2}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage full" style="padding-block:0"><div class="ls">
+  <div class="ls-pin">
+    <figure class="ls-scene ls-a">
+      <img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/cafe-window.webp" alt="שולחנות עץ ליד חלון גדול בבית קפה" width="1400" height="1050" loading="lazy" decoding="async">
+      <figcaption><h2>בית קפה שכונתי בבוקר</h2><p>פותחים בשבע. קפה טחון טרי, שולחן ליד החלון, ובדרך כלל מישהו שכבר מכיר אותך בשם.</p></figcaption>
+    </figure>
+    <figure class="ls-scene ls-b">
+      <img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/hero-bread.webp" alt="כיכרות לחם פרוסות על קרש עץ" width="1600" height="1333" loading="lazy" decoding="async">
+      <figcaption><h2>הלחם נאפה כאן בלילה</h2><p>המאפה הראשון יוצא מהתנור בחמש בבוקר. מה שלא נמכר עד הצהריים נשלח לארגון שמחלק אוכל לנזקקים.</p></figcaption>
+    </figure>
+    <span class="ls-slab ls-s1" aria-hidden="true"></span>
+    <span class="ls-slab ls-s2" aria-hidden="true"></span>
+  </div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP שתי הסצנות זו מתחת לזו
+  const root=document.querySelector(".ls"),pin=root.querySelector(".ls-pin"),A=root.querySelector(".ls-a"),B=root.querySelector(".ls-b"),
+    s1=root.querySelector(".ls-s1"),s2=root.querySelector(".ls-s2"),ia=A.querySelector("img"),ib=B.querySelector("img");
+  // בהפחתת תנועה הפונקציה לא רצה, והסצנות נשארות זו מתחת לזו
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const o={p:0};let w=0,h=0;
+    const quad=(a,b,k)=>"polygon("+(a+k)+"px 0,"+(b+k)+"px 0,"+(b-k)+"px 100%,"+(a-k)+"px 100%)";
+    const draw=()=>{
+      const k=h*.2,w1=Math.max(w*.2,150),w2=Math.max(w*.035,26),gap=w2*.7;
+      const t0=w+w1+w2+gap+k*2,T=t0+(-k-t0)*o.p;        // הקצה נע מימין למסך אל שמאל לו, ההטיה k נשארת קבועה
+      // הצד הימני של הפוליגון תמיד מעבר לשולי המסך, אחרת הצורה מתהפכת כשהקצה עובר אותם
+      B.style.clipPath="polygon("+(T-2+k)+"px 0,"+(t0+k)+"px 0,"+(t0+k)+"px 100%,"+(T-2-k)+"px 100%)";
+      s2.style.clipPath=quad(T-w2,T,k);
+      const b=T-w2-gap;
+      s1.style.clipPath=quad(b-w1,b,k);
+      gsap.set(ib,{scale:1.1-.1*o.p});
+      gsap.set(ia,{scale:1.1,xPercent:-4*o.p});
+    };
+    const size=()=>{w=pin.clientWidth;h=pin.clientHeight;draw();};
+    ScrollTrigger.addEventListener("refresh",size);size();
+    gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}})
+      .to({},{duration:.14})
+      .to(o,{p:1,duration:.72,ease:"power2.inOut",onUpdate:draw})
+      .to({},{duration:.14});
+    return()=>{ScrollTrigger.removeEventListener("refresh",size);root.classList.remove("is-live");
+      [B,s1,s2].forEach(e=>{e.style.clipPath="";});gsap.set([ia,ib],{clearProps:"transform"});};
+  });
+})();
+</script>
+</body>
+</html>

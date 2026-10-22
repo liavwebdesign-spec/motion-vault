@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G238 · כיתוב בצורת גלולה שמתחלף ומשנה רוחב בכל צעד | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.cpl{max-width:1120px;margin-inline:auto}
+.cpl-pin{display:grid;gap:32px}
+.cpl-head{display:grid;gap:12px;max-width:44ch}
+.cpl-head h2{margin:0;font-size:clamp(28px,3.2vw,48px);line-height:1.12;text-wrap:balance}
+.cpl-head p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.cpl-frame{position:relative}
+.cpl-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.cpl-step{position:relative;overflow:hidden;aspect-ratio:1/1;border-radius:20px;background:var(--card)}
+.cpl-step img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cpl-cap{position:absolute;inset-inline:12px;bottom:12px;display:block;padding:10px 16px;border-radius:24px;background:var(--ink);color:var(--bg);font-size:15px;font-weight:600;line-height:1.35;text-align:center;text-wrap:balance}
+/* מצב חי: הרשימה נערמת למסגרת אחת, והגלולה החיה לוקחת את מקום הכיתובים */
+.cpl-live{display:none}
+.cpl.is-live .cpl-run{height:280vh}
+.cpl.is-live .cpl-pin{position:sticky;top:0;height:100vh;height:100svh;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px)}
+.cpl.is-live .cpl-frame{position:relative;overflow:hidden;isolation:isolate;aspect-ratio:5/4;max-height:72svh;width:100%;border-radius:24px;background:var(--card);box-shadow:0 32px 64px -36px color-mix(in srgb,var(--ink) 55%,transparent)}
+.cpl.is-live .cpl-steps{display:block;position:absolute;inset:0}
+.cpl.is-live .cpl-step{position:absolute;inset:0;aspect-ratio:auto;border-radius:0}
+.cpl.is-live .cpl-step img{will-change:transform}
+.cpl.is-live .cpl-cap{position:absolute;inset:auto;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;backdrop-filter:none}
+.cpl.is-live .cpl-live{position:absolute;inset-inline:0;bottom:24px;z-index:2;margin-inline:auto;display:flex;align-items:center;gap:14px;width:max-content;max-width:calc(100% - 32px);padding:12px 20px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:17px;font-weight:600;line-height:1.4}
+.cpl-dots{display:flex;align-items:center;gap:6px}
+.cpl-dot{display:block;width:8px;height:8px;border-radius:4px;background:color-mix(in srgb,var(--bg) 38%,transparent);transition:background-color .3s cubic-bezier(.2,.6,.2,1)}
+.cpl-dot.on{background:var(--bg)}
+.cpl-win{position:relative;display:block;height:1.4em;overflow:hidden;white-space:nowrap}
+.cpl-t{position:absolute;inset-inline-start:0;top:0;white-space:nowrap}
+.cpl-m{position:absolute;visibility:hidden;white-space:nowrap;pointer-events:none}
+@media(max-width:767px){
+  .cpl-pin{gap:24px}
+  .cpl-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .cpl-step{border-radius:16px}
+  .cpl-cap{inset-inline:8px;bottom:8px;padding:8px 12px;font-size:14px}
+  .cpl.is-live .cpl-pin{grid-template-columns:minmax(0,1fr);align-content:center;gap:24px}
+  .cpl.is-live .cpl-head p{display:none}
+  .cpl.is-live .cpl-frame{aspect-ratio:auto;height:clamp(380px,62svh,560px);max-height:none;border-radius:20px}
+  .cpl.is-live .cpl-live{bottom:16px;padding:10px 16px;font-size:15px;gap:12px}
+}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g237.html" rel="prev" title="הקודם: שכבת מדדים על המסך שמתעדכנת עם הסצנות">→<span class="sr-only">הקודם</span></a><span class="vpn-n">214/219</span><a href="g239.html" rel="next" title="הבא: שלושה מכשירים יוצאים מאחורי המכשיר המרכזי אל המסגרת">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G238</span> · כיתוב בצורת גלולה שמתחלף ומשנה רוחב בכל צעד</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger · sticky · clip-path</span>
+  <span class="vchip use">תהליך ושלבים</span><span class="vchip use">טעינה ופידבק</span><span class="vchip use">טקסט וכותרות</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g238"><code>MV:g238</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g238">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>תמונה גדולה שנחשפת מלמטה למעלה בכל צעד של תהליך, ובתחתית שלה גלולת כיתוב אחת. כשהצעד מתחלף, הטקסט הישן עולה החוצה והחדש נכנס מלמטה, והגלולה מתרחבת או מצטמצמת בדיוק לרוחב המשפט החדש. שורת נקודות בתוכה מראה באיזה צעד אנחנו. הגולש קורא את התהליך כמו כתוביות, בלי להסיט את העיניים מהתמונה.</p>
+  <p class="when"><b>מתי משתמשים:</b> תהליך של שלושה עד חמישה צעדים שכל אחד מהם יש לו תמונה: ביקור במרפאה, יום עבודה בסטודיו, הרכבה, מסירה, מסע של לקוח. מתאים כשהמשפט הקצר חשוב יותר מפסקה והתמונה היא העיקר. לא לתהליך שדורש הסבר מפורט בכל צעד, ולא לפני שיש תמונה אמיתית לכל צעד.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית</dd></div><div><dt>בסקשן</dt><dd>תהליך ושלבים · בעיה ויתרונות · שירותים ומוצרים</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשיש פחות משלושה שלבים או יותר מחמישה, ולא כשהכיתובים ארוכים משש מילים.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g238"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="cpl"><div class="cpl-run"><div class="cpl-pin">
+  <div class="cpl-head"><h2>ככה נראה ביקור אצלנו, מהתור ועד הבית</h2><p>ארבעה צעדים, ובכל אחד מהם אתם יודעים מה קורה עכשיו ומה יהיה אחריו.</p></div>
+  <div class="cpl-frame">
+    <ol class="cpl-steps">
+      <li class="cpl-step"><img src="../assets/media/real/s09/step-1-booking.webp" alt="אמא וילד על הספה בבית מביטים בטלפון" width="1500" height="1200" loading="lazy" decoding="async"><span class="cpl-cap">קובעים תור מהספה בבית</span></li>
+      <li class="cpl-step"><img src="../assets/media/real/s09/step-2-welcome.webp" alt="רופאה מחייכת אל ילדה בחלוק רפואי" width="1500" height="1200" loading="lazy" decoding="async"><span class="cpl-cap">הרופאה מכירה את הילד בחיוך</span></li>
+      <li class="cpl-step"><img src="../assets/media/real/s09/step-3-exam.webp" alt="רופא בודק ילדה בנוכחות אמה" width="1500" height="1200" loading="lazy" decoding="async"><span class="cpl-cap">בדיקה רגועה, בלי לחץ</span></li>
+      <li class="cpl-step"><img src="../assets/media/real/s09/step-4-home.webp" alt="אמא מחזיקה תינוק בבית" width="1500" height="1200" loading="lazy" decoding="async"><span class="cpl-cap">חוזרים הביתה עם סיכום</span></li>
+    </ol>
+    <div class="cpl-live" aria-hidden="true">
+      <span class="cpl-dots"><i class="cpl-dot"></i><i class="cpl-dot"></i><i class="cpl-dot"></i><i class="cpl-dot on"></i></span>
+      <span class="cpl-win"><span class="cpl-t">חוזרים הביתה עם סיכום</span><span class="cpl-t"></span></span>
+      <span class="cpl-m"></span>
+    </div>
+  </div>
+</div></div></div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטוני מוצר בגלריה של prompt-motion.com (21.10.2026) שבהם כיתוב קטן בצורת גלולה בתחתית המסך מתחלף עם כל סצנה ומשנה רוחב. נבנה מאפס מהצפייה. <b>המארקאפ הוא מצב הסיום ומכיל את כל הצעדים:</b> רשימה <code>&lt;ol></code> של ארבע תמונות, ולכל אחת גלולת כיתוב משלה, כך שבלי GSAP ובהפחתת תנועה רואים את כל התהליך כרצף של כרטיסים. <b>כשהמהלך רץ</b> הרשימה נערמת למסגרת אחת נעוצה (<code>sticky</code> בתוך אזור גלילה של 280vh), הגלולות של הכרטיסים הופכות ל-<code>sr-only</code> כדי שקורא מסך עדיין ימצא את כל הצעדים, וגלולה אחת חיה (<code>aria-hidden</code>) מתחילה לעבוד. <b>החשיפה</b> של כל תמונה היא <code>clip-path</code> שנגזר מ-<code>p</code> בפונקציה אחת, ולכן היא נכונה גם בגלילה לאחור. <b>ההחלפה</b> היא אירוע ולא רצף: כשהצעד הקרוב ביותר משתנה, שני <code>span</code> מתחלפים (הנכנס מלמטה בגלילה קדימה ומלמעלה בגלילה אחורה) ורוחב החלון שלהם עובר אל רוחב המשפט החדש. הרוחבים נמדדים מ-<code>.cpl-m</code> הנסתר באותו פונט, ונמדדים מחדש בכל <code>refresh</code>. הטקסטים נקראים מהרשימה, ולכן משנים אותם רק במארקאפ. <b>הנקודות:</b> הפעילה מתארכת ל-24 והאחרות חוזרות ל-8. <b>RTL:</b> הכל לוגי (<code>inset-inline</code>, <code>text-align</code> ברירת מחדל), ולכן ב-LTR אין מה להפוך, והעמודות מתחלפות לבד. <b>בנייד</b> הכותרת מצטמצמת והמסגרת גבוהה יותר. שתי תמונות לפחות נדרשות, ושלוש עד ארבע הן הטווח הנוח.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g238.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G238 · כיתוב בצורת גלולה שמתחלף ומשנה רוחב בכל צעד */
+.cpl{max-width:1120px;margin-inline:auto}
+.cpl-pin{display:grid;gap:32px}
+.cpl-head{display:grid;gap:12px;max-width:44ch}
+.cpl-head h2{margin:0;font-size:clamp(28px,3.2vw,48px);line-height:1.12;text-wrap:balance}
+.cpl-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.cpl-frame{position:relative}
+.cpl-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+.cpl-step{position:relative;overflow:hidden;aspect-ratio:1/1;border-radius:20px;background:var(--card, #fff)}
+.cpl-step img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cpl-cap{position:absolute;inset-inline:12px;bottom:12px;display:block;padding:10px 16px;border-radius:24px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:15px;font-weight:600;line-height:1.35;text-align:center;text-wrap:balance}
+/* מצב חי: הרשימה נערמת למסגרת אחת, והגלולה החיה לוקחת את מקום הכיתובים */
+.cpl-live{display:none}
+.cpl.is-live .cpl-run{height:280vh}
+.cpl.is-live .cpl-pin{position:sticky;top:0;height:100vh;height:100svh;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px)}
+.cpl.is-live .cpl-frame{position:relative;overflow:hidden;isolation:isolate;aspect-ratio:5/4;max-height:72svh;width:100%;border-radius:24px;background:var(--card, #fff);box-shadow:0 32px 64px -36px color-mix(in srgb,var(--ink, #16182b) 55%,transparent)}
+.cpl.is-live .cpl-steps{display:block;position:absolute;inset:0}
+.cpl.is-live .cpl-step{position:absolute;inset:0;aspect-ratio:auto;border-radius:0}
+.cpl.is-live .cpl-step img{will-change:transform}
+.cpl.is-live .cpl-cap{position:absolute;inset:auto;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;backdrop-filter:none}
+.cpl.is-live .cpl-live{position:absolute;inset-inline:0;bottom:24px;z-index:2;margin-inline:auto;display:flex;align-items:center;gap:14px;width:max-content;max-width:calc(100% - 32px);padding:12px 20px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:17px;font-weight:600;line-height:1.4}
+.cpl-dots{display:flex;align-items:center;gap:6px}
+.cpl-dot{display:block;width:8px;height:8px;border-radius:4px;background:color-mix(in srgb,var(--bg, #f7f7fa) 38%,transparent);transition:background-color .3s cubic-bezier(.2,.6,.2,1)}
+.cpl-dot.on{background:var(--bg, #f7f7fa)}
+.cpl-win{position:relative;display:block;height:1.4em;overflow:hidden;white-space:nowrap}
+.cpl-t{position:absolute;inset-inline-start:0;top:0;white-space:nowrap}
+.cpl-m{position:absolute;visibility:hidden;white-space:nowrap;pointer-events:none}
+@media(max-width:767px){
+  .cpl-pin{gap:24px}
+  .cpl-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .cpl-step{border-radius:16px}
+  .cpl-cap{inset-inline:8px;bottom:8px;padding:8px 12px;font-size:14px}
+  .cpl.is-live .cpl-pin{grid-template-columns:minmax(0,1fr);align-content:center;gap:24px}
+  .cpl.is-live .cpl-head p{display:none}
+  .cpl.is-live .cpl-frame{aspect-ratio:auto;height:clamp(380px,62svh,560px);max-height:none;border-radius:20px}
+  .cpl.is-live .cpl-live{bottom:16px;padding:10px 16px;font-size:15px;gap:12px}
+}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;div class="cpl"&gt;&lt;div class="cpl-run"&gt;&lt;div class="cpl-pin"&gt;
+  &lt;div class="cpl-head"&gt;&lt;h2&gt;ככה נראה ביקור אצלנו, מהתור ועד הבית&lt;/h2&gt;&lt;p&gt;ארבעה צעדים, ובכל אחד מהם אתם יודעים מה קורה עכשיו ומה יהיה אחריו.&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="cpl-frame"&gt;
+    &lt;ol class="cpl-steps"&gt;
+      &lt;li class="cpl-step"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-1-booking.webp" alt="אמא וילד על הספה בבית מביטים בטלפון" width="1500" height="1200" loading="lazy" decoding="async"&gt;&lt;span class="cpl-cap"&gt;קובעים תור מהספה בבית&lt;/span&gt;&lt;/li&gt;
+      &lt;li class="cpl-step"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-2-welcome.webp" alt="רופאה מחייכת אל ילדה בחלוק רפואי" width="1500" height="1200" loading="lazy" decoding="async"&gt;&lt;span class="cpl-cap"&gt;הרופאה מכירה את הילד בחיוך&lt;/span&gt;&lt;/li&gt;
+      &lt;li class="cpl-step"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-3-exam.webp" alt="רופא בודק ילדה בנוכחות אמה" width="1500" height="1200" loading="lazy" decoding="async"&gt;&lt;span class="cpl-cap"&gt;בדיקה רגועה, בלי לחץ&lt;/span&gt;&lt;/li&gt;
+      &lt;li class="cpl-step"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-4-home.webp" alt="אמא מחזיקה תינוק בבית" width="1500" height="1200" loading="lazy" decoding="async"&gt;&lt;span class="cpl-cap"&gt;חוזרים הביתה עם סיכום&lt;/span&gt;&lt;/li&gt;
+    &lt;/ol&gt;
+    &lt;div class="cpl-live" aria-hidden="true"&gt;
+      &lt;span class="cpl-dots"&gt;&lt;i class="cpl-dot"&gt;&lt;/i&gt;&lt;i class="cpl-dot"&gt;&lt;/i&gt;&lt;i class="cpl-dot"&gt;&lt;/i&gt;&lt;i class="cpl-dot on"&gt;&lt;/i&gt;&lt;/span&gt;
+      &lt;span class="cpl-win"&gt;&lt;span class="cpl-t"&gt;חוזרים הביתה עם סיכום&lt;/span&gt;&lt;span class="cpl-t"&gt;&lt;/span&gt;&lt;/span&gt;
+      &lt;span class="cpl-m"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשארת רשימת ארבעת הכרטיסים עם הכיתובים שלהם (במארקאפ)
+  const root=document.querySelector(".cpl"),run=root.querySelector(".cpl-run"),steps=[...root.querySelectorAll(".cpl-step")],
+    imgs=steps.map(s=&gt;s.querySelector("img")),caps=steps.map(s=&gt;s.querySelector(".cpl-cap").textContent.trim()),
+    pill=root.querySelector(".cpl-live"),win=pill.querySelector(".cpl-win"),tx=[...pill.querySelectorAll(".cpl-t")],
+    dots=[...pill.querySelectorAll(".cpl-dot")],ms=pill.querySelector(".cpl-m");
+  const n=steps.length,clamp=v=&gt;Math.min(1,Math.max(0,v));
+  // בהפחתת תנועה הפונקציה לא רצה, והכרטיסים נשארים במצב הסיום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    let W=[],k=-1,flip=0;
+    const meas=()=&gt;{                          // רוחב כל משפט, באותו פונט של הגלולה
+      W=caps.map(c=&gt;{ms.textContent=c;return Math.ceil(ms.getBoundingClientRect().width)+2;});
+      if(k&gt;=0)gsap.set(win,{width:W[k]});
+    };
+    const dotsTo=i=&gt;dots.forEach((d,j)=&gt;{d.classList.toggle("on",j===i);gsap.to(d,{width:j===i?24:8,duration:.4,ease:"power3.out",overwrite:true});});
+    const swap=(i,dir)=&gt;{
+      const inn=tx[flip],out=tx[1-flip];flip=1-flip;
+      inn.textContent=caps[i];
+      gsap.killTweensOf([inn,out,win]);
+      gsap.fromTo(inn,{yPercent:100*dir,autoAlpha:0},{yPercent:0,autoAlpha:1,duration:.45,ease:"power3.out"});
+      gsap.to(out,{yPercent:-100*dir,autoAlpha:0,duration:.35,ease:"power2.in"});
+      gsap.to(win,{width:W[i],duration:.5,ease:"power3.out"});
+      dotsTo(i);
+    };
+    // החשיפה נגזרת מ-p בלבד, ההחלפה מופעלת רק כשהצעד הקרוב ביותר משתנה
+    const paint=p=&gt;{
+      const f=p*(n-1);
+      steps.forEach((s,i)=&gt;{
+        const o=i===0?1:clamp(f-(i-1));
+        s.style.clipPath="inset("+((1-o)*100)+"% 0 0 0)";
+        imgs[i].style.transform="scale("+(1.12-.12*o)+")";
+      });
+      const s=Math.round(f);
+      if(s!==k){const dir=s&gt;k?1:-1,first=k&lt;0;k=s;if(first){tx[0].textContent=caps[s];tx[1].textContent="";gsap.set(tx[0],{yPercent:0,autoAlpha:1});gsap.set(tx[1],{autoAlpha:0});gsap.set(win,{width:W[s]});flip=0;dotsTo(s);}else swap(s,dir);}
+    };
+    ScrollTrigger.addEventListener("refresh",meas);
+    meas();paint(0);
+    const st=ScrollTrigger.create({trigger:run,start:"top top",end:"bottom bottom",invalidateOnRefresh:true,onUpdate:s=&gt;paint(s.progress)});
+    return()=&gt;{
+      st.kill();ScrollTrigger.removeEventListener("refresh",meas);root.classList.remove("is-live");
+      steps.forEach((s,i)=&gt;{s.style.removeProperty("clip-path");imgs[i].style.removeProperty("transform");});
+      gsap.killTweensOf([win,...tx,...dots]);gsap.set([win,...tx,...dots],{clearProps:"all"});
+      tx[0].textContent=caps[n-1];tx[1].textContent="";dots.forEach((d,j)=&gt;d.classList.toggle("on",j===n-1));
+    };
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g238 · כיתוב בצורת גלולה שמתחלף ומשנה רוחב בכל צעד\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g238.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g238.html\n\nמה זה עושה: תמונה גדולה שנחשפת מלמטה למעלה בכל צעד של תהליך, ובתחתית שלה גלולת כיתוב אחת. כשהצעד מתחלף, הטקסט הישן עולה החוצה והחדש נכנס מלמטה, והגלולה מתרחבת או מצטמצמת בדיוק לרוחב המשפט החדש. שורת נקודות בתוכה מראה באיזה צעד אנחנו. הגולש קורא את התהליך כמו כתוביות, בלי להסיט את העיניים מהתמונה.\nמתי משתמשים: תהליך של שלושה עד חמישה צעדים שכל אחד מהם יש לו תמונה: ביקור במרפאה, יום עבודה בסטודיו, הרכבה, מסירה, מסע של לקוח. מתאים כשהמשפט הקצר חשוב יותר מפסקה והתמונה היא העיקר. לא לתהליך שדורש הסבר מפורט בכל צעד, ולא לפני שיש תמונה אמיתית לכל צעד.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית\nבסקשן: תהליך ושלבים · בעיה ויתרונות · שירותים ומוצרים\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא כשיש פחות משלושה שלבים או יותר מחמישה, ולא כשהכיתובים ארוכים משש מילים.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G238 · כיתוב בצורת גלולה שמתחלף ומשנה רוחב בכל צעד */\n.cpl{max-width:1120px;margin-inline:auto}\n.cpl-pin{display:grid;gap:32px}\n.cpl-head{display:grid;gap:12px;max-width:44ch}\n.cpl-head h2{margin:0;font-size:clamp(28px,3.2vw,48px);line-height:1.12;text-wrap:balance}\n.cpl-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.cpl-frame{position:relative}\n.cpl-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}\n.cpl-step{position:relative;overflow:hidden;aspect-ratio:1/1;border-radius:20px;background:var(--card, #fff)}\n.cpl-step img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}\n.cpl-cap{position:absolute;inset-inline:12px;bottom:12px;display:block;padding:10px 16px;border-radius:24px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:15px;font-weight:600;line-height:1.35;text-align:center;text-wrap:balance}\n/* מצב חי: הרשימה נערמת למסגרת אחת, והגלולה החיה לוקחת את מקום הכיתובים */\n.cpl-live{display:none}\n.cpl.is-live .cpl-run{height:280vh}\n.cpl.is-live .cpl-pin{position:sticky;top:0;height:100vh;height:100svh;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px)}\n.cpl.is-live .cpl-frame{position:relative;overflow:hidden;isolation:isolate;aspect-ratio:5/4;max-height:72svh;width:100%;border-radius:24px;background:var(--card, #fff);box-shadow:0 32px 64px -36px color-mix(in srgb,var(--ink, #16182b) 55%,transparent)}\n.cpl.is-live .cpl-steps{display:block;position:absolute;inset:0}\n.cpl.is-live .cpl-step{position:absolute;inset:0;aspect-ratio:auto;border-radius:0}\n.cpl.is-live .cpl-step img{will-change:transform}\n.cpl.is-live .cpl-cap{position:absolute;inset:auto;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;backdrop-filter:none}\n.cpl.is-live .cpl-live{position:absolute;inset-inline:0;bottom:24px;z-index:2;margin-inline:auto;display:flex;align-items:center;gap:14px;width:max-content;max-width:calc(100% - 32px);padding:12px 20px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:17px;font-weight:600;line-height:1.4}\n.cpl-dots{display:flex;align-items:center;gap:6px}\n.cpl-dot{display:block;width:8px;height:8px;border-radius:4px;background:color-mix(in srgb,var(--bg, #f7f7fa) 38%,transparent);transition:background-color .3s cubic-bezier(.2,.6,.2,1)}\n.cpl-dot.on{background:var(--bg, #f7f7fa)}\n.cpl-win{position:relative;display:block;height:1.4em;overflow:hidden;white-space:nowrap}\n.cpl-t{position:absolute;inset-inline-start:0;top:0;white-space:nowrap}\n.cpl-m{position:absolute;visibility:hidden;white-space:nowrap;pointer-events:none}\n@media(max-width:767px){\n  .cpl-pin{gap:24px}\n  .cpl-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}\n  .cpl-step{border-radius:16px}\n  .cpl-cap{inset-inline:8px;bottom:8px;padding:8px 12px;font-size:14px}\n  .cpl.is-live .cpl-pin{grid-template-columns:minmax(0,1fr);align-content:center;gap:24px}\n  .cpl.is-live .cpl-head p{display:none}\n  .cpl.is-live .cpl-frame{aspect-ratio:auto;height:clamp(380px,62svh,560px);max-height:none;border-radius:20px}\n  .cpl.is-live .cpl-live{bottom:16px;padding:10px 16px;font-size:15px;gap:12px}\n}\n\n=== HTML ===\n<div class=\"stage\"><div class=\"cpl\"><div class=\"cpl-run\"><div class=\"cpl-pin\">\n  <div class=\"cpl-head\"><h2>ככה נראה ביקור אצלנו, מהתור ועד הבית<\/h2><p>ארבעה צעדים, ובכל אחד מהם אתם יודעים מה קורה עכשיו ומה יהיה אחריו.<\/p><\/div>\n  <div class=\"cpl-frame\">\n    <ol class=\"cpl-steps\">\n      <li class=\"cpl-step\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-1-booking.webp\" alt=\"אמא וילד על הספה בבית מביטים בטלפון\" width=\"1500\" height=\"1200\" loading=\"lazy\" decoding=\"async\"><span class=\"cpl-cap\">קובעים תור מהספה בבית<\/span><\/li>\n      <li class=\"cpl-step\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-2-welcome.webp\" alt=\"רופאה מחייכת אל ילדה בחלוק רפואי\" width=\"1500\" height=\"1200\" loading=\"lazy\" decoding=\"async\"><span class=\"cpl-cap\">הרופאה מכירה את הילד בחיוך<\/span><\/li>\n      <li class=\"cpl-step\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-3-exam.webp\" alt=\"רופא בודק ילדה בנוכחות אמה\" width=\"1500\" height=\"1200\" loading=\"lazy\" decoding=\"async\"><span class=\"cpl-cap\">בדיקה רגועה, בלי לחץ<\/span><\/li>\n      <li class=\"cpl-step\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-4-home.webp\" alt=\"אמא מחזיקה תינוק בבית\" width=\"1500\" height=\"1200\" loading=\"lazy\" decoding=\"async\"><span class=\"cpl-cap\">חוזרים הביתה עם סיכום<\/span><\/li>\n    <\/ol>\n    <div class=\"cpl-live\" aria-hidden=\"true\">\n      <span class=\"cpl-dots\"><i class=\"cpl-dot\"><\/i><i class=\"cpl-dot\"><\/i><i class=\"cpl-dot\"><\/i><i class=\"cpl-dot on\"><\/i><\/span>\n      <span class=\"cpl-win\"><span class=\"cpl-t\">חוזרים הביתה עם סיכום<\/span><span class=\"cpl-t\"><\/span><\/span>\n      <span class=\"cpl-m\"><\/span>\n    <\/div>\n  <\/div>\n<\/div><\/div><\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשארת רשימת ארבעת הכרטיסים עם הכיתובים שלהם (במארקאפ)\n  const root=document.querySelector(\".cpl\"),run=root.querySelector(\".cpl-run\"),steps=[...root.querySelectorAll(\".cpl-step\")],\n    imgs=steps.map(s=>s.querySelector(\"img\")),caps=steps.map(s=>s.querySelector(\".cpl-cap\").textContent.trim()),\n    pill=root.querySelector(\".cpl-live\"),win=pill.querySelector(\".cpl-win\"),tx=[...pill.querySelectorAll(\".cpl-t\")],\n    dots=[...pill.querySelectorAll(\".cpl-dot\")],ms=pill.querySelector(\".cpl-m\");\n  const n=steps.length,clamp=v=>Math.min(1,Math.max(0,v));\n  // בהפחתת תנועה הפונקציה לא רצה, והכרטיסים נשארים במצב הסיום\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    let W=[],k=-1,flip=0;\n    const meas=()=>{                          // רוחב כל משפט, באותו פונט של הגלולה\n      W=caps.map(c=>{ms.textContent=c;return Math.ceil(ms.getBoundingClientRect().width)+2;});\n      if(k>=0)gsap.set(win,{width:W[k]});\n    };\n    const dotsTo=i=>dots.forEach((d,j)=>{d.classList.toggle(\"on\",j===i);gsap.to(d,{width:j===i?24:8,duration:.4,ease:\"power3.out\",overwrite:true});});\n    const swap=(i,dir)=>{\n      const inn=tx[flip],out=tx[1-flip];flip=1-flip;\n      inn.textContent=caps[i];\n      gsap.killTweensOf([inn,out,win]);\n      gsap.fromTo(inn,{yPercent:100*dir,autoAlpha:0},{yPercent:0,autoAlpha:1,duration:.45,ease:\"power3.out\"});\n      gsap.to(out,{yPercent:-100*dir,autoAlpha:0,duration:.35,ease:\"power2.in\"});\n      gsap.to(win,{width:W[i],duration:.5,ease:\"power3.out\"});\n      dotsTo(i);\n    };\n    // החשיפה נגזרת מ-p בלבד, ההחלפה מופעלת רק כשהצעד הקרוב ביותר משתנה\n    const paint=p=>{\n      const f=p*(n-1);\n      steps.forEach((s,i)=>{\n        const o=i===0?1:clamp(f-(i-1));\n        s.style.clipPath=\"inset(\"+((1-o)*100)+\"% 0 0 0)\";\n        imgs[i].style.transform=\"scale(\"+(1.12-.12*o)+\")\";\n      });\n      const s=Math.round(f);\n      if(s!==k){const dir=s>k?1:-1,first=k<0;k=s;if(first){tx[0].textContent=caps[s];tx[1].textContent=\"\";gsap.set(tx[0],{yPercent:0,autoAlpha:1});gsap.set(tx[1],{autoAlpha:0});gsap.set(win,{width:W[s]});flip=0;dotsTo(s);}else swap(s,dir);}\n    };\n    ScrollTrigger.addEventListener(\"refresh\",meas);\n    meas();paint(0);\n    const st=ScrollTrigger.create({trigger:run,start:\"top top\",end:\"bottom bottom\",invalidateOnRefresh:true,onUpdate:s=>paint(s.progress)});\n    return()=>{\n      st.kill();ScrollTrigger.removeEventListener(\"refresh\",meas);root.classList.remove(\"is-live\");\n      steps.forEach((s,i)=>{s.style.removeProperty(\"clip-path\");imgs[i].style.removeProperty(\"transform\");});\n      gsap.killTweensOf([win,...tx,...dots]);gsap.set([win,...tx,...dots],{clearProps:\"all\"});\n      tx[0].textContent=caps[n-1];tx[1].textContent=\"\";dots.forEach((d,j)=>d.classList.toggle(\"on\",j===n-1));\n    };\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטוני מוצר בגלריה של prompt-motion.com (21.10.2026) שבהם כיתוב קטן בצורת גלולה בתחתית המסך מתחלף עם כל סצנה ומשנה רוחב. נבנה מאפס מהצפייה. המארקאפ הוא מצב הסיום ומכיל את כל הצעדים: רשימה `<ol>` של ארבע תמונות, ולכל אחת גלולת כיתוב משלה, כך שבלי GSAP ובהפחתת תנועה רואים את כל התהליך כרצף של כרטיסים. כשהמהלך רץ הרשימה נערמת למסגרת אחת נעוצה (`sticky` בתוך אזור גלילה של 280vh), הגלולות של הכרטיסים הופכות ל-`sr-only` כדי שקורא מסך עדיין ימצא את כל הצעדים, וגלולה אחת חיה (`aria-hidden`) מתחילה לעבוד. החשיפה של כל תמונה היא `clip-path` שנגזר מ-`p` בפונקציה אחת, ולכן היא נכונה גם בגלילה לאחור. ההחלפה היא אירוע ולא רצף: כשהצעד הקרוב ביותר משתנה, שני `span` מתחלפים (הנכנס מלמטה בגלילה קדימה ומלמעלה בגלילה אחורה) ורוחב החלון שלהם עובר אל רוחב המשפט החדש. הרוחבים נמדדים מ-`.cpl-m` הנסתר באותו פונט, ונמדדים מחדש בכל `refresh`. הטקסטים נקראים מהרשימה, ולכן משנים אותם רק במארקאפ. הנקודות: הפעילה מתארכת ל-24 והאחרות חוזרות ל-8. RTL: הכל לוגי (`inset-inline`, `text-align` ברירת מחדל), ולכן ב-LTR אין מה להפוך, והעמודות מתחלפות לבד. בנייד הכותרת מצטמצמת והמסגרת גבוהה יותר. שתי תמונות לפחות נדרשות, ושלוש עד ארבע הן הטווח הנוח.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G238 · כיתוב בצורת גלולה שמתחלף ומשנה רוחב בכל צעד */\n.cpl{max-width:1120px;margin-inline:auto}\n.cpl-pin{display:grid;gap:32px}\n.cpl-head{display:grid;gap:12px;max-width:44ch}\n.cpl-head h2{margin:0;font-size:clamp(28px,3.2vw,48px);line-height:1.12;text-wrap:balance}\n.cpl-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.cpl-frame{position:relative}\n.cpl-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}\n.cpl-step{position:relative;overflow:hidden;aspect-ratio:1/1;border-radius:20px;background:var(--card, #fff)}\n.cpl-step img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}\n.cpl-cap{position:absolute;inset-inline:12px;bottom:12px;display:block;padding:10px 16px;border-radius:24px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:15px;font-weight:600;line-height:1.35;text-align:center;text-wrap:balance}\n/* מצב חי: הרשימה נערמת למסגרת אחת, והגלולה החיה לוקחת את מקום הכיתובים */\n.cpl-live{display:none}\n.cpl.is-live .cpl-run{height:280vh}\n.cpl.is-live .cpl-pin{position:sticky;top:0;height:100vh;height:100svh;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,6vw,88px)}\n.cpl.is-live .cpl-frame{position:relative;overflow:hidden;isolation:isolate;aspect-ratio:5/4;max-height:72svh;width:100%;border-radius:24px;background:var(--card, #fff);box-shadow:0 32px 64px -36px color-mix(in srgb,var(--ink, #16182b) 55%,transparent)}\n.cpl.is-live .cpl-steps{display:block;position:absolute;inset:0}\n.cpl.is-live .cpl-step{position:absolute;inset:0;aspect-ratio:auto;border-radius:0}\n.cpl.is-live .cpl-step img{will-change:transform}\n.cpl.is-live .cpl-cap{position:absolute;inset:auto;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;backdrop-filter:none}\n.cpl.is-live .cpl-live{position:absolute;inset-inline:0;bottom:24px;z-index:2;margin-inline:auto;display:flex;align-items:center;gap:14px;width:max-content;max-width:calc(100% - 32px);padding:12px 20px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:17px;font-weight:600;line-height:1.4}\n.cpl-dots{display:flex;align-items:center;gap:6px}\n.cpl-dot{display:block;width:8px;height:8px;border-radius:4px;background:color-mix(in srgb,var(--bg, #f7f7fa) 38%,transparent);transition:background-color .3s cubic-bezier(.2,.6,.2,1)}\n.cpl-dot.on{background:var(--bg, #f7f7fa)}\n.cpl-win{position:relative;display:block;height:1.4em;overflow:hidden;white-space:nowrap}\n.cpl-t{position:absolute;inset-inline-start:0;top:0;white-space:nowrap}\n.cpl-m{position:absolute;visibility:hidden;white-space:nowrap;pointer-events:none}\n@media(max-width:767px){\n  .cpl-pin{gap:24px}\n  .cpl-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}\n  .cpl-step{border-radius:16px}\n  .cpl-cap{inset-inline:8px;bottom:8px;padding:8px 12px;font-size:14px}\n  .cpl.is-live .cpl-pin{grid-template-columns:minmax(0,1fr);align-content:center;gap:24px}\n  .cpl.is-live .cpl-head p{display:none}\n  .cpl.is-live .cpl-frame{aspect-ratio:auto;height:clamp(380px,62svh,560px);max-height:none;border-radius:20px}\n  .cpl.is-live .cpl-live{bottom:16px;padding:10px 16px;font-size:15px;gap:12px}\n}","html":"<div class=\"stage\"><div class=\"cpl\"><div class=\"cpl-run\"><div class=\"cpl-pin\">\n  <div class=\"cpl-head\"><h2>ככה נראה ביקור אצלנו, מהתור ועד הבית<\/h2><p>ארבעה צעדים, ובכל אחד מהם אתם יודעים מה קורה עכשיו ומה יהיה אחריו.<\/p><\/div>\n  <div class=\"cpl-frame\">\n    <ol class=\"cpl-steps\">\n      <li class=\"cpl-step\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-1-booking.webp\" alt=\"אמא וילד על הספה בבית מביטים בטלפון\" width=\"1500\" height=\"1200\" loading=\"lazy\" decoding=\"async\"><span class=\"cpl-cap\">קובעים תור מהספה בבית<\/span><\/li>\n      <li class=\"cpl-step\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-2-welcome.webp\" alt=\"רופאה מחייכת אל ילדה בחלוק רפואי\" width=\"1500\" height=\"1200\" loading=\"lazy\" decoding=\"async\"><span class=\"cpl-cap\">הרופאה מכירה את הילד בחיוך<\/span><\/li>\n      <li class=\"cpl-step\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-3-exam.webp\" alt=\"רופא בודק ילדה בנוכחות אמה\" width=\"1500\" height=\"1200\" loading=\"lazy\" decoding=\"async\"><span class=\"cpl-cap\">בדיקה רגועה, בלי לחץ<\/span><\/li>\n      <li class=\"cpl-step\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s09/step-4-home.webp\" alt=\"אמא מחזיקה תינוק בבית\" width=\"1500\" height=\"1200\" loading=\"lazy\" decoding=\"async\"><span class=\"cpl-cap\">חוזרים הביתה עם סיכום<\/span><\/li>\n    <\/ol>\n    <div class=\"cpl-live\" aria-hidden=\"true\">\n      <span class=\"cpl-dots\"><i class=\"cpl-dot\"><\/i><i class=\"cpl-dot\"><\/i><i class=\"cpl-dot\"><\/i><i class=\"cpl-dot on\"><\/i><\/span>\n      <span class=\"cpl-win\"><span class=\"cpl-t\">חוזרים הביתה עם סיכום<\/span><span class=\"cpl-t\"><\/span><\/span>\n      <span class=\"cpl-m\"><\/span>\n    <\/div>\n  <\/div>\n<\/div><\/div><\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשארת רשימת ארבעת הכרטיסים עם הכיתובים שלהם (במארקאפ)\n  const root=document.querySelector(\".cpl\"),run=root.querySelector(\".cpl-run\"),steps=[...root.querySelectorAll(\".cpl-step\")],\n    imgs=steps.map(s=>s.querySelector(\"img\")),caps=steps.map(s=>s.querySelector(\".cpl-cap\").textContent.trim()),\n    pill=root.querySelector(\".cpl-live\"),win=pill.querySelector(\".cpl-win\"),tx=[...pill.querySelectorAll(\".cpl-t\")],\n    dots=[...pill.querySelectorAll(\".cpl-dot\")],ms=pill.querySelector(\".cpl-m\");\n  const n=steps.length,clamp=v=>Math.min(1,Math.max(0,v));\n  // בהפחתת תנועה הפונקציה לא רצה, והכרטיסים נשארים במצב הסיום\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    let W=[],k=-1,flip=0;\n    const meas=()=>{                          // רוחב כל משפט, באותו פונט של הגלולה\n      W=caps.map(c=>{ms.textContent=c;return Math.ceil(ms.getBoundingClientRect().width)+2;});\n      if(k>=0)gsap.set(win,{width:W[k]});\n    };\n    const dotsTo=i=>dots.forEach((d,j)=>{d.classList.toggle(\"on\",j===i);gsap.to(d,{width:j===i?24:8,duration:.4,ease:\"power3.out\",overwrite:true});});\n    const swap=(i,dir)=>{\n      const inn=tx[flip],out=tx[1-flip];flip=1-flip;\n      inn.textContent=caps[i];\n      gsap.killTweensOf([inn,out,win]);\n      gsap.fromTo(inn,{yPercent:100*dir,autoAlpha:0},{yPercent:0,autoAlpha:1,duration:.45,ease:\"power3.out\"});\n      gsap.to(out,{yPercent:-100*dir,autoAlpha:0,duration:.35,ease:\"power2.in\"});\n      gsap.to(win,{width:W[i],duration:.5,ease:\"power3.out\"});\n      dotsTo(i);\n    };\n    // החשיפה נגזרת מ-p בלבד, ההחלפה מופעלת רק כשהצעד הקרוב ביותר משתנה\n    const paint=p=>{\n      const f=p*(n-1);\n      steps.forEach((s,i)=>{\n        const o=i===0?1:clamp(f-(i-1));\n        s.style.clipPath=\"inset(\"+((1-o)*100)+\"% 0 0 0)\";\n        imgs[i].style.transform=\"scale(\"+(1.12-.12*o)+\")\";\n      });\n      const s=Math.round(f);\n      if(s!==k){const dir=s>k?1:-1,first=k<0;k=s;if(first){tx[0].textContent=caps[s];tx[1].textContent=\"\";gsap.set(tx[0],{yPercent:0,autoAlpha:1});gsap.set(tx[1],{autoAlpha:0});gsap.set(win,{width:W[s]});flip=0;dotsTo(s);}else swap(s,dir);}\n    };\n    ScrollTrigger.addEventListener(\"refresh\",meas);\n    meas();paint(0);\n    const st=ScrollTrigger.create({trigger:run,start:\"top top\",end:\"bottom bottom\",invalidateOnRefresh:true,onUpdate:s=>paint(s.progress)});\n    return()=>{\n      st.kill();ScrollTrigger.removeEventListener(\"refresh\",meas);root.classList.remove(\"is-live\");\n      steps.forEach((s,i)=>{s.style.removeProperty(\"clip-path\");imgs[i].style.removeProperty(\"transform\");});\n      gsap.killTweensOf([win,...tx,...dots]);gsap.set([win,...tx,...dots],{clearProps:\"all\"});\n      tx[0].textContent=caps[n-1];tx[1].textContent=\"\";dots.forEach((d,j)=>d.classList.toggle(\"on\",j===n-1));\n    };\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g237.html" rel="prev"><small>→ הקודם</small><b>שכבת מדדים על המסך שמתעדכנת עם הסצנות</b></a><a href="g239.html" rel="next"><small>הבא ←</small><b>שלושה מכשירים יוצאים מאחורי המכשיר המרכזי אל המסגרת</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · כיתוב בצורת גלולה שמתחלף ומשנה רוחב בכל צעד").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשארת רשימת ארבעת הכרטיסים עם הכיתובים שלהם (במארקאפ)
+  const root=document.querySelector(".cpl"),run=root.querySelector(".cpl-run"),steps=[...root.querySelectorAll(".cpl-step")],
+    imgs=steps.map(s=>s.querySelector("img")),caps=steps.map(s=>s.querySelector(".cpl-cap").textContent.trim()),
+    pill=root.querySelector(".cpl-live"),win=pill.querySelector(".cpl-win"),tx=[...pill.querySelectorAll(".cpl-t")],
+    dots=[...pill.querySelectorAll(".cpl-dot")],ms=pill.querySelector(".cpl-m");
+  const n=steps.length,clamp=v=>Math.min(1,Math.max(0,v));
+  // בהפחתת תנועה הפונקציה לא רצה, והכרטיסים נשארים במצב הסיום
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    let W=[],k=-1,flip=0;
+    const meas=()=>{                          // רוחב כל משפט, באותו פונט של הגלולה
+      W=caps.map(c=>{ms.textContent=c;return Math.ceil(ms.getBoundingClientRect().width)+2;});
+      if(k>=0)gsap.set(win,{width:W[k]});
+    };
+    const dotsTo=i=>dots.forEach((d,j)=>{d.classList.toggle("on",j===i);gsap.to(d,{width:j===i?24:8,duration:.4,ease:"power3.out",overwrite:true});});
+    const swap=(i,dir)=>{
+      const inn=tx[flip],out=tx[1-flip];flip=1-flip;
+      inn.textContent=caps[i];
+      gsap.killTweensOf([inn,out,win]);
+      gsap.fromTo(inn,{yPercent:100*dir,autoAlpha:0},{yPercent:0,autoAlpha:1,duration:.45,ease:"power3.out"});
+      gsap.to(out,{yPercent:-100*dir,autoAlpha:0,duration:.35,ease:"power2.in"});
+      gsap.to(win,{width:W[i],duration:.5,ease:"power3.out"});
+      dotsTo(i);
+    };
+    // החשיפה נגזרת מ-p בלבד, ההחלפה מופעלת רק כשהצעד הקרוב ביותר משתנה
+    const paint=p=>{
+      const f=p*(n-1);
+      steps.forEach((s,i)=>{
+        const o=i===0?1:clamp(f-(i-1));
+        s.style.clipPath="inset("+((1-o)*100)+"% 0 0 0)";
+        imgs[i].style.transform="scale("+(1.12-.12*o)+")";
+      });
+      const s=Math.round(f);
+      if(s!==k){const dir=s>k?1:-1,first=k<0;k=s;if(first){tx[0].textContent=caps[s];tx[1].textContent="";gsap.set(tx[0],{yPercent:0,autoAlpha:1});gsap.set(tx[1],{autoAlpha:0});gsap.set(win,{width:W[s]});flip=0;dotsTo(s);}else swap(s,dir);}
+    };
+    ScrollTrigger.addEventListener("refresh",meas);
+    meas();paint(0);
+    const st=ScrollTrigger.create({trigger:run,start:"top top",end:"bottom bottom",invalidateOnRefresh:true,onUpdate:s=>paint(s.progress)});
+    return()=>{
+      st.kill();ScrollTrigger.removeEventListener("refresh",meas);root.classList.remove("is-live");
+      steps.forEach((s,i)=>{s.style.removeProperty("clip-path");imgs[i].style.removeProperty("transform");});
+      gsap.killTweensOf([win,...tx,...dots]);gsap.set([win,...tx,...dots],{clearProps:"all"});
+      tx[0].textContent=caps[n-1];tx[1].textContent="";dots.forEach((d,j)=>d.classList.toggle("on",j===n-1));
+    };
+  });
+})();
+</script>
+</body>
+</html>

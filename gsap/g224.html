@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G224 · מחיקה מעגלית כמו מחוג שמחליפה מספר | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+/* בלי GSAP ובהפחתת תנועה: העיגול מציג את המספר האחרון, והשלבים רשימה. ההצמדה והחיתוך רק כשהמהלך רץ (.is-live) */
+.ck{position:relative}
+.ck-pin{position:relative;display:grid;place-items:center;min-height:80svh}
+.ck-grid{width:100%;max-width:1120px;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,96px);padding:var(--gutter)}
+.ck-copy{display:grid;gap:28px}
+.ck-copy h2{margin:0;font-size:clamp(30px,3.4vw,52px);font-weight:700;line-height:1.1;text-wrap:balance}
+.ck-steps{list-style:none;margin:0;padding:0;display:grid;gap:28px}
+.ck-k{font-size:14px;font-weight:600;color:var(--muted)}
+.ck-steps h3{margin:4px 0 8px;font-size:clamp(22px,2vw,30px)}
+.ck-steps p{margin:0;max-width:38ch;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.ck-dial{position:relative;justify-self:center;width:min(100%,520px,60svh);aspect-ratio:1;container-type:size}
+.ck-ring{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.ck-ring circle{fill:none}
+.ck-c0{stroke:var(--ink);stroke-width:.4}
+.ck-tk{stroke:color-mix(in oklab,var(--ink) 55%,transparent);stroke-width:3;stroke-dasharray:.06 .94}
+.ck-arc{stroke:var(--accent);stroke-width:1.6;stroke-linecap:round;opacity:0}
+.ck-n{position:absolute;inset:8%;display:grid;place-items:center;border-radius:50%;font-size:56cqw;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;
+  -webkit-mask-image:conic-gradient(#000 var(--a,360deg),transparent 0);mask-image:conic-gradient(#000 var(--a,360deg),transparent 0)}
+.ck-n1{background:var(--card);color:var(--ink)}
+.ck-n2{background:var(--ink);color:var(--bg)}
+.ck-n3{background:var(--accent);color:var(--accent-ink)}
+.ck-hand{position:absolute;left:calc(50% - 1px);top:8%;width:2px;height:42%;border-radius:2px;background:var(--accent);transform-origin:50% 100%;opacity:0;pointer-events:none}
+.ck-flare{display:none}
+.ck.is-live{height:320svh}
+.ck.is-live .ck-pin{position:sticky;top:0;height:100svh;min-height:0;overflow:hidden}
+.ck.is-live .ck-steps{gap:0}
+.ck.is-live .ck-steps li{grid-area:1/1;align-self:start}
+.ck.is-live .ck-flare{display:block;position:absolute;inset-inline:0;top:50%;height:2px;translate:0 -50%;z-index:2;pointer-events:none;opacity:0;
+  background:linear-gradient(to right,transparent,var(--accent) 28%,var(--accent) 72%,transparent);box-shadow:0 0 20px 3px color-mix(in oklab,var(--accent) 60%,transparent)}
+@media(max-width:767px){
+  .ck-grid{grid-template-columns:minmax(0,1fr);gap:24px}
+  .ck-dial{order:-1;width:min(70vw,36svh)}
+  .ck.is-live .ck-copy{gap:16px}
+}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g223.html" rel="prev" title="הקודם: תמונה מלאה שמצטמצמת לפאנל ליד טקסט">→<span class="sr-only">הקודם</span></a><span class="vpn-n">200/219</span><a href="g225.html" rel="next" title="הבא: מונה לאחור על מסך פתיחה קצר">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G224</span> · מחיקה מעגלית כמו מחוג שמחליפה מספר</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · conic-gradient mask</span>
+  <span class="vchip use">תהליך ושלבים</span><span class="vchip use">מספרים ונתונים</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g224"><code>MV:g224</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g224">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>עיגול גדול עם טבעת דקה וסימני שעון, ובמרכזו מספר ענק. בגלילה מחוג דק מסתובב סביב המרכז, ומאחוריו המספר הבא מחליף את הקודם בצבע אחר, פלח אחר פלח, כמו שעון שנסגר. קו אור אופקי מהבהב על פני המסך בכל סיבוב, והטקסט שלצד העיגול מתחלף יחד איתו.</p>
+  <p class="when"><b>מתי משתמשים:</b> תהליך עבודה בשלושה שלבים ברורים: ייעוץ, תכנון, ביצוע. כל מקום שבו המספר הוא מידע ולא קישוט, ושלושה שלבים באים אחד אחרי השני. מתאים גם לספירה לאחור של הצעה או מבצע.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית</dd></div><div><dt>בסקשן</dt><dd>תהליך ושלבים · בעיה ויתרונות · שירותים ומוצרים</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשהשלבים אינם רצף אמיתי, ולא כשיש יותר משלושה או ארבעה שלבים.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g224"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage full" style="padding-block:0"><div class="ck">
+  <div class="ck-pin">
+    <div class="ck-grid">
+      <div class="ck-copy">
+        <h2>משכנתא בשלושה שלבים, מהשיחה הראשונה ועד החתימה</h2>
+        <ol class="ck-steps">
+          <li><span class="ck-k">שלב 1</span><h3>שיחת היכרות</h3><p>מספרים לנו על הדירה, על ההכנסות ועל ההחזר החודשי שנוח לכם. השיחה אורכת חצי שעה.</p></li>
+          <li><span class="ck-k">שלב 2</span><h3>השוואה בין הבנקים</h3><p>מבקשים הצעות משישה בנקים ומציגים אותן בטבלה אחת, עם ההחזר החודשי והריבית הכוללת.</p></li>
+          <li><span class="ck-k">שלב 3</span><h3>חתימה וליווי</h3><p>מלווים אתכם עד החתימה בבנק, ואחריה בודקים מדי שנה אם כדאי למחזר.</p></li>
+        </ol>
+      </div>
+      <div class="ck-dial" aria-hidden="true">
+        <svg class="ck-ring" viewBox="0 0 100 100"><circle class="ck-c0" cx="50" cy="50" r="49.6"/><circle class="ck-tk" cx="50" cy="50" r="46" pathLength="60"/><circle class="ck-arc" cx="50" cy="50" r="49.6" pathLength="1" stroke-dasharray="0 1" transform="rotate(-90 50 50)"/></svg>
+        <span class="ck-n ck-n1">1</span><span class="ck-n ck-n2">2</span><span class="ck-n ck-n3">3</span>
+        <i class="ck-hand"></i>
+      </div>
+    </div>
+    <i class="ck-flare" aria-hidden="true"></i>
+  </div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: שלושה סרטונים ב-prompt-motion.com (21.10.2026) שבהם טבעת דקה מקיפה מספר גדול ופלח מעגלי מחליף אותו במספר הבא, בליווי הבזק אור אופקי. נבנה מאפס מהצפייה. <b>המספרים הם שלוש שכבות זו על זו</b>, לכל אחת דיסק רקע אטום משלה ו-<code>mask-image:conic-gradient(#000 var(--a), transparent 0)</code>. השכבה העליונה נחתכת לפלח שגדל מ-0 ל-360 מעלות, ומאחוריו נראית הקודמת. דיסק אטום הכרחי: בלעדיו הספרה הישנה הייתה נראית דרך הספרה החדשה. <b><code>--a</code> מתעדכן מ-GSAP</b> (<code>style.setProperty</code>), לא דרך <code>@property</code>, ולכן זה עובד גם בדפדפנים בלי תמיכה בהנפשת משתנים. <b>מחוג וקשת:</b> קו דק מסתובב סביב אותה נקודה (<code>rotate</code>), וקשת צבועה על הטבעת (<code>stroke-dasharray</code>) נמתחת איתו. <b>בלי GSAP ובהפחתת תנועה</b> רואים את המספר האחרון (3) ואת שלושת השלבים כרשימה, כל אחד עם התווית "שלב" שלו. <b>כשהמהלך רץ</b> הבמה נעוצה והשלבים נערמים באותו תא בגריד ועולים בתור. <b>כיוון:</b> המחוג מסתובב עם כיוון השעון גם באתר בעברית, כי שעונים לא מתהפכים. <b>נגישות:</b> העיגול והמספרים הם איור (<code>aria-hidden</code>), והמספר נמצא בתווית של כל שלב ברשימה.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g224.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G224 · מחיקה מעגלית כמו מחוג שמחליפה מספר */
+/* בלי GSAP ובהפחתת תנועה: העיגול מציג את המספר האחרון, והשלבים רשימה. ההצמדה והחיתוך רק כשהמהלך רץ (.is-live) */
+.ck{position:relative}
+.ck-pin{position:relative;display:grid;place-items:center;min-height:80svh}
+.ck-grid{width:100%;max-width:1120px;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,96px);padding:var(--gutter, clamp(24px, 5vw, 96px))}
+.ck-copy{display:grid;gap:28px}
+.ck-copy h2{margin:0;font-size:clamp(30px,3.4vw,52px);font-weight:700;line-height:1.1;text-wrap:balance}
+.ck-steps{list-style:none;margin:0;padding:0;display:grid;gap:28px}
+.ck-k{font-size:14px;font-weight:600;color:var(--muted, #6a6d85)}
+.ck-steps h3{margin:4px 0 8px;font-size:clamp(22px,2vw,30px)}
+.ck-steps p{margin:0;max-width:38ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.ck-dial{position:relative;justify-self:center;width:min(100%,520px,60svh);aspect-ratio:1;container-type:size}
+.ck-ring{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.ck-ring circle{fill:none}
+.ck-c0{stroke:var(--ink, #16182b);stroke-width:.4}
+.ck-tk{stroke:color-mix(in oklab,var(--ink, #16182b) 55%,transparent);stroke-width:3;stroke-dasharray:.06 .94}
+.ck-arc{stroke:var(--accent, #4a3aff);stroke-width:1.6;stroke-linecap:round;opacity:0}
+.ck-n{position:absolute;inset:8%;display:grid;place-items:center;border-radius:50%;font-size:56cqw;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;
+  -webkit-mask-image:conic-gradient(#000 var(--a,360deg),transparent 0);mask-image:conic-gradient(#000 var(--a,360deg),transparent 0)}
+.ck-n1{background:var(--card, #fff);color:var(--ink, #16182b)}
+.ck-n2{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+.ck-n3{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.ck-hand{position:absolute;left:calc(50% - 1px);top:8%;width:2px;height:42%;border-radius:2px;background:var(--accent, #4a3aff);transform-origin:50% 100%;opacity:0;pointer-events:none}
+.ck-flare{display:none}
+.ck.is-live{height:320svh}
+.ck.is-live .ck-pin{position:sticky;top:0;height:100svh;min-height:0;overflow:hidden}
+.ck.is-live .ck-steps{gap:0}
+.ck.is-live .ck-steps li{grid-area:1/1;align-self:start}
+.ck.is-live .ck-flare{display:block;position:absolute;inset-inline:0;top:50%;height:2px;translate:0 -50%;z-index:2;pointer-events:none;opacity:0;
+  background:linear-gradient(to right,transparent,var(--accent, #4a3aff) 28%,var(--accent, #4a3aff) 72%,transparent);box-shadow:0 0 20px 3px color-mix(in oklab,var(--accent, #4a3aff) 60%,transparent)}
+@media(max-width:767px){
+  .ck-grid{grid-template-columns:minmax(0,1fr);gap:24px}
+  .ck-dial{order:-1;width:min(70vw,36svh)}
+  .ck.is-live .ck-copy{gap:16px}
+}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage full" style="padding-block:0"&gt;&lt;div class="ck"&gt;
+  &lt;div class="ck-pin"&gt;
+    &lt;div class="ck-grid"&gt;
+      &lt;div class="ck-copy"&gt;
+        &lt;h2&gt;משכנתא בשלושה שלבים, מהשיחה הראשונה ועד החתימה&lt;/h2&gt;
+        &lt;ol class="ck-steps"&gt;
+          &lt;li&gt;&lt;span class="ck-k"&gt;שלב 1&lt;/span&gt;&lt;h3&gt;שיחת היכרות&lt;/h3&gt;&lt;p&gt;מספרים לנו על הדירה, על ההכנסות ועל ההחזר החודשי שנוח לכם. השיחה אורכת חצי שעה.&lt;/p&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;span class="ck-k"&gt;שלב 2&lt;/span&gt;&lt;h3&gt;השוואה בין הבנקים&lt;/h3&gt;&lt;p&gt;מבקשים הצעות משישה בנקים ומציגים אותן בטבלה אחת, עם ההחזר החודשי והריבית הכוללת.&lt;/p&gt;&lt;/li&gt;
+          &lt;li&gt;&lt;span class="ck-k"&gt;שלב 3&lt;/span&gt;&lt;h3&gt;חתימה וליווי&lt;/h3&gt;&lt;p&gt;מלווים אתכם עד החתימה בבנק, ואחריה בודקים מדי שנה אם כדאי למחזר.&lt;/p&gt;&lt;/li&gt;
+        &lt;/ol&gt;
+      &lt;/div&gt;
+      &lt;div class="ck-dial" aria-hidden="true"&gt;
+        &lt;svg class="ck-ring" viewBox="0 0 100 100"&gt;&lt;circle class="ck-c0" cx="50" cy="50" r="49.6"/&gt;&lt;circle class="ck-tk" cx="50" cy="50" r="46" pathLength="60"/&gt;&lt;circle class="ck-arc" cx="50" cy="50" r="49.6" pathLength="1" stroke-dasharray="0 1" transform="rotate(-90 50 50)"/&gt;&lt;/svg&gt;
+        &lt;span class="ck-n ck-n1"&gt;1&lt;/span&gt;&lt;span class="ck-n ck-n2"&gt;2&lt;/span&gt;&lt;span class="ck-n ck-n3"&gt;3&lt;/span&gt;
+        &lt;i class="ck-hand"&gt;&lt;/i&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;i class="ck-flare" aria-hidden="true"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP העיגול מציג את המספר האחרון
+  const root=document.querySelector(".ck"),n2=root.querySelector(".ck-n2"),n3=root.querySelector(".ck-n3"),hand=root.querySelector(".ck-hand"),
+    arc=root.querySelector(".ck-arc"),flare=root.querySelector(".ck-flare"),li=[...root.querySelectorAll(".ck-steps li")];
+  // בהפחתת תנועה הפונקציה לא רצה, והמספר האחרון והרשימה מוצגים
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    const o={a:0,b:0};
+    const draw=()=&gt;{
+      n2.style.setProperty("--a",o.a+"deg");n3.style.setProperty("--a",o.b+"deg");
+      const cur=o.b&gt;0?o.b:o.a,run=cur&gt;0&amp;&amp;cur&lt;360;
+      hand.style.rotate=cur+"deg";hand.style.opacity=run?1:0;
+      arc.setAttribute("stroke-dasharray",(run?cur/360:0)+" 1");arc.style.opacity=run?1:0;
+      flare.style.opacity=run?Math.sin(Math.PI*cur/360)*.9:0;
+    };
+    gsap.set(li.slice(1),{autoAlpha:0});draw();
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}});
+    tl.to({},{duration:.4})
+      .to(o,{a:360,duration:.9,ease:"power2.inOut",onUpdate:draw})
+      .to(li[0],{autoAlpha:0,duration:.25,ease:"power1.in"},"&lt;.15")
+      .to(li[1],{autoAlpha:1,duration:.3,ease:"power1.out"},"&lt;.3")
+      .to({},{duration:.7})
+      .to(o,{b:360,duration:.9,ease:"power2.inOut",onUpdate:draw})
+      .to(li[1],{autoAlpha:0,duration:.25,ease:"power1.in"},"&lt;.15")
+      .to(li[2],{autoAlpha:1,duration:.3,ease:"power1.out"},"&lt;.3")
+      .to({},{duration:.7});
+    return()=&gt;{root.classList.remove("is-live");[n2,n3].forEach(e=&gt;e.style.removeProperty("--a"));
+      hand.style.cssText="";flare.style.cssText="";arc.style.cssText="";arc.setAttribute("stroke-dasharray","0 1");gsap.set(li,{clearProps:"all"});};
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g224 · מחיקה מעגלית כמו מחוג שמחליפה מספר\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g224.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g224.html\n\nמה זה עושה: עיגול גדול עם טבעת דקה וסימני שעון, ובמרכזו מספר ענק. בגלילה מחוג דק מסתובב סביב המרכז, ומאחוריו המספר הבא מחליף את הקודם בצבע אחר, פלח אחר פלח, כמו שעון שנסגר. קו אור אופקי מהבהב על פני המסך בכל סיבוב, והטקסט שלצד העיגול מתחלף יחד איתו.\nמתי משתמשים: תהליך עבודה בשלושה שלבים ברורים: ייעוץ, תכנון, ביצוע. כל מקום שבו המספר הוא מידע ולא קישוט, ושלושה שלבים באים אחד אחרי השני. מתאים גם לספירה לאחור של הצעה או מבצע.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית\nבסקשן: תהליך ושלבים · בעיה ויתרונות · שירותים ומוצרים\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא כשהשלבים אינם רצף אמיתי, ולא כשיש יותר משלושה או ארבעה שלבים.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G224 · מחיקה מעגלית כמו מחוג שמחליפה מספר */\n/* בלי GSAP ובהפחתת תנועה: העיגול מציג את המספר האחרון, והשלבים רשימה. ההצמדה והחיתוך רק כשהמהלך רץ (.is-live) */\n.ck{position:relative}\n.ck-pin{position:relative;display:grid;place-items:center;min-height:80svh}\n.ck-grid{width:100%;max-width:1120px;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,96px);padding:var(--gutter, clamp(24px, 5vw, 96px))}\n.ck-copy{display:grid;gap:28px}\n.ck-copy h2{margin:0;font-size:clamp(30px,3.4vw,52px);font-weight:700;line-height:1.1;text-wrap:balance}\n.ck-steps{list-style:none;margin:0;padding:0;display:grid;gap:28px}\n.ck-k{font-size:14px;font-weight:600;color:var(--muted, #6a6d85)}\n.ck-steps h3{margin:4px 0 8px;font-size:clamp(22px,2vw,30px)}\n.ck-steps p{margin:0;max-width:38ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.ck-dial{position:relative;justify-self:center;width:min(100%,520px,60svh);aspect-ratio:1;container-type:size}\n.ck-ring{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}\n.ck-ring circle{fill:none}\n.ck-c0{stroke:var(--ink, #16182b);stroke-width:.4}\n.ck-tk{stroke:color-mix(in oklab,var(--ink, #16182b) 55%,transparent);stroke-width:3;stroke-dasharray:.06 .94}\n.ck-arc{stroke:var(--accent, #4a3aff);stroke-width:1.6;stroke-linecap:round;opacity:0}\n.ck-n{position:absolute;inset:8%;display:grid;place-items:center;border-radius:50%;font-size:56cqw;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;\n  -webkit-mask-image:conic-gradient(#000 var(--a,360deg),transparent 0);mask-image:conic-gradient(#000 var(--a,360deg),transparent 0)}\n.ck-n1{background:var(--card, #fff);color:var(--ink, #16182b)}\n.ck-n2{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}\n.ck-n3{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.ck-hand{position:absolute;left:calc(50% - 1px);top:8%;width:2px;height:42%;border-radius:2px;background:var(--accent, #4a3aff);transform-origin:50% 100%;opacity:0;pointer-events:none}\n.ck-flare{display:none}\n.ck.is-live{height:320svh}\n.ck.is-live .ck-pin{position:sticky;top:0;height:100svh;min-height:0;overflow:hidden}\n.ck.is-live .ck-steps{gap:0}\n.ck.is-live .ck-steps li{grid-area:1/1;align-self:start}\n.ck.is-live .ck-flare{display:block;position:absolute;inset-inline:0;top:50%;height:2px;translate:0 -50%;z-index:2;pointer-events:none;opacity:0;\n  background:linear-gradient(to right,transparent,var(--accent, #4a3aff) 28%,var(--accent, #4a3aff) 72%,transparent);box-shadow:0 0 20px 3px color-mix(in oklab,var(--accent, #4a3aff) 60%,transparent)}\n@media(max-width:767px){\n  .ck-grid{grid-template-columns:minmax(0,1fr);gap:24px}\n  .ck-dial{order:-1;width:min(70vw,36svh)}\n  .ck.is-live .ck-copy{gap:16px}\n}\n\n=== HTML ===\n<div class=\"stage full\" style=\"padding-block:0\"><div class=\"ck\">\n  <div class=\"ck-pin\">\n    <div class=\"ck-grid\">\n      <div class=\"ck-copy\">\n        <h2>משכנתא בשלושה שלבים, מהשיחה הראשונה ועד החתימה<\/h2>\n        <ol class=\"ck-steps\">\n          <li><span class=\"ck-k\">שלב 1<\/span><h3>שיחת היכרות<\/h3><p>מספרים לנו על הדירה, על ההכנסות ועל ההחזר החודשי שנוח לכם. השיחה אורכת חצי שעה.<\/p><\/li>\n          <li><span class=\"ck-k\">שלב 2<\/span><h3>השוואה בין הבנקים<\/h3><p>מבקשים הצעות משישה בנקים ומציגים אותן בטבלה אחת, עם ההחזר החודשי והריבית הכוללת.<\/p><\/li>\n          <li><span class=\"ck-k\">שלב 3<\/span><h3>חתימה וליווי<\/h3><p>מלווים אתכם עד החתימה בבנק, ואחריה בודקים מדי שנה אם כדאי למחזר.<\/p><\/li>\n        <\/ol>\n      <\/div>\n      <div class=\"ck-dial\" aria-hidden=\"true\">\n        <svg class=\"ck-ring\" viewBox=\"0 0 100 100\"><circle class=\"ck-c0\" cx=\"50\" cy=\"50\" r=\"49.6\"/><circle class=\"ck-tk\" cx=\"50\" cy=\"50\" r=\"46\" pathLength=\"60\"/><circle class=\"ck-arc\" cx=\"50\" cy=\"50\" r=\"49.6\" pathLength=\"1\" stroke-dasharray=\"0 1\" transform=\"rotate(-90 50 50)\"/><\/svg>\n        <span class=\"ck-n ck-n1\">1<\/span><span class=\"ck-n ck-n2\">2<\/span><span class=\"ck-n ck-n3\">3<\/span>\n        <i class=\"ck-hand\"><\/i>\n      <\/div>\n    <\/div>\n    <i class=\"ck-flare\" aria-hidden=\"true\"><\/i>\n  <\/div>\n<\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\"||typeof ScrollTrigger===\"undefined\")return;      // בלי GSAP העיגול מציג את המספר האחרון\n  const root=document.querySelector(\".ck\"),n2=root.querySelector(\".ck-n2\"),n3=root.querySelector(\".ck-n3\"),hand=root.querySelector(\".ck-hand\"),\n    arc=root.querySelector(\".ck-arc\"),flare=root.querySelector(\".ck-flare\"),li=[...root.querySelectorAll(\".ck-steps li\")];\n  // בהפחתת תנועה הפונקציה לא רצה, והמספר האחרון והרשימה מוצגים\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const o={a:0,b:0};\n    const draw=()=>{\n      n2.style.setProperty(\"--a\",o.a+\"deg\");n3.style.setProperty(\"--a\",o.b+\"deg\");\n      const cur=o.b>0?o.b:o.a,run=cur>0&&cur<360;\n      hand.style.rotate=cur+\"deg\";hand.style.opacity=run?1:0;\n      arc.setAttribute(\"stroke-dasharray\",(run?cur/360:0)+\" 1\");arc.style.opacity=run?1:0;\n      flare.style.opacity=run?Math.sin(Math.PI*cur/360)*.9:0;\n    };\n    gsap.set(li.slice(1),{autoAlpha:0});draw();\n    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.6}});\n    tl.to({},{duration:.4})\n      .to(o,{a:360,duration:.9,ease:\"power2.inOut\",onUpdate:draw})\n      .to(li[0],{autoAlpha:0,duration:.25,ease:\"power1.in\"},\"<.15\")\n      .to(li[1],{autoAlpha:1,duration:.3,ease:\"power1.out\"},\"<.3\")\n      .to({},{duration:.7})\n      .to(o,{b:360,duration:.9,ease:\"power2.inOut\",onUpdate:draw})\n      .to(li[1],{autoAlpha:0,duration:.25,ease:\"power1.in\"},\"<.15\")\n      .to(li[2],{autoAlpha:1,duration:.3,ease:\"power1.out\"},\"<.3\")\n      .to({},{duration:.7});\n    return()=>{root.classList.remove(\"is-live\");[n2,n3].forEach(e=>e.style.removeProperty(\"--a\"));\n      hand.style.cssText=\"\";flare.style.cssText=\"\";arc.style.cssText=\"\";arc.setAttribute(\"stroke-dasharray\",\"0 1\");gsap.set(li,{clearProps:\"all\"});};\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: שלושה סרטונים ב-prompt-motion.com (21.10.2026) שבהם טבעת דקה מקיפה מספר גדול ופלח מעגלי מחליף אותו במספר הבא, בליווי הבזק אור אופקי. נבנה מאפס מהצפייה. המספרים הם שלוש שכבות זו על זו, לכל אחת דיסק רקע אטום משלה ו-`mask-image:conic-gradient(#000 var(--a), transparent 0)`. השכבה העליונה נחתכת לפלח שגדל מ-0 ל-360 מעלות, ומאחוריו נראית הקודמת. דיסק אטום הכרחי: בלעדיו הספרה הישנה הייתה נראית דרך הספרה החדשה. `--a` מתעדכן מ-GSAP (`style.setProperty`), לא דרך `@property`, ולכן זה עובד גם בדפדפנים בלי תמיכה בהנפשת משתנים. מחוג וקשת: קו דק מסתובב סביב אותה נקודה (`rotate`), וקשת צבועה על הטבעת (`stroke-dasharray`) נמתחת איתו. בלי GSAP ובהפחתת תנועה רואים את המספר האחרון (3) ואת שלושת השלבים כרשימה, כל אחד עם התווית \"שלב\" שלו. כשהמהלך רץ הבמה נעוצה והשלבים נערמים באותו תא בגריד ועולים בתור. כיוון: המחוג מסתובב עם כיוון השעון גם באתר בעברית, כי שעונים לא מתהפכים. נגישות: העיגול והמספרים הם איור (`aria-hidden`), והמספר נמצא בתווית של כל שלב ברשימה.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G224 · מחיקה מעגלית כמו מחוג שמחליפה מספר */\n/* בלי GSAP ובהפחתת תנועה: העיגול מציג את המספר האחרון, והשלבים רשימה. ההצמדה והחיתוך רק כשהמהלך רץ (.is-live) */\n.ck{position:relative}\n.ck-pin{position:relative;display:grid;place-items:center;min-height:80svh}\n.ck-grid{width:100%;max-width:1120px;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,96px);padding:var(--gutter, clamp(24px, 5vw, 96px))}\n.ck-copy{display:grid;gap:28px}\n.ck-copy h2{margin:0;font-size:clamp(30px,3.4vw,52px);font-weight:700;line-height:1.1;text-wrap:balance}\n.ck-steps{list-style:none;margin:0;padding:0;display:grid;gap:28px}\n.ck-k{font-size:14px;font-weight:600;color:var(--muted, #6a6d85)}\n.ck-steps h3{margin:4px 0 8px;font-size:clamp(22px,2vw,30px)}\n.ck-steps p{margin:0;max-width:38ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.ck-dial{position:relative;justify-self:center;width:min(100%,520px,60svh);aspect-ratio:1;container-type:size}\n.ck-ring{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}\n.ck-ring circle{fill:none}\n.ck-c0{stroke:var(--ink, #16182b);stroke-width:.4}\n.ck-tk{stroke:color-mix(in oklab,var(--ink, #16182b) 55%,transparent);stroke-width:3;stroke-dasharray:.06 .94}\n.ck-arc{stroke:var(--accent, #4a3aff);stroke-width:1.6;stroke-linecap:round;opacity:0}\n.ck-n{position:absolute;inset:8%;display:grid;place-items:center;border-radius:50%;font-size:56cqw;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;\n  -webkit-mask-image:conic-gradient(#000 var(--a,360deg),transparent 0);mask-image:conic-gradient(#000 var(--a,360deg),transparent 0)}\n.ck-n1{background:var(--card, #fff);color:var(--ink, #16182b)}\n.ck-n2{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}\n.ck-n3{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.ck-hand{position:absolute;left:calc(50% - 1px);top:8%;width:2px;height:42%;border-radius:2px;background:var(--accent, #4a3aff);transform-origin:50% 100%;opacity:0;pointer-events:none}\n.ck-flare{display:none}\n.ck.is-live{height:320svh}\n.ck.is-live .ck-pin{position:sticky;top:0;height:100svh;min-height:0;overflow:hidden}\n.ck.is-live .ck-steps{gap:0}\n.ck.is-live .ck-steps li{grid-area:1/1;align-self:start}\n.ck.is-live .ck-flare{display:block;position:absolute;inset-inline:0;top:50%;height:2px;translate:0 -50%;z-index:2;pointer-events:none;opacity:0;\n  background:linear-gradient(to right,transparent,var(--accent, #4a3aff) 28%,var(--accent, #4a3aff) 72%,transparent);box-shadow:0 0 20px 3px color-mix(in oklab,var(--accent, #4a3aff) 60%,transparent)}\n@media(max-width:767px){\n  .ck-grid{grid-template-columns:minmax(0,1fr);gap:24px}\n  .ck-dial{order:-1;width:min(70vw,36svh)}\n  .ck.is-live .ck-copy{gap:16px}\n}","html":"<div class=\"stage full\" style=\"padding-block:0\"><div class=\"ck\">\n  <div class=\"ck-pin\">\n    <div class=\"ck-grid\">\n      <div class=\"ck-copy\">\n        <h2>משכנתא בשלושה שלבים, מהשיחה הראשונה ועד החתימה<\/h2>\n        <ol class=\"ck-steps\">\n          <li><span class=\"ck-k\">שלב 1<\/span><h3>שיחת היכרות<\/h3><p>מספרים לנו על הדירה, על ההכנסות ועל ההחזר החודשי שנוח לכם. השיחה אורכת חצי שעה.<\/p><\/li>\n          <li><span class=\"ck-k\">שלב 2<\/span><h3>השוואה בין הבנקים<\/h3><p>מבקשים הצעות משישה בנקים ומציגים אותן בטבלה אחת, עם ההחזר החודשי והריבית הכוללת.<\/p><\/li>\n          <li><span class=\"ck-k\">שלב 3<\/span><h3>חתימה וליווי<\/h3><p>מלווים אתכם עד החתימה בבנק, ואחריה בודקים מדי שנה אם כדאי למחזר.<\/p><\/li>\n        <\/ol>\n      <\/div>\n      <div class=\"ck-dial\" aria-hidden=\"true\">\n        <svg class=\"ck-ring\" viewBox=\"0 0 100 100\"><circle class=\"ck-c0\" cx=\"50\" cy=\"50\" r=\"49.6\"/><circle class=\"ck-tk\" cx=\"50\" cy=\"50\" r=\"46\" pathLength=\"60\"/><circle class=\"ck-arc\" cx=\"50\" cy=\"50\" r=\"49.6\" pathLength=\"1\" stroke-dasharray=\"0 1\" transform=\"rotate(-90 50 50)\"/><\/svg>\n        <span class=\"ck-n ck-n1\">1<\/span><span class=\"ck-n ck-n2\">2<\/span><span class=\"ck-n ck-n3\">3<\/span>\n        <i class=\"ck-hand\"><\/i>\n      <\/div>\n    <\/div>\n    <i class=\"ck-flare\" aria-hidden=\"true\"><\/i>\n  <\/div>\n<\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\"||typeof ScrollTrigger===\"undefined\")return;      // בלי GSAP העיגול מציג את המספר האחרון\n  const root=document.querySelector(\".ck\"),n2=root.querySelector(\".ck-n2\"),n3=root.querySelector(\".ck-n3\"),hand=root.querySelector(\".ck-hand\"),\n    arc=root.querySelector(\".ck-arc\"),flare=root.querySelector(\".ck-flare\"),li=[...root.querySelectorAll(\".ck-steps li\")];\n  // בהפחתת תנועה הפונקציה לא רצה, והמספר האחרון והרשימה מוצגים\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const o={a:0,b:0};\n    const draw=()=>{\n      n2.style.setProperty(\"--a\",o.a+\"deg\");n3.style.setProperty(\"--a\",o.b+\"deg\");\n      const cur=o.b>0?o.b:o.a,run=cur>0&&cur<360;\n      hand.style.rotate=cur+\"deg\";hand.style.opacity=run?1:0;\n      arc.setAttribute(\"stroke-dasharray\",(run?cur/360:0)+\" 1\");arc.style.opacity=run?1:0;\n      flare.style.opacity=run?Math.sin(Math.PI*cur/360)*.9:0;\n    };\n    gsap.set(li.slice(1),{autoAlpha:0});draw();\n    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.6}});\n    tl.to({},{duration:.4})\n      .to(o,{a:360,duration:.9,ease:\"power2.inOut\",onUpdate:draw})\n      .to(li[0],{autoAlpha:0,duration:.25,ease:\"power1.in\"},\"<.15\")\n      .to(li[1],{autoAlpha:1,duration:.3,ease:\"power1.out\"},\"<.3\")\n      .to({},{duration:.7})\n      .to(o,{b:360,duration:.9,ease:\"power2.inOut\",onUpdate:draw})\n      .to(li[1],{autoAlpha:0,duration:.25,ease:\"power1.in\"},\"<.15\")\n      .to(li[2],{autoAlpha:1,duration:.3,ease:\"power1.out\"},\"<.3\")\n      .to({},{duration:.7});\n    return()=>{root.classList.remove(\"is-live\");[n2,n3].forEach(e=>e.style.removeProperty(\"--a\"));\n      hand.style.cssText=\"\";flare.style.cssText=\"\";arc.style.cssText=\"\";arc.setAttribute(\"stroke-dasharray\",\"0 1\");gsap.set(li,{clearProps:\"all\"});};\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g223.html" rel="prev"><small>→ הקודם</small><b>תמונה מלאה שמצטמצמת לפאנל ליד טקסט</b></a><a href="g225.html" rel="next"><small>הבא ←</small><b>מונה לאחור על מסך פתיחה קצר</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מחיקה מעגלית כמו מחוג שמחליפה מספר").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP העיגול מציג את המספר האחרון
+  const root=document.querySelector(".ck"),n2=root.querySelector(".ck-n2"),n3=root.querySelector(".ck-n3"),hand=root.querySelector(".ck-hand"),
+    arc=root.querySelector(".ck-arc"),flare=root.querySelector(".ck-flare"),li=[...root.querySelectorAll(".ck-steps li")];
+  // בהפחתת תנועה הפונקציה לא רצה, והמספר האחרון והרשימה מוצגים
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const o={a:0,b:0};
+    const draw=()=>{
+      n2.style.setProperty("--a",o.a+"deg");n3.style.setProperty("--a",o.b+"deg");
+      const cur=o.b>0?o.b:o.a,run=cur>0&&cur<360;
+      hand.style.rotate=cur+"deg";hand.style.opacity=run?1:0;
+      arc.setAttribute("stroke-dasharray",(run?cur/360:0)+" 1");arc.style.opacity=run?1:0;
+      flare.style.opacity=run?Math.sin(Math.PI*cur/360)*.9:0;
+    };
+    gsap.set(li.slice(1),{autoAlpha:0});draw();
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}});
+    tl.to({},{duration:.4})
+      .to(o,{a:360,duration:.9,ease:"power2.inOut",onUpdate:draw})
+      .to(li[0],{autoAlpha:0,duration:.25,ease:"power1.in"},"<.15")
+      .to(li[1],{autoAlpha:1,duration:.3,ease:"power1.out"},"<.3")
+      .to({},{duration:.7})
+      .to(o,{b:360,duration:.9,ease:"power2.inOut",onUpdate:draw})
+      .to(li[1],{autoAlpha:0,duration:.25,ease:"power1.in"},"<.15")
+      .to(li[2],{autoAlpha:1,duration:.3,ease:"power1.out"},"<.3")
+      .to({},{duration:.7});
+    return()=>{root.classList.remove("is-live");[n2,n3].forEach(e=>e.style.removeProperty("--a"));
+      hand.style.cssText="";flare.style.cssText="";arc.style.cssText="";arc.setAttribute("stroke-dasharray","0 1");gsap.set(li,{clearProps:"all"});};
+  });
+})();
+</script>
+</body>
+</html>

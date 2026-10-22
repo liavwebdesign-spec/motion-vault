@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G237 · שכבת מדדים על המסך שמתעדכנת עם הסצנות | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.vf{--sx:-1;max-width:1120px;margin-inline:auto}
+.vf-pin{display:grid;align-content:center;gap:24px}
+.vf-head{display:grid;gap:12px;max-width:54ch}
+.vf-head h2{margin:0;font-size:clamp(28px,3.4vw,52px);line-height:1.1;text-wrap:balance}
+.vf-head p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.vf-frame{position:relative;overflow:hidden;isolation:isolate;height:clamp(440px,64svh,660px);border-radius:20px;background:var(--card);color:var(--bg)}
+.vf-imgs{position:absolute;inset:0}
+.vf-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+.vf-img:last-child{opacity:1}
+.vf-shade{position:absolute;inset:0;background:linear-gradient(color-mix(in srgb,var(--ink) 52%,transparent),transparent 30%,transparent 50%,color-mix(in srgb,var(--ink) 72%,transparent))}
+/* שכבת המדידה: רשת של שורה עליונה, אמצע, שורה תחתונה וסרגל */
+.vf-hud{position:absolute;inset:40px;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto 1fr auto auto;gap:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.03em}
+.vf-chip{display:inline-flex;align-items:baseline;gap:8px;padding:6px 12px;border-radius:8px;background:color-mix(in srgb,var(--ink) 74%,transparent);backdrop-filter:blur(6px);font-size:14px;line-height:1.3;font-weight:500;white-space:nowrap}
+.vf-chip b{display:inline-block;font-weight:700;font-variant-numeric:tabular-nums}
+.vf-meta{grid-area:1/1;justify-self:start}
+.vf-weekc{grid-area:1/2;justify-self:end}
+.vf-tele{grid-area:2/1;align-self:start;justify-self:start;display:grid;grid-template-columns:auto auto;gap:6px 20px;padding:12px 16px;border-radius:10px;background:color-mix(in srgb,var(--ink) 74%,transparent);backdrop-filter:blur(6px);font-size:14px;line-height:1.3}
+.vf-tele b{font-variant-numeric:tabular-nums;text-align:end}
+.vf-ttl{grid-area:3/1;align-self:end;justify-self:start}
+.vf-big{grid-area:3/2;align-self:end;margin:0;direction:ltr;font-size:clamp(56px,7.4vw,112px);font-weight:600;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-shadow:0 2px 24px color-mix(in srgb,var(--ink) 55%,transparent)}
+.vf-big small{margin-inline-start:4px;font-size:.38em;font-weight:500}
+.vf-rule{grid-area:4/1/5/3;position:relative;height:20px;background:
+  repeating-linear-gradient(90deg,color-mix(in srgb,var(--bg) 85%,transparent) 0 2px,transparent 2px 72px) bottom / 100% 20px no-repeat,
+  repeating-linear-gradient(90deg,color-mix(in srgb,var(--bg) 55%,transparent) 0 1px,transparent 1px 12px) bottom / 100% 9px no-repeat}
+.vf-fill{position:absolute;inset-inline:0;bottom:0;height:3px;background:var(--accent);transform-origin:right center}
+.vf-mk{position:absolute;top:-4px;bottom:0;inset-inline-start:calc(100% - 2px);width:2px;background:var(--bg)}
+.vf-mk::before{content:"";position:absolute;top:-6px;left:50%;translate:-50% 0;border:5px solid transparent;border-top-color:var(--bg);border-bottom:0}
+/* סימני הפינה: ארבע זוויות דקות כמו במסך צילום */
+.vf-br{position:absolute;width:28px;height:28px;border:0 solid color-mix(in srgb,var(--bg) 92%,transparent);pointer-events:none}
+.vf-br.a{top:14px;right:14px;border-top-width:2px;border-right-width:2px;transform-origin:100% 0}
+.vf-br.b{top:14px;left:14px;border-top-width:2px;border-left-width:2px;transform-origin:0 0}
+.vf-br.c{bottom:14px;right:14px;border-bottom-width:2px;border-right-width:2px;transform-origin:100% 100%}
+.vf-br.d{bottom:14px;left:14px;border-bottom-width:2px;border-left-width:2px;transform-origin:0 100%}
+.vf.is-live .vf-run{height:320vh}
+.vf.is-live .vf-pin{position:sticky;top:0;height:100vh;height:100svh}
+@media(max-width:767px){
+  .vf-pin{gap:16px}
+  .vf-head p{display:none}
+  .vf-frame{height:clamp(420px,62svh,560px);border-radius:16px}
+  .vf-hud{inset:32px 28px}
+  .vf-chip,.vf-tele{font-size:13px}
+  .vf-br{width:22px;height:22px}
+  .vf-br.a,.vf-br.b{top:12px}.vf-br.c,.vf-br.d{bottom:12px}
+  .vf-br.a,.vf-br.c{right:12px}.vf-br.b,.vf-br.d{left:12px}
+}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g236.html" rel="prev" title="הקודם: שם המותג ענק שנחתך בקצה הפוטר">→<span class="sr-only">הקודם</span></a><span class="vpn-n">213/219</span><a href="g238.html" rel="next" title="הבא: כיתוב בצורת גלולה שמתחלף ומשנה רוחב בכל צעד">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G237</span> · שכבת מדדים על המסך שמתעדכנת עם הסצנות</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · sticky · HUD</span>
+  <span class="vchip use">תמונות וגלריות</span><span class="vchip use">מספרים ונתונים</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g237"><code>MV:g237</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g237">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>צילום גדול של פרויקט, ומעליו שכבת מדידה כמו במצלמה: ארבעה סימני פינה, סרגל עם שנתות, תוויות קטנות בכתב מונוספייס ומספר גדול בפינה. כשגוללים, הצילומים מתחלפים והמספרים מתעדכנים יחד איתם: השבוע, אחוז ההתקדמות, ימי העבודה והתקציב שנוצל, והסמן נע על הסרגל. הקורא רואה את הפרויקט מתקדם ולא רק קורא עליו.</p>
+  <p class="when"><b>מתי משתמשים:</b> סיפור שיש לו ציר אמיתי של התקדמות: שיפוץ או עיצוב דירה לפי חדרים ושבועות, הקמת אתר לפי שלבים, מסע של לקוח, פרויקט עם תקציב ולוח זמנים. הערכים חייבים להיות אמיתיים, כי המספרים הם ההוכחה. מתאים לסקשן מקרה בוחן או "איך אנחנו עובדים", פעם אחת בעמוד. לא לעמוד שאין בו מה למדוד.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>וואן-פייג'ר · אתר תדמית · פורטפוליו וסטודיו</dd></div><div><dt>בסקשן</dt><dd>עבודות וגלריה · תהליך ושלבים · בעיה ויתרונות</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשאין תמונות אמיתיות של התקדמות להראות, ולא כשהמדדים על המסך לא נכונים או לא נמדדו באמת.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g237"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="vf"><div class="vf-run"><div class="vf-pin">
+  <div class="vf-head"><h2>מעקב אחרי פרויקט עיצוב, חדר אחרי חדר</h2><p>בכל רגע רואים באיזה חדר העבודה נמצאת, כמה ימי עבודה עברו וכמה מהתקציב כבר נוצל.</p></div>
+  <div class="vf-frame" role="img" aria-label="ארבעה חדרים מפרויקט עיצוב של דירה ברמת גן, מהכניסה ועד פינת הקריאה. בסיום: שבוע 12 מתוך 12, הושלם 100%, 58 ימי עבודה ו-96% מהתקציב נוצל.">
+    <div class="vf-imgs" aria-hidden="true">
+      <img class="vf-img" src="../assets/media/real/s13/hero.webp" alt="" width="2560" height="1435" loading="lazy" decoding="async">
+      <img class="vf-img" src="../assets/media/real/s13/proj-a.webp" alt="" width="1800" height="1200" loading="lazy" decoding="async">
+      <img class="vf-img" src="../assets/media/real/s13/proj-c.webp" alt="" width="2400" height="1026" loading="lazy" decoding="async">
+      <img class="vf-img" src="../assets/media/real/s13/room.webp" alt="" width="2200" height="1469" loading="lazy" decoding="async">
+    </div>
+    <span class="vf-shade" aria-hidden="true"></span>
+    <div class="vf-hud" aria-hidden="true">
+      <span class="vf-chip vf-meta">פרויקט: דירה ברמת גן</span>
+      <span class="vf-chip vf-weekc">שבוע <b class="vf-wk">12</b> מתוך 12</span>
+      <div class="vf-tele">
+        <span>ימי עבודה</span><b class="vf-days">58</b>
+        <span>בעלי מקצוע באתר</span><b class="vf-wrk">4</b>
+        <span>תקציב שנוצל</span><b class="vf-bud">96%</b>
+      </div>
+      <span class="vf-chip vf-ttl">חדר: <b>פינת הקריאה</b></span>
+      <p class="vf-big"><bdi class="vf-pct">100</bdi><small>%</small></p>
+      <div class="vf-rule"><i class="vf-fill"></i><i class="vf-mk"></i></div>
+    </div>
+    <i class="vf-br a" aria-hidden="true"></i><i class="vf-br b" aria-hidden="true"></i><i class="vf-br c" aria-hidden="true"></i><i class="vf-br d" aria-hidden="true"></i>
+  </div>
+</div></div></div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטוני הדגמה בגלריה של prompt-motion.com (21.10.2026) שבהם שכבת מדידה יושבת מעל התמונה: סימני פינה, תוויות קטנות ומונים שמתעדכנים עם הסצנות. נבנה מאפס מהצפייה. <b>המארקאפ הוא מצב הסיום:</b> הצילום האחרון (פינת הקריאה), שבוע 12 מתוך 12, 100% והסמן בקצה הסרגל. בלי GSAP ובהפחתת תנועה זה מה שמוצג. <b>כשהמהלך רץ</b> הסקשן נעוץ (<code>sticky</code> בתוך אזור גלילה של 320vh, רק כשה-JS חי), וערך אחד, <code>p</code> מ-0 עד 1, מזין פונקציה אחת <code>paint(p)</code> שמציירת הכל: האטימות של כל צילום (צילום חדש נכנס מעל הקודם ומתבהר), שם החדר, ארבעת המספרים והסמן על הסרגל. כל מספר הוא פונקציה של <code>p</code>, ולכן אותו קוד נכון גם בגלילה לאחור. שם החדר מתחלף רק כשהחדר משתנה, ובכל החלפה סימני הפינה מתהדקים קצת. <b>המספרים:</b> <code>SC</code> בקוד הוא רשימת השלבים (שם החדר ומספר בעלי המקצוע שעבדו בו), והשאר מוכפלים ב-<code>p</code> (11 שבועות, 58 ימי עבודה, 96% מהתקציב). משנים רק שם את הערכים. <b>נגישות:</b> שכבת המדידה כולה <code>aria-hidden</code>, והמסגרת נושאת <code>aria-label</code> עם הערכים הסופיים, כך שקורא מסך לא שומע מספרי ביניים. <b>תמונות:</b> מהמאגר, עם מידות מפורשות ו-<code>lazy</code>. <b>RTL:</b> הסמן והמילוי נעים מימין לשמאל. ב-LTR משנים את <code>--sx</code> ל-1 ואת <code>transform-origin</code> של <code>.vf-fill</code> ל-<code>left center</code>. <b>בנייד</b> התוויות קצרות והמסגרת נמוכה יותר, וכל השכבה נשארת בתוך הצילום.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g237.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G237 · שכבת מדדים על המסך שמתעדכנת עם הסצנות */
+.vf{--sx:-1;max-width:1120px;margin-inline:auto}
+.vf-pin{display:grid;align-content:center;gap:24px}
+.vf-head{display:grid;gap:12px;max-width:54ch}
+.vf-head h2{margin:0;font-size:clamp(28px,3.4vw,52px);line-height:1.1;text-wrap:balance}
+.vf-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.vf-frame{position:relative;overflow:hidden;isolation:isolate;height:clamp(440px,64svh,660px);border-radius:20px;background:var(--card, #fff);color:var(--bg, #f7f7fa)}
+.vf-imgs{position:absolute;inset:0}
+.vf-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}
+.vf-img:last-child{opacity:1}
+.vf-shade{position:absolute;inset:0;background:linear-gradient(color-mix(in srgb,var(--ink, #16182b) 52%,transparent),transparent 30%,transparent 50%,color-mix(in srgb,var(--ink, #16182b) 72%,transparent))}
+/* שכבת המדידה: רשת של שורה עליונה, אמצע, שורה תחתונה וסרגל */
+.vf-hud{position:absolute;inset:40px;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto 1fr auto auto;gap:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.03em}
+.vf-chip{display:inline-flex;align-items:baseline;gap:8px;padding:6px 12px;border-radius:8px;background:color-mix(in srgb,var(--ink, #16182b) 74%,transparent);backdrop-filter:blur(6px);font-size:14px;line-height:1.3;font-weight:500;white-space:nowrap}
+.vf-chip b{display:inline-block;font-weight:700;font-variant-numeric:tabular-nums}
+.vf-meta{grid-area:1/1;justify-self:start}
+.vf-weekc{grid-area:1/2;justify-self:end}
+.vf-tele{grid-area:2/1;align-self:start;justify-self:start;display:grid;grid-template-columns:auto auto;gap:6px 20px;padding:12px 16px;border-radius:10px;background:color-mix(in srgb,var(--ink, #16182b) 74%,transparent);backdrop-filter:blur(6px);font-size:14px;line-height:1.3}
+.vf-tele b{font-variant-numeric:tabular-nums;text-align:end}
+.vf-ttl{grid-area:3/1;align-self:end;justify-self:start}
+.vf-big{grid-area:3/2;align-self:end;margin:0;direction:ltr;font-size:clamp(56px,7.4vw,112px);font-weight:600;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-shadow:0 2px 24px color-mix(in srgb,var(--ink, #16182b) 55%,transparent)}
+.vf-big small{margin-inline-start:4px;font-size:.38em;font-weight:500}
+.vf-rule{grid-area:4/1/5/3;position:relative;height:20px;background:
+  repeating-linear-gradient(90deg,color-mix(in srgb,var(--bg, #f7f7fa) 85%,transparent) 0 2px,transparent 2px 72px) bottom / 100% 20px no-repeat,
+  repeating-linear-gradient(90deg,color-mix(in srgb,var(--bg, #f7f7fa) 55%,transparent) 0 1px,transparent 1px 12px) bottom / 100% 9px no-repeat}
+.vf-fill{position:absolute;inset-inline:0;bottom:0;height:3px;background:var(--accent, #4a3aff);transform-origin:right center}
+.vf-mk{position:absolute;top:-4px;bottom:0;inset-inline-start:calc(100% - 2px);width:2px;background:var(--bg, #f7f7fa)}
+.vf-mk::before{content:"";position:absolute;top:-6px;left:50%;translate:-50% 0;border:5px solid transparent;border-top-color:var(--bg, #f7f7fa);border-bottom:0}
+/* סימני הפינה: ארבע זוויות דקות כמו במסך צילום */
+.vf-br{position:absolute;width:28px;height:28px;border:0 solid color-mix(in srgb,var(--bg, #f7f7fa) 92%,transparent);pointer-events:none}
+.vf-br.a{top:14px;right:14px;border-top-width:2px;border-right-width:2px;transform-origin:100% 0}
+.vf-br.b{top:14px;left:14px;border-top-width:2px;border-left-width:2px;transform-origin:0 0}
+.vf-br.c{bottom:14px;right:14px;border-bottom-width:2px;border-right-width:2px;transform-origin:100% 100%}
+.vf-br.d{bottom:14px;left:14px;border-bottom-width:2px;border-left-width:2px;transform-origin:0 100%}
+.vf.is-live .vf-run{height:320vh}
+.vf.is-live .vf-pin{position:sticky;top:0;height:100vh;height:100svh}
+@media(max-width:767px){
+  .vf-pin{gap:16px}
+  .vf-head p{display:none}
+  .vf-frame{height:clamp(420px,62svh,560px);border-radius:16px}
+  .vf-hud{inset:32px 28px}
+  .vf-chip,.vf-tele{font-size:13px}
+  .vf-br{width:22px;height:22px}
+  .vf-br.a,.vf-br.b{top:12px}.vf-br.c,.vf-br.d{bottom:12px}
+  .vf-br.a,.vf-br.c{right:12px}.vf-br.b,.vf-br.d{left:12px}
+}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;div class="vf"&gt;&lt;div class="vf-run"&gt;&lt;div class="vf-pin"&gt;
+  &lt;div class="vf-head"&gt;&lt;h2&gt;מעקב אחרי פרויקט עיצוב, חדר אחרי חדר&lt;/h2&gt;&lt;p&gt;בכל רגע רואים באיזה חדר העבודה נמצאת, כמה ימי עבודה עברו וכמה מהתקציב כבר נוצל.&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="vf-frame" role="img" aria-label="ארבעה חדרים מפרויקט עיצוב של דירה ברמת גן, מהכניסה ועד פינת הקריאה. בסיום: שבוע 12 מתוך 12, הושלם 100%, 58 ימי עבודה ו-96% מהתקציב נוצל."&gt;
+    &lt;div class="vf-imgs" aria-hidden="true"&gt;
+      &lt;img class="vf-img" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp" alt="" width="2560" height="1435" loading="lazy" decoding="async"&gt;
+      &lt;img class="vf-img" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp" alt="" width="1800" height="1200" loading="lazy" decoding="async"&gt;
+      &lt;img class="vf-img" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" alt="" width="2400" height="1026" loading="lazy" decoding="async"&gt;
+      &lt;img class="vf-img" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp" alt="" width="2200" height="1469" loading="lazy" decoding="async"&gt;
+    &lt;/div&gt;
+    &lt;span class="vf-shade" aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;div class="vf-hud" aria-hidden="true"&gt;
+      &lt;span class="vf-chip vf-meta"&gt;פרויקט: דירה ברמת גן&lt;/span&gt;
+      &lt;span class="vf-chip vf-weekc"&gt;שבוע &lt;b class="vf-wk"&gt;12&lt;/b&gt; מתוך 12&lt;/span&gt;
+      &lt;div class="vf-tele"&gt;
+        &lt;span&gt;ימי עבודה&lt;/span&gt;&lt;b class="vf-days"&gt;58&lt;/b&gt;
+        &lt;span&gt;בעלי מקצוע באתר&lt;/span&gt;&lt;b class="vf-wrk"&gt;4&lt;/b&gt;
+        &lt;span&gt;תקציב שנוצל&lt;/span&gt;&lt;b class="vf-bud"&gt;96%&lt;/b&gt;
+      &lt;/div&gt;
+      &lt;span class="vf-chip vf-ttl"&gt;חדר: &lt;b&gt;פינת הקריאה&lt;/b&gt;&lt;/span&gt;
+      &lt;p class="vf-big"&gt;&lt;bdi class="vf-pct"&gt;100&lt;/bdi&gt;&lt;small&gt;%&lt;/small&gt;&lt;/p&gt;
+      &lt;div class="vf-rule"&gt;&lt;i class="vf-fill"&gt;&lt;/i&gt;&lt;i class="vf-mk"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;i class="vf-br a" aria-hidden="true"&gt;&lt;/i&gt;&lt;i class="vf-br b" aria-hidden="true"&gt;&lt;/i&gt;&lt;i class="vf-br c" aria-hidden="true"&gt;&lt;/i&gt;&lt;i class="vf-br d" aria-hidden="true"&gt;&lt;/i&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר מצב הסיום: צילום אחרון ומספרים סופיים (במארקאפ)
+  const root=document.querySelector(".vf"),run=root.querySelector(".vf-run"),imgs=[...root.querySelectorAll(".vf-img")],brs=[...root.querySelectorAll(".vf-br")],
+    ttl=root.querySelector(".vf-ttl b"),wk=root.querySelector(".vf-wk"),pct=root.querySelector(".vf-pct"),days=root.querySelector(".vf-days"),
+    bud=root.querySelector(".vf-bud"),wrk=root.querySelector(".vf-wrk"),fill=root.querySelector(".vf-fill"),mk=root.querySelector(".vf-mk"),rule=root.querySelector(".vf-rule");
+  const SC=[["הכניסה",2],["הסלון",5],["המטבח",6],["פינת הקריאה",4]];     // שם החדר ומספר בעלי המקצוע שעבדו בו
+  const FIN={ttl:ttl.textContent,wk:wk.textContent,pct:pct.textContent,days:days.textContent,bud:bud.textContent,wrk:wrk.textContent};
+  const sx=parseFloat(getComputedStyle(root).getPropertyValue("--sx"))||-1;
+  // בהפחתת תנועה הפונקציה לא רצה, ומצב הסיום נשאר
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    let W=0,k=-1;const last={};
+    const meas=()=&gt;{W=rule.offsetWidth;};
+    const put=(el,key,v)=&gt;{if(last[key]!==v){last[key]=v;el.textContent=v;}};
+    // כל מה שעל המסך נגזר מ-p בלבד, לכן אותו קוד נכון בגלילה קדימה ואחורה
+    const paint=p=&gt;{
+      const f=p*(imgs.length-1);
+      imgs.forEach((im,i)=&gt;{
+        const o=i===0?1:Math.min(1,Math.max(0,f-(i-1)));      // צילום חדש נכנס מעל הקודם
+        im.style.opacity=o;im.style.transform="scale("+(i?1.06-.06*o:1)+")";
+      });
+      const s=Math.round(f);
+      if(s!==k){
+        k=s;ttl.textContent=SC[s][0];put(wrk,"wrk",SC[s][1]);
+        gsap.fromTo(ttl,{yPercent:50,opacity:0},{yPercent:0,opacity:1,duration:.35,ease:"power2.out",overwrite:true});
+        gsap.fromTo(brs,{scale:1.25},{scale:1,duration:.45,ease:"power2.out",overwrite:true});
+      }
+      put(wk,"wk",1+Math.round(p*11));put(pct,"pct",Math.round(p*100));put(days,"days",Math.round(p*58));put(bud,"bud",Math.round(p*96)+"%");
+      gsap.set(fill,{scaleX:p});gsap.set(mk,{x:-sx*(1-p)*W});
+    };
+    ScrollTrigger.addEventListener("refresh",meas);meas();paint(0);
+    const o={p:0};
+    gsap.to(o,{p:1,ease:"none",onUpdate:()=&gt;paint(o.p),
+      scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.4}});
+    return()=&gt;{
+      ScrollTrigger.removeEventListener("refresh",meas);root.classList.remove("is-live");
+      imgs.forEach(im=&gt;{im.style.removeProperty("opacity");im.style.removeProperty("transform");});
+      gsap.set([fill,mk,ttl,brs],{clearProps:"all"});
+      ttl.textContent=FIN.ttl;wk.textContent=FIN.wk;pct.textContent=FIN.pct;days.textContent=FIN.days;bud.textContent=FIN.bud;wrk.textContent=FIN.wrk;
+    };
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g237 · שכבת מדדים על המסך שמתעדכנת עם הסצנות\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g237.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g237.html\n\nמה זה עושה: צילום גדול של פרויקט, ומעליו שכבת מדידה כמו במצלמה: ארבעה סימני פינה, סרגל עם שנתות, תוויות קטנות בכתב מונוספייס ומספר גדול בפינה. כשגוללים, הצילומים מתחלפים והמספרים מתעדכנים יחד איתם: השבוע, אחוז ההתקדמות, ימי העבודה והתקציב שנוצל, והסמן נע על הסרגל. הקורא רואה את הפרויקט מתקדם ולא רק קורא עליו.\nמתי משתמשים: סיפור שיש לו ציר אמיתי של התקדמות: שיפוץ או עיצוב דירה לפי חדרים ושבועות, הקמת אתר לפי שלבים, מסע של לקוח, פרויקט עם תקציב ולוח זמנים. הערכים חייבים להיות אמיתיים, כי המספרים הם ההוכחה. מתאים לסקשן מקרה בוחן או \"איך אנחנו עובדים\", פעם אחת בעמוד. לא לעמוד שאין בו מה למדוד.\nסוג אתר: וואן-פייג'ר · אתר תדמית · פורטפוליו וסטודיו\nבסקשן: עבודות וגלריה · תהליך ושלבים · בעיה ויתרונות\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא כשאין תמונות אמיתיות של התקדמות להראות, ולא כשהמדדים על המסך לא נכונים או לא נמדדו באמת.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G237 · שכבת מדדים על המסך שמתעדכנת עם הסצנות */\n.vf{--sx:-1;max-width:1120px;margin-inline:auto}\n.vf-pin{display:grid;align-content:center;gap:24px}\n.vf-head{display:grid;gap:12px;max-width:54ch}\n.vf-head h2{margin:0;font-size:clamp(28px,3.4vw,52px);line-height:1.1;text-wrap:balance}\n.vf-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.vf-frame{position:relative;overflow:hidden;isolation:isolate;height:clamp(440px,64svh,660px);border-radius:20px;background:var(--card, #fff);color:var(--bg, #f7f7fa)}\n.vf-imgs{position:absolute;inset:0}\n.vf-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}\n.vf-img:last-child{opacity:1}\n.vf-shade{position:absolute;inset:0;background:linear-gradient(color-mix(in srgb,var(--ink, #16182b) 52%,transparent),transparent 30%,transparent 50%,color-mix(in srgb,var(--ink, #16182b) 72%,transparent))}\n/* שכבת המדידה: רשת של שורה עליונה, אמצע, שורה תחתונה וסרגל */\n.vf-hud{position:absolute;inset:40px;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto 1fr auto auto;gap:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.03em}\n.vf-chip{display:inline-flex;align-items:baseline;gap:8px;padding:6px 12px;border-radius:8px;background:color-mix(in srgb,var(--ink, #16182b) 74%,transparent);backdrop-filter:blur(6px);font-size:14px;line-height:1.3;font-weight:500;white-space:nowrap}\n.vf-chip b{display:inline-block;font-weight:700;font-variant-numeric:tabular-nums}\n.vf-meta{grid-area:1/1;justify-self:start}\n.vf-weekc{grid-area:1/2;justify-self:end}\n.vf-tele{grid-area:2/1;align-self:start;justify-self:start;display:grid;grid-template-columns:auto auto;gap:6px 20px;padding:12px 16px;border-radius:10px;background:color-mix(in srgb,var(--ink, #16182b) 74%,transparent);backdrop-filter:blur(6px);font-size:14px;line-height:1.3}\n.vf-tele b{font-variant-numeric:tabular-nums;text-align:end}\n.vf-ttl{grid-area:3/1;align-self:end;justify-self:start}\n.vf-big{grid-area:3/2;align-self:end;margin:0;direction:ltr;font-size:clamp(56px,7.4vw,112px);font-weight:600;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-shadow:0 2px 24px color-mix(in srgb,var(--ink, #16182b) 55%,transparent)}\n.vf-big small{margin-inline-start:4px;font-size:.38em;font-weight:500}\n.vf-rule{grid-area:4/1/5/3;position:relative;height:20px;background:\n  repeating-linear-gradient(90deg,color-mix(in srgb,var(--bg, #f7f7fa) 85%,transparent) 0 2px,transparent 2px 72px) bottom / 100% 20px no-repeat,\n  repeating-linear-gradient(90deg,color-mix(in srgb,var(--bg, #f7f7fa) 55%,transparent) 0 1px,transparent 1px 12px) bottom / 100% 9px no-repeat}\n.vf-fill{position:absolute;inset-inline:0;bottom:0;height:3px;background:var(--accent, #4a3aff);transform-origin:right center}\n.vf-mk{position:absolute;top:-4px;bottom:0;inset-inline-start:calc(100% - 2px);width:2px;background:var(--bg, #f7f7fa)}\n.vf-mk::before{content:\"\";position:absolute;top:-6px;left:50%;translate:-50% 0;border:5px solid transparent;border-top-color:var(--bg, #f7f7fa);border-bottom:0}\n/* סימני הפינה: ארבע זוויות דקות כמו במסך צילום */\n.vf-br{position:absolute;width:28px;height:28px;border:0 solid color-mix(in srgb,var(--bg, #f7f7fa) 92%,transparent);pointer-events:none}\n.vf-br.a{top:14px;right:14px;border-top-width:2px;border-right-width:2px;transform-origin:100% 0}\n.vf-br.b{top:14px;left:14px;border-top-width:2px;border-left-width:2px;transform-origin:0 0}\n.vf-br.c{bottom:14px;right:14px;border-bottom-width:2px;border-right-width:2px;transform-origin:100% 100%}\n.vf-br.d{bottom:14px;left:14px;border-bottom-width:2px;border-left-width:2px;transform-origin:0 100%}\n.vf.is-live .vf-run{height:320vh}\n.vf.is-live .vf-pin{position:sticky;top:0;height:100vh;height:100svh}\n@media(max-width:767px){\n  .vf-pin{gap:16px}\n  .vf-head p{display:none}\n  .vf-frame{height:clamp(420px,62svh,560px);border-radius:16px}\n  .vf-hud{inset:32px 28px}\n  .vf-chip,.vf-tele{font-size:13px}\n  .vf-br{width:22px;height:22px}\n  .vf-br.a,.vf-br.b{top:12px}.vf-br.c,.vf-br.d{bottom:12px}\n  .vf-br.a,.vf-br.c{right:12px}.vf-br.b,.vf-br.d{left:12px}\n}\n\n=== HTML ===\n<div class=\"stage\"><div class=\"vf\"><div class=\"vf-run\"><div class=\"vf-pin\">\n  <div class=\"vf-head\"><h2>מעקב אחרי פרויקט עיצוב, חדר אחרי חדר<\/h2><p>בכל רגע רואים באיזה חדר העבודה נמצאת, כמה ימי עבודה עברו וכמה מהתקציב כבר נוצל.<\/p><\/div>\n  <div class=\"vf-frame\" role=\"img\" aria-label=\"ארבעה חדרים מפרויקט עיצוב של דירה ברמת גן, מהכניסה ועד פינת הקריאה. בסיום: שבוע 12 מתוך 12, הושלם 100%, 58 ימי עבודה ו-96% מהתקציב נוצל.\">\n    <div class=\"vf-imgs\" aria-hidden=\"true\">\n      <img class=\"vf-img\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp\" alt=\"\" width=\"2560\" height=\"1435\" loading=\"lazy\" decoding=\"async\">\n      <img class=\"vf-img\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp\" alt=\"\" width=\"1800\" height=\"1200\" loading=\"lazy\" decoding=\"async\">\n      <img class=\"vf-img\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp\" alt=\"\" width=\"2400\" height=\"1026\" loading=\"lazy\" decoding=\"async\">\n      <img class=\"vf-img\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp\" alt=\"\" width=\"2200\" height=\"1469\" loading=\"lazy\" decoding=\"async\">\n    <\/div>\n    <span class=\"vf-shade\" aria-hidden=\"true\"><\/span>\n    <div class=\"vf-hud\" aria-hidden=\"true\">\n      <span class=\"vf-chip vf-meta\">פרויקט: דירה ברמת גן<\/span>\n      <span class=\"vf-chip vf-weekc\">שבוע <b class=\"vf-wk\">12<\/b> מתוך 12<\/span>\n      <div class=\"vf-tele\">\n        <span>ימי עבודה<\/span><b class=\"vf-days\">58<\/b>\n        <span>בעלי מקצוע באתר<\/span><b class=\"vf-wrk\">4<\/b>\n        <span>תקציב שנוצל<\/span><b class=\"vf-bud\">96%<\/b>\n      <\/div>\n      <span class=\"vf-chip vf-ttl\">חדר: <b>פינת הקריאה<\/b><\/span>\n      <p class=\"vf-big\"><bdi class=\"vf-pct\">100<\/bdi><small>%<\/small><\/p>\n      <div class=\"vf-rule\"><i class=\"vf-fill\"><\/i><i class=\"vf-mk\"><\/i><\/div>\n    <\/div>\n    <i class=\"vf-br a\" aria-hidden=\"true\"><\/i><i class=\"vf-br b\" aria-hidden=\"true\"><\/i><i class=\"vf-br c\" aria-hidden=\"true\"><\/i><i class=\"vf-br d\" aria-hidden=\"true\"><\/i>\n  <\/div>\n<\/div><\/div><\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשאר מצב הסיום: צילום אחרון ומספרים סופיים (במארקאפ)\n  const root=document.querySelector(\".vf\"),run=root.querySelector(\".vf-run\"),imgs=[...root.querySelectorAll(\".vf-img\")],brs=[...root.querySelectorAll(\".vf-br\")],\n    ttl=root.querySelector(\".vf-ttl b\"),wk=root.querySelector(\".vf-wk\"),pct=root.querySelector(\".vf-pct\"),days=root.querySelector(\".vf-days\"),\n    bud=root.querySelector(\".vf-bud\"),wrk=root.querySelector(\".vf-wrk\"),fill=root.querySelector(\".vf-fill\"),mk=root.querySelector(\".vf-mk\"),rule=root.querySelector(\".vf-rule\");\n  const SC=[[\"הכניסה\",2],[\"הסלון\",5],[\"המטבח\",6],[\"פינת הקריאה\",4]];     // שם החדר ומספר בעלי המקצוע שעבדו בו\n  const FIN={ttl:ttl.textContent,wk:wk.textContent,pct:pct.textContent,days:days.textContent,bud:bud.textContent,wrk:wrk.textContent};\n  const sx=parseFloat(getComputedStyle(root).getPropertyValue(\"--sx\"))||-1;\n  // בהפחתת תנועה הפונקציה לא רצה, ומצב הסיום נשאר\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    let W=0,k=-1;const last={};\n    const meas=()=>{W=rule.offsetWidth;};\n    const put=(el,key,v)=>{if(last[key]!==v){last[key]=v;el.textContent=v;}};\n    // כל מה שעל המסך נגזר מ-p בלבד, לכן אותו קוד נכון בגלילה קדימה ואחורה\n    const paint=p=>{\n      const f=p*(imgs.length-1);\n      imgs.forEach((im,i)=>{\n        const o=i===0?1:Math.min(1,Math.max(0,f-(i-1)));      // צילום חדש נכנס מעל הקודם\n        im.style.opacity=o;im.style.transform=\"scale(\"+(i?1.06-.06*o:1)+\")\";\n      });\n      const s=Math.round(f);\n      if(s!==k){\n        k=s;ttl.textContent=SC[s][0];put(wrk,\"wrk\",SC[s][1]);\n        gsap.fromTo(ttl,{yPercent:50,opacity:0},{yPercent:0,opacity:1,duration:.35,ease:\"power2.out\",overwrite:true});\n        gsap.fromTo(brs,{scale:1.25},{scale:1,duration:.45,ease:\"power2.out\",overwrite:true});\n      }\n      put(wk,\"wk\",1+Math.round(p*11));put(pct,\"pct\",Math.round(p*100));put(days,\"days\",Math.round(p*58));put(bud,\"bud\",Math.round(p*96)+\"%\");\n      gsap.set(fill,{scaleX:p});gsap.set(mk,{x:-sx*(1-p)*W});\n    };\n    ScrollTrigger.addEventListener(\"refresh\",meas);meas();paint(0);\n    const o={p:0};\n    gsap.to(o,{p:1,ease:\"none\",onUpdate:()=>paint(o.p),\n      scrollTrigger:{trigger:run,start:\"top top\",end:\"bottom bottom\",scrub:.4}});\n    return()=>{\n      ScrollTrigger.removeEventListener(\"refresh\",meas);root.classList.remove(\"is-live\");\n      imgs.forEach(im=>{im.style.removeProperty(\"opacity\");im.style.removeProperty(\"transform\");});\n      gsap.set([fill,mk,ttl,brs],{clearProps:\"all\"});\n      ttl.textContent=FIN.ttl;wk.textContent=FIN.wk;pct.textContent=FIN.pct;days.textContent=FIN.days;bud.textContent=FIN.bud;wrk.textContent=FIN.wrk;\n    };\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטוני הדגמה בגלריה של prompt-motion.com (21.10.2026) שבהם שכבת מדידה יושבת מעל התמונה: סימני פינה, תוויות קטנות ומונים שמתעדכנים עם הסצנות. נבנה מאפס מהצפייה. המארקאפ הוא מצב הסיום: הצילום האחרון (פינת הקריאה), שבוע 12 מתוך 12, 100% והסמן בקצה הסרגל. בלי GSAP ובהפחתת תנועה זה מה שמוצג. כשהמהלך רץ הסקשן נעוץ (`sticky` בתוך אזור גלילה של 320vh, רק כשה-JS חי), וערך אחד, `p` מ-0 עד 1, מזין פונקציה אחת `paint(p)` שמציירת הכל: האטימות של כל צילום (צילום חדש נכנס מעל הקודם ומתבהר), שם החדר, ארבעת המספרים והסמן על הסרגל. כל מספר הוא פונקציה של `p`, ולכן אותו קוד נכון גם בגלילה לאחור. שם החדר מתחלף רק כשהחדר משתנה, ובכל החלפה סימני הפינה מתהדקים קצת. המספרים: `SC` בקוד הוא רשימת השלבים (שם החדר ומספר בעלי המקצוע שעבדו בו), והשאר מוכפלים ב-`p` (11 שבועות, 58 ימי עבודה, 96% מהתקציב). משנים רק שם את הערכים. נגישות: שכבת המדידה כולה `aria-hidden`, והמסגרת נושאת `aria-label` עם הערכים הסופיים, כך שקורא מסך לא שומע מספרי ביניים. תמונות: מהמאגר, עם מידות מפורשות ו-`lazy`. RTL: הסמן והמילוי נעים מימין לשמאל. ב-LTR משנים את `--sx` ל-1 ואת `transform-origin` של `.vf-fill` ל-`left center`. בנייד התוויות קצרות והמסגרת נמוכה יותר, וכל השכבה נשארת בתוך הצילום.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G237 · שכבת מדדים על המסך שמתעדכנת עם הסצנות */\n.vf{--sx:-1;max-width:1120px;margin-inline:auto}\n.vf-pin{display:grid;align-content:center;gap:24px}\n.vf-head{display:grid;gap:12px;max-width:54ch}\n.vf-head h2{margin:0;font-size:clamp(28px,3.4vw,52px);line-height:1.1;text-wrap:balance}\n.vf-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.vf-frame{position:relative;overflow:hidden;isolation:isolate;height:clamp(440px,64svh,660px);border-radius:20px;background:var(--card, #fff);color:var(--bg, #f7f7fa)}\n.vf-imgs{position:absolute;inset:0}\n.vf-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0}\n.vf-img:last-child{opacity:1}\n.vf-shade{position:absolute;inset:0;background:linear-gradient(color-mix(in srgb,var(--ink, #16182b) 52%,transparent),transparent 30%,transparent 50%,color-mix(in srgb,var(--ink, #16182b) 72%,transparent))}\n/* שכבת המדידה: רשת של שורה עליונה, אמצע, שורה תחתונה וסרגל */\n.vf-hud{position:absolute;inset:40px;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto 1fr auto auto;gap:12px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:.03em}\n.vf-chip{display:inline-flex;align-items:baseline;gap:8px;padding:6px 12px;border-radius:8px;background:color-mix(in srgb,var(--ink, #16182b) 74%,transparent);backdrop-filter:blur(6px);font-size:14px;line-height:1.3;font-weight:500;white-space:nowrap}\n.vf-chip b{display:inline-block;font-weight:700;font-variant-numeric:tabular-nums}\n.vf-meta{grid-area:1/1;justify-self:start}\n.vf-weekc{grid-area:1/2;justify-self:end}\n.vf-tele{grid-area:2/1;align-self:start;justify-self:start;display:grid;grid-template-columns:auto auto;gap:6px 20px;padding:12px 16px;border-radius:10px;background:color-mix(in srgb,var(--ink, #16182b) 74%,transparent);backdrop-filter:blur(6px);font-size:14px;line-height:1.3}\n.vf-tele b{font-variant-numeric:tabular-nums;text-align:end}\n.vf-ttl{grid-area:3/1;align-self:end;justify-self:start}\n.vf-big{grid-area:3/2;align-self:end;margin:0;direction:ltr;font-size:clamp(56px,7.4vw,112px);font-weight:600;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums;text-shadow:0 2px 24px color-mix(in srgb,var(--ink, #16182b) 55%,transparent)}\n.vf-big small{margin-inline-start:4px;font-size:.38em;font-weight:500}\n.vf-rule{grid-area:4/1/5/3;position:relative;height:20px;background:\n  repeating-linear-gradient(90deg,color-mix(in srgb,var(--bg, #f7f7fa) 85%,transparent) 0 2px,transparent 2px 72px) bottom / 100% 20px no-repeat,\n  repeating-linear-gradient(90deg,color-mix(in srgb,var(--bg, #f7f7fa) 55%,transparent) 0 1px,transparent 1px 12px) bottom / 100% 9px no-repeat}\n.vf-fill{position:absolute;inset-inline:0;bottom:0;height:3px;background:var(--accent, #4a3aff);transform-origin:right center}\n.vf-mk{position:absolute;top:-4px;bottom:0;inset-inline-start:calc(100% - 2px);width:2px;background:var(--bg, #f7f7fa)}\n.vf-mk::before{content:\"\";position:absolute;top:-6px;left:50%;translate:-50% 0;border:5px solid transparent;border-top-color:var(--bg, #f7f7fa);border-bottom:0}\n/* סימני הפינה: ארבע זוויות דקות כמו במסך צילום */\n.vf-br{position:absolute;width:28px;height:28px;border:0 solid color-mix(in srgb,var(--bg, #f7f7fa) 92%,transparent);pointer-events:none}\n.vf-br.a{top:14px;right:14px;border-top-width:2px;border-right-width:2px;transform-origin:100% 0}\n.vf-br.b{top:14px;left:14px;border-top-width:2px;border-left-width:2px;transform-origin:0 0}\n.vf-br.c{bottom:14px;right:14px;border-bottom-width:2px;border-right-width:2px;transform-origin:100% 100%}\n.vf-br.d{bottom:14px;left:14px;border-bottom-width:2px;border-left-width:2px;transform-origin:0 100%}\n.vf.is-live .vf-run{height:320vh}\n.vf.is-live .vf-pin{position:sticky;top:0;height:100vh;height:100svh}\n@media(max-width:767px){\n  .vf-pin{gap:16px}\n  .vf-head p{display:none}\n  .vf-frame{height:clamp(420px,62svh,560px);border-radius:16px}\n  .vf-hud{inset:32px 28px}\n  .vf-chip,.vf-tele{font-size:13px}\n  .vf-br{width:22px;height:22px}\n  .vf-br.a,.vf-br.b{top:12px}.vf-br.c,.vf-br.d{bottom:12px}\n  .vf-br.a,.vf-br.c{right:12px}.vf-br.b,.vf-br.d{left:12px}\n}","html":"<div class=\"stage\"><div class=\"vf\"><div class=\"vf-run\"><div class=\"vf-pin\">\n  <div class=\"vf-head\"><h2>מעקב אחרי פרויקט עיצוב, חדר אחרי חדר<\/h2><p>בכל רגע רואים באיזה חדר העבודה נמצאת, כמה ימי עבודה עברו וכמה מהתקציב כבר נוצל.<\/p><\/div>\n  <div class=\"vf-frame\" role=\"img\" aria-label=\"ארבעה חדרים מפרויקט עיצוב של דירה ברמת גן, מהכניסה ועד פינת הקריאה. בסיום: שבוע 12 מתוך 12, הושלם 100%, 58 ימי עבודה ו-96% מהתקציב נוצל.\">\n    <div class=\"vf-imgs\" aria-hidden=\"true\">\n      <img class=\"vf-img\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp\" alt=\"\" width=\"2560\" height=\"1435\" loading=\"lazy\" decoding=\"async\">\n      <img class=\"vf-img\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp\" alt=\"\" width=\"1800\" height=\"1200\" loading=\"lazy\" decoding=\"async\">\n      <img class=\"vf-img\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp\" alt=\"\" width=\"2400\" height=\"1026\" loading=\"lazy\" decoding=\"async\">\n      <img class=\"vf-img\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp\" alt=\"\" width=\"2200\" height=\"1469\" loading=\"lazy\" decoding=\"async\">\n    <\/div>\n    <span class=\"vf-shade\" aria-hidden=\"true\"><\/span>\n    <div class=\"vf-hud\" aria-hidden=\"true\">\n      <span class=\"vf-chip vf-meta\">פרויקט: דירה ברמת גן<\/span>\n      <span class=\"vf-chip vf-weekc\">שבוע <b class=\"vf-wk\">12<\/b> מתוך 12<\/span>\n      <div class=\"vf-tele\">\n        <span>ימי עבודה<\/span><b class=\"vf-days\">58<\/b>\n        <span>בעלי מקצוע באתר<\/span><b class=\"vf-wrk\">4<\/b>\n        <span>תקציב שנוצל<\/span><b class=\"vf-bud\">96%<\/b>\n      <\/div>\n      <span class=\"vf-chip vf-ttl\">חדר: <b>פינת הקריאה<\/b><\/span>\n      <p class=\"vf-big\"><bdi class=\"vf-pct\">100<\/bdi><small>%<\/small><\/p>\n      <div class=\"vf-rule\"><i class=\"vf-fill\"><\/i><i class=\"vf-mk\"><\/i><\/div>\n    <\/div>\n    <i class=\"vf-br a\" aria-hidden=\"true\"><\/i><i class=\"vf-br b\" aria-hidden=\"true\"><\/i><i class=\"vf-br c\" aria-hidden=\"true\"><\/i><i class=\"vf-br d\" aria-hidden=\"true\"><\/i>\n  <\/div>\n<\/div><\/div><\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשאר מצב הסיום: צילום אחרון ומספרים סופיים (במארקאפ)\n  const root=document.querySelector(\".vf\"),run=root.querySelector(\".vf-run\"),imgs=[...root.querySelectorAll(\".vf-img\")],brs=[...root.querySelectorAll(\".vf-br\")],\n    ttl=root.querySelector(\".vf-ttl b\"),wk=root.querySelector(\".vf-wk\"),pct=root.querySelector(\".vf-pct\"),days=root.querySelector(\".vf-days\"),\n    bud=root.querySelector(\".vf-bud\"),wrk=root.querySelector(\".vf-wrk\"),fill=root.querySelector(\".vf-fill\"),mk=root.querySelector(\".vf-mk\"),rule=root.querySelector(\".vf-rule\");\n  const SC=[[\"הכניסה\",2],[\"הסלון\",5],[\"המטבח\",6],[\"פינת הקריאה\",4]];     // שם החדר ומספר בעלי המקצוע שעבדו בו\n  const FIN={ttl:ttl.textContent,wk:wk.textContent,pct:pct.textContent,days:days.textContent,bud:bud.textContent,wrk:wrk.textContent};\n  const sx=parseFloat(getComputedStyle(root).getPropertyValue(\"--sx\"))||-1;\n  // בהפחתת תנועה הפונקציה לא רצה, ומצב הסיום נשאר\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    let W=0,k=-1;const last={};\n    const meas=()=>{W=rule.offsetWidth;};\n    const put=(el,key,v)=>{if(last[key]!==v){last[key]=v;el.textContent=v;}};\n    // כל מה שעל המסך נגזר מ-p בלבד, לכן אותו קוד נכון בגלילה קדימה ואחורה\n    const paint=p=>{\n      const f=p*(imgs.length-1);\n      imgs.forEach((im,i)=>{\n        const o=i===0?1:Math.min(1,Math.max(0,f-(i-1)));      // צילום חדש נכנס מעל הקודם\n        im.style.opacity=o;im.style.transform=\"scale(\"+(i?1.06-.06*o:1)+\")\";\n      });\n      const s=Math.round(f);\n      if(s!==k){\n        k=s;ttl.textContent=SC[s][0];put(wrk,\"wrk\",SC[s][1]);\n        gsap.fromTo(ttl,{yPercent:50,opacity:0},{yPercent:0,opacity:1,duration:.35,ease:\"power2.out\",overwrite:true});\n        gsap.fromTo(brs,{scale:1.25},{scale:1,duration:.45,ease:\"power2.out\",overwrite:true});\n      }\n      put(wk,\"wk\",1+Math.round(p*11));put(pct,\"pct\",Math.round(p*100));put(days,\"days\",Math.round(p*58));put(bud,\"bud\",Math.round(p*96)+\"%\");\n      gsap.set(fill,{scaleX:p});gsap.set(mk,{x:-sx*(1-p)*W});\n    };\n    ScrollTrigger.addEventListener(\"refresh\",meas);meas();paint(0);\n    const o={p:0};\n    gsap.to(o,{p:1,ease:\"none\",onUpdate:()=>paint(o.p),\n      scrollTrigger:{trigger:run,start:\"top top\",end:\"bottom bottom\",scrub:.4}});\n    return()=>{\n      ScrollTrigger.removeEventListener(\"refresh\",meas);root.classList.remove(\"is-live\");\n      imgs.forEach(im=>{im.style.removeProperty(\"opacity\");im.style.removeProperty(\"transform\");});\n      gsap.set([fill,mk,ttl,brs],{clearProps:\"all\"});\n      ttl.textContent=FIN.ttl;wk.textContent=FIN.wk;pct.textContent=FIN.pct;days.textContent=FIN.days;bud.textContent=FIN.bud;wrk.textContent=FIN.wrk;\n    };\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g236.html" rel="prev"><small>→ הקודם</small><b>שם המותג ענק שנחתך בקצה הפוטר</b></a><a href="g238.html" rel="next"><small>הבא ←</small><b>כיתוב בצורת גלולה שמתחלף ומשנה רוחב בכל צעד</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · שכבת מדדים על המסך שמתעדכנת עם הסצנות").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשאר מצב הסיום: צילום אחרון ומספרים סופיים (במארקאפ)
+  const root=document.querySelector(".vf"),run=root.querySelector(".vf-run"),imgs=[...root.querySelectorAll(".vf-img")],brs=[...root.querySelectorAll(".vf-br")],
+    ttl=root.querySelector(".vf-ttl b"),wk=root.querySelector(".vf-wk"),pct=root.querySelector(".vf-pct"),days=root.querySelector(".vf-days"),
+    bud=root.querySelector(".vf-bud"),wrk=root.querySelector(".vf-wrk"),fill=root.querySelector(".vf-fill"),mk=root.querySelector(".vf-mk"),rule=root.querySelector(".vf-rule");
+  const SC=[["הכניסה",2],["הסלון",5],["המטבח",6],["פינת הקריאה",4]];     // שם החדר ומספר בעלי המקצוע שעבדו בו
+  const FIN={ttl:ttl.textContent,wk:wk.textContent,pct:pct.textContent,days:days.textContent,bud:bud.textContent,wrk:wrk.textContent};
+  const sx=parseFloat(getComputedStyle(root).getPropertyValue("--sx"))||-1;
+  // בהפחתת תנועה הפונקציה לא רצה, ומצב הסיום נשאר
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    let W=0,k=-1;const last={};
+    const meas=()=>{W=rule.offsetWidth;};
+    const put=(el,key,v)=>{if(last[key]!==v){last[key]=v;el.textContent=v;}};
+    // כל מה שעל המסך נגזר מ-p בלבד, לכן אותו קוד נכון בגלילה קדימה ואחורה
+    const paint=p=>{
+      const f=p*(imgs.length-1);
+      imgs.forEach((im,i)=>{
+        const o=i===0?1:Math.min(1,Math.max(0,f-(i-1)));      // צילום חדש נכנס מעל הקודם
+        im.style.opacity=o;im.style.transform="scale("+(i?1.06-.06*o:1)+")";
+      });
+      const s=Math.round(f);
+      if(s!==k){
+        k=s;ttl.textContent=SC[s][0];put(wrk,"wrk",SC[s][1]);
+        gsap.fromTo(ttl,{yPercent:50,opacity:0},{yPercent:0,opacity:1,duration:.35,ease:"power2.out",overwrite:true});
+        gsap.fromTo(brs,{scale:1.25},{scale:1,duration:.45,ease:"power2.out",overwrite:true});
+      }
+      put(wk,"wk",1+Math.round(p*11));put(pct,"pct",Math.round(p*100));put(days,"days",Math.round(p*58));put(bud,"bud",Math.round(p*96)+"%");
+      gsap.set(fill,{scaleX:p});gsap.set(mk,{x:-sx*(1-p)*W});
+    };
+    ScrollTrigger.addEventListener("refresh",meas);meas();paint(0);
+    const o={p:0};
+    gsap.to(o,{p:1,ease:"none",onUpdate:()=>paint(o.p),
+      scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.4}});
+    return()=>{
+      ScrollTrigger.removeEventListener("refresh",meas);root.classList.remove("is-live");
+      imgs.forEach(im=>{im.style.removeProperty("opacity");im.style.removeProperty("transform");});
+      gsap.set([fill,mk,ttl,brs],{clearProps:"all"});
+      ttl.textContent=FIN.ttl;wk.textContent=FIN.wk;pct.textContent=FIN.pct;days.textContent=FIN.days;bud.textContent=FIN.bud;wrk.textContent=FIN.wrk;
+    };
+  });
+})();
+</script>
+</body>
+</html>

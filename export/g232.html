@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G232 · אותיות שנוחתות במתיחה ובמעיכה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G232 · אותיות שנוחתות במתיחה ובמעיכה */
+.gk{max-width:1100px;margin-inline:auto;display:grid;gap:32px;justify-items:start}
+.gk .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.gk-h{margin:0;font-size:clamp(48px,11vw,150px);font-weight:700;line-height:1.08;letter-spacing:-.02em;text-wrap:balance}
+.gk-w{display:inline-block;white-space:nowrap}
+.gk-c{position:relative;display:inline-block;transform-origin:50% 100%;will-change:transform}
+.gk-c::after{content:attr(data-c);position:absolute;inset:0;color:var(--accent, #4a3aff);opacity:var(--gh,0);transform:translateY(calc(var(--gy,0) * 1em));pointer-events:none}
+.gk-body{display:flex;flex-wrap:wrap;align-items:center;gap:20px 32px;max-width:640px}
+.gk-body p{margin:0;flex:1 1 320px;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.gk-cta{display:inline-flex;align-items:center;min-height:48px;padding:0 28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:600;text-decoration:none}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><section class="gk">
+  <h2 class="gk-h"><span class="sr-only">מטבח שנעים להיות בו</span><span class="gk-vis" aria-hidden="true">מטבח שנעים להיות בו</span></h2>
+  <div class="gk-body">
+    <p>תכנון ובנייה של מטבחים בהתאמה אישית, עם ליווי צמוד מהמדידה בבית ועד ההתקנה האחרונה.</p>
+    <a class="gk-cta" href="#">לתיאום פגישת תכנון</a>
+  </div>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP הכותרת מוצגת סגורה
+  const root=document.querySelector(".gk"),vis=root.querySelector(".gk-vis");
+  // ניקוד וטעמים (1425 עד 1479) נשארים צמודים לאות שלפניהם. עברית לא מתחברת, ולכן פיצול לאותיות בטוח
+  const isMark=ch=>{const c=ch.charCodeAt(0);return c>=1425&&c<=1479;};
+  const gr=s=>{const o=[];for(const ch of s){if(o.length&&isMark(ch))o[o.length-1]+=ch;else o.push(ch);}return o;};
+  // בהפחתת תנועה הפונקציה לא רצה, והכותרת נשארת כמו שהיא
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const orig=vis.textContent;vis.textContent="";
+    const L=[],words=orig.split(" ");
+    words.forEach((w,wi)=>{
+      const ws=document.createElement("span");ws.className="gk-w";
+      gr(w).forEach(g=>{const c=document.createElement("span");c.className="gk-c";c.textContent=g;c.setAttribute("data-c",g);ws.appendChild(c);L.push(c);});
+      vis.appendChild(ws);if(wi<words.length-1)vis.appendChild(document.createTextNode(" "));
+    });
+    gsap.set(L,{yPercent:-130,scaleY:1.9,scaleX:.6,opacity:0,"--gh":.55,"--gy":-.55});
+    const tl=gsap.timeline({paused:true});
+    L.forEach((c,i)=>{
+      const t=i*.05;
+      tl.to(c,{yPercent:0,scaleY:.6,scaleX:1.3,duration:.28,ease:"power2.in"},t)             // נפילה: נמתחת ואז נמעכת
+        .to(c,{opacity:1,duration:.08,ease:"none"},t)
+        .to(c,{"--gh":0,"--gy":0,duration:.28,ease:"power1.in"},t)                              // הצל נבלע באות
+        .to(c,{yPercent:-9,scaleY:1.12,scaleX:.94,duration:.2,ease:"power2.out"},t+.28)         // קפיצה קטנה
+        .to(c,{yPercent:0,scaleY:1,scaleX:1,duration:.26,ease:"power2.inOut"},t+.48);           // התיישבות
+    });
+    const st=ScrollTrigger.create({trigger:vis,start:"top 85%",once:true,onEnter:()=>tl.play()});
+    return()=>{st.kill();tl.kill();vis.textContent=orig;};
+  });
+})();
+</script>
+</body>
+</html>

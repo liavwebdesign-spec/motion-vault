@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G224 · מחיקה מעגלית כמו מחוג שמחליפה מספר</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G224 · מחיקה מעגלית כמו מחוג שמחליפה מספר */
+/* בלי GSAP ובהפחתת תנועה: העיגול מציג את המספר האחרון, והשלבים רשימה. ההצמדה והחיתוך רק כשהמהלך רץ (.is-live) */
+.ck{position:relative}
+.ck-pin{position:relative;display:grid;place-items:center;min-height:80svh}
+.ck-grid{width:100%;max-width:1120px;box-sizing:border-box;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,96px);padding:var(--gutter, clamp(24px, 5vw, 96px))}
+.ck-copy{display:grid;gap:28px}
+.ck-copy h2{margin:0;font-size:clamp(30px,3.4vw,52px);font-weight:700;line-height:1.1;text-wrap:balance}
+.ck-steps{list-style:none;margin:0;padding:0;display:grid;gap:28px}
+.ck-k{font-size:14px;font-weight:600;color:var(--muted, #6a6d85)}
+.ck-steps h3{margin:4px 0 8px;font-size:clamp(22px,2vw,30px)}
+.ck-steps p{margin:0;max-width:38ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.ck-dial{position:relative;justify-self:center;width:min(100%,520px,60svh);aspect-ratio:1;container-type:size}
+.ck-ring{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.ck-ring circle{fill:none}
+.ck-c0{stroke:var(--ink, #16182b);stroke-width:.4}
+.ck-tk{stroke:color-mix(in oklab,var(--ink, #16182b) 55%,transparent);stroke-width:3;stroke-dasharray:.06 .94}
+.ck-arc{stroke:var(--accent, #4a3aff);stroke-width:1.6;stroke-linecap:round;opacity:0}
+.ck-n{position:absolute;inset:8%;display:grid;place-items:center;border-radius:50%;font-size:56cqw;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;
+  -webkit-mask-image:conic-gradient(#000 var(--a,360deg),transparent 0);mask-image:conic-gradient(#000 var(--a,360deg),transparent 0)}
+.ck-n1{background:var(--card, #fff);color:var(--ink, #16182b)}
+.ck-n2{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+.ck-n3{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.ck-hand{position:absolute;left:calc(50% - 1px);top:8%;width:2px;height:42%;border-radius:2px;background:var(--accent, #4a3aff);transform-origin:50% 100%;opacity:0;pointer-events:none}
+.ck-flare{display:none}
+.ck.is-live{height:320svh}
+.ck.is-live .ck-pin{position:sticky;top:0;height:100svh;min-height:0;overflow:hidden}
+.ck.is-live .ck-steps{gap:0}
+.ck.is-live .ck-steps li{grid-area:1/1;align-self:start}
+.ck.is-live .ck-flare{display:block;position:absolute;inset-inline:0;top:50%;height:2px;translate:0 -50%;z-index:2;pointer-events:none;opacity:0;
+  background:linear-gradient(to right,transparent,var(--accent, #4a3aff) 28%,var(--accent, #4a3aff) 72%,transparent);box-shadow:0 0 20px 3px color-mix(in oklab,var(--accent, #4a3aff) 60%,transparent)}
+@media(max-width:767px){
+  .ck-grid{grid-template-columns:minmax(0,1fr);gap:24px}
+  .ck-dial{order:-1;width:min(70vw,36svh)}
+  .ck.is-live .ck-copy{gap:16px}
+}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage full" style="padding-block:0"><div class="ck">
+  <div class="ck-pin">
+    <div class="ck-grid">
+      <div class="ck-copy">
+        <h2>משכנתא בשלושה שלבים, מהשיחה הראשונה ועד החתימה</h2>
+        <ol class="ck-steps">
+          <li><span class="ck-k">שלב 1</span><h3>שיחת היכרות</h3><p>מספרים לנו על הדירה, על ההכנסות ועל ההחזר החודשי שנוח לכם. השיחה אורכת חצי שעה.</p></li>
+          <li><span class="ck-k">שלב 2</span><h3>השוואה בין הבנקים</h3><p>מבקשים הצעות משישה בנקים ומציגים אותן בטבלה אחת, עם ההחזר החודשי והריבית הכוללת.</p></li>
+          <li><span class="ck-k">שלב 3</span><h3>חתימה וליווי</h3><p>מלווים אתכם עד החתימה בבנק, ואחריה בודקים מדי שנה אם כדאי למחזר.</p></li>
+        </ol>
+      </div>
+      <div class="ck-dial" aria-hidden="true">
+        <svg class="ck-ring" viewBox="0 0 100 100"><circle class="ck-c0" cx="50" cy="50" r="49.6"/><circle class="ck-tk" cx="50" cy="50" r="46" pathLength="60"/><circle class="ck-arc" cx="50" cy="50" r="49.6" pathLength="1" stroke-dasharray="0 1" transform="rotate(-90 50 50)"/></svg>
+        <span class="ck-n ck-n1">1</span><span class="ck-n ck-n2">2</span><span class="ck-n ck-n3">3</span>
+        <i class="ck-hand"></i>
+      </div>
+    </div>
+    <i class="ck-flare" aria-hidden="true"></i>
+  </div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP העיגול מציג את המספר האחרון
+  const root=document.querySelector(".ck"),n2=root.querySelector(".ck-n2"),n3=root.querySelector(".ck-n3"),hand=root.querySelector(".ck-hand"),
+    arc=root.querySelector(".ck-arc"),flare=root.querySelector(".ck-flare"),li=[...root.querySelectorAll(".ck-steps li")];
+  // בהפחתת תנועה הפונקציה לא רצה, והמספר האחרון והרשימה מוצגים
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const o={a:0,b:0};
+    const draw=()=>{
+      n2.style.setProperty("--a",o.a+"deg");n3.style.setProperty("--a",o.b+"deg");
+      const cur=o.b>0?o.b:o.a,run=cur>0&&cur<360;
+      hand.style.rotate=cur+"deg";hand.style.opacity=run?1:0;
+      arc.setAttribute("stroke-dasharray",(run?cur/360:0)+" 1");arc.style.opacity=run?1:0;
+      flare.style.opacity=run?Math.sin(Math.PI*cur/360)*.9:0;
+    };
+    gsap.set(li.slice(1),{autoAlpha:0});draw();
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}});
+    tl.to({},{duration:.4})
+      .to(o,{a:360,duration:.9,ease:"power2.inOut",onUpdate:draw})
+      .to(li[0],{autoAlpha:0,duration:.25,ease:"power1.in"},"<.15")
+      .to(li[1],{autoAlpha:1,duration:.3,ease:"power1.out"},"<.3")
+      .to({},{duration:.7})
+      .to(o,{b:360,duration:.9,ease:"power2.inOut",onUpdate:draw})
+      .to(li[1],{autoAlpha:0,duration:.25,ease:"power1.in"},"<.15")
+      .to(li[2],{autoAlpha:1,duration:.3,ease:"power1.out"},"<.3")
+      .to({},{duration:.7});
+    return()=>{root.classList.remove("is-live");[n2,n3].forEach(e=>e.style.removeProperty("--a"));
+      hand.style.cssText="";flare.style.cssText="";arc.style.cssText="";arc.setAttribute("stroke-dasharray","0 1");gsap.set(li,{clearProps:"all"});};
+  });
+})();
+</script>
+</body>
+</html>

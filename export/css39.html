@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS39 · שרטוט שרועד כמו קו מצויר ביד</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS39 · שרטוט שרועד כמו קו מצויר ביד */
+.lb{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:center;gap:clamp(32px,6vw,96px);max-width:1100px;margin-inline:auto;padding-block:clamp(48px,6vw,96px)}
+.lb-txt{display:grid;gap:16px;justify-items:start}
+.lb-txt h2{margin:0;font-size:clamp(30px,3.6vw,52px);line-height:1.12;text-wrap:balance}
+.lb-txt p{margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.lb-fig{margin:0;padding:clamp(20px,3vw,32px);border-radius:24px;background:var(--card, #fff)}
+.lb-defs{position:absolute;width:0;height:0}
+.lb-sk{display:block;width:100%;height:auto;overflow:visible;fill:none;stroke:var(--ink, #16182b);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.lb-new{stroke:var(--accent, #4a3aff)}
+.lb-soft{stroke-width:1.3;opacity:.55}
+.lb-split{stroke:var(--muted, #6a6d85);stroke-width:1.3;stroke-dasharray:2 7}
+.lb-cap{display:grid;grid-template-columns:3fr 1fr;direction:ltr;margin-top:12px;color:var(--muted, #6a6d85);font-size:15px;text-align:center}
+.lb.is-on .lb-sk{animation:lb-boil .34s steps(1,end) infinite}
+@keyframes lb-boil{0%{filter:url(#lb-f1)}25%{filter:url(#lb-f2)}50%{filter:url(#lb-f3)}75%{filter:url(#lb-f4)}}
+@media(max-width:767px){.lb{grid-template-columns:minmax(0,1fr)}}
+@media(prefers-reduced-motion:reduce){.lb.is-on .lb-sk{animation:none}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><section class="lb" aria-labelledby="lb-h">
+  <div class="lb-txt">
+    <h2 id="lb-h">רואים את התוספת על הנייר לפני שמניחים בלוק ראשון</h2>
+    <p>בפגישה הראשונה אנחנו משרטטים יחד את הבית כמו שהוא ואת התוספת המוצעת, כדי שתראו מה משתנה ומה נשאר.</p>
+  </div>
+  <figure class="lb-fig">
+    <svg class="lb-defs" aria-hidden="true" focusable="false"><defs>
+      <filter id="lb-f1" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="2" seed="1" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+      <filter id="lb-f2" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="2" seed="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+      <filter id="lb-f3" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+      <filter id="lb-f4" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
+    </defs></svg>
+    <svg class="lb-sk" viewBox="0 64 460 288" role="img" aria-label="שרטוט של בית קיים ותוספת מוצעת בצדו">
+      <g class="lb-ex"><path d="M92 196L230 100L372 196"/><path d="M108 334L112 188L352 190L350 336"/><path d="M290 132L290 92L324 92L324 154"/><path d="M168 336L168 252L214 252L214 336"/><path d="M254 226L318 226L318 276L254 276Z"/><path d="M286 226L286 276M254 251L318 251"/><path class="lb-soft" d="M130 214L196 214M130 226L176 226M130 238L158 238"/><path d="M26 338L436 336"/></g>
+      <g class="lb-new"><path d="M352 216L440 214L442 336"/><path d="M376 248L414 248L414 292L376 292Z"/><path class="lb-soft" d="M362 224L430 224M362 234L410 234"/></g>
+      <path class="lb-split" d="M352 70L352 330"/>
+    </svg>
+    <figcaption class="lb-cap"><span>קיים</span><span>מוצע</span></figcaption>
+  </figure>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+
+<script>
+(function(){
+  const root=document.querySelector(".lb");
+  // הרעידה פועלת רק כשהסקשן על המסך
+  new IntersectionObserver(es=>root.classList.toggle("is-on",es[0].isIntersecting),{rootMargin:"10% 0px"}).observe(root);
+})();
+</script>
+</body>
+</html>

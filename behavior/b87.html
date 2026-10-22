@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B87 · טאבים שמחליפים תוכן בלוח אחד | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.pt{max-width:760px;margin-inline:auto;padding:32px;border-radius:24px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
+.pt-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin:0 0 32px}
+.pt-top h3{margin:0;font-size:clamp(20px,2.1vw,28px);font-weight:700;line-height:1.2}
+/* שלוש לשוניות ברוחב שווה: הסמן זז ב-transform בלבד, צעד אחד לכל לשונית */
+.pt-tabs{position:relative;display:grid;grid-template-columns:repeat(3,1fr);min-width:min(100%,336px);padding:4px;border-radius:999px;background:color-mix(in oklab,var(--ink) 7%,var(--card))}
+.pt-tabs[hidden]{display:none}
+.pt-ind{position:absolute;inset-block:4px;inset-inline-start:4px;width:calc((100% - 8px) / 3);border-radius:999px;background:var(--bg);box-shadow:0 1px 3px color-mix(in oklab,var(--ink) 22%,transparent),inset 0 0 0 1px var(--line);transform:translateX(calc(var(--i, 0) * var(--sg, -1) * 100%));transition:transform .45s cubic-bezier(.2,.6,.2,1)}
+.pt-tab{position:relative;z-index:1;padding:10px 12px;border:0;border-radius:999px;background:none;color:var(--muted);font:inherit;font-size:15px;font-weight:600;white-space:nowrap;cursor:pointer;transition:color .25s cubic-bezier(.4,0,.2,1)}
+.pt-tab[aria-selected="true"]{color:var(--ink)}
+.pt-tab:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.pt-panel{display:grid;gap:24px}
+.pt-panel:focus-visible{outline:2px solid var(--accent);outline-offset:8px;border-radius:12px}
+.pt-kpi{display:flex;align-items:baseline;flex-wrap:wrap;gap:12px 18px}
+.pt-num{font-size:clamp(56px,8vw,96px);font-weight:700;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.pt-delta{direction:ltr;unicode-bidi:isolate;padding:6px 12px;border-radius:999px;background:color-mix(in oklab,var(--accent) 18%,var(--card));font-size:15px;font-weight:700}
+.pt-cmp{color:var(--muted);font-size:15px}
+.pt-plot{position:relative;aspect-ratio:600 / 280;container-type:size}
+.pt-svg{position:absolute;inset:0;width:100%;height:100%}
+.pt-grid line{stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke}
+.pt-g0{stop-color:var(--accent);stop-opacity:.24}.pt-g1{stop-color:var(--accent);stop-opacity:0}
+.pt-area{fill:url(#pt-fill)}
+.pt-line{fill:none;stroke:var(--accent);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+/* הנקודה, הקו והטולטיפ ממוקמים ביחידות הקונטיינר: --fx ו--fy הם שברים מ-0 עד 1 */
+.pt-hair{position:absolute;left:0;top:0;bottom:0;width:1px;background:color-mix(in oklab,var(--ink) 20%,transparent);translate:calc(var(--fx) * 100cqw) 0}
+.pt-dot{position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--card),0 0 0 8px color-mix(in oklab,var(--accent) 26%,transparent);translate:calc(var(--fx) * 100cqw - 50%) calc(var(--fy) * 100cqh - 50%)}
+.pt-tip{position:absolute;left:0;top:0;display:grid;gap:2px;padding:8px 14px;border-radius:12px;background:var(--ink);color:var(--bg);white-space:nowrap;line-height:1.2;translate:clamp(0px, calc(var(--fx) * 100cqw - 50%), calc(100cqw - 100%)) 0}
+.pt-tip b{font-size:18px;font-weight:700}
+.pt-tip span{font-size:13px;opacity:.82}
+.pt-ax{display:flex;justify-content:space-between;color:var(--muted);font-size:13px}
+.pt .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(prefers-reduced-motion:reduce){.pt-ind,.pt-tab{transition:none}}
+@media(max-width:767px){.pt{padding:20px}.pt-top{margin-bottom:24px}.pt-tabs{width:100%}.pt-plot{aspect-ratio:600 / 380}.pt-tip b{font-size:16px}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=behavior">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="b86.html" rel="prev" title="הקודם: טבעת פינג בנקודת הלחיצה">→<span class="sr-only">הקודם</span></a><span class="vpn-n">75/83</span><a href="b88.html" rel="next" title="הבא: גל קול שמתמלא עם הנגן">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">B87</span> · טאבים שמחליפים תוכן בלוח אחד</h1>
+  <span class="vchip cat-behavior">התנהגויות</span>
+  <span class="vchip">GSAP · tablist ARIA · SVG path morph</span>
+  <span class="vchip use">מספרים ונתונים</span><span class="vchip use">טעינה ופידבק</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b87"><code>MV:b87</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="b87">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>כרטיס נתונים עם שלושה טאבים בראשו: 24 שעות, 12 שבועות, 12 חודשים. לחיצה על טאב מזיזה אליו את הסמן, המספר הגדול רץ לערך החדש, הקו בגרף מתעוות לצורה של התקופה החדשה, והנקודה והטולטיפ שבקצה הקו עוברים למקומם. לוח אחד, שלוש תקופות.</p>
+  <p class="when"><b>מתי משתמשים:</b> תוצאות או מקרה בוחן עם נתון אחד בכמה רזולוציות: פניות, מכירות, מבקרים, זמן תגובה. סקשן הוכחה או עמוד תוצאות. מחליף שלושה גרפים נפרדים בלוח אחד שהגולש מפעיל בעצמו, ומתאים כשהתקופות מספרות סיפור שונה.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית</dd></div><div><dt>בסקשן</dt><dd>מספרים ולקוחות · בעיה ויתרונות · עבודות וגלריה</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>משרת תוכן, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשהתקופות אינן מספרות סיפור שונה, ולא כשהגולש צריך לראות את כל הנתונים בבת אחת.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="b87"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><section class="pt" aria-labelledby="pt-h">
+  <header class="pt-top">
+    <h3 id="pt-h">פניות מהאתר</h3>
+    <div class="pt-tabs" role="tablist" aria-label="תקופת הנתונים" hidden>
+      <span class="pt-ind" aria-hidden="true"></span>
+      <button class="pt-tab" id="pt-t0" role="tab" type="button" aria-selected="true" aria-controls="pt-p" tabindex="0" data-y="0.54,0.31,0.08,0.08,0.195,0.425,0.77,1,0.655,0.54,0.885,0.655" data-sum="57" data-last="6 פניות" data-lab="בשעתיים האחרונות" data-delta="+6%" data-cmp="לעומת 24 השעות הקודמות" data-x="לפני 24 שעות|לפני 12 שעות|עכשיו" data-sr="57 פניות ב-24 השעות האחרונות">24 שעות</button>
+      <button class="pt-tab" id="pt-t1" role="tab" type="button" aria-selected="false" aria-controls="pt-p" tabindex="-1" data-y="0.08,0.233,0.131,0.387,0.284,0.54,0.438,0.744,0.591,0.847,0.693,1" data-sum="314" data-last="36 פניות" data-lab="בשבוע האחרון" data-delta="+23%" data-cmp="לעומת 12 השבועות הקודמים" data-x="לפני 12 שבועות|לפני 6 שבועות|השבוע" data-sr="314 פניות ב-12 השבועות האחרונים">12 שבועות</button>
+      <button class="pt-tab" id="pt-t2" role="tab" type="button" aria-selected="false" aria-controls="pt-p" tabindex="-1" data-y="0.126,0.08,0.203,0.295,0.249,0.433,0.54,0.479,0.678,0.785,0.709,1" data-sum="997" data-last="118 פניות" data-lab="בחודש האחרון" data-delta="+31%" data-cmp="לעומת 12 החודשים הקודמים" data-x="לפני שנה|לפני חצי שנה|החודש" data-sr="997 פניות ב-12 החודשים האחרונים">12 חודשים</button>
+    </div>
+  </header>
+  <div class="pt-panel" id="pt-p" role="tabpanel" aria-labelledby="pt-t0" tabindex="0">
+    <div class="pt-kpi">
+      <b class="pt-num" aria-hidden="true">57</b><span class="sr-only pt-sr">57 פניות ב-24 השעות האחרונות</span>
+      <span class="pt-delta">+6%</span><span class="pt-cmp">לעומת 24 השעות הקודמות</span>
+    </div>
+    <div class="pt-plot" style="--fx:0.0467;--fy:0.5252">
+      <svg class="pt-svg" viewBox="0 0 600 280" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <defs><linearGradient id="pt-fill" x1="0" y1="0" x2="0" y2="1"><stop class="pt-g0" offset="0"/><stop class="pt-g1" offset="1"/></linearGradient></defs>
+        <g class="pt-grid"><line x1="0" y1="112" x2="600" y2="112"/><line x1="0" y1="187" x2="600" y2="187"/><line x1="0" y1="262" x2="600" y2="262"/></g>
+        <path class="pt-area" d="M572 164.1 C563.8 169.8 539 186.8 522.5 198.1 C506.1 209.5 489.6 226.5 473.1 232.2 C456.6 237.8 440.1 235 423.6 232.2 C407.2 229.3 390.7 223.6 374.2 215.1 C357.7 206.6 341.2 195.3 324.7 181.1 C308.2 166.9 291.8 144.2 275.3 130 C258.8 115.9 242.3 93.2 225.8 96 C209.3 98.8 192.8 135.7 176.4 147.1 C159.9 158.4 143.4 169.8 126.9 164.1 C110.4 158.4 93.9 115.9 77.5 113 C61 110.2 36.2 141.4 28 147.1 L28 262 L572 262 Z"/>
+        <path class="pt-line" d="M572 164.1 C563.8 169.8 539 186.8 522.5 198.1 C506.1 209.5 489.6 226.5 473.1 232.2 C456.6 237.8 440.1 235 423.6 232.2 C407.2 229.3 390.7 223.6 374.2 215.1 C357.7 206.6 341.2 195.3 324.7 181.1 C308.2 166.9 291.8 144.2 275.3 130 C258.8 115.9 242.3 93.2 225.8 96 C209.3 98.8 192.8 135.7 176.4 147.1 C159.9 158.4 143.4 169.8 126.9 164.1 C110.4 158.4 93.9 115.9 77.5 113 C61 110.2 36.2 141.4 28 147.1"/>
+      </svg>
+      <span class="pt-hair" aria-hidden="true"></span><span class="pt-dot" aria-hidden="true"></span>
+      <div class="pt-tip" aria-hidden="true"><b>6 פניות</b><span>בשעתיים האחרונות</span></div>
+    </div>
+    <div class="pt-ax" aria-hidden="true"><span>לפני 24 שעות</span><span>לפני 12 שעות</span><span>עכשיו</span></div>
+  </div>
+</section></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: כמה סרטונים בגלריה (21.10.2026) שבהם בורר תקופות בכרטיס אנליטיקה מחליף את המספר הגדול ואת גרף הקו, ובקצה הקו נקודה וטולטיפ עם הערך. נבנה מאפס מהצפייה. <b>ציר הזמן מימין לשמאל:</b> התקופה הישנה בימין והחדשה בשמאל, כך שהקו, הנקודה והטולטיפ מסתיימים בצד השמאלי. הסקריפט קורא את <code>direction</code> של הבורר, ובאתר משמאל לימין הוא הופך לבד את כיוון הקו ואת כיוון הסמן (<code>--sg</code>), וצריך רק לסדר הפוך את שלוש התוויות שמתחת לציר. <b>טאבים אמיתיים:</b> <code>tablist</code> עם <code>tab</code> ו-<code>tabpanel</code> (שמקבל <code>tabindex</code> אפס, כי אין בו אלמנט שאפשר להתמקד בו), <code>aria-selected</code>, <code>tabindex</code> נודד, חצים (בעברית חץ שמאלה מתקדם, כי הטאב הבא משמאל), <code>Home</code> ו-<code>End</code>, ו-<code>:focus-visible</code>. יש לוח אחד ש-<code>aria-labelledby</code> שלו מתחלף. הבורר מסומן <code>hidden</code> במארקאפ והסקריפט חושף אותו, כדי שבלי JS לא יהיו פקדים שלא עובדים. <b>הערך הסופי במארקאפ:</b> בלי JS רואים את הטאב הראשון מצויר במלואו, עם המספר והטולטיפ. <b>המעבר בין תקופות:</b> לכל תקופה 12 נקודות, ולכן הקו לא מצויר מחדש אלא מתעוות: כל גובה זז לגובה החדש, והנתיב נבנה מחדש בכל פריים (Catmull-Rom לקימורים) יחד עם השטח, הנקודה והטולטיפ. המספר רץ אחרי הקו, ב-<code>power3.inOut</code>. הגבהים ב-<code>data-y</code> מנורמלים לכל תקופה בנפרד, ולכן אין ציר Y. <b>נגישות:</b> המספר הרץ והטולטיפ מוסתרים מקורא מסך, וטקסט מוסתר מתעדכן מיד עם הערך הסופי (״314 פניות ב-12 השבועות האחרונים״). בהפחתת תנועה, או בלי GSAP, המעבר מיידי. <b>רספונסיביות:</b> ה-SVG בנוי ב-<code>viewBox</code> ומתכווץ עם הקונטיינר, והוא נמתח למלוא הלוח (<code>preserveAspectRatio</code> שווה <code>none</code>) כשעובי הקו קבוע (<code>non-scaling-stroke</code>), ולכן בטלפון הלוח גבוה יותר והטולטיפ לא מכסה את הקו. הנקודה והטולטיפ הם שכבת HTML שממוקמת ביחידות קונטיינר (<code>cqw</code>), ולכן הטקסט לא מתכווץ בטלפון והטולטיפ לא יוצא מהגרף (<code>clamp</code>).</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/b87.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B87 · טאבים שמחליפים תוכן בלוח אחד */
+.pt{max-width:760px;margin-inline:auto;padding:32px;border-radius:24px;background:var(--card, #fff);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}
+.pt-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin:0 0 32px}
+.pt-top h3{margin:0;font-size:clamp(20px,2.1vw,28px);font-weight:700;line-height:1.2}
+/* שלוש לשוניות ברוחב שווה: הסמן זז ב-transform בלבד, צעד אחד לכל לשונית */
+.pt-tabs{position:relative;display:grid;grid-template-columns:repeat(3,1fr);min-width:min(100%,336px);padding:4px;border-radius:999px;background:color-mix(in oklab,var(--ink, #16182b) 7%,var(--card, #fff))}
+.pt-tabs[hidden]{display:none}
+.pt-ind{position:absolute;inset-block:4px;inset-inline-start:4px;width:calc((100% - 8px) / 3);border-radius:999px;background:var(--bg, #f7f7fa);box-shadow:0 1px 3px color-mix(in oklab,var(--ink, #16182b) 22%,transparent),inset 0 0 0 1px var(--line, #e4e4ee);transform:translateX(calc(var(--i, 0) * var(--sg, -1) * 100%));transition:transform .45s cubic-bezier(.2,.6,.2,1)}
+.pt-tab{position:relative;z-index:1;padding:10px 12px;border:0;border-radius:999px;background:none;color:var(--muted, #6a6d85);font:inherit;font-size:15px;font-weight:600;white-space:nowrap;cursor:pointer;transition:color .25s cubic-bezier(.4,0,.2,1)}
+.pt-tab[aria-selected="true"]{color:var(--ink, #16182b)}
+.pt-tab:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.pt-panel{display:grid;gap:24px}
+.pt-panel:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:8px;border-radius:12px}
+.pt-kpi{display:flex;align-items:baseline;flex-wrap:wrap;gap:12px 18px}
+.pt-num{font-size:clamp(56px,8vw,96px);font-weight:700;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.pt-delta{direction:ltr;unicode-bidi:isolate;padding:6px 12px;border-radius:999px;background:color-mix(in oklab,var(--accent, #4a3aff) 18%,var(--card, #fff));font-size:15px;font-weight:700}
+.pt-cmp{color:var(--muted, #6a6d85);font-size:15px}
+.pt-plot{position:relative;aspect-ratio:600 / 280;container-type:size}
+.pt-svg{position:absolute;inset:0;width:100%;height:100%}
+.pt-grid line{stroke:var(--line, #e4e4ee);stroke-width:1;vector-effect:non-scaling-stroke}
+.pt-g0{stop-color:var(--accent, #4a3aff);stop-opacity:.24}.pt-g1{stop-color:var(--accent, #4a3aff);stop-opacity:0}
+.pt-area{fill:url(#pt-fill)}
+.pt-line{fill:none;stroke:var(--accent, #4a3aff);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+/* הנקודה, הקו והטולטיפ ממוקמים ביחידות הקונטיינר: --fx ו--fy הם שברים מ-0 עד 1 */
+.pt-hair{position:absolute;left:0;top:0;bottom:0;width:1px;background:color-mix(in oklab,var(--ink, #16182b) 20%,transparent);translate:calc(var(--fx) * 100cqw) 0}
+.pt-dot{position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 4px var(--card, #fff),0 0 0 8px color-mix(in oklab,var(--accent, #4a3aff) 26%,transparent);translate:calc(var(--fx) * 100cqw - 50%) calc(var(--fy) * 100cqh - 50%)}
+.pt-tip{position:absolute;left:0;top:0;display:grid;gap:2px;padding:8px 14px;border-radius:12px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);white-space:nowrap;line-height:1.2;translate:clamp(0px, calc(var(--fx) * 100cqw - 50%), calc(100cqw - 100%)) 0}
+.pt-tip b{font-size:18px;font-weight:700}
+.pt-tip span{font-size:13px;opacity:.82}
+.pt-ax{display:flex;justify-content:space-between;color:var(--muted, #6a6d85);font-size:13px}
+.pt .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(prefers-reduced-motion:reduce){.pt-ind,.pt-tab{transition:none}}
+@media(max-width:767px){.pt{padding:20px}.pt-top{margin-bottom:24px}.pt-tabs{width:100%}.pt-plot{aspect-ratio:600 / 380}.pt-tip b{font-size:16px}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;section class="pt" aria-labelledby="pt-h"&gt;
+  &lt;header class="pt-top"&gt;
+    &lt;h3 id="pt-h"&gt;פניות מהאתר&lt;/h3&gt;
+    &lt;div class="pt-tabs" role="tablist" aria-label="תקופת הנתונים" hidden&gt;
+      &lt;span class="pt-ind" aria-hidden="true"&gt;&lt;/span&gt;
+      &lt;button class="pt-tab" id="pt-t0" role="tab" type="button" aria-selected="true" aria-controls="pt-p" tabindex="0" data-y="0.54,0.31,0.08,0.08,0.195,0.425,0.77,1,0.655,0.54,0.885,0.655" data-sum="57" data-last="6 פניות" data-lab="בשעתיים האחרונות" data-delta="+6%" data-cmp="לעומת 24 השעות הקודמות" data-x="לפני 24 שעות|לפני 12 שעות|עכשיו" data-sr="57 פניות ב-24 השעות האחרונות"&gt;24 שעות&lt;/button&gt;
+      &lt;button class="pt-tab" id="pt-t1" role="tab" type="button" aria-selected="false" aria-controls="pt-p" tabindex="-1" data-y="0.08,0.233,0.131,0.387,0.284,0.54,0.438,0.744,0.591,0.847,0.693,1" data-sum="314" data-last="36 פניות" data-lab="בשבוע האחרון" data-delta="+23%" data-cmp="לעומת 12 השבועות הקודמים" data-x="לפני 12 שבועות|לפני 6 שבועות|השבוע" data-sr="314 פניות ב-12 השבועות האחרונים"&gt;12 שבועות&lt;/button&gt;
+      &lt;button class="pt-tab" id="pt-t2" role="tab" type="button" aria-selected="false" aria-controls="pt-p" tabindex="-1" data-y="0.126,0.08,0.203,0.295,0.249,0.433,0.54,0.479,0.678,0.785,0.709,1" data-sum="997" data-last="118 פניות" data-lab="בחודש האחרון" data-delta="+31%" data-cmp="לעומת 12 החודשים הקודמים" data-x="לפני שנה|לפני חצי שנה|החודש" data-sr="997 פניות ב-12 החודשים האחרונים"&gt;12 חודשים&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+  &lt;div class="pt-panel" id="pt-p" role="tabpanel" aria-labelledby="pt-t0" tabindex="0"&gt;
+    &lt;div class="pt-kpi"&gt;
+      &lt;b class="pt-num" aria-hidden="true"&gt;57&lt;/b&gt;&lt;span class="sr-only pt-sr"&gt;57 פניות ב-24 השעות האחרונות&lt;/span&gt;
+      &lt;span class="pt-delta"&gt;+6%&lt;/span&gt;&lt;span class="pt-cmp"&gt;לעומת 24 השעות הקודמות&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="pt-plot" style="--fx:0.0467;--fy:0.5252"&gt;
+      &lt;svg class="pt-svg" viewBox="0 0 600 280" preserveAspectRatio="none" aria-hidden="true" focusable="false"&gt;
+        &lt;defs&gt;&lt;linearGradient id="pt-fill" x1="0" y1="0" x2="0" y2="1"&gt;&lt;stop class="pt-g0" offset="0"/&gt;&lt;stop class="pt-g1" offset="1"/&gt;&lt;/linearGradient&gt;&lt;/defs&gt;
+        &lt;g class="pt-grid"&gt;&lt;line x1="0" y1="112" x2="600" y2="112"/&gt;&lt;line x1="0" y1="187" x2="600" y2="187"/&gt;&lt;line x1="0" y1="262" x2="600" y2="262"/&gt;&lt;/g&gt;
+        &lt;path class="pt-area" d="M572 164.1 C563.8 169.8 539 186.8 522.5 198.1 C506.1 209.5 489.6 226.5 473.1 232.2 C456.6 237.8 440.1 235 423.6 232.2 C407.2 229.3 390.7 223.6 374.2 215.1 C357.7 206.6 341.2 195.3 324.7 181.1 C308.2 166.9 291.8 144.2 275.3 130 C258.8 115.9 242.3 93.2 225.8 96 C209.3 98.8 192.8 135.7 176.4 147.1 C159.9 158.4 143.4 169.8 126.9 164.1 C110.4 158.4 93.9 115.9 77.5 113 C61 110.2 36.2 141.4 28 147.1 L28 262 L572 262 Z"/&gt;
+        &lt;path class="pt-line" d="M572 164.1 C563.8 169.8 539 186.8 522.5 198.1 C506.1 209.5 489.6 226.5 473.1 232.2 C456.6 237.8 440.1 235 423.6 232.2 C407.2 229.3 390.7 223.6 374.2 215.1 C357.7 206.6 341.2 195.3 324.7 181.1 C308.2 166.9 291.8 144.2 275.3 130 C258.8 115.9 242.3 93.2 225.8 96 C209.3 98.8 192.8 135.7 176.4 147.1 C159.9 158.4 143.4 169.8 126.9 164.1 C110.4 158.4 93.9 115.9 77.5 113 C61 110.2 36.2 141.4 28 147.1"/&gt;
+      &lt;/svg&gt;
+      &lt;span class="pt-hair" aria-hidden="true"&gt;&lt;/span&gt;&lt;span class="pt-dot" aria-hidden="true"&gt;&lt;/span&gt;
+      &lt;div class="pt-tip" aria-hidden="true"&gt;&lt;b&gt;6 פניות&lt;/b&gt;&lt;span&gt;בשעתיים האחרונות&lt;/span&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="pt-ax" aria-hidden="true"&gt;&lt;span&gt;לפני 24 שעות&lt;/span&gt;&lt;span&gt;לפני 12 שעות&lt;/span&gt;&lt;span&gt;עכשיו&lt;/span&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const root=document.querySelector(".pt"),list=root.querySelector(".pt-tabs"),tabs=[...list.querySelectorAll(".pt-tab")];
+  const panel=root.querySelector(".pt-panel"),plot=root.querySelector(".pt-plot"),line=root.querySelector(".pt-line"),area=root.querySelector(".pt-area");
+  const num=root.querySelector(".pt-num"),sr=root.querySelector(".pt-sr"),delta=root.querySelector(".pt-delta"),cmp=root.querySelector(".pt-cmp");
+  const tip=root.querySelector(".pt-tip"),tipV=tip.querySelector("b"),tipL=tip.querySelector("span"),ax=[...root.querySelectorAll(".pt-ax span")];
+  // ציר הזמן: בעברית הישן בימין והחדש בשמאל. באתר משמאל לימין הכיוון מתהפך לבד
+  const rtl=getComputedStyle(list).direction==="rtl",X0=rtl?572:28,X1=rtl?28:572,TOP=96,BOT=244,BASE=262,N=12,fmt=new Intl.NumberFormat("he-IL");
+  const f1=n=&gt;Math.round(n*10)/10;
+  const smooth=p=&gt;{let d="M"+f1(p[0][0])+" "+f1(p[0][1]);for(let i=0;i&lt;p.length-1;i++){const a=p[i-1]||p[i],b=p[i],c=p[i+1],e=p[i+2]||c;d+=" C"+f1(b[0]+(c[0]-a[0])/6)+" "+f1(b[1]+(c[1]-a[1])/6)+" "+f1(c[0]-(e[0]-b[0])/6)+" "+f1(c[1]-(e[1]-b[1])/6)+" "+f1(c[0])+" "+f1(c[1]);}return d;};
+  const ys=t=&gt;t.dataset.y.split(",").map(Number);
+  const draw=a=&gt;{
+    const p=a.map((v,i)=&gt;[X0+(X1-X0)*i/(N-1),BOT-v*(BOT-TOP)]),d=smooth(p);
+    line.setAttribute("d",d);area.setAttribute("d",d+" L"+X1+" "+BASE+" L"+X0+" "+BASE+" Z");
+    plot.style.setProperty("--fx",(p[N-1][0]/600).toFixed(4));plot.style.setProperty("--fy",(p[N-1][1]/280).toFixed(4));
+  };
+  const motion=()=&gt;typeof gsap!=="undefined"&amp;&amp;!matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let cur=0,curY=ys(tabs[0]),shown=+tabs[0].dataset.sum,anim=null;
+  list.hidden=false;list.style.setProperty("--sg",rtl?-1:1);draw(curY);      // הבורר נחשף רק כשיש JS
+  function swapText(t){
+    sr.textContent=t.dataset.sr;delta.textContent=t.dataset.delta;cmp.textContent=t.dataset.cmp;
+    tipV.textContent=t.dataset.last;tipL.textContent=t.dataset.lab;t.dataset.x.split("|").forEach((s,i)=&gt;{ax[i].textContent=s;});
+  }
+  function select(i,focus){
+    const t=tabs[i];
+    if(i!==cur){
+      const from=curY.slice(),to=ys(t),sum=+t.dataset.sum;
+      tabs.forEach((b,k)=&gt;{b.setAttribute("aria-selected",k===i?"true":"false");b.tabIndex=k===i?0:-1;});
+      panel.setAttribute("aria-labelledby",t.id);list.style.setProperty("--i",i);
+      swapText(t);cur=i;curY=to;
+      if(anim)anim.kill();
+      if(motion()){
+        const o={p:0,n:shown};
+        anim=gsap.to(o,{p:1,n:sum,duration:.8,ease:"power3.inOut",onUpdate:()=&gt;{
+          draw(from.map((v,k)=&gt;v+(to[k]-v)*o.p));shown=o.n;num.textContent=fmt.format(Math.round(o.n));
+        }});
+        gsap.fromTo(tip,{opacity:0},{opacity:1,duration:.4,delay:.35,overwrite:true});
+      }else{draw(to);shown=sum;num.textContent=fmt.format(sum);}
+    }
+    if(focus)t.focus();
+  }
+  tabs.forEach((b,k)=&gt;b.addEventListener("click",()=&gt;select(k,false)));
+  list.addEventListener("keydown",e=&gt;{
+    let i=cur;const k=e.key;
+    if(k==="ArrowRight")i+=rtl?-1:1;else if(k==="ArrowLeft")i+=rtl?1:-1;      // בעברית הטאב הבא נמצא משמאל
+    else if(k==="Home")i=0;else if(k==="End")i=tabs.length-1;else return;
+    e.preventDefault();select((i+tabs.length)%tabs.length,true);
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b87 · טאבים שמחליפים תוכן בלוח אחד\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b87.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b87.html\n\nמה זה עושה: כרטיס נתונים עם שלושה טאבים בראשו: 24 שעות, 12 שבועות, 12 חודשים. לחיצה על טאב מזיזה אליו את הסמן, המספר הגדול רץ לערך החדש, הקו בגרף מתעוות לצורה של התקופה החדשה, והנקודה והטולטיפ שבקצה הקו עוברים למקומם. לוח אחד, שלוש תקופות.\nמתי משתמשים: תוצאות או מקרה בוחן עם נתון אחד בכמה רזולוציות: פניות, מכירות, מבקרים, זמן תגובה. סקשן הוכחה או עמוד תוצאות. מחליף שלושה גרפים נפרדים בלוח אחד שהגולש מפעיל בעצמו, ומתאים כשהתקופות מספרות סיפור שונה.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית\nבסקשן: מספרים ולקוחות · בעיה ויתרונות · עבודות וגלריה\nאופי: גם באתר שקט\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא כשהתקופות אינן מספרות סיפור שונה, ולא כשהגולש צריך לראות את כל הנתונים בבת אחת.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B87 · טאבים שמחליפים תוכן בלוח אחד */\n.pt{max-width:760px;margin-inline:auto;padding:32px;border-radius:24px;background:var(--card, #fff);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}\n.pt-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin:0 0 32px}\n.pt-top h3{margin:0;font-size:clamp(20px,2.1vw,28px);font-weight:700;line-height:1.2}\n/* שלוש לשוניות ברוחב שווה: הסמן זז ב-transform בלבד, צעד אחד לכל לשונית */\n.pt-tabs{position:relative;display:grid;grid-template-columns:repeat(3,1fr);min-width:min(100%,336px);padding:4px;border-radius:999px;background:color-mix(in oklab,var(--ink, #16182b) 7%,var(--card, #fff))}\n.pt-tabs[hidden]{display:none}\n.pt-ind{position:absolute;inset-block:4px;inset-inline-start:4px;width:calc((100% - 8px) / 3);border-radius:999px;background:var(--bg, #f7f7fa);box-shadow:0 1px 3px color-mix(in oklab,var(--ink, #16182b) 22%,transparent),inset 0 0 0 1px var(--line, #e4e4ee);transform:translateX(calc(var(--i, 0) * var(--sg, -1) * 100%));transition:transform .45s cubic-bezier(.2,.6,.2,1)}\n.pt-tab{position:relative;z-index:1;padding:10px 12px;border:0;border-radius:999px;background:none;color:var(--muted, #6a6d85);font:inherit;font-size:15px;font-weight:600;white-space:nowrap;cursor:pointer;transition:color .25s cubic-bezier(.4,0,.2,1)}\n.pt-tab[aria-selected=\"true\"]{color:var(--ink, #16182b)}\n.pt-tab:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n.pt-panel{display:grid;gap:24px}\n.pt-panel:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:8px;border-radius:12px}\n.pt-kpi{display:flex;align-items:baseline;flex-wrap:wrap;gap:12px 18px}\n.pt-num{font-size:clamp(56px,8vw,96px);font-weight:700;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}\n.pt-delta{direction:ltr;unicode-bidi:isolate;padding:6px 12px;border-radius:999px;background:color-mix(in oklab,var(--accent, #4a3aff) 18%,var(--card, #fff));font-size:15px;font-weight:700}\n.pt-cmp{color:var(--muted, #6a6d85);font-size:15px}\n.pt-plot{position:relative;aspect-ratio:600 / 280;container-type:size}\n.pt-svg{position:absolute;inset:0;width:100%;height:100%}\n.pt-grid line{stroke:var(--line, #e4e4ee);stroke-width:1;vector-effect:non-scaling-stroke}\n.pt-g0{stop-color:var(--accent, #4a3aff);stop-opacity:.24}.pt-g1{stop-color:var(--accent, #4a3aff);stop-opacity:0}\n.pt-area{fill:url(#pt-fill)}\n.pt-line{fill:none;stroke:var(--accent, #4a3aff);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}\n/* הנקודה, הקו והטולטיפ ממוקמים ביחידות הקונטיינר: --fx ו--fy הם שברים מ-0 עד 1 */\n.pt-hair{position:absolute;left:0;top:0;bottom:0;width:1px;background:color-mix(in oklab,var(--ink, #16182b) 20%,transparent);translate:calc(var(--fx) * 100cqw) 0}\n.pt-dot{position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 4px var(--card, #fff),0 0 0 8px color-mix(in oklab,var(--accent, #4a3aff) 26%,transparent);translate:calc(var(--fx) * 100cqw - 50%) calc(var(--fy) * 100cqh - 50%)}\n.pt-tip{position:absolute;left:0;top:0;display:grid;gap:2px;padding:8px 14px;border-radius:12px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);white-space:nowrap;line-height:1.2;translate:clamp(0px, calc(var(--fx) * 100cqw - 50%), calc(100cqw - 100%)) 0}\n.pt-tip b{font-size:18px;font-weight:700}\n.pt-tip span{font-size:13px;opacity:.82}\n.pt-ax{display:flex;justify-content:space-between;color:var(--muted, #6a6d85);font-size:13px}\n.pt .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n@media(prefers-reduced-motion:reduce){.pt-ind,.pt-tab{transition:none}}\n@media(max-width:767px){.pt{padding:20px}.pt-top{margin-bottom:24px}.pt-tabs{width:100%}.pt-plot{aspect-ratio:600 / 380}.pt-tip b{font-size:16px}}\n\n=== HTML ===\n<div class=\"stage\"><section class=\"pt\" aria-labelledby=\"pt-h\">\n  <header class=\"pt-top\">\n    <h3 id=\"pt-h\">פניות מהאתר<\/h3>\n    <div class=\"pt-tabs\" role=\"tablist\" aria-label=\"תקופת הנתונים\" hidden>\n      <span class=\"pt-ind\" aria-hidden=\"true\"><\/span>\n      <button class=\"pt-tab\" id=\"pt-t0\" role=\"tab\" type=\"button\" aria-selected=\"true\" aria-controls=\"pt-p\" tabindex=\"0\" data-y=\"0.54,0.31,0.08,0.08,0.195,0.425,0.77,1,0.655,0.54,0.885,0.655\" data-sum=\"57\" data-last=\"6 פניות\" data-lab=\"בשעתיים האחרונות\" data-delta=\"+6%\" data-cmp=\"לעומת 24 השעות הקודמות\" data-x=\"לפני 24 שעות|לפני 12 שעות|עכשיו\" data-sr=\"57 פניות ב-24 השעות האחרונות\">24 שעות<\/button>\n      <button class=\"pt-tab\" id=\"pt-t1\" role=\"tab\" type=\"button\" aria-selected=\"false\" aria-controls=\"pt-p\" tabindex=\"-1\" data-y=\"0.08,0.233,0.131,0.387,0.284,0.54,0.438,0.744,0.591,0.847,0.693,1\" data-sum=\"314\" data-last=\"36 פניות\" data-lab=\"בשבוע האחרון\" data-delta=\"+23%\" data-cmp=\"לעומת 12 השבועות הקודמים\" data-x=\"לפני 12 שבועות|לפני 6 שבועות|השבוע\" data-sr=\"314 פניות ב-12 השבועות האחרונים\">12 שבועות<\/button>\n      <button class=\"pt-tab\" id=\"pt-t2\" role=\"tab\" type=\"button\" aria-selected=\"false\" aria-controls=\"pt-p\" tabindex=\"-1\" data-y=\"0.126,0.08,0.203,0.295,0.249,0.433,0.54,0.479,0.678,0.785,0.709,1\" data-sum=\"997\" data-last=\"118 פניות\" data-lab=\"בחודש האחרון\" data-delta=\"+31%\" data-cmp=\"לעומת 12 החודשים הקודמים\" data-x=\"לפני שנה|לפני חצי שנה|החודש\" data-sr=\"997 פניות ב-12 החודשים האחרונים\">12 חודשים<\/button>\n    <\/div>\n  <\/header>\n  <div class=\"pt-panel\" id=\"pt-p\" role=\"tabpanel\" aria-labelledby=\"pt-t0\" tabindex=\"0\">\n    <div class=\"pt-kpi\">\n      <b class=\"pt-num\" aria-hidden=\"true\">57<\/b><span class=\"sr-only pt-sr\">57 פניות ב-24 השעות האחרונות<\/span>\n      <span class=\"pt-delta\">+6%<\/span><span class=\"pt-cmp\">לעומת 24 השעות הקודמות<\/span>\n    <\/div>\n    <div class=\"pt-plot\" style=\"--fx:0.0467;--fy:0.5252\">\n      <svg class=\"pt-svg\" viewBox=\"0 0 600 280\" preserveAspectRatio=\"none\" aria-hidden=\"true\" focusable=\"false\">\n        <defs><linearGradient id=\"pt-fill\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop class=\"pt-g0\" offset=\"0\"/><stop class=\"pt-g1\" offset=\"1\"/><\/linearGradient><\/defs>\n        <g class=\"pt-grid\"><line x1=\"0\" y1=\"112\" x2=\"600\" y2=\"112\"/><line x1=\"0\" y1=\"187\" x2=\"600\" y2=\"187\"/><line x1=\"0\" y1=\"262\" x2=\"600\" y2=\"262\"/><\/g>\n        <path class=\"pt-area\" d=\"M572 164.1 C563.8 169.8 539 186.8 522.5 198.1 C506.1 209.5 489.6 226.5 473.1 232.2 C456.6 237.8 440.1 235 423.6 232.2 C407.2 229.3 390.7 223.6 374.2 215.1 C357.7 206.6 341.2 195.3 324.7 181.1 C308.2 166.9 291.8 144.2 275.3 130 C258.8 115.9 242.3 93.2 225.8 96 C209.3 98.8 192.8 135.7 176.4 147.1 C159.9 158.4 143.4 169.8 126.9 164.1 C110.4 158.4 93.9 115.9 77.5 113 C61 110.2 36.2 141.4 28 147.1 L28 262 L572 262 Z\"/>\n        <path class=\"pt-line\" d=\"M572 164.1 C563.8 169.8 539 186.8 522.5 198.1 C506.1 209.5 489.6 226.5 473.1 232.2 C456.6 237.8 440.1 235 423.6 232.2 C407.2 229.3 390.7 223.6 374.2 215.1 C357.7 206.6 341.2 195.3 324.7 181.1 C308.2 166.9 291.8 144.2 275.3 130 C258.8 115.9 242.3 93.2 225.8 96 C209.3 98.8 192.8 135.7 176.4 147.1 C159.9 158.4 143.4 169.8 126.9 164.1 C110.4 158.4 93.9 115.9 77.5 113 C61 110.2 36.2 141.4 28 147.1\"/>\n      <\/svg>\n      <span class=\"pt-hair\" aria-hidden=\"true\"><\/span><span class=\"pt-dot\" aria-hidden=\"true\"><\/span>\n      <div class=\"pt-tip\" aria-hidden=\"true\"><b>6 פניות<\/b><span>בשעתיים האחרונות<\/span><\/div>\n    <\/div>\n    <div class=\"pt-ax\" aria-hidden=\"true\"><span>לפני 24 שעות<\/span><span>לפני 12 שעות<\/span><span>עכשיו<\/span><\/div>\n  <\/div>\n<\/section><\/div>\n\n=== JS ===\n(function(){\n  const root=document.querySelector(\".pt\"),list=root.querySelector(\".pt-tabs\"),tabs=[...list.querySelectorAll(\".pt-tab\")];\n  const panel=root.querySelector(\".pt-panel\"),plot=root.querySelector(\".pt-plot\"),line=root.querySelector(\".pt-line\"),area=root.querySelector(\".pt-area\");\n  const num=root.querySelector(\".pt-num\"),sr=root.querySelector(\".pt-sr\"),delta=root.querySelector(\".pt-delta\"),cmp=root.querySelector(\".pt-cmp\");\n  const tip=root.querySelector(\".pt-tip\"),tipV=tip.querySelector(\"b\"),tipL=tip.querySelector(\"span\"),ax=[...root.querySelectorAll(\".pt-ax span\")];\n  // ציר הזמן: בעברית הישן בימין והחדש בשמאל. באתר משמאל לימין הכיוון מתהפך לבד\n  const rtl=getComputedStyle(list).direction===\"rtl\",X0=rtl?572:28,X1=rtl?28:572,TOP=96,BOT=244,BASE=262,N=12,fmt=new Intl.NumberFormat(\"he-IL\");\n  const f1=n=>Math.round(n*10)/10;\n  const smooth=p=>{let d=\"M\"+f1(p[0][0])+\" \"+f1(p[0][1]);for(let i=0;i<p.length-1;i++){const a=p[i-1]||p[i],b=p[i],c=p[i+1],e=p[i+2]||c;d+=\" C\"+f1(b[0]+(c[0]-a[0])/6)+\" \"+f1(b[1]+(c[1]-a[1])/6)+\" \"+f1(c[0]-(e[0]-b[0])/6)+\" \"+f1(c[1]-(e[1]-b[1])/6)+\" \"+f1(c[0])+\" \"+f1(c[1]);}return d;};\n  const ys=t=>t.dataset.y.split(\",\").map(Number);\n  const draw=a=>{\n    const p=a.map((v,i)=>[X0+(X1-X0)*i/(N-1),BOT-v*(BOT-TOP)]),d=smooth(p);\n    line.setAttribute(\"d\",d);area.setAttribute(\"d\",d+\" L\"+X1+\" \"+BASE+\" L\"+X0+\" \"+BASE+\" Z\");\n    plot.style.setProperty(\"--fx\",(p[N-1][0]/600).toFixed(4));plot.style.setProperty(\"--fy\",(p[N-1][1]/280).toFixed(4));\n  };\n  const motion=()=>typeof gsap!==\"undefined\"&&!matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  let cur=0,curY=ys(tabs[0]),shown=+tabs[0].dataset.sum,anim=null;\n  list.hidden=false;list.style.setProperty(\"--sg\",rtl?-1:1);draw(curY);      // הבורר נחשף רק כשיש JS\n  function swapText(t){\n    sr.textContent=t.dataset.sr;delta.textContent=t.dataset.delta;cmp.textContent=t.dataset.cmp;\n    tipV.textContent=t.dataset.last;tipL.textContent=t.dataset.lab;t.dataset.x.split(\"|\").forEach((s,i)=>{ax[i].textContent=s;});\n  }\n  function select(i,focus){\n    const t=tabs[i];\n    if(i!==cur){\n      const from=curY.slice(),to=ys(t),sum=+t.dataset.sum;\n      tabs.forEach((b,k)=>{b.setAttribute(\"aria-selected\",k===i?\"true\":\"false\");b.tabIndex=k===i?0:-1;});\n      panel.setAttribute(\"aria-labelledby\",t.id);list.style.setProperty(\"--i\",i);\n      swapText(t);cur=i;curY=to;\n      if(anim)anim.kill();\n      if(motion()){\n        const o={p:0,n:shown};\n        anim=gsap.to(o,{p:1,n:sum,duration:.8,ease:\"power3.inOut\",onUpdate:()=>{\n          draw(from.map((v,k)=>v+(to[k]-v)*o.p));shown=o.n;num.textContent=fmt.format(Math.round(o.n));\n        }});\n        gsap.fromTo(tip,{opacity:0},{opacity:1,duration:.4,delay:.35,overwrite:true});\n      }else{draw(to);shown=sum;num.textContent=fmt.format(sum);}\n    }\n    if(focus)t.focus();\n  }\n  tabs.forEach((b,k)=>b.addEventListener(\"click\",()=>select(k,false)));\n  list.addEventListener(\"keydown\",e=>{\n    let i=cur;const k=e.key;\n    if(k===\"ArrowRight\")i+=rtl?-1:1;else if(k===\"ArrowLeft\")i+=rtl?1:-1;      // בעברית הטאב הבא נמצא משמאל\n    else if(k===\"Home\")i=0;else if(k===\"End\")i=tabs.length-1;else return;\n    e.preventDefault();select((i+tabs.length)%tabs.length,true);\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: כמה סרטונים בגלריה (21.10.2026) שבהם בורר תקופות בכרטיס אנליטיקה מחליף את המספר הגדול ואת גרף הקו, ובקצה הקו נקודה וטולטיפ עם הערך. נבנה מאפס מהצפייה. ציר הזמן מימין לשמאל: התקופה הישנה בימין והחדשה בשמאל, כך שהקו, הנקודה והטולטיפ מסתיימים בצד השמאלי. הסקריפט קורא את `direction` של הבורר, ובאתר משמאל לימין הוא הופך לבד את כיוון הקו ואת כיוון הסמן (`--sg`), וצריך רק לסדר הפוך את שלוש התוויות שמתחת לציר. טאבים אמיתיים: `tablist` עם `tab` ו-`tabpanel` (שמקבל `tabindex` אפס, כי אין בו אלמנט שאפשר להתמקד בו), `aria-selected`, `tabindex` נודד, חצים (בעברית חץ שמאלה מתקדם, כי הטאב הבא משמאל), `Home` ו-`End`, ו-`:focus-visible`. יש לוח אחד ש-`aria-labelledby` שלו מתחלף. הבורר מסומן `hidden` במארקאפ והסקריפט חושף אותו, כדי שבלי JS לא יהיו פקדים שלא עובדים. הערך הסופי במארקאפ: בלי JS רואים את הטאב הראשון מצויר במלואו, עם המספר והטולטיפ. המעבר בין תקופות: לכל תקופה 12 נקודות, ולכן הקו לא מצויר מחדש אלא מתעוות: כל גובה זז לגובה החדש, והנתיב נבנה מחדש בכל פריים (Catmull-Rom לקימורים) יחד עם השטח, הנקודה והטולטיפ. המספר רץ אחרי הקו, ב-`power3.inOut`. הגבהים ב-`data-y` מנורמלים לכל תקופה בנפרד, ולכן אין ציר Y. נגישות: המספר הרץ והטולטיפ מוסתרים מקורא מסך, וטקסט מוסתר מתעדכן מיד עם הערך הסופי (״314 פניות ב-12 השבועות האחרונים״). בהפחתת תנועה, או בלי GSAP, המעבר מיידי. רספונסיביות: ה-SVG בנוי ב-`viewBox` ומתכווץ עם הקונטיינר, והוא נמתח למלוא הלוח (`preserveAspectRatio` שווה `none`) כשעובי הקו קבוע (`non-scaling-stroke`), ולכן בטלפון הלוח גבוה יותר והטולטיפ לא מכסה את הקו. הנקודה והטולטיפ הם שכבת HTML שממוקמת ביחידות קונטיינר (`cqw`), ולכן הטקסט לא מתכווץ בטלפון והטולטיפ לא יוצא מהגרף (`clamp`).\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B87 · טאבים שמחליפים תוכן בלוח אחד */\n.pt{max-width:760px;margin-inline:auto;padding:32px;border-radius:24px;background:var(--card, #fff);box-shadow:inset 0 0 0 1px var(--line, #e4e4ee)}\n.pt-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;margin:0 0 32px}\n.pt-top h3{margin:0;font-size:clamp(20px,2.1vw,28px);font-weight:700;line-height:1.2}\n/* שלוש לשוניות ברוחב שווה: הסמן זז ב-transform בלבד, צעד אחד לכל לשונית */\n.pt-tabs{position:relative;display:grid;grid-template-columns:repeat(3,1fr);min-width:min(100%,336px);padding:4px;border-radius:999px;background:color-mix(in oklab,var(--ink, #16182b) 7%,var(--card, #fff))}\n.pt-tabs[hidden]{display:none}\n.pt-ind{position:absolute;inset-block:4px;inset-inline-start:4px;width:calc((100% - 8px) / 3);border-radius:999px;background:var(--bg, #f7f7fa);box-shadow:0 1px 3px color-mix(in oklab,var(--ink, #16182b) 22%,transparent),inset 0 0 0 1px var(--line, #e4e4ee);transform:translateX(calc(var(--i, 0) * var(--sg, -1) * 100%));transition:transform .45s cubic-bezier(.2,.6,.2,1)}\n.pt-tab{position:relative;z-index:1;padding:10px 12px;border:0;border-radius:999px;background:none;color:var(--muted, #6a6d85);font:inherit;font-size:15px;font-weight:600;white-space:nowrap;cursor:pointer;transition:color .25s cubic-bezier(.4,0,.2,1)}\n.pt-tab[aria-selected=\"true\"]{color:var(--ink, #16182b)}\n.pt-tab:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n.pt-panel{display:grid;gap:24px}\n.pt-panel:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:8px;border-radius:12px}\n.pt-kpi{display:flex;align-items:baseline;flex-wrap:wrap;gap:12px 18px}\n.pt-num{font-size:clamp(56px,8vw,96px);font-weight:700;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}\n.pt-delta{direction:ltr;unicode-bidi:isolate;padding:6px 12px;border-radius:999px;background:color-mix(in oklab,var(--accent, #4a3aff) 18%,var(--card, #fff));font-size:15px;font-weight:700}\n.pt-cmp{color:var(--muted, #6a6d85);font-size:15px}\n.pt-plot{position:relative;aspect-ratio:600 / 280;container-type:size}\n.pt-svg{position:absolute;inset:0;width:100%;height:100%}\n.pt-grid line{stroke:var(--line, #e4e4ee);stroke-width:1;vector-effect:non-scaling-stroke}\n.pt-g0{stop-color:var(--accent, #4a3aff);stop-opacity:.24}.pt-g1{stop-color:var(--accent, #4a3aff);stop-opacity:0}\n.pt-area{fill:url(#pt-fill)}\n.pt-line{fill:none;stroke:var(--accent, #4a3aff);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}\n/* הנקודה, הקו והטולטיפ ממוקמים ביחידות הקונטיינר: --fx ו--fy הם שברים מ-0 עד 1 */\n.pt-hair{position:absolute;left:0;top:0;bottom:0;width:1px;background:color-mix(in oklab,var(--ink, #16182b) 20%,transparent);translate:calc(var(--fx) * 100cqw) 0}\n.pt-dot{position:absolute;left:0;top:0;width:14px;height:14px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 4px var(--card, #fff),0 0 0 8px color-mix(in oklab,var(--accent, #4a3aff) 26%,transparent);translate:calc(var(--fx) * 100cqw - 50%) calc(var(--fy) * 100cqh - 50%)}\n.pt-tip{position:absolute;left:0;top:0;display:grid;gap:2px;padding:8px 14px;border-radius:12px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);white-space:nowrap;line-height:1.2;translate:clamp(0px, calc(var(--fx) * 100cqw - 50%), calc(100cqw - 100%)) 0}\n.pt-tip b{font-size:18px;font-weight:700}\n.pt-tip span{font-size:13px;opacity:.82}\n.pt-ax{display:flex;justify-content:space-between;color:var(--muted, #6a6d85);font-size:13px}\n.pt .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n@media(prefers-reduced-motion:reduce){.pt-ind,.pt-tab{transition:none}}\n@media(max-width:767px){.pt{padding:20px}.pt-top{margin-bottom:24px}.pt-tabs{width:100%}.pt-plot{aspect-ratio:600 / 380}.pt-tip b{font-size:16px}}","html":"<div class=\"stage\"><section class=\"pt\" aria-labelledby=\"pt-h\">\n  <header class=\"pt-top\">\n    <h3 id=\"pt-h\">פניות מהאתר<\/h3>\n    <div class=\"pt-tabs\" role=\"tablist\" aria-label=\"תקופת הנתונים\" hidden>\n      <span class=\"pt-ind\" aria-hidden=\"true\"><\/span>\n      <button class=\"pt-tab\" id=\"pt-t0\" role=\"tab\" type=\"button\" aria-selected=\"true\" aria-controls=\"pt-p\" tabindex=\"0\" data-y=\"0.54,0.31,0.08,0.08,0.195,0.425,0.77,1,0.655,0.54,0.885,0.655\" data-sum=\"57\" data-last=\"6 פניות\" data-lab=\"בשעתיים האחרונות\" data-delta=\"+6%\" data-cmp=\"לעומת 24 השעות הקודמות\" data-x=\"לפני 24 שעות|לפני 12 שעות|עכשיו\" data-sr=\"57 פניות ב-24 השעות האחרונות\">24 שעות<\/button>\n      <button class=\"pt-tab\" id=\"pt-t1\" role=\"tab\" type=\"button\" aria-selected=\"false\" aria-controls=\"pt-p\" tabindex=\"-1\" data-y=\"0.08,0.233,0.131,0.387,0.284,0.54,0.438,0.744,0.591,0.847,0.693,1\" data-sum=\"314\" data-last=\"36 פניות\" data-lab=\"בשבוע האחרון\" data-delta=\"+23%\" data-cmp=\"לעומת 12 השבועות הקודמים\" data-x=\"לפני 12 שבועות|לפני 6 שבועות|השבוע\" data-sr=\"314 פניות ב-12 השבועות האחרונים\">12 שבועות<\/button>\n      <button class=\"pt-tab\" id=\"pt-t2\" role=\"tab\" type=\"button\" aria-selected=\"false\" aria-controls=\"pt-p\" tabindex=\"-1\" data-y=\"0.126,0.08,0.203,0.295,0.249,0.433,0.54,0.479,0.678,0.785,0.709,1\" data-sum=\"997\" data-last=\"118 פניות\" data-lab=\"בחודש האחרון\" data-delta=\"+31%\" data-cmp=\"לעומת 12 החודשים הקודמים\" data-x=\"לפני שנה|לפני חצי שנה|החודש\" data-sr=\"997 פניות ב-12 החודשים האחרונים\">12 חודשים<\/button>\n    <\/div>\n  <\/header>\n  <div class=\"pt-panel\" id=\"pt-p\" role=\"tabpanel\" aria-labelledby=\"pt-t0\" tabindex=\"0\">\n    <div class=\"pt-kpi\">\n      <b class=\"pt-num\" aria-hidden=\"true\">57<\/b><span class=\"sr-only pt-sr\">57 פניות ב-24 השעות האחרונות<\/span>\n      <span class=\"pt-delta\">+6%<\/span><span class=\"pt-cmp\">לעומת 24 השעות הקודמות<\/span>\n    <\/div>\n    <div class=\"pt-plot\" style=\"--fx:0.0467;--fy:0.5252\">\n      <svg class=\"pt-svg\" viewBox=\"0 0 600 280\" preserveAspectRatio=\"none\" aria-hidden=\"true\" focusable=\"false\">\n        <defs><linearGradient id=\"pt-fill\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop class=\"pt-g0\" offset=\"0\"/><stop class=\"pt-g1\" offset=\"1\"/><\/linearGradient><\/defs>\n        <g class=\"pt-grid\"><line x1=\"0\" y1=\"112\" x2=\"600\" y2=\"112\"/><line x1=\"0\" y1=\"187\" x2=\"600\" y2=\"187\"/><line x1=\"0\" y1=\"262\" x2=\"600\" y2=\"262\"/><\/g>\n        <path class=\"pt-area\" d=\"M572 164.1 C563.8 169.8 539 186.8 522.5 198.1 C506.1 209.5 489.6 226.5 473.1 232.2 C456.6 237.8 440.1 235 423.6 232.2 C407.2 229.3 390.7 223.6 374.2 215.1 C357.7 206.6 341.2 195.3 324.7 181.1 C308.2 166.9 291.8 144.2 275.3 130 C258.8 115.9 242.3 93.2 225.8 96 C209.3 98.8 192.8 135.7 176.4 147.1 C159.9 158.4 143.4 169.8 126.9 164.1 C110.4 158.4 93.9 115.9 77.5 113 C61 110.2 36.2 141.4 28 147.1 L28 262 L572 262 Z\"/>\n        <path class=\"pt-line\" d=\"M572 164.1 C563.8 169.8 539 186.8 522.5 198.1 C506.1 209.5 489.6 226.5 473.1 232.2 C456.6 237.8 440.1 235 423.6 232.2 C407.2 229.3 390.7 223.6 374.2 215.1 C357.7 206.6 341.2 195.3 324.7 181.1 C308.2 166.9 291.8 144.2 275.3 130 C258.8 115.9 242.3 93.2 225.8 96 C209.3 98.8 192.8 135.7 176.4 147.1 C159.9 158.4 143.4 169.8 126.9 164.1 C110.4 158.4 93.9 115.9 77.5 113 C61 110.2 36.2 141.4 28 147.1\"/>\n      <\/svg>\n      <span class=\"pt-hair\" aria-hidden=\"true\"><\/span><span class=\"pt-dot\" aria-hidden=\"true\"><\/span>\n      <div class=\"pt-tip\" aria-hidden=\"true\"><b>6 פניות<\/b><span>בשעתיים האחרונות<\/span><\/div>\n    <\/div>\n    <div class=\"pt-ax\" aria-hidden=\"true\"><span>לפני 24 שעות<\/span><span>לפני 12 שעות<\/span><span>עכשיו<\/span><\/div>\n  <\/div>\n<\/section><\/div>","js":"(function(){\n  const root=document.querySelector(\".pt\"),list=root.querySelector(\".pt-tabs\"),tabs=[...list.querySelectorAll(\".pt-tab\")];\n  const panel=root.querySelector(\".pt-panel\"),plot=root.querySelector(\".pt-plot\"),line=root.querySelector(\".pt-line\"),area=root.querySelector(\".pt-area\");\n  const num=root.querySelector(\".pt-num\"),sr=root.querySelector(\".pt-sr\"),delta=root.querySelector(\".pt-delta\"),cmp=root.querySelector(\".pt-cmp\");\n  const tip=root.querySelector(\".pt-tip\"),tipV=tip.querySelector(\"b\"),tipL=tip.querySelector(\"span\"),ax=[...root.querySelectorAll(\".pt-ax span\")];\n  // ציר הזמן: בעברית הישן בימין והחדש בשמאל. באתר משמאל לימין הכיוון מתהפך לבד\n  const rtl=getComputedStyle(list).direction===\"rtl\",X0=rtl?572:28,X1=rtl?28:572,TOP=96,BOT=244,BASE=262,N=12,fmt=new Intl.NumberFormat(\"he-IL\");\n  const f1=n=>Math.round(n*10)/10;\n  const smooth=p=>{let d=\"M\"+f1(p[0][0])+\" \"+f1(p[0][1]);for(let i=0;i<p.length-1;i++){const a=p[i-1]||p[i],b=p[i],c=p[i+1],e=p[i+2]||c;d+=\" C\"+f1(b[0]+(c[0]-a[0])/6)+\" \"+f1(b[1]+(c[1]-a[1])/6)+\" \"+f1(c[0]-(e[0]-b[0])/6)+\" \"+f1(c[1]-(e[1]-b[1])/6)+\" \"+f1(c[0])+\" \"+f1(c[1]);}return d;};\n  const ys=t=>t.dataset.y.split(\",\").map(Number);\n  const draw=a=>{\n    const p=a.map((v,i)=>[X0+(X1-X0)*i/(N-1),BOT-v*(BOT-TOP)]),d=smooth(p);\n    line.setAttribute(\"d\",d);area.setAttribute(\"d\",d+\" L\"+X1+\" \"+BASE+\" L\"+X0+\" \"+BASE+\" Z\");\n    plot.style.setProperty(\"--fx\",(p[N-1][0]/600).toFixed(4));plot.style.setProperty(\"--fy\",(p[N-1][1]/280).toFixed(4));\n  };\n  const motion=()=>typeof gsap!==\"undefined\"&&!matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n  let cur=0,curY=ys(tabs[0]),shown=+tabs[0].dataset.sum,anim=null;\n  list.hidden=false;list.style.setProperty(\"--sg\",rtl?-1:1);draw(curY);      // הבורר נחשף רק כשיש JS\n  function swapText(t){\n    sr.textContent=t.dataset.sr;delta.textContent=t.dataset.delta;cmp.textContent=t.dataset.cmp;\n    tipV.textContent=t.dataset.last;tipL.textContent=t.dataset.lab;t.dataset.x.split(\"|\").forEach((s,i)=>{ax[i].textContent=s;});\n  }\n  function select(i,focus){\n    const t=tabs[i];\n    if(i!==cur){\n      const from=curY.slice(),to=ys(t),sum=+t.dataset.sum;\n      tabs.forEach((b,k)=>{b.setAttribute(\"aria-selected\",k===i?\"true\":\"false\");b.tabIndex=k===i?0:-1;});\n      panel.setAttribute(\"aria-labelledby\",t.id);list.style.setProperty(\"--i\",i);\n      swapText(t);cur=i;curY=to;\n      if(anim)anim.kill();\n      if(motion()){\n        const o={p:0,n:shown};\n        anim=gsap.to(o,{p:1,n:sum,duration:.8,ease:\"power3.inOut\",onUpdate:()=>{\n          draw(from.map((v,k)=>v+(to[k]-v)*o.p));shown=o.n;num.textContent=fmt.format(Math.round(o.n));\n        }});\n        gsap.fromTo(tip,{opacity:0},{opacity:1,duration:.4,delay:.35,overwrite:true});\n      }else{draw(to);shown=sum;num.textContent=fmt.format(sum);}\n    }\n    if(focus)t.focus();\n  }\n  tabs.forEach((b,k)=>b.addEventListener(\"click\",()=>select(k,false)));\n  list.addEventListener(\"keydown\",e=>{\n    let i=cur;const k=e.key;\n    if(k===\"ArrowRight\")i+=rtl?-1:1;else if(k===\"ArrowLeft\")i+=rtl?1:-1;      // בעברית הטאב הבא נמצא משמאל\n    else if(k===\"Home\")i=0;else if(k===\"End\")i=tabs.length-1;else return;\n    e.preventDefault();select((i+tabs.length)%tabs.length,true);\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="b86.html" rel="prev"><small>→ הקודם</small><b>טבעת פינג בנקודת הלחיצה</b></a><a href="b88.html" rel="next"><small>הבא ←</small><b>גל קול שמתמלא עם הנגן</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · טאבים שמחליפים תוכן בלוח אחד").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+(function(){
+  const root=document.querySelector(".pt"),list=root.querySelector(".pt-tabs"),tabs=[...list.querySelectorAll(".pt-tab")];
+  const panel=root.querySelector(".pt-panel"),plot=root.querySelector(".pt-plot"),line=root.querySelector(".pt-line"),area=root.querySelector(".pt-area");
+  const num=root.querySelector(".pt-num"),sr=root.querySelector(".pt-sr"),delta=root.querySelector(".pt-delta"),cmp=root.querySelector(".pt-cmp");
+  const tip=root.querySelector(".pt-tip"),tipV=tip.querySelector("b"),tipL=tip.querySelector("span"),ax=[...root.querySelectorAll(".pt-ax span")];
+  // ציר הזמן: בעברית הישן בימין והחדש בשמאל. באתר משמאל לימין הכיוון מתהפך לבד
+  const rtl=getComputedStyle(list).direction==="rtl",X0=rtl?572:28,X1=rtl?28:572,TOP=96,BOT=244,BASE=262,N=12,fmt=new Intl.NumberFormat("he-IL");
+  const f1=n=>Math.round(n*10)/10;
+  const smooth=p=>{let d="M"+f1(p[0][0])+" "+f1(p[0][1]);for(let i=0;i<p.length-1;i++){const a=p[i-1]||p[i],b=p[i],c=p[i+1],e=p[i+2]||c;d+=" C"+f1(b[0]+(c[0]-a[0])/6)+" "+f1(b[1]+(c[1]-a[1])/6)+" "+f1(c[0]-(e[0]-b[0])/6)+" "+f1(c[1]-(e[1]-b[1])/6)+" "+f1(c[0])+" "+f1(c[1]);}return d;};
+  const ys=t=>t.dataset.y.split(",").map(Number);
+  const draw=a=>{
+    const p=a.map((v,i)=>[X0+(X1-X0)*i/(N-1),BOT-v*(BOT-TOP)]),d=smooth(p);
+    line.setAttribute("d",d);area.setAttribute("d",d+" L"+X1+" "+BASE+" L"+X0+" "+BASE+" Z");
+    plot.style.setProperty("--fx",(p[N-1][0]/600).toFixed(4));plot.style.setProperty("--fy",(p[N-1][1]/280).toFixed(4));
+  };
+  const motion=()=>typeof gsap!=="undefined"&&!matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let cur=0,curY=ys(tabs[0]),shown=+tabs[0].dataset.sum,anim=null;
+  list.hidden=false;list.style.setProperty("--sg",rtl?-1:1);draw(curY);      // הבורר נחשף רק כשיש JS
+  function swapText(t){
+    sr.textContent=t.dataset.sr;delta.textContent=t.dataset.delta;cmp.textContent=t.dataset.cmp;
+    tipV.textContent=t.dataset.last;tipL.textContent=t.dataset.lab;t.dataset.x.split("|").forEach((s,i)=>{ax[i].textContent=s;});
+  }
+  function select(i,focus){
+    const t=tabs[i];
+    if(i!==cur){
+      const from=curY.slice(),to=ys(t),sum=+t.dataset.sum;
+      tabs.forEach((b,k)=>{b.setAttribute("aria-selected",k===i?"true":"false");b.tabIndex=k===i?0:-1;});
+      panel.setAttribute("aria-labelledby",t.id);list.style.setProperty("--i",i);
+      swapText(t);cur=i;curY=to;
+      if(anim)anim.kill();
+      if(motion()){
+        const o={p:0,n:shown};
+        anim=gsap.to(o,{p:1,n:sum,duration:.8,ease:"power3.inOut",onUpdate:()=>{
+          draw(from.map((v,k)=>v+(to[k]-v)*o.p));shown=o.n;num.textContent=fmt.format(Math.round(o.n));
+        }});
+        gsap.fromTo(tip,{opacity:0},{opacity:1,duration:.4,delay:.35,overwrite:true});
+      }else{draw(to);shown=sum;num.textContent=fmt.format(sum);}
+    }
+    if(focus)t.focus();
+  }
+  tabs.forEach((b,k)=>b.addEventListener("click",()=>select(k,false)));
+  list.addEventListener("keydown",e=>{
+    let i=cur;const k=e.key;
+    if(k==="ArrowRight")i+=rtl?-1:1;else if(k==="ArrowLeft")i+=rtl?1:-1;      // בעברית הטאב הבא נמצא משמאל
+    else if(k==="Home")i=0;else if(k==="End")i=tabs.length-1;else return;
+    e.preventDefault();select((i+tabs.length)%tabs.length,true);
+  });
+})();
+</script>
+</body>
+</html>
