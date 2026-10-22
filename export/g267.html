@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G267 · ערימת צילומים שמצטמצמת לרשת מספרים לבחירה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G267 · ערימת צילומים שמצטמצמת לרשת מספרים לבחירה */
+.fz{max-width:1180px;margin-inline:auto}
+.fz .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.fz-pin{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:center;gap:clamp(24px,5vw,72px)}
+.fz-txt{display:grid;gap:16px;max-width:30ch}
+.fz-txt h2{margin:0;font-size:clamp(30px,3.8vw,60px);font-weight:700;line-height:1.08;text-wrap:balance}
+.fz-txt p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.fz-txt .fz-pick{margin-top:8px;color:var(--ink, #16182b);font-weight:600}
+.fz-grid{position:relative;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1.4vw,16px);width:min(100%,560px);justify-self:center}
+.fz-c{position:relative;z-index:var(--i)}
+.fz-c label{display:block;cursor:pointer}
+.fz-f{position:relative;display:block;aspect-ratio:1;overflow:hidden;border-radius:clamp(12px,1.6vw,20px);background:var(--card, #fff)}
+.fz-f img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s cubic-bezier(.2,.6,.2,1)}
+.fz-c label:hover .fz-f img{transform:scale(1.05)}
+.fz-n{position:absolute;inset-block-start:8px;inset-inline-start:8px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+.fz-nm{position:absolute;inset-inline:0;bottom:0;padding:28px 10px 8px;background:linear-gradient(transparent,color-mix(in oklab,var(--ink, #16182b) 72%,transparent));color:var(--bg, #f7f7fa);font-size:13px;font-weight:600;line-height:1.25}
+.fz-c input:checked + .fz-f{box-shadow:0 0 0 3px var(--bg, #f7f7fa),0 0 0 6px var(--accent, #4a3aff)}
+.fz-c input:checked + .fz-f .fz-n{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.fz-c input:focus-visible + .fz-f{outline:3px solid var(--ink, #16182b);outline-offset:6px}
+.fz.is-live{height:240vh}
+.fz.is-live .fz-pin{position:sticky;top:0;height:100vh;height:100svh}
+@media(max-width:767px){
+  .fz-pin{grid-template-columns:minmax(0,1fr);align-content:center;gap:24px}
+  .fz-txt{max-width:none;gap:8px}
+  .fz-txt h2{font-size:28px}
+  .fz-n{width:24px;height:24px;font-size:13px;inset-block-start:6px;inset-inline-start:6px}
+  .fz-nm{padding:20px 6px 6px;font-size:11px}
+}
+@media(prefers-reduced-motion:reduce){.fz-f img{transition:none}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><section class="fz" aria-labelledby="fz-h">
+  <div class="fz-pin">
+    <div class="fz-txt">
+      <h2 id="fz-h">איזה כיוון הכי קרוב לבית שאתם רואים לעצמכם?</h2>
+      <p>תשעה כיווני עיצוב מהפרויקטים האחרונים שלנו. בוחרים אחד, ומתחילים ממנו את הצעת העיצוב הראשונה.</p>
+      <p class="fz-pick" role="status">עוד לא נבחר כיוון</p>
+    </div>
+    <fieldset style="margin:0;padding:0;border:0;min-width:0">
+      <legend class="sr-only">בחרו כיוון עיצוב</legend>
+      <ol class="fz-grid">
+      <li class="fz-c" style="--i:1"><label><input class="sr-only" type="radio" name="fz" value="1"><span class="fz-f"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp" width="2560" height="1435" alt="" loading="lazy" decoding="async"><span class="fz-n" aria-hidden="true">1</span><span class="fz-nm"><span class="sr-only">כיוון 1: </span>אור יום חם</span></span></label></li>
+      <li class="fz-c" style="--i:2"><label><input class="sr-only" type="radio" name="fz" value="2"><span class="fz-f"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp" width="1800" height="1200" alt="" loading="lazy" decoding="async"><span class="fz-n" aria-hidden="true">2</span><span class="fz-nm"><span class="sr-only">כיוון 2: </span>סלון כהה</span></span></label></li>
+      <li class="fz-c" style="--i:3"><label><input class="sr-only" type="radio" name="fz" value="3"><span class="fz-f"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp" width="1200" height="1600" alt="" loading="lazy" decoding="async"><span class="fz-n" aria-hidden="true">3</span><span class="fz-nm"><span class="sr-only">כיוון 3: </span>אמבט עם פרטי זהב</span></span></label></li>
+      <li class="fz-c" style="--i:4"><label><input class="sr-only" type="radio" name="fz" value="4"><span class="fz-f"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" width="2400" height="1026" alt="" loading="lazy" decoding="async"><span class="fz-n" aria-hidden="true">4</span><span class="fz-nm"><span class="sr-only">כיוון 4: </span>מטבח אפור</span></span></label></li>
+      <li class="fz-c" style="--i:5"><label><input class="sr-only" type="radio" name="fz" value="5"><span class="fz-f"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp" width="2200" height="1469" alt="" loading="lazy" decoding="async"><span class="fz-n" aria-hidden="true">5</span><span class="fz-nm"><span class="sr-only">כיוון 5: </span>פינת קריאה</span></span></label></li>
+      <li class="fz-c" style="--i:6"><label><input class="sr-only" type="radio" name="fz" value="6"><span class="fz-f"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/marble.webp" width="1600" height="1000" alt="" loading="lazy" decoding="async"><span class="fz-n" aria-hidden="true">6</span><span class="fz-nm"><span class="sr-only">כיוון 6: </span>שיש כהה</span></span></label></li>
+      <li class="fz-c" style="--i:7"><label><input class="sr-only" type="radio" name="fz" value="7"><span class="fz-f"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/room.webp" width="1100" height="1320" alt="" loading="lazy" decoding="async"><span class="fz-n" aria-hidden="true">7</span><span class="fz-nm"><span class="sr-only">כיוון 7: </span>בר ביתי</span></span></label></li>
+      <li class="fz-c" style="--i:8"><label><input class="sr-only" type="radio" name="fz" value="8"><span class="fz-f"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s02/night-room.webp" width="2000" height="1333" alt="" loading="lazy" decoding="async"><span class="fz-n" aria-hidden="true">8</span><span class="fz-nm"><span class="sr-only">כיוון 8: </span>חדר שינה לבן</span></span></label></li>
+      <li class="fz-c" style="--i:9"><label><input class="sr-only" type="radio" name="fz" value="9"><span class="fz-f"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/cafe-window.webp" width="1400" height="1050" alt="" loading="lazy" decoding="async"><span class="fz-n" aria-hidden="true">9</span><span class="fz-nm"><span class="sr-only">כיוון 9: </span>פינת קפה</span></span></label></li>
+      </ol>
+    </fieldset>
+  </div>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  const root=document.querySelector(".fz"),grid=root.querySelector(".fz-grid"),cells=[...grid.children];
+  const pick=root.querySelector(".fz-pick");
+  // הבחירה אמיתית ועובדת גם בלי תנועה: radio רגיל, והשורה מכריזה על השם
+  grid.addEventListener("change",e=>{
+    const f=e.target.closest(".fz-c");if(!f)return;
+    const nm=f.querySelector(".fz-nm").textContent.replace(/^כיוון \d+: /,"");
+    pick.textContent="בחרתם כיוון "+e.target.value+": "+nm;
+  });
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP הרשת כבר במארקאפ
+  const N=cells.length,badges=cells.map(c=>c.querySelector(".fz-n")),names=cells.map(c=>c.querySelector(".fz-nm"));
+  const R=[-7,5,-3,8,-5,3,-8,6,0],DX=[-22,16,-10,24,-14,12,-18,14,0],DY=[12,-10,16,-14,8,-16,10,-8,0];      // איך הערימה מוטה
+  // בהפחתת תנועה הפונקציה לא רצה, והרשת נשארת
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const home=c=>[c.offsetLeft+c.offsetWidth/2,c.offsetTop+c.offsetHeight/2];      // מרכז התא לפי הפריסה, בלי הטרנספורם
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
+    gsap.set(badges,{autoAlpha:0,scale:.4});gsap.set(names,{autoAlpha:0});      // מצב פתיחה מפורש: stagger לא תמיד מציג את הערך ההתחלתי של כולם מיד
+    cells.forEach((c,i)=>{
+      tl.fromTo(c,
+        {x:()=>grid.offsetWidth/2+DX[i]-home(c)[0],y:()=>grid.offsetHeight/2+DY[i]-home(c)[1],scale:()=>grid.offsetWidth*.52/c.offsetWidth,rotation:R[i]},
+        {x:0,y:0,scale:1,rotation:0,duration:1.2,ease:"power3.inOut"},.1+(N-1-i)*.08);      // העליון בערימה יוצא ראשון
+    });
+    const t=tl.duration();
+    tl.fromTo(badges,{autoAlpha:0,scale:.4},{autoAlpha:1,scale:1,duration:.4,ease:"power3.out",stagger:.05},t-.5);
+    tl.fromTo(names,{autoAlpha:0},{autoAlpha:1,duration:.4,ease:"power1.out",stagger:.04},t-.4);
+    tl.to({},{duration:.7});
+    return()=>{root.classList.remove("is-live");gsap.set([...cells,...badges,...names],{clearProps:"all"});};
+  });
+})();
+</script>
+</body>
+</html>
