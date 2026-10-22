@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B82 · כרטיס הולוגרפי עם פסי נתונים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B82 · כרטיס הולוגרפי עם פסי נתונים */
+.hfc{display:grid;place-items:center;perspective:900px;padding-block:24px}
+.hfc-card{--rx:0deg;--ry:0deg;--fx:50%;--fy:50%;--gx:50%;--gy:30%;position:relative;width:min(320px,86vw);padding:8px;border-radius:26px;touch-action:pan-y;
+  background:linear-gradient(135deg,hsl(44 78% 72%),hsl(36 66% 48%) 45%,hsl(46 80% 74%) 70%,hsl(34 62% 46%));
+  box-shadow:0 30px 60px -28px color-mix(in srgb,var(--ink, #16182b) 60%,transparent);
+  transform:rotateX(var(--rx)) rotateY(var(--ry))}
+.hfc-in{position:relative;isolation:isolate;display:grid;gap:12px;padding:12px;border-radius:19px;overflow:hidden;
+  background:linear-gradient(165deg,color-mix(in srgb,var(--accent, #4a3aff) 52%,var(--bg, #f7f7fa)),color-mix(in srgb,var(--accent, #4a3aff) 24%,var(--ink, #16182b)))}
+.hfc-art{position:relative;z-index:2;isolation:isolate;aspect-ratio:1/.9;border-radius:14px;overflow:hidden;
+  background:radial-gradient(circle at 50% 38%,color-mix(in srgb,var(--accent, #4a3aff) 30%,var(--card, #fff)),color-mix(in srgb,var(--accent, #4a3aff) 62%,var(--ink, #16182b)))}
+.hfc-art img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;object-position:47% 18%}
+.hfc-sheen{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:.6;
+  background:radial-gradient(circle at var(--gx) var(--gy),rgb(255 255 255 / .6),transparent 46%),linear-gradient(115deg,hsl(350 90% 66%),hsl(45 95% 64%),hsl(135 75% 56%),hsl(190 95% 62%),hsl(265 85% 70%),hsl(330 90% 68%),hsl(350 90% 66%));
+  background-size:auto,260% 260%;background-position:0 0,var(--fx) var(--fy)}
+.hfc-foil{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:color-dodge;opacity:.5;
+  background:linear-gradient(115deg,hsl(350 90% 66%),hsl(45 95% 64%),hsl(135 75% 56%),hsl(190 95% 62%),hsl(265 85% 70%),hsl(330 90% 68%),hsl(350 90% 66%));
+  background-size:260% 260%;background-position:var(--fx) var(--fy)}
+.hfc-glare{position:absolute;inset:0;z-index:1;pointer-events:none;mix-blend-mode:soft-light;opacity:.55;
+  background:radial-gradient(circle at var(--gx) var(--gy),rgb(255 255 255 / .9),transparent 46%)}
+.hfc-plate{position:relative;z-index:2;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:4px 12px;padding:12px 16px;border-radius:14px;background:var(--card, #fff);color:var(--ink, #16182b)}
+.hfc-plate h3{margin:0;font-size:20px;line-height:1.2}
+.hfc-plate p{margin:0;flex-basis:100%;order:3;font-size:14px;color:var(--muted, #6a6d85)}
+.hfc-tag{padding:4px 12px;border-radius:99px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:13px;font-weight:700}
+.hfc-stats{position:relative;z-index:2;list-style:none;margin:0;padding:12px 16px;display:grid;gap:10px;border-radius:14px;background:var(--card, #fff);color:var(--ink, #16182b)}
+.hfc-stats li{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:4px 12px}
+.hfc-stats span{font-size:14px}
+.hfc-stats b{font-size:16px;font-variant-numeric:tabular-nums}
+.hfc-stats i{grid-column:1/-1;display:block;height:6px;border-radius:99px;background:color-mix(in srgb,var(--ink, #16182b) 10%,transparent);overflow:hidden}
+.hfc-stats i::after{content:"";display:block;height:100%;border-radius:inherit;background:var(--accent, #4a3aff);transform-origin:100% 50%;transform:scaleX(var(--v,1))}
+.hfc.is-prep .hfc-stats i::after{transform:scaleX(0)}
+.hfc.is-in .hfc-stats i::after{transform:scaleX(var(--v,1));transition:transform .9s cubic-bezier(.2,.6,.2,1)}
+.hfc.is-in .hfc-stats li:nth-child(2) i::after{transition-delay:.12s}
+.hfc.is-in .hfc-stats li:nth-child(3) i::after{transition-delay:.24s}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="hfc">
+  <article class="hfc-card" aria-label="כרטיס חבר צוות: דנה לוי, מעצבת בכירה">
+    <div class="hfc-in">
+      <div class="hfc-art" aria-hidden="true"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/dive/portrait.webp" alt="" width="2400" height="1600" loading="lazy" decoding="async"><i class="hfc-sheen"></i></div>
+      <div class="hfc-foil" aria-hidden="true"></div>
+      <div class="hfc-glare" aria-hidden="true"></div>
+      <div class="hfc-plate"><h3>דנה לוי</h3><span class="hfc-tag">בצוות מ-2018</span><p>מעצבת בכירה</p></div>
+      <ul class="hfc-stats">
+        <li><span>שביעות רצון לקוחות</span><b>98</b><i style="--v:.98" aria-hidden="true"></i></li>
+        <li><span>עמידה בלוחות זמנים</span><b>100</b><i style="--v:1" aria-hidden="true"></i></li>
+        <li><span>תשומת לב לפרטים</span><b>99</b><i style="--v:.99" aria-hidden="true"></i></li>
+      </ul>
+    </div>
+  </article>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+
+<script>
+(function(){
+  const root=document.querySelector(".hfc"),card=root.querySelector(".hfc-card");
+  const mq=matchMedia("(prefers-reduced-motion: reduce)"),touch=matchMedia("(hover: none)");
+  let off=null;
+  function enable(){
+    root.classList.add("is-prep");
+    const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){root.classList.add("is-in");}},{threshold:.4});
+    io.observe(card);
+    let tx=0,ty=0,cx=0,cy=0,raf=0,held=false,seen=true;
+    const MAX=14;
+    const apply=()=>{
+      card.style.setProperty("--rx",(-cy*2*MAX).toFixed(2)+"deg");
+      card.style.setProperty("--ry",(cx*2*MAX).toFixed(2)+"deg");
+      card.style.setProperty("--fx",(50+cx*60).toFixed(1)+"%");
+      card.style.setProperty("--fy",(50+cy*60).toFixed(1)+"%");
+      card.style.setProperty("--gx",(50+cx*100).toFixed(1)+"%");
+      card.style.setProperty("--gy",(35+cy*100).toFixed(1)+"%");
+    };
+    const tick=t=>{
+      raf=0;
+      if(touch.matches&&!held&&seen){tx=Math.sin(t/1700)*.34;ty=Math.cos(t/2300)*.28;}   // בלי עכבר: נדנוד איטי
+      cx+=(tx-cx)*.12;cy+=(ty-cy)*.12;apply();
+      if(Math.abs(tx-cx)>.001||Math.abs(ty-cy)>.001||(touch.matches&&seen))raf=requestAnimationFrame(tick);
+    };
+    const kick=()=>{if(!raf)raf=requestAnimationFrame(tick);};
+    const aim=e=>{
+      const r=card.getBoundingClientRect();
+      tx=Math.max(-.8,Math.min(.8,(e.clientX-r.left)/r.width-.5));
+      ty=Math.max(-.8,Math.min(.8,(e.clientY-r.top)/r.height-.5));kick();
+    };
+    const rest=()=>{held=false;tx=0;ty=0;kick();};
+    const down=e=>{held=true;aim(e);};
+    const vis=new IntersectionObserver(es=>{seen=es.some(e=>e.isIntersecting);if(seen)kick();});
+    vis.observe(card);
+    root.addEventListener("pointermove",aim);root.addEventListener("pointerleave",rest);
+    root.addEventListener("pointerdown",down);root.addEventListener("pointerup",rest);root.addEventListener("pointercancel",rest);
+    kick();
+    return()=>{
+      io.disconnect();vis.disconnect();cancelAnimationFrame(raf);
+      root.removeEventListener("pointermove",aim);root.removeEventListener("pointerleave",rest);
+      root.removeEventListener("pointerdown",down);root.removeEventListener("pointerup",rest);root.removeEventListener("pointercancel",rest);
+      ["--rx","--ry","--fx","--fy","--gx","--gy"].forEach(p=>card.style.removeProperty(p));
+      root.classList.remove("is-prep","is-in");
+    };
+  }
+  const sync=()=>{if(off){off();off=null;}if(!mq.matches)off=enable();};
+  mq.addEventListener("change",sync);sync();
+})();
+</script>
+</body>
+</html>

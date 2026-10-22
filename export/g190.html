@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G190 · מילה שמתחלפת ומביאה איתה כרטיס ורקע</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G190 · מילה שמתחלפת ומביאה איתה כרטיס ורקע */
+.ns{max-width:1180px;margin-inline:auto}
+.ns-pin{position:relative;isolation:isolate;overflow:clip;display:grid;align-items:center;min-height:clamp(480px,70vh,640px);margin-inline:calc(50% - 50vw);padding-inline:calc(50vw - 50%)}
+.ns-bgs,.ns-blobs{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.ns-bgs i{position:absolute;inset:0;opacity:0}
+.ns-bgs i:first-child{opacity:1}
+.ns-b1{background:color-mix(in srgb,var(--accent, #4a3aff) 12%,var(--bg, #f7f7fa))}
+.ns-b2{background:color-mix(in srgb,var(--ink, #16182b) 8%,var(--bg, #f7f7fa))}
+.ns-b3{background:color-mix(in srgb,var(--accent, #4a3aff) 20%,var(--bg, #f7f7fa))}
+.ns-b4{background:color-mix(in srgb,var(--muted, #6a6d85) 14%,var(--bg, #f7f7fa))}
+.ns-blobs i{position:absolute;width:min(46vw,520px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent, #4a3aff) 30%,transparent),transparent 65%)}
+.ns-blobs i:first-child{inset-block-start:-12%;inset-inline-start:-6%}
+.ns-blobs i:last-child{inset-block-end:-18%;inset-inline-end:8%;opacity:.7}
+.ns-in{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,88px);padding-block:48px}
+.ns-copy{display:grid;gap:24px}
+.ns-h{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.2em .35em;font-size:clamp(34px,5vw,72px);font-weight:700;line-height:1.1;letter-spacing:-.01em}
+.ns-pill{box-sizing:border-box;display:inline-grid;place-items:center;overflow:clip;padding:.04em .42em .1em;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.ns-n{grid-area:1/1;width:max-content;white-space:nowrap}
+.ns-n:not(:first-child){display:none}
+.ns-sum{margin:0;max-width:34ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.ns-cards{position:relative;display:grid;place-items:center;min-height:clamp(240px,30vw,360px)}
+.ns-card{grid-area:1/1;display:grid;width:min(420px,100%);aspect-ratio:4 / 3;border-radius:20px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 24px 48px -24px color-mix(in srgb,var(--ink, #16182b) 40%,transparent);overflow:clip}
+.ns-card:not(:first-child){display:none}
+.ns-web{grid-template-rows:auto 1fr}
+.ns-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line, #e4e4ee)}
+.ns-bar i{width:8px;height:8px;border-radius:50%;background:var(--line, #e4e4ee)}
+.ns-bar span{margin-inline-start:auto;direction:ltr;font-size:12px;color:var(--muted, #6a6d85)}
+.ns-pg{display:grid;align-content:start;gap:10px;padding:16px}
+.ns-hero{display:block;height:78px;border-radius:12px;background:var(--accent, #4a3aff)}
+.ns-ln{display:block;height:8px;border-radius:4px;background:var(--line, #e4e4ee)}
+.ns-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
+.ns-tiles i{height:44px;border-radius:8px;background:color-mix(in srgb,var(--accent, #4a3aff) 22%,var(--card, #fff))}
+.ns-logo{place-items:center;align-content:center;gap:10px;text-align:center}
+.ns-mark{display:grid;place-items:center;width:88px;height:88px;border-radius:26px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:44px;font-weight:700}
+.ns-logo b{font-size:22px}
+.ns-logo small{font-size:14px;color:var(--muted, #6a6d85)}
+.ns-ad{grid-template-columns:1fr 1fr;gap:16px;padding:16px}
+.ns-img{border-radius:14px;background:linear-gradient(150deg,color-mix(in srgb,var(--accent, #4a3aff) 70%,var(--card, #fff)),color-mix(in srgb,var(--ink, #16182b) 40%,var(--card, #fff)))}
+.ns-adt{display:grid;align-content:center;gap:10px}
+.ns-adt b{font-size:20px;line-height:1.2}
+.ns-btn{justify-self:start;padding:8px 16px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:14px;font-weight:600}
+.ns-sl{grid-template-rows:auto 1fr;gap:14px;padding:20px}
+.ns-sl b{font-size:20px}
+.ns-bars{display:flex;align-items:flex-end;gap:10px;border-bottom:1px solid var(--line, #e4e4ee)}
+.ns-bars i{flex:1;height:var(--h);border-radius:8px 8px 0 0;background:var(--accent, #4a3aff)}
+.ns-bars i:nth-child(even){background:color-mix(in srgb,var(--accent, #4a3aff) 45%,var(--card, #fff))}
+.ns .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+/* המהלך רץ: הסקשן גבוה, הבמה נדבקת, והמילים והכרטיסים נערמים באותו תא */
+.ns.is-live{height:400vh}
+.ns.is-live .ns-pin{position:sticky;top:0;height:100vh;height:100svh}
+.ns.is-live .ns-n:not(:first-child),.ns.is-live .ns-card:not(:first-child){display:grid}
+@media(max-width:767px){.ns-in{grid-template-columns:minmax(0,1fr);gap:24px;padding-block:32px}.ns-cards{min-height:min(64vw,260px)}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="ns">
+  <div class="ns-pin">
+    <div class="ns-bgs" aria-hidden="true"><i class="ns-b1"></i><i class="ns-b2"></i><i class="ns-b3"></i><i class="ns-b4"></i></div>
+    <div class="ns-blobs" aria-hidden="true"><i></i><i></i></div>
+    <div class="ns-in">
+      <div class="ns-copy">
+        <h2 class="ns-h"><span class="sr-only">אנחנו מכינים לעסק אתר, לוגו, קמפיין ומצגת</span><span aria-hidden="true">אנחנו מכינים לעסק</span><span class="ns-pill" aria-hidden="true"><span class="ns-n">אתר</span><span class="ns-n">לוגו</span><span class="ns-n">קמפיין</span><span class="ns-n">מצגת</span></span></h2>
+        <p class="ns-sum">אתרים, לוגואים, קמפיינים ומצגות, וכל אחד נבנה סביב העסק שהזמין אותו ולא מתבנית מוכנה.</p>
+      </div>
+      <div class="ns-cards" aria-hidden="true">
+        <div class="ns-card ns-web"><div class="ns-bar"><i></i><i></i><i></i><span>almog-cafe.co.il</span></div><div class="ns-pg"><span class="ns-hero"></span><span class="ns-ln" style="width:62%"></span><span class="ns-ln" style="width:44%"></span><div class="ns-tiles"><i></i><i></i><i></i></div></div></div>
+        <div class="ns-card ns-logo"><span class="ns-mark">א</span><b>קפה אלמוג</b><small>בית קלייה</small></div>
+        <div class="ns-card ns-ad"><div class="ns-img"></div><div class="ns-adt"><b>פתיחת עונה בבית הקלייה</b><span class="ns-ln" style="width:80%"></span><span class="ns-btn">לפרטים</span></div></div>
+        <div class="ns-card ns-sl"><b>סיכום רבעון</b><div class="ns-bars"><i style="--h:34%"></i><i style="--h:52%"></i><i style="--h:44%"></i><i style="--h:72%"></i><i style="--h:88%"></i></div></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP נשארים המילה והכרטיס הראשונים
+  const root=document.querySelector(".ns"),pill=root.querySelector(".ns-pill"),nouns=[...root.querySelectorAll(".ns-n")];
+  const cards=[...root.querySelectorAll(".ns-card")],bgs=[...root.querySelectorAll(".ns-bgs i")],blobs=[...root.querySelectorAll(".ns-blobs i")];
+  const N=Math.min(nouns.length,cards.length,bgs.length);
+  // בהפחתת תנועה הפונקציה לא רצה, והמצב הראשון נשאר
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const pad=()=>{const c=getComputedStyle(pill);return parseFloat(c.paddingLeft)+parseFloat(c.paddingRight);};
+    const W=i=>nouns[i].offsetWidth+pad();      // רוחב הכפתור סביב המילה i
+    gsap.set(pill,{width:W(0)});
+    gsap.set(nouns.slice(1),{yPercent:110,opacity:0});
+    gsap.set(cards.slice(1),{xPercent:40,scale:.94,opacity:0});
+    gsap.set(bgs.slice(1),{opacity:0});
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
+    let t=.6;
+    for(let i=0;i<N-1;i++){
+      // רקע בדעיכה, מילה שעולה החוצה ובאה מלמטה, כפתור שמשנה רוחב, כרטיס שיוצא שמאלה ובא מימין
+      tl.to(bgs[i],{opacity:0,duration:1,ease:"power1.inOut"},t)
+        .to(bgs[i+1],{opacity:1,duration:1,ease:"power1.inOut"},t)
+        .to(nouns[i],{yPercent:-110,opacity:0,duration:.6,ease:"power2.in"},t)
+        .fromTo(nouns[i+1],{yPercent:110,opacity:0},{yPercent:0,opacity:1,duration:.7,ease:"power3.out",immediateRender:false},t+.35)
+        .to(pill,{width:()=>W(i+1),duration:.8,ease:"power3.inOut"},t+.1)
+        .to(cards[i],{xPercent:-40,scale:.94,opacity:0,duration:.6,ease:"power2.in"},t)
+        .fromTo(cards[i+1],{xPercent:40,scale:.94,opacity:0},{xPercent:0,scale:1,opacity:1,duration:.8,ease:"expo.out",immediateRender:false},t+.4);
+      t+=2;
+    }
+    tl.to({},{duration:.6},t);
+    const D=tl.duration();
+    blobs.forEach((b,i)=>tl.fromTo(b,{xPercent:i?20:-20,yPercent:i?-10:10},{xPercent:i?-30:30,yPercent:i?20:-20,duration:D,ease:"none"},0));
+    const sync=()=>{if(tl.progress()===0)gsap.set(pill,{width:W(0)});};      // שינוי גודל או פונט שנטען לפני שהתחילו לגלול
+    ScrollTrigger.addEventListener("refresh",sync);
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>ScrollTrigger.refresh());
+    return()=>{ScrollTrigger.removeEventListener("refresh",sync);root.classList.remove("is-live");gsap.set([pill].concat(nouns,cards,bgs,blobs),{clearProps:"all"});};
+  });
+})();
+</script>
+</body>
+</html>

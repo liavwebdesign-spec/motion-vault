@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G197 · צביר כרטיסים צף וכרטיס חדש קופץ</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G197 · צביר כרטיסים צף וכרטיס חדש קופץ */
+.ccl{max-width:1040px;margin-inline:auto;--cw:min(260px,56vw)}
+.ccl-pin{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:clamp(24px,5vw,72px);align-items:center;align-content:center}
+.ccl-txt{display:grid;gap:14px;max-width:32ch}
+.ccl-h{margin:0;font-size:clamp(24px,2.6vw,38px);line-height:1.15;font-weight:700;text-wrap:balance}
+.ccl-p{margin:0;color:var(--muted, #6a6d85)}
+.ccl-cap{display:flex;align-items:baseline;gap:14px;margin:8px 0 0}
+.ccl-cap b{font-size:clamp(64px,8vw,112px);font-weight:700;line-height:.95;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.ccl-cap span{font-size:clamp(17px,1.5vw,22px);color:var(--muted, #6a6d85)}
+.ccl-field{position:relative;height:clamp(360px,44vw,440px)}
+.ccl-list{list-style:none;margin:0;padding:0}
+.ccl-card{position:absolute;left:calc(50% - var(--cw) / 2);top:calc(50% - 28px);width:var(--cw);height:56px;transform:translate(var(--fx),var(--fy)) rotate(var(--fr))}
+.ccl-in{display:flex;align-items:center;gap:12px;height:100%;padding:0 14px;border-radius:18px;background:var(--card, #fff);color:var(--ink, #16182b);
+  box-shadow:0 14px 28px -18px color-mix(in srgb,var(--ink, #16182b) 55%,transparent)}
+.ccl-ava{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:color-mix(in srgb,var(--accent, #4a3aff) 18%,var(--card, #fff));font-size:13px;font-weight:700}
+.ccl-who{display:grid;min-width:0;flex:1}
+.ccl-who b{font-size:15px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ccl-who small{font-size:13px;line-height:1.3;color:var(--muted, #6a6d85);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ccl-tag{position:absolute;top:-8px;inset-inline-end:-6px;padding:4px 10px;border-radius:99px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:12px;font-weight:700;opacity:0}
+.ccl-card:first-child .ccl-tag{opacity:1}
+.ccl.is-live{height:340vh}
+.ccl.is-live .ccl-pin{position:sticky;top:0;height:100vh;height:100svh}
+.ccl.is-live .ccl-in{animation:ccl-bob 6s cubic-bezier(.4,0,.2,1) infinite alternate;animation-delay:calc(var(--i) * -.9s)}
+@keyframes ccl-bob{from{transform:translateY(0)}to{transform:translateY(-8px)}}
+.ccl .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:767px){
+  .ccl-pin{grid-template-columns:minmax(0,1fr);gap:16px}
+  .ccl-txt{max-width:none}
+  .ccl-field{height:360px}
+  .ccl-cap b{font-size:64px}
+}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="ccl">
+  <div class="ccl-pin">
+    <div class="ccl-txt">
+      <h2 class="ccl-h">כל פנייה מהאתר נשמרת במקום אחד</h2>
+      <p class="ccl-p">מי שהשאיר פרטים מופיע ברשימה עם השם, התחום והשעה, וחוזרים אליו עוד באותו יום.</p>
+      <p class="ccl-cap"><b aria-hidden="true">10</b><span aria-hidden="true">פניות חדשות היום</span><span class="sr-only">10 פניות חדשות היום.</span></p>
+    </div>
+    <div class="ccl-field"><ul class="ccl-list">
+    <li class="ccl-card" style="--fx:-54px;--fy:135px;--fr:-4.5deg;--i:0;z-index:10">
+      <div class="ccl-in"><span class="ccl-ava" aria-hidden="true">מא</span><span class="ccl-who"><b>מיכל אברהם</b><small>אתר תדמית, לפני 3 דקות</small></span></div>
+      <span class="ccl-tag" aria-hidden="true">חדש</span>
+    </li>
+    <li class="ccl-card" style="--fx:-42px;--fy:105px;--fr:-3.5deg;--i:1;z-index:9">
+      <div class="ccl-in"><span class="ccl-ava" aria-hidden="true">יש</span><span class="ccl-who"><b>יונתן שלום</b><small>דף נחיתה, לפני 11 דקות</small></span></div>
+      <span class="ccl-tag" aria-hidden="true">חדש</span>
+    </li>
+    <li class="ccl-card" style="--fx:-30px;--fy:75px;--fr:-2.5deg;--i:2;z-index:8">
+      <div class="ccl-in"><span class="ccl-ava" aria-hidden="true">נב</span><span class="ccl-who"><b>נועה ביטון</b><small>חנות אונליין, לפני 20 דקות</small></span></div>
+      <span class="ccl-tag" aria-hidden="true">חדש</span>
+    </li>
+    <li class="ccl-card" style="--fx:-18px;--fy:45px;--fr:-1.5deg;--i:3;z-index:7">
+      <div class="ccl-in"><span class="ccl-ava" aria-hidden="true">אל</span><span class="ccl-who"><b>אורי לוי</b><small>קידום אורגני, לפני 32 דקות</small></span></div>
+      <span class="ccl-tag" aria-hidden="true">חדש</span>
+    </li>
+    <li class="ccl-card" style="--fx:-6px;--fy:15px;--fr:-0.5deg;--i:4;z-index:6">
+      <div class="ccl-in"><span class="ccl-ava" aria-hidden="true">שמ</span><span class="ccl-who"><b>שירה מזרחי</b><small>מיתוג לעסק, לפני שעה</small></span></div>
+      <span class="ccl-tag" aria-hidden="true">חדש</span>
+    </li>
+    <li class="ccl-card" style="--fx:6px;--fy:-15px;--fr:0.5deg;--i:5;z-index:5">
+      <div class="ccl-in"><span class="ccl-ava" aria-hidden="true">אפ</span><span class="ccl-who"><b>אלון פרידמן</b><small>אתר תדמית, לפני שעה</small></span></div>
+      <span class="ccl-tag" aria-hidden="true">חדש</span>
+    </li>
+    <li class="ccl-card" style="--fx:18px;--fy:-45px;--fr:1.5deg;--i:6;z-index:4">
+      <div class="ccl-in"><span class="ccl-ava" aria-hidden="true">הכ</span><span class="ccl-who"><b>הדס כץ</b><small>פאנל ניהול, לפני שעתיים</small></span></div>
+      <span class="ccl-tag" aria-hidden="true">חדש</span>
+    </li>
+    <li class="ccl-card" style="--fx:30px;--fy:-75px;--fr:2.5deg;--i:7;z-index:3">
+      <div class="ccl-in"><span class="ccl-ava" aria-hidden="true">רא</span><span class="ccl-who"><b>רונן אשכנזי</b><small>דף נחיתה, לפני שלוש שעות</small></span></div>
+      <span class="ccl-tag" aria-hidden="true">חדש</span>
+    </li>
+    <li class="ccl-card" style="--fx:42px;--fy:-105px;--fr:3.5deg;--i:8;z-index:2">
+      <div class="ccl-in"><span class="ccl-ava" aria-hidden="true">תד</span><span class="ccl-who"><b>תמר דוד</b><small>חנות אונליין, אתמול</small></span></div>
+      <span class="ccl-tag" aria-hidden="true">חדש</span>
+    </li>
+    <li class="ccl-card" style="--fx:54px;--fy:-135px;--fr:4.5deg;--i:9;z-index:1">
+      <div class="ccl-in"><span class="ccl-ava" aria-hidden="true">גא</span><span class="ccl-who"><b>גיא אזולאי</b><small>קידום אורגני, אתמול</small></span></div>
+      <span class="ccl-tag" aria-hidden="true">חדש</span>
+    </li>
+    </ul></div>
+  </div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP המניפה הצפופה והמספר הסופי כבר במארקאפ
+  const root=document.querySelector(".ccl"),field=root.querySelector(".ccl-field"),cards=[...root.querySelectorAll(".ccl-card")];
+  const num=root.querySelector(".ccl-cap b"),N=cards.length;
+  const LOOSE=[[100,-70,-7],[-95,-15,6],[110,60,4],[-105,-115,-5],[10,-135,7],[-40,110,-6],[60,-10,3],[-110,70,5],[112,128,-4],[-20,-60,-3]];     // x, y וסיבוב של כל כרטיס בפיזור, לפי גיל (0 הוותיק)
+  const fan=c=>{const s=getComputedStyle(c);return[parseFloat(s.getPropertyValue("--fx")),parseFloat(s.getPropertyValue("--fy")),parseFloat(s.getPropertyValue("--fr"))];};
+  // בהפחתת תנועה הפונקציה לא רצה, והמניפה נשארת
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const kx=()=>Math.max(.25,Math.min(1,(field.clientWidth/2-cards[0].offsetWidth/2-14)/112));   // בטלפון הפיזור האופקי מצטמצם לרוחב הבמה
+    const T0=.5,STEP=.8,MOVE=T0+STEP*(N-2)+.5;
+    num.textContent="2";
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
+    tl.eventCallback("onUpdate",()=>{const t=tl.time();num.textContent=t<T0?2:Math.min(N,2+Math.floor((t-T0)/STEP)+1);});   // סופר רק כרטיסים שכבר נכנסו
+    cards.forEach((c,i)=>{
+      const j=N-1-i,L=LOOSE[j],F=fan(c),tag=c.querySelector(".ccl-tag"),at=T0+(j-2)*STEP;
+      tl.fromTo(c,{x:()=>L[0]*kx(),y:L[1],rotation:L[2]},{x:F[0],y:F[1],rotation:F[2],duration:2.6,ease:"power3.inOut"},MOVE+j*.07);
+      if(j>=2){
+        tl.fromTo(c,{autoAlpha:0,scale:.7},{autoAlpha:1,scale:1,duration:.5,ease:"power3.out"},at);
+        tl.fromTo(tag,{autoAlpha:0,scale:.6},{autoAlpha:1,scale:1,duration:.35,ease:"power3.out"},at+.25);
+        if(j<N-1)tl.to(tag,{autoAlpha:0,duration:.3,ease:"power1.in"},at+STEP+.15);
+      }
+    });
+    tl.to({},{duration:.5});      // עצירה קצרה בסוף, עם המניפה גמורה
+    return()=>{root.classList.remove("is-live");num.textContent=N;};
+  });
+})();
+</script>
+</body>
+</html>

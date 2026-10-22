@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G195 · מחיר לפי פריט מול מסלול קבוע | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.ppv{max-width:960px;margin-inline:auto}
+.ppv-pin{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(16px,2.4vw,28px);align-items:stretch;align-content:center}
+.ppv-box{display:flex;flex-direction:column;gap:18px;min-width:0;padding:clamp(20px,2.6vw,40px);border-radius:28px}
+.ppv-pay{background:var(--card);color:var(--ink);box-shadow:0 18px 40px -30px color-mix(in srgb,var(--ink) 45%,transparent)}
+.ppv-plan{justify-content:space-between;background:var(--accent);color:var(--accent-ink)}
+.ppv-k{margin:0;font-size:15px;font-weight:600}
+.ppv-pay .ppv-k{color:var(--muted)}
+.ppv-rows{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.ppv-row{display:flex;justify-content:space-between;gap:16px;padding:10px 14px;border-radius:12px;font-size:var(--fs-body);background:color-mix(in srgb,var(--ink) 5%,transparent)}
+.ppv-row b{font-weight:600;font-variant-numeric:tabular-nums}
+.ppv-sum{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:auto}
+.ppv-sum span{color:var(--muted);font-size:var(--fs-body)}
+.ppv-sum i{font-style:normal}
+.ppv-total{font-size:clamp(36px,4.4vw,56px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.ppv-price{display:flex;align-items:baseline;gap:10px;margin:0}
+.ppv-price b{font-size:clamp(44px,5.4vw,72px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.ppv-price small{font-size:16px}
+.ppv-incl{margin:0;font-size:var(--fs-body);line-height:1.5}
+.ppv-incl i{font-style:normal;font-weight:700}
+.ppv-save{align-self:flex-start;display:inline-flex;gap:6px;padding:6px 14px;border-radius:99px;font-size:14px;font-weight:700;background:color-mix(in srgb,var(--accent-ink) 16%,transparent)}
+.ppv-save b{font-variant-numeric:tabular-nums}
+.ppv-bar{display:block;height:8px;border-radius:99px;overflow:hidden;background:color-mix(in srgb,currentColor 16%,transparent)}
+.ppv-bar i{display:block;height:100%;border-radius:inherit;background:currentColor;transform-origin:100% 50%;transform:scaleX(var(--w,1))}
+.ppv-pay .ppv-bar{color:var(--ink)}
+.ppv.is-live{height:320vh}
+.ppv.is-live .ppv-pin{position:sticky;top:0;height:100vh;height:100svh}
+.ppv.is-anim .ppv-row{transition:opacity .35s cubic-bezier(.2,.6,.2,1),transform .35s cubic-bezier(.2,.6,.2,1)}
+.ppv.is-anim .ppv-row.is-off{opacity:0;transform:translateY(10px)}
+.ppv.is-anim .ppv-bar i{transition:transform .35s cubic-bezier(.2,.6,.2,1)}
+.ppv.is-anim .ppv-save{transition:opacity .3s cubic-bezier(.2,.6,.2,1),transform .3s cubic-bezier(.2,.6,.2,1)}
+.ppv.is-anim .ppv-save.is-off{opacity:0;transform:translateY(6px)}
+.ppv .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:767px){
+  .ppv-pin{grid-template-columns:minmax(0,1fr);gap:12px}
+  .ppv-box{gap:12px;padding:20px;border-radius:24px}
+  .ppv-rows{gap:4px}
+  .ppv-row{padding:6px 12px;font-size:15px}
+  .ppv-total{font-size:36px}
+  .ppv-price b{font-size:44px}
+}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g194.html" rel="prev" title="הקודם: אריחי בנטו שכל אחד מנגן הדגמה">→<span class="sr-only">הקודם</span></a><span class="vpn-n">171/177</span><a href="g196.html" rel="next" title="הבא: נקודות שנופלות ונערמות להיסטוגרמה">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G195</span> · מחיר לפי פריט מול מסלול קבוע</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · CSS</span>
+  <span class="vchip use">מספרים ונתונים</span><span class="vchip use">כרטיסים</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g195"><code>MV:g195</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g195">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>שני לוחות זה לצד זה. בלוח הראשון רשימת פריטים במחיר לכל אחד, והשורות מתווספות בגלילה, ארבע ואז תשע, כשהסכום למטה מטפס וסרגל הסכום מתארך. בלוח השני מסלול חודשי קבוע במחיר שלא זז, עם משפט שסופר את אותם פריטים ושבב חיסכון שמופיע ברגע שהרשימה עוברת את המסלול. רואים את המחיר מתנפח ליד מחיר שנשאר במקום.</p>
+  <p class="when"><b>מתי משתמשים:</b> עמוד מחירים של שירות שנמכר גם לפי יחידה וגם כחבילה חודשית: עיצוב פוסטים, צילום, תיקונים, הדרכות, משלוחים. מראה במקום להסביר למה כדאי לעבור למסלול, ועובד כשהמחיר ליחידה והמחיר הקבוע אמיתיים ומוצגים באותו מבנה. פעם אחת בעמוד, ליד הכפתור שמזמין לבחור מסלול.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית · חנות</dd></div><div><dt>בסקשן</dt><dd>מחירים · בעיה ויתרונות</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>משרת תוכן, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשאין הבדל אמיתי בין התמחור לפי פריט למסלול קבוע, ולא כשהמסלול הקבוע נכנס רק בתנאים נסתרים.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g195"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="ppv" data-unit="220" data-plan="1200">
+  <div class="ppv-pin">
+  <p class="sr-only">בתשלום לפי פוסט, תשעה פוסטים בחודש עולים 1,980 שקלים. במסלול החודשי הקבוע אותם פוסטים עולים 1,200 שקלים, וההפרש הוא 780 שקלים.</p>
+  <section class="ppv-box ppv-pay">
+    <p class="ppv-k">תשלום לפי פוסט, ₪220 לכל אחד</p>
+    <ul class="ppv-rows">
+      <li class="ppv-row"><span>פוסט השקה לשירות החדש</span><b>₪220</b></li>
+      <li class="ppv-row"><span>קרוסלה על שלבי העבודה</span><b>₪220</b></li>
+      <li class="ppv-row"><span>סטורי למבצע סוף חודש</span><b>₪220</b></li>
+      <li class="ppv-row"><span>פוסט עם המלצת לקוח</span><b>₪220</b></li>
+      <li class="ppv-row"><span>באנר לקמפיין בפייסבוק</span><b>₪220</b></li>
+      <li class="ppv-row"><span>תמונת שער לניוזלטר</span><b>₪220</b></li>
+      <li class="ppv-row"><span>פוסט לקראת החג</span><b>₪220</b></li>
+      <li class="ppv-row"><span>גרפיקה להרצאה ביום עיון</span><b>₪220</b></li>
+      <li class="ppv-row"><span>פוסט היכרות עם הצוות</span><b>₪220</b></li>
+    </ul>
+    <div class="ppv-sum" aria-hidden="true"><span>סה״כ ל-<i data-count>9 פוסטים</i></span><strong class="ppv-total">₪1,980</strong></div>
+    <span class="ppv-bar" aria-hidden="true"><i></i></span>
+  </section>
+  <section class="ppv-box ppv-plan">
+    <p class="ppv-k">מסלול חודשי קבוע</p>
+    <p class="ppv-price"><b>₪1,200</b><small>לחודש</small></p>
+    <p class="ppv-incl" aria-hidden="true"><i data-count>9 פוסטים</i> בחודש, באותו מחיר ובלי תוספת על כל אחד.</p>
+    <span class="ppv-save" aria-hidden="true"><span>חוסכים</span><b>₪780</b></span>
+    <span class="ppv-bar" aria-hidden="true"><i style="--w:0.606"></i></span>
+  </section>
+  </div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: שני סרטונים בגלריה (21.10.2026) שבהם שורות מחיר מתווספות בצד אחד והסכום מתנפח, בזמן שהצד השני נשאר על מחיר אחד. נבנה מאפס מהצפייה. <b>המארקאפ הוא המצב הסופי:</b> כל תשע השורות, הסכום ₪1,980, הסרגל המלא, המחיר הקבוע ושבב החיסכון (₪780). בלי GSAP ובהפחתת תנועה רואים אותו. <b>המחירים נקראים מהמארקאפ:</b> <code>data-unit</code> (מחיר לפריט) ו-<code>data-plan</code> (המסלול) על שורש הרכיב, והסקריפט מחשב מהם את הסכום לכל מספר שורות. הכול תלוי במספר שלם אחד (<code>k</code>) שגלילה מזיזה מ-0 ל-9, ולכן השורות, הסכום, הסרגל, משפט הספירה והשבב תמיד מסכימים. <b>העצירה בארבעה:</b> ה-timeline עוצר שם רגע, כי עד ארבעה פריטים תשלום לפי פריט זול יותר מהמסלול, ורק אחר כך הוא עובר אותו. <b>בלי קפיצת פריסה:</b> כל תשע השורות תופסות מקום מההתחלה, והשורות שעוד לא נוספו שקופות (opacity ו-transform בלבד, עם easing מהרשימה). מעבר ה-CSS מופעל רק אחרי ציור המצב ההתחלתי (<code>is-anim</code>), כדי שלא יהיה הבהוב בטעינה. <b>הבמה נעוצה</b> (<code>is-live</code>, גובה 320vh), כדי שיהיה מרווח גלילה להגיע עד תשע שורות. <b>כיווניות:</b> הסרגל מתמלא מימין לשמאל (<code>transform-origin:100%</code>), ובאתר LTR הופכים אותו ל-0%, ומחליפים את סדר שני הלוחות אם רוצים את המסלול בצד ימין. <b>נגישות:</b> הסכום והמשפט הרצים מוסתרים מקורא מסך, ופסקה מוסתרת מקריאה את שני המחירים הסופיים. <b>מובייל:</b> הלוחות נערמים בעמודה אחת.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g195.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G195 · מחיר לפי פריט מול מסלול קבוע */
+.ppv{max-width:960px;margin-inline:auto}
+.ppv-pin{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(16px,2.4vw,28px);align-items:stretch;align-content:center}
+.ppv-box{display:flex;flex-direction:column;gap:18px;min-width:0;padding:clamp(20px,2.6vw,40px);border-radius:28px}
+.ppv-pay{background:var(--card, #fff);color:var(--ink, #16182b);box-shadow:0 18px 40px -30px color-mix(in srgb,var(--ink, #16182b) 45%,transparent)}
+.ppv-plan{justify-content:space-between;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.ppv-k{margin:0;font-size:15px;font-weight:600}
+.ppv-pay .ppv-k{color:var(--muted, #6a6d85)}
+.ppv-rows{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.ppv-row{display:flex;justify-content:space-between;gap:16px;padding:10px 14px;border-radius:12px;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent)}
+.ppv-row b{font-weight:600;font-variant-numeric:tabular-nums}
+.ppv-sum{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:auto}
+.ppv-sum span{color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px))}
+.ppv-sum i{font-style:normal}
+.ppv-total{font-size:clamp(36px,4.4vw,56px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.ppv-price{display:flex;align-items:baseline;gap:10px;margin:0}
+.ppv-price b{font-size:clamp(44px,5.4vw,72px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.ppv-price small{font-size:16px}
+.ppv-incl{margin:0;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.5}
+.ppv-incl i{font-style:normal;font-weight:700}
+.ppv-save{align-self:flex-start;display:inline-flex;gap:6px;padding:6px 14px;border-radius:99px;font-size:14px;font-weight:700;background:color-mix(in srgb,var(--accent-ink, #fff) 16%,transparent)}
+.ppv-save b{font-variant-numeric:tabular-nums}
+.ppv-bar{display:block;height:8px;border-radius:99px;overflow:hidden;background:color-mix(in srgb,currentColor 16%,transparent)}
+.ppv-bar i{display:block;height:100%;border-radius:inherit;background:currentColor;transform-origin:100% 50%;transform:scaleX(var(--w,1))}
+.ppv-pay .ppv-bar{color:var(--ink, #16182b)}
+.ppv.is-live{height:320vh}
+.ppv.is-live .ppv-pin{position:sticky;top:0;height:100vh;height:100svh}
+.ppv.is-anim .ppv-row{transition:opacity .35s cubic-bezier(.2,.6,.2,1),transform .35s cubic-bezier(.2,.6,.2,1)}
+.ppv.is-anim .ppv-row.is-off{opacity:0;transform:translateY(10px)}
+.ppv.is-anim .ppv-bar i{transition:transform .35s cubic-bezier(.2,.6,.2,1)}
+.ppv.is-anim .ppv-save{transition:opacity .3s cubic-bezier(.2,.6,.2,1),transform .3s cubic-bezier(.2,.6,.2,1)}
+.ppv.is-anim .ppv-save.is-off{opacity:0;transform:translateY(6px)}
+.ppv .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:767px){
+  .ppv-pin{grid-template-columns:minmax(0,1fr);gap:12px}
+  .ppv-box{gap:12px;padding:20px;border-radius:24px}
+  .ppv-rows{gap:4px}
+  .ppv-row{padding:6px 12px;font-size:15px}
+  .ppv-total{font-size:36px}
+  .ppv-price b{font-size:44px}
+}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;div class="ppv" data-unit="220" data-plan="1200"&gt;
+  &lt;div class="ppv-pin"&gt;
+  &lt;p class="sr-only"&gt;בתשלום לפי פוסט, תשעה פוסטים בחודש עולים 1,980 שקלים. במסלול החודשי הקבוע אותם פוסטים עולים 1,200 שקלים, וההפרש הוא 780 שקלים.&lt;/p&gt;
+  &lt;section class="ppv-box ppv-pay"&gt;
+    &lt;p class="ppv-k"&gt;תשלום לפי פוסט, ₪220 לכל אחד&lt;/p&gt;
+    &lt;ul class="ppv-rows"&gt;
+      &lt;li class="ppv-row"&gt;&lt;span&gt;פוסט השקה לשירות החדש&lt;/span&gt;&lt;b&gt;₪220&lt;/b&gt;&lt;/li&gt;
+      &lt;li class="ppv-row"&gt;&lt;span&gt;קרוסלה על שלבי העבודה&lt;/span&gt;&lt;b&gt;₪220&lt;/b&gt;&lt;/li&gt;
+      &lt;li class="ppv-row"&gt;&lt;span&gt;סטורי למבצע סוף חודש&lt;/span&gt;&lt;b&gt;₪220&lt;/b&gt;&lt;/li&gt;
+      &lt;li class="ppv-row"&gt;&lt;span&gt;פוסט עם המלצת לקוח&lt;/span&gt;&lt;b&gt;₪220&lt;/b&gt;&lt;/li&gt;
+      &lt;li class="ppv-row"&gt;&lt;span&gt;באנר לקמפיין בפייסבוק&lt;/span&gt;&lt;b&gt;₪220&lt;/b&gt;&lt;/li&gt;
+      &lt;li class="ppv-row"&gt;&lt;span&gt;תמונת שער לניוזלטר&lt;/span&gt;&lt;b&gt;₪220&lt;/b&gt;&lt;/li&gt;
+      &lt;li class="ppv-row"&gt;&lt;span&gt;פוסט לקראת החג&lt;/span&gt;&lt;b&gt;₪220&lt;/b&gt;&lt;/li&gt;
+      &lt;li class="ppv-row"&gt;&lt;span&gt;גרפיקה להרצאה ביום עיון&lt;/span&gt;&lt;b&gt;₪220&lt;/b&gt;&lt;/li&gt;
+      &lt;li class="ppv-row"&gt;&lt;span&gt;פוסט היכרות עם הצוות&lt;/span&gt;&lt;b&gt;₪220&lt;/b&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div class="ppv-sum" aria-hidden="true"&gt;&lt;span&gt;סה״כ ל-&lt;i data-count&gt;9 פוסטים&lt;/i&gt;&lt;/span&gt;&lt;strong class="ppv-total"&gt;₪1,980&lt;/strong&gt;&lt;/div&gt;
+    &lt;span class="ppv-bar" aria-hidden="true"&gt;&lt;i&gt;&lt;/i&gt;&lt;/span&gt;
+  &lt;/section&gt;
+  &lt;section class="ppv-box ppv-plan"&gt;
+    &lt;p class="ppv-k"&gt;מסלול חודשי קבוע&lt;/p&gt;
+    &lt;p class="ppv-price"&gt;&lt;b&gt;₪1,200&lt;/b&gt;&lt;small&gt;לחודש&lt;/small&gt;&lt;/p&gt;
+    &lt;p class="ppv-incl" aria-hidden="true"&gt;&lt;i data-count&gt;9 פוסטים&lt;/i&gt; בחודש, באותו מחיר ובלי תוספת על כל אחד.&lt;/p&gt;
+    &lt;span class="ppv-save" aria-hidden="true"&gt;&lt;span&gt;חוסכים&lt;/span&gt;&lt;b&gt;₪780&lt;/b&gt;&lt;/span&gt;
+    &lt;span class="ppv-bar" aria-hidden="true"&gt;&lt;i style="--w:0.606"&gt;&lt;/i&gt;&lt;/span&gt;
+  &lt;/section&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP כל השורות והסכום הסופי כבר במארקאפ
+  const root=document.querySelector(".ppv"),rows=[...root.querySelectorAll(".ppv-row")],N=rows.length;
+  const unit=+root.dataset.unit,plan=+root.dataset.plan;
+  const total=root.querySelector(".ppv-total"),bar=root.querySelector(".ppv-pay .ppv-bar i");
+  const save=root.querySelector(".ppv-save"),saveN=save.querySelector("b"),counts=[...root.querySelectorAll("[data-count]")];
+  const fmt=n=&gt;n.toLocaleString("en-US"),word=k=&gt;k===1?"פוסט אחד":k+" פוסטים";
+  // מצב אחד לכל מספר שורות: שורות, סכום, סרגל, משפט הספירה והשבב נגזרים כולם מ-k
+  const paint=k=&gt;{
+    rows.forEach((r,i)=&gt;r.classList.toggle("is-off",i&gt;=k));
+    total.textContent="₪"+fmt(k*unit);
+    counts.forEach(c=&gt;{c.textContent=word(k);});
+    bar.style.setProperty("--w",(k/N).toFixed(3));
+    const d=k*unit-plan;save.classList.toggle("is-off",d&lt;=0);if(d&gt;0)saveN.textContent="₪"+fmt(d);
+  };
+  // בהפחתת תנועה הפונקציה לא רצה, והמצב הסופי נשאר
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    const o={n:0},go=()=&gt;paint(Math.round(o.n));
+    paint(0);
+    root.classList.add("is-live");                              // במה נעוצה: הגובה נקבע לפני שה-ScrollTrigger נוצר
+    requestAnimationFrame(()=&gt;root.classList.add("is-anim"));   // הטרנזישן מופעל רק אחרי ציור המצב ההתחלתי
+    gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}})
+      .to(o,{n:4,duration:4,onUpdate:go})
+      .to({},{duration:1.4})                    // עצירה בארבעה: עד כאן לפי פריט זול יותר
+      .to(o,{n:N,duration:5,onUpdate:go});
+    return()=&gt;{root.classList.remove("is-live","is-anim");paint(N);};
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g195 · מחיר לפי פריט מול מסלול קבוע\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g195.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g195.html\n\nמה זה עושה: שני לוחות זה לצד זה. בלוח הראשון רשימת פריטים במחיר לכל אחד, והשורות מתווספות בגלילה, ארבע ואז תשע, כשהסכום למטה מטפס וסרגל הסכום מתארך. בלוח השני מסלול חודשי קבוע במחיר שלא זז, עם משפט שסופר את אותם פריטים ושבב חיסכון שמופיע ברגע שהרשימה עוברת את המסלול. רואים את המחיר מתנפח ליד מחיר שנשאר במקום.\nמתי משתמשים: עמוד מחירים של שירות שנמכר גם לפי יחידה וגם כחבילה חודשית: עיצוב פוסטים, צילום, תיקונים, הדרכות, משלוחים. מראה במקום להסביר למה כדאי לעבור למסלול, ועובד כשהמחיר ליחידה והמחיר הקבוע אמיתיים ומוצגים באותו מבנה. פעם אחת בעמוד, ליד הכפתור שמזמין לבחור מסלול.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית · חנות\nבסקשן: מחירים · בעיה ויתרונות\nאופי: גם באתר שקט\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא כשאין הבדל אמיתי בין התמחור לפי פריט למסלול קבוע, ולא כשהמסלול הקבוע נכנס רק בתנאים נסתרים.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G195 · מחיר לפי פריט מול מסלול קבוע */\n.ppv{max-width:960px;margin-inline:auto}\n.ppv-pin{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(16px,2.4vw,28px);align-items:stretch;align-content:center}\n.ppv-box{display:flex;flex-direction:column;gap:18px;min-width:0;padding:clamp(20px,2.6vw,40px);border-radius:28px}\n.ppv-pay{background:var(--card, #fff);color:var(--ink, #16182b);box-shadow:0 18px 40px -30px color-mix(in srgb,var(--ink, #16182b) 45%,transparent)}\n.ppv-plan{justify-content:space-between;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.ppv-k{margin:0;font-size:15px;font-weight:600}\n.ppv-pay .ppv-k{color:var(--muted, #6a6d85)}\n.ppv-rows{list-style:none;margin:0;padding:0;display:grid;gap:6px}\n.ppv-row{display:flex;justify-content:space-between;gap:16px;padding:10px 14px;border-radius:12px;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent)}\n.ppv-row b{font-weight:600;font-variant-numeric:tabular-nums}\n.ppv-sum{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:auto}\n.ppv-sum span{color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px))}\n.ppv-sum i{font-style:normal}\n.ppv-total{font-size:clamp(36px,4.4vw,56px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}\n.ppv-price{display:flex;align-items:baseline;gap:10px;margin:0}\n.ppv-price b{font-size:clamp(44px,5.4vw,72px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}\n.ppv-price small{font-size:16px}\n.ppv-incl{margin:0;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.5}\n.ppv-incl i{font-style:normal;font-weight:700}\n.ppv-save{align-self:flex-start;display:inline-flex;gap:6px;padding:6px 14px;border-radius:99px;font-size:14px;font-weight:700;background:color-mix(in srgb,var(--accent-ink, #fff) 16%,transparent)}\n.ppv-save b{font-variant-numeric:tabular-nums}\n.ppv-bar{display:block;height:8px;border-radius:99px;overflow:hidden;background:color-mix(in srgb,currentColor 16%,transparent)}\n.ppv-bar i{display:block;height:100%;border-radius:inherit;background:currentColor;transform-origin:100% 50%;transform:scaleX(var(--w,1))}\n.ppv-pay .ppv-bar{color:var(--ink, #16182b)}\n.ppv.is-live{height:320vh}\n.ppv.is-live .ppv-pin{position:sticky;top:0;height:100vh;height:100svh}\n.ppv.is-anim .ppv-row{transition:opacity .35s cubic-bezier(.2,.6,.2,1),transform .35s cubic-bezier(.2,.6,.2,1)}\n.ppv.is-anim .ppv-row.is-off{opacity:0;transform:translateY(10px)}\n.ppv.is-anim .ppv-bar i{transition:transform .35s cubic-bezier(.2,.6,.2,1)}\n.ppv.is-anim .ppv-save{transition:opacity .3s cubic-bezier(.2,.6,.2,1),transform .3s cubic-bezier(.2,.6,.2,1)}\n.ppv.is-anim .ppv-save.is-off{opacity:0;transform:translateY(6px)}\n.ppv .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n@media(max-width:767px){\n  .ppv-pin{grid-template-columns:minmax(0,1fr);gap:12px}\n  .ppv-box{gap:12px;padding:20px;border-radius:24px}\n  .ppv-rows{gap:4px}\n  .ppv-row{padding:6px 12px;font-size:15px}\n  .ppv-total{font-size:36px}\n  .ppv-price b{font-size:44px}\n}\n\n=== HTML ===\n<div class=\"stage\"><div class=\"ppv\" data-unit=\"220\" data-plan=\"1200\">\n  <div class=\"ppv-pin\">\n  <p class=\"sr-only\">בתשלום לפי פוסט, תשעה פוסטים בחודש עולים 1,980 שקלים. במסלול החודשי הקבוע אותם פוסטים עולים 1,200 שקלים, וההפרש הוא 780 שקלים.<\/p>\n  <section class=\"ppv-box ppv-pay\">\n    <p class=\"ppv-k\">תשלום לפי פוסט, ₪220 לכל אחד<\/p>\n    <ul class=\"ppv-rows\">\n      <li class=\"ppv-row\"><span>פוסט השקה לשירות החדש<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>קרוסלה על שלבי העבודה<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>סטורי למבצע סוף חודש<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>פוסט עם המלצת לקוח<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>באנר לקמפיין בפייסבוק<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>תמונת שער לניוזלטר<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>פוסט לקראת החג<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>גרפיקה להרצאה ביום עיון<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>פוסט היכרות עם הצוות<\/span><b>₪220<\/b><\/li>\n    <\/ul>\n    <div class=\"ppv-sum\" aria-hidden=\"true\"><span>סה״כ ל-<i data-count>9 פוסטים<\/i><\/span><strong class=\"ppv-total\">₪1,980<\/strong><\/div>\n    <span class=\"ppv-bar\" aria-hidden=\"true\"><i><\/i><\/span>\n  <\/section>\n  <section class=\"ppv-box ppv-plan\">\n    <p class=\"ppv-k\">מסלול חודשי קבוע<\/p>\n    <p class=\"ppv-price\"><b>₪1,200<\/b><small>לחודש<\/small><\/p>\n    <p class=\"ppv-incl\" aria-hidden=\"true\"><i data-count>9 פוסטים<\/i> בחודש, באותו מחיר ובלי תוספת על כל אחד.<\/p>\n    <span class=\"ppv-save\" aria-hidden=\"true\"><span>חוסכים<\/span><b>₪780<\/b><\/span>\n    <span class=\"ppv-bar\" aria-hidden=\"true\"><i style=\"--w:0.606\"><\/i><\/span>\n  <\/section>\n  <\/div>\n<\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP כל השורות והסכום הסופי כבר במארקאפ\n  const root=document.querySelector(\".ppv\"),rows=[...root.querySelectorAll(\".ppv-row\")],N=rows.length;\n  const unit=+root.dataset.unit,plan=+root.dataset.plan;\n  const total=root.querySelector(\".ppv-total\"),bar=root.querySelector(\".ppv-pay .ppv-bar i\");\n  const save=root.querySelector(\".ppv-save\"),saveN=save.querySelector(\"b\"),counts=[...root.querySelectorAll(\"[data-count]\")];\n  const fmt=n=>n.toLocaleString(\"en-US\"),word=k=>k===1?\"פוסט אחד\":k+\" פוסטים\";\n  // מצב אחד לכל מספר שורות: שורות, סכום, סרגל, משפט הספירה והשבב נגזרים כולם מ-k\n  const paint=k=>{\n    rows.forEach((r,i)=>r.classList.toggle(\"is-off\",i>=k));\n    total.textContent=\"₪\"+fmt(k*unit);\n    counts.forEach(c=>{c.textContent=word(k);});\n    bar.style.setProperty(\"--w\",(k/N).toFixed(3));\n    const d=k*unit-plan;save.classList.toggle(\"is-off\",d<=0);if(d>0)saveN.textContent=\"₪\"+fmt(d);\n  };\n  // בהפחתת תנועה הפונקציה לא רצה, והמצב הסופי נשאר\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    const o={n:0},go=()=>paint(Math.round(o.n));\n    paint(0);\n    root.classList.add(\"is-live\");                              // במה נעוצה: הגובה נקבע לפני שה-ScrollTrigger נוצר\n    requestAnimationFrame(()=>root.classList.add(\"is-anim\"));   // הטרנזישן מופעל רק אחרי ציור המצב ההתחלתי\n    gsap.timeline({defaults:{ease:\"none\"},scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.6}})\n      .to(o,{n:4,duration:4,onUpdate:go})\n      .to({},{duration:1.4})                    // עצירה בארבעה: עד כאן לפי פריט זול יותר\n      .to(o,{n:N,duration:5,onUpdate:go});\n    return()=>{root.classList.remove(\"is-live\",\"is-anim\");paint(N);};\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: שני סרטונים בגלריה (21.10.2026) שבהם שורות מחיר מתווספות בצד אחד והסכום מתנפח, בזמן שהצד השני נשאר על מחיר אחד. נבנה מאפס מהצפייה. המארקאפ הוא המצב הסופי: כל תשע השורות, הסכום ₪1,980, הסרגל המלא, המחיר הקבוע ושבב החיסכון (₪780). בלי GSAP ובהפחתת תנועה רואים אותו. המחירים נקראים מהמארקאפ: `data-unit` (מחיר לפריט) ו-`data-plan` (המסלול) על שורש הרכיב, והסקריפט מחשב מהם את הסכום לכל מספר שורות. הכול תלוי במספר שלם אחד (`k`) שגלילה מזיזה מ-0 ל-9, ולכן השורות, הסכום, הסרגל, משפט הספירה והשבב תמיד מסכימים. העצירה בארבעה: ה-timeline עוצר שם רגע, כי עד ארבעה פריטים תשלום לפי פריט זול יותר מהמסלול, ורק אחר כך הוא עובר אותו. בלי קפיצת פריסה: כל תשע השורות תופסות מקום מההתחלה, והשורות שעוד לא נוספו שקופות (opacity ו-transform בלבד, עם easing מהרשימה). מעבר ה-CSS מופעל רק אחרי ציור המצב ההתחלתי (`is-anim`), כדי שלא יהיה הבהוב בטעינה. הבמה נעוצה (`is-live`, גובה 320vh), כדי שיהיה מרווח גלילה להגיע עד תשע שורות. כיווניות: הסרגל מתמלא מימין לשמאל (`transform-origin:100%`), ובאתר LTR הופכים אותו ל-0%, ומחליפים את סדר שני הלוחות אם רוצים את המסלול בצד ימין. נגישות: הסכום והמשפט הרצים מוסתרים מקורא מסך, ופסקה מוסתרת מקריאה את שני המחירים הסופיים. מובייל: הלוחות נערמים בעמודה אחת.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G195 · מחיר לפי פריט מול מסלול קבוע */\n.ppv{max-width:960px;margin-inline:auto}\n.ppv-pin{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(16px,2.4vw,28px);align-items:stretch;align-content:center}\n.ppv-box{display:flex;flex-direction:column;gap:18px;min-width:0;padding:clamp(20px,2.6vw,40px);border-radius:28px}\n.ppv-pay{background:var(--card, #fff);color:var(--ink, #16182b);box-shadow:0 18px 40px -30px color-mix(in srgb,var(--ink, #16182b) 45%,transparent)}\n.ppv-plan{justify-content:space-between;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.ppv-k{margin:0;font-size:15px;font-weight:600}\n.ppv-pay .ppv-k{color:var(--muted, #6a6d85)}\n.ppv-rows{list-style:none;margin:0;padding:0;display:grid;gap:6px}\n.ppv-row{display:flex;justify-content:space-between;gap:16px;padding:10px 14px;border-radius:12px;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent)}\n.ppv-row b{font-weight:600;font-variant-numeric:tabular-nums}\n.ppv-sum{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:auto}\n.ppv-sum span{color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px))}\n.ppv-sum i{font-style:normal}\n.ppv-total{font-size:clamp(36px,4.4vw,56px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}\n.ppv-price{display:flex;align-items:baseline;gap:10px;margin:0}\n.ppv-price b{font-size:clamp(44px,5.4vw,72px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}\n.ppv-price small{font-size:16px}\n.ppv-incl{margin:0;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.5}\n.ppv-incl i{font-style:normal;font-weight:700}\n.ppv-save{align-self:flex-start;display:inline-flex;gap:6px;padding:6px 14px;border-radius:99px;font-size:14px;font-weight:700;background:color-mix(in srgb,var(--accent-ink, #fff) 16%,transparent)}\n.ppv-save b{font-variant-numeric:tabular-nums}\n.ppv-bar{display:block;height:8px;border-radius:99px;overflow:hidden;background:color-mix(in srgb,currentColor 16%,transparent)}\n.ppv-bar i{display:block;height:100%;border-radius:inherit;background:currentColor;transform-origin:100% 50%;transform:scaleX(var(--w,1))}\n.ppv-pay .ppv-bar{color:var(--ink, #16182b)}\n.ppv.is-live{height:320vh}\n.ppv.is-live .ppv-pin{position:sticky;top:0;height:100vh;height:100svh}\n.ppv.is-anim .ppv-row{transition:opacity .35s cubic-bezier(.2,.6,.2,1),transform .35s cubic-bezier(.2,.6,.2,1)}\n.ppv.is-anim .ppv-row.is-off{opacity:0;transform:translateY(10px)}\n.ppv.is-anim .ppv-bar i{transition:transform .35s cubic-bezier(.2,.6,.2,1)}\n.ppv.is-anim .ppv-save{transition:opacity .3s cubic-bezier(.2,.6,.2,1),transform .3s cubic-bezier(.2,.6,.2,1)}\n.ppv.is-anim .ppv-save.is-off{opacity:0;transform:translateY(6px)}\n.ppv .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n@media(max-width:767px){\n  .ppv-pin{grid-template-columns:minmax(0,1fr);gap:12px}\n  .ppv-box{gap:12px;padding:20px;border-radius:24px}\n  .ppv-rows{gap:4px}\n  .ppv-row{padding:6px 12px;font-size:15px}\n  .ppv-total{font-size:36px}\n  .ppv-price b{font-size:44px}\n}","html":"<div class=\"stage\"><div class=\"ppv\" data-unit=\"220\" data-plan=\"1200\">\n  <div class=\"ppv-pin\">\n  <p class=\"sr-only\">בתשלום לפי פוסט, תשעה פוסטים בחודש עולים 1,980 שקלים. במסלול החודשי הקבוע אותם פוסטים עולים 1,200 שקלים, וההפרש הוא 780 שקלים.<\/p>\n  <section class=\"ppv-box ppv-pay\">\n    <p class=\"ppv-k\">תשלום לפי פוסט, ₪220 לכל אחד<\/p>\n    <ul class=\"ppv-rows\">\n      <li class=\"ppv-row\"><span>פוסט השקה לשירות החדש<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>קרוסלה על שלבי העבודה<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>סטורי למבצע סוף חודש<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>פוסט עם המלצת לקוח<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>באנר לקמפיין בפייסבוק<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>תמונת שער לניוזלטר<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>פוסט לקראת החג<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>גרפיקה להרצאה ביום עיון<\/span><b>₪220<\/b><\/li>\n      <li class=\"ppv-row\"><span>פוסט היכרות עם הצוות<\/span><b>₪220<\/b><\/li>\n    <\/ul>\n    <div class=\"ppv-sum\" aria-hidden=\"true\"><span>סה״כ ל-<i data-count>9 פוסטים<\/i><\/span><strong class=\"ppv-total\">₪1,980<\/strong><\/div>\n    <span class=\"ppv-bar\" aria-hidden=\"true\"><i><\/i><\/span>\n  <\/section>\n  <section class=\"ppv-box ppv-plan\">\n    <p class=\"ppv-k\">מסלול חודשי קבוע<\/p>\n    <p class=\"ppv-price\"><b>₪1,200<\/b><small>לחודש<\/small><\/p>\n    <p class=\"ppv-incl\" aria-hidden=\"true\"><i data-count>9 פוסטים<\/i> בחודש, באותו מחיר ובלי תוספת על כל אחד.<\/p>\n    <span class=\"ppv-save\" aria-hidden=\"true\"><span>חוסכים<\/span><b>₪780<\/b><\/span>\n    <span class=\"ppv-bar\" aria-hidden=\"true\"><i style=\"--w:0.606\"><\/i><\/span>\n  <\/section>\n  <\/div>\n<\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP כל השורות והסכום הסופי כבר במארקאפ\n  const root=document.querySelector(\".ppv\"),rows=[...root.querySelectorAll(\".ppv-row\")],N=rows.length;\n  const unit=+root.dataset.unit,plan=+root.dataset.plan;\n  const total=root.querySelector(\".ppv-total\"),bar=root.querySelector(\".ppv-pay .ppv-bar i\");\n  const save=root.querySelector(\".ppv-save\"),saveN=save.querySelector(\"b\"),counts=[...root.querySelectorAll(\"[data-count]\")];\n  const fmt=n=>n.toLocaleString(\"en-US\"),word=k=>k===1?\"פוסט אחד\":k+\" פוסטים\";\n  // מצב אחד לכל מספר שורות: שורות, סכום, סרגל, משפט הספירה והשבב נגזרים כולם מ-k\n  const paint=k=>{\n    rows.forEach((r,i)=>r.classList.toggle(\"is-off\",i>=k));\n    total.textContent=\"₪\"+fmt(k*unit);\n    counts.forEach(c=>{c.textContent=word(k);});\n    bar.style.setProperty(\"--w\",(k/N).toFixed(3));\n    const d=k*unit-plan;save.classList.toggle(\"is-off\",d<=0);if(d>0)saveN.textContent=\"₪\"+fmt(d);\n  };\n  // בהפחתת תנועה הפונקציה לא רצה, והמצב הסופי נשאר\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    const o={n:0},go=()=>paint(Math.round(o.n));\n    paint(0);\n    root.classList.add(\"is-live\");                              // במה נעוצה: הגובה נקבע לפני שה-ScrollTrigger נוצר\n    requestAnimationFrame(()=>root.classList.add(\"is-anim\"));   // הטרנזישן מופעל רק אחרי ציור המצב ההתחלתי\n    gsap.timeline({defaults:{ease:\"none\"},scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.6}})\n      .to(o,{n:4,duration:4,onUpdate:go})\n      .to({},{duration:1.4})                    // עצירה בארבעה: עד כאן לפי פריט זול יותר\n      .to(o,{n:N,duration:5,onUpdate:go});\n    return()=>{root.classList.remove(\"is-live\",\"is-anim\");paint(N);};\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g194.html" rel="prev"><small>→ הקודם</small><b>אריחי בנטו שכל אחד מנגן הדגמה</b></a><a href="g196.html" rel="next"><small>הבא ←</small><b>נקודות שנופלות ונערמות להיסטוגרמה</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מחיר לפי פריט מול מסלול קבוע").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP כל השורות והסכום הסופי כבר במארקאפ
+  const root=document.querySelector(".ppv"),rows=[...root.querySelectorAll(".ppv-row")],N=rows.length;
+  const unit=+root.dataset.unit,plan=+root.dataset.plan;
+  const total=root.querySelector(".ppv-total"),bar=root.querySelector(".ppv-pay .ppv-bar i");
+  const save=root.querySelector(".ppv-save"),saveN=save.querySelector("b"),counts=[...root.querySelectorAll("[data-count]")];
+  const fmt=n=>n.toLocaleString("en-US"),word=k=>k===1?"פוסט אחד":k+" פוסטים";
+  // מצב אחד לכל מספר שורות: שורות, סכום, סרגל, משפט הספירה והשבב נגזרים כולם מ-k
+  const paint=k=>{
+    rows.forEach((r,i)=>r.classList.toggle("is-off",i>=k));
+    total.textContent="₪"+fmt(k*unit);
+    counts.forEach(c=>{c.textContent=word(k);});
+    bar.style.setProperty("--w",(k/N).toFixed(3));
+    const d=k*unit-plan;save.classList.toggle("is-off",d<=0);if(d>0)saveN.textContent="₪"+fmt(d);
+  };
+  // בהפחתת תנועה הפונקציה לא רצה, והמצב הסופי נשאר
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const o={n:0},go=()=>paint(Math.round(o.n));
+    paint(0);
+    root.classList.add("is-live");                              // במה נעוצה: הגובה נקבע לפני שה-ScrollTrigger נוצר
+    requestAnimationFrame(()=>root.classList.add("is-anim"));   // הטרנזישן מופעל רק אחרי ציור המצב ההתחלתי
+    gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}})
+      .to(o,{n:4,duration:4,onUpdate:go})
+      .to({},{duration:1.4})                    // עצירה בארבעה: עד כאן לפי פריט זול יותר
+      .to(o,{n:N,duration:5,onUpdate:go});
+    return()=>{root.classList.remove("is-live","is-anim");paint(N);};
+  });
+})();
+</script>
+</body>
+</html>

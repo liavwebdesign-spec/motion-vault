@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G195 · מחיר לפי פריט מול מסלול קבוע</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G195 · מחיר לפי פריט מול מסלול קבוע */
+.ppv{max-width:960px;margin-inline:auto}
+.ppv-pin{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(16px,2.4vw,28px);align-items:stretch;align-content:center}
+.ppv-box{display:flex;flex-direction:column;gap:18px;min-width:0;padding:clamp(20px,2.6vw,40px);border-radius:28px}
+.ppv-pay{background:var(--card, #fff);color:var(--ink, #16182b);box-shadow:0 18px 40px -30px color-mix(in srgb,var(--ink, #16182b) 45%,transparent)}
+.ppv-plan{justify-content:space-between;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.ppv-k{margin:0;font-size:15px;font-weight:600}
+.ppv-pay .ppv-k{color:var(--muted, #6a6d85)}
+.ppv-rows{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.ppv-row{display:flex;justify-content:space-between;gap:16px;padding:10px 14px;border-radius:12px;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));background:color-mix(in srgb,var(--ink, #16182b) 5%,transparent)}
+.ppv-row b{font-weight:600;font-variant-numeric:tabular-nums}
+.ppv-sum{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:auto}
+.ppv-sum span{color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px))}
+.ppv-sum i{font-style:normal}
+.ppv-total{font-size:clamp(36px,4.4vw,56px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.ppv-price{display:flex;align-items:baseline;gap:10px;margin:0}
+.ppv-price b{font-size:clamp(44px,5.4vw,72px);font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.ppv-price small{font-size:16px}
+.ppv-incl{margin:0;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.5}
+.ppv-incl i{font-style:normal;font-weight:700}
+.ppv-save{align-self:flex-start;display:inline-flex;gap:6px;padding:6px 14px;border-radius:99px;font-size:14px;font-weight:700;background:color-mix(in srgb,var(--accent-ink, #fff) 16%,transparent)}
+.ppv-save b{font-variant-numeric:tabular-nums}
+.ppv-bar{display:block;height:8px;border-radius:99px;overflow:hidden;background:color-mix(in srgb,currentColor 16%,transparent)}
+.ppv-bar i{display:block;height:100%;border-radius:inherit;background:currentColor;transform-origin:100% 50%;transform:scaleX(var(--w,1))}
+.ppv-pay .ppv-bar{color:var(--ink, #16182b)}
+.ppv.is-live{height:320vh}
+.ppv.is-live .ppv-pin{position:sticky;top:0;height:100vh;height:100svh}
+.ppv.is-anim .ppv-row{transition:opacity .35s cubic-bezier(.2,.6,.2,1),transform .35s cubic-bezier(.2,.6,.2,1)}
+.ppv.is-anim .ppv-row.is-off{opacity:0;transform:translateY(10px)}
+.ppv.is-anim .ppv-bar i{transition:transform .35s cubic-bezier(.2,.6,.2,1)}
+.ppv.is-anim .ppv-save{transition:opacity .3s cubic-bezier(.2,.6,.2,1),transform .3s cubic-bezier(.2,.6,.2,1)}
+.ppv.is-anim .ppv-save.is-off{opacity:0;transform:translateY(6px)}
+.ppv .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(max-width:767px){
+  .ppv-pin{grid-template-columns:minmax(0,1fr);gap:12px}
+  .ppv-box{gap:12px;padding:20px;border-radius:24px}
+  .ppv-rows{gap:4px}
+  .ppv-row{padding:6px 12px;font-size:15px}
+  .ppv-total{font-size:36px}
+  .ppv-price b{font-size:44px}
+}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="ppv" data-unit="220" data-plan="1200">
+  <div class="ppv-pin">
+  <p class="sr-only">בתשלום לפי פוסט, תשעה פוסטים בחודש עולים 1,980 שקלים. במסלול החודשי הקבוע אותם פוסטים עולים 1,200 שקלים, וההפרש הוא 780 שקלים.</p>
+  <section class="ppv-box ppv-pay">
+    <p class="ppv-k">תשלום לפי פוסט, ₪220 לכל אחד</p>
+    <ul class="ppv-rows">
+      <li class="ppv-row"><span>פוסט השקה לשירות החדש</span><b>₪220</b></li>
+      <li class="ppv-row"><span>קרוסלה על שלבי העבודה</span><b>₪220</b></li>
+      <li class="ppv-row"><span>סטורי למבצע סוף חודש</span><b>₪220</b></li>
+      <li class="ppv-row"><span>פוסט עם המלצת לקוח</span><b>₪220</b></li>
+      <li class="ppv-row"><span>באנר לקמפיין בפייסבוק</span><b>₪220</b></li>
+      <li class="ppv-row"><span>תמונת שער לניוזלטר</span><b>₪220</b></li>
+      <li class="ppv-row"><span>פוסט לקראת החג</span><b>₪220</b></li>
+      <li class="ppv-row"><span>גרפיקה להרצאה ביום עיון</span><b>₪220</b></li>
+      <li class="ppv-row"><span>פוסט היכרות עם הצוות</span><b>₪220</b></li>
+    </ul>
+    <div class="ppv-sum" aria-hidden="true"><span>סה״כ ל-<i data-count>9 פוסטים</i></span><strong class="ppv-total">₪1,980</strong></div>
+    <span class="ppv-bar" aria-hidden="true"><i></i></span>
+  </section>
+  <section class="ppv-box ppv-plan">
+    <p class="ppv-k">מסלול חודשי קבוע</p>
+    <p class="ppv-price"><b>₪1,200</b><small>לחודש</small></p>
+    <p class="ppv-incl" aria-hidden="true"><i data-count>9 פוסטים</i> בחודש, באותו מחיר ובלי תוספת על כל אחד.</p>
+    <span class="ppv-save" aria-hidden="true"><span>חוסכים</span><b>₪780</b></span>
+    <span class="ppv-bar" aria-hidden="true"><i style="--w:0.606"></i></span>
+  </section>
+  </div>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP כל השורות והסכום הסופי כבר במארקאפ
+  const root=document.querySelector(".ppv"),rows=[...root.querySelectorAll(".ppv-row")],N=rows.length;
+  const unit=+root.dataset.unit,plan=+root.dataset.plan;
+  const total=root.querySelector(".ppv-total"),bar=root.querySelector(".ppv-pay .ppv-bar i");
+  const save=root.querySelector(".ppv-save"),saveN=save.querySelector("b"),counts=[...root.querySelectorAll("[data-count]")];
+  const fmt=n=>n.toLocaleString("en-US"),word=k=>k===1?"פוסט אחד":k+" פוסטים";
+  // מצב אחד לכל מספר שורות: שורות, סכום, סרגל, משפט הספירה והשבב נגזרים כולם מ-k
+  const paint=k=>{
+    rows.forEach((r,i)=>r.classList.toggle("is-off",i>=k));
+    total.textContent="₪"+fmt(k*unit);
+    counts.forEach(c=>{c.textContent=word(k);});
+    bar.style.setProperty("--w",(k/N).toFixed(3));
+    const d=k*unit-plan;save.classList.toggle("is-off",d<=0);if(d>0)saveN.textContent="₪"+fmt(d);
+  };
+  // בהפחתת תנועה הפונקציה לא רצה, והמצב הסופי נשאר
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const o={n:0},go=()=>paint(Math.round(o.n));
+    paint(0);
+    root.classList.add("is-live");                              // במה נעוצה: הגובה נקבע לפני שה-ScrollTrigger נוצר
+    requestAnimationFrame(()=>root.classList.add("is-anim"));   // הטרנזישן מופעל רק אחרי ציור המצב ההתחלתי
+    gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}})
+      .to(o,{n:4,duration:4,onUpdate:go})
+      .to({},{duration:1.4})                    // עצירה בארבעה: עד כאן לפי פריט זול יותר
+      .to(o,{n:N,duration:5,onUpdate:go});
+    return()=>{root.classList.remove("is-live","is-anim");paint(N);};
+  });
+})();
+</script>
+</body>
+</html>

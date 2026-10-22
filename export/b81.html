@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B81 · טבעת מילים תלת ממדית שמסתובבת סביב נקודה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B81 · טבעת מילים תלת ממדית שמסתובבת סביב נקודה */
+.rg{--rg-d:clamp(280px,42vw,560px);--rg-fs:clamp(18px,2vw,28px);position:relative;display:grid;justify-items:center;gap:24px;width:100%;text-align:center}
+.rg-lead{margin:0;max-width:36ch;color:var(--muted, #6a6d85);font-size:clamp(18px,1.9vw,26px);line-height:1.5;text-wrap:balance}
+.rg-fallback{margin:0;max-width:24ch;font-size:clamp(22px,3vw,36px);font-weight:700;line-height:1.4;text-wrap:balance}
+/* כשהטבעת נבנית, השורה נשארת לקורא מסך בלבד */
+.rg.is-ring .rg-fallback{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.rg-stage{position:relative;width:100%;height:calc(var(--rg-d)*.64);perspective:calc(var(--rg-d)*1.7);perspective-origin:50% 39%}
+/* מדד בלתי נראה: ה-JS קורא ממנו את הקוטר ואת גודל האות, כדי ששניהם יישארו ב-CSS */
+.rg-sz{position:absolute;left:0;top:0;width:var(--rg-d);height:0;font-size:var(--rg-fs);visibility:hidden;pointer-events:none}
+.rg-tilt,.rg-ring{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d}
+.rg-tilt{top:39%}
+.rg-c{position:absolute;left:0;top:0;font-weight:700;line-height:1;white-space:pre;color:var(--ink, #16182b)}
+.rg-dot{position:absolute;left:50%;top:39%;width:max(14px,min(22px,var(--rg-d)*.04));aspect-ratio:1;translate:-50% -50%;border-radius:50%;background:var(--accent, #4a3aff)}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><div class="rg">
+  <p class="rg-lead">אנחנו עובדים עם עסקים קטנים וגדולים על כל החומרים שהם צריכים כדי להיראות מקצועיים.</p>
+  <p class="rg-fallback">מיתוג · אתרים · צילום · סרטונים · דפוס · קמפיינים</p>
+</div></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script>
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP נשארת שורת השירותים
+  const root=document.querySelector(".rg"),fb=root.querySelector(".rg-fallback");
+  if(!fb)return;
+  const src=fb.textContent.trim().split(" ").filter(Boolean).join(" ")+" ",NB=String.fromCharCode(160);
+  const chars=[...src],S=chars.filter(c=>c===" ").length;
+  // בהפחתת תנועה הפונקציה לא רצה, והשורה נשארת
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    const stage=document.createElement("div");stage.className="rg-stage";stage.setAttribute("aria-hidden","true");
+    stage.innerHTML='<i class="rg-sz"></i><div class="rg-tilt"><div class="rg-ring"></div></div><span class="rg-dot"></span>';
+    root.appendChild(stage);root.classList.add("is-ring");
+    const sz=stage.querySelector(".rg-sz"),tilt=stage.querySelector(".rg-tilt"),ring=stage.querySelector(".rg-ring");
+    let spans=[],ang=[],alive=true,key="";const TILT=-26;
+    gsap.set(tilt,{rotationX:TILT});
+    // שקיפות לפי זווית בעולם: הצד הקרוב מלא, הרחוק עמום
+    const paint=()=>{
+      const r=(+gsap.getProperty(ring,"rotationY")||0)*Math.PI/180;
+      for(let i=0;i<spans.length;i++)spans[i].style.opacity=(.16+.84*Math.pow(Math.max(Math.cos(ang[i]+r),0),1.4)).toFixed(3);
+    };
+    // n עותקים של השורה, בגודל אות fs
+    const mk=(n,fs)=>{
+      ring.textContent="";ring.style.fontSize=fs+"px";
+      const out=[];
+      for(let k=0;k<n;k++)chars.forEach(ch=>{const s=document.createElement("span");s.className="rg-c";s.textContent=ch===" "?NB:ch;ring.appendChild(s);out.push(s);});
+      return out;
+    };
+    const keyNow=()=>sz.offsetWidth+":"+parseFloat(getComputedStyle(sz).fontSize);
+    const build=()=>{
+      key=keyNow();
+      // הקוטר וגודל האות מגיעים מה-CSS (clamp), והטבעת נבנית לפיהם
+      const D=sz.offsetWidth,fsT=parseFloat(getComputedStyle(sz).fontSize),C=Math.PI*D,R=D/2;
+      let T1=0;mk(1,fsT).forEach(s=>{T1+=s.offsetWidth;});
+      // כמה עותקים נכנסים בהיקף באות בגודל היעד. אם נשאר מקום גדול מדי בין המילים, האות גדלה מעט (עד 30%)
+      let n=1,fs=fsT;
+      if(T1>C)fs=fsT*C/T1*.97;
+      else{n=Math.floor(C/T1);fs=fsT*Math.min(1.3,Math.max(1,C/(n*(T1+1.1*fsT*S))));}
+      spans=mk(n,fs);
+      const w=spans.map(s=>s.offsetWidth);
+      let total=0;w.forEach(x=>{total+=x;});
+      // מה שנשאר (או חסר) עד היקף מלא מתחלק שווה בין הרווחים, והטבעת נסגרת בדיוק
+      const extra=S?(C-total)/(n*S):0;
+      let cum=0;ang=[];
+      // האות הראשונה בחזית והבאות שמאלה (זווית יורדת), כך שהקריאה ימין לשמאל. באתר LTR: זווית עולה
+      spans.forEach((s,i)=>{
+        const wi=w[i]+(chars[i%chars.length]===" "?extra:0);
+        const a=-(cum+wi/2)/R;cum+=wi;ang.push(a);
+        s.style.transform="translate(-50%,-50%) rotateY("+(a*57.29578).toFixed(3)+"deg) translateZ("+R.toFixed(1)+"px)";
+      });
+      paint();
+    };
+    build();
+    const tw=gsap.to(ring,{rotationY:-360,duration:36,ease:"none",repeat:-1,onUpdate:paint});
+    // הפונט נטען אחרי הבנייה הראשונה: בונים מחדש עם הרוחבים האמיתיים
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>{if(alive)build();});
+    const ro=new ResizeObserver(()=>{if(alive&&keyNow()!==key)build();});ro.observe(stage);ro.observe(sz);
+    const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)tw.play();else tw.pause();});});io.observe(stage);
+    // הטיה אחרי העכבר, רק כשיש עכבר
+    const qx=gsap.quickTo(tilt,"rotationX",{duration:.8,ease:"power3"}),qz=gsap.quickTo(tilt,"rotationZ",{duration:.8,ease:"power3"});
+    const move=e=>{const r=stage.getBoundingClientRect();qx(TILT+((e.clientY-r.top)/r.height-.5)*16);qz(-((e.clientX-r.left)/r.width-.5)*8);};
+    const leave=()=>{qx(TILT);qz(0);};
+    if(matchMedia("(hover: hover) and (pointer: fine)").matches){root.addEventListener("pointermove",move);root.addEventListener("pointerleave",leave);}
+    return()=>{alive=false;tw.kill();io.disconnect();ro.disconnect();root.removeEventListener("pointermove",move);root.removeEventListener("pointerleave",leave);stage.remove();root.classList.remove("is-ring");};
+  });
+})();
+</script>
+</body>
+</html>

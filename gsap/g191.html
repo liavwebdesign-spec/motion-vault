@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G191 · מסכים מקוננים שמתקרבים פנימה | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.ds{max-width:1040px;margin-inline:auto}
+.ds-pin{display:grid;gap:24px;justify-items:center;align-content:center}
+.ds-h{margin:0;font-size:clamp(26px,3.4vw,44px);font-weight:700;line-height:1.15;text-align:center}
+.ds-view{--s:.4;--sx:.06;--sy:.3;--u:1cqw;position:relative;width:min(960px,100%,calc(62svh*1.6));aspect-ratio:16 / 10;margin-inline:auto;border-radius:20px;overflow:clip;background:color-mix(in srgb,var(--ink) 8%,var(--bg));box-shadow:0 0 0 1px var(--line),0 32px 64px -32px color-mix(in srgb,var(--ink) 45%,transparent)}
+.ds-world{position:absolute;inset:0;transform-origin:calc(var(--sx)/(1 - var(--s))*100%) calc(var(--sy)/(1 - var(--s))*100%)}
+.ds-l{position:absolute;left:0;top:0;width:100%;height:100%;container-type:size;transform-origin:0 0;transform:translate(calc(var(--tx)*100%),calc(var(--ty)*100%)) scale(var(--sc))}
+.ds-l0{--tx:0;--ty:0;--sc:1}
+.ds-l1{--tx:var(--sx);--ty:var(--sy);--sc:var(--s)}
+.ds-l2{--tx:calc(var(--sx)*(1 + var(--s)));--ty:calc(var(--sy)*(1 + var(--s)));--sc:calc(var(--s)*var(--s))}
+.ds-l3{--tx:calc(var(--sx)*(1 + var(--s) + var(--s)*var(--s)));--ty:calc(var(--sy)*(1 + var(--s) + var(--s)*var(--s)));--sc:calc(var(--s)*var(--s)*var(--s))}
+.ds-fr{position:absolute;inset:0;overflow:clip;border-radius:calc(var(--u)*1.6);background:var(--card);box-shadow:0 0 0 1px var(--line)}
+.ds-tb{position:absolute;inset-inline:0;top:0;height:9%;display:flex;align-items:center;gap:calc(var(--u)*.8);padding-inline:calc(var(--u)*2.4);border-bottom:1px solid var(--line);font-size:calc(var(--u)*1.5);color:var(--muted)}
+.ds-tb i{width:calc(var(--u)*1.1);height:calc(var(--u)*1.1);border-radius:50%;background:var(--line)}
+.ds-tb span{margin-inline-start:calc(var(--u)*1.6)}
+.ds-tx{position:absolute;inset-inline-start:5%;top:54.5%;width:44%;display:grid;gap:calc(var(--u)*1.6);transform:translateY(-50%)}
+.ds-tx small{font-size:calc(var(--u)*1.5);color:var(--muted)}
+.ds-tx b{font-size:calc(var(--u)*3.4);line-height:1.15}
+.ds-tx p{margin:0;font-size:calc(var(--u)*1.9);line-height:1.5}
+.ds-ch{display:flex;flex-wrap:wrap;gap:calc(var(--u)*1)}
+.ds-ch span{padding:calc(var(--u)*.6) calc(var(--u)*1.6);border:1px solid var(--line);border-radius:999px;font-size:calc(var(--u)*1.7)}
+.ds-ch .on{border-color:transparent;background:var(--accent);color:var(--accent-ink)}
+.ds-fd{display:grid;gap:calc(var(--u)*.6)}
+.ds-in{display:flex;align-items:center;height:calc(var(--u)*4.2);padding-inline:calc(var(--u)*1.4);border:1px solid var(--line);border-radius:calc(var(--u)*1);background:var(--bg);font-size:calc(var(--u)*1.7)}
+.ds-in i{display:block;width:40%;height:35%;border-radius:999px;background:var(--line)}
+.ds-go{justify-self:start;padding:calc(var(--u)*.9) calc(var(--u)*2.4);border-radius:999px;background:var(--ink);color:var(--bg);font-size:calc(var(--u)*1.7);font-weight:600}
+.ds-slot,.ds-ok{position:absolute;left:calc(var(--sx)*100%);top:calc(var(--sy)*100%);width:calc(var(--s)*100%);height:calc(var(--s)*100%)}
+.ds-slot{border-radius:calc(var(--u)*1.2);background:color-mix(in srgb,var(--ink) 6%,var(--card))}
+.ds-ok{display:grid;place-items:center}
+.ds-ok i{display:grid;place-items:center;width:42%;aspect-ratio:1;border-radius:50%;background:var(--accent)}
+.ds-ok svg{width:52%;height:52%;fill:none;stroke:var(--accent-ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.ds-pr{position:absolute;inset-inline:5%;bottom:6%;display:flex;gap:calc(var(--u)*.8)}
+.ds-pr i{flex:1;height:calc(var(--u)*.7);border-radius:999px;background:var(--line)}
+.ds-pr i.on{background:var(--accent)}
+.ds-steps{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 32px;margin:0;padding:0;list-style-position:inside;font-size:var(--fs-body);color:var(--muted)}
+.ds-steps li{transition:color .2s linear}
+.ds-steps li.is-on{color:var(--ink);font-weight:700}
+/* המהלך רץ: הסקשן גבוה, הבמה נדבקת, והעולם מתקרב לפי הגלילה */
+.ds.is-live{height:420vh}
+.ds.is-live .ds-pin{position:sticky;top:0;height:100vh;height:100svh}
+@media(max-width:767px){
+.ds-view{--s:.46;--sx:.27;--sy:.46;--u:1.6cqw;width:min(100%,calc(52svh*.8));aspect-ratio:4 / 5}
+.ds-tb{height:7%}
+.ds-tx{inset-inline:7%;top:10%;width:auto;transform:none}
+.ds-pr{display:none}
+.ds-steps{gap:4px 20px}
+}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g190.html" rel="prev" title="הקודם: מילה שמתחלפת ומביאה איתה כרטיס ורקע">→<span class="sr-only">הקודם</span></a><span class="vpn-n">167/177</span><a href="g192.html" rel="next" title="הבא: שני גרפים שמונעים על ידי פרמטר אחד">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G191</span> · מסכים מקוננים שמתקרבים פנימה</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · pinned · container units</span>
+  <span class="vchip use">תהליך ושלבים</span><span class="vchip use">תמונות וגלריות</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g191"><code>MV:g191</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g191">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>חלון הזמנת תור שבתוכו, בצד, מסך קטן שהוא השלב הבא, ובתוכו עוד אחד, ועוד אחד. הגלילה מקרבת את המצלמה פנימה: המסך הקטן גדל עד שהוא ממלא את החלון והופך לשלב הבא, וכך ארבע פעמים, עד לאישור התור. מסך אחד, ארבעה שלבים, בלי חיתוך.</p>
+  <p class="when"><b>מתי משתמשים:</b> תהליך של שלושה עד חמישה שלבים שרוצים להראות כרצף אחד: הזמנת תור, הרשמה, קניית חבילה, קליטת לקוח. סקשן אחד בעמוד שירות או תהליך. מתאים כשכל שלב הוא מסך אמיתי שאפשר לצייר בפשטות. לא מתאים כשיש הרבה טקסט בכל שלב, כי המסכים הפנימיים קטנים מאוד עד שהם מגיעים אליך.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>וואן-פייג'ר · אתר תדמית · דף נחיתה</dd></div><div><dt>בסקשן</dt><dd>תהליך ושלבים · בעיה ויתרונות</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשיש יותר מחמישה שלבים או הרבה טקסט בכל מסך, כי המסכים הפנימיים קטנים מדי לקריאה; שם רשימת שלבים רגילה.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g191"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="ds">
+  <div class="ds-pin">
+    <h2 class="ds-h">הזמנת תור בארבעה מסכים</h2>
+    <div class="ds-view" aria-hidden="true"><div class="ds-world">
+      <div class="ds-l ds-l0"><div class="ds-fr">
+        <div class="ds-tb"><i></i><i></i><i></i><span>מרפאת השרון · קביעת תור</span></div>
+        <div class="ds-tx"><small>שלב ראשון מארבעה</small><b>בחירת טיפול</b><div class="ds-ch"><span class="on">ייעוץ ראשוני</span><span>ניקוי</span><span>טיפול</span></div><span class="ds-go">המשך</span></div>
+        <div class="ds-slot"></div>
+        <div class="ds-pr"><i class="on"></i><i></i><i></i><i></i></div>
+      </div></div>
+      <div class="ds-l ds-l1"><div class="ds-fr">
+        <div class="ds-tb"><i></i><i></i><i></i><span>מרפאת השרון · קביעת תור</span></div>
+        <div class="ds-tx"><small>שלב שני מארבעה</small><b>בחירת מועד</b><div class="ds-ch"><span>ראשון</span><span class="on">שני</span><span>שלישי</span></div><div class="ds-ch"><span>09:00</span><span class="on">10:30</span><span>12:00</span></div><span class="ds-go">המשך</span></div>
+        <div class="ds-slot"></div>
+        <div class="ds-pr"><i class="on"></i><i class="on"></i><i></i><i></i></div>
+      </div></div>
+      <div class="ds-l ds-l2"><div class="ds-fr">
+        <div class="ds-tb"><i></i><i></i><i></i><span>מרפאת השרון · קביעת תור</span></div>
+        <div class="ds-tx"><small>שלב שלישי מארבעה</small><b>פרטים ליצירת קשר</b><div class="ds-fd"><small>שם מלא</small><span class="ds-in">דנה כהן</span></div><div class="ds-fd"><small>טלפון</small><span class="ds-in"><i></i></span></div><span class="ds-go">אישור התור</span></div>
+        <div class="ds-slot"></div>
+        <div class="ds-pr"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+      </div></div>
+      <div class="ds-l ds-l3"><div class="ds-fr">
+        <div class="ds-tb"><i></i><i></i><i></i><span>מרפאת השרון · קביעת תור</span></div>
+        <div class="ds-tx"><small>שלב אחרון</small><b>התור נקבע</b><p>נתראה ביום שני בשעה 10:30, במרפאת השרון.</p></div>
+        <div class="ds-ok"><i><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i></div>
+        <div class="ds-pr"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+      </div></div>
+    </div></div>
+    <ol class="ds-steps"><li class="is-on">בחירת טיפול</li><li>בחירת מועד</li><li>פרטים ליצירת קשר</li><li>אישור התור</li></ol>
+  </div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: סרטון אחד ב-prompt-motion.com של נגן שמכיל מסך שמנגן את אותו נגן, והמצלמה צוללת פנימה שוב ושוב (21.10.2026). נבנה מאפס מהצפייה. <b>העיקרון:</b> כל מסך הוא עותק של החלון, מוקטן ב-<code>--s</code> ומוזז לחריץ ב-<code>--sx</code> ו-<code>--sy</code> (שברים מגודל החלון). ארבעת המסכים הם אחים שטוחים בתוך <code>.ds-world</code> ולא מקוננים בפועל: מסך k מוקטן ב-<code>s</code> בחזקת k ומוזז בסכום סדרה הנדסית, ולכן החישוב הוא <code>translate</code> ו-<code>scale</code> נקיים בלי חיתוכים. <b>הזום:</b> כל המסכים מקבלים מקדם אחד <code>z = (1/s)^p</code> סביב נקודת השבת של ההעתקה <code>sx/(1-s)</code>, שנמצאת ב-<code>transform-origin</code> של העולם. כש-<code>p</code> הוא מספר שלם, מסך מספר p ממלא בדיוק את החלון. <b>תנועה:</b> מונה אחד <code>p</code> (0 עד 3) נע בשלוש קפיצות עם עצירה בין כל שתיים, כדי שכל שלב יספיק להיקרא. <b>חיסכון:</b> מסך שכוסה לגמרי על ידי הבא אחריו מקבל <code>visibility:hidden</code>. <b>חדות:</b> בלי <code>will-change</code> ובלי 3D, כדי שהטקסט יצויר מחדש חד בכל גודל. <b>היחידות:</b> כל מסך הוא <code>container</code> (<code>cqw</code>), ולכן גודל הפונט והריווחים נגזרים מרוחב המסך ולא מהדף. <b>במובייל</b> המסכים בפורמט עומד, החריץ במרכז מתחת לטקסט, והמשתנים <code>--s</code>, <code>--sx</code>, <code>--sy</code> מוחלפים ב-CSS (הקוד קורא אותם מחדש בכל רענון). <b>המצב הסטטי:</b> כל ארבעת המסכים מקוננים בגודל מלא ללא תנועה, ומתחתיהם הרשימה הממוספרת של השלבים, שהיא גם התוכן לקורא מסך. <b>אין כפתורים אמיתיים</b> בתוך המסכים, כי הם איור. <b>באתר משמאל לימין</b> מחליפים את צד החריץ (<code>--sx</code> הופך ל-<code>1 - s - sx</code>) ואת מיקום הטקסט.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g191.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G191 · מסכים מקוננים שמתקרבים פנימה */
+.ds{max-width:1040px;margin-inline:auto}
+.ds-pin{display:grid;gap:24px;justify-items:center;align-content:center}
+.ds-h{margin:0;font-size:clamp(26px,3.4vw,44px);font-weight:700;line-height:1.15;text-align:center}
+.ds-view{--s:.4;--sx:.06;--sy:.3;--u:1cqw;position:relative;width:min(960px,100%,calc(62svh*1.6));aspect-ratio:16 / 10;margin-inline:auto;border-radius:20px;overflow:clip;background:color-mix(in srgb,var(--ink, #16182b) 8%,var(--bg, #f7f7fa));box-shadow:0 0 0 1px var(--line, #e4e4ee),0 32px 64px -32px color-mix(in srgb,var(--ink, #16182b) 45%,transparent)}
+.ds-world{position:absolute;inset:0;transform-origin:calc(var(--sx)/(1 - var(--s))*100%) calc(var(--sy)/(1 - var(--s))*100%)}
+.ds-l{position:absolute;left:0;top:0;width:100%;height:100%;container-type:size;transform-origin:0 0;transform:translate(calc(var(--tx)*100%),calc(var(--ty)*100%)) scale(var(--sc))}
+.ds-l0{--tx:0;--ty:0;--sc:1}
+.ds-l1{--tx:var(--sx);--ty:var(--sy);--sc:var(--s)}
+.ds-l2{--tx:calc(var(--sx)*(1 + var(--s)));--ty:calc(var(--sy)*(1 + var(--s)));--sc:calc(var(--s)*var(--s))}
+.ds-l3{--tx:calc(var(--sx)*(1 + var(--s) + var(--s)*var(--s)));--ty:calc(var(--sy)*(1 + var(--s) + var(--s)*var(--s)));--sc:calc(var(--s)*var(--s)*var(--s))}
+.ds-fr{position:absolute;inset:0;overflow:clip;border-radius:calc(var(--u)*1.6);background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee)}
+.ds-tb{position:absolute;inset-inline:0;top:0;height:9%;display:flex;align-items:center;gap:calc(var(--u)*.8);padding-inline:calc(var(--u)*2.4);border-bottom:1px solid var(--line, #e4e4ee);font-size:calc(var(--u)*1.5);color:var(--muted, #6a6d85)}
+.ds-tb i{width:calc(var(--u)*1.1);height:calc(var(--u)*1.1);border-radius:50%;background:var(--line, #e4e4ee)}
+.ds-tb span{margin-inline-start:calc(var(--u)*1.6)}
+.ds-tx{position:absolute;inset-inline-start:5%;top:54.5%;width:44%;display:grid;gap:calc(var(--u)*1.6);transform:translateY(-50%)}
+.ds-tx small{font-size:calc(var(--u)*1.5);color:var(--muted, #6a6d85)}
+.ds-tx b{font-size:calc(var(--u)*3.4);line-height:1.15}
+.ds-tx p{margin:0;font-size:calc(var(--u)*1.9);line-height:1.5}
+.ds-ch{display:flex;flex-wrap:wrap;gap:calc(var(--u)*1)}
+.ds-ch span{padding:calc(var(--u)*.6) calc(var(--u)*1.6);border:1px solid var(--line, #e4e4ee);border-radius:999px;font-size:calc(var(--u)*1.7)}
+.ds-ch .on{border-color:transparent;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.ds-fd{display:grid;gap:calc(var(--u)*.6)}
+.ds-in{display:flex;align-items:center;height:calc(var(--u)*4.2);padding-inline:calc(var(--u)*1.4);border:1px solid var(--line, #e4e4ee);border-radius:calc(var(--u)*1);background:var(--bg, #f7f7fa);font-size:calc(var(--u)*1.7)}
+.ds-in i{display:block;width:40%;height:35%;border-radius:999px;background:var(--line, #e4e4ee)}
+.ds-go{justify-self:start;padding:calc(var(--u)*.9) calc(var(--u)*2.4);border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:calc(var(--u)*1.7);font-weight:600}
+.ds-slot,.ds-ok{position:absolute;left:calc(var(--sx)*100%);top:calc(var(--sy)*100%);width:calc(var(--s)*100%);height:calc(var(--s)*100%)}
+.ds-slot{border-radius:calc(var(--u)*1.2);background:color-mix(in srgb,var(--ink, #16182b) 6%,var(--card, #fff))}
+.ds-ok{display:grid;place-items:center}
+.ds-ok i{display:grid;place-items:center;width:42%;aspect-ratio:1;border-radius:50%;background:var(--accent, #4a3aff)}
+.ds-ok svg{width:52%;height:52%;fill:none;stroke:var(--accent-ink, #fff);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.ds-pr{position:absolute;inset-inline:5%;bottom:6%;display:flex;gap:calc(var(--u)*.8)}
+.ds-pr i{flex:1;height:calc(var(--u)*.7);border-radius:999px;background:var(--line, #e4e4ee)}
+.ds-pr i.on{background:var(--accent, #4a3aff)}
+.ds-steps{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 32px;margin:0;padding:0;list-style-position:inside;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));color:var(--muted, #6a6d85)}
+.ds-steps li{transition:color .2s linear}
+.ds-steps li.is-on{color:var(--ink, #16182b);font-weight:700}
+/* המהלך רץ: הסקשן גבוה, הבמה נדבקת, והעולם מתקרב לפי הגלילה */
+.ds.is-live{height:420vh}
+.ds.is-live .ds-pin{position:sticky;top:0;height:100vh;height:100svh}
+@media(max-width:767px){
+.ds-view{--s:.46;--sx:.27;--sy:.46;--u:1.6cqw;width:min(100%,calc(52svh*.8));aspect-ratio:4 / 5}
+.ds-tb{height:7%}
+.ds-tx{inset-inline:7%;top:10%;width:auto;transform:none}
+.ds-pr{display:none}
+.ds-steps{gap:4px 20px}
+}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;div class="ds"&gt;
+  &lt;div class="ds-pin"&gt;
+    &lt;h2 class="ds-h"&gt;הזמנת תור בארבעה מסכים&lt;/h2&gt;
+    &lt;div class="ds-view" aria-hidden="true"&gt;&lt;div class="ds-world"&gt;
+      &lt;div class="ds-l ds-l0"&gt;&lt;div class="ds-fr"&gt;
+        &lt;div class="ds-tb"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;span&gt;מרפאת השרון · קביעת תור&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="ds-tx"&gt;&lt;small&gt;שלב ראשון מארבעה&lt;/small&gt;&lt;b&gt;בחירת טיפול&lt;/b&gt;&lt;div class="ds-ch"&gt;&lt;span class="on"&gt;ייעוץ ראשוני&lt;/span&gt;&lt;span&gt;ניקוי&lt;/span&gt;&lt;span&gt;טיפול&lt;/span&gt;&lt;/div&gt;&lt;span class="ds-go"&gt;המשך&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="ds-slot"&gt;&lt;/div&gt;
+        &lt;div class="ds-pr"&gt;&lt;i class="on"&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+      &lt;/div&gt;&lt;/div&gt;
+      &lt;div class="ds-l ds-l1"&gt;&lt;div class="ds-fr"&gt;
+        &lt;div class="ds-tb"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;span&gt;מרפאת השרון · קביעת תור&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="ds-tx"&gt;&lt;small&gt;שלב שני מארבעה&lt;/small&gt;&lt;b&gt;בחירת מועד&lt;/b&gt;&lt;div class="ds-ch"&gt;&lt;span&gt;ראשון&lt;/span&gt;&lt;span class="on"&gt;שני&lt;/span&gt;&lt;span&gt;שלישי&lt;/span&gt;&lt;/div&gt;&lt;div class="ds-ch"&gt;&lt;span&gt;09:00&lt;/span&gt;&lt;span class="on"&gt;10:30&lt;/span&gt;&lt;span&gt;12:00&lt;/span&gt;&lt;/div&gt;&lt;span class="ds-go"&gt;המשך&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="ds-slot"&gt;&lt;/div&gt;
+        &lt;div class="ds-pr"&gt;&lt;i class="on"&gt;&lt;/i&gt;&lt;i class="on"&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+      &lt;/div&gt;&lt;/div&gt;
+      &lt;div class="ds-l ds-l2"&gt;&lt;div class="ds-fr"&gt;
+        &lt;div class="ds-tb"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;span&gt;מרפאת השרון · קביעת תור&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="ds-tx"&gt;&lt;small&gt;שלב שלישי מארבעה&lt;/small&gt;&lt;b&gt;פרטים ליצירת קשר&lt;/b&gt;&lt;div class="ds-fd"&gt;&lt;small&gt;שם מלא&lt;/small&gt;&lt;span class="ds-in"&gt;דנה כהן&lt;/span&gt;&lt;/div&gt;&lt;div class="ds-fd"&gt;&lt;small&gt;טלפון&lt;/small&gt;&lt;span class="ds-in"&gt;&lt;i&gt;&lt;/i&gt;&lt;/span&gt;&lt;/div&gt;&lt;span class="ds-go"&gt;אישור התור&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="ds-slot"&gt;&lt;/div&gt;
+        &lt;div class="ds-pr"&gt;&lt;i class="on"&gt;&lt;/i&gt;&lt;i class="on"&gt;&lt;/i&gt;&lt;i class="on"&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+      &lt;/div&gt;&lt;/div&gt;
+      &lt;div class="ds-l ds-l3"&gt;&lt;div class="ds-fr"&gt;
+        &lt;div class="ds-tb"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;span&gt;מרפאת השרון · קביעת תור&lt;/span&gt;&lt;/div&gt;
+        &lt;div class="ds-tx"&gt;&lt;small&gt;שלב אחרון&lt;/small&gt;&lt;b&gt;התור נקבע&lt;/b&gt;&lt;p&gt;נתראה ביום שני בשעה 10:30, במרפאת השרון.&lt;/p&gt;&lt;/div&gt;
+        &lt;div class="ds-ok"&gt;&lt;i&gt;&lt;svg viewBox="0 0 24 24"&gt;&lt;path d="M5 12.5l4.5 4.5L19 7.5"/&gt;&lt;/svg&gt;&lt;/i&gt;&lt;/div&gt;
+        &lt;div class="ds-pr"&gt;&lt;i class="on"&gt;&lt;/i&gt;&lt;i class="on"&gt;&lt;/i&gt;&lt;i class="on"&gt;&lt;/i&gt;&lt;i class="on"&gt;&lt;/i&gt;&lt;/div&gt;
+      &lt;/div&gt;&lt;/div&gt;
+    &lt;/div&gt;&lt;/div&gt;
+    &lt;ol class="ds-steps"&gt;&lt;li class="is-on"&gt;בחירת טיפול&lt;/li&gt;&lt;li&gt;בחירת מועד&lt;/li&gt;&lt;li&gt;פרטים ליצירת קשר&lt;/li&gt;&lt;li&gt;אישור התור&lt;/li&gt;&lt;/ol&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP נשארים ארבעת המסכים המקוננים
+  const root=document.querySelector(".ds"),view=root.querySelector(".ds-view"),world=root.querySelector(".ds-world");
+  const lv=[...world.querySelectorAll(".ds-l")],steps=[...root.querySelectorAll(".ds-steps li")];
+  // בהפחתת תנועה הפונקציה לא רצה, והמסכים נשארים מקוננים
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    const P={p:0};
+    let s=.4;
+    const rd=()=&gt;{s=parseFloat(getComputedStyle(view).getPropertyValue("--s"))||.4;};      // החריץ שונה בטלפון
+    const draw=()=&gt;{
+      const z=Math.pow(1/s,P.p);      // z = (1/s)^p: כשp שלם, מסך מספר p ממלא את החלון
+      world.style.transform="scale("+z.toFixed(4)+")";
+      lv.forEach((l,k)=&gt;{l.style.visibility=(k&lt;lv.length-1&amp;&amp;z*Math.pow(s,k+1)&gt;1.02)?"hidden":"";});      // מסך שהבא אחריו כיסה אותו לגמרי
+      const cur=Math.round(P.p);
+      steps.forEach((li,i)=&gt;li.classList.toggle("is-on",i===cur));
+    };
+    rd();
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}});
+    tl.eventCallback("onUpdate",draw);
+    tl.to({},{duration:.5});
+    for(let k=1;k&lt;=3;k++){
+      tl.fromTo(P,{p:k-1},{p:k,duration:1.2,ease:"power2.inOut",immediateRender:false});
+      tl.to({},{duration:k&lt;3?.7:.8});
+    }
+    const sync=()=&gt;{rd();draw();};
+    ScrollTrigger.addEventListener("refresh",sync);
+    return()=&gt;{ScrollTrigger.removeEventListener("refresh",sync);root.classList.remove("is-live");world.style.transform="";lv.forEach(l=&gt;{l.style.visibility="";});steps.forEach((li,i)=&gt;li.classList.toggle("is-on",i===0));};
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g191 · מסכים מקוננים שמתקרבים פנימה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g191.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g191.html\n\nמה זה עושה: חלון הזמנת תור שבתוכו, בצד, מסך קטן שהוא השלב הבא, ובתוכו עוד אחד, ועוד אחד. הגלילה מקרבת את המצלמה פנימה: המסך הקטן גדל עד שהוא ממלא את החלון והופך לשלב הבא, וכך ארבע פעמים, עד לאישור התור. מסך אחד, ארבעה שלבים, בלי חיתוך.\nמתי משתמשים: תהליך של שלושה עד חמישה שלבים שרוצים להראות כרצף אחד: הזמנת תור, הרשמה, קניית חבילה, קליטת לקוח. סקשן אחד בעמוד שירות או תהליך. מתאים כשכל שלב הוא מסך אמיתי שאפשר לצייר בפשטות. לא מתאים כשיש הרבה טקסט בכל שלב, כי המסכים הפנימיים קטנים מאוד עד שהם מגיעים אליך.\nסוג אתר: וואן-פייג'ר · אתר תדמית · דף נחיתה\nבסקשן: תהליך ושלבים · בעיה ויתרונות\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא כשיש יותר מחמישה שלבים או הרבה טקסט בכל מסך, כי המסכים הפנימיים קטנים מדי לקריאה; שם רשימת שלבים רגילה.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G191 · מסכים מקוננים שמתקרבים פנימה */\n.ds{max-width:1040px;margin-inline:auto}\n.ds-pin{display:grid;gap:24px;justify-items:center;align-content:center}\n.ds-h{margin:0;font-size:clamp(26px,3.4vw,44px);font-weight:700;line-height:1.15;text-align:center}\n.ds-view{--s:.4;--sx:.06;--sy:.3;--u:1cqw;position:relative;width:min(960px,100%,calc(62svh*1.6));aspect-ratio:16 / 10;margin-inline:auto;border-radius:20px;overflow:clip;background:color-mix(in srgb,var(--ink, #16182b) 8%,var(--bg, #f7f7fa));box-shadow:0 0 0 1px var(--line, #e4e4ee),0 32px 64px -32px color-mix(in srgb,var(--ink, #16182b) 45%,transparent)}\n.ds-world{position:absolute;inset:0;transform-origin:calc(var(--sx)/(1 - var(--s))*100%) calc(var(--sy)/(1 - var(--s))*100%)}\n.ds-l{position:absolute;left:0;top:0;width:100%;height:100%;container-type:size;transform-origin:0 0;transform:translate(calc(var(--tx)*100%),calc(var(--ty)*100%)) scale(var(--sc))}\n.ds-l0{--tx:0;--ty:0;--sc:1}\n.ds-l1{--tx:var(--sx);--ty:var(--sy);--sc:var(--s)}\n.ds-l2{--tx:calc(var(--sx)*(1 + var(--s)));--ty:calc(var(--sy)*(1 + var(--s)));--sc:calc(var(--s)*var(--s))}\n.ds-l3{--tx:calc(var(--sx)*(1 + var(--s) + var(--s)*var(--s)));--ty:calc(var(--sy)*(1 + var(--s) + var(--s)*var(--s)));--sc:calc(var(--s)*var(--s)*var(--s))}\n.ds-fr{position:absolute;inset:0;overflow:clip;border-radius:calc(var(--u)*1.6);background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee)}\n.ds-tb{position:absolute;inset-inline:0;top:0;height:9%;display:flex;align-items:center;gap:calc(var(--u)*.8);padding-inline:calc(var(--u)*2.4);border-bottom:1px solid var(--line, #e4e4ee);font-size:calc(var(--u)*1.5);color:var(--muted, #6a6d85)}\n.ds-tb i{width:calc(var(--u)*1.1);height:calc(var(--u)*1.1);border-radius:50%;background:var(--line, #e4e4ee)}\n.ds-tb span{margin-inline-start:calc(var(--u)*1.6)}\n.ds-tx{position:absolute;inset-inline-start:5%;top:54.5%;width:44%;display:grid;gap:calc(var(--u)*1.6);transform:translateY(-50%)}\n.ds-tx small{font-size:calc(var(--u)*1.5);color:var(--muted, #6a6d85)}\n.ds-tx b{font-size:calc(var(--u)*3.4);line-height:1.15}\n.ds-tx p{margin:0;font-size:calc(var(--u)*1.9);line-height:1.5}\n.ds-ch{display:flex;flex-wrap:wrap;gap:calc(var(--u)*1)}\n.ds-ch span{padding:calc(var(--u)*.6) calc(var(--u)*1.6);border:1px solid var(--line, #e4e4ee);border-radius:999px;font-size:calc(var(--u)*1.7)}\n.ds-ch .on{border-color:transparent;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.ds-fd{display:grid;gap:calc(var(--u)*.6)}\n.ds-in{display:flex;align-items:center;height:calc(var(--u)*4.2);padding-inline:calc(var(--u)*1.4);border:1px solid var(--line, #e4e4ee);border-radius:calc(var(--u)*1);background:var(--bg, #f7f7fa);font-size:calc(var(--u)*1.7)}\n.ds-in i{display:block;width:40%;height:35%;border-radius:999px;background:var(--line, #e4e4ee)}\n.ds-go{justify-self:start;padding:calc(var(--u)*.9) calc(var(--u)*2.4);border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:calc(var(--u)*1.7);font-weight:600}\n.ds-slot,.ds-ok{position:absolute;left:calc(var(--sx)*100%);top:calc(var(--sy)*100%);width:calc(var(--s)*100%);height:calc(var(--s)*100%)}\n.ds-slot{border-radius:calc(var(--u)*1.2);background:color-mix(in srgb,var(--ink, #16182b) 6%,var(--card, #fff))}\n.ds-ok{display:grid;place-items:center}\n.ds-ok i{display:grid;place-items:center;width:42%;aspect-ratio:1;border-radius:50%;background:var(--accent, #4a3aff)}\n.ds-ok svg{width:52%;height:52%;fill:none;stroke:var(--accent-ink, #fff);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}\n.ds-pr{position:absolute;inset-inline:5%;bottom:6%;display:flex;gap:calc(var(--u)*.8)}\n.ds-pr i{flex:1;height:calc(var(--u)*.7);border-radius:999px;background:var(--line, #e4e4ee)}\n.ds-pr i.on{background:var(--accent, #4a3aff)}\n.ds-steps{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 32px;margin:0;padding:0;list-style-position:inside;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));color:var(--muted, #6a6d85)}\n.ds-steps li{transition:color .2s linear}\n.ds-steps li.is-on{color:var(--ink, #16182b);font-weight:700}\n/* המהלך רץ: הסקשן גבוה, הבמה נדבקת, והעולם מתקרב לפי הגלילה */\n.ds.is-live{height:420vh}\n.ds.is-live .ds-pin{position:sticky;top:0;height:100vh;height:100svh}\n@media(max-width:767px){\n.ds-view{--s:.46;--sx:.27;--sy:.46;--u:1.6cqw;width:min(100%,calc(52svh*.8));aspect-ratio:4 / 5}\n.ds-tb{height:7%}\n.ds-tx{inset-inline:7%;top:10%;width:auto;transform:none}\n.ds-pr{display:none}\n.ds-steps{gap:4px 20px}\n}\n\n=== HTML ===\n<div class=\"stage\"><div class=\"ds\">\n  <div class=\"ds-pin\">\n    <h2 class=\"ds-h\">הזמנת תור בארבעה מסכים<\/h2>\n    <div class=\"ds-view\" aria-hidden=\"true\"><div class=\"ds-world\">\n      <div class=\"ds-l ds-l0\"><div class=\"ds-fr\">\n        <div class=\"ds-tb\"><i><\/i><i><\/i><i><\/i><span>מרפאת השרון · קביעת תור<\/span><\/div>\n        <div class=\"ds-tx\"><small>שלב ראשון מארבעה<\/small><b>בחירת טיפול<\/b><div class=\"ds-ch\"><span class=\"on\">ייעוץ ראשוני<\/span><span>ניקוי<\/span><span>טיפול<\/span><\/div><span class=\"ds-go\">המשך<\/span><\/div>\n        <div class=\"ds-slot\"><\/div>\n        <div class=\"ds-pr\"><i class=\"on\"><\/i><i><\/i><i><\/i><i><\/i><\/div>\n      <\/div><\/div>\n      <div class=\"ds-l ds-l1\"><div class=\"ds-fr\">\n        <div class=\"ds-tb\"><i><\/i><i><\/i><i><\/i><span>מרפאת השרון · קביעת תור<\/span><\/div>\n        <div class=\"ds-tx\"><small>שלב שני מארבעה<\/small><b>בחירת מועד<\/b><div class=\"ds-ch\"><span>ראשון<\/span><span class=\"on\">שני<\/span><span>שלישי<\/span><\/div><div class=\"ds-ch\"><span>09:00<\/span><span class=\"on\">10:30<\/span><span>12:00<\/span><\/div><span class=\"ds-go\">המשך<\/span><\/div>\n        <div class=\"ds-slot\"><\/div>\n        <div class=\"ds-pr\"><i class=\"on\"><\/i><i class=\"on\"><\/i><i><\/i><i><\/i><\/div>\n      <\/div><\/div>\n      <div class=\"ds-l ds-l2\"><div class=\"ds-fr\">\n        <div class=\"ds-tb\"><i><\/i><i><\/i><i><\/i><span>מרפאת השרון · קביעת תור<\/span><\/div>\n        <div class=\"ds-tx\"><small>שלב שלישי מארבעה<\/small><b>פרטים ליצירת קשר<\/b><div class=\"ds-fd\"><small>שם מלא<\/small><span class=\"ds-in\">דנה כהן<\/span><\/div><div class=\"ds-fd\"><small>טלפון<\/small><span class=\"ds-in\"><i><\/i><\/span><\/div><span class=\"ds-go\">אישור התור<\/span><\/div>\n        <div class=\"ds-slot\"><\/div>\n        <div class=\"ds-pr\"><i class=\"on\"><\/i><i class=\"on\"><\/i><i class=\"on\"><\/i><i><\/i><\/div>\n      <\/div><\/div>\n      <div class=\"ds-l ds-l3\"><div class=\"ds-fr\">\n        <div class=\"ds-tb\"><i><\/i><i><\/i><i><\/i><span>מרפאת השרון · קביעת תור<\/span><\/div>\n        <div class=\"ds-tx\"><small>שלב אחרון<\/small><b>התור נקבע<\/b><p>נתראה ביום שני בשעה 10:30, במרפאת השרון.<\/p><\/div>\n        <div class=\"ds-ok\"><i><svg viewBox=\"0 0 24 24\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"/><\/svg><\/i><\/div>\n        <div class=\"ds-pr\"><i class=\"on\"><\/i><i class=\"on\"><\/i><i class=\"on\"><\/i><i class=\"on\"><\/i><\/div>\n      <\/div><\/div>\n    <\/div><\/div>\n    <ol class=\"ds-steps\"><li class=\"is-on\">בחירת טיפול<\/li><li>בחירת מועד<\/li><li>פרטים ליצירת קשר<\/li><li>אישור התור<\/li><\/ol>\n  <\/div>\n<\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\"||typeof ScrollTrigger===\"undefined\")return;      // בלי GSAP נשארים ארבעת המסכים המקוננים\n  const root=document.querySelector(\".ds\"),view=root.querySelector(\".ds-view\"),world=root.querySelector(\".ds-world\");\n  const lv=[...world.querySelectorAll(\".ds-l\")],steps=[...root.querySelectorAll(\".ds-steps li\")];\n  // בהפחתת תנועה הפונקציה לא רצה, והמסכים נשארים מקוננים\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const P={p:0};\n    let s=.4;\n    const rd=()=>{s=parseFloat(getComputedStyle(view).getPropertyValue(\"--s\"))||.4;};      // החריץ שונה בטלפון\n    const draw=()=>{\n      const z=Math.pow(1/s,P.p);      // z = (1/s)^p: כשp שלם, מסך מספר p ממלא את החלון\n      world.style.transform=\"scale(\"+z.toFixed(4)+\")\";\n      lv.forEach((l,k)=>{l.style.visibility=(k<lv.length-1&&z*Math.pow(s,k+1)>1.02)?\"hidden\":\"\";});      // מסך שהבא אחריו כיסה אותו לגמרי\n      const cur=Math.round(P.p);\n      steps.forEach((li,i)=>li.classList.toggle(\"is-on\",i===cur));\n    };\n    rd();\n    const tl=gsap.timeline({defaults:{ease:\"none\"},scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.6}});\n    tl.eventCallback(\"onUpdate\",draw);\n    tl.to({},{duration:.5});\n    for(let k=1;k<=3;k++){\n      tl.fromTo(P,{p:k-1},{p:k,duration:1.2,ease:\"power2.inOut\",immediateRender:false});\n      tl.to({},{duration:k<3?.7:.8});\n    }\n    const sync=()=>{rd();draw();};\n    ScrollTrigger.addEventListener(\"refresh\",sync);\n    return()=>{ScrollTrigger.removeEventListener(\"refresh\",sync);root.classList.remove(\"is-live\");world.style.transform=\"\";lv.forEach(l=>{l.style.visibility=\"\";});steps.forEach((li,i)=>li.classList.toggle(\"is-on\",i===0));};\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: סרטון אחד ב-prompt-motion.com של נגן שמכיל מסך שמנגן את אותו נגן, והמצלמה צוללת פנימה שוב ושוב (21.10.2026). נבנה מאפס מהצפייה. העיקרון: כל מסך הוא עותק של החלון, מוקטן ב-`--s` ומוזז לחריץ ב-`--sx` ו-`--sy` (שברים מגודל החלון). ארבעת המסכים הם אחים שטוחים בתוך `.ds-world` ולא מקוננים בפועל: מסך k מוקטן ב-`s` בחזקת k ומוזז בסכום סדרה הנדסית, ולכן החישוב הוא `translate` ו-`scale` נקיים בלי חיתוכים. הזום: כל המסכים מקבלים מקדם אחד `z = (1/s)^p` סביב נקודת השבת של ההעתקה `sx/(1-s)`, שנמצאת ב-`transform-origin` של העולם. כש-`p` הוא מספר שלם, מסך מספר p ממלא בדיוק את החלון. תנועה: מונה אחד `p` (0 עד 3) נע בשלוש קפיצות עם עצירה בין כל שתיים, כדי שכל שלב יספיק להיקרא. חיסכון: מסך שכוסה לגמרי על ידי הבא אחריו מקבל `visibility:hidden`. חדות: בלי `will-change` ובלי 3D, כדי שהטקסט יצויר מחדש חד בכל גודל. היחידות: כל מסך הוא `container` (`cqw`), ולכן גודל הפונט והריווחים נגזרים מרוחב המסך ולא מהדף. במובייל המסכים בפורמט עומד, החריץ במרכז מתחת לטקסט, והמשתנים `--s`, `--sx`, `--sy` מוחלפים ב-CSS (הקוד קורא אותם מחדש בכל רענון). המצב הסטטי: כל ארבעת המסכים מקוננים בגודל מלא ללא תנועה, ומתחתיהם הרשימה הממוספרת של השלבים, שהיא גם התוכן לקורא מסך. אין כפתורים אמיתיים בתוך המסכים, כי הם איור. באתר משמאל לימין מחליפים את צד החריץ (`--sx` הופך ל-`1 - s - sx`) ואת מיקום הטקסט.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G191 · מסכים מקוננים שמתקרבים פנימה */\n.ds{max-width:1040px;margin-inline:auto}\n.ds-pin{display:grid;gap:24px;justify-items:center;align-content:center}\n.ds-h{margin:0;font-size:clamp(26px,3.4vw,44px);font-weight:700;line-height:1.15;text-align:center}\n.ds-view{--s:.4;--sx:.06;--sy:.3;--u:1cqw;position:relative;width:min(960px,100%,calc(62svh*1.6));aspect-ratio:16 / 10;margin-inline:auto;border-radius:20px;overflow:clip;background:color-mix(in srgb,var(--ink, #16182b) 8%,var(--bg, #f7f7fa));box-shadow:0 0 0 1px var(--line, #e4e4ee),0 32px 64px -32px color-mix(in srgb,var(--ink, #16182b) 45%,transparent)}\n.ds-world{position:absolute;inset:0;transform-origin:calc(var(--sx)/(1 - var(--s))*100%) calc(var(--sy)/(1 - var(--s))*100%)}\n.ds-l{position:absolute;left:0;top:0;width:100%;height:100%;container-type:size;transform-origin:0 0;transform:translate(calc(var(--tx)*100%),calc(var(--ty)*100%)) scale(var(--sc))}\n.ds-l0{--tx:0;--ty:0;--sc:1}\n.ds-l1{--tx:var(--sx);--ty:var(--sy);--sc:var(--s)}\n.ds-l2{--tx:calc(var(--sx)*(1 + var(--s)));--ty:calc(var(--sy)*(1 + var(--s)));--sc:calc(var(--s)*var(--s))}\n.ds-l3{--tx:calc(var(--sx)*(1 + var(--s) + var(--s)*var(--s)));--ty:calc(var(--sy)*(1 + var(--s) + var(--s)*var(--s)));--sc:calc(var(--s)*var(--s)*var(--s))}\n.ds-fr{position:absolute;inset:0;overflow:clip;border-radius:calc(var(--u)*1.6);background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee)}\n.ds-tb{position:absolute;inset-inline:0;top:0;height:9%;display:flex;align-items:center;gap:calc(var(--u)*.8);padding-inline:calc(var(--u)*2.4);border-bottom:1px solid var(--line, #e4e4ee);font-size:calc(var(--u)*1.5);color:var(--muted, #6a6d85)}\n.ds-tb i{width:calc(var(--u)*1.1);height:calc(var(--u)*1.1);border-radius:50%;background:var(--line, #e4e4ee)}\n.ds-tb span{margin-inline-start:calc(var(--u)*1.6)}\n.ds-tx{position:absolute;inset-inline-start:5%;top:54.5%;width:44%;display:grid;gap:calc(var(--u)*1.6);transform:translateY(-50%)}\n.ds-tx small{font-size:calc(var(--u)*1.5);color:var(--muted, #6a6d85)}\n.ds-tx b{font-size:calc(var(--u)*3.4);line-height:1.15}\n.ds-tx p{margin:0;font-size:calc(var(--u)*1.9);line-height:1.5}\n.ds-ch{display:flex;flex-wrap:wrap;gap:calc(var(--u)*1)}\n.ds-ch span{padding:calc(var(--u)*.6) calc(var(--u)*1.6);border:1px solid var(--line, #e4e4ee);border-radius:999px;font-size:calc(var(--u)*1.7)}\n.ds-ch .on{border-color:transparent;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.ds-fd{display:grid;gap:calc(var(--u)*.6)}\n.ds-in{display:flex;align-items:center;height:calc(var(--u)*4.2);padding-inline:calc(var(--u)*1.4);border:1px solid var(--line, #e4e4ee);border-radius:calc(var(--u)*1);background:var(--bg, #f7f7fa);font-size:calc(var(--u)*1.7)}\n.ds-in i{display:block;width:40%;height:35%;border-radius:999px;background:var(--line, #e4e4ee)}\n.ds-go{justify-self:start;padding:calc(var(--u)*.9) calc(var(--u)*2.4);border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:calc(var(--u)*1.7);font-weight:600}\n.ds-slot,.ds-ok{position:absolute;left:calc(var(--sx)*100%);top:calc(var(--sy)*100%);width:calc(var(--s)*100%);height:calc(var(--s)*100%)}\n.ds-slot{border-radius:calc(var(--u)*1.2);background:color-mix(in srgb,var(--ink, #16182b) 6%,var(--card, #fff))}\n.ds-ok{display:grid;place-items:center}\n.ds-ok i{display:grid;place-items:center;width:42%;aspect-ratio:1;border-radius:50%;background:var(--accent, #4a3aff)}\n.ds-ok svg{width:52%;height:52%;fill:none;stroke:var(--accent-ink, #fff);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}\n.ds-pr{position:absolute;inset-inline:5%;bottom:6%;display:flex;gap:calc(var(--u)*.8)}\n.ds-pr i{flex:1;height:calc(var(--u)*.7);border-radius:999px;background:var(--line, #e4e4ee)}\n.ds-pr i.on{background:var(--accent, #4a3aff)}\n.ds-steps{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 32px;margin:0;padding:0;list-style-position:inside;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));color:var(--muted, #6a6d85)}\n.ds-steps li{transition:color .2s linear}\n.ds-steps li.is-on{color:var(--ink, #16182b);font-weight:700}\n/* המהלך רץ: הסקשן גבוה, הבמה נדבקת, והעולם מתקרב לפי הגלילה */\n.ds.is-live{height:420vh}\n.ds.is-live .ds-pin{position:sticky;top:0;height:100vh;height:100svh}\n@media(max-width:767px){\n.ds-view{--s:.46;--sx:.27;--sy:.46;--u:1.6cqw;width:min(100%,calc(52svh*.8));aspect-ratio:4 / 5}\n.ds-tb{height:7%}\n.ds-tx{inset-inline:7%;top:10%;width:auto;transform:none}\n.ds-pr{display:none}\n.ds-steps{gap:4px 20px}\n}","html":"<div class=\"stage\"><div class=\"ds\">\n  <div class=\"ds-pin\">\n    <h2 class=\"ds-h\">הזמנת תור בארבעה מסכים<\/h2>\n    <div class=\"ds-view\" aria-hidden=\"true\"><div class=\"ds-world\">\n      <div class=\"ds-l ds-l0\"><div class=\"ds-fr\">\n        <div class=\"ds-tb\"><i><\/i><i><\/i><i><\/i><span>מרפאת השרון · קביעת תור<\/span><\/div>\n        <div class=\"ds-tx\"><small>שלב ראשון מארבעה<\/small><b>בחירת טיפול<\/b><div class=\"ds-ch\"><span class=\"on\">ייעוץ ראשוני<\/span><span>ניקוי<\/span><span>טיפול<\/span><\/div><span class=\"ds-go\">המשך<\/span><\/div>\n        <div class=\"ds-slot\"><\/div>\n        <div class=\"ds-pr\"><i class=\"on\"><\/i><i><\/i><i><\/i><i><\/i><\/div>\n      <\/div><\/div>\n      <div class=\"ds-l ds-l1\"><div class=\"ds-fr\">\n        <div class=\"ds-tb\"><i><\/i><i><\/i><i><\/i><span>מרפאת השרון · קביעת תור<\/span><\/div>\n        <div class=\"ds-tx\"><small>שלב שני מארבעה<\/small><b>בחירת מועד<\/b><div class=\"ds-ch\"><span>ראשון<\/span><span class=\"on\">שני<\/span><span>שלישי<\/span><\/div><div class=\"ds-ch\"><span>09:00<\/span><span class=\"on\">10:30<\/span><span>12:00<\/span><\/div><span class=\"ds-go\">המשך<\/span><\/div>\n        <div class=\"ds-slot\"><\/div>\n        <div class=\"ds-pr\"><i class=\"on\"><\/i><i class=\"on\"><\/i><i><\/i><i><\/i><\/div>\n      <\/div><\/div>\n      <div class=\"ds-l ds-l2\"><div class=\"ds-fr\">\n        <div class=\"ds-tb\"><i><\/i><i><\/i><i><\/i><span>מרפאת השרון · קביעת תור<\/span><\/div>\n        <div class=\"ds-tx\"><small>שלב שלישי מארבעה<\/small><b>פרטים ליצירת קשר<\/b><div class=\"ds-fd\"><small>שם מלא<\/small><span class=\"ds-in\">דנה כהן<\/span><\/div><div class=\"ds-fd\"><small>טלפון<\/small><span class=\"ds-in\"><i><\/i><\/span><\/div><span class=\"ds-go\">אישור התור<\/span><\/div>\n        <div class=\"ds-slot\"><\/div>\n        <div class=\"ds-pr\"><i class=\"on\"><\/i><i class=\"on\"><\/i><i class=\"on\"><\/i><i><\/i><\/div>\n      <\/div><\/div>\n      <div class=\"ds-l ds-l3\"><div class=\"ds-fr\">\n        <div class=\"ds-tb\"><i><\/i><i><\/i><i><\/i><span>מרפאת השרון · קביעת תור<\/span><\/div>\n        <div class=\"ds-tx\"><small>שלב אחרון<\/small><b>התור נקבע<\/b><p>נתראה ביום שני בשעה 10:30, במרפאת השרון.<\/p><\/div>\n        <div class=\"ds-ok\"><i><svg viewBox=\"0 0 24 24\"><path d=\"M5 12.5l4.5 4.5L19 7.5\"/><\/svg><\/i><\/div>\n        <div class=\"ds-pr\"><i class=\"on\"><\/i><i class=\"on\"><\/i><i class=\"on\"><\/i><i class=\"on\"><\/i><\/div>\n      <\/div><\/div>\n    <\/div><\/div>\n    <ol class=\"ds-steps\"><li class=\"is-on\">בחירת טיפול<\/li><li>בחירת מועד<\/li><li>פרטים ליצירת קשר<\/li><li>אישור התור<\/li><\/ol>\n  <\/div>\n<\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\"||typeof ScrollTrigger===\"undefined\")return;      // בלי GSAP נשארים ארבעת המסכים המקוננים\n  const root=document.querySelector(\".ds\"),view=root.querySelector(\".ds-view\"),world=root.querySelector(\".ds-world\");\n  const lv=[...world.querySelectorAll(\".ds-l\")],steps=[...root.querySelectorAll(\".ds-steps li\")];\n  // בהפחתת תנועה הפונקציה לא רצה, והמסכים נשארים מקוננים\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const P={p:0};\n    let s=.4;\n    const rd=()=>{s=parseFloat(getComputedStyle(view).getPropertyValue(\"--s\"))||.4;};      // החריץ שונה בטלפון\n    const draw=()=>{\n      const z=Math.pow(1/s,P.p);      // z = (1/s)^p: כשp שלם, מסך מספר p ממלא את החלון\n      world.style.transform=\"scale(\"+z.toFixed(4)+\")\";\n      lv.forEach((l,k)=>{l.style.visibility=(k<lv.length-1&&z*Math.pow(s,k+1)>1.02)?\"hidden\":\"\";});      // מסך שהבא אחריו כיסה אותו לגמרי\n      const cur=Math.round(P.p);\n      steps.forEach((li,i)=>li.classList.toggle(\"is-on\",i===cur));\n    };\n    rd();\n    const tl=gsap.timeline({defaults:{ease:\"none\"},scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.6}});\n    tl.eventCallback(\"onUpdate\",draw);\n    tl.to({},{duration:.5});\n    for(let k=1;k<=3;k++){\n      tl.fromTo(P,{p:k-1},{p:k,duration:1.2,ease:\"power2.inOut\",immediateRender:false});\n      tl.to({},{duration:k<3?.7:.8});\n    }\n    const sync=()=>{rd();draw();};\n    ScrollTrigger.addEventListener(\"refresh\",sync);\n    return()=>{ScrollTrigger.removeEventListener(\"refresh\",sync);root.classList.remove(\"is-live\");world.style.transform=\"\";lv.forEach(l=>{l.style.visibility=\"\";});steps.forEach((li,i)=>li.classList.toggle(\"is-on\",i===0));};\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g190.html" rel="prev"><small>→ הקודם</small><b>מילה שמתחלפת ומביאה איתה כרטיס ורקע</b></a><a href="g192.html" rel="next"><small>הבא ←</small><b>שני גרפים שמונעים על ידי פרמטר אחד</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מסכים מקוננים שמתקרבים פנימה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP נשארים ארבעת המסכים המקוננים
+  const root=document.querySelector(".ds"),view=root.querySelector(".ds-view"),world=root.querySelector(".ds-world");
+  const lv=[...world.querySelectorAll(".ds-l")],steps=[...root.querySelectorAll(".ds-steps li")];
+  // בהפחתת תנועה הפונקציה לא רצה, והמסכים נשארים מקוננים
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const P={p:0};
+    let s=.4;
+    const rd=()=>{s=parseFloat(getComputedStyle(view).getPropertyValue("--s"))||.4;};      // החריץ שונה בטלפון
+    const draw=()=>{
+      const z=Math.pow(1/s,P.p);      // z = (1/s)^p: כשp שלם, מסך מספר p ממלא את החלון
+      world.style.transform="scale("+z.toFixed(4)+")";
+      lv.forEach((l,k)=>{l.style.visibility=(k<lv.length-1&&z*Math.pow(s,k+1)>1.02)?"hidden":"";});      // מסך שהבא אחריו כיסה אותו לגמרי
+      const cur=Math.round(P.p);
+      steps.forEach((li,i)=>li.classList.toggle("is-on",i===cur));
+    };
+    rd();
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}});
+    tl.eventCallback("onUpdate",draw);
+    tl.to({},{duration:.5});
+    for(let k=1;k<=3;k++){
+      tl.fromTo(P,{p:k-1},{p:k,duration:1.2,ease:"power2.inOut",immediateRender:false});
+      tl.to({},{duration:k<3?.7:.8});
+    }
+    const sync=()=>{rd();draw();};
+    ScrollTrigger.addEventListener("refresh",sync);
+    return()=>{ScrollTrigger.removeEventListener("refresh",sync);root.classList.remove("is-live");world.style.transform="";lv.forEach(l=>{l.style.visibility="";});steps.forEach((li,i)=>li.classList.toggle("is-on",i===0));};
+  });
+})();
+</script>
+</body>
+</html>

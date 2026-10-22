@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G190 · מילה שמתחלפת ומביאה איתה כרטיס ורקע | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.ns{max-width:1180px;margin-inline:auto}
+.ns-pin{position:relative;isolation:isolate;overflow:clip;display:grid;align-items:center;min-height:clamp(480px,70vh,640px);margin-inline:calc(50% - 50vw);padding-inline:calc(50vw - 50%)}
+.ns-bgs,.ns-blobs{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.ns-bgs i{position:absolute;inset:0;opacity:0}
+.ns-bgs i:first-child{opacity:1}
+.ns-b1{background:color-mix(in srgb,var(--accent) 12%,var(--bg))}
+.ns-b2{background:color-mix(in srgb,var(--ink) 8%,var(--bg))}
+.ns-b3{background:color-mix(in srgb,var(--accent) 20%,var(--bg))}
+.ns-b4{background:color-mix(in srgb,var(--muted) 14%,var(--bg))}
+.ns-blobs i{position:absolute;width:min(46vw,520px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 30%,transparent),transparent 65%)}
+.ns-blobs i:first-child{inset-block-start:-12%;inset-inline-start:-6%}
+.ns-blobs i:last-child{inset-block-end:-18%;inset-inline-end:8%;opacity:.7}
+.ns-in{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,88px);padding-block:48px}
+.ns-copy{display:grid;gap:24px}
+.ns-h{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.2em .35em;font-size:clamp(34px,5vw,72px);font-weight:700;line-height:1.1;letter-spacing:-.01em}
+.ns-pill{box-sizing:border-box;display:inline-grid;place-items:center;overflow:clip;padding:.04em .42em .1em;border-radius:999px;background:var(--accent);color:var(--accent-ink)}
+.ns-n{grid-area:1/1;width:max-content;white-space:nowrap}
+.ns-n:not(:first-child){display:none}
+.ns-sum{margin:0;max-width:34ch;font-size:var(--fs-body);line-height:1.6}
+.ns-cards{position:relative;display:grid;place-items:center;min-height:clamp(240px,30vw,360px)}
+.ns-card{grid-area:1/1;display:grid;width:min(420px,100%);aspect-ratio:4 / 3;border-radius:20px;background:var(--card);box-shadow:0 0 0 1px var(--line),0 24px 48px -24px color-mix(in srgb,var(--ink) 40%,transparent);overflow:clip}
+.ns-card:not(:first-child){display:none}
+.ns-web{grid-template-rows:auto 1fr}
+.ns-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line)}
+.ns-bar i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.ns-bar span{margin-inline-start:auto;direction:ltr;font-size:12px;color:var(--muted)}
+.ns-pg{display:grid;align-content:start;gap:10px;padding:16px}
+.ns-hero{display:block;height:78px;border-radius:12px;background:var(--accent)}
+.ns-ln{display:block;height:8px;border-radius:4px;background:var(--line)}
+.ns-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
+.ns-tiles i{height:44px;border-radius:8px;background:color-mix(in srgb,var(--accent) 22%,var(--card))}
+.ns-logo{place-items:center;align-content:center;gap:10px;text-align:center}
+.ns-mark{display:grid;place-items:center;width:88px;height:88px;border-radius:26px;background:var(--accent);color:var(--accent-ink);font-size:44px;font-weight:700}
+.ns-logo b{font-size:22px}
+.ns-logo small{font-size:14px;color:var(--muted)}
+.ns-ad{grid-template-columns:1fr 1fr;gap:16px;padding:16px}
+.ns-img{border-radius:14px;background:linear-gradient(150deg,color-mix(in srgb,var(--accent) 70%,var(--card)),color-mix(in srgb,var(--ink) 40%,var(--card)))}
+.ns-adt{display:grid;align-content:center;gap:10px}
+.ns-adt b{font-size:20px;line-height:1.2}
+.ns-btn{justify-self:start;padding:8px 16px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:14px;font-weight:600}
+.ns-sl{grid-template-rows:auto 1fr;gap:14px;padding:20px}
+.ns-sl b{font-size:20px}
+.ns-bars{display:flex;align-items:flex-end;gap:10px;border-bottom:1px solid var(--line)}
+.ns-bars i{flex:1;height:var(--h);border-radius:8px 8px 0 0;background:var(--accent)}
+.ns-bars i:nth-child(even){background:color-mix(in srgb,var(--accent) 45%,var(--card))}
+.ns .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+/* המהלך רץ: הסקשן גבוה, הבמה נדבקת, והמילים והכרטיסים נערמים באותו תא */
+.ns.is-live{height:400vh}
+.ns.is-live .ns-pin{position:sticky;top:0;height:100vh;height:100svh}
+.ns.is-live .ns-n:not(:first-child),.ns.is-live .ns-card:not(:first-child){display:grid}
+@media(max-width:767px){.ns-in{grid-template-columns:minmax(0,1fr);gap:24px;padding-block:32px}.ns-cards{min-height:min(64vw,260px)}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=gsap">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="g189.html" rel="prev" title="הקודם: משפט שנשען על חבל וקורה כמו מבנה">→<span class="sr-only">הקודם</span></a><span class="vpn-n">166/177</span><a href="g191.html" rel="next" title="הבא: מסכים מקוננים שמתקרבים פנימה">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">G190</span> · מילה שמתחלפת ומביאה איתה כרטיס ורקע</h1>
+  <span class="vchip cat-gsap">GSAP</span>
+  <span class="vchip">GSAP · ScrollTrigger scrub · pinned</span>
+  <span class="vchip use">הירו ופתיחה</span><span class="vchip use">כרטיסים</span><span class="vchip use">טקסט וכותרות</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:g190"><code>MV:g190</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="g190">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>משפט קבוע שנגמר בכפתור מילה: אתר, לוגו, קמפיין, מצגת. בכל גלילה המילה מתחלפת, הרקע עובר לצבע אחר, וכרטיס תואם נכנס לידה: אתר בדפדפן, לוגו על כרטיס, מודעה, שקף. כך רואים בדיוק מה העסק מקבל, ולא רק קוראים.</p>
+  <p class="when"><b>מתי משתמשים:</b> סטודיו, מוצר או שירות שמייצר כמה סוגי תוצרים (ארבעה עד שישה), ורוצים להראות את כולם בלי רשימה. סקשן הירו או הסבר אחד בעמוד. מתאים כשלכל תוצר יש איור פשוט וברור. פחות מתאים כשהתוצרים דומים זה לזה.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית · פורטפוליו וסטודיו</dd></div><div><dt>בסקשן</dt><dd>הירו · שירותים ומוצרים</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשיש פחות משלושה תוצרים שונים או כשהם דומים זה לזה, ולא בדף נחיתה ממיר שבו הכותרת חייבת להיקרא מיד.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="g190"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+<div class="runway">גלול למטה, הדמו מגיע ↓</div>
+<div class="stage"><div class="ns">
+  <div class="ns-pin">
+    <div class="ns-bgs" aria-hidden="true"><i class="ns-b1"></i><i class="ns-b2"></i><i class="ns-b3"></i><i class="ns-b4"></i></div>
+    <div class="ns-blobs" aria-hidden="true"><i></i><i></i></div>
+    <div class="ns-in">
+      <div class="ns-copy">
+        <h2 class="ns-h"><span class="sr-only">אנחנו מכינים לעסק אתר, לוגו, קמפיין ומצגת</span><span aria-hidden="true">אנחנו מכינים לעסק</span><span class="ns-pill" aria-hidden="true"><span class="ns-n">אתר</span><span class="ns-n">לוגו</span><span class="ns-n">קמפיין</span><span class="ns-n">מצגת</span></span></h2>
+        <p class="ns-sum">אתרים, לוגואים, קמפיינים ומצגות, וכל אחד נבנה סביב העסק שהזמין אותו ולא מתבנית מוכנה.</p>
+      </div>
+      <div class="ns-cards" aria-hidden="true">
+        <div class="ns-card ns-web"><div class="ns-bar"><i></i><i></i><i></i><span>almog-cafe.co.il</span></div><div class="ns-pg"><span class="ns-hero"></span><span class="ns-ln" style="width:62%"></span><span class="ns-ln" style="width:44%"></span><div class="ns-tiles"><i></i><i></i><i></i></div></div></div>
+        <div class="ns-card ns-logo"><span class="ns-mark">א</span><b>קפה אלמוג</b><small>בית קלייה</small></div>
+        <div class="ns-card ns-ad"><div class="ns-img"></div><div class="ns-adt"><b>פתיחת עונה בבית הקלייה</b><span class="ns-ln" style="width:80%"></span><span class="ns-btn">לפרטים</span></div></div>
+        <div class="ns-card ns-sl"><b>סיכום רבעון</b><div class="ns-bars"><i style="--h:34%"></i><i style="--h:52%"></i><i style="--h:44%"></i><i style="--h:72%"></i><i style="--h:88%"></i></div></div>
+      </div>
+    </div>
+  </div>
+</div></div>
+<div class="runway">עוד מסלול גלילה. נסה גם חזרה למעלה ↑</div>
+<div class="demo-note"><b>שחזור.</b> השראה: סרטון אחד ב-prompt-motion.com (21.10.2026) שבו משפט קבוע נגמר במילה מתחלפת, והרקע וכרטיס של התוצר מתחלפים איתה, עם צורות רכות שנעות מאחור. נבנה מאפס מהצפייה. <b>המארקאפ הוא המצב הראשון:</b> המילה הראשונה בכפתור, הכרטיס הראשון והרקע הראשון, ומתחתיהם משפט שמונה את כל התוצרים. בלי GSAP ובהפחתת תנועה זה מה שרואים והמידע שלם. <b>כשהמהלך רץ</b> הסקשן גבוה פי ארבעה, הבמה נדבקת למסך והמילים והכרטיסים נערמים באותו תא. בכל מעבר: <b>הרקע</b> מתחלף בדעיכה בין ארבע שכבות, כי GSAP לא יודע לעבור בין צבעי <code>color-mix</code>. <b>המילה</b> עולה החוצה והבאה נכנסת מלמטה בתוך הכפתור, שרוחבו עובר מרוחב מילה לרוחב מילה (המדידה נעשית בכל רענון). <b>הכרטיס</b> הקודם יוצא שמאלה והבא נכנס מימין. שתי כתמים רכים נעים לאורך כל הטיימליין. <b>הכרטיסים הם איור:</b> <code>aria-hidden</code> ובלי כפתורים אמיתיים. בפרויקט מחליפים אותם בצילומי מסך של העבודות. <b>רוחב מלא:</b> הבמה יוצאת מהמיכל עד קצה המסך (<code>100vw</code>), ובסקשן שכבר ברוחב מלא אפשר למחוק את זה. <b>באתר משמאל לימין</b> מחליפים את סימן ה-<code>xPercent</code> של הכרטיסים. <b>נגישות:</b> הכותרת הנראית מוסתרת מקורא מסך, ובמקומה כותרת בטקסט מוסתר עם כל ארבע המילים.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    <button class="cp" data-cp="scripts">תגי סקריפט</button>
+    <a class="cp cp-link" href="../export/g190.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G190 · מילה שמתחלפת ומביאה איתה כרטיס ורקע */
+.ns{max-width:1180px;margin-inline:auto}
+.ns-pin{position:relative;isolation:isolate;overflow:clip;display:grid;align-items:center;min-height:clamp(480px,70vh,640px);margin-inline:calc(50% - 50vw);padding-inline:calc(50vw - 50%)}
+.ns-bgs,.ns-blobs{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.ns-bgs i{position:absolute;inset:0;opacity:0}
+.ns-bgs i:first-child{opacity:1}
+.ns-b1{background:color-mix(in srgb,var(--accent, #4a3aff) 12%,var(--bg, #f7f7fa))}
+.ns-b2{background:color-mix(in srgb,var(--ink, #16182b) 8%,var(--bg, #f7f7fa))}
+.ns-b3{background:color-mix(in srgb,var(--accent, #4a3aff) 20%,var(--bg, #f7f7fa))}
+.ns-b4{background:color-mix(in srgb,var(--muted, #6a6d85) 14%,var(--bg, #f7f7fa))}
+.ns-blobs i{position:absolute;width:min(46vw,520px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent, #4a3aff) 30%,transparent),transparent 65%)}
+.ns-blobs i:first-child{inset-block-start:-12%;inset-inline-start:-6%}
+.ns-blobs i:last-child{inset-block-end:-18%;inset-inline-end:8%;opacity:.7}
+.ns-in{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,88px);padding-block:48px}
+.ns-copy{display:grid;gap:24px}
+.ns-h{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.2em .35em;font-size:clamp(34px,5vw,72px);font-weight:700;line-height:1.1;letter-spacing:-.01em}
+.ns-pill{box-sizing:border-box;display:inline-grid;place-items:center;overflow:clip;padding:.04em .42em .1em;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.ns-n{grid-area:1/1;width:max-content;white-space:nowrap}
+.ns-n:not(:first-child){display:none}
+.ns-sum{margin:0;max-width:34ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.ns-cards{position:relative;display:grid;place-items:center;min-height:clamp(240px,30vw,360px)}
+.ns-card{grid-area:1/1;display:grid;width:min(420px,100%);aspect-ratio:4 / 3;border-radius:20px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 24px 48px -24px color-mix(in srgb,var(--ink, #16182b) 40%,transparent);overflow:clip}
+.ns-card:not(:first-child){display:none}
+.ns-web{grid-template-rows:auto 1fr}
+.ns-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line, #e4e4ee)}
+.ns-bar i{width:8px;height:8px;border-radius:50%;background:var(--line, #e4e4ee)}
+.ns-bar span{margin-inline-start:auto;direction:ltr;font-size:12px;color:var(--muted, #6a6d85)}
+.ns-pg{display:grid;align-content:start;gap:10px;padding:16px}
+.ns-hero{display:block;height:78px;border-radius:12px;background:var(--accent, #4a3aff)}
+.ns-ln{display:block;height:8px;border-radius:4px;background:var(--line, #e4e4ee)}
+.ns-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
+.ns-tiles i{height:44px;border-radius:8px;background:color-mix(in srgb,var(--accent, #4a3aff) 22%,var(--card, #fff))}
+.ns-logo{place-items:center;align-content:center;gap:10px;text-align:center}
+.ns-mark{display:grid;place-items:center;width:88px;height:88px;border-radius:26px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:44px;font-weight:700}
+.ns-logo b{font-size:22px}
+.ns-logo small{font-size:14px;color:var(--muted, #6a6d85)}
+.ns-ad{grid-template-columns:1fr 1fr;gap:16px;padding:16px}
+.ns-img{border-radius:14px;background:linear-gradient(150deg,color-mix(in srgb,var(--accent, #4a3aff) 70%,var(--card, #fff)),color-mix(in srgb,var(--ink, #16182b) 40%,var(--card, #fff)))}
+.ns-adt{display:grid;align-content:center;gap:10px}
+.ns-adt b{font-size:20px;line-height:1.2}
+.ns-btn{justify-self:start;padding:8px 16px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:14px;font-weight:600}
+.ns-sl{grid-template-rows:auto 1fr;gap:14px;padding:20px}
+.ns-sl b{font-size:20px}
+.ns-bars{display:flex;align-items:flex-end;gap:10px;border-bottom:1px solid var(--line, #e4e4ee)}
+.ns-bars i{flex:1;height:var(--h);border-radius:8px 8px 0 0;background:var(--accent, #4a3aff)}
+.ns-bars i:nth-child(even){background:color-mix(in srgb,var(--accent, #4a3aff) 45%,var(--card, #fff))}
+.ns .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+/* המהלך רץ: הסקשן גבוה, הבמה נדבקת, והמילים והכרטיסים נערמים באותו תא */
+.ns.is-live{height:400vh}
+.ns.is-live .ns-pin{position:sticky;top:0;height:100vh;height:100svh}
+.ns.is-live .ns-n:not(:first-child),.ns.is-live .ns-card:not(:first-child){display:grid}
+@media(max-width:767px){.ns-in{grid-template-columns:minmax(0,1fr);gap:24px;padding-block:32px}.ns-cards{min-height:min(64vw,260px)}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;div class="ns"&gt;
+  &lt;div class="ns-pin"&gt;
+    &lt;div class="ns-bgs" aria-hidden="true"&gt;&lt;i class="ns-b1"&gt;&lt;/i&gt;&lt;i class="ns-b2"&gt;&lt;/i&gt;&lt;i class="ns-b3"&gt;&lt;/i&gt;&lt;i class="ns-b4"&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;div class="ns-blobs" aria-hidden="true"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;
+    &lt;div class="ns-in"&gt;
+      &lt;div class="ns-copy"&gt;
+        &lt;h2 class="ns-h"&gt;&lt;span class="sr-only"&gt;אנחנו מכינים לעסק אתר, לוגו, קמפיין ומצגת&lt;/span&gt;&lt;span aria-hidden="true"&gt;אנחנו מכינים לעסק&lt;/span&gt;&lt;span class="ns-pill" aria-hidden="true"&gt;&lt;span class="ns-n"&gt;אתר&lt;/span&gt;&lt;span class="ns-n"&gt;לוגו&lt;/span&gt;&lt;span class="ns-n"&gt;קמפיין&lt;/span&gt;&lt;span class="ns-n"&gt;מצגת&lt;/span&gt;&lt;/span&gt;&lt;/h2&gt;
+        &lt;p class="ns-sum"&gt;אתרים, לוגואים, קמפיינים ומצגות, וכל אחד נבנה סביב העסק שהזמין אותו ולא מתבנית מוכנה.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="ns-cards" aria-hidden="true"&gt;
+        &lt;div class="ns-card ns-web"&gt;&lt;div class="ns-bar"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;span&gt;almog-cafe.co.il&lt;/span&gt;&lt;/div&gt;&lt;div class="ns-pg"&gt;&lt;span class="ns-hero"&gt;&lt;/span&gt;&lt;span class="ns-ln" style="width:62%"&gt;&lt;/span&gt;&lt;span class="ns-ln" style="width:44%"&gt;&lt;/span&gt;&lt;div class="ns-tiles"&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;i&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="ns-card ns-logo"&gt;&lt;span class="ns-mark"&gt;א&lt;/span&gt;&lt;b&gt;קפה אלמוג&lt;/b&gt;&lt;small&gt;בית קלייה&lt;/small&gt;&lt;/div&gt;
+        &lt;div class="ns-card ns-ad"&gt;&lt;div class="ns-img"&gt;&lt;/div&gt;&lt;div class="ns-adt"&gt;&lt;b&gt;פתיחת עונה בבית הקלייה&lt;/b&gt;&lt;span class="ns-ln" style="width:80%"&gt;&lt;/span&gt;&lt;span class="ns-btn"&gt;לפרטים&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;
+        &lt;div class="ns-card ns-sl"&gt;&lt;b&gt;סיכום רבעון&lt;/b&gt;&lt;div class="ns-bars"&gt;&lt;i style="--h:34%"&gt;&lt;/i&gt;&lt;i style="--h:52%"&gt;&lt;/i&gt;&lt;i style="--h:44%"&gt;&lt;/i&gt;&lt;i style="--h:72%"&gt;&lt;/i&gt;&lt;i style="--h:88%"&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP נשארים המילה והכרטיס הראשונים
+  const root=document.querySelector(".ns"),pill=root.querySelector(".ns-pill"),nouns=[...root.querySelectorAll(".ns-n")];
+  const cards=[...root.querySelectorAll(".ns-card")],bgs=[...root.querySelectorAll(".ns-bgs i")],blobs=[...root.querySelectorAll(".ns-blobs i")];
+  const N=Math.min(nouns.length,cards.length,bgs.length);
+  // בהפחתת תנועה הפונקציה לא רצה, והמצב הראשון נשאר
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=&gt;{
+    root.classList.add("is-live");
+    const pad=()=&gt;{const c=getComputedStyle(pill);return parseFloat(c.paddingLeft)+parseFloat(c.paddingRight);};
+    const W=i=&gt;nouns[i].offsetWidth+pad();      // רוחב הכפתור סביב המילה i
+    gsap.set(pill,{width:W(0)});
+    gsap.set(nouns.slice(1),{yPercent:110,opacity:0});
+    gsap.set(cards.slice(1),{xPercent:40,scale:.94,opacity:0});
+    gsap.set(bgs.slice(1),{opacity:0});
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
+    let t=.6;
+    for(let i=0;i&lt;N-1;i++){
+      // רקע בדעיכה, מילה שעולה החוצה ובאה מלמטה, כפתור שמשנה רוחב, כרטיס שיוצא שמאלה ובא מימין
+      tl.to(bgs[i],{opacity:0,duration:1,ease:"power1.inOut"},t)
+        .to(bgs[i+1],{opacity:1,duration:1,ease:"power1.inOut"},t)
+        .to(nouns[i],{yPercent:-110,opacity:0,duration:.6,ease:"power2.in"},t)
+        .fromTo(nouns[i+1],{yPercent:110,opacity:0},{yPercent:0,opacity:1,duration:.7,ease:"power3.out",immediateRender:false},t+.35)
+        .to(pill,{width:()=&gt;W(i+1),duration:.8,ease:"power3.inOut"},t+.1)
+        .to(cards[i],{xPercent:-40,scale:.94,opacity:0,duration:.6,ease:"power2.in"},t)
+        .fromTo(cards[i+1],{xPercent:40,scale:.94,opacity:0},{xPercent:0,scale:1,opacity:1,duration:.8,ease:"expo.out",immediateRender:false},t+.4);
+      t+=2;
+    }
+    tl.to({},{duration:.6},t);
+    const D=tl.duration();
+    blobs.forEach((b,i)=&gt;tl.fromTo(b,{xPercent:i?20:-20,yPercent:i?-10:10},{xPercent:i?-30:30,yPercent:i?20:-20,duration:D,ease:"none"},0));
+    const sync=()=&gt;{if(tl.progress()===0)gsap.set(pill,{width:W(0)});};      // שינוי גודל או פונט שנטען לפני שהתחילו לגלול
+    ScrollTrigger.addEventListener("refresh",sync);
+    if(document.fonts&amp;&amp;document.fonts.ready)document.fonts.ready.then(()=&gt;ScrollTrigger.refresh());
+    return()=&gt;{ScrollTrigger.removeEventListener("refresh",sync);root.classList.remove("is-live");gsap.set([pill].concat(nouns,cards,bgs,blobs),{clearProps:"all"});};
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:g190 · מילה שמתחלפת ומביאה איתה כרטיס ורקע\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/gsap/g190.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/g190.html\n\nמה זה עושה: משפט קבוע שנגמר בכפתור מילה: אתר, לוגו, קמפיין, מצגת. בכל גלילה המילה מתחלפת, הרקע עובר לצבע אחר, וכרטיס תואם נכנס לידה: אתר בדפדפן, לוגו על כרטיס, מודעה, שקף. כך רואים בדיוק מה העסק מקבל, ולא רק קוראים.\nמתי משתמשים: סטודיו, מוצר או שירות שמייצר כמה סוגי תוצרים (ארבעה עד שישה), ורוצים להראות את כולם בלי רשימה. סקשן הירו או הסבר אחד בעמוד. מתאים כשלכל תוצר יש איור פשוט וברור. פחות מתאים כשהתוצרים דומים זה לזה.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית · פורטפוליו וסטודיו\nבסקשן: הירו · שירותים ומוצרים\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא כשיש פחות משלושה תוצרים שונים או כשהם דומים זה לזה, ולא בדף נחיתה ממיר שבו הכותרת חייבת להיקרא מיד.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. טען את הסקריפטים האלה לפי הסדר, לפני ה-JS:\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>\n4. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G190 · מילה שמתחלפת ומביאה איתה כרטיס ורקע */\n.ns{max-width:1180px;margin-inline:auto}\n.ns-pin{position:relative;isolation:isolate;overflow:clip;display:grid;align-items:center;min-height:clamp(480px,70vh,640px);margin-inline:calc(50% - 50vw);padding-inline:calc(50vw - 50%)}\n.ns-bgs,.ns-blobs{position:absolute;inset:0;z-index:-1;pointer-events:none}\n.ns-bgs i{position:absolute;inset:0;opacity:0}\n.ns-bgs i:first-child{opacity:1}\n.ns-b1{background:color-mix(in srgb,var(--accent, #4a3aff) 12%,var(--bg, #f7f7fa))}\n.ns-b2{background:color-mix(in srgb,var(--ink, #16182b) 8%,var(--bg, #f7f7fa))}\n.ns-b3{background:color-mix(in srgb,var(--accent, #4a3aff) 20%,var(--bg, #f7f7fa))}\n.ns-b4{background:color-mix(in srgb,var(--muted, #6a6d85) 14%,var(--bg, #f7f7fa))}\n.ns-blobs i{position:absolute;width:min(46vw,520px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent, #4a3aff) 30%,transparent),transparent 65%)}\n.ns-blobs i:first-child{inset-block-start:-12%;inset-inline-start:-6%}\n.ns-blobs i:last-child{inset-block-end:-18%;inset-inline-end:8%;opacity:.7}\n.ns-in{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,88px);padding-block:48px}\n.ns-copy{display:grid;gap:24px}\n.ns-h{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.2em .35em;font-size:clamp(34px,5vw,72px);font-weight:700;line-height:1.1;letter-spacing:-.01em}\n.ns-pill{box-sizing:border-box;display:inline-grid;place-items:center;overflow:clip;padding:.04em .42em .1em;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.ns-n{grid-area:1/1;width:max-content;white-space:nowrap}\n.ns-n:not(:first-child){display:none}\n.ns-sum{margin:0;max-width:34ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.ns-cards{position:relative;display:grid;place-items:center;min-height:clamp(240px,30vw,360px)}\n.ns-card{grid-area:1/1;display:grid;width:min(420px,100%);aspect-ratio:4 / 3;border-radius:20px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 24px 48px -24px color-mix(in srgb,var(--ink, #16182b) 40%,transparent);overflow:clip}\n.ns-card:not(:first-child){display:none}\n.ns-web{grid-template-rows:auto 1fr}\n.ns-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line, #e4e4ee)}\n.ns-bar i{width:8px;height:8px;border-radius:50%;background:var(--line, #e4e4ee)}\n.ns-bar span{margin-inline-start:auto;direction:ltr;font-size:12px;color:var(--muted, #6a6d85)}\n.ns-pg{display:grid;align-content:start;gap:10px;padding:16px}\n.ns-hero{display:block;height:78px;border-radius:12px;background:var(--accent, #4a3aff)}\n.ns-ln{display:block;height:8px;border-radius:4px;background:var(--line, #e4e4ee)}\n.ns-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}\n.ns-tiles i{height:44px;border-radius:8px;background:color-mix(in srgb,var(--accent, #4a3aff) 22%,var(--card, #fff))}\n.ns-logo{place-items:center;align-content:center;gap:10px;text-align:center}\n.ns-mark{display:grid;place-items:center;width:88px;height:88px;border-radius:26px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:44px;font-weight:700}\n.ns-logo b{font-size:22px}\n.ns-logo small{font-size:14px;color:var(--muted, #6a6d85)}\n.ns-ad{grid-template-columns:1fr 1fr;gap:16px;padding:16px}\n.ns-img{border-radius:14px;background:linear-gradient(150deg,color-mix(in srgb,var(--accent, #4a3aff) 70%,var(--card, #fff)),color-mix(in srgb,var(--ink, #16182b) 40%,var(--card, #fff)))}\n.ns-adt{display:grid;align-content:center;gap:10px}\n.ns-adt b{font-size:20px;line-height:1.2}\n.ns-btn{justify-self:start;padding:8px 16px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:14px;font-weight:600}\n.ns-sl{grid-template-rows:auto 1fr;gap:14px;padding:20px}\n.ns-sl b{font-size:20px}\n.ns-bars{display:flex;align-items:flex-end;gap:10px;border-bottom:1px solid var(--line, #e4e4ee)}\n.ns-bars i{flex:1;height:var(--h);border-radius:8px 8px 0 0;background:var(--accent, #4a3aff)}\n.ns-bars i:nth-child(even){background:color-mix(in srgb,var(--accent, #4a3aff) 45%,var(--card, #fff))}\n.ns .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n/* המהלך רץ: הסקשן גבוה, הבמה נדבקת, והמילים והכרטיסים נערמים באותו תא */\n.ns.is-live{height:400vh}\n.ns.is-live .ns-pin{position:sticky;top:0;height:100vh;height:100svh}\n.ns.is-live .ns-n:not(:first-child),.ns.is-live .ns-card:not(:first-child){display:grid}\n@media(max-width:767px){.ns-in{grid-template-columns:minmax(0,1fr);gap:24px;padding-block:32px}.ns-cards{min-height:min(64vw,260px)}}\n\n=== HTML ===\n<div class=\"stage\"><div class=\"ns\">\n  <div class=\"ns-pin\">\n    <div class=\"ns-bgs\" aria-hidden=\"true\"><i class=\"ns-b1\"><\/i><i class=\"ns-b2\"><\/i><i class=\"ns-b3\"><\/i><i class=\"ns-b4\"><\/i><\/div>\n    <div class=\"ns-blobs\" aria-hidden=\"true\"><i><\/i><i><\/i><\/div>\n    <div class=\"ns-in\">\n      <div class=\"ns-copy\">\n        <h2 class=\"ns-h\"><span class=\"sr-only\">אנחנו מכינים לעסק אתר, לוגו, קמפיין ומצגת<\/span><span aria-hidden=\"true\">אנחנו מכינים לעסק<\/span><span class=\"ns-pill\" aria-hidden=\"true\"><span class=\"ns-n\">אתר<\/span><span class=\"ns-n\">לוגו<\/span><span class=\"ns-n\">קמפיין<\/span><span class=\"ns-n\">מצגת<\/span><\/span><\/h2>\n        <p class=\"ns-sum\">אתרים, לוגואים, קמפיינים ומצגות, וכל אחד נבנה סביב העסק שהזמין אותו ולא מתבנית מוכנה.<\/p>\n      <\/div>\n      <div class=\"ns-cards\" aria-hidden=\"true\">\n        <div class=\"ns-card ns-web\"><div class=\"ns-bar\"><i><\/i><i><\/i><i><\/i><span>almog-cafe.co.il<\/span><\/div><div class=\"ns-pg\"><span class=\"ns-hero\"><\/span><span class=\"ns-ln\" style=\"width:62%\"><\/span><span class=\"ns-ln\" style=\"width:44%\"><\/span><div class=\"ns-tiles\"><i><\/i><i><\/i><i><\/i><\/div><\/div><\/div>\n        <div class=\"ns-card ns-logo\"><span class=\"ns-mark\">א<\/span><b>קפה אלמוג<\/b><small>בית קלייה<\/small><\/div>\n        <div class=\"ns-card ns-ad\"><div class=\"ns-img\"><\/div><div class=\"ns-adt\"><b>פתיחת עונה בבית הקלייה<\/b><span class=\"ns-ln\" style=\"width:80%\"><\/span><span class=\"ns-btn\">לפרטים<\/span><\/div><\/div>\n        <div class=\"ns-card ns-sl\"><b>סיכום רבעון<\/b><div class=\"ns-bars\"><i style=\"--h:34%\"><\/i><i style=\"--h:52%\"><\/i><i style=\"--h:44%\"><\/i><i style=\"--h:72%\"><\/i><i style=\"--h:88%\"><\/i><\/div><\/div>\n      <\/div>\n    <\/div>\n  <\/div>\n<\/div><\/div>\n\n=== JS ===\nif (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\"||typeof ScrollTrigger===\"undefined\")return;      // בלי GSAP נשארים המילה והכרטיס הראשונים\n  const root=document.querySelector(\".ns\"),pill=root.querySelector(\".ns-pill\"),nouns=[...root.querySelectorAll(\".ns-n\")];\n  const cards=[...root.querySelectorAll(\".ns-card\")],bgs=[...root.querySelectorAll(\".ns-bgs i\")],blobs=[...root.querySelectorAll(\".ns-blobs i\")];\n  const N=Math.min(nouns.length,cards.length,bgs.length);\n  // בהפחתת תנועה הפונקציה לא רצה, והמצב הראשון נשאר\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const pad=()=>{const c=getComputedStyle(pill);return parseFloat(c.paddingLeft)+parseFloat(c.paddingRight);};\n    const W=i=>nouns[i].offsetWidth+pad();      // רוחב הכפתור סביב המילה i\n    gsap.set(pill,{width:W(0)});\n    gsap.set(nouns.slice(1),{yPercent:110,opacity:0});\n    gsap.set(cards.slice(1),{xPercent:40,scale:.94,opacity:0});\n    gsap.set(bgs.slice(1),{opacity:0});\n    const tl=gsap.timeline({defaults:{ease:\"none\"},scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.6,invalidateOnRefresh:true}});\n    let t=.6;\n    for(let i=0;i<N-1;i++){\n      // רקע בדעיכה, מילה שעולה החוצה ובאה מלמטה, כפתור שמשנה רוחב, כרטיס שיוצא שמאלה ובא מימין\n      tl.to(bgs[i],{opacity:0,duration:1,ease:\"power1.inOut\"},t)\n        .to(bgs[i+1],{opacity:1,duration:1,ease:\"power1.inOut\"},t)\n        .to(nouns[i],{yPercent:-110,opacity:0,duration:.6,ease:\"power2.in\"},t)\n        .fromTo(nouns[i+1],{yPercent:110,opacity:0},{yPercent:0,opacity:1,duration:.7,ease:\"power3.out\",immediateRender:false},t+.35)\n        .to(pill,{width:()=>W(i+1),duration:.8,ease:\"power3.inOut\"},t+.1)\n        .to(cards[i],{xPercent:-40,scale:.94,opacity:0,duration:.6,ease:\"power2.in\"},t)\n        .fromTo(cards[i+1],{xPercent:40,scale:.94,opacity:0},{xPercent:0,scale:1,opacity:1,duration:.8,ease:\"expo.out\",immediateRender:false},t+.4);\n      t+=2;\n    }\n    tl.to({},{duration:.6},t);\n    const D=tl.duration();\n    blobs.forEach((b,i)=>tl.fromTo(b,{xPercent:i?20:-20,yPercent:i?-10:10},{xPercent:i?-30:30,yPercent:i?20:-20,duration:D,ease:\"none\"},0));\n    const sync=()=>{if(tl.progress()===0)gsap.set(pill,{width:W(0)});};      // שינוי גודל או פונט שנטען לפני שהתחילו לגלול\n    ScrollTrigger.addEventListener(\"refresh\",sync);\n    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>ScrollTrigger.refresh());\n    return()=>{ScrollTrigger.removeEventListener(\"refresh\",sync);root.classList.remove(\"is-live\");gsap.set([pill].concat(nouns,cards,bgs,blobs),{clearProps:\"all\"});};\n  });\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: סרטון אחד ב-prompt-motion.com (21.10.2026) שבו משפט קבוע נגמר במילה מתחלפת, והרקע וכרטיס של התוצר מתחלפים איתה, עם צורות רכות שנעות מאחור. נבנה מאפס מהצפייה. המארקאפ הוא המצב הראשון: המילה הראשונה בכפתור, הכרטיס הראשון והרקע הראשון, ומתחתיהם משפט שמונה את כל התוצרים. בלי GSAP ובהפחתת תנועה זה מה שרואים והמידע שלם. כשהמהלך רץ הסקשן גבוה פי ארבעה, הבמה נדבקת למסך והמילים והכרטיסים נערמים באותו תא. בכל מעבר: הרקע מתחלף בדעיכה בין ארבע שכבות, כי GSAP לא יודע לעבור בין צבעי `color-mix`. המילה עולה החוצה והבאה נכנסת מלמטה בתוך הכפתור, שרוחבו עובר מרוחב מילה לרוחב מילה (המדידה נעשית בכל רענון). הכרטיס הקודם יוצא שמאלה והבא נכנס מימין. שתי כתמים רכים נעים לאורך כל הטיימליין. הכרטיסים הם איור: `aria-hidden` ובלי כפתורים אמיתיים. בפרויקט מחליפים אותם בצילומי מסך של העבודות. רוחב מלא: הבמה יוצאת מהמיכל עד קצה המסך (`100vw`), ובסקשן שכבר ברוחב מלא אפשר למחוק את זה. באתר משמאל לימין מחליפים את סימן ה-`xPercent` של הכרטיסים. נגישות: הכותרת הנראית מוסתרת מקורא מסך, ובמקומה כותרת בטקסט מוסתר עם כל ארבע המילים.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nGSAP:\n- אל תטען מ-CDN. התקן: npm i gsap\n- ייבא ורשום:\n  import gsap from \"gsap\";\n  import { ScrollTrigger } from \"gsap/ScrollTrigger\";\n  gsap.registerPlugin(ScrollTrigger);\n- כל ה-JS נכנס ל-useEffect עם מערך תלויות ריק, בתוך gsap.context שמקבל ref לשורש הקומפוננטה, והניקוי קורא ל-ctx.revert().\n\nארבע מלכודות שנתפסו בבדיקה אמיתית. ctx.revert לבדו לא מטפל באף אחת מהן:\n1. סלקטורים גלובליים. החלף כל document.querySelector ב-querySelector על ה-ref. אחרת שני מופעים של אותו רכיב נלחמים על אותם אלמנטים.\n2. addEventListener נשאר מחובר אחרי revert. ב-StrictMode ההרצה הראשונה מבוטלת אבל המאזינים שלה נשארים, וכל לחיצה מריצה את הלוגיקה פעמיים. נמדד: שני טווינים מתחרים על אותו אלמנט, וסגנון אינליין שנשאר תקוע. הפתרון: const ac = new AbortController(), להוסיף { signal: ac.signal } לכל מאזין, ולקרוא ל-ac.abort() בניקוי.\n3. gsap.ticker.add אינו נרשם בקונטקסט. שמור את הפונקציה וקרא ל-gsap.ticker.remove(fn) בניקוי. נמדד: טיקר נוסף בכל כניסה לרכיב, בלי שאף אחד משתחרר.\n4. כל אובייקט GSAP שנוצר בתוך קולבק אסינכרוני (מאזין אירוע, loadedmetadata, fonts.ready, setTimeout) נוצר אחרי ש-gsap.context כבר סיים לרוץ, ולכן הוא נשאר מחוץ לקונטקסט. שמור אליו הפניה וקרא ל-kill בניקוי.\n\nשלד הניקוי המלא:\n  const root = useRef(null);\n  useEffect(() => {\n    const el = root.current;\n    const ac = new AbortController();\n    let tickFn = null, lateST = null;\n    const ctx = gsap.context(() => { /* קוד המאגר, עם el.querySelector */ }, el);\n    return () => {\n      ac.abort();\n      if (tickFn) gsap.ticker.remove(tickFn);\n      if (lateST) lateST.kill();\n      ctx.revert();\n    };\n  }, []);","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G190 · מילה שמתחלפת ומביאה איתה כרטיס ורקע */\n.ns{max-width:1180px;margin-inline:auto}\n.ns-pin{position:relative;isolation:isolate;overflow:clip;display:grid;align-items:center;min-height:clamp(480px,70vh,640px);margin-inline:calc(50% - 50vw);padding-inline:calc(50vw - 50%)}\n.ns-bgs,.ns-blobs{position:absolute;inset:0;z-index:-1;pointer-events:none}\n.ns-bgs i{position:absolute;inset:0;opacity:0}\n.ns-bgs i:first-child{opacity:1}\n.ns-b1{background:color-mix(in srgb,var(--accent, #4a3aff) 12%,var(--bg, #f7f7fa))}\n.ns-b2{background:color-mix(in srgb,var(--ink, #16182b) 8%,var(--bg, #f7f7fa))}\n.ns-b3{background:color-mix(in srgb,var(--accent, #4a3aff) 20%,var(--bg, #f7f7fa))}\n.ns-b4{background:color-mix(in srgb,var(--muted, #6a6d85) 14%,var(--bg, #f7f7fa))}\n.ns-blobs i{position:absolute;width:min(46vw,520px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--accent, #4a3aff) 30%,transparent),transparent 65%)}\n.ns-blobs i:first-child{inset-block-start:-12%;inset-inline-start:-6%}\n.ns-blobs i:last-child{inset-block-end:-18%;inset-inline-end:8%;opacity:.7}\n.ns-in{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,88px);padding-block:48px}\n.ns-copy{display:grid;gap:24px}\n.ns-h{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.2em .35em;font-size:clamp(34px,5vw,72px);font-weight:700;line-height:1.1;letter-spacing:-.01em}\n.ns-pill{box-sizing:border-box;display:inline-grid;place-items:center;overflow:clip;padding:.04em .42em .1em;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.ns-n{grid-area:1/1;width:max-content;white-space:nowrap}\n.ns-n:not(:first-child){display:none}\n.ns-sum{margin:0;max-width:34ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.ns-cards{position:relative;display:grid;place-items:center;min-height:clamp(240px,30vw,360px)}\n.ns-card{grid-area:1/1;display:grid;width:min(420px,100%);aspect-ratio:4 / 3;border-radius:20px;background:var(--card, #fff);box-shadow:0 0 0 1px var(--line, #e4e4ee),0 24px 48px -24px color-mix(in srgb,var(--ink, #16182b) 40%,transparent);overflow:clip}\n.ns-card:not(:first-child){display:none}\n.ns-web{grid-template-rows:auto 1fr}\n.ns-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line, #e4e4ee)}\n.ns-bar i{width:8px;height:8px;border-radius:50%;background:var(--line, #e4e4ee)}\n.ns-bar span{margin-inline-start:auto;direction:ltr;font-size:12px;color:var(--muted, #6a6d85)}\n.ns-pg{display:grid;align-content:start;gap:10px;padding:16px}\n.ns-hero{display:block;height:78px;border-radius:12px;background:var(--accent, #4a3aff)}\n.ns-ln{display:block;height:8px;border-radius:4px;background:var(--line, #e4e4ee)}\n.ns-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}\n.ns-tiles i{height:44px;border-radius:8px;background:color-mix(in srgb,var(--accent, #4a3aff) 22%,var(--card, #fff))}\n.ns-logo{place-items:center;align-content:center;gap:10px;text-align:center}\n.ns-mark{display:grid;place-items:center;width:88px;height:88px;border-radius:26px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-size:44px;font-weight:700}\n.ns-logo b{font-size:22px}\n.ns-logo small{font-size:14px;color:var(--muted, #6a6d85)}\n.ns-ad{grid-template-columns:1fr 1fr;gap:16px;padding:16px}\n.ns-img{border-radius:14px;background:linear-gradient(150deg,color-mix(in srgb,var(--accent, #4a3aff) 70%,var(--card, #fff)),color-mix(in srgb,var(--ink, #16182b) 40%,var(--card, #fff)))}\n.ns-adt{display:grid;align-content:center;gap:10px}\n.ns-adt b{font-size:20px;line-height:1.2}\n.ns-btn{justify-self:start;padding:8px 16px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-size:14px;font-weight:600}\n.ns-sl{grid-template-rows:auto 1fr;gap:14px;padding:20px}\n.ns-sl b{font-size:20px}\n.ns-bars{display:flex;align-items:flex-end;gap:10px;border-bottom:1px solid var(--line, #e4e4ee)}\n.ns-bars i{flex:1;height:var(--h);border-radius:8px 8px 0 0;background:var(--accent, #4a3aff)}\n.ns-bars i:nth-child(even){background:color-mix(in srgb,var(--accent, #4a3aff) 45%,var(--card, #fff))}\n.ns .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n/* המהלך רץ: הסקשן גבוה, הבמה נדבקת, והמילים והכרטיסים נערמים באותו תא */\n.ns.is-live{height:400vh}\n.ns.is-live .ns-pin{position:sticky;top:0;height:100vh;height:100svh}\n.ns.is-live .ns-n:not(:first-child),.ns.is-live .ns-card:not(:first-child){display:grid}\n@media(max-width:767px){.ns-in{grid-template-columns:minmax(0,1fr);gap:24px;padding-block:32px}.ns-cards{min-height:min(64vw,260px)}}","html":"<div class=\"stage\"><div class=\"ns\">\n  <div class=\"ns-pin\">\n    <div class=\"ns-bgs\" aria-hidden=\"true\"><i class=\"ns-b1\"><\/i><i class=\"ns-b2\"><\/i><i class=\"ns-b3\"><\/i><i class=\"ns-b4\"><\/i><\/div>\n    <div class=\"ns-blobs\" aria-hidden=\"true\"><i><\/i><i><\/i><\/div>\n    <div class=\"ns-in\">\n      <div class=\"ns-copy\">\n        <h2 class=\"ns-h\"><span class=\"sr-only\">אנחנו מכינים לעסק אתר, לוגו, קמפיין ומצגת<\/span><span aria-hidden=\"true\">אנחנו מכינים לעסק<\/span><span class=\"ns-pill\" aria-hidden=\"true\"><span class=\"ns-n\">אתר<\/span><span class=\"ns-n\">לוגו<\/span><span class=\"ns-n\">קמפיין<\/span><span class=\"ns-n\">מצגת<\/span><\/span><\/h2>\n        <p class=\"ns-sum\">אתרים, לוגואים, קמפיינים ומצגות, וכל אחד נבנה סביב העסק שהזמין אותו ולא מתבנית מוכנה.<\/p>\n      <\/div>\n      <div class=\"ns-cards\" aria-hidden=\"true\">\n        <div class=\"ns-card ns-web\"><div class=\"ns-bar\"><i><\/i><i><\/i><i><\/i><span>almog-cafe.co.il<\/span><\/div><div class=\"ns-pg\"><span class=\"ns-hero\"><\/span><span class=\"ns-ln\" style=\"width:62%\"><\/span><span class=\"ns-ln\" style=\"width:44%\"><\/span><div class=\"ns-tiles\"><i><\/i><i><\/i><i><\/i><\/div><\/div><\/div>\n        <div class=\"ns-card ns-logo\"><span class=\"ns-mark\">א<\/span><b>קפה אלמוג<\/b><small>בית קלייה<\/small><\/div>\n        <div class=\"ns-card ns-ad\"><div class=\"ns-img\"><\/div><div class=\"ns-adt\"><b>פתיחת עונה בבית הקלייה<\/b><span class=\"ns-ln\" style=\"width:80%\"><\/span><span class=\"ns-btn\">לפרטים<\/span><\/div><\/div>\n        <div class=\"ns-card ns-sl\"><b>סיכום רבעון<\/b><div class=\"ns-bars\"><i style=\"--h:34%\"><\/i><i style=\"--h:52%\"><\/i><i style=\"--h:44%\"><\/i><i style=\"--h:72%\"><\/i><i style=\"--h:88%\"><\/i><\/div><\/div>\n      <\/div>\n    <\/div>\n  <\/div>\n<\/div><\/div>","js":"if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\"||typeof ScrollTrigger===\"undefined\")return;      // בלי GSAP נשארים המילה והכרטיס הראשונים\n  const root=document.querySelector(\".ns\"),pill=root.querySelector(\".ns-pill\"),nouns=[...root.querySelectorAll(\".ns-n\")];\n  const cards=[...root.querySelectorAll(\".ns-card\")],bgs=[...root.querySelectorAll(\".ns-bgs i\")],blobs=[...root.querySelectorAll(\".ns-blobs i\")];\n  const N=Math.min(nouns.length,cards.length,bgs.length);\n  // בהפחתת תנועה הפונקציה לא רצה, והמצב הראשון נשאר\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    root.classList.add(\"is-live\");\n    const pad=()=>{const c=getComputedStyle(pill);return parseFloat(c.paddingLeft)+parseFloat(c.paddingRight);};\n    const W=i=>nouns[i].offsetWidth+pad();      // רוחב הכפתור סביב המילה i\n    gsap.set(pill,{width:W(0)});\n    gsap.set(nouns.slice(1),{yPercent:110,opacity:0});\n    gsap.set(cards.slice(1),{xPercent:40,scale:.94,opacity:0});\n    gsap.set(bgs.slice(1),{opacity:0});\n    const tl=gsap.timeline({defaults:{ease:\"none\"},scrollTrigger:{trigger:root,start:\"top top\",end:\"bottom bottom\",scrub:.6,invalidateOnRefresh:true}});\n    let t=.6;\n    for(let i=0;i<N-1;i++){\n      // רקע בדעיכה, מילה שעולה החוצה ובאה מלמטה, כפתור שמשנה רוחב, כרטיס שיוצא שמאלה ובא מימין\n      tl.to(bgs[i],{opacity:0,duration:1,ease:\"power1.inOut\"},t)\n        .to(bgs[i+1],{opacity:1,duration:1,ease:\"power1.inOut\"},t)\n        .to(nouns[i],{yPercent:-110,opacity:0,duration:.6,ease:\"power2.in\"},t)\n        .fromTo(nouns[i+1],{yPercent:110,opacity:0},{yPercent:0,opacity:1,duration:.7,ease:\"power3.out\",immediateRender:false},t+.35)\n        .to(pill,{width:()=>W(i+1),duration:.8,ease:\"power3.inOut\"},t+.1)\n        .to(cards[i],{xPercent:-40,scale:.94,opacity:0,duration:.6,ease:\"power2.in\"},t)\n        .fromTo(cards[i+1],{xPercent:40,scale:.94,opacity:0},{xPercent:0,scale:1,opacity:1,duration:.8,ease:\"expo.out\",immediateRender:false},t+.4);\n      t+=2;\n    }\n    tl.to({},{duration:.6},t);\n    const D=tl.duration();\n    blobs.forEach((b,i)=>tl.fromTo(b,{xPercent:i?20:-20,yPercent:i?-10:10},{xPercent:i?-30:30,yPercent:i?20:-20,duration:D,ease:\"none\"},0));\n    const sync=()=>{if(tl.progress()===0)gsap.set(pill,{width:W(0)});};      // שינוי גודל או פונט שנטען לפני שהתחילו לגלול\n    ScrollTrigger.addEventListener(\"refresh\",sync);\n    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>ScrollTrigger.refresh());\n    return()=>{ScrollTrigger.removeEventListener(\"refresh\",sync);root.classList.remove(\"is-live\");gsap.set([pill].concat(nouns,cards,bgs,blobs),{clearProps:\"all\"});};\n  });\n})();","scripts":"<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"><\/script>\n<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"><\/script>","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="g189.html" rel="prev"><small>→ הקודם</small><b>משפט שנשען על חבל וקורה כמו מבנה</b></a><a href="g191.html" rel="next"><small>הבא ←</small><b>מסכים מקוננים שמתקרבים פנימה</b></a></nav>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מילה שמתחלפת ומביאה איתה כרטיס ורקע").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+(function(){
+  if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP נשארים המילה והכרטיס הראשונים
+  const root=document.querySelector(".ns"),pill=root.querySelector(".ns-pill"),nouns=[...root.querySelectorAll(".ns-n")];
+  const cards=[...root.querySelectorAll(".ns-card")],bgs=[...root.querySelectorAll(".ns-bgs i")],blobs=[...root.querySelectorAll(".ns-blobs i")];
+  const N=Math.min(nouns.length,cards.length,bgs.length);
+  // בהפחתת תנועה הפונקציה לא רצה, והמצב הראשון נשאר
+  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
+    root.classList.add("is-live");
+    const pad=()=>{const c=getComputedStyle(pill);return parseFloat(c.paddingLeft)+parseFloat(c.paddingRight);};
+    const W=i=>nouns[i].offsetWidth+pad();      // רוחב הכפתור סביב המילה i
+    gsap.set(pill,{width:W(0)});
+    gsap.set(nouns.slice(1),{yPercent:110,opacity:0});
+    gsap.set(cards.slice(1),{xPercent:40,scale:.94,opacity:0});
+    gsap.set(bgs.slice(1),{opacity:0});
+    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
+    let t=.6;
+    for(let i=0;i<N-1;i++){
+      // רקע בדעיכה, מילה שעולה החוצה ובאה מלמטה, כפתור שמשנה רוחב, כרטיס שיוצא שמאלה ובא מימין
+      tl.to(bgs[i],{opacity:0,duration:1,ease:"power1.inOut"},t)
+        .to(bgs[i+1],{opacity:1,duration:1,ease:"power1.inOut"},t)
+        .to(nouns[i],{yPercent:-110,opacity:0,duration:.6,ease:"power2.in"},t)
+        .fromTo(nouns[i+1],{yPercent:110,opacity:0},{yPercent:0,opacity:1,duration:.7,ease:"power3.out",immediateRender:false},t+.35)
+        .to(pill,{width:()=>W(i+1),duration:.8,ease:"power3.inOut"},t+.1)
+        .to(cards[i],{xPercent:-40,scale:.94,opacity:0,duration:.6,ease:"power2.in"},t)
+        .fromTo(cards[i+1],{xPercent:40,scale:.94,opacity:0},{xPercent:0,scale:1,opacity:1,duration:.8,ease:"expo.out",immediateRender:false},t+.4);
+      t+=2;
+    }
+    tl.to({},{duration:.6},t);
+    const D=tl.duration();
+    blobs.forEach((b,i)=>tl.fromTo(b,{xPercent:i?20:-20,yPercent:i?-10:10},{xPercent:i?-30:30,yPercent:i?20:-20,duration:D,ease:"none"},0));
+    const sync=()=>{if(tl.progress()===0)gsap.set(pill,{width:W(0)});};      // שינוי גודל או פונט שנטען לפני שהתחילו לגלול
+    ScrollTrigger.addEventListener("refresh",sync);
+    if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>ScrollTrigger.refresh());
+    return()=>{ScrollTrigger.removeEventListener("refresh",sync);root.classList.remove("is-live");gsap.set([pill].concat(nouns,cards,bgs,blobs),{clearProps:"all"});};
+  });
+})();
+</script>
+</body>
+</html>

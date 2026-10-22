@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS37 · שורות מילים בקו מתאר מאחורי הכותרת</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+/* ===== פיגום של הדמו בלבד. מחקו את .mv-runway ואת שני ה-div כשמעתיקים. ===== */
+.mv-runway{height:70vh;display:grid;place-items:center;color:#66697a;font-size:14px}
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS37 · שורות מילים בקו מתאר מאחורי הכותרת */
+.mr{position:relative;display:grid;place-items:center;min-height:clamp(480px,56vw,680px);overflow:clip;isolation:isolate}
+.mr-rows{position:absolute;inset:0;display:grid;align-content:center;z-index:-1;-webkit-mask-image:linear-gradient(to right,transparent,black 7%,black 93%,transparent);mask-image:linear-gradient(to right,transparent,black 7%,black 93%,transparent)}
+.mr-row{overflow:clip;white-space:nowrap;line-height:.98}
+.mr-strip{display:flex;width:max-content;animation:mr-go var(--d,48s) linear infinite;animation-delay:var(--o,0s)}
+.mr-row:nth-child(even) .mr-strip{animation-direction:reverse}
+.mr-g{display:flex;flex:none;gap:.5em;padding-inline-end:.5em}
+.mr-g span{font-size:clamp(56px,8.4vw,120px);font-weight:700;color:transparent;-webkit-text-stroke:1.5px color-mix(in srgb,var(--ink, #16182b) 24%,transparent)}
+/* עותק אחד = חצי מהרצועה. באתר משמאל לימין: -50% */
+@keyframes mr-go{from{transform:translateX(0)}to{transform:translateX(50%)}}
+.mr-front{display:grid;justify-items:start;gap:18px;width:min(640px,100%);text-shadow:0 0 .5em var(--bg, #f7f7fa),0 0 1em var(--bg, #f7f7fa),0 0 1.6em var(--bg, #f7f7fa)}
+.mr-front h2{margin:0;font-size:clamp(34px,5.2vw,76px);font-weight:700;line-height:1.05;letter-spacing:-.015em;text-wrap:balance}
+.mr-front p{margin:0;max-width:34ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.mr-cta{display:inline-flex;align-items:center;padding:14px 28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:600;text-decoration:none;text-shadow:none}
+@media(prefers-reduced-motion:reduce){.mr-strip{animation:none}}
+</style>
+</head>
+<body>
+<div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
+<div class="stage"><section class="mr">
+  <div class="mr-rows" aria-hidden="true">
+    <div class="mr-row" style="--d:52s;--o:0s"><div class="mr-strip"><div class="mr-g"><span>תכנון</span><span>תכנון</span><span>תכנון</span><span>תכנון</span><span>תכנון</span><span>תכנון</span><span>תכנון</span><span>תכנון</span><span>תכנון</span></div><div class="mr-g"><span>תכנון</span><span>תכנון</span><span>תכנון</span><span>תכנון</span><span>תכנון</span><span>תכנון</span><span>תכנון</span><span>תכנון</span><span>תכנון</span></div></div></div><div class="mr-row" style="--d:64s;--o:-21s"><div class="mr-strip"><div class="mr-g"><span>עיצוב פנים</span><span>עיצוב פנים</span><span>עיצוב פנים</span><span>עיצוב פנים</span><span>עיצוב פנים</span><span>עיצוב פנים</span></div><div class="mr-g"><span>עיצוב פנים</span><span>עיצוב פנים</span><span>עיצוב פנים</span><span>עיצוב פנים</span><span>עיצוב פנים</span><span>עיצוב פנים</span></div></div></div><div class="mr-row" style="--d:46s;--o:-9s"><div class="mr-strip"><div class="mr-g"><span>ליווי בנייה</span><span>ליווי בנייה</span><span>ליווי בנייה</span><span>ליווי בנייה</span><span>ליווי בנייה</span></div><div class="mr-g"><span>ליווי בנייה</span><span>ליווי בנייה</span><span>ליווי בנייה</span><span>ליווי בנייה</span><span>ליווי בנייה</span></div></div></div><div class="mr-row" style="--d:70s;--o:-33s"><div class="mr-strip"><div class="mr-g"><span>בחירת חומרים</span><span>בחירת חומרים</span><span>בחירת חומרים</span><span>בחירת חומרים</span><span>בחירת חומרים</span></div><div class="mr-g"><span>בחירת חומרים</span><span>בחירת חומרים</span><span>בחירת חומרים</span><span>בחירת חומרים</span><span>בחירת חומרים</span></div></div></div><div class="mr-row" style="--d:56s;--o:-14s"><div class="mr-strip"><div class="mr-g"><span>הדמיות</span><span>הדמיות</span><span>הדמיות</span><span>הדמיות</span><span>הדמיות</span><span>הדמיות</span><span>הדמיות</span></div><div class="mr-g"><span>הדמיות</span><span>הדמיות</span><span>הדמיות</span><span>הדמיות</span><span>הדמיות</span><span>הדמיות</span><span>הדמיות</span></div></div></div>
+  </div>
+  <div class="mr-front">
+    <h2>תכנון ועיצוב פנים לדירות ולבתים פרטיים</h2>
+    <p>סטודיו קטן בתל אביב שמלווה כל פרויקט מהשרטוט הראשון ועד המפתח ביד.</p>
+    <a class="mr-cta" href="#">לפגישת היכרות</a>
+  </div>
+</section></div>
+<div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
+
+
+</body>
+</html>
