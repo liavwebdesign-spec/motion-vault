@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H22 · הירו מניפת כרטיסים | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--bg);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h22h{position:relative;display:flex;flex-direction:column;align-items:center;gap:24px;min-height:min(86vh,780px);padding:96px 28px 0;text-align:center;overflow:hidden;
+  background:color-mix(in srgb,var(--accent) 7%,var(--bg))}
+.h22h h3{margin:0;max-width:16ch;font-size:clamp(34px,min(4.4vw,7.8vh),70px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h22h .hlead{max-width:46ch}
+.h22h .hcta{justify-content:center}
+.h22-fan{--cw:clamp(150px,13vw,200px);--k:1;position:relative;flex:1;width:100%;min-height:clamp(220px,34vh,330px);margin:0;padding:0;list-style:none}
+/* every card hangs from one pivot far below it; rotate and translate are separate properties, so the entrance and the hover never fight */
+.h22-card{position:absolute;bottom:calc(var(--cw) * -.3);left:50%;z-index:var(--z);width:var(--cw);aspect-ratio:3/4;margin-left:calc(var(--cw) / -2);border-radius:18px;overflow:hidden;background:var(--card);
+  transform-origin:50% 230%;rotate:calc(var(--r) * var(--k));box-shadow:0 24px 50px -24px color-mix(in srgb,var(--ink) 45%,transparent);transition:rotate .8s cubic-bezier(.2,.6,.2,1),translate .45s cubic-bezier(.2,.6,.2,1),opacity .5s cubic-bezier(.2,.6,.2,1)}
+.h22-card img{width:100%;height:100%;object-fit:cover;display:block}
+/* each label sits on the edge the next card does not cover: right-hand cards on their right, left-hand cards on their left */
+.h22-lab{position:absolute;top:12px;inset-inline-start:10px;padding:6px 10px;border-radius:999px;background:var(--bg);color:var(--ink);font-size:13px;font-weight:700;white-space:nowrap}
+.h22-card.lft .h22-lab{inset-inline-start:auto;inset-inline-end:10px}
+.h22-card.txt{display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:8px;padding:20px;background:var(--accent);color:var(--accent-ink);text-align:start}
+.h22-card.txt span{font-size:13px;font-weight:600;opacity:.85}
+.h22-card.txt b{font-size:clamp(18px,1.5vw,22px);line-height:1.2;text-wrap:balance}
+.open-anim .h22-card{rotate:0deg;translate:0 40%;opacity:0;animation:h22-fs 0s 2.5s forwards}
+.is-in .h22-card{rotate:calc(var(--r) * var(--k));translate:0 0;opacity:1;transition-delay:calc(var(--t0,0s) + .25s + var(--d) * 60ms)}
+.rv-on .h22-card{animation:none}
+@keyframes h22-fs{to{rotate:calc(var(--r) * var(--k));translate:0 0;opacity:1}}
+@media (hover:hover) and (pointer:fine){.h22-card:hover{translate:0 -20px;z-index:9;transition-delay:0s}}
+@media (prefers-reduced-motion:reduce){.h22-card{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: three cards */
+@media (max-width:860px){.h22h{padding:88px 20px 0;gap:20px;min-height:min(90vh,780px)}.h22h h3{font-size:clamp(30px,8vw,40px)}.h22-fan{--cw:132px;--k:1.35;min-height:240px}.h22-card.txt{padding:14px}.h22-card.txt b{font-size:17px}.h22-card.out{display:none}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=hero">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="h21.html" rel="prev" title="הקודם: הירו גריד מגזין">→<span class="sr-only">הקודם</span></a><span class="vpn-n">22/22</span><a href="h1.html" rel="next" title="הבא: הירו ממורכז קלאסי עם ויז'ואל מציץ">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">H22</span> · הירו מניפת כרטיסים</h1>
+  <span class="vchip cat-hero">הירו</span>
+  <span class="vchip">CSS · JS</span>
+  <span class="vchip use">הירו ופתיחה</span><span class="vchip use">כרטיסים</span><span class="vchip use">hover ומיקרו</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:h22"><code>MV:h22</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="h22">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>כותרת וכפתורים במרכז, ומתחתם חמישה כרטיסים שנפתחים כמו מניפה מתוך ערימה אחת ועולים מתחתית ההירו. בכל כרטיס צילום ושם קצר, והאמצעי הוא כרטיס טקסט בצבע המותג. ריחוף מרים כרטיס.</p>
+  <p class="when"><b>מתי משתמשים:</b> עסק שיש לו כמה מוצרים או סוגים שכדאי לראות יחד: גלידרייה, קונדיטוריה, חנות קטנה, סדנאות, תפריט עונתי, מותג קוסמטיקה. לא כשיש רק מוצר אחד או פחות מארבעה צילומים; אז h3.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>אתר תדמית · וואן-פייג'ר · חנות · דף נחיתה</dd></div><div><dt>בסקשן</dt><dd>הירו</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשיש רק מוצר אחד או פחות מארבעה צילומים; אז h3.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="h22"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h22h" id="h22">
+    <span class="hkick rv">גלידה איטלקית, נחלת בנימין</span>
+    <h3 class="rv">גלידה שמכינים כל בוקר, בטעמים שמתחלפים עם העונה</h3>
+    <p class="hlead rv">חלב מקיבוץ בגליל, פירות מהשוק, ושישה עשר טעמים בוויטרינה. לטעום לפני שבוחרים זה חלק מהעניין.</p>
+    <div class="hcta rv"><a class="hbtn" href="#h22">לטעמים של היום</a><a class="hbtn ghost" href="#h22">איך מגיעים</a></div>
+    <ul class="h22-fan" aria-label="טעמים מהוויטרינה">
+      <li class="h22-card out" style="--r:24deg;--z:1;--d:2"><img src="../assets/media/real/s11/cones-yellow.webp" alt="" aria-hidden="true" decoding="async"><span class="h22-lab">מנטה טרייה</span></li>
+      <li class="h22-card" style="--r:12deg;--z:2;--d:1"><img src="../assets/media/real/s11/hero-scoops.webp" alt="" aria-hidden="true" fetchpriority="high" decoding="async"><span class="h22-lab">תות ושמנת</span></li>
+      <li class="h22-card txt" style="--r:0deg;--z:3;--d:0"><span>הטעם של השבוע</span><b>פיסטוק ומלח ים</b></li>
+      <li class="h22-card lft" style="--r:-12deg;--z:2;--d:1"><img src="../assets/media/real/s11/bowls.webp" alt="" aria-hidden="true" decoding="async"><span class="h22-lab">קערה לשניים</span></li>
+      <li class="h22-card out lft" style="--r:-24deg;--z:1;--d:2"><img src="../assets/media/real/s11/magenta-cone.webp" alt="" aria-hidden="true" decoding="async"><span class="h22-lab">גביע ביתי</span></li>
+    </ul>
+  </section>
+</div>
+
+<div class="demo-note">כל הכרטיסים יושבים באותה נקודה ותלויים מציר אחד שנמצא הרחק מתחתם (transform-origin של 170%), כך שזווית שונה לכל אחד (--r) פותחת אותם למניפה, בלי לחשב מיקומים. הכניסה מתחילה בערימה סגורה שעולה מלמטה ונפתחת מהאמצע החוצה. הזווית וההזזה הן תכונות נפרדות (rotate ו-translate), ולכן הריחוף מרים כרטיס בלי לשבור את הזווית שלו ובלי להתנגש בכניסה. הכרטיס האמצעי הוא טקסט בצבע המותג (הטעם של השבוע), ולכן המניפה אומרת משהו ולא רק מראה תמונות; התמונות דקורטיביות, והשם הקצר על כל כרטיס הוא הטקסט שלו. הכרטיסים נחתכים בקצה התחתון של ההירו בכוונה, כמו קלפים ביד. בטלפון נשארים שלושה. פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/h22.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* H22 · הירו מניפת כרטיסים */
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h22h{position:relative;display:flex;flex-direction:column;align-items:center;gap:24px;min-height:min(86vh,780px);padding:96px 28px 0;text-align:center;overflow:hidden;
+  background:color-mix(in srgb,var(--accent, #4a3aff) 7%,var(--bg, #f7f7fa))}
+.h22h h3{margin:0;max-width:16ch;font-size:clamp(34px,min(4.4vw,7.8vh),70px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h22h .hlead{max-width:46ch}
+.h22h .hcta{justify-content:center}
+.h22-fan{--cw:clamp(150px,13vw,200px);--k:1;position:relative;flex:1;width:100%;min-height:clamp(220px,34vh,330px);margin:0;padding:0;list-style:none}
+/* every card hangs from one pivot far below it; rotate and translate are separate properties, so the entrance and the hover never fight */
+.h22-card{position:absolute;bottom:calc(var(--cw) * -.3);left:50%;z-index:var(--z);width:var(--cw);aspect-ratio:3/4;margin-left:calc(var(--cw) / -2);border-radius:18px;overflow:hidden;background:var(--card, #fff);
+  transform-origin:50% 230%;rotate:calc(var(--r, 14px) * var(--k));box-shadow:0 24px 50px -24px color-mix(in srgb,var(--ink, #16182b) 45%,transparent);transition:rotate .8s cubic-bezier(.2,.6,.2,1),translate .45s cubic-bezier(.2,.6,.2,1),opacity .5s cubic-bezier(.2,.6,.2,1)}
+.h22-card img{width:100%;height:100%;object-fit:cover;display:block}
+/* each label sits on the edge the next card does not cover: right-hand cards on their right, left-hand cards on their left */
+.h22-lab{position:absolute;top:12px;inset-inline-start:10px;padding:6px 10px;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font-size:13px;font-weight:700;white-space:nowrap}
+.h22-card.lft .h22-lab{inset-inline-start:auto;inset-inline-end:10px}
+.h22-card.txt{display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:8px;padding:20px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-align:start}
+.h22-card.txt span{font-size:13px;font-weight:600;opacity:.85}
+.h22-card.txt b{font-size:clamp(18px,1.5vw,22px);line-height:1.2;text-wrap:balance}
+.open-anim .h22-card{rotate:0deg;translate:0 40%;opacity:0;animation:h22-fs 0s 2.5s forwards}
+.is-in .h22-card{rotate:calc(var(--r, 14px) * var(--k));translate:0 0;opacity:1;transition-delay:calc(var(--t0,0s) + .25s + var(--d) * 60ms)}
+.rv-on .h22-card{animation:none}
+@keyframes h22-fs{to{rotate:calc(var(--r, 14px) * var(--k));translate:0 0;opacity:1}}
+@media (hover:hover) and (pointer:fine){.h22-card:hover{translate:0 -20px;z-index:9;transition-delay:0s}}
+@media (prefers-reduced-motion:reduce){.h22-card{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: three cards */
+@media (max-width:860px){.h22h{padding:88px 20px 0;gap:20px;min-height:min(90vh,780px)}.h22h h3{font-size:clamp(30px,8vw,40px)}.h22-fan{--cw:132px;--k:1.35;min-height:240px}.h22-card.txt{padding:14px}.h22-card.txt b{font-size:17px}.h22-card.out{display:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;script&gt;if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")&lt;/script&gt;
+&lt;div class="hf"&gt;&lt;div class="hf-top"&gt;&lt;b&gt;לוגו&lt;/b&gt;&lt;nav&gt;&lt;span&gt;שירותים&lt;/span&gt;&lt;span&gt;פרויקטים&lt;/span&gt;&lt;span&gt;אודות&lt;/span&gt;&lt;/nav&gt;&lt;/div&gt;
+  &lt;section class="h22h" id="h22"&gt;
+    &lt;span class="hkick rv"&gt;גלידה איטלקית, נחלת בנימין&lt;/span&gt;
+    &lt;h3 class="rv"&gt;גלידה שמכינים כל בוקר, בטעמים שמתחלפים עם העונה&lt;/h3&gt;
+    &lt;p class="hlead rv"&gt;חלב מקיבוץ בגליל, פירות מהשוק, ושישה עשר טעמים בוויטרינה. לטעום לפני שבוחרים זה חלק מהעניין.&lt;/p&gt;
+    &lt;div class="hcta rv"&gt;&lt;a class="hbtn" href="#h22"&gt;לטעמים של היום&lt;/a&gt;&lt;a class="hbtn ghost" href="#h22"&gt;איך מגיעים&lt;/a&gt;&lt;/div&gt;
+    &lt;ul class="h22-fan" aria-label="טעמים מהוויטרינה"&gt;
+      &lt;li class="h22-card out" style="--r:24deg;--z:1;--d:2"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s11/cones-yellow.webp" alt="" aria-hidden="true" decoding="async"&gt;&lt;span class="h22-lab"&gt;מנטה טרייה&lt;/span&gt;&lt;/li&gt;
+      &lt;li class="h22-card" style="--r:12deg;--z:2;--d:1"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s11/hero-scoops.webp" alt="" aria-hidden="true" fetchpriority="high" decoding="async"&gt;&lt;span class="h22-lab"&gt;תות ושמנת&lt;/span&gt;&lt;/li&gt;
+      &lt;li class="h22-card txt" style="--r:0deg;--z:3;--d:0"&gt;&lt;span&gt;הטעם של השבוע&lt;/span&gt;&lt;b&gt;פיסטוק ומלח ים&lt;/b&gt;&lt;/li&gt;
+      &lt;li class="h22-card lft" style="--r:-12deg;--z:2;--d:1"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s11/bowls.webp" alt="" aria-hidden="true" decoding="async"&gt;&lt;span class="h22-lab"&gt;קערה לשניים&lt;/span&gt;&lt;/li&gt;
+      &lt;li class="h22-card out lft" style="--r:-24deg;--z:1;--d:2"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s11/magenta-cone.webp" alt="" aria-hidden="true" decoding="async"&gt;&lt;span class="h22-lab"&gt;גביע ביתי&lt;/span&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top&lt;innerHeight*.9&amp;&amp;r.bottom&gt;0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&amp;&amp;getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+enter(document.getElementById("h22"));</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:h22 · הירו מניפת כרטיסים\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/hero/h22.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/h22.html\n\nמה זה עושה: כותרת וכפתורים במרכז, ומתחתם חמישה כרטיסים שנפתחים כמו מניפה מתוך ערימה אחת ועולים מתחתית ההירו. בכל כרטיס צילום ושם קצר, והאמצעי הוא כרטיס טקסט בצבע המותג. ריחוף מרים כרטיס.\nמתי משתמשים: עסק שיש לו כמה מוצרים או סוגים שכדאי לראות יחד: גלידרייה, קונדיטוריה, חנות קטנה, סדנאות, תפריט עונתי, מותג קוסמטיקה. לא כשיש רק מוצר אחד או פחות מארבעה צילומים; אז h3.\nסוג אתר: אתר תדמית · וואן-פייג'ר · חנות · דף נחיתה\nבסקשן: הירו\nאופי: גם באתר שקט\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא כשיש רק מוצר אחד או פחות מארבעה צילומים; אז h3.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* H22 · הירו מניפת כרטיסים */\n/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */\n.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}\n.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}\n.hf-top b{font-size:18px;font-weight:800}\n.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}\n@media (max-width:760px){.hf-top nav{display:none}}\n.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;\n  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}\n@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}\n.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}\n.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}\n.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}\n.hcta{display:flex;flex-wrap:wrap;gap:12px}\n\n/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */\n.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}\n/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */\n.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}\n.rv-on .rv{animation:none}\n@keyframes rv-fs{to{opacity:1;transform:none}}\n@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}\n  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}\n.h22h{position:relative;display:flex;flex-direction:column;align-items:center;gap:24px;min-height:min(86vh,780px);padding:96px 28px 0;text-align:center;overflow:hidden;\n  background:color-mix(in srgb,var(--accent, #4a3aff) 7%,var(--bg, #f7f7fa))}\n.h22h h3{margin:0;max-width:16ch;font-size:clamp(34px,min(4.4vw,7.8vh),70px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}\n.h22h .hlead{max-width:46ch}\n.h22h .hcta{justify-content:center}\n.h22-fan{--cw:clamp(150px,13vw,200px);--k:1;position:relative;flex:1;width:100%;min-height:clamp(220px,34vh,330px);margin:0;padding:0;list-style:none}\n/* every card hangs from one pivot far below it; rotate and translate are separate properties, so the entrance and the hover never fight */\n.h22-card{position:absolute;bottom:calc(var(--cw) * -.3);left:50%;z-index:var(--z);width:var(--cw);aspect-ratio:3/4;margin-left:calc(var(--cw) / -2);border-radius:18px;overflow:hidden;background:var(--card, #fff);\n  transform-origin:50% 230%;rotate:calc(var(--r, 14px) * var(--k));box-shadow:0 24px 50px -24px color-mix(in srgb,var(--ink, #16182b) 45%,transparent);transition:rotate .8s cubic-bezier(.2,.6,.2,1),translate .45s cubic-bezier(.2,.6,.2,1),opacity .5s cubic-bezier(.2,.6,.2,1)}\n.h22-card img{width:100%;height:100%;object-fit:cover;display:block}\n/* each label sits on the edge the next card does not cover: right-hand cards on their right, left-hand cards on their left */\n.h22-lab{position:absolute;top:12px;inset-inline-start:10px;padding:6px 10px;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font-size:13px;font-weight:700;white-space:nowrap}\n.h22-card.lft .h22-lab{inset-inline-start:auto;inset-inline-end:10px}\n.h22-card.txt{display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:8px;padding:20px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-align:start}\n.h22-card.txt span{font-size:13px;font-weight:600;opacity:.85}\n.h22-card.txt b{font-size:clamp(18px,1.5vw,22px);line-height:1.2;text-wrap:balance}\n.open-anim .h22-card{rotate:0deg;translate:0 40%;opacity:0;animation:h22-fs 0s 2.5s forwards}\n.is-in .h22-card{rotate:calc(var(--r, 14px) * var(--k));translate:0 0;opacity:1;transition-delay:calc(var(--t0,0s) + .25s + var(--d) * 60ms)}\n.rv-on .h22-card{animation:none}\n@keyframes h22-fs{to{rotate:calc(var(--r, 14px) * var(--k));translate:0 0;opacity:1}}\n@media (hover:hover) and (pointer:fine){.h22-card:hover{translate:0 -20px;z-index:9;transition-delay:0s}}\n@media (prefers-reduced-motion:reduce){.h22-card{transition-duration:.01ms!important;transition-delay:0s!important}}\n/* phone: three cards */\n@media (max-width:860px){.h22h{padding:88px 20px 0;gap:20px;min-height:min(90vh,780px)}.h22h h3{font-size:clamp(30px,8vw,40px)}.h22-fan{--cw:132px;--k:1.35;min-height:240px}.h22-card.txt{padding:14px}.h22-card.txt b{font-size:17px}.h22-card.out{display:none}}\n\n=== HTML ===\n<script>if(matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)document.documentElement.classList.add(\"open-anim\")<\/script>\n<div class=\"hf\"><div class=\"hf-top\"><b>לוגו<\/b><nav><span>שירותים<\/span><span>פרויקטים<\/span><span>אודות<\/span><\/nav><\/div>\n  <section class=\"h22h\" id=\"h22\">\n    <span class=\"hkick rv\">גלידה איטלקית, נחלת בנימין<\/span>\n    <h3 class=\"rv\">גלידה שמכינים כל בוקר, בטעמים שמתחלפים עם העונה<\/h3>\n    <p class=\"hlead rv\">חלב מקיבוץ בגליל, פירות מהשוק, ושישה עשר טעמים בוויטרינה. לטעום לפני שבוחרים זה חלק מהעניין.<\/p>\n    <div class=\"hcta rv\"><a class=\"hbtn\" href=\"#h22\">לטעמים של היום<\/a><a class=\"hbtn ghost\" href=\"#h22\">איך מגיעים<\/a><\/div>\n    <ul class=\"h22-fan\" aria-label=\"טעמים מהוויטרינה\">\n      <li class=\"h22-card out\" style=\"--r:24deg;--z:1;--d:2\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s11/cones-yellow.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><span class=\"h22-lab\">מנטה טרייה<\/span><\/li>\n      <li class=\"h22-card\" style=\"--r:12deg;--z:2;--d:1\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s11/hero-scoops.webp\" alt=\"\" aria-hidden=\"true\" fetchpriority=\"high\" decoding=\"async\"><span class=\"h22-lab\">תות ושמנת<\/span><\/li>\n      <li class=\"h22-card txt\" style=\"--r:0deg;--z:3;--d:0\"><span>הטעם של השבוע<\/span><b>פיסטוק ומלח ים<\/b><\/li>\n      <li class=\"h22-card lft\" style=\"--r:-12deg;--z:2;--d:1\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s11/bowls.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><span class=\"h22-lab\">קערה לשניים<\/span><\/li>\n      <li class=\"h22-card out lft\" style=\"--r:-24deg;--z:1;--d:2\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s11/magenta-cone.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><span class=\"h22-lab\">גביע ביתי<\/span><\/li>\n    <\/ul>\n  <\/section>\n<\/div>\n\n=== JS ===\n// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:\n// an observer does not update while the tab is throttled (and on a real site the hero is usually\n// on screen at load anyway), and an entrance that never fires leaves the hero invisible.\nfunction inView(el,f){\n  var ro;\n  function chk(){\n    var r=el.getBoundingClientRect();\n    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}\n  }\n  function off(){removeEventListener(\"scroll\",chk);removeEventListener(\"resize\",chk);if(ro)ro.disconnect();}\n  addEventListener(\"scroll\",chk,{passive:true}); addEventListener(\"resize\",chk);\n  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view\n  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}\n  requestAnimationFrame(chk); setTimeout(chk,300);\n}\nfunction enter(root){\n  var els=root.querySelectorAll(\".rv\");\n  els.forEach(function(el,i){if(!el.style.getPropertyValue(\"--i\"))el.style.setProperty(\"--i\",i);});\n  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance\n  if(els.length&&getComputedStyle(els[0]).opacity===\"1\")root.classList.add(\"is-in\");\n  root.classList.add(\"rv-on\");\n  inView(root,function(){root.classList.add(\"is-in\");});\n}\nenter(document.getElementById(\"h22\"));\n\nהערת מימוש מהמאגר:\nכל הכרטיסים יושבים באותה נקודה ותלויים מציר אחד שנמצא הרחק מתחתם (transform-origin של 170%), כך שזווית שונה לכל אחד (--r) פותחת אותם למניפה, בלי לחשב מיקומים. הכניסה מתחילה בערימה סגורה שעולה מלמטה ונפתחת מהאמצע החוצה. הזווית וההזזה הן תכונות נפרדות (rotate ו-translate), ולכן הריחוף מרים כרטיס בלי לשבור את הזווית שלו ובלי להתנגש בכניסה. הכרטיס האמצעי הוא טקסט בצבע המותג (הטעם של השבוע), ולכן המניפה אומרת משהו ולא רק מראה תמונות; התמונות דקורטיביות, והשם הקצר על כל כרטיס הוא הטקסט שלו. הכרטיסים נחתכים בקצה התחתון של ההירו בכוונה, כמו קלפים ביד. בטלפון נשארים שלושה. פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* H22 · הירו מניפת כרטיסים */\n/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */\n.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}\n.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}\n.hf-top b{font-size:18px;font-weight:800}\n.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}\n@media (max-width:760px){.hf-top nav{display:none}}\n.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;\n  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}\n@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}\n.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}\n.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}\n.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}\n.hcta{display:flex;flex-wrap:wrap;gap:12px}\n\n/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */\n.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}\n/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */\n.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}\n.rv-on .rv{animation:none}\n@keyframes rv-fs{to{opacity:1;transform:none}}\n@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}\n  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}\n.h22h{position:relative;display:flex;flex-direction:column;align-items:center;gap:24px;min-height:min(86vh,780px);padding:96px 28px 0;text-align:center;overflow:hidden;\n  background:color-mix(in srgb,var(--accent, #4a3aff) 7%,var(--bg, #f7f7fa))}\n.h22h h3{margin:0;max-width:16ch;font-size:clamp(34px,min(4.4vw,7.8vh),70px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}\n.h22h .hlead{max-width:46ch}\n.h22h .hcta{justify-content:center}\n.h22-fan{--cw:clamp(150px,13vw,200px);--k:1;position:relative;flex:1;width:100%;min-height:clamp(220px,34vh,330px);margin:0;padding:0;list-style:none}\n/* every card hangs from one pivot far below it; rotate and translate are separate properties, so the entrance and the hover never fight */\n.h22-card{position:absolute;bottom:calc(var(--cw) * -.3);left:50%;z-index:var(--z);width:var(--cw);aspect-ratio:3/4;margin-left:calc(var(--cw) / -2);border-radius:18px;overflow:hidden;background:var(--card, #fff);\n  transform-origin:50% 230%;rotate:calc(var(--r, 14px) * var(--k));box-shadow:0 24px 50px -24px color-mix(in srgb,var(--ink, #16182b) 45%,transparent);transition:rotate .8s cubic-bezier(.2,.6,.2,1),translate .45s cubic-bezier(.2,.6,.2,1),opacity .5s cubic-bezier(.2,.6,.2,1)}\n.h22-card img{width:100%;height:100%;object-fit:cover;display:block}\n/* each label sits on the edge the next card does not cover: right-hand cards on their right, left-hand cards on their left */\n.h22-lab{position:absolute;top:12px;inset-inline-start:10px;padding:6px 10px;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font-size:13px;font-weight:700;white-space:nowrap}\n.h22-card.lft .h22-lab{inset-inline-start:auto;inset-inline-end:10px}\n.h22-card.txt{display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:8px;padding:20px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-align:start}\n.h22-card.txt span{font-size:13px;font-weight:600;opacity:.85}\n.h22-card.txt b{font-size:clamp(18px,1.5vw,22px);line-height:1.2;text-wrap:balance}\n.open-anim .h22-card{rotate:0deg;translate:0 40%;opacity:0;animation:h22-fs 0s 2.5s forwards}\n.is-in .h22-card{rotate:calc(var(--r, 14px) * var(--k));translate:0 0;opacity:1;transition-delay:calc(var(--t0,0s) + .25s + var(--d) * 60ms)}\n.rv-on .h22-card{animation:none}\n@keyframes h22-fs{to{rotate:calc(var(--r, 14px) * var(--k));translate:0 0;opacity:1}}\n@media (hover:hover) and (pointer:fine){.h22-card:hover{translate:0 -20px;z-index:9;transition-delay:0s}}\n@media (prefers-reduced-motion:reduce){.h22-card{transition-duration:.01ms!important;transition-delay:0s!important}}\n/* phone: three cards */\n@media (max-width:860px){.h22h{padding:88px 20px 0;gap:20px;min-height:min(90vh,780px)}.h22h h3{font-size:clamp(30px,8vw,40px)}.h22-fan{--cw:132px;--k:1.35;min-height:240px}.h22-card.txt{padding:14px}.h22-card.txt b{font-size:17px}.h22-card.out{display:none}}","html":"<script>if(matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)document.documentElement.classList.add(\"open-anim\")<\/script>\n<div class=\"hf\"><div class=\"hf-top\"><b>לוגו<\/b><nav><span>שירותים<\/span><span>פרויקטים<\/span><span>אודות<\/span><\/nav><\/div>\n  <section class=\"h22h\" id=\"h22\">\n    <span class=\"hkick rv\">גלידה איטלקית, נחלת בנימין<\/span>\n    <h3 class=\"rv\">גלידה שמכינים כל בוקר, בטעמים שמתחלפים עם העונה<\/h3>\n    <p class=\"hlead rv\">חלב מקיבוץ בגליל, פירות מהשוק, ושישה עשר טעמים בוויטרינה. לטעום לפני שבוחרים זה חלק מהעניין.<\/p>\n    <div class=\"hcta rv\"><a class=\"hbtn\" href=\"#h22\">לטעמים של היום<\/a><a class=\"hbtn ghost\" href=\"#h22\">איך מגיעים<\/a><\/div>\n    <ul class=\"h22-fan\" aria-label=\"טעמים מהוויטרינה\">\n      <li class=\"h22-card out\" style=\"--r:24deg;--z:1;--d:2\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s11/cones-yellow.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><span class=\"h22-lab\">מנטה טרייה<\/span><\/li>\n      <li class=\"h22-card\" style=\"--r:12deg;--z:2;--d:1\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s11/hero-scoops.webp\" alt=\"\" aria-hidden=\"true\" fetchpriority=\"high\" decoding=\"async\"><span class=\"h22-lab\">תות ושמנת<\/span><\/li>\n      <li class=\"h22-card txt\" style=\"--r:0deg;--z:3;--d:0\"><span>הטעם של השבוע<\/span><b>פיסטוק ומלח ים<\/b><\/li>\n      <li class=\"h22-card lft\" style=\"--r:-12deg;--z:2;--d:1\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s11/bowls.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><span class=\"h22-lab\">קערה לשניים<\/span><\/li>\n      <li class=\"h22-card out lft\" style=\"--r:-24deg;--z:1;--d:2\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s11/magenta-cone.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><span class=\"h22-lab\">גביע ביתי<\/span><\/li>\n    <\/ul>\n  <\/section>\n<\/div>","js":"// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:\n// an observer does not update while the tab is throttled (and on a real site the hero is usually\n// on screen at load anyway), and an entrance that never fires leaves the hero invisible.\nfunction inView(el,f){\n  var ro;\n  function chk(){\n    var r=el.getBoundingClientRect();\n    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}\n  }\n  function off(){removeEventListener(\"scroll\",chk);removeEventListener(\"resize\",chk);if(ro)ro.disconnect();}\n  addEventListener(\"scroll\",chk,{passive:true}); addEventListener(\"resize\",chk);\n  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view\n  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}\n  requestAnimationFrame(chk); setTimeout(chk,300);\n}\nfunction enter(root){\n  var els=root.querySelectorAll(\".rv\");\n  els.forEach(function(el,i){if(!el.style.getPropertyValue(\"--i\"))el.style.setProperty(\"--i\",i);});\n  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance\n  if(els.length&&getComputedStyle(els[0]).opacity===\"1\")root.classList.add(\"is-in\");\n  root.classList.add(\"rv-on\");\n  inView(root,function(){root.classList.add(\"is-in\");});\n}\nenter(document.getElementById(\"h22\"));","scripts":"","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="h21.html" rel="prev"><small>→ הקודם</small><b>הירו גריד מגזין</b></a><a href="h1.html" rel="next"><small>הבא ←</small><b>הירו ממורכז קלאסי עם ויז'ואל מציץ</b></a></nav>
+
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · הירו מניפת כרטיסים").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+enter(document.getElementById("h22"));
+</script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H20 · הירו שם ענק על צילום מלא</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* H20 · הירו שם ענק על צילום מלא */
+@font-face{font-family:"MV Bellefair";src:url("https://liavwebdesign-spec.github.io/motion-vault/assets/fonts/bellefair.woff2") format("woff2");font-weight:400;font-display:swap;size-adjust:112%}
+
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h20h{--disp:"MV Bellefair","Bellefair",Georgia,serif;position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:40px;min-height:min(86vh,780px);padding:112px 28px 0;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);overflow:hidden;isolation:isolate}
+.h20-bg{position:absolute;inset:0;z-index:-2}
+.h20-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;display:block;transition:transform 1.2s cubic-bezier(.2,.6,.2,1)}
+.open-anim .h20-bg img{transform:scale(1.06);animation:rv-fs 0s 2.5s forwards}
+.is-in .h20-bg img{transform:none;transition-delay:var(--t0,0s)}
+.rv-on .h20-bg img{animation:none}
+/* two readable zones: the sentence (diagonal from its corner) and the name (radial from the bottom centre, it is centred; heroes.md) */
+.h20-scrim{position:absolute;inset:0;z-index:-1;background:radial-gradient(120% 70% at 50% 100%,color-mix(in srgb,var(--ink, #16182b) 70%,transparent) 0%,color-mix(in srgb,var(--ink, #16182b) 30%,transparent) 50%,transparent 80%),
+  linear-gradient(to bottom left,color-mix(in srgb,var(--ink, #16182b) 60%,transparent) 0%,transparent 45%)}
+[dir="ltr"] .h20-scrim{background:radial-gradient(120% 70% at 50% 100%,color-mix(in srgb,var(--ink, #16182b) 70%,transparent) 0%,color-mix(in srgb,var(--ink, #16182b) 30%,transparent) 50%,transparent 80%),
+  linear-gradient(to bottom right,color-mix(in srgb,var(--ink, #16182b) 60%,transparent) 0%,transparent 45%)}
+.h20-row{display:flex;justify-content:space-between;align-items:flex-end;gap:40px}
+.h20-txt{display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:560px}
+.h20h h3{margin:0;font-size:clamp(28px,min(3.2vw,7.8vh),52px);line-height:1.1;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h20-side{display:flex;flex-direction:column;align-items:flex-end;gap:16px}
+.h20-side .hmicro{opacity:.85;justify-content:flex-end}
+/* the name is a logotype, not the heading: the h3 above is the sentence, and the 8vh rule is about it */
+.h20-name{position:relative;margin:0;margin-bottom:-.14em;font-family:var(--disp);font-weight:400;font-size:min(23vw,40vh);line-height:.9;text-align:center;white-space:nowrap}
+.h20-l{display:inline-block;transition:transform .8s cubic-bezier(.2,.6,.2,1),opacity .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .h20-l{opacity:0;transform:translateY(30%);animation:rv-fs 0s 2.5s forwards}
+.is-in .h20-l{opacity:1;transform:none;transition-delay:calc(var(--t0,0s) + .15s + var(--i) * 50ms)}
+.rv-on .h20-l{animation:none}
+.h20-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.h20-bg img,.h20-l{transition-duration:.01ms!important;transition-delay:0s!important}}
+@media (max-width:860px){.h20h{padding:96px 20px 0;gap:32px;min-height:min(88vh,760px)}.h20-row{flex-direction:column;align-items:flex-start;gap:24px}
+  .h20-side{align-items:flex-start}.h20-side .hmicro{justify-content:flex-start}.h20h h3{font-size:clamp(28px,7.6vw,38px)}.h20-name{font-size:22vw}}
+</style>
+</head>
+<body>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top" style="color:var(--bg)"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h20h" id="h20">
+    <div class="h20-bg"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s08/hero.webp" alt="שמיים כתומים וכחולים מעל הים אחרי השקיעה" fetchpriority="high" decoding="async"></div>
+    <span class="h20-scrim"></span>
+    <div class="h20-row">
+      <div class="h20-txt">
+        <span class="hkick rv">מסעדת דגים על החוף, בת ים</span>
+        <h3 class="rv">דגים מהסירה של הבוקר, ושולחן מול השקיעה</h3>
+      </div>
+      <div class="h20-side">
+        <p class="hmicro rv"><span>כל ערב מ-18:00</span><span>טיילת בת ים</span></p>
+        <div class="hcta rv"><a class="hbtn" href="#h20">להזמנת שולחן</a><a class="hbtn ghost" href="#h20">לתפריט</a></div>
+      </div>
+    </div>
+    <p class="h20-name"><span class="h20-sr">מול הים</span><span aria-hidden="true"><span class="h20-l" style="--i:0">מ</span><span class="h20-l" style="--i:1">ו</span><span class="h20-l" style="--i:2">ל</span> <span class="h20-l" style="--i:3">ה</span><span class="h20-l" style="--i:4">י</span><span class="h20-l" style="--i:5">ם</span></span></p>
+  </section>
+</div>
+
+
+<script>
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+enter(document.getElementById("h20"));
+</script>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H17 · הירו צילום מלא עם שורת הזמנה | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--bg);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h17h{position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:32px;min-height:min(86vh,780px);padding:112px 28px 28px;background:var(--ink);color:var(--bg);overflow:hidden;isolation:isolate}
+.h17-bg{position:absolute;inset:0;z-index:-2}
+.h17-bg img{width:100%;height:100%;object-fit:cover;object-position:62% 50%;display:block;transition:transform 1.1s cubic-bezier(.2,.6,.2,1)}
+.open-anim .h17-bg img{transform:scale(1.06);animation:rv-fs 0s 2.5s forwards}
+.is-in .h17-bg img{transform:none;transition-delay:var(--t0,0s)}
+.rv-on .h17-bg img{animation:none}
+/* diagonal scrim from the corner of the text (heroes.md); the bar carries its own surface, so it needs none */
+.h17-scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(to top left,color-mix(in srgb,var(--ink) 80%,transparent) 0%,color-mix(in srgb,var(--ink) 38%,transparent) 48%,transparent 78%)}
+[dir="ltr"] .h17-scrim{background:linear-gradient(to top right,color-mix(in srgb,var(--ink) 80%,transparent) 0%,color-mix(in srgb,var(--ink) 38%,transparent) 48%,transparent 78%)}
+.h17-txt{display:flex;flex-direction:column;align-items:flex-start;gap:20px;max-width:640px}
+.h17h h3{margin:0;font-size:clamp(36px,min(4.6vw,7.8vh),76px);line-height:1.03;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h17h .hlead{max-width:44ch;opacity:.9}
+.h17-book{display:flex;flex-direction:column;gap:12px;max-width:940px}
+.h17-bar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:8px;padding:8px;border-radius:18px;background:var(--bg);color:var(--ink);
+  box-shadow:0 24px 60px -24px color-mix(in srgb,var(--ink) 70%,transparent)}
+.h17-f{display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0;padding:8px 16px;border-radius:12px;cursor:pointer;transition:background .2s cubic-bezier(.2,.6,.2,1)}
+.h17-f span{font-size:12px;font-weight:600;color:var(--muted)}
+.h17-f input,.h17-f select{width:auto;max-width:100%;min-width:0;height:24px;border:0;padding:0;background:none;color:var(--ink);font:inherit;font-size:16px;font-weight:600;outline:none;cursor:pointer}
+@media (hover:hover) and (pointer:fine){.h17-f:hover{background:color-mix(in srgb,var(--ink) 4%,transparent)}}
+.h17-f:focus-within{background:color-mix(in srgb,var(--ink) 7%,transparent)}
+.h17-bar .hbtn{border:0;font:inherit;font-size:16px;font-weight:600;cursor:pointer}
+.h17-bar .hbtn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.h17-res{margin:0;min-height:1.5em;font-size:15px;font-weight:600}
+@media (prefers-reduced-motion:reduce){.h17-bg img{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the date takes a full row, nights and guests share one, the button closes */
+@media (max-width:860px){.h17h{padding:96px 20px 20px;gap:24px;min-height:min(92vh,800px)}
+  .h17h h3{font-size:clamp(30px,8vw,40px)}
+  .h17-bar{grid-template-columns:1fr 1fr}
+  .h17-f{padding:8px 12px}
+  .h17-f:first-child,.h17-bar .hbtn{grid-column:1 / -1}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=hero">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="h16.html" rel="prev" title="הקודם: הירו עם טופס לידים בתוך ההירו">→<span class="sr-only">הקודם</span></a><span class="vpn-n">17/22</span><a href="h18.html" rel="next" title="הבא: הירו אפליקציה: טלפון שעולה מתחת לכותרת">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">H17</span> · הירו צילום מלא עם שורת הזמנה</h1>
+  <span class="vchip cat-hero">הירו</span>
+  <span class="vchip">CSS · JS</span>
+  <span class="vchip use">הירו ופתיחה</span><span class="vchip use">תמונות וגלריות</span><span class="vchip use">טעינה ופידבק</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:h17"><code>MV:h17</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="h17">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>צילום אווירה במסך מלא, כותרת בפינה התחתונה, ומתחתיה שורת הזמנה על משטח בהיר: תאריך הגעה, מספר לילות, הרכב אורחים וכפתור בדיקת זמינות. התשובה מופיעה מתחת לשורה, בלי לעבור עמוד.</p>
+  <p class="when"><b>מתי משתמשים:</b> עסק שמוכר זמן: צימרים ובקתות, מלון, השכרת רכב, מתחם אירועים, הזמנת שולחן, סדנאות עם תאריכים. השורה מקצרת את הדרך למנוע ההזמנה. לא לעסק בלי תאריכים; אז h3 או h16.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · אתר תדמית · וואן-פייג'ר</dd></div><div><dt>בסקשן</dt><dd>הירו</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>משרת תוכן, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא לעסק שלא מוכר תאריכים או זמן; אז h3 או h16.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="h17"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top" style="color:var(--bg)"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h17h" id="h17">
+    <div class="h17-bg"><img src="../assets/media/real/s13/hero.webp" alt="קרני שמש נכנסות מחלון אל חדר חשוך" fetchpriority="high" decoding="async"></div>
+    <span class="h17-scrim"></span>
+    <div class="h17-txt">
+      <span class="hkick rv">בקתות עץ בגליל העליון</span>
+      <h3 class="rv">שלושה ימים בלי רעש, עם אח בוערת וחלון אל היער</h3>
+      <p class="hlead rv">שש בקתות זוגיות, ג׳קוזי במרפסת, וארוחת בוקר שמגיעה עד הדלת.</p>
+    </div>
+    <div class="h17-book rv">
+      <form class="h17-bar" novalidate aria-label="בדיקת זמינות">
+        <label class="h17-f"><span>תאריך הגעה</span><input type="date" name="from"></label>
+        <label class="h17-f"><span>לילות</span><select name="nights"><option value="2">שניים</option><option value="3" selected>שלושה</option><option value="4">ארבעה</option><option value="7">שבוע</option></select></label>
+        <label class="h17-f"><span>אורחים</span><select name="guests"><option>זוג</option><option>זוג וילד</option><option>משפחה</option></select></label>
+        <button class="hbtn" type="submit">בדיקת זמינות</button>
+      </form>
+      <p class="h17-res" aria-live="polite"></p>
+    </div>
+  </section>
+</div>
+
+<div class="demo-note">שורת ההזמנה היא הסיבה להירו הזה: מי שמחפש צימר שואל קודם "פנוי בתאריך שלי?", והשורה עונה על זה במסך הראשון במקום שלושה קליקים פנימה. שלושה שדות ולא יותר (מתי, כמה זמן, מי), כולם רכיבים של הדפדפן עצמו (date ו-select), ולכן בטלפון נפתח בורר התאריכים של המכשיר ואין ספריית לוח שנה; התאריך המוקדם ביותר הוא היום. התשובה נכתבת בשורה מתחת ב-aria-live ולא בחלון קופץ, ובפרויקט הכפתור פותח את מנוע ההזמנות עם שלושת הערכים בכתובת. השורה יושבת על משטח בהיר משלה עם צל, כך שהיא קריאה על כל צילום, ושכבת הקריאות האלכסונית משרתת רק את הכותרת. הצילום נכנס בזום איטי מ-1.06. בטלפון השורה נשברת לשתי עמודות: תאריך ברוחב מלא, לילות ואורחים זה לצד זה, והכפתור מתחת. פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/h17.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* H17 · הירו צילום מלא עם שורת הזמנה */
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h17h{position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:32px;min-height:min(86vh,780px);padding:112px 28px 28px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);overflow:hidden;isolation:isolate}
+.h17-bg{position:absolute;inset:0;z-index:-2}
+.h17-bg img{width:100%;height:100%;object-fit:cover;object-position:62% 50%;display:block;transition:transform 1.1s cubic-bezier(.2,.6,.2,1)}
+.open-anim .h17-bg img{transform:scale(1.06);animation:rv-fs 0s 2.5s forwards}
+.is-in .h17-bg img{transform:none;transition-delay:var(--t0,0s)}
+.rv-on .h17-bg img{animation:none}
+/* diagonal scrim from the corner of the text (heroes.md); the bar carries its own surface, so it needs none */
+.h17-scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(to top left,color-mix(in srgb,var(--ink, #16182b) 80%,transparent) 0%,color-mix(in srgb,var(--ink, #16182b) 38%,transparent) 48%,transparent 78%)}
+[dir="ltr"] .h17-scrim{background:linear-gradient(to top right,color-mix(in srgb,var(--ink, #16182b) 80%,transparent) 0%,color-mix(in srgb,var(--ink, #16182b) 38%,transparent) 48%,transparent 78%)}
+.h17-txt{display:flex;flex-direction:column;align-items:flex-start;gap:20px;max-width:640px}
+.h17h h3{margin:0;font-size:clamp(36px,min(4.6vw,7.8vh),76px);line-height:1.03;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h17h .hlead{max-width:44ch;opacity:.9}
+.h17-book{display:flex;flex-direction:column;gap:12px;max-width:940px}
+.h17-bar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:8px;padding:8px;border-radius:18px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);
+  box-shadow:0 24px 60px -24px color-mix(in srgb,var(--ink, #16182b) 70%,transparent)}
+.h17-f{display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0;padding:8px 16px;border-radius:12px;cursor:pointer;transition:background .2s cubic-bezier(.2,.6,.2,1)}
+.h17-f span{font-size:12px;font-weight:600;color:var(--muted, #6a6d85)}
+.h17-f input,.h17-f select{width:auto;max-width:100%;min-width:0;height:24px;border:0;padding:0;background:none;color:var(--ink, #16182b);font:inherit;font-size:16px;font-weight:600;outline:none;cursor:pointer}
+@media (hover:hover) and (pointer:fine){.h17-f:hover{background:color-mix(in srgb,var(--ink, #16182b) 4%,transparent)}}
+.h17-f:focus-within{background:color-mix(in srgb,var(--ink, #16182b) 7%,transparent)}
+.h17-bar .hbtn{border:0;font:inherit;font-size:16px;font-weight:600;cursor:pointer}
+.h17-bar .hbtn:focus-visible{outline:2px solid var(--ink, #16182b);outline-offset:3px}
+.h17-res{margin:0;min-height:1.5em;font-size:15px;font-weight:600}
+@media (prefers-reduced-motion:reduce){.h17-bg img{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the date takes a full row, nights and guests share one, the button closes */
+@media (max-width:860px){.h17h{padding:96px 20px 20px;gap:24px;min-height:min(92vh,800px)}
+  .h17h h3{font-size:clamp(30px,8vw,40px)}
+  .h17-bar{grid-template-columns:1fr 1fr}
+  .h17-f{padding:8px 12px}
+  .h17-f:first-child,.h17-bar .hbtn{grid-column:1 / -1}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;script&gt;if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")&lt;/script&gt;
+&lt;div class="hf"&gt;&lt;div class="hf-top" style="color:var(--bg)"&gt;&lt;b&gt;לוגו&lt;/b&gt;&lt;nav&gt;&lt;span&gt;שירותים&lt;/span&gt;&lt;span&gt;פרויקטים&lt;/span&gt;&lt;span&gt;אודות&lt;/span&gt;&lt;/nav&gt;&lt;/div&gt;
+  &lt;section class="h17h" id="h17"&gt;
+    &lt;div class="h17-bg"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp" alt="קרני שמש נכנסות מחלון אל חדר חשוך" fetchpriority="high" decoding="async"&gt;&lt;/div&gt;
+    &lt;span class="h17-scrim"&gt;&lt;/span&gt;
+    &lt;div class="h17-txt"&gt;
+      &lt;span class="hkick rv"&gt;בקתות עץ בגליל העליון&lt;/span&gt;
+      &lt;h3 class="rv"&gt;שלושה ימים בלי רעש, עם אח בוערת וחלון אל היער&lt;/h3&gt;
+      &lt;p class="hlead rv"&gt;שש בקתות זוגיות, ג׳קוזי במרפסת, וארוחת בוקר שמגיעה עד הדלת.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="h17-book rv"&gt;
+      &lt;form class="h17-bar" novalidate aria-label="בדיקת זמינות"&gt;
+        &lt;label class="h17-f"&gt;&lt;span&gt;תאריך הגעה&lt;/span&gt;&lt;input type="date" name="from"&gt;&lt;/label&gt;
+        &lt;label class="h17-f"&gt;&lt;span&gt;לילות&lt;/span&gt;&lt;select name="nights"&gt;&lt;option value="2"&gt;שניים&lt;/option&gt;&lt;option value="3" selected&gt;שלושה&lt;/option&gt;&lt;option value="4"&gt;ארבעה&lt;/option&gt;&lt;option value="7"&gt;שבוע&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;
+        &lt;label class="h17-f"&gt;&lt;span&gt;אורחים&lt;/span&gt;&lt;select name="guests"&gt;&lt;option&gt;זוג&lt;/option&gt;&lt;option&gt;זוג וילד&lt;/option&gt;&lt;option&gt;משפחה&lt;/option&gt;&lt;/select&gt;&lt;/label&gt;
+        &lt;button class="hbtn" type="submit"&gt;בדיקת זמינות&lt;/button&gt;
+      &lt;/form&gt;
+      &lt;p class="h17-res" aria-live="polite"&gt;&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top&lt;innerHeight*.9&amp;&amp;r.bottom&gt;0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&amp;&amp;getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+(function(){
+  var root=document.getElementById("h17"); enter(root);
+  var form=root.querySelector(".h17-bar"), res=root.querySelector(".h17-res"), d=form.querySelector('[name="from"]'), n=form.querySelector('[name="nights"]');
+  // the field label already says nights, so the options stay one word; the answer spells it out
+  var say={2:"שני לילות",3:"שלושה לילות",4:"ארבעה לילות",7:"שבוע"};
+  // no arrival in the past: the earliest date is today, in local time
+  var now=new Date(); now.setMinutes(now.getMinutes()-now.getTimezoneOffset()); d.min=now.toISOString().slice(0,10);
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    if(!d.value){res.textContent="בחרו תאריך הגעה, ונבדוק מה פנוי."; d.focus(); return;}
+    var p=d.value.split("-");
+    // in a project: open the booking engine with the three values in its address, instead of this line
+    res.textContent="יש בקתה פנויה מ-"+(+p[2])+"."+(+p[1])+", ל"+say[n.value]+". ממשיכים להזמנה במסך הבא.";
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:h17 · הירו צילום מלא עם שורת הזמנה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/hero/h17.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/h17.html\n\nמה זה עושה: צילום אווירה במסך מלא, כותרת בפינה התחתונה, ומתחתיה שורת הזמנה על משטח בהיר: תאריך הגעה, מספר לילות, הרכב אורחים וכפתור בדיקת זמינות. התשובה מופיעה מתחת לשורה, בלי לעבור עמוד.\nמתי משתמשים: עסק שמוכר זמן: צימרים ובקתות, מלון, השכרת רכב, מתחם אירועים, הזמנת שולחן, סדנאות עם תאריכים. השורה מקצרת את הדרך למנוע ההזמנה. לא לעסק בלי תאריכים; אז h3 או h16.\nסוג אתר: דף נחיתה · אתר תדמית · וואן-פייג'ר\nבסקשן: הירו\nאופי: גם באתר שקט\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא לעסק שלא מוכר תאריכים או זמן; אז h3 או h16.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* H17 · הירו צילום מלא עם שורת הזמנה */\n/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */\n.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}\n.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}\n.hf-top b{font-size:18px;font-weight:800}\n.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}\n@media (max-width:760px){.hf-top nav{display:none}}\n.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;\n  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}\n@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}\n.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}\n.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}\n.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}\n.hcta{display:flex;flex-wrap:wrap;gap:12px}\n\n/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */\n.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}\n/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */\n.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}\n.rv-on .rv{animation:none}\n@keyframes rv-fs{to{opacity:1;transform:none}}\n@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}\n  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}\n.h17h{position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:32px;min-height:min(86vh,780px);padding:112px 28px 28px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);overflow:hidden;isolation:isolate}\n.h17-bg{position:absolute;inset:0;z-index:-2}\n.h17-bg img{width:100%;height:100%;object-fit:cover;object-position:62% 50%;display:block;transition:transform 1.1s cubic-bezier(.2,.6,.2,1)}\n.open-anim .h17-bg img{transform:scale(1.06);animation:rv-fs 0s 2.5s forwards}\n.is-in .h17-bg img{transform:none;transition-delay:var(--t0,0s)}\n.rv-on .h17-bg img{animation:none}\n/* diagonal scrim from the corner of the text (heroes.md); the bar carries its own surface, so it needs none */\n.h17-scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(to top left,color-mix(in srgb,var(--ink, #16182b) 80%,transparent) 0%,color-mix(in srgb,var(--ink, #16182b) 38%,transparent) 48%,transparent 78%)}\n[dir=\"ltr\"] .h17-scrim{background:linear-gradient(to top right,color-mix(in srgb,var(--ink, #16182b) 80%,transparent) 0%,color-mix(in srgb,var(--ink, #16182b) 38%,transparent) 48%,transparent 78%)}\n.h17-txt{display:flex;flex-direction:column;align-items:flex-start;gap:20px;max-width:640px}\n.h17h h3{margin:0;font-size:clamp(36px,min(4.6vw,7.8vh),76px);line-height:1.03;font-weight:700;letter-spacing:-.01em;text-wrap:balance}\n.h17h .hlead{max-width:44ch;opacity:.9}\n.h17-book{display:flex;flex-direction:column;gap:12px;max-width:940px}\n.h17-bar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:8px;padding:8px;border-radius:18px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);\n  box-shadow:0 24px 60px -24px color-mix(in srgb,var(--ink, #16182b) 70%,transparent)}\n.h17-f{display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0;padding:8px 16px;border-radius:12px;cursor:pointer;transition:background .2s cubic-bezier(.2,.6,.2,1)}\n.h17-f span{font-size:12px;font-weight:600;color:var(--muted, #6a6d85)}\n.h17-f input,.h17-f select{width:auto;max-width:100%;min-width:0;height:24px;border:0;padding:0;background:none;color:var(--ink, #16182b);font:inherit;font-size:16px;font-weight:600;outline:none;cursor:pointer}\n@media (hover:hover) and (pointer:fine){.h17-f:hover{background:color-mix(in srgb,var(--ink, #16182b) 4%,transparent)}}\n.h17-f:focus-within{background:color-mix(in srgb,var(--ink, #16182b) 7%,transparent)}\n.h17-bar .hbtn{border:0;font:inherit;font-size:16px;font-weight:600;cursor:pointer}\n.h17-bar .hbtn:focus-visible{outline:2px solid var(--ink, #16182b);outline-offset:3px}\n.h17-res{margin:0;min-height:1.5em;font-size:15px;font-weight:600}\n@media (prefers-reduced-motion:reduce){.h17-bg img{transition-duration:.01ms!important;transition-delay:0s!important}}\n/* phone: the date takes a full row, nights and guests share one, the button closes */\n@media (max-width:860px){.h17h{padding:96px 20px 20px;gap:24px;min-height:min(92vh,800px)}\n  .h17h h3{font-size:clamp(30px,8vw,40px)}\n  .h17-bar{grid-template-columns:1fr 1fr}\n  .h17-f{padding:8px 12px}\n  .h17-f:first-child,.h17-bar .hbtn{grid-column:1 / -1}}\n\n=== HTML ===\n<script>if(matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)document.documentElement.classList.add(\"open-anim\")<\/script>\n<div class=\"hf\"><div class=\"hf-top\" style=\"color:var(--bg)\"><b>לוגו<\/b><nav><span>שירותים<\/span><span>פרויקטים<\/span><span>אודות<\/span><\/nav><\/div>\n  <section class=\"h17h\" id=\"h17\">\n    <div class=\"h17-bg\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp\" alt=\"קרני שמש נכנסות מחלון אל חדר חשוך\" fetchpriority=\"high\" decoding=\"async\"><\/div>\n    <span class=\"h17-scrim\"><\/span>\n    <div class=\"h17-txt\">\n      <span class=\"hkick rv\">בקתות עץ בגליל העליון<\/span>\n      <h3 class=\"rv\">שלושה ימים בלי רעש, עם אח בוערת וחלון אל היער<\/h3>\n      <p class=\"hlead rv\">שש בקתות זוגיות, ג׳קוזי במרפסת, וארוחת בוקר שמגיעה עד הדלת.<\/p>\n    <\/div>\n    <div class=\"h17-book rv\">\n      <form class=\"h17-bar\" novalidate aria-label=\"בדיקת זמינות\">\n        <label class=\"h17-f\"><span>תאריך הגעה<\/span><input type=\"date\" name=\"from\"><\/label>\n        <label class=\"h17-f\"><span>לילות<\/span><select name=\"nights\"><option value=\"2\">שניים<\/option><option value=\"3\" selected>שלושה<\/option><option value=\"4\">ארבעה<\/option><option value=\"7\">שבוע<\/option><\/select><\/label>\n        <label class=\"h17-f\"><span>אורחים<\/span><select name=\"guests\"><option>זוג<\/option><option>זוג וילד<\/option><option>משפחה<\/option><\/select><\/label>\n        <button class=\"hbtn\" type=\"submit\">בדיקת זמינות<\/button>\n      <\/form>\n      <p class=\"h17-res\" aria-live=\"polite\"><\/p>\n    <\/div>\n  <\/section>\n<\/div>\n\n=== JS ===\n// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:\n// an observer does not update while the tab is throttled (and on a real site the hero is usually\n// on screen at load anyway), and an entrance that never fires leaves the hero invisible.\nfunction inView(el,f){\n  var ro;\n  function chk(){\n    var r=el.getBoundingClientRect();\n    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}\n  }\n  function off(){removeEventListener(\"scroll\",chk);removeEventListener(\"resize\",chk);if(ro)ro.disconnect();}\n  addEventListener(\"scroll\",chk,{passive:true}); addEventListener(\"resize\",chk);\n  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view\n  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}\n  requestAnimationFrame(chk); setTimeout(chk,300);\n}\nfunction enter(root){\n  var els=root.querySelectorAll(\".rv\");\n  els.forEach(function(el,i){if(!el.style.getPropertyValue(\"--i\"))el.style.setProperty(\"--i\",i);});\n  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance\n  if(els.length&&getComputedStyle(els[0]).opacity===\"1\")root.classList.add(\"is-in\");\n  root.classList.add(\"rv-on\");\n  inView(root,function(){root.classList.add(\"is-in\");});\n}\n(function(){\n  var root=document.getElementById(\"h17\"); enter(root);\n  var form=root.querySelector(\".h17-bar\"), res=root.querySelector(\".h17-res\"), d=form.querySelector('[name=\"from\"]'), n=form.querySelector('[name=\"nights\"]');\n  // the field label already says nights, so the options stay one word; the answer spells it out\n  var say={2:\"שני לילות\",3:\"שלושה לילות\",4:\"ארבעה לילות\",7:\"שבוע\"};\n  // no arrival in the past: the earliest date is today, in local time\n  var now=new Date(); now.setMinutes(now.getMinutes()-now.getTimezoneOffset()); d.min=now.toISOString().slice(0,10);\n  form.addEventListener(\"submit\",function(e){\n    e.preventDefault();\n    if(!d.value){res.textContent=\"בחרו תאריך הגעה, ונבדוק מה פנוי.\"; d.focus(); return;}\n    var p=d.value.split(\"-\");\n    // in a project: open the booking engine with the three values in its address, instead of this line\n    res.textContent=\"יש בקתה פנויה מ-\"+(+p[2])+\".\"+(+p[1])+\", ל\"+say[n.value]+\". ממשיכים להזמנה במסך הבא.\";\n  });\n})();\n\nהערת מימוש מהמאגר:\nשורת ההזמנה היא הסיבה להירו הזה: מי שמחפש צימר שואל קודם \"פנוי בתאריך שלי?\", והשורה עונה על זה במסך הראשון במקום שלושה קליקים פנימה. שלושה שדות ולא יותר (מתי, כמה זמן, מי), כולם רכיבים של הדפדפן עצמו (date ו-select), ולכן בטלפון נפתח בורר התאריכים של המכשיר ואין ספריית לוח שנה; התאריך המוקדם ביותר הוא היום. התשובה נכתבת בשורה מתחת ב-aria-live ולא בחלון קופץ, ובפרויקט הכפתור פותח את מנוע ההזמנות עם שלושת הערכים בכתובת. השורה יושבת על משטח בהיר משלה עם צל, כך שהיא קריאה על כל צילום, ושכבת הקריאות האלכסונית משרתת רק את הכותרת. הצילום נכנס בזום איטי מ-1.06. בטלפון השורה נשברת לשתי עמודות: תאריך ברוחב מלא, לילות ואורחים זה לצד זה, והכפתור מתחת. פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* H17 · הירו צילום מלא עם שורת הזמנה */\n/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */\n.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}\n.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}\n.hf-top b{font-size:18px;font-weight:800}\n.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}\n@media (max-width:760px){.hf-top nav{display:none}}\n.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;\n  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}\n@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}\n.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}\n.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}\n.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}\n.hcta{display:flex;flex-wrap:wrap;gap:12px}\n\n/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */\n.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}\n/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */\n.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}\n.rv-on .rv{animation:none}\n@keyframes rv-fs{to{opacity:1;transform:none}}\n@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}\n  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}\n.h17h{position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:32px;min-height:min(86vh,780px);padding:112px 28px 28px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);overflow:hidden;isolation:isolate}\n.h17-bg{position:absolute;inset:0;z-index:-2}\n.h17-bg img{width:100%;height:100%;object-fit:cover;object-position:62% 50%;display:block;transition:transform 1.1s cubic-bezier(.2,.6,.2,1)}\n.open-anim .h17-bg img{transform:scale(1.06);animation:rv-fs 0s 2.5s forwards}\n.is-in .h17-bg img{transform:none;transition-delay:var(--t0,0s)}\n.rv-on .h17-bg img{animation:none}\n/* diagonal scrim from the corner of the text (heroes.md); the bar carries its own surface, so it needs none */\n.h17-scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(to top left,color-mix(in srgb,var(--ink, #16182b) 80%,transparent) 0%,color-mix(in srgb,var(--ink, #16182b) 38%,transparent) 48%,transparent 78%)}\n[dir=\"ltr\"] .h17-scrim{background:linear-gradient(to top right,color-mix(in srgb,var(--ink, #16182b) 80%,transparent) 0%,color-mix(in srgb,var(--ink, #16182b) 38%,transparent) 48%,transparent 78%)}\n.h17-txt{display:flex;flex-direction:column;align-items:flex-start;gap:20px;max-width:640px}\n.h17h h3{margin:0;font-size:clamp(36px,min(4.6vw,7.8vh),76px);line-height:1.03;font-weight:700;letter-spacing:-.01em;text-wrap:balance}\n.h17h .hlead{max-width:44ch;opacity:.9}\n.h17-book{display:flex;flex-direction:column;gap:12px;max-width:940px}\n.h17-bar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:8px;padding:8px;border-radius:18px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);\n  box-shadow:0 24px 60px -24px color-mix(in srgb,var(--ink, #16182b) 70%,transparent)}\n.h17-f{display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0;padding:8px 16px;border-radius:12px;cursor:pointer;transition:background .2s cubic-bezier(.2,.6,.2,1)}\n.h17-f span{font-size:12px;font-weight:600;color:var(--muted, #6a6d85)}\n.h17-f input,.h17-f select{width:auto;max-width:100%;min-width:0;height:24px;border:0;padding:0;background:none;color:var(--ink, #16182b);font:inherit;font-size:16px;font-weight:600;outline:none;cursor:pointer}\n@media (hover:hover) and (pointer:fine){.h17-f:hover{background:color-mix(in srgb,var(--ink, #16182b) 4%,transparent)}}\n.h17-f:focus-within{background:color-mix(in srgb,var(--ink, #16182b) 7%,transparent)}\n.h17-bar .hbtn{border:0;font:inherit;font-size:16px;font-weight:600;cursor:pointer}\n.h17-bar .hbtn:focus-visible{outline:2px solid var(--ink, #16182b);outline-offset:3px}\n.h17-res{margin:0;min-height:1.5em;font-size:15px;font-weight:600}\n@media (prefers-reduced-motion:reduce){.h17-bg img{transition-duration:.01ms!important;transition-delay:0s!important}}\n/* phone: the date takes a full row, nights and guests share one, the button closes */\n@media (max-width:860px){.h17h{padding:96px 20px 20px;gap:24px;min-height:min(92vh,800px)}\n  .h17h h3{font-size:clamp(30px,8vw,40px)}\n  .h17-bar{grid-template-columns:1fr 1fr}\n  .h17-f{padding:8px 12px}\n  .h17-f:first-child,.h17-bar .hbtn{grid-column:1 / -1}}","html":"<script>if(matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)document.documentElement.classList.add(\"open-anim\")<\/script>\n<div class=\"hf\"><div class=\"hf-top\" style=\"color:var(--bg)\"><b>לוגו<\/b><nav><span>שירותים<\/span><span>פרויקטים<\/span><span>אודות<\/span><\/nav><\/div>\n  <section class=\"h17h\" id=\"h17\">\n    <div class=\"h17-bg\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp\" alt=\"קרני שמש נכנסות מחלון אל חדר חשוך\" fetchpriority=\"high\" decoding=\"async\"><\/div>\n    <span class=\"h17-scrim\"><\/span>\n    <div class=\"h17-txt\">\n      <span class=\"hkick rv\">בקתות עץ בגליל העליון<\/span>\n      <h3 class=\"rv\">שלושה ימים בלי רעש, עם אח בוערת וחלון אל היער<\/h3>\n      <p class=\"hlead rv\">שש בקתות זוגיות, ג׳קוזי במרפסת, וארוחת בוקר שמגיעה עד הדלת.<\/p>\n    <\/div>\n    <div class=\"h17-book rv\">\n      <form class=\"h17-bar\" novalidate aria-label=\"בדיקת זמינות\">\n        <label class=\"h17-f\"><span>תאריך הגעה<\/span><input type=\"date\" name=\"from\"><\/label>\n        <label class=\"h17-f\"><span>לילות<\/span><select name=\"nights\"><option value=\"2\">שניים<\/option><option value=\"3\" selected>שלושה<\/option><option value=\"4\">ארבעה<\/option><option value=\"7\">שבוע<\/option><\/select><\/label>\n        <label class=\"h17-f\"><span>אורחים<\/span><select name=\"guests\"><option>זוג<\/option><option>זוג וילד<\/option><option>משפחה<\/option><\/select><\/label>\n        <button class=\"hbtn\" type=\"submit\">בדיקת זמינות<\/button>\n      <\/form>\n      <p class=\"h17-res\" aria-live=\"polite\"><\/p>\n    <\/div>\n  <\/section>\n<\/div>","js":"// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:\n// an observer does not update while the tab is throttled (and on a real site the hero is usually\n// on screen at load anyway), and an entrance that never fires leaves the hero invisible.\nfunction inView(el,f){\n  var ro;\n  function chk(){\n    var r=el.getBoundingClientRect();\n    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}\n  }\n  function off(){removeEventListener(\"scroll\",chk);removeEventListener(\"resize\",chk);if(ro)ro.disconnect();}\n  addEventListener(\"scroll\",chk,{passive:true}); addEventListener(\"resize\",chk);\n  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view\n  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}\n  requestAnimationFrame(chk); setTimeout(chk,300);\n}\nfunction enter(root){\n  var els=root.querySelectorAll(\".rv\");\n  els.forEach(function(el,i){if(!el.style.getPropertyValue(\"--i\"))el.style.setProperty(\"--i\",i);});\n  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance\n  if(els.length&&getComputedStyle(els[0]).opacity===\"1\")root.classList.add(\"is-in\");\n  root.classList.add(\"rv-on\");\n  inView(root,function(){root.classList.add(\"is-in\");});\n}\n(function(){\n  var root=document.getElementById(\"h17\"); enter(root);\n  var form=root.querySelector(\".h17-bar\"), res=root.querySelector(\".h17-res\"), d=form.querySelector('[name=\"from\"]'), n=form.querySelector('[name=\"nights\"]');\n  // the field label already says nights, so the options stay one word; the answer spells it out\n  var say={2:\"שני לילות\",3:\"שלושה לילות\",4:\"ארבעה לילות\",7:\"שבוע\"};\n  // no arrival in the past: the earliest date is today, in local time\n  var now=new Date(); now.setMinutes(now.getMinutes()-now.getTimezoneOffset()); d.min=now.toISOString().slice(0,10);\n  form.addEventListener(\"submit\",function(e){\n    e.preventDefault();\n    if(!d.value){res.textContent=\"בחרו תאריך הגעה, ונבדוק מה פנוי.\"; d.focus(); return;}\n    var p=d.value.split(\"-\");\n    // in a project: open the booking engine with the three values in its address, instead of this line\n    res.textContent=\"יש בקתה פנויה מ-\"+(+p[2])+\".\"+(+p[1])+\", ל\"+say[n.value]+\". ממשיכים להזמנה במסך הבא.\";\n  });\n})();","scripts":"","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="h16.html" rel="prev"><small>→ הקודם</small><b>הירו עם טופס לידים בתוך ההירו</b></a><a href="h18.html" rel="next"><small>הבא ←</small><b>הירו אפליקציה: טלפון שעולה מתחת לכותרת</b></a></nav>
+
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · הירו צילום מלא עם שורת הזמנה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+(function(){
+  var root=document.getElementById("h17"); enter(root);
+  var form=root.querySelector(".h17-bar"), res=root.querySelector(".h17-res"), d=form.querySelector('[name="from"]'), n=form.querySelector('[name="nights"]');
+  // the field label already says nights, so the options stay one word; the answer spells it out
+  var say={2:"שני לילות",3:"שלושה לילות",4:"ארבעה לילות",7:"שבוע"};
+  // no arrival in the past: the earliest date is today, in local time
+  var now=new Date(); now.setMinutes(now.getMinutes()-now.getTimezoneOffset()); d.min=now.toISOString().slice(0,10);
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    if(!d.value){res.textContent="בחרו תאריך הגעה, ונבדוק מה פנוי."; d.focus(); return;}
+    var p=d.value.split("-");
+    // in a project: open the booking engine with the three values in its address, instead of this line
+    res.textContent="יש בקתה פנויה מ-"+(+p[2])+"."+(+p[1])+", ל"+say[n.value]+". ממשיכים להזמנה במסך הבא.";
+  });
+})();
+</script>
+</body>
+</html>

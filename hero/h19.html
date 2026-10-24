@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H19 · הירו לפני ואחרי עם ידית גרירה | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--bg);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h19h{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:48px;min-height:min(84vh,760px);padding:88px 28px 28px;background:color-mix(in srgb,var(--ink) 4%,var(--bg))}
+.h19-txt{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:24px 40px}
+.h19h h3{margin:0;max-width:12ch;font-size:clamp(34px,min(4vw,7.8vh),66px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h19h .hlead{max-width:40ch}
+/* the comparison is always left to right, with "before" on the right, the side a Hebrew reader meets first; --p is the handle */
+.h19-cmp{--p:50%;position:relative;border-radius:20px;overflow:hidden;background:var(--ink);clip-path:inset(0 round 20px);transition:clip-path .9s cubic-bezier(.2,.6,.2,1)}
+.h19-cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 50%;display:block}
+.h19-bef{clip-path:inset(0 0 0 var(--p));filter:grayscale(.7) brightness(.45) contrast(.9)}
+.h19-lab{position:absolute;top:16px;z-index:1;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;background:color-mix(in srgb,var(--ink) 55%,transparent);color:var(--bg);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:none}
+.h19-lab.b{right:16px}
+.h19-lab.a{left:16px}
+.h19-hdl{position:absolute;top:0;bottom:0;left:var(--p);z-index:1;width:3px;background:var(--bg);transform:translateX(-50%);pointer-events:none}
+.h19-knob{position:absolute;top:50%;left:50%;width:52px;height:52px;border-radius:999px;display:grid;place-items:center;background:var(--bg);color:var(--ink);transform:translate(-50%,-50%);
+  box-shadow:0 10px 30px -8px color-mix(in srgb,var(--ink) 50%,transparent)}
+.h19-knob svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* a native range over the whole picture: drag, touch and arrow keys for free. It is invisible; the knob shows its focus */
+.h19-rng{position:absolute;inset:0;z-index:2;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}
+.h19-rng:focus-visible+.h19-hdl .h19-knob{outline:2px solid var(--accent);outline-offset:3px}
+.open-anim .h19-cmp{clip-path:inset(5% 8% round 20px);animation:h19-fs 0s 2.5s forwards}
+.is-in .h19-cmp{clip-path:inset(0 round 20px);transition-delay:calc(var(--t0,0s) + .1s)}
+.rv-on .h19-cmp{animation:none}
+@keyframes h19-fs{to{clip-path:inset(0 round 20px)}}
+@media (prefers-reduced-motion:reduce){.h19-cmp{transition-duration:.01ms!important;transition-delay:0s!important}}
+@media (max-width:860px){.h19h{grid-template-columns:1fr;gap:20px;min-height:0;padding:88px 20px 24px}.h19-txt{padding-block:0;gap:16px}
+  .h19h h3{font-size:clamp(28px,7.6vw,38px)}.h19-cmp{height:clamp(240px,38vh,340px)}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=hero">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="h18.html" rel="prev" title="הקודם: הירו אפליקציה: טלפון שעולה מתחת לכותרת">→<span class="sr-only">הקודם</span></a><span class="vpn-n">19/22</span><a href="h20.html" rel="next" title="הבא: הירו שם ענק על צילום מלא">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">H19</span> · הירו לפני ואחרי עם ידית גרירה</h1>
+  <span class="vchip cat-hero">הירו</span>
+  <span class="vchip">CSS · JS</span>
+  <span class="vchip use">הירו ופתיחה</span><span class="vchip use">תמונות וגלריות</span><span class="vchip use">hover ומיקרו</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:h19"><code>MV:h19</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="h19">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>טקסט בצד אחד, ובצד השני אותו חדר פעמיים, לפני ואחרי, עם ידית שגוררים לרוחב. אחרי הכניסה הידית זזה פעם אחת לבד כדי להראות שאפשר, ומשם היא של המבקר: בעכבר, במגע ובמקלדת.</p>
+  <p class="when"><b>מתי משתמשים:</b> עסק שהתוצאה שלו נראית: תאורה, שיפוצים, ניקיון, צביעה, גינון, אסתטיקה, עריכת תמונות. עובד רק עם זוג צילומים מאותה זווית בדיוק. לא כשאין צילום "לפני" אמיתי; אז h11.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>אתר תדמית · וואן-פייג'ר · דף נחיתה</dd></div><div><dt>בסקשן</dt><dd>הירו</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא בלי זוג צילומים אמיתי מאותה זווית; אז h11.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="h19"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h19h" id="h19">
+    <div class="h19-txt">
+      <span class="hkick rv">תכנון תאורה לבתים</span>
+      <h3 class="rv">אותו חדר. רק עם אור שתוכנן נכון</h3>
+      <p class="hlead rv">תאורה בשכבות, עמעום לפי שעות היום, וגופים שנבחרו לחדר, במקום עוד ספוט בתקרה.</p>
+      <div class="hcta rv"><a class="hbtn" href="#h19">לתיאום פגישת תכנון</a><a class="hbtn ghost" href="#h19">פרויקטים</a></div>
+    </div>
+    <div class="h19-cmp" dir="ltr">
+      <img src="../assets/media/real/s13/room.webp" alt="הסלון אחרי תכנון התאורה: מנורת קריאה ומדפים מוארים" fetchpriority="high" decoding="async">
+      <img class="h19-bef" src="../assets/media/real/s13/room.webp" alt="הסלון לפני: אור שטוח וחשוך" decoding="async">
+      <span class="h19-lab a" aria-hidden="true">אחרי</span><span class="h19-lab b" aria-hidden="true">לפני</span>
+      <input class="h19-rng" type="range" min="0" max="100" value="50" aria-label="השוואה בין לפני לאחרי">
+      <span class="h19-hdl"><span class="h19-knob"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg></span></span>
+    </div>
+  </section>
+</div>
+
+<div class="demo-note">זה ההירו שמראה במקום לספר: אותו חדר בשני מצבים, והמבקר עושה את ההשוואה בעצמו. הידית היא input מסוג range אמיתי ושקוף שמכסה את כל התמונה, ולכן גרירה בעכבר, נגיעה בטלפון וחיצים במקלדת עובדים בלי קוד גרירה, והפוקוס שלו מצויר על העיגול. ההשוואה תמיד משמאל לימין, עם "לפני" בצד ימין, הצד שקורא עברית פוגש ראשון, והשכבה העליונה נחתכת ב-clip-path לפי --p, בלי לשנות רוחב. אחרי הכניסה הידית זזה פעם אחת לבד, ימינה וחזרה, וזה במקום הוראה כתובה; היא לא זזה אם המבקר כבר נגע בה, ולא בהפחתת תנועה. הקו של הידית הוא חלק מהפקד, לא קישוט. בדמו ה"לפני" הוא אותו צילום, מוחשך ודהוי ב-filter; בפרויקט שמים שני צילומים אמיתיים מאותה זווית, אחרת ההשוואה נראית מזויפת. פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/h19.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* H19 · הירו לפני ואחרי עם ידית גרירה */
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h19h{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:48px;min-height:min(84vh,760px);padding:88px 28px 28px;background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--bg, #f7f7fa))}
+.h19-txt{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:24px 40px}
+.h19h h3{margin:0;max-width:12ch;font-size:clamp(34px,min(4vw,7.8vh),66px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h19h .hlead{max-width:40ch}
+/* the comparison is always left to right, with "before" on the right, the side a Hebrew reader meets first; --p is the handle */
+.h19-cmp{--p:50%;position:relative;border-radius:20px;overflow:hidden;background:var(--ink, #16182b);clip-path:inset(0 round 20px);transition:clip-path .9s cubic-bezier(.2,.6,.2,1)}
+.h19-cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 50%;display:block}
+.h19-bef{clip-path:inset(0 0 0 var(--p));filter:grayscale(.7) brightness(.45) contrast(.9)}
+.h19-lab{position:absolute;top:16px;z-index:1;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;background:color-mix(in srgb,var(--ink, #16182b) 55%,transparent);color:var(--bg, #f7f7fa);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:none}
+.h19-lab.b{right:16px}
+.h19-lab.a{left:16px}
+.h19-hdl{position:absolute;top:0;bottom:0;left:var(--p);z-index:1;width:3px;background:var(--bg, #f7f7fa);transform:translateX(-50%);pointer-events:none}
+.h19-knob{position:absolute;top:50%;left:50%;width:52px;height:52px;border-radius:999px;display:grid;place-items:center;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);transform:translate(-50%,-50%);
+  box-shadow:0 10px 30px -8px color-mix(in srgb,var(--ink, #16182b) 50%,transparent)}
+.h19-knob svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* a native range over the whole picture: drag, touch and arrow keys for free. It is invisible; the knob shows its focus */
+.h19-rng{position:absolute;inset:0;z-index:2;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}
+.h19-rng:focus-visible+.h19-hdl .h19-knob{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+.open-anim .h19-cmp{clip-path:inset(5% 8% round 20px);animation:h19-fs 0s 2.5s forwards}
+.is-in .h19-cmp{clip-path:inset(0 round 20px);transition-delay:calc(var(--t0,0s) + .1s)}
+.rv-on .h19-cmp{animation:none}
+@keyframes h19-fs{to{clip-path:inset(0 round 20px)}}
+@media (prefers-reduced-motion:reduce){.h19-cmp{transition-duration:.01ms!important;transition-delay:0s!important}}
+@media (max-width:860px){.h19h{grid-template-columns:1fr;gap:20px;min-height:0;padding:88px 20px 24px}.h19-txt{padding-block:0;gap:16px}
+  .h19h h3{font-size:clamp(28px,7.6vw,38px)}.h19-cmp{height:clamp(240px,38vh,340px)}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;script&gt;if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")&lt;/script&gt;
+&lt;div class="hf"&gt;&lt;div class="hf-top"&gt;&lt;b&gt;לוגו&lt;/b&gt;&lt;nav&gt;&lt;span&gt;שירותים&lt;/span&gt;&lt;span&gt;פרויקטים&lt;/span&gt;&lt;span&gt;אודות&lt;/span&gt;&lt;/nav&gt;&lt;/div&gt;
+  &lt;section class="h19h" id="h19"&gt;
+    &lt;div class="h19-txt"&gt;
+      &lt;span class="hkick rv"&gt;תכנון תאורה לבתים&lt;/span&gt;
+      &lt;h3 class="rv"&gt;אותו חדר. רק עם אור שתוכנן נכון&lt;/h3&gt;
+      &lt;p class="hlead rv"&gt;תאורה בשכבות, עמעום לפי שעות היום, וגופים שנבחרו לחדר, במקום עוד ספוט בתקרה.&lt;/p&gt;
+      &lt;div class="hcta rv"&gt;&lt;a class="hbtn" href="#h19"&gt;לתיאום פגישת תכנון&lt;/a&gt;&lt;a class="hbtn ghost" href="#h19"&gt;פרויקטים&lt;/a&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="h19-cmp" dir="ltr"&gt;
+      &lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp" alt="הסלון אחרי תכנון התאורה: מנורת קריאה ומדפים מוארים" fetchpriority="high" decoding="async"&gt;
+      &lt;img class="h19-bef" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp" alt="הסלון לפני: אור שטוח וחשוך" decoding="async"&gt;
+      &lt;span class="h19-lab a" aria-hidden="true"&gt;אחרי&lt;/span&gt;&lt;span class="h19-lab b" aria-hidden="true"&gt;לפני&lt;/span&gt;
+      &lt;input class="h19-rng" type="range" min="0" max="100" value="50" aria-label="השוואה בין לפני לאחרי"&gt;
+      &lt;span class="h19-hdl"&gt;&lt;span class="h19-knob"&gt;&lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top&lt;innerHeight*.9&amp;&amp;r.bottom&gt;0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&amp;&amp;getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+(function(){
+  var root=document.getElementById("h19"); enter(root);
+  var cmp=root.querySelector(".h19-cmp"), rng=root.querySelector(".h19-rng"), touched=false;
+  function set(v){cmp.style.setProperty("--p",v+"%");}
+  function say(){rng.setAttribute("aria-valuetext",rng.value+" אחוז מהתמונה אחרי");}
+  rng.addEventListener("input",function(){touched=true; set(rng.value); say();});
+  say();
+  // one hint, once: after the entrance the handle swings right and back, only when motion is allowed and nobody touched it
+  if(!matchMedia("(prefers-reduced-motion:no-preference)").matches)return;
+  inView(root,function(){setTimeout(function(){
+    var t0=0;
+    requestAnimationFrame(function f(now){
+      if(touched)return; if(!t0)t0=now;
+      var k=Math.min((now-t0)/1200,1);
+      set(k&lt;1?(50+16*Math.sin(k*Math.PI*2)*(1-k/2)).toFixed(2):50);
+      if(k&lt;1)requestAnimationFrame(f);
+    });
+  },1000);});
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:h19 · הירו לפני ואחרי עם ידית גרירה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/hero/h19.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/h19.html\n\nמה זה עושה: טקסט בצד אחד, ובצד השני אותו חדר פעמיים, לפני ואחרי, עם ידית שגוררים לרוחב. אחרי הכניסה הידית זזה פעם אחת לבד כדי להראות שאפשר, ומשם היא של המבקר: בעכבר, במגע ובמקלדת.\nמתי משתמשים: עסק שהתוצאה שלו נראית: תאורה, שיפוצים, ניקיון, צביעה, גינון, אסתטיקה, עריכת תמונות. עובד רק עם זוג צילומים מאותה זווית בדיוק. לא כשאין צילום \"לפני\" אמיתי; אז h11.\nסוג אתר: אתר תדמית · וואן-פייג'ר · דף נחיתה\nבסקשן: הירו\nאופי: גם באתר שקט\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא בלי זוג צילומים אמיתי מאותה זווית; אז h11.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* H19 · הירו לפני ואחרי עם ידית גרירה */\n/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */\n.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}\n.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}\n.hf-top b{font-size:18px;font-weight:800}\n.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}\n@media (max-width:760px){.hf-top nav{display:none}}\n.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;\n  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}\n@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}\n.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}\n.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}\n.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}\n.hcta{display:flex;flex-wrap:wrap;gap:12px}\n\n/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */\n.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}\n/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */\n.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}\n.rv-on .rv{animation:none}\n@keyframes rv-fs{to{opacity:1;transform:none}}\n@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}\n  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}\n.h19h{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:48px;min-height:min(84vh,760px);padding:88px 28px 28px;background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--bg, #f7f7fa))}\n.h19-txt{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:24px 40px}\n.h19h h3{margin:0;max-width:12ch;font-size:clamp(34px,min(4vw,7.8vh),66px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}\n.h19h .hlead{max-width:40ch}\n/* the comparison is always left to right, with \"before\" on the right, the side a Hebrew reader meets first; --p is the handle */\n.h19-cmp{--p:50%;position:relative;border-radius:20px;overflow:hidden;background:var(--ink, #16182b);clip-path:inset(0 round 20px);transition:clip-path .9s cubic-bezier(.2,.6,.2,1)}\n.h19-cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 50%;display:block}\n.h19-bef{clip-path:inset(0 0 0 var(--p));filter:grayscale(.7) brightness(.45) contrast(.9)}\n.h19-lab{position:absolute;top:16px;z-index:1;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;background:color-mix(in srgb,var(--ink, #16182b) 55%,transparent);color:var(--bg, #f7f7fa);\n  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:none}\n.h19-lab.b{right:16px}\n.h19-lab.a{left:16px}\n.h19-hdl{position:absolute;top:0;bottom:0;left:var(--p);z-index:1;width:3px;background:var(--bg, #f7f7fa);transform:translateX(-50%);pointer-events:none}\n.h19-knob{position:absolute;top:50%;left:50%;width:52px;height:52px;border-radius:999px;display:grid;place-items:center;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);transform:translate(-50%,-50%);\n  box-shadow:0 10px 30px -8px color-mix(in srgb,var(--ink, #16182b) 50%,transparent)}\n.h19-knob svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}\n/* a native range over the whole picture: drag, touch and arrow keys for free. It is invisible; the knob shows its focus */\n.h19-rng{position:absolute;inset:0;z-index:2;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}\n.h19-rng:focus-visible+.h19-hdl .h19-knob{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n.open-anim .h19-cmp{clip-path:inset(5% 8% round 20px);animation:h19-fs 0s 2.5s forwards}\n.is-in .h19-cmp{clip-path:inset(0 round 20px);transition-delay:calc(var(--t0,0s) + .1s)}\n.rv-on .h19-cmp{animation:none}\n@keyframes h19-fs{to{clip-path:inset(0 round 20px)}}\n@media (prefers-reduced-motion:reduce){.h19-cmp{transition-duration:.01ms!important;transition-delay:0s!important}}\n@media (max-width:860px){.h19h{grid-template-columns:1fr;gap:20px;min-height:0;padding:88px 20px 24px}.h19-txt{padding-block:0;gap:16px}\n  .h19h h3{font-size:clamp(28px,7.6vw,38px)}.h19-cmp{height:clamp(240px,38vh,340px)}}\n\n=== HTML ===\n<script>if(matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)document.documentElement.classList.add(\"open-anim\")<\/script>\n<div class=\"hf\"><div class=\"hf-top\"><b>לוגו<\/b><nav><span>שירותים<\/span><span>פרויקטים<\/span><span>אודות<\/span><\/nav><\/div>\n  <section class=\"h19h\" id=\"h19\">\n    <div class=\"h19-txt\">\n      <span class=\"hkick rv\">תכנון תאורה לבתים<\/span>\n      <h3 class=\"rv\">אותו חדר. רק עם אור שתוכנן נכון<\/h3>\n      <p class=\"hlead rv\">תאורה בשכבות, עמעום לפי שעות היום, וגופים שנבחרו לחדר, במקום עוד ספוט בתקרה.<\/p>\n      <div class=\"hcta rv\"><a class=\"hbtn\" href=\"#h19\">לתיאום פגישת תכנון<\/a><a class=\"hbtn ghost\" href=\"#h19\">פרויקטים<\/a><\/div>\n    <\/div>\n    <div class=\"h19-cmp\" dir=\"ltr\">\n      <img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp\" alt=\"הסלון אחרי תכנון התאורה: מנורת קריאה ומדפים מוארים\" fetchpriority=\"high\" decoding=\"async\">\n      <img class=\"h19-bef\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp\" alt=\"הסלון לפני: אור שטוח וחשוך\" decoding=\"async\">\n      <span class=\"h19-lab a\" aria-hidden=\"true\">אחרי<\/span><span class=\"h19-lab b\" aria-hidden=\"true\">לפני<\/span>\n      <input class=\"h19-rng\" type=\"range\" min=\"0\" max=\"100\" value=\"50\" aria-label=\"השוואה בין לפני לאחרי\">\n      <span class=\"h19-hdl\"><span class=\"h19-knob\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M9 7l-5 5 5 5M15 7l5 5-5 5\"/><\/svg><\/span><\/span>\n    <\/div>\n  <\/section>\n<\/div>\n\n=== JS ===\n// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:\n// an observer does not update while the tab is throttled (and on a real site the hero is usually\n// on screen at load anyway), and an entrance that never fires leaves the hero invisible.\nfunction inView(el,f){\n  var ro;\n  function chk(){\n    var r=el.getBoundingClientRect();\n    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}\n  }\n  function off(){removeEventListener(\"scroll\",chk);removeEventListener(\"resize\",chk);if(ro)ro.disconnect();}\n  addEventListener(\"scroll\",chk,{passive:true}); addEventListener(\"resize\",chk);\n  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view\n  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}\n  requestAnimationFrame(chk); setTimeout(chk,300);\n}\nfunction enter(root){\n  var els=root.querySelectorAll(\".rv\");\n  els.forEach(function(el,i){if(!el.style.getPropertyValue(\"--i\"))el.style.setProperty(\"--i\",i);});\n  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance\n  if(els.length&&getComputedStyle(els[0]).opacity===\"1\")root.classList.add(\"is-in\");\n  root.classList.add(\"rv-on\");\n  inView(root,function(){root.classList.add(\"is-in\");});\n}\n(function(){\n  var root=document.getElementById(\"h19\"); enter(root);\n  var cmp=root.querySelector(\".h19-cmp\"), rng=root.querySelector(\".h19-rng\"), touched=false;\n  function set(v){cmp.style.setProperty(\"--p\",v+\"%\");}\n  function say(){rng.setAttribute(\"aria-valuetext\",rng.value+\" אחוז מהתמונה אחרי\");}\n  rng.addEventListener(\"input\",function(){touched=true; set(rng.value); say();});\n  say();\n  // one hint, once: after the entrance the handle swings right and back, only when motion is allowed and nobody touched it\n  if(!matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)return;\n  inView(root,function(){setTimeout(function(){\n    var t0=0;\n    requestAnimationFrame(function f(now){\n      if(touched)return; if(!t0)t0=now;\n      var k=Math.min((now-t0)/1200,1);\n      set(k<1?(50+16*Math.sin(k*Math.PI*2)*(1-k/2)).toFixed(2):50);\n      if(k<1)requestAnimationFrame(f);\n    });\n  },1000);});\n})();\n\nהערת מימוש מהמאגר:\nזה ההירו שמראה במקום לספר: אותו חדר בשני מצבים, והמבקר עושה את ההשוואה בעצמו. הידית היא input מסוג range אמיתי ושקוף שמכסה את כל התמונה, ולכן גרירה בעכבר, נגיעה בטלפון וחיצים במקלדת עובדים בלי קוד גרירה, והפוקוס שלו מצויר על העיגול. ההשוואה תמיד משמאל לימין, עם \"לפני\" בצד ימין, הצד שקורא עברית פוגש ראשון, והשכבה העליונה נחתכת ב-clip-path לפי --p, בלי לשנות רוחב. אחרי הכניסה הידית זזה פעם אחת לבד, ימינה וחזרה, וזה במקום הוראה כתובה; היא לא זזה אם המבקר כבר נגע בה, ולא בהפחתת תנועה. הקו של הידית הוא חלק מהפקד, לא קישוט. בדמו ה\"לפני\" הוא אותו צילום, מוחשך ודהוי ב-filter; בפרויקט שמים שני צילומים אמיתיים מאותה זווית, אחרת ההשוואה נראית מזויפת. פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* H19 · הירו לפני ואחרי עם ידית גרירה */\n/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */\n.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}\n.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}\n.hf-top b{font-size:18px;font-weight:800}\n.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}\n@media (max-width:760px){.hf-top nav{display:none}}\n.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;\n  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}\n@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}\n.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}\n.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}\n.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}\n.hcta{display:flex;flex-wrap:wrap;gap:12px}\n\n/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */\n.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}\n/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */\n.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}\n.rv-on .rv{animation:none}\n@keyframes rv-fs{to{opacity:1;transform:none}}\n@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}\n  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}\n.h19h{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:48px;min-height:min(84vh,760px);padding:88px 28px 28px;background:color-mix(in srgb,var(--ink, #16182b) 4%,var(--bg, #f7f7fa))}\n.h19-txt{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:24px 40px}\n.h19h h3{margin:0;max-width:12ch;font-size:clamp(34px,min(4vw,7.8vh),66px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}\n.h19h .hlead{max-width:40ch}\n/* the comparison is always left to right, with \"before\" on the right, the side a Hebrew reader meets first; --p is the handle */\n.h19-cmp{--p:50%;position:relative;border-radius:20px;overflow:hidden;background:var(--ink, #16182b);clip-path:inset(0 round 20px);transition:clip-path .9s cubic-bezier(.2,.6,.2,1)}\n.h19-cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 50%;display:block}\n.h19-bef{clip-path:inset(0 0 0 var(--p));filter:grayscale(.7) brightness(.45) contrast(.9)}\n.h19-lab{position:absolute;top:16px;z-index:1;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;background:color-mix(in srgb,var(--ink, #16182b) 55%,transparent);color:var(--bg, #f7f7fa);\n  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:none}\n.h19-lab.b{right:16px}\n.h19-lab.a{left:16px}\n.h19-hdl{position:absolute;top:0;bottom:0;left:var(--p);z-index:1;width:3px;background:var(--bg, #f7f7fa);transform:translateX(-50%);pointer-events:none}\n.h19-knob{position:absolute;top:50%;left:50%;width:52px;height:52px;border-radius:999px;display:grid;place-items:center;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);transform:translate(-50%,-50%);\n  box-shadow:0 10px 30px -8px color-mix(in srgb,var(--ink, #16182b) 50%,transparent)}\n.h19-knob svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}\n/* a native range over the whole picture: drag, touch and arrow keys for free. It is invisible; the knob shows its focus */\n.h19-rng{position:absolute;inset:0;z-index:2;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}\n.h19-rng:focus-visible+.h19-hdl .h19-knob{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n.open-anim .h19-cmp{clip-path:inset(5% 8% round 20px);animation:h19-fs 0s 2.5s forwards}\n.is-in .h19-cmp{clip-path:inset(0 round 20px);transition-delay:calc(var(--t0,0s) + .1s)}\n.rv-on .h19-cmp{animation:none}\n@keyframes h19-fs{to{clip-path:inset(0 round 20px)}}\n@media (prefers-reduced-motion:reduce){.h19-cmp{transition-duration:.01ms!important;transition-delay:0s!important}}\n@media (max-width:860px){.h19h{grid-template-columns:1fr;gap:20px;min-height:0;padding:88px 20px 24px}.h19-txt{padding-block:0;gap:16px}\n  .h19h h3{font-size:clamp(28px,7.6vw,38px)}.h19-cmp{height:clamp(240px,38vh,340px)}}","html":"<script>if(matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)document.documentElement.classList.add(\"open-anim\")<\/script>\n<div class=\"hf\"><div class=\"hf-top\"><b>לוגו<\/b><nav><span>שירותים<\/span><span>פרויקטים<\/span><span>אודות<\/span><\/nav><\/div>\n  <section class=\"h19h\" id=\"h19\">\n    <div class=\"h19-txt\">\n      <span class=\"hkick rv\">תכנון תאורה לבתים<\/span>\n      <h3 class=\"rv\">אותו חדר. רק עם אור שתוכנן נכון<\/h3>\n      <p class=\"hlead rv\">תאורה בשכבות, עמעום לפי שעות היום, וגופים שנבחרו לחדר, במקום עוד ספוט בתקרה.<\/p>\n      <div class=\"hcta rv\"><a class=\"hbtn\" href=\"#h19\">לתיאום פגישת תכנון<\/a><a class=\"hbtn ghost\" href=\"#h19\">פרויקטים<\/a><\/div>\n    <\/div>\n    <div class=\"h19-cmp\" dir=\"ltr\">\n      <img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp\" alt=\"הסלון אחרי תכנון התאורה: מנורת קריאה ומדפים מוארים\" fetchpriority=\"high\" decoding=\"async\">\n      <img class=\"h19-bef\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp\" alt=\"הסלון לפני: אור שטוח וחשוך\" decoding=\"async\">\n      <span class=\"h19-lab a\" aria-hidden=\"true\">אחרי<\/span><span class=\"h19-lab b\" aria-hidden=\"true\">לפני<\/span>\n      <input class=\"h19-rng\" type=\"range\" min=\"0\" max=\"100\" value=\"50\" aria-label=\"השוואה בין לפני לאחרי\">\n      <span class=\"h19-hdl\"><span class=\"h19-knob\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M9 7l-5 5 5 5M15 7l5 5-5 5\"/><\/svg><\/span><\/span>\n    <\/div>\n  <\/section>\n<\/div>","js":"// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:\n// an observer does not update while the tab is throttled (and on a real site the hero is usually\n// on screen at load anyway), and an entrance that never fires leaves the hero invisible.\nfunction inView(el,f){\n  var ro;\n  function chk(){\n    var r=el.getBoundingClientRect();\n    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}\n  }\n  function off(){removeEventListener(\"scroll\",chk);removeEventListener(\"resize\",chk);if(ro)ro.disconnect();}\n  addEventListener(\"scroll\",chk,{passive:true}); addEventListener(\"resize\",chk);\n  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view\n  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}\n  requestAnimationFrame(chk); setTimeout(chk,300);\n}\nfunction enter(root){\n  var els=root.querySelectorAll(\".rv\");\n  els.forEach(function(el,i){if(!el.style.getPropertyValue(\"--i\"))el.style.setProperty(\"--i\",i);});\n  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance\n  if(els.length&&getComputedStyle(els[0]).opacity===\"1\")root.classList.add(\"is-in\");\n  root.classList.add(\"rv-on\");\n  inView(root,function(){root.classList.add(\"is-in\");});\n}\n(function(){\n  var root=document.getElementById(\"h19\"); enter(root);\n  var cmp=root.querySelector(\".h19-cmp\"), rng=root.querySelector(\".h19-rng\"), touched=false;\n  function set(v){cmp.style.setProperty(\"--p\",v+\"%\");}\n  function say(){rng.setAttribute(\"aria-valuetext\",rng.value+\" אחוז מהתמונה אחרי\");}\n  rng.addEventListener(\"input\",function(){touched=true; set(rng.value); say();});\n  say();\n  // one hint, once: after the entrance the handle swings right and back, only when motion is allowed and nobody touched it\n  if(!matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)return;\n  inView(root,function(){setTimeout(function(){\n    var t0=0;\n    requestAnimationFrame(function f(now){\n      if(touched)return; if(!t0)t0=now;\n      var k=Math.min((now-t0)/1200,1);\n      set(k<1?(50+16*Math.sin(k*Math.PI*2)*(1-k/2)).toFixed(2):50);\n      if(k<1)requestAnimationFrame(f);\n    });\n  },1000);});\n})();","scripts":"","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="h18.html" rel="prev"><small>→ הקודם</small><b>הירו אפליקציה: טלפון שעולה מתחת לכותרת</b></a><a href="h20.html" rel="next"><small>הבא ←</small><b>הירו שם ענק על צילום מלא</b></a></nav>
+
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · הירו לפני ואחרי עם ידית גרירה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+(function(){
+  var root=document.getElementById("h19"); enter(root);
+  var cmp=root.querySelector(".h19-cmp"), rng=root.querySelector(".h19-rng"), touched=false;
+  function set(v){cmp.style.setProperty("--p",v+"%");}
+  function say(){rng.setAttribute("aria-valuetext",rng.value+" אחוז מהתמונה אחרי");}
+  rng.addEventListener("input",function(){touched=true; set(rng.value); say();});
+  say();
+  // one hint, once: after the entrance the handle swings right and back, only when motion is allowed and nobody touched it
+  if(!matchMedia("(prefers-reduced-motion:no-preference)").matches)return;
+  inView(root,function(){setTimeout(function(){
+    var t0=0;
+    requestAnimationFrame(function f(now){
+      if(touched)return; if(!t0)t0=now;
+      var k=Math.min((now-t0)/1200,1);
+      set(k<1?(50+16*Math.sin(k*Math.PI*2)*(1-k/2)).toFixed(2):50);
+      if(k<1)requestAnimationFrame(f);
+    });
+  },1000);});
+})();
+</script>
+</body>
+</html>

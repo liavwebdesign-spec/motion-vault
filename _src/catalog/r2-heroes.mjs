@@ -395,5 +395,474 @@ ${PP_CSS}
     pp.setAttribute("aria-pressed",String(on)); pp.setAttribute("aria-label",on?"הפעלת המצגת":"עצירת המצגת");});
 })();`,
   note:"הכותרת והכפתור לא מתחלפים עם התמונות. רק השם הקטן והתמונה מתחלפים, ולכן המסר נקרא פעם אחת ולא בורח באמצע קריאה. הפס של השקופית הנוכחית הוא השעון: אנימציית CSS של 6 שניות, ו-animationend שלה מביא את הבאה, כך שעצירה (animation-play-state) עוצרת גם את הזמן וגם את הזום האיטי בבת אחת, בלי טיימר מקביל שיברח. נגיעה בשם עוברת אליו. בהפחתת תנועה אין החלפה אוטומטית ואין זום: השמות עדיין מחליפים תמונה, וכפתור העצירה יורד כי אין מה לעצור. שכבת הקריאות אלכסונית מהפינה של הטקסט (התורה), וההיפוך שלה ל-LTR כתוב. רק התמונה הראשונה נשלפת בעדיפות; השתיים שמחכות נטענות רגיל ולא ב-lazy, כי הן כבר בתוך המסך ו-lazy רק מסכן מעבר למסגרת ריקה." + NOTE_TAIL
+},
+{
+  id:"h16", cat:"hero", name:"הירו עם טופס לידים בתוך ההירו", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"טקסט בצד אחד וצילום בכרטיס מעוגל בצד השני. במקום כפתור יש שורת טופס קצרה, שם וטלפון ושליחה, שחוצה את הרווח ונכנסת לתוך הצילום. השליחה מחליפה את השורה בתודה, בלי לעזוב את העמוד.",
+  when:"עסק שהפנייה הראשונה אליו היא שיחת טלפון: קליניקה, עורך דין, יועץ משכנתאות, שיפוצים, קורסים. עובד כששני שדות מספיקים. לא כשצריך לבחור שירות, תאריך או כתובת לפני שמדברים; אז h17 או h7.",
+  libs:[],
+  css:`${FRAME_CSS}
+.h16h{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:48px;min-height:min(84vh,760px);padding:88px 28px 28px;background:var(--bg)}
+.h16-txt{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:24px 40px}
+.h16h h3{margin:0;max-width:14ch;font-size:clamp(34px,min(4.4vw,7.8vh),70px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h16h .hlead{max-width:42ch}
+.h16-box{align-self:stretch;display:flex;flex-direction:column}
+/* the bar runs across the gap and 64px into the photo: one object, not a form beside a picture. A surface and a shadow, no border */
+.h16-form{display:flex;align-items:stretch;gap:8px;width:calc(100% + 112px);padding:8px;border-radius:18px;background:var(--card);
+  box-shadow:0 18px 48px -18px color-mix(in srgb,var(--ink) 35%,transparent)}
+.h16-form[hidden]{display:none}
+.h16-f{flex:1;display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0;padding:8px 16px;border-radius:12px;cursor:text;transition:background .2s ${E}}
+.h16-f span{font-size:12px;font-weight:600;color:var(--muted)}
+.h16-f input{width:100%;min-width:0;border:0;padding:0;background:none;color:var(--ink);font:inherit;font-size:16px;font-weight:600;outline:none}
+.h16-f input::placeholder{color:var(--muted);font-weight:500;opacity:1}
+.h16-f input[type="tel"]{text-align:right}
+[dir="ltr"] .h16-f input[type="tel"]{text-align:left}
+.h16-f:focus-within{background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.h16-f[data-bad]{background:color-mix(in srgb,var(--accent) 16%,transparent)}
+.h16-form .hbtn{flex:none;border:0;font:inherit;font-size:16px;font-weight:600;cursor:pointer}
+.h16-form .hbtn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.h16-done{margin:0;width:calc(100% + 112px);padding:20px 24px;border-radius:18px;background:var(--card);font-size:17px;font-weight:600;outline:none;
+  box-shadow:0 18px 48px -18px color-mix(in srgb,var(--ink) 35%,transparent)}
+.h16-err{margin:0;font-size:14px;font-weight:600}
+.h16-err:not(:empty){margin-top:12px}
+.h16-vis{position:relative;border-radius:20px;overflow:hidden;background:var(--ink);clip-path:inset(0 round 20px);transition:clip-path .9s ${E}}
+.h16-vis>img{width:100%;height:100%;object-fit:cover;object-position:40% 45%;display:block;transition:transform 1s ${E}}
+.open-anim .h16-vis{clip-path:inset(5% 8% round 20px);animation:h16v-fs 0s 2.5s forwards}
+.open-anim .h16-vis>img{transform:scale(1.08);animation:rv-fs 0s 2.5s forwards}
+.is-in .h16-vis{clip-path:inset(0 round 20px);transition-delay:var(--t0,0s)}
+.is-in .h16-vis>img{transform:none;transition-delay:var(--t0,0s)}
+.rv-on .h16-vis,.rv-on .h16-vis>img{animation:none}
+@keyframes h16v-fs{to{clip-path:inset(0 round 20px)}}
+/* a fact on the photo, not a decoration: the next free slot */
+.h16-chip{position:absolute;inset-block-end:20px;inset-inline-end:20px;display:flex;flex-direction:column;gap:2px;margin:0;padding:12px 16px;border-radius:14px;background:var(--bg);color:var(--ink);font-size:13px;
+  box-shadow:0 12px 32px -12px color-mix(in srgb,var(--ink) 40%,transparent)}
+.h16-chip b{font-size:16px}
+@media (prefers-reduced-motion:reduce){.h16-vis,.h16-vis>img{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the photo becomes a low band on top, the two fields sit side by side over a full-width button */
+@media (max-width:860px){.h16h{grid-template-columns:1fr;gap:20px;min-height:0;padding:72px 20px 28px}
+  .h16-vis{order:-1;height:clamp(150px,22vh,210px)}
+  .h16-txt{padding-block:0;gap:16px}
+  .h16h h3{font-size:clamp(28px,7.4vw,38px)}
+  .h16-form,.h16-done{width:100%}
+  .h16-form{flex-wrap:wrap}
+  .h16-f{flex:1 1 40%}
+  .h16-form .hbtn{flex:1 1 100%}
+  .h16-chip{inset-block-end:12px;inset-inline-end:12px;padding:8px 12px}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h16h" id="h16">
+    <div class="h16-txt">
+      <span class="hkick rv">פיזיותרפיה ושיקום, רמת גן</span>
+      <h3 class="rv">חוזרים לזוז בלי כאב, ובלי לחכות חודשיים לתור</h3>
+      <p class="hlead rv">טיפול אישי של 45 דקות ותוכנית תרגילים לבית. משאירים שם וטלפון, ואנחנו מתקשרים לקבוע.</p>
+      <div class="h16-box rv">
+        <form class="h16-form" novalidate aria-label="השארת פרטים לתיאום תור">
+          <label class="h16-f"><span>שם</span><input name="name" autocomplete="name" placeholder="השם שלך" enterkeyhint="next" aria-describedby="h16-err"></label>
+          <label class="h16-f"><span>טלפון</span><input name="tel" type="tel" inputmode="tel" autocomplete="tel" placeholder="050-0000000" dir="ltr" enterkeyhint="send" aria-describedby="h16-err"></label>
+          <button class="hbtn" type="submit">קבעו לי תור</button>
+        </form>
+        <div aria-live="polite"><p class="h16-done" tabindex="-1" hidden></p></div>
+        <p class="h16-err" id="h16-err" role="alert"></p>
+      </div>
+      <p class="hmicro rv"><span>מחזירים טלפון באותו יום</span><span>בלי התחייבות</span></p>
+    </div>
+    <div class="h16-vis">
+      ${PIC("real/s09/hero-corridor.webp", "פיזיותרפיסט וילדה עושים כיף במסדרון הקליניקה", { pri: true })}
+      <p class="h16-chip rv"><span>תור פנוי השבוע</span><b>שלישי, 08:30</b></p>
+    </div>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+(function(){
+  var root=document.getElementById("h16"); enter(root);
+  var form=root.querySelector(".h16-form"), done=root.querySelector(".h16-done"), err=root.querySelector(".h16-err");
+  var nm=form.querySelector('[name="name"]'), ph=form.querySelector('[name="tel"]');
+  function mark(f,bad){f.parentNode.toggleAttribute("data-bad",bad); f.setAttribute("aria-invalid",String(bad));}
+  [nm,ph].forEach(function(f){f.addEventListener("input",function(){if(f.getAttribute("aria-invalid")==="true")mark(f,false);});});
+  // checked on send only, never while typing
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    var n=nm.value.trim(), t=ph.value.replace(/\\D/g,""), okN=n.length>1, okT=/^0\\d{8,9}$/.test(t);
+    mark(nm,!okN); mark(ph,!okT);
+    if(!okN||!okT){err.textContent=okN?"מספר הטלפון לא נראה שלם. כדאי לבדוק את הקידומת":"חסר שם, כדי שנדע את מי לבקש בטלפון"; (okN?ph:nm).focus(); return;}
+    err.textContent="";
+    // in a project: send to the CRM first, and show the thanks only after it answered
+    form.hidden=true; done.hidden=false; done.textContent="תודה, "+n+". נחזור אליך היום, עד 18:00."; done.focus();
+  });
+})();`,
+  note:"שורת הטופס היא ההבדל בין הירו שמבקש ללחוץ להירו שכבר מקבל את הפנייה: שני שדות בלבד, כי כל שדה נוסף מוריד השארת פרטים, ואת השאר שואלים בטלפון. היא רחבה מהעמודה שלה ב-112 פיקסלים, חוצה את הרווח ונכנסת לתמונה, וזה מה שמחבר את שני החצאים לאובייקט אחד; משטח וצל, בלי מסגרת. לכל שדה תווית גלויה בתוכו (לא placeholder במקום תווית), והטלפון הוא type=tel עם autocomplete, כך שהמכשיר ממלא אותו בנגיעה, והוא נכתב משמאל לימין. הבדיקה רצה רק בשליחה ולא בזמן ההקלדה: השגיאה נכתבת במילים ב-role=alert, השדה מסומן ב-aria-invalid והפוקוס חוזר אליו. אחרי שליחה השורה מתחלפת בתודה עם השם והפוקוס עובר אליה; בפרויקט התודה מוצגת רק אחרי שה-CRM ענה. הצ׳יפ על התמונה הוא עובדה (התור הפנוי הבא), לא קישוט. בטלפון התמונה הופכת לפס נמוך למעלה, והשדות יושבים זה לצד זה מעל כפתור ברוחב מלא." + NOTE_TAIL
+},
+{
+  id:"h17", cat:"hero", name:"הירו צילום מלא עם שורת הזמנה", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"צילום אווירה במסך מלא, כותרת בפינה התחתונה, ומתחתיה שורת הזמנה על משטח בהיר: תאריך הגעה, מספר לילות, הרכב אורחים וכפתור בדיקת זמינות. התשובה מופיעה מתחת לשורה, בלי לעבור עמוד.",
+  when:"עסק שמוכר זמן: צימרים ובקתות, מלון, השכרת רכב, מתחם אירועים, הזמנת שולחן, סדנאות עם תאריכים. השורה מקצרת את הדרך למנוע ההזמנה. לא לעסק בלי תאריכים; אז h3 או h16.",
+  libs:[],
+  css:`${FRAME_CSS}
+.h17h{position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:32px;min-height:min(86vh,780px);padding:112px 28px 28px;background:var(--ink);color:var(--bg);overflow:hidden;isolation:isolate}
+.h17-bg{position:absolute;inset:0;z-index:-2}
+.h17-bg img{width:100%;height:100%;object-fit:cover;object-position:62% 50%;display:block;transition:transform 1.1s ${E}}
+.open-anim .h17-bg img{transform:scale(1.06);animation:rv-fs 0s 2.5s forwards}
+.is-in .h17-bg img{transform:none;transition-delay:var(--t0,0s)}
+.rv-on .h17-bg img{animation:none}
+/* diagonal scrim from the corner of the text (heroes.md); the bar carries its own surface, so it needs none */
+.h17-scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(to top left,color-mix(in srgb,var(--ink) 80%,transparent) 0%,color-mix(in srgb,var(--ink) 38%,transparent) 48%,transparent 78%)}
+[dir="ltr"] .h17-scrim{background:linear-gradient(to top right,color-mix(in srgb,var(--ink) 80%,transparent) 0%,color-mix(in srgb,var(--ink) 38%,transparent) 48%,transparent 78%)}
+.h17-txt{display:flex;flex-direction:column;align-items:flex-start;gap:20px;max-width:640px}
+.h17h h3{margin:0;font-size:clamp(36px,min(4.6vw,7.8vh),76px);line-height:1.03;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h17h .hlead{max-width:44ch;opacity:.9}
+.h17-book{display:flex;flex-direction:column;gap:12px;max-width:940px}
+.h17-bar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:8px;padding:8px;border-radius:18px;background:var(--bg);color:var(--ink);
+  box-shadow:0 24px 60px -24px color-mix(in srgb,var(--ink) 70%,transparent)}
+.h17-f{display:flex;flex-direction:column;justify-content:center;gap:2px;min-width:0;padding:8px 16px;border-radius:12px;cursor:pointer;transition:background .2s ${E}}
+.h17-f span{font-size:12px;font-weight:600;color:var(--muted)}
+.h17-f input,.h17-f select{width:auto;max-width:100%;min-width:0;height:24px;border:0;padding:0;background:none;color:var(--ink);font:inherit;font-size:16px;font-weight:600;outline:none;cursor:pointer}
+@media (hover:hover) and (pointer:fine){.h17-f:hover{background:color-mix(in srgb,var(--ink) 4%,transparent)}}
+.h17-f:focus-within{background:color-mix(in srgb,var(--ink) 7%,transparent)}
+.h17-bar .hbtn{border:0;font:inherit;font-size:16px;font-weight:600;cursor:pointer}
+.h17-bar .hbtn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.h17-res{margin:0;min-height:1.5em;font-size:15px;font-weight:600}
+@media (prefers-reduced-motion:reduce){.h17-bg img{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the date takes a full row, nights and guests share one, the button closes */
+@media (max-width:860px){.h17h{padding:96px 20px 20px;gap:24px;min-height:min(92vh,800px)}
+  .h17h h3{font-size:clamp(30px,8vw,40px)}
+  .h17-bar{grid-template-columns:1fr 1fr}
+  .h17-f{padding:8px 12px}
+  .h17-f:first-child,.h17-bar .hbtn{grid-column:1 / -1}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(false)}
+  <section class="h17h" id="h17">
+    <div class="h17-bg">${PIC("real/s13/hero.webp", "קרני שמש נכנסות מחלון אל חדר חשוך", { pri: true })}</div>
+    <span class="h17-scrim"></span>
+    <div class="h17-txt">
+      <span class="hkick rv">בקתות עץ בגליל העליון</span>
+      <h3 class="rv">שלושה ימים בלי רעש, עם אח בוערת וחלון אל היער</h3>
+      <p class="hlead rv">שש בקתות זוגיות, ג׳קוזי במרפסת, וארוחת בוקר שמגיעה עד הדלת.</p>
+    </div>
+    <div class="h17-book rv">
+      <form class="h17-bar" novalidate aria-label="בדיקת זמינות">
+        <label class="h17-f"><span>תאריך הגעה</span><input type="date" name="from"></label>
+        <label class="h17-f"><span>לילות</span><select name="nights"><option value="2">שניים</option><option value="3" selected>שלושה</option><option value="4">ארבעה</option><option value="7">שבוע</option></select></label>
+        <label class="h17-f"><span>אורחים</span><select name="guests"><option>זוג</option><option>זוג וילד</option><option>משפחה</option></select></label>
+        <button class="hbtn" type="submit">בדיקת זמינות</button>
+      </form>
+      <p class="h17-res" aria-live="polite"></p>
+    </div>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+(function(){
+  var root=document.getElementById("h17"); enter(root);
+  var form=root.querySelector(".h17-bar"), res=root.querySelector(".h17-res"), d=form.querySelector('[name="from"]'), n=form.querySelector('[name="nights"]');
+  // the field label already says nights, so the options stay one word; the answer spells it out
+  var say={2:"שני לילות",3:"שלושה לילות",4:"ארבעה לילות",7:"שבוע"};
+  // no arrival in the past: the earliest date is today, in local time
+  var now=new Date(); now.setMinutes(now.getMinutes()-now.getTimezoneOffset()); d.min=now.toISOString().slice(0,10);
+  form.addEventListener("submit",function(e){
+    e.preventDefault();
+    if(!d.value){res.textContent="בחרו תאריך הגעה, ונבדוק מה פנוי."; d.focus(); return;}
+    var p=d.value.split("-");
+    // in a project: open the booking engine with the three values in its address, instead of this line
+    res.textContent="יש בקתה פנויה מ-"+(+p[2])+"."+(+p[1])+", ל"+say[n.value]+". ממשיכים להזמנה במסך הבא.";
+  });
+})();`,
+  note:"שורת ההזמנה היא הסיבה להירו הזה: מי שמחפש צימר שואל קודם \"פנוי בתאריך שלי?\", והשורה עונה על זה במסך הראשון במקום שלושה קליקים פנימה. שלושה שדות ולא יותר (מתי, כמה זמן, מי), כולם רכיבים של הדפדפן עצמו (date ו-select), ולכן בטלפון נפתח בורר התאריכים של המכשיר ואין ספריית לוח שנה; התאריך המוקדם ביותר הוא היום. התשובה נכתבת בשורה מתחת ב-aria-live ולא בחלון קופץ, ובפרויקט הכפתור פותח את מנוע ההזמנות עם שלושת הערכים בכתובת. השורה יושבת על משטח בהיר משלה עם צל, כך שהיא קריאה על כל צילום, ושכבת הקריאות האלכסונית משרתת רק את הכותרת. הצילום נכנס בזום איטי מ-1.06. בטלפון השורה נשברת לשתי עמודות: תאריך ברוחב מלא, לילות ואורחים זה לצד זה, והכפתור מתחת." + NOTE_TAIL
+},
+{
+  id:"h18", cat:"hero", name:"הירו אפליקציה: טלפון שעולה מתחת לכותרת", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"כותרת וכפתורי הורדה במרכז, ומתחתם טלפון שבנוי כולו ב-CSS עם מסך של האפליקציה, שעולה מתחתית ההירו. שני כרטיסים קטנים צפים לצדו: תזכורת ודירוג.",
+  when:"עסק שיש לו אפליקציה או מערכת שהלקוח משתמש בה בטלפון: סטודיו עם הזמנת שיעורים, מרפאה, מועדון לקוחות, משלוחים, מערכת SaaS. המסך בנוי בקוד, ולכן מחליפים בו מילים ולא צילום מסך. לא כשאין מוצר דיגיטלי אמיתי להראות.",
+  libs:[],
+  css:`${FRAME_CSS}
+.h18h{position:relative;display:flex;flex-direction:column;align-items:center;gap:24px;min-height:min(88vh,800px);padding:96px 28px 0;text-align:center;overflow:hidden;
+  background:radial-gradient(70% 60% at 50% 100%,color-mix(in srgb,var(--accent) 16%,var(--bg)),var(--bg))}
+.h18h h3{margin:0;max-width:16ch;font-size:clamp(34px,min(4.4vw,7.8vh),70px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h18h .hlead{max-width:46ch}
+.h18h .hcta{justify-content:center}
+.h18-stage{--pw:clamp(240px,21vw,290px);position:relative;flex:1;width:100%;max-width:900px;min-height:clamp(220px,32vh,340px);margin-top:8px}
+/* the phone: a body with a screen inside, no outline. It is taller than the stage on purpose, so the frame edge cuts it */
+.h18-ph{position:absolute;top:0;inset-inline:0;margin-inline:auto;width:var(--pw);aspect-ratio:9/19;padding:10px;border-radius:44px;background:var(--ink);
+  box-shadow:0 40px 80px -30px color-mix(in srgb,var(--ink) 55%,transparent);transition:transform 1s ${E},opacity .6s ${E}}
+.h18-isl{position:absolute;top:20px;inset-inline:0;z-index:1;margin-inline:auto;width:84px;height:24px;border-radius:999px;background:var(--ink)}
+.h18-scr{height:100%;display:flex;flex-direction:column;gap:12px;padding:48px 16px 16px;border-radius:34px;background:var(--bg);color:var(--ink);text-align:start;overflow:hidden}
+.h18-hi{margin:0;font-size:18px;font-weight:700}
+.h18-sub{margin:0;margin-top:-8px;font-size:13px;color:var(--muted)}
+.h18-next{display:grid;gap:4px;padding:16px;border-radius:20px;background:var(--accent);color:var(--accent-ink);font-size:13px}
+.h18-next b{font-size:17px}
+.h18-go{justify-self:start;margin-top:8px;padding:8px 16px;border-radius:999px;background:var(--accent-ink);color:var(--accent);font-weight:700}
+.h18-lh{margin:0;margin-top:4px;font-size:13px;font-weight:700}
+.h18-list{display:grid;gap:8px;margin:0;padding:0;list-style:none;font-size:13px}
+.h18-list li{display:flex;justify-content:space-between;gap:8px;padding:12px;border-radius:14px;background:color-mix(in srgb,var(--ink) 5%,var(--bg))}
+.h18-list span{color:var(--muted)}
+/* the floating cards overlap the phone edge by 32px, measured from the phone width, so they follow it at every size */
+.h18-card{position:absolute;display:flex;align-items:center;gap:12px;padding:14px 18px;border-radius:16px;background:var(--card);color:var(--ink);text-align:start;font-size:14px;line-height:1.35;
+  box-shadow:0 20px 50px -20px color-mix(in srgb,var(--ink) 40%,transparent);transition:transform .6s ${E},opacity .6s ${E}}
+.h18-card b{display:block;font-size:15px}
+.h18-c1{top:14%;inset-inline-end:calc(50% + var(--pw) / 2 - 32px)}
+.h18-c2{top:44%;inset-inline-start:calc(50% + var(--pw) / 2 - 32px)}
+.h18-ico{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--accent);color:var(--accent-ink)}
+.h18-ico svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.h18-big{font-size:28px;font-weight:800;line-height:1}
+/* ink, not accent: a yellow accent would make the stars vanish on a light card */
+.h18-stars{display:block;color:var(--ink);letter-spacing:2px;font-size:13px}
+.open-anim .h18-ph{opacity:0;transform:translateY(24%);animation:rv-fs 0s 2.5s forwards}
+.open-anim .h18-card{opacity:0;transform:translateY(16px);animation:rv-fs 0s 2.5s forwards}
+.is-in .h18-ph{opacity:1;transform:none;transition-delay:calc(var(--t0,0s) + .15s)}
+.is-in .h18-card{opacity:1;transform:none;transition-delay:calc(var(--t0,0s) + .5s + var(--i) * 80ms)}
+.rv-on .h18-ph,.rv-on .h18-card{animation:none}
+@media (prefers-reduced-motion:reduce){.h18-ph,.h18-card{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* tablet keeps one card, a phone none: there is no room beside the phone */
+@media (max-width:860px){.h18h{padding:88px 20px 0;gap:20px;min-height:min(92vh,800px)}.h18h h3{font-size:clamp(30px,8vw,40px)}.h18-stage{--pw:230px;min-height:300px}.h18-c2{display:none}}
+@media (max-width:600px){.h18-c1{display:none}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h18h" id="h18">
+    <span class="hkick rv">סטודיו פילאטיס ויוגה, שלושה סניפים</span>
+    <h3 class="rv">כל השיעורים, המנוי והתורים, בכיס</h3>
+    <p class="hlead rv">קובעים שיעור בשתי נגיעות, מקבלים תזכורת שעה לפני, ונכנסים לסטודיו עם צ׳ק-אין מהטלפון.</p>
+    <div class="hcta rv"><a class="hbtn" href="#h18">הורדה לאייפון</a><a class="hbtn ghost" href="#h18">הורדה לאנדרואיד</a></div>
+    <div class="h18-stage">
+      <div class="h18-ph" role="img" aria-label="מסך הבית של האפליקציה: השיעור הבא עם כפתור צ׳ק-אין, ורשימת השיעורים של השבוע">
+        <span class="h18-isl"></span>
+        <div class="h18-scr">
+          <p class="h18-hi">בוקר טוב, נועה</p>
+          <p class="h18-sub">יש לך שיעור אחד היום</p>
+          <div class="h18-next"><span>השיעור הבא</span><b>פילאטיס מכשירים</b><span>היום ב-18:30, עם מאיה</span><span class="h18-go">צ׳ק-אין</span></div>
+          <p class="h18-lh">השבוע</p>
+          <ul class="h18-list"><li><b>יוגה זורמת</b><span>רביעי 07:00</span></li><li><b>פילאטיס מזרן</b><span>חמישי 19:00</span></li><li><b>מתיחות עמוקות</b><span>שישי 09:30</span></li></ul>
+        </div>
+      </div>
+      <div class="h18-card h18-c1" style="--i:0"><span class="h18-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9a6 6 0 0 1 12 0c0 6 2.5 7.5 2.5 7.5h-17S6 15 6 9"/><path d="M10.3 20a1.9 1.9 0 0 0 3.4 0"/></svg></span><span><b>תזכורת</b>הפילאטיס מתחיל בעוד שעה</span></div>
+      <div class="h18-card h18-c2" style="--i:1"><span class="h18-big">4.9</span><span><span class="h18-stars" aria-hidden="true">★★★★★</span>מ-1,200 דירוגים בחנות</span></div>
+    </div>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+enter(document.getElementById("h18"));`,
+  note:"הטלפון בנוי כולו ב-CSS (גוף, אי עליון ומסך) ולא כצילום מסך, ולכן הוא חד בכל רזולוציה, מתלבש על צבעי העור לבד, ובפרויקט מחליפים בו מילים ולא קובץ. הוא גבוה מהבמה בכוונה, וקצה ההירו חותך אותו: רואים את החלק העליון של המסך (ברכה, השיעור הבא), ובזה ההסבר נגמר. הוא עולה מ-24% מתחת למקום שלו, והכרטיסים הצפים נכנסים אחריו; המיקום שלהם מחושב מרוחב הטלפון (--pw), כך שהם חופפים לקצה שלו ב-32 פיקסלים בכל גודל מסך. מבחינת קורא מסך הטלפון הוא תמונה אחת עם תיאור (role=img), והכרטיסים טקסט רגיל. כפתורי ההורדה הם טקסט בלי לוגואים של החנויות; בפרויקט מחליפים אותם בתגיות הרשמיות של אפל וגוגל, לפי ההנחיות שלהן. בטאבלט נשאר כרטיס אחד, ובטלפון אף אחד, כי אין להם מקום לצד הטלפון." + NOTE_TAIL
+},
+{
+  id:"h19", cat:"hero", name:"הירו לפני ואחרי עם ידית גרירה", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"טקסט בצד אחד, ובצד השני אותו חדר פעמיים, לפני ואחרי, עם ידית שגוררים לרוחב. אחרי הכניסה הידית זזה פעם אחת לבד כדי להראות שאפשר, ומשם היא של המבקר: בעכבר, במגע ובמקלדת.",
+  when:"עסק שהתוצאה שלו נראית: תאורה, שיפוצים, ניקיון, צביעה, גינון, אסתטיקה, עריכת תמונות. עובד רק עם זוג צילומים מאותה זווית בדיוק. לא כשאין צילום \"לפני\" אמיתי; אז h11.",
+  libs:[],
+  css:`${FRAME_CSS}
+.h19h{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:48px;min-height:min(84vh,760px);padding:88px 28px 28px;background:color-mix(in srgb,var(--ink) 4%,var(--bg))}
+.h19-txt{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:24px 40px}
+.h19h h3{margin:0;max-width:12ch;font-size:clamp(34px,min(4vw,7.8vh),66px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h19h .hlead{max-width:40ch}
+/* the comparison is always left to right, with "before" on the right, the side a Hebrew reader meets first; --p is the handle */
+.h19-cmp{--p:50%;position:relative;border-radius:20px;overflow:hidden;background:var(--ink);clip-path:inset(0 round 20px);transition:clip-path .9s ${E}}
+.h19-cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 50%;display:block}
+.h19-bef{clip-path:inset(0 0 0 var(--p));filter:grayscale(.7) brightness(.45) contrast(.9)}
+.h19-lab{position:absolute;top:16px;z-index:1;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;background:color-mix(in srgb,var(--ink) 55%,transparent);color:var(--bg);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:none}
+.h19-lab.b{right:16px}
+.h19-lab.a{left:16px}
+.h19-hdl{position:absolute;top:0;bottom:0;left:var(--p);z-index:1;width:3px;background:var(--bg);transform:translateX(-50%);pointer-events:none}
+.h19-knob{position:absolute;top:50%;left:50%;width:52px;height:52px;border-radius:999px;display:grid;place-items:center;background:var(--bg);color:var(--ink);transform:translate(-50%,-50%);
+  box-shadow:0 10px 30px -8px color-mix(in srgb,var(--ink) 50%,transparent)}
+.h19-knob svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* a native range over the whole picture: drag, touch and arrow keys for free. It is invisible; the knob shows its focus */
+.h19-rng{position:absolute;inset:0;z-index:2;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}
+.h19-rng:focus-visible+.h19-hdl .h19-knob{outline:2px solid var(--accent);outline-offset:3px}
+.open-anim .h19-cmp{clip-path:inset(5% 8% round 20px);animation:h19-fs 0s 2.5s forwards}
+.is-in .h19-cmp{clip-path:inset(0 round 20px);transition-delay:calc(var(--t0,0s) + .1s)}
+.rv-on .h19-cmp{animation:none}
+@keyframes h19-fs{to{clip-path:inset(0 round 20px)}}
+@media (prefers-reduced-motion:reduce){.h19-cmp{transition-duration:.01ms!important;transition-delay:0s!important}}
+@media (max-width:860px){.h19h{grid-template-columns:1fr;gap:20px;min-height:0;padding:88px 20px 24px}.h19-txt{padding-block:0;gap:16px}
+  .h19h h3{font-size:clamp(28px,7.6vw,38px)}.h19-cmp{height:clamp(240px,38vh,340px)}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h19h" id="h19">
+    <div class="h19-txt">
+      <span class="hkick rv">תכנון תאורה לבתים</span>
+      <h3 class="rv">אותו חדר. רק עם אור שתוכנן נכון</h3>
+      <p class="hlead rv">תאורה בשכבות, עמעום לפי שעות היום, וגופים שנבחרו לחדר, במקום עוד ספוט בתקרה.</p>
+      <div class="hcta rv"><a class="hbtn" href="#h19">לתיאום פגישת תכנון</a><a class="hbtn ghost" href="#h19">פרויקטים</a></div>
+    </div>
+    <div class="h19-cmp" dir="ltr">
+      ${PIC("real/s13/room.webp", "הסלון אחרי תכנון התאורה: מנורת קריאה ומדפים מוארים", { pri: true })}
+      ${PIC("real/s13/room.webp", "הסלון לפני: אור שטוח וחשוך", { cls: "h19-bef" })}
+      <span class="h19-lab a" aria-hidden="true">אחרי</span><span class="h19-lab b" aria-hidden="true">לפני</span>
+      <input class="h19-rng" type="range" min="0" max="100" value="50" aria-label="השוואה בין לפני לאחרי">
+      <span class="h19-hdl"><span class="h19-knob"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg></span></span>
+    </div>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+(function(){
+  var root=document.getElementById("h19"); enter(root);
+  var cmp=root.querySelector(".h19-cmp"), rng=root.querySelector(".h19-rng"), touched=false;
+  function set(v){cmp.style.setProperty("--p",v+"%");}
+  function say(){rng.setAttribute("aria-valuetext",rng.value+" אחוז מהתמונה אחרי");}
+  rng.addEventListener("input",function(){touched=true; set(rng.value); say();});
+  say();
+  // one hint, once: after the entrance the handle swings right and back, only when motion is allowed and nobody touched it
+  if(!matchMedia("(prefers-reduced-motion:no-preference)").matches)return;
+  inView(root,function(){setTimeout(function(){
+    var t0=0;
+    requestAnimationFrame(function f(now){
+      if(touched)return; if(!t0)t0=now;
+      var k=Math.min((now-t0)/1200,1);
+      set(k<1?(50+16*Math.sin(k*Math.PI*2)*(1-k/2)).toFixed(2):50);
+      if(k<1)requestAnimationFrame(f);
+    });
+  },1000);});
+})();`,
+  note:"זה ההירו שמראה במקום לספר: אותו חדר בשני מצבים, והמבקר עושה את ההשוואה בעצמו. הידית היא input מסוג range אמיתי ושקוף שמכסה את כל התמונה, ולכן גרירה בעכבר, נגיעה בטלפון וחיצים במקלדת עובדים בלי קוד גרירה, והפוקוס שלו מצויר על העיגול. ההשוואה תמיד משמאל לימין, עם \"לפני\" בצד ימין, הצד שקורא עברית פוגש ראשון, והשכבה העליונה נחתכת ב-clip-path לפי --p, בלי לשנות רוחב. אחרי הכניסה הידית זזה פעם אחת לבד, ימינה וחזרה, וזה במקום הוראה כתובה; היא לא זזה אם המבקר כבר נגע בה, ולא בהפחתת תנועה. הקו של הידית הוא חלק מהפקד, לא קישוט. בדמו ה\"לפני\" הוא אותו צילום, מוחשך ודהוי ב-filter; בפרויקט שמים שני צילומים אמיתיים מאותה זווית, אחרת ההשוואה נראית מזויפת." + NOTE_TAIL
+},
+{
+  id:"h20", cat:"hero", name:"הירו שם ענק על צילום מלא", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"צילום במסך מלא, משפט פתיחה וכפתור בחלק העליון, ובתחתית שם העסק בענק, כמעט מקצה לקצה, כמו שלט. האותיות עולות אחת אחרי השנייה.",
+  when:"עסק שהשם שלו הוא המותג: מסעדה, בר, מלון בוטיק, גלריה, מותג אופנה, אמן. עובד עם שם קצר, עד שבע אותיות, ועם צילום שהתחתית שלו כהה. לא לשם ארוך או לשם שלא אומר כלום למי שלא מכיר; אז h3.",
+  libs:[],
+  css:`${SERIF}
+${FRAME_CSS}
+.h20h{--disp:${DISP};position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:40px;min-height:min(86vh,780px);padding:112px 28px 0;background:var(--ink);color:var(--bg);overflow:hidden;isolation:isolate}
+.h20-bg{position:absolute;inset:0;z-index:-2}
+.h20-bg img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;display:block;transition:transform 1.2s ${E}}
+.open-anim .h20-bg img{transform:scale(1.06);animation:rv-fs 0s 2.5s forwards}
+.is-in .h20-bg img{transform:none;transition-delay:var(--t0,0s)}
+.rv-on .h20-bg img{animation:none}
+/* two readable zones: the sentence (diagonal from its corner) and the name (radial from the bottom centre, it is centred; heroes.md) */
+.h20-scrim{position:absolute;inset:0;z-index:-1;background:radial-gradient(120% 70% at 50% 100%,color-mix(in srgb,var(--ink) 70%,transparent) 0%,color-mix(in srgb,var(--ink) 30%,transparent) 50%,transparent 80%),
+  linear-gradient(to bottom left,color-mix(in srgb,var(--ink) 60%,transparent) 0%,transparent 45%)}
+[dir="ltr"] .h20-scrim{background:radial-gradient(120% 70% at 50% 100%,color-mix(in srgb,var(--ink) 70%,transparent) 0%,color-mix(in srgb,var(--ink) 30%,transparent) 50%,transparent 80%),
+  linear-gradient(to bottom right,color-mix(in srgb,var(--ink) 60%,transparent) 0%,transparent 45%)}
+.h20-row{display:flex;justify-content:space-between;align-items:flex-end;gap:40px}
+.h20-txt{display:flex;flex-direction:column;align-items:flex-start;gap:16px;max-width:560px}
+.h20h h3{margin:0;font-size:clamp(28px,min(3.2vw,7.8vh),52px);line-height:1.1;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h20-side{display:flex;flex-direction:column;align-items:flex-end;gap:16px}
+.h20-side .hmicro{opacity:.85;justify-content:flex-end}
+/* the name is a logotype, not the heading: the h3 above is the sentence, and the 8vh rule is about it */
+.h20-name{position:relative;margin:0;margin-bottom:-.14em;font-family:var(--disp);font-weight:400;font-size:min(23vw,40vh);line-height:.9;text-align:center;white-space:nowrap}
+.h20-l{display:inline-block;transition:transform .8s ${E},opacity .5s ${E}}
+.open-anim .h20-l{opacity:0;transform:translateY(30%);animation:rv-fs 0s 2.5s forwards}
+.is-in .h20-l{opacity:1;transform:none;transition-delay:calc(var(--t0,0s) + .15s + var(--i) * 50ms)}
+.rv-on .h20-l{animation:none}
+.h20-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.h20-bg img,.h20-l{transition-duration:.01ms!important;transition-delay:0s!important}}
+@media (max-width:860px){.h20h{padding:96px 20px 0;gap:32px;min-height:min(88vh,760px)}.h20-row{flex-direction:column;align-items:flex-start;gap:24px}
+  .h20-side{align-items:flex-start}.h20-side .hmicro{justify-content:flex-start}.h20h h3{font-size:clamp(28px,7.6vw,38px)}.h20-name{font-size:22vw}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(false)}
+  <section class="h20h" id="h20">
+    <div class="h20-bg">${PIC("real/s08/hero.webp", "שמיים כתומים וכחולים מעל הים אחרי השקיעה", { pri: true })}</div>
+    <span class="h20-scrim"></span>
+    <div class="h20-row">
+      <div class="h20-txt">
+        <span class="hkick rv">מסעדת דגים על החוף, בת ים</span>
+        <h3 class="rv">דגים מהסירה של הבוקר, ושולחן מול השקיעה</h3>
+      </div>
+      <div class="h20-side">
+        <p class="hmicro rv"><span>כל ערב מ-18:00</span><span>טיילת בת ים</span></p>
+        <div class="hcta rv"><a class="hbtn" href="#h20">להזמנת שולחן</a><a class="hbtn ghost" href="#h20">לתפריט</a></div>
+      </div>
+    </div>
+    <p class="h20-name"><span class="h20-sr">מול הים</span><span aria-hidden="true"><span class="h20-l" style="--i:0">מ</span><span class="h20-l" style="--i:1">ו</span><span class="h20-l" style="--i:2">ל</span> <span class="h20-l" style="--i:3">ה</span><span class="h20-l" style="--i:4">י</span><span class="h20-l" style="--i:5">ם</span></span></p>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+enter(document.getElementById("h20"));`,
+  note:"השם הוא הלוגו, לא הכותרת: המשפט למעלה הוא ה-h3 (ובפרויקט ה-h1), עליו חל כלל 8% מגובה המסך, והשם הענק הוא p עם טקסט מלא לקורא מסך, ואותיות מפוצלות שמוסתרות ממנו (aria-hidden) כדי שלא ייקרא אות אחרי אות. הגודל שלו לפי הקטן מבין הרוחב והגובה (min של vw ו-vh), כך שבמסך נמוך הוא לא דוחף את המשפט החוצה, והוא יושב על הקצה התחתון עם שוליים שליליים קטנים, כמו שלט. האותיות עולות בהפרש של 50 מילישניות. יש שתי שכבות קריאות: אלכסונית מהפינה של המשפט, ורדיאלית מהמרכז התחתון מתחת לשם, כי הוא ממורכז (התורה). עובד עם שם של עד שבע אותיות; שם ארוך יותר יוצא קטן מדי והרעיון הולך לאיבוד. פונט התצוגה (Bellefair) הוא דוגמה: בפרויקט נכנס הפונט של הלוגו." + NOTE_TAIL
+},
+{
+  id:"h21", cat:"hero", name:"הירו גריד מגזין", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"עמוד פתיחה של מגזין: כותרת גדולה בפונט תצוגה על שבע עמודות, צילום גבוה שתופס את כל הגובה בצד השני, ובתחתית צילום קטן לצד משפט וכפתורים. הצילומים נחשפים מלמטה למעלה, והכותרת עולה ביניהם.",
+  when:"עסק עם טעם ויזואלי ויותר מצילום טוב אחד: סטודיו, בית דפוס, הוצאה לאור, גלריה, מעצבת, מותג קרמיקה או אופנה, אדריכלות. לא לעסק שצריך להמיר מהר עם טופס; אז h16.",
+  libs:[],
+  css:`${SERIF}
+${FRAME_CSS}
+.h21h{--disp:${DISP};display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-template-rows:auto 1fr auto;column-gap:24px;row-gap:24px;min-height:min(84vh,760px);padding:96px 28px 28px;
+  background:color-mix(in srgb,var(--accent) 4%,var(--bg))}
+.h21-kick{grid-column:1 / span 7;grid-row:1;display:flex;flex-wrap:wrap;gap:8px 24px;margin:0}
+.h21h h3{grid-column:1 / span 7;grid-row:2;align-self:center;margin:0;font-family:var(--disp);font-weight:400;font-size:clamp(40px,min(5vw,7.8vh),84px);line-height:1.02;letter-spacing:-.01em;text-wrap:balance}
+.h21-big{grid-column:8 / -1;grid-row:1 / -1}
+.h21-small{grid-column:1 / span 3;grid-row:3;aspect-ratio:4/3}
+.h21-side{grid-column:4 / span 4;grid-row:3;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:20px}
+.h21-side .hlead{font-size:clamp(16px,1.1vw,18px)}
+/* nearly square corners: a large radius turns the spread into cards */
+.h21-ph{position:relative;margin:0;border-radius:6px;overflow:hidden;background:var(--ink);clip-path:inset(0);transition:clip-path 1s ${E}}
+.h21-ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s ${E}}
+.open-anim .h21-ph{clip-path:inset(100% 0 0 0);animation:h21-fs 0s 2.5s forwards}
+.open-anim .h21-ph img{transform:scale(1.12);animation:rv-fs 0s 2.5s forwards}
+.is-in .h21-ph{clip-path:inset(0);transition-delay:calc(var(--t0,0s) + var(--d))}
+.is-in .h21-ph img{transform:none;transition-delay:calc(var(--t0,0s) + var(--d))}
+.rv-on .h21-ph,.rv-on .h21-ph img{animation:none}
+@keyframes h21-fs{to{clip-path:inset(0)}}
+@media (prefers-reduced-motion:reduce){.h21-ph,.h21-ph img{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: one column; the small photo leaves */
+@media (max-width:860px){.h21h{grid-template-columns:1fr;grid-template-rows:none;row-gap:18px;min-height:0;padding:88px 20px 28px}
+  .h21h>*,.h21h h3{grid-column:1 / -1;grid-row:auto}
+  .h21h h3{font-size:clamp(32px,8.6vw,44px)}
+  .h21-big{height:clamp(180px,30vh,260px)}
+  .h21-small{display:none}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h21h" id="h21">
+    <p class="h21-kick hkick rv"><span>סטודיו לדפוס ריזו</span><span>חיפה, הדר</span><span>הזמנות פתוחות לחורף</span></p>
+    <h3 class="rv">דפוס ריזו, כריכה ידנית, וכמויות קטנות שנראות כמו ספר אמן</h3>
+    <figure class="h21-ph h21-big" style="--d:0s">${PIC("real/s07/hero-posters.webp", "קיר פוסטרים בשחור לבן שהודפסו בסטודיו", { pri: true })}</figure>
+    <figure class="h21-ph h21-small" style="--d:.2s">${PIC("real/s07/ink-hands.webp", "ידיים עם דיו ליד מכונת הדפוס")}</figure>
+    <div class="h21-side">
+      <p class="hlead rv">זינים, פוסטרים והזמנות בשתיים עד ארבע שכבות צבע. אפשר להזמין גם מאה עותקים, בלי מינימום של אלף.</p>
+      <div class="hcta rv"><a class="hbtn" href="#h21">לשליחת קובץ להצעה</a><a class="hbtn ghost" href="#h21">דוגמאות נייר</a></div>
+    </div>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+enter(document.getElementById("h21"));`,
+  note:"זה הגריד של עמוד פתיחה במגזין ולא שתי עמודות: 12 עמודות, הכותרת על שבע, הצילום הגבוה על חמש ולכל הגובה, ובשורה התחתונה צילום קטן על שלוש עם המשפט והכפתורים על ארבע. חוסר הסימטריה בין הגדול לקטן נותן את התחושה העריכתית, יחד עם פונט התצוגה בכותרת. הצילומים נחשפים מלמטה למעלה ב-clip-path עם זום עדין פנימה, הקטן 200 מילישניות אחרי הגדול, והכותרת עולה ביניהם. הפינות כמעט ישרות (6 פיקסלים), כי עיגול גדול הופך את העמוד לכרטיסים. בטלפון הגריד נפתח לטור אחד: כותרת, צילום רחב ונמוך, משפט וכפתורים; הצילום הקטן יורד. פונט התצוגה (Bellefair) הוא דוגמה." + NOTE_TAIL
+},
+{
+  id:"h22", cat:"hero", name:"הירו מניפת כרטיסים", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"כותרת וכפתורים במרכז, ומתחתם חמישה כרטיסים שנפתחים כמו מניפה מתוך ערימה אחת ועולים מתחתית ההירו. בכל כרטיס צילום ושם קצר, והאמצעי הוא כרטיס טקסט בצבע המותג. ריחוף מרים כרטיס.",
+  when:"עסק שיש לו כמה מוצרים או סוגים שכדאי לראות יחד: גלידרייה, קונדיטוריה, חנות קטנה, סדנאות, תפריט עונתי, מותג קוסמטיקה. לא כשיש רק מוצר אחד או פחות מארבעה צילומים; אז h3.",
+  libs:[],
+  css:`${FRAME_CSS}
+.h22h{position:relative;display:flex;flex-direction:column;align-items:center;gap:24px;min-height:min(86vh,780px);padding:96px 28px 0;text-align:center;overflow:hidden;
+  background:color-mix(in srgb,var(--accent) 7%,var(--bg))}
+.h22h h3{margin:0;max-width:16ch;font-size:clamp(34px,min(4.4vw,7.8vh),70px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h22h .hlead{max-width:46ch}
+.h22h .hcta{justify-content:center}
+.h22-fan{--cw:clamp(150px,13vw,200px);--k:1;position:relative;flex:1;width:100%;min-height:clamp(220px,34vh,330px);margin:0;padding:0;list-style:none}
+/* every card hangs from one pivot far below it; rotate and translate are separate properties, so the entrance and the hover never fight */
+.h22-card{position:absolute;bottom:calc(var(--cw) * -.3);left:50%;z-index:var(--z);width:var(--cw);aspect-ratio:3/4;margin-left:calc(var(--cw) / -2);border-radius:18px;overflow:hidden;background:var(--card);
+  transform-origin:50% 230%;rotate:calc(var(--r) * var(--k));box-shadow:0 24px 50px -24px color-mix(in srgb,var(--ink) 45%,transparent);transition:rotate .8s ${E},translate .45s ${E},opacity .5s ${E}}
+.h22-card img{width:100%;height:100%;object-fit:cover;display:block}
+/* each label sits on the edge the next card does not cover: right-hand cards on their right, left-hand cards on their left */
+.h22-lab{position:absolute;top:12px;inset-inline-start:10px;padding:6px 10px;border-radius:999px;background:var(--bg);color:var(--ink);font-size:13px;font-weight:700;white-space:nowrap}
+.h22-card.lft .h22-lab{inset-inline-start:auto;inset-inline-end:10px}
+.h22-card.txt{display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:8px;padding:20px;background:var(--accent);color:var(--accent-ink);text-align:start}
+.h22-card.txt span{font-size:13px;font-weight:600;opacity:.85}
+.h22-card.txt b{font-size:clamp(18px,1.5vw,22px);line-height:1.2;text-wrap:balance}
+.open-anim .h22-card{rotate:0deg;translate:0 40%;opacity:0;animation:h22-fs 0s 2.5s forwards}
+.is-in .h22-card{rotate:calc(var(--r) * var(--k));translate:0 0;opacity:1;transition-delay:calc(var(--t0,0s) + .25s + var(--d) * 60ms)}
+.rv-on .h22-card{animation:none}
+@keyframes h22-fs{to{rotate:calc(var(--r) * var(--k));translate:0 0;opacity:1}}
+@media (hover:hover) and (pointer:fine){.h22-card:hover{translate:0 -20px;z-index:9;transition-delay:0s}}
+@media (prefers-reduced-motion:reduce){.h22-card{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: three cards */
+@media (max-width:860px){.h22h{padding:88px 20px 0;gap:20px;min-height:min(90vh,780px)}.h22h h3{font-size:clamp(30px,8vw,40px)}.h22-fan{--cw:132px;--k:1.35;min-height:240px}.h22-card.txt{padding:14px}.h22-card.txt b{font-size:17px}.h22-card.out{display:none}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h22h" id="h22">
+    <span class="hkick rv">גלידה איטלקית, נחלת בנימין</span>
+    <h3 class="rv">גלידה שמכינים כל בוקר, בטעמים שמתחלפים עם העונה</h3>
+    <p class="hlead rv">חלב מקיבוץ בגליל, פירות מהשוק, ושישה עשר טעמים בוויטרינה. לטעום לפני שבוחרים זה חלק מהעניין.</p>
+    <div class="hcta rv"><a class="hbtn" href="#h22">לטעמים של היום</a><a class="hbtn ghost" href="#h22">איך מגיעים</a></div>
+    <ul class="h22-fan" aria-label="טעמים מהוויטרינה">
+      <li class="h22-card out" style="--r:24deg;--z:1;--d:2">${PIC("real/s11/cones-yellow.webp", "", { deco: true })}<span class="h22-lab">מנטה טרייה</span></li>
+      <li class="h22-card" style="--r:12deg;--z:2;--d:1">${PIC("real/s11/hero-scoops.webp", "", { deco: true, pri: true })}<span class="h22-lab">תות ושמנת</span></li>
+      <li class="h22-card txt" style="--r:0deg;--z:3;--d:0"><span>הטעם של השבוע</span><b>פיסטוק ומלח ים</b></li>
+      <li class="h22-card lft" style="--r:-12deg;--z:2;--d:1">${PIC("real/s11/bowls.webp", "", { deco: true })}<span class="h22-lab">קערה לשניים</span></li>
+      <li class="h22-card out lft" style="--r:-24deg;--z:1;--d:2">${PIC("real/s11/magenta-cone.webp", "", { deco: true })}<span class="h22-lab">גביע ביתי</span></li>
+    </ul>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+enter(document.getElementById("h22"));`,
+  note:"כל הכרטיסים יושבים באותה נקודה ותלויים מציר אחד שנמצא הרחק מתחתם (transform-origin של 170%), כך שזווית שונה לכל אחד (--r) פותחת אותם למניפה, בלי לחשב מיקומים. הכניסה מתחילה בערימה סגורה שעולה מלמטה ונפתחת מהאמצע החוצה. הזווית וההזזה הן תכונות נפרדות (rotate ו-translate), ולכן הריחוף מרים כרטיס בלי לשבור את הזווית שלו ובלי להתנגש בכניסה. הכרטיס האמצעי הוא טקסט בצבע המותג (הטעם של השבוע), ולכן המניפה אומרת משהו ולא רק מראה תמונות; התמונות דקורטיביות, והשם הקצר על כל כרטיס הוא הטקסט שלו. הכרטיסים נחתכים בקצה התחתון של ההירו בכוונה, כמו קלפים ביד. בטלפון נשארים שלושה." + NOTE_TAIL
 }
 ];
