@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H10 · הירו טקסט במרכז ותמונות בכנפיים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* H10 · הירו טקסט במרכז ותמונות בכנפיים */
+@font-face{font-family:"MV Bellefair";src:url("https://liavwebdesign-spec.github.io/motion-vault/assets/fonts/bellefair.woff2") format("woff2");font-weight:400;font-display:swap;size-adjust:112%}
+
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h10h{--disp:"MV Bellefair","Bellefair",Georgia,serif;position:relative;display:grid;place-items:center;min-height:min(80vh,740px);padding:112px 28px 72px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);overflow:hidden;text-align:center}
+.h10-txt{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:24px;max-width:min(560px,48vw)}
+.h10h h3{margin:0;font-family:var(--disp);font-weight:400;font-size:clamp(38px,min(4.8vw,7.8vh),80px);line-height:1.02;letter-spacing:-.01em;text-wrap:balance}
+.h10h .hlead{max-width:40ch}
+.h10h .hcta{justify-content:center}
+/* the wings: logical insets, so they swap sides with the reading direction; the outer two are cut by the frame edge */
+.h10-wing{position:absolute;z-index:1;border-radius:16px;overflow:hidden;transition:transform 1s cubic-bezier(.2,.6,.2,1),opacity .8s cubic-bezier(.2,.6,.2,1)}
+.h10-wing img{width:100%;height:100%;object-fit:cover;display:block;transform:translateY(var(--py,0px)) scale(1.18)}
+.h10-a{inset-inline-start:-3%;top:12%;width:clamp(150px,17vw,260px);aspect-ratio:3/4}
+.h10-b{inset-inline-start:9%;bottom:-6%;width:clamp(110px,11vw,180px);aspect-ratio:4/5}
+.h10-c{inset-inline-end:-2%;bottom:10%;width:clamp(150px,16vw,250px);aspect-ratio:3/4}
+.h10-d{inset-inline-end:10%;top:15%;width:clamp(100px,10vw,170px);aspect-ratio:1}
+.open-anim .h10-wing{opacity:0;transform:translateY(var(--fy));animation:rv-fs 0s 2.5s forwards}
+.is-in .h10-wing{opacity:1;transform:none;transition-delay:calc(var(--t0,0s) + .15s + var(--i) * 80ms)}
+.rv-on .h10-wing{animation:none}
+@media (prefers-reduced-motion:reduce){.h10-wing{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: two wings only, small, peeking from the bottom corners under a centred text */
+@media (max-width:760px){.h10h{padding:96px 20px 112px;min-height:min(86vh,720px)}.h10-txt{max-width:none}.h10-b,.h10-d{display:none}
+  .h10-a{width:150px;top:auto;bottom:-4%;inset-inline-start:-6%}.h10-c{width:150px;bottom:-9%;inset-inline-end:-6%}}
+</style>
+</head>
+<body>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top" style="color:var(--bg)"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h10h" id="h10">
+    <div class="h10-wing h10-a" style="--i:0;--fy:48px"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/hero-glass.webp" alt="קוקטייל על שולחן שיש בבר" fetchpriority="high" decoding="async"></div>
+    <div class="h10-wing h10-d" style="--i:1;--fy:-48px"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/flute.webp" alt="" aria-hidden="true" decoding="async"></div>
+    <div class="h10-wing h10-c" style="--i:2;--fy:48px"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/room.webp" alt="" aria-hidden="true" decoding="async"></div>
+    <div class="h10-wing h10-b" style="--i:3;--fy:48px"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/pour.webp" alt="" aria-hidden="true" decoding="async"></div>
+    <div class="h10-txt">
+      <span class="hkick rv">בר יין, יפו העתיקה</span>
+      <h3 class="rv">ערב שמתחיל בכוס אחת ונגמר בשולחן ארוך</h3>
+      <p class="hlead rv">יינות מכרמים קטנים, מטבח פתוח עד חצות, ושמונה עשר מקומות ישיבה בלבד.</p>
+      <div class="hcta rv"><a class="hbtn" href="#h10">להזמנת מקום</a><a class="hbtn ghost" href="#h10">לתפריט</a></div>
+    </div>
+  </section>
+</div>
+
+
+<script>
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+(function(){
+  var root=document.getElementById("h10"); enter(root);
+  // scroll drift: each wing at its own speed, on the image inside (the wing itself owns the entrance transform)
+  if(!matchMedia("(prefers-reduced-motion:no-preference)").matches)return;
+  var imgs=[].slice.call(root.querySelectorAll(".h10-wing img")), rates=[-.08,.05,-.05,.1], raf=0;
+  function upd(){raf=0; var r=root.getBoundingClientRect(); if(r.bottom<0||r.top>innerHeight)return;
+    imgs.forEach(function(im,k){im.style.setProperty("--py",(-r.top*rates[k]).toFixed(1)+"px");});}
+  addEventListener("scroll",function(){if(!raf)raf=requestAnimationFrame(upd);},{passive:true});
+})();
+</script>
+</body>
+</html>

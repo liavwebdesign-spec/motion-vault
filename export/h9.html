@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H9 · הירו כותרת עם תמונות בתוך השורה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* H9 · הירו כותרת עם תמונות בתוך השורה */
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h9h{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:28px;min-height:min(78vh,720px);padding:112px 28px 64px;
+  background:color-mix(in srgb,var(--accent, #4a3aff) 5%,var(--bg, #f7f7fa))}
+/* min(vw, vh): the heading stays under 8% of the screen height on a short laptop */
+.h9h h3{margin:0;max-width:12.5em;font-size:clamp(36px,min(5.2vw,7.8vh),84px);line-height:1.1;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+/* each clause is one unit: on a wide screen it never breaks in the middle, on a phone it still wraps inside */
+.h9-c{display:inline-block}
+.h9-w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-block:.04em}
+.h9-w>span{display:inline-block;transition:transform .7s cubic-bezier(.2,.6,.2,1)}
+.open-anim .h9-w>span{transform:translateY(110%);animation:rv-fs 0s 2.5s forwards}
+.is-in .h9-w>span{transform:none;transition-delay:calc(var(--t0,0s) + var(--i) * 60ms)}
+.rv-on .h9-w>span{animation:none}
+/* the pill is sized in em, so it follows the heading at every width; it opens from its centre with clip-path, not width (no layout) */
+.h9-pill{display:inline-block;width:1.9em;height:.8em;margin-inline:.1em;vertical-align:-.05em;border-radius:999px;overflow:hidden;
+  clip-path:inset(0 0 round 999px);transition:clip-path .7s cubic-bezier(.2,.6,.2,1)}
+.h9-pill img{width:100%;height:100%;object-fit:cover;display:block}
+.open-anim .h9-pill{clip-path:inset(0 50% round 999px);animation:h9p-fs 0s 2.5s forwards}
+.is-in .h9-pill{clip-path:inset(0 0 round 999px);transition-delay:calc(var(--t0,0s) + .2s + var(--i) * 60ms)}
+.rv-on .h9-pill{animation:none}
+@keyframes h9p-fs{to{clip-path:inset(0 0 round 999px)}}
+.h9h .hlead{max-width:44ch}
+.h9h .hcta{justify-content:center}
+@media (prefers-reduced-motion:reduce){.h9-w>span,.h9-pill{transition-duration:.01ms!important;transition-delay:0s!important}}
+@media (max-width:760px){.h9h{padding:96px 20px 48px;gap:24px}.h9h h3{font-size:clamp(30px,8.2vw,40px)}}
+</style>
+</head>
+<body>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h9h" id="h9">
+    <span class="hkick rv" style="--i:0">מאפייה ובית קפה, פלורנטין</span>
+    <h3><span class="h9-c"><span class="h9-w" style="--i:0"><span>לחם</span></span> <span class="h9-pill" style="--i:0"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/baker-hands.webp" alt="" aria-hidden="true" fetchpriority="high" decoding="async"></span> <span class="h9-w" style="--i:1"><span>של בוקר,</span></span></span> <span class="h9-c"><span class="h9-w" style="--i:2"><span>קפה</span></span> <span class="h9-pill" style="--i:2"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/croissants.webp" alt="" aria-hidden="true" decoding="async"></span> <span class="h9-w" style="--i:3"><span>של שכונה,</span></span></span> <span class="h9-c"><span class="h9-w" style="--i:4"><span>ושולחן</span></span> <span class="h9-pill" style="--i:4"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/cafe-window.webp" alt="" aria-hidden="true" decoding="async"></span> <span class="h9-w" style="--i:5"><span>ליד החלון</span></span></span></h3>
+    <p class="hlead rv" style="--i:4">פתוחים כל יום מ-7:00. בשישי עד שהמאפים נגמרים, וזה קורה בערך באחת.</p>
+    <div class="hcta rv" style="--i:5"><a class="hbtn" href="#h9">לתפריט הבוקר</a><a class="hbtn ghost" href="#h9">איך מגיעים</a></div>
+  </section>
+</div>
+
+
+<script>
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+enter(document.getElementById("h9"));
+</script>
+</body>
+</html>

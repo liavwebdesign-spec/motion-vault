@@ -4,7 +4,7 @@
 // The thin logo row at the top of each demo is scaffolding so the hero reads as a page top; the header itself is
 // its own category (hd1 to hd8). Media comes from the vault: assets/media/demo-a|b.jpg and demo-a.mp4.
 
-const E = "cubic-bezier(.2,.6,.2,1)";
+export const E = "cubic-bezier(.2,.6,.2,1)";
 
 // ---- entrance: one observer, class .is-in on the hero root, children ordered by --i ----
 // The opening is hidden only behind html.open-anim (motion.md 2), which OPEN_GATE sets as the very first line of the markup, and only
@@ -12,7 +12,7 @@ const E = "cubic-bezier(.2,.6,.2,1)";
 // the script did not (an error, a blocked file): the rv-fs animation shows everything at 2.5s. The script marks the hero .rv-on the
 // moment it runs, which cancels that failsafe, and from there .is-in owns the entrance exactly as before (30.9.2026, the QA round
 // found all eight heroes empty for good with JS off).
-const OPEN_GATE = `<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>`;
+export const OPEN_GATE = `<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>`;
 const REVEAL_CSS = `
 /* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
 .rv{opacity:1;transition:opacity .5s ${E},transform .5s ${E}}
@@ -24,7 +24,7 @@ const REVEAL_CSS = `
 @media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
   .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}`;
 
-const REVEAL_JS = `
+export const REVEAL_JS = `
 // in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
 // an observer does not update while the tab is throttled (and on a real site the hero is usually
 // on screen at load anyway), and an entrance that never fires leaves the hero invisible.
@@ -50,7 +50,7 @@ function enter(root){
 }`;
 
 // ---- demo scaffolding: the frame and the fake top row. Not part of the hero you copy ----
-const FRAME_CSS = `
+export const FRAME_CSS = `
 /* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
 .hf{position:relative;margin-inline:var(--gutter);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--bg);isolation:isolate}
 .hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
@@ -67,12 +67,12 @@ const FRAME_CSS = `
 .hcta{display:flex;flex-wrap:wrap;gap:12px}
 ${REVEAL_CSS}`;
 
-const TOP = (light) => `<div class="hf-top"${light ? "" : ' style="color:var(--bg)"'}><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>`;
+export const TOP = (light) => `<div class="hf-top"${light ? "" : ' style="color:var(--bg)"'}><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>`;
 // the hero image is the largest thing on the first screen (the LCP): never lazy, fetched first. lazy only for an image that waits (h8)
 const IMG = (f, alt, { lazy = false, cls = "" } = {}) =>
   `<img${cls ? ` class="${cls}"` : ""} src="../assets/media/${f}" alt="${alt}" ${lazy ? 'loading="lazy"' : 'fetchpriority="high"'} decoding="async">`;
 // every hero note ends with the page opening and the first screen, which the demo frame cannot show
-const NOTE_TAIL = " פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.";
+export const NOTE_TAIL = " פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.";
 
 export default [
 {
