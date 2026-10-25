@@ -1,15 +1,15 @@
-// קומפוזיציות C17-C28: סקשנים עם אופי (25.10.2026, ליאב בחר את הכיוון מתוך שלושה).
+// קומפוזיציות C17-C28: סקשנים עם אופי (25.10.2026, ליאב בחר את הכיוון מתוך שלושה; C26 ו-C27 נמחקו בסקירה).
 // כל אחת ממופה לסקשן שכמעט כל אתר צריך (המלצות, תהליך, צוות, מחירים, השוואה, שירותים,
-// מספרים, קשר, גלריה, לקוחות, מה כלול, סגירה), ונותנת לו פריסה עם עמדה במקום הגריד הצפוי.
+// מספרים, קשר, גלריה, סגירה), ונותנת לו פריסה עם עמדה במקום הגריד הצפוי.
 // אותם כללים כמו ב-h-comp1.mjs: דמו ניטרלי, קריסה ב-@container, צבעים מטוקנים בלבד.
 //
 // מספור (qa-checklist 11ב, 19.10.2026): מספר מופיע רק כשהסדר הוא מידע. במדרגות (C18) הוא
 // בתוך <ol>; באינדקס השירותים (C22) אין מספרים, כי שירותים הם לא רצף, והשורה נושאת ספירת עבודות.
 import { BASE } from "./h-comp1.mjs";
 
-const doc = (o) => ({ cat: "comp", area: "doctrine", status: "ממתין", runway: false, tech: "פריסה · CSS Grid", ...o });
+const doc = (o) => ({ cat: "comp", area: "doctrine", status: "מאושר", runway: false, tech: "פריסה · CSS Grid", ...o });
 
-// סימן V בעיגול ומקף, משותפים להשוואה (C21) ולמה כלול (C27). הצורה פיזית (left), כי זה סימן ולא טקסט.
+// סימן V בעיגול ומקף, של ההשוואה (C21). הצורה פיזית (left), כי זה סימן ולא טקסט.
 const MARKS = `.mk{position:relative;display:inline-block;flex:none;width:20px;height:20px;border-radius:50%;vertical-align:middle}
 .mk.y{background:var(--ink)}
 .mk.y::after{content:"";position:absolute;left:7px;top:3px;width:5px;height:10px;border:solid var(--bg);border-width:0 2px 2px 0;transform:rotate(45deg)}
@@ -307,71 +307,6 @@ doc({
     cap.textContent=(i+1)+" / "+bs.length;
   })});
 });`
-}),
-doc({
-  id:"c26", name:"קיר לוגואים עם כוכב",
-  desc:"קיר של לוגואים בגדלים שונים: הלקוח המוכר ביותר תופס ריבוע כפול על משטח כהה עם שורה על מה שנעשה יחד, שניים רחבים, והשאר באריחים רגילים.",
-  when:"הוכחה חברתית כשיש לקוח אחד ששמו פותח דלתות, ועוד שישה עד עשרה שמות שתומכים בו.",
-  mobile:"שני טורים. הכוכב תופס את כל הרוחב בראש הקיר, והרחבים נשארים רחבים.",
-  note:"הכוכב הוא היחיד עם צבע ועם טקסט. שאר הלוגואים באפור אחיד (filter:grayscale ושקיפות), כדי שהגודל והצבע יספרו את הסיפור. כל לוגו הוא `<img>` עם alt בשם הלקוח, והכוכב מקשר לפרויקט. בלי לקוח בולט: C10 פס רץ.",
-  css:`${BASE}
-.c26h{text-align:center}
-.c26{list-style:none;margin:clamp(20px,3cqi,40px) 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(88px,10cqi,128px);gap:clamp(8px,1.2cqi,16px)}
-.c26 li{background:var(--card);border-radius:var(--r);display:grid;place-items:center}
-.c26 .lg{font-weight:800;letter-spacing:.08em;color:var(--muted);font-size:15px}
-.c26 .wide{grid-column:span 2}
-.c26 .wide .lg{font-size:20px}
-.c26 .star{grid-column:span 2;grid-row:span 2;background:var(--ink);color:var(--bg);place-items:end start;align-content:end;gap:8px;padding:clamp(20px,3cqi,36px)}
-.c26 .star .lg{color:inherit;font-size:clamp(26px,3.2cqi,40px)}
-.c26 .star p{margin:0;max-width:30ch;font-size:15px;line-height:1.5;opacity:.8}
-.c26 .star a{color:inherit;font-weight:700;font-size:15px}
-@container (max-width:767px){.c26{grid-template-columns:1fr 1fr;grid-auto-rows:80px}.c26 .star{grid-row:span 2}}`,
-  html:`<div class="cwrap cstage"><h3 class="ttl c26h">עובדים איתנו</h3>
-<ul class="c26">
-  <li class="star"><span class="lg">BRAND</span><p>שורה אחת על מה שעשינו יחד, ומה זה שינה אצלם.</p><a href="#">לפרויקט ←</a></li>
-  <li><span class="lg">LOGO</span></li>
-  <li><span class="lg">STUDIO</span></li>
-  <li><span class="lg">HOUSE</span></li>
-  <li><span class="lg">LABS</span></li>
-  <li class="wide"><span class="lg">GROUP</span></li>
-  <li class="wide"><span class="lg">COMPANY</span></li>
-</ul></div>`
-}),
-doc({
-  id:"c27", name:"מה כלול ומה לא",
-  desc:"שני טורים זה מול זה: \"כלול\" על משטח, עם סימן V לכל שורה, ו\"לא כלול\" בלי משטח, עם מקף ובצבע שקט. מתחת לטור השני שורה שמסבירה מה עושים כשצריך משהו משם.",
-  when:"חבילה, שירות או הצעה שיש סביבם שאלות חוזרות על מה נכנס, ובמיוחד ליד מחירים.",
-  mobile:"נערמים: הכלול קודם, הלא כלול אחריו.",
-  note:"הטור \"לא כלול\" בונה אמון רק כשהוא כן: דברים שלקוחות באמת שואלים עליהם, לא רשימה מנופחת. הסימן aria-hidden, והכותרת של כל טור אומרת לקורא מסך מה הוא. השקט של הטור השני בא מצבע ומהיעדר משטח, לא מגודל קטן מדי.",
-  css:`${BASE}
-${MARKS}
-.c27{display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(16px,3cqi,40px);align-items:start;margin-top:clamp(20px,3cqi,40px)}
-.c27 .in{background:var(--card);border-radius:var(--r);padding:clamp(20px,3cqi,40px)}
-.c27 .out{padding:clamp(20px,3cqi,40px)}
-.c27 h4{margin:0 0 16px;font-size:18px}
-.c27 ul{list-style:none;margin:0;padding:0;display:grid;gap:14px}
-.c27 li{display:flex;align-items:center;gap:12px;font-size:16px}
-.c27 .out li{color:var(--muted)}
-.c27 .add{margin:24px 0 0;font-size:14px;color:var(--muted)}
-.c27 .add a{color:var(--ink);font-weight:700}
-@container (max-width:767px){.c27{grid-template-columns:1fr;gap:8px}}`,
-  html:`<div class="cwrap cstage"><h3 class="ttl">מה מקבלים, ומה לא</h3>
-<div class="c27">
-  <div class="in"><h4>כלול</h4><ul>
-    <li><span class="mk y" aria-hidden="true"></span>עיצוב לפי המותג</li>
-    <li><span class="mk y" aria-hidden="true"></span>כתיבת הטקסטים</li>
-    <li><span class="mk y" aria-hidden="true"></span>התאמה לטלפון</li>
-    <li><span class="mk y" aria-hidden="true"></span>חיבור לגוגל</li>
-    <li><span class="mk y" aria-hidden="true"></span>הדרכה לעריכה עצמית</li>
-    <li><span class="mk y" aria-hidden="true"></span>חודש ליווי אחרי ההשקה</li>
-  </ul></div>
-  <div class="out"><h4>לא כלול</h4><ul>
-    <li><span class="mk n" aria-hidden="true"></span>צילום מקצועי</li>
-    <li><span class="mk n" aria-hidden="true"></span>תרגום לשפות נוספות</li>
-    <li><span class="mk n" aria-hidden="true"></span>ניהול קמפיינים</li>
-    <li><span class="mk n" aria-hidden="true"></span>תחזוקה שוטפת</li>
-  </ul><p class="add">צריכים משהו מכאן? <a href="#">יש תוספות במחיר קבוע</a></p></div>
-</div></div>`
 }),
 doc({
   id:"c28", name:"סגירה עם הוכחות סביב",

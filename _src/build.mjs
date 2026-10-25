@@ -58,7 +58,7 @@ const USES = {
   // סקשנים עם אופי (25.10.2026)
   c17: ["text", "cards"], c18: ["process", "cards"], c19: ["media", "cards"], c20: ["cards", "numbers"],
   c21: ["text", "cards"], c22: ["text", "hover", "nav"], c23: ["numbers"], c24: ["media", "cards"],
-  c25: ["media"], c26: ["cards", "media"], c27: ["cards", "text"], c28: ["cards", "numbers", "text"],
+  c25: ["media"], c28: ["cards", "numbers", "text"],
   p01: ["nav"], p02: ["nav"], p03: ["nav"], p04: ["nav", "process"], p05: ["nav"],
   a01: ["nav", "cards", "text"], a02: ["nav", "cards", "text"], a03: ["nav", "cards", "text"], a04: ["nav", "cards", "text"], a05: ["nav", "cards", "text"], a06: ["nav", "cards", "text"], a07: ["nav", "cards", "text"], a08: ["nav", "cards", "text"], a09: ["nav", "cards", "text"], a10: ["nav", "cards", "text"], a11: ["nav", "cards", "text"], a12: ["nav", "cards", "text"], a13: ["nav", "cards", "text"], a14: ["nav", "cards", "text"], a15: ["nav", "cards", "text"], a16: ["nav", "cards", "text"],
   ar01: ["nav", "hero", "process"], ar02: ["nav", "hero", "process"], ar03: ["nav", "hero", "process"], ar04: ["nav", "hero", "process"], ar05: ["nav", "hero", "process"], ar06: ["nav", "hero", "process"], ar07: ["nav", "hero", "process"], ar08: ["nav", "hero", "process"], ar09: ["nav", "hero", "process"], ar10: ["nav", "hero", "process"], ar11: ["nav", "hero", "process"], ar12: ["nav", "hero", "process"],
@@ -164,7 +164,7 @@ const ELEMS = {
   // סקשנים עם אופי (25.10.2026)
   c17: ["sect", "card"], c18: ["sect", "list", "card"], c19: ["list", "img"], c20: ["list", "card", "btn"],
   c21: ["sect", "list"], c22: ["head", "list"], c23: ["head", "sect"], c24: ["sect", "card", "img"],
-  c25: ["img", "btn"], c26: ["list", "card"], c27: ["list", "card"], c28: ["sect", "btn", "card"],
+  c25: ["img", "btn"], c28: ["sect", "btn", "card"],
   p01: ["page"], p02: ["page"], p03: ["page"], p04: ["page"], p05: ["page"],
   a01: ["sect", "card", "btn"], a02: ["sect", "card", "btn"], a03: ["sect", "card", "btn"], a04: ["sect", "card", "btn"], a05: ["sect", "card", "btn"], a06: ["sect", "card", "btn"], a07: ["sect", "card", "btn"], a08: ["sect", "card", "btn"], a09: ["sect", "card", "btn"], a10: ["sect", "card", "btn"], a11: ["sect", "card", "btn"], a12: ["sect", "card", "btn"], a13: ["sect", "card", "btn"], a14: ["sect", "card", "btn"], a15: ["sect", "card", "btn"], a16: ["sect", "card", "btn"],
   ar01: ["page", "sect"], ar02: ["page", "sect"], ar03: ["page", "sect"], ar04: ["page", "sect"], ar05: ["page", "sect"], ar06: ["page", "sect"], ar07: ["page", "sect"], ar08: ["page", "sect"], ar09: ["page", "sect"], ar10: ["page", "sect"], ar11: ["page", "sect"], ar12: ["page", "sect"],
@@ -354,7 +354,7 @@ const FIT = {
   c07: ["S"], c08: ["S"], c09: ["L", "S"], c10: ["L", "S"], c11: ["S"], c12: ["L", "S"],
   c13: ["S"], c14: ["L", "S"], c15: ["L", "S"], c16: ["L", "S"],
   c17: ["L", "S"], c18: ["L", "S"], c19: ["S"], c20: ["L", "S"], c21: ["L", "S"], c22: ["S"],
-  c23: ["L", "S"], c24: ["S"], c25: ["S"], c26: ["L", "S"], c27: ["L", "S"], c28: ["L", "S"],
+  c23: ["L", "S"], c24: ["S"], c25: ["S"], c28: ["L", "S"],
   p01: ["L", "S"], p02: ["L"], p03: ["S"], p04: ["S"], p05: ["L", "S"],
   a01: ["L", "S"], a02: ["L", "S"], a03: ["L", "S"], a04: ["L", "S"], a05: ["L", "S"], a06: ["L", "S"], a07: ["L", "S"], a08: ["L", "S"], a09: ["L", "S"], a10: ["L", "S"], a11: ["L", "S"], a12: ["L", "S"], a13: ["L", "S"], a14: ["L", "S"], a15: ["L", "S"], a16: ["L", "S"],
   ar01: ["L"], ar02: ["S"], ar03: ["S"], ar04: ["S"], ar05: ["L", "S"], ar06: ["S"], ar07: ["S"], ar08: ["S"], ar09: ["S"], ar10: ["L", "S"], ar11: ["L"], ar12: ["S"],
