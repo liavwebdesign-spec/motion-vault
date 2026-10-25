@@ -1,6 +1,6 @@
 {
- "generated": "2026-10-25T06:21:05.571Z",
- "count": 528,
+ "generated": "2026-10-25T06:24:22.496Z",
+ "count": 525,
  "place": {
   "sites": {
    "L": "דף נחיתה",
@@ -18519,92 +18519,6 @@
    "js": "if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP הכותרת כבר מוצגת במלואה, עם הדגש\n  const root=document.querySelector(\".aw\"),lines=[...root.querySelectorAll(\".aw-l\")],all=root.querySelectorAll(\".aw-w,.aw-a\");\n  // בהפחתת תנועה הפונקציה לא רצה, והכותרת נשארת במצב הסופי\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    const tl=gsap.timeline({paused:true});\n    lines.forEach((l,i)=>{\n      const base=l.querySelectorAll(\".aw-w\"),acc=l.querySelector(\".aw-a\");\n      // המילים הרגילות קודם. הדגש מתחיל כשהאחרונה שלהן כמעט נחתה, והשורה הבאה אחרי שהדגש נחת\n      tl.fromTo(base,{opacity:0,y:30,filter:\"blur(8px)\"},{opacity:1,y:0,filter:\"blur(0px)\",duration:.65,ease:\"power3.out\",stagger:.075,clearProps:\"filter\"},i?\">+.25\":0)\n        .fromTo(acc,{opacity:0,y:22,filter:\"blur(14px)\"},{opacity:1,y:0,filter:\"blur(0px)\",duration:.85,ease:\"power2.out\",clearProps:\"filter\"},\">-.2\");\n    });\n    const st=ScrollTrigger.create({trigger:root,start:\"top 85%\",once:true,onEnter:()=>tl.play()});\n    return()=>{st.kill();tl.kill();gsap.set(all,{clearProps:\"opacity,transform,filter\"});};\n  });\n})();"
   },
   {
-   "id": "g206",
-   "name": "כותרת מפוצלת בצבעים עם הבזק היפוך",
-   "cat": "gsap",
-   "tech": "GSAP · ScrollTrigger · oklch · עותקים מוסתרים",
-   "desc": "הכותרת נוחתת במכה אחת: שני עותקים בצבעי המותג נפרדים ממנה לשני הצדדים ורועדים כמה פיקסלים, ובאותו רגע הכרטיס כולו מהבהב להיפוך בהיר פעם אחת ונרגע. הכול נגמר בפחות מחצי שנייה ולא חוזר. בהובר אפשר להפעיל שוב את הרעידה, בלי ההבזק.",
-   "when": "משפט בודד שצריך להרגיש כמו מכה בנקודה אחת בעמוד: מוצר טכנולוגי, מערכת, קורס, שירות מהיר. כותרת קצרה אחת בכל עמוד. לא לשירותי בריאות, כספים או משפט, ולא לעסק שהלקוח רוצה בו אמון שקט.",
-   "note": "**שחזור.** השראה: כמה סרטוני כותרות בגלריה של prompt-motion.com (21.10.2026) עם פיצול צבע אדום וציאן והבזק היפוך. נבנה מאפס מהצפייה. **המארקאפ:** כותרת אחת, ובתוכה שני עותקים (`.gl-r`, `.gl-c`) עם `aria-hidden` ושקיפות אפס. בלי GSAP ובהפחתת תנועה זו כותרת רגילה. **הצבעים נגזרים מהעור:** עותק אחד ב-`--accent`, והשני במשלים שלו: `oklch(from var(--accent) l c calc(h + 180))`. דפדפן בלי צבע יחסי מקבל תערובת של accent ו-ink. אין אדום וציאן קבועים, ולכן זה עובד בכל עור. **כללי הבזק (WCAG 2.3.1):** פגיעה אחת היא חמישה היסטים קצרים בגודל יורד (7 מאיות שנייה כל אחד), הבזק היפוך אחד של הכרטיס בלבד ולא של המסך (`filter: invert(1) hue-rotate(180deg)` ל-90 מילישניות), וחזרה למנוחה. **נעילה:** `lock` מונע פגיעה נוספת במשך 2.5 שניות, ולכן גם גלילה מהירה למעלה ולמטה או הובר חוזר לא מייצרים יותר מהבזק אחד בכל 2.5 שניות. הובר מפעיל רק את הרעידה. **הפעלה:** כשהכרטיס נכנס למסך, ובכניסה חוזרת מלמטה. **באתר משמאל לימין** אין מה להפוך: ההיסטים סימטריים. **נגישות:** הטקסט היחיד שקורא מסך שומע הוא הכותרת עצמה. בהפחתת תנועה אין שום שכבה ואין הבזק.",
-   "place": {
-    "sites": [
-     "L",
-     "O",
-     "C"
-    ],
-    "secs": [
-     "hero",
-     "value",
-     "cta"
-    ],
-    "tone": "x",
-    "role": "sig",
-    "dose": 1,
-    "not": "לא לשירותי בריאות, כספים או משפט, ולא לעסק שהלקוח רוצה בו אמון שקט."
-   },
-   "libs": [
-    "gsap",
-    "ScrollTrigger"
-   ],
-   "plugins": [
-    "ScrollTrigger"
-   ],
-   "scripts": [
-    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
-    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"></script>"
-   ],
-   "needsRtl": true,
-   "usesVaultHelpers": true,
-   "demo": "gsap/g206.html",
-   "standalone": "export/g206.html",
-   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G206 · כותרת מפוצלת בצבעים עם הבזק היפוך */\n.gl{max-width:1120px;margin-inline:auto}\n.gl-box{display:grid;gap:24px;padding:clamp(32px,6vw,96px);border-radius:28px;background:var(--card, #fff)}\n.gl-t{position:relative;margin:0;font-size:clamp(44px,8vw,124px);font-weight:700;line-height:1.05;letter-spacing:-.02em;text-wrap:balance;isolation:isolate}\n.gl-b{position:relative;z-index:1}\n.gl-r,.gl-c{position:absolute;inset:0;opacity:0;pointer-events:none;user-select:none}\n.gl-r{color:var(--accent, #4a3aff)}\n.gl-c{color:color-mix(in oklab,var(--accent, #4a3aff) 35%,var(--ink, #16182b))}\n@supports (color:oklch(from red l c h)){.gl-c{color:oklch(from var(--accent, #4a3aff) l c calc(h + 180))}}\n.gl-p{margin:0;max-width:46ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}",
-   "html": "<div class=\"stage\"><div class=\"gl\"><div class=\"gl-box\">\n  <h2 class=\"gl-t\"><span class=\"gl-b\">המלאי מתעדכן בזמן אמת</span><span class=\"gl-r\" aria-hidden=\"true\">המלאי מתעדכן בזמן אמת</span><span class=\"gl-c\" aria-hidden=\"true\">המלאי מתעדכן בזמן אמת</span></h2>\n  <p class=\"gl-p\">כל מכירה בחנות ובאתר יורדת מהמלאי באותו רגע, בלי ספירות בסוף היום.</p>\n</div></div></div>",
-   "js": "if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP זו כותרת רגילה, בלי שכבות הצבע\n  const root=document.querySelector(\".gl\"),box=root.querySelector(\".gl-box\"),title=root.querySelector(\".gl-t\"),\n    R=root.querySelector(\".gl-r\"),C=root.querySelector(\".gl-c\");\n  // בהפחתת תנועה הפונקציה לא רצה: אין היסטים ואין הבזק\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    let lock=0,tl=null;\n    const rnd=(a,b)=>a+Math.random()*(b-a);\n    // פגיעה אחת: חמישה היסטים אקראיים וקצרים, הבזק היפוך אחד של הכרטיס (בכניסה בלבד), וחזרה למנוחה\n    const hit=flash=>{\n      const now=performance.now();\n      if(now<lock)return;lock=now+2500;      // לפחות 2.5 שניות בין פגיעות: אין הבזקים חוזרים\n      if(tl)tl.kill();\n      tl=gsap.timeline({onComplete:()=>gsap.set([R,C,box],{clearProps:\"opacity,transform,filter\"})});\n      tl.set(title,{opacity:1},0);\n      for(let i=0;i<5;i++){\n        const k=1-i/6;\n        tl.set(R,{opacity:.9,x:-rnd(8,20)*k,y:rnd(-4,4)*k},i*.07).set(C,{opacity:.9,x:rnd(8,20)*k,y:rnd(-4,4)*k},i*.07);\n      }\n      if(flash)tl.set(box,{filter:\"invert(1) hue-rotate(180deg)\"},.07).set(box,{clearProps:\"filter\"},.16);\n      tl.to([R,C],{opacity:0,x:0,y:0,duration:.2,ease:\"power2.out\"},.4);\n    };\n    const hover=()=>hit(false);\n    gsap.set(title,{opacity:0});\n    box.addEventListener(\"pointerenter\",hover);\n    const st=ScrollTrigger.create({trigger:box,start:\"top 82%\",onEnter:()=>hit(true),onEnterBack:()=>hit(true)});\n    return()=>{st.kill();box.removeEventListener(\"pointerenter\",hover);if(tl)tl.kill();gsap.set([title,R,C,box],{clearProps:\"all\"});};\n  });\n})();"
-  },
-  {
-   "id": "g207",
-   "name": "אותיות וספרות שמתערבלות ואז ננעלות",
-   "cat": "gsap",
-   "tech": "GSAP · ScrollTrigger · פיצול ידני",
-   "desc": "כותרת ושלושה מספרי נתון נטענים כרצף של סימנים אקראיים בצבע המותג, ונועלים לערך האמיתי תו אחרי תו: האותיות בעברית מימין לשמאל, והספרות מהגדולה לקטנה. כל תו שומר על הרוחב הסופי שלו בזמן הערבול, אז השורה לא קופצת. בסוף נשאר טקסט רגיל.",
-   "when": "כותרת הירו של מוצר דיגיטלי, מערכת או דשבורד, ורצועת נתונים עם שלושה מספרים. עובד כשיש מספרים אמיתיים שמרגישים כמו מדידה. פעם אחת בעמוד, כי ערבול חוזר מעייף. לא לכותרת רגשית ולא לעסק שמבקש חמימות.",
-   "note": "**שחזור.** השראה: כמה סרטונים בגלריה של prompt-motion.com (21.10.2026) שבהם כותרת או מספר מתפענחים מסימנים אקראיים. נבנה מאפס מהצפייה. **המארקאפ:** כל מטרה היא זוג: `span.sr-only` עם הטקסט הסופי לקורא מסך, ו`span[data-sc][aria-hidden]` עם אותו טקסט למי שרואה. בלי GSAP ובהפחתת תנועה מוצג הטקסט הסופי, ואין ערבול. **פיצול ידני ובטוח:** רק בעת ההפעלה נבנים תווים בתוך מילים (`inline-block`, בלי מילים שנשברות באמצע), וכל תו נועל את הרוחב שנמדד לו. כך אין קפיצת שורה כשגליף אקראי רחב מהאות האמיתית. בסיום הכול חוזר ל-`textContent` רגיל, בלי תווים נפרדים. **סדר הנעילה:** לפי הסדר הלוגי של הטקסט. בעברית התו הראשון הוא הימני ביותר, כלומר מצד הקריאה, ובמספר הספרה הראשונה היא הגדולה ביותר. מילה שמתחילה בספרה עטופה ב-`direction:ltr; unicode-bidi:isolate`, כדי שהספרות לא יתהפכו ב-RTL. **קצב:** גליף חדש כל 55 מילישניות בערך, בצבע `--accent`, וכל תו שננעל חוזר לצבע הטקסט. אין הבהוב בהיר-כהה בשדה גדול. **הגליפים:** אותיות עברית לתווים עבריים, ספרות לספרות, וסימנים (פסיק, נקודה, אחוז) לא מתערבלים. **באתר משמאל לימין** מחליפים את מאגר האותיות `HEB` במאגר של השפה, וסדר הנעילה נשאר: התו הראשון תמיד. **נגישות:** קורא מסך שומע רק את הטקסט הסופי.",
-   "place": {
-    "sites": [
-     "L",
-     "O",
-     "C"
-    ],
-    "secs": [
-     "hero",
-     "value",
-     "proof"
-    ],
-    "tone": "x",
-    "role": "sig",
-    "dose": 1,
-    "not": "לא לעסק שמבקש חמימות, ולא כשאין מספרים אמיתיים שמרגישים כמו מדידה."
-   },
-   "libs": [
-    "gsap",
-    "ScrollTrigger"
-   ],
-   "plugins": [
-    "ScrollTrigger"
-   ],
-   "scripts": [
-    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
-    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"></script>"
-   ],
-   "needsRtl": true,
-   "usesVaultHelpers": true,
-   "demo": "gsap/g207.html",
-   "standalone": "export/g207.html",
-   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G207 · אותיות וספרות שמתערבלות ואז ננעלות */\n.sc{max-width:1120px;margin-inline:auto;display:grid;gap:clamp(40px,6vw,88px)}\n.sc-h{margin:0;font-size:clamp(38px,6.4vw,100px);font-weight:700;line-height:1.1;letter-spacing:-.02em;text-wrap:balance}\n.sc-stats{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,4vw,64px)}\n.sc-stats li{display:grid;gap:8px;align-content:start}\n.sc-n{display:block;font-size:clamp(40px,5.6vw,88px);font-weight:700;line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}\n.sc-stats li>span{color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.4}\n.sc-w{display:inline-block;white-space:nowrap}\n.sc-w.is-num{direction:ltr;unicode-bidi:isolate}\n.sc-c{display:inline-block;text-align:center}\n.sc-c.is-s{color:var(--accent, #4a3aff)}\n.sc .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n@media(max-width:767px){.sc-stats{grid-template-columns:minmax(0,1fr)}.sc-stats li{grid-template-columns:auto minmax(0,1fr);align-items:baseline;gap:16px}}",
-   "html": "<div class=\"stage\"><div class=\"sc\">\n  <h2 class=\"sc-h\"><span class=\"sr-only\">כל הנתונים של העסק, במקום אחד</span><span aria-hidden=\"true\" data-sc>כל הנתונים של העסק, במקום אחד</span></h2>\n  <ul class=\"sc-stats\">\n    <li><b class=\"sc-n\"><span class=\"sr-only\">12,480</span><span aria-hidden=\"true\" data-sc>12,480</span></b><span>הזמנות החודש</span></li>\n    <li><b class=\"sc-n\"><span class=\"sr-only\">98.4%</span><span aria-hidden=\"true\" data-sc>98.4%</span></b><span>זמינות המערכת</span></li>\n    <li><b class=\"sc-n\"><span class=\"sr-only\">3.2</span><span aria-hidden=\"true\" data-sc>3.2</span></b><span>דקות זמן תגובה ממוצע</span></li>\n  </ul>\n</div></div>",
-   "js": "if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP הטקסט והמספרים כבר במצב הסופי\n  const root=document.querySelector(\".sc\"),targets=[...root.querySelectorAll(\"[data-sc]\")];\n  const HEB=\"אבגדהוזחטיכלמנסעפצקרשת\",FIN=\"ךםןףץ\",DIG=\"0123456789\";\n  const pick=s=>s[Math.floor(Math.random()*s.length)];\n  // בהפחתת תנועה הפונקציה לא רצה, והטקסט נשאר במצב הסופי\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    const finals=new Map(targets.map(el=>[el,el.textContent])),sts=[],tws=[];\n    gsap.set(targets,{opacity:0});      // לפני ההפעלה השורה מוסתרת, כך שהטקסט הסופי לא מבהיב לפני הערבול\n    targets.forEach((el,k)=>{\n      const final=finals.get(el);\n      const run=()=>{\n        // פיצול ידני לתווים בתוך מילים. כל תו נועל את הרוחב הסופי שלו, והמילה לא נשברת באמצע\n        el.textContent=\"\";\n        const cs=[];\n        final.split(\" \").forEach((w,wi,arr)=>{\n          const ws=document.createElement(\"span\");ws.className=\"sc-w\";\n          if(DIG.indexOf(w[0])>=0)ws.classList.add(\"is-num\");\n          [...w].forEach(ch=>{\n            const c=document.createElement(\"span\");c.className=\"sc-c\";c.textContent=ch;ws.appendChild(c);\n            cs.push({el:c,ch:ch,done:false,pool:DIG.indexOf(ch)>=0?DIG:(HEB.indexOf(ch)>=0||FIN.indexOf(ch)>=0)?HEB:\"\"});\n          });\n          el.appendChild(ws);\n          if(wi<arr.length-1)el.appendChild(document.createTextNode(\" \"));\n        });\n        cs.forEach(c=>{c.w=c.el.getBoundingClientRect().width;});\n        cs.forEach(c=>{c.el.style.width=c.w+\"px\";});\n        const n=cs.length,o={p:0};let last=-1;\n        const paint=()=>{\n          const t=Math.floor(performance.now()/55),locked=Math.floor(o.p*(n+2));\n          cs.forEach((c,i)=>{\n            if(i<locked){if(!c.done){c.done=true;c.el.textContent=c.ch;c.el.classList.remove(\"is-s\");}}\n            else if(c.pool&&t!==last){c.el.textContent=pick(c.pool);c.el.classList.add(\"is-s\");}\n          });\n          last=t;\n        };\n        paint();      // כבר בפריים הראשון הכול מעורבל, בלי הבהוב של הטקסט הסופי\n        gsap.to(el,{opacity:1,duration:.25,ease:\"power1.out\"});\n        tws.push(gsap.to(o,{p:1,duration:.9+n*.05,delay:k*.18,ease:\"none\",onUpdate:paint,onComplete:()=>{el.textContent=final;}}));\n      };\n      sts.push(ScrollTrigger.create({trigger:el,start:\"top 88%\",once:true,onEnter:run}));\n    });\n    return()=>{sts.forEach(s=>s.kill());tws.forEach(t=>t.kill());targets.forEach(el=>{gsap.killTweensOf(el);gsap.set(el,{clearProps:\"opacity\"});el.textContent=finals.get(el);});};\n  });\n})();"
-  },
-  {
    "id": "g208",
    "name": "שורות טקסט שזורמות על מסלולים מעוקלים",
    "cat": "gsap",
@@ -18692,48 +18606,6 @@
    "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G209 · משפט שנבנה מתגיות גלולה שנכנסות אחת אחרי השנייה */\n.pc{max-width:1120px;margin-inline:auto;display:grid;gap:32px}\n.pc-s{margin:0;display:flex;flex-wrap:wrap;align-items:flex-start;gap:16px 14px;font-size:clamp(28px,4.6vw,68px);font-weight:600;line-height:1.1;letter-spacing:-.01em}\n.pc-w{padding-block:.24em}\n.pc-c{display:flex;flex-direction:column;align-items:center;gap:8px}\n.pc-p{display:block;padding:.24em .62em;border-radius:999px;white-space:nowrap}\n.pc-c small{font-size:max(.2em,14px);font-weight:500;line-height:1.2;color:var(--muted, #6a6d85);white-space:nowrap}\n.pc-1 .pc-p{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}\n.pc-2 .pc-p{background:color-mix(in oklab,var(--accent, #4a3aff) 18%,var(--card, #fff));color:var(--ink, #16182b)}\n.pc-3 .pc-p{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}\n.pc-4 .pc-p{background:color-mix(in oklab,var(--ink, #16182b) 9%,var(--card, #fff));color:var(--ink, #16182b)}\n.pc-5 .pc-p{background:color-mix(in oklab,var(--accent, #4a3aff) 42%,var(--card, #fff));color:var(--ink, #16182b)}\n.pc-a{margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-style:italic;font-size:clamp(20px,1.9vw,30px);line-height:1.4}",
    "html": "<div class=\"stage\"><div class=\"pc\">\n  <p class=\"pc-s\">\n    <span class=\"pc-w\">אנחנו</span>\n    <span class=\"pc-c pc-1\"><span class=\"pc-p\">מתכננים</span><small>שבועיים</small></span>\n    <span class=\"pc-c pc-2\"><span class=\"pc-p\">מייצרים</span><small>שישה שבועות</small></span>\n    <span class=\"pc-c pc-3\"><span class=\"pc-p\">ומתקינים</span><small>שלושה ימי עבודה</small></span>\n    <span class=\"pc-w\">מטבחים</span>\n    <span class=\"pc-c pc-4\"><span class=\"pc-p\">בנגרייה אחת</span><small>בחדרה, מאז 2009</small></span>\n    <span class=\"pc-c pc-5\"><span class=\"pc-p\">ובמחיר סגור</span><small>בלי תוספות</small></span>\n  </p>\n  <p class=\"pc-a\">וכן, גם את פירוק המטבח הישן אנחנו לוקחים.</p>\n</div></div>",
    "js": "if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP המשפט כבר מוצג עם כל הגלולות\n  const root=document.querySelector(\".pc\"),items=[...root.querySelectorAll(\".pc-w,.pc-c\")],aside=root.querySelector(\".pc-a\");\n  // בהפחתת תנועה הפונקציה לא רצה, והמשפט נשאר במצב הסופי\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    const tl=gsap.timeline({paused:true});\n    items.forEach((it,i)=>{\n      const chip=it.classList.contains(\"pc-c\"),body=chip?it.querySelector(\".pc-p\"):it;\n      // הגלולה קופצת פנימה ב-expo.out, ללא overshoot. המילה הרגילה רק עולה ומתבהרת\n      tl.fromTo(body,chip?{opacity:0,scale:.55,y:26,transformOrigin:\"50% 60%\"}:{opacity:0,y:14},\n        chip?{opacity:1,scale:1,y:0,duration:.75,ease:\"expo.out\"}:{opacity:1,y:0,duration:.5,ease:\"power2.out\"},i*.2);\n      if(chip)tl.fromTo(it.querySelector(\"small\"),{opacity:0,y:8},{opacity:1,y:0,duration:.5,ease:\"power2.out\"},i*.2+.4);\n    });\n    tl.fromTo(aside,{opacity:0,y:14},{opacity:1,y:0,duration:.7,ease:\"power2.out\"},\">-.1\");\n    const st=ScrollTrigger.create({trigger:root,start:\"top 80%\",once:true,onEnter:()=>tl.play()});\n    const clear=[...items,aside,...root.querySelectorAll(\".pc-p,.pc-c small\")];\n    return()=>{st.kill();tl.kill();gsap.set(clear,{clearProps:\"opacity,transform\"});};\n  });\n})();"
-  },
-  {
-   "id": "g210",
-   "name": "מספר ושלט הודעות שנבנים מנקודות LED",
-   "cat": "gsap",
-   "tech": "GSAP · ticker · Canvas 2D · ScrollTrigger",
-   "desc": "לוח עם שני שלטי נקודות: מספר גדול שנבנה מנקודות ועולה מאפס אל הערך האמיתי, ומתחתיו שורת הודעות שגוללת בנקודות בצבע המותג. הנקודות הכבויות נשארות עמומות ברקע, כמו בשלט אמיתי. נקודה קטנה פועמת ליד הכותרת.",
-   "when": "נתון חי או מצב פעילות בעסק שיש לו קצב: הזמנות שנארזו היום, פניות שהתקבלו, משלוחים בדרך. מתאים לאתר טכני או ללוגיסטיקה, ולא לאתר שקט או לעסק שרוצה חמימות. פעם אחת בעמוד. לא כשהמספר הוא הבטחה משפטית או מחיר.",
-   "note": "**שחזור.** השראה: שלושה סרטונים בגלריה של prompt-motion.com (21.10.2026) עם טקסט ומספרים מנקודות LED ושורת הודעות כתומה שגוללת. נבנה מאפס מהצפייה. **המארקאפ:** בכל שלט יש `span.led-plain` עם הטקסט הרגיל ו-`canvas` מוסתר. בלי JS ובהפחתת תנועה מוצג הטקסט הרגיל, גדול וקריא, והקנבס לא מוצג. כשהמהלך רץ `.led` מקבל `is-live`, הטקסט הרגיל הופך ל-`sr-only` (קורא מסך עדיין שומע אותו) והקנבס מוצג. **שני סוגי נקודות:** המספר בנוי מפונט נקודות קלאסי של 5 על 7 שמוגדר בקוד (`F`, שמונה שורות כדי שלפסיק יהיה זנב), כך שהספרות קריאות גם ברשת קטנה. שלט ההודעות נדגם מטקסט אמיתי: הטקסט מצויר בקנבס חצי-מוסתר בגובה 12 שורות, ולכל פיקסל מוגדר אם הנקודה דולקת. עברית נצבעת עם `direction=rtl`, ולכן אין צורך בפונט נקודות לעברית. **גודל:** גודל הנקודה נקבע לפי רוחב המכל, והלוח ממלא את כל הרוחב כמו שלט אמיתי. המספר מתכווץ בטלפון ונשאר קריא. הגודל נקבע לפי הערך הסופי, והמספר מיושר לימין, ולכן ספרת האחדות נשארת במקום בזמן הספירה. **שלט ההודעות:** הוא גולל ימינה: ההמשך של משפט בעברית נכנס מצד שמאל, כמו בכיוון הקריאה. הוא מתקדם בעמודות שלמות, 16 בשנייה. **ביצועים:** שני מילויים לכל ציור (כבויות ודולקות) ולא מילוי נפרד לכל נקודה, קנבס לפי DPR (עד 2), עצירה כשהלוח מחוץ למסך (IntersectionObserver), ושינוי גודל עם ResizeObserver. הצבעים נקראים מהעור: accent לדולקות ו-ink בשקיפות לכבויות. **באתר משמאל לימין** מחליפים `rtl` ל-`ltr` בציור השלט ומשנים את כיוון הגלילה לשמאלה. **נגישות:** הקנבסים `aria-hidden`, והנקודה הפועמת קישוט.",
-   "place": {
-    "sites": [
-     "L",
-     "C"
-    ],
-    "secs": [
-     "proof",
-     "value",
-     "breath"
-    ],
-    "tone": "x",
-    "role": "sup",
-    "dose": 1,
-    "not": "לא לאתר שקט או לעסק שרוצה חמימות, ולא כשהמספר הוא מחיר או הבטחה משפטית."
-   },
-   "libs": [
-    "gsap",
-    "ScrollTrigger"
-   ],
-   "plugins": [
-    "ScrollTrigger"
-   ],
-   "scripts": [
-    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js\"></script>",
-    "<script src=\"https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js\"></script>"
-   ],
-   "needsRtl": true,
-   "usesVaultHelpers": true,
-   "demo": "gsap/g210.html",
-   "standalone": "export/g210.html",
-   "css": "/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* G210 · מספר ושלט הודעות שנבנים מנקודות LED */\n.led{max-width:1200px;margin-inline:auto}\n.led-panel{display:grid;gap:clamp(24px,3vw,48px);padding:clamp(24px,4vw,56px);border-radius:32px;background:var(--card, #fff)}\n.led-lab{margin:0;display:flex;align-items:center;gap:12px;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px))}\n.led-dot{width:10px;height:10px;border-radius:50%;background:var(--accent, #4a3aff)}\n.led-plain{display:block;font-weight:700;color:var(--ink, #16182b)}\n.led-num .led-plain{font-size:clamp(64px,12vw,176px);line-height:1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}\n.led-msg{font-size:clamp(22px,2.6vw,38px);line-height:1.3}\n.led-cv{display:none}\n.led.is-live .led-cv{display:block}\n.led.is-live .led-plain{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}",
-   "html": "<div class=\"stage\"><div class=\"led\"><div class=\"led-panel\">\n  <p class=\"led-lab\"><span class=\"led-dot\" aria-hidden=\"true\"></span>הזמנות שנארזו היום</p>\n  <div class=\"led-num\"><span class=\"led-plain\">1,284</span><canvas class=\"led-cv\" aria-hidden=\"true\"></canvas></div>\n  <div class=\"led-tick\"><span class=\"led-plain led-msg\">משלוח יצא לבאר שבע, הזמנה חדשה מרמת גן, המלאי של הקפה העונתי עודכן</span><canvas class=\"led-cv\" aria-hidden=\"true\"></canvas></div>\n</div></div></div>",
-   "js": "if (typeof gsap !== \"undefined\") gsap.registerPlugin(ScrollTrigger);\n\n(function(){\n  if(typeof gsap===\"undefined\")return;      // בלי GSAP נשאר הטקסט הרגיל, בלי נקודות\n  const root=document.querySelector(\".led\"),dot=root.querySelector(\".led-dot\");\n  const numBox=root.querySelector(\".led-num\"),tickBox=root.querySelector(\".led-tick\");\n  const numCv=numBox.querySelector(\"canvas\"),tickCv=tickBox.querySelector(\"canvas\");\n  const numText=numBox.querySelector(\".led-plain\").textContent.trim(),msgText=tickBox.querySelector(\".led-plain\").textContent.trim();\n  const FINAL=parseInt(numText.split(\",\").join(\"\"),10)||0;\n  // בהפחתת תנועה הפונקציה לא רצה, והטקסט הרגיל נשאר\n  gsap.matchMedia().add(\"(prefers-reduced-motion: no-preference)\",()=>{\n    const off=document.createElement(\"canvas\"),octx=off.getContext(\"2d\",{willReadFrequently:true});\n    // טקסט הופך לרשת: מצייר אותו בגובה השורות ובודק לכל פיקסל אם הנקודה דולקת\n    const bmp=(text,rows,rtl)=>{\n      const font=\"700 \"+(rows*1.2)+\"px 'Google Sans',system-ui,sans-serif\";\n      octx.font=font;const w=Math.max(1,Math.ceil(octx.measureText(text).width)+2);\n      off.width=w;off.height=rows;octx.font=font;octx.direction=rtl?\"rtl\":\"ltr\";octx.textAlign=rtl?\"right\":\"left\";\n      octx.fillStyle=\"#000\";octx.fillText(text,rtl?w-1:1,rows*.88);\n      const d=octx.getImageData(0,0,w,rows).data,a=new Uint8Array(w*rows);\n      for(let i=0;i<a.length;i++)a[i]=d[i*4+3]>120?1:0;\n      return{cols:w,rows:rows,a:a};\n    };\n    // פונט נקודות קלאסי של 5x7 למספר: ספרות קריאות גם ברשת קטנה, בלי לדגום טקסט\n    const F={\"0\":\"01110 10001 10011 10101 11001 10001 01110\",\"1\":\"00100 01100 00100 00100 00100 00100 01110\",\"2\":\"01110 10001 00001 00010 00100 01000 11111\",\n      \"3\":\"11110 00001 00001 01110 00001 00001 11110\",\"4\":\"00010 00110 01010 10010 11111 00010 00010\",\"5\":\"11111 10000 11110 00001 00001 10001 01110\",\n      \"6\":\"00110 01000 10000 11110 10001 10001 01110\",\"7\":\"11111 00001 00010 00100 01000 01000 01000\",\"8\":\"01110 10001 10001 01110 10001 10001 01110\",\n      \"9\":\"01110 10001 10001 01111 00001 00010 01100\",\",\":\"00 00 00 00 00 11 11 10\"};\n    const numBmp=str=>{\n      const g=[...str].map(ch=>{const r=(F[ch]||\"000 000 000 000 000 000 000\").split(\" \");while(r.length<8)r.push(\"0\".repeat(r[0].length));return r;});\n      const cols=g.reduce((n,r)=>n+r[0].length+1,0)-1,a=new Uint8Array(cols*8);let x=0;\n      g.forEach(r=>{r.forEach((row,y)=>{for(let q=0;q<row.length;q++)if(row[q]===\"1\")a[y*cols+x+q]=1;});x+=r[0].length+1;});\n      return{cols:cols,rows:8,a:a};\n    };\n    const col=css=>{const p=document.createElement(\"i\");p.style.cssText=\"position:absolute;visibility:hidden;color:\"+css;root.appendChild(p);const c=getComputedStyle(p).color;p.remove();return c;};\n    const ON=col(\"var(--accent)\"),OFF=col(\"color-mix(in oklab, var(--ink) 11%, transparent)\");\n    const dpr=()=>Math.min(window.devicePixelRatio||1,2);\n    const N={cv:numCv,ctx:numCv.getContext(\"2d\"),rows:8,cols:0,pitch:0,val:0,bm:null};\n    const T={cv:tickCv,ctx:tickCv.getContext(\"2d\"),rows:12,cols:0,pitch:0,shift:0,last:0,bm:null};\n    const fmt=v=>v.toLocaleString(\"en-US\");\n    const size=(d,pitch,cols)=>{\n      const k=dpr();d.pitch=pitch;d.cols=cols;\n      d.cv.width=Math.round(cols*pitch*k);d.cv.height=Math.round(d.rows*pitch*k);\n      d.cv.style.width=cols*pitch+\"px\";d.cv.style.height=d.rows*pitch+\"px\";\n    };\n    const paint=(d,bit)=>{\n      const c=d.ctx,k=dpr(),p=d.pitch,r1=p*.4,r0=p*.2;\n      c.setTransform(k,0,0,k,0,0);c.clearRect(0,0,d.cols*p,d.rows*p);\n      [0,1].forEach(on=>{\n        c.beginPath();\n        for(let r=0;r<d.rows;r++)for(let q=0;q<d.cols;q++){\n          if((bit(r,q)?1:0)!==on)continue;\n          const x=q*p+p/2,y=r*p+p/2,rad=on?r1:r0;c.moveTo(x+rad,y);c.arc(x,y,rad,0,6.2832);\n        }\n        c.fillStyle=on?ON:OFF;c.fill();\n      });\n    };\n    const drawNum=()=>{\n      const bm=numBmp(fmt(N.val)),gap=N.cols-bm.cols-2;      // מיושר לימין, שתי עמודות שוליים\n      paint(N,(r,q)=>{const b=q-gap;return b>=0&&b<bm.cols&&bm.a[r*bm.cols+b];});\n    };\n    const drawTick=()=>{\n      const bm=T.bm,M=bm.cols;\n      paint(T,(r,q)=>bm.a[r*M+(((q-T.last)%M)+M)%M]);\n    };\n    const layout=()=>{\n      const wN=numBox.clientWidth,fin=numBmp(fmt(FINAL)),pN=Math.max(4,Math.min(22,Math.floor(wN/(fin.cols+4))));\n      size(N,pN,Math.floor(wN/pN));drawNum();      // הלוח ממלא את כל הרוחב, והנקודות הכבויות נראות כמו שלט אמיתי\n      const wT=tickBox.clientWidth,pT=Math.max(3,Math.min(6,Math.floor(wT/200)));\n      T.bm=bmp(msgText+\"        \",T.rows,true);size(T,pT,Math.floor(wT/pT));drawTick();\n    };\n    root.classList.add(\"is-live\");\n    layout();\n    const ro=new ResizeObserver(layout);ro.observe(root);\n    let vis=true;const io=new IntersectionObserver(es=>{vis=es[0].isIntersecting;});io.observe(root);\n    // השלט גולל ימינה בעמודות שלמות: 16 בשנייה\n    const tick=(t,dt)=>{\n      if(!vis)return;\n      T.shift+=dt/1000*16;const s=Math.floor(T.shift);\n      if(s!==T.last){T.last=s;drawTick();}\n    };\n    gsap.ticker.add(tick);\n    const pulse=gsap.to(dot,{opacity:.3,duration:.9,yoyo:true,repeat:-1,ease:\"sine.inOut\"});\n    const o={v:0};\n    const st=ScrollTrigger.create({trigger:numBox,start:\"top 88%\",once:true,onEnter:()=>{\n      gsap.to(o,{v:FINAL,duration:2.4,ease:\"power2.out\",onUpdate:()=>{const v=Math.round(o.v);if(v!==N.val){N.val=v;drawNum();}}});\n    }});\n    return()=>{gsap.ticker.remove(tick);st.kill();pulse.kill();gsap.killTweensOf(o);ro.disconnect();io.disconnect();root.classList.remove(\"is-live\");gsap.set(dot,{clearProps:\"opacity\"});};\n  });\n})();"
   },
   {
    "id": "g211",
