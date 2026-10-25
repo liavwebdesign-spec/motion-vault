@@ -209,4 +209,17 @@ const missingPages = entries.filter(e => {
 }).map(e => e.id);
 if (missingPages.length) problems.push("entries without a page: " + missingPages.join(","));
 
+// 25.10.2026: a fix round reset 18 items to pending by hand, without _src/tools/changed.mjs, and Liav saw nothing in the review:
+// no "what changed" line, no before shot. Every pending row in the baseline must have its MV_CHANGES entry.
+const readWindowObj = (file, name) => {
+  const p = join(ROOT, "assets", file);
+  if (!existsSync(p)) return {};
+  const w = {};
+  new Function("window", readFileSync(p, "utf8"))(w);
+  return w[name] || {};
+};
+const BASE = readWindowObj("baseline.js", "MV_BASELINE"), CHG = readWindowObj("changes.js", "MV_CHANGES");
+const noChange = Object.keys(BASE).filter(id => BASE[id] && BASE[id].s === null && !CHG[id] && entries.find(e => e.id === id));
+if (noChange.length) problems.push("pending in baseline without a changes.js entry (run _src/tools/changed.mjs): " + noChange.join(","));
+
 console.log(JSON.stringify({ entries: entries.length, pages, problemCount: problems.length, problems }, null, 1));
