@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H33 · הירו צילום עם נקודות מוצר | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--bg);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h33h{display:flex;flex-direction:column;gap:28px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg)}
+.h33-top{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:end;gap:20px 56px}
+.h33-ttl,.h33-side{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.h33-side{gap:20px}
+.h33h h3{margin:0;max-width:15ch;font-size:clamp(32px,min(4vw,7.8vh),60px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h33h .hlead{max-width:42ch}
+/* the frame keeps the photo's proportions, so x and y are simply percent of the photo. --o and --f map them when the phone crops it */
+.h33-fr{--o:0%;--f:1;position:relative;width:min(100%,calc(46vh * 2.339));aspect-ratio:2400/1026;margin-inline:auto}
+.h33-fr>img{width:100%;height:100%;object-fit:cover;display:block;border-radius:24px}
+.h33-spot{display:contents}
+/* physical left, not inline-start: a point on a photo does not flip with the language */
+.h33-hs{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:var(--y);z-index:1;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;translate:-50% -50%;cursor:pointer;
+  background:none;color:var(--ink);transition:opacity .4s cubic-bezier(.2,.6,.2,1),scale .5s cubic-bezier(.2,.6,.2,1)}
+/* the dot is smaller than the 44px target, so it marks the item without hiding it */
+.h33-dot{position:relative;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--bg);box-shadow:0 6px 18px -6px color-mix(in srgb,var(--ink) 75%,transparent);transition:transform .3s cubic-bezier(.2,.6,.2,1)}
+.h33-hs svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;transition:rotate .3s cubic-bezier(.2,.6,.2,1)}
+.h33-hs[aria-expanded="true"] svg{rotate:45deg}
+.h33-hs:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media (hover:hover) and (pointer:fine){.h33-hs:hover .h33-dot{transform:scale(1.12)}}
+.open-anim .h33-hs{opacity:0;scale:.4;animation:h33s-fs 0s 2.5s forwards}
+.is-in .h33-hs{opacity:1;scale:1;transition-delay:calc(var(--t0,0s) + .5s + var(--k,0) * 80ms)}
+.rv-on .h33-hs{animation:none}
+@keyframes h33s-fs{to{opacity:1;scale:1}}
+/* two soft rings after the entrance say "this can be pressed", then stop: under five seconds, so no pause button */
+.h33-dot::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:50%;background:var(--bg);opacity:0}
+.is-in .h33-dot::before{animation:h33-ring 1.6s cubic-bezier(.2,.6,.2,1) 2;animation-delay:calc(var(--t0,0s) + 1s + var(--k,0) * 150ms)}
+@keyframes h33-ring{from{opacity:.55;transform:scale(1)}to{opacity:0;transform:scale(1.9)}}
+.h33-card{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:calc(var(--y) + 32px);z-index:2;display:flex;flex-direction:column;gap:4px;width:240px;padding:16px;border-radius:16px;translate:-50% 0;
+  background:var(--bg);color:var(--ink);box-shadow:0 24px 48px -16px color-mix(in srgb,var(--ink) 60%,transparent);animation:h33-pop .35s cubic-bezier(.2,.6,.2,1)}
+.h33-card[hidden]{display:none}
+.h33-spot[data-pos="up"] .h33-card{top:auto;bottom:calc(100% - var(--y) + 32px)}
+.h33-card b{font-size:16px;font-weight:700}
+.h33-card span{font-size:15px;color:var(--muted)}
+.h33-card a{align-self:flex-start;margin-top:8px;font-size:15px;font-weight:700;color:inherit;text-underline-offset:4px}
+@keyframes h33-pop{from{opacity:0;translate:-50% 8px}}
+@keyframes h33-in{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.h33-hs,.h33-dot,.h33-hs svg{transition-duration:.01ms!important;transition-delay:0s!important}.h33-dot::before,.h33-card{animation:none!important}}
+/* phone: a taller crop around the island, every point moved by the same crop, and the card is a bar across the photo */
+@media (max-width:860px){.h33h{gap:20px;min-height:0;padding:72px 20px 24px}
+  .h33-top{grid-template-columns:1fr;gap:14px}.h33-ttl{gap:12px}.h33-side{gap:16px}
+  .h33h h3{font-size:clamp(28px,7.4vw,36px)}
+  .h33h .hcta{width:100%;flex-wrap:nowrap}.h33h .hcta .hbtn{flex:1;padding-inline:16px}
+  .h33-fr{--o:28%;--f:.534;width:100%;aspect-ratio:5/4}
+  .h33-fr>img{object-position:60% 50%;border-radius:20px}
+  .h33-card,.h33-spot[data-pos="up"] .h33-card{left:12px;right:12px;top:auto;bottom:12px;width:auto;translate:none;animation-name:h33-in}
+  .h33-spot[data-ph="top"] .h33-card{top:12px;bottom:auto}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=hero">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="h32.html" rel="prev" title="הקודם: הירו אירוע עם ספירה לאחור">→<span class="sr-only">הקודם</span></a><span class="vpn-n">33/34</span><a href="h34.html" rel="next" title="הבא: הירו סרטון רחב כמו בקולנוע">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">H33</span> · הירו צילום עם נקודות מוצר</h1>
+  <span class="vchip cat-hero">הירו</span>
+  <span class="vchip">CSS · JS</span>
+  <span class="vchip use">הירו ופתיחה</span><span class="vchip use">תמונות וגלריות</span><span class="vchip use">hover ומיקרו</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:h33"><code>MV:h33</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="h33">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>כותרת ומשפט למעלה, ומתחת צילום רחב של חלל עם כמה נקודות קטנות על הפריטים שבו. לחיצה על נקודה פותחת כרטיס קטן עם שם, מחיר וקישור, ליד הפריט עצמו.</p>
+  <p class="when"><b>מתי משתמשים:</b> עסק שהעבודה שלו היא חלל שלם ובתוכו פריטים שאפשר להזמין: מטבחים, נגרות, עיצוב פנים, ריהוט, תאורה, אופנה בצילום אווירה, חנות כלי בית. הצילום מוכר את התמונה הגדולה, והנקודות עונות על "מה זה ואיפה קונים". לא ליותר מחמש נקודות, ולא לצילום שבו הפריטים קטנים מכדי לזהות.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>חנות · אתר תדמית · פורטפוליו וסטודיו</dd></div><div><dt>בסקשן</dt><dd>הירו</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא בלי צילום שבו רואים כמה פריטים ברורים, ולא ליותר מחמש נקודות; אז h25 או h4.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="h33"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h33h" id="h33">
+    <div class="h33-top">
+      <div class="h33-ttl">
+        <span class="hkick rv">מטבחים בהזמנה אישית, נגרייה בשרון</span>
+        <h3 class="rv">מטבח שנבנה סביב הדרך שבה אתם מבשלים</h3>
+      </div>
+      <div class="h33-side">
+        <p class="hlead rv">תכנון, ייצור בנגרייה שלנו והתקנה, עם החומרים והפרזול שבחרתם. כל מה שרואים בצילום אפשר להזמין.</p>
+        <div class="hcta rv"><a class="hbtn" href="#h33">לפגישת תכנון</a><a class="hbtn ghost" href="#h33">עוד מטבחים</a></div>
+      </div>
+    </div>
+    <div class="h33-fr rv">
+      <img src="../assets/media/real/s13/proj-c.webp" alt="מטבח בגוון ירוק כהה עם אי באמצע, חיפוי אבן מאחור, מנורות תלויות וכיסאות בר" fetchpriority="high" decoding="async">
+      <div class="h33-spot" style="--x:47.8%;--y:43%;--k:0" data-pos="down" data-ph="bottom">
+        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c0" aria-label="מנורת זכוכית מחורצת"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c0" hidden><b>מנורת זכוכית מחורצת</b><span>1,290 ₪ ליחידה</span><a href="#h33">לפרטים</a></div>
+      </div>
+      <div class="h33-spot" style="--x:55%;--y:54%;--k:1" data-pos="up" data-ph="top">
+        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c1" aria-label="חיפוי קיר מאבן"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c1" hidden><b>חיפוי קיר מאבן</b><span>מ-480 ₪ למ״ר</span><a href="#h33">לפרטים</a></div>
+      </div>
+      <div class="h33-spot" style="--x:36.5%;--y:57%;--k:2" data-pos="up" data-ph="top">
+        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c2" aria-label="ברז פליז מוברש"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c2" hidden><b>ברז פליז מוברש</b><span>1,650 ₪</span><a href="#h33">לפרטים</a></div>
+      </div>
+      <div class="h33-spot" style="--x:73%;--y:76%;--k:3" data-pos="up" data-ph="top">
+        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c3" aria-label="כיסא בר מעור ועץ"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c3" hidden><b>כיסא בר מעור ועץ</b><span>890 ₪ לכיסא</span><a href="#h33">לפרטים</a></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="demo-note">צילום אווירה שהוא גם קטלוג: כל נקודה יושבת על פריט אמיתי בצילום ופותחת כרטיס עם שם, מחיר וקישור. המסגרת שומרת על היחס של הצילום, ולכן המיקום של כל נקודה הוא פשוט אחוזים מהצילום (--x, --y), במיקום פיזי (left) שלא מתהפך עם השפה. בטלפון המסגרת גבוהה יותר והצילום נחתך סביב האי; --o ו---f מזיזים את כל הנקודות לפי אותו חיתוך, והכרטיס הופך לפס ברוחב הצילום, למטה או למעלה לפי מקום הנקודה. כל נקודה היא כפתור עם aria-expanded, aria-controls ושם הפריט, והכרטיס בא מיד אחריה בסדר הקריאה; כרטיס אחד פתוח בכל פעם, Escape או לחיצה בחוץ סוגרים, ו-Escape מחזיר את הפוקוס לנקודה. שתי טבעות רכות אחרי הכניסה אומרות שאפשר ללחוץ, ונעצרות לפני חמש שניות. בלי הוראות כמו "לחצו על הנקודות": הנקודות מסבירות את עצמן. בפרויקט מודדים את המיקומים על הצילום הסופי, ובחנות הכרטיס מקשר לעמוד המוצר. פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/h33.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* H33 · הירו צילום עם נקודות מוצר */
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h33h{display:flex;flex-direction:column;gap:28px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg, #f7f7fa)}
+.h33-top{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:end;gap:20px 56px}
+.h33-ttl,.h33-side{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.h33-side{gap:20px}
+.h33h h3{margin:0;max-width:15ch;font-size:clamp(32px,min(4vw,7.8vh),60px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h33h .hlead{max-width:42ch}
+/* the frame keeps the photo's proportions, so x and y are simply percent of the photo. --o and --f map them when the phone crops it */
+.h33-fr{--o:0%;--f:1;position:relative;width:min(100%,calc(46vh * 2.339));aspect-ratio:2400/1026;margin-inline:auto}
+.h33-fr&gt;img{width:100%;height:100%;object-fit:cover;display:block;border-radius:24px}
+.h33-spot{display:contents}
+/* physical left, not inline-start: a point on a photo does not flip with the language */
+.h33-hs{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:var(--y);z-index:1;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;translate:-50% -50%;cursor:pointer;
+  background:none;color:var(--ink, #16182b);transition:opacity .4s cubic-bezier(.2,.6,.2,1),scale .5s cubic-bezier(.2,.6,.2,1)}
+/* the dot is smaller than the 44px target, so it marks the item without hiding it */
+.h33-dot{position:relative;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--bg, #f7f7fa);box-shadow:0 6px 18px -6px color-mix(in srgb,var(--ink, #16182b) 75%,transparent);transition:transform .3s cubic-bezier(.2,.6,.2,1)}
+.h33-hs svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;transition:rotate .3s cubic-bezier(.2,.6,.2,1)}
+.h33-hs[aria-expanded="true"] svg{rotate:45deg}
+.h33-hs:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+@media (hover:hover) and (pointer:fine){.h33-hs:hover .h33-dot{transform:scale(1.12)}}
+.open-anim .h33-hs{opacity:0;scale:.4;animation:h33s-fs 0s 2.5s forwards}
+.is-in .h33-hs{opacity:1;scale:1;transition-delay:calc(var(--t0,0s) + .5s + var(--k,0) * 80ms)}
+.rv-on .h33-hs{animation:none}
+@keyframes h33s-fs{to{opacity:1;scale:1}}
+/* two soft rings after the entrance say "this can be pressed", then stop: under five seconds, so no pause button */
+.h33-dot::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:50%;background:var(--bg, #f7f7fa);opacity:0}
+.is-in .h33-dot::before{animation:h33-ring 1.6s cubic-bezier(.2,.6,.2,1) 2;animation-delay:calc(var(--t0,0s) + 1s + var(--k,0) * 150ms)}
+@keyframes h33-ring{from{opacity:.55;transform:scale(1)}to{opacity:0;transform:scale(1.9)}}
+.h33-card{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:calc(var(--y) + 32px);z-index:2;display:flex;flex-direction:column;gap:4px;width:240px;padding:16px;border-radius:16px;translate:-50% 0;
+  background:var(--bg, #f7f7fa);color:var(--ink, #16182b);box-shadow:0 24px 48px -16px color-mix(in srgb,var(--ink, #16182b) 60%,transparent);animation:h33-pop .35s cubic-bezier(.2,.6,.2,1)}
+.h33-card[hidden]{display:none}
+.h33-spot[data-pos="up"] .h33-card{top:auto;bottom:calc(100% - var(--y) + 32px)}
+.h33-card b{font-size:16px;font-weight:700}
+.h33-card span{font-size:15px;color:var(--muted, #6a6d85)}
+.h33-card a{align-self:flex-start;margin-top:8px;font-size:15px;font-weight:700;color:inherit;text-underline-offset:4px}
+@keyframes h33-pop{from{opacity:0;translate:-50% 8px}}
+@keyframes h33-in{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.h33-hs,.h33-dot,.h33-hs svg{transition-duration:.01ms!important;transition-delay:0s!important}.h33-dot::before,.h33-card{animation:none!important}}
+/* phone: a taller crop around the island, every point moved by the same crop, and the card is a bar across the photo */
+@media (max-width:860px){.h33h{gap:20px;min-height:0;padding:72px 20px 24px}
+  .h33-top{grid-template-columns:1fr;gap:14px}.h33-ttl{gap:12px}.h33-side{gap:16px}
+  .h33h h3{font-size:clamp(28px,7.4vw,36px)}
+  .h33h .hcta{width:100%;flex-wrap:nowrap}.h33h .hcta .hbtn{flex:1;padding-inline:16px}
+  .h33-fr{--o:28%;--f:.534;width:100%;aspect-ratio:5/4}
+  .h33-fr&gt;img{object-position:60% 50%;border-radius:20px}
+  .h33-card,.h33-spot[data-pos="up"] .h33-card{left:12px;right:12px;top:auto;bottom:12px;width:auto;translate:none;animation-name:h33-in}
+  .h33-spot[data-ph="top"] .h33-card{top:12px;bottom:auto}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;script&gt;if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")&lt;/script&gt;
+&lt;div class="hf"&gt;&lt;div class="hf-top"&gt;&lt;b&gt;לוגו&lt;/b&gt;&lt;nav&gt;&lt;span&gt;שירותים&lt;/span&gt;&lt;span&gt;פרויקטים&lt;/span&gt;&lt;span&gt;אודות&lt;/span&gt;&lt;/nav&gt;&lt;/div&gt;
+  &lt;section class="h33h" id="h33"&gt;
+    &lt;div class="h33-top"&gt;
+      &lt;div class="h33-ttl"&gt;
+        &lt;span class="hkick rv"&gt;מטבחים בהזמנה אישית, נגרייה בשרון&lt;/span&gt;
+        &lt;h3 class="rv"&gt;מטבח שנבנה סביב הדרך שבה אתם מבשלים&lt;/h3&gt;
+      &lt;/div&gt;
+      &lt;div class="h33-side"&gt;
+        &lt;p class="hlead rv"&gt;תכנון, ייצור בנגרייה שלנו והתקנה, עם החומרים והפרזול שבחרתם. כל מה שרואים בצילום אפשר להזמין.&lt;/p&gt;
+        &lt;div class="hcta rv"&gt;&lt;a class="hbtn" href="#h33"&gt;לפגישת תכנון&lt;/a&gt;&lt;a class="hbtn ghost" href="#h33"&gt;עוד מטבחים&lt;/a&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="h33-fr rv"&gt;
+      &lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" alt="מטבח בגוון ירוק כהה עם אי באמצע, חיפוי אבן מאחור, מנורות תלויות וכיסאות בר" fetchpriority="high" decoding="async"&gt;
+      &lt;div class="h33-spot" style="--x:47.8%;--y:43%;--k:0" data-pos="down" data-ph="bottom"&gt;
+        &lt;button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c0" aria-label="מנורת זכוכית מחורצת"&gt;&lt;span class="h33-dot"&gt;&lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M12 5v14M5 12h14"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;/button&gt;
+        &lt;div class="h33-card" id="h33-c0" hidden&gt;&lt;b&gt;מנורת זכוכית מחורצת&lt;/b&gt;&lt;span&gt;1,290 ₪ ליחידה&lt;/span&gt;&lt;a href="#h33"&gt;לפרטים&lt;/a&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="h33-spot" style="--x:55%;--y:54%;--k:1" data-pos="up" data-ph="top"&gt;
+        &lt;button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c1" aria-label="חיפוי קיר מאבן"&gt;&lt;span class="h33-dot"&gt;&lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M12 5v14M5 12h14"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;/button&gt;
+        &lt;div class="h33-card" id="h33-c1" hidden&gt;&lt;b&gt;חיפוי קיר מאבן&lt;/b&gt;&lt;span&gt;מ-480 ₪ למ״ר&lt;/span&gt;&lt;a href="#h33"&gt;לפרטים&lt;/a&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="h33-spot" style="--x:36.5%;--y:57%;--k:2" data-pos="up" data-ph="top"&gt;
+        &lt;button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c2" aria-label="ברז פליז מוברש"&gt;&lt;span class="h33-dot"&gt;&lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M12 5v14M5 12h14"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;/button&gt;
+        &lt;div class="h33-card" id="h33-c2" hidden&gt;&lt;b&gt;ברז פליז מוברש&lt;/b&gt;&lt;span&gt;1,650 ₪&lt;/span&gt;&lt;a href="#h33"&gt;לפרטים&lt;/a&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="h33-spot" style="--x:73%;--y:76%;--k:3" data-pos="up" data-ph="top"&gt;
+        &lt;button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c3" aria-label="כיסא בר מעור ועץ"&gt;&lt;span class="h33-dot"&gt;&lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M12 5v14M5 12h14"/&gt;&lt;/svg&gt;&lt;/span&gt;&lt;/button&gt;
+        &lt;div class="h33-card" id="h33-c3" hidden&gt;&lt;b&gt;כיסא בר מעור ועץ&lt;/b&gt;&lt;span&gt;890 ₪ לכיסא&lt;/span&gt;&lt;a href="#h33"&gt;לפרטים&lt;/a&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top&lt;innerHeight*.9&amp;&amp;r.bottom&gt;0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&amp;&amp;getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+(function(){
+  var root=document.getElementById("h33"), cur=null;
+  enter(root);
+  function card(b){return document.getElementById(b.getAttribute("aria-controls"));}
+  function close(back){ if(!cur)return; card(cur).hidden=true; cur.setAttribute("aria-expanded","false"); if(back)cur.focus(); cur=null; }
+  root.querySelectorAll(".h33-hs").forEach(function(b){
+    b.addEventListener("click",function(){ var same=cur===b; close(false); if(same)return; card(b).hidden=false; b.setAttribute("aria-expanded","true"); cur=b; });
+  });
+  // one card at a time: Escape or a press anywhere else closes it, and Escape returns the focus to its point
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")close(true);});
+  document.addEventListener("click",function(e){if(cur&amp;&amp;!e.target.closest(".h33-hs,.h33-card"))close(false);});
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:h33 · הירו צילום עם נקודות מוצר\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/hero/h33.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/h33.html\n\nמה זה עושה: כותרת ומשפט למעלה, ומתחת צילום רחב של חלל עם כמה נקודות קטנות על הפריטים שבו. לחיצה על נקודה פותחת כרטיס קטן עם שם, מחיר וקישור, ליד הפריט עצמו.\nמתי משתמשים: עסק שהעבודה שלו היא חלל שלם ובתוכו פריטים שאפשר להזמין: מטבחים, נגרות, עיצוב פנים, ריהוט, תאורה, אופנה בצילום אווירה, חנות כלי בית. הצילום מוכר את התמונה הגדולה, והנקודות עונות על \"מה זה ואיפה קונים\". לא ליותר מחמש נקודות, ולא לצילום שבו הפריטים קטנים מכדי לזהות.\nסוג אתר: חנות · אתר תדמית · פורטפוליו וסטודיו\nבסקשן: הירו\nאופי: גם באתר שקט\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא בלי צילום שבו רואים כמה פריטים ברורים, ולא ליותר מחמש נקודות; אז h25 או h4.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* H33 · הירו צילום עם נקודות מוצר */\n/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */\n.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}\n.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}\n.hf-top b{font-size:18px;font-weight:800}\n.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}\n@media (max-width:760px){.hf-top nav{display:none}}\n.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;\n  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}\n@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}\n.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}\n.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}\n.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}\n.hcta{display:flex;flex-wrap:wrap;gap:12px}\n\n/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */\n.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}\n/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */\n.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}\n.rv-on .rv{animation:none}\n@keyframes rv-fs{to{opacity:1;transform:none}}\n@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}\n  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}\n.h33h{display:flex;flex-direction:column;gap:28px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg, #f7f7fa)}\n.h33-top{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:end;gap:20px 56px}\n.h33-ttl,.h33-side{display:flex;flex-direction:column;align-items:flex-start;gap:16px}\n.h33-side{gap:20px}\n.h33h h3{margin:0;max-width:15ch;font-size:clamp(32px,min(4vw,7.8vh),60px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}\n.h33h .hlead{max-width:42ch}\n/* the frame keeps the photo's proportions, so x and y are simply percent of the photo. --o and --f map them when the phone crops it */\n.h33-fr{--o:0%;--f:1;position:relative;width:min(100%,calc(46vh * 2.339));aspect-ratio:2400/1026;margin-inline:auto}\n.h33-fr>img{width:100%;height:100%;object-fit:cover;display:block;border-radius:24px}\n.h33-spot{display:contents}\n/* physical left, not inline-start: a point on a photo does not flip with the language */\n.h33-hs{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:var(--y);z-index:1;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;translate:-50% -50%;cursor:pointer;\n  background:none;color:var(--ink, #16182b);transition:opacity .4s cubic-bezier(.2,.6,.2,1),scale .5s cubic-bezier(.2,.6,.2,1)}\n/* the dot is smaller than the 44px target, so it marks the item without hiding it */\n.h33-dot{position:relative;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--bg, #f7f7fa);box-shadow:0 6px 18px -6px color-mix(in srgb,var(--ink, #16182b) 75%,transparent);transition:transform .3s cubic-bezier(.2,.6,.2,1)}\n.h33-hs svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;transition:rotate .3s cubic-bezier(.2,.6,.2,1)}\n.h33-hs[aria-expanded=\"true\"] svg{rotate:45deg}\n.h33-hs:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n@media (hover:hover) and (pointer:fine){.h33-hs:hover .h33-dot{transform:scale(1.12)}}\n.open-anim .h33-hs{opacity:0;scale:.4;animation:h33s-fs 0s 2.5s forwards}\n.is-in .h33-hs{opacity:1;scale:1;transition-delay:calc(var(--t0,0s) + .5s + var(--k,0) * 80ms)}\n.rv-on .h33-hs{animation:none}\n@keyframes h33s-fs{to{opacity:1;scale:1}}\n/* two soft rings after the entrance say \"this can be pressed\", then stop: under five seconds, so no pause button */\n.h33-dot::before{content:\"\";position:absolute;inset:0;z-index:-1;border-radius:50%;background:var(--bg, #f7f7fa);opacity:0}\n.is-in .h33-dot::before{animation:h33-ring 1.6s cubic-bezier(.2,.6,.2,1) 2;animation-delay:calc(var(--t0,0s) + 1s + var(--k,0) * 150ms)}\n@keyframes h33-ring{from{opacity:.55;transform:scale(1)}to{opacity:0;transform:scale(1.9)}}\n.h33-card{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:calc(var(--y) + 32px);z-index:2;display:flex;flex-direction:column;gap:4px;width:240px;padding:16px;border-radius:16px;translate:-50% 0;\n  background:var(--bg, #f7f7fa);color:var(--ink, #16182b);box-shadow:0 24px 48px -16px color-mix(in srgb,var(--ink, #16182b) 60%,transparent);animation:h33-pop .35s cubic-bezier(.2,.6,.2,1)}\n.h33-card[hidden]{display:none}\n.h33-spot[data-pos=\"up\"] .h33-card{top:auto;bottom:calc(100% - var(--y) + 32px)}\n.h33-card b{font-size:16px;font-weight:700}\n.h33-card span{font-size:15px;color:var(--muted, #6a6d85)}\n.h33-card a{align-self:flex-start;margin-top:8px;font-size:15px;font-weight:700;color:inherit;text-underline-offset:4px}\n@keyframes h33-pop{from{opacity:0;translate:-50% 8px}}\n@keyframes h33-in{from{opacity:0}}\n@media (prefers-reduced-motion:reduce){.h33-hs,.h33-dot,.h33-hs svg{transition-duration:.01ms!important;transition-delay:0s!important}.h33-dot::before,.h33-card{animation:none!important}}\n/* phone: a taller crop around the island, every point moved by the same crop, and the card is a bar across the photo */\n@media (max-width:860px){.h33h{gap:20px;min-height:0;padding:72px 20px 24px}\n  .h33-top{grid-template-columns:1fr;gap:14px}.h33-ttl{gap:12px}.h33-side{gap:16px}\n  .h33h h3{font-size:clamp(28px,7.4vw,36px)}\n  .h33h .hcta{width:100%;flex-wrap:nowrap}.h33h .hcta .hbtn{flex:1;padding-inline:16px}\n  .h33-fr{--o:28%;--f:.534;width:100%;aspect-ratio:5/4}\n  .h33-fr>img{object-position:60% 50%;border-radius:20px}\n  .h33-card,.h33-spot[data-pos=\"up\"] .h33-card{left:12px;right:12px;top:auto;bottom:12px;width:auto;translate:none;animation-name:h33-in}\n  .h33-spot[data-ph=\"top\"] .h33-card{top:12px;bottom:auto}}\n\n=== HTML ===\n<script>if(matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)document.documentElement.classList.add(\"open-anim\")<\/script>\n<div class=\"hf\"><div class=\"hf-top\"><b>לוגו<\/b><nav><span>שירותים<\/span><span>פרויקטים<\/span><span>אודות<\/span><\/nav><\/div>\n  <section class=\"h33h\" id=\"h33\">\n    <div class=\"h33-top\">\n      <div class=\"h33-ttl\">\n        <span class=\"hkick rv\">מטבחים בהזמנה אישית, נגרייה בשרון<\/span>\n        <h3 class=\"rv\">מטבח שנבנה סביב הדרך שבה אתם מבשלים<\/h3>\n      <\/div>\n      <div class=\"h33-side\">\n        <p class=\"hlead rv\">תכנון, ייצור בנגרייה שלנו והתקנה, עם החומרים והפרזול שבחרתם. כל מה שרואים בצילום אפשר להזמין.<\/p>\n        <div class=\"hcta rv\"><a class=\"hbtn\" href=\"#h33\">לפגישת תכנון<\/a><a class=\"hbtn ghost\" href=\"#h33\">עוד מטבחים<\/a><\/div>\n      <\/div>\n    <\/div>\n    <div class=\"h33-fr rv\">\n      <img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp\" alt=\"מטבח בגוון ירוק כהה עם אי באמצע, חיפוי אבן מאחור, מנורות תלויות וכיסאות בר\" fetchpriority=\"high\" decoding=\"async\">\n      <div class=\"h33-spot\" style=\"--x:47.8%;--y:43%;--k:0\" data-pos=\"down\" data-ph=\"bottom\">\n        <button class=\"h33-hs\" type=\"button\" aria-expanded=\"false\" aria-controls=\"h33-c0\" aria-label=\"מנורת זכוכית מחורצת\"><span class=\"h33-dot\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/><\/svg><\/span><\/button>\n        <div class=\"h33-card\" id=\"h33-c0\" hidden><b>מנורת זכוכית מחורצת<\/b><span>1,290 ₪ ליחידה<\/span><a href=\"#h33\">לפרטים<\/a><\/div>\n      <\/div>\n      <div class=\"h33-spot\" style=\"--x:55%;--y:54%;--k:1\" data-pos=\"up\" data-ph=\"top\">\n        <button class=\"h33-hs\" type=\"button\" aria-expanded=\"false\" aria-controls=\"h33-c1\" aria-label=\"חיפוי קיר מאבן\"><span class=\"h33-dot\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/><\/svg><\/span><\/button>\n        <div class=\"h33-card\" id=\"h33-c1\" hidden><b>חיפוי קיר מאבן<\/b><span>מ-480 ₪ למ״ר<\/span><a href=\"#h33\">לפרטים<\/a><\/div>\n      <\/div>\n      <div class=\"h33-spot\" style=\"--x:36.5%;--y:57%;--k:2\" data-pos=\"up\" data-ph=\"top\">\n        <button class=\"h33-hs\" type=\"button\" aria-expanded=\"false\" aria-controls=\"h33-c2\" aria-label=\"ברז פליז מוברש\"><span class=\"h33-dot\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/><\/svg><\/span><\/button>\n        <div class=\"h33-card\" id=\"h33-c2\" hidden><b>ברז פליז מוברש<\/b><span>1,650 ₪<\/span><a href=\"#h33\">לפרטים<\/a><\/div>\n      <\/div>\n      <div class=\"h33-spot\" style=\"--x:73%;--y:76%;--k:3\" data-pos=\"up\" data-ph=\"top\">\n        <button class=\"h33-hs\" type=\"button\" aria-expanded=\"false\" aria-controls=\"h33-c3\" aria-label=\"כיסא בר מעור ועץ\"><span class=\"h33-dot\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/><\/svg><\/span><\/button>\n        <div class=\"h33-card\" id=\"h33-c3\" hidden><b>כיסא בר מעור ועץ<\/b><span>890 ₪ לכיסא<\/span><a href=\"#h33\">לפרטים<\/a><\/div>\n      <\/div>\n    <\/div>\n  <\/section>\n<\/div>\n\n=== JS ===\n// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:\n// an observer does not update while the tab is throttled (and on a real site the hero is usually\n// on screen at load anyway), and an entrance that never fires leaves the hero invisible.\nfunction inView(el,f){\n  var ro;\n  function chk(){\n    var r=el.getBoundingClientRect();\n    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}\n  }\n  function off(){removeEventListener(\"scroll\",chk);removeEventListener(\"resize\",chk);if(ro)ro.disconnect();}\n  addEventListener(\"scroll\",chk,{passive:true}); addEventListener(\"resize\",chk);\n  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view\n  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}\n  requestAnimationFrame(chk); setTimeout(chk,300);\n}\nfunction enter(root){\n  var els=root.querySelectorAll(\".rv\");\n  els.forEach(function(el,i){if(!el.style.getPropertyValue(\"--i\"))el.style.setProperty(\"--i\",i);});\n  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance\n  if(els.length&&getComputedStyle(els[0]).opacity===\"1\")root.classList.add(\"is-in\");\n  root.classList.add(\"rv-on\");\n  inView(root,function(){root.classList.add(\"is-in\");});\n}\n(function(){\n  var root=document.getElementById(\"h33\"), cur=null;\n  enter(root);\n  function card(b){return document.getElementById(b.getAttribute(\"aria-controls\"));}\n  function close(back){ if(!cur)return; card(cur).hidden=true; cur.setAttribute(\"aria-expanded\",\"false\"); if(back)cur.focus(); cur=null; }\n  root.querySelectorAll(\".h33-hs\").forEach(function(b){\n    b.addEventListener(\"click\",function(){ var same=cur===b; close(false); if(same)return; card(b).hidden=false; b.setAttribute(\"aria-expanded\",\"true\"); cur=b; });\n  });\n  // one card at a time: Escape or a press anywhere else closes it, and Escape returns the focus to its point\n  document.addEventListener(\"keydown\",function(e){if(e.key===\"Escape\")close(true);});\n  document.addEventListener(\"click\",function(e){if(cur&&!e.target.closest(\".h33-hs,.h33-card\"))close(false);});\n})();\n\nהערת מימוש מהמאגר:\nצילום אווירה שהוא גם קטלוג: כל נקודה יושבת על פריט אמיתי בצילום ופותחת כרטיס עם שם, מחיר וקישור. המסגרת שומרת על היחס של הצילום, ולכן המיקום של כל נקודה הוא פשוט אחוזים מהצילום (--x, --y), במיקום פיזי (left) שלא מתהפך עם השפה. בטלפון המסגרת גבוהה יותר והצילום נחתך סביב האי; --o ו---f מזיזים את כל הנקודות לפי אותו חיתוך, והכרטיס הופך לפס ברוחב הצילום, למטה או למעלה לפי מקום הנקודה. כל נקודה היא כפתור עם aria-expanded, aria-controls ושם הפריט, והכרטיס בא מיד אחריה בסדר הקריאה; כרטיס אחד פתוח בכל פעם, Escape או לחיצה בחוץ סוגרים, ו-Escape מחזיר את הפוקוס לנקודה. שתי טבעות רכות אחרי הכניסה אומרות שאפשר ללחוץ, ונעצרות לפני חמש שניות. בלי הוראות כמו \"לחצו על הנקודות\": הנקודות מסבירות את עצמן. בפרויקט מודדים את המיקומים על הצילום הסופי, ובחנות הכרטיס מקשר לעמוד המוצר. פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* H33 · הירו צילום עם נקודות מוצר */\n/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */\n.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}\n.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}\n.hf-top b{font-size:18px;font-weight:800}\n.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}\n@media (max-width:760px){.hf-top nav{display:none}}\n.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;\n  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}\n@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}\n.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}\n.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}\n.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}\n.hcta{display:flex;flex-wrap:wrap;gap:12px}\n\n/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */\n.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}\n/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */\n.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}\n.rv-on .rv{animation:none}\n@keyframes rv-fs{to{opacity:1;transform:none}}\n@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}\n  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}\n.h33h{display:flex;flex-direction:column;gap:28px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg, #f7f7fa)}\n.h33-top{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:end;gap:20px 56px}\n.h33-ttl,.h33-side{display:flex;flex-direction:column;align-items:flex-start;gap:16px}\n.h33-side{gap:20px}\n.h33h h3{margin:0;max-width:15ch;font-size:clamp(32px,min(4vw,7.8vh),60px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}\n.h33h .hlead{max-width:42ch}\n/* the frame keeps the photo's proportions, so x and y are simply percent of the photo. --o and --f map them when the phone crops it */\n.h33-fr{--o:0%;--f:1;position:relative;width:min(100%,calc(46vh * 2.339));aspect-ratio:2400/1026;margin-inline:auto}\n.h33-fr>img{width:100%;height:100%;object-fit:cover;display:block;border-radius:24px}\n.h33-spot{display:contents}\n/* physical left, not inline-start: a point on a photo does not flip with the language */\n.h33-hs{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:var(--y);z-index:1;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;translate:-50% -50%;cursor:pointer;\n  background:none;color:var(--ink, #16182b);transition:opacity .4s cubic-bezier(.2,.6,.2,1),scale .5s cubic-bezier(.2,.6,.2,1)}\n/* the dot is smaller than the 44px target, so it marks the item without hiding it */\n.h33-dot{position:relative;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--bg, #f7f7fa);box-shadow:0 6px 18px -6px color-mix(in srgb,var(--ink, #16182b) 75%,transparent);transition:transform .3s cubic-bezier(.2,.6,.2,1)}\n.h33-hs svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;transition:rotate .3s cubic-bezier(.2,.6,.2,1)}\n.h33-hs[aria-expanded=\"true\"] svg{rotate:45deg}\n.h33-hs:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n@media (hover:hover) and (pointer:fine){.h33-hs:hover .h33-dot{transform:scale(1.12)}}\n.open-anim .h33-hs{opacity:0;scale:.4;animation:h33s-fs 0s 2.5s forwards}\n.is-in .h33-hs{opacity:1;scale:1;transition-delay:calc(var(--t0,0s) + .5s + var(--k,0) * 80ms)}\n.rv-on .h33-hs{animation:none}\n@keyframes h33s-fs{to{opacity:1;scale:1}}\n/* two soft rings after the entrance say \"this can be pressed\", then stop: under five seconds, so no pause button */\n.h33-dot::before{content:\"\";position:absolute;inset:0;z-index:-1;border-radius:50%;background:var(--bg, #f7f7fa);opacity:0}\n.is-in .h33-dot::before{animation:h33-ring 1.6s cubic-bezier(.2,.6,.2,1) 2;animation-delay:calc(var(--t0,0s) + 1s + var(--k,0) * 150ms)}\n@keyframes h33-ring{from{opacity:.55;transform:scale(1)}to{opacity:0;transform:scale(1.9)}}\n.h33-card{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:calc(var(--y) + 32px);z-index:2;display:flex;flex-direction:column;gap:4px;width:240px;padding:16px;border-radius:16px;translate:-50% 0;\n  background:var(--bg, #f7f7fa);color:var(--ink, #16182b);box-shadow:0 24px 48px -16px color-mix(in srgb,var(--ink, #16182b) 60%,transparent);animation:h33-pop .35s cubic-bezier(.2,.6,.2,1)}\n.h33-card[hidden]{display:none}\n.h33-spot[data-pos=\"up\"] .h33-card{top:auto;bottom:calc(100% - var(--y) + 32px)}\n.h33-card b{font-size:16px;font-weight:700}\n.h33-card span{font-size:15px;color:var(--muted, #6a6d85)}\n.h33-card a{align-self:flex-start;margin-top:8px;font-size:15px;font-weight:700;color:inherit;text-underline-offset:4px}\n@keyframes h33-pop{from{opacity:0;translate:-50% 8px}}\n@keyframes h33-in{from{opacity:0}}\n@media (prefers-reduced-motion:reduce){.h33-hs,.h33-dot,.h33-hs svg{transition-duration:.01ms!important;transition-delay:0s!important}.h33-dot::before,.h33-card{animation:none!important}}\n/* phone: a taller crop around the island, every point moved by the same crop, and the card is a bar across the photo */\n@media (max-width:860px){.h33h{gap:20px;min-height:0;padding:72px 20px 24px}\n  .h33-top{grid-template-columns:1fr;gap:14px}.h33-ttl{gap:12px}.h33-side{gap:16px}\n  .h33h h3{font-size:clamp(28px,7.4vw,36px)}\n  .h33h .hcta{width:100%;flex-wrap:nowrap}.h33h .hcta .hbtn{flex:1;padding-inline:16px}\n  .h33-fr{--o:28%;--f:.534;width:100%;aspect-ratio:5/4}\n  .h33-fr>img{object-position:60% 50%;border-radius:20px}\n  .h33-card,.h33-spot[data-pos=\"up\"] .h33-card{left:12px;right:12px;top:auto;bottom:12px;width:auto;translate:none;animation-name:h33-in}\n  .h33-spot[data-ph=\"top\"] .h33-card{top:12px;bottom:auto}}","html":"<script>if(matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)document.documentElement.classList.add(\"open-anim\")<\/script>\n<div class=\"hf\"><div class=\"hf-top\"><b>לוגו<\/b><nav><span>שירותים<\/span><span>פרויקטים<\/span><span>אודות<\/span><\/nav><\/div>\n  <section class=\"h33h\" id=\"h33\">\n    <div class=\"h33-top\">\n      <div class=\"h33-ttl\">\n        <span class=\"hkick rv\">מטבחים בהזמנה אישית, נגרייה בשרון<\/span>\n        <h3 class=\"rv\">מטבח שנבנה סביב הדרך שבה אתם מבשלים<\/h3>\n      <\/div>\n      <div class=\"h33-side\">\n        <p class=\"hlead rv\">תכנון, ייצור בנגרייה שלנו והתקנה, עם החומרים והפרזול שבחרתם. כל מה שרואים בצילום אפשר להזמין.<\/p>\n        <div class=\"hcta rv\"><a class=\"hbtn\" href=\"#h33\">לפגישת תכנון<\/a><a class=\"hbtn ghost\" href=\"#h33\">עוד מטבחים<\/a><\/div>\n      <\/div>\n    <\/div>\n    <div class=\"h33-fr rv\">\n      <img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp\" alt=\"מטבח בגוון ירוק כהה עם אי באמצע, חיפוי אבן מאחור, מנורות תלויות וכיסאות בר\" fetchpriority=\"high\" decoding=\"async\">\n      <div class=\"h33-spot\" style=\"--x:47.8%;--y:43%;--k:0\" data-pos=\"down\" data-ph=\"bottom\">\n        <button class=\"h33-hs\" type=\"button\" aria-expanded=\"false\" aria-controls=\"h33-c0\" aria-label=\"מנורת זכוכית מחורצת\"><span class=\"h33-dot\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/><\/svg><\/span><\/button>\n        <div class=\"h33-card\" id=\"h33-c0\" hidden><b>מנורת זכוכית מחורצת<\/b><span>1,290 ₪ ליחידה<\/span><a href=\"#h33\">לפרטים<\/a><\/div>\n      <\/div>\n      <div class=\"h33-spot\" style=\"--x:55%;--y:54%;--k:1\" data-pos=\"up\" data-ph=\"top\">\n        <button class=\"h33-hs\" type=\"button\" aria-expanded=\"false\" aria-controls=\"h33-c1\" aria-label=\"חיפוי קיר מאבן\"><span class=\"h33-dot\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/><\/svg><\/span><\/button>\n        <div class=\"h33-card\" id=\"h33-c1\" hidden><b>חיפוי קיר מאבן<\/b><span>מ-480 ₪ למ״ר<\/span><a href=\"#h33\">לפרטים<\/a><\/div>\n      <\/div>\n      <div class=\"h33-spot\" style=\"--x:36.5%;--y:57%;--k:2\" data-pos=\"up\" data-ph=\"top\">\n        <button class=\"h33-hs\" type=\"button\" aria-expanded=\"false\" aria-controls=\"h33-c2\" aria-label=\"ברז פליז מוברש\"><span class=\"h33-dot\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/><\/svg><\/span><\/button>\n        <div class=\"h33-card\" id=\"h33-c2\" hidden><b>ברז פליז מוברש<\/b><span>1,650 ₪<\/span><a href=\"#h33\">לפרטים<\/a><\/div>\n      <\/div>\n      <div class=\"h33-spot\" style=\"--x:73%;--y:76%;--k:3\" data-pos=\"up\" data-ph=\"top\">\n        <button class=\"h33-hs\" type=\"button\" aria-expanded=\"false\" aria-controls=\"h33-c3\" aria-label=\"כיסא בר מעור ועץ\"><span class=\"h33-dot\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/><\/svg><\/span><\/button>\n        <div class=\"h33-card\" id=\"h33-c3\" hidden><b>כיסא בר מעור ועץ<\/b><span>890 ₪ לכיסא<\/span><a href=\"#h33\">לפרטים<\/a><\/div>\n      <\/div>\n    <\/div>\n  <\/section>\n<\/div>","js":"// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:\n// an observer does not update while the tab is throttled (and on a real site the hero is usually\n// on screen at load anyway), and an entrance that never fires leaves the hero invisible.\nfunction inView(el,f){\n  var ro;\n  function chk(){\n    var r=el.getBoundingClientRect();\n    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}\n  }\n  function off(){removeEventListener(\"scroll\",chk);removeEventListener(\"resize\",chk);if(ro)ro.disconnect();}\n  addEventListener(\"scroll\",chk,{passive:true}); addEventListener(\"resize\",chk);\n  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view\n  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}\n  requestAnimationFrame(chk); setTimeout(chk,300);\n}\nfunction enter(root){\n  var els=root.querySelectorAll(\".rv\");\n  els.forEach(function(el,i){if(!el.style.getPropertyValue(\"--i\"))el.style.setProperty(\"--i\",i);});\n  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance\n  if(els.length&&getComputedStyle(els[0]).opacity===\"1\")root.classList.add(\"is-in\");\n  root.classList.add(\"rv-on\");\n  inView(root,function(){root.classList.add(\"is-in\");});\n}\n(function(){\n  var root=document.getElementById(\"h33\"), cur=null;\n  enter(root);\n  function card(b){return document.getElementById(b.getAttribute(\"aria-controls\"));}\n  function close(back){ if(!cur)return; card(cur).hidden=true; cur.setAttribute(\"aria-expanded\",\"false\"); if(back)cur.focus(); cur=null; }\n  root.querySelectorAll(\".h33-hs\").forEach(function(b){\n    b.addEventListener(\"click\",function(){ var same=cur===b; close(false); if(same)return; card(b).hidden=false; b.setAttribute(\"aria-expanded\",\"true\"); cur=b; });\n  });\n  // one card at a time: Escape or a press anywhere else closes it, and Escape returns the focus to its point\n  document.addEventListener(\"keydown\",function(e){if(e.key===\"Escape\")close(true);});\n  document.addEventListener(\"click\",function(e){if(cur&&!e.target.closest(\".h33-hs,.h33-card\"))close(false);});\n})();","scripts":"","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="h32.html" rel="prev"><small>→ הקודם</small><b>הירו אירוע עם ספירה לאחור</b></a><a href="h34.html" rel="next"><small>הבא ←</small><b>הירו סרטון רחב כמו בקולנוע</b></a></nav>
+
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · הירו צילום עם נקודות מוצר").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+(function(){
+  var root=document.getElementById("h33"), cur=null;
+  enter(root);
+  function card(b){return document.getElementById(b.getAttribute("aria-controls"));}
+  function close(back){ if(!cur)return; card(cur).hidden=true; cur.setAttribute("aria-expanded","false"); if(back)cur.focus(); cur=null; }
+  root.querySelectorAll(".h33-hs").forEach(function(b){
+    b.addEventListener("click",function(){ var same=cur===b; close(false); if(same)return; card(b).hidden=false; b.setAttribute("aria-expanded","true"); cur=b; });
+  });
+  // one card at a time: Escape or a press anywhere else closes it, and Escape returns the focus to its point
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")close(true);});
+  document.addEventListener("click",function(e){if(cur&&!e.target.closest(".h33-hs,.h33-card"))close(false);});
+})();
+</script>
+</body>
+</html>

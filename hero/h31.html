@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H31 · הירו חנות עם עיגולי קטגוריות | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--bg);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h31h{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;min-height:min(86vh,780px);padding:88px 28px 40px;text-align:center;
+  background:linear-gradient(to bottom,color-mix(in srgb,var(--accent) 12%,var(--bg)),var(--bg) 75%)}
+.h31h h3{margin:0;max-width:17ch;font-size:clamp(34px,min(4.6vw,7.8vh),72px);line-height:1.08;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+/* the photo inside the sentence: a pill sized in em, so it grows, shrinks and wraps with the heading */
+.h31-pill{display:inline-block;width:2.1em;height:.8em;margin-inline:.06em;vertical-align:-.06em;border-radius:999px;overflow:hidden;background:var(--card);clip-path:inset(0 round 999px);transition:clip-path .9s cubic-bezier(.2,.6,.2,1)}
+.h31-pill img{width:100%;height:100%;object-fit:cover;object-position:50% 55%;display:block}
+.open-anim .h31-pill{clip-path:inset(0 50% round 999px);animation:h31p-fs 0s 2.5s forwards}
+.is-in .h31-pill{clip-path:inset(0 round 999px);transition-delay:calc(var(--t0,0s) + .3s)}
+.rv-on .h31-pill{animation:none}
+@keyframes h31p-fs{to{clip-path:inset(0 round 999px)}}
+.h31h .hlead{max-width:46ch}
+.h31h .hcta{justify-content:center}
+.h31-cats{max-width:100%;margin-top:16px}
+.h31-cats ul{display:flex;justify-content:center;gap:16px 40px;margin:0;padding:0;list-style:none}
+.h31-cats a{display:flex;flex-direction:column;align-items:center;gap:4px;color:inherit;text-decoration:none}
+.h31-c{display:block;width:clamp(96px,9vw,140px);aspect-ratio:1;margin-bottom:8px;border-radius:50%;overflow:hidden;background:var(--card)}
+.h31-c img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.6,.2,1)}
+.h31-cats li:nth-child(2) img{object-position:72% 70%}
+.h31-cats li:nth-child(3) img{object-position:30% 60%}
+.h31-cats li:nth-child(4) img{object-position:40% 70%}
+.h31-cats b{font-size:16px;font-weight:700}
+.h31-n{font-size:13px;color:var(--muted)}
+.h31-cats a:focus-visible{outline:none}
+.h31-cats a:focus-visible .h31-c{outline:2px solid var(--accent);outline-offset:4px}
+@media (hover:hover) and (pointer:fine){.h31-cats a:hover .h31-c img{transform:scale(1.08)}}
+/* the circles grow in one after another instead of rising */
+.open-anim .h31-cats .rv{transform:scale(.86)}
+.is-in .h31-cats .rv{transform:none}
+@media (prefers-reduced-motion:reduce){.h31-pill,.h31-c img{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the circles become a row that scrolls sideways, and the next circle peeks in at the edge */
+@media (max-width:860px){.h31h{gap:16px;min-height:0;padding:72px 20px 28px}
+  .h31h h3{font-size:clamp(30px,8vw,40px)}
+  .h31h .hcta{width:100%;flex-wrap:nowrap}.h31h .hcta .hbtn{flex:1;padding-inline:16px}
+  .h31-cats{align-self:stretch;margin:8px -20px 0}
+  .h31-cats ul{justify-content:flex-start;gap:16px;overflow-x:auto;padding:4px 20px 8px;scroll-padding-inline:20px;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .h31-cats li{flex:none;scroll-snap-align:start}
+  .h31-c{width:76px}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=hero">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="h30.html" rel="prev" title="הקודם: הירו שלושה לוחות שנפתחים">→<span class="sr-only">הקודם</span></a><span class="vpn-n">31/34</span><a href="h32.html" rel="next" title="הבא: הירו אירוע עם ספירה לאחור">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">H31</span> · הירו חנות עם עיגולי קטגוריות</h1>
+  <span class="vchip cat-hero">הירו</span>
+  <span class="vchip">CSS · JS</span>
+  <span class="vchip use">הירו ופתיחה</span><span class="vchip use">ניווט ומבנה</span><span class="vchip use">תמונות וגלריות</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:h31"><code>MV:h31</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="h31">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>כותרת ממורכזת עם צילום קטן בצורת גלולה בתוך המשפט, משפט הסבר וזוג כפתורים, ומתחת שורה של עיגולי צילום, אחד לכל קטגוריה, עם שם ומספר פריטים. העיגולים נכנסים בזה אחר זה.</p>
+  <p class="when"><b>מתי משתמשים:</b> חנות עם ארבע עד שש קטגוריות ברורות שכל אחת מצטלמת יפה: רהיטים לפי חדרים, ביגוד, קוסמטיקה, צעצועים, חנות פרחים, מעדנייה. מי שנכנס קופץ ישר לקטגוריה שלו מהמסך הראשון. לא לחנות עם מוצר מוביל אחד, שם h25, ולא לשירות בלי מוצרים.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>חנות · אתר תדמית</dd></div><div><dt>בסקשן</dt><dd>הירו</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא לחנות עם פחות מארבע קטגוריות או בלי צילום אחיד לכל אחת; אז h25 או h22.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="h31"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h31h" id="h31">
+    <span class="hkick rv">רהיטים ותאורה, מעצבים בישראל</span>
+    <h3 class="rv">רהיטים שנכנסים לבית <span class="h31-pill"><img src="../assets/media/real/s13/proj-c.webp" alt="" aria-hidden="true" decoding="async"></span> ונשארים בו שנים</h3>
+    <p class="hlead rv">סלון, חדר שינה, אמבטיה ומטבח, מסטודיואים ישראלים ומנגריות קטנות. משלוח והרכבה עד הבית בכל הארץ.</p>
+    <div class="hcta rv"><a class="hbtn" href="#h31">לקולקציה החדשה</a><a class="hbtn ghost" href="#h31">לחנות בתל אביב</a></div>
+    <nav class="h31-cats" aria-label="קטגוריות">
+      <ul>
+        <li class="rv" style="--i:3.5"><a href="#h31"><span class="h31-c"><img src="../assets/media/real/s13/proj-a.webp" alt="" aria-hidden="true" decoding="async"></span><b>סלון</b><span class="h31-n">86 פריטים</span></a></li>
+        <li class="rv" style="--i:4"><a href="#h31"><span class="h31-c"><img src="../assets/media/real/s02/night-room.webp" alt="" aria-hidden="true" decoding="async"></span><b>חדר שינה</b><span class="h31-n">54 פריטים</span></a></li>
+        <li class="rv" style="--i:4.5"><a href="#h31"><span class="h31-c"><img src="../assets/media/real/s13/proj-b.webp" alt="" aria-hidden="true" decoding="async"></span><b>אמבטיה</b><span class="h31-n">31 פריטים</span></a></li>
+        <li class="rv" style="--i:5"><a href="#h31"><span class="h31-c"><img src="../assets/media/real/s13/room.webp" alt="" aria-hidden="true" decoding="async"></span><b>פינת קריאה</b><span class="h31-n">22 פריטים</span></a></li>
+        <li class="rv" style="--i:5.5"><a href="#h31"><span class="h31-c"><img src="../assets/media/real/s13/proj-c.webp" alt="" aria-hidden="true" decoding="async"></span><b>מטבח</b><span class="h31-n">47 פריטים</span></a></li>
+      </ul>
+    </nav>
+  </section>
+</div>
+
+<div class="demo-note">ההירו של חנות שהמבקר בה יודע מה הוא מחפש: הקטגוריות עולות למסך הראשון כעיגולי צילום, ולחיצה אחת מובילה לקטגוריה. העיגולים הם nav עם רשימה וקישורים אמיתיים, והשם והמספר הם הטקסט של הקישור, ולכן הצילומים עצמם מוסתרים מקורא מסך. הגלולה בתוך הכותרת היא צילום קטן שגודלו ב-em, כך שהיא גדלה ונשברת עם המשפט, ונפתחת מהאמצע לצדדים. העיגולים נכנסים בזה אחר זה בגדילה קלה, וכל הפתיחה נגמרת עד 1.2 שניות. בטלפון העיגולים הופכים לשורה שנגללת הצידה, והעיגול הבא מציץ בקצה כדי שיהיה ברור שיש עוד. בפרויקט הקטגוריות, הצילומים והמספרים מגיעים מהחנות (Shopify או ווקומרס); צילום אחיד לכל העיגולים, באותו אור ובאותו מרחק, הוא מה שהופך את השורה לשקטה. פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/h31.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* H31 · הירו חנות עם עיגולי קטגוריות */
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h31h{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;min-height:min(86vh,780px);padding:88px 28px 40px;text-align:center;
+  background:linear-gradient(to bottom,color-mix(in srgb,var(--accent, #4a3aff) 12%,var(--bg, #f7f7fa)),var(--bg, #f7f7fa) 75%)}
+.h31h h3{margin:0;max-width:17ch;font-size:clamp(34px,min(4.6vw,7.8vh),72px);line-height:1.08;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+/* the photo inside the sentence: a pill sized in em, so it grows, shrinks and wraps with the heading */
+.h31-pill{display:inline-block;width:2.1em;height:.8em;margin-inline:.06em;vertical-align:-.06em;border-radius:999px;overflow:hidden;background:var(--card, #fff);clip-path:inset(0 round 999px);transition:clip-path .9s cubic-bezier(.2,.6,.2,1)}
+.h31-pill img{width:100%;height:100%;object-fit:cover;object-position:50% 55%;display:block}
+.open-anim .h31-pill{clip-path:inset(0 50% round 999px);animation:h31p-fs 0s 2.5s forwards}
+.is-in .h31-pill{clip-path:inset(0 round 999px);transition-delay:calc(var(--t0,0s) + .3s)}
+.rv-on .h31-pill{animation:none}
+@keyframes h31p-fs{to{clip-path:inset(0 round 999px)}}
+.h31h .hlead{max-width:46ch}
+.h31h .hcta{justify-content:center}
+.h31-cats{max-width:100%;margin-top:16px}
+.h31-cats ul{display:flex;justify-content:center;gap:16px 40px;margin:0;padding:0;list-style:none}
+.h31-cats a{display:flex;flex-direction:column;align-items:center;gap:4px;color:inherit;text-decoration:none}
+.h31-c{display:block;width:clamp(96px,9vw,140px);aspect-ratio:1;margin-bottom:8px;border-radius:50%;overflow:hidden;background:var(--card, #fff)}
+.h31-c img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.6,.2,1)}
+.h31-cats li:nth-child(2) img{object-position:72% 70%}
+.h31-cats li:nth-child(3) img{object-position:30% 60%}
+.h31-cats li:nth-child(4) img{object-position:40% 70%}
+.h31-cats b{font-size:16px;font-weight:700}
+.h31-n{font-size:13px;color:var(--muted, #6a6d85)}
+.h31-cats a:focus-visible{outline:none}
+.h31-cats a:focus-visible .h31-c{outline:2px solid var(--accent, #4a3aff);outline-offset:4px}
+@media (hover:hover) and (pointer:fine){.h31-cats a:hover .h31-c img{transform:scale(1.08)}}
+/* the circles grow in one after another instead of rising */
+.open-anim .h31-cats .rv{transform:scale(.86)}
+.is-in .h31-cats .rv{transform:none}
+@media (prefers-reduced-motion:reduce){.h31-pill,.h31-c img{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the circles become a row that scrolls sideways, and the next circle peeks in at the edge */
+@media (max-width:860px){.h31h{gap:16px;min-height:0;padding:72px 20px 28px}
+  .h31h h3{font-size:clamp(30px,8vw,40px)}
+  .h31h .hcta{width:100%;flex-wrap:nowrap}.h31h .hcta .hbtn{flex:1;padding-inline:16px}
+  .h31-cats{align-self:stretch;margin:8px -20px 0}
+  .h31-cats ul{justify-content:flex-start;gap:16px;overflow-x:auto;padding:4px 20px 8px;scroll-padding-inline:20px;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .h31-cats li{flex:none;scroll-snap-align:start}
+  .h31-c{width:76px}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;script&gt;if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")&lt;/script&gt;
+&lt;div class="hf"&gt;&lt;div class="hf-top"&gt;&lt;b&gt;לוגו&lt;/b&gt;&lt;nav&gt;&lt;span&gt;שירותים&lt;/span&gt;&lt;span&gt;פרויקטים&lt;/span&gt;&lt;span&gt;אודות&lt;/span&gt;&lt;/nav&gt;&lt;/div&gt;
+  &lt;section class="h31h" id="h31"&gt;
+    &lt;span class="hkick rv"&gt;רהיטים ותאורה, מעצבים בישראל&lt;/span&gt;
+    &lt;h3 class="rv"&gt;רהיטים שנכנסים לבית &lt;span class="h31-pill"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" alt="" aria-hidden="true" decoding="async"&gt;&lt;/span&gt; ונשארים בו שנים&lt;/h3&gt;
+    &lt;p class="hlead rv"&gt;סלון, חדר שינה, אמבטיה ומטבח, מסטודיואים ישראלים ומנגריות קטנות. משלוח והרכבה עד הבית בכל הארץ.&lt;/p&gt;
+    &lt;div class="hcta rv"&gt;&lt;a class="hbtn" href="#h31"&gt;לקולקציה החדשה&lt;/a&gt;&lt;a class="hbtn ghost" href="#h31"&gt;לחנות בתל אביב&lt;/a&gt;&lt;/div&gt;
+    &lt;nav class="h31-cats" aria-label="קטגוריות"&gt;
+      &lt;ul&gt;
+        &lt;li class="rv" style="--i:3.5"&gt;&lt;a href="#h31"&gt;&lt;span class="h31-c"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp" alt="" aria-hidden="true" decoding="async"&gt;&lt;/span&gt;&lt;b&gt;סלון&lt;/b&gt;&lt;span class="h31-n"&gt;86 פריטים&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="rv" style="--i:4"&gt;&lt;a href="#h31"&gt;&lt;span class="h31-c"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s02/night-room.webp" alt="" aria-hidden="true" decoding="async"&gt;&lt;/span&gt;&lt;b&gt;חדר שינה&lt;/b&gt;&lt;span class="h31-n"&gt;54 פריטים&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="rv" style="--i:4.5"&gt;&lt;a href="#h31"&gt;&lt;span class="h31-c"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp" alt="" aria-hidden="true" decoding="async"&gt;&lt;/span&gt;&lt;b&gt;אמבטיה&lt;/b&gt;&lt;span class="h31-n"&gt;31 פריטים&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="rv" style="--i:5"&gt;&lt;a href="#h31"&gt;&lt;span class="h31-c"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp" alt="" aria-hidden="true" decoding="async"&gt;&lt;/span&gt;&lt;b&gt;פינת קריאה&lt;/b&gt;&lt;span class="h31-n"&gt;22 פריטים&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="rv" style="--i:5.5"&gt;&lt;a href="#h31"&gt;&lt;span class="h31-c"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" alt="" aria-hidden="true" decoding="async"&gt;&lt;/span&gt;&lt;b&gt;מטבח&lt;/b&gt;&lt;span class="h31-n"&gt;47 פריטים&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top&lt;innerHeight*.9&amp;&amp;r.bottom&gt;0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&amp;&amp;getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+enter(document.getElementById("h31"));</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:h31 · הירו חנות עם עיגולי קטגוריות\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/hero/h31.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/h31.html\n\nמה זה עושה: כותרת ממורכזת עם צילום קטן בצורת גלולה בתוך המשפט, משפט הסבר וזוג כפתורים, ומתחת שורה של עיגולי צילום, אחד לכל קטגוריה, עם שם ומספר פריטים. העיגולים נכנסים בזה אחר זה.\nמתי משתמשים: חנות עם ארבע עד שש קטגוריות ברורות שכל אחת מצטלמת יפה: רהיטים לפי חדרים, ביגוד, קוסמטיקה, צעצועים, חנות פרחים, מעדנייה. מי שנכנס קופץ ישר לקטגוריה שלו מהמסך הראשון. לא לחנות עם מוצר מוביל אחד, שם h25, ולא לשירות בלי מוצרים.\nסוג אתר: חנות · אתר תדמית\nבסקשן: הירו\nאופי: גם באתר שקט\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא לחנות עם פחות מארבע קטגוריות או בלי צילום אחיד לכל אחת; אז h25 או h22.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* H31 · הירו חנות עם עיגולי קטגוריות */\n/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */\n.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}\n.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}\n.hf-top b{font-size:18px;font-weight:800}\n.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}\n@media (max-width:760px){.hf-top nav{display:none}}\n.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;\n  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}\n@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}\n.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}\n.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}\n.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}\n.hcta{display:flex;flex-wrap:wrap;gap:12px}\n\n/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */\n.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}\n/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */\n.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}\n.rv-on .rv{animation:none}\n@keyframes rv-fs{to{opacity:1;transform:none}}\n@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}\n  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}\n.h31h{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;min-height:min(86vh,780px);padding:88px 28px 40px;text-align:center;\n  background:linear-gradient(to bottom,color-mix(in srgb,var(--accent, #4a3aff) 12%,var(--bg, #f7f7fa)),var(--bg, #f7f7fa) 75%)}\n.h31h h3{margin:0;max-width:17ch;font-size:clamp(34px,min(4.6vw,7.8vh),72px);line-height:1.08;font-weight:700;letter-spacing:-.01em;text-wrap:balance}\n/* the photo inside the sentence: a pill sized in em, so it grows, shrinks and wraps with the heading */\n.h31-pill{display:inline-block;width:2.1em;height:.8em;margin-inline:.06em;vertical-align:-.06em;border-radius:999px;overflow:hidden;background:var(--card, #fff);clip-path:inset(0 round 999px);transition:clip-path .9s cubic-bezier(.2,.6,.2,1)}\n.h31-pill img{width:100%;height:100%;object-fit:cover;object-position:50% 55%;display:block}\n.open-anim .h31-pill{clip-path:inset(0 50% round 999px);animation:h31p-fs 0s 2.5s forwards}\n.is-in .h31-pill{clip-path:inset(0 round 999px);transition-delay:calc(var(--t0,0s) + .3s)}\n.rv-on .h31-pill{animation:none}\n@keyframes h31p-fs{to{clip-path:inset(0 round 999px)}}\n.h31h .hlead{max-width:46ch}\n.h31h .hcta{justify-content:center}\n.h31-cats{max-width:100%;margin-top:16px}\n.h31-cats ul{display:flex;justify-content:center;gap:16px 40px;margin:0;padding:0;list-style:none}\n.h31-cats a{display:flex;flex-direction:column;align-items:center;gap:4px;color:inherit;text-decoration:none}\n.h31-c{display:block;width:clamp(96px,9vw,140px);aspect-ratio:1;margin-bottom:8px;border-radius:50%;overflow:hidden;background:var(--card, #fff)}\n.h31-c img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.6,.2,1)}\n.h31-cats li:nth-child(2) img{object-position:72% 70%}\n.h31-cats li:nth-child(3) img{object-position:30% 60%}\n.h31-cats li:nth-child(4) img{object-position:40% 70%}\n.h31-cats b{font-size:16px;font-weight:700}\n.h31-n{font-size:13px;color:var(--muted, #6a6d85)}\n.h31-cats a:focus-visible{outline:none}\n.h31-cats a:focus-visible .h31-c{outline:2px solid var(--accent, #4a3aff);outline-offset:4px}\n@media (hover:hover) and (pointer:fine){.h31-cats a:hover .h31-c img{transform:scale(1.08)}}\n/* the circles grow in one after another instead of rising */\n.open-anim .h31-cats .rv{transform:scale(.86)}\n.is-in .h31-cats .rv{transform:none}\n@media (prefers-reduced-motion:reduce){.h31-pill,.h31-c img{transition-duration:.01ms!important;transition-delay:0s!important}}\n/* phone: the circles become a row that scrolls sideways, and the next circle peeks in at the edge */\n@media (max-width:860px){.h31h{gap:16px;min-height:0;padding:72px 20px 28px}\n  .h31h h3{font-size:clamp(30px,8vw,40px)}\n  .h31h .hcta{width:100%;flex-wrap:nowrap}.h31h .hcta .hbtn{flex:1;padding-inline:16px}\n  .h31-cats{align-self:stretch;margin:8px -20px 0}\n  .h31-cats ul{justify-content:flex-start;gap:16px;overflow-x:auto;padding:4px 20px 8px;scroll-padding-inline:20px;scroll-snap-type:x mandatory;scrollbar-width:none}\n  .h31-cats li{flex:none;scroll-snap-align:start}\n  .h31-c{width:76px}}\n\n=== HTML ===\n<script>if(matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)document.documentElement.classList.add(\"open-anim\")<\/script>\n<div class=\"hf\"><div class=\"hf-top\"><b>לוגו<\/b><nav><span>שירותים<\/span><span>פרויקטים<\/span><span>אודות<\/span><\/nav><\/div>\n  <section class=\"h31h\" id=\"h31\">\n    <span class=\"hkick rv\">רהיטים ותאורה, מעצבים בישראל<\/span>\n    <h3 class=\"rv\">רהיטים שנכנסים לבית <span class=\"h31-pill\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><\/span> ונשארים בו שנים<\/h3>\n    <p class=\"hlead rv\">סלון, חדר שינה, אמבטיה ומטבח, מסטודיואים ישראלים ומנגריות קטנות. משלוח והרכבה עד הבית בכל הארץ.<\/p>\n    <div class=\"hcta rv\"><a class=\"hbtn\" href=\"#h31\">לקולקציה החדשה<\/a><a class=\"hbtn ghost\" href=\"#h31\">לחנות בתל אביב<\/a><\/div>\n    <nav class=\"h31-cats\" aria-label=\"קטגוריות\">\n      <ul>\n        <li class=\"rv\" style=\"--i:3.5\"><a href=\"#h31\"><span class=\"h31-c\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><\/span><b>סלון<\/b><span class=\"h31-n\">86 פריטים<\/span><\/a><\/li>\n        <li class=\"rv\" style=\"--i:4\"><a href=\"#h31\"><span class=\"h31-c\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s02/night-room.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><\/span><b>חדר שינה<\/b><span class=\"h31-n\">54 פריטים<\/span><\/a><\/li>\n        <li class=\"rv\" style=\"--i:4.5\"><a href=\"#h31\"><span class=\"h31-c\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><\/span><b>אמבטיה<\/b><span class=\"h31-n\">31 פריטים<\/span><\/a><\/li>\n        <li class=\"rv\" style=\"--i:5\"><a href=\"#h31\"><span class=\"h31-c\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><\/span><b>פינת קריאה<\/b><span class=\"h31-n\">22 פריטים<\/span><\/a><\/li>\n        <li class=\"rv\" style=\"--i:5.5\"><a href=\"#h31\"><span class=\"h31-c\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><\/span><b>מטבח<\/b><span class=\"h31-n\">47 פריטים<\/span><\/a><\/li>\n      <\/ul>\n    <\/nav>\n  <\/section>\n<\/div>\n\n=== JS ===\n// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:\n// an observer does not update while the tab is throttled (and on a real site the hero is usually\n// on screen at load anyway), and an entrance that never fires leaves the hero invisible.\nfunction inView(el,f){\n  var ro;\n  function chk(){\n    var r=el.getBoundingClientRect();\n    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}\n  }\n  function off(){removeEventListener(\"scroll\",chk);removeEventListener(\"resize\",chk);if(ro)ro.disconnect();}\n  addEventListener(\"scroll\",chk,{passive:true}); addEventListener(\"resize\",chk);\n  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view\n  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}\n  requestAnimationFrame(chk); setTimeout(chk,300);\n}\nfunction enter(root){\n  var els=root.querySelectorAll(\".rv\");\n  els.forEach(function(el,i){if(!el.style.getPropertyValue(\"--i\"))el.style.setProperty(\"--i\",i);});\n  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance\n  if(els.length&&getComputedStyle(els[0]).opacity===\"1\")root.classList.add(\"is-in\");\n  root.classList.add(\"rv-on\");\n  inView(root,function(){root.classList.add(\"is-in\");});\n}\nenter(document.getElementById(\"h31\"));\n\nהערת מימוש מהמאגר:\nההירו של חנות שהמבקר בה יודע מה הוא מחפש: הקטגוריות עולות למסך הראשון כעיגולי צילום, ולחיצה אחת מובילה לקטגוריה. העיגולים הם nav עם רשימה וקישורים אמיתיים, והשם והמספר הם הטקסט של הקישור, ולכן הצילומים עצמם מוסתרים מקורא מסך. הגלולה בתוך הכותרת היא צילום קטן שגודלו ב-em, כך שהיא גדלה ונשברת עם המשפט, ונפתחת מהאמצע לצדדים. העיגולים נכנסים בזה אחר זה בגדילה קלה, וכל הפתיחה נגמרת עד 1.2 שניות. בטלפון העיגולים הופכים לשורה שנגללת הצידה, והעיגול הבא מציץ בקצה כדי שיהיה ברור שיש עוד. בפרויקט הקטגוריות, הצילומים והמספרים מגיעים מהחנות (Shopify או ווקומרס); צילום אחיד לכל העיגולים, באותו אור ובאותו מרחק, הוא מה שהופך את השורה לשקטה. פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* H31 · הירו חנות עם עיגולי קטגוריות */\n/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */\n.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}\n.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}\n.hf-top b{font-size:18px;font-weight:800}\n.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}\n@media (max-width:760px){.hf-top nav{display:none}}\n.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;\n  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}\n@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}\n.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}\n.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}\n.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}\n.hcta{display:flex;flex-wrap:wrap;gap:12px}\n\n/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */\n.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}\n/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */\n.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}\n.rv-on .rv{animation:none}\n@keyframes rv-fs{to{opacity:1;transform:none}}\n@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}\n  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}\n.h31h{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;min-height:min(86vh,780px);padding:88px 28px 40px;text-align:center;\n  background:linear-gradient(to bottom,color-mix(in srgb,var(--accent, #4a3aff) 12%,var(--bg, #f7f7fa)),var(--bg, #f7f7fa) 75%)}\n.h31h h3{margin:0;max-width:17ch;font-size:clamp(34px,min(4.6vw,7.8vh),72px);line-height:1.08;font-weight:700;letter-spacing:-.01em;text-wrap:balance}\n/* the photo inside the sentence: a pill sized in em, so it grows, shrinks and wraps with the heading */\n.h31-pill{display:inline-block;width:2.1em;height:.8em;margin-inline:.06em;vertical-align:-.06em;border-radius:999px;overflow:hidden;background:var(--card, #fff);clip-path:inset(0 round 999px);transition:clip-path .9s cubic-bezier(.2,.6,.2,1)}\n.h31-pill img{width:100%;height:100%;object-fit:cover;object-position:50% 55%;display:block}\n.open-anim .h31-pill{clip-path:inset(0 50% round 999px);animation:h31p-fs 0s 2.5s forwards}\n.is-in .h31-pill{clip-path:inset(0 round 999px);transition-delay:calc(var(--t0,0s) + .3s)}\n.rv-on .h31-pill{animation:none}\n@keyframes h31p-fs{to{clip-path:inset(0 round 999px)}}\n.h31h .hlead{max-width:46ch}\n.h31h .hcta{justify-content:center}\n.h31-cats{max-width:100%;margin-top:16px}\n.h31-cats ul{display:flex;justify-content:center;gap:16px 40px;margin:0;padding:0;list-style:none}\n.h31-cats a{display:flex;flex-direction:column;align-items:center;gap:4px;color:inherit;text-decoration:none}\n.h31-c{display:block;width:clamp(96px,9vw,140px);aspect-ratio:1;margin-bottom:8px;border-radius:50%;overflow:hidden;background:var(--card, #fff)}\n.h31-c img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.6,.2,1)}\n.h31-cats li:nth-child(2) img{object-position:72% 70%}\n.h31-cats li:nth-child(3) img{object-position:30% 60%}\n.h31-cats li:nth-child(4) img{object-position:40% 70%}\n.h31-cats b{font-size:16px;font-weight:700}\n.h31-n{font-size:13px;color:var(--muted, #6a6d85)}\n.h31-cats a:focus-visible{outline:none}\n.h31-cats a:focus-visible .h31-c{outline:2px solid var(--accent, #4a3aff);outline-offset:4px}\n@media (hover:hover) and (pointer:fine){.h31-cats a:hover .h31-c img{transform:scale(1.08)}}\n/* the circles grow in one after another instead of rising */\n.open-anim .h31-cats .rv{transform:scale(.86)}\n.is-in .h31-cats .rv{transform:none}\n@media (prefers-reduced-motion:reduce){.h31-pill,.h31-c img{transition-duration:.01ms!important;transition-delay:0s!important}}\n/* phone: the circles become a row that scrolls sideways, and the next circle peeks in at the edge */\n@media (max-width:860px){.h31h{gap:16px;min-height:0;padding:72px 20px 28px}\n  .h31h h3{font-size:clamp(30px,8vw,40px)}\n  .h31h .hcta{width:100%;flex-wrap:nowrap}.h31h .hcta .hbtn{flex:1;padding-inline:16px}\n  .h31-cats{align-self:stretch;margin:8px -20px 0}\n  .h31-cats ul{justify-content:flex-start;gap:16px;overflow-x:auto;padding:4px 20px 8px;scroll-padding-inline:20px;scroll-snap-type:x mandatory;scrollbar-width:none}\n  .h31-cats li{flex:none;scroll-snap-align:start}\n  .h31-c{width:76px}}","html":"<script>if(matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)document.documentElement.classList.add(\"open-anim\")<\/script>\n<div class=\"hf\"><div class=\"hf-top\"><b>לוגו<\/b><nav><span>שירותים<\/span><span>פרויקטים<\/span><span>אודות<\/span><\/nav><\/div>\n  <section class=\"h31h\" id=\"h31\">\n    <span class=\"hkick rv\">רהיטים ותאורה, מעצבים בישראל<\/span>\n    <h3 class=\"rv\">רהיטים שנכנסים לבית <span class=\"h31-pill\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><\/span> ונשארים בו שנים<\/h3>\n    <p class=\"hlead rv\">סלון, חדר שינה, אמבטיה ומטבח, מסטודיואים ישראלים ומנגריות קטנות. משלוח והרכבה עד הבית בכל הארץ.<\/p>\n    <div class=\"hcta rv\"><a class=\"hbtn\" href=\"#h31\">לקולקציה החדשה<\/a><a class=\"hbtn ghost\" href=\"#h31\">לחנות בתל אביב<\/a><\/div>\n    <nav class=\"h31-cats\" aria-label=\"קטגוריות\">\n      <ul>\n        <li class=\"rv\" style=\"--i:3.5\"><a href=\"#h31\"><span class=\"h31-c\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><\/span><b>סלון<\/b><span class=\"h31-n\">86 פריטים<\/span><\/a><\/li>\n        <li class=\"rv\" style=\"--i:4\"><a href=\"#h31\"><span class=\"h31-c\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s02/night-room.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><\/span><b>חדר שינה<\/b><span class=\"h31-n\">54 פריטים<\/span><\/a><\/li>\n        <li class=\"rv\" style=\"--i:4.5\"><a href=\"#h31\"><span class=\"h31-c\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><\/span><b>אמבטיה<\/b><span class=\"h31-n\">31 פריטים<\/span><\/a><\/li>\n        <li class=\"rv\" style=\"--i:5\"><a href=\"#h31\"><span class=\"h31-c\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><\/span><b>פינת קריאה<\/b><span class=\"h31-n\">22 פריטים<\/span><\/a><\/li>\n        <li class=\"rv\" style=\"--i:5.5\"><a href=\"#h31\"><span class=\"h31-c\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp\" alt=\"\" aria-hidden=\"true\" decoding=\"async\"><\/span><b>מטבח<\/b><span class=\"h31-n\">47 פריטים<\/span><\/a><\/li>\n      <\/ul>\n    <\/nav>\n  <\/section>\n<\/div>","js":"// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:\n// an observer does not update while the tab is throttled (and on a real site the hero is usually\n// on screen at load anyway), and an entrance that never fires leaves the hero invisible.\nfunction inView(el,f){\n  var ro;\n  function chk(){\n    var r=el.getBoundingClientRect();\n    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}\n  }\n  function off(){removeEventListener(\"scroll\",chk);removeEventListener(\"resize\",chk);if(ro)ro.disconnect();}\n  addEventListener(\"scroll\",chk,{passive:true}); addEventListener(\"resize\",chk);\n  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view\n  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}\n  requestAnimationFrame(chk); setTimeout(chk,300);\n}\nfunction enter(root){\n  var els=root.querySelectorAll(\".rv\");\n  els.forEach(function(el,i){if(!el.style.getPropertyValue(\"--i\"))el.style.setProperty(\"--i\",i);});\n  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance\n  if(els.length&&getComputedStyle(els[0]).opacity===\"1\")root.classList.add(\"is-in\");\n  root.classList.add(\"rv-on\");\n  inView(root,function(){root.classList.add(\"is-in\");});\n}\nenter(document.getElementById(\"h31\"));","scripts":"","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="h30.html" rel="prev"><small>→ הקודם</small><b>הירו שלושה לוחות שנפתחים</b></a><a href="h32.html" rel="next"><small>הבא ←</small><b>הירו אירוע עם ספירה לאחור</b></a></nav>
+
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · הירו חנות עם עיגולי קטגוריות").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+enter(document.getElementById("h31"));
+</script>
+</body>
+</html>

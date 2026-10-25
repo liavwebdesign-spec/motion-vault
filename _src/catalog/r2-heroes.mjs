@@ -1388,5 +1388,435 @@ ${FRAME_CSS}
   js:`${REVEAL_JS}
 enter(document.getElementById("h29"));`,
   note:"ההמלצה היא הכותרת הוויזואלית: משפט אחד של לקוחה אמיתית, עם מספר ושינוי מוחשי, גדול ובפונט התצוגה. מבחינת המבנה היא blockquote בתוך figure עם שם ומקום ב-figcaption, וה-h3 הוא השורה הקטנה שמעליה שאומרת מה העסק עושה (בפרויקט ה-h1), כך שגוגל וקורא מסך מבינים את העמוד גם בלי הציטוט. מרכאות הפתיחה בצבע המותג הן הקישוט היחיד, מוסתרות מקורא מסך. הצילום הוא של אותה לקוחה בבית שלה, ותווית קטנה אומרת את זה, כי צילום כללי ליד ציטוט נראה כמו בנק תמונות. הצילום נפתח מהצד הקרוב לטקסט. משתמשים רק בלקוח שהסכים לשם ולצילום; בלי זה, h24 עם רצועת ביקורות. בטלפון הצילום רצועה למעלה." + NOTE_TAIL
+},
+{
+  id:"h30", cat:"hero", name:"הירו שלושה לוחות שנפתחים", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"כותרת ומשפט למעלה, ומתחת שלושה לוחות צילום זה לצד זה, אחד לכל סוג לקוח. הלוח הפתוח רחב ומראה משפט הסבר; ריחוף או לחיצה על לוח אחר פותחים אותו, והאחרים מצטמצמים.",
+  when:"עסק שמשרת שלושה קהלים או שלושה סוגי עבודה, וכל אחד רוצה לראות את עצמו כבר במסך הראשון: בית, בניין ועסק; פרטי, עסקי ומוסדי; שיפוץ, בנייה ותחזוקה. לא ליותר מארבעה לוחות, שם הסגורים נהיים צרים מדי לשם, ולא כשיש שירות אחד, שם h4.",
+  libs:[],
+  css:`${FRAME_CSS}
+.h30h{display:flex;flex-direction:column;gap:32px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg)}
+.h30-top{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:end;gap:20px 56px}
+.h30-ttl,.h30-side{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.h30-side{gap:20px}
+.h30h h3{margin:0;max-width:16ch;font-size:clamp(32px,min(4vw,7.8vh),60px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h30h .hlead{max-width:42ch}
+/* minmax(0,…): a closed panel may be narrower than the sentence it hides. The open one takes 2.4 parts */
+.h30-row{flex:1;display:grid;grid-template-columns:minmax(0,2.4fr) minmax(0,1fr) minmax(0,1fr);gap:12px;min-height:clamp(280px,40vh,420px);transition:grid-template-columns .7s ${E}}
+.h30-row[data-open="1"]{grid-template-columns:minmax(0,1fr) minmax(0,2.4fr) minmax(0,1fr)}
+.h30-row[data-open="2"]{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,2.4fr)}
+.h30-p{position:relative;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;min-width:0;padding:24px;border-radius:20px;overflow:hidden;isolation:isolate;background:var(--ink);color:var(--bg)}
+.h30-p img{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s ${E}}
+/* the name sits in the bottom start corner, so the shade comes from that corner (heroes.md) */
+.h30-p::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top left,color-mix(in srgb,var(--ink) 85%,transparent) 0%,color-mix(in srgb,var(--ink) 45%,transparent) 50%,transparent 80%)}
+[dir="ltr"] .h30-p::before{background:linear-gradient(to top right,color-mix(in srgb,var(--ink) 85%,transparent) 0%,color-mix(in srgb,var(--ink) 45%,transparent) 50%,transparent 80%)}
+.h30-p h4{margin:0;font-size:clamp(18px,1.5vw,22px);line-height:1.2;font-weight:700}
+.h30-p h4 button{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:0;border:0;background:none;color:inherit;font:inherit;text-align:start;cursor:pointer}
+/* the whole panel is the button's hit area, and the name stays a heading in the outline */
+.h30-p h4 button::after{content:"";position:absolute;inset:0;z-index:1;border-radius:20px}
+.h30-p h4 button:focus-visible{outline:none}
+.h30-p h4 button:focus-visible::after{outline:2px solid var(--accent);outline-offset:-4px}
+.h30-ic{position:relative;flex:none;width:32px;height:32px;border-radius:50%;background:color-mix(in srgb,var(--bg) 22%,transparent);transition:opacity .3s ${E},transform .4s ${E}}
+.h30-ic::before,.h30-ic::after{content:"";position:absolute;top:50%;left:50%;width:12px;height:2px;border-radius:2px;background:currentColor;translate:-50% -50%}
+.h30-ic::after{rotate:90deg}
+.h30-p.on .h30-ic{opacity:0;transform:scale(.6)}
+/* the sentence opens by grid rows (0fr to 1fr) and has a fixed width, so it does not rewrap while the panel widens */
+.h30-d{display:grid;grid-template-rows:0fr;transition:grid-template-rows .6s ${E}}
+.h30-d>div{min-height:0;overflow:hidden}
+.h30-d p{width:34ch;margin:0;font-size:16px;line-height:1.5;opacity:0;transition:opacity .4s ${E}}
+.h30-p.on .h30-d{grid-template-rows:1fr}
+.h30-p.on .h30-d p{opacity:.92;transition-delay:.25s}
+.open-anim .h30-p img{transform:scale(1.08);animation:rv-fs 0s 2.5s forwards}
+.is-in .h30-p img{transform:none;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .h30-p img{animation:none}
+@media (prefers-reduced-motion:reduce){.h30-row,.h30-d,.h30-d p,.h30-ic,.h30-p img{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the panels stack, and the open one takes the height instead of the width */
+@media (max-width:860px){.h30h{gap:20px;min-height:0;padding:72px 20px 20px}
+  .h30-top{grid-template-columns:1fr;gap:14px}.h30-ttl{gap:12px}.h30-side{gap:16px}
+  .h30h h3{font-size:clamp(28px,7.4vw,36px)}
+  .h30h .hcta{width:100%;flex-wrap:nowrap}.h30h .hcta .hbtn{flex:1;padding-inline:16px}
+  .h30-row,.h30-row[data-open="1"],.h30-row[data-open="2"]{flex:none;height:clamp(300px,42vh,380px);min-height:0;grid-template-columns:1fr;gap:8px;transition:grid-template-rows .7s ${E}}
+  .h30-row{grid-template-rows:minmax(0,2.4fr) minmax(0,1fr) minmax(0,1fr)}
+  .h30-row[data-open="1"]{grid-template-rows:minmax(0,1fr) minmax(0,2.4fr) minmax(0,1fr)}
+  .h30-row[data-open="2"]{grid-template-rows:minmax(0,1fr) minmax(0,1fr) minmax(0,2.4fr)}
+  .h30-p{padding:16px 20px;border-radius:16px}.h30-p h4 button::after{border-radius:16px}
+  .h30-d p{width:auto;font-size:15px}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h30h" id="h30">
+    <div class="h30-top">
+      <div class="h30-ttl">
+        <span class="hkick rv">עמדות טעינה לרכב חשמלי</span>
+        <h3 class="rv">טעינה מלאה בבוקר, בלי לחפש עמדה פנויה</h3>
+      </div>
+      <div class="h30-side">
+        <p class="hlead rv">מתכננים, מתקינים ומחברים ללוח החשמל עם אישור של חשמלאי מוסמך, בבית, בבניין או בחניון של העסק.</p>
+        <div class="hcta rv"><a class="hbtn" href="#h30">לבדיקת התאמה</a><a class="hbtn ghost" href="#h30">מחירון</a></div>
+      </div>
+    </div>
+    <div class="h30-row" data-open="0">
+      <div class="h30-p on rv">
+        ${PIC("real/s10/wallbox.webp", "עמדת טעינה על קיר לבן, והתקע של הכבל מחובר אליה", { pri: true })}
+        <h4><button type="button" aria-expanded="true" aria-controls="h30-d0"><span>לבית פרטי</span><span class="h30-ic" aria-hidden="true"></span></button></h4>
+        <div class="h30-d" id="h30-d0"><div><p>עמדה על הקיר בחניה, מחוברת ללוח של הבית, עם אפליקציה שמטעינה בשעות הזולות.</p></div></div>
+      </div>
+      <div class="h30-p rv">
+        ${PIC("real/s10/resident.webp", "אישה מדברת בטלפון ליד רכב לבן שמחובר לטעינה מול הכניסה לבניין")}
+        <h4><button type="button" aria-expanded="false" aria-controls="h30-d1"><span>לבניין משותף</span><span class="h30-ic" aria-hidden="true"></span></button></h4>
+        <div class="h30-d" id="h30-d1" inert><div><p>עמדה לכל דייר, עם חלוקת עלויות לפי צריכה ובלי להעמיס על החשמל של הבניין.</p></div></div>
+      </div>
+      <div class="h30-p rv">
+        ${PIC("real/s10/lot-paint.webp", "סימון של עמדת טעינה צבוע בלבן על האספלט בחניון")}
+        <h4><button type="button" aria-expanded="false" aria-controls="h30-d2"><span>לחניון של עסק</span><span class="h30-ic" aria-hidden="true"></span></button></h4>
+        <div class="h30-d" id="h30-d2" inert><div><p>עמדות לעובדים ולאורחים, עם חיוב בכרטיס ודוח צריכה חודשי.</p></div></div>
+      </div>
+    </div>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+(function(){
+  var root=document.getElementById("h30"), row=root.querySelector(".h30-row"), ps=[].slice.call(root.querySelectorAll(".h30-p"));
+  var fine=matchMedia("(hover:hover) and (pointer:fine)"), t;
+  enter(root);
+  function open(k){
+    row.dataset.open=k;
+    ps.forEach(function(p,i){
+      var on=i===k, d=p.querySelector(".h30-d");
+      p.classList.toggle("on",on); p.querySelector("button").setAttribute("aria-expanded",String(on));
+      // a closed sentence leaves the tab order and the screen reader, not only the eye
+      if(on)d.removeAttribute("inert"); else d.setAttribute("inert","");
+    });
+  }
+  ps.forEach(function(p,i){
+    p.querySelector("button").addEventListener("click",function(){open(i);});
+    // a mouse opens by pointing, after a short pause, so a cursor that only crosses a panel does not open it
+    p.addEventListener("mouseenter",function(){if(!fine.matches)return; clearTimeout(t); t=setTimeout(function(){open(i);},120);});
+    p.addEventListener("mouseleave",function(){clearTimeout(t);});
+  });
+})();`,
+  note:"שלושה קהלים במסך אחד, בלי טאבים ובלי לגלול: כל לוח הוא צילום של הקהל עם השם שלו, והלוח הפתוח רחב ומראה משפט אחד. הפתיחה היא שינוי של grid-template-columns (2.4 חלקים ללוח הפתוח, אחד לכל סגור), כך שהתמונות לא נמתחות אלא נחתכות מחדש. השם הוא h4 עם כפתור בתוכו, aria-expanded ו-aria-controls, ושטח הלחיצה של הכפתור נמתח על כל הלוח; המשפט של לוח סגור הוא inert, כדי שקורא מסך לא יקרא טקסט שלא רואים. בעכבר הלוח נפתח בריחוף אחרי השהיה קצרה, בנגיעה ובמקלדת בלחיצה. המשפט נפתח בשורות גריד (0fr ל-1fr) וברוחב קבוע, כדי שלא יישבר מחדש בזמן שהלוח מתרחב. שכבת הקריאות מגיעה מהפינה התחתונה בצד שבו השם יושב, ומתהפכת באנגלית. בטלפון הלוחות נערמים, והפתוח מקבל גובה במקום רוחב. לשניים או ארבעה לוחות משנים את מספר העמודות; יותר מזה כבר לא נכנס שם בלוח סגור." + NOTE_TAIL
+},
+{
+  id:"h31", cat:"hero", name:"הירו חנות עם עיגולי קטגוריות", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"כותרת ממורכזת עם צילום קטן בצורת גלולה בתוך המשפט, משפט הסבר וזוג כפתורים, ומתחת שורה של עיגולי צילום, אחד לכל קטגוריה, עם שם ומספר פריטים. העיגולים נכנסים בזה אחר זה.",
+  when:"חנות עם ארבע עד שש קטגוריות ברורות שכל אחת מצטלמת יפה: רהיטים לפי חדרים, ביגוד, קוסמטיקה, צעצועים, חנות פרחים, מעדנייה. מי שנכנס קופץ ישר לקטגוריה שלו מהמסך הראשון. לא לחנות עם מוצר מוביל אחד, שם h25, ולא לשירות בלי מוצרים.",
+  libs:[],
+  css:`${FRAME_CSS}
+.h31h{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;min-height:min(86vh,780px);padding:88px 28px 40px;text-align:center;
+  background:linear-gradient(to bottom,color-mix(in srgb,var(--accent) 12%,var(--bg)),var(--bg) 75%)}
+.h31h h3{margin:0;max-width:17ch;font-size:clamp(34px,min(4.6vw,7.8vh),72px);line-height:1.08;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+/* the photo inside the sentence: a pill sized in em, so it grows, shrinks and wraps with the heading */
+.h31-pill{display:inline-block;width:2.1em;height:.8em;margin-inline:.06em;vertical-align:-.06em;border-radius:999px;overflow:hidden;background:var(--card);clip-path:inset(0 round 999px);transition:clip-path .9s ${E}}
+.h31-pill img{width:100%;height:100%;object-fit:cover;object-position:50% 55%;display:block}
+.open-anim .h31-pill{clip-path:inset(0 50% round 999px);animation:h31p-fs 0s 2.5s forwards}
+.is-in .h31-pill{clip-path:inset(0 round 999px);transition-delay:calc(var(--t0,0s) + .3s)}
+.rv-on .h31-pill{animation:none}
+@keyframes h31p-fs{to{clip-path:inset(0 round 999px)}}
+.h31h .hlead{max-width:46ch}
+.h31h .hcta{justify-content:center}
+.h31-cats{max-width:100%;margin-top:16px}
+.h31-cats ul{display:flex;justify-content:center;gap:16px 40px;margin:0;padding:0;list-style:none}
+.h31-cats a{display:flex;flex-direction:column;align-items:center;gap:4px;color:inherit;text-decoration:none}
+.h31-c{display:block;width:clamp(96px,9vw,140px);aspect-ratio:1;margin-bottom:8px;border-radius:50%;overflow:hidden;background:var(--card)}
+.h31-c img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ${E}}
+.h31-cats li:nth-child(2) img{object-position:72% 70%}
+.h31-cats li:nth-child(3) img{object-position:30% 60%}
+.h31-cats li:nth-child(4) img{object-position:40% 70%}
+.h31-cats b{font-size:16px;font-weight:700}
+.h31-n{font-size:13px;color:var(--muted)}
+.h31-cats a:focus-visible{outline:none}
+.h31-cats a:focus-visible .h31-c{outline:2px solid var(--accent);outline-offset:4px}
+@media (hover:hover) and (pointer:fine){.h31-cats a:hover .h31-c img{transform:scale(1.08)}}
+/* the circles grow in one after another instead of rising */
+.open-anim .h31-cats .rv{transform:scale(.86)}
+.is-in .h31-cats .rv{transform:none}
+@media (prefers-reduced-motion:reduce){.h31-pill,.h31-c img{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the circles become a row that scrolls sideways, and the next circle peeks in at the edge */
+@media (max-width:860px){.h31h{gap:16px;min-height:0;padding:72px 20px 28px}
+  .h31h h3{font-size:clamp(30px,8vw,40px)}
+  .h31h .hcta{width:100%;flex-wrap:nowrap}.h31h .hcta .hbtn{flex:1;padding-inline:16px}
+  .h31-cats{align-self:stretch;margin:8px -20px 0}
+  .h31-cats ul{justify-content:flex-start;gap:16px;overflow-x:auto;padding:4px 20px 8px;scroll-padding-inline:20px;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .h31-cats li{flex:none;scroll-snap-align:start}
+  .h31-c{width:76px}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h31h" id="h31">
+    <span class="hkick rv">רהיטים ותאורה, מעצבים בישראל</span>
+    <h3 class="rv">רהיטים שנכנסים לבית <span class="h31-pill">${PIC("real/s13/proj-c.webp", "", { deco: true })}</span> ונשארים בו שנים</h3>
+    <p class="hlead rv">סלון, חדר שינה, אמבטיה ומטבח, מסטודיואים ישראלים ומנגריות קטנות. משלוח והרכבה עד הבית בכל הארץ.</p>
+    <div class="hcta rv"><a class="hbtn" href="#h31">לקולקציה החדשה</a><a class="hbtn ghost" href="#h31">לחנות בתל אביב</a></div>
+    <nav class="h31-cats" aria-label="קטגוריות">
+      <ul>
+        <li class="rv" style="--i:3.5"><a href="#h31"><span class="h31-c">${PIC("real/s13/proj-a.webp", "", { deco: true })}</span><b>סלון</b><span class="h31-n">86 פריטים</span></a></li>
+        <li class="rv" style="--i:4"><a href="#h31"><span class="h31-c">${PIC("real/s02/night-room.webp", "", { deco: true })}</span><b>חדר שינה</b><span class="h31-n">54 פריטים</span></a></li>
+        <li class="rv" style="--i:4.5"><a href="#h31"><span class="h31-c">${PIC("real/s13/proj-b.webp", "", { deco: true })}</span><b>אמבטיה</b><span class="h31-n">31 פריטים</span></a></li>
+        <li class="rv" style="--i:5"><a href="#h31"><span class="h31-c">${PIC("real/s13/room.webp", "", { deco: true })}</span><b>פינת קריאה</b><span class="h31-n">22 פריטים</span></a></li>
+        <li class="rv" style="--i:5.5"><a href="#h31"><span class="h31-c">${PIC("real/s13/proj-c.webp", "", { deco: true })}</span><b>מטבח</b><span class="h31-n">47 פריטים</span></a></li>
+      </ul>
+    </nav>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+enter(document.getElementById("h31"));`,
+  note:"ההירו של חנות שהמבקר בה יודע מה הוא מחפש: הקטגוריות עולות למסך הראשון כעיגולי צילום, ולחיצה אחת מובילה לקטגוריה. העיגולים הם nav עם רשימה וקישורים אמיתיים, והשם והמספר הם הטקסט של הקישור, ולכן הצילומים עצמם מוסתרים מקורא מסך. הגלולה בתוך הכותרת היא צילום קטן שגודלו ב-em, כך שהיא גדלה ונשברת עם המשפט, ונפתחת מהאמצע לצדדים. העיגולים נכנסים בזה אחר זה בגדילה קלה, וכל הפתיחה נגמרת עד 1.2 שניות. בטלפון העיגולים הופכים לשורה שנגללת הצידה, והעיגול הבא מציץ בקצה כדי שיהיה ברור שיש עוד. בפרויקט הקטגוריות, הצילומים והמספרים מגיעים מהחנות (Shopify או ווקומרס); צילום אחיד לכל העיגולים, באותו אור ובאותו מרחק, הוא מה שהופך את השורה לשקטה." + NOTE_TAIL
+},
+{
+  id:"h32", cat:"hero", name:"הירו אירוע עם ספירה לאחור", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"צילום מלא וכהה מהאירוע, ובפינה התחתונה כותרת, תאריך, ספירה לאחור של ימים, שעות ודקות עד הפתיחה, וכפתור כרטיסים. הספרה שמשתנה מחליקה פנימה בעדינות.",
+  when:"אירוע עם תאריך אחד שכל העמוד מוביל אליו: פסטיבל, כנס, הופעה, השקה, סדנה, פתיחה של מקום חדש, מבצע שנגמר. הספירה נותנת סיבה לקנות עכשיו ולא בפעם הבאה. לא לאירוע שחוזר כל שבוע ולא לתאריך רחוק משנה, שם המספר גדול מדי מכדי לדחוף.",
+  libs:[],
+  css:`${FRAME_CSS}
+.h32h{--fx:-1;position:relative;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:20px;min-height:min(86vh,780px);padding:96px 28px 40px;background:var(--ink);color:var(--bg);overflow:hidden;isolation:isolate}
+[dir="ltr"] .h32h{--fx:1}
+/* the singer has to stand on the side away from the text: the photo is mirrored in Hebrew and kept as shot in English */
+.h32-bg{position:absolute;inset:0;z-index:-2}
+.h32-bg img{width:100%;height:100%;object-fit:cover;object-position:70% 40%;display:block;transform:scaleX(var(--fx));transition:transform 1.2s ${E}}
+.open-anim .h32-bg img{transform:scaleX(var(--fx)) scale(1.06);animation:h32i-fs 0s 2.5s forwards}
+.is-in .h32-bg img{transform:scaleX(var(--fx));transition-delay:var(--t0,0s)}
+.rv-on .h32-bg img{animation:none}
+@keyframes h32i-fs{to{transform:scaleX(var(--fx))}}
+/* the text sits in the bottom start corner, so the shade comes from that corner (heroes.md) */
+.h32-scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(to top left,color-mix(in srgb,var(--ink) 92%,transparent) 0%,color-mix(in srgb,var(--ink) 74%,transparent) 45%,transparent 78%)}
+[dir="ltr"] .h32-scrim{background:linear-gradient(to top right,color-mix(in srgb,var(--ink) 92%,transparent) 0%,color-mix(in srgb,var(--ink) 74%,transparent) 45%,transparent 78%)}
+.h32h h3{margin:0;max-width:15ch;font-size:clamp(34px,min(4.4vw,7.8vh),66px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h32-date{margin:0;font-size:clamp(16px,1.2vw,19px);font-weight:600}
+.h32-cd{display:flex;align-items:flex-end;gap:32px;margin:4px 0}
+.h32-cd[hidden],.h32-end[hidden]{display:none}
+.h32-lbl{align-self:center;font-size:15px;font-weight:600;opacity:.8}
+.h32-u{display:flex;flex-direction:column;gap:4px}
+/* tabular digits: a number that changes does not push its neighbours */
+.h32-u b{font-size:clamp(40px,min(4.4vw,8vh),68px);line-height:1;font-weight:700;font-variant-numeric:tabular-nums}
+.h32-u span{font-size:14px;opacity:.75}
+.h32-u b.tk{animation:h32-tk .5s ${E}}
+@keyframes h32-tk{from{opacity:0;transform:translateY(-24%)}}
+.h32-end{margin:0;font-size:18px;font-weight:700}
+@media (prefers-reduced-motion:reduce){.h32-bg img{transition-duration:.01ms!important;transition-delay:0s!important}.h32-u b.tk{animation:none}}
+/* phone: the singer above, the text and the count at the bottom across the full width */
+@media (max-width:860px){.h32h{gap:14px;min-height:min(94vh,820px);padding:88px 20px 24px}
+  .h32-bg img{object-position:80% 40%}
+  .h32-scrim{background:linear-gradient(to top,color-mix(in srgb,var(--ink) 92%,transparent) 0%,color-mix(in srgb,var(--ink) 70%,transparent) 50%,transparent 80%)}
+  .h32h h3{font-size:clamp(28px,7.6vw,38px)}
+  .h32-cd{flex-wrap:wrap;gap:12px 24px}.h32-lbl{flex-basis:100%}.h32-u b{font-size:clamp(34px,10vw,44px)}
+  .h32h .hcta{width:100%;flex-wrap:nowrap}.h32h .hcta .hbtn{flex:1;padding-inline:16px}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(false)}
+  <section class="h32h" id="h32">
+    <div class="h32-bg">${PIC("real/s06/singer.webp", "זמרת שרה לתוך מיקרופון על במה, מאחוריה אורות מטושטשים", { pri: true })}</div>
+    <span class="h32-scrim"></span>
+    <span class="hkick rv">פסטיבל ערבי קיץ, גני יהושע</span>
+    <h3 class="rv">שלושה ערבים של מוזיקה חיה, על הדשא ליד המים</h3>
+    <p class="h32-date rv"><time datetime="2027-07-01T20:00+03:00">יום חמישי, 1 ביולי 2027, 20:00</time></p>
+    <div class="h32-cd rv" role="timer" aria-label="הזמן שנשאר עד הפתיחה" hidden>
+      <span class="h32-lbl">נפתח בעוד</span>
+      <span class="h32-u"><b data-u="d">0</b><span>ימים</span></span>
+      <span class="h32-u"><b data-u="h">0</b><span>שעות</span></span>
+      <span class="h32-u"><b data-u="m">0</b><span>דקות</span></span>
+    </div>
+    <p class="h32-end" hidden>הערבים כבר התחילו. כרטיסים בכניסה, כל עוד נשארו.</p>
+    <div class="hcta rv"><a class="hbtn" href="#h32">לכרטיסים</a><a class="hbtn ghost" href="#h32">התוכנייה</a></div>
+    <p class="hmicro rv"><span>ילדים עד גיל 6 בחינם</span><span>חניה ליד הכניסה הצפונית</span></p>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+(function(){
+  var root=document.getElementById("h32"), cd=root.querySelector(".h32-cd"), end=root.querySelector(".h32-end"), time=root.querySelector(".h32-date time");
+  var u={d:cd.querySelector('[data-u="d"]'),h:cd.querySelector('[data-u="h"]'),m:cd.querySelector('[data-u="m"]')};
+  enter(root);
+  // 20:00 in Israel on the opening night (UTC+3 in summer). In a project the date and the hour come from the event details in the panel
+  var at=Date.UTC(2027,6,1,17,0);
+  // a demo must never show an event that is over, so it moves on by a year; a project sets data-roll="0" and shows the ended line
+  if(root.dataset.roll!=="0"&&at<=Date.now()){
+    while(at<=Date.now()){var d=new Date(at); d.setUTCFullYear(d.getUTCFullYear()+1); at=d.getTime();}
+    time.dateTime=new Date(at).toISOString();
+    time.textContent=new Intl.DateTimeFormat("he-IL",{timeZone:"Asia/Jerusalem",weekday:"long",day:"numeric",month:"long",year:"numeric"}).format(at)+", 20:00";
+  }
+  function set(el,v,first){
+    v=String(v); if(el.textContent===v)return; el.textContent=v;
+    // only a digit that really changed slides in; the first render is part of the entrance
+    if(!first){el.classList.remove("tk"); void el.offsetWidth; el.classList.add("tk");}
+  }
+  function tick(first){
+    var left=at-Date.now();
+    if(left<=0){cd.hidden=true; end.hidden=false; clearInterval(iv); return;}
+    var m=Math.floor(left/60000);
+    set(u.d,Math.floor(m/1440),first); set(u.h,Math.floor(m%1440/60),first); set(u.m,m%60,first);
+  }
+  // minutes are the smallest unit, so a check every 20 seconds is enough and nothing moves on its own every second
+  var iv=setInterval(tick,20000);
+  cd.hidden=false; tick(true);
+})();`,
+  note:"ספירה לאחור שמוכרת כרטיסים ולא מלחיצה: ימים, שעות ודקות, בלי שניות, כך ששום דבר לא מהבהב כל שנייה ואין צורך בכפתור עצירה; הספרה שהשתנתה מחליקה פנימה בחצי שנייה, ובהפחתת תנועה פשוט מתחלפת. הספרות טבלאיות (tabular-nums) כדי שמספר שמשתנה לא יזיז את השכנים, ובלי אפס מוביל. היעד הוא שעה בשעון ישראל (UTC), כך שמבקר מחו\"ל רואה את אותה ספירה. בלי JS הספירה מוסתרת ונשאר התאריך הכתוב ב-time עם datetime, כך שאין מצב של אפסים או מספר שגוי. role=timer בלי הכרזות חיות, כדי שקורא מסך לא יקריא כל דקה. כשהאירוע התחיל, בפרויקט (data-roll=\"0\") הספירה מתחלפת בשורה שאומרת שהוא כבר התחיל; הדמו מגלגל שנה קדימה. הצילום מתהפך בעברית כדי שהזמרת תעמוד בצד הרחוק מהטקסט, ונשאר כפי שצולם באנגלית; לא הופכים צילום עם כיתוב או לוגו. שכבת הקריאות מהפינה התחתונה בצד של הטקסט." + NOTE_TAIL
+},
+{
+  id:"h33", cat:"hero", name:"הירו צילום עם נקודות מוצר", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"כותרת ומשפט למעלה, ומתחת צילום רחב של חלל עם כמה נקודות קטנות על הפריטים שבו. לחיצה על נקודה פותחת כרטיס קטן עם שם, מחיר וקישור, ליד הפריט עצמו.",
+  when:"עסק שהעבודה שלו היא חלל שלם ובתוכו פריטים שאפשר להזמין: מטבחים, נגרות, עיצוב פנים, ריהוט, תאורה, אופנה בצילום אווירה, חנות כלי בית. הצילום מוכר את התמונה הגדולה, והנקודות עונות על \"מה זה ואיפה קונים\". לא ליותר מחמש נקודות, ולא לצילום שבו הפריטים קטנים מכדי לזהות.",
+  libs:[],
+  css:`${FRAME_CSS}
+.h33h{display:flex;flex-direction:column;gap:28px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg)}
+.h33-top{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:end;gap:20px 56px}
+.h33-ttl,.h33-side{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.h33-side{gap:20px}
+.h33h h3{margin:0;max-width:15ch;font-size:clamp(32px,min(4vw,7.8vh),60px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h33h .hlead{max-width:42ch}
+/* the frame keeps the photo's proportions, so x and y are simply percent of the photo. --o and --f map them when the phone crops it */
+.h33-fr{--o:0%;--f:1;position:relative;width:min(100%,calc(46vh * 2.339));aspect-ratio:2400/1026;margin-inline:auto}
+.h33-fr>img{width:100%;height:100%;object-fit:cover;display:block;border-radius:24px}
+.h33-spot{display:contents}
+/* physical left, not inline-start: a point on a photo does not flip with the language */
+.h33-hs{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:var(--y);z-index:1;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;translate:-50% -50%;cursor:pointer;
+  background:none;color:var(--ink);transition:opacity .4s ${E},scale .5s ${E}}
+/* the dot is smaller than the 44px target, so it marks the item without hiding it */
+.h33-dot{position:relative;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--bg);box-shadow:0 6px 18px -6px color-mix(in srgb,var(--ink) 75%,transparent);transition:transform .3s ${E}}
+.h33-hs svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;transition:rotate .3s ${E}}
+.h33-hs[aria-expanded="true"] svg{rotate:45deg}
+.h33-hs:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media (hover:hover) and (pointer:fine){.h33-hs:hover .h33-dot{transform:scale(1.12)}}
+.open-anim .h33-hs{opacity:0;scale:.4;animation:h33s-fs 0s 2.5s forwards}
+.is-in .h33-hs{opacity:1;scale:1;transition-delay:calc(var(--t0,0s) + .5s + var(--k,0) * 80ms)}
+.rv-on .h33-hs{animation:none}
+@keyframes h33s-fs{to{opacity:1;scale:1}}
+/* two soft rings after the entrance say "this can be pressed", then stop: under five seconds, so no pause button */
+.h33-dot::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:50%;background:var(--bg);opacity:0}
+.is-in .h33-dot::before{animation:h33-ring 1.6s ${E} 2;animation-delay:calc(var(--t0,0s) + 1s + var(--k,0) * 150ms)}
+@keyframes h33-ring{from{opacity:.55;transform:scale(1)}to{opacity:0;transform:scale(1.9)}}
+.h33-card{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:calc(var(--y) + 32px);z-index:2;display:flex;flex-direction:column;gap:4px;width:240px;padding:16px;border-radius:16px;translate:-50% 0;
+  background:var(--bg);color:var(--ink);box-shadow:0 24px 48px -16px color-mix(in srgb,var(--ink) 60%,transparent);animation:h33-pop .35s ${E}}
+.h33-card[hidden]{display:none}
+.h33-spot[data-pos="up"] .h33-card{top:auto;bottom:calc(100% - var(--y) + 32px)}
+.h33-card b{font-size:16px;font-weight:700}
+.h33-card span{font-size:15px;color:var(--muted)}
+.h33-card a{align-self:flex-start;margin-top:8px;font-size:15px;font-weight:700;color:inherit;text-underline-offset:4px}
+@keyframes h33-pop{from{opacity:0;translate:-50% 8px}}
+@keyframes h33-in{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.h33-hs,.h33-dot,.h33-hs svg{transition-duration:.01ms!important;transition-delay:0s!important}.h33-dot::before,.h33-card{animation:none!important}}
+/* phone: a taller crop around the island, every point moved by the same crop, and the card is a bar across the photo */
+@media (max-width:860px){.h33h{gap:20px;min-height:0;padding:72px 20px 24px}
+  .h33-top{grid-template-columns:1fr;gap:14px}.h33-ttl{gap:12px}.h33-side{gap:16px}
+  .h33h h3{font-size:clamp(28px,7.4vw,36px)}
+  .h33h .hcta{width:100%;flex-wrap:nowrap}.h33h .hcta .hbtn{flex:1;padding-inline:16px}
+  .h33-fr{--o:28%;--f:.534;width:100%;aspect-ratio:5/4}
+  .h33-fr>img{object-position:60% 50%;border-radius:20px}
+  .h33-card,.h33-spot[data-pos="up"] .h33-card{left:12px;right:12px;top:auto;bottom:12px;width:auto;translate:none;animation-name:h33-in}
+  .h33-spot[data-ph="top"] .h33-card{top:12px;bottom:auto}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h33h" id="h33">
+    <div class="h33-top">
+      <div class="h33-ttl">
+        <span class="hkick rv">מטבחים בהזמנה אישית, נגרייה בשרון</span>
+        <h3 class="rv">מטבח שנבנה סביב הדרך שבה אתם מבשלים</h3>
+      </div>
+      <div class="h33-side">
+        <p class="hlead rv">תכנון, ייצור בנגרייה שלנו והתקנה, עם החומרים והפרזול שבחרתם. כל מה שרואים בצילום אפשר להזמין.</p>
+        <div class="hcta rv"><a class="hbtn" href="#h33">לפגישת תכנון</a><a class="hbtn ghost" href="#h33">עוד מטבחים</a></div>
+      </div>
+    </div>
+    <div class="h33-fr rv">
+      ${PIC("real/s13/proj-c.webp", "מטבח בגוון ירוק כהה עם אי באמצע, חיפוי אבן מאחור, מנורות תלויות וכיסאות בר", { pri: true })}
+      <div class="h33-spot" style="--x:47.8%;--y:43%;--k:0" data-pos="down" data-ph="bottom">
+        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c0" aria-label="מנורת זכוכית מחורצת"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c0" hidden><b>מנורת זכוכית מחורצת</b><span>1,290 ₪ ליחידה</span><a href="#h33">לפרטים</a></div>
+      </div>
+      <div class="h33-spot" style="--x:55%;--y:54%;--k:1" data-pos="up" data-ph="top">
+        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c1" aria-label="חיפוי קיר מאבן"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c1" hidden><b>חיפוי קיר מאבן</b><span>מ-480 ₪ למ״ר</span><a href="#h33">לפרטים</a></div>
+      </div>
+      <div class="h33-spot" style="--x:36.5%;--y:57%;--k:2" data-pos="up" data-ph="top">
+        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c2" aria-label="ברז פליז מוברש"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c2" hidden><b>ברז פליז מוברש</b><span>1,650 ₪</span><a href="#h33">לפרטים</a></div>
+      </div>
+      <div class="h33-spot" style="--x:73%;--y:76%;--k:3" data-pos="up" data-ph="top">
+        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c3" aria-label="כיסא בר מעור ועץ"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c3" hidden><b>כיסא בר מעור ועץ</b><span>890 ₪ לכיסא</span><a href="#h33">לפרטים</a></div>
+      </div>
+    </div>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+(function(){
+  var root=document.getElementById("h33"), cur=null;
+  enter(root);
+  function card(b){return document.getElementById(b.getAttribute("aria-controls"));}
+  function close(back){ if(!cur)return; card(cur).hidden=true; cur.setAttribute("aria-expanded","false"); if(back)cur.focus(); cur=null; }
+  root.querySelectorAll(".h33-hs").forEach(function(b){
+    b.addEventListener("click",function(){ var same=cur===b; close(false); if(same)return; card(b).hidden=false; b.setAttribute("aria-expanded","true"); cur=b; });
+  });
+  // one card at a time: Escape or a press anywhere else closes it, and Escape returns the focus to its point
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")close(true);});
+  document.addEventListener("click",function(e){if(cur&&!e.target.closest(".h33-hs,.h33-card"))close(false);});
+})();`,
+  note:"צילום אווירה שהוא גם קטלוג: כל נקודה יושבת על פריט אמיתי בצילום ופותחת כרטיס עם שם, מחיר וקישור. המסגרת שומרת על היחס של הצילום, ולכן המיקום של כל נקודה הוא פשוט אחוזים מהצילום (--x, --y), במיקום פיזי (left) שלא מתהפך עם השפה. בטלפון המסגרת גבוהה יותר והצילום נחתך סביב האי; --o ו---f מזיזים את כל הנקודות לפי אותו חיתוך, והכרטיס הופך לפס ברוחב הצילום, למטה או למעלה לפי מקום הנקודה. כל נקודה היא כפתור עם aria-expanded, aria-controls ושם הפריט, והכרטיס בא מיד אחריה בסדר הקריאה; כרטיס אחד פתוח בכל פעם, Escape או לחיצה בחוץ סוגרים, ו-Escape מחזיר את הפוקוס לנקודה. שתי טבעות רכות אחרי הכניסה אומרות שאפשר ללחוץ, ונעצרות לפני חמש שניות. בלי הוראות כמו \"לחצו על הנקודות\": הנקודות מסבירות את עצמן. בפרויקט מודדים את המיקומים על הצילום הסופי, ובחנות הכרטיס מקשר לעמוד המוצר." + NOTE_TAIL
+},
+{
+  id:"h34", cat:"hero", name:"הירו סרטון רחב כמו בקולנוע", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"סרטון רחב ונמוך, כמו פתיחה של סרט, שנפתח מקו דק לגובה מלא, ומתחתיו כותרת בצד אחד ומשפט וכפתורים בצד השני. הסרטון מתנגן בלולאה שקטה ויש לו כפתור עצירה.",
+  when:"עסק שיש לו סרטון קצר ושקט שמראה את החוויה: נסיעות וחופשות, מלון, צימר, יקב, אירועים, ספורט ים, אדריכלות. הפורמט הרחב משאיר מקום לטקסט במסך הראשון בלי לכתוב על הסרטון. לא בלי סרטון אמיתי של העסק, ולא לסרטון אנכי מהטלפון, שם h3 עם צילום.",
+  libs:[],
+  css:`${PP_CSS}
+${FRAME_CSS}
+.h34h{display:flex;flex-direction:column;justify-content:center;gap:28px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg)}
+/* a letterbox, wider than any screen: on a low laptop it gets wider still, never taller */
+.h34-fr{position:relative;width:100%;aspect-ratio:2.4/1;max-height:46vh;border-radius:24px;overflow:hidden;background:var(--ink);clip-path:inset(0 round 24px);transition:clip-path .9s ${E}}
+.h34-fr img,.h34-fr video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.h34-fr video{opacity:0;transition:opacity .6s ${E}}
+.h34-fr video.on{opacity:1}
+/* it opens from a thin line across the middle, like a curtain of a film */
+.open-anim .h34-fr{clip-path:inset(48% 0 round 24px);animation:h34f-fs 0s 2.5s forwards}
+.is-in .h34-fr{clip-path:inset(0 round 24px);transition-delay:var(--t0,0s)}
+.rv-on .h34-fr{animation:none}
+@keyframes h34f-fs{to{clip-path:inset(0 round 24px)}}
+.h34-fr .hpp{position:absolute;inset-block-end:16px;inset-inline-end:16px;z-index:1}
+.h34-fr .hpp[hidden]{display:none}
+.h34-bot{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:end;gap:20px 56px}
+.h34-ttl,.h34-side{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.h34-side{gap:20px}
+.h34h h3{margin:0;max-width:14ch;font-size:clamp(34px,min(4.4vw,7.8vh),66px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h34h .hlead{max-width:42ch}
+@media (prefers-reduced-motion:reduce){.h34-fr,.h34-fr video{transition-duration:.01ms!important;transition-delay:0s!important}}
+@media (max-width:860px){.h34h{gap:20px;min-height:0;padding:72px 20px 24px}
+  .h34-fr{aspect-ratio:16/9;max-height:none}
+  .h34-bot{grid-template-columns:1fr;gap:14px}.h34-ttl{gap:12px}.h34-side{gap:16px}
+  .h34h h3{font-size:clamp(30px,8vw,40px)}
+  .h34h .hcta{width:100%;flex-wrap:nowrap}.h34h .hcta .hbtn{flex:1;padding-inline:16px}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h34h" id="h34">
+    <div class="h34-fr">
+      ${PIC("dive/reel.webp", "חוף מלמעלה: גלים לבנים על חול זהוב ומים בצבע טורקיז", { pri: true })}
+      <video muted loop playsinline preload="none" aria-hidden="true" poster="../assets/media/dive/reel.webp" data-src="../assets/media/dive/reel-720.mp4"></video>
+      ${PP("עצירת הסרטון").replace("<button ", "<button hidden ")}
+    </div>
+    <div class="h34-bot">
+      <div class="h34-ttl">
+        <span class="hkick rv" style="--i:2">חופשות בוטיק באיים</span>
+        <h3 class="rv" style="--i:3">חופשה באי, בלי לתכנן אותה לבד</h3>
+      </div>
+      <div class="h34-side">
+        <p class="hlead rv" style="--i:4">טיסות, מלון קטן על החוף, העברות וסיורים, בתוכנית אחת שבנינו בשבילכם. נשאר רק לארוז.</p>
+        <div class="hcta rv" style="--i:5"><a class="hbtn" href="#h34">לבניית חופשה</a><a class="hbtn ghost" href="#h34">כל היעדים</a></div>
+      </div>
+    </div>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+(function(){
+  var root=document.getElementById("h34"), v=root.querySelector("video"), pp=root.querySelector(".hpp");
+  enter(root);
+  // fetched only once the hero is on screen, and it plays for everyone, reduced motion included (motion.md 2א):
+  // a video that never starts looks like a stuck site. The button is the way to stop it
+  inView(root,function(){
+    v.src=v.dataset.src; v.muted=true; v.setAttribute("autoplay","");
+    // a blocked autoplay never adds the class: the poster stays and the hero is still whole
+    var p=v.play(); if(p&&p.then)p.then(on,function(){}); else on();
+  });
+  function on(){v.classList.add("on"); pp.hidden=false;}
+  pp.addEventListener("click",function(){
+    var stop=!v.paused; if(stop)v.pause(); else{var p=v.play(); if(p&&p.catch)p.catch(function(){});}
+    pp.setAttribute("aria-pressed",String(stop)); pp.setAttribute("aria-label",stop?"הפעלת הסרטון":"עצירת הסרטון");
+  });
+})();`,
+  note:"הפורמט הרחב (2.4 על 1) הוא מה שמבדיל את ההירו הזה מסרטון רקע: הסרטון לא נמתח על כל המסך ולא צריך שכבת קריאות, והטקסט יושב מתחתיו על רקע נקי, כך שהוא קריא בכל עור. במסך נמוך הגובה נעצר ב-46% מהמסך והסרטון רק נהיה רחב יותר, כדי שהכותרת והכפתורים תמיד יישארו במסך הראשון. הפתיחה היא קו דק באמצע שנפתח לגובה מלא (clip-path), והכותרת עולה כשהסרטון כמעט פתוח. הסרטון נטען רק כשההירו על המסך, מתנגן גם בהפחתת תנועה עם כפתור עצירה והפעלה שמופיע רק כשהוא באמת רץ (motion.md 2א, WCAG 2.2.2); אם הדפדפן חוסם, הפוסטר נשאר, ולכן הפוסטר הוא פריים מתוך הסרטון. הסרטון מוסתר מקורא מסך כי הוא אווירה, והתמונה שמתחתיו נושאת את התיאור. בטלפון היחס 16 על 9. סרטון של שש עד עשר שניות, בלי חיתוכים חדים, עד 2MB." + NOTE_TAIL
 }
 ];

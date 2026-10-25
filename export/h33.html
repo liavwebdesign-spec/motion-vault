@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H33 · הירו צילום עם נקודות מוצר</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* H33 · הירו צילום עם נקודות מוצר */
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h33h{display:flex;flex-direction:column;gap:28px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg, #f7f7fa)}
+.h33-top{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:end;gap:20px 56px}
+.h33-ttl,.h33-side{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
+.h33-side{gap:20px}
+.h33h h3{margin:0;max-width:15ch;font-size:clamp(32px,min(4vw,7.8vh),60px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h33h .hlead{max-width:42ch}
+/* the frame keeps the photo's proportions, so x and y are simply percent of the photo. --o and --f map them when the phone crops it */
+.h33-fr{--o:0%;--f:1;position:relative;width:min(100%,calc(46vh * 2.339));aspect-ratio:2400/1026;margin-inline:auto}
+.h33-fr>img{width:100%;height:100%;object-fit:cover;display:block;border-radius:24px}
+.h33-spot{display:contents}
+/* physical left, not inline-start: a point on a photo does not flip with the language */
+.h33-hs{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:var(--y);z-index:1;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;translate:-50% -50%;cursor:pointer;
+  background:none;color:var(--ink, #16182b);transition:opacity .4s cubic-bezier(.2,.6,.2,1),scale .5s cubic-bezier(.2,.6,.2,1)}
+/* the dot is smaller than the 44px target, so it marks the item without hiding it */
+.h33-dot{position:relative;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--bg, #f7f7fa);box-shadow:0 6px 18px -6px color-mix(in srgb,var(--ink, #16182b) 75%,transparent);transition:transform .3s cubic-bezier(.2,.6,.2,1)}
+.h33-hs svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;transition:rotate .3s cubic-bezier(.2,.6,.2,1)}
+.h33-hs[aria-expanded="true"] svg{rotate:45deg}
+.h33-hs:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+@media (hover:hover) and (pointer:fine){.h33-hs:hover .h33-dot{transform:scale(1.12)}}
+.open-anim .h33-hs{opacity:0;scale:.4;animation:h33s-fs 0s 2.5s forwards}
+.is-in .h33-hs{opacity:1;scale:1;transition-delay:calc(var(--t0,0s) + .5s + var(--k,0) * 80ms)}
+.rv-on .h33-hs{animation:none}
+@keyframes h33s-fs{to{opacity:1;scale:1}}
+/* two soft rings after the entrance say "this can be pressed", then stop: under five seconds, so no pause button */
+.h33-dot::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:50%;background:var(--bg, #f7f7fa);opacity:0}
+.is-in .h33-dot::before{animation:h33-ring 1.6s cubic-bezier(.2,.6,.2,1) 2;animation-delay:calc(var(--t0,0s) + 1s + var(--k,0) * 150ms)}
+@keyframes h33-ring{from{opacity:.55;transform:scale(1)}to{opacity:0;transform:scale(1.9)}}
+.h33-card{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:calc(var(--y) + 32px);z-index:2;display:flex;flex-direction:column;gap:4px;width:240px;padding:16px;border-radius:16px;translate:-50% 0;
+  background:var(--bg, #f7f7fa);color:var(--ink, #16182b);box-shadow:0 24px 48px -16px color-mix(in srgb,var(--ink, #16182b) 60%,transparent);animation:h33-pop .35s cubic-bezier(.2,.6,.2,1)}
+.h33-card[hidden]{display:none}
+.h33-spot[data-pos="up"] .h33-card{top:auto;bottom:calc(100% - var(--y) + 32px)}
+.h33-card b{font-size:16px;font-weight:700}
+.h33-card span{font-size:15px;color:var(--muted, #6a6d85)}
+.h33-card a{align-self:flex-start;margin-top:8px;font-size:15px;font-weight:700;color:inherit;text-underline-offset:4px}
+@keyframes h33-pop{from{opacity:0;translate:-50% 8px}}
+@keyframes h33-in{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.h33-hs,.h33-dot,.h33-hs svg{transition-duration:.01ms!important;transition-delay:0s!important}.h33-dot::before,.h33-card{animation:none!important}}
+/* phone: a taller crop around the island, every point moved by the same crop, and the card is a bar across the photo */
+@media (max-width:860px){.h33h{gap:20px;min-height:0;padding:72px 20px 24px}
+  .h33-top{grid-template-columns:1fr;gap:14px}.h33-ttl{gap:12px}.h33-side{gap:16px}
+  .h33h h3{font-size:clamp(28px,7.4vw,36px)}
+  .h33h .hcta{width:100%;flex-wrap:nowrap}.h33h .hcta .hbtn{flex:1;padding-inline:16px}
+  .h33-fr{--o:28%;--f:.534;width:100%;aspect-ratio:5/4}
+  .h33-fr>img{object-position:60% 50%;border-radius:20px}
+  .h33-card,.h33-spot[data-pos="up"] .h33-card{left:12px;right:12px;top:auto;bottom:12px;width:auto;translate:none;animation-name:h33-in}
+  .h33-spot[data-ph="top"] .h33-card{top:12px;bottom:auto}}
+</style>
+</head>
+<body>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h33h" id="h33">
+    <div class="h33-top">
+      <div class="h33-ttl">
+        <span class="hkick rv">מטבחים בהזמנה אישית, נגרייה בשרון</span>
+        <h3 class="rv">מטבח שנבנה סביב הדרך שבה אתם מבשלים</h3>
+      </div>
+      <div class="h33-side">
+        <p class="hlead rv">תכנון, ייצור בנגרייה שלנו והתקנה, עם החומרים והפרזול שבחרתם. כל מה שרואים בצילום אפשר להזמין.</p>
+        <div class="hcta rv"><a class="hbtn" href="#h33">לפגישת תכנון</a><a class="hbtn ghost" href="#h33">עוד מטבחים</a></div>
+      </div>
+    </div>
+    <div class="h33-fr rv">
+      <img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" alt="מטבח בגוון ירוק כהה עם אי באמצע, חיפוי אבן מאחור, מנורות תלויות וכיסאות בר" fetchpriority="high" decoding="async">
+      <div class="h33-spot" style="--x:47.8%;--y:43%;--k:0" data-pos="down" data-ph="bottom">
+        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c0" aria-label="מנורת זכוכית מחורצת"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c0" hidden><b>מנורת זכוכית מחורצת</b><span>1,290 ₪ ליחידה</span><a href="#h33">לפרטים</a></div>
+      </div>
+      <div class="h33-spot" style="--x:55%;--y:54%;--k:1" data-pos="up" data-ph="top">
+        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c1" aria-label="חיפוי קיר מאבן"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c1" hidden><b>חיפוי קיר מאבן</b><span>מ-480 ₪ למ״ר</span><a href="#h33">לפרטים</a></div>
+      </div>
+      <div class="h33-spot" style="--x:36.5%;--y:57%;--k:2" data-pos="up" data-ph="top">
+        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c2" aria-label="ברז פליז מוברש"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c2" hidden><b>ברז פליז מוברש</b><span>1,650 ₪</span><a href="#h33">לפרטים</a></div>
+      </div>
+      <div class="h33-spot" style="--x:73%;--y:76%;--k:3" data-pos="up" data-ph="top">
+        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c3" aria-label="כיסא בר מעור ועץ"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c3" hidden><b>כיסא בר מעור ועץ</b><span>890 ₪ לכיסא</span><a href="#h33">לפרטים</a></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<script>
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+(function(){
+  var root=document.getElementById("h33"), cur=null;
+  enter(root);
+  function card(b){return document.getElementById(b.getAttribute("aria-controls"));}
+  function close(back){ if(!cur)return; card(cur).hidden=true; cur.setAttribute("aria-expanded","false"); if(back)cur.focus(); cur=null; }
+  root.querySelectorAll(".h33-hs").forEach(function(b){
+    b.addEventListener("click",function(){ var same=cur===b; close(false); if(same)return; card(b).hidden=false; b.setAttribute("aria-expanded","true"); cur=b; });
+  });
+  // one card at a time: Escape or a press anywhere else closes it, and Escape returns the focus to its point
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")close(true);});
+  document.addEventListener("click",function(e){if(cur&&!e.target.closest(".h33-hs,.h33-card"))close(false);});
+})();
+</script>
+</body>
+</html>
