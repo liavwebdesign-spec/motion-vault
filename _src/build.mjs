@@ -1014,7 +1014,7 @@ ${existsSync(join(ROOT, "assets", "changes.js")) ? `<script src="assets/changes.
   let list=[],i=0,cur=null;
   function build(){
     const f=fsel.value,c=csel.value;
-    list=ALL.filter(e=>(c==="all"||e.cat===c)&&(f==="all"||(f==="changed"?!!CHG[e.id]:MV.state(e.id)===f)));
+    list=ALL.filter(e=>(c==="all"||e.cat===c)&&(f==="all"||(f==="changed"?!!CHG[e.id]&&MV.state(e.id)!=="ok":MV.state(e.id)===f)));
     i=Math.min(i,Math.max(0,list.length-1)); show();
   }
   function show(){
