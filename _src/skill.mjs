@@ -17,7 +17,25 @@ const DOT = "·"; // נקודה מוגבהת, המפריד של המותג. אי
 // התו האסור נבנה מקוד ולא נכתב, כי ה-hook חוסם אותו גם בתוך קוד.
 const EM_DASH = String.fromCharCode(8212);
 
-function item(e) {
+// בארכיטיפים (25.10.2026): לכל קומפוזיציה ומקצב, באילו ארכיטיפים הם ברירת המחדל ובאילו חלופה (alt ב-k-arch.mjs),
+// כדי שמי שמגיע לקומפוזיציה ימצא איפה היא יושבת בעמוד, ולא רק ההפך.
+function archUses(entries) {
+  const m = {};
+  const add = (code, kind, s) => { const l = (m[code] = m[code] || { def: [], alt: [] })[kind]; if (!l.includes(s)) l.push(s); };
+  entries.filter(e => e.cat === "arch").forEach((e, i) => {
+    const r = /^P\d+/.exec(e.rhythm || "");
+    if (r) add(r[0], "def", `R${i + 1} ${e.name}`);
+    e.sections.forEach(s => {
+      const c = /^C\d+/.exec(s.comp || "");
+      if (c) add(c[0], "def", `R${i + 1} ${e.name} (${s.role})`);
+      const a = /^C\d+/.exec(s.alt || "");
+      if (a) add(a[0], "alt", `R${i + 1} ${e.name} (${s.role})`);
+    });
+  });
+  return m;
+}
+
+function item(e, uses = {}) {
   const num = e.id.replace(/^[cp]0?/, "").toUpperCase();
   const prefix = e.cat === "comp" ? "C" : "P";
   const L = [];
@@ -27,6 +45,13 @@ function item(e) {
   if (e.mobile) bits.push(`**מובייל**: ${e.mobile}`);
   if (e.note) bits.push(`**הערה**: ${e.note}`);
   L.push(bits.join(" "));
+  const u = uses[prefix + num];
+  if (u) {
+    const parts = [];
+    if (u.def.length) parts.push(`ברירת מחדל ב: ${u.def.join(", ")}`);
+    if (u.alt.length) parts.push(`חלופה ב: ${u.alt.join(", ")}`);
+    L.push(`**בארכיטיפים** (library/archetypes.md): ${parts.join(` ${DOT} `)}`);
+  }
   L.push(`**דמו חי**: ${LIVE}/${e.cat}/${e.id}.html ${DOT} \`MV:${e.id}\``);
   return L.join("\n");
 }
@@ -34,6 +59,7 @@ function item(e) {
 export function compositionsMarkdown(entries) {
   const comps = entries.filter(e => e.cat === "comp");
   const rhythms = entries.filter(e => e.cat === "rhythm");
+  const uses = archUses(entries);
   const out = [];
   out.push(`# ספריית קומפוזיציות תוכן ${DOT} פריסות ומקצבים`);
   out.push("");
@@ -73,7 +99,7 @@ export function compositionsMarkdown(entries) {
   out.push("");
   out.push(`## רמת סקשן ${DOT} קומפוזיציות (C)`);
   out.push("");
-  out.push(comps.map(item).join("\n\n"));
+  out.push(comps.map(e => item(e, uses)).join("\n\n"));
   out.push("");
   out.push("---");
   out.push("");
@@ -81,7 +107,7 @@ export function compositionsMarkdown(entries) {
   out.push("");
   out.push("מקצב הוא איך הקומפוזיציות מתחלפות לאורך הגלילה. בוחרים אחד לעמוד בשלב האפיון.");
   out.push("");
-  out.push(rhythms.map(item).join("\n\n"));
+  out.push(rhythms.map(e => item(e, uses)).join("\n\n"));
   out.push("");
   out.push("---");
   out.push("");
@@ -226,6 +252,8 @@ export function archMarkdown(entries) {
   out.push("");
   out.push(`ארכיטיפ הוא הרמה שמעל המקצב: **איזה סקשנים, באיזה סדר, ולמה**, עם קומפוזיציה מומלצת (C) לכל סקשן ומקצב (P) לעמוד. בשלב האפיון (site-planning.md) בוחרים ארכיטיפ לכל עמוד, ואז מתאימים: סקשן שאין לו תוכן אמיתי יורד, סקשן שהתוכן שלו שונה מטבעו מחליף קומפוזיציה. הסדר עצמו משתנה רק עם סיבה שמדווחת.`);
   out.push("");
+  out.push(`**הטור "חלופה, ומתי"** נותן לסקשן קומפוזיציה שנייה עם התנאי שבו היא עדיפה. בודקים את התנאי מול התוכן האמיתי של הלקוח: מתקיים, לוקחים את החלופה; לא מתקיים או לא ברור, נשארים בברירת המחדל. החלופה לא משנה את הסדר, וחוק הגיוון חל עליה כמו על ברירת המחדל.`);
+  out.push("");
   out.push(`**כל ארכיטיפ הוא שלד חי במאגר** עם מתג רוחב, וכל סקשן בו מתויג במספר, תפקיד וקומפוזיציה. ההצעה לליאב מצרפת את הקישור. כפתור ההעתקה נותן שלד CSS+HTML ניטרלי כנקודת פתיחה למבנה.`);
   out.push("");
   out.push("---");
@@ -235,9 +263,9 @@ export function archMarkdown(entries) {
     out.push(e.desc);
     out.push(`**מתאים ל**: ${e.when}`);
     out.push("");
-    out.push("| # | סקשן | קומפוזיציה | למה |");
-    out.push("|---|---|---|---|");
-    e.sections.forEach((s, j) => out.push(`| ${j + 1} | ${s.role} | ${s.comp || "לפי העור"} | ${s.why} |`));
+    out.push("| # | סקשן | קומפוזיציה | למה | חלופה, ומתי |");
+    out.push("|---|---|---|---|---|");
+    e.sections.forEach((s, j) => out.push(`| ${j + 1} | ${s.role} | ${s.comp || "לפי העור"} | ${s.why} | ${s.alt || ""} |`));
     out.push("");
     if (e.mobile) out.push(`**מובייל**: ${e.mobile}`);
     if (e.note) out.push(`**הערה**: ${e.note}`);
