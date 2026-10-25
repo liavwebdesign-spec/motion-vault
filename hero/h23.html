@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H23 · הירו מספר ענק עם צילום בתוך הספרות | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--bg);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h23h{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:48px;min-height:min(84vh,760px);padding:96px 28px 40px;background:var(--bg)}
+.h23-txt{display:flex;flex-direction:column;align-items:flex-start;gap:24px}
+.h23h h3{margin:0;max-width:14ch;font-size:clamp(34px,min(4.2vw,7.8vh),66px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h23h .hlead{max-width:42ch}
+/* the number is the visual: a photo of the material shows through the digits (background-clip:text), and it is still real text */
+.h23-stat{display:flex;flex-direction:column;align-items:center;gap:12px;margin:0;text-align:center}
+.h23-num{display:block;font-size:min(30vw,54vh);line-height:.8;font-weight:800;letter-spacing:-.05em;font-variant-numeric:tabular-nums;color:var(--ink);
+  clip-path:inset(0 0 0 0);transition:clip-path .9s cubic-bezier(.2,.6,.2,1),background-position 1.2s cubic-bezier(.2,.6,.2,1)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .h23-num{background:url("../assets/media/real/s15/marble.webp") 50% 50% / cover;-webkit-background-clip:text;background-clip:text;color:transparent}}
+.h23-cap{max-width:24ch;font-size:clamp(16px,1.2vw,19px);font-weight:600;line-height:1.4}
+.open-anim .h23-num{clip-path:inset(100% 0 0 0);background-position:50% 20%;animation:h23-fs 0s 2.5s forwards}
+.is-in .h23-num{clip-path:inset(0 0 0 0);background-position:50% 50%;transition-delay:calc(var(--t0,0s) + .15s)}
+.rv-on .h23-num{animation:none}
+@keyframes h23-fs{to{clip-path:inset(0 0 0 0);background-position:50% 50%}}
+.h23-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.h23-num{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the number becomes the band on top, the text under it */
+@media (max-width:860px){.h23h{grid-template-columns:1fr;gap:20px;min-height:0;padding:88px 20px 32px}
+  .h23-stat{order:-1;gap:8px}.h23-num{font-size:42vw}.h23h h3{font-size:clamp(28px,7.6vw,38px)}.h23-txt{gap:16px}
+  .h23h .hcta{width:100%;flex-wrap:nowrap}.h23h .hcta .hbtn{flex:1;padding-inline:16px}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=hero">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="h22.html" rel="prev" title="הקודם: הירו מניפת כרטיסים">→<span class="sr-only">הקודם</span></a><span class="vpn-n">23/29</span><a href="h24.html" rel="next" title="הבא: הירו דירוג למעלה ורצועת ביקורות">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">H23</span> · הירו מספר ענק עם צילום בתוך הספרות</h1>
+  <span class="vchip cat-hero">הירו</span>
+  <span class="vchip">CSS · JS</span>
+  <span class="vchip use">הירו ופתיחה</span><span class="vchip use">מספרים ונתונים</span><span class="vchip use">תמונות וגלריות</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:h23"><code>MV:h23</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="h23">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>טקסט בצד אחד, ובצד השני מספר אחד ענק שהוא כל הוויז'ואל: הספרות ממולאות בצילום של החומר עצמו, והמספר רץ עד הערך שלו בכניסה. מתחתיו שורה שאומרת מה הוא סופר.</p>
+  <p class="when"><b>מתי משתמשים:</b> עסק שיש לו מספר אחד שאומר הכול: שנות ותק, פרויקטים, לקוחות, מטרים, קילומטרים. עובד עם מספר של שתיים עד ארבע ספרות וצילום עם טקסטורה (אבן, עץ, בד, מים, אוכל מקרוב). לא כשהמספר קטן או לא מרשים, ולא עם צילום של אנשים, שהספרות חותכות.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>אתר תדמית · וואן-פייג'ר · דף נחיתה</dd></div><div><dt>בסקשן</dt><dd>הירו</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא כשהמספר קטן או לא אומר כלום ללקוח, ולא בלי צילום עם טקסטורה; אז h9 או h1.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="h23"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h23h" id="h23">
+    <div class="h23-txt">
+      <span class="hkick rv">שיש ואבן למטבח, מודיעין</span>
+      <h3 class="rv">משטח אחד, חתוך במידה, שמותקן אצלכם ביום אחד</h3>
+      <p class="hlead rv">מגיעים למדידה עם דוגמאות אבן אמיתיות, חותכים בסדנה שלנו, ומתקינים משטח שלם בלי חיבורים מיותרים.</p>
+      <div class="hcta rv"><a class="hbtn" href="#h23">לתיאום מדידה</a><a class="hbtn ghost" href="#h23">דוגמאות אבן</a></div>
+      <p class="hmicro rv"><span>מדידה בבית בלי עלות</span><span>אחריות לחמש שנים</span></p>
+    </div>
+    <p class="h23-stat"><span class="h23-num" data-to="25" aria-hidden="true">25</span><span class="h23-sr">25</span> <span class="h23-cap rv">שנה של חיתוך והתקנה, באותה סדנה</span></p>
+  </section>
+</div>
+
+<div class="demo-note">המספר הוא הוויז'ואל: הספרות ממולאות בצילום של החומר (background-clip:text), כך שהן גם טקסט אמיתי וגם צילום, ובדפדפן שלא תומך הן פשוט כהות. הספרות כבדות (משקל 800) כדי שיהיה בהן מספיק שטח לטקסטורה, והגודל לפי הקטן מבין הרוחב והגובה, כדי שבמסך נמוך הן לא ידחפו את הכותרת. בכניסה המספר נחשף מלמטה למעלה, הצילום שבתוכו זז מעט, והערך רץ במשך שנייה מהמספר הקטן ביותר עם אותה כמות ספרות (10 עבור 25), כדי שהרוחב לא יקפוץ באמצע. קורא מסך שומע את הערך הסופי מטקסט מוסתר, ולא את הספירה. בהפחתת תנועה, או כשהסקריפט מאחר, הערך הסופי מוצג מיד. השורה שמתחת למספר היא חלק ממנו: מספר בלי "של מה" הוא קישוט. בטלפון המספר עולה למעלה כמו רצועת צילום. פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/h23.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* H23 · הירו מספר ענק עם צילום בתוך הספרות */
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h23h{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:48px;min-height:min(84vh,760px);padding:96px 28px 40px;background:var(--bg, #f7f7fa)}
+.h23-txt{display:flex;flex-direction:column;align-items:flex-start;gap:24px}
+.h23h h3{margin:0;max-width:14ch;font-size:clamp(34px,min(4.2vw,7.8vh),66px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h23h .hlead{max-width:42ch}
+/* the number is the visual: a photo of the material shows through the digits (background-clip:text), and it is still real text */
+.h23-stat{display:flex;flex-direction:column;align-items:center;gap:12px;margin:0;text-align:center}
+.h23-num{display:block;font-size:min(30vw,54vh);line-height:.8;font-weight:800;letter-spacing:-.05em;font-variant-numeric:tabular-nums;color:var(--ink, #16182b);
+  clip-path:inset(0 0 0 0);transition:clip-path .9s cubic-bezier(.2,.6,.2,1),background-position 1.2s cubic-bezier(.2,.6,.2,1)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .h23-num{background:url("https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/marble.webp") 50% 50% / cover;-webkit-background-clip:text;background-clip:text;color:transparent}}
+.h23-cap{max-width:24ch;font-size:clamp(16px,1.2vw,19px);font-weight:600;line-height:1.4}
+.open-anim .h23-num{clip-path:inset(100% 0 0 0);background-position:50% 20%;animation:h23-fs 0s 2.5s forwards}
+.is-in .h23-num{clip-path:inset(0 0 0 0);background-position:50% 50%;transition-delay:calc(var(--t0,0s) + .15s)}
+.rv-on .h23-num{animation:none}
+@keyframes h23-fs{to{clip-path:inset(0 0 0 0);background-position:50% 50%}}
+.h23-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.h23-num{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the number becomes the band on top, the text under it */
+@media (max-width:860px){.h23h{grid-template-columns:1fr;gap:20px;min-height:0;padding:88px 20px 32px}
+  .h23-stat{order:-1;gap:8px}.h23-num{font-size:42vw}.h23h h3{font-size:clamp(28px,7.6vw,38px)}.h23-txt{gap:16px}
+  .h23h .hcta{width:100%;flex-wrap:nowrap}.h23h .hcta .hbtn{flex:1;padding-inline:16px}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;script&gt;if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")&lt;/script&gt;
+&lt;div class="hf"&gt;&lt;div class="hf-top"&gt;&lt;b&gt;לוגו&lt;/b&gt;&lt;nav&gt;&lt;span&gt;שירותים&lt;/span&gt;&lt;span&gt;פרויקטים&lt;/span&gt;&lt;span&gt;אודות&lt;/span&gt;&lt;/nav&gt;&lt;/div&gt;
+  &lt;section class="h23h" id="h23"&gt;
+    &lt;div class="h23-txt"&gt;
+      &lt;span class="hkick rv"&gt;שיש ואבן למטבח, מודיעין&lt;/span&gt;
+      &lt;h3 class="rv"&gt;משטח אחד, חתוך במידה, שמותקן אצלכם ביום אחד&lt;/h3&gt;
+      &lt;p class="hlead rv"&gt;מגיעים למדידה עם דוגמאות אבן אמיתיות, חותכים בסדנה שלנו, ומתקינים משטח שלם בלי חיבורים מיותרים.&lt;/p&gt;
+      &lt;div class="hcta rv"&gt;&lt;a class="hbtn" href="#h23"&gt;לתיאום מדידה&lt;/a&gt;&lt;a class="hbtn ghost" href="#h23"&gt;דוגמאות אבן&lt;/a&gt;&lt;/div&gt;
+      &lt;p class="hmicro rv"&gt;&lt;span&gt;מדידה בבית בלי עלות&lt;/span&gt;&lt;span&gt;אחריות לחמש שנים&lt;/span&gt;&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;p class="h23-stat"&gt;&lt;span class="h23-num" data-to="25" aria-hidden="true"&gt;25&lt;/span&gt;&lt;span class="h23-sr"&gt;25&lt;/span&gt; &lt;span class="h23-cap rv"&gt;שנה של חיתוך והתקנה, באותה סדנה&lt;/span&gt;&lt;/p&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top&lt;innerHeight*.9&amp;&amp;r.bottom&gt;0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&amp;&amp;getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+(function(){
+  var root=document.getElementById("h23"), num=root.querySelector(".h23-num"), to=+num.dataset.to;
+  enter(root);
+  // the count runs with the entrance only: not on reduced motion, and not when the script came late and the hero is already shown
+  if(!matchMedia("(prefers-reduced-motion:no-preference)").matches||root.classList.contains("is-in"))return;
+  // it starts from the smallest number with the same digits (10 for 25), so the width never jumps while it runs
+  var from=Math.pow(10,String(to).length-1);
+  num.textContent=String(from);
+  inView(root,function(){
+    var t0=null, done=false;
+    function fin(){done=true;num.textContent=String(to);}
+    function step(t){
+      if(done)return;
+      if(t0===null)t0=t;
+      var p=Math.min((t-t0)/1000,1);
+      num.textContent=String(Math.round(from+(to-from)*(1-Math.pow(1-p,3))));
+      if(p&lt;1)requestAnimationFrame(step); else fin();
+    }
+    requestAnimationFrame(step);
+    // frames stop in a background tab; the real value is never left halfway
+    setTimeout(fin,1300);
+  });
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:h23 · הירו מספר ענק עם צילום בתוך הספרות\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/hero/h23.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/h23.html\n\nמה זה עושה: טקסט בצד אחד, ובצד השני מספר אחד ענק שהוא כל הוויז'ואל: הספרות ממולאות בצילום של החומר עצמו, והמספר רץ עד הערך שלו בכניסה. מתחתיו שורה שאומרת מה הוא סופר.\nמתי משתמשים: עסק שיש לו מספר אחד שאומר הכול: שנות ותק, פרויקטים, לקוחות, מטרים, קילומטרים. עובד עם מספר של שתיים עד ארבע ספרות וצילום עם טקסטורה (אבן, עץ, בד, מים, אוכל מקרוב). לא כשהמספר קטן או לא מרשים, ולא עם צילום של אנשים, שהספרות חותכות.\nסוג אתר: אתר תדמית · וואן-פייג'ר · דף נחיתה\nבסקשן: הירו\nאופי: גם באתר שקט\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא כשהמספר קטן או לא אומר כלום ללקוח, ולא בלי צילום עם טקסטורה; אז h9 או h1.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* H23 · הירו מספר ענק עם צילום בתוך הספרות */\n/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */\n.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}\n.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}\n.hf-top b{font-size:18px;font-weight:800}\n.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}\n@media (max-width:760px){.hf-top nav{display:none}}\n.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;\n  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}\n@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}\n.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}\n.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}\n.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}\n.hcta{display:flex;flex-wrap:wrap;gap:12px}\n\n/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */\n.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}\n/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */\n.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}\n.rv-on .rv{animation:none}\n@keyframes rv-fs{to{opacity:1;transform:none}}\n@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}\n  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}\n.h23h{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:48px;min-height:min(84vh,760px);padding:96px 28px 40px;background:var(--bg, #f7f7fa)}\n.h23-txt{display:flex;flex-direction:column;align-items:flex-start;gap:24px}\n.h23h h3{margin:0;max-width:14ch;font-size:clamp(34px,min(4.2vw,7.8vh),66px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}\n.h23h .hlead{max-width:42ch}\n/* the number is the visual: a photo of the material shows through the digits (background-clip:text), and it is still real text */\n.h23-stat{display:flex;flex-direction:column;align-items:center;gap:12px;margin:0;text-align:center}\n.h23-num{display:block;font-size:min(30vw,54vh);line-height:.8;font-weight:800;letter-spacing:-.05em;font-variant-numeric:tabular-nums;color:var(--ink, #16182b);\n  clip-path:inset(0 0 0 0);transition:clip-path .9s cubic-bezier(.2,.6,.2,1),background-position 1.2s cubic-bezier(.2,.6,.2,1)}\n@supports ((-webkit-background-clip:text) or (background-clip:text)){\n  .h23-num{background:url(\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/marble.webp\") 50% 50% / cover;-webkit-background-clip:text;background-clip:text;color:transparent}}\n.h23-cap{max-width:24ch;font-size:clamp(16px,1.2vw,19px);font-weight:600;line-height:1.4}\n.open-anim .h23-num{clip-path:inset(100% 0 0 0);background-position:50% 20%;animation:h23-fs 0s 2.5s forwards}\n.is-in .h23-num{clip-path:inset(0 0 0 0);background-position:50% 50%;transition-delay:calc(var(--t0,0s) + .15s)}\n.rv-on .h23-num{animation:none}\n@keyframes h23-fs{to{clip-path:inset(0 0 0 0);background-position:50% 50%}}\n.h23-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n@media (prefers-reduced-motion:reduce){.h23-num{transition-duration:.01ms!important;transition-delay:0s!important}}\n/* phone: the number becomes the band on top, the text under it */\n@media (max-width:860px){.h23h{grid-template-columns:1fr;gap:20px;min-height:0;padding:88px 20px 32px}\n  .h23-stat{order:-1;gap:8px}.h23-num{font-size:42vw}.h23h h3{font-size:clamp(28px,7.6vw,38px)}.h23-txt{gap:16px}\n  .h23h .hcta{width:100%;flex-wrap:nowrap}.h23h .hcta .hbtn{flex:1;padding-inline:16px}}\n\n=== HTML ===\n<script>if(matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)document.documentElement.classList.add(\"open-anim\")<\/script>\n<div class=\"hf\"><div class=\"hf-top\"><b>לוגו<\/b><nav><span>שירותים<\/span><span>פרויקטים<\/span><span>אודות<\/span><\/nav><\/div>\n  <section class=\"h23h\" id=\"h23\">\n    <div class=\"h23-txt\">\n      <span class=\"hkick rv\">שיש ואבן למטבח, מודיעין<\/span>\n      <h3 class=\"rv\">משטח אחד, חתוך במידה, שמותקן אצלכם ביום אחד<\/h3>\n      <p class=\"hlead rv\">מגיעים למדידה עם דוגמאות אבן אמיתיות, חותכים בסדנה שלנו, ומתקינים משטח שלם בלי חיבורים מיותרים.<\/p>\n      <div class=\"hcta rv\"><a class=\"hbtn\" href=\"#h23\">לתיאום מדידה<\/a><a class=\"hbtn ghost\" href=\"#h23\">דוגמאות אבן<\/a><\/div>\n      <p class=\"hmicro rv\"><span>מדידה בבית בלי עלות<\/span><span>אחריות לחמש שנים<\/span><\/p>\n    <\/div>\n    <p class=\"h23-stat\"><span class=\"h23-num\" data-to=\"25\" aria-hidden=\"true\">25<\/span><span class=\"h23-sr\">25<\/span> <span class=\"h23-cap rv\">שנה של חיתוך והתקנה, באותה סדנה<\/span><\/p>\n  <\/section>\n<\/div>\n\n=== JS ===\n// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:\n// an observer does not update while the tab is throttled (and on a real site the hero is usually\n// on screen at load anyway), and an entrance that never fires leaves the hero invisible.\nfunction inView(el,f){\n  var ro;\n  function chk(){\n    var r=el.getBoundingClientRect();\n    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}\n  }\n  function off(){removeEventListener(\"scroll\",chk);removeEventListener(\"resize\",chk);if(ro)ro.disconnect();}\n  addEventListener(\"scroll\",chk,{passive:true}); addEventListener(\"resize\",chk);\n  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view\n  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}\n  requestAnimationFrame(chk); setTimeout(chk,300);\n}\nfunction enter(root){\n  var els=root.querySelectorAll(\".rv\");\n  els.forEach(function(el,i){if(!el.style.getPropertyValue(\"--i\"))el.style.setProperty(\"--i\",i);});\n  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance\n  if(els.length&&getComputedStyle(els[0]).opacity===\"1\")root.classList.add(\"is-in\");\n  root.classList.add(\"rv-on\");\n  inView(root,function(){root.classList.add(\"is-in\");});\n}\n(function(){\n  var root=document.getElementById(\"h23\"), num=root.querySelector(\".h23-num\"), to=+num.dataset.to;\n  enter(root);\n  // the count runs with the entrance only: not on reduced motion, and not when the script came late and the hero is already shown\n  if(!matchMedia(\"(prefers-reduced-motion:no-preference)\").matches||root.classList.contains(\"is-in\"))return;\n  // it starts from the smallest number with the same digits (10 for 25), so the width never jumps while it runs\n  var from=Math.pow(10,String(to).length-1);\n  num.textContent=String(from);\n  inView(root,function(){\n    var t0=null, done=false;\n    function fin(){done=true;num.textContent=String(to);}\n    function step(t){\n      if(done)return;\n      if(t0===null)t0=t;\n      var p=Math.min((t-t0)/1000,1);\n      num.textContent=String(Math.round(from+(to-from)*(1-Math.pow(1-p,3))));\n      if(p<1)requestAnimationFrame(step); else fin();\n    }\n    requestAnimationFrame(step);\n    // frames stop in a background tab; the real value is never left halfway\n    setTimeout(fin,1300);\n  });\n})();\n\nהערת מימוש מהמאגר:\nהמספר הוא הוויז'ואל: הספרות ממולאות בצילום של החומר (background-clip:text), כך שהן גם טקסט אמיתי וגם צילום, ובדפדפן שלא תומך הן פשוט כהות. הספרות כבדות (משקל 800) כדי שיהיה בהן מספיק שטח לטקסטורה, והגודל לפי הקטן מבין הרוחב והגובה, כדי שבמסך נמוך הן לא ידחפו את הכותרת. בכניסה המספר נחשף מלמטה למעלה, הצילום שבתוכו זז מעט, והערך רץ במשך שנייה מהמספר הקטן ביותר עם אותה כמות ספרות (10 עבור 25), כדי שהרוחב לא יקפוץ באמצע. קורא מסך שומע את הערך הסופי מטקסט מוסתר, ולא את הספירה. בהפחתת תנועה, או כשהסקריפט מאחר, הערך הסופי מוצג מיד. השורה שמתחת למספר היא חלק ממנו: מספר בלי \"של מה\" הוא קישוט. בטלפון המספר עולה למעלה כמו רצועת צילום. פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* H23 · הירו מספר ענק עם צילום בתוך הספרות */\n/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */\n.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}\n.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}\n.hf-top b{font-size:18px;font-weight:800}\n.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}\n@media (max-width:760px){.hf-top nav{display:none}}\n.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;\n  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}\n@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}\n.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}\n.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}\n.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}\n.hcta{display:flex;flex-wrap:wrap;gap:12px}\n\n/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */\n.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}\n/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */\n.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}\n.rv-on .rv{animation:none}\n@keyframes rv-fs{to{opacity:1;transform:none}}\n@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}\n  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}\n.h23h{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:48px;min-height:min(84vh,760px);padding:96px 28px 40px;background:var(--bg, #f7f7fa)}\n.h23-txt{display:flex;flex-direction:column;align-items:flex-start;gap:24px}\n.h23h h3{margin:0;max-width:14ch;font-size:clamp(34px,min(4.2vw,7.8vh),66px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}\n.h23h .hlead{max-width:42ch}\n/* the number is the visual: a photo of the material shows through the digits (background-clip:text), and it is still real text */\n.h23-stat{display:flex;flex-direction:column;align-items:center;gap:12px;margin:0;text-align:center}\n.h23-num{display:block;font-size:min(30vw,54vh);line-height:.8;font-weight:800;letter-spacing:-.05em;font-variant-numeric:tabular-nums;color:var(--ink, #16182b);\n  clip-path:inset(0 0 0 0);transition:clip-path .9s cubic-bezier(.2,.6,.2,1),background-position 1.2s cubic-bezier(.2,.6,.2,1)}\n@supports ((-webkit-background-clip:text) or (background-clip:text)){\n  .h23-num{background:url(\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/marble.webp\") 50% 50% / cover;-webkit-background-clip:text;background-clip:text;color:transparent}}\n.h23-cap{max-width:24ch;font-size:clamp(16px,1.2vw,19px);font-weight:600;line-height:1.4}\n.open-anim .h23-num{clip-path:inset(100% 0 0 0);background-position:50% 20%;animation:h23-fs 0s 2.5s forwards}\n.is-in .h23-num{clip-path:inset(0 0 0 0);background-position:50% 50%;transition-delay:calc(var(--t0,0s) + .15s)}\n.rv-on .h23-num{animation:none}\n@keyframes h23-fs{to{clip-path:inset(0 0 0 0);background-position:50% 50%}}\n.h23-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}\n@media (prefers-reduced-motion:reduce){.h23-num{transition-duration:.01ms!important;transition-delay:0s!important}}\n/* phone: the number becomes the band on top, the text under it */\n@media (max-width:860px){.h23h{grid-template-columns:1fr;gap:20px;min-height:0;padding:88px 20px 32px}\n  .h23-stat{order:-1;gap:8px}.h23-num{font-size:42vw}.h23h h3{font-size:clamp(28px,7.6vw,38px)}.h23-txt{gap:16px}\n  .h23h .hcta{width:100%;flex-wrap:nowrap}.h23h .hcta .hbtn{flex:1;padding-inline:16px}}","html":"<script>if(matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)document.documentElement.classList.add(\"open-anim\")<\/script>\n<div class=\"hf\"><div class=\"hf-top\"><b>לוגו<\/b><nav><span>שירותים<\/span><span>פרויקטים<\/span><span>אודות<\/span><\/nav><\/div>\n  <section class=\"h23h\" id=\"h23\">\n    <div class=\"h23-txt\">\n      <span class=\"hkick rv\">שיש ואבן למטבח, מודיעין<\/span>\n      <h3 class=\"rv\">משטח אחד, חתוך במידה, שמותקן אצלכם ביום אחד<\/h3>\n      <p class=\"hlead rv\">מגיעים למדידה עם דוגמאות אבן אמיתיות, חותכים בסדנה שלנו, ומתקינים משטח שלם בלי חיבורים מיותרים.<\/p>\n      <div class=\"hcta rv\"><a class=\"hbtn\" href=\"#h23\">לתיאום מדידה<\/a><a class=\"hbtn ghost\" href=\"#h23\">דוגמאות אבן<\/a><\/div>\n      <p class=\"hmicro rv\"><span>מדידה בבית בלי עלות<\/span><span>אחריות לחמש שנים<\/span><\/p>\n    <\/div>\n    <p class=\"h23-stat\"><span class=\"h23-num\" data-to=\"25\" aria-hidden=\"true\">25<\/span><span class=\"h23-sr\">25<\/span> <span class=\"h23-cap rv\">שנה של חיתוך והתקנה, באותה סדנה<\/span><\/p>\n  <\/section>\n<\/div>","js":"// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:\n// an observer does not update while the tab is throttled (and on a real site the hero is usually\n// on screen at load anyway), and an entrance that never fires leaves the hero invisible.\nfunction inView(el,f){\n  var ro;\n  function chk(){\n    var r=el.getBoundingClientRect();\n    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}\n  }\n  function off(){removeEventListener(\"scroll\",chk);removeEventListener(\"resize\",chk);if(ro)ro.disconnect();}\n  addEventListener(\"scroll\",chk,{passive:true}); addEventListener(\"resize\",chk);\n  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view\n  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}\n  requestAnimationFrame(chk); setTimeout(chk,300);\n}\nfunction enter(root){\n  var els=root.querySelectorAll(\".rv\");\n  els.forEach(function(el,i){if(!el.style.getPropertyValue(\"--i\"))el.style.setProperty(\"--i\",i);});\n  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance\n  if(els.length&&getComputedStyle(els[0]).opacity===\"1\")root.classList.add(\"is-in\");\n  root.classList.add(\"rv-on\");\n  inView(root,function(){root.classList.add(\"is-in\");});\n}\n(function(){\n  var root=document.getElementById(\"h23\"), num=root.querySelector(\".h23-num\"), to=+num.dataset.to;\n  enter(root);\n  // the count runs with the entrance only: not on reduced motion, and not when the script came late and the hero is already shown\n  if(!matchMedia(\"(prefers-reduced-motion:no-preference)\").matches||root.classList.contains(\"is-in\"))return;\n  // it starts from the smallest number with the same digits (10 for 25), so the width never jumps while it runs\n  var from=Math.pow(10,String(to).length-1);\n  num.textContent=String(from);\n  inView(root,function(){\n    var t0=null, done=false;\n    function fin(){done=true;num.textContent=String(to);}\n    function step(t){\n      if(done)return;\n      if(t0===null)t0=t;\n      var p=Math.min((t-t0)/1000,1);\n      num.textContent=String(Math.round(from+(to-from)*(1-Math.pow(1-p,3))));\n      if(p<1)requestAnimationFrame(step); else fin();\n    }\n    requestAnimationFrame(step);\n    // frames stop in a background tab; the real value is never left halfway\n    setTimeout(fin,1300);\n  });\n})();","scripts":"","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="h22.html" rel="prev"><small>→ הקודם</small><b>הירו מניפת כרטיסים</b></a><a href="h24.html" rel="next"><small>הבא ←</small><b>הירו דירוג למעלה ורצועת ביקורות</b></a></nav>
+
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · הירו מספר ענק עם צילום בתוך הספרות").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+(function(){
+  var root=document.getElementById("h23"), num=root.querySelector(".h23-num"), to=+num.dataset.to;
+  enter(root);
+  // the count runs with the entrance only: not on reduced motion, and not when the script came late and the hero is already shown
+  if(!matchMedia("(prefers-reduced-motion:no-preference)").matches||root.classList.contains("is-in"))return;
+  // it starts from the smallest number with the same digits (10 for 25), so the width never jumps while it runs
+  var from=Math.pow(10,String(to).length-1);
+  num.textContent=String(from);
+  inView(root,function(){
+    var t0=null, done=false;
+    function fin(){done=true;num.textContent=String(to);}
+    function step(t){
+      if(done)return;
+      if(t0===null)t0=t;
+      var p=Math.min((t-t0)/1000,1);
+      num.textContent=String(Math.round(from+(to-from)*(1-Math.pow(1-p,3))));
+      if(p<1)requestAnimationFrame(step); else fin();
+    }
+    requestAnimationFrame(step);
+    // frames stop in a background tab; the real value is never left halfway
+    setTimeout(fin,1300);
+  });
+})();
+</script>
+</body>
+</html>

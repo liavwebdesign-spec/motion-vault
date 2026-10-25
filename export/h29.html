@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H29 · הירו המלצה ככותרת</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* H29 · הירו המלצה ככותרת */
+@font-face{font-family:"MV Bellefair";src:url("https://liavwebdesign-spec.github.io/motion-vault/assets/fonts/bellefair.woff2") format("woff2");font-weight:400;font-display:swap;size-adjust:112%}
+
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h29h{--disp:"MV Bellefair","Bellefair",Georgia,serif;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:56px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg, #f7f7fa)}
+.h29-txt{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:24px}
+/* the h3 says what the business does, small; the quote is the loudest thing on the screen, and it is not a heading */
+.h29h h3{margin:0;font-size:clamp(17px,1.3vw,20px);line-height:1.4;font-weight:700}
+.h29-q{position:relative;margin:0}
+.h29-q blockquote{margin:0;font-family:var(--disp);font-size:clamp(32px,min(3.9vw,7.4vh),62px);line-height:1.08;text-wrap:balance}
+.h29-mark{display:block;height:.42em;margin-bottom:8px;font-family:var(--disp);font-size:clamp(72px,7vw,112px);line-height:1;color:var(--accent, #4a3aff)}
+.h29-q figcaption{display:flex;flex-direction:column;gap:2px;margin-top:20px;font-size:15px}
+.h29-q figcaption b{font-size:16px}
+.h29-q figcaption span{color:var(--muted, #6a6d85)}
+/* it opens from the edge next to the text: the start of the closed state flips with the direction */
+.h29-vis{--from:inset(0 0 0 100% round 24px);position:relative;border-radius:24px;overflow:hidden;background:var(--card, #fff);clip-path:inset(0 round 24px);transition:clip-path 1s cubic-bezier(.2,.6,.2,1)}
+[dir="ltr"] .h29-vis{--from:inset(0 100% 0 0 round 24px)}
+.h29-vis img{width:100%;height:100%;object-fit:cover;object-position:28% 50%;display:block;transition:transform 1.2s cubic-bezier(.2,.6,.2,1)}
+.open-anim .h29-vis{clip-path:var(--from);animation:h29v-fs 0s 2.5s forwards}
+.open-anim .h29-vis img{transform:scale(1.08);animation:rv-fs 0s 2.5s forwards}
+.is-in .h29-vis{clip-path:inset(0 round 24px);transition-delay:calc(var(--t0,0s) + .1s)}
+.is-in .h29-vis img{transform:none;transition-delay:calc(var(--t0,0s) + .1s)}
+.rv-on .h29-vis,.rv-on .h29-vis img{animation:none}
+@keyframes h29v-fs{to{clip-path:inset(0 round 24px)}}
+.h29-cap{position:absolute;inset-block-end:20px;inset-inline-start:20px;margin:0;padding:8px 14px;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font-size:13px;font-weight:600}
+@media (prefers-reduced-motion:reduce){.h29-vis,.h29-vis img{transition-duration:.01ms!important;transition-delay:0s!important}}
+@media (max-width:860px){.h29h{grid-template-columns:1fr;gap:20px;min-height:0;padding:72px 20px 28px}
+  .h29-vis{order:-1;height:clamp(180px,26vh,240px)}.h29-vis img{object-position:24% 35%}
+  .h29-txt{padding-block:0;gap:16px}.h29-q blockquote{font-size:clamp(26px,7vw,34px)}.h29-mark{font-size:64px}.h29-q figcaption{margin-top:12px}
+  .h29h .hcta{width:100%;flex-wrap:nowrap}.h29h .hcta .hbtn{flex:1;padding-inline:16px}}
+</style>
+</head>
+<body>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h29h" id="h29">
+    <div class="h29-txt">
+      <h3 class="rv">חימום וקירור חכם לבית, מהתכנון ועד ההתקנה</h3>
+      <figure class="h29-q rv">
+        <span class="h29-mark" aria-hidden="true">”</span>
+        <blockquote>החשבון ירד בשליש, והבית כבר חם כשאנחנו חוזרים מהעבודה.</blockquote>
+        <figcaption><b>נועה כהן</b><span>רמת השרון, התקינו אצלה בפברואר</span></figcaption>
+      </figure>
+      <div class="hcta rv"><a class="hbtn" href="#h29">לבדיקת התאמה לבית</a><a class="hbtn ghost" href="#h29">עוד סיפורים</a></div>
+      <p class="hmicro rv"><span>4.9 בגוגל, מתוך 212 ביקורות</span><span>ביקור ראשון בלי עלות</span></p>
+    </div>
+    <div class="h29-vis">
+      <img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s02/hero-panel.webp" alt="נועה מחייכת ומכוונת את לוח הבקרה על הקיר בסלון" fetchpriority="high" decoding="async">
+      <p class="h29-cap rv">בתמונה: הבית של נועה</p>
+    </div>
+  </section>
+</div>
+
+
+<script>
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+enter(document.getElementById("h29"));
+</script>
+</body>
+</html>

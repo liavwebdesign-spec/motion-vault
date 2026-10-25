@@ -863,6 +863,530 @@ enter(document.getElementById("h21"));`,
 </div>`,
   js:`${REVEAL_JS}
 enter(document.getElementById("h22"));`,
-  note:"כל הכרטיסים יושבים באותה נקודה ותלויים מציר אחד שנמצא הרחק מתחתם (transform-origin של 170%), כך שזווית שונה לכל אחד (--r) פותחת אותם למניפה, בלי לחשב מיקומים. הכניסה מתחילה בערימה סגורה שעולה מלמטה ונפתחת מהאמצע החוצה. הזווית וההזזה הן תכונות נפרדות (rotate ו-translate), ולכן הריחוף מרים כרטיס בלי לשבור את הזווית שלו ובלי להתנגש בכניסה. הכרטיס האמצעי הוא טקסט בצבע המותג (הטעם של השבוע), ולכן המניפה אומרת משהו ולא רק מראה תמונות; התמונות דקורטיביות, והשם הקצר על כל כרטיס הוא הטקסט שלו. הכרטיסים נחתכים בקצה התחתון של ההירו בכוונה, כמו קלפים ביד. בטלפון נשארים שלושה." + NOTE_TAIL
+  note:"כל הכרטיסים יושבים באותה נקודה ותלויים מציר אחד שנמצא הרחק מתחתם (transform-origin של 230%), כך שזווית שונה לכל אחד (--r) פותחת אותם למניפה, בלי לחשב מיקומים. הכניסה מתחילה בערימה סגורה שעולה מלמטה ונפתחת מהאמצע החוצה. הזווית וההזזה הן תכונות נפרדות (rotate ו-translate), ולכן הריחוף מרים כרטיס בלי לשבור את הזווית שלו ובלי להתנגש בכניסה. הכרטיס האמצעי הוא טקסט בצבע המותג (הטעם של השבוע), ולכן המניפה אומרת משהו ולא רק מראה תמונות; התמונות דקורטיביות, והשם הקצר על כל כרטיס הוא הטקסט שלו, והוא יושב בקצה שהכרטיס הסמוך לא מכסה. הכרטיסים נחתכים בקצה התחתון של ההירו בכוונה, כמו קלפים ביד. בטלפון נשארים שלושה." + NOTE_TAIL
+},
+{
+  id:"h23", cat:"hero", name:"הירו מספר ענק עם צילום בתוך הספרות", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"טקסט בצד אחד, ובצד השני מספר אחד ענק שהוא כל הוויז'ואל: הספרות ממולאות בצילום של החומר עצמו, והמספר רץ עד הערך שלו בכניסה. מתחתיו שורה שאומרת מה הוא סופר.",
+  when:"עסק שיש לו מספר אחד שאומר הכול: שנות ותק, פרויקטים, לקוחות, מטרים, קילומטרים. עובד עם מספר של שתיים עד ארבע ספרות וצילום עם טקסטורה (אבן, עץ, בד, מים, אוכל מקרוב). לא כשהמספר קטן או לא מרשים, ולא עם צילום של אנשים, שהספרות חותכות.",
+  libs:[],
+  css:`${FRAME_CSS}
+.h23h{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:48px;min-height:min(84vh,760px);padding:96px 28px 40px;background:var(--bg)}
+.h23-txt{display:flex;flex-direction:column;align-items:flex-start;gap:24px}
+.h23h h3{margin:0;max-width:14ch;font-size:clamp(34px,min(4.2vw,7.8vh),66px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h23h .hlead{max-width:42ch}
+/* the number is the visual: a photo of the material shows through the digits (background-clip:text), and it is still real text */
+.h23-stat{display:flex;flex-direction:column;align-items:center;gap:12px;margin:0;text-align:center}
+.h23-num{display:block;font-size:min(30vw,54vh);line-height:.8;font-weight:800;letter-spacing:-.05em;font-variant-numeric:tabular-nums;color:var(--ink);
+  clip-path:inset(0 0 0 0);transition:clip-path .9s ${E},background-position 1.2s ${E}}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .h23-num{background:url("../assets/media/real/s15/marble.webp") 50% 50% / cover;-webkit-background-clip:text;background-clip:text;color:transparent}}
+.h23-cap{max-width:24ch;font-size:clamp(16px,1.2vw,19px);font-weight:600;line-height:1.4}
+.open-anim .h23-num{clip-path:inset(100% 0 0 0);background-position:50% 20%;animation:h23-fs 0s 2.5s forwards}
+.is-in .h23-num{clip-path:inset(0 0 0 0);background-position:50% 50%;transition-delay:calc(var(--t0,0s) + .15s)}
+.rv-on .h23-num{animation:none}
+@keyframes h23-fs{to{clip-path:inset(0 0 0 0);background-position:50% 50%}}
+.h23-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.h23-num{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the number becomes the band on top, the text under it */
+@media (max-width:860px){.h23h{grid-template-columns:1fr;gap:20px;min-height:0;padding:88px 20px 32px}
+  .h23-stat{order:-1;gap:8px}.h23-num{font-size:42vw}.h23h h3{font-size:clamp(28px,7.6vw,38px)}.h23-txt{gap:16px}
+  .h23h .hcta{width:100%;flex-wrap:nowrap}.h23h .hcta .hbtn{flex:1;padding-inline:16px}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h23h" id="h23">
+    <div class="h23-txt">
+      <span class="hkick rv">שיש ואבן למטבח, מודיעין</span>
+      <h3 class="rv">משטח אחד, חתוך במידה, שמותקן אצלכם ביום אחד</h3>
+      <p class="hlead rv">מגיעים למדידה עם דוגמאות אבן אמיתיות, חותכים בסדנה שלנו, ומתקינים משטח שלם בלי חיבורים מיותרים.</p>
+      <div class="hcta rv"><a class="hbtn" href="#h23">לתיאום מדידה</a><a class="hbtn ghost" href="#h23">דוגמאות אבן</a></div>
+      <p class="hmicro rv"><span>מדידה בבית בלי עלות</span><span>אחריות לחמש שנים</span></p>
+    </div>
+    <p class="h23-stat"><span class="h23-num" data-to="25" aria-hidden="true">25</span><span class="h23-sr">25</span> <span class="h23-cap rv">שנה של חיתוך והתקנה, באותה סדנה</span></p>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+(function(){
+  var root=document.getElementById("h23"), num=root.querySelector(".h23-num"), to=+num.dataset.to;
+  enter(root);
+  // the count runs with the entrance only: not on reduced motion, and not when the script came late and the hero is already shown
+  if(!matchMedia("(prefers-reduced-motion:no-preference)").matches||root.classList.contains("is-in"))return;
+  // it starts from the smallest number with the same digits (10 for 25), so the width never jumps while it runs
+  var from=Math.pow(10,String(to).length-1);
+  num.textContent=String(from);
+  inView(root,function(){
+    var t0=null, done=false;
+    function fin(){done=true;num.textContent=String(to);}
+    function step(t){
+      if(done)return;
+      if(t0===null)t0=t;
+      var p=Math.min((t-t0)/1000,1);
+      num.textContent=String(Math.round(from+(to-from)*(1-Math.pow(1-p,3))));
+      if(p<1)requestAnimationFrame(step); else fin();
+    }
+    requestAnimationFrame(step);
+    // frames stop in a background tab; the real value is never left halfway
+    setTimeout(fin,1300);
+  });
+})();`,
+  note:"המספר הוא הוויז'ואל: הספרות ממולאות בצילום של החומר (background-clip:text), כך שהן גם טקסט אמיתי וגם צילום, ובדפדפן שלא תומך הן פשוט כהות. הספרות כבדות (משקל 800) כדי שיהיה בהן מספיק שטח לטקסטורה, והגודל לפי הקטן מבין הרוחב והגובה, כדי שבמסך נמוך הן לא ידחפו את הכותרת. בכניסה המספר נחשף מלמטה למעלה, הצילום שבתוכו זז מעט, והערך רץ במשך שנייה מהמספר הקטן ביותר עם אותה כמות ספרות (10 עבור 25), כדי שהרוחב לא יקפוץ באמצע. קורא מסך שומע את הערך הסופי מטקסט מוסתר, ולא את הספירה. בהפחתת תנועה, או כשהסקריפט מאחר, הערך הסופי מוצג מיד. השורה שמתחת למספר היא חלק ממנו: מספר בלי \"של מה\" הוא קישוט. בטלפון המספר עולה למעלה כמו רצועת צילום." + NOTE_TAIL
+},
+{
+  id:"h24", cat:"hero", name:"הירו דירוג למעלה ורצועת ביקורות", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"כותרת ממורכזת שמעליה שורת דירוג: עיגולי ראשי תיבות, כוכבים ומספר הביקורות. מתחת לכפתורים רצועה של כרטיסי ביקורת שגולשת לאט לרוחב, עם קצוות נמוגים, עצירה בריחוף וכפתור עצירה גלוי.",
+  when:"עסק שהלקוח בוחר בו לפי ביקורות ויש לו הרבה כאלה: הובלות, שיפוצים, ניקיון, מרפאה, מוסך, בית ספר לנהיגה, קייטרינג. הביקורות הן הטיעון, ולכן הן במסך הראשון ולא בתחתית העמוד. לא לעסק עם פחות מעשרים ביקורות אמיתיות, ולעולם לא עם ביקורות ממוצאות.",
+  libs:[],
+  css:`${FRAME_CSS}
+${PP_CSS}
+.h24h{position:relative;display:flex;flex-direction:column;align-items:center;gap:32px;min-height:min(86vh,780px);padding:96px 0 28px;text-align:center;overflow:hidden;
+  background:radial-gradient(80% 60% at 50% 0%,color-mix(in srgb,var(--accent) 10%,var(--bg)),var(--bg))}
+.h24-top{display:flex;flex-direction:column;align-items:center;gap:24px;padding-inline:28px}
+/* the proof comes first: who rated and how much, in one line, before the promise */
+.h24-proof{display:inline-flex;align-items:center;gap:12px;margin:0;padding-block:6px;padding-inline:6px 16px;border-radius:999px;background:var(--card);font-size:14px;
+  box-shadow:0 10px 30px -14px color-mix(in srgb,var(--ink) 35%,transparent)}
+.h24-proof b{font-size:15px;font-weight:800}
+.h24-av{display:flex}
+.h24-av i{width:32px;height:32px;display:grid;place-items:center;border-radius:50%;font-style:normal;font-size:13px;font-weight:700;color:var(--ink);background:color-mix(in srgb,var(--accent) 16%,var(--card))}
+.h24-av i+i{margin-inline-start:-10px}
+.h24-av i:nth-child(2){background:color-mix(in srgb,var(--accent) 28%,var(--card))}
+.h24-av i:nth-child(3){background:color-mix(in srgb,var(--accent) 40%,var(--card))}
+.h24-stars{display:inline-flex;gap:2px;color:var(--ink)}
+.h24-stars svg{width:14px;height:14px;fill:currentColor}
+.h24h h3{margin:0;max-width:17ch;font-size:clamp(34px,min(4.6vw,7.8vh),72px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h24h .hlead{max-width:46ch}
+.h24h .hcta{justify-content:center}
+/* the rail: one set of reviews written twice; moving it by half (plus half a gap) lands on the same card, so the loop has no seam */
+.h24-rail{position:relative;width:100%;margin-top:auto;overflow:hidden;outline:none;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(to right,transparent,#000 12%,#000 88%,transparent)}
+.h24-track{display:flex;gap:16px;width:max-content;margin:0;padding:8px 0 24px;list-style:none;animation:h24-run 64s linear infinite}
+[dir="ltr"] .h24-track{animation-name:h24-run-l}
+@keyframes h24-run{to{transform:translateX(calc(50% + 8px))}}
+@keyframes h24-run-l{to{transform:translateX(calc(-50% - 8px))}}
+.h24h.paused .h24-track{animation-play-state:paused}
+@media (hover:hover) and (pointer:fine){.h24-rail:hover .h24-track{animation-play-state:paused}}
+.h24-card{flex:none;width:300px;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:20px;border-radius:16px;background:var(--card);text-align:start;
+  box-shadow:0 12px 32px -18px color-mix(in srgb,var(--ink) 40%,transparent)}
+.h24-card blockquote{margin:0;font-size:15px;line-height:1.55}
+.h24-card p{margin:0;font-size:13px;color:var(--muted)}
+.h24-card p b{color:var(--ink);font-weight:700}
+.h24h .hpp{position:absolute;inset-block-end:28px;inset-inline-end:20px;z-index:2}
+/* reduced motion: nothing slides; one set stays, and the rail scrolls by hand (it is focusable, so the keyboard can too) */
+@media (prefers-reduced-motion:reduce){.h24h .h24-track{animation:none}.h24-track>[aria-hidden]{display:none}.h24h .hpp{display:none}
+  .h24-rail{overflow-x:auto;-webkit-mask-image:none;mask-image:none}.h24-track{padding-inline:28px}}
+.h24-rail:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+@media (max-width:860px){.h24h{gap:24px;padding:88px 0 20px;min-height:min(92vh,800px)}.h24-top{padding-inline:20px;gap:18px}
+  .h24h h3{font-size:clamp(28px,7.8vw,40px)}.h24-proof{font-size:13px;padding-inline:16px}.h24-card{width:260px}
+  .h24-av{display:none}.h24h .hpp{inset-inline-end:8px}
+  .h24h{justify-content:center}.h24-rail{margin-top:0}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h24h" id="h24">
+    <div class="h24-top">
+      <p class="h24-proof rv"><span class="h24-av" aria-hidden="true"><i>ר</i><i>ד</i><i>מ</i></span><span class="h24-stars" aria-hidden="true">${'<svg viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>'.repeat(5)}</span><span><b>4.9</b> בגוגל, מתוך 640 ביקורות</span></p>
+      <h3 class="rv">עוברים דירה בלי לארוז קרטון אחד בעצמכם</h3>
+      <p class="hlead rv">אריזה, הובלה ופירוק רהיטים בצוות אחד, במחיר סגור מראש. המרכז והשרון, שבעה ימים בשבוע.</p>
+      <div class="hcta rv"><a class="hbtn" href="#h24">להצעת מחיר בטלפון</a><a class="hbtn ghost" href="#h24">איך זה עובד</a></div>
+    </div>
+    <div class="h24-rail rv" role="region" aria-label="ביקורות לקוחות" tabindex="0">
+      <ul class="h24-track">${(() => {
+        const set = [
+          ["הגיעו בשבע בבוקר כמו שאמרו וארזו את כל המטבח בשעתיים. אף כוס לא נשברה.", "רוני", "פתח תקווה"],
+          ["שינו לנו תאריך יום לפני בלי לחייב. בגלל זה חזרתי אליהם גם במעבר הבא.", "דנה", "רמת גן"],
+          ["פירקו והרכיבו את הארון טוב יותר ממה שהרכבנו אותו בעצמנו.", "יוסי", "ראשון לציון"],
+          ["המחיר שקיבלנו בטלפון הוא המחיר ששילמנו, בלי תוספת על הקומה הרביעית.", "מיכל", "גבעתיים"],
+          ["עם שני ילדים קטנים, זה שהם ארזו הכול היה ההבדל בין מעבר דירה לסיוט.", "אורי", "חולון"],
+          ["הפסנתר ירד ארבע קומות בלי שריטה. עמדתי למטה ולא האמנתי.", "נטע", "תל אביב"]
+        ].map(([q, n, c]) => `<li class="h24-card"><span class="h24-stars" role="img" aria-label="חמישה כוכבים">${'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>'.repeat(5)}</span><blockquote>${q}</blockquote><p><b>${n}</b>, ${c}</p></li>`).join("");
+        // the second copy only closes the loop: hidden from screen readers, so each review is read once
+        return set + set.replace(/<li class="h24-card">/g, '<li class="h24-card" aria-hidden="true">');
+      })()}</ul>
+    </div>
+    ${PP("עצירת הביקורות הזזות")}
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+(function(){
+  var root=document.getElementById("h24"), pp=root.querySelector(".hpp"); enter(root);
+  pp.addEventListener("click",function(){var on=!root.classList.contains("paused");root.classList.toggle("paused",on);pp.setAttribute("aria-pressed",String(on));
+    pp.setAttribute("aria-label",on?"הפעלת הביקורות הזזות":"עצירת הביקורות הזזות");});
+})();`,
+  note:"הדירוג עולה לפני הכותרת, כי מי שבוחר מוביל, שיפוצניק או מרפאה בודק קודם כמה כוכבים יש לו, ורק אחר כך קורא מה הוא מבטיח. עיגולי ראשי התיבות הם רמז לאנשים אמיתיים בלי צילומי פנים מבנק תמונות, והכוכבים בצבע הטקסט ולא בצהוב, כדי שיחזיקו בכל עור. רצועת הביקורות כתובה פעמיים והאנימציה מזיזה אותה בחצי ועוד חצי רווח, כך שהלולאה בלי קפיצה; הכיוון מתהפך באנגלית. זו תנועה של יותר מחמש שניות, ולכן יש כפתור עצירה גלוי, ריחוף עוצר אותה, ובהפחתת תנועה היא לא זזה בכלל: נשאר עותק אחד והרצועה נגללת ביד, והיא יכולה לקבל פוקוס כדי שגם המקלדת תגלול. העותק השני מוסתר מקורא מסך, כדי שכל ביקורת תיקרא פעם אחת. בפרויקט הביקורות מגיעות מגוגל או מהפאנל, עם שם פרטי ועיר, ולעולם לא נכתבות בשביל הדמו." + NOTE_TAIL
+},
+{
+  id:"h25", cat:"hero", name:"הירו מוצר עם בורר צבעים", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"צילום מוצר גדול בצד אחד, ובצד השני שם, מחיר, בורר צבעים וכפתור הוספה לסל. בחירת צבע מחליפה מיד את הצילום ואת שם הצבע, בלי לעבור עמוד.",
+  when:"חנות עם מוצר מוביל אחד שמגיע בכמה צבעים או גרסאות: תיק, נעל, ספל, בקבוק, כרית, צעצוע, תכשיט. דף נחיתה של מוצר יחיד, או מוצר הדגל בעמוד הבית. לא לחנות שמוכרת מאות מוצרים שווים, שם ההירו מוביל לקטגוריות.",
+  libs:[],
+  css:`${FRAME_CSS}
+.h25h{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:center;gap:56px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg)}
+/* the photo carries the colour; the stage only frames it */
+.h25-vis{position:relative;align-self:stretch;min-height:440px;border-radius:24px;overflow:hidden;background:var(--card);clip-path:inset(0 round 24px);transition:clip-path .9s ${E}}
+.h25-vis img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%;display:block;filter:hue-rotate(var(--hue,0deg));transition:filter .5s ${E},transform 1s ${E}}
+.open-anim .h25-vis{clip-path:inset(6% 6% round 24px);animation:h25v-fs 0s 2.5s forwards}
+.open-anim .h25-vis img{transform:scale(1.08);animation:rv-fs 0s 2.5s forwards}
+.is-in .h25-vis{clip-path:inset(0 round 24px);transition-delay:var(--t0,0s)}
+.is-in .h25-vis img{transform:none}
+.rv-on .h25-vis,.rv-on .h25-vis img{animation:none}
+@keyframes h25v-fs{to{clip-path:inset(0 round 24px)}}
+.h25-chip{position:absolute;inset-block-start:20px;inset-inline-start:20px;margin:0;padding:8px 14px;border-radius:999px;background:var(--bg);color:var(--ink);font-size:13px;font-weight:700}
+.h25-info{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.h25h h3{margin:0;max-width:13ch;font-size:clamp(32px,min(4vw,7.8vh),60px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h25h .hlead{max-width:40ch}
+.h25-price{display:flex;align-items:baseline;gap:12px;margin:0}
+.h25-price b{font-size:28px;font-weight:800}
+.h25-price span{font-size:14px;color:var(--muted)}
+/* native radios in a fieldset: arrow keys move between colours, and a screen reader hears a group with one choice */
+.h25-sw{margin:0;padding:0;border:0;min-width:0}
+.h25-sw legend{padding:0;margin-bottom:8px;font-size:14px;color:var(--muted)}
+.h25-sw legend b{color:var(--ink);font-weight:700}
+.h25-dots{display:flex;gap:8px}
+.h25-dot{position:relative;display:grid;place-items:center;width:44px;height:44px;cursor:pointer}
+.h25-dot input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.h25-dot i{width:30px;height:30px;border-radius:50%;background:var(--c);transition:transform .25s ${E},box-shadow .25s ${E}}
+.h25-dot input:checked+i{transform:scale(1.1);box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--ink)}
+.h25-dot input:focus-visible+i{outline:2px solid var(--accent);outline-offset:6px}
+@media (hover:hover) and (pointer:fine){.h25-dot:hover i{transform:scale(1.1)}}
+.h25-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.h25h button.hbtn{border:0;font:inherit;font-size:16px;font-weight:600;cursor:pointer}
+.h25h button.hbtn:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.h25-buy{align-self:stretch}
+.h25-msg{margin:0;font-size:14px;font-weight:600}
+.h25-msg:not(:empty){margin-top:12px}
+@media (prefers-reduced-motion:reduce){.h25-vis,.h25-vis img,.h25-dot i{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the product is a band on top; the two buttons share one row */
+@media (max-width:860px){.h25h{grid-template-columns:1fr;gap:20px;min-height:0;padding:72px 20px 28px}
+  .h25-vis{min-height:0;height:clamp(200px,30vh,260px)}
+  .h25-info{gap:14px}.h25h h3{font-size:clamp(28px,7.4vw,36px)}
+  .h25h .hcta{width:100%;flex-wrap:nowrap}.h25h .hcta .hbtn{flex:1;padding-inline:16px}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h25h" id="h25">
+    <div class="h25-vis">
+      ${PIC("real/s04/tusk.webp", "פסלון פימו של מפלצת קטנה עם שתי שיניים, על רקע חלק", { pri: true })}
+      <p class="h25-chip rv">בעבודת יד, כל אחד קצת שונה</p>
+    </div>
+    <div class="h25-info">
+      <span class="hkick rv">סטודיו לפימו, יפו</span>
+      <h3 class="rv">מפלצון: חבר קטן לשולחן העבודה</h3>
+      <p class="hlead rv">פסלון של שמונה סנטימטרים, מפוסל ונאפה אצלנו ביד. מגיע בקופסת מתנה עם כרטיס שאפשר לכתוב עליו.</p>
+      <p class="h25-price rv"><b>89 ₪</b><span>כולל מע"מ</span></p>
+      <fieldset class="h25-sw rv">
+        <legend>צבע: <b class="h25-cname">טורקיז</b></legend>
+        <div class="h25-dots">
+          <label class="h25-dot"><input type="radio" name="h25c" value="טורקיז" data-h="0" checked><i style="--c:hsl(176 42% 50%)"></i><span class="h25-sr">טורקיז</span></label>
+          <label class="h25-dot"><input type="radio" name="h25c" value="לילך" data-h="95"><i style="--c:hsl(262 44% 62%)"></i><span class="h25-sr">לילך</span></label>
+          <label class="h25-dot"><input type="radio" name="h25c" value="אלמוג" data-h="175"><i style="--c:hsl(352 58% 64%)"></i><span class="h25-sr">אלמוג</span></label>
+          <label class="h25-dot"><input type="radio" name="h25c" value="ליים" data-h="-95"><i style="--c:hsl(78 48% 50%)"></i><span class="h25-sr">ליים</span></label>
+        </div>
+      </fieldset>
+      <div class="h25-buy rv">
+        <div class="hcta"><button class="hbtn h25-add" type="button">להוספה לסל</button><a class="hbtn ghost" href="#h25">כל המפלצונים</a></div>
+        <p class="h25-msg" role="status"></p>
+      </div>
+      <p class="hmicro rv"><span>משלוח חינם מעל 150 ₪</span><span>נשלח תוך שלושה ימי עבודה</span></p>
+    </div>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+(function(){
+  var root=document.getElementById("h25"); enter(root);
+  var vis=root.querySelector(".h25-vis"), img=vis.querySelector("img"), cname=root.querySelector(".h25-cname"), msg=root.querySelector(".h25-msg");
+  root.querySelectorAll('[name="h25c"]').forEach(function(r){
+    r.addEventListener("change",function(){
+      // in a project every colour has its own photo (data-src on the radio); this demo tints one photo instead (data-h, in degrees)
+      if(r.dataset.src)img.src=r.dataset.src; else vis.style.setProperty("--hue",(r.dataset.h||0)+"deg");
+      cname.textContent=r.value; msg.textContent="";
+    });
+  });
+  root.querySelector(".h25-add").addEventListener("click",function(){
+    msg.textContent="נוסף לסל: מפלצון בצבע "+root.querySelector('[name="h25c"]:checked').value+".";
+  });
+})();`,
+  note:"ההירו של חנות עם מוצר מוביל: הצילום גדול, וכל מה שצריך כדי לקנות (שם, מחיר, צבע, כפתור) נמצא במסך הראשון. הבורר בנוי מכפתורי רדיו אמיתיים בתוך fieldset, ולכן החצים במקלדת עוברים בין הצבעים וקורא מסך שומע קבוצה עם בחירה אחת; העיגול הוא רק הציור, והשם המלא מוסתר לקורא המסך. בחירה מחליפה את הצילום ואת שם הצבע מעל העיגולים מיד, בלי עמוד חדש. בפרויקט לכל צבע יש צילום משלו (data-src על כפתור הרדיו); כאן הדמו צובע צילום אחד (hue-rotate) כדי להראות את ההתנהגות. ההוספה לסל עונה בשורה מתחת לכפתור (role=status) ולא בחלון קופץ. אין מספר בתוך הכפתור: המחיר יושב מעליו בגדול. בטלפון המוצר הופך לרצועה למעלה ושני הכפתורים חולקים שורה." + NOTE_TAIL
+},
+{
+  id:"h26", cat:"hero", name:"הירו כותרת שחוצה את הצילום", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"צילום גבוה בצד אחד, וכותרת גדולה שמתחילה בתוכו ויוצאת ממנו אל הרקע: מה שעל הצילום בהיר, ומה שמחוצה לו כהה, באותה שורה. המשפט והכפתורים יושבים מתחת, בצד הפנוי.",
+  when:"עסק שמוכר חוויה או מקום ויש לו צילום אחד חזק וכהה מספיק: סיורים, מסעדה, מלון, צלם, סטודיו, אדריכלות, אירועים. נראה כמו שער של מגזין ולא כמו תבנית. לא לצילום בהיר ועמוס, שהטקסט הבהיר לא נקרא עליו, ולא לכותרת של יותר משתי שורות קצרות.",
+  libs:[],
+  css:`${FRAME_CSS}
+.h26h{--pw:38%;display:flex;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg);color:var(--ink)}
+.h26-stage{position:relative;flex:1;display:grid;grid-template-areas:"a";min-height:520px}
+.h26-stage>*{grid-area:a}
+.h26-ph{position:relative;justify-self:start;width:var(--pw);border-radius:20px;overflow:hidden;background:var(--ink);clip-path:inset(0 round 20px);transition:clip-path 1s ${E}}
+.h26-ph img{width:100%;height:100%;object-fit:cover;object-position:52% 50%;display:block;transition:transform 1.2s ${E}}
+/* the light type needs a dark corner: diagonal from where the heading starts (heroes.md), never a 90 degree band */
+.h26-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom left,color-mix(in srgb,var(--ink) 62%,transparent),color-mix(in srgb,var(--ink) 18%,transparent) 75%)}
+[dir="ltr"] .h26-ph::after{background:linear-gradient(to bottom right,color-mix(in srgb,var(--ink) 62%,transparent),color-mix(in srgb,var(--ink) 18%,transparent) 75%)}
+.open-anim .h26-ph{clip-path:inset(0 0 100% 0 round 20px);animation:h26p-fs 0s 2.5s forwards}
+.open-anim .h26-ph img{transform:scale(1.1);animation:rv-fs 0s 2.5s forwards}
+.is-in .h26-ph{clip-path:inset(0 round 20px);transition-delay:var(--t0,0s)}
+.is-in .h26-ph img{transform:none;transition-delay:var(--t0,0s)}
+.rv-on .h26-ph,.rv-on .h26-ph img{animation:none}
+@keyframes h26p-fs{to{clip-path:inset(0 round 20px)}}
+.h26-t{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:40px}
+.h26-t .hkick,.h26-t h3{margin-inline-start:40px}
+.h26h h3{margin-block:0;font-size:clamp(36px,min(5.4vw,7.8vh),78px);line-height:1.02;font-weight:700;letter-spacing:-.015em}
+.h26h h3 span{display:block;white-space:nowrap}
+.h26-more{display:flex;flex-direction:column;align-items:flex-start;gap:20px;margin-inline-start:calc(var(--pw) + 48px)}
+.h26-more .hlead{max-width:40ch}
+/* one heading drawn twice in the same box, so the lines break the same: the dark copy is cut away from the photo,
+   the light copy is cut down to it. The light one is a picture of the text: hidden from screen readers, inert */
+.h26-t.dk{clip-path:inset(0 var(--pw) 0 0)}
+.h26-t.lt{color:var(--bg);clip-path:inset(0 0 0 calc(100% - var(--pw)) round 20px);pointer-events:none}
+[dir="ltr"] .h26-t.dk{clip-path:inset(0 0 0 var(--pw))}
+[dir="ltr"] .h26-t.lt{clip-path:inset(0 calc(100% - var(--pw)) 0 0 round 20px)}
+.h26-t.lt .h26-more{visibility:hidden}
+@media (prefers-reduced-motion:reduce){.h26-ph,.h26-ph img{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: no crossing; the text first and the photo as a band under it */
+@media (max-width:860px){.h26h{padding:88px 20px 20px;min-height:0}
+  .h26-stage{display:flex;flex-direction:column;gap:20px;min-height:0}
+  .h26-t.lt{display:none}[dir] .h26-t.dk{clip-path:none;padding-block:0;gap:16px}
+  .h26-t .hkick,.h26-t h3,.h26-more{margin-inline-start:0}
+  .h26h h3{font-size:clamp(30px,8vw,40px)}.h26h h3 span{display:inline;white-space:normal}
+  .h26-ph{order:2;width:100%;height:clamp(180px,28vh,250px)}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h26h" id="h26">
+    <div class="h26-stage">
+      <div class="h26-ph">${PIC("real/s01/street-light.webp", "רחוב אבן ישן בשקיעה, פנס דולק ואדם הולך לבד", { pri: true })}</div>
+${(() => {
+        // one block of text, written into both layers from the same source; the light layer is a picture of it
+        const t = `
+        <span class="hkick rv" style="--i:0">סיורים רגליים בעיר העתיקה</span>
+        <h3 class="rv" style="--i:1"><span>הסמטאות נראות אחרת</span> <span>כשהשמש יורדת עליהן</span></h3>
+        <div class="h26-more">
+          <p class="hlead rv" style="--i:2">שעתיים וחצי ברגל, קבוצה קטנה, ומדריך שגדל ברובע ויודע איפה עוצרים לקפה.</p>
+          <div class="hcta rv" style="--i:3"><a class="hbtn" href="#h26">לבחירת תאריך</a><a class="hbtn ghost" href="#h26">המסלולים</a></div>
+          <p class="hmicro rv" style="--i:4"><span>יוצאים כל ערב חוץ משבת</span><span>ביטול בלי עלות עד יום לפני</span></p>
+        </div>`;
+        return `<div class="h26-t dk">${t}
+      </div>
+      <div class="h26-t lt" aria-hidden="true" inert>${t}
+      </div>`;
+      })()}
+    </div>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+enter(document.getElementById("h26"));`,
+  note:"הכותרת מצוירת פעמיים באותה תיבה בדיוק (שתי שכבות באותו תא גריד), ולכן השורות נשברות באותו מקום: העותק הכהה נחתך מחוץ לצילום והעותק הבהיר נחתך אל תוכו (clip-path עם אותו --pw של רוחב הצילום), כך שהאותיות מחליפות צבע בדיוק בקצה. שתי השכבות נכתבות מאותו מקור (בפרויקט: אותה קומפוננטה עם אותם נתונים), והבהירה מוסתרת מקורא מסך ו-inert, כך שאין כפתורים כפולים בטאב ואין טקסט שנקרא פעמיים; החצייה היא CSS בלבד, ולכן היא שלמה גם בלי JS. הכותרת מתחילה בתוך הצילום, ולכן כל שורה חוצה את הקצה; שתי שורות קצרות שלא נשברות (nowrap), והגודל עד 7.8% מגובה המסך. מעל הצילום שכבת קריאות אלכסונית מהפינה שבה הכותרת מתחילה. המשפט והכפתורים יושבים מתחת לכותרת, בצד הפנוי, כדי שלא יצטרכו את הטריק. בטלפון אין חצייה: הטקסט למעלה והצילום רצועה מתחתיו." + NOTE_TAIL
+},
+{
+  id:"h27", cat:"hero", name:"הירו מותג אישי עם דיוקן", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"דיוקן גבוה של בעלת העסק בצד אחד, ובצד השני היכרות קצרה בשמה, ההבטחה, כפתור לשיחת היכרות ושורה של שלוש עובדות. על הדיוקן תווית קטנה של זמינות.",
+  when:"עסק שהוא אדם אחד: יועצת, מאמן, מטפלת, סטייליסטית, עורך דין, צלם, מרצה. הלקוח קונה את האדם, ולכן הפנים במסך הראשון ובגדול. לא בלי צילום מקצועי אמיתי של האדם, ולא לעסק עם צוות, שם h16 או h3.",
+  libs:[],
+  css:`${SERIF}
+${FRAME_CSS}
+.h27h{--disp:${DISP};display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:56px;min-height:min(86vh,780px);padding:88px 28px 28px;
+  background:color-mix(in srgb,var(--accent) 5%,var(--bg))}
+.h27-txt{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:24px}
+/* the hello is in her voice and in the display face; the heading under it is the promise */
+.h27-hi{margin:0;font-family:var(--disp);font-size:clamp(26px,2.4vw,36px);line-height:1.1}
+.h27h h3{margin:0;max-width:15ch;font-size:clamp(32px,min(4.2vw,7.8vh),64px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h27h .hlead{max-width:42ch}
+.h27-facts{display:flex;flex-wrap:wrap;gap:16px 40px;margin:8px 0 0;padding:0;list-style:none}
+.h27-facts li{display:flex;flex-direction:column;gap:2px}
+.h27-facts b{font-size:clamp(22px,1.8vw,28px);font-weight:800;line-height:1.1}
+.h27-facts span{font-size:14px;color:var(--muted)}
+.h27-vis{--rr:200px 200px 24px 24px;position:relative;border-radius:var(--rr);overflow:hidden;background:var(--card);clip-path:inset(0 round var(--rr));transition:clip-path 1s ${E}}
+.h27-vis img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:block;transition:transform 1.2s ${E}}
+.open-anim .h27-vis{clip-path:inset(100% 0 0 0 round var(--rr));animation:h27v-fs 0s 2.5s forwards}
+.open-anim .h27-vis img{transform:scale(1.1);animation:rv-fs 0s 2.5s forwards}
+.is-in .h27-vis{clip-path:inset(0 round var(--rr));transition-delay:var(--t0,0s)}
+.is-in .h27-vis img{transform:none;transition-delay:var(--t0,0s)}
+.rv-on .h27-vis,.rv-on .h27-vis img{animation:none}
+@keyframes h27v-fs{to{clip-path:inset(0 round var(--rr))}}
+/* a fact, not decoration: when the next opening is */
+.h27-tag{position:absolute;inset-block-end:20px;inset-inline-start:20px;display:flex;align-items:center;gap:10px;margin:0;padding:10px 16px;border-radius:999px;background:var(--bg);color:var(--ink);font-size:14px;font-weight:600;
+  box-shadow:0 12px 32px -12px color-mix(in srgb,var(--ink) 40%,transparent)}
+.h27-tag i{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+@media (prefers-reduced-motion:reduce){.h27-vis,.h27-vis img{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the face first, as a band; the facts sit in one row */
+@media (max-width:860px){.h27h{grid-template-columns:1fr;gap:20px;min-height:0;padding:72px 20px 28px}
+  .h27-vis{--rr:24px;order:-1;height:clamp(200px,28vh,250px)}
+  .h27-vis img{object-position:50% 22%}.h27-tag{inset-block-end:12px;inset-inline-start:12px;padding:8px 12px;font-size:13px}
+  .h27-txt{padding-block:0;gap:14px}.h27h h3{font-size:clamp(28px,7.4vw,36px)}.h27-facts{gap:12px 24px;margin-top:4px}.h27-facts b{font-size:20px}
+  .h27h .hcta{width:100%;flex-wrap:nowrap}.h27h .hcta .hbtn{flex:1;padding-inline:16px}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h27h" id="h27">
+    <div class="h27-txt">
+      <p class="h27-hi rv">היי, אני מאיה.</p>
+      <h3 class="rv">מלתחה שעובדת בשבילך, בלי לקנות עוד בגדים</h3>
+      <p class="hlead rv">סטייליסטית אישית בתל אביב. שלוש שעות אצלך מול הארון: מה נשאר, מה יוצא, ואיך משלבים, ויוצאים עם שלושים לוקים מוכנים.</p>
+      <div class="hcta rv"><a class="hbtn" href="#h27">לשיחת היכרות</a><a class="hbtn ghost" href="#h27">איך זה עובד</a></div>
+      <ul class="h27-facts rv">
+        <li><b>8</b><span>שנים בסטיילינג</span></li>
+        <li><b>620</b><span>ארונות שעברתי עליהם</span></li>
+        <li><b>3 שעות</b><span>מפגש אחד, אצלך</span></li>
+      </ul>
+    </div>
+    <div class="h27-vis">
+      ${PIC("dive/portrait.webp", "מאיה, סטייליסטית, עם משקפי שמש עגולים", { pri: true })}
+      <p class="h27-tag rv"><i aria-hidden="true"></i>פנויה לשתי לקוחות חדשות בנובמבר</p>
+    </div>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+enter(document.getElementById("h27"));`,
+  note:"כשהעסק הוא אדם אחד, הפנים הם ההוכחה הראשונה, ולכן הדיוקן גדול ובמסך הראשון. השורה הראשונה היא היכרות בקול שלה ובפונט התצוגה, וה-h3 שמתחתיה הוא ההבטחה, כך שהכותרת עדיין אומרת מה מקבלים ולא רק מי זאת. שלוש העובדות הן מספרים עם מילים (שנים, ארונות, משך המפגש) ולא מספור, ואין בהן כרטיסים או קווים. הדיוקן בצורת קשת למעלה, והוא נחשף מלמטה למעלה עם זום עדין; על הדיוקן תווית זמינות, שהיא עובדה ולא קישוט (הנקודה בצבע המותג, בלי הבהוב). בטלפון הדיוקן הופך לרצועה למעלה, עם הפנים במרכז החיתוך, ושני הכפתורים חולקים שורה." + NOTE_TAIL
+},
+{
+  id:"h28", cat:"hero", name:"הירו עסק מקומי: פתוח עכשיו, כתובת והזמנה", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"צילום מלא של המקום, כותרת בפינה, ובפינה שמנגד כרטיס כמו במפות: פתוח או סגור עכשיו (מחושב בשעון ישראל), שעות היום, כתובת, טלפון, ושני כפתורים: הזמנה מראש וניווט. אפשר לפתוח את כל שעות השבוע.",
+  when:"עסק שאנשים מגיעים אליו פיזית: מאפייה, בית קפה, מסעדה, חנות, מספרה, קליניקה, מוסך. מה ששואלים לפני הכול הוא \"פתוח עכשיו?\" ו\"איפה זה?\", וההירו עונה בלי לגלול לפוטר. לא לעסק בלי כתובת שמקבלת לקוחות, ולא לעסק שעובד רק בתיאום, שם h16.",
+  libs:[],
+  css:`${FRAME_CSS}
+.h28h{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:40px;min-height:min(86vh,780px);padding:96px 28px 28px;background:var(--ink);color:var(--bg);overflow:hidden;isolation:isolate}
+.h28-bg{position:absolute;inset:0;z-index:-2}
+.h28-bg img{width:100%;height:100%;object-fit:cover;object-position:55% 60%;display:block;transition:transform 1.2s ${E}}
+.open-anim .h28-bg img{transform:scale(1.06);animation:rv-fs 0s 2.5s forwards}
+.is-in .h28-bg img{transform:none;transition-delay:var(--t0,0s)}
+.rv-on .h28-bg img{animation:none}
+/* the heading sits in the top corner, so the shade comes from that corner (heroes.md); the card has its own surface */
+.h28-scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(to bottom left,color-mix(in srgb,var(--ink) 72%,transparent) 0%,color-mix(in srgb,var(--ink) 30%,transparent) 50%,transparent 80%)}
+[dir="ltr"] .h28-scrim{background:linear-gradient(to bottom right,color-mix(in srgb,var(--ink) 72%,transparent) 0%,color-mix(in srgb,var(--ink) 30%,transparent) 50%,transparent 80%)}
+.h28-txt{align-self:start;display:flex;flex-direction:column;align-items:flex-start;gap:20px;max-width:600px}
+.h28h h3{margin:0;font-size:clamp(32px,min(4.2vw,7.8vh),64px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h28h .hlead{max-width:40ch;opacity:.92}
+.h28-card{align-self:end;display:flex;flex-direction:column;gap:16px;width:340px;padding:24px;border-radius:20px;background:var(--bg);color:var(--ink);
+  box-shadow:0 24px 60px -24px color-mix(in srgb,var(--ink) 70%,transparent)}
+.h28-name{margin:0;font-size:18px;font-weight:800}
+.h28-st{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0;font-size:15px}
+.h28-st i{width:10px;height:10px;border-radius:50%;background:var(--muted);flex:none}
+/* green means open everywhere; it is a status colour, not the brand, so it stays the same in every skin */
+.h28-st.on i{background:hsl(145 63% 42%)}
+.h28-st b{font-weight:800}
+.h28-dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:0;font-size:15px}
+.h28-dl dt{color:var(--muted)}
+.h28-dl dd{margin:0;font-weight:600}
+.h28-tel{color:inherit;text-decoration:none;unicode-bidi:isolate}
+@media (hover:hover) and (pointer:fine){.h28-tel:hover{text-decoration:underline}}
+.h28-wk summary{display:inline-flex;align-items:center;gap:8px;min-height:32px;font-size:14px;font-weight:600;cursor:pointer;list-style:none}
+.h28-wk summary::-webkit-details-marker{display:none}
+.h28-wk summary::after{content:"";width:7px;height:7px;border-inline-end:2px solid currentColor;border-block-end:2px solid currentColor;rotate:45deg;translate:0 -2px;transition:rotate .25s ${E}}
+.h28-wk[open] summary::after{rotate:-135deg;translate:0 2px}
+.h28-wk summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
+.h28-wk dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:8px 0 0;font-size:14px}
+.h28-wk dd{margin:0}
+.h28-btns{display:flex;gap:8px}
+.h28-btns .hbtn{flex:1;padding-inline:16px}
+.h28-btns .hbtn.ghost{color:var(--ink)}
+@media (prefers-reduced-motion:reduce){.h28-bg img,.h28-wk summary::after{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the heading on top, the card under it across the full width */
+@media (max-width:860px){.h28h{grid-template-columns:1fr;gap:24px;min-height:min(94vh,820px);padding:88px 20px 20px}
+  .h28h h3{font-size:clamp(28px,7.6vw,38px)}.h28-txt{gap:14px}.h28-card{width:auto;padding:20px;gap:14px}
+  .h28-scrim{background:linear-gradient(to bottom,color-mix(in srgb,var(--ink) 75%,transparent) 0%,color-mix(in srgb,var(--ink) 35%,transparent) 55%,color-mix(in srgb,var(--ink) 20%,transparent))}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(false)}
+  <section class="h28h" id="h28">
+    <div class="h28-bg">${PIC("real/s14/hero-bread.webp", "כיכר לחם שאור חצויה על שולחן עץ", { pri: true })}</div>
+    <span class="h28-scrim"></span>
+    <div class="h28-txt">
+      <span class="hkick rv">מאפיית שאור, זכרון יעקב</span>
+      <h3 class="rv">לחם שאור שיוצא מהתנור כל בוקר</h3>
+      <p class="hlead rv">כיכרות, מאפים ועוגות שמרים משש וחצי בבוקר, ובשישי גם חלות. מזמינים מראש ואוספים בלי תור.</p>
+    </div>
+    <div class="h28-card rv">
+      <p class="h28-name">המאפייה ברחוב הגפן</p>
+      <p class="h28-st"><i aria-hidden="true"></i><b class="h28-sb">ראשון עד חמישי</b><span class="h28-sm">7:00 עד 19:00, שישי עד 14:30</span></p>
+      <dl class="h28-dl">
+        <dt>היום</dt><dd class="h28-today">7:00 עד 19:00</dd>
+        <dt>כתובת</dt><dd>הגפן 12, זכרון יעקב</dd>
+        <dt>טלפון</dt><dd><a class="h28-tel" href="tel:+97246290000" dir="ltr">04-629-0000</a></dd>
+      </dl>
+      <details class="h28-wk"><summary>כל שעות הפתיחה</summary>
+        <dl><dt>ראשון עד חמישי</dt><dd>7:00 עד 19:00</dd><dt>שישי</dt><dd>6:30 עד 14:30</dd><dt>שבת</dt><dd>סגור</dd></dl>
+      </details>
+      <div class="h28-btns"><a class="hbtn" href="#h28">להזמנה מראש</a><a class="hbtn ghost" href="#h28">ניווט</a></div>
+    </div>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+(function(){
+  var root=document.getElementById("h28"); enter(root);
+  var st=root.querySelector(".h28-st"), sb=root.querySelector(".h28-sb"), sm=root.querySelector(".h28-sm"), today=root.querySelector(".h28-today");
+  var DAYS=["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"], WD={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
+  // minutes from midnight by weekday (Sunday is 0), null is closed. In a project this comes from the business details in the panel
+  var HOURS=[[420,1140],[420,1140],[420,1140],[420,1140],[420,1140],[390,870],null];
+  function hm(m){return Math.floor(m/60)+":"+String(m%60).padStart(2,"0");}
+  // the business's clock, not the visitor's: a tourist abroad still sees whether the bakery is open now
+  function now(){
+    var o={};
+    new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Jerusalem",weekday:"short",hour:"numeric",minute:"numeric",hourCycle:"h23"}).formatToParts(new Date()).forEach(function(p){o[p.type]=p.value;});
+    return {d:WD[o.weekday],m:(+o.hour%24)*60+(+o.minute)};
+  }
+  function render(){
+    var n=now(), t=HOURS[n.d], open=!!t&&n.m>=t[0]&&n.m<t[1], head, tail="";
+    if(open){head="פתוח עכשיו"; tail="עד "+hm(t[1]);}
+    else{
+      head="סגור עכשיו";
+      if(t&&n.m<t[0])tail="נפתח היום ב-"+hm(t[0]);
+      else for(var i=1;i<=7;i++){var d=(n.d+i)%7;if(HOURS[d]){tail="נפתח "+(i===1?"מחר":"ביום "+DAYS[d])+" ב-"+hm(HOURS[d][0]);break;}}
+    }
+    st.classList.toggle("on",open); sb.textContent=head; sm.textContent=tail;
+    today.textContent=t?hm(t[0])+" עד "+hm(t[1]):"סגור";
+  }
+  render(); setInterval(render,60000);
+})();`,
+  note:"השאלה הראשונה על עסק מקומי היא \"פתוח עכשיו?\", והכרטיס עונה עליה כמו כרטיס במפות: הסטטוס מחושב מטבלת שעות לפי השעון של העסק (Asia/Jerusalem) ולא של המבקר, ומתעדכן כל דקה; כשסגור הוא אומר מתי נפתח (היום, מחר או ביום מסוים). בלי JS נשארות שעות הפתיחה הכתובות, כך שאין מצב שבו מופיע סטטוס שגוי. הנקודה ירוקה רק כשפתוח: זה צבע של מצב, לא של המותג, והמילה תמיד כתובה לידה. הטלפון בכיוון שמאל לימין ומבודד (unicode-bidi), כדי שהספרות לא יתהפכו בעברית, וכל שעות השבוע נפתחות ב-details בלי סקריפט. בפרויקט השעות, הכתובת והטלפון מגיעים מפרטי העסק בפאנל, וכפתור הניווט פותח את Waze או את מפות גוגל. הכותרת בפינה העליונה עם שכבת קריאות מאותה פינה; בטלפון הכרטיס יורד מתחת לכותרת ברוחב מלא." + NOTE_TAIL
+},
+{
+  id:"h29", cat:"hero", name:"הירו המלצה ככותרת", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"ציטוט של לקוחה בגדול, בפונט תצוגה, הוא הדבר הראשון שקוראים. מעליו שורה קטנה שאומרת מה העסק עושה, מתחתיו שם הלקוחה וכפתור, ולצדו צילום מהבית שלה.",
+  when:"עסק שהתוצאה שלו נשמעת הכי טוב מפי לקוח: התקנות לבית, שיפוצים, אנרגיה סולארית, טיפול, אימון, ייעוץ. עובד כשיש לקוח אמיתי שהסכים לשם ולצילום, ומשפט אחד קצר עם מספר או שינוי מוחשי. לא כשההמלצה כללית (\"שירות מעולה\"), ולא כשאין לקוח שמסכים להופיע.",
+  libs:[],
+  css:`${SERIF}
+${FRAME_CSS}
+.h29h{--disp:${DISP};display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:56px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg)}
+.h29-txt{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:24px}
+/* the h3 says what the business does, small; the quote is the loudest thing on the screen, and it is not a heading */
+.h29h h3{margin:0;font-size:clamp(17px,1.3vw,20px);line-height:1.4;font-weight:700}
+.h29-q{position:relative;margin:0}
+.h29-q blockquote{margin:0;font-family:var(--disp);font-size:clamp(32px,min(3.9vw,7.4vh),62px);line-height:1.08;text-wrap:balance}
+.h29-mark{display:block;height:.42em;margin-bottom:8px;font-family:var(--disp);font-size:clamp(72px,7vw,112px);line-height:1;color:var(--accent)}
+.h29-q figcaption{display:flex;flex-direction:column;gap:2px;margin-top:20px;font-size:15px}
+.h29-q figcaption b{font-size:16px}
+.h29-q figcaption span{color:var(--muted)}
+/* it opens from the edge next to the text: the start of the closed state flips with the direction */
+.h29-vis{--from:inset(0 0 0 100% round 24px);position:relative;border-radius:24px;overflow:hidden;background:var(--card);clip-path:inset(0 round 24px);transition:clip-path 1s ${E}}
+[dir="ltr"] .h29-vis{--from:inset(0 100% 0 0 round 24px)}
+.h29-vis img{width:100%;height:100%;object-fit:cover;object-position:28% 50%;display:block;transition:transform 1.2s ${E}}
+.open-anim .h29-vis{clip-path:var(--from);animation:h29v-fs 0s 2.5s forwards}
+.open-anim .h29-vis img{transform:scale(1.08);animation:rv-fs 0s 2.5s forwards}
+.is-in .h29-vis{clip-path:inset(0 round 24px);transition-delay:calc(var(--t0,0s) + .1s)}
+.is-in .h29-vis img{transform:none;transition-delay:calc(var(--t0,0s) + .1s)}
+.rv-on .h29-vis,.rv-on .h29-vis img{animation:none}
+@keyframes h29v-fs{to{clip-path:inset(0 round 24px)}}
+.h29-cap{position:absolute;inset-block-end:20px;inset-inline-start:20px;margin:0;padding:8px 14px;border-radius:999px;background:var(--bg);color:var(--ink);font-size:13px;font-weight:600}
+@media (prefers-reduced-motion:reduce){.h29-vis,.h29-vis img{transition-duration:.01ms!important;transition-delay:0s!important}}
+@media (max-width:860px){.h29h{grid-template-columns:1fr;gap:20px;min-height:0;padding:72px 20px 28px}
+  .h29-vis{order:-1;height:clamp(180px,26vh,240px)}.h29-vis img{object-position:24% 35%}
+  .h29-txt{padding-block:0;gap:16px}.h29-q blockquote{font-size:clamp(26px,7vw,34px)}.h29-mark{font-size:64px}.h29-q figcaption{margin-top:12px}
+  .h29h .hcta{width:100%;flex-wrap:nowrap}.h29h .hcta .hbtn{flex:1;padding-inline:16px}}`,
+  html:`${OPEN_GATE}
+<div class="hf">${TOP(true)}
+  <section class="h29h" id="h29">
+    <div class="h29-txt">
+      <h3 class="rv">חימום וקירור חכם לבית, מהתכנון ועד ההתקנה</h3>
+      <figure class="h29-q rv">
+        <span class="h29-mark" aria-hidden="true">”</span>
+        <blockquote>החשבון ירד בשליש, והבית כבר חם כשאנחנו חוזרים מהעבודה.</blockquote>
+        <figcaption><b>נועה כהן</b><span>רמת השרון, התקינו אצלה בפברואר</span></figcaption>
+      </figure>
+      <div class="hcta rv"><a class="hbtn" href="#h29">לבדיקת התאמה לבית</a><a class="hbtn ghost" href="#h29">עוד סיפורים</a></div>
+      <p class="hmicro rv"><span>4.9 בגוגל, מתוך 212 ביקורות</span><span>ביקור ראשון בלי עלות</span></p>
+    </div>
+    <div class="h29-vis">
+      ${PIC("real/s02/hero-panel.webp", "נועה מחייכת ומכוונת את לוח הבקרה על הקיר בסלון", { pri: true })}
+      <p class="h29-cap rv">בתמונה: הבית של נועה</p>
+    </div>
+  </section>
+</div>`,
+  js:`${REVEAL_JS}
+enter(document.getElementById("h29"));`,
+  note:"ההמלצה היא הכותרת הוויזואלית: משפט אחד של לקוחה אמיתית, עם מספר ושינוי מוחשי, גדול ובפונט התצוגה. מבחינת המבנה היא blockquote בתוך figure עם שם ומקום ב-figcaption, וה-h3 הוא השורה הקטנה שמעליה שאומרת מה העסק עושה (בפרויקט ה-h1), כך שגוגל וקורא מסך מבינים את העמוד גם בלי הציטוט. מרכאות הפתיחה בצבע המותג הן הקישוט היחיד, מוסתרות מקורא מסך. הצילום הוא של אותה לקוחה בבית שלה, ותווית קטנה אומרת את זה, כי צילום כללי ליד ציטוט נראה כמו בנק תמונות. הצילום נפתח מהצד הקרוב לטקסט. משתמשים רק בלקוח שהסכים לשם ולצילום; בלי זה, h24 עם רצועת ביקורות. בטלפון הצילום רצועה למעלה." + NOTE_TAIL
 }
 ];

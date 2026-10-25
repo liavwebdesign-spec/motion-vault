@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H26 · הירו כותרת שחוצה את הצילום | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--bg);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent);color:var(--accent-ink);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h26h{--pw:38%;display:flex;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg);color:var(--ink)}
+.h26-stage{position:relative;flex:1;display:grid;grid-template-areas:"a";min-height:520px}
+.h26-stage>*{grid-area:a}
+.h26-ph{position:relative;justify-self:start;width:var(--pw);border-radius:20px;overflow:hidden;background:var(--ink);clip-path:inset(0 round 20px);transition:clip-path 1s cubic-bezier(.2,.6,.2,1)}
+.h26-ph img{width:100%;height:100%;object-fit:cover;object-position:52% 50%;display:block;transition:transform 1.2s cubic-bezier(.2,.6,.2,1)}
+/* the light type needs a dark corner: diagonal from where the heading starts (heroes.md), never a 90 degree band */
+.h26-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom left,color-mix(in srgb,var(--ink) 62%,transparent),color-mix(in srgb,var(--ink) 18%,transparent) 75%)}
+[dir="ltr"] .h26-ph::after{background:linear-gradient(to bottom right,color-mix(in srgb,var(--ink) 62%,transparent),color-mix(in srgb,var(--ink) 18%,transparent) 75%)}
+.open-anim .h26-ph{clip-path:inset(0 0 100% 0 round 20px);animation:h26p-fs 0s 2.5s forwards}
+.open-anim .h26-ph img{transform:scale(1.1);animation:rv-fs 0s 2.5s forwards}
+.is-in .h26-ph{clip-path:inset(0 round 20px);transition-delay:var(--t0,0s)}
+.is-in .h26-ph img{transform:none;transition-delay:var(--t0,0s)}
+.rv-on .h26-ph,.rv-on .h26-ph img{animation:none}
+@keyframes h26p-fs{to{clip-path:inset(0 round 20px)}}
+.h26-t{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:40px}
+.h26-t .hkick,.h26-t h3{margin-inline-start:40px}
+.h26h h3{margin-block:0;font-size:clamp(36px,min(5.4vw,7.8vh),78px);line-height:1.02;font-weight:700;letter-spacing:-.015em}
+.h26h h3 span{display:block;white-space:nowrap}
+.h26-more{display:flex;flex-direction:column;align-items:flex-start;gap:20px;margin-inline-start:calc(var(--pw) + 48px)}
+.h26-more .hlead{max-width:40ch}
+/* one heading drawn twice in the same box, so the lines break the same: the dark copy is cut away from the photo,
+   the light copy is cut down to it. The light one is a picture of the text: hidden from screen readers, inert */
+.h26-t.dk{clip-path:inset(0 var(--pw) 0 0)}
+.h26-t.lt{color:var(--bg);clip-path:inset(0 0 0 calc(100% - var(--pw)) round 20px);pointer-events:none}
+[dir="ltr"] .h26-t.dk{clip-path:inset(0 0 0 var(--pw))}
+[dir="ltr"] .h26-t.lt{clip-path:inset(0 calc(100% - var(--pw)) 0 0 round 20px)}
+.h26-t.lt .h26-more{visibility:hidden}
+@media (prefers-reduced-motion:reduce){.h26-ph,.h26-ph img{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: no crossing; the text first and the photo as a band under it */
+@media (max-width:860px){.h26h{padding:88px 20px 20px;min-height:0}
+  .h26-stage{display:flex;flex-direction:column;gap:20px;min-height:0}
+  .h26-t.lt{display:none}[dir] .h26-t.dk{clip-path:none;padding-block:0;gap:16px}
+  .h26-t .hkick,.h26-t h3,.h26-more{margin-inline-start:0}
+  .h26h h3{font-size:clamp(30px,8vw,40px)}.h26h h3 span{display:inline;white-space:normal}
+  .h26-ph{order:2;width:100%;height:clamp(180px,28vh,250px)}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=hero">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="h25.html" rel="prev" title="הקודם: הירו מוצר עם בורר צבעים">→<span class="sr-only">הקודם</span></a><span class="vpn-n">26/29</span><a href="h27.html" rel="next" title="הבא: הירו מותג אישי עם דיוקן">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">H26</span> · הירו כותרת שחוצה את הצילום</h1>
+  <span class="vchip cat-hero">הירו</span>
+  <span class="vchip">CSS · JS</span>
+  <span class="vchip use">הירו ופתיחה</span><span class="vchip use">טקסט וכותרות</span><span class="vchip use">תמונות וגלריות</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:h26"><code>MV:h26</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="h26">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>צילום גבוה בצד אחד, וכותרת גדולה שמתחילה בתוכו ויוצאת ממנו אל הרקע: מה שעל הצילום בהיר, ומה שמחוצה לו כהה, באותה שורה. המשפט והכפתורים יושבים מתחת, בצד הפנוי.</p>
+  <p class="when"><b>מתי משתמשים:</b> עסק שמוכר חוויה או מקום ויש לו צילום אחד חזק וכהה מספיק: סיורים, מסעדה, מלון, צלם, סטודיו, אדריכלות, אירועים. נראה כמו שער של מגזין ולא כמו תבנית. לא לצילום בהיר ועמוס, שהטקסט הבהיר לא נקרא עליו, ולא לכותרת של יותר משתי שורות קצרות.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>אתר תדמית · וואן-פייג'ר · פורטפוליו וסטודיו</dd></div><div><dt>בסקשן</dt><dd>הירו</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא לצילום בהיר ועמוס או לכותרת ארוכה; אז h2 או h20.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="h26"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h26h" id="h26">
+    <div class="h26-stage">
+      <div class="h26-ph"><img src="../assets/media/real/s01/street-light.webp" alt="רחוב אבן ישן בשקיעה, פנס דולק ואדם הולך לבד" fetchpriority="high" decoding="async"></div>
+<div class="h26-t dk">
+        <span class="hkick rv" style="--i:0">סיורים רגליים בעיר העתיקה</span>
+        <h3 class="rv" style="--i:1"><span>הסמטאות נראות אחרת</span> <span>כשהשמש יורדת עליהן</span></h3>
+        <div class="h26-more">
+          <p class="hlead rv" style="--i:2">שעתיים וחצי ברגל, קבוצה קטנה, ומדריך שגדל ברובע ויודע איפה עוצרים לקפה.</p>
+          <div class="hcta rv" style="--i:3"><a class="hbtn" href="#h26">לבחירת תאריך</a><a class="hbtn ghost" href="#h26">המסלולים</a></div>
+          <p class="hmicro rv" style="--i:4"><span>יוצאים כל ערב חוץ משבת</span><span>ביטול בלי עלות עד יום לפני</span></p>
+        </div>
+      </div>
+      <div class="h26-t lt" aria-hidden="true" inert>
+        <span class="hkick rv" style="--i:0">סיורים רגליים בעיר העתיקה</span>
+        <h3 class="rv" style="--i:1"><span>הסמטאות נראות אחרת</span> <span>כשהשמש יורדת עליהן</span></h3>
+        <div class="h26-more">
+          <p class="hlead rv" style="--i:2">שעתיים וחצי ברגל, קבוצה קטנה, ומדריך שגדל ברובע ויודע איפה עוצרים לקפה.</p>
+          <div class="hcta rv" style="--i:3"><a class="hbtn" href="#h26">לבחירת תאריך</a><a class="hbtn ghost" href="#h26">המסלולים</a></div>
+          <p class="hmicro rv" style="--i:4"><span>יוצאים כל ערב חוץ משבת</span><span>ביטול בלי עלות עד יום לפני</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div class="demo-note">הכותרת מצוירת פעמיים באותה תיבה בדיוק (שתי שכבות באותו תא גריד), ולכן השורות נשברות באותו מקום: העותק הכהה נחתך מחוץ לצילום והעותק הבהיר נחתך אל תוכו (clip-path עם אותו --pw של רוחב הצילום), כך שהאותיות מחליפות צבע בדיוק בקצה. שתי השכבות נכתבות מאותו מקור (בפרויקט: אותה קומפוננטה עם אותם נתונים), והבהירה מוסתרת מקורא מסך ו-inert, כך שאין כפתורים כפולים בטאב ואין טקסט שנקרא פעמיים; החצייה היא CSS בלבד, ולכן היא שלמה גם בלי JS. הכותרת מתחילה בתוך הצילום, ולכן כל שורה חוצה את הקצה; שתי שורות קצרות שלא נשברות (nowrap), והגודל עד 7.8% מגובה המסך. מעל הצילום שכבת קריאות אלכסונית מהפינה שבה הכותרת מתחילה. המשפט והכפתורים יושבים מתחת לכותרת, בצד הפנוי, כדי שלא יצטרכו את הטריק. בטלפון אין חצייה: הטקסט למעלה והצילום רצועה מתחתיו. פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/h26.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* H26 · הירו כותרת שחוצה את הצילום */
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h26h{--pw:38%;display:flex;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}
+.h26-stage{position:relative;flex:1;display:grid;grid-template-areas:"a";min-height:520px}
+.h26-stage&gt;*{grid-area:a}
+.h26-ph{position:relative;justify-self:start;width:var(--pw);border-radius:20px;overflow:hidden;background:var(--ink, #16182b);clip-path:inset(0 round 20px);transition:clip-path 1s cubic-bezier(.2,.6,.2,1)}
+.h26-ph img{width:100%;height:100%;object-fit:cover;object-position:52% 50%;display:block;transition:transform 1.2s cubic-bezier(.2,.6,.2,1)}
+/* the light type needs a dark corner: diagonal from where the heading starts (heroes.md), never a 90 degree band */
+.h26-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom left,color-mix(in srgb,var(--ink, #16182b) 62%,transparent),color-mix(in srgb,var(--ink, #16182b) 18%,transparent) 75%)}
+[dir="ltr"] .h26-ph::after{background:linear-gradient(to bottom right,color-mix(in srgb,var(--ink, #16182b) 62%,transparent),color-mix(in srgb,var(--ink, #16182b) 18%,transparent) 75%)}
+.open-anim .h26-ph{clip-path:inset(0 0 100% 0 round 20px);animation:h26p-fs 0s 2.5s forwards}
+.open-anim .h26-ph img{transform:scale(1.1);animation:rv-fs 0s 2.5s forwards}
+.is-in .h26-ph{clip-path:inset(0 round 20px);transition-delay:var(--t0,0s)}
+.is-in .h26-ph img{transform:none;transition-delay:var(--t0,0s)}
+.rv-on .h26-ph,.rv-on .h26-ph img{animation:none}
+@keyframes h26p-fs{to{clip-path:inset(0 round 20px)}}
+.h26-t{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:40px}
+.h26-t .hkick,.h26-t h3{margin-inline-start:40px}
+.h26h h3{margin-block:0;font-size:clamp(36px,min(5.4vw,7.8vh),78px);line-height:1.02;font-weight:700;letter-spacing:-.015em}
+.h26h h3 span{display:block;white-space:nowrap}
+.h26-more{display:flex;flex-direction:column;align-items:flex-start;gap:20px;margin-inline-start:calc(var(--pw) + 48px)}
+.h26-more .hlead{max-width:40ch}
+/* one heading drawn twice in the same box, so the lines break the same: the dark copy is cut away from the photo,
+   the light copy is cut down to it. The light one is a picture of the text: hidden from screen readers, inert */
+.h26-t.dk{clip-path:inset(0 var(--pw) 0 0)}
+.h26-t.lt{color:var(--bg, #f7f7fa);clip-path:inset(0 0 0 calc(100% - var(--pw)) round 20px);pointer-events:none}
+[dir="ltr"] .h26-t.dk{clip-path:inset(0 0 0 var(--pw))}
+[dir="ltr"] .h26-t.lt{clip-path:inset(0 calc(100% - var(--pw)) 0 0 round 20px)}
+.h26-t.lt .h26-more{visibility:hidden}
+@media (prefers-reduced-motion:reduce){.h26-ph,.h26-ph img{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: no crossing; the text first and the photo as a band under it */
+@media (max-width:860px){.h26h{padding:88px 20px 20px;min-height:0}
+  .h26-stage{display:flex;flex-direction:column;gap:20px;min-height:0}
+  .h26-t.lt{display:none}[dir] .h26-t.dk{clip-path:none;padding-block:0;gap:16px}
+  .h26-t .hkick,.h26-t h3,.h26-more{margin-inline-start:0}
+  .h26h h3{font-size:clamp(30px,8vw,40px)}.h26h h3 span{display:inline;white-space:normal}
+  .h26-ph{order:2;width:100%;height:clamp(180px,28vh,250px)}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;script&gt;if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")&lt;/script&gt;
+&lt;div class="hf"&gt;&lt;div class="hf-top"&gt;&lt;b&gt;לוגו&lt;/b&gt;&lt;nav&gt;&lt;span&gt;שירותים&lt;/span&gt;&lt;span&gt;פרויקטים&lt;/span&gt;&lt;span&gt;אודות&lt;/span&gt;&lt;/nav&gt;&lt;/div&gt;
+  &lt;section class="h26h" id="h26"&gt;
+    &lt;div class="h26-stage"&gt;
+      &lt;div class="h26-ph"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s01/street-light.webp" alt="רחוב אבן ישן בשקיעה, פנס דולק ואדם הולך לבד" fetchpriority="high" decoding="async"&gt;&lt;/div&gt;
+&lt;div class="h26-t dk"&gt;
+        &lt;span class="hkick rv" style="--i:0"&gt;סיורים רגליים בעיר העתיקה&lt;/span&gt;
+        &lt;h3 class="rv" style="--i:1"&gt;&lt;span&gt;הסמטאות נראות אחרת&lt;/span&gt; &lt;span&gt;כשהשמש יורדת עליהן&lt;/span&gt;&lt;/h3&gt;
+        &lt;div class="h26-more"&gt;
+          &lt;p class="hlead rv" style="--i:2"&gt;שעתיים וחצי ברגל, קבוצה קטנה, ומדריך שגדל ברובע ויודע איפה עוצרים לקפה.&lt;/p&gt;
+          &lt;div class="hcta rv" style="--i:3"&gt;&lt;a class="hbtn" href="#h26"&gt;לבחירת תאריך&lt;/a&gt;&lt;a class="hbtn ghost" href="#h26"&gt;המסלולים&lt;/a&gt;&lt;/div&gt;
+          &lt;p class="hmicro rv" style="--i:4"&gt;&lt;span&gt;יוצאים כל ערב חוץ משבת&lt;/span&gt;&lt;span&gt;ביטול בלי עלות עד יום לפני&lt;/span&gt;&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="h26-t lt" aria-hidden="true" inert&gt;
+        &lt;span class="hkick rv" style="--i:0"&gt;סיורים רגליים בעיר העתיקה&lt;/span&gt;
+        &lt;h3 class="rv" style="--i:1"&gt;&lt;span&gt;הסמטאות נראות אחרת&lt;/span&gt; &lt;span&gt;כשהשמש יורדת עליהן&lt;/span&gt;&lt;/h3&gt;
+        &lt;div class="h26-more"&gt;
+          &lt;p class="hlead rv" style="--i:2"&gt;שעתיים וחצי ברגל, קבוצה קטנה, ומדריך שגדל ברובע ויודע איפה עוצרים לקפה.&lt;/p&gt;
+          &lt;div class="hcta rv" style="--i:3"&gt;&lt;a class="hbtn" href="#h26"&gt;לבחירת תאריך&lt;/a&gt;&lt;a class="hbtn ghost" href="#h26"&gt;המסלולים&lt;/a&gt;&lt;/div&gt;
+          &lt;p class="hmicro rv" style="--i:4"&gt;&lt;span&gt;יוצאים כל ערב חוץ משבת&lt;/span&gt;&lt;span&gt;ביטול בלי עלות עד יום לפני&lt;/span&gt;&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top&lt;innerHeight*.9&amp;&amp;r.bottom&gt;0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&amp;&amp;getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+enter(document.getElementById("h26"));</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:h26 · הירו כותרת שחוצה את הצילום\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/hero/h26.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/h26.html\n\nמה זה עושה: צילום גבוה בצד אחד, וכותרת גדולה שמתחילה בתוכו ויוצאת ממנו אל הרקע: מה שעל הצילום בהיר, ומה שמחוצה לו כהה, באותה שורה. המשפט והכפתורים יושבים מתחת, בצד הפנוי.\nמתי משתמשים: עסק שמוכר חוויה או מקום ויש לו צילום אחד חזק וכהה מספיק: סיורים, מסעדה, מלון, צלם, סטודיו, אדריכלות, אירועים. נראה כמו שער של מגזין ולא כמו תבנית. לא לצילום בהיר ועמוס, שהטקסט הבהיר לא נקרא עליו, ולא לכותרת של יותר משתי שורות קצרות.\nסוג אתר: אתר תדמית · וואן-פייג'ר · פורטפוליו וסטודיו\nבסקשן: הירו\nאופי: גם באתר שקט\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא לצילום בהיר ועמוס או לכותרת ארוכה; אז h2 או h20.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* H26 · הירו כותרת שחוצה את הצילום */\n/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */\n.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}\n.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}\n.hf-top b{font-size:18px;font-weight:800}\n.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}\n@media (max-width:760px){.hf-top nav{display:none}}\n.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;\n  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}\n@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}\n.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}\n.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}\n.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}\n.hcta{display:flex;flex-wrap:wrap;gap:12px}\n\n/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */\n.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}\n/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */\n.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}\n.rv-on .rv{animation:none}\n@keyframes rv-fs{to{opacity:1;transform:none}}\n@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}\n  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}\n.h26h{--pw:38%;display:flex;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}\n.h26-stage{position:relative;flex:1;display:grid;grid-template-areas:\"a\";min-height:520px}\n.h26-stage>*{grid-area:a}\n.h26-ph{position:relative;justify-self:start;width:var(--pw);border-radius:20px;overflow:hidden;background:var(--ink, #16182b);clip-path:inset(0 round 20px);transition:clip-path 1s cubic-bezier(.2,.6,.2,1)}\n.h26-ph img{width:100%;height:100%;object-fit:cover;object-position:52% 50%;display:block;transition:transform 1.2s cubic-bezier(.2,.6,.2,1)}\n/* the light type needs a dark corner: diagonal from where the heading starts (heroes.md), never a 90 degree band */\n.h26-ph::after{content:\"\";position:absolute;inset:0;background:linear-gradient(to bottom left,color-mix(in srgb,var(--ink, #16182b) 62%,transparent),color-mix(in srgb,var(--ink, #16182b) 18%,transparent) 75%)}\n[dir=\"ltr\"] .h26-ph::after{background:linear-gradient(to bottom right,color-mix(in srgb,var(--ink, #16182b) 62%,transparent),color-mix(in srgb,var(--ink, #16182b) 18%,transparent) 75%)}\n.open-anim .h26-ph{clip-path:inset(0 0 100% 0 round 20px);animation:h26p-fs 0s 2.5s forwards}\n.open-anim .h26-ph img{transform:scale(1.1);animation:rv-fs 0s 2.5s forwards}\n.is-in .h26-ph{clip-path:inset(0 round 20px);transition-delay:var(--t0,0s)}\n.is-in .h26-ph img{transform:none;transition-delay:var(--t0,0s)}\n.rv-on .h26-ph,.rv-on .h26-ph img{animation:none}\n@keyframes h26p-fs{to{clip-path:inset(0 round 20px)}}\n.h26-t{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:40px}\n.h26-t .hkick,.h26-t h3{margin-inline-start:40px}\n.h26h h3{margin-block:0;font-size:clamp(36px,min(5.4vw,7.8vh),78px);line-height:1.02;font-weight:700;letter-spacing:-.015em}\n.h26h h3 span{display:block;white-space:nowrap}\n.h26-more{display:flex;flex-direction:column;align-items:flex-start;gap:20px;margin-inline-start:calc(var(--pw) + 48px)}\n.h26-more .hlead{max-width:40ch}\n/* one heading drawn twice in the same box, so the lines break the same: the dark copy is cut away from the photo,\n   the light copy is cut down to it. The light one is a picture of the text: hidden from screen readers, inert */\n.h26-t.dk{clip-path:inset(0 var(--pw) 0 0)}\n.h26-t.lt{color:var(--bg, #f7f7fa);clip-path:inset(0 0 0 calc(100% - var(--pw)) round 20px);pointer-events:none}\n[dir=\"ltr\"] .h26-t.dk{clip-path:inset(0 0 0 var(--pw))}\n[dir=\"ltr\"] .h26-t.lt{clip-path:inset(0 calc(100% - var(--pw)) 0 0 round 20px)}\n.h26-t.lt .h26-more{visibility:hidden}\n@media (prefers-reduced-motion:reduce){.h26-ph,.h26-ph img{transition-duration:.01ms!important;transition-delay:0s!important}}\n/* phone: no crossing; the text first and the photo as a band under it */\n@media (max-width:860px){.h26h{padding:88px 20px 20px;min-height:0}\n  .h26-stage{display:flex;flex-direction:column;gap:20px;min-height:0}\n  .h26-t.lt{display:none}[dir] .h26-t.dk{clip-path:none;padding-block:0;gap:16px}\n  .h26-t .hkick,.h26-t h3,.h26-more{margin-inline-start:0}\n  .h26h h3{font-size:clamp(30px,8vw,40px)}.h26h h3 span{display:inline;white-space:normal}\n  .h26-ph{order:2;width:100%;height:clamp(180px,28vh,250px)}}\n\n=== HTML ===\n<script>if(matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)document.documentElement.classList.add(\"open-anim\")<\/script>\n<div class=\"hf\"><div class=\"hf-top\"><b>לוגו<\/b><nav><span>שירותים<\/span><span>פרויקטים<\/span><span>אודות<\/span><\/nav><\/div>\n  <section class=\"h26h\" id=\"h26\">\n    <div class=\"h26-stage\">\n      <div class=\"h26-ph\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s01/street-light.webp\" alt=\"רחוב אבן ישן בשקיעה, פנס דולק ואדם הולך לבד\" fetchpriority=\"high\" decoding=\"async\"><\/div>\n<div class=\"h26-t dk\">\n        <span class=\"hkick rv\" style=\"--i:0\">סיורים רגליים בעיר העתיקה<\/span>\n        <h3 class=\"rv\" style=\"--i:1\"><span>הסמטאות נראות אחרת<\/span> <span>כשהשמש יורדת עליהן<\/span><\/h3>\n        <div class=\"h26-more\">\n          <p class=\"hlead rv\" style=\"--i:2\">שעתיים וחצי ברגל, קבוצה קטנה, ומדריך שגדל ברובע ויודע איפה עוצרים לקפה.<\/p>\n          <div class=\"hcta rv\" style=\"--i:3\"><a class=\"hbtn\" href=\"#h26\">לבחירת תאריך<\/a><a class=\"hbtn ghost\" href=\"#h26\">המסלולים<\/a><\/div>\n          <p class=\"hmicro rv\" style=\"--i:4\"><span>יוצאים כל ערב חוץ משבת<\/span><span>ביטול בלי עלות עד יום לפני<\/span><\/p>\n        <\/div>\n      <\/div>\n      <div class=\"h26-t lt\" aria-hidden=\"true\" inert>\n        <span class=\"hkick rv\" style=\"--i:0\">סיורים רגליים בעיר העתיקה<\/span>\n        <h3 class=\"rv\" style=\"--i:1\"><span>הסמטאות נראות אחרת<\/span> <span>כשהשמש יורדת עליהן<\/span><\/h3>\n        <div class=\"h26-more\">\n          <p class=\"hlead rv\" style=\"--i:2\">שעתיים וחצי ברגל, קבוצה קטנה, ומדריך שגדל ברובע ויודע איפה עוצרים לקפה.<\/p>\n          <div class=\"hcta rv\" style=\"--i:3\"><a class=\"hbtn\" href=\"#h26\">לבחירת תאריך<\/a><a class=\"hbtn ghost\" href=\"#h26\">המסלולים<\/a><\/div>\n          <p class=\"hmicro rv\" style=\"--i:4\"><span>יוצאים כל ערב חוץ משבת<\/span><span>ביטול בלי עלות עד יום לפני<\/span><\/p>\n        <\/div>\n      <\/div>\n    <\/div>\n  <\/section>\n<\/div>\n\n=== JS ===\n// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:\n// an observer does not update while the tab is throttled (and on a real site the hero is usually\n// on screen at load anyway), and an entrance that never fires leaves the hero invisible.\nfunction inView(el,f){\n  var ro;\n  function chk(){\n    var r=el.getBoundingClientRect();\n    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}\n  }\n  function off(){removeEventListener(\"scroll\",chk);removeEventListener(\"resize\",chk);if(ro)ro.disconnect();}\n  addEventListener(\"scroll\",chk,{passive:true}); addEventListener(\"resize\",chk);\n  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view\n  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}\n  requestAnimationFrame(chk); setTimeout(chk,300);\n}\nfunction enter(root){\n  var els=root.querySelectorAll(\".rv\");\n  els.forEach(function(el,i){if(!el.style.getPropertyValue(\"--i\"))el.style.setProperty(\"--i\",i);});\n  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance\n  if(els.length&&getComputedStyle(els[0]).opacity===\"1\")root.classList.add(\"is-in\");\n  root.classList.add(\"rv-on\");\n  inView(root,function(){root.classList.add(\"is-in\");});\n}\nenter(document.getElementById(\"h26\"));\n\nהערת מימוש מהמאגר:\nהכותרת מצוירת פעמיים באותה תיבה בדיוק (שתי שכבות באותו תא גריד), ולכן השורות נשברות באותו מקום: העותק הכהה נחתך מחוץ לצילום והעותק הבהיר נחתך אל תוכו (clip-path עם אותו --pw של רוחב הצילום), כך שהאותיות מחליפות צבע בדיוק בקצה. שתי השכבות נכתבות מאותו מקור (בפרויקט: אותה קומפוננטה עם אותם נתונים), והבהירה מוסתרת מקורא מסך ו-inert, כך שאין כפתורים כפולים בטאב ואין טקסט שנקרא פעמיים; החצייה היא CSS בלבד, ולכן היא שלמה גם בלי JS. הכותרת מתחילה בתוך הצילום, ולכן כל שורה חוצה את הקצה; שתי שורות קצרות שלא נשברות (nowrap), והגודל עד 7.8% מגובה המסך. מעל הצילום שכבת קריאות אלכסונית מהפינה שבה הכותרת מתחילה. המשפט והכפתורים יושבים מתחת לכותרת, בצד הפנוי, כדי שלא יצטרכו את הטריק. בטלפון אין חצייה: הטקסט למעלה והצילום רצועה מתחתיו. פתיחת העמוד (motion.md 2): ההירו מוסתר רק מאחורי html.open-anim, שהשורה הראשונה במארקאפ קובעת רק כשתנועה מותרת (בפרויקט היא עוברת ל-head). בלי JS הכל גלוי, ואם הסקריפט לא רץ ה-CSS מציג הכל אחרי 2.5 שניות. בעמוד עם הדר קובעים --t0 של 0.2 שניות כדי שההדר ייכנס ראשון, ומקצרים כך שהפתיחה כולה לא עוברת 1.2 שניות. המסך הראשון בפרויקט: min-height:100svh, תוכן ממורכז לגובה וריפוד עליון בגובה ההדר; hero-fit ו-hero-vcenter מכריעים, לא הגובה של הדמו.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* H26 · הירו כותרת שחוצה את הצילום */\n/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */\n.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}\n.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}\n.hf-top b{font-size:18px;font-weight:800}\n.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}\n@media (max-width:760px){.hf-top nav{display:none}}\n.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;\n  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}\n.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}\n@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}\n.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}\n.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}\n.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}\n.hcta{display:flex;flex-wrap:wrap;gap:12px}\n\n/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */\n.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}\n/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */\n.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}\n.rv-on .rv{animation:none}\n@keyframes rv-fs{to{opacity:1;transform:none}}\n@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}\n  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}\n.h26h{--pw:38%;display:flex;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}\n.h26-stage{position:relative;flex:1;display:grid;grid-template-areas:\"a\";min-height:520px}\n.h26-stage>*{grid-area:a}\n.h26-ph{position:relative;justify-self:start;width:var(--pw);border-radius:20px;overflow:hidden;background:var(--ink, #16182b);clip-path:inset(0 round 20px);transition:clip-path 1s cubic-bezier(.2,.6,.2,1)}\n.h26-ph img{width:100%;height:100%;object-fit:cover;object-position:52% 50%;display:block;transition:transform 1.2s cubic-bezier(.2,.6,.2,1)}\n/* the light type needs a dark corner: diagonal from where the heading starts (heroes.md), never a 90 degree band */\n.h26-ph::after{content:\"\";position:absolute;inset:0;background:linear-gradient(to bottom left,color-mix(in srgb,var(--ink, #16182b) 62%,transparent),color-mix(in srgb,var(--ink, #16182b) 18%,transparent) 75%)}\n[dir=\"ltr\"] .h26-ph::after{background:linear-gradient(to bottom right,color-mix(in srgb,var(--ink, #16182b) 62%,transparent),color-mix(in srgb,var(--ink, #16182b) 18%,transparent) 75%)}\n.open-anim .h26-ph{clip-path:inset(0 0 100% 0 round 20px);animation:h26p-fs 0s 2.5s forwards}\n.open-anim .h26-ph img{transform:scale(1.1);animation:rv-fs 0s 2.5s forwards}\n.is-in .h26-ph{clip-path:inset(0 round 20px);transition-delay:var(--t0,0s)}\n.is-in .h26-ph img{transform:none;transition-delay:var(--t0,0s)}\n.rv-on .h26-ph,.rv-on .h26-ph img{animation:none}\n@keyframes h26p-fs{to{clip-path:inset(0 round 20px)}}\n.h26-t{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:40px}\n.h26-t .hkick,.h26-t h3{margin-inline-start:40px}\n.h26h h3{margin-block:0;font-size:clamp(36px,min(5.4vw,7.8vh),78px);line-height:1.02;font-weight:700;letter-spacing:-.015em}\n.h26h h3 span{display:block;white-space:nowrap}\n.h26-more{display:flex;flex-direction:column;align-items:flex-start;gap:20px;margin-inline-start:calc(var(--pw) + 48px)}\n.h26-more .hlead{max-width:40ch}\n/* one heading drawn twice in the same box, so the lines break the same: the dark copy is cut away from the photo,\n   the light copy is cut down to it. The light one is a picture of the text: hidden from screen readers, inert */\n.h26-t.dk{clip-path:inset(0 var(--pw) 0 0)}\n.h26-t.lt{color:var(--bg, #f7f7fa);clip-path:inset(0 0 0 calc(100% - var(--pw)) round 20px);pointer-events:none}\n[dir=\"ltr\"] .h26-t.dk{clip-path:inset(0 0 0 var(--pw))}\n[dir=\"ltr\"] .h26-t.lt{clip-path:inset(0 calc(100% - var(--pw)) 0 0 round 20px)}\n.h26-t.lt .h26-more{visibility:hidden}\n@media (prefers-reduced-motion:reduce){.h26-ph,.h26-ph img{transition-duration:.01ms!important;transition-delay:0s!important}}\n/* phone: no crossing; the text first and the photo as a band under it */\n@media (max-width:860px){.h26h{padding:88px 20px 20px;min-height:0}\n  .h26-stage{display:flex;flex-direction:column;gap:20px;min-height:0}\n  .h26-t.lt{display:none}[dir] .h26-t.dk{clip-path:none;padding-block:0;gap:16px}\n  .h26-t .hkick,.h26-t h3,.h26-more{margin-inline-start:0}\n  .h26h h3{font-size:clamp(30px,8vw,40px)}.h26h h3 span{display:inline;white-space:normal}\n  .h26-ph{order:2;width:100%;height:clamp(180px,28vh,250px)}}","html":"<script>if(matchMedia(\"(prefers-reduced-motion:no-preference)\").matches)document.documentElement.classList.add(\"open-anim\")<\/script>\n<div class=\"hf\"><div class=\"hf-top\"><b>לוגו<\/b><nav><span>שירותים<\/span><span>פרויקטים<\/span><span>אודות<\/span><\/nav><\/div>\n  <section class=\"h26h\" id=\"h26\">\n    <div class=\"h26-stage\">\n      <div class=\"h26-ph\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s01/street-light.webp\" alt=\"רחוב אבן ישן בשקיעה, פנס דולק ואדם הולך לבד\" fetchpriority=\"high\" decoding=\"async\"><\/div>\n<div class=\"h26-t dk\">\n        <span class=\"hkick rv\" style=\"--i:0\">סיורים רגליים בעיר העתיקה<\/span>\n        <h3 class=\"rv\" style=\"--i:1\"><span>הסמטאות נראות אחרת<\/span> <span>כשהשמש יורדת עליהן<\/span><\/h3>\n        <div class=\"h26-more\">\n          <p class=\"hlead rv\" style=\"--i:2\">שעתיים וחצי ברגל, קבוצה קטנה, ומדריך שגדל ברובע ויודע איפה עוצרים לקפה.<\/p>\n          <div class=\"hcta rv\" style=\"--i:3\"><a class=\"hbtn\" href=\"#h26\">לבחירת תאריך<\/a><a class=\"hbtn ghost\" href=\"#h26\">המסלולים<\/a><\/div>\n          <p class=\"hmicro rv\" style=\"--i:4\"><span>יוצאים כל ערב חוץ משבת<\/span><span>ביטול בלי עלות עד יום לפני<\/span><\/p>\n        <\/div>\n      <\/div>\n      <div class=\"h26-t lt\" aria-hidden=\"true\" inert>\n        <span class=\"hkick rv\" style=\"--i:0\">סיורים רגליים בעיר העתיקה<\/span>\n        <h3 class=\"rv\" style=\"--i:1\"><span>הסמטאות נראות אחרת<\/span> <span>כשהשמש יורדת עליהן<\/span><\/h3>\n        <div class=\"h26-more\">\n          <p class=\"hlead rv\" style=\"--i:2\">שעתיים וחצי ברגל, קבוצה קטנה, ומדריך שגדל ברובע ויודע איפה עוצרים לקפה.<\/p>\n          <div class=\"hcta rv\" style=\"--i:3\"><a class=\"hbtn\" href=\"#h26\">לבחירת תאריך<\/a><a class=\"hbtn ghost\" href=\"#h26\">המסלולים<\/a><\/div>\n          <p class=\"hmicro rv\" style=\"--i:4\"><span>יוצאים כל ערב חוץ משבת<\/span><span>ביטול בלי עלות עד יום לפני<\/span><\/p>\n        <\/div>\n      <\/div>\n    <\/div>\n  <\/section>\n<\/div>","js":"// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:\n// an observer does not update while the tab is throttled (and on a real site the hero is usually\n// on screen at load anyway), and an entrance that never fires leaves the hero invisible.\nfunction inView(el,f){\n  var ro;\n  function chk(){\n    var r=el.getBoundingClientRect();\n    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}\n  }\n  function off(){removeEventListener(\"scroll\",chk);removeEventListener(\"resize\",chk);if(ro)ro.disconnect();}\n  addEventListener(\"scroll\",chk,{passive:true}); addEventListener(\"resize\",chk);\n  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view\n  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}\n  requestAnimationFrame(chk); setTimeout(chk,300);\n}\nfunction enter(root){\n  var els=root.querySelectorAll(\".rv\");\n  els.forEach(function(el,i){if(!el.style.getPropertyValue(\"--i\"))el.style.setProperty(\"--i\",i);});\n  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance\n  if(els.length&&getComputedStyle(els[0]).opacity===\"1\")root.classList.add(\"is-in\");\n  root.classList.add(\"rv-on\");\n  inView(root,function(){root.classList.add(\"is-in\");});\n}\nenter(document.getElementById(\"h26\"));","scripts":"","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="h25.html" rel="prev"><small>→ הקודם</small><b>הירו מוצר עם בורר צבעים</b></a><a href="h27.html" rel="next"><small>הבא ←</small><b>הירו מותג אישי עם דיוקן</b></a></nav>
+
+<script src="../assets/baseline.js?v=8e27e699"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · הירו כותרת שחוצה את הצילום").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+enter(document.getElementById("h26"));
+</script>
+</body>
+</html>

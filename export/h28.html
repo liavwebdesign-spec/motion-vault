@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H28 · הירו עסק מקומי: פתוח עכשיו, כתובת והזמנה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* H28 · הירו עסק מקומי: פתוח עכשיו, כתובת והזמנה */
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h28h{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:40px;min-height:min(86vh,780px);padding:96px 28px 28px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);overflow:hidden;isolation:isolate}
+.h28-bg{position:absolute;inset:0;z-index:-2}
+.h28-bg img{width:100%;height:100%;object-fit:cover;object-position:55% 60%;display:block;transition:transform 1.2s cubic-bezier(.2,.6,.2,1)}
+.open-anim .h28-bg img{transform:scale(1.06);animation:rv-fs 0s 2.5s forwards}
+.is-in .h28-bg img{transform:none;transition-delay:var(--t0,0s)}
+.rv-on .h28-bg img{animation:none}
+/* the heading sits in the top corner, so the shade comes from that corner (heroes.md); the card has its own surface */
+.h28-scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(to bottom left,color-mix(in srgb,var(--ink, #16182b) 72%,transparent) 0%,color-mix(in srgb,var(--ink, #16182b) 30%,transparent) 50%,transparent 80%)}
+[dir="ltr"] .h28-scrim{background:linear-gradient(to bottom right,color-mix(in srgb,var(--ink, #16182b) 72%,transparent) 0%,color-mix(in srgb,var(--ink, #16182b) 30%,transparent) 50%,transparent 80%)}
+.h28-txt{align-self:start;display:flex;flex-direction:column;align-items:flex-start;gap:20px;max-width:600px}
+.h28h h3{margin:0;font-size:clamp(32px,min(4.2vw,7.8vh),64px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h28h .hlead{max-width:40ch;opacity:.92}
+.h28-card{align-self:end;display:flex;flex-direction:column;gap:16px;width:340px;padding:24px;border-radius:20px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);
+  box-shadow:0 24px 60px -24px color-mix(in srgb,var(--ink, #16182b) 70%,transparent)}
+.h28-name{margin:0;font-size:18px;font-weight:800}
+.h28-st{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0;font-size:15px}
+.h28-st i{width:10px;height:10px;border-radius:50%;background:var(--muted, #6a6d85);flex:none}
+/* green means open everywhere; it is a status colour, not the brand, so it stays the same in every skin */
+.h28-st.on i{background:hsl(145 63% 42%)}
+.h28-st b{font-weight:800}
+.h28-dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:0;font-size:15px}
+.h28-dl dt{color:var(--muted, #6a6d85)}
+.h28-dl dd{margin:0;font-weight:600}
+.h28-tel{color:inherit;text-decoration:none;unicode-bidi:isolate}
+@media (hover:hover) and (pointer:fine){.h28-tel:hover{text-decoration:underline}}
+.h28-wk summary{display:inline-flex;align-items:center;gap:8px;min-height:32px;font-size:14px;font-weight:600;cursor:pointer;list-style:none}
+.h28-wk summary::-webkit-details-marker{display:none}
+.h28-wk summary::after{content:"";width:7px;height:7px;border-inline-end:2px solid currentColor;border-block-end:2px solid currentColor;rotate:45deg;translate:0 -2px;transition:rotate .25s cubic-bezier(.2,.6,.2,1)}
+.h28-wk[open] summary::after{rotate:-135deg;translate:0 2px}
+.h28-wk summary:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px;border-radius:6px}
+.h28-wk dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:8px 0 0;font-size:14px}
+.h28-wk dd{margin:0}
+.h28-btns{display:flex;gap:8px}
+.h28-btns .hbtn{flex:1;padding-inline:16px}
+.h28-btns .hbtn.ghost{color:var(--ink, #16182b)}
+@media (prefers-reduced-motion:reduce){.h28-bg img,.h28-wk summary::after{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the heading on top, the card under it across the full width */
+@media (max-width:860px){.h28h{grid-template-columns:1fr;gap:24px;min-height:min(94vh,820px);padding:88px 20px 20px}
+  .h28h h3{font-size:clamp(28px,7.6vw,38px)}.h28-txt{gap:14px}.h28-card{width:auto;padding:20px;gap:14px}
+  .h28-scrim{background:linear-gradient(to bottom,color-mix(in srgb,var(--ink, #16182b) 75%,transparent) 0%,color-mix(in srgb,var(--ink, #16182b) 35%,transparent) 55%,color-mix(in srgb,var(--ink, #16182b) 20%,transparent))}}
+</style>
+</head>
+<body>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top" style="color:var(--bg)"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h28h" id="h28">
+    <div class="h28-bg"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s14/hero-bread.webp" alt="כיכר לחם שאור חצויה על שולחן עץ" fetchpriority="high" decoding="async"></div>
+    <span class="h28-scrim"></span>
+    <div class="h28-txt">
+      <span class="hkick rv">מאפיית שאור, זכרון יעקב</span>
+      <h3 class="rv">לחם שאור שיוצא מהתנור כל בוקר</h3>
+      <p class="hlead rv">כיכרות, מאפים ועוגות שמרים משש וחצי בבוקר, ובשישי גם חלות. מזמינים מראש ואוספים בלי תור.</p>
+    </div>
+    <div class="h28-card rv">
+      <p class="h28-name">המאפייה ברחוב הגפן</p>
+      <p class="h28-st"><i aria-hidden="true"></i><b class="h28-sb">ראשון עד חמישי</b><span class="h28-sm">7:00 עד 19:00, שישי עד 14:30</span></p>
+      <dl class="h28-dl">
+        <dt>היום</dt><dd class="h28-today">7:00 עד 19:00</dd>
+        <dt>כתובת</dt><dd>הגפן 12, זכרון יעקב</dd>
+        <dt>טלפון</dt><dd><a class="h28-tel" href="tel:+97246290000" dir="ltr">04-629-0000</a></dd>
+      </dl>
+      <details class="h28-wk"><summary>כל שעות הפתיחה</summary>
+        <dl><dt>ראשון עד חמישי</dt><dd>7:00 עד 19:00</dd><dt>שישי</dt><dd>6:30 עד 14:30</dd><dt>שבת</dt><dd>סגור</dd></dl>
+      </details>
+      <div class="h28-btns"><a class="hbtn" href="#h28">להזמנה מראש</a><a class="hbtn ghost" href="#h28">ניווט</a></div>
+    </div>
+  </section>
+</div>
+
+
+<script>
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+(function(){
+  var root=document.getElementById("h28"); enter(root);
+  var st=root.querySelector(".h28-st"), sb=root.querySelector(".h28-sb"), sm=root.querySelector(".h28-sm"), today=root.querySelector(".h28-today");
+  var DAYS=["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"], WD={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
+  // minutes from midnight by weekday (Sunday is 0), null is closed. In a project this comes from the business details in the panel
+  var HOURS=[[420,1140],[420,1140],[420,1140],[420,1140],[420,1140],[390,870],null];
+  function hm(m){return Math.floor(m/60)+":"+String(m%60).padStart(2,"0");}
+  // the business's clock, not the visitor's: a tourist abroad still sees whether the bakery is open now
+  function now(){
+    var o={};
+    new Intl.DateTimeFormat("en-US",{timeZone:"Asia/Jerusalem",weekday:"short",hour:"numeric",minute:"numeric",hourCycle:"h23"}).formatToParts(new Date()).forEach(function(p){o[p.type]=p.value;});
+    return {d:WD[o.weekday],m:(+o.hour%24)*60+(+o.minute)};
+  }
+  function render(){
+    var n=now(), t=HOURS[n.d], open=!!t&&n.m>=t[0]&&n.m<t[1], head, tail="";
+    if(open){head="פתוח עכשיו"; tail="עד "+hm(t[1]);}
+    else{
+      head="סגור עכשיו";
+      if(t&&n.m<t[0])tail="נפתח היום ב-"+hm(t[0]);
+      else for(var i=1;i<=7;i++){var d=(n.d+i)%7;if(HOURS[d]){tail="נפתח "+(i===1?"מחר":"ביום "+DAYS[d])+" ב-"+hm(HOURS[d][0]);break;}}
+    }
+    st.classList.toggle("on",open); sb.textContent=head; sm.textContent=tail;
+    today.textContent=t?hm(t[0])+" עד "+hm(t[1]):"סגור";
+  }
+  render(); setInterval(render,60000);
+})();
+</script>
+</body>
+</html>

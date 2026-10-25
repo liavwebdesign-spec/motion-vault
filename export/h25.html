@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H25 · הירו מוצר עם בורר צבעים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* H25 · הירו מוצר עם בורר צבעים */
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h25h{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);align-items:center;gap:56px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg, #f7f7fa)}
+/* the photo carries the colour; the stage only frames it */
+.h25-vis{position:relative;align-self:stretch;min-height:440px;border-radius:24px;overflow:hidden;background:var(--card, #fff);clip-path:inset(0 round 24px);transition:clip-path .9s cubic-bezier(.2,.6,.2,1)}
+.h25-vis img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%;display:block;filter:hue-rotate(var(--hue,0deg));transition:filter .5s cubic-bezier(.2,.6,.2,1),transform 1s cubic-bezier(.2,.6,.2,1)}
+.open-anim .h25-vis{clip-path:inset(6% 6% round 24px);animation:h25v-fs 0s 2.5s forwards}
+.open-anim .h25-vis img{transform:scale(1.08);animation:rv-fs 0s 2.5s forwards}
+.is-in .h25-vis{clip-path:inset(0 round 24px);transition-delay:var(--t0,0s)}
+.is-in .h25-vis img{transform:none}
+.rv-on .h25-vis,.rv-on .h25-vis img{animation:none}
+@keyframes h25v-fs{to{clip-path:inset(0 round 24px)}}
+.h25-chip{position:absolute;inset-block-start:20px;inset-inline-start:20px;margin:0;padding:8px 14px;border-radius:999px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);font-size:13px;font-weight:700}
+.h25-info{display:flex;flex-direction:column;align-items:flex-start;gap:20px}
+.h25h h3{margin:0;max-width:13ch;font-size:clamp(32px,min(4vw,7.8vh),60px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h25h .hlead{max-width:40ch}
+.h25-price{display:flex;align-items:baseline;gap:12px;margin:0}
+.h25-price b{font-size:28px;font-weight:800}
+.h25-price span{font-size:14px;color:var(--muted, #6a6d85)}
+/* native radios in a fieldset: arrow keys move between colours, and a screen reader hears a group with one choice */
+.h25-sw{margin:0;padding:0;border:0;min-width:0}
+.h25-sw legend{padding:0;margin-bottom:8px;font-size:14px;color:var(--muted, #6a6d85)}
+.h25-sw legend b{color:var(--ink, #16182b);font-weight:700}
+.h25-dots{display:flex;gap:8px}
+.h25-dot{position:relative;display:grid;place-items:center;width:44px;height:44px;cursor:pointer}
+.h25-dot input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.h25-dot i{width:30px;height:30px;border-radius:50%;background:var(--c);transition:transform .25s cubic-bezier(.2,.6,.2,1),box-shadow .25s cubic-bezier(.2,.6,.2,1)}
+.h25-dot input:checked+i{transform:scale(1.1);box-shadow:0 0 0 3px var(--bg, #f7f7fa),0 0 0 5px var(--ink, #16182b)}
+.h25-dot input:focus-visible+i{outline:2px solid var(--accent, #4a3aff);outline-offset:6px}
+@media (hover:hover) and (pointer:fine){.h25-dot:hover i{transform:scale(1.1)}}
+.h25-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.h25h button.hbtn{border:0;font:inherit;font-size:16px;font-weight:600;cursor:pointer}
+.h25h button.hbtn:focus-visible{outline:2px solid var(--ink, #16182b);outline-offset:3px}
+.h25-buy{align-self:stretch}
+.h25-msg{margin:0;font-size:14px;font-weight:600}
+.h25-msg:not(:empty){margin-top:12px}
+@media (prefers-reduced-motion:reduce){.h25-vis,.h25-vis img,.h25-dot i{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the product is a band on top; the two buttons share one row */
+@media (max-width:860px){.h25h{grid-template-columns:1fr;gap:20px;min-height:0;padding:72px 20px 28px}
+  .h25-vis{min-height:0;height:clamp(200px,30vh,260px)}
+  .h25-info{gap:14px}.h25h h3{font-size:clamp(28px,7.4vw,36px)}
+  .h25h .hcta{width:100%;flex-wrap:nowrap}.h25h .hcta .hbtn{flex:1;padding-inline:16px}}
+</style>
+</head>
+<body>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h25h" id="h25">
+    <div class="h25-vis">
+      <img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s04/tusk.webp" alt="פסלון פימו של מפלצת קטנה עם שתי שיניים, על רקע חלק" fetchpriority="high" decoding="async">
+      <p class="h25-chip rv">בעבודת יד, כל אחד קצת שונה</p>
+    </div>
+    <div class="h25-info">
+      <span class="hkick rv">סטודיו לפימו, יפו</span>
+      <h3 class="rv">מפלצון: חבר קטן לשולחן העבודה</h3>
+      <p class="hlead rv">פסלון של שמונה סנטימטרים, מפוסל ונאפה אצלנו ביד. מגיע בקופסת מתנה עם כרטיס שאפשר לכתוב עליו.</p>
+      <p class="h25-price rv"><b>89 ₪</b><span>כולל מע"מ</span></p>
+      <fieldset class="h25-sw rv">
+        <legend>צבע: <b class="h25-cname">טורקיז</b></legend>
+        <div class="h25-dots">
+          <label class="h25-dot"><input type="radio" name="h25c" value="טורקיז" data-h="0" checked><i style="--c:hsl(176 42% 50%)"></i><span class="h25-sr">טורקיז</span></label>
+          <label class="h25-dot"><input type="radio" name="h25c" value="לילך" data-h="95"><i style="--c:hsl(262 44% 62%)"></i><span class="h25-sr">לילך</span></label>
+          <label class="h25-dot"><input type="radio" name="h25c" value="אלמוג" data-h="175"><i style="--c:hsl(352 58% 64%)"></i><span class="h25-sr">אלמוג</span></label>
+          <label class="h25-dot"><input type="radio" name="h25c" value="ליים" data-h="-95"><i style="--c:hsl(78 48% 50%)"></i><span class="h25-sr">ליים</span></label>
+        </div>
+      </fieldset>
+      <div class="h25-buy rv">
+        <div class="hcta"><button class="hbtn h25-add" type="button">להוספה לסל</button><a class="hbtn ghost" href="#h25">כל המפלצונים</a></div>
+        <p class="h25-msg" role="status"></p>
+      </div>
+      <p class="hmicro rv"><span>משלוח חינם מעל 150 ₪</span><span>נשלח תוך שלושה ימי עבודה</span></p>
+    </div>
+  </section>
+</div>
+
+
+<script>
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+(function(){
+  var root=document.getElementById("h25"); enter(root);
+  var vis=root.querySelector(".h25-vis"), img=vis.querySelector("img"), cname=root.querySelector(".h25-cname"), msg=root.querySelector(".h25-msg");
+  root.querySelectorAll('[name="h25c"]').forEach(function(r){
+    r.addEventListener("change",function(){
+      // in a project every colour has its own photo (data-src on the radio); this demo tints one photo instead (data-h, in degrees)
+      if(r.dataset.src)img.src=r.dataset.src; else vis.style.setProperty("--hue",(r.dataset.h||0)+"deg");
+      cname.textContent=r.value; msg.textContent="";
+    });
+  });
+  root.querySelector(".h25-add").addEventListener("click",function(){
+    msg.textContent="נוסף לסל: מפלצון בצבע "+root.querySelector('[name="h25c"]:checked').value+".";
+  });
+})();
+</script>
+</body>
+</html>

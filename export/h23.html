@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>H23 · הירו מספר ענק עם צילום בתוך הספרות</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* H23 · הירו מספר ענק עם צילום בתוך הספרות */
+/* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
+.hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
+.hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
+.hf-top b{font-size:18px;font-weight:800}
+.hf-top nav{display:flex;gap:18px;margin-inline-start:auto;opacity:.8}
+@media (max-width:760px){.hf-top nav{display:none}}
+.hbtn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-decoration:none;
+  font-size:16px;font-weight:600;white-space:nowrap;transition:transform .18s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
+.hbtn.ghost{background:none;color:inherit;box-shadow:inset 0 0 0 1.5px currentColor}
+@media (hover:hover) and (pointer:fine){.hbtn:hover{transform:translateY(-2px)}}
+.hkick{font-size:14px;font-weight:600;letter-spacing:.02em;opacity:.75}
+.hlead{margin:0;font-size:clamp(17px,1.2vw,20px);line-height:1.55;opacity:.82}
+.hmicro{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;opacity:.7}
+.hcta{display:flex;flex-wrap:wrap;gap:12px}
+
+/* the resting state is the visible one. opacity:1 on .rv also keeps the no-JS look identical to the look after the entrance */
+.rv{opacity:1;transition:opacity .5s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.open-anim .rv{opacity:0;transform:translateY(18px);animation:rv-fs 0s 2.5s forwards}
+/* --t0: on a page with a header, 0.2s so the header comes down first (motion.md 2) */
+.is-in .rv{opacity:1;transform:none;transition-duration:.7s;transition-delay:calc(var(--t0,0s) + var(--i,0) * 90ms)}
+.rv-on .rv{animation:none}
+@keyframes rv-fs{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
+  .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
+.h23h{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:48px;min-height:min(84vh,760px);padding:96px 28px 40px;background:var(--bg, #f7f7fa)}
+.h23-txt{display:flex;flex-direction:column;align-items:flex-start;gap:24px}
+.h23h h3{margin:0;max-width:14ch;font-size:clamp(34px,min(4.2vw,7.8vh),66px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h23h .hlead{max-width:42ch}
+/* the number is the visual: a photo of the material shows through the digits (background-clip:text), and it is still real text */
+.h23-stat{display:flex;flex-direction:column;align-items:center;gap:12px;margin:0;text-align:center}
+.h23-num{display:block;font-size:min(30vw,54vh);line-height:.8;font-weight:800;letter-spacing:-.05em;font-variant-numeric:tabular-nums;color:var(--ink, #16182b);
+  clip-path:inset(0 0 0 0);transition:clip-path .9s cubic-bezier(.2,.6,.2,1),background-position 1.2s cubic-bezier(.2,.6,.2,1)}
+@supports ((-webkit-background-clip:text) or (background-clip:text)){
+  .h23-num{background:url("https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/marble.webp") 50% 50% / cover;-webkit-background-clip:text;background-clip:text;color:transparent}}
+.h23-cap{max-width:24ch;font-size:clamp(16px,1.2vw,19px);font-weight:600;line-height:1.4}
+.open-anim .h23-num{clip-path:inset(100% 0 0 0);background-position:50% 20%;animation:h23-fs 0s 2.5s forwards}
+.is-in .h23-num{clip-path:inset(0 0 0 0);background-position:50% 50%;transition-delay:calc(var(--t0,0s) + .15s)}
+.rv-on .h23-num{animation:none}
+@keyframes h23-fs{to{clip-path:inset(0 0 0 0);background-position:50% 50%}}
+.h23-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.h23-num{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the number becomes the band on top, the text under it */
+@media (max-width:860px){.h23h{grid-template-columns:1fr;gap:20px;min-height:0;padding:88px 20px 32px}
+  .h23-stat{order:-1;gap:8px}.h23-num{font-size:42vw}.h23h h3{font-size:clamp(28px,7.6vw,38px)}.h23-txt{gap:16px}
+  .h23h .hcta{width:100%;flex-wrap:nowrap}.h23h .hcta .hbtn{flex:1;padding-inline:16px}}
+</style>
+</head>
+<body>
+
+<script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
+<div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
+  <section class="h23h" id="h23">
+    <div class="h23-txt">
+      <span class="hkick rv">שיש ואבן למטבח, מודיעין</span>
+      <h3 class="rv">משטח אחד, חתוך במידה, שמותקן אצלכם ביום אחד</h3>
+      <p class="hlead rv">מגיעים למדידה עם דוגמאות אבן אמיתיות, חותכים בסדנה שלנו, ומתקינים משטח שלם בלי חיבורים מיותרים.</p>
+      <div class="hcta rv"><a class="hbtn" href="#h23">לתיאום מדידה</a><a class="hbtn ghost" href="#h23">דוגמאות אבן</a></div>
+      <p class="hmicro rv"><span>מדידה בבית בלי עלות</span><span>אחריות לחמש שנים</span></p>
+    </div>
+    <p class="h23-stat"><span class="h23-num" data-to="25" aria-hidden="true">25</span><span class="h23-sr">25</span> <span class="h23-cap rv">שנה של חיתוך והתקנה, באותה סדנה</span></p>
+  </section>
+</div>
+
+
+<script>
+// in view = fire. Measured directly on scroll and resize, not through IntersectionObserver:
+// an observer does not update while the tab is throttled (and on a real site the hero is usually
+// on screen at load anyway), and an entrance that never fires leaves the hero invisible.
+function inView(el,f){
+  var ro;
+  function chk(){
+    var r=el.getBoundingClientRect();
+    if(r.top<innerHeight*.9&&r.bottom>0){off();f();}
+  }
+  function off(){removeEventListener("scroll",chk);removeEventListener("resize",chk);if(ro)ro.disconnect();}
+  addEventListener("scroll",chk,{passive:true}); addEventListener("resize",chk);
+  // a layout change with no scroll (a bar above it closes, a font swaps in) can also bring it into view
+  if(window.ResizeObserver){ro=new ResizeObserver(chk);ro.observe(document.body);}
+  requestAnimationFrame(chk); setTimeout(chk,300);
+}
+function enter(root){
+  var els=root.querySelectorAll(".rv");
+  els.forEach(function(el,i){if(!el.style.getPropertyValue("--i"))el.style.setProperty("--i",i);});
+  // a script that ran late, after the 2.5s CSS failsafe already showed the hero: keep it shown, no second entrance
+  if(els.length&&getComputedStyle(els[0]).opacity==="1")root.classList.add("is-in");
+  root.classList.add("rv-on");
+  inView(root,function(){root.classList.add("is-in");});
+}
+(function(){
+  var root=document.getElementById("h23"), num=root.querySelector(".h23-num"), to=+num.dataset.to;
+  enter(root);
+  // the count runs with the entrance only: not on reduced motion, and not when the script came late and the hero is already shown
+  if(!matchMedia("(prefers-reduced-motion:no-preference)").matches||root.classList.contains("is-in"))return;
+  // it starts from the smallest number with the same digits (10 for 25), so the width never jumps while it runs
+  var from=Math.pow(10,String(to).length-1);
+  num.textContent=String(from);
+  inView(root,function(){
+    var t0=null, done=false;
+    function fin(){done=true;num.textContent=String(to);}
+    function step(t){
+      if(done)return;
+      if(t0===null)t0=t;
+      var p=Math.min((t-t0)/1000,1);
+      num.textContent=String(Math.round(from+(to-from)*(1-Math.pow(1-p,3))));
+      if(p<1)requestAnimationFrame(step); else fin();
+    }
+    requestAnimationFrame(step);
+    // frames stop in a background tab; the real value is never left halfway
+    setTimeout(fin,1300);
+  });
+})();
+</script>
+</body>
+</html>
