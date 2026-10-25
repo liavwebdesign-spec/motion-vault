@@ -43,20 +43,36 @@ img{max-width:100%}
 .lead{color:var(--muted, #6a6d85);margin:0 0 14px;font-size:15px;line-height:1.6}
 .btn{display:inline-block;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;margin-top:12px}
 .cwrap .ph{font-size:clamp(14px,1.6cqi,20px)}
-.c7{position:relative;text-align:center;padding-block:clamp(24px,6cqi,80px)}
+.c7{display:grid;grid-template-columns:1fr auto 1fr;grid-template-areas:"a core b" "c core d";column-gap:clamp(20px,3.6cqi,56px);row-gap:14px;align-items:center;padding-block:clamp(24px,6cqi,80px)}
+.c7 .core{grid-area:core;text-align:center}
 .c7 .big{font-size:clamp(64px,15cqi,220px);font-weight:900;line-height:.92;letter-spacing:-.02em;margin:0}
-.c7 .sub{color:var(--muted, #6a6d85);margin-top:8px}
-.c7 .sat{position:absolute;background:var(--card, #fff);border-radius:12px;padding:10px 14px;font-size:13px;font-weight:600;box-shadow:0 10px 30px rgba(22,24,43,.06)}
-.c7 .s1{top:10%;inset-inline-start:6%}.c7 .s2{top:14%;inset-inline-end:8%}.c7 .s3{bottom:12%;inset-inline-start:12%}.c7 .s4{bottom:8%;inset-inline-end:10%}
+.c7 .sub{color:var(--muted, #6a6d85);margin:10px 0 0;font-size:clamp(15px,1.4cqi,18px)}
 .c7 .sats{display:contents}
-@container (max-width:767px){.c7 .big{font-size:clamp(56px,22cqi,120px)}.c7 .sats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}.c7 .sat{position:static}}
+.c7 .sat{display:flex;flex-direction:column;gap:4px;margin:0;background:var(--card, #fff);border-radius:16px;padding:14px 22px;max-width:240px;box-shadow:0 14px 34px rgba(22,24,43,.08)}
+.c7 .sat b{font-size:clamp(20px,2.3cqi,30px);line-height:1.1;font-variant-numeric:tabular-nums}
+.c7 .sat span{font-size:14px;color:var(--muted, #6a6d85)}
+.c7 .s1{grid-area:a;justify-self:end;align-self:end;transform:translateY(-10px)}
+.c7 .s2{grid-area:b;justify-self:start;align-self:end}
+.c7 .s3{grid-area:c;justify-self:end;align-self:start;margin-inline-end:clamp(12px,2.4cqi,36px)}
+.c7 .s4{grid-area:d;justify-self:start;align-self:start;transform:translateY(12px)}
+@container (max-width:767px){
+  .c7{grid-template-columns:1fr 1fr;grid-template-areas:"core core" "a b" "c d";row-gap:10px;column-gap:10px}
+  .c7 .core{margin-bottom:14px}
+  .c7 .big{font-size:clamp(56px,22cqi,120px)}
+  .c7 .sat{justify-self:stretch;max-width:none;margin:0;transform:none}
+}
 </style>
 </head>
 <body>
 
 <div class="cwrap cstage"><div class="c7">
-  <p class="big">340+</p><p class="sub">אתרים שעלו לאוויר</p>
-  <div class="sats"><span class="sat s1">12 שנות ניסיון</span><span class="sat s2">4.9 ממוצע ביקורות</span><span class="sat s3">מענה תוך יום</span><span class="sat s4">100% מותאם אישית</span></div>
+  <div class="core"><p class="big"><bdi dir="ltr">340+</bdi></p><p class="sub">אתרים שעלו לאוויר</p></div>
+  <div class="sats">
+    <p class="sat s1"><b>12</b><span>שנות ניסיון</span></p>
+    <p class="sat s2"><b>4.9</b><span>ממוצע ביקורות</span></p>
+    <p class="sat s3"><b>יום אחד</b><span>זמן מענה</span></p>
+    <p class="sat s4"><b><bdi dir="ltr">100%</bdi></b><span>מותאם אישית</span></p>
+  </div>
 </div></div>
 
 

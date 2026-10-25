@@ -134,7 +134,7 @@ doc({
   desc:"עמוד שדרה אנכי (קו ומספרים 01 עד 04) שהתוכן נתלה עליו לסירוגין או בצד אחד.",
   when:"תהליך, שלבים, טיימליין, \"איך זה עובד\".",
   mobile:"הציר עובר לצד הימני והתוכן נערם משמאלו.",
-  note:"המספור עצמו הוא ויז'ואל. אפשר ענק ושקוף (opacity .1) מאחורי התוכן, ואז הוא aria-hidden: הכותרת של השלב נושאת את המידע. הרצף הוא רשימה ממוספרת (ol), כדי שקורא מסך ידע כמה שלבים יש.",
+  note:"המספור עצמו הוא ויז'ואל: ענק ושקוף, בחצי הריק שמעבר לציר, מול הכרטיס שלו. לא מתחת לטקסט, כי שם הוא עולה על הכותרת ונראה כמו לכלוך. בטלפון אין חצי ריק, והוא נעשה תווית קטנה מעל הכותרת. הוא aria-hidden: הכותרת של השלב נושאת את המידע. הרצף הוא רשימה ממוספרת (ol), כדי שקורא מסך ידע כמה שלבים יש.",
   css:`${BASE}
 .c6{position:relative;padding-block:8px;list-style:none;margin:0;padding-inline:0}
 .c6::before{content:"";position:absolute;inset-block:0;inset-inline-start:50%;width:2px;background:var(--line)}
@@ -143,8 +143,11 @@ doc({
 .c6 .it:nth-child(even){margin-inline-start:54%}
 .c6 .it::after{content:"";position:absolute;top:26px;width:14px;height:14px;border-radius:50%;background:var(--ink);inset-inline-end:calc(-8.7% - 7px)}
 .c6 .it:nth-child(even)::after{inset-inline-end:auto;inset-inline-start:calc(-8.7% - 7px)}
-.c6 .n{position:absolute;top:-10px;inset-inline-end:14px;font-size:clamp(56px,9cqi,120px);font-weight:900;line-height:1;opacity:.08;pointer-events:none}
-@container (max-width:767px){.c6::before{inset-inline-start:14px}.c6 .it{width:auto;margin-inline:0 !important;margin-inline-start:40px !important}.c6 .it::after{inset-inline-end:auto !important;inset-inline-start:-33px !important}}`,
+.c6 .n{position:absolute;top:2px;font-size:clamp(56px,9cqi,120px);font-weight:900;line-height:.8;letter-spacing:-.03em;opacity:.12;pointer-events:none}
+.c6 .it:nth-child(odd) .n{inset-inline-start:calc(117.4% + 6px)}
+.c6 .it:nth-child(even) .n{inset-inline-end:calc(117.4% + 6px)}
+@container (max-width:767px){.c6::before{inset-inline-start:14px}.c6 .it{width:auto;margin-inline:0 !important;margin-inline-start:40px !important}.c6 .it::after{inset-inline-end:auto !important;inset-inline-start:-33px !important}
+  .c6 .it .n{position:static;display:block;font-size:15px;font-weight:800;letter-spacing:0;line-height:1;opacity:1;color:var(--muted);margin-bottom:8px}}`,
   html:`<div class="cwrap cstage"><ol class="c6">
   <li class="it"><span class="n" aria-hidden="true">01</span><h3 class="ttl">שלב ראשון</h3><div class="tx l"></div><div class="tx m"></div></li>
   <li class="it"><span class="n" aria-hidden="true">02</span><h3 class="ttl">שלב שני</h3><div class="tx l"></div><div class="tx s"></div></li>
@@ -156,19 +159,35 @@ doc({
   id:"c07", name:"מילה ענקית ולוויינים",
   desc:"מילה או מספר ענק (8 עד 14vw) כמרכז הקומפוזיציה, ופריטי תוכן קטנים מרחפים סביבו או נערמים לצדו.",
   when:"הצהרת מותג, מספר גיבור (שנות ניסיון, לקוחות), רגע דרמטי.",
-  mobile:"המילה נשארת גדולה (6 עד 8vw לפחות), לא לפחד ממנה. הלוויינים יורדים לשורה מתחת.",
-  note:"אחת לעמוד מקסימום. זה רגע, לא שיטה.",
+  mobile:"המילה נשארת גדולה (6 עד 8vw לפחות), לא לפחד ממנה. הלוויינים יורדים מתחתיה, שניים בשורה.",
+  note:"אחת לעמוד מקסימום. זה רגע, לא שיטה. הלוויינים יושבים צמוד למילה, שניים מכל צד, בגריד ולא במיקום מוחלט בפינות: רחוקים וקטנים הם נקראים כמו רעש, וצמודים הם נקראים כחלק מהמשפט. כל לוויין הוא ערך מודגש ושורת הסבר. מספר עם סימן (+, %) עטוף ב-`<bdi dir=\"ltr\">`, אחרת הסימן קופץ לצד הלא נכון.",
   css:`${BASE}
-.c7{position:relative;text-align:center;padding-block:clamp(24px,6cqi,80px)}
+.c7{display:grid;grid-template-columns:1fr auto 1fr;grid-template-areas:"a core b" "c core d";column-gap:clamp(20px,3.6cqi,56px);row-gap:14px;align-items:center;padding-block:clamp(24px,6cqi,80px)}
+.c7 .core{grid-area:core;text-align:center}
 .c7 .big{font-size:clamp(64px,15cqi,220px);font-weight:900;line-height:.92;letter-spacing:-.02em;margin:0}
-.c7 .sub{color:var(--muted);margin-top:8px}
-.c7 .sat{position:absolute;background:var(--card);border-radius:12px;padding:10px 14px;font-size:13px;font-weight:600;box-shadow:0 10px 30px rgba(22,24,43,.06)}
-.c7 .s1{top:10%;inset-inline-start:6%}.c7 .s2{top:14%;inset-inline-end:8%}.c7 .s3{bottom:12%;inset-inline-start:12%}.c7 .s4{bottom:8%;inset-inline-end:10%}
+.c7 .sub{color:var(--muted);margin:10px 0 0;font-size:clamp(15px,1.4cqi,18px)}
 .c7 .sats{display:contents}
-@container (max-width:767px){.c7 .big{font-size:clamp(56px,22cqi,120px)}.c7 .sats{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}.c7 .sat{position:static}}`,
+.c7 .sat{display:flex;flex-direction:column;gap:4px;margin:0;background:var(--card);border-radius:16px;padding:14px 22px;max-width:240px;box-shadow:0 14px 34px rgba(22,24,43,.08)}
+.c7 .sat b{font-size:clamp(20px,2.3cqi,30px);line-height:1.1;font-variant-numeric:tabular-nums}
+.c7 .sat span{font-size:14px;color:var(--muted)}
+.c7 .s1{grid-area:a;justify-self:end;align-self:end;transform:translateY(-10px)}
+.c7 .s2{grid-area:b;justify-self:start;align-self:end}
+.c7 .s3{grid-area:c;justify-self:end;align-self:start;margin-inline-end:clamp(12px,2.4cqi,36px)}
+.c7 .s4{grid-area:d;justify-self:start;align-self:start;transform:translateY(12px)}
+@container (max-width:767px){
+  .c7{grid-template-columns:1fr 1fr;grid-template-areas:"core core" "a b" "c d";row-gap:10px;column-gap:10px}
+  .c7 .core{margin-bottom:14px}
+  .c7 .big{font-size:clamp(56px,22cqi,120px)}
+  .c7 .sat{justify-self:stretch;max-width:none;margin:0;transform:none}
+}`,
   html:`<div class="cwrap cstage"><div class="c7">
-  <p class="big">340+</p><p class="sub">אתרים שעלו לאוויר</p>
-  <div class="sats"><span class="sat s1">12 שנות ניסיון</span><span class="sat s2">4.9 ממוצע ביקורות</span><span class="sat s3">מענה תוך יום</span><span class="sat s4">100% מותאם אישית</span></div>
+  <div class="core"><p class="big"><bdi dir="ltr">340+</bdi></p><p class="sub">אתרים שעלו לאוויר</p></div>
+  <div class="sats">
+    <p class="sat s1"><b>12</b><span>שנות ניסיון</span></p>
+    <p class="sat s2"><b>4.9</b><span>ממוצע ביקורות</span></p>
+    <p class="sat s3"><b>יום אחד</b><span>זמן מענה</span></p>
+    <p class="sat s4"><b><bdi dir="ltr">100%</bdi></b><span>מותאם אישית</span></p>
+  </div>
 </div></div>`
 }),
 doc({

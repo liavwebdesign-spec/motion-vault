@@ -17,20 +17,28 @@
 .lead{color:var(--muted);margin:0 0 14px;font-size:15px;line-height:1.6}
 .btn{display:inline-block;background:var(--ink);color:var(--bg);border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;margin-top:12px}
 .cwrap .ph{font-size:clamp(14px,1.6cqi,20px)}
-.c12{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-block:6px 14px;scrollbar-width:thin}
+.c12h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px}
+.c12h .ttl{margin:0}
+.c12nav{display:flex;gap:8px;flex:none}
+.c12nav button{width:46px;height:46px;border-radius:50%;border:0;padding:0;background:var(--card);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:opacity .25s cubic-bezier(.2,.6,.2,1),transform .25s cubic-bezier(.2,.6,.2,1)}
+.c12nav button:hover{transform:scale(1.06)}
+.c12nav button[aria-disabled="true"]{opacity:.35;cursor:default;transform:none}
+.c12nav button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.c12{--gap:16px;display:flex;gap:var(--gap);overflow-x:auto;scroll-snap-type:x mandatory;padding-block:6px 14px;scrollbar-width:thin}
 .c12:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
-.c12 .ph{flex:0 0 36%;aspect-ratio:3/4;border-radius:var(--r);scroll-snap-align:start}
-@container (max-width:767px){.c12 .ph{flex-basis:78%}}
+.c12 .ph{flex:0 0 calc((100% - 3 * var(--gap)) / 3.4);aspect-ratio:4/5;border-radius:var(--r);scroll-snap-align:start}
+@media (hover:none) and (pointer:coarse){.c12nav{display:none}}
+@container (max-width:767px){.c12 .ph{flex-basis:78%}.c12nav{display:none}}
 </style>
 </head>
 <body>
 <script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
 <div class="vtop"><div class="vtop-in">
   <a class="vback" href="../index.html#c=comp">→ לספרייה</a>
-  <nav class="vpn" aria-label="פריטים סמוכים"><a href="c11.html" rel="prev" title="הקודם: מסך מפוצל דביק">→<span class="sr-only">הקודם</span></a><span class="vpn-n">12/16</span><a href="c13.html" rel="next" title="הבא: פסיפס אסימטרי">←<span class="sr-only">הבא</span></a></nav>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="c11.html" rel="prev" title="הקודם: מסך מפוצל דביק">→<span class="sr-only">הקודם</span></a><span class="vpn-n">12/28</span><a href="c13.html" rel="next" title="הבא: פסיפס אסימטרי">←<span class="sr-only">הבא</span></a></nav>
   <h1><span class="vid">C12</span> · מסדרון אופקי</h1>
   <span class="vchip cat-comp">קומפוזיציות</span>
-  <span class="vchip">פריסה · scroll-snap</span>
+  <span class="vchip">פריסה · scroll-snap · JS קטן</span>
   <span class="vchip use">תמונות וגלריות</span><span class="vchip use">כרטיסים</span>
   <span class="vchip st-pending" data-mvchip>ממתין</span>
   <button class="mvid" data-mvid="MV:c12"><code>MV:c12</code> העתק מזהה</button>
@@ -50,12 +58,18 @@
   <button class="bpbtn" data-bp="tablet">טאבלט 768</button>
   <button class="bpbtn" data-bp="mobile">מובייל 375</button></div>
 <div class="bpwrap" data-bp="desktop">
-<div class="cwrap cstage"><h3 class="ttl">גלול הצידה, הפריט הבא מציץ</h3><div class="c12" tabindex="0" role="region" aria-label="גלריה, גלילה הצידה">
-  <div class="ph ph-a"><span class="ph-l">1</span></div><div class="ph ph-b"><span class="ph-l">2</span></div><div class="ph ph-c"><span class="ph-l">3</span></div><div class="ph ph-d"><span class="ph-l">4</span></div><div class="ph ph-e"><span class="ph-l">5</span></div><div class="ph ph-f"><span class="ph-l">6</span></div>
-</div></div>
+<div class="cwrap cstage"><div class="c12w">
+<div class="c12h"><h3 class="ttl">גלול הצידה, הפריט הבא מציץ</h3>
+  <div class="c12nav">
+    <button type="button" data-dir="prev" aria-label="הקודם"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button type="button" data-dir="next" aria-label="הבא"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div></div>
+<div class="c12" tabindex="0" role="region" aria-label="גלריה, גלילה הצידה">
+  <div class="ph ph-a"></div><div class="ph ph-b"></div><div class="ph ph-c"></div><div class="ph ph-d"></div><div class="ph ph-e"></div><div class="ph ph-f"></div>
+</div></div></div>
 </div>
 
-<div class="demo-note">בדסקטופ רק כשבאמת יש חמישה פריטים ומעלה. פחות מזה, לפרוש בגריד (פסיקת הסתרת התוכן). בדסקטופ מוסיפים חיצי הקודם והבא, כי גלגלת עכבר לא גוללת הצידה. המסדרון עצמו מקבל tabindex="0", role="region" ושם, כדי שמקלדת תוכל לגלול אותו וקורא מסך יידע שזו גלריה.</div>
+<div class="demo-note">בדסקטופ רק כשבאמת יש חמישה פריטים ומעלה. פחות מזה, לפרוש בגריד (פסיקת הסתרת התוכן). בדסקטופ יש חיצי הקודם והבא בשורת הכותרת, כי גלגלת עכבר לא גוללת הצידה. בקצה החץ נעשה חיוור (aria-disabled), והגלילה מכבדת הפחתת תנועה. בטלפון החיצים יורדים והאגודל גולל. שלושה פריטים וקצת נראים בבת אחת, בגובה 4/5, כדי שהשורה לא תתפוס מסך שלם. המסדרון עצמו מקבל tabindex="0", role="region" ושם, כדי שמקלדת תוכל לגלול אותו וקורא מסך יידע שזו גלריה.</div>
 <section class="mvcode">
   <h2>קוד להדבקה</h2>
   <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
@@ -63,7 +77,7 @@
     <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
     <button class="cp" data-cp="css">CSS</button>
     <button class="cp" data-cp="html">HTML</button>
-    
+    <button class="cp" data-cp="js">JS</button>
     
     <a class="cp cp-link" href="../export/c12.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
   </div>
@@ -76,7 +90,6 @@
 .ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}
 .ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}
 .ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}
-.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}
 
 /* C12 · מסדרון אופקי */
 @property --pad{syntax:"&lt;length&gt;";inherits:true;initial-value:20px}
@@ -88,16 +101,43 @@
 .lead{color:var(--muted, #6a6d85);margin:0 0 14px;font-size:15px;line-height:1.6}
 .btn{display:inline-block;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;margin-top:12px}
 .cwrap .ph{font-size:clamp(14px,1.6cqi,20px)}
-.c12{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-block:6px 14px;scrollbar-width:thin}
+.c12h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px}
+.c12h .ttl{margin:0}
+.c12nav{display:flex;gap:8px;flex:none}
+.c12nav button{width:46px;height:46px;border-radius:50%;border:0;padding:0;background:var(--card, #fff);color:var(--ink, #16182b);cursor:pointer;display:grid;place-items:center;transition:opacity .25s cubic-bezier(.2,.6,.2,1),transform .25s cubic-bezier(.2,.6,.2,1)}
+.c12nav button:hover{transform:scale(1.06)}
+.c12nav button[aria-disabled="true"]{opacity:.35;cursor:default;transform:none}
+.c12nav button:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+.c12{--gap:16px;display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));overflow-x:auto;scroll-snap-type:x mandatory;padding-block:6px 14px;scrollbar-width:thin}
 .c12:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:4px}
-.c12 .ph{flex:0 0 36%;aspect-ratio:3/4;border-radius:var(--r, 14px);scroll-snap-align:start}
-@container (max-width:767px){.c12 .ph{flex-basis:78%}}</code></pre>
-    <h3>HTML</h3><pre><code>&lt;div class="cwrap cstage"&gt;&lt;h3 class="ttl"&gt;גלול הצידה, הפריט הבא מציץ&lt;/h3&gt;&lt;div class="c12" tabindex="0" role="region" aria-label="גלריה, גלילה הצידה"&gt;
-  &lt;div class="ph ph-a"&gt;&lt;span class="ph-l"&gt;1&lt;/span&gt;&lt;/div&gt;&lt;div class="ph ph-b"&gt;&lt;span class="ph-l"&gt;2&lt;/span&gt;&lt;/div&gt;&lt;div class="ph ph-c"&gt;&lt;span class="ph-l"&gt;3&lt;/span&gt;&lt;/div&gt;&lt;div class="ph ph-d"&gt;&lt;span class="ph-l"&gt;4&lt;/span&gt;&lt;/div&gt;&lt;div class="ph ph-e"&gt;&lt;span class="ph-l"&gt;5&lt;/span&gt;&lt;/div&gt;&lt;div class="ph ph-f"&gt;&lt;span class="ph-l"&gt;6&lt;/span&gt;&lt;/div&gt;
-&lt;/div&gt;&lt;/div&gt;</code></pre>
-    
+.c12 .ph{flex:0 0 calc((100% - 3 * var(--gap, clamp(16px, 1.6vw, 36px))) / 3.4);aspect-ratio:4/5;border-radius:var(--r, 14px);scroll-snap-align:start}
+@media (hover:none) and (pointer:coarse){.c12nav{display:none}}
+@container (max-width:767px){.c12 .ph{flex-basis:78%}.c12nav{display:none}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="cwrap cstage"&gt;&lt;div class="c12w"&gt;
+&lt;div class="c12h"&gt;&lt;h3 class="ttl"&gt;גלול הצידה, הפריט הבא מציץ&lt;/h3&gt;
+  &lt;div class="c12nav"&gt;
+    &lt;button type="button" data-dir="prev" aria-label="הקודם"&gt;&lt;svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"&gt;&lt;path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;/svg&gt;&lt;/button&gt;
+    &lt;button type="button" data-dir="next" aria-label="הבא"&gt;&lt;svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"&gt;&lt;path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/&gt;&lt;/svg&gt;&lt;/button&gt;
+  &lt;/div&gt;&lt;/div&gt;
+&lt;div class="c12" tabindex="0" role="region" aria-label="גלריה, גלילה הצידה"&gt;
+  &lt;div class="ph ph-a"&gt;&lt;/div&gt;&lt;div class="ph ph-b"&gt;&lt;/div&gt;&lt;div class="ph ph-c"&gt;&lt;/div&gt;&lt;div class="ph ph-d"&gt;&lt;/div&gt;&lt;div class="ph ph-e"&gt;&lt;/div&gt;&lt;div class="ph ph-f"&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>document.querySelectorAll(".c12w").forEach(function(w){
+  var t=w.querySelector(".c12"),p=w.querySelector("[data-dir=prev]"),n=w.querySelector("[data-dir=next]");
+  if(!t||!p||!n)return;
+  var rm=matchMedia("(prefers-reduced-motion: reduce)");
+  function step(){var f=t.firstElementChild;return f?f.getBoundingClientRect().width+(parseFloat(getComputedStyle(t).columnGap)||0):t.clientWidth*.8}
+  function sign(){return getComputedStyle(t).direction==="rtl"?-1:1}
+  function upd(){var max=t.scrollWidth-t.clientWidth,x=Math.abs(t.scrollLeft);p.setAttribute("aria-disabled",x&lt;=2?"true":"false");n.setAttribute("aria-disabled",x&gt;=max-2?"true":"false")}
+  function go(d){t.scrollBy({left:d*step()*sign(),behavior:rm.matches?"auto":"smooth"})}
+  p.addEventListener("click",function(){go(-1)});
+  n.addEventListener("click",function(){go(1)});
+  t.addEventListener("scroll",upd,{passive:true});
+  addEventListener("resize",upd);
+  upd();
+});</code></pre>
   </details>
-  <script type="application/json" id="mvcode-data">{"brief":"קומפוזיציה מתוך Motion Vault: MV:c12 · מסדרון אופקי\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/comp/c12.html\n\nמבנה: שורת פריטים שגולשת אופקית עם peek, הפריט הבא מציץ. קרוסלה שהיא פריסה, לא וידג'ט.\nמתאים ל: גלריות, המלצות רבות, מוצרים, כשיש יותר פריטים מרוחב.\nסוג אתר: פורטפוליו וסטודיו · חנות · אתר תדמית · וואן-פייג'ר · דף נחיתה\nבסקשן: עבודות וגלריה · המלצות · מוצר וקטלוג\nאופי: גם באתר שקט\nתפקיד ומינון: משרת תוכן, עד פעמיים בעמוד\nמתי לא: בדסקטופ עם פחות מחמישה פריטים: C4 גריד שמציג את כולם.\nקריסת מובייל: הבית הטבעי שלו.\nהערה: בדסקטופ רק כשבאמת יש חמישה פריטים ומעלה. פחות מזה, לפרוש בגריד (פסיקת הסתרת התוכן). בדסקטופ מוסיפים חיצי הקודם והבא, כי גלגלת עכבר לא גוללת הצידה. המסדרון עצמו מקבל tabindex=\"0\", role=\"region\" ושם, כדי שמקלדת תוכל לגלול אותו וקורא מסך יידע שזו גלריה.\n\nכללי שימוש:\n1. התוכן קובע, לא הקומפוזיציה. אם טבע התוכן לא מתאים לפריסה הזאת, לבחור אחרת.\n2. חוק הגיוון: אותה קומפוזיציה לא פעמיים ברצף ולא יותר מפעמיים בעמוד.\n3. הקוד למטה ניטרלי בכוונה: הוא מגדיר מבנה בלבד. צבעים, רדיוסים, גופנים וריווח נלקחים מהעור של הפרויקט. המחלקות .ph ו-.tx הן ממלאי מקום להחלפה בתוכן אמיתי.\n4. הקריסה למובייל כתובה ב-@container. העטיפה .cwrap חייבת container-type:inline-size (היא כלולה בקוד). אם הפרויקט מעדיף @media, להמיר את @container (max-width:767px) ל-@media (max-width:767px).\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n\n/* C12 · מסדרון אופקי */\n@property --pad{syntax:\"<length>\";inherits:true;initial-value:20px}\n.cwrap{container-type:inline-size}\n.cstage{--pad:clamp(20px,4cqi,64px);padding:clamp(36px,5cqi,80px) var(--pad)}\n.tx{height:11px;border-radius:6px;background:#dfe0ea;margin:9px 0}\n.tx.s{width:38%}.tx.m{width:62%}.tx.l{width:86%}\n.ttl{font-size:clamp(22px,2.6cqi,34px);font-weight:700;margin:0 0 10px;line-height:1.2}\n.lead{color:var(--muted, #6a6d85);margin:0 0 14px;font-size:15px;line-height:1.6}\n.btn{display:inline-block;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;margin-top:12px}\n.cwrap .ph{font-size:clamp(14px,1.6cqi,20px)}\n.c12{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-block:6px 14px;scrollbar-width:thin}\n.c12:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:4px}\n.c12 .ph{flex:0 0 36%;aspect-ratio:3/4;border-radius:var(--r, 14px);scroll-snap-align:start}\n@container (max-width:767px){.c12 .ph{flex-basis:78%}}\n\n=== HTML ===\n<div class=\"cwrap cstage\"><h3 class=\"ttl\">גלול הצידה, הפריט הבא מציץ<\/h3><div class=\"c12\" tabindex=\"0\" role=\"region\" aria-label=\"גלריה, גלילה הצידה\">\n  <div class=\"ph ph-a\"><span class=\"ph-l\">1<\/span><\/div><div class=\"ph ph-b\"><span class=\"ph-l\">2<\/span><\/div><div class=\"ph ph-c\"><span class=\"ph-l\">3<\/span><\/div><div class=\"ph ph-d\"><span class=\"ph-l\">4<\/span><\/div><div class=\"ph ph-e\"><span class=\"ph-l\">5<\/span><\/div><div class=\"ph ph-f\"><span class=\"ph-l\">6<\/span><\/div>\n<\/div><\/div>","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n.ph-l{background:rgba(16,18,43,.72);color:#fff;padding:.18em .7em;border-radius:999px;line-height:1.3;font-size:max(.78em,12px)}\n\n/* C12 · מסדרון אופקי */\n@property --pad{syntax:\"<length>\";inherits:true;initial-value:20px}\n.cwrap{container-type:inline-size}\n.cstage{--pad:clamp(20px,4cqi,64px);padding:clamp(36px,5cqi,80px) var(--pad)}\n.tx{height:11px;border-radius:6px;background:#dfe0ea;margin:9px 0}\n.tx.s{width:38%}.tx.m{width:62%}.tx.l{width:86%}\n.ttl{font-size:clamp(22px,2.6cqi,34px);font-weight:700;margin:0 0 10px;line-height:1.2}\n.lead{color:var(--muted, #6a6d85);margin:0 0 14px;font-size:15px;line-height:1.6}\n.btn{display:inline-block;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;margin-top:12px}\n.cwrap .ph{font-size:clamp(14px,1.6cqi,20px)}\n.c12{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-block:6px 14px;scrollbar-width:thin}\n.c12:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:4px}\n.c12 .ph{flex:0 0 36%;aspect-ratio:3/4;border-radius:var(--r, 14px);scroll-snap-align:start}\n@container (max-width:767px){.c12 .ph{flex-basis:78%}}","html":"<div class=\"cwrap cstage\"><h3 class=\"ttl\">גלול הצידה, הפריט הבא מציץ<\/h3><div class=\"c12\" tabindex=\"0\" role=\"region\" aria-label=\"גלריה, גלילה הצידה\">\n  <div class=\"ph ph-a\"><span class=\"ph-l\">1<\/span><\/div><div class=\"ph ph-b\"><span class=\"ph-l\">2<\/span><\/div><div class=\"ph ph-c\"><span class=\"ph-l\">3<\/span><\/div><div class=\"ph ph-d\"><span class=\"ph-l\">4<\/span><\/div><div class=\"ph ph-e\"><span class=\"ph-l\">5<\/span><\/div><div class=\"ph ph-f\"><span class=\"ph-l\">6<\/span><\/div>\n<\/div><\/div>","js":"","scripts":"","rtl":false}</script>
+  <script type="application/json" id="mvcode-data">{"brief":"קומפוזיציה מתוך Motion Vault: MV:c12 · מסדרון אופקי\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/comp/c12.html\n\nמבנה: שורת פריטים שגולשת אופקית עם peek, הפריט הבא מציץ. קרוסלה שהיא פריסה, לא וידג'ט.\nמתאים ל: גלריות, המלצות רבות, מוצרים, כשיש יותר פריטים מרוחב.\nסוג אתר: פורטפוליו וסטודיו · חנות · אתר תדמית · וואן-פייג'ר · דף נחיתה\nבסקשן: עבודות וגלריה · המלצות · מוצר וקטלוג\nאופי: גם באתר שקט\nתפקיד ומינון: משרת תוכן, עד פעמיים בעמוד\nמתי לא: בדסקטופ עם פחות מחמישה פריטים: C4 גריד שמציג את כולם.\nקריסת מובייל: הבית הטבעי שלו.\nהערה: בדסקטופ רק כשבאמת יש חמישה פריטים ומעלה. פחות מזה, לפרוש בגריד (פסיקת הסתרת התוכן). בדסקטופ יש חיצי הקודם והבא בשורת הכותרת, כי גלגלת עכבר לא גוללת הצידה. בקצה החץ נעשה חיוור (aria-disabled), והגלילה מכבדת הפחתת תנועה. בטלפון החיצים יורדים והאגודל גולל. שלושה פריטים וקצת נראים בבת אחת, בגובה 4/5, כדי שהשורה לא תתפוס מסך שלם. המסדרון עצמו מקבל tabindex=\"0\", role=\"region\" ושם, כדי שמקלדת תוכל לגלול אותו וקורא מסך יידע שזו גלריה.\n\nכללי שימוש:\n1. התוכן קובע, לא הקומפוזיציה. אם טבע התוכן לא מתאים לפריסה הזאת, לבחור אחרת.\n2. חוק הגיוון: אותה קומפוזיציה לא פעמיים ברצף ולא יותר מפעמיים בעמוד.\n3. הקוד למטה ניטרלי בכוונה: הוא מגדיר מבנה בלבד. צבעים, רדיוסים, גופנים וריווח נלקחים מהעור של הפרויקט. המחלקות .ph ו-.tx הן ממלאי מקום להחלפה בתוכן אמיתי.\n4. הקריסה למובייל כתובה ב-@container. העטיפה .cwrap חייבת container-type:inline-size (היא כלולה בקוד). אם הפרויקט מעדיף @media, להמיר את @container (max-width:767px) ל-@media (max-width:767px).\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* C12 · מסדרון אופקי */\n@property --pad{syntax:\"<length>\";inherits:true;initial-value:20px}\n.cwrap{container-type:inline-size}\n.cstage{--pad:clamp(20px,4cqi,64px);padding:clamp(36px,5cqi,80px) var(--pad)}\n.tx{height:11px;border-radius:6px;background:#dfe0ea;margin:9px 0}\n.tx.s{width:38%}.tx.m{width:62%}.tx.l{width:86%}\n.ttl{font-size:clamp(22px,2.6cqi,34px);font-weight:700;margin:0 0 10px;line-height:1.2}\n.lead{color:var(--muted, #6a6d85);margin:0 0 14px;font-size:15px;line-height:1.6}\n.btn{display:inline-block;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;margin-top:12px}\n.cwrap .ph{font-size:clamp(14px,1.6cqi,20px)}\n.c12h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px}\n.c12h .ttl{margin:0}\n.c12nav{display:flex;gap:8px;flex:none}\n.c12nav button{width:46px;height:46px;border-radius:50%;border:0;padding:0;background:var(--card, #fff);color:var(--ink, #16182b);cursor:pointer;display:grid;place-items:center;transition:opacity .25s cubic-bezier(.2,.6,.2,1),transform .25s cubic-bezier(.2,.6,.2,1)}\n.c12nav button:hover{transform:scale(1.06)}\n.c12nav button[aria-disabled=\"true\"]{opacity:.35;cursor:default;transform:none}\n.c12nav button:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n.c12{--gap:16px;display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));overflow-x:auto;scroll-snap-type:x mandatory;padding-block:6px 14px;scrollbar-width:thin}\n.c12:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:4px}\n.c12 .ph{flex:0 0 calc((100% - 3 * var(--gap, clamp(16px, 1.6vw, 36px))) / 3.4);aspect-ratio:4/5;border-radius:var(--r, 14px);scroll-snap-align:start}\n@media (hover:none) and (pointer:coarse){.c12nav{display:none}}\n@container (max-width:767px){.c12 .ph{flex-basis:78%}.c12nav{display:none}}\n\n=== HTML ===\n<div class=\"cwrap cstage\"><div class=\"c12w\">\n<div class=\"c12h\"><h3 class=\"ttl\">גלול הצידה, הפריט הבא מציץ<\/h3>\n  <div class=\"c12nav\">\n    <button type=\"button\" data-dir=\"prev\" aria-label=\"הקודם\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\"><path d=\"M9 6l6 6-6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><\/svg><\/button>\n    <button type=\"button\" data-dir=\"next\" aria-label=\"הבא\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\"><path d=\"M15 6l-6 6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><\/svg><\/button>\n  <\/div><\/div>\n<div class=\"c12\" tabindex=\"0\" role=\"region\" aria-label=\"גלריה, גלילה הצידה\">\n  <div class=\"ph ph-a\"><\/div><div class=\"ph ph-b\"><\/div><div class=\"ph ph-c\"><\/div><div class=\"ph ph-d\"><\/div><div class=\"ph ph-e\"><\/div><div class=\"ph ph-f\"><\/div>\n<\/div><\/div><\/div>","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.ph{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;border-radius:var(--r, 14px)}\n.ph-a{background:linear-gradient(160deg,#3b5bdb,#748ffc)}\n.ph-b{background:linear-gradient(160deg,#5f3dc4,#9775fa)}\n.ph-c{background:linear-gradient(160deg,#0b7285,#3bc9db)}\n.ph-d{background:linear-gradient(160deg,#2b8a3e,#69db7c)}\n.ph-e{background:linear-gradient(160deg,#e8590c,#ffa94d)}\n.ph-f{background:linear-gradient(160deg,#c92a2a,#ff8787)}\n\n/* C12 · מסדרון אופקי */\n@property --pad{syntax:\"<length>\";inherits:true;initial-value:20px}\n.cwrap{container-type:inline-size}\n.cstage{--pad:clamp(20px,4cqi,64px);padding:clamp(36px,5cqi,80px) var(--pad)}\n.tx{height:11px;border-radius:6px;background:#dfe0ea;margin:9px 0}\n.tx.s{width:38%}.tx.m{width:62%}.tx.l{width:86%}\n.ttl{font-size:clamp(22px,2.6cqi,34px);font-weight:700;margin:0 0 10px;line-height:1.2}\n.lead{color:var(--muted, #6a6d85);margin:0 0 14px;font-size:15px;line-height:1.6}\n.btn{display:inline-block;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);border-radius:999px;padding:9px 18px;font-size:14px;font-weight:600;margin-top:12px}\n.cwrap .ph{font-size:clamp(14px,1.6cqi,20px)}\n.c12h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px}\n.c12h .ttl{margin:0}\n.c12nav{display:flex;gap:8px;flex:none}\n.c12nav button{width:46px;height:46px;border-radius:50%;border:0;padding:0;background:var(--card, #fff);color:var(--ink, #16182b);cursor:pointer;display:grid;place-items:center;transition:opacity .25s cubic-bezier(.2,.6,.2,1),transform .25s cubic-bezier(.2,.6,.2,1)}\n.c12nav button:hover{transform:scale(1.06)}\n.c12nav button[aria-disabled=\"true\"]{opacity:.35;cursor:default;transform:none}\n.c12nav button:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n.c12{--gap:16px;display:flex;gap:var(--gap, clamp(16px, 1.6vw, 36px));overflow-x:auto;scroll-snap-type:x mandatory;padding-block:6px 14px;scrollbar-width:thin}\n.c12:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:4px}\n.c12 .ph{flex:0 0 calc((100% - 3 * var(--gap, clamp(16px, 1.6vw, 36px))) / 3.4);aspect-ratio:4/5;border-radius:var(--r, 14px);scroll-snap-align:start}\n@media (hover:none) and (pointer:coarse){.c12nav{display:none}}\n@container (max-width:767px){.c12 .ph{flex-basis:78%}.c12nav{display:none}}","html":"<div class=\"cwrap cstage\"><div class=\"c12w\">\n<div class=\"c12h\"><h3 class=\"ttl\">גלול הצידה, הפריט הבא מציץ<\/h3>\n  <div class=\"c12nav\">\n    <button type=\"button\" data-dir=\"prev\" aria-label=\"הקודם\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\"><path d=\"M9 6l6 6-6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><\/svg><\/button>\n    <button type=\"button\" data-dir=\"next\" aria-label=\"הבא\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\"><path d=\"M15 6l-6 6 6 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><\/svg><\/button>\n  <\/div><\/div>\n<div class=\"c12\" tabindex=\"0\" role=\"region\" aria-label=\"גלריה, גלילה הצידה\">\n  <div class=\"ph ph-a\"><\/div><div class=\"ph ph-b\"><\/div><div class=\"ph ph-c\"><\/div><div class=\"ph ph-d\"><\/div><div class=\"ph ph-e\"><\/div><div class=\"ph ph-f\"><\/div>\n<\/div><\/div><\/div>","js":"document.querySelectorAll(\".c12w\").forEach(function(w){\n  var t=w.querySelector(\".c12\"),p=w.querySelector(\"[data-dir=prev]\"),n=w.querySelector(\"[data-dir=next]\");\n  if(!t||!p||!n)return;\n  var rm=matchMedia(\"(prefers-reduced-motion: reduce)\");\n  function step(){var f=t.firstElementChild;return f?f.getBoundingClientRect().width+(parseFloat(getComputedStyle(t).columnGap)||0):t.clientWidth*.8}\n  function sign(){return getComputedStyle(t).direction===\"rtl\"?-1:1}\n  function upd(){var max=t.scrollWidth-t.clientWidth,x=Math.abs(t.scrollLeft);p.setAttribute(\"aria-disabled\",x<=2?\"true\":\"false\");n.setAttribute(\"aria-disabled\",x>=max-2?\"true\":\"false\")}\n  function go(d){t.scrollBy({left:d*step()*sign(),behavior:rm.matches?\"auto\":\"smooth\"})}\n  p.addEventListener(\"click\",function(){go(-1)});\n  n.addEventListener(\"click\",function(){go(1)});\n  t.addEventListener(\"scroll\",upd,{passive:true});\n  addEventListener(\"resize\",upd);\n  upd();\n});","scripts":"","rtl":false}</script>
 </section>
 <nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="c11.html" rel="prev"><small>→ הקודם</small><b>מסך מפוצל דביק</b></a><a href="c13.html" rel="next"><small>הבא ←</small><b>פסיפס אסימטרי</b></a></nav>
 
@@ -130,7 +170,20 @@ document.querySelector(".mvid").addEventListener("click",function(){
 function set(v){bs.forEach(function(x){x.classList.toggle("on",x.dataset.bp===v)});w.dataset.bp=v;try{localStorage.setItem("mv-bp",v)}catch(e){}}
 bs.forEach(function(b){b.addEventListener("click",function(){set(b.dataset.bp)})});
 try{var s=localStorage.getItem("mv-bp");if(s)set(s)}catch(e){}})();
-
+document.querySelectorAll(".c12w").forEach(function(w){
+  var t=w.querySelector(".c12"),p=w.querySelector("[data-dir=prev]"),n=w.querySelector("[data-dir=next]");
+  if(!t||!p||!n)return;
+  var rm=matchMedia("(prefers-reduced-motion: reduce)");
+  function step(){var f=t.firstElementChild;return f?f.getBoundingClientRect().width+(parseFloat(getComputedStyle(t).columnGap)||0):t.clientWidth*.8}
+  function sign(){return getComputedStyle(t).direction==="rtl"?-1:1}
+  function upd(){var max=t.scrollWidth-t.clientWidth,x=Math.abs(t.scrollLeft);p.setAttribute("aria-disabled",x<=2?"true":"false");n.setAttribute("aria-disabled",x>=max-2?"true":"false")}
+  function go(d){t.scrollBy({left:d*step()*sign(),behavior:rm.matches?"auto":"smooth"})}
+  p.addEventListener("click",function(){go(-1)});
+  n.addEventListener("click",function(){go(1)});
+  t.addEventListener("scroll",upd,{passive:true});
+  addEventListener("resize",upd);
+  upd();
+});
 </script>
 </body>
 </html>

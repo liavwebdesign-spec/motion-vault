@@ -79,16 +79,44 @@ doc({
   desc:"שורת פריטים שגולשת אופקית עם peek, הפריט הבא מציץ. קרוסלה שהיא פריסה, לא וידג'ט.",
   when:"גלריות, המלצות רבות, מוצרים, כשיש יותר פריטים מרוחב.",
   mobile:"הבית הטבעי שלו.",
-  note:"בדסקטופ רק כשבאמת יש חמישה פריטים ומעלה. פחות מזה, לפרוש בגריד (פסיקת הסתרת התוכן). בדסקטופ מוסיפים חיצי הקודם והבא, כי גלגלת עכבר לא גוללת הצידה. המסדרון עצמו מקבל tabindex=\"0\", role=\"region\" ושם, כדי שמקלדת תוכל לגלול אותו וקורא מסך יידע שזו גלריה.",
-  tech:"פריסה · scroll-snap",
+  note:"בדסקטופ רק כשבאמת יש חמישה פריטים ומעלה. פחות מזה, לפרוש בגריד (פסיקת הסתרת התוכן). בדסקטופ יש חיצי הקודם והבא בשורת הכותרת, כי גלגלת עכבר לא גוללת הצידה. בקצה החץ נעשה חיוור (aria-disabled), והגלילה מכבדת הפחתת תנועה. בטלפון החיצים יורדים והאגודל גולל. שלושה פריטים וקצת נראים בבת אחת, בגובה 4/5, כדי שהשורה לא תתפוס מסך שלם. המסדרון עצמו מקבל tabindex=\"0\", role=\"region\" ושם, כדי שמקלדת תוכל לגלול אותו וקורא מסך יידע שזו גלריה.",
+  tech:"פריסה · scroll-snap · JS קטן",
   css:`${BASE}
-.c12{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding-block:6px 14px;scrollbar-width:thin}
+.c12h{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px}
+.c12h .ttl{margin:0}
+.c12nav{display:flex;gap:8px;flex:none}
+.c12nav button{width:46px;height:46px;border-radius:50%;border:0;padding:0;background:var(--card);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:opacity .25s cubic-bezier(.2,.6,.2,1),transform .25s cubic-bezier(.2,.6,.2,1)}
+.c12nav button:hover{transform:scale(1.06)}
+.c12nav button[aria-disabled="true"]{opacity:.35;cursor:default;transform:none}
+.c12nav button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.c12{--gap:16px;display:flex;gap:var(--gap);overflow-x:auto;scroll-snap-type:x mandatory;padding-block:6px 14px;scrollbar-width:thin}
 .c12:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
-.c12 .ph{flex:0 0 36%;aspect-ratio:3/4;border-radius:var(--r);scroll-snap-align:start}
-@container (max-width:767px){.c12 .ph{flex-basis:78%}}`,
-  html:`<div class="cwrap cstage"><h3 class="ttl">גלול הצידה, הפריט הבא מציץ</h3><div class="c12" tabindex="0" role="region" aria-label="גלריה, גלילה הצידה">
-  <div class="ph ph-a">1</div><div class="ph ph-b">2</div><div class="ph ph-c">3</div><div class="ph ph-d">4</div><div class="ph ph-e">5</div><div class="ph ph-f">6</div>
-</div></div>`
+.c12 .ph{flex:0 0 calc((100% - 3 * var(--gap)) / 3.4);aspect-ratio:4/5;border-radius:var(--r);scroll-snap-align:start}
+@media (hover:none) and (pointer:coarse){.c12nav{display:none}}
+@container (max-width:767px){.c12 .ph{flex-basis:78%}.c12nav{display:none}}`,
+  html:`<div class="cwrap cstage"><div class="c12w">
+<div class="c12h"><h3 class="ttl">גלול הצידה, הפריט הבא מציץ</h3>
+  <div class="c12nav">
+    <button type="button" data-dir="prev" aria-label="הקודם"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <button type="button" data-dir="next" aria-label="הבא"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div></div>
+<div class="c12" tabindex="0" role="region" aria-label="גלריה, גלילה הצידה">
+  <div class="ph ph-a"></div><div class="ph ph-b"></div><div class="ph ph-c"></div><div class="ph ph-d"></div><div class="ph ph-e"></div><div class="ph ph-f"></div>
+</div></div></div>`,
+  js:`document.querySelectorAll(".c12w").forEach(function(w){
+  var t=w.querySelector(".c12"),p=w.querySelector("[data-dir=prev]"),n=w.querySelector("[data-dir=next]");
+  if(!t||!p||!n)return;
+  var rm=matchMedia("(prefers-reduced-motion: reduce)");
+  function step(){var f=t.firstElementChild;return f?f.getBoundingClientRect().width+(parseFloat(getComputedStyle(t).columnGap)||0):t.clientWidth*.8}
+  function sign(){return getComputedStyle(t).direction==="rtl"?-1:1}
+  function upd(){var max=t.scrollWidth-t.clientWidth,x=Math.abs(t.scrollLeft);p.setAttribute("aria-disabled",x<=2?"true":"false");n.setAttribute("aria-disabled",x>=max-2?"true":"false")}
+  function go(d){t.scrollBy({left:d*step()*sign(),behavior:rm.matches?"auto":"smooth"})}
+  p.addEventListener("click",function(){go(-1)});
+  n.addEventListener("click",function(){go(1)});
+  t.addEventListener("scroll",upd,{passive:true});
+  addEventListener("resize",upd);
+  upd();
+});`
 }),
 doc({
   id:"c13", name:"פסיפס אסימטרי",
