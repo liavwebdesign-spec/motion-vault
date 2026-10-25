@@ -380,7 +380,7 @@ export default [
   id:"g190", cat:"gsap", name:"מילה שמתחלפת ומביאה איתה כרטיס ורקע", tech:"GSAP · ScrollTrigger scrub · pinned", status:"ממתין",
   desc:"משפט קבוע שנגמר בכפתור מילה: אתר, לוגו, קמפיין, מצגת. בכל גלילה המילה מתחלפת, הרקע עובר לצבע אחר, וכרטיס תואם נכנס לידה: אתר בדפדפן, לוגו על כרטיס, מודעה, שקף. כך רואים בדיוק מה העסק מקבל, ולא רק קוראים.",
   when:"סטודיו, מוצר או שירות שמייצר כמה סוגי תוצרים (ארבעה עד שישה), ורוצים להראות את כולם בלי רשימה. סקשן הירו או הסבר אחד בעמוד. מתאים כשלכל תוצר יש איור פשוט וברור. פחות מתאים כשהתוצרים דומים זה לזה.",
-  note:"**שחזור.** השראה: סרטון אחד ב-prompt-motion.com (21.10.2026) שבו משפט קבוע נגמר במילה מתחלפת, והרקע וכרטיס של התוצר מתחלפים איתה, עם צורות רכות שנעות מאחור. נבנה מאפס מהצפייה. **המארקאפ הוא המצב הראשון:** המילה הראשונה בכפתור, הכרטיס הראשון והרקע הראשון, ומתחתיהם משפט שמונה את כל התוצרים. בלי GSAP ובהפחתת תנועה זה מה שרואים והמידע שלם. **כשהמהלך רץ** הסקשן גבוה פי ארבעה, הבמה נדבקת למסך והמילים והכרטיסים נערמים באותו תא. בכל מעבר: **הרקע** מתחלף בדעיכה בין ארבע שכבות, כי GSAP לא יודע לעבור בין צבעי `color-mix`. **המילה** עולה החוצה והבאה נכנסת מלמטה בתוך הכפתור, שרוחבו עובר מרוחב מילה לרוחב מילה (המדידה נעשית בכל רענון). **הכרטיס** הקודם יוצא שמאלה והבא נכנס מימין. שתי כתמים רכים נעים לאורך כל הטיימליין. **הכרטיסים הם איור:** `aria-hidden` ובלי כפתורים אמיתיים. בפרויקט מחליפים אותם בצילומי מסך של העבודות. **רוחב מלא:** הבמה יוצאת מהמיכל עד קצה המסך (`100vw`), ובסקשן שכבר ברוחב מלא אפשר למחוק את זה. **באתר משמאל לימין** מחליפים את סימן ה-`xPercent` של הכרטיסים. **נגישות:** הכותרת הנראית מוסתרת מקורא מסך, ובמקומה כותרת בטקסט מוסתר עם כל ארבע המילים.",
+  note:"**שחזור.** השראה: סרטון אחד ב-prompt-motion.com (21.10.2026) שבו משפט קבוע נגמר במילה מתחלפת, והרקע וכרטיס של התוצר מתחלפים איתה, עם צורות רכות שנעות מאחור. נבנה מאפס מהצפייה. **המארקאפ הוא המצב הראשון:** המילה הראשונה בכפתור, הכרטיס הראשון והרקע הראשון, ומתחתיהם משפט שמונה את כל התוצרים. בלי GSAP ובהפחתת תנועה זה מה שרואים והמידע שלם. **כשהמהלך רץ** הסקשן גבוה פי ארבעה, הבמה נדבקת למסך והמילים והכרטיסים נערמים באותו תא. בכל מעבר: **הרקע** מתחלף בדעיכה בין ארבע שכבות, כי GSAP לא יודע לעבור בין צבעי `color-mix`. **המילה** עולה החוצה והבאה נכנסת מלמטה בתוך הכפתור, שרוחבו עובר מרוחב מילה לרוחב מילה (המדידה נעשית בכל רענון, בשברים של פיקסל). **הכפתור הוא טבעת שצמודה למילה:** העמודה הפנימית שלו רחבה בדיוק כמוהו (`minmax(0,1fr)`) והמילים ממורכזות בה (`justify-self:center`), ולכן כל מילה יושבת במרכז גם כשהיא קצרה מהארוכה שבהן. קודם העמודה התרחבה לפי המילה הארוכה והמילים הקצרות ישבו מחוץ למרכז, עד 17 פיקסלים. **הכפתור תמיד בשורה משלו** (הכותרת היא גריד של שתי שורות), כדי שהכותרת לא תקפוץ שורה כשמילה רחבה לא נכנסת. **הסדר מונע חיתוך:** המילה הישנה כבר יצאה כשהכפתור מתחיל להצטמצם, והכפתור סיים כמעט כולו כשהחדשה נעשית נראית.**הכרטיס** הקודם יוצא שמאלה והבא נכנס מימין. שתי כתמים רכים נעים לאורך כל הטיימליין. **הכרטיסים הם איור:** `aria-hidden` ובלי כפתורים אמיתיים. בפרויקט מחליפים אותם בצילומי מסך של העבודות. **רוחב מלא:** הבמה יוצאת מהמיכל עד קצה המסך (`100vw`), ובסקשן שכבר ברוחב מלא אפשר למחוק את זה. **באתר משמאל לימין** מחליפים את סימן ה-`xPercent` של הכרטיסים. **נגישות:** הכותרת הנראית מוסתרת מקורא מסך, ובמקומה כותרת בטקסט מוסתר עם כל ארבע המילים.",
   libs:["gsap","ScrollTrigger"],
   css:`.ns{max-width:1180px;margin-inline:auto}
 .ns-pin{position:relative;isolation:isolate;overflow:clip;display:grid;align-items:center;min-height:clamp(480px,70vh,640px);margin-inline:calc(50% - 50vw);padding-inline:calc(50vw - 50%)}
@@ -396,9 +396,9 @@ export default [
 .ns-blobs i:last-child{inset-block-end:-18%;inset-inline-end:8%;opacity:.7}
 .ns-in{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,88px);padding-block:48px}
 .ns-copy{display:grid;gap:24px}
-.ns-h{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:.2em .35em;font-size:clamp(34px,5vw,72px);font-weight:700;line-height:1.1;letter-spacing:-.01em}
-.ns-pill{box-sizing:border-box;display:inline-grid;place-items:center;overflow:clip;padding:.04em .42em .1em;border-radius:999px;background:var(--accent);color:var(--accent-ink)}
-.ns-n{grid-area:1/1;width:max-content;white-space:nowrap}
+.ns-h{margin:0;display:grid;justify-items:start;gap:.2em;font-size:clamp(34px,5vw,72px);font-weight:700;line-height:1.1;letter-spacing:-.01em}
+.ns-pill{box-sizing:border-box;display:inline-grid;grid-template-columns:minmax(0,1fr);place-items:center;overflow:clip;padding:.04em .42em .1em;border-radius:999px;background:var(--accent);color:var(--accent-ink)}
+.ns-n{grid-area:1/1;justify-self:center;width:max-content;white-space:nowrap}
 .ns-n:not(:first-child){display:none}
 .ns-sum{margin:0;max-width:34ch;font-size:var(--fs-body);line-height:1.6}
 .ns-cards{position:relative;display:grid;place-items:center;min-height:clamp(240px,30vw,360px)}
@@ -460,7 +460,7 @@ export default [
   gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
     root.classList.add("is-live");
     const pad=()=>{const c=getComputedStyle(pill);return parseFloat(c.paddingLeft)+parseFloat(c.paddingRight);};
-    const W=i=>nouns[i].offsetWidth+pad();      // רוחב הכפתור סביב המילה i
+    const W=i=>nouns[i].getBoundingClientRect().width+pad();      // רוחב הכפתור סביב המילה i, בשברים של פיקסל (offsetWidth מעגל, והכפתור היה זז עד פיקסל מהמילה)
     gsap.set(pill,{width:W(0)});
     gsap.set(nouns.slice(1),{yPercent:110,opacity:0});
     gsap.set(cards.slice(1),{xPercent:40,scale:.94,opacity:0});
@@ -468,12 +468,14 @@ export default [
     const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
     let t=.6;
     for(let i=0;i<N-1;i++){
-      // רקע בדעיכה, מילה שעולה החוצה ובאה מלמטה, כפתור שמשנה רוחב, כרטיס שיוצא שמאלה ובא מימין
+      // רקע בדעיכה, מילה שעולה החוצה ובאה מלמטה, כפתור שמשנה רוחב, כרטיס שיוצא שמאלה ובא מימין.
+      // הסדר מונע חיתוך: המילה הישנה כבר יצאה כשהכפתור מתחיל להצטמצם, והכפתור סיים כמעט כולו כשהמילה החדשה נעשית נראית
       tl.to(bgs[i],{opacity:0,duration:1,ease:"power1.inOut"},t)
         .to(bgs[i+1],{opacity:1,duration:1,ease:"power1.inOut"},t)
-        .to(nouns[i],{yPercent:-110,opacity:0,duration:.6,ease:"power2.in"},t)
-        .fromTo(nouns[i+1],{yPercent:110,opacity:0},{yPercent:0,opacity:1,duration:.7,ease:"power3.out",immediateRender:false},t+.35)
-        .to(pill,{width:()=>W(i+1),duration:.8,ease:"power3.inOut"},t+.1)
+        .to(nouns[i],{yPercent:-110,opacity:0,duration:.5,ease:"power2.in"},t)
+        .to(pill,{width:()=>W(i+1),duration:.65,ease:"power3.inOut"},t+.2)
+        .fromTo(nouns[i+1],{yPercent:110},{yPercent:0,duration:.6,ease:"power3.out",immediateRender:false},t+.4)
+        .fromTo(nouns[i+1],{opacity:0},{opacity:1,duration:.4,ease:"power1.out",immediateRender:false},t+.5)
         .to(cards[i],{xPercent:-40,scale:.94,opacity:0,duration:.6,ease:"power2.in"},t)
         .fromTo(cards[i+1],{xPercent:40,scale:.94,opacity:0},{xPercent:0,scale:1,opacity:1,duration:.8,ease:"expo.out",immediateRender:false},t+.4);
       t+=2;

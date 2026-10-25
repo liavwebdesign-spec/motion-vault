@@ -1,55 +1,8 @@
 // שלושה מהלכים מ-prompt-motion.com (21.10.2026, ליאב: "יש פה באתר הזה אנימציות מטורפות שאני ממש ממש רוצה לשלב במאגר שלנו").
+// 25.10.2026: g157 נמחק אחרי הסקירה (ליאב: "נישתי מדי"; ובשאלה על הנשארים: "למחוק 3, לשפר 8").
 // האתר הוא גלריה של סרטוני תנועה, לא אתר גלילה. נבחרו רק דפוסים שחוזרים בכמה סרטונים ושמתורגמים לסקשן באתר עסקי,
 // ונבנו מאפס מהצפייה: בלי הקוד, הפרומפטים, הסרטונים או הטקסטים של המקור.
 export default [
-{
-  id:"g157", cat:"gsap", name:"רשת ריבועים שמתמלאת עם המספר", tech:"GSAP · ScrollTrigger scrub · CSS mask", status:"ממתין",
-  desc:"מספר גדול שרץ מאפס, ולידו רשת של 100 ריבועים שנדלקים אחד אחד באותו קצב, מהפינה הימנית העליונה. כשהמספר נעצר על 96, בדיוק 96 ריבועים דולקים, וארבעה נשארים כבויים. רואים את הנתון ולא רק קוראים אותו.",
-  when:"נתון אחד חזק מתוך כמות ברורה: 96 מכל 100 לקוחות, 7 מתוך 10 פניות, 38% מהתקציב. סקשן הוכחה, אודות או \"למה אנחנו\". עובד גם באתר שקט, כי זו תנועה אחת שמסבירה משהו. פעם אחת בעמוד, על הנתון הכי חזק.",
-  note:"**שחזור.** השראה: שני סרטונים ב-prompt-motion.com (21.10.2026), בכל אחד רשת נקודות שמתמלאת עם האחוז. נבנה מאפס מהצפייה. **הרשת היא אלמנט אחד, לא 100:** הריבועים הם `mask` של אריח SVG עם ריבוע מעוגל, והמילוי הוא שני גרדיאנטים, אחד לשורות המלאות ואחד לשורה החלקית שמתמלאת מימין. המספר היחיד בקוד הוא `--n` במארקאפ, ו-CSS מחשב ממנו כמה שורות מלאות (`round(down, n / cols)`) וכמה ריבועים בשורה הבאה. **הערך הסופי במארקאפ:** בלי GSAP ובהפחתת תנועה רואים 96 ריבועים ואת המספר 96 מיד. רק כשהמהלך רץ הוא מאפס את שניהם ומעלה אותם יחד בקצב הגלילה, תמיד במספר שלם, כך שהמספר והרשת לא נפרדים לרגע. **גדלים אחרים:** `--cols` ו-`--rows` (למשל 10 על 1 לשבע מתוך עשר, או 20 על 5 לרצועה רחבה). **באתר משמאל לימין** מחליפים את `right` בשכבה השנייה ל-`left`. **נגישות:** הרשת והמספר הרץ מוסתרים מקורא מסך, והמשפט כולל את הנתון הסופי בטקסט מוסתר, כך שקורא מסך לא שומע מספרי ביניים. דפדפן בלי `round()` (ישנים מ-2024) מקבל רשת כבויה והמספר עדיין מוצג.",
-  libs:["gsap","ScrollTrigger"],
-  css:`.wf{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:clamp(32px,6vw,96px);max-width:1040px;margin-inline:auto;padding-block:6vh 22vh}
-.wf-txt{display:grid;gap:14px;max-width:34ch}
-.wf-num{display:flex;align-items:baseline;gap:14px;margin:0;font-size:clamp(76px,11vw,168px);font-weight:700;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
-.wf-num small{font-size:max(.2em,16px);font-weight:500;letter-spacing:0;color:var(--muted)}
-.wf-lead{margin:0;font-size:clamp(21px,1.7vw,28px);font-weight:600;line-height:1.3;text-wrap:balance}
-.wf-more{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
-/* רשת אחת: הריבועים הם מסכה (אריח SVG), המילוי הוא שורות מלאות ועוד שורה חלקית מימין. --n במארקאפ הוא המספר היחיד */
-.wf-grid{--cols:10;--rows:10;--fill:var(--accent);--track:var(--line);
-  --cell:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Crect x='.6' y='.6' width='8.8' height='8.8' rx='1.7'/%3E%3C/svg%3E");
-  --r:round(down, var(--n, 0) / var(--cols), 1);
-  --c:calc(var(--n, 0) - var(--r) * var(--cols));
-  width:min(440px,84vw);aspect-ratio:var(--cols) / var(--rows);
-  background:linear-gradient(var(--fill) 0 0) top / 100% calc(var(--r) * 100% / var(--rows)) no-repeat,
-    linear-gradient(transparent calc(var(--r) * 100% / var(--rows)), var(--fill) 0 calc((var(--r) + 1) * 100% / var(--rows)), transparent 0) right / calc(var(--c) * 100% / var(--cols)) 100% no-repeat,
-    var(--track);
-  -webkit-mask:var(--cell) 0 0 / calc(100% / var(--cols)) calc(100% / var(--rows));
-  mask:var(--cell) 0 0 / calc(100% / var(--cols)) calc(100% / var(--rows))}
-@supports not (width:round(down, 1px, 1px)){.wf-grid{background:var(--track)}}
-.wf .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-@media(max-width:767px){.wf{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center}.wf-num{justify-content:center}.wf-txt{justify-items:center}}`,
-  html:`<div class="stage"><figure class="wf" style="margin-block:0">
-  <figcaption class="wf-txt">
-    <p class="wf-num" aria-hidden="true"><b>96</b><small>מתוך 100</small></p>
-    <p class="wf-lead"><span class="sr-only">96 מתוך 100 </span>לקוחות חוזרים אלינו גם בשנה השנייה</p>
-    <p class="wf-more">את רובם לא היינו צריכים לשכנע. הם פשוט התקשרו שוב כשהגיע הפרויקט הבא.</p>
-  </figcaption>
-  <div class="wf-grid" style="--n:96" aria-hidden="true"></div>
-</figure></div>`,
-  js:`(function(){
-  if(typeof gsap==="undefined")return;      // בלי GSAP הרשת והמספר כבר בערך הסופי (במארקאפ)
-  const grid=document.querySelector(".wf-grid"),num=document.querySelector(".wf-num b");
-  const to=parseInt(grid.style.getPropertyValue("--n"),10)||parseInt(num.textContent,10)||0;
-  // בהפחתת תנועה הפונקציה לא רצה, והערך הסופי מוצג מיד
-  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
-    const o={v:0},draw=()=>{const v=Math.round(o.v);grid.style.setProperty("--n",v);num.textContent=v;};
-    draw();
-    gsap.to(o,{v:to,ease:"power1.inOut",onUpdate:draw,
-      scrollTrigger:{trigger:".wf",start:"top 72%",end:"center 42%",scrub:.6}});
-    return()=>{grid.style.setProperty("--n",to);num.textContent=to;};
-  });
-})();`
-},
 {
   id:"g158", cat:"gsap", name:"צורה אחת שעוברת בין מצבי המוצר", tech:"GSAP · ScrollTrigger scrub · sticky", status:"מאושר-עין",
   desc:"צורה כהה אחת נעוצה בצד המסך, והשלבים גוללים לידה. בכל שלב היא משנה גודל, פינות וצבע והופכת לחלק אחר במוצר: כפתור \"קביעת פגישה\", יומן עם שעות פנויות, הודעת אישור, ולבסוף עיגול עם וי. זה לא ארבעה כרטיסים, זה אותו דבר שמתפתח.",

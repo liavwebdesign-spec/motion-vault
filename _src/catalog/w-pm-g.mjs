@@ -20,20 +20,66 @@ const AW_AMP = (() => {
 const AW_BARS = AW_AMP.map((h, i) => `<i style="--h:${h.toFixed(2)}"${i < 21 ? ' class="on"' : ""}></i>`).join("");
 
 // עקומות ליסז'ו של b91, כפריים סטטי בלי JS: אותה נוסחה כמו בקנבס, בזמן קבוע
-const LJ_SET = [[3, 2, .2], [5, 4, 1.1], [4, 3, 2.0], [7, 5, .7], [5, 3, 2.7], [7, 4, 1.6], [9, 8, .4], [3, 4, 2.3]];
+const LJ_SET = [[3, 2, .2], [5, 4, 1.1], [4, 3, 2.0], [5, 3, 2.7], [3, 4, 2.3], [7, 4, 1.6]];
 const ljPath = (a, b, d) => {
   let p = "";
-  for (let k = 0; k <= 240; k++) {
-    const s = k / 240 * Math.PI * 2;
-    p += (k ? "L" : "M") + (600 + 540 * Math.sin(a * s + d)).toFixed(1) + " " + (260 + 215 * Math.sin(b * s)).toFixed(1);
+  for (let k = 0; k <= 360; k++) {
+    const s = k / 360 * Math.PI * 2;
+    p += (k ? "L" : "M") + (600 + 540 * Math.sin(a * s + d)).toFixed(1) + " " + (300 + 250 * Math.sin(b * s)).toFixed(1);
   }
   return p;
 };
-const LJ_SVG = LJ_SET.map(([a, b, d], i) => `<path class="lj-p${i % 2}" d="${ljPath(a, b, d)}"/>`).join("");
+const LJ_DEFS = LJ_SET.map(([a, b, d], i) => `<path id="lj-c${i}" vector-effect="non-scaling-stroke" d="${ljPath(a, b, d)}"/>`).join("");
+const LJ_USE = LJ_SET.map((_, i) => `<g class="lj-c${i % 2}"><use href="#lj-c${i}" class="lj-g"/><use href="#lj-c${i}" class="lj-m"/><use href="#lj-c${i}" class="lj-k"/></g>`).join("");
 
-// שרטוט הבית של css39: נקודות המוצא נבחרו כך שהקווים לא ישרים לגמרי, כמו יד
-const SK_HOUSE = `<path d="M92 196L230 100L372 196"/><path d="M108 334L112 188L352 190L350 336"/><path d="M290 132L290 92L324 92L324 154"/><path d="M168 336L168 252L214 252L214 336"/><path d="M254 226L318 226L318 276L254 276Z"/><path d="M286 226L286 276M254 251L318 251"/><path class="lb-soft" d="M130 214L196 214M130 226L176 226M130 238L158 238"/><path d="M26 338L436 336"/>`;
-const SK_EXT = `<path d="M352 216L440 214L442 336"/><path d="M376 248L414 248L414 292L376 292Z"/><path class="lb-soft" d="M362 224L430 224M362 234L410 234"/>`;
+// שרטוט הבית של css39: קווים ישרים נשרטטים בכל פעם מחדש כיד: חריגה קטנה בפינות, קשת עדינה, סטייה בקצוות.
+// שלוש גרסאות לכל קו (זרע שונה), והעמוד מחליף ביניהן. הגיאומטריה זהה, רק היד זזה, ולכן הקצוות חדים בלי מסנן.
+const skRnd = s => () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+const skN = n => +n.toFixed(1);
+// קו ישר: [x1, y1, x2, y2]. אורך החריגה והקשת קבועים לקו (k), הסטייה משתנה בין גרסאות (f).
+const skSeg = ([x1, y1, x2, y2], k, f, tidy) => {
+  const L = skRnd(k * 977 + 13), F = skRnd(f * 7919 + k * 31 + 5);
+  const dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy) || 1, ux = dx / len, uy = dy / len, nx = -uy, ny = ux;
+  const o1 = tidy ? 0 : .8 + L() * 2.8, o2 = tidy ? 0 : .8 + L() * 2.8, bow0 = (L() - .5) * Math.min(3, .8 + len * .03);
+  const j = () => (F() - .5) * (tidy ? 1 : 2.2);
+  const ax = x1 - ux * o1 + j(), ay = y1 - uy * o1 + j(), bx = x2 + ux * o2 + j(), by = y2 + uy * o2 + j();
+  const bow = bow0 + (F() - .5) * 1.6;
+  return `M${skN(ax)} ${skN(ay)}Q${skN((ax + bx) / 2 + nx * bow)} ${skN((ay + by) / 2 + ny * bow)} ${skN(bx)} ${skN(by)}`;
+};
+const skRect = (x, y, w, h) => [[x, y, x + w, y], [x + w, y, x + w, y + h], [x + w, y + h, x, y + h], [x, y + h, x, y]];
+const skCircle = (cx, cy, r, k, f) => {
+  const F = skRnd(f * 6151 + k * 53 + 9), a0 = skRnd(k * 389 + 3)() * 6.28;
+  let d = "";
+  for (let i = 0; i <= 28; i++) { const a = a0 + i / 28 * (6.28 + .42), rr = r * (1 + (F() - .5) * .07); d += (i ? "L" : "M") + skN(cx + Math.cos(a) * rr) + " " + skN(cy + Math.sin(a) * rr); }
+  return d;
+};
+// השרטוט: קבוצות לפי משקל קו וצבע. כל קבוצה היא רשימת קווים, וכל קו מקבל מספר סידורי קבוע (k).
+const SK_GROUPS = (() => {
+  const ex = [[24, 252, 456, 252], [42, 148, 156, 70], [156, 70, 270, 148], [60, 148, 252, 148], [60, 148, 60, 252], [252, 148, 252, 252],
+    [206, 104, 206, 76], [202, 76, 234, 76], [230, 76, 230, 121], [88, 252, 88, 192], [88, 192, 124, 192], [124, 192, 124, 252]];
+  const exw = [...skRect(156, 176, 68, 46), [190, 176, 190, 222], [156, 199, 224, 199], [150, 225, 230, 225], [156, 101, 156, 123], [145, 112, 167, 112]];
+  const soft = [], nsoft = [];
+  for (let x = 68; x <= 244; x += 12) soft.push([x, 153, x + 8, 163]);
+  for (let x = 34; x <= 246; x += 14) soft.push([x, 256, x - 6, 262]);
+  for (let x = 266; x <= 400; x += 14) nsoft.push([x, 256, x - 6, 262]);
+  const nw = [[246, 170, 410, 170], [404, 170, 404, 252], ...skRect(284, 196, 88, 42), [313, 196, 313, 238], [343, 196, 343, 238]];
+  const dim = [[252, 274, 404, 274], [252, 266, 252, 282], [404, 266, 404, 282]];
+  return { ex, exw, soft, nw: nw.slice(0, 2), nww: nw.slice(2), dim, nsoft };
+})();
+const SK_CLS = { ex: "lb-ex", exw: "lb-exw", soft: "lb-soft", nw: "lb-new", nww: "lb-neww", dim: "lb-dim", nsoft: "lb-nsoft" };
+const skFrame = f => {
+  let k = 0;
+  const parts = Object.entries(SK_GROUPS).map(([g, segs]) => {
+    let d = segs.map(s => skSeg(s, k++, f, g === "soft" || g === "nsoft")).join("");
+    if (g === "exw") { d += skCircle(156, 112, 11, k++, f) + skCircle(116, 223, 2.2, k++, f); }
+    return `<path class="${SK_CLS[g]}" d="${d}"/>`;
+  });
+  return `<g class="lb-fr lb-f${f}">${parts.join("")}</g>`;
+};
+const SK_FRAMES = [0, 1, 2].map(skFrame).join("");
+
+// שבעה פסי אור של css40: כל פס הוא טבעת דקה עם אותן להבות, מוסטת בזווית קבועה מהקודם, כך שהלהבות יוצרות ספירלה
+const VX_BANDS = Array.from({ length: 7 }, (_, i) => `<span class="vx-b" style="--i:${i}"></span>`).join("");
 
 export default [
 {
@@ -528,29 +574,40 @@ export default [
 },
 {
   id:"b91", cat:"behavior", name:"סבך עקומות זוהרות שנשרטט ונמוג", tech:"Canvas 2D · lighter · Lissajous · SVG fallback", status:"ממתין", runway:false,
-  desc:"לוח כהה עם קופסת טקסט בצד ומולה סבך של שמונה עקומות זוהרות בצבע המותג. העקומות נשרטטות אחת אחרי השנייה, נשארות רגע ונעות לאט כשהצורה משתנה, ואז נמוגות והמחזור מתחיל שוב. בנקודות שהקווים נחתכים האור מצטבר ונוצרים צמתים בהירים. בלי JS רואים את אותו סבך כשרטוט קבוע.",
+  desc:"לוח כהה עם קופסת טקסט בצד ומולה סבך של שישה חוטי אור בצבע המותג: ליבה בהירה, הילה סגולה סביבה, ועל הרקע הכהה זה זוהר באמת. החוטים נשרטטים אחד אחרי השני, ובראש כל חוט נקודת אור שמובילה אותו. אחרי שהסבך שלם הוא נע לאט והצורה משתנה, ואז הוא נמוג והמחזור מתחיל שוב. בקצוות הסבך מתפוגג לתוך הרקע בלי מסגרת, ובנקודות שהחוטים נחתכים האור מצטבר לצמתים בוהקים. בלי JS רואים את אותו סבך כשרטוט קבוע. כפתור קטן משהה את התנועה.",
   when:"עסק שמחבר דברים: אינטגרציות, תוכנה, תקשורת, רשתות, ייעוץ שמקשר בין גורמים. הסבך אומר שיש הרבה חלקים שמסתדרים. מתאים כסקשן ״איך זה עובד״ או כהירו של חברת טכנולוגיה. לא לעסק שמבקש שקט וניקיון.",
-  note:"**שחזור.** השראה: כמה סרטונים ב-prompt-motion.com (21.10.2026) שבהם עקומות זוהרות שזורות נשרטטות ונמוגות על רקע כהה. נבנה מאפס מהצפייה. **העקומות הן עקומות ליסז'ו:** `x = sin(a·s + d)`, `y = sin(b·s)`, וכל עקומה היא זוג מספרים שלמים (a, b) וזווית התחלה. ההיסחפות היא הזזה איטית של הזווית `d` בזמן, ולכן הצורה משתנה בלי קפיצות. **הזוהר** בא מ-`globalCompositeOperation:'lighter'`: בכל נקודה שבה כמה קווים נחתכים הצבעים מצטברים והנקודה מבהיקה, בלי סינון טשטוש יקר. **מחזור של 18 שניות:** שרטוט (כל עקומה מתחילה מעט אחרי הקודמת), החזקה, ודעיכה לשקיפות אפס, הכול בעקומות חלקות ובלי הבהוב. **קל:** שמונה עקומות (חמש בטלפון), 360 נקודות לכל אחת (240 בטלפון), DPR עד 2, הלולאה עוצרת מחוץ למסך. **בלי JS ובהפחתת תנועה:** SVG סטטי שנבנה מאותה נוסחה בזמן קבוע (`LJ_SVG`), ובהפחתת תנועה מצויר פריים אחד בקנבס, עם אותה זווית התחלה, כך שאין קפיצה בין שני המצבים. הם מתחלפים בהצלבה עם `is-on`. **הצבע** נקרא מ-`--accent` בזמן ריצה. **באתר משמאל לימין** הופכים את סדר העמודות (`direction:ltr` על `.lj`). **נגישות:** כל הסבך `aria-hidden` וחסר תוכן סמנטי, וכל המידע בטקסט.",
+  note:"**שחזור.** השראה: כמה סרטונים ב-prompt-motion.com (21.10.2026) שבהם עקומות זוהרות שזורות נשרטטות ונמוגות על רקע כהה. נבנה מאפס מהצפייה. **גרסה 2 (25.10.2026):** הגרסה הקודמת הייתה שמונה קווי שיער דקים ועמומים בתוך מלבן, ללא זוהר אמיתי, והקצוות של הסבך יצרו מסגרת נראית. עכשיו: שישה חוטים (חמישה בטאבלט, ארבעה בטלפון), זוהר אמיתי והקצוות נמסים. **העקומות הן עקומות ליסז'ו:** `x = sin(a·s + d)`, `y = sin(b·s)`, וכל עקומה היא זוג מספרים שלמים קטנים (a, b) וזווית התחלה. מספרים קטנים נותנים לולאות רחבות ונקיות; מספרים גדולים נראים כשיער, ולכן הוסרו. ההיסחפות היא הזזה איטית של הזווית `d` בזמן, ולכן הצורה משתנה בלי קפיצות. **הזוהר הוא שלושה משיכות של אותה עקומה** (רחבה ועמומה, בינונית, ודקה ובהירה) בהבהרה (`globalCompositeOperation:'lighter'`): הליבה בצבע בהיר שנגזר מ-`--accent` ו-`--bg`, ההילה ב-`--accent`. בנקודות שבהן כמה חוטים נחתכים הצבעים מצטברים והנקודה מבהיקה, בלי מסנן טשטוש יקר. **הקצוות** נמסים במסכה אליפטית (`mask-image`) על התיבה כולה, אז אין מלבן גלוי, והמסכה פועלת על הקנבס ועל ה-SVG הסטטי באותה מידה. **ראש החוט:** בזמן השרטוט, בקצה כל עקומה מצוירת נקודת אור, כך שרואים מיד שהקווים נשרטטים. **מחזור של 16 שניות:** שרטוט (כל עקומה מתחילה מעט אחרי הקודמת), החזקה, ודעיכה לשקיפות אפס, הכול בעקומות חלקות ובלי הבהוב. **קל:** שלוש משיכות של שש עקומות, 360 נקודות לכל אחת (240 בטלפון), DPR עד 2, הלולאה עוצרת מחוץ למסך. **כפתור השהיה** (WCAG 2.2.2, כי המחזור רץ בלי סוף): מוסתר במארקאפ, JS מגלה אותו, והוא עוצר את השעון בפריים הנוכחי וממשיך ממנו. **בלי JS ובהפחתת תנועה:** SVG סטטי שנבנה מאותה נוסחה בזמן קבוע (`LJ_DEFS`, עם `use` שלוש פעמים לכל עקומה), ובהפחתת תנועה מצויר פריים אחד בקנבס, עם אותה זווית התחלה, כך שאין קפיצה בין שני המצבים. הם מתחלפים בהצלבה עם `is-on`. בהפחתת תנועה אין כפתור. **הצבע** נקרא מ-`--accent` ומ-`--bg` בזמן ריצה (פיקסל אחד בקנבס, כך שכל פורמט צבע עובד). **באתר משמאל לימין** הופכים את סדר העמודות (`direction:ltr` על `.lj`). **נגישות:** כל הסבך `aria-hidden` וחסר תוכן סמנטי, וכל המידע בטקסט.",
   libs:[],
-  css:`.lj{display:grid;place-items:center;padding-block:clamp(24px,4vw,64px)}
-.lj-box{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);align-items:center;gap:clamp(24px,4vw,56px);width:min(1100px,100%);padding:clamp(32px,5vw,72px);border-radius:32px;background:var(--ink);color:var(--bg);overflow:hidden}
+  css:`.lj{--lj-tint:color-mix(in srgb,var(--accent) 52%,var(--bg));display:grid;place-items:center;padding-block:clamp(24px,4vw,64px)}
+.lj-box{display:grid;grid-template-columns:minmax(0,4.4fr) minmax(0,7.6fr);align-items:center;gap:clamp(16px,3vw,40px);width:min(1100px,100%);padding:clamp(32px,5vw,72px);border-radius:32px;background:radial-gradient(ellipse 52% 88% at 28% 50%,color-mix(in srgb,var(--accent) 24%,transparent),transparent 72%),var(--ink);color:var(--bg);overflow:hidden}
 .lj-in{display:grid;gap:20px;justify-items:start}
 .lj-in h2{margin:0;font-size:clamp(28px,3.4vw,48px);line-height:1.14;text-wrap:balance}
 .lj-in p{margin:0;max-width:40ch;color:color-mix(in srgb,var(--bg) 78%,transparent);font-size:var(--fs-body);line-height:1.6}
 .lj-cta{display:inline-flex;align-items:center;padding:14px 24px;border-radius:99px;background:var(--accent);color:var(--accent-ink);font-weight:700;text-decoration:none;transition:transform .2s cubic-bezier(.2,.6,.2,1)}
 @media (hover:hover) and (pointer:fine){.lj-cta:hover{transform:translateY(-2px)}}
 .lj-cta:focus-visible{outline:2px solid var(--bg);outline-offset:4px}
-.lj-art{position:relative;aspect-ratio:1200 / 520;min-width:0}
+.lj-stage{position:relative;min-width:0;margin-inline-end:calc(-1 * clamp(16px,3vw,40px))}
+.lj-art{position:relative;aspect-ratio:1200 / 600;-webkit-mask-image:radial-gradient(ellipse 57% 54% at 50% 50%,rgb(0 0 0) 52%,transparent 100%);mask-image:radial-gradient(ellipse 57% 54% at 50% 50%,rgb(0 0 0) 52%,transparent 100%)}
 .lj-svg,.lj-cv{position:absolute;inset:0;width:100%;height:100%;transition:opacity .6s cubic-bezier(.2,.6,.2,1)}
-.lj-svg{overflow:visible;fill:none}
-.lj-svg path{vector-effect:non-scaling-stroke;stroke-width:1.2}
-.lj-p0{stroke:var(--accent);opacity:.6}
-.lj-p1{stroke:color-mix(in srgb,var(--accent) 55%,var(--bg));opacity:.42}
+.lj-svg{overflow:visible;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.lj-svg path{vector-effect:non-scaling-stroke}
+.lj-svg g{mix-blend-mode:screen}
+.lj-c1{opacity:.68}
+.lj-g{stroke:var(--accent);stroke-width:9px;opacity:.1}
+.lj-m{stroke:var(--accent);stroke-width:3px;opacity:.24}
+.lj-k{stroke:var(--lj-tint);stroke-width:1.3px;opacity:.95}
 .lj-cv{opacity:0}
 .lj-art.is-on .lj-cv{opacity:1}
 .lj-art.is-on .lj-svg{opacity:0}
-@media(max-width:767px){.lj-box{grid-template-columns:minmax(0,1fr)}.lj-art{order:-1}}
-@media(prefers-reduced-motion:reduce){.lj-svg,.lj-cv{transition:none}}`,
+.lj-pause{position:absolute;inset-block-end:0;inset-inline-end:0;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--bg) 14%,transparent);color:var(--bg);cursor:pointer;transition:background .2s cubic-bezier(.2,.6,.2,1)}
+.lj-pause[hidden]{display:none}
+.lj-pause svg{width:16px;height:16px;fill:currentColor}
+.lj-pause .i-play,.lj-pause[aria-pressed="true"] .i-pause{display:none}
+.lj-pause[aria-pressed="true"] .i-play{display:block}
+@media (hover:hover) and (pointer:fine){.lj-pause:hover{background:color-mix(in srgb,var(--bg) 24%,transparent)}}
+.lj-pause:focus-visible{outline:2px solid var(--bg);outline-offset:4px}
+@media(max-width:767px){.lj-box{grid-template-columns:minmax(0,1fr)}.lj-stage{order:-1;margin-inline-end:0}}
+@media(prefers-reduced-motion:reduce){.lj-svg,.lj-cv{transition:none}.lj-pause{display:none}}`,
   html:`<div class="stage"><section class="lj" aria-labelledby="lj-h">
   <div class="lj-box">
     <div class="lj-in">
@@ -558,153 +615,225 @@ export default [
       <p>מחברים את הנהלת החשבונות, ה-CRM והחנות למערכת אחת, כך שנתון שהוזן פעם אחת מופיע בכל מקום שצריך אותו.</p>
       <a class="lj-cta" href="#lj-h">תיאום שיחת היכרות</a>
     </div>
-    <div class="lj-art" aria-hidden="true">
-      <svg class="lj-svg" viewBox="0 0 1200 520" preserveAspectRatio="xMidYMid meet" focusable="false">${LJ_SVG}</svg>
-      <canvas class="lj-cv"></canvas>
+    <div class="lj-stage">
+      <div class="lj-art" aria-hidden="true">
+        <svg class="lj-svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid meet" focusable="false"><defs>${LJ_DEFS}</defs>${LJ_USE}</svg>
+        <canvas class="lj-cv"></canvas>
+      </div>
+      <button class="lj-pause" type="button" hidden aria-pressed="false" aria-label="השהיית התנועה"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg></button>
     </div>
   </div>
 </section></div>`,
   js:`(function(){
-  const root=document.querySelector(".lj"),art=root.querySelector(".lj-art"),cv=art.querySelector(".lj-cv"),ctx=cv.getContext("2d");
+  const root=document.querySelector(".lj"),art=root.querySelector(".lj-art"),cv=art.querySelector(".lj-cv"),ctx=cv.getContext("2d"),btn=root.querySelector(".lj-pause");
   const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
   // אותן עקומות כמו ב-SVG הסטטי: [a, b, זווית התחלה]
-  const SET=[[3,2,.2],[5,4,1.1],[4,3,2.0],[7,5,.7],[5,3,2.7],[7,4,1.6],[9,8,.4],[3,4,2.3]];
-  const CYCLE=18,clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),sm=x=>x*x*(3-2*x);
-  let W=0,H=0,K=SET.length,N=360,rgb="120,110,255",vis=false,raf=0,t0=0;
-  // הצבע נקרא מהטוקן בזמן ריצה
-  const probe=document.createElement("canvas").getContext("2d");
-  function accRGB(){
-    probe.fillStyle="#000";probe.fillStyle=getComputedStyle(root).getPropertyValue("--accent").trim()||"#88f";const h=probe.fillStyle;
-    if(h.charAt(0)==="#")return[1,3,5].map(k=>parseInt(h.slice(k,k+2),16)).join(",");
-    return h.slice(h.indexOf("(")+1,h.lastIndexOf(")")).split(",").slice(0,3).map(parseFloat).join(",");
-  }
+  const SET=[[3,2,.2],[5,4,1.1],[4,3,2.0],[5,3,2.7],[3,4,2.3],[7,4,1.6]];
+  const CYCLE=16,FADE0=12.5,TAU=Math.PI*2,clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),sm=x=>x*x*(3-2*x);
+  let W=0,K=SET.length,N=360,px=1,A="74,58,255",T="170,160,255",vis=false,held=false,raf=0,last=0,clock=0;
+  // צבע CSS בכל פורמט נהפך ל-RGB דרך פיקסל אחד
+  const probe=document.createElement("canvas");probe.width=probe.height=1;const pc=probe.getContext("2d",{willReadFrequently:true});
+  function rgbOf(c){pc.clearRect(0,0,1,1);pc.fillStyle="#000";pc.fillStyle=c;pc.fillRect(0,0,1,1);return[].slice.call(pc.getImageData(0,0,1,1).data,0,3).join(",");}
   // t: זמן ההיסחפות. cyc: שנייה בתוך המחזור (שרטוט, החזקה, דעיכה)
   function paint(t,cyc){
-    ctx.clearRect(0,0,1200,520);   // המטריצה כבר מכפילה ב-W/1200, לכן מנקים במרחב 1200 על 520
-    ctx.globalCompositeOperation="lighter";ctx.lineJoin="round";ctx.lineWidth=1.3*1200/W;
-    const fade=cyc>14.5?clamp(1-(cyc-14.5)/3.2,0,1):1;
+    ctx.clearRect(0,0,1200,600);
+    ctx.globalCompositeOperation="lighter";ctx.lineJoin="round";ctx.lineCap="round";
+    const fade=cyc>FADE0?clamp(1-(cyc-FADE0)/3.2,0,1):1;
     for(let i=0;i<K;i++){
-      const a=SET[i][0],b=SET[i][1],d=SET[i][2]+t*.16*(i%2?1:-1)*(.7+i*.08);
-      const q=sm(clamp(cyc/4.6-i*.07,0,1)),m=Math.max(2,Math.round(N*q));
-      ctx.strokeStyle="rgba("+rgb+","+((i%2?.34:.5)*fade).toFixed(3)+")";ctx.beginPath();
-      for(let k=0;k<=m;k++){
-        const s=k/N*Math.PI*2,x=600+540*Math.sin(a*s+d),y=260+215*Math.sin(b*s);
-        if(k)ctx.lineTo(x,y);else ctx.moveTo(x,y);
+      const a=SET[i][0],b=SET[i][1],d=SET[i][2]+t*.14*(i%2?1:-1)*(.7+i*.08);
+      const q=sm(clamp(cyc/4-i*.08,0,1));if(q<=0)continue;   // החוט הזה עוד לא התחיל
+      const m=Math.max(2,Math.round(N*q)),p=new Path2D();let x=0,y=0;
+      for(let k=0;k<=m;k++){const s=k/N*TAU;x=600+540*Math.sin(a*s+d);y=300+250*Math.sin(b*s);if(k)p.lineTo(x,y);else p.moveTo(x,y);}
+      const al=(i%2?.68:1)*fade;
+      ctx.strokeStyle="rgb("+A+")";
+      ctx.globalAlpha=al*.1;ctx.lineWidth=9*px;ctx.stroke(p);
+      ctx.globalAlpha=al*.24;ctx.lineWidth=3*px;ctx.stroke(p);
+      ctx.strokeStyle="rgb("+T+")";ctx.globalAlpha=al*.95;ctx.lineWidth=1.3*px;ctx.stroke(p);
+      if(q>0&&q<1){   // נקודת אור בראש החוט בזמן השרטוט
+        const g=ctx.createRadialGradient(x,y,0,x,y,24*px);g.addColorStop(0,"rgba("+T+",.75)");g.addColorStop(.4,"rgba("+A+",.3)");g.addColorStop(1,"rgba("+A+",0)");
+        ctx.globalAlpha=fade;ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,24*px,0,TAU);ctx.fill();
+        ctx.fillStyle="rgb("+T+")";ctx.beginPath();ctx.arc(x,y,3.5*px,0,TAU);ctx.fill();
       }
-      ctx.stroke();
     }
-    ctx.globalCompositeOperation="source-over";
+    ctx.globalAlpha=1;ctx.globalCompositeOperation="source-over";
   }
+  // הפריים הנוכחי: סופי (זהה ל-SVG הסטטי) לפני שהשעון התחיל, ובהפחתת תנועה תמיד
+  const redraw=()=>{const t=clock/1000;if(reduced)paint(0,8);else paint(t,t%CYCLE);};
   function loop(now){
-    raf=0;if(!vis)return;
-    const t=(now-t0)/1000;paint(t,t%CYCLE);
-    raf=requestAnimationFrame(loop);
+    raf=0;if(!vis||held)return;
+    clock+=Math.min(now-last,80);last=now;   // קפיצת זמן (לשונית ברקע) לא מזיזה את הסבך
+    redraw();raf=requestAnimationFrame(loop);
   }
+  function start(){if(reduced||held||!vis||raf)return;last=performance.now();raf=requestAnimationFrame(loop);}
   function build(){
-    const dpr=Math.min(2,devicePixelRatio||1),r=art.getBoundingClientRect();W=r.width;H=r.height;if(!W||!H)return;
-    K=W<600?5:SET.length;N=W<600?240:360;rgb=accRGB();
-    cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);ctx.setTransform(dpr*W/1200,0,0,dpr*H/520,0,0);
-    paint(0,8);   // פריים סופי, זהה ל-SVG הסטטי (t=0)
+    const dpr=Math.min(2,devicePixelRatio||1),r=art.getBoundingClientRect();W=r.width;if(!W||!r.height)return;
+    K=W<420?4:W<600?5:SET.length;N=W<600?240:360;px=1200/W;
+    const cs=getComputedStyle(root);
+    A=rgbOf(cs.getPropertyValue("--accent").trim()||"#4a3aff");T=rgbOf(cs.getPropertyValue("--lj-tint").trim()||"#aaa0ff");
+    cv.width=Math.round(W*dpr);cv.height=Math.round(r.height*dpr);ctx.setTransform(dpr*W/1200,0,0,dpr*r.height/600,0,0);
+    redraw();
   }
   new ResizeObserver(build).observe(art);
-  new IntersectionObserver(es=>{
-    vis=es[0].isIntersecting;
-    if(vis){art.classList.add("is-on");if(!reduced&&!raf){t0=performance.now();raf=requestAnimationFrame(loop);}}
-  },{rootMargin:"10% 0px"}).observe(root);
-  if(reduced)art.classList.add("is-on");
+  new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis)start();},{rootMargin:"10% 0px"}).observe(root);
+  if(!reduced){
+    // הקנבס מתחיל ריק ונצבע בכניסה, אז הסבך לא מבזיק שלם לפני שהוא נשרטט
+    art.classList.add("is-on");
+    btn.hidden=false;
+    btn.addEventListener("click",()=>{
+      held=!held;btn.setAttribute("aria-pressed",String(held));btn.setAttribute("aria-label",held?"הפעלת התנועה":"השהיית התנועה");
+      if(!held)start();
+    });
+  }else art.classList.add("is-on");   // פריים אחד, בלי לולאה
   build();
 })();`
 },
 {
-  id:"css39", cat:"css", name:"שרטוט שרועד כמו קו מצויר ביד", tech:"CSS keyframes · SVG feTurbulence + feDisplacementMap · IO", status:"ממתין",
-  desc:"שרטוט קווי של בית עם תוספת מוצעת בצבע המותג, שהקווים שלו רועדים קלות, כאילו כל פריים צויר מחדש בעט. הרעידה בקצב איטי של שלושה פריימים בשנייה, בלי לשנות את המבנה: הקווים נשארים במקומם ורק הקצוות זזים בשבריר. מתחת לשרטוט שתי תוויות, ״קיים״ ו״מוצע״, שנשארות יציבות וחדות.",
+  id:"css39", cat:"css", name:"שרטוט שרועד כמו קו מצויר ביד", tech:"CSS keyframes · SVG (שלוש גרסאות יד לכל קו) · IO", status:"ממתין",
+  desc:"שרטוט קווי של בית עם תוספת מוצעת בצבע המותג, על נייר מנוקד עם כותרת שרטוט קטנה. כל קו משורטט בכל פעם מחדש כאילו היד זזה: הפינות חורגות מעט, הקווים מתעקלים בעדינות, והשרטוט רועד בקצב איטי בלי שהמבנה זז. מתחת לשרטוט מקרא ״קיים״ ו״מוצע״ וכפתור קטן שמשהה את הרעידה, ובתוך השרטוט מידת התוספת. הקווים חדים בכל גודל מסך.",
   when:"סטודיו לשיפוצים, אדריכלות, עיצוב פנים, בנייה, או כל עסק שמתחיל משרטוט: הקווים הרועדים אומרים שזה עדיין נייר ואפשר לשנות. מתאים כאיור בסקשן ״איך אנחנו עובדים״ או לצד טופס פנייה. לא לצד נתונים מדויקים, כי הרעידה אומרת ״בערך״.",
-  note:"**שחזור.** השראה: כמה סרטוני שרטוט ב-prompt-motion.com (21.10.2026) שבהם קווי העט רועדים בין פריימים, מה שמכונה boil באנימציה מצויירת. נבנה מאפס מהצפייה. **הרעידה היא ארבעה מסנני SVG** (`#lb-f1` עד `#lb-f4`): בכל אחד `feTurbulence` עם `seed` אחר ו-`feDisplacementMap` בעוצמה 4, כלומר כל מסנן מזיז את הקווים בצורה אחרת. **ההחלפה בין המסננים היא CSS בלבד:** `@keyframes` שמחליף את `filter:url(#id)` כל רבע מחזור, עם `steps(1,end)` כדי שההחלפה תהיה חדה ולא מרוחה. **המסנן מופעל רק כשהסקשן על המסך** (`is-on`, מוסיף IntersectionObserver), כי מסנן שמחושב מחדש מחוץ למסך הוא בזבוז. **בלי JS ובהפחתת תנועה** רואים את השרטוט הנקי והיציב. **התוויות הן HTML** מחוץ ל-SVG, ולכן המסנן לא מזיז אותן. **סידור התוויות** קבוע משמאל לימין (`direction:ltr`), כי ה-SVG לא מתהפך ב-RTL. **להחלפת האיור:** מחליפים את הנתיבים של `.lb-sk`, וכדאי להשאיר 3 עד 6 צורות ראשיות ועוד קווי הצללה דקים (`lb-soft`), כי בשרטוט מפורט הרעידה נראית כרעש. **נגישות:** ל-SVG יש `role=img` ו-`aria-label`.",
+  note:"**שחזור.** השראה: כמה סרטוני שרטוט ב-prompt-motion.com (21.10.2026) שבהם קווי העט רועדים בין פריימים, מה שמכונה boil באנימציה מצויירת. נבנה מאפס מהצפייה. **גרסה 2 (25.10.2026):** הרעידה הקודמת באה ממסנני SVG (`feTurbulence` ו-`feDisplacementMap`), והם שברו את הקווים לפיקסלים מדורגים והיו כבדים לחישוב בכל פריים. עכשיו אין מסנן בכלל. **שלוש גרסאות יד לכל קו:** מחולל קטן בראש הקובץ (`skSeg`) מצייר כל קו ישר כעקומה אחת עם חריגה קטנה בפינות, קשת עדינה וסטייה בקצוות. חריגה וקשת קבועות לקו, והסטייה משתנה בין שלוש הגרסאות, ולכן הקו נראה כמו אותו קו שנשרטט שוב. כל גרסה היא `<g class=\"lb-fr\">` נפרד עם כל הקווים. **ההחלפה היא CSS בלבד:** לכל קבוצה אותו `@keyframes` עם `steps(1,end)` ו-`animation-delay` של שליש מחזור, כך שבכל רגע נראית קבוצה אחת בדיוק, בשבע החלפות בשנייה בערך. **הקבוצה הראשונה היא ברירת המחדל במארקאפ:** בלי JS ובהפחתת תנועה רואים שרטוט שלם ויציב. **פועל רק כשהסקשן על המסך** (`is-on` מ-IntersectionObserver). **רעידה בלי סוף דורשת כפתור השהיה** (WCAG 2.2.2): הכפתור מוסתר במארקאפ (`hidden`), JS מגלה אותו, והוא עוצר את האנימציה במקום (`animation-play-state`), בלי קפיצה. בהפחתת תנועה אין תנועה ואין כפתור. **המידה והתוויות הן HTML** מחוץ ל-SVG, כך שהטקסט חד בכל גודל. **להחלפת האיור:** מחליפים את רשימות הקווים ב-`SK_GROUPS` (כל קו הוא `[x1, y1, x2, y2]`); כדאי להשאיר כמה צורות ראשיות עבות ועוד קווי הצללה דקים (`soft`), כי בשרטוט מפורט הרעידה נראית כרעש. **נגישות:** ל-SVG יש `role=img` ו-`aria-label`, ולכפתור `aria-pressed` ושם שמשתנה.",
   libs:[],
   css:`.lb{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);align-items:center;gap:clamp(32px,6vw,96px);max-width:1100px;margin-inline:auto;padding-block:clamp(48px,6vw,96px)}
 .lb-txt{display:grid;gap:16px;justify-items:start}
 .lb-txt h2{margin:0;font-size:clamp(30px,3.6vw,52px);line-height:1.12;text-wrap:balance}
 .lb-txt p{margin:0;max-width:40ch;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
-.lb-fig{margin:0;padding:clamp(20px,3vw,32px);border-radius:24px;background:var(--card)}
-.lb-defs{position:absolute;width:0;height:0}
-.lb-sk{display:block;width:100%;height:auto;overflow:visible;fill:none;stroke:var(--ink);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.lb-new{stroke:var(--accent)}
-.lb-soft{stroke-width:1.3;opacity:.55}
-.lb-split{stroke:var(--muted);stroke-width:1.3;stroke-dasharray:2 7}
-.lb-cap{display:grid;grid-template-columns:3fr 1fr;direction:ltr;margin-top:12px;color:var(--muted);font-size:15px;text-align:center}
-.lb.is-on .lb-sk{animation:lb-boil .34s steps(1,end) infinite}
-@keyframes lb-boil{0%{filter:url(#lb-f1)}25%{filter:url(#lb-f2)}50%{filter:url(#lb-f3)}75%{filter:url(#lb-f4)}}
+.lb-fig{display:grid;gap:16px;margin:0;padding:clamp(20px,3vw,32px);border-radius:24px;background:radial-gradient(color-mix(in srgb,var(--muted) 17%,transparent) 1.2px,transparent 1.7px) 0 0/20px 20px,var(--card)}
+.lb-tag{display:flex;justify-content:space-between;gap:16px;color:var(--muted);font-size:14px;line-height:1.3}
+.lb-tag b{color:var(--ink);font-weight:700}
+.lb-draw{position:relative}
+.lb-sk{display:block;width:100%;height:auto;overflow:visible;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.lb-ex{stroke:var(--ink);stroke-width:2.4}
+.lb-exw{stroke:var(--ink);stroke-width:1.8}
+.lb-soft{stroke:var(--muted);stroke-width:1.2;opacity:.5}
+.lb-new{stroke:var(--accent);stroke-width:2.4}
+.lb-neww{stroke:var(--accent);stroke-width:1.8}
+.lb-dim{stroke:var(--accent);stroke-width:1.4}
+.lb-nsoft{stroke:var(--accent);stroke-width:1.2;opacity:.4}
+.lb-m{position:absolute;left:68.33%;top:95%;translate:-50% -50%;color:var(--muted);font-size:14px;line-height:1;white-space:nowrap}
+.lb-fr{opacity:0}
+.lb-f0{opacity:1}
+.lb.is-on .lb-fr{animation:lb-boil .45s steps(1,end) infinite}
+.lb.is-on .lb-f1{animation-delay:.15s}
+.lb.is-on .lb-f2{animation-delay:.3s}
+.lb.is-held .lb-fr{animation-play-state:paused}
+@keyframes lb-boil{0%{opacity:1}33.333%{opacity:0}100%{opacity:0}}
+.lb-cap{display:flex;align-items:center;gap:20px;color:var(--muted);font-size:15px}
+.lb-k{display:flex;align-items:center}
+.lb-k::before{content:"";width:12px;height:12px;border-radius:50%;margin-inline-end:8px;background:var(--ink)}
+.lb-k2::before{background:var(--accent)}
+.lb-pause{display:grid;place-items:center;width:44px;height:44px;margin-inline-start:auto;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--ink) 7%,transparent);color:var(--ink);cursor:pointer;transition:background .2s cubic-bezier(.2,.6,.2,1)}
+.lb-pause[hidden]{display:none}
+.lb-pause svg{width:16px;height:16px;fill:currentColor}
+.lb-pause .i-play,.lb-pause[aria-pressed="true"] .i-pause{display:none}
+.lb-pause[aria-pressed="true"] .i-play{display:block}
+@media (hover:hover) and (pointer:fine){.lb-pause:hover{background:color-mix(in srgb,var(--ink) 14%,transparent)}}
+.lb-pause:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 @media(max-width:767px){.lb{grid-template-columns:minmax(0,1fr)}}
-@media(prefers-reduced-motion:reduce){.lb.is-on .lb-sk{animation:none}}`,
+@media(prefers-reduced-motion:reduce){.lb.is-on .lb-fr{animation:none}.lb-pause{display:none}}`,
   html:`<div class="stage"><section class="lb" aria-labelledby="lb-h">
   <div class="lb-txt">
     <h2 id="lb-h">רואים את התוספת על הנייר לפני שמניחים בלוק ראשון</h2>
     <p>בפגישה הראשונה אנחנו משרטטים יחד את הבית כמו שהוא ואת התוספת המוצעת, כדי שתראו מה משתנה ומה נשאר.</p>
   </div>
   <figure class="lb-fig">
-    <svg class="lb-defs" aria-hidden="true" focusable="false"><defs>
-      <filter id="lb-f1" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="2" seed="1" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
-      <filter id="lb-f2" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="2" seed="2" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
-      <filter id="lb-f3" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="2" seed="3" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
-      <filter id="lb-f4" x="-4%" y="-4%" width="108%" height="108%"><feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="4" xChannelSelector="R" yChannelSelector="G"/></filter>
-    </defs></svg>
-    <svg class="lb-sk" viewBox="0 64 460 288" role="img" aria-label="שרטוט של בית קיים ותוספת מוצעת בצדו">
-      <g class="lb-ex">${SK_HOUSE}</g>
-      <g class="lb-new">${SK_EXT}</g>
-      <path class="lb-split" d="M352 70L352 330"/>
-    </svg>
-    <figcaption class="lb-cap"><span>קיים</span><span>מוצע</span></figcaption>
+    <div class="lb-tag"><b>חזית דרומית</b><span>קנה מידה 1:50</span></div>
+    <div class="lb-draw">
+      <svg class="lb-sk" viewBox="0 50 480 252" role="img" aria-label="שרטוט של בית קיים ותוספת מוצעת בצדו, ברוחב 3.6 מטר" focusable="false">${SK_FRAMES}</svg>
+      <span class="lb-m" aria-hidden="true">3.6 מ׳</span>
+    </div>
+    <figcaption class="lb-cap">
+      <span class="lb-k">קיים</span><span class="lb-k lb-k2">מוצע</span>
+      <button class="lb-pause" type="button" hidden aria-pressed="false" aria-label="השהיית הרעידה"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg></button>
+    </figcaption>
   </figure>
 </section></div>`,
   js:`(function(){
-  const root=document.querySelector(".lb");
+  const root=document.querySelector(".lb"),btn=root.querySelector(".lb-pause");
   // הרעידה פועלת רק כשהסקשן על המסך
   new IntersectionObserver(es=>root.classList.toggle("is-on",es[0].isIntersecting),{rootMargin:"10% 0px"}).observe(root);
+  // רעידה בלי סוף דורשת כפתור השהיה. בהפחתת תנועה אין תנועה ואין כפתור
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  btn.hidden=false;
+  btn.addEventListener("click",()=>{
+    const held=root.classList.toggle("is-held");
+    btn.setAttribute("aria-pressed",String(held));
+    btn.setAttribute("aria-label",held?"הפעלת הרעידה":"השהיית הרעידה");
+  });
 })();`
 },
 {
-  id:"css40", cat:"css", name:"מערבולת אור בתוך טבעת זוהרת", tech:"CSS conic-gradient · mask · animation (ללא JS לתנועה)", status:"ממתין",
-  desc:"טבעת זוהרת בצבע המותג ובתוכה מערבולת רכה של שלוש שכבות אור שמסתובבות במהירויות שונות ובכיוונים מנוגדים. על שפת הטבעת חולף כוכב שביט בהיר עם זנב מתפוגג, ובמרכז עיגול כהה עם המילים ״מענה אוטומטי״. לידה כותרת ופסקה וכפתור. הכול CSS טהור, בלי קנבס ובלי ספריות.",
-  when:"שירות שפועל מאחורי הקלעים: מענה אוטומטי, בוט, גיבוי, ניטור, מנוי שרץ בלילה. המערבולת אומרת שמשהו עובד גם כשאף אחד לא מסתכל. מתאים לעמוד נחיתה של מוצר דיגיטלי או סקשן ״איך זה עובד״ באתר כהה.",
-  note:"**שחזור.** השראה: כמה סרטוני אווירה ב-prompt-motion.com (21.10.2026) שבהם מערבולת אור סובבת בתוך טבעת. נבנה מאפס מהצפייה. **שלוש שכבות מערבולת:** כל אחת `conic-gradient` עם שתי להבות אור בצבעים שונים, מטושטשת (`blur`) ומוגבלת בטבעת באמצעות `mask-image` רדיאלי, כך שרק הרצועה שבין הליבה לשפה נראית. השכבות מסתובבות במהירויות שונות (14, 9 ו-6 שניות) ובכיוונים מנוגדים, והחפיפה ביניהן יוצרת תנועה שלא חוזרת על עצמה. **הסיבוב הוא `rotate` (תכונה נפרדת) ולא `transform`,** כדי שהקנה מידה הסטטי של כל שכבה לא יידרס. השכבות מסתובבות על המעבד הגרפי כי המסנן והמסכה חלים על התוכן, והסיבוב רק מסובב את התוצאה. **כוכב השביט** הוא קשת `conic-gradient` שמתעמעמת לזנב, חתוכה לרצועה דקה על שפת הטבעת. **הזוהר** הוא שלושה `box-shadow` על הטבעת (שפה, הילה חיצונית, הילה פנימית). **JS קטן אחד:** IntersectionObserver שעוצר את האנימציות כשהסקשן מחוץ למסך. הוא לא יוצר את התנועה. **בהפחתת תנועה** האנימציות כבויות והמערבולת נשארת כתמונה. **נגישות:** האיור `aria-hidden` והתוכן בכותרת ובפסקה, בניגודיות של `--bg` על `--ink`.",
+  id:"css40", cat:"css", name:"מערבולת אור בתוך טבעת זוהרת", tech:"CSS conic-gradient · mask · mix-blend-mode · animation (ללא JS לתנועה)", status:"ממתין",
+  desc:"טבעת זוהרת בצבע המותג ובתוכה מערבולת אור דקה: שבעה פסי להבות שנושאים את אותה צורה בזווית מוסטת, ולכן נראים כזרועות של ספירלה, וכל פס מסתובב במהירות אחרת כך שהצורה מתפתלת ולא חוזרת על עצמה. על שפת הטבעת רץ אור בהיר עם זנב מתפוגג. במרכז עיגול כהה עם נקודת ״פעיל״, מספר (37 פניות נענו הלילה) והמילים ״מענה אוטומטי״. לידה כותרת, פסקה וכפתור, וכפתור קטן להשהיית התנועה. הכול CSS טהור, בלי קנבס ובלי ספריות.",
+  when:"שירות שפועל מאחורי הקלעים: מענה אוטומטי, בוט, גיבוי, ניטור, מנוי שרץ בלילה. המערבולת אומרת שמשהו עובד גם כשאף אחד לא מסתכל, והמספר במרכז מוכיח את זה. מתאים לעמוד נחיתה של מוצר דיגיטלי או סקשן ״איך זה עובד״ באתר כהה.",
+  note:"**שחזור.** השראה: כמה סרטוני אווירה ב-prompt-motion.com (21.10.2026) שבהם מערבולת אור סובבת בתוך טבעת. נבנה מאפס מהצפייה. **גרסה 2 (25.10.2026):** הגרסה הקודמת הייתה שלוש כתמים מטושטשים בחוזקה, שנראו כתקליטור, עם קטע לבן עבה על השפה. עכשיו האור דק וחד. **שבעה פסים (`.vx-b`) שנוצרים בראש הקובץ:** כל פס הוא טבעת רדיאלית דקה (`mask-image`) עם `conic-gradient` של שלוש להבות, מטושטש מעט (3 פיקסלים) ומחובר בהבהרה (`mix-blend-mode:screen`), כך שבמקומות שפסים נחתכים האור מצטבר. **הספירלה** נולדת מהזזה קבועה של זווית ההתחלה לכל פס (`--i` כפול 23 מעלות), והפסים הפנימיים מסתובבים מהר יותר מהחיצוניים (9 עד 33 שניות), ולכן הזרועות מתפתלות כל הזמן. **הסיבוב הוא `rotate` (תכונה נפרדת), לא `transform`:** רץ על המעבד הגרפי בלי חישוב מחדש. **האור על השפה** הוא `conic-gradient` שמסוכך לטבעת דקה עם `mask-composite:exclude` (תיבת התוכן מול תיבת הריפוד), עם ראש בהיר (נקודה קטנה על קצה הרכיב המסתובב) וזנב שמתפוגג, ועוד עותק מטושטש שנותן זוהר החוצה. **המרכז** הוא תוכן אמיתי (נקודת ״פעיל״, מספר ותווית), לא מילוי; מחליפים אותם במספר של העסק. **הצבעים** נקראים מ-`--accent`, `--bg` ו-`--ink` בלבד, ובעור בהיר מחליפים את `--ink` ו-`--bg`. **תנועה בלי סוף דורשת כפתור השהיה** (WCAG 2.2.2): הכפתור מוסתר במארקאפ (`hidden`) ו-JS מגלה אותו; הוא וגם ה-IntersectionObserver מוסיפים `is-paused`, שעוצר את כל האנימציות במקום עם `animation-play-state`. **JS קטן אחד** ולא יוצר תנועה. **בהפחתת תנועה** האנימציות כבויות, הכפתור מוסתר והמערבולת נשארת כתמונה. **נגישות:** כל הקישוט `aria-hidden`; המספר והתוויות במרכז הם טקסט אמיתי, בניגודיות של `--bg` על `--ink`.",
   libs:[],
-  css:`.vx{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,96px);padding:clamp(48px,7vw,112px) clamp(24px,5vw,72px);background:var(--ink);color:var(--bg);overflow:hidden}
+  css:`.vx{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,6vw,96px);padding:clamp(48px,7vw,112px) clamp(24px,5vw,72px);border-radius:32px;background:radial-gradient(ellipse 58% 90% at 26% 50%,color-mix(in srgb,var(--accent) 20%,transparent),transparent 72%),var(--ink);color:var(--bg);overflow:hidden}
 .vx-in{display:grid;gap:20px;justify-items:start}
 .vx-in h2{margin:0;font-size:clamp(30px,4vw,56px);line-height:1.12;text-wrap:balance}
 .vx-in p{margin:0;max-width:42ch;color:color-mix(in srgb,var(--bg) 78%,transparent);font-size:var(--fs-body);line-height:1.6}
 .vx-cta{display:inline-flex;align-items:center;padding:14px 24px;border-radius:99px;background:var(--accent);color:var(--accent-ink);font-weight:700;text-decoration:none;transition:transform .2s cubic-bezier(.2,.6,.2,1)}
 @media (hover:hover) and (pointer:fine){.vx-cta:hover{transform:translateY(-2px)}}
 .vx-cta:focus-visible{outline:2px solid var(--bg);outline-offset:4px}
-.vx-art{display:grid;place-items:center}
-.vx-ring{position:relative;display:grid;place-items:center;width:min(440px,78vw);aspect-ratio:1;border-radius:50%;overflow:hidden;box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 70%,transparent),0 0 56px color-mix(in srgb,var(--accent) 42%,transparent),inset 0 0 72px color-mix(in srgb,var(--accent) 38%,transparent)}
-.vx-swirl{position:absolute;inset:-20%;border-radius:50%;filter:blur(14px);-webkit-mask-image:radial-gradient(closest-side,transparent 22%,rgb(0 0 0) 50%,rgb(0 0 0) 66%,transparent 100%);mask-image:radial-gradient(closest-side,transparent 22%,rgb(0 0 0) 50%,rgb(0 0 0) 66%,transparent 100%);animation:vx-spin 14s linear infinite}
-.vx-s1{background:conic-gradient(from 0deg,transparent 0 40deg,color-mix(in srgb,var(--accent) 80%,transparent) 90deg,transparent 150deg 220deg,color-mix(in srgb,var(--accent) 50%,var(--bg)) 270deg,transparent 330deg 360deg)}
-.vx-s2{transform:scale(.82);animation-duration:9s;animation-direction:reverse;background:conic-gradient(from 90deg,transparent 0 60deg,color-mix(in srgb,var(--bg) 55%,transparent) 110deg,transparent 170deg 250deg,color-mix(in srgb,var(--accent) 70%,transparent) 300deg,transparent 350deg 360deg)}
-.vx-s3{transform:scale(.64);animation-duration:6s;background:conic-gradient(from 200deg,transparent 0 50deg,color-mix(in srgb,var(--accent) 60%,var(--bg)) 100deg,transparent 160deg 240deg,color-mix(in srgb,var(--accent) 90%,transparent) 290deg,transparent 340deg 360deg)}
-.vx-trail{position:absolute;inset:0;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 290deg,color-mix(in srgb,var(--bg) 88%,transparent) 359deg,transparent 360deg);-webkit-mask-image:radial-gradient(closest-side,transparent 80%,rgb(0 0 0) 82%,rgb(0 0 0) 90%,transparent 92%);mask-image:radial-gradient(closest-side,transparent 80%,rgb(0 0 0) 82%,rgb(0 0 0) 90%,transparent 92%);animation:vx-spin 5s linear infinite}
-.vx-core{position:relative;display:grid;place-items:center;width:44%;aspect-ratio:1;padding:12px;border-radius:50%;background:var(--ink);box-shadow:0 0 40px color-mix(in srgb,var(--accent) 55%,transparent);font-size:clamp(16px,2vw,24px);font-weight:700;line-height:1.15;text-align:center;text-wrap:balance}
-@keyframes vx-spin{to{rotate:360deg}}
-.vx.is-off .vx-swirl,.vx.is-off .vx-trail{animation-play-state:paused}
-@media(max-width:767px){.vx{grid-template-columns:minmax(0,1fr)}.vx-art{order:-1}}
-@media(prefers-reduced-motion:reduce){.vx-swirl,.vx-trail{animation:none}}`,
+.vx-art{position:relative;display:grid;place-items:center}
+.vx-ring{position:relative;display:grid;place-items:center;width:min(440px,78vw);aspect-ratio:1;border-radius:50%;box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 55%,transparent),0 0 72px color-mix(in srgb,var(--accent) 34%,transparent)}
+.vx-disc{position:absolute;inset:0;border-radius:50%;overflow:hidden;isolation:isolate;background:radial-gradient(closest-side,transparent 50%,color-mix(in srgb,var(--accent) 22%,transparent) 100%);box-shadow:inset 0 0 64px color-mix(in srgb,var(--accent) 36%,transparent)}
+.vx-b{--r:calc(34% + var(--i) * 9%);--o:calc(var(--i) * -23deg);position:absolute;inset:0;border-radius:50%;filter:blur(2px);mix-blend-mode:screen;-webkit-mask-image:radial-gradient(closest-side,transparent var(--r),rgb(0 0 0) calc(var(--r) + 8%),rgb(0 0 0) calc(var(--r) + 12%),transparent calc(var(--r) + 22%));mask-image:radial-gradient(closest-side,transparent var(--r),rgb(0 0 0) calc(var(--r) + 8%),rgb(0 0 0) calc(var(--r) + 12%),transparent calc(var(--r) + 22%));background:conic-gradient(from var(--o),transparent 0deg,color-mix(in srgb,var(--accent) 90%,transparent) 22deg,color-mix(in srgb,var(--bg) 70%,var(--accent)) 34deg,transparent 62deg,transparent 132deg,color-mix(in srgb,var(--accent) 65%,transparent) 160deg,transparent 188deg,transparent 252deg,color-mix(in srgb,var(--bg) 45%,var(--accent)) 288deg,transparent 316deg,transparent 360deg);animation:vx-spin calc(9s + var(--i) * 4s) linear infinite}
+.vx-orbit{position:absolute;inset:0;border-radius:50%;animation:vx-spin 6s linear infinite}
+.vx-tail{position:absolute;inset:0;border-radius:50%;padding:3px;background:conic-gradient(from 0deg,transparent 0deg 232deg,color-mix(in srgb,var(--accent) 70%,transparent) 316deg,var(--bg) 358deg,transparent 360deg);-webkit-mask:linear-gradient(rgb(0 0 0) 0 0) content-box,linear-gradient(rgb(0 0 0) 0 0);-webkit-mask-composite:xor;mask:linear-gradient(rgb(0 0 0) 0 0) content-box exclude,linear-gradient(rgb(0 0 0) 0 0)}
+.vx-head{position:absolute;top:-3px;left:50%;width:10px;height:10px;translate:-50% 0;border-radius:50%;background:var(--bg);box-shadow:0 0 14px 4px color-mix(in srgb,var(--accent) 80%,transparent)}
+.vx-orbit-glow{inset:-8px;filter:blur(7px);opacity:.8}
+.vx-orbit-glow .vx-tail{padding:12px}
+.vx-core{position:relative;display:grid;place-items:center;align-content:center;gap:4px;width:46%;aspect-ratio:1;padding:12px;border-radius:50%;background:radial-gradient(circle at 50% 24%,color-mix(in srgb,var(--accent) 26%,var(--ink)),var(--ink) 70%);box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 50%,transparent),0 0 48px color-mix(in srgb,var(--accent) 50%,transparent);text-align:center}
+.vx-live{display:inline-flex;align-items:center;gap:8px;color:color-mix(in srgb,var(--bg) 82%,transparent);font-size:13px;font-weight:700;line-height:1.2}
+.vx-live::before{content:"";width:8px;height:8px;border-radius:50%;background:color-mix(in srgb,var(--accent) 45%,var(--bg));box-shadow:0 0 10px color-mix(in srgb,var(--accent) 80%,transparent);animation:vx-live 1.8s cubic-bezier(.2,.6,.2,1) infinite alternate}
+.vx-num{font-size:clamp(44px,5.4vw,68px);font-weight:800;line-height:1}
+.vx-sub{color:color-mix(in srgb,var(--bg) 78%,transparent);font-size:14px;line-height:1.2}
+.vx-pause{position:absolute;inset-block-end:0;inset-inline-end:0;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--bg) 14%,transparent);color:var(--bg);cursor:pointer;transition:background .2s cubic-bezier(.2,.6,.2,1)}
+.vx-pause[hidden]{display:none}
+.vx-pause svg{width:16px;height:16px;fill:currentColor}
+.vx-pause .i-play,.vx-pause[aria-pressed="true"] .i-pause{display:none}
+.vx-pause[aria-pressed="true"] .i-play{display:block}
+@media (hover:hover) and (pointer:fine){.vx-pause:hover{background:color-mix(in srgb,var(--bg) 24%,transparent)}}
+.vx-pause:focus-visible{outline:2px solid var(--bg);outline-offset:4px}
+@keyframes vx-spin{from{rotate:0deg}to{rotate:360deg}}
+@keyframes vx-live{to{opacity:.3}}
+.vx.is-paused *,.vx.is-paused *::before,.vx.is-paused *::after{animation-play-state:paused}
+@media(max-width:767px){.vx{grid-template-columns:minmax(0,1fr)}.vx-art{order:-1}.vx-sub{font-size:12px}.vx-live{font-size:12px}}
+@media(prefers-reduced-motion:reduce){.vx *,.vx *::before,.vx *::after{animation:none}.vx-orbit{rotate:-40deg}.vx-pause{display:none}}`,
   html:`<div class="stage"><section class="vx" aria-labelledby="vx-h">
   <div class="vx-in">
     <h2 id="vx-h">מענה ללקוחות גם כשהמשרד סגור</h2>
     <p>כל פנייה שמגיעה בלילה או בסוף שבוע מקבלת תשובה מיידית, ובבוקר מחכה לכם רשימה מסודרת של מי צריך שיחה.</p>
     <a class="vx-cta" href="#vx-h">ראו איך זה עובד</a>
   </div>
-  <div class="vx-art" aria-hidden="true">
+  <div class="vx-art">
     <div class="vx-ring">
-      <span class="vx-swirl vx-s1"></span><span class="vx-swirl vx-s2"></span><span class="vx-swirl vx-s3"></span>
-      <span class="vx-trail"></span>
-      <span class="vx-core">מענה אוטומטי</span>
+      <span class="vx-disc" aria-hidden="true">${VX_BANDS}</span>
+      <span class="vx-orbit vx-orbit-glow" aria-hidden="true"><i class="vx-tail"></i></span>
+      <span class="vx-orbit" aria-hidden="true"><i class="vx-tail"></i><i class="vx-head"></i></span>
+      <div class="vx-core">
+        <span class="vx-live">מענה אוטומטי</span>
+        <b class="vx-num">37</b>
+        <span class="vx-sub">פניות נענו הלילה</span>
+      </div>
     </div>
+    <button class="vx-pause" type="button" hidden aria-pressed="false" aria-label="השהיית התנועה"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg></button>
   </div>
 </section></div>`,
   js:`(function(){
-  const root=document.querySelector(".vx");
-  // התנועה היא CSS בלבד. כאן רק עוצרים אותה כשהסקשן מחוץ למסך
-  new IntersectionObserver(es=>root.classList.toggle("is-off",!es[0].isIntersecting),{rootMargin:"10% 0px"}).observe(root);
+  const root=document.querySelector(".vx"),btn=root.querySelector(".vx-pause");
+  let off=false,held=false;
+  const sync=()=>root.classList.toggle("is-paused",off||held);
+  // התנועה היא CSS בלבד. כאן רק עוצרים אותה כשהסקשן מחוץ למסך או כשלוחצים על הכפתור
+  new IntersectionObserver(es=>{off=!es[0].isIntersecting;sync();},{rootMargin:"10% 0px"}).observe(root);
+  // תנועה בלי סוף דורשת כפתור השהיה. בהפחתת תנועה אין תנועה ואין כפתור
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  btn.hidden=false;
+  btn.addEventListener("click",()=>{
+    held=!held;sync();
+    btn.setAttribute("aria-pressed",String(held));
+    btn.setAttribute("aria-label",held?"הפעלת התנועה":"השהיית התנועה");
+  });
 })();`
 },
 ]

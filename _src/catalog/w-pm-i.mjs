@@ -369,10 +369,10 @@ export default [
 }
 ,
 {
-  id:"g271", cat:"gsap", name:"דמות שמציצה מקצה המסך ומחליפה צד בכל סקשן", tech:"GSAP · ScrollTrigger · sticky overlay · mask", status:"ממתין",
-  desc:"דמות עם קו מתאר צבעוני מציצה מתחתית המסך ועומדת בפינה. כשסקשן חדש מגיע לאמצע המסך היא יורדת, עוברת לצד השני ועולה שוב, ומעליה בועת דיבור קצרה בגוף ראשון שמתאימה לסקשן. בין הסקשנים היא נעה מעט, לפני הסקשן הראשון ואחרי האחרון היא מסתתרת. השכבה לא חוסמת לחיצות והטקסט נשאר תוכן רגיל.",
-  when:"עמוד תהליך, אודות או שירות עם שלושה עד חמישה סקשנים, כל אחד בגובה של כשבעים אחוז מהמסך עם טקסט בצד אחד ותמונה בצד השני, ודמות אחת שמייצגת את העסק: בעלת הסטודיו, המאמן, הרופאה. הדמות מלווה את הקורא לאורך העמוד ומדברת בגוף ראשון. לא בעמוד קצר, לא עם אנשים שאינם חלק מהמותג, ולא כשהטקסט בסקשן מגיע עד הקצה התחתון שלו.",
-  note:"**שחזור.** השראה: סרטון בגלריה של prompt-motion.com (21.10.2026) שבו דמות מציצה מקצה המסך בכל סקשן ומתחלפת בין הצדדים, לפעמים עם בועת דיבור. נבנה מאפס מהצפייה. **המארקאפ הוא המצב הסופי:** סקשנים של כותרת ופסקה עם תמונה אמיתית מהמאגר בצד הנגדי לטקסט (`.pk-ph`, גובה קבוע וחיתוך `object-fit`), והשכבה של הדמות מוסתרת (`display:none`). בלי GSAP ובהפחתת תנועה זה מה שרואים, וכל המידע נשאר בטקסט. **כשהמהלך רץ** הסקריפט מוסיף `is-live` על העוטף והשכבה נעשית `position:sticky` בגובה המסך, עם `margin-bottom` שלילי באותו גובה כדי שלא תוסיף גובה לעמוד (העוטף חותך עם `overflow:clip`, כדי שה-sticky ימשיך לעבוד). **ScrollTrigger לכל סקשן:** בדסקטופ מ-`top 75%` עד `bottom 75%`, כדי שהדמות תתחלף לפני שהטקסט של הסקשן הבא מגיע לגובה שלה, ובטלפון מ-50% עד 50%, כך שתמיד סקשן אחד בדיוק פעיל. פונקציה אחת, `show(i)`, הורגת את המעבר הקודם ובונה חדש: הדמות יורדת (`yPercent`), הצד והטקסט מוחלפים בזמן שהיא מוסתרת, והיא עולה ל-`yPercent:38` כדי שרק הראש והכתפיים יבצבצו, ואחריה הבועה נפתחת. על הדמות יש תנועת ציפה איטית (`sine.inOut`) שנעצרת כשהיא מוסתרת. **הצד נקבע לפי הכיווניות:** הסקריפט קורא את `direction` של העוטף ובוחר צד פיזי (`data-pos`), והטקסט בסקשנים מתחלף לפי `justify-self` לוגי, כך שהדמות תמיד בצד שמנגד לטקסט. באתר LTR אין מה להחליף, רק לוודא שהסקשן הראשון משאיר את הצד הנגדי פנוי. **הדמות:** התמונה האמיתית מהמאגר, ולה אין גזרה על רקע שקוף, ולכן נחתכת במסכת SVG שנמדדה על התמונה (אותה מסכה כמו ב-g199). קו המדבקה הוא ארבעה `drop-shadow` בצבע `--accent` על המעטפת ולא על התמונה, כי הדפדפן מריץ `filter` לפני `mask`. בפרויקט אמיתי מחליפים בתמונה חתוכה על רקע שקוף (PNG או WebP) ומוחקים את המסכה. **בחירת תמונה:** חצי גוף ופנים ישר למצלמה, כך שהדמות נראית כמי שמציצה פנימה. **בועה בצבע `--ink`:** כך היא נראית גם על סקשן בגוון `--card`. **התמונה והדמות:** הדמות יושבת בצד התמונה ומציצה מעליה, ולכן הפינה החיצונית התחתונה של התמונה מוסתרת חלקית; לא שמים שם פרט חשוב. **מובייל:** העמודות הופכות לעמודה אחת עם התמונה מתחת לטקסט, הדמות קטנה יותר והבועה נשארת בתחתית המסך, מעל התמונה ורחוק מהטקסט הפעיל. **נגישות:** הדמות והבועה `aria-hidden`, והטקסט של הבועה נשמר בסקשן כ-`data-say` ולא מוסיף מידע שאין בגוף העמוד.",
+  id:"g271", cat:"gsap", name:"דמות שמציצה מקצה המסך ומחליפה צד בכל סקשן", tech:"GSAP · ScrollTrigger · sticky overlay · SVG", status:"ממתין",
+  desc:"דמות איורית ידידותית מציצה מתחתית המסך ואוחזת בקצה. כשסקשן חדש מגיע היא צוללת, עוברת לצד הנגדי לטקסט ועולה שוב, מביטה אל התוכן ומצמצת. כשהסקשן מגיע לאמצע המסך נפתחת מעליה בועת דיבור קצרה בגוף ראשון שמתאימה לו, והדמות מזיזה את הפה בזמן שהמילים נכנסות. לפני הסקשן הראשון ואחרי האחרון היא מסתתרת. השכבה לא חוסמת לחיצות והטקסט נשאר תוכן רגיל.",
+  when:"עמוד תהליך, אודות או שירות עם שלושה עד חמישה סקשנים, כל אחד בגובה של כשבעים אחוז מהמסך עם טקסט בצד אחד ותמונה בצד השני, ודמות אחת שמייצגת את העסק: קמע של המותג או איור של בעל העסק. הדמות מלווה את הקורא לאורך העמוד ומדברת בגוף ראשון. לא בעמוד קצר, לא עם אנשים שאינם חלק מהמותג, ולא כשהטקסט בסקשן מגיע עד הקצה התחתון שלו.",
+  note:"**שחזור.** השראה: סרטון בגלריה של prompt-motion.com (21.10.2026) שבו דמות מציצה מקצה המסך בכל סקשן ומתחלפת בין הצדדים, לפעמים עם בועת דיבור. נבנה מאפס מהצפייה. **מה שונה בגרסה הזו (25.10):** הגרסה הראשונה הייתה תמונה אמיתית חתוכה במסכה עם קו מתאר עבה, והיא נראתה כמו גזירה ולא כמו דמות, וגם לא התאימה לכל עסק. עכשיו הדמות איור SVG שנבנה מאפס: ראש עגול, ידיים שאוחזות בקצה המסך וקוקו קטן שמתנדנד, בצבעי העור (`--accent` לגוף, `--ink` לעיניים ולפה, `--bg` לקו המדבקה סביבה). יש לה חיים משלה: היא מביטה אל הצד של התוכן, מצמצת מדי כמה שניות ומזיזה את הפה בזמן שהמילים נכנסות לבועה. היא קטנה יותר, ולכן לא מכסה חצי תמונה. **התזמון:** הדמות מחליפה צד כשהסקשן הבא עובר את קו 75% מהמסך, אבל הבועה נפתחת רק כשהסקשן מגיע לאמצע המסך (שני `ScrollTrigger` לכל סקשן). כך הבועה לא מדברת על סקשן שעדיין בקושי נראה: קודם הדמות מציצה, ורק אחר כך היא מדברת. **המארקאפ הוא המצב הסופי:** סקשנים של כותרת ופסקה עם תמונה אמיתית מהמאגר בצד הנגדי לטקסט (`.pk-ph`, גובה קבוע וחיתוך `object-fit`), והשכבה של הדמות מוסתרת (`display:none`). בלי GSAP ובהפחתת תנועה זה מה שרואים, וכל המידע נשאר בטקסט. **כשהמהלך רץ** הסקריפט מוסיף `is-live` על העוטף והשכבה נעשית `position:sticky` בגובה המסך, עם `margin-bottom` שלילי באותו גובה כדי שלא תוסיף גובה לעמוד (העוטף חותך עם `overflow:clip`, כדי שה-sticky ימשיך לעבוד). **המעבר:** פונקציה אחת, `show(i)`, הורגת את המעבר הקודם ובונה חדש: הדמות יורדת (`yPercent`), הצד והמבט מוחלפים בזמן שהיא מוסתרת, והיא עולה מעט מעבר לנקודת המנוחה ונוחה בה, כך שהידיים נשארות על קצה המסך. בטלפון הקו הוא 50% לשני הטריגרים, ולכן תמיד סקשן אחד בדיוק פעיל. על הדמות יש תנועת ציפה איטית (`sine.inOut`) שנעצרת כשהיא מוסתרת, וצמצום עיניים ב-`delayedCall` שנעצר יחד איתה. **הצד נקבע לפי הכיווניות:** הסקריפט קורא את `direction` של העוטף ובוחר צד פיזי (`data-pos`), והטקסט בסקשנים מתחלף לפי `justify-self` לוגי, כך שהדמות תמיד בצד שמנגד לטקסט. באתר LTR אין מה להחליף, רק לוודא שהסקשן הראשון משאיר את הצד הנגדי פנוי. **להחליף בדמות של העסק:** מחליפים את ה-SVG בתוך `.pk-fig` בתמונה חתוכה על רקע שקוף (PNG או WebP) של בעל העסק או הקמע. קו מתאר אפשר לקבל עם כמה `drop-shadow` על `.pk-fig`, ואם התמונה אינה חתוכה, במסכה. אז מוחקים את ההתייחסויות לעיניים ולפה בסקריפט. **בועה בצבע `--ink`:** כך היא נראית גם על סקשן בגוון `--card`. הטקסט שלה נכתב במילים של העסק בגוף ראשון ובלשון שמתאימה לדמות. **התמונה והדמות:** הדמות יושבת בצד התמונה ומציצה מעליה, ולכן הפינה החיצונית התחתונה של התמונה מוסתרת חלקית; לא שמים שם פרט חשוב. **מובייל:** העמודות הופכות לעמודה אחת עם התמונה מתחת לטקסט, הדמות קטנה יותר והבועה נשארת בתחתית המסך, מעל התמונה ורחוק מהטקסט הפעיל. **נגישות:** הדמות והבועה `aria-hidden`, והטקסט של הבועה נשמר בסקשן כ-`data-say` ולא מוסיף מידע שאין בגוף העמוד.",
   libs:["gsap","ScrollTrigger"],
   css:`.pk{position:relative;overflow:clip}
 .pk-s{position:relative;min-height:clamp(400px,70vh,640px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,5vw,64px);align-items:center;padding:clamp(40px,6vw,72px) var(--gutter)}
@@ -385,34 +385,49 @@ export default [
 .pk-in p{margin:0;font-size:var(--fs-body);line-height:1.65;color:var(--muted)}
 .pk-layer{display:none}
 .pk.is-live .pk-layer{display:block;position:sticky;top:0;height:100vh;height:100svh;margin-bottom:-100vh;margin-bottom:-100svh;z-index:3;overflow:hidden;pointer-events:none}
-.pk-peek{--w:clamp(300px,30vw,460px);position:absolute;bottom:0;width:var(--w);will-change:transform}
-.pk-layer[data-pos="l"] .pk-peek{left:calc(var(--w) * -.12)}
-.pk-layer[data-pos="r"] .pk-peek{right:calc(var(--w) * -.12)}
-.pk-fig{transform-origin:50% 100%;filter:drop-shadow(4px 0 0 var(--accent)) drop-shadow(-4px 0 0 var(--accent)) drop-shadow(0 4px 0 var(--accent)) drop-shadow(0 -4px 0 var(--accent))}
-.pk-fig img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;-webkit-mask:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201200%20800%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22f%22%20gradientUnits%3D%22userSpaceOnUse%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%2290%22%3E%3Cstop%20offset%3D%220%22%20stop-opacity%3D%220%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-opacity%3D%221%22%2F%3E%3C%2FlinearGradient%3E%3Cfilter%20id%3D%22b%22%20x%3D%22-5%25%22%20y%3D%22-5%25%22%20width%3D%22110%25%22%20height%3D%22110%25%22%3E%3CfeGaussianBlur%20stdDeviation%3D%222.5%22%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20filter%3D%22url(%23b)%22%20fill%3D%22%23000%22%20d%3D%22M413%2060A163%2050%200%200%201%20739%2060L738%20100L734%20120L728%20138L722%20150L716%20164L706%20178L700%20190L696%20205L690%20230L682%20255L672%20272L664%20290L663%20310L666%20330L676%20347L690%20362L702%20376L716%20384L770%20402L794%20408L808%20420L842%20430L872%20440L898%20457L914%20480L922%20505L927%20540L931%20590L934%20640L938%20700L940%20830L199%20830L200%20700L201%20620L203%20580L205%20540L208%20505L215%20484L228%20466L246%20451L268%20438L290%20428L314%20423L338%20420L362%20413L386%20402L408%20391L430%20380L445%20370L463%20350L472%20330L477%20310L477%20290L473%20260L463%20230L455%20200L443%20180L429%20160L422%20150L416%20140L412%20120L412%20100Z%22%2F%3E%3C%2Fsvg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%201200%20800%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22f%22%20gradientUnits%3D%22userSpaceOnUse%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%2290%22%3E%3Cstop%20offset%3D%220%22%20stop-opacity%3D%220%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-opacity%3D%221%22%2F%3E%3C%2FlinearGradient%3E%3Cfilter%20id%3D%22b%22%20x%3D%22-5%25%22%20y%3D%22-5%25%22%20width%3D%22110%25%22%20height%3D%22110%25%22%3E%3CfeGaussianBlur%20stdDeviation%3D%222.5%22%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3Cpath%20filter%3D%22url(%23b)%22%20fill%3D%22%23000%22%20d%3D%22M413%2060A163%2050%200%200%201%20739%2060L738%20100L734%20120L728%20138L722%20150L716%20164L706%20178L700%20190L696%20205L690%20230L682%20255L672%20272L664%20290L663%20310L666%20330L676%20347L690%20362L702%20376L716%20384L770%20402L794%20408L808%20420L842%20430L872%20440L898%20457L914%20480L922%20505L927%20540L931%20590L934%20640L938%20700L940%20830L199%20830L200%20700L201%20620L203%20580L205%20540L208%20505L215%20484L228%20466L246%20451L268%20438L290%20428L314%20423L338%20420L362%20413L386%20402L408%20391L430%20380L445%20370L463%20350L472%20330L477%20310L477%20290L473%20260L463%20230L455%20200L443%20180L429%20160L422%20150L416%20140L412%20120L412%20100Z%22%2F%3E%3C%2Fsvg%3E") center/100% 100% no-repeat}
-.pk-bub{position:absolute;top:calc(var(--w) * .04);margin:0;width:max-content;max-width:min(236px,60vw);padding:14px 18px;border-radius:20px;background:var(--ink);color:var(--bg);font-size:17px;line-height:1.45;font-weight:600;
+.pk-peek{--w:clamp(220px,20vw,320px);position:absolute;bottom:0;width:var(--w);will-change:transform}
+.pk-layer[data-pos="l"] .pk-peek{left:calc(var(--w) * -.03)}
+.pk-layer[data-pos="r"] .pk-peek{right:calc(var(--w) * -.03)}
+.pk-fig{transform-origin:50% 100%}
+.pk-svg{display:block;width:100%;height:auto;overflow:visible}
+.pk-bd{fill:var(--accent);stroke:var(--bg);stroke-width:8;stroke-linejoin:round;paint-order:stroke}
+.pk-cheek{fill:color-mix(in srgb,var(--bg) 42%,transparent)}
+.pk-ew,.pk-hl{fill:var(--bg)}
+.pk-pp,.pk-mouth{fill:var(--ink)}
+.pk-bub{position:absolute;top:calc(var(--w) * .1);margin:0;width:max-content;max-width:min(236px,60vw);padding:14px 18px;border-radius:20px;background:var(--ink);color:var(--bg);font-size:17px;line-height:1.45;font-weight:600;
   box-shadow:0 12px 28px -16px color-mix(in oklab,var(--ink) 60%,transparent)}
 .pk-bub::after{content:"";position:absolute;bottom:14px;width:14px;height:14px;background:inherit;transform:rotate(45deg)}
-.pk-layer[data-pos="l"] .pk-bub{left:66%;transform-origin:0 100%}
+.pk-wd{display:inline-block}
+.pk-layer[data-pos="l"] .pk-bub{left:86%;transform-origin:0 100%}
 .pk-layer[data-pos="l"] .pk-bub::after{left:-6px}
-.pk-layer[data-pos="r"] .pk-bub{right:70%;transform-origin:100% 100%}
+.pk-layer[data-pos="r"] .pk-bub{right:86%;transform-origin:100% 100%}
 .pk-layer[data-pos="r"] .pk-bub::after{right:-6px}
 @media(max-width:767px){
   .pk-s{min-height:0;grid-template-columns:minmax(0,1fr);align-content:start;padding-block:48px}
   .pk-in{max-width:none;justify-self:stretch}
   .pk-s:nth-of-type(even) .pk-in{order:0;justify-self:stretch}
   .pk-ph img{height:clamp(200px,56vw,280px)}
-  .pk-peek{--w:clamp(280px,76vw,320px)}
+  .pk-peek{--w:clamp(200px,54vw,250px)}
   .pk-bub{max-width:176px;padding:10px 14px;font-size:15px;border-radius:16px}
 }`,
   html:`<div class="stage full"><div class="pk">
   <div class="pk-layer" aria-hidden="true">
     <div class="pk-peek">
-      <div class="pk-fig"><img src="../assets/media/dive/portrait.webp" alt="" width="2400" height="1600" loading="lazy" decoding="async"></div>
-      <p class="pk-bub"><span>אני מודדת כל חדר בעצמי, גם את הפינות.</span></p>
+      <div class="pk-fig"><svg class="pk-svg" viewBox="0 -14 240 224" width="240" height="224" focusable="false">
+        <path class="pk-tuft pk-bd" d="M114 32C100 16 104 -6 130 -8C122 2 126 18 130 32Z"/>
+        <path class="pk-bd" d="M26 210V120C26 62 66 24 120 24C174 24 214 62 214 120V210Z"/>
+        <ellipse class="pk-cheek" cx="62" cy="130" rx="13" ry="8"/>
+        <ellipse class="pk-cheek" cx="178" cy="130" rx="13" ry="8"/>
+        <g class="pk-eye"><ellipse class="pk-ew" cx="90" cy="98" rx="19" ry="22"/><g class="pk-pupil"><circle class="pk-pp" cx="90" cy="100" r="10"/><circle class="pk-hl" cx="94" cy="95" r="3.5"/></g></g>
+        <g class="pk-eye"><ellipse class="pk-ew" cx="150" cy="98" rx="19" ry="22"/><g class="pk-pupil"><circle class="pk-pp" cx="150" cy="100" r="10"/><circle class="pk-hl" cx="154" cy="95" r="3.5"/></g></g>
+        <path class="pk-mouth" d="M107 128Q120 152 133 128Z"/>
+        <path class="pk-bd" transform="translate(30 178) rotate(-8)" d="M-22 52L-22 -8a6 6 0 0 1 12 0L-10 6L-6 6L-6 -12a6 6 0 0 1 12 0L6 6L10 6L10 -8a6 6 0 0 1 12 0L22 52Z"/>
+        <path class="pk-bd" transform="translate(210 178) rotate(8)" d="M-22 52L-22 -8a6 6 0 0 1 12 0L-10 6L-6 6L-6 -12a6 6 0 0 1 12 0L6 6L10 6L10 -8a6 6 0 0 1 12 0L22 52Z"/>
+      </svg></div>
+      <p class="pk-bub"><span>אנחנו מודדים כל חדר בעצמנו, גם את הפינות.</span></p>
     </div>
   </div>
-  <section class="pk-s" data-say="אני מודדת כל חדר בעצמי, גם את הפינות.">
+  <section class="pk-s" data-say="אנחנו מודדים כל חדר בעצמנו, גם את הפינות.">
     <div class="pk-in"><h2>מודדים את הדירה לפני כל תכנון</h2><p>אנחנו מגיעים עם מד לייזר ומודדים כל חדר, כולל גובה התקרה והפינות, כדי שהתכנון יתאים למה שיש שם באמת.</p></div>
     <figure class="pk-ph"><img src="../assets/media/real/s13/room.webp" alt="פינת ישיבה עם מנורת רצפה, כורסה וכוננית מוארת" width="2200" height="1469" loading="lazy" decoding="async"></figure>
   </section>
@@ -420,7 +435,7 @@ export default [
     <div class="pk-in"><h2>מקבלים שלוש אפשרויות לתכנון</h2><p>לכל חדר אנחנו מכינים שלוש חלופות עם הדמיות. אתם בוחרים אחת, ואפשר לשלב חלקים מכמה חלופות.</p></div>
     <figure class="pk-ph"><img src="../assets/media/real/s13/proj-a.webp" alt="סלון בגוונים כהים עם חלון גדול ושלוש מנורות תלויות" width="1800" height="1200" loading="lazy" decoding="async"></figure>
   </section>
-  <section class="pk-s" data-say="אני עוברת באתר פעם בשבוע ומצלמת.">
+  <section class="pk-s" data-say="אנחנו עוברים באתר פעם בשבוע ומצלמים.">
     <div class="pk-in"><h2>ביקור באתר אחת לשבוע</h2><p>בזמן העבודה אנחנו נמצאים בדירה פעם בשבוע, בודקים מול התוכנית ושולחים לכם תמונות מהשטח.</p></div>
     <figure class="pk-ph"><img src="../assets/media/real/s13/proj-b.webp" alt="פינת חדר רחצה עם מראה עגולה, אגרטל ומשטח שיש שחור" width="1200" height="1600" loading="lazy" decoding="async"></figure>
   </section>
@@ -432,47 +447,83 @@ export default [
   js:`(function(){
   if(typeof gsap==="undefined"||typeof ScrollTrigger==="undefined")return;      // בלי GSAP השכבה נשארת מוסתרת והטקסט שלם
   const root=document.querySelector(".pk"),layer=root.querySelector(".pk-layer"),peek=layer.querySelector(".pk-peek"),
-    fig=peek.querySelector(".pk-fig"),bub=peek.querySelector(".pk-bub"),say=bub.querySelector("span"),secs=[].slice.call(root.querySelectorAll(".pk-s"));
+    fig=peek.querySelector(".pk-fig"),bub=peek.querySelector(".pk-bub"),say=bub.querySelector("span"),
+    eyes=[].slice.call(peek.querySelectorAll(".pk-eye")),pupils=[].slice.call(peek.querySelectorAll(".pk-pupil")),
+    mouth=peek.querySelector(".pk-mouth"),tuft=peek.querySelector(".pk-tuft"),
+    secs=[].slice.call(root.querySelectorAll(".pk-s")),first=say.textContent;
   // בהפחתת תנועה הפונקציה לא רצה
   gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
-    const HIDE=112,REST=38,rtl=getComputedStyle(root).direction==="rtl";
-    let cur=-2,tl=null;const mob=()=>innerWidth<768;      // בדסקטופ הדמות מתחלפת כשהסקשן הבא עוד בתחתית, לפני שהטקסט שלו הגיע; בטלפון הטקסט רחב ולכן מחכים לאמצע
+    const HIDE=112,REST=12,rtl=getComputedStyle(root).direction==="rtl";
+    let cur=-2,said=-1,ready=false,open=-1,look=1,tl=null,bt=null,blinkCall=null;
+    const mob=()=>innerWidth<768;      // בדסקטופ הדמות מתחלפת כשהסקשן הבא עוד בתחתית, לפני שהטקסט שלו הגיע; בטלפון הטקסט רחב ולכן מחכים לאמצע
     layer.dataset.pos=rtl?"l":"r";
     root.classList.add("is-live");
     gsap.set(peek,{yPercent:HIDE});gsap.set(bub,{autoAlpha:0});
+    gsap.set(eyes,{transformOrigin:"50% 50%"});gsap.set(mouth,{transformOrigin:"50% 0%",scaleY:.55});gsap.set(tuft,{transformOrigin:"50% 100%"});
     const bob=gsap.to(fig,{y:-5,duration:1.7,ease:"sine.inOut",yoyo:true,repeat:-1,paused:true});
+    const sway=gsap.to(tuft,{rotation:7,duration:1.3,ease:"sine.inOut",yoyo:true,repeat:-1,paused:true});
+    function blink(){
+      gsap.fromTo(eyes,{scaleY:1},{scaleY:.08,duration:.07,ease:"none",yoyo:true,repeat:1});
+      blinkCall=gsap.delayedCall(2.6+Math.random()*2.8,blink);
+    }
     // הצד תמיד מנגד לטקסט: סקשן זוגי (0, 2) טקסט בהתחלה ודמות בסוף, ובכיוון RTL הסוף הוא שמאל
     function place(i){
       const end=i%2===0,left=end===rtl;
-      layer.dataset.pos=left?"l":"r";
-      say.textContent=secs[i].getAttribute("data-say")||"";
+      layer.dataset.pos=left?"l":"r";look=left?1:-1;
       gsap.set(fig,{rotation:left?3:-3});
+      gsap.set(pupils,{x:0,y:2});
     }
-    // פונקציה אחת לכל החילופים: הורגת את המעבר הקודם, יורדת אם צריך, מחליפה צד וטקסט, עולה
+    // הבועה נפתחת רק כשהדמות למעלה והסקשן שלה הגיע לאמצע המסך
+    function talk(){
+      if(!ready||cur<0||said!==cur||open===cur)return;
+      open=cur;
+      const txt=secs[cur].getAttribute("data-say")||"";
+      say.textContent="";
+      const ws=txt.split(" ").filter(Boolean).map((w,k,a)=>{const s=document.createElement("span");s.className="pk-wd";s.textContent=w;say.appendChild(s);if(k<a.length-1)say.appendChild(document.createTextNode(" "));return s;});
+      if(bt)bt.kill();
+      bt=gsap.timeline();
+      bt.fromTo(bub,{autoAlpha:0,scale:.8},{autoAlpha:1,scale:1,duration:.35,ease:"power2.out"})
+        .fromTo(ws,{autoAlpha:0,y:6},{autoAlpha:1,y:0,duration:.25,ease:"power2.out",stagger:.06},"-=.15")
+        .fromTo(mouth,{scaleY:.55},{scaleY:1,duration:.08,ease:"sine.inOut",yoyo:true,repeat:ws.length*2-1},"<");
+    }
+    function hush(){
+      open=-1;
+      if(bt)bt.kill();
+      bt=gsap.to(bub,{autoAlpha:0,scale:.85,duration:.18,ease:"power1.in"});
+      gsap.to(mouth,{scaleY:.55,duration:.12,overwrite:"auto"});
+    }
+    // פונקציה אחת לכל החילופים: הורגת את המעבר הקודם, יורדת אם צריך, מחליפה צד ומבט, עולה ואז מדברת
     function show(i){
-      if(i===cur)return;cur=i;
+      if(i===cur)return;cur=i;ready=false;
       if(tl)tl.kill();
+      if(blinkCall)blinkCall.kill();
+      if(open>=0)hush();
       tl=gsap.timeline();
       const y=gsap.getProperty(peek,"yPercent");
-      if(y<HIDE-1){
-        tl.to(bub,{autoAlpha:0,scale:.85,duration:.18,ease:"power1.in"},0)
-          .to(peek,{yPercent:HIDE,duration:.2+.3*(HIDE-y)/(HIDE-REST),ease:"power2.in"},0);
-      }
-      if(i<0){tl.add(()=>bob.pause());return;}
-      tl.add(()=>{place(i);bob.play();})
-        .fromTo(peek,{yPercent:HIDE},{yPercent:REST,duration:.75,ease:"power3.out"})
-        .fromTo(bub,{autoAlpha:0,scale:.8},{autoAlpha:1,scale:1,duration:.4,ease:"power2.out"},"-=.3");
+      if(y<HIDE-1)tl.to(peek,{yPercent:HIDE,duration:.2+.3*(HIDE-y)/(HIDE-REST),ease:"power2.in"},0);
+      if(i<0){tl.add(()=>{bob.pause();sway.pause();});return;}
+      tl.add(()=>{place(i);bob.play();sway.play();})
+        .fromTo(peek,{yPercent:HIDE},{yPercent:REST-5,duration:.6,ease:"power3.out"})
+        .to(peek,{yPercent:REST,duration:.28,ease:"power2.inOut"})
+        .to(pupils,{x:look*7,y:0,duration:.45,ease:"power2.inOut"},"-=.5")
+        .add(()=>{ready=true;blinkCall=gsap.delayedCall(1.2,blink);talk();});
     }
+    function hear(i){said=i;if(open>=0&&open!==i)hush();talk();}
     secs.forEach((s,i)=>{
       ScrollTrigger.create({trigger:s,start:()=>mob()?"top 50%":"top 75%",end:()=>mob()?"bottom 50%":"bottom 75%",invalidateOnRefresh:true,
         onEnter:()=>show(i),onEnterBack:()=>show(i),
         onLeave:()=>{if(i===secs.length-1)show(-1);},
         onLeaveBack:()=>{if(i===0)show(-1);}});
+      ScrollTrigger.create({trigger:s,start:"top 50%",end:"bottom 50%",
+        onEnter:()=>hear(i),onEnterBack:()=>hear(i),
+        onLeave:()=>{if(i===secs.length-1)hear(-1);},
+        onLeaveBack:()=>{if(i===0)hear(-1);}});
     });
     return()=>{
-      if(tl)tl.kill();
+      if(tl)tl.kill();if(bt)bt.kill();if(blinkCall)blinkCall.kill();
       root.classList.remove("is-live");layer.removeAttribute("data-pos");
-      gsap.set([peek,fig,bub],{clearProps:"all"});
+      gsap.set([peek,fig,bub,mouth,tuft].concat(eyes,pupils),{clearProps:"all"});
+      say.textContent=first;
     };
   });
 })();`

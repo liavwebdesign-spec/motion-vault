@@ -651,19 +651,25 @@ enter(document.getElementById("h18"));`,
 .h19h h3{margin:0;max-width:12ch;font-size:clamp(34px,min(4vw,7.8vh),66px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
 .h19h .hlead{max-width:40ch}
 /* the comparison is always left to right, with "before" on the right, the side a Hebrew reader meets first; --p is the handle */
-.h19-cmp{--p:50%;position:relative;border-radius:20px;overflow:hidden;background:var(--ink);clip-path:inset(0 round 20px);transition:clip-path .9s ${E}}
-.h19-cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 50%;display:block}
+.h19-cmp{--p:50%;position:relative;border-radius:20px;overflow:hidden;background:var(--ink);clip-path:inset(0 round 20px);transition:clip-path .9s ${E};
+  cursor:ew-resize;touch-action:pan-y;-webkit-user-select:none;user-select:none}
+.h19-cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 50%;display:block;pointer-events:none;-webkit-user-drag:none}
 .h19-bef{clip-path:inset(0 0 0 var(--p));filter:grayscale(.7) brightness(.45) contrast(.9)}
 .h19-lab{position:absolute;top:16px;z-index:1;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;background:color-mix(in srgb,var(--ink) 55%,transparent);color:var(--bg);
-  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:none}
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:none;transition:opacity .3s ${E}}
 .h19-lab.b{right:16px}
 .h19-lab.a{left:16px}
-.h19-hdl{position:absolute;top:0;bottom:0;left:var(--p);z-index:1;width:3px;background:var(--bg);transform:translateX(-50%);pointer-events:none}
-.h19-knob{position:absolute;top:50%;left:50%;width:52px;height:52px;border-radius:999px;display:grid;place-items:center;background:var(--bg);color:var(--ink);transform:translate(-50%,-50%);
-  box-shadow:0 10px 30px -8px color-mix(in srgb,var(--ink) 50%,transparent)}
+/* a label leaves when its side closes, so "before" never sits on the after picture */
+.h19-cmp.no-b .h19-lab.b,.h19-cmp.no-a .h19-lab.a{opacity:0}
+/* the handle layer is as wide as the picture, so translateX(--p) puts the line exactly under the pointer, without moving left */
+.h19-hdl{position:absolute;inset:0;z-index:1;transform:translateX(var(--p));pointer-events:none}
+.h19-hdl::before{content:"";position:absolute;top:0;bottom:0;left:0;width:3px;background:var(--bg);transform:translateX(-50%)}
+.h19-knob{position:absolute;top:50%;left:0;width:52px;height:52px;border-radius:999px;display:grid;place-items:center;background:var(--bg);color:var(--ink);transform:translate(-50%,-50%);
+  box-shadow:0 10px 30px -8px color-mix(in srgb,var(--ink) 50%,transparent);transition:scale .2s ${E}}
+.h19-cmp.drag .h19-knob{scale:1.08}
 .h19-knob svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-/* a native range over the whole picture: drag, touch and arrow keys for free. It is invisible; the knob shows its focus */
-.h19-rng{position:absolute;inset:0;z-index:2;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}
+/* the range is for the keyboard and the screen reader only; the pointer is read on the picture, so the line follows it to the pixel */
+.h19-rng{position:absolute;inset:0;z-index:2;width:100%;height:100%;margin:0;opacity:0;pointer-events:none}
 .h19-rng:focus-visible+.h19-hdl .h19-knob{outline:2px solid var(--accent);outline-offset:3px}
 .open-anim .h19-cmp{clip-path:inset(5% 8% round 20px);animation:h19-fs 0s 2.5s forwards}
 .is-in .h19-cmp{clip-path:inset(0 round 20px);transition-delay:calc(var(--t0,0s) + .1s)}
@@ -694,23 +700,57 @@ enter(document.getElementById("h18"));`,
 (function(){
   var root=document.getElementById("h19"); enter(root);
   var cmp=root.querySelector(".h19-cmp"), rng=root.querySelector(".h19-rng"), touched=false;
-  function set(v){cmp.style.setProperty("--p",v+"%");}
-  function say(){rng.setAttribute("aria-valuetext",rng.value+" אחוז מהתמונה אחרי");}
-  rng.addEventListener("input",function(){touched=true; set(rng.value); say();});
+  var cur=50, anim=0, down=null, moved=false, x0=0, y0=0, calm=!matchMedia("(prefers-reduced-motion:no-preference)").matches;
+  function set(v){cur=Math.max(0,Math.min(100,v)); cmp.style.setProperty("--p",cur.toFixed(2)+"%"); cmp.classList.toggle("no-b",cur>86); cmp.classList.toggle("no-a",cur<14);}
+  function say(){rng.value=Math.round(cur); rng.setAttribute("aria-valuetext",Math.round(cur)+" אחוז מהתמונה אחרי");}
+  function at(e){var b=cmp.getBoundingClientRect(); return (e.clientX-b.left)/b.width*100;}
+  // a click far from the line glides there in a fifth of a second instead of jumping
+  function glide(to){
+    cancelAnimationFrame(anim);
+    if(calm){set(to); say(); return;}
+    var from=cur, t0=0;
+    anim=requestAnimationFrame(function f(now){
+      if(!t0)t0=now; var k=Math.min((now-t0)/220,1);
+      set(from+(to-from)*(1-Math.pow(1-k,3)));
+      if(k<1)anim=requestAnimationFrame(f); else say();
+    });
+  }
+  // a mouse moves the line on press; a finger only when it moves sideways or taps, so scrolling the page never moves it
+  cmp.addEventListener("pointerdown",function(e){
+    if(e.button>0)return; touched=true; down=e.pointerId; moved=e.pointerType==="mouse"; x0=e.clientX; y0=e.clientY;
+    cmp.setPointerCapture(e.pointerId);
+    if(moved){e.preventDefault(); cmp.classList.add("drag"); glide(at(e));}
+  });
+  cmp.addEventListener("pointermove",function(e){
+    if(e.pointerId!==down)return;
+    if(!moved){var dx=Math.abs(e.clientX-x0); if(dx<8||dx<Math.abs(e.clientY-y0))return; moved=true; cmp.classList.add("drag");}
+    cancelAnimationFrame(anim); set(at(e));
+  });
+  function end(e){
+    if(e.pointerId!==down)return; down=null; cmp.classList.remove("drag");
+    if(e.type==="pointerup"&&!moved)glide(at(e)); else say();
+  }
+  cmp.addEventListener("pointerup",end); cmp.addEventListener("pointercancel",end);
+  // the keyboard: arrows move five percent, Home and End go to the edges (native)
+  rng.addEventListener("keydown",function(e){
+    var d={ArrowRight:5,ArrowUp:5,ArrowLeft:-5,ArrowDown:-5}[e.key]; if(!d)return;
+    e.preventDefault(); touched=true; cancelAnimationFrame(anim); set(Math.round(cur)+d); say();
+  });
+  rng.addEventListener("input",function(){touched=true; cancelAnimationFrame(anim); set(+rng.value); say();});
   say();
   // one hint, once: after the entrance the handle swings right and back, only when motion is allowed and nobody touched it
-  if(!matchMedia("(prefers-reduced-motion:no-preference)").matches)return;
+  if(calm)return;
   inView(root,function(){setTimeout(function(){
     var t0=0;
     requestAnimationFrame(function f(now){
       if(touched)return; if(!t0)t0=now;
       var k=Math.min((now-t0)/1200,1);
-      set(k<1?(50+16*Math.sin(k*Math.PI*2)*(1-k/2)).toFixed(2):50);
+      set(k<1?50+16*Math.sin(k*Math.PI*2)*(1-k/2):50);
       if(k<1)requestAnimationFrame(f);
     });
   },1000);});
 })();`,
-  note:"זה ההירו שמראה במקום לספר: אותו חדר בשני מצבים, והמבקר עושה את ההשוואה בעצמו. הידית היא input מסוג range אמיתי ושקוף שמכסה את כל התמונה, ולכן גרירה בעכבר, נגיעה בטלפון וחיצים במקלדת עובדים בלי קוד גרירה, והפוקוס שלו מצויר על העיגול. ההשוואה תמיד משמאל לימין, עם \"לפני\" בצד ימין, הצד שקורא עברית פוגש ראשון, והשכבה העליונה נחתכת ב-clip-path לפי --p, בלי לשנות רוחב. אחרי הכניסה הידית זזה פעם אחת לבד, ימינה וחזרה, וזה במקום הוראה כתובה; היא לא זזה אם המבקר כבר נגע בה, ולא בהפחתת תנועה. הקו של הידית הוא חלק מהפקד, לא קישוט. בדמו ה\"לפני\" הוא אותו צילום, מוחשך ודהוי ב-filter; בפרויקט שמים שני צילומים אמיתיים מאותה זווית, אחרת ההשוואה נראית מזויפת." + NOTE_TAIL
+  note:"זה ההירו שמראה במקום לספר: אותו חדר בשני מצבים, והמבקר עושה את ההשוואה בעצמו. הגרירה נקראת מהמצביע על התמונה עצמה (pointer events עם setPointerCapture), ולכן הקו נמצא בדיוק מתחת לעכבר או לאצבע, בלי מדרגות של אחוז שלם ובלי ההיסט של אגודל ה-range בקצוות, וגם באייפון, שבו range שקוף זז רק כשפוגעים באגודל הבלתי נראה. עכבר מזיז את הקו כבר בלחיצה; אצבע מזיזה אותו רק כשהיא זזה לרוחב יותר מ-8 פיקסלים או מקישה, כך שגלילה של העמוד לא מזיזה את הקו (touch-action:pan-y). לחיצה רחוקה מהקו גולשת אליו ב-220ms במקום לקפוץ. input מסוג range שקוף נשאר בשביל המקלדת וקורא המסך (חיצים זזים 5%, Home ו-End לקצוות), עם pointer-events:none, והפוקוס שלו מצויר על העיגול. הקו זז ב-transform על שכבה ברוחב התמונה, לא ב-left, והתווית של צד שנסגר נמוגה, כך ש\"לפני\" לא נשארת על תמונת ה\"אחרי\". ההשוואה תמיד משמאל לימין, עם \"לפני\" בצד ימין, הצד שקורא עברית פוגש ראשון, והשכבה העליונה נחתכת ב-clip-path לפי --p, בלי לשנות רוחב. אחרי הכניסה הידית זזה פעם אחת לבד, ימינה וחזרה, וזה במקום הוראה כתובה; היא לא זזה אם המבקר כבר נגע בה, ולא בהפחתת תנועה. הקו של הידית הוא חלק מהפקד, לא קישוט. בדמו ה\"לפני\" הוא אותו צילום, מוחשך ודהוי ב-filter; בפרויקט שמים שני צילומים אמיתיים מאותה זווית, אחרת ההשוואה נראית מזויפת." + NOTE_TAIL
 },
 {
   id:"h20", cat:"hero", name:"הירו שם ענק על צילום מלא", tech:"CSS · JS", status:"מאושר-עין", runway:false,
@@ -829,7 +869,7 @@ enter(document.getElementById("h21"));`,
 .h22-fan{--cw:clamp(150px,13vw,200px);--k:1;position:relative;flex:1;width:100%;min-height:clamp(220px,34vh,330px);margin:0;padding:0;list-style:none}
 /* every card hangs from one pivot far below it; rotate and translate are separate properties, so the entrance and the hover never fight */
 .h22-card{position:absolute;bottom:calc(var(--cw) * -.3);left:50%;z-index:var(--z);width:var(--cw);aspect-ratio:3/4;margin-left:calc(var(--cw) / -2);border-radius:18px;overflow:hidden;background:var(--card);
-  transform-origin:50% 230%;rotate:calc(var(--r) * var(--k));box-shadow:0 24px 50px -24px color-mix(in srgb,var(--ink) 45%,transparent);transition:rotate .8s ${E},translate .45s ${E},opacity .5s ${E}}
+  transform-origin:50% 230%;rotate:calc((var(--r) + var(--s,0deg)) * var(--k));box-shadow:0 24px 50px -24px color-mix(in srgb,var(--ink) 45%,transparent);transition:rotate .8s ${E},translate .45s ${E},opacity .5s ${E}}
 .h22-card img{width:100%;height:100%;object-fit:cover;display:block}
 /* each label sits on the edge the next card does not cover: right-hand cards on their right, left-hand cards on their left */
 .h22-lab{position:absolute;top:12px;inset-inline-start:10px;padding:6px 10px;border-radius:999px;background:var(--bg);color:var(--ink);font-size:13px;font-weight:700;white-space:nowrap}
@@ -838,10 +878,13 @@ enter(document.getElementById("h21"));`,
 .h22-card.txt span{font-size:13px;font-weight:600;opacity:.85}
 .h22-card.txt b{font-size:clamp(18px,1.5vw,22px);line-height:1.2;text-wrap:balance}
 .open-anim .h22-card{rotate:0deg;translate:0 40%;opacity:0;animation:h22-fs 0s 2.5s forwards}
-.is-in .h22-card{rotate:calc(var(--r) * var(--k));translate:0 0;opacity:1;transition-delay:calc(var(--t0,0s) + .25s + var(--d) * 60ms)}
+.is-in .h22-card{rotate:calc((var(--r) + var(--s,0deg)) * var(--k));translate:0 0;opacity:1;transition-delay:calc(var(--t0,0s) + .25s + var(--d) * 60ms)}
 .rv-on .h22-card{animation:none}
 @keyframes h22-fs{to{rotate:calc(var(--r) * var(--k));translate:0 0;opacity:1}}
-@media (hover:hover) and (pointer:fine){.h22-card:hover{translate:0 -20px;z-index:9;transition-delay:0s}}
+/* after the entrance the delays go, so a card that is left drops at once instead of waiting its entrance turn */
+.h22h.settled .h22-card{transition:rotate .5s ${E},translate .4s ${E},opacity .5s ${E},z-index 0s linear .2s}
+/* the card under the pointer is chosen by its slice of the fan (JS), not by what is on top, so a lifted card never blocks its neighbour */
+.h22h.settled .h22-card.up{translate:0 -24px;z-index:9;transition:rotate .5s ${E},translate .4s ${E},opacity .5s ${E},z-index 0s}
 @media (prefers-reduced-motion:reduce){.h22-card{transition-duration:.01ms!important;transition-delay:0s!important}}
 /* phone: three cards */
 @media (max-width:860px){.h22h{padding:88px 20px 0;gap:20px;min-height:min(90vh,780px)}.h22h h3{font-size:clamp(30px,8vw,40px)}.h22-fan{--cw:132px;--k:1.35;min-height:240px}.h22-card.txt{padding:14px}.h22-card.txt b{font-size:17px}.h22-card.out{display:none}}`,
@@ -862,8 +905,34 @@ enter(document.getElementById("h21"));`,
   </section>
 </div>`,
   js:`${REVEAL_JS}
-enter(document.getElementById("h22"));`,
-  note:"כל הכרטיסים יושבים באותה נקודה ותלויים מציר אחד שנמצא הרחק מתחתם (transform-origin של 230%), כך שזווית שונה לכל אחד (--r) פותחת אותם למניפה, בלי לחשב מיקומים. הכניסה מתחילה בערימה סגורה שעולה מלמטה ונפתחת מהאמצע החוצה. הזווית וההזזה הן תכונות נפרדות (rotate ו-translate), ולכן הריחוף מרים כרטיס בלי לשבור את הזווית שלו ובלי להתנגש בכניסה. הכרטיס האמצעי הוא טקסט בצבע המותג (הטעם של השבוע), ולכן המניפה אומרת משהו ולא רק מראה תמונות; התמונות דקורטיביות, והשם הקצר על כל כרטיס הוא הטקסט שלו, והוא יושב בקצה שהכרטיס הסמוך לא מכסה. הכרטיסים נחתכים בקצה התחתון של ההירו בכוונה, כמו קלפים ביד. בטלפון נשארים שלושה." + NOTE_TAIL
+(function(){
+  var root=document.getElementById("h22"); enter(root);
+  var fan=root.querySelector(".h22-fan"), cards=[].slice.call(fan.children), act=null;
+  function settle(){root.classList.add("settled");}
+  fan.addEventListener("transitionend",function(e){if(e.propertyName==="rotate")settle();});
+  setTimeout(settle,3200);
+  if(!matchMedia("(hover:hover) and (pointer:fine)").matches)return;
+  function deg(c){return parseFloat(c.style.getPropertyValue("--r"));}
+  function lift(c){
+    if(c===act)return; act=c;
+    // the lifted card gets room: the cards on each side lean five degrees away from it
+    cards.forEach(function(o){
+      o.classList.toggle("up",o===c);
+      o.style.setProperty("--s",!c||o===c?"0deg":(deg(o)>deg(c)?"5deg":"-5deg"));
+    });
+  }
+  // all cards hang from one pivot far below the fan: the angle from it to the pointer says which slice, and so which card, it is in
+  fan.addEventListener("pointermove",function(e){
+    if(!e.target.closest(".h22-card")){lift(null);return;}
+    var b=fan.getBoundingClientRect(), cw=cards[0].offsetWidth||cards[1].offsetWidth, k=parseFloat(getComputedStyle(fan).getPropertyValue("--k"))||1;
+    var px=b.left+b.width/2, py=b.bottom+cw*.3+cw*4/3*1.3;
+    var a=Math.atan2(e.clientX-px,py-e.clientY)*180/Math.PI, best=null, gap=1e9;
+    cards.forEach(function(c){if(!c.offsetWidth)return; var g=Math.abs(a-deg(c)*k); if(g<gap){gap=g;best=c;}});
+    lift(best);
+  });
+  fan.addEventListener("pointerleave",function(){lift(null);});
+})();`,
+  note:"כל הכרטיסים יושבים באותה נקודה ותלויים מציר אחד שנמצא הרחק מתחתם (transform-origin של 230%), כך שזווית שונה לכל אחד (--r) פותחת אותם למניפה, בלי לחשב מיקומים. הכניסה מתחילה בערימה סגורה שעולה מלמטה ונפתחת מהאמצע החוצה. הזווית וההזזה הן תכונות נפרדות (rotate ו-translate), ולכן הריחוף מרים כרטיס בלי לשבור את הזווית שלו ובלי להתנגש בכניסה. **הריחוף לא נשען על :hover:** הכרטיסים חופפים, וכרטיס שהורם ועלה לראש הערימה היה מכסה את השכן שלו וחוסם אותו. לכן הכרטיס נבחר לפי הזווית מהציר אל המצביע (הפרוסה שלו במניפה), ולא לפי מה שנמצא למעלה, והבחירה לפי הזווית הבסיסית (--r) יציבה ולא מהבהבת. השכנים נוטים 5 מעלות הצידה (--s) ומפנים לו מקום. אחרי הכניסה (המחלקה settled) מושהיות הכניסה יורדות, אחרת כרטיס שעוזבים נשאר למעלה עד שמגיע תורו, ו-z-index חוזר רק אחרי 0.2 שניות, כדי שכרטיס שיורד לא ייעלם מאחורי השכנים באמצע התנועה. הכרטיס האמצעי הוא טקסט בצבע המותג (הטעם של השבוע), ולכן המניפה אומרת משהו ולא רק מראה תמונות; התמונות דקורטיביות, והשם הקצר על כל כרטיס הוא הטקסט שלו, והוא יושב בקצה שהכרטיס הסמוך לא מכסה. הכרטיסים נחתכים בקצה התחתון של ההירו בכוונה, כמו קלפים ביד. בטלפון נשארים שלושה." + NOTE_TAIL
 },
 {
   id:"h23", cat:"hero", name:"הירו מספר ענק עם צילום בתוך הספרות", tech:"CSS · JS", status:"מאושר-עין", runway:false,
@@ -1105,72 +1174,98 @@ ${PP_CSS}
   note:"ההירו של חנות עם מוצר מוביל: הצילום גדול, וכל מה שצריך כדי לקנות (שם, מחיר, צבע, כפתור) נמצא במסך הראשון. הבורר בנוי מכפתורי רדיו אמיתיים בתוך fieldset, ולכן החצים במקלדת עוברים בין הצבעים וקורא מסך שומע קבוצה עם בחירה אחת; העיגול הוא רק הציור, והשם המלא מוסתר לקורא המסך. בחירה מחליפה את הצילום ואת שם הצבע מעל העיגולים מיד, בלי עמוד חדש. בפרויקט לכל צבע יש צילום משלו (data-src על כפתור הרדיו); כאן הדמו צובע צילום אחד (hue-rotate) כדי להראות את ההתנהגות. ההוספה לסל עונה בשורה מתחת לכפתור (role=status) ולא בחלון קופץ. אין מספר בתוך הכפתור: המחיר יושב מעליו בגדול. בטלפון המוצר הופך לרצועה למעלה ושני הכפתורים חולקים שורה." + NOTE_TAIL
 },
 {
-  id:"h26", cat:"hero", name:"הירו כותרת שחוצה את הצילום", tech:"CSS · JS", status:"ממתין", runway:false,
-  desc:"צילום גבוה בצד אחד, וכותרת גדולה שמתחילה בתוכו ויוצאת ממנו אל הרקע: מה שעל הצילום בהיר, ומה שמחוצה לו כהה, באותה שורה. המשפט והכפתורים יושבים מתחת, בצד הפנוי.",
-  when:"עסק שמוכר חוויה או מקום ויש לו צילום אחד חזק וכהה מספיק: סיורים, מסעדה, מלון, צלם, סטודיו, אדריכלות, אירועים. נראה כמו שער של מגזין ולא כמו תבנית. לא לצילום בהיר ועמוס, שהטקסט הבהיר לא נקרא עליו, ולא לכותרת של יותר משתי שורות קצרות.",
+  id:"h26", cat:"hero", name:"הירו חלון צילום בתוך הכותרת", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"כותרת ענקית במרכז, ובאמצעה חלון צר וגבוה שמראה את הצילום. החלון נפתח מקו דק, זז קצת לצדדים אחרי העכבר, וכל אות שנכנסת אליו מחליפה צבע בזמן אמת. המשפט והכפתורים יושבים בשני הצדדים, למטה.",
+  when:"עסק שמוכר חוויה או מקום ויש לו צילום אחד חזק: סיורים, מסעדה, מלון, צלם, סטודיו, אדריכלות, אירועים. רגע אחד שזוכרים, בלי וידאו ובלי ספרייה. לא לצילום בהיר מאוד, שהאותיות הבהירות לא נקראות עליו, ולא לכותרת של יותר משתי שורות קצרות.",
   libs:[],
   css:`${FRAME_CSS}
-.h26h{--pw:38%;display:flex;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg);color:var(--ink)}
-.h26-stage{position:relative;flex:1;display:grid;grid-template-areas:"a";min-height:520px}
+/* the window is one pair of numbers on the stage: --c moves its centre, --a is half its width. Both registered,
+   so the opening can be a transition and the photo, the cut and the light letters all read the same values */
+@property --a{syntax:"<percentage>";inherits:true;initial-value:13%}
+@property --c{syntax:"<percentage>";inherits:true;initial-value:0%}
+.h26h{display:flex;flex-direction:column;min-height:min(88vh,800px);padding:88px 28px 28px;background:var(--bg);color:var(--ink)}
+.h26-stage{--a:13%;--c:0%;--l:calc(50% + var(--c) - var(--a));--r:calc(50% - var(--c) - var(--a));
+  position:relative;flex:1;display:grid;grid-template-areas:"a";min-height:560px;transition:--a 1.1s ${E}}
 .h26-stage>*{grid-area:a}
-.h26-ph{position:relative;justify-self:start;width:var(--pw);border-radius:20px;overflow:hidden;background:var(--ink);clip-path:inset(0 round 20px);transition:clip-path 1s ${E}}
-.h26-ph img{width:100%;height:100%;object-fit:cover;object-position:52% 50%;display:block;transition:transform 1.2s ${E}}
-/* the light type needs a dark corner: diagonal from where the heading starts (heroes.md), never a 90 degree band */
-.h26-ph::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom left,color-mix(in srgb,var(--ink) 62%,transparent),color-mix(in srgb,var(--ink) 18%,transparent) 75%)}
-[dir="ltr"] .h26-ph::after{background:linear-gradient(to bottom right,color-mix(in srgb,var(--ink) 62%,transparent),color-mix(in srgb,var(--ink) 18%,transparent) 75%)}
-.open-anim .h26-ph{clip-path:inset(0 0 100% 0 round 20px);animation:h26p-fs 0s 2.5s forwards}
-.open-anim .h26-ph img{transform:scale(1.1);animation:rv-fs 0s 2.5s forwards}
-.is-in .h26-ph{clip-path:inset(0 round 20px);transition-delay:var(--t0,0s)}
+.h26-ph{position:relative;overflow:hidden;border-radius:20px;background:var(--ink);clip-path:inset(0 var(--r) 0 var(--l) round 20px)}
+.h26-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%;display:block;transition:transform 1.2s ${E}}
+/* the type is centred, so the shade is centred too (heroes.md: the scrim comes from where the text is) */
+.h26-ph::after{content:"";position:absolute;inset:0;background:radial-gradient(70% 60% at 50% 46%,color-mix(in srgb,var(--ink) 64%,transparent),color-mix(in srgb,var(--ink) 26%,transparent))}
+.open-anim .h26-stage{--a:.3%;animation:h26a-fs 0s 2.5s forwards}
+.open-anim .h26-ph img{transform:scale(1.08);animation:rv-fs 0s 2.5s forwards}
+.is-in.h26-stage{--a:13%;transition-delay:var(--t0,0s)}
 .is-in .h26-ph img{transform:none;transition-delay:var(--t0,0s)}
-.rv-on .h26-ph,.rv-on .h26-ph img{animation:none}
-@keyframes h26p-fs{to{clip-path:inset(0 round 20px)}}
-.h26-t{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:40px}
-.h26-t .hkick,.h26-t h3{margin-inline-start:40px}
-.h26h h3{margin-block:0;font-size:clamp(36px,min(5.4vw,7.8vh),78px);line-height:1.02;font-weight:700;letter-spacing:-.015em}
+.rv-on.h26-stage,.rv-on .h26-ph img{animation:none}
+@keyframes h26a-fs{to{--a:13%}}
+.h26-t{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:20px;padding-bottom:112px;text-align:center}
+.h26h h3{margin:0;font-size:clamp(40px,min(7.2vw,11vh),124px);line-height:1;font-weight:800;letter-spacing:-.02em}
 .h26h h3 span{display:block;white-space:nowrap}
-.h26-more{display:flex;flex-direction:column;align-items:flex-start;gap:20px;margin-inline-start:calc(var(--pw) + 48px)}
-.h26-more .hlead{max-width:40ch}
-/* one heading drawn twice in the same box, so the lines break the same: the dark copy is cut away from the photo,
-   the light copy is cut down to it. The light one is a picture of the text: hidden from screen readers, inert */
-.h26-t.dk{clip-path:inset(0 var(--pw) 0 0)}
-.h26-t.lt{color:var(--bg);clip-path:inset(0 0 0 calc(100% - var(--pw)) round 20px);pointer-events:none}
-[dir="ltr"] .h26-t.dk{clip-path:inset(0 0 0 var(--pw))}
-[dir="ltr"] .h26-t.lt{clip-path:inset(0 calc(100% - var(--pw)) 0 0 round 20px)}
-.h26-t.lt .h26-more{visibility:hidden}
-@media (prefers-reduced-motion:reduce){.h26-ph,.h26-ph img{transition-duration:.01ms!important;transition-delay:0s!important}}
-/* phone: no crossing; the text first and the photo as a band under it */
-@media (max-width:860px){.h26h{padding:88px 20px 20px;min-height:0}
-  .h26-stage{display:flex;flex-direction:column;gap:20px;min-height:0}
-  .h26-t.lt{display:none}[dir] .h26-t.dk{clip-path:none;padding-block:0;gap:16px}
-  .h26-t .hkick,.h26-t h3,.h26-more{margin-inline-start:0}
-  .h26h h3{font-size:clamp(30px,8vw,40px)}.h26h h3 span{display:inline;white-space:normal}
-  .h26-ph{order:2;width:100%;height:clamp(180px,28vh,250px)}}`,
+/* one heading drawn twice in the same box, so the lines break in the same place: the dark copy has the window cut
+   out of it, the light copy is cut down to the window. The light one is a picture of the text: hidden, inert */
+.h26-t.dk{-webkit-mask-image:linear-gradient(to right,#000 var(--l),transparent 0 calc(100% - var(--r)),#000 0);mask-image:linear-gradient(to right,#000 var(--l),transparent 0 calc(100% - var(--r)),#000 0)}
+.h26-t.lt{color:var(--bg);clip-path:inset(0 var(--r) 0 var(--l));pointer-events:none}
+/* the rest stays out of the window's whole range (centre 50% plus or minus 8%, half width 13%), so it never needs the trick */
+.h26-more{align-self:end;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;pointer-events:none}
+.h26-more>*{width:calc(29% - 16px);pointer-events:auto}
+.h26-more .hlead{margin:0}
+.h26-go{display:flex;flex-direction:column;align-items:flex-end;gap:14px}
+.h26-go .hcta{justify-content:flex-end}
+.h26-go .hmicro{flex-direction:column;align-items:flex-end;gap:4px}
+@media (prefers-reduced-motion:reduce){.h26-stage,.h26-ph img{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: the window stays (centred, a little wider, no pointer); the sentence and the buttons go under the stage */
+@media (max-width:860px){.h26h{padding:72px 20px 24px;min-height:0}
+  .h26-stage{grid-template-areas:"a" "b";min-height:0;row-gap:24px}
+  .is-in.h26-stage,.h26-stage{--a:19%}@keyframes h26a-fs{to{--a:19%}}
+  .h26-t{padding-block:56px;gap:14px}.h26h h3{font-size:clamp(28px,8.4vw,40px);line-height:1.05}.h26h h3 span{white-space:normal}
+  .h26-more{grid-area:b;flex-direction:column;align-items:center;gap:20px;text-align:center}.h26-more>*{width:auto}
+  .h26-go,.h26-go .hmicro{align-items:center}.h26-go .hmicro{flex-direction:row;justify-content:center;gap:4px 16px}}`,
   html:`${OPEN_GATE}
 <div class="hf">${TOP(true)}
   <section class="h26h" id="h26">
     <div class="h26-stage">
       <div class="h26-ph">${PIC("real/s01/street-light.webp", "רחוב אבן ישן בשקיעה, פנס דולק ואדם הולך לבד", { pri: true })}</div>
 ${(() => {
-        // one block of text, written into both layers from the same source; the light layer is a picture of it
+        // one heading, written into both layers from the same source; the light layer is a picture of it
         const t = `
         <span class="hkick rv" style="--i:0">סיורים רגליים בעיר העתיקה</span>
-        <h3 class="rv" style="--i:1"><span>הסמטאות נראות אחרת</span> <span>כשהשמש יורדת עליהן</span></h3>
-        <div class="h26-more">
-          <p class="hlead rv" style="--i:2">שעתיים וחצי ברגל, קבוצה קטנה, ומדריך שגדל ברובע ויודע איפה עוצרים לקפה.</p>
-          <div class="hcta rv" style="--i:3"><a class="hbtn" href="#h26">לבחירת תאריך</a><a class="hbtn ghost" href="#h26">המסלולים</a></div>
-          <p class="hmicro rv" style="--i:4"><span>יוצאים כל ערב חוץ משבת</span><span>ביטול בלי עלות עד יום לפני</span></p>
-        </div>`;
-        return `<div class="h26-t dk">${t}
+        <h3 class="rv" style="--i:1"><span>הסמטאות נראות אחרת</span> <span>כשהשמש יורדת עליהן</span></h3>`;
+        return `      <div class="h26-t dk">${t}
       </div>
       <div class="h26-t lt" aria-hidden="true" inert>${t}
       </div>`;
       })()}
+      <div class="h26-more">
+        <p class="hlead rv" style="--i:2">שעתיים וחצי ברגל, קבוצה קטנה, ומדריך שגדל ברובע ויודע איפה עוצרים לקפה.</p>
+        <div class="h26-go">
+          <div class="hcta rv" style="--i:3"><a class="hbtn" href="#h26">לבחירת תאריך</a><a class="hbtn ghost" href="#h26">המסלולים</a></div>
+          <p class="hmicro rv" style="--i:4"><span>יוצאים כל ערב חוץ משבת</span><span>ביטול בלי עלות עד יום לפני</span></p>
+        </div>
+      </div>
     </div>
   </section>
 </div>`,
   js:`${REVEAL_JS}
-enter(document.getElementById("h26"));`,
-  note:"הכותרת מצוירת פעמיים באותה תיבה בדיוק (שתי שכבות באותו תא גריד), ולכן השורות נשברות באותו מקום: העותק הכהה נחתך מחוץ לצילום והעותק הבהיר נחתך אל תוכו (clip-path עם אותו --pw של רוחב הצילום), כך שהאותיות מחליפות צבע בדיוק בקצה. שתי השכבות נכתבות מאותו מקור (בפרויקט: אותה קומפוננטה עם אותם נתונים), והבהירה מוסתרת מקורא מסך ו-inert, כך שאין כפתורים כפולים בטאב ואין טקסט שנקרא פעמיים; החצייה היא CSS בלבד, ולכן היא שלמה גם בלי JS. הכותרת מתחילה בתוך הצילום, ולכן כל שורה חוצה את הקצה; שתי שורות קצרות שלא נשברות (nowrap), והגודל עד 7.8% מגובה המסך. מעל הצילום שכבת קריאות אלכסונית מהפינה שבה הכותרת מתחילה. המשפט והכפתורים יושבים מתחת לכותרת, בצד הפנוי, כדי שלא יצטרכו את הטריק. בטלפון אין חצייה: הטקסט למעלה והצילום רצועה מתחתיו." + NOTE_TAIL
+(function(){
+  var root=document.getElementById("h26"), st=root.querySelector(".h26-stage");
+  enter(st);
+  // the window follows the pointer loosely: up to 8% from the centre, eased every frame, back to the centre on leave
+  if(!matchMedia("(hover:hover) and (pointer:fine)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+  var cur=0, to=0, raf=0;
+  function tick(){
+    cur+=(to-cur)*.12;
+    if(Math.abs(to-cur)<.01)cur=to;
+    st.style.setProperty("--c",cur.toFixed(2)+"%");
+    raf=cur===to?0:requestAnimationFrame(tick);
+  }
+  function aim(v){to=v; if(!raf)raf=requestAnimationFrame(tick);}
+  root.addEventListener("pointermove",function(e){
+    if(innerWidth<=860)return;
+    var b=st.getBoundingClientRect(), p=(e.clientX-b.left)/b.width;
+    aim(Math.max(-8,Math.min(8,(p-.5)*20)));
+  });
+  root.addEventListener("pointerleave",function(){aim(0);});
+})();`,
+  note:"הרגע של ההירו הוא החלון: צילום מלא מאחורי הבמה, שרואים ממנו רק עמודה צרה באמצע הכותרת. כל המצב הוא שני משתנים רשומים (@property) על הבמה, --c למרכז החלון ו---a לחצי הרוחב, ומהם נגזרים שלושה דברים: החיתוך של הצילום, החור בכותרת הכהה (mask) והחיתוך של הכותרת הבהירה (clip-path). לכן כשהחלון זז, האותיות מחליפות צבע בדיוק בקצה שלו, בכל פריים. הכניסה היא מעבר של --a מקו דק לרוחב מלא, ובמחשב עם עכבר החלון זז אחרי הסמן עד 8% מהמרכז, בהאטה (lerp) ולא בקפיצה, וחוזר למרכז כשהעכבר יוצא. הכותרת מצוירת פעמיים באותה תיבה בדיוק, ולכן השורות נשברות באותו מקום; הבהירה מוסתרת מקורא מסך ו-inert. המשפט והכפתורים יושבים מחוץ לכל הטווח של החלון, כך שאף פעם לא צריכים את הטריק. בלי JS ובתנועה מופחתת החלון פתוח ועומד באמצע. בטלפון החלון נשאר, קצת רחב יותר ובלי עכבר, והמשפט והכפתורים יורדים מתחת לבמה." + NOTE_TAIL
 },
 {
   id:"h27", cat:"hero", name:"הירו מותג אישי עם דיוקן", tech:"CSS · JS", status:"מאושר-עין", runway:false,
@@ -1234,50 +1329,80 @@ enter(document.getElementById("h27"));`,
   note:"כשהעסק הוא אדם אחד, הפנים הם ההוכחה הראשונה, ולכן הדיוקן גדול ובמסך הראשון. השורה הראשונה היא היכרות בקול שלה ובפונט התצוגה, וה-h3 שמתחתיה הוא ההבטחה, כך שהכותרת עדיין אומרת מה מקבלים ולא רק מי זאת. שלוש העובדות הן מספרים עם מילים (שנים, ארונות, משך המפגש) ולא מספור, ואין בהן כרטיסים או קווים. הדיוקן בצורת קשת למעלה, והוא נחשף מלמטה למעלה עם זום עדין; על הדיוקן תווית זמינות, שהיא עובדה ולא קישוט (הנקודה בצבע המותג, בלי הבהוב). בטלפון הדיוקן הופך לרצועה למעלה, עם הפנים במרכז החיתוך, ושני הכפתורים חולקים שורה." + NOTE_TAIL
 },
 {
-  id:"h28", cat:"hero", name:"הירו עסק מקומי: פתוח עכשיו, כתובת והזמנה", tech:"CSS · JS", status:"ממתין", runway:false,
-  desc:"צילום מלא של המקום, כותרת בפינה, ובפינה שמנגד כרטיס כמו במפות: פתוח או סגור עכשיו (מחושב בשעון ישראל), שעות היום, כתובת, טלפון, ושני כפתורים: הזמנה מראש וניווט. אפשר לפתוח את כל שעות השבוע.",
-  when:"עסק שאנשים מגיעים אליו פיזית: מאפייה, בית קפה, מסעדה, חנות, מספרה, קליניקה, מוסך. מה ששואלים לפני הכול הוא \"פתוח עכשיו?\" ו\"איפה זה?\", וההירו עונה בלי לגלול לפוטר. לא לעסק בלי כתובת שמקבלת לקוחות, ולא לעסק שעובד רק בתיאום, שם h16.",
+  id:"h28", cat:"hero", name:"הירו עסק מקומי: שלט פתוח שמתהפך לשעות", tech:"CSS · JS", status:"ממתין", runway:false,
+  desc:"צילום מלא של המקום וכותרת בפינה. בצד השני תלוי שלט כמו על דלת של חנות: הוא נכנס בנדנוד, אומר אם פתוח עכשיו ועד מתי (לפי שעון ישראל), ובלחיצה מתהפך ומראה את שעות השבוע. מתחתיו כרטיס קטן עם כתובת, טלפון, הזמנה מראש וניווט.",
+  when:"עסק שאנשים מגיעים אליו פיזית: מאפייה, בית קפה, מסעדה, חנות, מספרה, קליניקה, מוסך. מה ששואלים לפני הכול הוא \"פתוח עכשיו?\" ו\"איפה זה?\", וההירו עונה בלי לגלול לפוטר, עם רגע אחד שמרגיש כמו לעמוד מול הדלת. לא לעסק בלי כתובת שמקבלת לקוחות, ולא לעסק שעובד רק בתיאום, שם h16.",
   libs:[],
-  css:`${FRAME_CSS}
-.h28h{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:40px;min-height:min(86vh,780px);padding:96px 28px 28px;background:var(--ink);color:var(--bg);overflow:hidden;isolation:isolate}
+  css:`${SERIF}
+${FRAME_CSS}
+.h28h{--disp:${DISP};position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:40px;min-height:min(86vh,780px);padding:96px 28px 28px;background:var(--ink);color:var(--bg);overflow:hidden;isolation:isolate}
 .h28-bg{position:absolute;inset:0;z-index:-2}
 .h28-bg img{width:100%;height:100%;object-fit:cover;object-position:55% 60%;display:block;transition:transform 1.2s ${E}}
 .open-anim .h28-bg img{transform:scale(1.06);animation:rv-fs 0s 2.5s forwards}
 .is-in .h28-bg img{transform:none;transition-delay:var(--t0,0s)}
 .rv-on .h28-bg img{animation:none}
-/* the heading sits in the top corner, so the shade comes from that corner (heroes.md); the card has its own surface */
+/* the heading sits in the top corner, so the shade comes from that corner (heroes.md); the sign and the card have their own surface */
 .h28-scrim{position:absolute;inset:0;z-index:-1;background:linear-gradient(to bottom left,color-mix(in srgb,var(--ink) 72%,transparent) 0%,color-mix(in srgb,var(--ink) 30%,transparent) 50%,transparent 80%)}
 [dir="ltr"] .h28-scrim{background:linear-gradient(to bottom right,color-mix(in srgb,var(--ink) 72%,transparent) 0%,color-mix(in srgb,var(--ink) 30%,transparent) 50%,transparent 80%)}
 .h28-txt{align-self:start;display:flex;flex-direction:column;align-items:flex-start;gap:20px;max-width:600px}
 .h28h h3{margin:0;font-size:clamp(32px,min(4.2vw,7.8vh),64px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
 .h28h .hlead{max-width:40ch;opacity:.92}
-.h28-card{align-self:end;display:flex;flex-direction:column;gap:16px;width:340px;padding:24px;border-radius:20px;background:var(--bg);color:var(--ink);
-  box-shadow:0 24px 60px -24px color-mix(in srgb,var(--ink) 70%,transparent)}
-.h28-name{margin:0;font-size:18px;font-weight:800}
-.h28-st{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0;font-size:15px}
-.h28-st i{width:10px;height:10px;border-radius:50%;background:var(--muted);flex:none}
+/* the other column: the sign hangs from a nail under the nav (the column starts higher, so no cord crosses the links), the card stands at the bottom */
+.h28-side{--sw:272px;--ch:64px;--ph:172px;display:flex;flex-direction:column;justify-content:space-between;align-items:center;gap:32px;margin-top:-12px;width:340px}
+.h28-sign{position:relative;width:var(--sw)}
+.h28-pin{position:absolute;top:-4px;left:50%;z-index:2;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--bg);box-shadow:0 2px 6px color-mix(in srgb,var(--ink) 60%,transparent)}
+/* swings around the nail; perspective here so the plate under it turns in depth */
+.h28-hang{transform-origin:50% 2px;perspective:900px}
+.open-anim .h28-hang{opacity:0;rotate:-16deg;animation:h28h-fs 0s 2.5s forwards}
+.rv-on .h28-hang{animation:none}
+.is-in .h28-hang{animation:h28-in 1.2s ${E} var(--t0,0s) both}
+@keyframes h28h-fs{to{opacity:1;rotate:0deg}}
+@keyframes h28-in{0%{opacity:0;rotate:-16deg}25%{opacity:1;rotate:8deg}50%{rotate:-3.5deg}74%{rotate:1.2deg}100%{opacity:1;rotate:0deg}}
+/* the cords and both faces turn together on the nail, like a real sign twisting on its string */
+.h28-turn{position:relative;height:calc(var(--ch) + var(--ph));transform-style:preserve-3d;rotate:y 0deg;transition:rotate .7s ${E}}
+.h28-turn.flip{rotate:y 180deg}
+.h28-cord{position:absolute;inset:0 0 auto;width:100%;height:calc(var(--ch) + 12px);overflow:visible;translate:0 0 1px;pointer-events:none}
+.h28-cord path{fill:none;stroke:var(--bg);stroke-width:1.5;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.85}
+.h28-face{position:absolute;inset:var(--ch) 0 0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:20px 20px 16px;border-radius:14px;
+  background:var(--bg);color:var(--ink);backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:0 18px 40px -16px color-mix(in srgb,var(--ink) 80%,transparent)}
+.h28-bk{rotate:y 180deg;justify-content:flex-start;gap:10px}
+/* the two holes the cord goes through, on both faces */
+.h28-face::before,.h28-face::after{content:"";position:absolute;top:8px;width:7px;height:7px;border-radius:50%;background:color-mix(in srgb,var(--ink) 30%,var(--bg))}
+.h28-face::before{left:calc(15% - 3.5px)}.h28-face::after{right:calc(15% - 3.5px)}
+.h28-st{display:flex;align-items:center;gap:10px;margin:0;font-size:18px;font-weight:700}
+.h28-st i{width:12px;height:12px;border-radius:50%;background:var(--muted);flex:none}
 /* green means open everywhere; it is a status colour, not the brand, so it stays the same in every skin */
 .h28-st.on i{background:hsl(145 63% 42%)}
-.h28-st b{font-weight:800}
+.live .h28-st{font-family:var(--disp);font-size:52px;font-weight:400;line-height:1}
+.h28-sm{margin:0;font-size:15px;color:var(--muted);text-align:center}
+.live .h28-sm{font-size:17px;color:var(--ink);font-weight:600}
+.h28-flip,.h28-back{display:inline-flex;align-items:center;gap:6px;min-height:36px;margin-top:4px;padding:0 12px;border:0;border-radius:999px;background:none;color:inherit;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.h28-flip[hidden],.h28-back[hidden]{display:none}
+.h28-flip svg{width:14px;height:14px}
+@media (hover:hover) and (pointer:fine){.h28-flip:hover,.h28-back:hover{background:color-mix(in srgb,var(--ink) 8%,transparent)}}
+.h28-flip:focus-visible,.h28-back:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.h28-bk b{margin-top:8px;font-size:15px}
+.h28-bk dl{display:grid;grid-template-columns:auto auto;gap:4px 16px;margin:0;font-size:14px}
+.h28-bk dd{margin:0}
+.h28-bk .now{font-weight:800}
+.h28-card{display:flex;flex-direction:column;gap:14px;width:100%;padding:20px 24px;border-radius:20px;background:var(--bg);color:var(--ink);
+  box-shadow:0 24px 60px -24px color-mix(in srgb,var(--ink) 70%,transparent)}
+.h28-name{margin:0;font-size:18px;font-weight:800}
 .h28-dl{display:grid;grid-template-columns:auto 1fr;gap:8px 16px;margin:0;font-size:15px}
 .h28-dl dt{color:var(--muted)}
 .h28-dl dd{margin:0;font-weight:600}
 .h28-tel{color:inherit;text-decoration:none;unicode-bidi:isolate}
 @media (hover:hover) and (pointer:fine){.h28-tel:hover{text-decoration:underline}}
-.h28-wk summary{display:inline-flex;align-items:center;gap:8px;min-height:32px;font-size:14px;font-weight:600;cursor:pointer;list-style:none}
-.h28-wk summary::-webkit-details-marker{display:none}
-.h28-wk summary::after{content:"";width:7px;height:7px;border-inline-end:2px solid currentColor;border-block-end:2px solid currentColor;rotate:45deg;translate:0 -2px;transition:rotate .25s ${E}}
-.h28-wk[open] summary::after{rotate:-135deg;translate:0 2px}
-.h28-wk summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
-.h28-wk dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin:8px 0 0;font-size:14px}
-.h28-wk dd{margin:0}
 .h28-btns{display:flex;gap:8px}
 .h28-btns .hbtn{flex:1;padding-inline:16px}
 .h28-btns .hbtn.ghost{color:var(--ink)}
-@media (prefers-reduced-motion:reduce){.h28-bg img,.h28-wk summary::after{transition-duration:.01ms!important;transition-delay:0s!important}}
-/* phone: the heading on top, the card under it across the full width */
-@media (max-width:860px){.h28h{grid-template-columns:1fr;gap:24px;min-height:min(94vh,820px);padding:88px 20px 20px}
-  .h28h h3{font-size:clamp(28px,7.6vw,38px)}.h28-txt{gap:14px}.h28-card{width:auto;padding:20px;gap:14px}
+@media (prefers-reduced-motion:reduce){.h28-bg img,.h28-turn{transition-duration:.01ms!important;transition-delay:0s!important}}
+/* phone: heading, then the sign in the flow (smaller, shorter cords), then the card across the full width */
+@media (max-width:860px){.h28h{grid-template-columns:1fr;gap:20px;min-height:min(94vh,820px);padding:72px 20px 20px}
+  .h28h h3{font-size:clamp(28px,7.6vw,38px)}.h28-txt{gap:12px}
+  .h28-side{--sw:236px;--ch:40px;--ph:150px;margin-top:0;width:auto;gap:20px}
+  .live .h28-st{font-size:44px}.h28-face{padding:16px 16px 12px}.h28-bk{gap:6px}.h28-bk b{margin-top:4px}
+  .h28-card{padding:18px 20px;gap:12px}
   .h28-scrim{background:linear-gradient(to bottom,color-mix(in srgb,var(--ink) 75%,transparent) 0%,color-mix(in srgb,var(--ink) 35%,transparent) 55%,color-mix(in srgb,var(--ink) 20%,transparent))}}`,
   html:`${OPEN_GATE}
 <div class="hf">${TOP(false)}
@@ -1289,25 +1414,42 @@ enter(document.getElementById("h27"));`,
       <h3 class="rv">לחם שאור שיוצא מהתנור כל בוקר</h3>
       <p class="hlead rv">כיכרות, מאפים ועוגות שמרים משש וחצי בבוקר, ובשישי גם חלות. מזמינים מראש ואוספים בלי תור.</p>
     </div>
-    <div class="h28-card rv">
-      <p class="h28-name">המאפייה ברחוב הגפן</p>
-      <p class="h28-st"><i aria-hidden="true"></i><b class="h28-sb">ראשון עד חמישי</b><span class="h28-sm">7:00 עד 19:00, שישי עד 14:30</span></p>
-      <dl class="h28-dl">
-        <dt>היום</dt><dd class="h28-today">7:00 עד 19:00</dd>
-        <dt>כתובת</dt><dd>הגפן 12, זכרון יעקב</dd>
-        <dt>טלפון</dt><dd><a class="h28-tel" href="tel:+97246290000" dir="ltr">04-629-0000</a></dd>
-      </dl>
-      <details class="h28-wk"><summary>כל שעות הפתיחה</summary>
-        <dl><dt>ראשון עד חמישי</dt><dd>7:00 עד 19:00</dd><dt>שישי</dt><dd>6:30 עד 14:30</dd><dt>שבת</dt><dd>סגור</dd></dl>
-      </details>
-      <div class="h28-btns"><a class="hbtn" href="#h28">להזמנה מראש</a><a class="hbtn ghost" href="#h28">ניווט</a></div>
+    <div class="h28-side">
+      <div class="h28-sign">
+        <span class="h28-pin" aria-hidden="true"></span>
+        <div class="h28-hang">
+          <div class="h28-turn">
+            <div class="h28-face h28-fr">
+              <p class="h28-st"><i aria-hidden="true"></i><b class="h28-sb">ראשון עד חמישי</b></p>
+              <p class="h28-sm">7:00 עד 19:00, שישי עד 14:30</p>
+              <button class="h28-flip" type="button" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9M13.5 2.5v3h-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>שעות השבוע</button>
+            </div>
+            <div class="h28-face h28-bk" aria-hidden="true" inert>
+              <b>שעות פתיחה</b>
+              <dl><dt data-d="0">ראשון עד חמישי</dt><dd data-d="0">7:00 עד 19:00</dd><dt data-d="5">שישי</dt><dd data-d="5">6:30 עד 14:30</dd><dt data-d="6">שבת</dt><dd data-d="6">סגור</dd></dl>
+              <button class="h28-back" type="button" hidden>חזרה</button>
+            </div>
+            <svg class="h28-cord" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="M50 2 15 100M50 2 85 100"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="h28-card rv">
+        <p class="h28-name">המאפייה ברחוב הגפן</p>
+        <dl class="h28-dl">
+          <dt>כתובת</dt><dd>הגפן 12, זכרון יעקב</dd>
+          <dt>טלפון</dt><dd><a class="h28-tel" href="tel:+97246290000" dir="ltr">04-629-0000</a></dd>
+        </dl>
+        <div class="h28-btns"><a class="hbtn" href="#h28">להזמנה מראש</a><a class="hbtn ghost" href="#h28">ניווט</a></div>
+      </div>
     </div>
   </section>
 </div>`,
   js:`${REVEAL_JS}
 (function(){
   var root=document.getElementById("h28"); enter(root);
-  var st=root.querySelector(".h28-st"), sb=root.querySelector(".h28-sb"), sm=root.querySelector(".h28-sm"), today=root.querySelector(".h28-today");
+  var sign=root.querySelector(".h28-sign"), hang=root.querySelector(".h28-hang"), turn=root.querySelector(".h28-turn");
+  var fr=root.querySelector(".h28-fr"), bk=root.querySelector(".h28-bk"), bf=root.querySelector(".h28-flip"), bb=root.querySelector(".h28-back");
+  var st=root.querySelector(".h28-st"), sb=root.querySelector(".h28-sb"), sm=root.querySelector(".h28-sm");
   var DAYS=["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"], WD={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
   // minutes from midnight by weekday (Sunday is 0), null is closed. In a project this comes from the business details in the panel
   var HOURS=[[420,1140],[420,1140],[420,1140],[420,1140],[420,1140],[390,870],null];
@@ -1319,19 +1461,36 @@ enter(document.getElementById("h27"));`,
     return {d:WD[o.weekday],m:(+o.hour%24)*60+(+o.minute)};
   }
   function render(){
-    var n=now(), t=HOURS[n.d], open=!!t&&n.m>=t[0]&&n.m<t[1], head, tail="";
-    if(open){head="פתוח עכשיו"; tail="עד "+hm(t[1]);}
-    else{
-      head="סגור עכשיו";
-      if(t&&n.m<t[0])tail="נפתח היום ב-"+hm(t[0]);
-      else for(var i=1;i<=7;i++){var d=(n.d+i)%7;if(HOURS[d]){tail="נפתח "+(i===1?"מחר":"ביום "+DAYS[d])+" ב-"+hm(HOURS[d][0]);break;}}
-    }
-    st.classList.toggle("on",open); sb.textContent=head; sm.textContent=tail;
-    today.textContent=t?hm(t[0])+" עד "+hm(t[1]):"סגור";
+    var n=now(), t=HOURS[n.d], open=!!t&&n.m>=t[0]&&n.m<t[1], tail="";
+    if(open)tail="עד "+hm(t[1]);
+    else if(t&&n.m<t[0])tail="נפתח היום ב-"+hm(t[0]);
+    else for(var i=1;i<=7;i++){var d=(n.d+i)%7;if(HOURS[d]){tail="נפתח "+(i===1?"מחר":"ביום "+DAYS[d])+" ב-"+hm(HOURS[d][0]);break;}}
+    st.classList.toggle("on",open); sb.textContent=open?"פתוח":"סגור"; sm.textContent=tail;
+    // today's row on the back is bold (Sunday to Thursday share one row)
+    var row=n.d<5?0:n.d;
+    bk.querySelectorAll("[data-d]").forEach(function(e){e.classList.toggle("now",+e.dataset.d===row);});
   }
+  sign.classList.add("live"); bf.hidden=false; bb.hidden=false;
   render(); setInterval(render,60000);
+  // only the face you see is reachable: the other one is inert and hidden from screen readers, and focus moves with the turn
+  function flip(on){
+    turn.classList.toggle("flip",on);
+    fr.inert=on; bk.inert=!on;
+    fr.setAttribute("aria-hidden",on?"true":"false"); bk.setAttribute("aria-hidden",on?"false":"true");
+    (on?bb:bf).focus({preventScroll:true});
+  }
+  bf.addEventListener("click",function(){flip(true);});
+  bb.addEventListener("click",function(){flip(false);});
+  // a small push when the pointer reaches the sign, once the entrance is over; a running push is not restarted
+  if(!matchMedia("(hover:hover) and (pointer:fine)").matches||matchMedia("(prefers-reduced-motion: reduce)").matches||!hang.animate)return;
+  var ready=false, push=null, ez="${E}";
+  setTimeout(function(){ready=true;},1600);
+  sign.addEventListener("pointerenter",function(){
+    if(!ready||(push&&push.playState==="running"))return;
+    push=hang.animate([{rotate:"0deg",easing:ez},{rotate:"2.5deg",easing:ez},{rotate:"-1.2deg",easing:ez},{rotate:".4deg",easing:ez},{rotate:"0deg"}],{duration:900});
+  });
 })();`,
-  note:"השאלה הראשונה על עסק מקומי היא \"פתוח עכשיו?\", והכרטיס עונה עליה כמו כרטיס במפות: הסטטוס מחושב מטבלת שעות לפי השעון של העסק (Asia/Jerusalem) ולא של המבקר, ומתעדכן כל דקה; כשסגור הוא אומר מתי נפתח (היום, מחר או ביום מסוים). בלי JS נשארות שעות הפתיחה הכתובות, כך שאין מצב שבו מופיע סטטוס שגוי. הנקודה ירוקה רק כשפתוח: זה צבע של מצב, לא של המותג, והמילה תמיד כתובה לידה. הטלפון בכיוון שמאל לימין ומבודד (unicode-bidi), כדי שהספרות לא יתהפכו בעברית, וכל שעות השבוע נפתחות ב-details בלי סקריפט. בפרויקט השעות, הכתובת והטלפון מגיעים מפרטי העסק בפאנל, וכפתור הניווט פותח את Waze או את מפות גוגל. הכותרת בפינה העליונה עם שכבת קריאות מאותה פינה; בטלפון הכרטיס יורד מתחת לכותרת ברוחב מלא." + NOTE_TAIL
+  note:"השאלה הראשונה על עסק מקומי היא \"פתוח עכשיו?\", והשלט עונה עליה כמו שלט על דלת: הוא תלוי על מסמר מתחת לתפריט (העמודה שלו מתחילה גבוה יותר, כך שהחוטים לא חוצים את הקישורים), נכנס בנדנוד שנרגע לאפס תוך 1.2 שניות, ובמעבר עכבר מקבל דחיפה קטנה (Web Animations, כדי שהכניסה לא תתחיל מחדש). הסטטוס מחושב מטבלת שעות לפי השעון של העסק (Asia/Jerusalem) ולא של המבקר, ומתעדכן כל דקה; כשסגור הוא אומר מתי נפתח (היום, מחר או ביום מסוים). כפתור \"שעות השבוע\" מהפך את השלט כולו על המסמר (rotate y עם preserve-3d, החוטים מסתובבים איתו), ומאחור כל השבוע, עם היום הנוכחי מודגש. רק הצד שרואים נגיש: הצד השני inert ומוסתר מקורא מסך, והפוקוס עובר לכפתור של הצד החדש. בלי JS השלט עומד ישר עם שעות הפתיחה הכתובות, בלי סטטוס שיכול להיות שגוי ובלי כפתור שלא עובד; בתנועה מופחתת אין נדנוד וההיפוך מיידי. הנקודה ירוקה רק כשפתוח: צבע של מצב, לא של המותג, והמילה תמיד כתובה לידה. הכרטיס שמתחת נשאר רזה: שם, כתובת, טלפון (בכיוון שמאל לימין ומבודד, כדי שהספרות לא יתהפכו) ושני כפתורים; בפרויקט הכול מגיע מפרטי העסק בפאנל, וכפתור הניווט פותח את Waze או את מפות גוגל. בטלפון השלט יורד לזרימה בין הכותרת לכרטיס, קטן יותר ועם חוטים קצרים." + NOTE_TAIL
 },
 {
   id:"h29", cat:"hero", name:"הירו המלצה ככותרת", tech:"CSS · JS", status:"מאושר-עין", runway:false,
@@ -1650,29 +1809,44 @@ enter(document.getElementById("h31"));`,
 },
 {
   id:"h33", cat:"hero", name:"הירו צילום עם נקודות מוצר", tech:"CSS · JS", status:"ממתין", runway:false,
-  desc:"כותרת ומשפט למעלה, ומתחת צילום רחב של חלל עם כמה נקודות קטנות על הפריטים שבו. לחיצה על נקודה פותחת כרטיס קטן עם שם, מחיר וקישור, ליד הפריט עצמו.",
-  when:"עסק שהעבודה שלו היא חלל שלם ובתוכו פריטים שאפשר להזמין: מטבחים, נגרות, עיצוב פנים, ריהוט, תאורה, אופנה בצילום אווירה, חנות כלי בית. הצילום מוכר את התמונה הגדולה, והנקודות עונות על \"מה זה ואיפה קונים\". לא ליותר מחמש נקודות, ולא לצילום שבו הפריטים קטנים מכדי לזהות.",
+  desc:"שתי עמודות: בצד אחד הכותרת, המשפט והכפתורים, ומתחתם רשימה קצרה של מה שרואים בצילום עם מחירים. בצד השני צילום גבוה של החלל עם נקודה על כל פריט. הרשימה והנקודות מחוברות: מעבר על שורה מדגיש את הנקודה שלה, ולחיצה על שורה או על נקודה פותחת כרטיס ליד הפריט עצמו.",
+  when:"עסק שהעבודה שלו היא חלל שלם ובתוכו פריטים שאפשר להזמין: מטבחים, נגרות, עיצוב פנים, ריהוט, תאורה, אופנה בצילום אווירה, חנות כלי בית. הצילום מוכר את התמונה הגדולה, והרשימה עונה על \"מה זה וכמה זה\" גם למי שלא לוחץ על נקודות. לא ליותר מחמישה פריטים, ולא לצילום שבו הפריטים קטנים מכדי לזהות.",
   libs:[],
   css:`${FRAME_CSS}
-.h33h{display:flex;flex-direction:column;gap:28px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg)}
-.h33-top{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:end;gap:20px 56px}
-.h33-ttl,.h33-side{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
-.h33-side{gap:20px}
-.h33h h3{margin:0;max-width:15ch;font-size:clamp(32px,min(4vw,7.8vh),60px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h33h{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:56px;padding:88px 28px 28px;background:var(--bg)}
+/* the text column is as tall as the photo: the pitch at the top edge, the list at the bottom edge, both lined up with it */
+.h33-txt{display:flex;flex-direction:column;justify-content:space-between;gap:32px;min-width:0}
+.h33-ttl{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.h33h h3{margin:0;font-size:clamp(30px,min(3.4vw,6.6vh),56px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
 .h33h .hlead{max-width:42ch}
-/* the frame keeps the photo's proportions, so x and y are simply percent of the photo. --o and --f map them when the phone crops it */
-.h33-fr{--o:0%;--f:1;position:relative;width:min(100%,calc(46vh * 2.339));aspect-ratio:2400/1026;margin-inline:auto}
-.h33-fr>img{width:100%;height:100%;object-fit:cover;display:block;border-radius:24px}
+.h33h .hcta{margin-top:6px}
+.h33-in{margin:0}
+.h33-lab{display:block;margin-bottom:8px;font-size:14px;color:var(--muted)}
+.h33-list{display:flex;flex-direction:column;gap:2px;margin:0 -14px;padding:0;list-style:none}
+.h33-it{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:8px 14px;border:0;border-radius:12px;background:none;color:inherit;font:inherit;font-size:16px;text-align:start;cursor:pointer;transition:background-color .25s ${E}}
+/* the same small circle as the point on the photo, so the two read as one thing */
+.h33-it::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.3;transition:opacity .25s ${E},background-color .25s ${E}}
+.h33-it b{flex:1;font-weight:600}
+.h33-it span{font-size:15px;color:var(--muted);white-space:nowrap}
+.h33-it.hot,.h33-it[aria-expanded="true"]{background:color-mix(in srgb,var(--ink) 6%,transparent)}
+.h33-it.hot::before,.h33-it[aria-expanded="true"]::before{background:var(--accent);opacity:1}
+.h33-it:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+/* the frame has a fixed shape, so x and y stay plain percent of the photo: --o and --f map them through the crop (object-position 53%).
+   Its width also obeys the screen height, so the whole hero fits the first screen */
+.h33-fr{--o:25.8%;--f:.513;position:relative;width:min(58vw,calc((100svh - 136px) * 1.2));aspect-ratio:6/5}
+.h33-fr>img{width:100%;height:100%;object-fit:cover;object-position:53% 50%;display:block;border-radius:24px}
 .h33-spot{display:contents}
 /* physical left, not inline-start: a point on a photo does not flip with the language */
 .h33-hs{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:var(--y);z-index:1;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;translate:-50% -50%;cursor:pointer;
   background:none;color:var(--ink);transition:opacity .4s ${E},scale .5s ${E}}
 /* the dot is smaller than the 44px target, so it marks the item without hiding it */
-.h33-dot{position:relative;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--bg);box-shadow:0 6px 18px -6px color-mix(in srgb,var(--ink) 75%,transparent);transition:transform .3s ${E}}
+.h33-dot{position:relative;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--bg);box-shadow:0 6px 18px -6px color-mix(in srgb,var(--ink) 75%,transparent);transition:transform .3s ${E},opacity .3s ${E},box-shadow .3s ${E}}
 .h33-hs svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;transition:rotate .3s ${E}}
 .h33-hs[aria-expanded="true"] svg{rotate:45deg}
 .h33-hs:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-@media (hover:hover) and (pointer:fine){.h33-hs:hover .h33-dot{transform:scale(1.12)}}
+/* one item in focus (a hovered row or point, or an open card): its point grows and wears a ring, the others step back */
+.h33-fr.has-hot .h33-dot{opacity:.5}
+.h33-fr.has-hot .hot .h33-dot{opacity:1;transform:scale(1.15);box-shadow:0 0 0 6px color-mix(in srgb,var(--bg) 40%,transparent),0 6px 18px -6px color-mix(in srgb,var(--ink) 75%,transparent)}
 .open-anim .h33-hs{opacity:0;scale:.4;animation:h33s-fs 0s 2.5s forwards}
 .is-in .h33-hs{opacity:1;scale:1;transition-delay:calc(var(--t0,0s) + .5s + var(--k,0) * 80ms)}
 .rv-on .h33-hs{animation:none}
@@ -1681,7 +1855,8 @@ enter(document.getElementById("h31"));`,
 .h33-dot::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:50%;background:var(--bg);opacity:0}
 .is-in .h33-dot::before{animation:h33-ring 1.6s ${E} 2;animation-delay:calc(var(--t0,0s) + 1s + var(--k,0) * 150ms)}
 @keyframes h33-ring{from{opacity:.55;transform:scale(1)}to{opacity:0;transform:scale(1.9)}}
-.h33-card{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:calc(var(--y) + 32px);z-index:2;display:flex;flex-direction:column;gap:4px;width:240px;padding:16px;border-radius:16px;translate:-50% 0;
+/* the card stands by its item, but never past the photo's edge */
+.h33-card{position:absolute;left:clamp(128px,calc((var(--x) - var(--o)) / var(--f)),calc(100% - 128px));top:calc(var(--y) + 32px);z-index:2;display:flex;flex-direction:column;gap:4px;width:240px;padding:16px;border-radius:16px;translate:-50% 0;
   background:var(--bg);color:var(--ink);box-shadow:0 24px 48px -16px color-mix(in srgb,var(--ink) 60%,transparent);animation:h33-pop .35s ${E}}
 .h33-card[hidden]{display:none}
 .h33-spot[data-pos="up"] .h33-card{top:auto;bottom:calc(100% - var(--y) + 32px)}
@@ -1690,64 +1865,97 @@ enter(document.getElementById("h31"));`,
 .h33-card a{align-self:flex-start;margin-top:8px;font-size:15px;font-weight:700;color:inherit;text-underline-offset:4px}
 @keyframes h33-pop{from{opacity:0;translate:-50% 8px}}
 @keyframes h33-in{from{opacity:0}}
-@media (prefers-reduced-motion:reduce){.h33-hs,.h33-dot,.h33-hs svg{transition-duration:.01ms!important;transition-delay:0s!important}.h33-dot::before,.h33-card{animation:none!important}}
-/* phone: a taller crop around the island, every point moved by the same crop, and the card is a bar across the photo */
-@media (max-width:860px){.h33h{gap:20px;min-height:0;padding:72px 20px 24px}
-  .h33-top{grid-template-columns:1fr;gap:14px}.h33-ttl{gap:12px}.h33-side{gap:16px}
+@media (prefers-reduced-motion:reduce){.h33-hs,.h33-dot,.h33-hs svg,.h33-it,.h33-it::before{transition-duration:.01ms!important;transition-delay:0s!important}.h33-dot::before,.h33-card{animation:none!important}}
+/* phone: the pitch, then a wider crop around the island (every point moved by the same crop), then the list as two columns;
+   the card is a bar across the photo, at the bottom or the top by where its point is */
+@media (max-width:860px){.h33h{grid-template-columns:1fr;gap:20px;padding:72px 20px 24px}
+  .h33-txt{display:contents}.h33-ttl{gap:12px}.h33-in{order:3}
   .h33h h3{font-size:clamp(28px,7.4vw,36px)}
-  .h33h .hcta{width:100%;flex-wrap:nowrap}.h33h .hcta .hbtn{flex:1;padding-inline:16px}
+  .h33h .hcta{width:100%;flex-wrap:nowrap;margin-top:4px}.h33h .hcta .hbtn{flex:1;padding-inline:16px}
   .h33-fr{--o:28%;--f:.534;width:100%;aspect-ratio:5/4}
   .h33-fr>img{object-position:60% 50%;border-radius:20px}
-  .h33-card,.h33-spot[data-pos="up"] .h33-card{left:12px;right:12px;top:auto;bottom:12px;width:auto;translate:none;animation-name:h33-in}
+  .h33-lab{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .h33-list{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:0 -10px}
+  .h33-it{flex-wrap:wrap;gap:2px 8px;padding:8px 10px;font-size:14px}.h33-it span{flex-basis:100%;padding-inline-start:16px;font-size:13px}
+  .h33-card,.h33-spot[data-pos="up"] .h33-card{left:12px;right:12px;top:auto;bottom:12px;width:auto;padding:12px 14px;gap:2px;translate:none;animation-name:h33-in}
+  .h33-card a{margin-top:4px}
   .h33-spot[data-ph="top"] .h33-card{top:12px;bottom:auto}}`,
   html:`${OPEN_GATE}
 <div class="hf">${TOP(true)}
   <section class="h33h" id="h33">
-    <div class="h33-top">
+${(() => {
+      // one source for both the list and the points; x and y are percent of the whole photo, measured on it
+      const IT = [
+        { x: 47.8, y: 34, pos: "down", ph: "bottom", name: "מנורת זכוכית מחורצת", price: "1,290 ₪", unit: "ליחידה", more: "ענבר או שקוף, שלושה גבהים" },
+        { x: 51.5, y: 53, pos: "up", ph: "bottom", name: "חיפוי קיר משיש", price: "מ-480 ₪", unit: "למ״ר", more: "לוחות שלמים של 120 ס״מ, בלי פוגות" },
+        { x: 33.8, y: 59, pos: "up", ph: "top", name: "ברז פליז מוברש", price: "1,650 ₪", unit: "", more: "ראש נשלף, צינור נירוסטה" },
+        { x: 69.5, y: 76, pos: "up", ph: "top", name: "כיסא בר מעור ועץ", price: "890 ₪", unit: "לכיסא", more: "גובה ישיבה 65 ס״מ, אגוז או אלון" },
+      ];
+      const plus = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>`;
+      const rows = IT.map((t, k) => `
+            <li><button class="h33-it" type="button" data-k="${k}" aria-expanded="false" aria-controls="h33-c${k}"><b>${t.name}</b><span>${t.price}</span></button></li>`).join("");
+      const spots = IT.map((t, k) => `
+      <div class="h33-spot" style="--x:${t.x}%;--y:${t.y}%;--k:${k}" data-k="${k}" data-pos="${t.pos}" data-ph="${t.ph}">
+        <button class="h33-hs" type="button" data-k="${k}" aria-expanded="false" aria-controls="h33-c${k}" aria-label="${t.name}"><span class="h33-dot">${plus}</span></button>
+        <div class="h33-card" id="h33-c${k}" hidden><b>${t.name}</b><span>${t.more}</span><span>${t.price}${t.unit ? " " + t.unit : ""}</span><a href="#h33">לפרטים</a></div>
+      </div>`).join("");
+      return `    <div class="h33-txt">
       <div class="h33-ttl">
         <span class="hkick rv">מטבחים בהזמנה אישית, נגרייה בשרון</span>
         <h3 class="rv">מטבח שנבנה סביב הדרך שבה אתם מבשלים</h3>
-      </div>
-      <div class="h33-side">
         <p class="hlead rv">תכנון, ייצור בנגרייה שלנו והתקנה, עם החומרים והפרזול שבחרתם. כל מה שרואים בצילום אפשר להזמין.</p>
         <div class="hcta rv"><a class="hbtn" href="#h33">לפגישת תכנון</a><a class="hbtn ghost" href="#h33">עוד מטבחים</a></div>
       </div>
+      <div class="h33-in rv">
+        <span class="h33-lab" id="h33-lab">בצילום הזה</span>
+        <ul class="h33-list" aria-labelledby="h33-lab">${rows}
+        </ul>
+      </div>
     </div>
     <div class="h33-fr rv">
-      ${PIC("real/s13/proj-c.webp", "מטבח בגוון ירוק כהה עם אי באמצע, חיפוי אבן מאחור, מנורות תלויות וכיסאות בר", { pri: true })}
-      <div class="h33-spot" style="--x:47.8%;--y:43%;--k:0" data-pos="down" data-ph="bottom">
-        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c0" aria-label="מנורת זכוכית מחורצת"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="h33-card" id="h33-c0" hidden><b>מנורת זכוכית מחורצת</b><span>1,290 ₪ ליחידה</span><a href="#h33">לפרטים</a></div>
-      </div>
-      <div class="h33-spot" style="--x:55%;--y:54%;--k:1" data-pos="up" data-ph="top">
-        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c1" aria-label="חיפוי קיר מאבן"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="h33-card" id="h33-c1" hidden><b>חיפוי קיר מאבן</b><span>מ-480 ₪ למ״ר</span><a href="#h33">לפרטים</a></div>
-      </div>
-      <div class="h33-spot" style="--x:36.5%;--y:57%;--k:2" data-pos="up" data-ph="top">
-        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c2" aria-label="ברז פליז מוברש"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="h33-card" id="h33-c2" hidden><b>ברז פליז מוברש</b><span>1,650 ₪</span><a href="#h33">לפרטים</a></div>
-      </div>
-      <div class="h33-spot" style="--x:73%;--y:76%;--k:3" data-pos="up" data-ph="top">
-        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c3" aria-label="כיסא בר מעור ועץ"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="h33-card" id="h33-c3" hidden><b>כיסא בר מעור ועץ</b><span>890 ₪ לכיסא</span><a href="#h33">לפרטים</a></div>
-      </div>
-    </div>
+      ${PIC("real/s13/proj-c.webp", "מטבח בגוון אפור כהה עם אי ארוך, חיפוי שיש מאחור, מנורות זכוכית תלויות ושני כיסאות בר", { pri: true })}${spots}
+    </div>`;
+    })()}
   </section>
 </div>`,
   js:`${REVEAL_JS}
 (function(){
-  var root=document.getElementById("h33"), cur=null;
+  var root=document.getElementById("h33"), fr=root.querySelector(".h33-fr"), open=-1, opener=null, hov=-1;
   enter(root);
-  function card(b){return document.getElementById(b.getAttribute("aria-controls"));}
-  function close(back){ if(!cur)return; card(cur).hidden=true; cur.setAttribute("aria-expanded","false"); if(back)cur.focus(); cur=null; }
-  root.querySelectorAll(".h33-hs").forEach(function(b){
-    b.addEventListener("click",function(){ var same=cur===b; close(false); if(same)return; card(b).hidden=false; b.setAttribute("aria-expanded","true"); cur=b; });
+  function all(k){return root.querySelectorAll('[data-k="'+k+'"]');}
+  // the item in focus is the hovered one, or else the open one; it lights up in the list and on the photo together
+  function paint(){
+    var k=hov>=0?hov:open;
+    root.querySelectorAll(".hot").forEach(function(e){e.classList.remove("hot");});
+    if(k>=0)all(k).forEach(function(e){e.classList.add("hot");});
+    fr.classList.toggle("has-hot",k>=0);
+  }
+  function close(back){
+    if(open<0)return;
+    document.getElementById("h33-c"+open).hidden=true;
+    all(open).forEach(function(e){if(e.hasAttribute("aria-expanded"))e.setAttribute("aria-expanded","false");});
+    if(back&&opener)opener.focus();
+    open=-1; opener=null; paint();
+  }
+  // a row and its point open the same card, by its item; one card at a time
+  root.querySelectorAll(".h33-it,.h33-hs").forEach(function(b){
+    var k=+b.dataset.k;
+    b.addEventListener("click",function(){
+      var same=open===k; close(false); if(same)return;
+      document.getElementById("h33-c"+k).hidden=false;
+      all(k).forEach(function(e){if(e.hasAttribute("aria-expanded"))e.setAttribute("aria-expanded","true");});
+      open=k; opener=b; paint();
+    });
+    b.addEventListener("pointerenter",function(e){if(e.pointerType==="mouse"){hov=k;paint();}});
+    b.addEventListener("pointerleave",function(){hov=-1;paint();});
+    b.addEventListener("focus",function(){if(b.matches(":focus-visible")){hov=k;paint();}});
+    b.addEventListener("blur",function(){hov=-1;paint();});
   });
-  // one card at a time: Escape or a press anywhere else closes it, and Escape returns the focus to its point
+  // Escape or a press anywhere else closes it, and Escape returns the focus to whatever opened it
   document.addEventListener("keydown",function(e){if(e.key==="Escape")close(true);});
-  document.addEventListener("click",function(e){if(cur&&!e.target.closest(".h33-hs,.h33-card"))close(false);});
+  document.addEventListener("click",function(e){if(open>=0&&!e.target.closest(".h33-hs,.h33-it,.h33-card"))close(false);});
 })();`,
-  note:"צילום אווירה שהוא גם קטלוג: כל נקודה יושבת על פריט אמיתי בצילום ופותחת כרטיס עם שם, מחיר וקישור. המסגרת שומרת על היחס של הצילום, ולכן המיקום של כל נקודה הוא פשוט אחוזים מהצילום (--x, --y), במיקום פיזי (left) שלא מתהפך עם השפה. בטלפון המסגרת גבוהה יותר והצילום נחתך סביב האי; --o ו---f מזיזים את כל הנקודות לפי אותו חיתוך, והכרטיס הופך לפס ברוחב הצילום, למטה או למעלה לפי מקום הנקודה. כל נקודה היא כפתור עם aria-expanded, aria-controls ושם הפריט, והכרטיס בא מיד אחריה בסדר הקריאה; כרטיס אחד פתוח בכל פעם, Escape או לחיצה בחוץ סוגרים, ו-Escape מחזיר את הפוקוס לנקודה. שתי טבעות רכות אחרי הכניסה אומרות שאפשר ללחוץ, ונעצרות לפני חמש שניות. בלי הוראות כמו \"לחצו על הנקודות\": הנקודות מסבירות את עצמן. בפרויקט מודדים את המיקומים על הצילום הסופי, ובחנות הכרטיס מקשר לעמוד המוצר." + NOTE_TAIL
+  note:"צילום אווירה שהוא גם קטלוג, בשתי עמודות שמיושרות זו לזו: העמודה של הטקסט גבוהה בדיוק כמו הצילום, ההצעה צמודה לקצה העליון שלו והרשימה \"בצילום הזה\" לקצה התחתון. הרשימה והנקודות נכתבות מאותו מערך נתונים ומחוברות: מעבר עכבר או פוקוס מקלדת על שורה מגדיל את הנקודה שלה עם טבעת ומחליש את האחרות, וההפך; לחיצה על שורה או על נקודה פותחת את אותו כרטיס ליד הפריט, עם שורת פרטים, מחיר וקישור. כך מי שלא לוחץ על נקודות עדיין רואה מה יש ובכמה, וקורא מסך מקבל רשימה רגילה של כפתורים עם aria-expanded. למסגרת יש צורה קבועה (6/5), ולכן המיקום של כל נקודה הוא אחוזים מהצילום המלא (--x, --y), שעוברים דרך החיתוך עם --o ו---f, במיקום פיזי (left) שלא מתהפך עם השפה; הרוחב שלה תלוי גם בגובה המסך, כך שההירו כולו נכנס במסך הראשון. הכרטיס לא יוצא מקצה הצילום (clamp). כרטיס אחד פתוח בכל פעם, Escape או לחיצה בחוץ סוגרים, ו-Escape מחזיר את הפוקוס למה שפתח אותו. שתי טבעות רכות אחרי הכניסה אומרות שאפשר ללחוץ, ונעצרות לפני חמש שניות. בטלפון: ההצעה, צילום שנחתך סביב האי (כל הנקודות זזות לפי אותו חיתוך), והרשימה בשתי עמודות; הכרטיס הופך לפס ברוחב הצילום, למטה או למעלה לפי מקום הנקודה. בפרויקט מודדים את המיקומים על הצילום הסופי, ובחנות הכרטיס מקשר לעמוד המוצר." + NOTE_TAIL
 },
 {
   id:"h34", cat:"hero", name:"הירו סרטון רחב כמו בקולנוע", tech:"CSS · JS", status:"מאושר-עין", runway:false,

@@ -1,8 +1,9 @@
 // תשעה מהלכים מ-prompt-motion.com, אצווה f: כרטיסים וגלריה (21.10.2026, ליאב: "אני רוצה את כל המהלכים שהיו שם לא רק שלושה").
+// 25.10.2026: g200 (הספר) נמחק אחרי הסקירה, כפול ל-g63 (ליאב: "זה לא משהו שכבר עניתי לך עליו?"; ובשאלה על הנשארים: "למחוק 3, לשפר 8").
 // האתר הוא גלריה של סרטוני תנועה, לא אתר גלילה. כל מהלך כאן נבנה מאפס מהצפייה בלבד: בלי הקוד, הפרומפטים, הסרטונים
 // או הטקסטים של המקור, והדמו נכתב כאתר עסקי עברי רגיל. הדימויים הם תמונות אמיתיות מהמאגר (assets/media/real ו-dive, בלי הדרגות
 // הצבע של .ph), ושאר העיצוב הוא CSS ו-SVG מצבעי הערכה בלבד.
-// מהלכי תלת מימד (קיר הגליל, הספר) נופלים לגריד או לעמוד שטוח במסך צר ובהפחתת תנועה.
+// מהלכי תלת מימד (קיר הגליל) נופלים לגריד או לעמוד שטוח במסך צר ובהפחתת תנועה.
 
 /* ---------- g195: נתוני המחיר לפי פריט מול מסלול קבוע ---------- */
 const PV_ROWS = ["פוסט השקה לשירות החדש", "קרוסלה על שלבי העבודה", "סטורי למבצע סוף חודש", "פוסט עם המלצת לקוח", "באנר לקמפיין בפייסבוק",
@@ -90,29 +91,6 @@ const BURST = (() => {
   const n = 14, pts = [];
   for (let i = 0; i < n * 2; i++) { const r = i % 2 ? 36 : 49, a = i * Math.PI / n; pts.push((50 + r * Math.cos(a)).toFixed(1) + "," + (50 + r * Math.sin(a)).toFixed(1)); }
   return pts.join(" ");
-})();
-
-/* ---------- g200: עמודי הספר (תפריט של עשרה פריטים; סדר הקריאה מימין לשמאל) ---------- */
-const BK = (() => {
-  // [שם, תיאור, מחיר, תמונה, רוחב, גובה, מיקום החיתוך]
-  const items = [["לחם שאור בתסיסה ארוכה", "נאפה כל בוקר, עם קרום פריך ופנים רך.", 32, "s14/hero-bread", 1600, 1333, "50% 50%"],
-    ["קרואסון חמאה", "מתפרק בשכבות, מגיע עם קפה שחור או לאטה.", 24, "s14/croissants", 1250, 1000, "42% 50%"],
-    ["קערת גלידה בשני טעמים", "וניל ושוקולד מריר, עם רוטב לבחירה.", 36, "s11/bowls", 1100, 1650, "50% 38%"],
-    ["שלושה גביעי מנטה", "מארז לשיתוף, כל גביע עם כדור טרי.", 42, "s11/cones-yellow", 1400, 1050, "50% 60%"],
-    ["כדורי וניל וסוכריות", "מנה קטנה לילדים ולמי שנשאר ילד.", 28, "s11/hero-scoops", 1400, 1750, "50% 40%"],
-    ["גביע וופל סגול", "פטל ופרחי סיגליות, בגביע שנאפה במקום.", 22, "s11/magenta-cone", 1000, 1000, "50% 50%"],
-    ["סדנת בצק שאור", "שעתיים של לישה, וכיכר אחת הביתה.", 180, "s14/baker-hands", 1100, 1320, "50% 40%"],
-    ["בירת חיטה קרה", "בכוס גבוהה, ישר מהחבית.", 34, "s15/flute", 1000, 1250, "50% 45%"],
-    ["קוקטייל הבית", "תפוז, ג'ין ועשבי תיבול, על קרח גדול.", 48, "s15/hero-glass", 1100, 1375, "50% 35%"],
-    ["וויסקי בכוס קריסטל", "שלושה סוגים לטעימה, כוס קטנה לכל אחד.", 52, "s15/pour", 1000, 1250, "50% 50%"]];
-  const pg = (it, side) => `<div class="bkp-pg bkp-${side}"><img class="bkp-img" src="${IMG}real/${it[3]}.webp" alt="" width="${it[4]}" height="${it[5]}" loading="lazy" decoding="async" style="object-position:${it[6]}"><div><h3>${it[0]}</h3><p>${it[1]}</p><b>₪${nf(it[2])}</b></div><span class="bkp-sh" aria-hidden="true"></span></div>`;
-  // עמוד ימין בספירלה s: פריט 2s. עמוד שמאל: פריט 2s+1. עלים 0..3 נושאים שמאל s בחזית וימין s+1 מאחור
-  const L = 4;
-  let leaves = "";
-  for (let i = 0; i < L; i++) leaves += `<div class="bkp-leaf" style="--i:${i}"><div class="bkp-f bkp-front">${pg(items[2 * i + 1], "l")}</div><div class="bkp-f bkp-back">${pg(items[2 * (i + 1)], "r")}</div></div>`;
-  const baseR = `<div class="bkp-base bkp-base-r">${pg(items[0], "r")}</div>`;
-  const baseL = `<div class="bkp-base bkp-base-l">${pg(items[9], "l")}</div>`;
-  return { leaves, baseR, baseL, L };
 })();
 
 /* ---------- g201: שדה התמונות (68 אריחים, שני מיקומים לכל אחד: טבעת ופיזור) ---------- */
@@ -814,77 +792,6 @@ ${PV_ROWS.map(r => `      <li class="ppv-row"><span>${r}</span><b>₪${PV_UNIT}<
     let cur=0;
     tl.eventCallback("onUpdate",()=>{const k=pick(tl.time());if(k!==cur){cur=k;lis.forEach((l,i)=>l.classList.toggle("is-on",i===k));}});
     return()=>{root.classList.remove("is-live");lis.forEach((l,i)=>l.classList.toggle("is-on",i===0));};
-  });
-})();`
-},
-{
-  id:"g200", cat:"gsap", name:"דף ספר שמתהפך בתלת מימד", tech:"GSAP · ScrollTrigger scrub · CSS 3D", status:"ממתין",
-  desc:"ספר פתוח שוכב בזווית קלה לצד כותרת, וכל גלילה מרימה דף מהערימה השמאלית ומהפכת אותו מעבר לשדרה אל הצד הימני, בתנועה מטושטשת קלה עם צל שמתחזק באמצע, ומגלה זוג עמודים חדש. ארבעה דפים מתהפכים ברצף, עד שרואים את עשרת העמודים של התפריט, כל אחד עם תמונה אמיתית, שם ומחיר.",
-  when:"תפריט, קטלוג, מדריך, חוברת מחירים או סיפור שלבים שאפשר לספר כעמודים: מסעדה ובית קפה, ריהוט, מתכונים, הדרכות, תיק עבודות מודפס. מתאים כשיש בין ארבעה לעשרה עמודים אמיתיים, כל אחד עם תמונה וכמה שורות. פעם אחת בעמוד, ורק כשהצורה של ספר מסבירה את התוכן. בטלפון זה גריד של עמודים.",
-  note:"**שחזור.** השראה: סרטון בגלריה (21.10.2026) של ספר פתוח בתלת מימד שדף ממנו מתהפך מעבר לשדרה ומגלה את הדפים הבאים. נבנה מאפס מהצפייה. **המארקאפ הוא המצב הסופי:** ספר פתוח על הזוג הראשון, ובו כל עשרת העמודים כבר במארקאפ. בטלפון הם הופכים לגריד של שני טורים (`display:contents` על העלים), כי ספר ברוחב 340 פיקסלים לא נקרא. **המבנה:** חמישה זוגות עמודים. עמוד התחלה בימין ועמוד סיום בשמאל נשארים במקומם, וארבעה עלים (`.bkp-leaf`) נושאים כל אחד עמוד משמאל בחזית ועמוד מימין מאחור. **כיוון הדפדוף:** בעברית קוראים מימין לשמאל, לכן הערימה שעוד לא נקראה בשמאל והעלה מתהפך משמאל לימין. כל עלה יושב בחצי השמאלי עם `transform-origin` בשדרה (קצה ימין), ו-`rotateY` מ-0 ל-180 מעביר אותו לצד השני. הפנים האחורית מסובבת מראש ב-180, ו-`backface-visibility:hidden` על שתי הפנים. **עומק הערימה:** כל עלה מוזז מעט ב-Z, והסדר מתהפך באמצע התנועה (כשהדף אנכי ולא רואים אותו) כדי שהעלים לא יחתכו זה את זה. **התלתל:** משתנה `--tw` על העלה עולה ויורד סביב אמצע התנועה, ומחזק את צל השדרה ואת טשטוש העמוד (`filter` על העמוד עצמו ולא על העלה, כי `filter` על אלמנט עם `preserve-3d` משטח אותו). **מובייל:** גריד של עמודים שמופיעים בגלילה. **כיווניות:** באתר LTR הופכים הכול: הערימה בימין, `transform-origin:0 50%`, `rotateY` ל-180 שלילי, והצללים של העמודים. **תמונות:** בכל עמוד תמונה אמיתית מהמאגר (`object-fit:cover`, `loading=lazy`, עם `width` ו-`height`), ומתחתיה שם, שורת תיאור ומחיר. התמונה יושבת בתוך העמוד, לכן הטשטוש של התלתל והצל חלים עליה יחד עם הטקסט. **נגישות:** כל עמוד הוא טקסט רגיל (התמונה עם `alt` ריק, כי השם כתוב מתחתיה), והצללים הם איור (`aria-hidden`).",
-  libs:["gsap","ScrollTrigger"],
-  css:`.bkp{max-width:1120px;margin-inline:auto}
-.bkp-pin{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:clamp(24px,4vw,64px);align-items:center;align-content:center}
-.bkp-txt{display:grid;gap:14px}
-.bkp-txt h2{margin:0;font-size:clamp(26px,3vw,44px);line-height:1.15;text-wrap:balance}
-.bkp-txt p{margin:0;color:var(--muted)}
-.bkp-persp{perspective:1800px;perspective-origin:50% 40%}
-.bkp-book{position:relative;width:100%;aspect-ratio:3/2;transform-style:preserve-3d;transform:rotateX(16deg) rotateY(-5deg)}
-.bkp-book::before{content:"";position:absolute;inset:6% 2% -4%;transform:translateZ(-12px);border-radius:24px;background:color-mix(in srgb,var(--ink) 34%,transparent);filter:blur(28px)}
-.bkp-leaf{position:absolute;top:0;left:0;width:50%;height:100%;transform-origin:100% 50%;transform-style:preserve-3d;transform:translateZ(calc(var(--i) * -.6px))}
-.bkp-f{position:absolute;inset:0;backface-visibility:hidden}
-.bkp-back{transform:rotateY(180deg)}
-.bkp-base{position:absolute;top:0;width:50%;height:100%;transform:translateZ(-4px)}
-.bkp-base-r{left:50%}
-.bkp-base-l{left:0}
-.bkp-pg{position:relative;display:grid;grid-template-rows:minmax(0,1fr) auto;gap:12px;height:100%;padding:14px;overflow:hidden;background:var(--card);color:var(--ink);filter:blur(calc(var(--tw,0) * 3px))}
-.bkp-img{display:block;width:100%;height:100%;min-height:0;object-fit:cover;border-radius:10px;background:color-mix(in srgb,var(--ink) 8%,var(--card))}
-.bkp-pg h3{margin:0;font-size:clamp(15px,1.5vw,19px);line-height:1.25}
-.bkp-pg p{margin:4px 0 8px;font-size:clamp(13px,1.2vw,15px);line-height:1.4;color:var(--muted)}
-.bkp-pg b{font-size:clamp(15px,1.4vw,18px);font-variant-numeric:tabular-nums}
-.bkp-sh{position:absolute;inset:0;pointer-events:none;opacity:calc(.5 + var(--tw,0) * .4)}
-.bkp-l .bkp-sh{background:linear-gradient(to left,color-mix(in srgb,var(--ink) 26%,transparent),transparent 42%)}
-.bkp-r .bkp-sh{background:linear-gradient(to right,color-mix(in srgb,var(--ink) 26%,transparent),transparent 42%)}
-.bkp.is-live{height:360vh}
-.bkp.is-live .bkp-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
-@media(max-width:767px){
-  .bkp-pin{grid-template-columns:minmax(0,1fr);gap:24px}
-  .bkp-persp{perspective:none}
-  .bkp-book{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;aspect-ratio:auto;transform:none}
-  .bkp-book::before{display:none}
-  .bkp-leaf,.bkp-f,.bkp-base{display:contents}
-  .bkp-pg{border-radius:16px;filter:none;height:auto}
-  .bkp-img{aspect-ratio:4/3;height:auto}
-  .bkp-sh{display:none}
-}`,
-  html:`<div class="stage"><div class="bkp">
-  <div class="bkp-pin">
-    <div class="bkp-txt"><h2>התפריט החדש של הבית</h2><p>עשרה פריטים נבחרים, כל אחד עם תמונה, תיאור קצר ומחיר. מדפדפים כמו בספר, מימין לשמאל.</p></div>
-    <div class="bkp-persp"><div class="bkp-book">${BK.baseR}${BK.leaves}${BK.baseL}</div></div>
-  </div>
-</div></div>`,
-  js:`(function(){
-  if(typeof gsap==="undefined")return;      // בלי GSAP הספר פתוח על הזוג הראשון, וכל העמודים במארקאפ
-  const root=document.querySelector(".bkp"),leaves=[...root.querySelectorAll(".bkp-leaf")],L=leaves.length,DZ=.6;
-  const mm=gsap.matchMedia();
-  // בהפחתת תנועה שתי הפונקציות לא רצות, והספר נשאר פתוח
-  mm.add("(prefers-reduced-motion: no-preference) and (min-width: 768px)",()=>{
-    root.classList.add("is-live");
-    const D=1.6,GAP=.5;
-    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6}});
-    leaves.forEach((lf,i)=>{
-      const t=i*(D+GAP)+.3;
-      tl.fromTo(lf,{rotationY:0},{rotationY:180,duration:D,ease:"power2.inOut"},t)
-        .fromTo(lf,{"--tw":0},{"--tw":1,duration:D/2,ease:"power1.in"},t)         // התלתל: צל וטשטוש עולים עד אמצע הדף
-        .to(lf,{"--tw":0,duration:D/2,ease:"power1.out"},t+D/2)
-        .fromTo(lf,{z:-i*DZ},{z:-(L-1-i)*DZ,duration:.01,ease:"none",immediateRender:false},t+D/2);   // הסדר בערימה מתהפך כשהדף אנכי
-    });
-    tl.to({},{duration:.5});
-    return()=>{root.classList.remove("is-live");};
-  });
-  // בטלפון הגריד נשאר, והעמודים מופיעים בגלילה
-  mm.add("(prefers-reduced-motion: no-preference) and (max-width: 767px)",()=>{
-    gsap.from(root.querySelectorAll(".bkp-pg"),{autoAlpha:0,y:24,duration:1,stagger:{amount:2},ease:"power2.out",scrollTrigger:{trigger:root.querySelector(".bkp-book"),start:"top 88%",end:"bottom 65%",scrub:.5}});
   });
 })();`
 },

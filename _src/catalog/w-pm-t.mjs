@@ -460,28 +460,43 @@ export default [
 // =============================================================================================
 {
   id:"g282", cat:"gsap", name:"קו מקווקו שנדחס דרך צוואר בקבוק", tech:"GSAP ticker · SVG · IntersectionObserver by ScrollTrigger", status:"ממתין",
-  desc:"ערוץ בצורת שעון חול, ובתוכו חמישה קווים מקווקווים שזורמים מצד אחד לשני. בצוואר הערוץ הקווים מתקרבים והמקווקו מתקצר ומצטופף ומתקדם לאט, ומעבר לצוואר הוא חוזר להיות רגיל. אחרי כמה שניות הצוואר נפתח, הצפיפות נעלמת והזרימה חופשית, ואז הוא נסגר שוב. התנועה רצה רק כשהסקשן על המסך.",
+  desc:"ערוץ בצורת שעון חול, ובתוכו חמישה קווים מקווקווים שזורמים מצד אחד לשני. בצוואר הערוץ הקווים מתקרבים והמקווקו מתקצר ומצטופף ומתקדם לאט, ומעבר לצוואר הוא חוזר להיות רגיל. מעל הצוואר יושבת תווית עם מספר הממתינים, ומאחוריו זוהר רך. אחרי כמה שניות הצוואר נפתח, הצפיפות והזוהר נעלמים, התווית מראה ״אין תור״ והזרימה חופשית, ואז הוא נסגר שוב. התנועה רצה רק כשהסקשן על המסך, ויש כפתור השהיה.",
   when:"להראות איפה תהליך נתקע ומה פותר את זה: אישור לקוח שמעכב את העבודה, מאשר יחיד בתהליך, שלב שכולם מחכים לו. סקשן ״הבעיה והפתרון״ או ״איך אנחנו עובדים״. מתאים כשיש צוואר בקבוק אמיתי ופתרון ברור, כי הדיאגרמה מציגה את שניהם. לא כשאין פתרון, שאז היא רק מציגה תקלה. פעם אחת בעמוד.",
-  note:"**שחזור.** השראה: סרטון אחד בגלריה של prompt-motion.com (21.10.2026) שבו קו מקווקו נדחס בצוואר של צורת שעון חול וממשיך חופשי אחריו. נבנה מאפס מהצפייה. **המארקאפ הוא תמונת הצפיפות:** בלי GSAP ובהפחתת תנועה רואים ערוץ עם צוואר צר וחמישה קווים מקווקווים שמצטופפים בו, כפי שהם נראים בשנייה הראשונה של המהלך (אותה פונקציה, `bnShape`, מחשבת את המארקאפ ואת הפריימים). **הדחיסה אינה `stroke-dasharray`:** דפוס מקווקו אחיד אינו יכול להצטופף במקום אחד. במקום זה כל קו הוא נתיב אחד שמורכב מקטעים נפרדים, וכל קטע ממוקם לפי `phi`, מרחק ״בתוך הדפוס״ שמתקדם מהר יותר לכל פיקסל בצוואר (צפיפות `1 + J·G(s)`, כאשר G הוא פעמון סביב מרכז הערוץ). לכן הקטעים קצרים וצפופים בצוואר, והזמן שלהם בו ארוך יותר (הם נראים איטיים). בהתקדמות הדפוס הקטעים זזים, והנתיב נבנה מחדש בכל פריים (כ-1400 נקודות). **הצוואר נפתח ונסגר:** `f` בין 1 (חנוק) ל-0 (פתוח) במחזור של 14 שניות. הוא קובע גם את רוחב הצוואר (`nu`), גם את הצפיפות (`J`) וגם את ההחלפה בין שתי שורות ההסבר. **הרצה:** `gsap.ticker`, שנכנס כשהסקשן על המסך (ScrollTrigger עם `onToggle`) ויוצא כשהוא יוצא, כך שאין עבודה ברקע. **פריסה:** בדסקטופ הערוץ אופקי ומתרחב ברוחב הסקשן (viewBox 1000 על 280, בלי טקסט בתוכו), ובטלפון הוא אנכי, שעון חול אמיתי, בסט משלו. תוויות הכניסה והיציאה הן HTML. **ל-LTR:** הערוץ מצויר כשהכניסה מימין, ו-`:dir(ltr)` הופך את ה-SVG ב-`scaleX(-1)`, כך שהזרימה תמיד מתחילה בצד הקריאה. **להחליף:** `P0` (אורך מחזור המקווקו), `LN` (מספר הקווים ומיקומם), `CYC` ו-`fAt` (קצב החנק והפתיחה).",
+  note:"**שחזור.** השראה: סרטון אחד בגלריה של prompt-motion.com (21.10.2026) שבו קו מקווקו נדחס בצוואר של צורת שעון חול וממשיך חופשי אחריו. נבנה מאפס מהצפייה. **המארקאפ הוא תמונת הצפיפות:** בלי GSAP ובהפחתת תנועה רואים ערוץ עם צוואר צר וחמישה קווים מקווקווים שמצטופפים בו, כפי שהם נראים בשנייה הראשונה של המהלך (אותה פונקציה, `bnShape`, מחשבת את המארקאפ ואת הפריימים). **הדחיסה אינה `stroke-dasharray`:** דפוס מקווקו אחיד אינו יכול להצטופף במקום אחד. במקום זה כל קו הוא נתיב אחד שמורכב מקטעים נפרדים, וכל קטע ממוקם לפי `phi`, מרחק ״בתוך הדפוס״ שמתקדם מהר יותר לכל פיקסל בצוואר (צפיפות `1 + J·G(s)`, כאשר G הוא פעמון סביב מרכז הערוץ). לכן הקטעים קצרים וצפופים בצוואר, והזמן שלהם בו ארוך יותר (הם נראים איטיים). בהתקדמות הדפוס הקטעים זזים, והנתיב נבנה מחדש בכל פריים (כ-1400 נקודות). **הצוואר נפתח ונסגר:** `f` בין 1 (חנוק) ל-0 (פתוח) במחזור של 12 שניות: סגור עד 3.8 שניות, נפתח עד 5.4, פתוח עד 9.8, נסגר עד 11.4. הפתיחה מגיעה מוקדם כדי שהמבקר יראה גם את הפתרון ולא רק את הבעיה. הוא קובע את רוחב הצוואר (`nu`), את הצפיפות (`J`), את ההחלפה בין שתי שורות ההסבר, ובאמצעות המשתנה `--op` גם את התווית מעל הצוואר (שבב ״12 בתור״ מתחלף ל״אין תור״), את הזוהר שמאחוריו ואת אורך הקו שמחבר אותה אליו. **הרצה:** `gsap.ticker`, שנכנס כשהסקשן על המסך (ScrollTrigger עם `onToggle`) ויוצא כשהוא יוצא, כך שאין עבודה ברקע. **השהיה:** כפתור ליד שורת ההסבר (מופיע רק כשהתנועה פועלת) עוצר את השעון הפנימי של הצוואר. השעון נפרד משעון ה-ticker, ולכן אחרי ההשהיה הצוואר ממשיך מאותה נקודה ולא קופץ. **פריסה:** בדסקטופ הערוץ אופקי ומתרחב ברוחב הסקשן (viewBox 1000 על 224, חתוך קרוב לקווים כדי שהערוץ ימלא את הרוחב, בלי טקסט בתוכו), ובטלפון הוא אנכי, שעון חול אמיתי, בסט משלו. תוויות הכניסה והיציאה הן HTML והן צמודות לקצוות הערוץ, והתווית מעל הצוואר מוצבת ביחידות `cqw` כדי שתישאר צמודה אליו בכל רוחב. בטלפון התווית יושבת בצד ושבב הספירה יורד מתחתיה. **ל-LTR:** הערוץ מצויר כשהכניסה מימין, ו-`:dir(ltr)` הופך את ה-SVG ב-`scaleX(-1)`, כך שהזרימה תמיד מתחילה בצד הקריאה. **להחליף:** `P0` (אורך מחזור המקווקו), `LN` (מספר הקווים ומיקומם), `CYC` ו-`fAt` (קצב החנק והפתיחה).",
   libs:["gsap","ScrollTrigger"],
   css:`.bn{--op:0;max-width:1120px;margin-inline:auto}
 .bn-head{display:grid;gap:12px;max-width:52ch;margin-bottom:48px}
 .bn-head h2{margin:0;font-size:clamp(28px,3.2vw,48px);font-weight:700;line-height:1.12;text-wrap:balance}
 .bn-head p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
-.bn-d{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 24px}
+.bn-d{container-type:inline-size;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px 24px}
 .bn-cv{grid-column:1 / 3;grid-row:1;position:relative}
+/* לחץ בצוואר: הילה בצבע המבטא שדועכת כשהצוואר נפתח */
+.bn-cv::before{content:"";position:absolute;z-index:1;left:50%;top:50%;width:34cqw;aspect-ratio:2 / 1;transform:translate(-50%,-50%);pointer-events:none;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 22%,transparent),transparent);opacity:calc(1 - var(--op))}
 .bn-sd,.bn-sm{display:block;width:100%;height:auto;overflow:visible}
 .bn-sm{display:none}
 :dir(ltr) .bn-sd,:dir(ltr) .bn-sm{transform:scaleX(-1)}
 .bn-fl{fill:color-mix(in srgb,var(--accent) 7%,var(--card));stroke:none}
 .bn-wl{fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .bn-ln{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
-.bn-nk{position:absolute;left:50%;top:0;transform:translateX(-50%);display:grid;justify-items:center;gap:6px;text-align:center}
-.bn-nk b{padding:6px 14px;border-radius:999px;background:var(--card);box-shadow:${SOFT_S};font-size:15px;font-weight:700;line-height:1.3;white-space:nowrap}
-.bn-nk::after{content:"";width:2px;height:100px;background:var(--line);transform-origin:50% 0;transform:scaleY(calc(1 - .62 * var(--op)))}
-.bn-in{grid-column:1;grid-row:2;font-size:16px;font-weight:600;line-height:1.4}
-.bn-out{grid-column:2;grid-row:2;justify-self:end;font-size:16px;font-weight:600;line-height:1.4}
-.bn-cap{grid-column:1 / 3;grid-row:3;display:grid;margin:8px 0 0;padding:16px 20px;border-radius:16px;background:var(--card);box-shadow:${SOFT};font-size:var(--fs-body);line-height:1.5}
+.bn-nk{position:absolute;z-index:2;left:50%;top:0;transform:translateX(-50%);display:grid;justify-items:center;gap:6px;text-align:center}
+.bn-nk b{display:flex;align-items:center;gap:12px;padding:6px;padding-inline:14px 6px;border-radius:999px;background:var(--card);box-shadow:${SOFT_S};font-size:15px;font-weight:700;line-height:1.3;white-space:nowrap}
+/* תג המצב בתוך התווית: כמה מחכים בתור עד שהצוואר נפתח */
+.bn-bd{display:grid;font-size:13px;line-height:1.3}
+.bn-bd i{grid-area:1 / 1;padding:4px 10px;border-radius:999px;font-style:normal;font-weight:700;text-align:center}
+.bn-b1{background:var(--accent);color:var(--accent-ink);opacity:calc(1 - var(--op))}
+.bn-b2{background:var(--line);color:var(--ink);opacity:var(--op)}
+.bn-nk::after{content:"";width:2px;height:max(0px,calc(9.74cqw - 5.4cqw * var(--op) - 40px));background:color-mix(in srgb,var(--ink) 20%,var(--line))}
+/* התוויות צמודות לקצוות הערוץ (5% מהרוחב משני הצדדים) */
+.bn-in{grid-column:1;grid-row:2;padding-inline-start:5cqw;font-size:16px;font-weight:600;line-height:1.4}
+.bn-out{grid-column:2;grid-row:2;justify-self:end;padding-inline-end:5cqw;font-size:16px;font-weight:600;line-height:1.4}
+.bn-ft{grid-column:1 / 3;grid-row:3;display:flex;align-items:stretch;gap:12px;margin-top:8px}
+.bn-cap{flex:1;display:grid;margin:0;padding:16px 20px;border-radius:16px;background:var(--card);box-shadow:${SOFT};font-size:var(--fs-body);line-height:1.5}
+/* השהיית התנועה (WCAG 2.2.2): מופיע רק כשהמהלך רץ */
+.bn-pz{display:none;flex:none;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:8px 20px;border:0;border-radius:999px;background:var(--card);box-shadow:${SOFT_S};color:var(--ink);font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s cubic-bezier(.2,.6,.2,1)}
+.bn-pz svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bn.is-live .bn-pz{display:inline-flex}
+@media (hover:hover) and (pointer:fine){.bn-pz:hover{background:color-mix(in srgb,var(--ink) 6%,var(--card))}}
+.bn-pz:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .bn-cap span{grid-area:1 / 1}
 .bn-s1{opacity:calc(1 - var(--op))}
 .bn-s2{opacity:var(--op)}
@@ -489,27 +504,32 @@ export default [
 @media(max-width:767px){
   .bn-head{margin-bottom:32px}
   .bn-d{grid-template-columns:minmax(0,1fr);gap:8px}
-  .bn-in{grid-column:1;grid-row:1}
+  .bn-in{grid-column:1;grid-row:1;padding-inline:0}
   .bn-cv{grid-column:1;grid-row:2;max-width:340px;width:100%;justify-self:center}
-  .bn-out{grid-column:1;grid-row:3;justify-self:start}
+  .bn-cv::before{width:72%;aspect-ratio:1}
+  .bn-out{grid-column:1;grid-row:3;justify-self:start;padding-inline:0}
   .bn-sd{display:none}
   .bn-sm{display:block}
   .bn-nk{left:auto;inset-inline-end:0;top:50%;transform:translateY(-50%);display:flex;flex-direction:row;align-items:center;gap:8px}
   .bn-nk::after{display:none}
-  .bn-nk::before{content:"";width:32px;height:2px;background:var(--line)}
-  .bn-cap{grid-column:1;grid-row:4}
+  .bn-nk::before{content:"";width:24px;height:2px;background:var(--line)}
+  .bn-nk b{flex-direction:column;align-items:stretch;gap:6px;padding:8px 10px;border-radius:16px}
+  .bn-ft{grid-column:1;grid-row:4;flex-direction:column}
 }`,
   html:`<div class="stage"><div class="bn">
   <div class="bn-head"><h2>כל הבקשות עוברות דרך אישור אחד</h2><p>עד שהלקוח מאשר את העיצוב, העבודה עומדת במקום. אחרי שמוסיפים מאשר שני, הבקשות ממשיכות להתקדם.</p></div>
   <div class="bn-d">
     <p class="bn-in">בקשות חדשות מהלקוחות</p>
     <div class="bn-cv">
-      ${bnSvg("bn-sd", "0 0 1000 280", BN_D)}
+      ${bnSvg("bn-sd", "0 28 1000 224", BN_D)}
       ${bnSvg("bn-sm", "0 0 340 440", BN_M)}
-      <div class="bn-nk"><b>אישור העיצוב</b></div>
+      <div class="bn-nk"><b>אישור העיצוב<span class="bn-bd" aria-hidden="true"><i class="bn-b1">12 בתור</i><i class="bn-b2">אין תור</i></span></b></div>
     </div>
     <p class="bn-out">עבודה שמתקדמת</p>
-    <p class="bn-cap" aria-hidden="true"><span class="bn-s1">כרגע אדם אחד מאשר, וכל השאר מחכים בתור.</span><span class="bn-s2">עם מאשר שני התור זז, והעבודה מתקדמת.</span></p>
+    <div class="bn-ft">
+      <p class="bn-cap" aria-hidden="true"><span class="bn-s1">כרגע אדם אחד מאשר, וכל השאר מחכים בתור.</span><span class="bn-s2">עם מאשר שני התור זז, והעבודה מתקדמת.</span></p>
+      <button class="bn-pz" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg><span>השהיית התנועה</span></button>
+    </div>
     <p class="sr-only">הבקשות מצטופפות בשלב אישור העיצוב כשרק אדם אחד מאשר. אחרי שמוסיפים מאשר שני הן עוברות בלי עיכוב.</p>
   </div>
 </div></div>`,
@@ -518,25 +538,31 @@ export default [
   const root=document.querySelector(".bn");if(!root)return;
   gsap.registerPlugin(ScrollTrigger);
   ${bnShape.toString()}
-  const CYC=14,sm=(a,b,t)=>{const x=Math.min(1,Math.max(0,(t-a)/(b-a)));return x*x*(3-2*x);};
-  // f: 1 חנוק, 0 פתוח. חנוק עד 5.6 שניות, נפתח עד 7.2, פתוח עד 11.8, נסגר עד 13.4
-  const fAt=t=>{const c=t%CYC;return 1-sm(5.6,7.2,c)+sm(11.8,13.4,c);};
-  const mm=gsap.matchMedia();
+  const CYC=12,sm=(a,b,t)=>{const x=Math.min(1,Math.max(0,(t-a)/(b-a)));return x*x*(3-2*x);};
+  // f: 1 חנוק, 0 פתוח. חנוק עד 3.8 שניות, נפתח עד 5.4, פתוח עד 9.8, נסגר עד 11.4: שני המצבים נראים בתוך שש שניות
+  const fAt=t=>{const c=t%CYC;return 1-sm(3.8,5.4,c)+sm(9.8,11.4,c);};
+  const mm=gsap.matchMedia(),pz=root.querySelector(".bn-pz"),pzi=pz.querySelector("path"),pzl=pz.querySelector("span");
   const build=mob=>{
     const svg=root.querySelector(mob?".bn-sm":".bn-sd"),wall=svg.querySelector(".bn-wl"),fl=svg.querySelector(".bn-fl"),lanes=[...svg.querySelectorAll(".bn-ln")];
     const g=mob?{vert:true,L:380,Hh:130,cx:170,y0:30}:{vert:false,L:900,Hh:104,x0:950,cy:140};
     const keep=[wall.getAttribute("d"),fl.getAttribute("d"),...lanes.map(l=>l.getAttribute("d"))];
-    let lastF=-1;
-    const tick=()=>{
-      const t=gsap.ticker.time,f=fAt(t),S=bnShape(Object.assign({f:f,ph:(t*1.9)%1},g));
+    // שעון פנימי: השהיה והמשך לא קופצים באמצע הפתיחה, וחזרה למסך ממשיכה מאותה נקודה
+    let lastF=-1,clock=0,lastT=gsap.ticker.time,paused=false,on=false;
+    const sync=()=>{if(on&&!paused){lastT=gsap.ticker.time;gsap.ticker.add(tick);}else gsap.ticker.remove(tick);};
+    function tick(){
+      const now=gsap.ticker.time;clock+=Math.min(.1,now-lastT);lastT=now;
+      const f=fAt(clock),S=bnShape(Object.assign({f:f,ph:(clock*1.9)%1},g));
       if(Math.abs(f-lastF)>.002){wall.setAttribute("d",S.wall);fl.setAttribute("d",S.fill);root.style.setProperty("--op",(1-f).toFixed(3));lastF=f;}
       lanes.forEach((l,i)=>l.setAttribute("d",S.lanes[i]));
-    };
+    }
+    const label=()=>{pzl.textContent=paused?"הפעלת התנועה":"השהיית התנועה";pzi.setAttribute("d",paused?"M8 5l11 7-11 7z":"M9 5v14M15 5v14");};
+    pz.onclick=()=>{paused=!paused;label();sync();};
+    root.classList.add("is-live");
     // רץ רק כשהסקשן על המסך
-    const st=ScrollTrigger.create({trigger:root,start:"top bottom",end:"bottom top",onToggle:s=>{if(s.isActive)gsap.ticker.add(tick);else gsap.ticker.remove(tick);}});
-    if(st.isActive)gsap.ticker.add(tick);
+    const st=ScrollTrigger.create({trigger:root,start:"top bottom",end:"bottom top",onToggle:s=>{on=s.isActive;sync();}});
+    on=st.isActive;sync();
     return()=>{
-      st.kill();gsap.ticker.remove(tick);
+      st.kill();gsap.ticker.remove(tick);pz.onclick=null;paused=false;label();root.classList.remove("is-live");
       wall.setAttribute("d",keep[0]);fl.setAttribute("d",keep[1]);lanes.forEach((l,i)=>l.setAttribute("d",keep[i+2]));
       root.style.removeProperty("--op");
     };

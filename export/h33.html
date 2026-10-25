@@ -58,25 +58,40 @@ img{max-width:100%}
 @keyframes rv-fs{to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
   .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
-.h33h{display:flex;flex-direction:column;gap:28px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg, #f7f7fa)}
-.h33-top{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:end;gap:20px 56px}
-.h33-ttl,.h33-side{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
-.h33-side{gap:20px}
-.h33h h3{margin:0;max-width:15ch;font-size:clamp(32px,min(4vw,7.8vh),60px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
+.h33h{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:56px;padding:88px 28px 28px;background:var(--bg, #f7f7fa)}
+/* the text column is as tall as the photo: the pitch at the top edge, the list at the bottom edge, both lined up with it */
+.h33-txt{display:flex;flex-direction:column;justify-content:space-between;gap:32px;min-width:0}
+.h33-ttl{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.h33h h3{margin:0;font-size:clamp(30px,min(3.4vw,6.6vh),56px);line-height:1.05;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
 .h33h .hlead{max-width:42ch}
-/* the frame keeps the photo's proportions, so x and y are simply percent of the photo. --o and --f map them when the phone crops it */
-.h33-fr{--o:0%;--f:1;position:relative;width:min(100%,calc(46vh * 2.339));aspect-ratio:2400/1026;margin-inline:auto}
-.h33-fr>img{width:100%;height:100%;object-fit:cover;display:block;border-radius:24px}
+.h33h .hcta{margin-top:6px}
+.h33-in{margin:0}
+.h33-lab{display:block;margin-bottom:8px;font-size:14px;color:var(--muted, #6a6d85)}
+.h33-list{display:flex;flex-direction:column;gap:2px;margin:0 -14px;padding:0;list-style:none}
+.h33-it{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:8px 14px;border:0;border-radius:12px;background:none;color:inherit;font:inherit;font-size:16px;text-align:start;cursor:pointer;transition:background-color .25s cubic-bezier(.2,.6,.2,1)}
+/* the same small circle as the point on the photo, so the two read as one thing */
+.h33-it::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.3;transition:opacity .25s cubic-bezier(.2,.6,.2,1),background-color .25s cubic-bezier(.2,.6,.2,1)}
+.h33-it b{flex:1;font-weight:600}
+.h33-it span{font-size:15px;color:var(--muted, #6a6d85);white-space:nowrap}
+.h33-it.hot,.h33-it[aria-expanded="true"]{background:color-mix(in srgb,var(--ink, #16182b) 6%,transparent)}
+.h33-it.hot::before,.h33-it[aria-expanded="true"]::before{background:var(--accent, #4a3aff);opacity:1}
+.h33-it:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+/* the frame has a fixed shape, so x and y stay plain percent of the photo: --o and --f map them through the crop (object-position 53%).
+   Its width also obeys the screen height, so the whole hero fits the first screen */
+.h33-fr{--o:25.8%;--f:.513;position:relative;width:min(58vw,calc((100svh - 136px) * 1.2));aspect-ratio:6/5}
+.h33-fr>img{width:100%;height:100%;object-fit:cover;object-position:53% 50%;display:block;border-radius:24px}
 .h33-spot{display:contents}
 /* physical left, not inline-start: a point on a photo does not flip with the language */
 .h33-hs{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:var(--y);z-index:1;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;translate:-50% -50%;cursor:pointer;
   background:none;color:var(--ink, #16182b);transition:opacity .4s cubic-bezier(.2,.6,.2,1),scale .5s cubic-bezier(.2,.6,.2,1)}
 /* the dot is smaller than the 44px target, so it marks the item without hiding it */
-.h33-dot{position:relative;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--bg, #f7f7fa);box-shadow:0 6px 18px -6px color-mix(in srgb,var(--ink, #16182b) 75%,transparent);transition:transform .3s cubic-bezier(.2,.6,.2,1)}
+.h33-dot{position:relative;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--bg, #f7f7fa);box-shadow:0 6px 18px -6px color-mix(in srgb,var(--ink, #16182b) 75%,transparent);transition:transform .3s cubic-bezier(.2,.6,.2,1),opacity .3s cubic-bezier(.2,.6,.2,1),box-shadow .3s cubic-bezier(.2,.6,.2,1)}
 .h33-hs svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;transition:rotate .3s cubic-bezier(.2,.6,.2,1)}
 .h33-hs[aria-expanded="true"] svg{rotate:45deg}
 .h33-hs:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
-@media (hover:hover) and (pointer:fine){.h33-hs:hover .h33-dot{transform:scale(1.12)}}
+/* one item in focus (a hovered row or point, or an open card): its point grows and wears a ring, the others step back */
+.h33-fr.has-hot .h33-dot{opacity:.5}
+.h33-fr.has-hot .hot .h33-dot{opacity:1;transform:scale(1.15);box-shadow:0 0 0 6px color-mix(in srgb,var(--bg, #f7f7fa) 40%,transparent),0 6px 18px -6px color-mix(in srgb,var(--ink, #16182b) 75%,transparent)}
 .open-anim .h33-hs{opacity:0;scale:.4;animation:h33s-fs 0s 2.5s forwards}
 .is-in .h33-hs{opacity:1;scale:1;transition-delay:calc(var(--t0,0s) + .5s + var(--k,0) * 80ms)}
 .rv-on .h33-hs{animation:none}
@@ -85,7 +100,8 @@ img{max-width:100%}
 .h33-dot::before{content:"";position:absolute;inset:0;z-index:-1;border-radius:50%;background:var(--bg, #f7f7fa);opacity:0}
 .is-in .h33-dot::before{animation:h33-ring 1.6s cubic-bezier(.2,.6,.2,1) 2;animation-delay:calc(var(--t0,0s) + 1s + var(--k,0) * 150ms)}
 @keyframes h33-ring{from{opacity:.55;transform:scale(1)}to{opacity:0;transform:scale(1.9)}}
-.h33-card{position:absolute;left:calc((var(--x) - var(--o)) / var(--f));top:calc(var(--y) + 32px);z-index:2;display:flex;flex-direction:column;gap:4px;width:240px;padding:16px;border-radius:16px;translate:-50% 0;
+/* the card stands by its item, but never past the photo's edge */
+.h33-card{position:absolute;left:clamp(128px,calc((var(--x) - var(--o)) / var(--f)),calc(100% - 128px));top:calc(var(--y) + 32px);z-index:2;display:flex;flex-direction:column;gap:4px;width:240px;padding:16px;border-radius:16px;translate:-50% 0;
   background:var(--bg, #f7f7fa);color:var(--ink, #16182b);box-shadow:0 24px 48px -16px color-mix(in srgb,var(--ink, #16182b) 60%,transparent);animation:h33-pop .35s cubic-bezier(.2,.6,.2,1)}
 .h33-card[hidden]{display:none}
 .h33-spot[data-pos="up"] .h33-card{top:auto;bottom:calc(100% - var(--y) + 32px)}
@@ -94,15 +110,20 @@ img{max-width:100%}
 .h33-card a{align-self:flex-start;margin-top:8px;font-size:15px;font-weight:700;color:inherit;text-underline-offset:4px}
 @keyframes h33-pop{from{opacity:0;translate:-50% 8px}}
 @keyframes h33-in{from{opacity:0}}
-@media (prefers-reduced-motion:reduce){.h33-hs,.h33-dot,.h33-hs svg{transition-duration:.01ms!important;transition-delay:0s!important}.h33-dot::before,.h33-card{animation:none!important}}
-/* phone: a taller crop around the island, every point moved by the same crop, and the card is a bar across the photo */
-@media (max-width:860px){.h33h{gap:20px;min-height:0;padding:72px 20px 24px}
-  .h33-top{grid-template-columns:1fr;gap:14px}.h33-ttl{gap:12px}.h33-side{gap:16px}
+@media (prefers-reduced-motion:reduce){.h33-hs,.h33-dot,.h33-hs svg,.h33-it,.h33-it::before{transition-duration:.01ms!important;transition-delay:0s!important}.h33-dot::before,.h33-card{animation:none!important}}
+/* phone: the pitch, then a wider crop around the island (every point moved by the same crop), then the list as two columns;
+   the card is a bar across the photo, at the bottom or the top by where its point is */
+@media (max-width:860px){.h33h{grid-template-columns:1fr;gap:20px;padding:72px 20px 24px}
+  .h33-txt{display:contents}.h33-ttl{gap:12px}.h33-in{order:3}
   .h33h h3{font-size:clamp(28px,7.4vw,36px)}
-  .h33h .hcta{width:100%;flex-wrap:nowrap}.h33h .hcta .hbtn{flex:1;padding-inline:16px}
+  .h33h .hcta{width:100%;flex-wrap:nowrap;margin-top:4px}.h33h .hcta .hbtn{flex:1;padding-inline:16px}
   .h33-fr{--o:28%;--f:.534;width:100%;aspect-ratio:5/4}
   .h33-fr>img{object-position:60% 50%;border-radius:20px}
-  .h33-card,.h33-spot[data-pos="up"] .h33-card{left:12px;right:12px;top:auto;bottom:12px;width:auto;translate:none;animation-name:h33-in}
+  .h33-lab{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .h33-list{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin:0 -10px}
+  .h33-it{flex-wrap:wrap;gap:2px 8px;padding:8px 10px;font-size:14px}.h33-it span{flex-basis:100%;padding-inline-start:16px;font-size:13px}
+  .h33-card,.h33-spot[data-pos="up"] .h33-card{left:12px;right:12px;top:auto;bottom:12px;width:auto;padding:12px 14px;gap:2px;translate:none;animation-name:h33-in}
+  .h33-card a{margin-top:4px}
   .h33-spot[data-ph="top"] .h33-card{top:12px;bottom:auto}}
 </style>
 </head>
@@ -111,33 +132,40 @@ img{max-width:100%}
 <script>if(matchMedia("(prefers-reduced-motion:no-preference)").matches)document.documentElement.classList.add("open-anim")</script>
 <div class="hf"><div class="hf-top"><b>לוגו</b><nav><span>שירותים</span><span>פרויקטים</span><span>אודות</span></nav></div>
   <section class="h33h" id="h33">
-    <div class="h33-top">
+    <div class="h33-txt">
       <div class="h33-ttl">
         <span class="hkick rv">מטבחים בהזמנה אישית, נגרייה בשרון</span>
         <h3 class="rv">מטבח שנבנה סביב הדרך שבה אתם מבשלים</h3>
-      </div>
-      <div class="h33-side">
         <p class="hlead rv">תכנון, ייצור בנגרייה שלנו והתקנה, עם החומרים והפרזול שבחרתם. כל מה שרואים בצילום אפשר להזמין.</p>
         <div class="hcta rv"><a class="hbtn" href="#h33">לפגישת תכנון</a><a class="hbtn ghost" href="#h33">עוד מטבחים</a></div>
       </div>
+      <div class="h33-in rv">
+        <span class="h33-lab" id="h33-lab">בצילום הזה</span>
+        <ul class="h33-list" aria-labelledby="h33-lab">
+            <li><button class="h33-it" type="button" data-k="0" aria-expanded="false" aria-controls="h33-c0"><b>מנורת זכוכית מחורצת</b><span>1,290 ₪</span></button></li>
+            <li><button class="h33-it" type="button" data-k="1" aria-expanded="false" aria-controls="h33-c1"><b>חיפוי קיר משיש</b><span>מ-480 ₪</span></button></li>
+            <li><button class="h33-it" type="button" data-k="2" aria-expanded="false" aria-controls="h33-c2"><b>ברז פליז מוברש</b><span>1,650 ₪</span></button></li>
+            <li><button class="h33-it" type="button" data-k="3" aria-expanded="false" aria-controls="h33-c3"><b>כיסא בר מעור ועץ</b><span>890 ₪</span></button></li>
+        </ul>
+      </div>
     </div>
     <div class="h33-fr rv">
-      <img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" alt="מטבח בגוון ירוק כהה עם אי באמצע, חיפוי אבן מאחור, מנורות תלויות וכיסאות בר" fetchpriority="high" decoding="async">
-      <div class="h33-spot" style="--x:47.8%;--y:43%;--k:0" data-pos="down" data-ph="bottom">
-        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c0" aria-label="מנורת זכוכית מחורצת"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="h33-card" id="h33-c0" hidden><b>מנורת זכוכית מחורצת</b><span>1,290 ₪ ליחידה</span><a href="#h33">לפרטים</a></div>
+      <img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" alt="מטבח בגוון אפור כהה עם אי ארוך, חיפוי שיש מאחור, מנורות זכוכית תלויות ושני כיסאות בר" fetchpriority="high" decoding="async">
+      <div class="h33-spot" style="--x:47.8%;--y:34%;--k:0" data-k="0" data-pos="down" data-ph="bottom">
+        <button class="h33-hs" type="button" data-k="0" aria-expanded="false" aria-controls="h33-c0" aria-label="מנורת זכוכית מחורצת"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c0" hidden><b>מנורת זכוכית מחורצת</b><span>ענבר או שקוף, שלושה גבהים</span><span>1,290 ₪ ליחידה</span><a href="#h33">לפרטים</a></div>
       </div>
-      <div class="h33-spot" style="--x:55%;--y:54%;--k:1" data-pos="up" data-ph="top">
-        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c1" aria-label="חיפוי קיר מאבן"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="h33-card" id="h33-c1" hidden><b>חיפוי קיר מאבן</b><span>מ-480 ₪ למ״ר</span><a href="#h33">לפרטים</a></div>
+      <div class="h33-spot" style="--x:51.5%;--y:53%;--k:1" data-k="1" data-pos="up" data-ph="bottom">
+        <button class="h33-hs" type="button" data-k="1" aria-expanded="false" aria-controls="h33-c1" aria-label="חיפוי קיר משיש"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c1" hidden><b>חיפוי קיר משיש</b><span>לוחות שלמים של 120 ס״מ, בלי פוגות</span><span>מ-480 ₪ למ״ר</span><a href="#h33">לפרטים</a></div>
       </div>
-      <div class="h33-spot" style="--x:36.5%;--y:57%;--k:2" data-pos="up" data-ph="top">
-        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c2" aria-label="ברז פליז מוברש"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="h33-card" id="h33-c2" hidden><b>ברז פליז מוברש</b><span>1,650 ₪</span><a href="#h33">לפרטים</a></div>
+      <div class="h33-spot" style="--x:33.8%;--y:59%;--k:2" data-k="2" data-pos="up" data-ph="top">
+        <button class="h33-hs" type="button" data-k="2" aria-expanded="false" aria-controls="h33-c2" aria-label="ברז פליז מוברש"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c2" hidden><b>ברז פליז מוברש</b><span>ראש נשלף, צינור נירוסטה</span><span>1,650 ₪</span><a href="#h33">לפרטים</a></div>
       </div>
-      <div class="h33-spot" style="--x:73%;--y:76%;--k:3" data-pos="up" data-ph="top">
-        <button class="h33-hs" type="button" aria-expanded="false" aria-controls="h33-c3" aria-label="כיסא בר מעור ועץ"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
-        <div class="h33-card" id="h33-c3" hidden><b>כיסא בר מעור ועץ</b><span>890 ₪ לכיסא</span><a href="#h33">לפרטים</a></div>
+      <div class="h33-spot" style="--x:69.5%;--y:76%;--k:3" data-k="3" data-pos="up" data-ph="top">
+        <button class="h33-hs" type="button" data-k="3" aria-expanded="false" aria-controls="h33-c3" aria-label="כיסא בר מעור ועץ"><span class="h33-dot"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="h33-card" id="h33-c3" hidden><b>כיסא בר מעור ועץ</b><span>גובה ישיבה 65 ס״מ, אגוז או אלון</span><span>890 ₪ לכיסא</span><a href="#h33">לפרטים</a></div>
       </div>
     </div>
   </section>
@@ -169,16 +197,40 @@ function enter(root){
   inView(root,function(){root.classList.add("is-in");});
 }
 (function(){
-  var root=document.getElementById("h33"), cur=null;
+  var root=document.getElementById("h33"), fr=root.querySelector(".h33-fr"), open=-1, opener=null, hov=-1;
   enter(root);
-  function card(b){return document.getElementById(b.getAttribute("aria-controls"));}
-  function close(back){ if(!cur)return; card(cur).hidden=true; cur.setAttribute("aria-expanded","false"); if(back)cur.focus(); cur=null; }
-  root.querySelectorAll(".h33-hs").forEach(function(b){
-    b.addEventListener("click",function(){ var same=cur===b; close(false); if(same)return; card(b).hidden=false; b.setAttribute("aria-expanded","true"); cur=b; });
+  function all(k){return root.querySelectorAll('[data-k="'+k+'"]');}
+  // the item in focus is the hovered one, or else the open one; it lights up in the list and on the photo together
+  function paint(){
+    var k=hov>=0?hov:open;
+    root.querySelectorAll(".hot").forEach(function(e){e.classList.remove("hot");});
+    if(k>=0)all(k).forEach(function(e){e.classList.add("hot");});
+    fr.classList.toggle("has-hot",k>=0);
+  }
+  function close(back){
+    if(open<0)return;
+    document.getElementById("h33-c"+open).hidden=true;
+    all(open).forEach(function(e){if(e.hasAttribute("aria-expanded"))e.setAttribute("aria-expanded","false");});
+    if(back&&opener)opener.focus();
+    open=-1; opener=null; paint();
+  }
+  // a row and its point open the same card, by its item; one card at a time
+  root.querySelectorAll(".h33-it,.h33-hs").forEach(function(b){
+    var k=+b.dataset.k;
+    b.addEventListener("click",function(){
+      var same=open===k; close(false); if(same)return;
+      document.getElementById("h33-c"+k).hidden=false;
+      all(k).forEach(function(e){if(e.hasAttribute("aria-expanded"))e.setAttribute("aria-expanded","true");});
+      open=k; opener=b; paint();
+    });
+    b.addEventListener("pointerenter",function(e){if(e.pointerType==="mouse"){hov=k;paint();}});
+    b.addEventListener("pointerleave",function(){hov=-1;paint();});
+    b.addEventListener("focus",function(){if(b.matches(":focus-visible")){hov=k;paint();}});
+    b.addEventListener("blur",function(){hov=-1;paint();});
   });
-  // one card at a time: Escape or a press anywhere else closes it, and Escape returns the focus to its point
+  // Escape or a press anywhere else closes it, and Escape returns the focus to whatever opened it
   document.addEventListener("keydown",function(e){if(e.key==="Escape")close(true);});
-  document.addEventListener("click",function(e){if(cur&&!e.target.closest(".h33-hs,.h33-card"))close(false);});
+  document.addEventListener("click",function(e){if(open>=0&&!e.target.closest(".h33-hs,.h33-it,.h33-card"))close(false);});
 })();
 </script>
 </body>

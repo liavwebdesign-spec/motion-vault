@@ -218,30 +218,39 @@ export default [
 },
 {
   id:"b100", cat:"behavior", name:"לוגו שבנוי ממטריצת תווים", tech:"Canvas דגימה · pre · pointer", status:"ממתין", runway:false,
-  desc:"שם המותג מצויר מתווים קטנים: הלוגו נדגם לרשת של תאים, וכל תא מקבל תו לפי כמה הוא מלא, מנקודה קטנה ועד @. כשהלוח נכנס למסך הוא מתגבש מצד ההתחלה, ורצועת תווים אקראיים רצה לפני הצורה ומשאירה אותה מאחור. אחר כך התווים מנצנצים בעדינות. מעבר עכבר או נגיעה מערבלים את התווים באזור עגול והם חוזרים למקומם.",
-  when:"חתימה של מותג עם שם קצר וחזק, עד חמש אותיות: בית קפה, סטודיו, מותג טכנולוגי. מתאים לרצועת מותג בפתיחה או באודות, כשרוצים להראות שהמותג בנוי ביד ובסדר. לא ללוגו עם פרטים דקים, כי הוא לא נשאר קריא בתווים.",
-  note:"**שחזור.** השראה: שני סרטונים בגלריה של prompt-motion.com (21.10.2026) שבהם סימן מצויר כרשת של תווים באותו צבע על רקע כהה, והתווים מתחלפים עד שהצורה מתייצבת. נבנה מאפס מהצפייה. **הדגימה:** המילה מצוירת על קנבס נסתר באותו פונט ובאותו משקל כמו ה-h2, ומחולקת לתאים. הכיסוי של כל תא (0 עד 1) בוחר תו מהסולם ` .:-=+*#%@`. המדידה רצה אחרי `document.fonts.ready`, מתאימה את מספר העמודות לרוחב (60 עד 120, בטלפון עמודות צפופות וקטנות כדי שהצורה תישאר ברורה) ואת גודל הגופן לרוחב האמיתי של תו במונוספייס, כך שהתווים ממלאים את הלוח בכל מסך. **שתי שכבות `pre`:** אחת בצבע הטקסט לתווים שהתייצבו ואחת ב-`--muted` לרעש, באותה רשת, כי שורת טקסט אחת לא יכולה להחזיק שני צבעים בלי `span` לכל תו. **התנועה:** חזית רצה מצד ההתחלה (בעברית מימין) בשנייה וחצי. מאחוריה התווים סופיים ולפניה רצועה של 12 עמודות עם תווים אקראיים. אחרי ההתייצבות מתחלפים כאחוז אחד מהתווים בכל פריים (עד כ-11 פריימים בשנייה), וחזרה למסך מפעילה את החזית שוב. מעבר עכבר או נגיעה מחממים תאים ברדיוס של 9 תאים, והם מתקררים תוך כמה פריימים. הלולאה רצה רק כשהלוח על המסך ובטאב גלוי. **בלי JS** מוצג השם בכתב רגיל במשקל כבד, **ובהפחתת תנועה** מצויר פעם אחת הפריים המתייצב. **נגישות:** שתי שכבות התווים `aria-hidden`, וה-h2 עם השם האמיתי נשאר בדף כשהלוח פעיל (שקוף, באותו מקום), כך שקורא מסך ממשיך לקרוא אותו. הלוח מוגדר `direction: ltr`, כדי שהעמודות לא יתהפכו ב-RTL. **באתר LTR** הקוד קורא את `direction` של הסקשן ומריץ את החזית משמאל.",
+  desc:"שם המותג מצויר מתווים קטנים על לוח כהה: הלוגו נדגם לרשת צפופה של תאים, וכל תא מקבל תו לפי כמה הוא מלא, מנקודה קטנה ועד @. התווים המלאים בהירים והקצוות מתעמעמים אל הרקע, ולכן הצורה רכה ולא נראית כמו מסך מסוף. כשהלוח נכנס למסך הוא מתגבש מצד ההתחלה, ורצועת תווים בצבע המבטא רצה לפני הצורה ומשאירה אותה מאחור. אחר כך גל אור איטי חוצה את האותיות והמרקם של התווים נראה גם בתוכן. מעבר עכבר או נגיעה מערבלים את התווים באזור עגול והם חוזרים למקומם. כפתור בפינת הלוח משהה את הכול.",
+  when:"חתימה של מותג עם שם קצר וחזק, עד חמש אותיות: בית קפה, סטודיו, מותג טכנולוגי. מתאים לרצועת מותג בפתיחה או באודות, כשרוצים להראות שהמותג בנוי ביד ובסדר, ולרגע כהה ומנוגד באמצע עמוד בהיר. לא ללוגו עם פרטים דקים, כי הוא לא נשאר קריא בתווים.",
+  note:"**שחזור.** השראה: שני סרטונים בגלריה של prompt-motion.com (21.10.2026) שבהם סימן מצויר כרשת של תווים באותו צבע על רקע כהה, והתווים מתחלפים עד שהצורה מתייצבת. נבנה מאפס מהצפייה. **שופר ב-25.10.2026 אחרי שנדחה:** הלוח היה לבן עם תווים שחורים ונראה כמו מסוף ישן, היו שוליים צבעוניים סביב כל תו, והרזולוציה הייתה נמוכה (כ-14 שורות). **הדגימה:** המילה מצוירת על קנבס נסתר באותו פונט ובאותו משקל כמו ה-h2, ומחולקת לתאים. הכיסוי של כל תא (0 עד 1) בוחר תו מהסולם ` .:-=+*#%@`. המדידה רצה אחרי `document.fonts.ready`, מתאימה את מספר העמודות לרוחב (64 עד 184, כ-5.4 פיקסלים לעמודה ובטלפון 4.7) ואת גודל הגופן לרוחב האמיתי של תו במונוספייס, כך שהתווים ממלאים את הלוח בכל מסך. **רזולוציה:** `line-height` הוא 0.8 ולא 1, כך שהתא כמעט ריבוע ויש יותר מפי שניים שורות (כ-34 בדסקטופ). גובה התא נקרא מה-CSS ולא מוגדר פעמיים. **צבע:** הלוח הוא `--ink` עם זוהר רך של `--accent` במרכז, והתווים בצבע `--bg`, ולכן הוא הפוך לעמוד בכל עור (בעור כהה הלוח בהיר). **ארבע שכבות `pre`** באותה רשת, כי שורת טקסט אחת לא יכולה להחזיק כמה צבעים בלי `span` לכל תו, והצבע עוקב אחרי הצפיפות של התו: `%` ו-`@` ב-`--bg`, `#` ו-`*` בגוון ביניים, התווים הדקים (`+` ומטה) בגוון חלש, ורעש בצבע המבטא מעורבב ב-`--bg`. הקצוות מתעמעמים אל הרקע והצורה נראית רכה. **שוליים צבעוניים:** `will-change: opacity` על `.al-art` ו-`-webkit-font-smoothing: antialiased` מונעים החלקה של תתי-פיקסלים שיוצרת שוליים אדומים וכחולים סביב תווים בהירים על כהה. **התנועה:** חזית רצה מצד ההתחלה (בעברית מימין) בשנייה וחצי. מאחוריה התווים סופיים ולפניה רצועה של 14 עמודות עם תווים אקראיים. אחרי ההתייצבות גל איטי של אור חוצה את האותיות (הוא מוזז לפי שעון פנימי, כ-11 פריימים בשנייה): התווים המלאים מתעמעמים בהדרגה מ-`@` עד `+` ושוב מתבהרים, כך שהמרקם של התווים נראה גם בתוך האות. חזרה למסך מפעילה את החזית שוב. מעבר עכבר או נגיעה מחממים תאים ברדיוס שנמדד בפיקסלים (כ-8 אחוז מרוחב הלוח, בין 48 ל-88), כך שהאזור עגול ולא אליפסה, והם מתקררים תוך כמה פריימים. הלולאה רצה רק כשהלוח על המסך ובטאב גלוי. **השהיה:** כפתור בפינת הלוח (מופיע רק כשהתנועה פועלת) עוצר את הלולאה. שעון החזית נפרד, ולכן הפעלה מחדש ממשיכה מאותה נקודה, ובזמן השהיה מעבר עכבר לא מזיז כלום. **בלי JS** מוצג השם בכתב רגיל במשקל כבד, **ובהפחתת תנועה** מצויר פעם אחת הפריים המתייצב, בלי כפתור. **נגישות:** ארבע שכבות התווים `aria-hidden`, וה-h2 עם השם האמיתי נשאר בדף כשהלוח פעיל (שקוף, באותו מקום), כך שקורא מסך ממשיך לקרוא אותו. הלוח מוגדר `direction: ltr`, כדי שהעמודות לא יתהפכו ב-RTL. **באתר LTR** הקוד קורא את `direction` של הסקשן ומריץ את החזית משמאל.",
   libs:[],
   css:`.al{max-width:1100px;margin-inline:auto}
-.al-panel{display:grid;place-items:center;padding:clamp(24px,5vw,56px);overflow:hidden;border-radius:24px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
+.al-panel{position:relative;display:grid;place-items:center;min-height:clamp(220px,34vw,380px);padding:clamp(24px,5vw,56px);overflow:hidden;border-radius:24px;background:radial-gradient(ellipse 62% 78% at 50% 54%,color-mix(in srgb,var(--accent) 32%,transparent),transparent 74%),var(--ink)}
 .al-name,.al-art{grid-area:1/1;transition:opacity .4s cubic-bezier(.2,.6,.2,1)}
-.al-name{margin:0;font-size:clamp(96px,22vw,260px);font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--ink)}
-.al-art{width:100%;display:grid;justify-items:center;opacity:0}
+.al-name{margin:0;font-size:clamp(96px,22vw,260px);font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--bg)}
+/* will-change: שכבה מורכבת לא מקבלת החלקת תתי-פיקסלים, ולכן אין שוליים צבעוניים סביב התווים */
+.al-art{width:100%;display:grid;justify-items:center;opacity:0;will-change:opacity}
 /* כשהלוח פעיל השם נשאר בדף, שקוף ובאותו מקום, כדי שקורא מסך ימשיך לקרוא אותו */
 .al.is-live .al-art{opacity:1}
 .al.is-live .al-name{opacity:0;pointer-events:none;user-select:none}
-.al-art pre{grid-area:1/1;margin:0;font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-weight:600;line-height:1;letter-spacing:0;white-space:pre;direction:ltr;unicode-bidi:isolate;user-select:none}
-.al-a{color:var(--ink)}
-.al-b{color:var(--muted)}
+.al-art pre{grid-area:1/1;margin:0;font-family:ui-monospace,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;font-weight:600;line-height:.8;letter-spacing:0;white-space:pre;direction:ltr;unicode-bidi:isolate;user-select:none;-webkit-font-smoothing:antialiased}
+.al-a{color:var(--bg)}
+.al-m{color:color-mix(in srgb,var(--bg) 78%,var(--ink))}
+.al-c{color:color-mix(in srgb,var(--bg) 52%,var(--ink))}
+.al-b{color:color-mix(in srgb,var(--accent) 48%,var(--bg))}
+.al-pz{position:absolute;inset-block-start:16px;inset-inline-end:16px;z-index:1;display:none;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border:0;border-radius:999px;background:color-mix(in srgb,var(--bg) 14%,transparent);color:var(--bg);font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s cubic-bezier(.2,.6,.2,1)}
+.al-pz svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.al.is-motion .al-pz{display:inline-flex}
+@media (hover:hover) and (pointer:fine){.al-pz:hover{background:color-mix(in srgb,var(--bg) 24%,transparent)}}
+.al-pz:focus-visible{outline:2px solid var(--bg);outline-offset:2px}
 .al-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:12px 48px;padding-top:24px}
 .al-kicker{margin:0;font-size:15px;font-weight:600;color:var(--muted)}
 .al-lead{margin:0;max-width:48ch;font-size:var(--fs-body);line-height:1.6}
-@media(prefers-reduced-motion:reduce){.al-name,.al-art{transition:none}}
-@media(max-width:767px){.al-foot{gap:8px}}`,
+@media(prefers-reduced-motion:reduce){.al-name,.al-art,.al-pz{transition:none}}
+@media(max-width:767px){.al-foot{gap:8px}.al-pz{inset-block-start:12px;inset-inline-end:12px}}`,
   html:`<div class="stage"><section class="al">
   <div class="al-panel">
     <h2 class="al-name">נחושת</h2>
-    <div class="al-art" aria-hidden="true"><pre class="al-a"></pre><pre class="al-b"></pre></div>
+    <div class="al-art" aria-hidden="true"><pre class="al-a"></pre><pre class="al-m"></pre><pre class="al-c"></pre><pre class="al-b"></pre></div>
+    <button class="al-pz" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg><span>השהיית התנועה</span></button>
   </div>
   <div class="al-foot">
     <p class="al-kicker">קפה קלוי בקטנה, חיפה</p>
@@ -249,19 +258,22 @@ export default [
   </div>
 </section></div>`,
   js:`(function(){
-  const root=document.querySelector(".al"),panel=root.querySelector(".al-panel"),name=root.querySelector(".al-name"),art=root.querySelector(".al-art"),pa=art.children[0],pb=art.children[1];
+  const root=document.querySelector(".al"),panel=root.querySelector(".al-panel"),name=root.querySelector(".al-name"),art=root.querySelector(".al-art"),pa=art.children[0],pm=art.children[1],pc=art.children[2],pb=art.children[3];
+  const pz=root.querySelector(".al-pz"),pzi=pz.querySelector("path"),pzl=pz.querySelector("span");
   const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches,rtl=getComputedStyle(root).direction==="rtl",word=name.textContent.trim();
-  const RAMP=" .:-=+*#%@",BAND=12,HR=9,NL=String.fromCharCode(10);
-  let COLS=0,ROWS=0,cw=8,lh=13,T=null,HEAT=null,front=0,sweepT=0,sweeping=false,vis=false,raf=0,last=0,ready=false,lastW=0;
+  const RAMP=" .:-=+*#%@",BAND=14,NL=String.fromCharCode(10);
+  let COLS=0,ROWS=0,cw=6,lh=7,HR=64,T=null,HEAT=null,front=0,tSweep=0,clock=0,sweeping=false,paused=false,vis=false,raf=0,tPrev=0,ready=false,lastW=0;
   // המילה נדגמת פעם אחת: מצוירת על קנבס נסתר באותו פונט, והכיסוי של כל תא בוחר תו מהסולם
   function build(){
     const W=Math.floor(art.clientWidth);if(!W)return;lastW=W;
-    COLS=Math.max(60,Math.min(120,Math.round(W/5)));
+    COLS=Math.max(64,Math.min(184,Math.round(W/(W<560?4.7:5.4))));      // בטלפון עמודות צפופות יותר, כדי שהאותיות יישארו חלקות בלוח צר
     const mcs=getComputedStyle(pa),span=document.createElement("span");
     span.style.cssText="position:absolute;visibility:hidden;white-space:pre;font:"+mcs.fontWeight+" 100px "+mcs.fontFamily;
     span.textContent="M".repeat(40);document.body.appendChild(span);
     const ratio=span.getBoundingClientRect().width/40/100;span.remove();
-    const f=W/(COLS*ratio);cw=f*ratio;lh=f;pa.style.fontSize=pb.style.fontSize=f+"px";
+    const f=W/(COLS*ratio);cw=f*ratio;pa.style.fontSize=pm.style.fontSize=pc.style.fontSize=pb.style.fontSize=f+"px";
+    lh=parseFloat(getComputedStyle(pa).lineHeight)||f*.8;      // גובה התא נקרא מה-CSS, כך שיש לו מקור אחד
+    HR=Math.max(48,Math.min(88,W*.08));
     const ncs=getComputedStyle(name),m=document.createElement("canvas").getContext("2d");
     m.font=ncs.fontWeight+" 100px "+ncs.fontFamily;
     const fs=Math.min(W*.92/(m.measureText(word).width||300)*100,W*.6);
@@ -279,51 +291,66 @@ export default [
     }
     compose();
   }
-  // שתי שכבות: a לתווים שהתייצבו, b לרעש שלפני החזית ולמעבר העכבר
+  // ארבע שכבות, והצבע עוקב אחרי הצפיפות: a לתווים הכי מלאים, m לבינוניים, c לדקים, b לרעש שלפני החזית ולמעבר העכבר
   function compose(){
-    let sa="",sb="";const rnd=Math.random;
+    let sa="",sm="",sc="",sb="";const rnd=Math.random;
     for(let r=0;r<ROWS;r++){
-      let la="",lb="";
+      let la="",lm="",lc="",lb="";
       for(let c=0;c<COLS;c++){
-        const k=r*COLS+c,t=T[k],cr=rtl?COLS-1-c:c;let ca=" ",cb=" ";
+        const k=r*COLS+c,t=T[k],cr=rtl?COLS-1-c:c;let ca=" ",cm=" ",cc=" ",cb=" ";
         if(sweeping&&cr>front){}
-        else if(sweeping&&cr>front-BAND){if(t||rnd()<.06)cb=RAMP[1+Math.floor(rnd()*9)];}
-        else if(HEAT[k]>.2){if(t||rnd()<.25)cb=RAMP[1+Math.floor(rnd()*9)];}
-        else if(t){ca=RAMP[t];if(!reduced&&!sweeping&&rnd()<.012)ca=RAMP[Math.max(1,Math.min(9,t+(rnd()<.5?-1:1)))];}
-        la+=ca;lb+=cb;
+        else if(sweeping&&cr>front-BAND){if(t||rnd()<.05)cb=RAMP[1+Math.floor(rnd()*9)];}
+        else if(HEAT[k]>.2){if(t||rnd()<.18)cb=RAMP[1+Math.floor(rnd()*9)];}
+        else if(t){
+          // גל איטי של אור חוצה את האותיות: התווים המלאים מתעמעמים לרגע ל-# ול-*, והמרקם נראה. בהפחתת תנועה הגל קפוא
+          let i=t;if(t>=7){const w=(Math.sin(cr*.075+r*.16-clock*.0014)+1)/2;i=Math.max(1,t-Math.round(w*w*4));}
+          if(i>=8)ca=RAMP[i];else if(i>=6)cm=RAMP[i];else cc=RAMP[i];
+        }
+        la+=ca;lm+=cm;lc+=cc;lb+=cb;
       }
-      sa+=la+(r<ROWS-1?NL:"");sb+=lb+(r<ROWS-1?NL:"");
+      const nl=r<ROWS-1?NL:"";sa+=la+nl;sm+=lm+nl;sc+=lc+nl;sb+=lb+nl;
     }
-    pa.textContent=sa;pb.textContent=sb;
+    pa.textContent=sa;pm.textContent=sm;pc.textContent=sc;pb.textContent=sb;
   }
   function frame(now){
-    raf=0;if(!vis||document.hidden||!ready)return;
-    if(now-last>=(sweeping?33:90)){
-      last=now;
-      if(sweeping){front=(now-sweepT)/1600*(COLS+BAND);if(front>=COLS+BAND)sweeping=false;}
+    raf=0;if(!vis||document.hidden||!ready||paused)return;
+    const dt=Math.min(100,now-tPrev);
+    if(dt>=(sweeping?33:90)){
+      tPrev=now;
+      clock+=dt;if(sweeping){tSweep+=dt;front=tSweep/1600*(COLS+BAND);if(front>=COLS+BAND)sweeping=false;}
       for(let k=0;k<HEAT.length;k++)if(HEAT[k]){HEAT[k]*=.8;if(HEAT[k]<.03)HEAT[k]=0;}
       compose();
     }
     raf=requestAnimationFrame(frame);
   }
-  const kick=()=>{if(!raf&&vis&&!document.hidden&&ready)raf=requestAnimationFrame(frame);};
-  // מעבר עכבר או נגיעה מחממים תאים ברדיוס HR, והם מתקררים בפריימים הבאים
+  const kick=()=>{if(!raf&&vis&&!document.hidden&&ready&&!paused)raf=requestAnimationFrame(frame);};
+  // מעבר עכבר או נגיעה מחממים תאים ברדיוס HR (בפיקסלים), והם מתקררים בפריימים הבאים. בזמן השהיה אין תגובה
   const warm=e=>{
-    if(!ready)return;const r=art.getBoundingClientRect(),cx=(e.clientX-r.left)/cw,cy=(e.clientY-r.top)/lh;
-    for(let y=Math.max(0,Math.floor(cy-HR));y<=Math.min(ROWS-1,Math.ceil(cy+HR));y++)for(let x=Math.max(0,Math.floor(cx-HR));x<=Math.min(COLS-1,Math.ceil(cx+HR));x++)
-      if(Math.hypot(x+.5-cx,y+.5-cy)<HR)HEAT[y*COLS+x]=1;
+    if(!ready||paused)return;const r=art.getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top;
+    for(let y=Math.max(0,Math.floor((py-HR)/lh));y<=Math.min(ROWS-1,Math.ceil((py+HR)/lh));y++)for(let x=Math.max(0,Math.floor((px-HR)/cw));x<=Math.min(COLS-1,Math.ceil((px+HR)/cw));x++)
+      if(Math.hypot((x+.5)*cw-px,(y+.5)*lh-py)<HR)HEAT[y*COLS+x]=1;
     kick();
   };
   (document.fonts&&document.fonts.ready||Promise.resolve()).then(()=>{
     build();ready=true;
     new ResizeObserver(()=>{if(Math.floor(art.clientWidth)!==lastW){build();kick();}}).observe(art);
-    if(reduced){root.classList.add("is-live");return;}      // פריים אחד מתייצב, בלי לולאה ובלי מאזינים
+    if(reduced){root.classList.add("is-live");return;}      // פריים אחד מתייצב, בלי לולאה, בלי כפתור ובלי מאזינים
+    root.classList.add("is-motion");
+    pz.addEventListener("click",()=>{
+      paused=!paused;
+      pzl.textContent=paused?"הפעלת התנועה":"השהיית התנועה";
+      pzi.setAttribute("d",paused?"M8 5l11 7-11 7z":"M9 5v14M15 5v14");
+      if(!paused){tPrev=performance.now();kick();}
+    });
     panel.addEventListener("pointermove",e=>{if(e.pointerType!=="touch")warm(e);});
     panel.addEventListener("pointerdown",warm);
     document.addEventListener("visibilitychange",kick);
     new IntersectionObserver(es=>{
       vis=es[0].isIntersecting;
-      if(vis){sweeping=true;sweepT=performance.now();front=0;compose();root.classList.add("is-live");}
+      if(vis){
+        if(!paused){sweeping=true;tSweep=0;front=0;compose();}      // בהשהיה הצורה נשארת קפואה ולא מתחילה חזית חדשה
+        root.classList.add("is-live");
+      }
       kick();
     },{rootMargin:"10% 0px"}).observe(panel);
   });

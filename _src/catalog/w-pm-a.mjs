@@ -1,4 +1,5 @@
 // תשעה מהלכים מ-prompt-motion.com (21.10.2026, ליאב: "אני רוצה את כל המהלכים שהיו שם לא רק שלושה").
+// 25.10.2026: g163 נמחק אחרי הסקירה (ליאב: "אם זה נישתי מדי אז נוותר"; ובשאלה על הנשארים: "למחוק 3, לשפר 8").
 // האתר הוא גלריה של סרטוני תנועה. בקובץ הזה הקבוצה האווירית: ענני נקודות, שדות נקודות, רשתות קווים, גו וצורות שנבנות מחלקים.
 // הכול נבנה מאפס מהצפייה: בלי הקוד, הפרומפטים, הסרטונים או הטקסטים של המקור.
 // כל פריט בקנבס כולל מצב סטטי שלם בלי JS ובהפחתת תנועה (SVG, גרדיאנט או צורה סופית), ובקנבס הצבעים נקראים מהטוקנים בזמן ריצה.
@@ -663,122 +664,28 @@ export default [
 })();`
 },
 {
-  id:"g163", cat:"gsap", name:"מעגלים מסתובבים שמציירים את הסמל", tech:"GSAP · ScrollTrigger scrub · Canvas 2D · Fourier", status:"ממתין",
-  desc:"שרשרת של מעגלים מסתובבים, מהגדול לקטן, וקצה השרשרת מצייר בגלילה את קו המתאר של להבה. כשהקו נסגר, המעגלים נמוגים, הלהבה מתמלאת בצבע המותג ומקבלת זוהר, ולצדה היסטוגרמה קטנה של גודל כל מעגל נבנית עמודה אחרי עמודה. בלי GSAP מוצגת הלהבה המלאה עם ההיסטוגרמה.",
-  when:"חשיפה של לוגו שהוא צורה אחת רציפה (להבה, טיפה, עלה, אות): עסקי אש, אנרגיה, גינון, קפה, פיננסים. מתאים לעסק שרוצה להראות שהסמל שלו נבנה בדיוק ולא צויר ביד. פעם אחת בעמוד. לא ללוגו עם כמה חלקים נפרדים או עם אותיות דקות.",
-  note:"**שחזור.** השראה: סרטון ב-prompt-motion.com (21.10.2026) שבו שרשרת מעגלים מסתובבים מציירת קו מתאר של אות, והאות מתמלאת בצבע וזוהרת ליד היסטוגרמה קטנה של מקדמים. נבנה מאפס מהצפייה. **איך מקבלים את המעגלים:** מדגימים את קו המתאר של הסמל ב-256 נקודות מרוכבות `z = x + iy` ומחשבים התמרת פורייה בדידה: לכל תדר `k` מקדם `c_k` שהוא מעגל שמסתובב `k` סיבובים בזמן שהקצה עושה סיבוב אחד, ברדיוס `|c_k|` ובשלב ההתחלה שלו. שומרים את 44 המקדמים מ-22- עד 22, ממוינים לפי גודל, ואת המקדם 0 (מרכז הצורה). זה נעשה פעם אחת מחוץ לדף. להחלפת הסמל מחליפים את הנקודות ואת `CO` ואת ה-`d` של ה-SVG (מחשבים אותו מאותם מקדמים). **הציור:** `pt(t, n)` מסכם את כל המעגלים בזמן `t`, העקבה היא קו שבור מ-0 עד הזווית הנוכחית, והמעגלים והקווים בין המרכזים מצוירים בשקיפות נמוכה. ההתקדמות (`scrub`) היא המספר היחיד שמזיז את הזווית (עם ease), ואין לולאת rAF, כך שהקנבס יקר רק בזמן גלילה. **המעבר:** ב-70% הזווית שלמה, המעגלים דועכים, ה-SVG ממולא נחשף (`opacity` ו-`scale`) וזוהר מתווסף (`--gl`). הקנבס עצמו נמוג בסוף, כך ששני הציורים לא כפולים. **ההיסטוגרמה:** 20 עמודות `aria-hidden`, גובה כל אחת שורש היחס לגדול, כי הגדול גדול פי חמישים מהאחרון ובלי שורש הקטנים לא נראים. **RTL:** הסמל הוא עקומה סגורה והמסלול בכיוון השעון, לכן אין מה להפוך. הפריסה בגריד לפי כיוון המסמך. **בלי GSAP ובהפחתת תנועה:** הלהבה המלאה עם הזוהר וההיסטוגרמה, והקנבס מוסתר. **בטלפון** הסצנה נעוצה, הסמל בגודל של עד 320 פיקסלים.",
-  libs:["gsap","ScrollTrigger"],
-  css:`.ep{position:relative;max-width:1100px;margin-inline:auto}
-.ep-pin{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,72px);padding-block:clamp(24px,4vw,64px)}
-.ep-copy{display:grid;gap:16px;justify-items:start;max-width:40ch}
-.ep-k{margin:0;font-size:15px;font-weight:600;color:var(--muted)}
-.ep h2{margin:0;font-size:clamp(30px,3.8vw,52px);line-height:1.1;text-wrap:balance}
-.ep-lead{margin:0;font-size:var(--fs-body);line-height:1.6;color:var(--muted)}
-.ep-link{display:inline-flex;align-items:center;padding:14px 28px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:700;text-decoration:none;transition:transform .2s cubic-bezier(.2,.6,.2,1)}
-@media (hover:hover) and (pointer:fine){.ep-link:hover{transform:translateY(-2px)}}
-.ep-link:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.ep-fig{margin:0;display:grid;gap:16px;justify-items:center}
-.ep-stage{position:relative;width:min(100%,440px);aspect-ratio:1;max-height:62svh}
-.ep-svg,.ep-cv{position:absolute;inset:0;width:100%;height:100%}
-.ep-svg{overflow:visible;filter:drop-shadow(0 0 calc(var(--gl,1) * 22px) color-mix(in srgb,var(--accent) calc(var(--gl,1) * 45%),transparent))}
-.ep-fill{fill:var(--accent)}
-.ep-cv{opacity:0;pointer-events:none}
-.ep-hist{display:flex;align-items:flex-end;gap:4px;width:min(100%,440px);height:48px}
-.ep-hist i{flex:1;height:100%;background:var(--accent);opacity:.85;transform-origin:50% 100%;transform:scaleY(var(--h))}
-.ep-cap{margin:0;width:min(100%,440px);font-size:13px;color:var(--muted)}
-/* המהלך רץ: הסקשן גבוה והבמה נעוצה במסך, והקנבס מצייר עד שהלהבה מתמלאת */
-.ep.is-live{height:320vh}
-.ep.is-live .ep-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
-.ep.is-live .ep-cv{opacity:1}
-@media(prefers-reduced-motion:reduce){.ep-link{transition:none}}
-@media(max-width:767px){
-  .ep-pin{grid-template-columns:minmax(0,1fr);gap:16px;align-content:center}
-  .ep-stage{width:min(100%,320px);max-height:38svh}
-  .ep-hist{height:32px}
-}`,
-  html:`<div class="stage"><section class="ep">
-  <div class="ep-pin">
-    <div class="ep-copy">
-      <p class="ep-k">סדנת להבה, קמינים ותנורי עץ</p>
-      <h2>תנור עץ שמחמם את הבית ואת הצלחת</h2>
-      <p class="ep-lead">אנחנו מתכננים ובונים קמינים, תנורי פיצה ותנורי חימום מלבני שמוט, עם התקנה בבית הלקוח ואחריות לחמש שנים.</p>
-      <a class="ep-link" href="#">לקביעת פגישת יעוץ</a>
-    </div>
-    <figure class="ep-fig">
-      <div class="ep-stage">
-        <svg class="ep-svg" viewBox="-1.2 -1.2 2.4 2.4" role="img" aria-label="סמל הסדנה: להבה בצבע המותג"><path class="ep-fill" d="M0.1 -0.999L0.128 -0.984L0.156 -0.943L0.183 -0.883L0.211 -0.812L0.24 -0.739L0.271 -0.671L0.305 -0.613L0.344 -0.564L0.386 -0.519L0.431 -0.475L0.476 -0.431L0.518 -0.385L0.556 -0.337L0.589 -0.285L0.619 -0.228L0.646 -0.169L0.672 -0.108L0.693 -0.045L0.709 0.019L0.718 0.083L0.72 0.148L0.716 0.215L0.705 0.285L0.689 0.356L0.668 0.426L0.643 0.492L0.614 0.555L0.58 0.613L0.542 0.668L0.498 0.722L0.45 0.772L0.4 0.819L0.348 0.859L0.295 0.892L0.241 0.918L0.185 0.937L0.127 0.95L0.067 0.957L0.006 0.96L-0.053 0.958L-0.112 0.951L-0.17 0.941L-0.228 0.926L-0.288 0.906L-0.346 0.882L-0.402 0.853L-0.453 0.819L-0.5 0.78L-0.543 0.734L-0.584 0.68L-0.622 0.62L-0.656 0.557L-0.685 0.493L-0.707 0.431L-0.721 0.372L-0.728 0.314L-0.727 0.258L-0.719 0.2L-0.707 0.143L-0.691 0.089L-0.674 0.037L-0.654 -0.015L-0.629 -0.069L-0.599 -0.126L-0.565 -0.182L-0.531 -0.231L-0.499 -0.271L-0.472 -0.295L-0.453 -0.297L-0.44 -0.275L-0.433 -0.233L-0.429 -0.178L-0.425 -0.123L-0.418 -0.079L-0.407 -0.054L-0.389 -0.052L-0.366 -0.071L-0.339 -0.105L-0.309 -0.146L-0.28 -0.193L-0.252 -0.241L-0.227 -0.288L-0.205 -0.331L-0.188 -0.373L-0.172 -0.418L-0.157 -0.466L-0.141 -0.514L-0.124 -0.561L-0.103 -0.612L-0.079 -0.671L-0.052 -0.739L-0.022 -0.812L0.008 -0.883L0.039 -0.944L0.07 -0.985L0.1 -0.999Z"/></svg>
-        <canvas class="ep-cv" aria-hidden="true"></canvas>
-      </div>
-      <div class="ep-hist" aria-hidden="true"><i style="--h:1.00"></i><i style="--h:0.54"></i><i style="--h:0.34"></i><i style="--h:0.30"></i><i style="--h:0.30"></i><i style="--h:0.29"></i><i style="--h:0.23"></i><i style="--h:0.20"></i><i style="--h:0.16"></i><i style="--h:0.16"></i><i style="--h:0.15"></i><i style="--h:0.15"></i><i style="--h:0.11"></i><i style="--h:0.11"></i><i style="--h:0.08"></i><i style="--h:0.08"></i><i style="--h:0.08"></i><i style="--h:0.07"></i><i style="--h:0.05"></i><i style="--h:0.05"></i></div>
-      <figcaption class="ep-cap">המעגלים שמציירים את הלהבה, מהגדול לקטן</figcaption>
-    </figure>
-  </div>
-</section></div>`,
-  js:`(function(){
-  if(typeof gsap==="undefined")return;      // בלי GSAP נשארת הלהבה המלאה עם ההיסטוגרמה
-  const root=document.querySelector(".ep"),stage=root.querySelector(".ep-stage"),cv=root.querySelector(".ep-cv"),ctx=cv.getContext("2d"),
-    svg=root.querySelector(".ep-svg"),fill=root.querySelector(".ep-fill"),bars=[].slice.call(root.querySelectorAll(".ep-hist i"));
-  // מקדמי פורייה של קו המתאר, ממוינים מהגדול לקטן: [תדר, ממשי, מדומה]. נוצרו מראש, מחוץ לדף
-  const C0=[-.043,.037],CO=[[1,0.287,-0.642],[2,-0.201,-0.02],[-1,0.005,-0.083],[-2,0.03,-0.058],[3,0.012,-0.062],[-3,-0.005,-0.058],[-4,-0.022,-0.031],[4,0.028,-0.007],[7,0.004,-0.018],[-7,0.004,-0.018],[6,-0.008,-0.013],[-6,0.014,-0.005],[-8,-0.004,-0.006],[8,0.007,-0.003],[-5,-0.004,0],[10,-0.002,-0.003],[5,-0.002,-0.004],[-10,0.003,-0.001],[-11,0,-0.002],[11,0,-0.002],[-12,-0.002,0],[9,-0.001,0],[-9,0,-0.001],[-13,0,-0.001],[12,0,-0.001],[16,0.001,0],[15,0,0],[17,0,0],[-17,0,0],[21,0,0],[-21,0,0],[-18,0,0],[-22,0,0],[22,0,0],[-16,0,0],[18,0,0],[13,0,0],[20,0,0],[-20,0,0],[-15,0,0],[-19,0,0],[19,0,0],[14,0,0],[-14,0,0]];
-  const NA=14;
-  const cl=x=>Math.min(1,Math.max(0,x)),sm=(a,b,x)=>{x=cl((x-a)/(b-a));return x*x*(3-2*x);},ease=e=>e<.5?4*e*e*e:1-Math.pow(-2*e+2,3)/2;
-  gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
-    root.classList.add("is-live");
-    const probe=document.createElement("canvas").getContext("2d");
-    const col=c=>{probe.fillStyle="#000";probe.fillStyle=c;return probe.fillStyle;};
-    let W=0,S=0,P=0,ACC="",INK="";
-    function pt(t,n){let x=C0[0],y=C0[1];for(let i=0;i<n;i++){const c=CO[i],a=c[0]*t;x+=c[1]*Math.cos(a)-c[2]*Math.sin(a);y+=c[1]*Math.sin(a)+c[2]*Math.cos(a);}return[x,y];}
-    function draw(){
-      ctx.clearRect(0,0,W,W);if(!W)return;
-      const th=6.2832*ease(cl((P-.04)/.66)),m=W/2,steps=Math.max(2,Math.ceil(th*40));
-      ctx.lineJoin="round";ctx.lineWidth=2.5;ctx.strokeStyle=ACC;ctx.globalAlpha=1;ctx.beginPath();
-      for(let k=0;k<=steps;k++){const q=pt(th*k/steps,CO.length);if(k)ctx.lineTo(m+q[0]*S,m+q[1]*S);else ctx.moveTo(m+q[0]*S,m+q[1]*S);}
-      ctx.stroke();
-      const af=1-sm(.68,.78,P);
-      if(af>0){
-        let x=C0[0],y=C0[1];ctx.lineWidth=1;ctx.strokeStyle=INK;
-        for(let i=0;i<NA;i++){const c=CO[i],a=c[0]*th,dx=c[1]*Math.cos(a)-c[2]*Math.sin(a),dy=c[1]*Math.sin(a)+c[2]*Math.cos(a),r=Math.hypot(c[1],c[2])*S;
-          ctx.globalAlpha=.22*af;ctx.beginPath();ctx.arc(m+x*S,m+y*S,r,0,6.2832);ctx.stroke();
-          ctx.globalAlpha=.6*af;ctx.beginPath();ctx.moveTo(m+x*S,m+y*S);ctx.lineTo(m+(x+dx)*S,m+(y+dy)*S);ctx.stroke();
-          x+=dx;y+=dy;}
-        const q=pt(th,CO.length);ctx.globalAlpha=af;ctx.fillStyle=ACC;ctx.beginPath();ctx.arc(m+q[0]*S,m+q[1]*S,4,0,6.2832);ctx.fill();
-      }
-      ctx.globalAlpha=1;
-      cv.style.opacity=(1-sm(.82,.95,P)).toFixed(3);
-    }
-    function build(){
-      const dpr=Math.min(2,devicePixelRatio||1),r=stage.getBoundingClientRect();W=r.width;S=W/2.4;
-      cv.width=cv.height=Math.round(W*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);
-      const cs=getComputedStyle(root);INK=col(cs.color);ACC=col(cs.getPropertyValue("--accent").trim()||cs.color);draw();
-    }
-    const ro=new ResizeObserver(build);
-    const st={p:0},tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
-    tl.to(st,{p:1,duration:1,ease:"none",onUpdate:()=>{P=st.p;draw();}},0);
-    // ההיסטוגרמה נבנית עמודה אחרי עמודה, והלהבה נחשפת כשהקו נסגר
-    bars.forEach((b,i)=>{const h=parseFloat(b.style.getPropertyValue("--h"))||1;tl.fromTo(b,{scaleY:0},{scaleY:h,duration:.1,ease:"power2.out"},.04+.5*i/(bars.length-1));});
-    gsap.set(fill,{svgOrigin:"0 0"});
-    tl.fromTo(fill,{opacity:0,scale:.94},{opacity:1,scale:1,duration:.2,ease:"power2.out"},.72)
-      .fromTo(svg,{"--gl":0},{"--gl":1,duration:.24,ease:"none"},.76);
-    build();ro.observe(stage);
-    return()=>{ro.disconnect();cv.style.opacity="";gsap.set(bars.concat([fill,svg]),{clearProps:"all"});svg.style.removeProperty("--gl");root.classList.remove("is-live");};
-  });
-})();`
-},
-{
   id:"g164", cat:"gsap", name:"שמש שעולה מאחורי קו האופק", tech:"GSAP · ScrollTrigger scrub · overflow clip", status:"ממתין",
-  desc:"בגלילה עולה שמש מתחת לקו אופק: דיסק רך שגדל מעט ומקבל הילה. מעליו המילים של הכותרת עולות מתחת לאותו קו, אחת אחרי השנייה, וכל חלק שעדיין מתחת לאופק נחתך. בסוף השמש מעל הקו מאחורי כל הכותרת, ומתחת לאופק נחשפים הסבר וכפתור. בלי GSAP העמוד מציג את המצב הסופי.",
+  desc:"בגלילה עולה שמש מתחת לקו אופק: דיסק רך שגדל מעט, מקבל הילה, שתי טבעות אור וזוהר שמתפשט לאורך הקו. מעליו המילים של הכותרת עולות מתחת לאותו קו, אחת אחרי השנייה, וכל חלק שעדיין מתחת לאופק נחתך. בסוף השמש יושבת על הקו מאחורי כל הכותרת, האור נשפך גם מתחת לקו, ואז נחשפים הסבר וכפתור. בלי GSAP העמוד מציג את המצב הסופי.",
   when:"הירו של עסק שיש בו משמעות של עלייה, התחלה או אור: אנרגיה סולארית, שירותי בוקר, קפה, יוגה, שחר חדש בעסק, חברת הובלה ללא לילה. כותרת קצרה של שתיים עד ארבע מילים. לא כשהכותרת ארוכה או כשאין קשר בין העסק לרעיון של זריחה.",
-  note:"**שחזור.** השראה: סרטון ב-prompt-motion.com (21.10.2026) שבו מילים של כותרת נחתכות בקו אופק ושמש עולה מאחוריהן, גדלה ומקבלת הילה. נבנה מאפס מהצפייה. **החיתוך:** קופסת השמיים היא `overflow: hidden` וקו האופק הוא הקצה התחתון שלה (עם `border-bottom`). הכותרת צמודה לתחתית הקופסה (`bottom: 0`), לכן כשהמילים מורמות בעשרות אחוזים מתחת לקו, הקצה התחתון חותך אותן בלי מסכה לכל מילה. **השמש:** דיסק עגול בצבע `color-mix` בהיר מהמבטא, שיושב `.12` מגובהו מעל הקו במצב הסופי (`bottom`), ולכן ב-GSAP מזיזים רק `yPercent` (112 עד 0) ו-`scale` (.78 עד 1), בלי טרנספורם ב-CSS שיתנגש בו. ההילה היא אלמנט נפרד שרק השקיפות שלו משתנה, כך שאין צל תיבה בגלילה. **הצבעים:** הטקסט יושב על דיסק בהיר, ולכן נשאר קריא בכל עור. אם רוצים שמש בצבע חם יותר, מחליפים את אחוז המבטא בדיסק. **הסדר בציר:** השמש 0 עד .78 עם ease, ההילה והמילים מ-.3 (הסטגר .1), והסבר וכפתור ב-.72. **RTL:** המילים בשורה אחת ב-flex, והמילה הראשונה בצד ההתחלה (ימין). השמש במרכז, ולכן אין מה להפוך באתר LTR. **בלי GSAP ובהפחתת תנועה:** השמש מעל הקו, הכותרת מלאה וההסבר מוצג. **בטלפון** הכותרת קטנה יותר (עדיין בשורה אחת), הדיסק צר יותר והסצנה נעוצה כמו בדסקטופ.",
+  note:"**שחזור.** השראה: סרטון ב-prompt-motion.com (21.10.2026) שבו מילים של כותרת נחתכות בקו אופק ושמש עולה מאחוריהן, גדלה ומקבלת הילה. נבנה מאפס מהצפייה. **ליטוש (25.10):** הגרסה הראשונה הייתה דיסק שטוח על רקע ריק. עכשיו יש לסצנה אווירה: שטיפת צבע שעולה מהאופק, זוהר רך לאורך הקו, שתי טבעות אור סביב השמש וזוהר שנשפך גם מתחת לקו. השמש יושבת על הקו וחתוכה מעט בתחתיתה, כך שהיא נראית כמו שמש שכבר זרחה ולא כמו כדור שצף. **החיתוך:** קופסת השמיים היא `overflow: hidden` וקו האופק הוא הקצה התחתון שלה (עם קו דק שדוהה בקצוות ב-`::after`). הכותרת צמודה לתחתית הקופסה (`bottom: 0`), לכן כשהמילים מורמות בעשרות אחוזים מתחת לקו, הקצה התחתון חותך אותן בלי מסכה לכל מילה. **השמש:** דיסק עגול בצבע `color-mix` מהמבטא עם מעבר רך, שיושב ב-`bottom` מעט מתחת לקו (`-.04` מהקוטר). ב-GSAP מזיזים רק `yPercent` (112 עד 0) ו-`scale` (.86 עד 1), בלי טרנספורם ב-CSS שיתנגש בו. ההילה והטבעות הן אלמנטים נפרדים שרק השקיפות והגודל שלהם משתנים, כך שאין צל תיבה בגלילה. **קצוות רכים:** שטיפת הצבע מקבלת מסכה אופקית (`mask-image`) כדי שקצוות הקופסה לא ייראו כמלבן, ובטלפון הזוהר, ההשתקפות והטבעות מצטמצמים כדי שלא ייחתכו בקצה. **הצבעים:** הטקסט יושב על דיסק בהיר, ולכן נשאר קריא בכל עור. אם רוצים שמש בצבע חם יותר, מחליפים את אחוז המבטא בדיסק ובזוהר. **הסדר בציר:** השמש 0 עד .78 עם ease, שטיפת הצבע לאורך כל הדרך, הזוהר מ-.1, ההילה והמילים מ-.3 (הסטגר .1), הטבעות והקו הזוהר מ-.46, ההשתקפות ב-.6, והסבר וכפתור ב-.72. **RTL:** המילים בשורה אחת ב-flex, והמילה הראשונה בצד ההתחלה (ימין). השמש במרכז, ולכן אין מה להפוך באתר LTR. **בלי GSAP ובהפחתת תנועה:** השמש על הקו, הכותרת מלאה וההסבר מוצג. **בטלפון** גודל הכותרת מחושב מרוחב המסך (`(100vw - 48px) / 7.2`), כך שהיא נשארת בשורה אחת גם ברוחב 320, והסצנה נעוצה כמו בדסקטופ.",
   libs:["gsap","ScrollTrigger"],
   css:`.sr{position:relative;max-width:1100px;margin-inline:auto}
-.sr-pin{display:grid;align-content:center;gap:clamp(16px,2.4vw,32px);padding-block:clamp(16px,3vw,48px)}
+.sr-pin{--g:clamp(16px,2.4vw,32px);--h:clamp(260px,calc(100svh - 360px),560px);--d:min(56vw,calc(var(--h) * .7),520px);display:grid;align-content:center;gap:var(--g);padding-block:clamp(16px,3vw,48px)}
 .sr-k{margin:0;text-align:center;font-size:15px;font-weight:600;color:var(--muted)}
-.sr-sky{--h:clamp(260px,calc(100svh - 360px),560px);--d:min(56vw,calc(var(--h) * .7),520px);position:relative;overflow:hidden;height:var(--h);border-bottom:1px solid var(--line)}
-.sr-sun{position:absolute;left:50%;margin-left:calc(var(--d) / -2);bottom:calc(var(--d) * .12);width:var(--d);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 38%,color-mix(in srgb,var(--accent) 22%,var(--bg)),color-mix(in srgb,var(--accent) 44%,var(--bg)))}
+.sr-sky{position:relative;overflow:hidden;height:var(--h)}
+.sr-sky::after{content:"";position:absolute;inset-inline:0;bottom:0;height:1px;background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--ink) 30%,transparent) 14%,color-mix(in srgb,var(--ink) 30%,transparent) 86%,transparent)}
+.sr-wash{position:absolute;inset:0;background:linear-gradient(to top,color-mix(in srgb,var(--accent) 18%,transparent),color-mix(in srgb,var(--accent) 6%,transparent) 48%,transparent 88%);-webkit-mask-image:linear-gradient(90deg,transparent,black 16%,black 84%,transparent);mask-image:linear-gradient(90deg,transparent,black 16%,black 84%,transparent)}
+.sr-bloom{position:absolute;left:calc(50% - var(--d) * 1.3);bottom:calc(var(--d) * -.45);width:calc(var(--d) * 2.6);height:calc(var(--d) * .9);border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 40%,transparent),transparent)}
+.sr-lit{position:absolute;left:calc(50% - var(--d) * 1.1);bottom:0;width:calc(var(--d) * 2.2);height:2px;background:linear-gradient(90deg,transparent,var(--accent),transparent)}
+.sr-sun{position:absolute;left:50%;margin-left:calc(var(--d) / -2);bottom:calc(var(--d) * -.04);width:var(--d);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 40%,color-mix(in srgb,var(--accent) 12%,var(--bg)),color-mix(in srgb,var(--accent) 50%,var(--bg)))}
+.sr-ring{position:absolute;inset:-15%;border-radius:50%;border:1px solid color-mix(in srgb,var(--accent) 34%,transparent);pointer-events:none}
+.sr-ring2{inset:-34%;border-color:color-mix(in srgb,var(--accent) 18%,transparent)}
 .sr-halo{position:absolute;inset:-30%;border-radius:50%;pointer-events:none;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 30%,transparent),transparent)}
 .sr-h{position:absolute;inset-inline:0;bottom:0;z-index:1;margin:0;display:flex;justify-content:center;gap:.28em;padding-bottom:.1em;font-size:clamp(48px,12vw,168px);font-weight:800;line-height:1.02;letter-spacing:-.02em;white-space:nowrap}
 .sr-w{display:inline-block}
-.sr-ground{display:grid;gap:16px;justify-items:center;text-align:center}
+.sr-refl{position:relative;height:0;margin-top:calc(var(--g) * -1)}
+.sr-refl::before{content:"";position:absolute;left:calc(50% - var(--d) * .9);top:0;width:calc(var(--d) * 1.8);height:calc(var(--d) * .4);background:radial-gradient(farthest-side at 50% 0,color-mix(in srgb,var(--accent) 24%,transparent),transparent)}
+.sr-ground{position:relative;display:grid;gap:16px;justify-items:center;text-align:center}
 .sr-lead{margin:0;max-width:52ch;font-size:var(--fs-body);line-height:1.6;color:var(--muted)}
 .sr-link{display:inline-flex;align-items:center;padding:14px 28px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-weight:700;text-decoration:none;transition:transform .2s cubic-bezier(.2,.6,.2,1)}
 @media (hover:hover) and (pointer:fine){.sr-link:hover{transform:translateY(-2px)}}
@@ -788,17 +695,25 @@ export default [
 .sr.is-live .sr-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
 @media(prefers-reduced-motion:reduce){.sr-link{transition:none}}
 @media(max-width:767px){
-  .sr-sky{--h:clamp(260px,calc(100svh - 400px),440px);--d:min(62vw,calc(var(--h) * .7))}
+  .sr-pin{--h:clamp(260px,calc(100svh - 400px),440px);--d:min(62vw,calc(var(--h) * .7))}
   .sr-halo{inset:-22%}
-  .sr-h{font-size:clamp(44px,12.5vw,96px)}
+  .sr-ring{inset:-8%}
+  .sr-ring2{inset:-20%}
+  .sr-bloom,.sr-lit{left:calc(50% - var(--d) * .7);width:calc(var(--d) * 1.4)}
+  .sr-refl::before{left:calc(50% - var(--d) * .7);width:calc(var(--d) * 1.4)}
+  .sr-h{font-size:clamp(34px,calc((100vw - 48px) / 7.2),96px)}
 }`,
   html:`<div class="stage"><section class="sr">
   <div class="sr-pin">
     <p class="sr-k">אלון סולאר, מערכות סולאריות לבתים פרטיים</p>
     <div class="sr-sky">
-      <div class="sr-sun" aria-hidden="true"><div class="sr-halo"></div></div>
+      <div class="sr-wash" aria-hidden="true"></div>
+      <div class="sr-bloom" aria-hidden="true"></div>
+      <div class="sr-sun" aria-hidden="true"><div class="sr-halo"></div><i class="sr-ring"></i><i class="sr-ring sr-ring2"></i></div>
+      <div class="sr-lit" aria-hidden="true"></div>
       <h2 class="sr-h"><span class="sr-w">חשמל</span><span class="sr-w">מהגג</span><span class="sr-w">שלכם</span></h2>
     </div>
+    <div class="sr-refl" aria-hidden="true"></div>
     <div class="sr-ground">
       <p class="sr-lead">מתכננים, מתקינים ומחברים מערכת סולארית לבית פרטי, כולל הטיפול באישורים מול חברת החשמל.</p>
       <a class="sr-link" href="#">לקבלת הצעה לגג שלכם</a>
@@ -808,18 +723,25 @@ export default [
   js:`(function(){
   if(typeof gsap==="undefined")return;      // בלי GSAP נשארת השמש מעל הקו והכותרת המלאה
   const root=document.querySelector(".sr"),sun=root.querySelector(".sr-sun"),halo=root.querySelector(".sr-halo"),
-    gr=root.querySelector(".sr-ground"),words=[].slice.call(root.querySelectorAll(".sr-w"));
+    gr=root.querySelector(".sr-ground"),words=[].slice.call(root.querySelectorAll(".sr-w")),
+    wash=root.querySelector(".sr-wash"),bloom=root.querySelector(".sr-bloom"),lit=root.querySelector(".sr-lit"),
+    refl=root.querySelector(".sr-refl"),rings=[].slice.call(root.querySelectorAll(".sr-ring"));
   gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
     root.classList.add("is-live");
     // השמש והמילים מוזזות רק ב-yPercent: הקצה התחתון של קופסת השמיים הוא קו האופק והוא חותך כל מה שמתחתיו
     const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}});
     tl
-      .fromTo(sun,{yPercent:112,scale:.78},{yPercent:0,scale:1,duration:.78,ease:"power1.out"},0)
-      .fromTo(halo,{opacity:0},{opacity:1,duration:.5,ease:"none"},.3)
+      .fromTo(sun,{yPercent:112,scale:.86},{yPercent:0,scale:1,duration:.78,ease:"power2.out"},0)
+      .fromTo(wash,{opacity:0},{opacity:1,duration:.8,ease:"power1.in"},0)
+      .fromTo(bloom,{opacity:0,scaleX:.5},{opacity:1,scaleX:1,duration:.7,ease:"power1.out"},.1)
+      .fromTo(halo,{opacity:0,scale:.7},{opacity:1,scale:1,duration:.5,ease:"none"},.3)
+      .fromTo(rings,{opacity:0,scale:.88},{opacity:1,scale:1,duration:.3,ease:"power1.out",stagger:.08},.46)
+      .fromTo(lit,{opacity:0,scaleX:.3},{opacity:1,scaleX:1,duration:.4,ease:"power1.out"},.46)
+      .fromTo(refl,{opacity:0},{opacity:1,duration:.3,ease:"none"},.6)
       .fromTo(gr,{autoAlpha:0,y:24},{autoAlpha:1,y:0,duration:.2,ease:"power2.out"},.72);
     // כל מילה בטווח משלה (ולא stagger): כך שכל המילים מוסתרות מתחת לאופק כבר בטעינה
     words.forEach((w,i)=>tl.fromTo(w,{yPercent:115},{yPercent:0,duration:.3,ease:"power3.out"},.3+i*.1));
-    return()=>{gsap.set([sun,halo,gr].concat(words),{clearProps:"all"});root.classList.remove("is-live");};
+    return()=>{gsap.set([sun,halo,gr,wash,bloom,lit,refl].concat(rings,words),{clearProps:"all"});root.classList.remove("is-live");};
   });
 })();`
 }

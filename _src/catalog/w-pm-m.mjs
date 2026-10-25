@@ -801,7 +801,7 @@ ${egRows}
   id: "g257", cat: "gsap", name: "היסטוגרמה עם הדגשה שנודדת מעמודה לעמודה", tech: "GSAP · ScrollTrigger scrub · CSS variables · sticky", status: "ממתין",
   desc: "שלושים עמודות של פניות, אחת לכל יום בחודש, ואחת מהן דולקת בצבע המותג. בגלילה ההדגשה עוברת מעמודה לעמודה כמו ראש נגינה: העמודות שכבר עברה מתכהות, אלה שלפניה בהירות, ופס דק עם מספר היום זז איתה מתחת לציר. המספר הגדול שמעל הגרף והנתונים הקטנים לידו, תאריך, סך הכל וממוצע, מתעדכנים בכל עמודה. אין זכוכית מגדלת ואין הגדלה, רק תנועה לאורך הציר.",
   when: "נתון שמתפרש על ציר זמן קצר ויש בו סיפור בתוכו: פניות לפי יום, הזמנות לפי שעה, מבקרים לפי שבוע, מכירות לפי חודש. מתאים לסקשן תוצאות או דוח חודשי, כשרוצים שהקורא יעבור על הימים בסדר ויראה איפה הייתה העלייה. כשיש פחות מעשר עמודות, או כשכל עמודה היא קטגוריה ולא רגע בזמן, עמודות רגילות מספיקות. פעם אחת בעמוד.",
-  note: "**שחזור.** השראה: כמה סרטוני תנועה ב-prompt-motion.com (21.10.2026), גרף עמודות אנכי שבו עמודה אחת דולקת בצבע המותג וההדגשה נודדת על פני העמודות, עם מספר ענק וסטטיסטיקות קטנות שמתעדכנים יחד איתה. נבנה מאפס מהצפייה. **הנתונים:** שלושים ערכים שנוצרים בבנייה (קצב שבועי עם סופי שבוע חלשים, מגמה קלה כלפי מעלה וגבעה באמצע החודש), והסימון נבנה מהם, כולל טבלה מוסתרת לקורא מסך. **הסימון הוא המצב הסופי:** כל העמודות מלאות, העמודה האחרונה דולקת, ופס ההדגשה עומד עליה, עם המספר של היום האחרון והסיכום בנתונים הקטנים. בלי GSAP ובהפחתת תנועה זה מה שמוצג. **ההנעה:** `.is-live` מאפס את גובה העמודות (`--g: 0`) ומצבע את כולן בגוון העתיד, וסצנה נעוצה בגובה 280vh עם scrub. ציר זמן אחד: בשבריר הראשון העמודות עולות ב-stagger, ואז ערך אחד (`x`, בין 0 ל-29) נע ללא האצה ובכל עדכון קובע את הפס (`--x`) ואת העמודה הפעילה (`Math.round(x)`). העמודות שלפניה מקבלות `is-past`. כל השינויים בצבע הם `transition` קצר על `background-color`, ולכן אין שום אנימציית פריסה. **הפס:** רוחב העמודות שווה כי הגריד הוא `repeat(30, 1fr)` והרווח בין העמודות הוא ריפוד פנימי, ולכן הפס זז בדיוק `x × 100%` ממיקום ההתחלה. **נגישות:** הגרף `aria-hidden`; המספר הגדול והנתונים הקטנים `aria-hidden` ולצדם משפט קבוע שמתאר את הסיכום; הטבלה המוסתרת מציגה כל יום. **RTL:** היום הראשון בצד ימין והפס זז שמאלה, כי הסימן של התזוזה מתהפך ב-`:dir(rtl)`. באתר LTR הסימן חוזר לחיובי. **בטלפון** הנתונים הקטנים עוברים לשורה אחת מתחת למספר, והעמודות צרות יותר.",
+  note: "**שחזור.** השראה: כמה סרטוני תנועה ב-prompt-motion.com (21.10.2026), גרף עמודות אנכי שבו עמודה אחת דולקת בצבע המותג וההדגשה נודדת על פני העמודות, עם מספר ענק וסטטיסטיקות קטנות שמתעדכנים יחד איתה. נבנה מאפס מהצפייה. **הנתונים:** שלושים ערכים שנוצרים בבנייה (קצב שבועי עם סופי שבוע חלשים, מגמה קלה כלפי מעלה וגבעה באמצע החודש), והסימון נבנה מהם, כולל טבלה מוסתרת לקורא מסך. **הסימון הוא המצב הסופי:** כל העמודות מלאות, העמודה האחרונה דולקת, ופס ההדגשה עומד עליה, עם המספר של היום האחרון והסיכום בנתונים הקטנים. בלי GSAP ובהפחתת תנועה זה מה שמוצג. **ההנעה:** `.is-live` מאפס את גובה העמודות (`--g: 0`) ומצבע את כולן בגוון העתיד, וסצנה נעוצה בגובה 280vh עם scrub. ציר זמן אחד: בשבריר הראשון העמודות עולות ב-stagger, ואז ערך אחד (`x`, בין 0 ל-29) נע ללא האצה ובכל עדכון קובע את הפס (`--x`) ואת הצבע של כל עמודה: `--a` (כמה היא דולקת, לפי המרחק מהפס) ו-`--q` (כמה הפס כבר עבר אותה), והצבע הוא `color-mix` מהשניים. אין החלפת מחלקות ואין `transition`, ולכן הצבע לא קופץ בין עמודות והפס והצבע תמיד באותו מקום. המספר והתאריך מתחלפים לפי `Math.round(x)`, כלומר כשהפס עובר את אמצע המרחק בין שתי עמודות. אין שום אנימציית פריסה. **הנתונים הקטנים** יושבים בגריד של שתי עמודות, והתאריך תמיד בשורה משלו וללא שבירת שורה: תאריך ארוך שנשבר לשתי שורות הגביה את הבלוק והזיז את כל הסצנה, כולל הגרף, בכמה פיקסלים באמצע הגלילה. **הפס:** רוחב העמודות שווה כי הגריד הוא `repeat(30, 1fr)` והרווח בין העמודות הוא ריפוד פנימי, ולכן הפס זז בדיוק `x × 100%` ממיקום ההתחלה. **נגישות:** הגרף `aria-hidden`; המספר הגדול והנתונים הקטנים `aria-hidden` ולצדם משפט קבוע שמתאר את הסיכום; הטבלה המוסתרת מציגה כל יום. **RTL:** היום הראשון בצד ימין והפס זז שמאלה, כי הסימן של התזוזה מתהפך ב-`:dir(rtl)`. באתר LTR הסימן חוזר לחיובי. **בטלפון** הנתונים הקטנים עוברים לשורה אחת מתחת למספר, והעמודות צרות יותר.",
   libs: ["gsap", "ScrollTrigger"],
   css: `.hs{--s:1;--n:${HS.N};max-width:1200px;margin-inline:auto;display:grid;gap:clamp(24px,4vw,48px)}
 .hs:dir(rtl){--s:-1}
@@ -814,27 +814,27 @@ ${egRows}
 .hs-big{display:grid;gap:4px}
 .hs-num{font-size:clamp(88px,13vw,184px);line-height:.9;font-weight:700;letter-spacing:-.03em;color:var(--accent);font-variant-numeric:tabular-nums}
 .hs-lab{color:var(--muted);font-size:clamp(15px,1.3vw,18px)}
-.hs-st{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,1fr);gap:12px clamp(16px,2.4vw,32px);margin:0;width:100%}
+.hs-st{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px clamp(16px,2.4vw,32px);margin:0;width:100%}
 .hs-st div{display:grid;gap:4px}
+.hs-st div:first-child{grid-column:1 / -1}
 .hs-st dt{color:var(--muted);font-size:13px;line-height:1.3}
-.hs-st dd{margin:0;font-size:clamp(15px,1.3vw,18px);font-weight:700;line-height:1.3;font-variant-numeric:tabular-nums}
+.hs-st dd{margin:0;font-size:clamp(15px,1.3vw,18px);font-weight:700;line-height:1.3;font-variant-numeric:tabular-nums;white-space:nowrap}
 .hs-chart{grid-area:chart;padding-bottom:40px}
 .hs-plot{position:relative;height:clamp(200px,40svh,400px)}
 .hs-bars{list-style:none;margin:0;padding:0;height:100%;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr))}
 .hs-b{position:relative;display:flex;align-items:flex-end;padding-inline:clamp(1px,.3vw,4px)}
-.hs-b i{display:block;width:100%;height:calc(var(--v) * 100%);border-radius:4px 4px 0 0;transform-origin:50% 100%;transform:scaleY(var(--g,1));background:color-mix(in oklab,var(--ink) 28%,var(--card));transition:background-color .2s linear}
+.hs-b i{display:block;width:100%;height:calc(var(--v) * 100%);border-radius:4px 4px 0 0;transform-origin:50% 100%;transform:scaleY(var(--g,1));background:color-mix(in oklab,var(--ink) 28%,var(--card))}
 .hs-b.is-on i{background:var(--accent)}
 .hs-b small{position:absolute;inset-inline:0;top:100%;margin-top:8px;text-align:center;color:var(--muted);font-size:13px;line-height:1;font-variant-numeric:tabular-nums}
 .hs-ph{position:absolute;top:0;bottom:0;inset-inline-start:0;width:calc(100% / var(--n));translate:calc(var(--x,${HS.N - 1}) * 100% * var(--s)) 0;pointer-events:none}
 .hs-ph::before{content:"";position:absolute;inset:-8px 0 0;border-radius:8px;background:color-mix(in oklab,var(--accent) 9%,transparent)}
-.hs-flag{position:absolute;left:50%;top:calc(100% + 8px);translate:-50% 0;min-width:28px;padding:4px 8px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:13px;font-weight:700;line-height:1.2;text-align:center;font-variant-numeric:tabular-nums}
+.hs-flag{position:absolute;left:50%;top:calc(100% + 8px);translate:-50% 0;min-width:32px;padding:4px 8px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:13px;font-weight:700;line-height:1.2;text-align:center;font-variant-numeric:tabular-nums}
 /* המהלך רץ: סצנה נעוצה, העמודות מתחילות נמוכות ובצבע העתיד, וההדגשה נודדת לפי הגלילה */
 .hs.is-live .hs-run{height:280vh}
 .hs.is-live .hs-pin{position:sticky;top:0;height:100vh;height:100svh}
 .hs.is-live .hs-b{--g:0}
-.hs.is-live .hs-b i{background:color-mix(in oklab,var(--ink) 9%,var(--card))}
-.hs.is-live .hs-b.is-past i{background:color-mix(in oklab,var(--ink) 28%,var(--card))}
-.hs.is-live .hs-b.is-on i{background:var(--accent)}
+/* הצבע של כל עמודה נגזר ברצף ממיקום ההדגשה: --a הוא כמה היא דולקת (0 עד 1), --q כמה ההדגשה כבר עברה אותה. בלי החלפת מחלקות ובלי transition, ולכן אין קפיצת צבע */
+.hs.is-live .hs-b i{background:color-mix(in oklab,var(--accent) calc(var(--a,0) * 100%),color-mix(in oklab,color-mix(in oklab,var(--ink) 28%,var(--card)) calc(var(--q,0) * 100%),color-mix(in oklab,var(--ink) 9%,var(--card))))}
 .hs.is-live .hs-ph{--x:0}
 @media(max-width:767px){
   .hs-pin{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "read" "chart";gap:16px;align-content:center}
@@ -846,8 +846,7 @@ ${egRows}
   .hs-st div{grid-template-columns:auto auto;justify-content:space-between;align-items:baseline}
   .hs-plot{height:clamp(160px,28svh,260px)}
   .hs-b small{font-size:11px}
-}
-@media(prefers-reduced-motion:reduce){.hs-b i{transition:none}}`,
+}`,
   html: `<div class="stage"><section class="hs">
   <div class="hs-run">
     <div class="hs-pin">
@@ -883,26 +882,31 @@ ${egRows}
   const fin=[num,dt,sum,avg,flag].map(el=>el.textContent);
   const cum=V.reduce((a,v,i)=>{a.push((a[i-1]||0)+v);return a;},[]);
   let cur=-1;
-  // עמודה פעילה אחת, מה שלפניה "עבר", והמספרים כולם נגזרים מהאינדקס
+  // המספרים נגזרים מהאינדקס של העמודה הקרובה להדגשה, ומתחלפים בדיוק כשהפס עובר את אמצע המרחק בין שתי עמודות
   const show=i=>{
     if(i===cur)return;
     cur=i;
-    bars.forEach((b,j)=>{b.classList.toggle("is-on",j===i);b.classList.toggle("is-past",j<i);});
     num.textContent=V[i];dt.textContent=D[i];sum.textContent=cum[i];avg.textContent=(cum[i]/(i+1)).toFixed(1);flag.textContent=i+1;
+  };
+  // הפס והצבעים זזים ברצף עם x, העמודות לא מקבלות מחלקות: דולקת ככל שהפס מעליה (a), ועברה ככל שהפס כבר חלף עליה (q)
+  const paint=x=>{
+    ph.style.setProperty("--x",x.toFixed(3));
+    for(let j=0;j<N;j++){const d=x-j;bars[j].style.setProperty("--a",Math.max(0,1-Math.abs(d)).toFixed(3));bars[j].style.setProperty("--q",Math.min(1,Math.max(0,d)).toFixed(3));}
+    show(Math.round(x));
   };
   // בהפחתת תנועה הפונקציה לא רצה, ורואים את המצב הסופי מהסימון
   gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
     root.classList.add("is-live");
     const st={x:0};
-    show(0);
+    paint(0);
     gsap.timeline({scrollTrigger:{trigger:run,start:"top top",end:"bottom bottom",scrub:.6,invalidateOnRefresh:true}})
       .to(bars,{"--g":1,duration:.2,ease:"power2.out",stagger:{amount:.16,from:"start"}},0)
-      .to(st,{x:N-1,duration:1,ease:"none",onUpdate:()=>{ph.style.setProperty("--x",st.x.toFixed(3));show(Math.round(st.x));}},.14)
+      .to(st,{x:N-1,duration:1,ease:"none",onUpdate:()=>paint(st.x)},.14)
       .to({},{duration:.1});
     return()=>{
       root.classList.remove("is-live");
       ph.style.removeProperty("--x");
-      bars.forEach((b,j)=>{b.classList.toggle("is-on",j===N-1);b.classList.toggle("is-past",j<N-1);});
+      bars.forEach(b=>{b.style.removeProperty("--a");b.style.removeProperty("--q");b.style.removeProperty("--g");});
       [num,dt,sum,avg,flag].forEach((el,k)=>{el.textContent=fin[k];});
       cur=-1;
     };

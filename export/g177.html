@@ -48,22 +48,26 @@ img{max-width:100%}
 .nl-panel{position:relative;padding:24px;border-radius:24px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
 .nl-fig{position:relative;margin:0}
 .nl-svg{display:block;width:100%;height:auto;overflow:visible}
-.nl-a{--c:var(--accent, #4a3aff)}
+.nl-a{--c:color-mix(in srgb,var(--accent, #4a3aff) 72%,var(--bg, #f7f7fa))}
 .nl-b{--c:var(--bg, #f7f7fa)}
-.nl-c{--c:var(--muted, #6a6d85)}
-.nl-d{--c:color-mix(in srgb,var(--accent, #4a3aff) 45%,var(--bg, #f7f7fa))}
-.nl-lk{stroke:var(--bg, #f7f7fa);stroke-opacity:.38;stroke-width:1.5;stroke-dasharray:1;stroke-dashoffset:0}
-.nl-sp{stroke:var(--c);stroke-opacity:.3;stroke-width:1;stroke-dasharray:1;stroke-dashoffset:0}
-.nl-dot{fill:var(--c);fill-opacity:.9}
-.nl-loose{fill:var(--bg, #f7f7fa);fill-opacity:.3}
-.nl-hh{fill:none;stroke:var(--c);stroke-opacity:.4;stroke-width:1.5}
+.nl-c{--c:color-mix(in srgb,var(--muted, #6a6d85) 70%,var(--bg, #f7f7fa))}
+.nl-d{--c:color-mix(in srgb,var(--accent, #4a3aff) 30%,var(--bg, #f7f7fa))}
+.nl-field{opacity:.62}
+.nl-lk{stroke:var(--bg, #f7f7fa);stroke-opacity:.55;stroke-width:1.5;stroke-dasharray:1;stroke-dashoffset:0}
+.nl-sp{stroke:var(--c);stroke-opacity:.45;stroke-width:1;stroke-dasharray:1;stroke-dashoffset:0}
+.nl-dot{fill:var(--c);fill-opacity:.95}
+.nl-loose{fill:var(--bg, #f7f7fa);fill-opacity:.4}
+.nl-hh{fill:none;stroke:var(--c);stroke-opacity:.55;stroke-width:1.5}
 .nl-hc{fill:var(--c)}
-.nl-ol{stroke:var(--bg, #f7f7fa);stroke-opacity:.5;stroke-width:1.5;stroke-dasharray:1;stroke-dashoffset:0}
+.nl-g0{stop-color:color-mix(in srgb,var(--accent, #4a3aff) 70%,var(--bg, #f7f7fa));stop-opacity:.75}
+.nl-g1{stop-color:var(--accent, #4a3aff);stop-opacity:0}
+.nl-ol{stroke:var(--bg, #f7f7fa);stroke-opacity:.9;stroke-width:2;stroke-dasharray:1;stroke-dashoffset:0}
 .nl-oc{fill:var(--bg, #f7f7fa)}
-.nl-ring{fill:none;stroke:var(--accent, #4a3aff);stroke-width:2.5}
-.nl-pulse{fill:none;stroke:var(--accent, #4a3aff);stroke-width:2;opacity:0}
-.nl-flagpos{position:absolute;left:52.1%;top:82.5%;transform:translateX(-50%)}
-.nl-flag{display:grid;gap:4px;padding:8px 14px;border-radius:12px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);text-align:center;white-space:nowrap}
+.nl-ring{fill:none;stroke:var(--bg, #f7f7fa);stroke-width:2.5}
+.nl-pulse{fill:none;stroke:var(--bg, #f7f7fa);stroke-width:2;opacity:0}
+.nl-flagpos{position:absolute;left:52.1%;top:calc(72.9% + 32px);transform:translateX(-50%)}
+.nl-flag{position:relative;display:grid;gap:4px;padding:8px 14px;border-radius:12px;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);text-align:center;white-space:nowrap}
+.nl-flag::before{content:"";position:absolute;left:50%;top:-16px;translate:-50% 0;width:2px;height:16px;background:var(--bg, #f7f7fa)}
 .nl-flag b{font-size:14px;font-weight:700;line-height:1.2}
 .nl-flag span{font-size:12px;line-height:1.2}
 .nl-key{display:flex;flex-wrap:wrap;gap:12px 20px;list-style:none;margin:20px 0 0;padding:0;font-size:13px;color:var(--bg, #f7f7fa)}
@@ -73,8 +77,7 @@ img{max-width:100%}
 .nl{grid-template-columns:minmax(0,1fr);gap:32px}
 .nl-panel{padding:16px}
 .nl-flag{padding:6px 12px}
-.nl-flag b{font-size:12px}
-.nl-flag span{font-size:11px}
+.nl-flag b{font-size:13px}
 .nl-key{gap:8px 16px;font-size:12px}
 }
 </style>
@@ -89,31 +92,35 @@ img{max-width:100%}
   <div class="nl-panel">
     <figure class="nl-fig">
       <svg class="nl-svg" viewBox="0 0 560 480" aria-hidden="true" focusable="false">
-        <g>
+        <defs><radialGradient id="nl-glow"><stop class="nl-g0" offset="0"/><stop class="nl-g1" offset="1"/></radialGradient></defs>
+        <g class="nl-field">
+          <g>
       <line class="nl-lk" pathLength="1" x1="150" y1="132" x2="404" y2="112"/>
       <line class="nl-lk" pathLength="1" x1="150" y1="132" x2="168" y2="304"/>
       <line class="nl-lk" pathLength="1" x1="404" y1="112" x2="414" y2="300"/>
       <line class="nl-lk" pathLength="1" x1="168" y1="304" x2="414" y2="300"/>
       <line class="nl-lk" pathLength="1" x1="150" y1="132" x2="414" y2="300"/>
-        </g>
-        <g>
+          </g>
+          <g>
       <g class="nl-halo" data-hx="150" data-hy="132"><line class="nl-sp nl-a" pathLength="1" x1="150" y1="132" x2="193.9" y2="150.1"/><line class="nl-sp nl-a" pathLength="1" x1="150" y1="132" x2="100.6" y2="157.9"/><line class="nl-sp nl-a" pathLength="1" x1="150" y1="132" x2="166.7" y2="68.5"/><line class="nl-sp nl-a" pathLength="1" x1="150" y1="132" x2="177.4" y2="197.1"/><line class="nl-sp nl-a" pathLength="1" x1="150" y1="132" x2="89.2" y2="91.9"/><line class="nl-sp nl-a" pathLength="1" x1="150" y1="132" x2="218.8" y2="95.1"/><line class="nl-sp nl-a" pathLength="1" x1="150" y1="132" x2="115.4" y2="207.9"/><line class="nl-sp nl-a" pathLength="1" x1="150" y1="132" x2="155.1" y2="49.1"/><line class="nl-sp nl-a" pathLength="1" x1="150" y1="132" x2="200.6" y2="204.4"/><line class="nl-sp nl-a" pathLength="1" x1="150" y1="132" x2="64.3" y2="155.8"/><line class="nl-sp nl-a" pathLength="1" x1="150" y1="132" x2="229.4" y2="87.1"/><line class="nl-sp nl-a" pathLength="1" x1="150" y1="132" x2="122.3" y2="222.3"/><line class="nl-sp nl-a" pathLength="1" x1="150" y1="132" x2="109.9" y2="43.7"/><circle class="nl-dot nl-a" cx="193.9" cy="150.1" r="3.5"/><circle class="nl-dot nl-a" cx="100.6" cy="157.9" r="3.1"/><circle class="nl-dot nl-a" cx="166.7" cy="68.5" r="3.1"/><circle class="nl-dot nl-a" cx="177.4" cy="197.1" r="3.3"/><circle class="nl-dot nl-a" cx="89.2" cy="91.9" r="2.9"/><circle class="nl-dot nl-a" cx="218.8" cy="95.1" r="2.5"/><circle class="nl-dot nl-a" cx="115.4" cy="207.9" r="4"/><circle class="nl-dot nl-a" cx="155.1" cy="49.1" r="3.8"/><circle class="nl-dot nl-a" cx="200.6" cy="204.4" r="3.8"/><circle class="nl-dot nl-a" cx="64.3" cy="155.8" r="3.5"/><circle class="nl-dot nl-a" cx="229.4" cy="87.1" r="3.6"/><circle class="nl-dot nl-a" cx="122.3" cy="222.3" r="2.8"/><circle class="nl-dot nl-a" cx="109.9" cy="43.7" r="3.2"/></g>
       <g class="nl-halo" data-hx="404" data-hy="112"><line class="nl-sp nl-b" pathLength="1" x1="404" y1="112" x2="447.5" y2="130.4"/><line class="nl-sp nl-b" pathLength="1" x1="404" y1="112" x2="345.2" y2="129.5"/><line class="nl-sp nl-b" pathLength="1" x1="404" y1="112" x2="415.1" y2="43.8"/><line class="nl-sp nl-b" pathLength="1" x1="404" y1="112" x2="403.7" y2="185.2"/><line class="nl-sp nl-b" pathLength="1" x1="404" y1="112" x2="350.7" y2="59.7"/><line class="nl-sp nl-b" pathLength="1" x1="404" y1="112" x2="477.2" y2="80"/><line class="nl-sp nl-b" pathLength="1" x1="404" y1="112" x2="356" y2="181.6"/><line class="nl-sp nl-b" pathLength="1" x1="404" y1="112" x2="365.2" y2="31.5"/><line class="nl-sp nl-b" pathLength="1" x1="404" y1="112" x2="471.1" y2="177.9"/><line class="nl-sp nl-b" pathLength="1" x1="404" y1="112" x2="312.1" y2="119.8"/><line class="nl-sp nl-b" pathLength="1" x1="404" y1="112" x2="484.3" y2="56.9"/><circle class="nl-dot nl-b" cx="447.5" cy="130.4" r="3.5"/><circle class="nl-dot nl-b" cx="345.2" cy="129.5" r="2.6"/><circle class="nl-dot nl-b" cx="415.1" cy="43.8" r="3.6"/><circle class="nl-dot nl-b" cx="403.7" cy="185.2" r="3.3"/><circle class="nl-dot nl-b" cx="350.7" cy="59.7" r="2.6"/><circle class="nl-dot nl-b" cx="477.2" cy="80" r="3.1"/><circle class="nl-dot nl-b" cx="356" cy="181.6" r="3.4"/><circle class="nl-dot nl-b" cx="365.2" cy="31.5" r="3.6"/><circle class="nl-dot nl-b" cx="471.1" cy="177.9" r="4.4"/><circle class="nl-dot nl-b" cx="312.1" cy="119.8" r="2.7"/><circle class="nl-dot nl-b" cx="484.3" cy="56.9" r="3"/></g>
       <g class="nl-halo" data-hx="168" data-hy="304"><line class="nl-sp nl-c" pathLength="1" x1="168" y1="304" x2="217.4" y2="323.1"/><line class="nl-sp nl-c" pathLength="1" x1="168" y1="304" x2="108.8" y2="325.2"/><line class="nl-sp nl-c" pathLength="1" x1="168" y1="304" x2="208.8" y2="247.1"/><line class="nl-sp nl-c" pathLength="1" x1="168" y1="304" x2="203.9" y2="366"/><line class="nl-sp nl-c" pathLength="1" x1="168" y1="304" x2="89.2" y2="285.8"/><line class="nl-sp nl-c" pathLength="1" x1="168" y1="304" x2="252.9" y2="299.1"/><line class="nl-sp nl-c" pathLength="1" x1="168" y1="304" x2="110.2" y2="368.1"/><line class="nl-sp nl-c" pathLength="1" x1="168" y1="304" x2="152.8" y2="214.2"/><line class="nl-sp nl-c" pathLength="1" x1="168" y1="304" x2="221.1" y2="380.2"/><line class="nl-sp nl-c" pathLength="1" x1="168" y1="304" x2="69.6" y2="305.8"/><circle class="nl-dot nl-c" cx="217.4" cy="323.1" r="3.8"/><circle class="nl-dot nl-c" cx="108.8" cy="325.2" r="2.4"/><circle class="nl-dot nl-c" cx="208.8" cy="247.1" r="2.5"/><circle class="nl-dot nl-c" cx="203.9" cy="366" r="3.6"/><circle class="nl-dot nl-c" cx="89.2" cy="285.8" r="4"/><circle class="nl-dot nl-c" cx="252.9" cy="299.1" r="4.1"/><circle class="nl-dot nl-c" cx="110.2" cy="368.1" r="4"/><circle class="nl-dot nl-c" cx="152.8" cy="214.2" r="4.3"/><circle class="nl-dot nl-c" cx="221.1" cy="380.2" r="4.1"/><circle class="nl-dot nl-c" cx="69.6" cy="305.8" r="2.9"/></g>
       <g class="nl-halo" data-hx="414" data-hy="300"><line class="nl-sp nl-d" pathLength="1" x1="414" y1="300" x2="462.2" y2="304.8"/><line class="nl-sp nl-d" pathLength="1" x1="414" y1="300" x2="365.2" y2="331.5"/><line class="nl-sp nl-d" pathLength="1" x1="414" y1="300" x2="453.5" y2="244.7"/><line class="nl-sp nl-d" pathLength="1" x1="414" y1="300" x2="417.8" y2="369.2"/><line class="nl-sp nl-d" pathLength="1" x1="414" y1="300" x2="348.9" y2="262.7"/><line class="nl-sp nl-d" pathLength="1" x1="414" y1="300" x2="491.3" y2="304.9"/><line class="nl-sp nl-d" pathLength="1" x1="414" y1="300" x2="388.3" y2="379.7"/><line class="nl-sp nl-d" pathLength="1" x1="414" y1="300" x2="394.8" y2="213.5"/><line class="nl-sp nl-d" pathLength="1" x1="414" y1="300" x2="495.2" y2="334.8"/><line class="nl-sp nl-d" pathLength="1" x1="414" y1="300" x2="321.5" y2="288.4"/><line class="nl-sp nl-d" pathLength="1" x1="414" y1="300" x2="462.6" y2="218.2"/><line class="nl-sp nl-d" pathLength="1" x1="414" y1="300" x2="425" y2="395.7"/><circle class="nl-dot nl-d" cx="462.2" cy="304.8" r="4.4"/><circle class="nl-dot nl-d" cx="365.2" cy="331.5" r="2.8"/><circle class="nl-dot nl-d" cx="453.5" cy="244.7" r="3.1"/><circle class="nl-dot nl-d" cx="417.8" cy="369.2" r="3.9"/><circle class="nl-dot nl-d" cx="348.9" cy="262.7" r="2.9"/><circle class="nl-dot nl-d" cx="491.3" cy="304.9" r="4.3"/><circle class="nl-dot nl-d" cx="388.3" cy="379.7" r="3.7"/><circle class="nl-dot nl-d" cx="394.8" cy="213.5" r="3.2"/><circle class="nl-dot nl-d" cx="495.2" cy="334.8" r="3.7"/><circle class="nl-dot nl-d" cx="321.5" cy="288.4" r="2.8"/><circle class="nl-dot nl-d" cx="462.6" cy="218.2" r="3.8"/><circle class="nl-dot nl-d" cx="425" cy="395.7" r="2.8"/></g>
-        </g>
-        <g><circle class="nl-loose" cx="40" cy="35" r="2.6"/><circle class="nl-loose" cx="83" cy="215" r="2.5"/><circle class="nl-loose" cx="252" cy="58" r="2"/><circle class="nl-loose" cx="293" cy="153" r="3"/><circle class="nl-loose" cx="325" cy="234" r="2.3"/><circle class="nl-loose" cx="514" cy="193" r="2.9"/><circle class="nl-loose" cx="500" cy="58" r="1.9"/><circle class="nl-loose" cx="65" cy="365" r="2.7"/><circle class="nl-loose" cx="119" cy="437" r="2.9"/><circle class="nl-loose" cx="465" cy="437" r="2.6"/><circle class="nl-loose" cx="523" cy="387" r="2.4"/><circle class="nl-loose" cx="302" cy="267" r="2.9"/></g>
-        <g><line class="nl-ol" pathLength="1" x1="292" y1="350" x2="168" y2="304"/><line class="nl-ol" pathLength="1" x1="292" y1="350" x2="414" y2="300"/></g>
-        <g>
+          </g>
+          <g><circle class="nl-loose" cx="40" cy="35" r="2.6"/><circle class="nl-loose" cx="83" cy="215" r="2.5"/><circle class="nl-loose" cx="294" cy="150" r="2"/><circle class="nl-loose" cx="331" cy="233" r="3"/><circle class="nl-loose" cx="515" cy="194" r="2.3"/><circle class="nl-loose" cx="54" cy="375" r="2.9"/><circle class="nl-loose" cx="464" cy="438" r="1.9"/></g>
+          <g>
       <g class="nl-hub nl-a" data-cx="150" data-cy="132"><circle class="nl-hh" cx="150" cy="132" r="24"/><circle class="nl-hc" cx="150" cy="132" r="14"/></g>
       <g class="nl-hub nl-b" data-cx="404" data-cy="112"><circle class="nl-hh" cx="404" cy="112" r="24"/><circle class="nl-hc" cx="404" cy="112" r="14"/></g>
       <g class="nl-hub nl-c" data-cx="168" data-cy="304"><circle class="nl-hh" cx="168" cy="304" r="24"/><circle class="nl-hc" cx="168" cy="304" r="14"/></g>
       <g class="nl-hub nl-d" data-cx="414" data-cy="300"><circle class="nl-hh" cx="414" cy="300" r="24"/><circle class="nl-hc" cx="414" cy="300" r="14"/></g>
+          </g>
         </g>
+        <g><line class="nl-ol" pathLength="1" x1="273.2" y1="343" x2="191.4" y2="312.7"/><line class="nl-ol" pathLength="1" x1="310.5" y1="342.4" x2="390.9" y2="309.5"/></g>
         <g class="nl-out" data-cx="292" data-cy="350">
-          <circle class="nl-pulse" cx="292" cy="350" r="14"/>
-          <circle class="nl-ring" cx="292" cy="350" r="14"/>
-          <circle class="nl-oc" cx="292" cy="350" r="6"/>
+          <circle class="nl-glow" cx="292" cy="350" r="64" fill="url(#nl-glow)"/>
+          <circle class="nl-pulse" cx="292" cy="350" r="18"/>
+          <circle class="nl-ring" cx="292" cy="350" r="18"/>
+          <circle class="nl-oc" cx="292" cy="350" r="7"/>
         </g>
       </svg>
       <div class="nl-flagpos"><div class="nl-flag"><b>חשבון חריג</b><span>38 הפניות בלילה אחד</span></div></div>
@@ -134,39 +141,42 @@ if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
   const root=document.querySelector(".nl");if(!root)return;
-  if(typeof gsap==="undefined")return;       // בלי GSAP: הרשת גמורה, החריג מסומן וההילות עומדות
+  if(typeof gsap==="undefined")return;       // בלי GSAP: הרשת גמורה ומעומעמת, והחריג מסומן
   gsap.registerPlugin(ScrollTrigger);
   const q=s=>[...root.querySelectorAll(s)],mm=gsap.matchMedia();
   mm.add("(prefers-reduced-motion: no-preference)",()=>{
-    const hubs=q(".nl-hub"),links=q(".nl-lk"),halos=q(".nl-halo"),spokes=q(".nl-sp"),dots=q(".nl-dot"),loose=q(".nl-loose"),ol=q(".nl-ol"),
-          out=root.querySelector(".nl-oc"),ring=root.querySelector(".nl-ring"),pulse=root.querySelector(".nl-pulse"),flag=root.querySelector(".nl-flag");
-    const at=(el)=>(el.dataset.cx||el.getAttribute("cx"))+" "+(el.dataset.cy||el.getAttribute("cy"));
-    const outO=root.querySelector(".nl-out").dataset.cx+" "+root.querySelector(".nl-out").dataset.cy;
-    gsap.set(hubs,{scale:0,svgOrigin:(i,el)=>at(el)});
-    gsap.set(dots,{scale:0,svgOrigin:(i,el)=>at(el)});
-    gsap.set(out,{scale:0,svgOrigin:outO});
+    const field=root.querySelector(".nl-field"),hubs=q(".nl-hub"),links=q(".nl-lk"),halos=q(".nl-halo"),spokes=q(".nl-sp"),dots=q(".nl-dot"),loose=q(".nl-loose"),ol=q(".nl-ol"),
+          glow=root.querySelector(".nl-glow"),out=root.querySelector(".nl-oc"),ring=root.querySelector(".nl-ring"),pulse=root.querySelector(".nl-pulse"),flag=root.querySelector(".nl-flag");
+    const dim=parseFloat(getComputedStyle(field).opacity);   // רמת העמעום הסופית נקראת מה-CSS
+    gsap.set(hubs,{scale:0});
+    gsap.set(dots,{scale:0});
+    gsap.set([out,glow],{scale:0});
+    gsap.set(halos,{rotation:i=>(i%2?-14:14),svgOrigin:(i,el)=>el.dataset.hx+" "+el.dataset.hy});
     gsap.set([...links,...spokes,...ol],{strokeDashoffset:1});
     gsap.set(loose,{opacity:0});
     gsap.set(ring,{opacity:0});
+    gsap.set(field,{opacity:1});
     gsap.set(flag,{autoAlpha:0,y:8});
-    const ringPulse=gsap.fromTo(pulse,{scale:1,opacity:.9,svgOrigin:outO},{scale:2.6,opacity:0,duration:1.6,ease:"power1.out",repeat:-1,paused:true});
-    const drift=halos.map((h,i)=>gsap.to(h,{rotation:i%2?360:-360,svgOrigin:h.dataset.hx+" "+h.dataset.hy,duration:90+i*14,ease:"none",repeat:-1,paused:true}));
     const tl=gsap.timeline({paused:true});
-    tl.to(hubs,{scale:1,duration:.5,ease:"power3.out",stagger:.12},0)
-      .to(links,{strokeDashoffset:0,duration:.8,ease:"power1.inOut",stagger:.12},.4)
-      .to(spokes,{strokeDashoffset:0,duration:.6,ease:"power1.out",stagger:{each:.02,from:"random"}},.9)
-      .to(dots,{scale:1,duration:.4,ease:"power3.out",stagger:{each:.02,from:"random"}},1)
-      .to(loose,{opacity:1,duration:.6,stagger:.04},1.6)
-      .to(ol,{strokeDashoffset:0,duration:.6,ease:"power1.inOut",stagger:.15},2.4)
-      .to(out,{scale:1,duration:.4,ease:"power3.out"},2.9)
-      .to(ring,{opacity:1,duration:.3},3)
-      .to(flag,{autoAlpha:1,y:0,duration:.4,ease:"power2.out"},3.1)
-      .add(()=>ringPulse.play(),3.1);
+    tl.to(hubs,{scale:1,duration:.5,ease:"power3.out",stagger:.1},0)
+      .to(halos,{rotation:0,duration:3.2,ease:"power2.out"},0)
+      .to(links,{strokeDashoffset:0,duration:.7,ease:"power1.inOut",stagger:.1},.3)
+      .to(spokes,{strokeDashoffset:0,duration:.5,ease:"power1.out",stagger:{each:.015,from:"random"}},.7)
+      .to(dots,{scale:1,duration:.35,ease:"power3.out",stagger:{each:.015,from:"random"}},.8)
+      .to(loose,{opacity:1,duration:.5,stagger:.04},1.2)
+      .to(ol,{strokeDashoffset:0,duration:.5,ease:"power1.inOut",stagger:.12},1.7)
+      .to(glow,{scale:1,duration:.7,ease:"power3.out"},2)
+      .to(out,{scale:1,duration:.4,ease:"power3.out"},2.1)
+      .to(ring,{opacity:1,duration:.3},2.2)
+      .to(flag,{autoAlpha:1,y:0,duration:.4,ease:"power2.out"},2.4)
+      .to(field,{opacity:dim,duration:.9,ease:"power2.inOut"},2.4)
+      .fromTo(pulse,{scale:1,opacity:.9},{scale:2.8,opacity:0,duration:1.1,ease:"power2.out",repeat:1,immediateRender:false},2.6);
+    const play=()=>{if(tl.progress()===0)tl.play();};
     const st=ScrollTrigger.create({trigger:root.querySelector(".nl-panel"),start:"top 75%",end:"bottom top",
-      onEnter:()=>tl.play(),
-      onToggle:s=>{drift.forEach(t=>s.isActive?t.play():t.pause());if(tl.progress()===1)s.isActive?ringPulse.play():ringPulse.pause();}});
-    return()=>{st.kill();tl.kill();ringPulse.kill();drift.forEach(t=>t.kill());
-      gsap.set([...hubs,...dots,...halos,out,ring,pulse,flag,...links,...spokes,...ol,...loose],{clearProps:"all"});};
+      onEnter:play,onEnterBack:play,
+      onRefresh:s=>{if(s.progress>=1)tl.progress(1);}});   // נטען אחרי שהלוח כבר עבר: ישר למצב הסופי
+    return()=>{st.kill();tl.kill();
+      gsap.set([...hubs,...dots,...halos,out,glow,ring,pulse,flag,field,...links,...spokes,...ol,...loose],{clearProps:"all"});};
   });
 })();
 </script>

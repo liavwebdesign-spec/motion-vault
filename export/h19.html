@@ -63,19 +63,25 @@ img{max-width:100%}
 .h19h h3{margin:0;max-width:12ch;font-size:clamp(34px,min(4vw,7.8vh),66px);line-height:1.04;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
 .h19h .hlead{max-width:40ch}
 /* the comparison is always left to right, with "before" on the right, the side a Hebrew reader meets first; --p is the handle */
-.h19-cmp{--p:50%;position:relative;border-radius:20px;overflow:hidden;background:var(--ink, #16182b);clip-path:inset(0 round 20px);transition:clip-path .9s cubic-bezier(.2,.6,.2,1)}
-.h19-cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 50%;display:block}
+.h19-cmp{--p:50%;position:relative;border-radius:20px;overflow:hidden;background:var(--ink, #16182b);clip-path:inset(0 round 20px);transition:clip-path .9s cubic-bezier(.2,.6,.2,1);
+  cursor:ew-resize;touch-action:pan-y;-webkit-user-select:none;user-select:none}
+.h19-cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:30% 50%;display:block;pointer-events:none;-webkit-user-drag:none}
 .h19-bef{clip-path:inset(0 0 0 var(--p));filter:grayscale(.7) brightness(.45) contrast(.9)}
 .h19-lab{position:absolute;top:16px;z-index:1;padding:6px 12px;border-radius:999px;font-size:13px;font-weight:700;background:color-mix(in srgb,var(--ink, #16182b) 55%,transparent);color:var(--bg, #f7f7fa);
-  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:none}
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);pointer-events:none;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}
 .h19-lab.b{right:16px}
 .h19-lab.a{left:16px}
-.h19-hdl{position:absolute;top:0;bottom:0;left:var(--p);z-index:1;width:3px;background:var(--bg, #f7f7fa);transform:translateX(-50%);pointer-events:none}
-.h19-knob{position:absolute;top:50%;left:50%;width:52px;height:52px;border-radius:999px;display:grid;place-items:center;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);transform:translate(-50%,-50%);
-  box-shadow:0 10px 30px -8px color-mix(in srgb,var(--ink, #16182b) 50%,transparent)}
+/* a label leaves when its side closes, so "before" never sits on the after picture */
+.h19-cmp.no-b .h19-lab.b,.h19-cmp.no-a .h19-lab.a{opacity:0}
+/* the handle layer is as wide as the picture, so translateX(--p) puts the line exactly under the pointer, without moving left */
+.h19-hdl{position:absolute;inset:0;z-index:1;transform:translateX(var(--p));pointer-events:none}
+.h19-hdl::before{content:"";position:absolute;top:0;bottom:0;left:0;width:3px;background:var(--bg, #f7f7fa);transform:translateX(-50%)}
+.h19-knob{position:absolute;top:50%;left:0;width:52px;height:52px;border-radius:999px;display:grid;place-items:center;background:var(--bg, #f7f7fa);color:var(--ink, #16182b);transform:translate(-50%,-50%);
+  box-shadow:0 10px 30px -8px color-mix(in srgb,var(--ink, #16182b) 50%,transparent);transition:scale .2s cubic-bezier(.2,.6,.2,1)}
+.h19-cmp.drag .h19-knob{scale:1.08}
 .h19-knob svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-/* a native range over the whole picture: drag, touch and arrow keys for free. It is invisible; the knob shows its focus */
-.h19-rng{position:absolute;inset:0;z-index:2;width:100%;height:100%;margin:0;opacity:0;cursor:ew-resize;touch-action:pan-y}
+/* the range is for the keyboard and the screen reader only; the pointer is read on the picture, so the line follows it to the pixel */
+.h19-rng{position:absolute;inset:0;z-index:2;width:100%;height:100%;margin:0;opacity:0;pointer-events:none}
 .h19-rng:focus-visible+.h19-hdl .h19-knob{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
 .open-anim .h19-cmp{clip-path:inset(5% 8% round 20px);animation:h19-fs 0s 2.5s forwards}
 .is-in .h19-cmp{clip-path:inset(0 round 20px);transition-delay:calc(var(--t0,0s) + .1s)}
@@ -135,18 +141,52 @@ function enter(root){
 (function(){
   var root=document.getElementById("h19"); enter(root);
   var cmp=root.querySelector(".h19-cmp"), rng=root.querySelector(".h19-rng"), touched=false;
-  function set(v){cmp.style.setProperty("--p",v+"%");}
-  function say(){rng.setAttribute("aria-valuetext",rng.value+" אחוז מהתמונה אחרי");}
-  rng.addEventListener("input",function(){touched=true; set(rng.value); say();});
+  var cur=50, anim=0, down=null, moved=false, x0=0, y0=0, calm=!matchMedia("(prefers-reduced-motion:no-preference)").matches;
+  function set(v){cur=Math.max(0,Math.min(100,v)); cmp.style.setProperty("--p",cur.toFixed(2)+"%"); cmp.classList.toggle("no-b",cur>86); cmp.classList.toggle("no-a",cur<14);}
+  function say(){rng.value=Math.round(cur); rng.setAttribute("aria-valuetext",Math.round(cur)+" אחוז מהתמונה אחרי");}
+  function at(e){var b=cmp.getBoundingClientRect(); return (e.clientX-b.left)/b.width*100;}
+  // a click far from the line glides there in a fifth of a second instead of jumping
+  function glide(to){
+    cancelAnimationFrame(anim);
+    if(calm){set(to); say(); return;}
+    var from=cur, t0=0;
+    anim=requestAnimationFrame(function f(now){
+      if(!t0)t0=now; var k=Math.min((now-t0)/220,1);
+      set(from+(to-from)*(1-Math.pow(1-k,3)));
+      if(k<1)anim=requestAnimationFrame(f); else say();
+    });
+  }
+  // a mouse moves the line on press; a finger only when it moves sideways or taps, so scrolling the page never moves it
+  cmp.addEventListener("pointerdown",function(e){
+    if(e.button>0)return; touched=true; down=e.pointerId; moved=e.pointerType==="mouse"; x0=e.clientX; y0=e.clientY;
+    cmp.setPointerCapture(e.pointerId);
+    if(moved){e.preventDefault(); cmp.classList.add("drag"); glide(at(e));}
+  });
+  cmp.addEventListener("pointermove",function(e){
+    if(e.pointerId!==down)return;
+    if(!moved){var dx=Math.abs(e.clientX-x0); if(dx<8||dx<Math.abs(e.clientY-y0))return; moved=true; cmp.classList.add("drag");}
+    cancelAnimationFrame(anim); set(at(e));
+  });
+  function end(e){
+    if(e.pointerId!==down)return; down=null; cmp.classList.remove("drag");
+    if(e.type==="pointerup"&&!moved)glide(at(e)); else say();
+  }
+  cmp.addEventListener("pointerup",end); cmp.addEventListener("pointercancel",end);
+  // the keyboard: arrows move five percent, Home and End go to the edges (native)
+  rng.addEventListener("keydown",function(e){
+    var d={ArrowRight:5,ArrowUp:5,ArrowLeft:-5,ArrowDown:-5}[e.key]; if(!d)return;
+    e.preventDefault(); touched=true; cancelAnimationFrame(anim); set(Math.round(cur)+d); say();
+  });
+  rng.addEventListener("input",function(){touched=true; cancelAnimationFrame(anim); set(+rng.value); say();});
   say();
   // one hint, once: after the entrance the handle swings right and back, only when motion is allowed and nobody touched it
-  if(!matchMedia("(prefers-reduced-motion:no-preference)").matches)return;
+  if(calm)return;
   inView(root,function(){setTimeout(function(){
     var t0=0;
     requestAnimationFrame(function f(now){
       if(touched)return; if(!t0)t0=now;
       var k=Math.min((now-t0)/1200,1);
-      set(k<1?(50+16*Math.sin(k*Math.PI*2)*(1-k/2)).toFixed(2):50);
+      set(k<1?50+16*Math.sin(k*Math.PI*2)*(1-k/2):50);
       if(k<1)requestAnimationFrame(f);
     });
   },1000);});

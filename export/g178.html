@@ -41,42 +41,67 @@ img{max-width:100%}
 .stage.full{padding-inline:0}
 
 /* G178 · קשתות שמחברות מילים קשורות במשפט */
-.aw{display:grid;gap:56px;max-width:1120px;margin-inline:auto}
+.aw{position:relative;max-width:1120px;margin-inline:auto}
+.aw-pin{display:grid;gap:40px;align-content:center;margin-inline:-16px;padding-inline:16px}
 .aw-head{display:grid;gap:16px;max-width:48ch}
 .aw-head h2{margin:0;font-size:clamp(30px,3.4vw,52px);font-weight:700;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
 .aw-head p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
-.aw-box{position:relative;padding-top:96px}
+.aw-box{position:relative;padding-top:112px}
 .aw-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
-.aw-t{fill:none;stroke:var(--muted, #6a6d85);stroke-opacity:.55;stroke-width:1.5;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0}
+.aw-t{fill:none;stroke:color-mix(in srgb,var(--muted, #6a6d85) calc((1 - var(--on,0)) * 100%),var(--ink, #16182b));stroke-opacity:calc(.42 + var(--on,0) * .58);stroke-width:calc(1.5px + var(--on,0) * 1.5px);stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0}
 .aw-h{fill:none;stroke:var(--accent, #4a3aff);stroke-width:4;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0}
+.aw-ah{fill:none;stroke:var(--accent, #4a3aff);stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
 .aw-d{fill:var(--muted, #6a6d85);fill-opacity:.7}
 .aw-d.is-hot{fill:var(--accent, #4a3aff);fill-opacity:1}
-.aw-sent{position:relative;margin:0;display:flex;flex-wrap:nowrap;gap:12px;font-size:clamp(20px,calc((min(100vw,1168px) - 48px)/28),44px);font-weight:800;line-height:1.15;letter-spacing:-.02em}
+.aw-sent{position:relative;margin:0;display:flex;flex-wrap:nowrap;gap:16px;font-size:clamp(20px,calc((min(100vw,1168px) - 48px)/29),44px);font-weight:800;line-height:1.15;letter-spacing:-.02em}
 .aw-w{position:relative;display:block;padding-bottom:16px;white-space:nowrap}
-.aw-w b{font-weight:inherit}
-.aw-bar{position:absolute;inset-inline:0;bottom:0;height:4px;border-radius:2px;background:color-mix(in srgb,var(--muted, #6a6d85) 45%,transparent);transform:scaleX(.22);transform-origin:right}
+.aw-w b{position:relative;display:inline-block;isolation:isolate;font-weight:inherit;opacity:var(--o,1)}
+.aw-w b::before,.aw-w b::after{content:"";position:absolute;inset:-.06em -.14em;border-radius:.32em;z-index:-1}
+.aw-w b::before{background:color-mix(in srgb,var(--ink, #16182b) 11%,transparent);opacity:var(--t,0)}
+.aw-w b::after{background:color-mix(in srgb,var(--accent, #4a3aff) 24%,transparent);opacity:var(--h,0)}
+.aw-w.is-n b,.aw-w.is-p b{--h:1}
+.aw-bar{position:absolute;inset-inline:0;bottom:0;height:4px;border-radius:2px;background:color-mix(in srgb,var(--muted, #6a6d85) 30%,transparent);transform:scaleX(.22);transform-origin:right}
 .aw-bar u{position:absolute;inset:0;border-radius:inherit;background:var(--accent, #4a3aff);opacity:0}
-.aw-w.is-n .aw-bar{transform:none}
-.aw-w.is-p .aw-bar{transform:scaleX(.6)}
+.aw-w.is-n .aw-bar,.aw-w.is-p .aw-bar{transform:none}
 .aw-w.is-n .aw-bar u,.aw-w.is-p .aw-bar u{opacity:1}
+.aw-chip{position:absolute;left:0;top:0;z-index:1;padding:4px 12px;border:1px solid var(--line, #e4e4ee);border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);font-size:14px;font-weight:600;line-height:1.4;white-space:nowrap;pointer-events:none;translate:-50% -50%;scale:calc(.92 + var(--v,0) * .08);opacity:0}
+.aw-chip.is-hot{padding:6px 16px;border:2px solid var(--accent, #4a3aff);background:color-mix(in srgb,var(--accent, #4a3aff) 22%,var(--card, #fff));color:var(--ink, #16182b);font-size:15px;font-weight:700;opacity:1;--v:1}
+.aw-steps{list-style:none;margin:0;padding:0;display:grid;max-width:60ch}
+.aw-steps li{display:grid;gap:4px;justify-items:start}
+.aw-steps li:not(:last-child){display:none}
+.aw-steps b{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:700;color:var(--muted, #6a6d85)}
+.aw-steps b::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:var(--accent, #4a3aff)}
+.aw-steps span{font-size:clamp(16px,1.5vw,19px);line-height:1.5}
+.aw-rel{display:none;box-sizing:border-box;width:fit-content;padding:4px 12px;border:1px solid var(--line, #e4e4ee);border-radius:999px;background:var(--card, #fff);font-style:normal;font-size:14px;font-weight:600;line-height:1.4;color:var(--ink, #16182b)}
+/* המהלך רץ: הסקשן גבוה והבמה נעוצה במסך, והכיתובים נערמים בתא אחד */
+.aw.is-live{height:320vh}
+.aw.is-live .aw-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+.aw.is-live .aw-steps li{display:grid;grid-area:1 / 1}
 @media(max-width:767px){
-.aw{gap:40px}
+.aw-pin{gap:24px}
 .aw-box{padding-top:0;padding-inline-start:48px}
-.aw-sent{flex-direction:column;align-items:flex-start;gap:12px;font-size:24px}
+.aw-sent{flex-direction:column;align-items:flex-start;gap:4px;font-size:22px}
+.aw-w{padding-bottom:12px}
+.aw-chip{display:none}
+.aw.is-live .aw-rel{display:block;min-height:2.3em}
+}
+@media(max-width:767px) and (max-height:760px){
+.aw.is-live .aw-head p{display:none}
 }
 </style>
 </head>
 <body>
 <div class="mv-runway">גלול למטה, הרכיב מתחיל כאן ↓</div>
-<div class="stage"><div class="aw">
-  <div class="aw-head">
-    <h2>המערכת מבינה למה מתייחסת כל מילה</h2>
-    <p>בהודעה של לקוח, המילה אותה מחזירה אל ההצעה. כך התשובה האוטומטית עונה על ההצעה הנכונה ולא על משהו אחר.</p>
-  </div>
-  <div class="aw-box">
-    <svg class="aw-svg" aria-hidden="true" focusable="false"><path class="aw-t" pathLength="1" data-a="0" data-b="1"/><path class="aw-t" pathLength="1" data-a="0" data-b="2"/><path class="aw-t" pathLength="1" data-a="2" data-b="3"/><path class="aw-t" pathLength="1" data-a="4" data-b="6"/><path class="aw-t" pathLength="1" data-a="5" data-b="6"/><path class="aw-t" pathLength="1" data-a="6" data-b="7"/><path class="aw-t" pathLength="1" data-a="6" data-b="8"/><path class="aw-h" pathLength="1" data-a="0" data-b="7"/><circle class="aw-d is-hot" data-i="0" r="5"/><circle class="aw-d" data-i="1" r="2.5"/><circle class="aw-d" data-i="2" r="2.5"/><circle class="aw-d" data-i="3" r="2.5"/><circle class="aw-d" data-i="4" r="2.5"/><circle class="aw-d" data-i="5" r="2.5"/><circle class="aw-d" data-i="6" r="2.5"/><circle class="aw-d is-hot" data-i="7" r="5"/><circle class="aw-d" data-i="8" r="2.5"/></svg>
-    <p class="aw-sent">
-      <span class="aw-w is-n"><b>ההצעה</b><i class="aw-bar"><u></u></i></span>
+<div class="stage"><section class="aw">
+  <div class="aw-pin">
+    <div class="aw-head">
+      <h2>המערכת מבינה למה מתייחסת כל מילה</h2>
+      <p>בהודעה של לקוח, המילה אותה מחזירה אל ההצעה. כך התשובה האוטומטית עונה על ההצעה הנכונה ולא על משהו אחר.</p>
+    </div>
+    <div class="aw-box">
+      <svg class="aw-svg" aria-hidden="true" focusable="false"><path class="aw-t" pathLength="1" data-a="0" data-b="1"/><path class="aw-t" pathLength="1" data-a="0" data-b="2"/><path class="aw-t" pathLength="1" data-a="2" data-b="3"/><path class="aw-t" pathLength="1" data-a="4" data-b="6"/><path class="aw-t" pathLength="1" data-a="6" data-b="8"/><path class="aw-t" pathLength="1" data-a="6" data-b="7"/><path class="aw-h" pathLength="1" data-a="7" data-b="0"/><circle class="aw-d" data-i="0" r="2.5"/><circle class="aw-d" data-i="1" r="2.5"/><circle class="aw-d" data-i="2" r="2.5"/><circle class="aw-d" data-i="3" r="2.5"/><circle class="aw-d" data-i="4" r="2.5"/><circle class="aw-d" data-i="6" r="2.5"/><circle class="aw-d is-hot" data-i="7" r="6"/><circle class="aw-d" data-i="8" r="2.5"/><path class="aw-ah" d="M-8 -11L0 0L8 -11"/></svg>
+      <p class="aw-sent">
+        <span class="aw-w is-n"><b>ההצעה</b><i class="aw-bar"><u></u></i></span>
       <span class="aw-w"><b>המעודכנת</b><i class="aw-bar"><u></u></i></span>
       <span class="aw-w"><b>נשלחה</b><i class="aw-bar"><u></u></i></span>
       <span class="aw-w"><b>אתמול,</b><i class="aw-bar"><u></u></i></span>
@@ -85,9 +110,16 @@ img{max-width:100%}
       <span class="aw-w"><b>קרא</b><i class="aw-bar"><u></u></i></span>
       <span class="aw-w is-p"><b>אותה</b><i class="aw-bar"><u></u></i></span>
       <span class="aw-w"><b>פעמיים</b><i class="aw-bar"><u></u></i></span>
-    </p>
+      </p>
+      <span class="aw-chip" aria-hidden="true">תיאור</span><span class="aw-chip" aria-hidden="true">מה נשלח</span><span class="aw-chip" aria-hidden="true">מתי</span><span class="aw-chip" aria-hidden="true">מי קרא</span><span class="aw-chip" aria-hidden="true">כמה פעמים</span><span class="aw-chip" aria-hidden="true">מה נקרא</span><span class="aw-chip is-hot" aria-hidden="true">אותה = ההצעה</span>
+    </div>
+    <ol class="aw-steps">
+      <li><b>קוראת</b><span>המערכת קוראת את ההודעה של הלקוח, מילה אחרי מילה.</span></li>
+      <li><b>מחברת</b><span>כל מילה מתחברת למילה שהיא משלימה, ולכל חיבור יש סיבה.</span><em class="aw-rel" aria-hidden="true"></em></li>
+      <li><b>מבינה</b><span>המילה אותה מצביעה אל ההצעה, ולכן התשובה תעסוק בהצעה הנכונה.</span></li>
+    </ol>
   </div>
-</div></div>
+</section></div>
 <div class="mv-runway">סוף הרכיב. נסה גם לגלול חזרה למעלה ↑</div>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
@@ -95,48 +127,86 @@ img{max-width:100%}
 if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
-  const box=document.querySelector(".aw-box");if(!box)return;
+  const root=document.querySelector(".aw"),box=root&&root.querySelector(".aw-box");if(!box)return;
   const svg=box.querySelector(".aw-svg"),words=[...box.querySelectorAll(".aw-w")],
-        arcs=[...svg.querySelectorAll(".aw-t,.aw-h")],dots=[...svg.querySelectorAll(".aw-d")],
+        arcs=[...svg.querySelectorAll(".aw-t,.aw-h")],thin=arcs.filter(a=>a.classList.contains("aw-t")),
+        hot=svg.querySelector(".aw-h"),tip=svg.querySelector(".aw-ah"),dots=[...svg.querySelectorAll(".aw-d")],
+        chips=[...box.querySelectorAll(".aw-chip")],hotChip=chips.pop(),
+        steps=[...root.querySelectorAll(".aw-steps li")],rel=root.querySelector(".aw-rel"),
         mq=matchMedia("(max-width:767px)");
   const num=v=>Math.round(v*10)/10;
-  // מודד את מרכז כל מילה וכותב את הקשתות. רץ גם בלי GSAP, ובכל שינוי גודל
+  // מודד את מרכז כל מילה וכותב את הקשתות, החץ והתוויות. רץ גם בלי GSAP, ובכל שינוי גודל
   function layout(){
     const cb=box.getBoundingClientRect(),w=cb.width,h=cb.height,mob=mq.matches;
     svg.setAttribute("viewBox","0 0 "+num(w)+" "+num(h));
     const P=words.map(el=>{const r=el.querySelector("b").getBoundingClientRect();
       return mob?{x:w-40,y:r.top-cb.top+r.height/2}:{x:r.left-cb.left+r.width/2,y:r.top-cb.top-8};});
     dots.forEach(d=>{const p=P[+d.dataset.i];d.setAttribute("cx",num(p.x));d.setAttribute("cy",num(p.y));});
-    arcs.forEach(a=>{const A=P[+a.dataset.a],B=P[+a.dataset.b];
-      if(mob){const hh=Math.min(32,8+Math.abs(A.y-B.y)*.12);a.setAttribute("d","M"+num(A.x)+" "+num(A.y)+" Q"+num(A.x+hh*2)+" "+num((A.y+B.y)/2)+" "+num(B.x)+" "+num(B.y));}
-      else{const hh=Math.min(80,18+Math.abs(A.x-B.x)*.28);a.setAttribute("d","M"+num(A.x)+" "+num(A.y)+" Q"+num((A.x+B.x)/2)+" "+num(A.y-hh*2)+" "+num(B.x)+" "+num(B.y));}});
+    const at=new Map();
+    arcs.forEach(a=>{const A=P[+a.dataset.a],B=P[+a.dataset.b],isHot=a===hot;let d,c,ang=0;
+      if(mob){const hh=Math.min(32,8+Math.abs(A.y-B.y)*.12),C={x:A.x+hh*2,y:(A.y+B.y)/2};
+        d="M"+num(A.x)+" "+num(A.y)+" Q"+num(C.x)+" "+num(C.y)+" "+num(B.x)+" "+num(B.y);c={x:A.x+hh,y:C.y};
+        ang=Math.atan2(-(B.x-C.x),B.y-C.y)*180/Math.PI;}
+      else if(isHot){const k=Math.min(140,64+Math.abs(A.x-B.x)*.14);   // קשת גבוהה שיורדת ישר על המילה
+        d="M"+num(A.x)+" "+num(A.y)+" C"+num(A.x)+" "+num(A.y-k)+" "+num(B.x)+" "+num(B.y-k)+" "+num(B.x)+" "+num(B.y);c={x:(A.x+B.x)/2,y:A.y-k*.75};}
+      else{const hh=Math.min(80,18+Math.abs(A.x-B.x)*.28);
+        d="M"+num(A.x)+" "+num(A.y)+" Q"+num((A.x+B.x)/2)+" "+num(A.y-hh*2)+" "+num(B.x)+" "+num(B.y);c={x:(A.x+B.x)/2,y:A.y-hh};}
+      a.setAttribute("d",d);at.set(a,c);
+      if(isHot)tip.setAttribute("transform","translate("+num(B.x)+" "+num(B.y)+") rotate("+num(ang)+")");});
+    thin.forEach((a,k)=>{const c=at.get(a);chips[k].style.left=num(c.x)+"px";chips[k].style.top=num(c.y)+"px";});
+    const c=at.get(hot);hotChip.style.left=num(c.x)+"px";hotChip.style.top=num(c.y)+"px";
   }
   layout();
   if(window.ResizeObserver)new ResizeObserver(layout).observe(box);else addEventListener("resize",layout);
   if(document.fonts&&document.fonts.ready)document.fonts.ready.then(layout);
-  if(typeof gsap==="undefined")return;       // בלי GSAP: הקשתות והפסים מוצגים כבר במצב הסופי
+  if(typeof gsap==="undefined")return;       // בלי GSAP: הקשתות, החץ והתווית מוצגים כבר במצב הסופי
   gsap.registerPlugin(ScrollTrigger);
   gsap.matchMedia().add("(prefers-reduced-motion: no-preference)",()=>{
-    const wd=words.map(w=>w.querySelector("b")),bars=words.map(w=>w.querySelector(".aw-bar")),
-          thin=arcs.filter(a=>a.classList.contains("aw-t")),hot=svg.querySelector(".aw-h"),
-          soft=dots.filter(d=>!d.classList.contains("is-hot")),hotDots=dots.filter(d=>d.classList.contains("is-hot")),
-          noun=box.querySelector(".is-n .aw-bar"),pron=box.querySelector(".is-p .aw-bar"),fills=[noun,pron].map(b=>b.querySelector("u"));
-    gsap.set(wd,{opacity:.3});
-    gsap.set([...thin,hot],{strokeDashoffset:1});
-    gsap.set(dots,{opacity:0});
-    gsap.set(bars,{scaleX:.22});
-    gsap.set(fills,{opacity:0});
-    const tl=gsap.timeline({defaults:{ease:"none"},scrollTrigger:{trigger:box,start:"top 75%",end:"bottom 35%",scrub:.6,invalidateOnRefresh:true}});
-    tl.to(wd,{opacity:1,duration:.6,stagger:.15},0)
-      .to(thin,{strokeDashoffset:0,duration:.6,stagger:.3},1.5)
-      .to(soft,{opacity:1,duration:.3,stagger:.25},1.5)
-      .to(hot,{strokeDashoffset:0,duration:2},4.5)
-      .to(hotDots,{opacity:1,duration:.3,stagger:1.7},4.5)
-      .to(noun,{scaleX:1,duration:2},6.5)
-      .to(pron,{scaleX:.6,duration:1.5},6.5)
-      .to(fills,{opacity:1,duration:1.5},6.5)
-      .to({},{duration:1.5},8.5);
-    return()=>{if(tl.scrollTrigger)tl.scrollTrigger.kill();tl.kill();gsap.set([...wd,...thin,hot,...dots,...bars,...fills],{clearProps:"all"});};
+    root.classList.add("is-live");
+    const bs=words.map(w=>w.querySelector("b")),bars=words.map(w=>w.querySelector(".aw-bar")),fills=bars.map(b=>b.querySelector("u")),
+          N=words.length,K=thin.length,NO=+hot.dataset.b,PR=+hot.dataset.a,
+          ends=thin.map(a=>[+a.dataset.a,+a.dataset.b]),
+          clean=i=>words[i].textContent.trim().replace(/[,.]+$/,""),
+          relText=ends.map((e,k)=>chips[k].textContent+": "+clean(e[0])+" + "+clean(e[1])),
+          T0=.1,T1=.56,slot=(T1-T0)/K;
+    const cl=x=>Math.min(1,Math.max(0,x)),sm=(a,b,x)=>{x=cl((x-a)/(b-a));return x*x*(3-2*x);};
+    // כל המצב נגזר מההתקדמות p (0 עד 1): קריאה, זוגות אחד אחד, מיקוד בכינוי, ואז חזרה למשפט שלם
+    function render(p){
+      const foc=sm(.56,.64,p),dim=foc*(1-sm(.84,.93,p)),inP=sm(.09,.12,p)*(1-foc);
+      const act=new Array(N).fill(0),dotOn=new Array(N).fill(0);let top=0,topK=-1;
+      ends.forEach((e,k)=>{
+        const s=T0+k*slot,draw=sm(s,s+slot*.5,p),on=sm(s,s+slot*.18,p)*(1-sm(s+slot*.82,s+slot,p))*(1-foc),
+              lab=sm(s+slot*.3,s+slot*.5,p)*(1-sm(s+slot*.82,s+slot,p))*(1-foc);
+        thin[k].style.strokeDashoffset=(1-draw).toFixed(3);
+        thin[k].style.setProperty("--on",on.toFixed(3));
+        thin[k].style.opacity=(1-.6*dim).toFixed(3);
+        chips[k].style.opacity=lab.toFixed(3);chips[k].style.setProperty("--v",lab.toFixed(3));
+        e.forEach(i=>{act[i]=Math.max(act[i],on);dotOn[i]=Math.max(dotOn[i],sm(s,s+slot*.08,p));});
+        if(lab>top){top=lab;topK=k;}
+      });
+      hot.style.strokeDashoffset=(1-sm(.64,.78,p)).toFixed(3);
+      tip.style.opacity=sm(.76,.79,p).toFixed(3);
+      const cOn=sm(.76,.82,p).toFixed(3);hotChip.style.opacity=cOn;hotChip.style.setProperty("--v",cOn);
+      dots.forEach(d=>{const i=+d.dataset.i;d.style.opacity=(d.classList.contains("is-hot")?sm(.64,.67,p):dotOn[i]*(1-.6*dim)).toFixed(3);});
+      bs.forEach((b,i)=>{
+        const rv=.4+.6*sm(i*.0085,i*.0085+.03,p),isHot=i===NO||i===PR,dm=Math.max(inP*.5*(1-act[i]),isHot?0:dim*.62);
+        b.style.setProperty("--o",(rv*(1-dm)).toFixed(3));
+        b.style.setProperty("--t",act[i].toFixed(3));
+        if(isHot){const v=i===PR?sm(.64,.7,p):sm(.76,.82,p),g=i===PR?sm(.7,.82,p):sm(.78,.9,p);
+          b.style.setProperty("--h",v.toFixed(3));bars[i].style.transform="scaleX("+(.22+.78*g).toFixed(3)+")";fills[i].style.opacity=g.toFixed(3);}
+      });
+      const c1=sm(.095,.125,p),c2=sm(.545,.575,p),cap=[1-c1,c1*(1-c2),c2];
+      steps.forEach((li,i)=>{li.style.opacity=cap[i].toFixed(3);li.style.transform="translateY("+((1-cap[i])*10).toFixed(1)+"px)";});
+      if(rel){const txt=top>.5?relText[topK]:"";if(rel.dataset.t!==txt){rel.dataset.t=txt;rel.textContent=txt;}rel.style.opacity=top.toFixed(3);}
+    }
+    const st={p:0};
+    const tl=gsap.timeline({scrollTrigger:{trigger:root,start:"top top",end:"bottom bottom",scrub:.5,invalidateOnRefresh:true}})
+      .to(st,{p:1,duration:1,ease:"none",onUpdate:()=>render(st.p)},0);
+    render(0);
+    return()=>{if(tl.scrollTrigger)tl.scrollTrigger.kill();tl.kill();root.classList.remove("is-live");
+      [...thin,hot,tip,...dots,...bs,...bars,...fills,...steps].forEach(e=>e.removeAttribute("style"));
+      [...chips,hotChip].forEach(c=>{c.style.opacity="";c.style.removeProperty("--v");});
+      if(rel){rel.removeAttribute("style");rel.textContent="";delete rel.dataset.t;}};
   });
 })();
 </script>
