@@ -64,6 +64,16 @@ for (const e of entries) {
   // six approved moves carried one (28.9.2026). g135 (a string) now settles with two power steps, no exception left.
   for (const m of js.matchAll(/(back|elastic|bounce)\.(out|in|inOut)\b/g))
     problems.push(`${e.id}: banned GSAP ease ${m[0]} (engine/motion.md: no back, elastic or bounce; use power2/power3)`);
+  // fromTo with stagger in a timeline that has invalidateOnRefresh: after ScrollTrigger.refresh only the FIRST target is drawn in
+  // its start state, the rest sit in their final state until the playhead reaches them (measured on GSAP 3.13, 26.10.2026; caught
+  // twice: prompt-motion 22.10 and g285 26.10). Fix: gsap.set the start state before the timeline, or one tween per target.
+  if (/invalidateOnRefresh\s*:\s*true/.test(js) && !/gsap\.set\(/.test(js)) {
+    for (const m of js.matchAll(/\.fromTo\(/g)) {
+      let d = 0, j = m.index + 7;
+      for (; j < js.length; j++) { if (js[j] === "(") d++; else if (js[j] === ")" && --d === 0) break; }
+      if (/stagger\s*:/.test(js.slice(m.index, j))) { problems.push(`${e.id}: fromTo with stagger + invalidateOnRefresh draws only the first target in its start state (gsap.set the start state first, or one tween per target)`); break; }
+    }
+  }
   // 2) ערכי טוקנים כליטרלים ב-CSS: שוברים ירושת עור בפרויקט היעד.
   //    חל רק על מהלכים לשימוש חוזר. עורות (style) מגדירים צבעים בהגדרה, ועמודי הדוקטרינה
   //    (anti/arch/comp/rhythm) מדגימים ולא מיובאים, ולכן ליטרלים שם לגיטימיים.
