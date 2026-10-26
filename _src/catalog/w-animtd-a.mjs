@@ -2,7 +2,7 @@
 // ותטמיע כל דבר חדש שיכול להועיל ושונה ממה שיש לנו כיום. לא רק כמה בודדים".
 // נבנו מאפס מהצפייה בלבד: בלי הפרומפטים, הקוד, הסרטונים, הטקסטים או תמונות הסטוק של המקור (הרישיון שם אוסר להשתמש בהם
 // כמקור למאגר). התמונות מהמאגר שלנו (assets/media/real, team), והתוכן כתוב לעסקים אמיתיים בעברית.
-// קבוצה א: רשימת שירותים מתערבלת, חבילות שמתהפכות, כרטיסי צוות, תפריט עם תצוגה מקדימה, שובל תמונות ומניפת יומן.
+// קבוצה א: רשימת שירותים מתערבלת, כרטיסי צוות, תפריט עם תצוגה מקדימה, שובל תמונות ומניפת יומן.
 
 const E = "cubic-bezier(.2,.6,.2,1)";
 const IO = "cubic-bezier(.76,0,.24,1)";
@@ -10,7 +10,6 @@ const SHADOW = "0 1px 2px color-mix(in srgb,var(--ink) 6%,transparent),0 6px 20p
 const IMG = (f, w, h, alt, cls = "") =>
   `<img${cls ? ` class="${cls}"` : ""} src="../assets/media/${f}" width="${w}" height="${h}" alt="${alt}" loading="lazy" decoding="async">`;
 const ARROW = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>`;
-const CHECK = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`;
 const SVG_CSS = (sel) => `${sel}{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}`;
 
 // b105: חמשת השירותים
@@ -20,16 +19,6 @@ const CX = [
   ["אתרים", "אתר תדמית או דף נחיתה שנטען מהר, נקרא בטלפון ומביא פניות."],
   ["חנויות", "חנות עם סליקה, משלוחים ומלאי, שמנהלים לבד מהיום הראשון."],
   ["קמפיינים", "מודעות בפייסבוק, באינסטגרם ובגוגל, עם מדידה של כל שקל."],
-];
-
-// b106: שלוש חבילות צילום
-const FP = [
-  { id: "a", name: "חצי יום", price: "₪2,400", lead: "עד ארבע שעות צילום. מתאים לחינה, לברית או ליום הולדת.",
-    inc: ["צלם אחד", "עד ארבע שעות באירוע", "300 תמונות ערוכות", "גלריה דיגיטלית לשיתוף", "מסירה תוך שבועיים"] },
-  { id: "b", name: "אירוע מלא", price: "₪4,900", lead: "מההתארגנות בבוקר ועד הריקוד האחרון.", hot: true,
-    inc: ["שני צלמים", "עד עשר שעות באירוע", "700 תמונות ערוכות", "צילומי התארגנות וזוגיות", "אלבום מודפס של 30 עמודים", "מסירה תוך שלושה שבועות"] },
-  { id: "c", name: "אירוע וסרט", price: "₪8,200", lead: "צילום מלא, וסרט קצר שאפשר לשלוח לכל המשפחה.",
-    inc: ["שני צלמים וצלם וידאו", "עד עשר שעות באירוע", "700 תמונות ערוכות", "סרט של חמש דקות", "מסירה תוך חודש"] },
 ];
 
 // b107: הצוות של משרד האדריכלים
@@ -131,97 +120,6 @@ ${CX.map(([w, d]) => `    <li><a class="cx-row" href="#"><span class="cx-w"><spa
     }),{threshold:.6});
     rows.forEach(r=>io.observe(r));
   }
-})();`
-},
-{
-  id:"b106", cat:"behavior", name:"כרטיס חבילה שמתהפך ומראה מה כלול", tech:"CSS 3D · JS · inert", status:"מאושר-עין", runway:false,
-  desc:"שלושה כרטיסי חבילה, ובכל אחד שם, מחיר ומשפט אחד. לחיצה על «מה כלול» הופכת את הכרטיס כמו קלף, ובגב שלו מופיעים כל הפריטים בחבילה וכפתור לבדיקת תאריך. «חזרה» הופך אותו בחזרה. החבילה המומלצת כהה ומסומנת.",
-  when:"עמוד מחירים או סקשן חבילות עם שלוש עד ארבע חבילות, שהרשימה של כל אחת ארוכה מדי לכרטיס: צלם, מאמן, ספק אירועים, סטודיו, שירות חודשי. הכרטיס נשאר קצר ונקי, ומי שרוצה פרטים הופך אותו. לא כשהלקוח צריך להשוות שורה מול שורה בין החבילות, כי בכרטיס הפוך רואים חבילה אחת בכל פעם; שם טבלה או C20 עם רשימות פתוחות.",
-  note:"**שחזור.** השראה: animtd.store (26.10.2026), סרטון של כרטיס תמחור שמתהפך ומראה את הפירוט מאחור. נבנה מאפס מהצפייה. **במה זה שונה ממה שיש:** C20 מציג את כל הרשימות פתוחות, ו-c27 (מה כלול ומה לא) נפסל ב-25.10. כאן הרשימה מאחורי הכרטיס, והכרטיס עצמו נשאר מחיר ומשפט. **המבנה:** שני הצדדים (`.fp-front`, `.fp-back`) יושבים באותו תא גריד (`grid-area`), ולכן גובה הכרטיס הוא גובה הצד הגבוה, ושלושת הכרטיסים באותו גובה. **בלי JS** שני הצדדים מוצגים זה מתחת לזה, וכל המידע נגיש. **עם JS** (`is-live`) הם עוברים לאותו תא, `backface-visibility:hidden`, והגב מסובב ב-180 מעלות. ההיפוך הוא `rotateY` של העטיפה ב-0.7 שנייה בעקומת in-out המאושרת, עם `perspective` על הכרטיס. **נגישות:** הצד שלא נראה מקבל `inert`, כך שאי אפשר להגיע אליו בטאב ולא ללחוץ עליו; הפוקוס עובר לכפתור «חזרה» אחרי ההיפוך, וחוזר ל«מה כלול» אחרי החזרה; Escape הופך בחזרה; לכפתור יש `aria-expanded`. **המחיר** בתוך `unicode-bidi:isolate` עם `dir=ltr`, כדי שהסימן והפסיק לא יקפצו בשורה עברית. **הפחתת תנועה:** אין סיבוב; הצדדים מתחלפים בעמעום של רבע שנייה. **בטלפון** הכרטיסים אחד מתחת לשני, וההיפוך זהה.",
-  libs:[],
-  css:`.fp{display:grid;gap:clamp(28px,4vw,48px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg);color:var(--ink)}
-.fp-hd{display:grid;gap:12px;max-width:40rem}
-.fp-hd h2{margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
-.fp-hd p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
-.fp-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,24px)}
-.fp-card{perspective:1400px}
-.fp-in{display:grid;gap:12px;height:100%}
-.fp-face{display:flex;flex-direction:column;gap:16px;padding:clamp(24px,2.6vw,32px);border-radius:24px;background:var(--card);color:var(--ink);box-shadow:${SHADOW}}
-.fp-hot .fp-front{background:var(--ink);color:var(--bg)}
-.fp-tag{align-self:flex-start;padding:6px 12px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-size:13px;font-weight:700}
-.fp-face h3{margin:0;font-size:clamp(22px,2vw,28px);font-weight:700;line-height:1.2}
-.fp-pr{margin:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px}
-.fp-num{font-size:clamp(40px,4.4vw,60px);font-weight:800;line-height:1;letter-spacing:-.02em;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
-.fp-pr small{font-size:14px;opacity:.7}
-.fp-lead{margin:0;font-size:var(--fs-body);line-height:1.6;opacity:.85}
-.fp-open,.fp-close{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:12px 24px;border:0;border-radius:999px;background:color-mix(in srgb,currentColor 10%,transparent);color:inherit;font:inherit;font-weight:600;cursor:pointer;transition:background-color .25s ${E}}
-.fp-open{margin-top:auto;align-self:flex-start}
-${SVG_CSS(".fp-open svg,.fp-close svg")}
-.fp-close svg{transform:scaleX(-1)}
-.fp-open:focus-visible,.fp-close:focus-visible,.fp-cta:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-@media(hover:hover) and (pointer:fine){.fp-open:hover,.fp-close:hover{background:color-mix(in srgb,currentColor 18%,transparent)}}
-.fp-back h4{margin:0;font-size:18px;font-weight:700}
-.fp-back ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.fp-back li{display:flex;align-items:flex-start;gap:10px;font-size:16px;line-height:1.5}
-.fp-back li svg{width:18px;height:18px;flex:none;margin-top:4px;fill:none;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.fp-acts{margin-top:auto;display:flex;flex-wrap:wrap;gap:10px}
-.fp-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 24px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
-/* חי: שני הצדדים באותו תא, והעטיפה מסתובבת */
-.fp.is-live .fp-in{grid-template-areas:"x";gap:0;transform-style:preserve-3d;transition:transform .7s ${IO}}
-.fp.is-live .fp-face{grid-area:x;-webkit-backface-visibility:hidden;backface-visibility:hidden}
-.fp.is-live .fp-back{transform:rotateY(180deg)}
-.fp.is-live .fp-card.is-flip .fp-in{transform:rotateY(180deg)}
-@media(prefers-reduced-motion:reduce){
-  .fp.is-live .fp-in{transition:none;transform:none!important}
-  .fp.is-live .fp-face{transition:opacity .25s ${E},visibility .25s}
-  .fp.is-live .fp-back{transform:none;opacity:0;visibility:hidden}
-  .fp.is-live .fp-card.is-flip .fp-front{opacity:0;visibility:hidden}
-  .fp.is-live .fp-card.is-flip .fp-back{opacity:1;visibility:visible}}
-@media(max-width:860px){.fp-grid{grid-template-columns:minmax(0,1fr)}}`,
-  html:`<div class="stage"><section class="fp" data-fp>
-  <div class="fp-hd">
-    <h2>חבילות צילום לאירוע</h2>
-    <p>המחיר כולל נסיעות בכל אזור המרכז. לחצו על «מה כלול» כדי לראות מה בדיוק מקבלים בכל חבילה.</p>
-  </div>
-  <ul class="fp-grid">
-${FP.map(p => `    <li class="fp-card${p.hot ? " fp-hot" : ""}">
-      <div class="fp-in">
-        <div class="fp-face fp-front">
-          ${p.hot ? '<span class="fp-tag">הכי נבחרת</span>\n          ' : ""}<h3>${p.name}</h3>
-          <p class="fp-pr"><span class="fp-num" dir="ltr">${p.price}</span><small>לאירוע</small></p>
-          <p class="fp-lead">${p.lead}</p>
-          <button class="fp-open" type="button" aria-expanded="false" aria-controls="fp-${p.id}">מה כלול ${ARROW}</button>
-        </div>
-        <div class="fp-face fp-back" id="fp-${p.id}">
-          <h4>מה כלול ב${p.name === "אירוע מלא" ? "אירוע המלא" : p.name}</h4>
-          <ul>
-${p.inc.map(i => `            <li>${CHECK}<span>${i}</span></li>`).join("\n")}
-          </ul>
-          <div class="fp-acts"><a class="fp-cta" href="#">לבדוק תאריך</a><button class="fp-close" type="button">${ARROW} חזרה</button></div>
-        </div>
-      </div>
-    </li>`).join("\n")}
-  </ul>
-</section></div>`,
-  js:`(function(){
-  const root=document.querySelector("[data-fp]");
-  if(!root)return;
-  root.classList.add("is-live");          // בלי JS שני הצדדים גלויים זה מתחת לזה
-  root.querySelectorAll(".fp-card").forEach(card=>{
-    const front=card.querySelector(".fp-front"),back=card.querySelector(".fp-back");
-    const open=card.querySelector(".fp-open"),close=card.querySelector(".fp-close");
-    back.inert=true;
-    const set=on=>{
-      card.classList.toggle("is-flip",on);
-      front.inert=on;back.inert=!on;
-      open.setAttribute("aria-expanded",String(on));
-      // הפוקוס עובר לצד שנראה, אחרת הוא נשאר על כפתור שהסתובב לגב
-      (on?close:open).focus({preventScroll:true});
-    };
-    open.addEventListener("click",()=>set(true));
-    close.addEventListener("click",()=>set(false));
-    card.addEventListener("keydown",e=>{if(e.key==="Escape"&&card.classList.contains("is-flip"))set(false);});
-  });
 })();`
 },
 {
