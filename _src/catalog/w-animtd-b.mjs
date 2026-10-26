@@ -245,11 +245,11 @@ ${RQ.map(([f, w, h, alt], i) => `      <figure class="rq-p${i === 0 ? " is-on" :
 },
 {
   id:"b113", cat:"behavior", name:"גלריה עם רצועת תמונות שמתקדמת לבד", tech:"JS · CSS animation · IntersectionObserver", status:"מאושר-עין", runway:false,
-  desc:"תמונה גדולה עם כיתוב, ומתחתיה רצועה של ארבע תמונות קטנות. הקטנה הפעילה בולטת וגדולה מעט, ובתחתיתה סרגל מתמלא; כשהוא מתמלא, התמונה הגדולה מתחלפת לבאה בעמעום והתרחקות קלה, והכיתוב מתחלף איתה. לחיצה על תמונה קטנה עוברת אליה. מונה קטן בפינה, וכפתור לעצירה.",
+  desc:"תמונה גדולה עם כיתוב, ומתחתיה רצועה של ארבע תמונות קטנות. הקטנה הפעילה בולטת ועולה מעט לכיוון התמונה הגדולה, ובתחתיתה סרגל מתמלא; כשהוא מתמלא, התמונה הגדולה מתחלפת לבאה בעמעום והתרחקות קלה, והכיתוב מתחלף איתה. לחיצה על תמונה קטנה עוברת אליה. מונה קטן בפינה, וכפתור לעצירה.",
   when:"מקום או חוויה שרוצים להראות בכמה רגעים: בר, מסעדה, צימר, אולם, סטודיו, נכס להשכרה. שלוש עד שש תמונות באותו יחס, ולכל אחת משפט. לא לקטלוג מוצרים, שם c25 בלי החלפה אוטומטית, ולא לתמונות שצריך לבחון בעיון (תוכנית, מפרט), כי ההחלפה לא מחכה.",
-  note:"**שחזור.** השראה: animtd.store (26.10.2026), סרטון של גלריה עם רצועת ממוזערות שמתקדמת לבד. נבנה מאפס מהצפייה. **במה זה שונה ממה שיש:** c25 הוא תמונה ראשית ופס ממוזערות שמתחלף רק בלחיצה. כאן הגלריה מתקדמת לבד עם שעון גלוי בתוך הממוזערת הפעילה, והתמונה הגדולה נכנסת בהתרחקות (מ-1.06 ל-1). **השעון:** כמו ב-b111, הסרגל הוא אנימציית CSS של חמש שניות, וה-JS עובר לתמונה הבאה רק ב-`animationend`. **עוצר כש:** העכבר על הגלריה, הפוקוס בתוכה, הגלריה מחוץ למסך, או בכפתור העצירה (WCAG 2.2.2). **הממוזערת הפעילה** מוגדלת ב-`transform` (הזזה למעלה והגדלה ל-1.06), לא ברוחב, כך שאין קפיצות בפריסה; האחרות בשקיפות .55. כל ממוזערת היא כפתור עם `aria-pressed` ותווית. **הכיתוב, המונה והעצירה** יושבים על משטח בצבע הכרטיס עם טשטוש, ולא על שכבה כהה שקופה: שכבה מ-ink מתבהרת באתר כהה, והטקסט נעלם מעל תמונה כהה (נמצא בבדיקת העורות). **בלי JS** מוצגות התמונה והכיתוב הראשונים, והממוזערות לא עושות כלום. **הפחתת תנועה:** בלי החלפה אוטומטית ובלי כפתור עצירה; הבחירה בלחיצה. **בטלפון** אותו מבנה, והרצועה נשארת בשורה אחת.",
+  note:"**שחזור.** השראה: animtd.store (26.10.2026), סרטון של גלריה עם רצועת ממוזערות שמתקדמת לבד. נבנה מאפס מהצפייה. **במה זה שונה ממה שיש:** c25 הוא תמונה ראשית ופס ממוזערות שמתחלף רק בלחיצה. כאן הגלריה מתקדמת לבד עם שעון גלוי בתוך הממוזערת הפעילה, והתמונה הגדולה נכנסת בהתרחקות (מ-1.06 ל-1). **השעון:** כמו ב-b111, הסרגל הוא אנימציית CSS של חמש שניות, וה-JS עובר לתמונה הבאה רק ב-`animationend`. **עוצר כש:** העכבר על הגלריה, הפוקוס בתוכה, הגלריה מחוץ למסך, או בכפתור העצירה (WCAG 2.2.2). **הממוזערת הפעילה** עולה ב-`transform` (הזזה למעלה בלבד, בלי הגדלה), לא ברוחב, כך שאין קפיצות בפריסה; האחרות בשקיפות .55. **הריווח (תוקן 26.10 לפי ליאב):** הרווח בין התמונה הגדולה לרצועה הוא הרווח בין הממוזערות ועוד גובה ההרמה (`--fs-gap` ו-`--fs-lift`), כך שהפעילה נעצרת במרחק מהתמונה הגדולה ששווה בדיוק לרווח בינה לשכנות. בגרסה הקודמת היא עלתה עם הגדלה ל-1.06, כמעט נגעה בתמונה הגדולה וחרגה מהקו שלה בקצה. כל ממוזערת היא כפתור עם `aria-pressed` ותווית. **הכיתוב, המונה והעצירה** יושבים על משטח בצבע הכרטיס עם טשטוש, ולא על שכבה כהה שקופה: שכבה מ-ink מתבהרת באתר כהה, והטקסט נעלם מעל תמונה כהה (נמצא בבדיקת העורות). **בלי JS** מוצגות התמונה והכיתוב הראשונים, והממוזערות לא עושות כלום. **הפחתת תנועה:** בלי החלפה אוטומטית ובלי כפתור עצירה; הבחירה בלחיצה. **בטלפון** אותו מבנה, והרצועה נשארת בשורה אחת.",
   libs:[],
-  css:`.fs{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:center;gap:clamp(32px,5vw,72px);${SEC}}
+  css:`.fs{--fs-gap:12px;--fs-lift:8px;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:center;gap:clamp(32px,5vw,72px);${SEC}}
 .fs-txt{display:grid;gap:16px;justify-items:start}
 .fs-k{margin:0;font-size:15px;font-weight:700;color:var(--accent)}
 .fs-txt h2{${H2}}
@@ -258,7 +258,8 @@ ${RQ.map(([f, w, h, alt], i) => `      <figure class="rq-p${i === 0 ? " is-on" :
 .fs-cta,.fs-alt{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 28px;border-radius:999px;font-weight:600;text-decoration:none}
 .fs-cta{background:var(--accent);color:var(--accent-ink)}
 .fs-alt{background:color-mix(in srgb,var(--ink) 6%,transparent);color:var(--ink)}
-.fs-view{position:relative;display:grid;gap:16px}
+/* הרווח מעל הרצועה = הרווח בין הממוזערות + ההרמה של הפעילה: כשהיא עולה, המרחק שלה מהתמונה הגדולה שווה בדיוק לרווח בינה לשכנות (ליאב, 26.10: היא נצמדה כמעט לתמונה) */
+.fs-view{position:relative;display:grid;gap:calc(var(--fs-gap) + var(--fs-lift))}
 /* width:100% ולא אוטומטי: עם aspect-ratio ו-max-height לבד התמונה מתכווצת לרוחב 512 ונצמדת לצד אחד, והמונה והעצירה (שממוקמים לפי .fs-view) נשארים בחוץ על הקצה */
 .fs-main{position:relative;display:grid;width:100%;margin:0;overflow:hidden;aspect-ratio:4/5;max-height:640px;border-radius:24px;background:var(--card)}
 .fs-main img{grid-area:1/1;display:block;width:100%;height:100%;object-fit:cover}
@@ -274,10 +275,11 @@ ${RQ.map(([f, w, h, alt], i) => `      <figure class="rq-p${i === 0 ? " is-on" :
 .fs-pp svg{width:18px;height:18px;fill:currentColor}
 .fs-pp .i-pl,.fs.is-paused .fs-pp .i-pa{display:none}
 .fs.is-paused .fs-pp .i-pl{display:block}
-.fs-strip{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.fs-th{position:relative;display:block;width:100%;padding:0;border:0;border-radius:14px;overflow:hidden;aspect-ratio:1;background:var(--card);cursor:pointer;opacity:.55;transform-origin:50% 100%;transition:opacity .4s ${E},transform .5s ${E}}
+.fs-strip{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--fs-gap)}
+.fs-th{position:relative;display:block;width:100%;padding:0;border:0;border-radius:14px;overflow:hidden;aspect-ratio:1;background:var(--card);cursor:pointer;opacity:.55;transition:opacity .4s ${E},transform .5s ${E}}
 .fs-th img{display:block;width:100%;height:100%;object-fit:cover}
-.fs-th[aria-pressed="true"]{opacity:1;transform:translateY(-6px) scale(1.06)}
+/* הרמה בלבד, בלי הגדלה: הגדלה דחפה את הממוזערת שבקצה מעבר לקו של התמונה הגדולה */
+.fs-th[aria-pressed="true"]{opacity:1;transform:translateY(calc(var(--fs-lift) * -1))}
 .fs-th:focus-visible,.fs-pp:focus-visible,.fs-cta:focus-visible,.fs-alt:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 @media(hover:hover) and (pointer:fine){.fs-th:hover{opacity:1}}
 .fs-bar{position:absolute;inset-inline:8px;inset-block-end:8px;display:none;height:3px;border-radius:999px;background:var(--bg);transform:scaleX(0);transform-origin:100% 50%}
@@ -292,7 +294,7 @@ ${RQ.map(([f, w, h, alt], i) => `      <figure class="rq-p${i === 0 ? " is-on" :
 .fs.is-live .fs-cap>div{opacity:0;transform:translateY(8px);transition:opacity .4s ${E},transform .4s ${E}}
 .fs.is-live .fs-cap>div.is-on{opacity:1;transform:none;transition-delay:.2s}
 @media(prefers-reduced-motion:reduce){.fs.is-live .fs-bar{display:none}.fs.is-live .fs-main img,.fs.is-live .fs-cap>div{transform:none!important;transition-duration:.2s}.fs-th{transition-duration:.2s}}
-@media(max-width:860px){.fs{grid-template-columns:minmax(0,1fr)}.fs-main{aspect-ratio:4/4.4}.fs-strip{gap:8px}}`,
+@media(max-width:860px){.fs{--fs-gap:8px;--fs-lift:6px;grid-template-columns:minmax(0,1fr)}.fs-main{aspect-ratio:4/4.4}}`,
   html:`<div class="stage"><section class="fs" data-fs>
   <div class="fs-txt">
     <p class="fs-k">בר הקטיפה, נחלת בנימין</p>

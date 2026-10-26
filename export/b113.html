@@ -39,7 +39,7 @@ img{max-width:100%}
 .stage.full{padding-inline:0}
 
 /* B113 · גלריה עם רצועת תמונות שמתקדמת לבד */
-.fs{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:center;gap:clamp(32px,5vw,72px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}
+.fs{--fs-gap:12px;--fs-lift:8px;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:center;gap:clamp(32px,5vw,72px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}
 .fs-txt{display:grid;gap:16px;justify-items:start}
 .fs-k{margin:0;font-size:15px;font-weight:700;color:var(--accent, #4a3aff)}
 .fs-txt h2{margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
@@ -48,7 +48,8 @@ img{max-width:100%}
 .fs-cta,.fs-alt{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 28px;border-radius:999px;font-weight:600;text-decoration:none}
 .fs-cta{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
 .fs-alt{background:color-mix(in srgb,var(--ink, #16182b) 6%,transparent);color:var(--ink, #16182b)}
-.fs-view{position:relative;display:grid;gap:16px}
+/* הרווח מעל הרצועה = הרווח בין הממוזערות + ההרמה של הפעילה: כשהיא עולה, המרחק שלה מהתמונה הגדולה שווה בדיוק לרווח בינה לשכנות (ליאב, 26.10: היא נצמדה כמעט לתמונה) */
+.fs-view{position:relative;display:grid;gap:calc(var(--fs-gap) + var(--fs-lift))}
 /* width:100% ולא אוטומטי: עם aspect-ratio ו-max-height לבד התמונה מתכווצת לרוחב 512 ונצמדת לצד אחד, והמונה והעצירה (שממוקמים לפי .fs-view) נשארים בחוץ על הקצה */
 .fs-main{position:relative;display:grid;width:100%;margin:0;overflow:hidden;aspect-ratio:4/5;max-height:640px;border-radius:24px;background:var(--card, #fff)}
 .fs-main img{grid-area:1/1;display:block;width:100%;height:100%;object-fit:cover}
@@ -64,10 +65,11 @@ img{max-width:100%}
 .fs-pp svg{width:18px;height:18px;fill:currentColor}
 .fs-pp .i-pl,.fs.is-paused .fs-pp .i-pa{display:none}
 .fs.is-paused .fs-pp .i-pl{display:block}
-.fs-strip{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.fs-th{position:relative;display:block;width:100%;padding:0;border:0;border-radius:14px;overflow:hidden;aspect-ratio:1;background:var(--card, #fff);cursor:pointer;opacity:.55;transform-origin:50% 100%;transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.fs-strip{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--fs-gap)}
+.fs-th{position:relative;display:block;width:100%;padding:0;border:0;border-radius:14px;overflow:hidden;aspect-ratio:1;background:var(--card, #fff);cursor:pointer;opacity:.55;transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
 .fs-th img{display:block;width:100%;height:100%;object-fit:cover}
-.fs-th[aria-pressed="true"]{opacity:1;transform:translateY(-6px) scale(1.06)}
+/* הרמה בלבד, בלי הגדלה: הגדלה דחפה את הממוזערת שבקצה מעבר לקו של התמונה הגדולה */
+.fs-th[aria-pressed="true"]{opacity:1;transform:translateY(calc(var(--fs-lift) * -1))}
 .fs-th:focus-visible,.fs-pp:focus-visible,.fs-cta:focus-visible,.fs-alt:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
 @media(hover:hover) and (pointer:fine){.fs-th:hover{opacity:1}}
 .fs-bar{position:absolute;inset-inline:8px;inset-block-end:8px;display:none;height:3px;border-radius:999px;background:var(--bg, #f7f7fa);transform:scaleX(0);transform-origin:100% 50%}
@@ -82,7 +84,7 @@ img{max-width:100%}
 .fs.is-live .fs-cap>div{opacity:0;transform:translateY(8px);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .4s cubic-bezier(.2,.6,.2,1)}
 .fs.is-live .fs-cap>div.is-on{opacity:1;transform:none;transition-delay:.2s}
 @media(prefers-reduced-motion:reduce){.fs.is-live .fs-bar{display:none}.fs.is-live .fs-main img,.fs.is-live .fs-cap>div{transform:none!important;transition-duration:.2s}.fs-th{transition-duration:.2s}}
-@media(max-width:860px){.fs{grid-template-columns:minmax(0,1fr)}.fs-main{aspect-ratio:4/4.4}.fs-strip{gap:8px}}
+@media(max-width:860px){.fs{--fs-gap:8px;--fs-lift:6px;grid-template-columns:minmax(0,1fr)}.fs-main{aspect-ratio:4/4.4}}
 </style>
 </head>
 <body>
