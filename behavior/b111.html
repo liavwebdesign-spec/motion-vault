@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B111 · מדריכים עם זרקור שעובר ביניהם | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.as{display:grid;gap:clamp(28px,4vw,48px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg);color:var(--ink)}
+.as-hd{display:grid;gap:12px;max-width:44rem}
+.as-k{margin:0;font-size:15px;font-weight:700;color:var(--accent)}
+.as-hd h2{margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.as-hd p{margin:0;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.as-body{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);column-gap:clamp(24px,4vw,64px);row-gap:16px;align-items:start}
+.as-list{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.as-it{position:relative;display:grid;gap:4px;width:100%;padding:16px 20px 20px;border:0;border-radius:20px;background:transparent;color:inherit;font:inherit;text-align:start;cursor:pointer;overflow:hidden;transition:background-color .35s cubic-bezier(.2,.6,.2,1)}
+.as-meta{font-size:13px;font-weight:600;color:var(--muted);transition:color .35s cubic-bezier(.2,.6,.2,1)}
+.as-it b{font-size:clamp(18px,1.6vw,22px);font-weight:700;line-height:1.3}
+.as-ex{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.6,.2,1)}
+.as-ex>span{min-height:0;overflow:hidden;font-size:15px;line-height:1.55;color:var(--muted)}
+.as-it[aria-pressed="true"]{background:var(--card)}
+.as-it[aria-pressed="true"] .as-meta{color:var(--accent)}
+.as:not(.is-live) .as-ex,.as-it[aria-pressed="true"] .as-ex{grid-template-rows:1fr}
+.as-it:focus-visible,.as-go:focus-visible,.as-pp:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.as-bar{position:absolute;inset-inline:20px;inset-block-end:8px;display:none;height:3px;border-radius:999px;background:var(--accent);transform:scaleX(0);transform-origin:100% 50%}
+.as-bar:dir(ltr){transform-origin:0 50%}
+.as.is-live .as-bar{display:block}
+.as.is-live .as-it[aria-pressed="true"] .as-bar{animation:as-fill 6s linear forwards}
+.as.is-hold .as-bar,.as.is-paused .as-bar,.as.is-off .as-bar{animation-play-state:paused}
+@keyframes as-fill{to{transform:scaleX(1)}}
+.as-pv{grid-column:2;grid-row:1/span 2;display:grid;gap:16px}
+.as-card{position:relative;margin:0;overflow:hidden;aspect-ratio:4/5;max-height:620px;border-radius:24px;background:var(--card)}
+.as-card img{display:block;width:100%;height:100%;object-fit:cover}
+.as-card figcaption{position:absolute;inset-inline:12px;inset-block-end:12px;display:grid;gap:6px;padding:16px 18px;border-radius:16px;background:var(--card);color:var(--ink);box-shadow:0 1px 2px color-mix(in srgb,var(--ink) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink) 5%,transparent)}
+.as-chip{justify-self:start;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);font-size:13px;font-weight:700}
+.as-card figcaption b{font-size:18px;font-weight:700;line-height:1.3}
+.as-go{justify-self:start;display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--ink);font-weight:600;text-decoration:none}
+.as-go svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.as.is-live .as-card{grid-area:1/1;opacity:0;visibility:hidden;transform:scale(1.03);transition:opacity .5s cubic-bezier(.2,.6,.2,1),visibility 0s .5s,transform .9s cubic-bezier(.2,.6,.2,1)}
+.as.is-live .as-card.is-on{opacity:1;visibility:visible;transform:none;transition:opacity .5s cubic-bezier(.2,.6,.2,1),visibility 0s,transform .9s cubic-bezier(.2,.6,.2,1)}
+.as-pp{grid-column:1;grid-row:2;justify-self:start;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border:0;border-radius:999px;background:color-mix(in srgb,var(--ink) 6%,transparent);color:var(--ink);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.as-pp[hidden]{display:none}
+.as-pp svg{width:16px;height:16px;fill:currentColor}
+.as-pp .i-pl,.as.is-paused .as-pp .i-pa{display:none}
+.as.is-paused .as-pp .i-pl{display:block}
+@media(prefers-reduced-motion:reduce){.as.is-live .as-bar{display:none}.as-ex{transition:none}.as.is-live .as-card{transform:none!important;transition-duration:.2s}}
+@media(max-width:860px){.as-body{grid-template-columns:minmax(0,1fr)}.as-pv{grid-column:1;grid-row:auto;order:-1}.as-card{aspect-ratio:16/11}.as-pp{grid-row:auto}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=behavior">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="b110.html" rel="prev" title="הקודם: מניפת תמונות שמתחלפת עם הרשימה">→<span class="sr-only">הקודם</span></a><span class="vpn-n">96/100</span><a href="b112.html" rel="next" title="הבא: טבעת תמונות שמסתובבת עם ההמלצות">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">B111</span> · מדריכים עם זרקור שעובר ביניהם</h1>
+  <span class="vchip cat-behavior">התנהגויות</span>
+  <span class="vchip">JS · CSS animation · IntersectionObserver</span>
+  <span class="vchip use">כרטיסים</span><span class="vchip use">תמונות וגלריות</span><span class="vchip use">תהליך ושלבים</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b111"><code>MV:b111</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="b111">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>רשימה של ארבעה מדריכים, ולידה תמונה גדולה של המדריך הנבחר. השורה הנבחרת מקבלת משטח, נפתחת ומראה משפט על המדריך, ובתחתית שלה סרגל דק מתמלא. כשהוא מתמלא, הזרקור עובר לבד למדריך הבא והתמונה מתחלפת. עכבר על הרכיב עוצר את ההחלפה, ויש כפתור לעצור אותה לגמרי.</p>
+  <p class="when"><b>מתי משתמשים:</b> מרכז ידע, בלוג, מדריכים, מקרי לקוח או מוצרים מובילים, כשיש שלושה עד חמישה פריטים ותמונה טובה לכל אחד. מתאים לעמוד הבית של עסק שמוכר ידע (חשמלאי, רואה חשבון, סוכן ביטוח). לא לרשימה של עשרה מאמרים ומעלה, שם רשת כרטיסים, ולא כשהתמונות חלשות, כי התמונה הגדולה היא חצי מהרכיב.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית</dd></div><div><dt>בסקשן</dt><dd>שירותים ומוצרים · מאמר ותוכן ארוך · בעיה ויתרונות</dd></div><div><dt>אופי</dt><dd>גם באתר שקט</dd></div><div><dt>תפקיד ומינון</dt><dd>משרת תוכן, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא ליותר מחמישה פריטים, ולא כשלכל פריט אין תמונה משלו.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="b111"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="stage"><section class="as" data-as>
+  <div class="as-hd">
+    <p class="as-k">מרכז הידע</p>
+    <h2>מדריכים לפני שמתקינים עמדת טעינה</h2>
+    <p>ארבעה מדריכים קצרים שכתבו החשמלאים שלנו, לפי השאלות שאנחנו שומעים הכי הרבה בטלפון.</p>
+  </div>
+  <div class="as-body">
+    <ul class="as-list">
+      <li><button class="as-it" type="button" aria-pressed="true" aria-controls="as-c0"><span class="as-meta">בית פרטי · 6 דקות קריאה</span><b>איזו עמדת טעינה מתאימה לבית פרטי</b><span class="as-ex"><span>ההבדל בין עמדה של 7 קילוואט לעמדה של 11, מה בודקים בלוח החשמל, ומתי כדאי לחכות.</span></span><span class="as-bar" aria-hidden="true"></span></button></li>
+      <li><button class="as-it" type="button" aria-pressed="false" aria-controls="as-c1"><span class="as-meta">התקנה · 4 דקות קריאה</span><b>מה קורה ביום ההתקנה</b><span class="as-ex"><span>כמה זמן זה לוקח, מה החשמלאי צריך מכם, ואיך בודקים שהעמדה עובדת לפני שהוא הולך.</span></span><span class="as-bar" aria-hidden="true"></span></button></li>
+      <li><button class="as-it" type="button" aria-pressed="false" aria-controls="as-c2"><span class="as-meta">בניין משותף · 8 דקות קריאה</span><b>עמדת טעינה בבניין משותף</b><span class="as-ex"><span>מה צריך לאשר בוועד הבית, איך מחלקים את חשבון החשמל בין הדיירים, ומה להביא לאסיפה.</span></span><span class="as-bar" aria-hidden="true"></span></button></li>
+      <li><button class="as-it" type="button" aria-pressed="false" aria-controls="as-c3"><span class="as-meta">עסקים · 5 דקות קריאה</span><b>חניון טעינה לעסק</b><span class="as-ex"><span>כמה עמדות צריך, איך גובים מהעובדים או מהלקוחות, ומה עולה ההקמה.</span></span><span class="as-bar" aria-hidden="true"></span></button></li>
+    </ul>
+    <div class="as-pv">
+      <figure class="as-card is-on" id="as-c0"><img src="../assets/media/real/s10/wallbox.webp" width="1000" height="1500" alt="עמדת טעינה לבנה מותקנת על קיר" loading="lazy" decoding="async"><figcaption><span class="as-chip">בית פרטי</span><b>איזו עמדת טעינה מתאימה לבית פרטי</b><a class="as-go" href="#">לקריאת המדריך <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a></figcaption></figure>
+      <figure class="as-card" id="as-c1"><img src="../assets/media/real/s10/install.webp" width="1200" height="1067" alt="חשמלאי מתקין עמדת טעינה על קיר" loading="lazy" decoding="async"><figcaption><span class="as-chip">התקנה</span><b>מה קורה ביום ההתקנה</b><a class="as-go" href="#">לקריאת המדריך <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a></figcaption></figure>
+      <figure class="as-card" id="as-c2"><img src="../assets/media/real/s10/resident.webp" width="1100" height="1650" alt="אישה עומדת ליד רכב לבן בטעינה" loading="lazy" decoding="async"><figcaption><span class="as-chip">בניין משותף</span><b>עמדת טעינה בבניין משותף</b><a class="as-go" href="#">לקריאת המדריך <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a></figcaption></figure>
+      <figure class="as-card" id="as-c3"><img src="../assets/media/real/s10/lot-paint.webp" width="1600" height="1067" alt="סימון של חניה לרכב חשמלי על אספלט" loading="lazy" decoding="async"><figcaption><span class="as-chip">עסקים</span><b>חניון טעינה לעסק</b><a class="as-go" href="#">לקריאת המדריך <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a></figcaption></figure>
+    </div>
+    <button class="as-pp" type="button" hidden><svg class="i-pa" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg><svg class="i-pl" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg><span>עצירת ההחלפה</span></button>
+  </div>
+</section></div>
+
+<div class="demo-note"><b>שחזור.</b> השראה: animtd.store (26.10.2026), סרטון של רשימת מאמרים שבה השורה הפעילה גדלה ומקבלת פס הדגשה. נבנה מאפס מהצפייה. <b>במה זה שונה ממה שיש:</b> טאבים רגילים מחליפים תוכן רק בלחיצה. כאן יש שעון גלוי: הסרגל בתחתית השורה הפעילה הוא אנימציית CSS של שש שניות, וה-JS עובר לפריט הבא רק באירוע <code>animationend</code> שלו. לכן עצירה היא פשוט <code>animation-play-state:paused</code>, והסרגל והזמן לא יכולים להתפצל. <b>עוצר כש:</b> העכבר על הרכיב, הפוקוס בתוכו (מי שקורא בטאב לא יאבד את המקום), הרכיב מחוץ למסך (IntersectionObserver), או שלחצו «עצירת ההחלפה». <b>בחירה:</b> לחיצה על שורה, וריחוף בעכבר; השורה היא כפתור עם <code>aria-pressed</code>, ומי שלא רואה את התמונה מקבל את כל המידע מהשורה עצמה. <b>התמונות</b> בערימה אחת, והפעילה מתחלפת בעמעום והקטנה קלה; הכרטיסים הלא פעילים מקבלים <code>inert</code>, כך שהקישור «לקריאת המדריך» הוא תמיד של המדריך הנבחר. <b>בלי JS</b> כל המשפטים פתוחים וכל הכרטיסים זה מתחת לזה. <b>הפחתת תנועה:</b> אין החלפה אוטומטית, אין סרגל ואין כפתור עצירה; הבחירה ידנית. <b>בטלפון</b> התמונה מעל הרשימה, ברוחב מלא.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b111.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B111 · מדריכים עם זרקור שעובר ביניהם */
+.as{display:grid;gap:clamp(28px,4vw,48px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}
+.as-hd{display:grid;gap:12px;max-width:44rem}
+.as-k{margin:0;font-size:15px;font-weight:700;color:var(--accent, #4a3aff)}
+.as-hd h2{margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.as-hd p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.as-body{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);column-gap:clamp(24px,4vw,64px);row-gap:16px;align-items:start}
+.as-list{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.as-it{position:relative;display:grid;gap:4px;width:100%;padding:16px 20px 20px;border:0;border-radius:20px;background:transparent;color:inherit;font:inherit;text-align:start;cursor:pointer;overflow:hidden;transition:background-color .35s cubic-bezier(.2,.6,.2,1)}
+.as-meta{font-size:13px;font-weight:600;color:var(--muted, #6a6d85);transition:color .35s cubic-bezier(.2,.6,.2,1)}
+.as-it b{font-size:clamp(18px,1.6vw,22px);font-weight:700;line-height:1.3}
+.as-ex{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.6,.2,1)}
+.as-ex&gt;span{min-height:0;overflow:hidden;font-size:15px;line-height:1.55;color:var(--muted, #6a6d85)}
+.as-it[aria-pressed="true"]{background:var(--card, #fff)}
+.as-it[aria-pressed="true"] .as-meta{color:var(--accent, #4a3aff)}
+.as:not(.is-live) .as-ex,.as-it[aria-pressed="true"] .as-ex{grid-template-rows:1fr}
+.as-it:focus-visible,.as-go:focus-visible,.as-pp:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.as-bar{position:absolute;inset-inline:20px;inset-block-end:8px;display:none;height:3px;border-radius:999px;background:var(--accent, #4a3aff);transform:scaleX(0);transform-origin:100% 50%}
+.as-bar:dir(ltr){transform-origin:0 50%}
+.as.is-live .as-bar{display:block}
+.as.is-live .as-it[aria-pressed="true"] .as-bar{animation:as-fill 6s linear forwards}
+.as.is-hold .as-bar,.as.is-paused .as-bar,.as.is-off .as-bar{animation-play-state:paused}
+@keyframes as-fill{to{transform:scaleX(1)}}
+.as-pv{grid-column:2;grid-row:1/span 2;display:grid;gap:16px}
+.as-card{position:relative;margin:0;overflow:hidden;aspect-ratio:4/5;max-height:620px;border-radius:24px;background:var(--card, #fff)}
+.as-card img{display:block;width:100%;height:100%;object-fit:cover}
+.as-card figcaption{position:absolute;inset-inline:12px;inset-block-end:12px;display:grid;gap:6px;padding:16px 18px;border-radius:16px;background:var(--card, #fff);color:var(--ink, #16182b);box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent)}
+.as-chip{justify-self:start;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent, #4a3aff) 12%,transparent);color:var(--accent, #4a3aff);font-size:13px;font-weight:700}
+.as-card figcaption b{font-size:18px;font-weight:700;line-height:1.3}
+.as-go{justify-self:start;display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--ink, #16182b);font-weight:600;text-decoration:none}
+.as-go svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.as.is-live .as-card{grid-area:1/1;opacity:0;visibility:hidden;transform:scale(1.03);transition:opacity .5s cubic-bezier(.2,.6,.2,1),visibility 0s .5s,transform .9s cubic-bezier(.2,.6,.2,1)}
+.as.is-live .as-card.is-on{opacity:1;visibility:visible;transform:none;transition:opacity .5s cubic-bezier(.2,.6,.2,1),visibility 0s,transform .9s cubic-bezier(.2,.6,.2,1)}
+.as-pp{grid-column:1;grid-row:2;justify-self:start;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border:0;border-radius:999px;background:color-mix(in srgb,var(--ink, #16182b) 6%,transparent);color:var(--ink, #16182b);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.as-pp[hidden]{display:none}
+.as-pp svg{width:16px;height:16px;fill:currentColor}
+.as-pp .i-pl,.as.is-paused .as-pp .i-pa{display:none}
+.as.is-paused .as-pp .i-pl{display:block}
+@media(prefers-reduced-motion:reduce){.as.is-live .as-bar{display:none}.as-ex{transition:none}.as.is-live .as-card{transform:none!important;transition-duration:.2s}}
+@media(max-width:860px){.as-body{grid-template-columns:minmax(0,1fr)}.as-pv{grid-column:1;grid-row:auto;order:-1}.as-card{aspect-ratio:16/11}.as-pp{grid-row:auto}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;section class="as" data-as&gt;
+  &lt;div class="as-hd"&gt;
+    &lt;p class="as-k"&gt;מרכז הידע&lt;/p&gt;
+    &lt;h2&gt;מדריכים לפני שמתקינים עמדת טעינה&lt;/h2&gt;
+    &lt;p&gt;ארבעה מדריכים קצרים שכתבו החשמלאים שלנו, לפי השאלות שאנחנו שומעים הכי הרבה בטלפון.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class="as-body"&gt;
+    &lt;ul class="as-list"&gt;
+      &lt;li&gt;&lt;button class="as-it" type="button" aria-pressed="true" aria-controls="as-c0"&gt;&lt;span class="as-meta"&gt;בית פרטי · 6 דקות קריאה&lt;/span&gt;&lt;b&gt;איזו עמדת טעינה מתאימה לבית פרטי&lt;/b&gt;&lt;span class="as-ex"&gt;&lt;span&gt;ההבדל בין עמדה של 7 קילוואט לעמדה של 11, מה בודקים בלוח החשמל, ומתי כדאי לחכות.&lt;/span&gt;&lt;/span&gt;&lt;span class="as-bar" aria-hidden="true"&gt;&lt;/span&gt;&lt;/button&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;button class="as-it" type="button" aria-pressed="false" aria-controls="as-c1"&gt;&lt;span class="as-meta"&gt;התקנה · 4 דקות קריאה&lt;/span&gt;&lt;b&gt;מה קורה ביום ההתקנה&lt;/b&gt;&lt;span class="as-ex"&gt;&lt;span&gt;כמה זמן זה לוקח, מה החשמלאי צריך מכם, ואיך בודקים שהעמדה עובדת לפני שהוא הולך.&lt;/span&gt;&lt;/span&gt;&lt;span class="as-bar" aria-hidden="true"&gt;&lt;/span&gt;&lt;/button&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;button class="as-it" type="button" aria-pressed="false" aria-controls="as-c2"&gt;&lt;span class="as-meta"&gt;בניין משותף · 8 דקות קריאה&lt;/span&gt;&lt;b&gt;עמדת טעינה בבניין משותף&lt;/b&gt;&lt;span class="as-ex"&gt;&lt;span&gt;מה צריך לאשר בוועד הבית, איך מחלקים את חשבון החשמל בין הדיירים, ומה להביא לאסיפה.&lt;/span&gt;&lt;/span&gt;&lt;span class="as-bar" aria-hidden="true"&gt;&lt;/span&gt;&lt;/button&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;button class="as-it" type="button" aria-pressed="false" aria-controls="as-c3"&gt;&lt;span class="as-meta"&gt;עסקים · 5 דקות קריאה&lt;/span&gt;&lt;b&gt;חניון טעינה לעסק&lt;/b&gt;&lt;span class="as-ex"&gt;&lt;span&gt;כמה עמדות צריך, איך גובים מהעובדים או מהלקוחות, ומה עולה ההקמה.&lt;/span&gt;&lt;/span&gt;&lt;span class="as-bar" aria-hidden="true"&gt;&lt;/span&gt;&lt;/button&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;div class="as-pv"&gt;
+      &lt;figure class="as-card is-on" id="as-c0"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/wallbox.webp" width="1000" height="1500" alt="עמדת טעינה לבנה מותקנת על קיר" loading="lazy" decoding="async"&gt;&lt;figcaption&gt;&lt;span class="as-chip"&gt;בית פרטי&lt;/span&gt;&lt;b&gt;איזו עמדת טעינה מתאימה לבית פרטי&lt;/b&gt;&lt;a class="as-go" href="#"&gt;לקריאת המדריך &lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M19 12H5M11 6l-6 6 6 6"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/figcaption&gt;&lt;/figure&gt;
+      &lt;figure class="as-card" id="as-c1"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/install.webp" width="1200" height="1067" alt="חשמלאי מתקין עמדת טעינה על קיר" loading="lazy" decoding="async"&gt;&lt;figcaption&gt;&lt;span class="as-chip"&gt;התקנה&lt;/span&gt;&lt;b&gt;מה קורה ביום ההתקנה&lt;/b&gt;&lt;a class="as-go" href="#"&gt;לקריאת המדריך &lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M19 12H5M11 6l-6 6 6 6"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/figcaption&gt;&lt;/figure&gt;
+      &lt;figure class="as-card" id="as-c2"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/resident.webp" width="1100" height="1650" alt="אישה עומדת ליד רכב לבן בטעינה" loading="lazy" decoding="async"&gt;&lt;figcaption&gt;&lt;span class="as-chip"&gt;בניין משותף&lt;/span&gt;&lt;b&gt;עמדת טעינה בבניין משותף&lt;/b&gt;&lt;a class="as-go" href="#"&gt;לקריאת המדריך &lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M19 12H5M11 6l-6 6 6 6"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/figcaption&gt;&lt;/figure&gt;
+      &lt;figure class="as-card" id="as-c3"&gt;&lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/lot-paint.webp" width="1600" height="1067" alt="סימון של חניה לרכב חשמלי על אספלט" loading="lazy" decoding="async"&gt;&lt;figcaption&gt;&lt;span class="as-chip"&gt;עסקים&lt;/span&gt;&lt;b&gt;חניון טעינה לעסק&lt;/b&gt;&lt;a class="as-go" href="#"&gt;לקריאת המדריך &lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M19 12H5M11 6l-6 6 6 6"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/figcaption&gt;&lt;/figure&gt;
+    &lt;/div&gt;
+    &lt;button class="as-pp" type="button" hidden&gt;&lt;svg class="i-pa" viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/&gt;&lt;/svg&gt;&lt;svg class="i-pl" viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M8 5l11 7-11 7z"/&gt;&lt;/svg&gt;&lt;span&gt;עצירת ההחלפה&lt;/span&gt;&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const root=document.querySelector("[data-as]");
+  if(!root)return;
+  const its=[...root.querySelectorAll(".as-it")],cards=[...root.querySelectorAll(".as-card")],pp=root.querySelector(".as-pp");
+  const fine=matchMedia("(hover: hover) and (pointer: fine)"),still=matchMedia("(prefers-reduced-motion: reduce)");
+  let cur=0;
+  root.classList.add("is-live");          // בלי JS כל המשפטים פתוחים וכל הכרטיסים גלויים
+  cards.forEach((c,i)=&gt;{c.inert=i!==0;});
+  if(!still.matches)pp.hidden=false;
+  const go=j=&gt;{
+    if(j===cur)return;cur=j;
+    its.forEach((b,i)=&gt;b.setAttribute("aria-pressed",String(i===j)));
+    cards.forEach((c,i)=&gt;{c.classList.toggle("is-on",i===j);c.inert=i!==j;});
+  };
+  its.forEach((b,i)=&gt;{
+    b.addEventListener("click",()=&gt;go(i));
+    b.addEventListener("pointerenter",()=&gt;{if(fine.matches)go(i);});
+    // הסרגל של השורה הפעילה הוא השעון: כשהוא מתמלא עוברים למדריך הבא, וכשהוא עוצר גם ההחלפה עוצרת
+    b.querySelector(".as-bar").addEventListener("animationend",()=&gt;{if(i===cur)go((cur+1)%its.length);});
+  });
+  const hold=on=&gt;root.classList.toggle("is-hold",on);
+  root.addEventListener("pointerenter",()=&gt;hold(true));
+  root.addEventListener("pointerleave",()=&gt;hold(false));
+  root.addEventListener("focusin",()=&gt;hold(true));
+  root.addEventListener("focusout",e=&gt;{if(!root.contains(e.relatedTarget))hold(false);});
+  pp.addEventListener("click",()=&gt;{
+    const on=!root.classList.contains("is-paused");
+    root.classList.toggle("is-paused",on);
+    pp.querySelector("span").textContent=on?"המשך ההחלפה":"עצירת ההחלפה";
+  });
+  // מחוץ למסך השעון עומד, כדי שמי שגולל חזרה ימצא את אותו מדריך
+  if("IntersectionObserver" in window){
+    root.classList.add("is-off");
+    new IntersectionObserver(es=&gt;es.forEach(e=&gt;root.classList.toggle("is-off",!e.isIntersecting)),{threshold:.35}).observe(root);
+  }
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b111 · מדריכים עם זרקור שעובר ביניהם\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b111.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b111.html\n\nמה זה עושה: רשימה של ארבעה מדריכים, ולידה תמונה גדולה של המדריך הנבחר. השורה הנבחרת מקבלת משטח, נפתחת ומראה משפט על המדריך, ובתחתית שלה סרגל דק מתמלא. כשהוא מתמלא, הזרקור עובר לבד למדריך הבא והתמונה מתחלפת. עכבר על הרכיב עוצר את ההחלפה, ויש כפתור לעצור אותה לגמרי.\nמתי משתמשים: מרכז ידע, בלוג, מדריכים, מקרי לקוח או מוצרים מובילים, כשיש שלושה עד חמישה פריטים ותמונה טובה לכל אחד. מתאים לעמוד הבית של עסק שמוכר ידע (חשמלאי, רואה חשבון, סוכן ביטוח). לא לרשימה של עשרה מאמרים ומעלה, שם רשת כרטיסים, ולא כשהתמונות חלשות, כי התמונה הגדולה היא חצי מהרכיב.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית\nבסקשן: שירותים ומוצרים · מאמר ותוכן ארוך · בעיה ויתרונות\nאופי: גם באתר שקט\nתפקיד ומינון: משרת תוכן, פעם אחת בעמוד\nמתי לא: לא ליותר מחמישה פריטים, ולא כשלכל פריט אין תמונה משלו.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B111 · מדריכים עם זרקור שעובר ביניהם */\n.as{display:grid;gap:clamp(28px,4vw,48px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}\n.as-hd{display:grid;gap:12px;max-width:44rem}\n.as-k{margin:0;font-size:15px;font-weight:700;color:var(--accent, #4a3aff)}\n.as-hd h2{margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}\n.as-hd p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.as-body{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);column-gap:clamp(24px,4vw,64px);row-gap:16px;align-items:start}\n.as-list{list-style:none;margin:0;padding:0;display:grid;gap:4px}\n.as-it{position:relative;display:grid;gap:4px;width:100%;padding:16px 20px 20px;border:0;border-radius:20px;background:transparent;color:inherit;font:inherit;text-align:start;cursor:pointer;overflow:hidden;transition:background-color .35s cubic-bezier(.2,.6,.2,1)}\n.as-meta{font-size:13px;font-weight:600;color:var(--muted, #6a6d85);transition:color .35s cubic-bezier(.2,.6,.2,1)}\n.as-it b{font-size:clamp(18px,1.6vw,22px);font-weight:700;line-height:1.3}\n.as-ex{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.6,.2,1)}\n.as-ex>span{min-height:0;overflow:hidden;font-size:15px;line-height:1.55;color:var(--muted, #6a6d85)}\n.as-it[aria-pressed=\"true\"]{background:var(--card, #fff)}\n.as-it[aria-pressed=\"true\"] .as-meta{color:var(--accent, #4a3aff)}\n.as:not(.is-live) .as-ex,.as-it[aria-pressed=\"true\"] .as-ex{grid-template-rows:1fr}\n.as-it:focus-visible,.as-go:focus-visible,.as-pp:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n.as-bar{position:absolute;inset-inline:20px;inset-block-end:8px;display:none;height:3px;border-radius:999px;background:var(--accent, #4a3aff);transform:scaleX(0);transform-origin:100% 50%}\n.as-bar:dir(ltr){transform-origin:0 50%}\n.as.is-live .as-bar{display:block}\n.as.is-live .as-it[aria-pressed=\"true\"] .as-bar{animation:as-fill 6s linear forwards}\n.as.is-hold .as-bar,.as.is-paused .as-bar,.as.is-off .as-bar{animation-play-state:paused}\n@keyframes as-fill{to{transform:scaleX(1)}}\n.as-pv{grid-column:2;grid-row:1/span 2;display:grid;gap:16px}\n.as-card{position:relative;margin:0;overflow:hidden;aspect-ratio:4/5;max-height:620px;border-radius:24px;background:var(--card, #fff)}\n.as-card img{display:block;width:100%;height:100%;object-fit:cover}\n.as-card figcaption{position:absolute;inset-inline:12px;inset-block-end:12px;display:grid;gap:6px;padding:16px 18px;border-radius:16px;background:var(--card, #fff);color:var(--ink, #16182b);box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent)}\n.as-chip{justify-self:start;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent, #4a3aff) 12%,transparent);color:var(--accent, #4a3aff);font-size:13px;font-weight:700}\n.as-card figcaption b{font-size:18px;font-weight:700;line-height:1.3}\n.as-go{justify-self:start;display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--ink, #16182b);font-weight:600;text-decoration:none}\n.as-go svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}\n.as.is-live .as-card{grid-area:1/1;opacity:0;visibility:hidden;transform:scale(1.03);transition:opacity .5s cubic-bezier(.2,.6,.2,1),visibility 0s .5s,transform .9s cubic-bezier(.2,.6,.2,1)}\n.as.is-live .as-card.is-on{opacity:1;visibility:visible;transform:none;transition:opacity .5s cubic-bezier(.2,.6,.2,1),visibility 0s,transform .9s cubic-bezier(.2,.6,.2,1)}\n.as-pp{grid-column:1;grid-row:2;justify-self:start;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border:0;border-radius:999px;background:color-mix(in srgb,var(--ink, #16182b) 6%,transparent);color:var(--ink, #16182b);font:inherit;font-size:14px;font-weight:600;cursor:pointer}\n.as-pp[hidden]{display:none}\n.as-pp svg{width:16px;height:16px;fill:currentColor}\n.as-pp .i-pl,.as.is-paused .as-pp .i-pa{display:none}\n.as.is-paused .as-pp .i-pl{display:block}\n@media(prefers-reduced-motion:reduce){.as.is-live .as-bar{display:none}.as-ex{transition:none}.as.is-live .as-card{transform:none!important;transition-duration:.2s}}\n@media(max-width:860px){.as-body{grid-template-columns:minmax(0,1fr)}.as-pv{grid-column:1;grid-row:auto;order:-1}.as-card{aspect-ratio:16/11}.as-pp{grid-row:auto}}\n\n=== HTML ===\n<div class=\"stage\"><section class=\"as\" data-as>\n  <div class=\"as-hd\">\n    <p class=\"as-k\">מרכז הידע<\/p>\n    <h2>מדריכים לפני שמתקינים עמדת טעינה<\/h2>\n    <p>ארבעה מדריכים קצרים שכתבו החשמלאים שלנו, לפי השאלות שאנחנו שומעים הכי הרבה בטלפון.<\/p>\n  <\/div>\n  <div class=\"as-body\">\n    <ul class=\"as-list\">\n      <li><button class=\"as-it\" type=\"button\" aria-pressed=\"true\" aria-controls=\"as-c0\"><span class=\"as-meta\">בית פרטי · 6 דקות קריאה<\/span><b>איזו עמדת טעינה מתאימה לבית פרטי<\/b><span class=\"as-ex\"><span>ההבדל בין עמדה של 7 קילוואט לעמדה של 11, מה בודקים בלוח החשמל, ומתי כדאי לחכות.<\/span><\/span><span class=\"as-bar\" aria-hidden=\"true\"><\/span><\/button><\/li>\n      <li><button class=\"as-it\" type=\"button\" aria-pressed=\"false\" aria-controls=\"as-c1\"><span class=\"as-meta\">התקנה · 4 דקות קריאה<\/span><b>מה קורה ביום ההתקנה<\/b><span class=\"as-ex\"><span>כמה זמן זה לוקח, מה החשמלאי צריך מכם, ואיך בודקים שהעמדה עובדת לפני שהוא הולך.<\/span><\/span><span class=\"as-bar\" aria-hidden=\"true\"><\/span><\/button><\/li>\n      <li><button class=\"as-it\" type=\"button\" aria-pressed=\"false\" aria-controls=\"as-c2\"><span class=\"as-meta\">בניין משותף · 8 דקות קריאה<\/span><b>עמדת טעינה בבניין משותף<\/b><span class=\"as-ex\"><span>מה צריך לאשר בוועד הבית, איך מחלקים את חשבון החשמל בין הדיירים, ומה להביא לאסיפה.<\/span><\/span><span class=\"as-bar\" aria-hidden=\"true\"><\/span><\/button><\/li>\n      <li><button class=\"as-it\" type=\"button\" aria-pressed=\"false\" aria-controls=\"as-c3\"><span class=\"as-meta\">עסקים · 5 דקות קריאה<\/span><b>חניון טעינה לעסק<\/b><span class=\"as-ex\"><span>כמה עמדות צריך, איך גובים מהעובדים או מהלקוחות, ומה עולה ההקמה.<\/span><\/span><span class=\"as-bar\" aria-hidden=\"true\"><\/span><\/button><\/li>\n    <\/ul>\n    <div class=\"as-pv\">\n      <figure class=\"as-card is-on\" id=\"as-c0\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/wallbox.webp\" width=\"1000\" height=\"1500\" alt=\"עמדת טעינה לבנה מותקנת על קיר\" loading=\"lazy\" decoding=\"async\"><figcaption><span class=\"as-chip\">בית פרטי<\/span><b>איזו עמדת טעינה מתאימה לבית פרטי<\/b><a class=\"as-go\" href=\"#\">לקריאת המדריך <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/figcaption><\/figure>\n      <figure class=\"as-card\" id=\"as-c1\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/install.webp\" width=\"1200\" height=\"1067\" alt=\"חשמלאי מתקין עמדת טעינה על קיר\" loading=\"lazy\" decoding=\"async\"><figcaption><span class=\"as-chip\">התקנה<\/span><b>מה קורה ביום ההתקנה<\/b><a class=\"as-go\" href=\"#\">לקריאת המדריך <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/figcaption><\/figure>\n      <figure class=\"as-card\" id=\"as-c2\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/resident.webp\" width=\"1100\" height=\"1650\" alt=\"אישה עומדת ליד רכב לבן בטעינה\" loading=\"lazy\" decoding=\"async\"><figcaption><span class=\"as-chip\">בניין משותף<\/span><b>עמדת טעינה בבניין משותף<\/b><a class=\"as-go\" href=\"#\">לקריאת המדריך <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/figcaption><\/figure>\n      <figure class=\"as-card\" id=\"as-c3\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/lot-paint.webp\" width=\"1600\" height=\"1067\" alt=\"סימון של חניה לרכב חשמלי על אספלט\" loading=\"lazy\" decoding=\"async\"><figcaption><span class=\"as-chip\">עסקים<\/span><b>חניון טעינה לעסק<\/b><a class=\"as-go\" href=\"#\">לקריאת המדריך <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/figcaption><\/figure>\n    <\/div>\n    <button class=\"as-pp\" type=\"button\" hidden><svg class=\"i-pa\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 5h3.5v14H7zM13.5 5H17v14h-3.5z\"/><\/svg><svg class=\"i-pl\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M8 5l11 7-11 7z\"/><\/svg><span>עצירת ההחלפה<\/span><\/button>\n  <\/div>\n<\/section><\/div>\n\n=== JS ===\n(function(){\n  const root=document.querySelector(\"[data-as]\");\n  if(!root)return;\n  const its=[...root.querySelectorAll(\".as-it\")],cards=[...root.querySelectorAll(\".as-card\")],pp=root.querySelector(\".as-pp\");\n  const fine=matchMedia(\"(hover: hover) and (pointer: fine)\"),still=matchMedia(\"(prefers-reduced-motion: reduce)\");\n  let cur=0;\n  root.classList.add(\"is-live\");          // בלי JS כל המשפטים פתוחים וכל הכרטיסים גלויים\n  cards.forEach((c,i)=>{c.inert=i!==0;});\n  if(!still.matches)pp.hidden=false;\n  const go=j=>{\n    if(j===cur)return;cur=j;\n    its.forEach((b,i)=>b.setAttribute(\"aria-pressed\",String(i===j)));\n    cards.forEach((c,i)=>{c.classList.toggle(\"is-on\",i===j);c.inert=i!==j;});\n  };\n  its.forEach((b,i)=>{\n    b.addEventListener(\"click\",()=>go(i));\n    b.addEventListener(\"pointerenter\",()=>{if(fine.matches)go(i);});\n    // הסרגל של השורה הפעילה הוא השעון: כשהוא מתמלא עוברים למדריך הבא, וכשהוא עוצר גם ההחלפה עוצרת\n    b.querySelector(\".as-bar\").addEventListener(\"animationend\",()=>{if(i===cur)go((cur+1)%its.length);});\n  });\n  const hold=on=>root.classList.toggle(\"is-hold\",on);\n  root.addEventListener(\"pointerenter\",()=>hold(true));\n  root.addEventListener(\"pointerleave\",()=>hold(false));\n  root.addEventListener(\"focusin\",()=>hold(true));\n  root.addEventListener(\"focusout\",e=>{if(!root.contains(e.relatedTarget))hold(false);});\n  pp.addEventListener(\"click\",()=>{\n    const on=!root.classList.contains(\"is-paused\");\n    root.classList.toggle(\"is-paused\",on);\n    pp.querySelector(\"span\").textContent=on?\"המשך ההחלפה\":\"עצירת ההחלפה\";\n  });\n  // מחוץ למסך השעון עומד, כדי שמי שגולל חזרה ימצא את אותו מדריך\n  if(\"IntersectionObserver\" in window){\n    root.classList.add(\"is-off\");\n    new IntersectionObserver(es=>es.forEach(e=>root.classList.toggle(\"is-off\",!e.isIntersecting)),{threshold:.35}).observe(root);\n  }\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: animtd.store (26.10.2026), סרטון של רשימת מאמרים שבה השורה הפעילה גדלה ומקבלת פס הדגשה. נבנה מאפס מהצפייה. במה זה שונה ממה שיש: טאבים רגילים מחליפים תוכן רק בלחיצה. כאן יש שעון גלוי: הסרגל בתחתית השורה הפעילה הוא אנימציית CSS של שש שניות, וה-JS עובר לפריט הבא רק באירוע `animationend` שלו. לכן עצירה היא פשוט `animation-play-state:paused`, והסרגל והזמן לא יכולים להתפצל. עוצר כש: העכבר על הרכיב, הפוקוס בתוכו (מי שקורא בטאב לא יאבד את המקום), הרכיב מחוץ למסך (IntersectionObserver), או שלחצו «עצירת ההחלפה». בחירה: לחיצה על שורה, וריחוף בעכבר; השורה היא כפתור עם `aria-pressed`, ומי שלא רואה את התמונה מקבל את כל המידע מהשורה עצמה. התמונות בערימה אחת, והפעילה מתחלפת בעמעום והקטנה קלה; הכרטיסים הלא פעילים מקבלים `inert`, כך שהקישור «לקריאת המדריך» הוא תמיד של המדריך הנבחר. בלי JS כל המשפטים פתוחים וכל הכרטיסים זה מתחת לזה. הפחתת תנועה: אין החלפה אוטומטית, אין סרגל ואין כפתור עצירה; הבחירה ידנית. בטלפון התמונה מעל הרשימה, ברוחב מלא.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B111 · מדריכים עם זרקור שעובר ביניהם */\n.as{display:grid;gap:clamp(28px,4vw,48px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}\n.as-hd{display:grid;gap:12px;max-width:44rem}\n.as-k{margin:0;font-size:15px;font-weight:700;color:var(--accent, #4a3aff)}\n.as-hd h2{margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}\n.as-hd p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.as-body{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);column-gap:clamp(24px,4vw,64px);row-gap:16px;align-items:start}\n.as-list{list-style:none;margin:0;padding:0;display:grid;gap:4px}\n.as-it{position:relative;display:grid;gap:4px;width:100%;padding:16px 20px 20px;border:0;border-radius:20px;background:transparent;color:inherit;font:inherit;text-align:start;cursor:pointer;overflow:hidden;transition:background-color .35s cubic-bezier(.2,.6,.2,1)}\n.as-meta{font-size:13px;font-weight:600;color:var(--muted, #6a6d85);transition:color .35s cubic-bezier(.2,.6,.2,1)}\n.as-it b{font-size:clamp(18px,1.6vw,22px);font-weight:700;line-height:1.3}\n.as-ex{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.6,.2,1)}\n.as-ex>span{min-height:0;overflow:hidden;font-size:15px;line-height:1.55;color:var(--muted, #6a6d85)}\n.as-it[aria-pressed=\"true\"]{background:var(--card, #fff)}\n.as-it[aria-pressed=\"true\"] .as-meta{color:var(--accent, #4a3aff)}\n.as:not(.is-live) .as-ex,.as-it[aria-pressed=\"true\"] .as-ex{grid-template-rows:1fr}\n.as-it:focus-visible,.as-go:focus-visible,.as-pp:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n.as-bar{position:absolute;inset-inline:20px;inset-block-end:8px;display:none;height:3px;border-radius:999px;background:var(--accent, #4a3aff);transform:scaleX(0);transform-origin:100% 50%}\n.as-bar:dir(ltr){transform-origin:0 50%}\n.as.is-live .as-bar{display:block}\n.as.is-live .as-it[aria-pressed=\"true\"] .as-bar{animation:as-fill 6s linear forwards}\n.as.is-hold .as-bar,.as.is-paused .as-bar,.as.is-off .as-bar{animation-play-state:paused}\n@keyframes as-fill{to{transform:scaleX(1)}}\n.as-pv{grid-column:2;grid-row:1/span 2;display:grid;gap:16px}\n.as-card{position:relative;margin:0;overflow:hidden;aspect-ratio:4/5;max-height:620px;border-radius:24px;background:var(--card, #fff)}\n.as-card img{display:block;width:100%;height:100%;object-fit:cover}\n.as-card figcaption{position:absolute;inset-inline:12px;inset-block-end:12px;display:grid;gap:6px;padding:16px 18px;border-radius:16px;background:var(--card, #fff);color:var(--ink, #16182b);box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent)}\n.as-chip{justify-self:start;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent, #4a3aff) 12%,transparent);color:var(--accent, #4a3aff);font-size:13px;font-weight:700}\n.as-card figcaption b{font-size:18px;font-weight:700;line-height:1.3}\n.as-go{justify-self:start;display:inline-flex;align-items:center;gap:8px;min-height:44px;color:var(--ink, #16182b);font-weight:600;text-decoration:none}\n.as-go svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}\n.as.is-live .as-card{grid-area:1/1;opacity:0;visibility:hidden;transform:scale(1.03);transition:opacity .5s cubic-bezier(.2,.6,.2,1),visibility 0s .5s,transform .9s cubic-bezier(.2,.6,.2,1)}\n.as.is-live .as-card.is-on{opacity:1;visibility:visible;transform:none;transition:opacity .5s cubic-bezier(.2,.6,.2,1),visibility 0s,transform .9s cubic-bezier(.2,.6,.2,1)}\n.as-pp{grid-column:1;grid-row:2;justify-self:start;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border:0;border-radius:999px;background:color-mix(in srgb,var(--ink, #16182b) 6%,transparent);color:var(--ink, #16182b);font:inherit;font-size:14px;font-weight:600;cursor:pointer}\n.as-pp[hidden]{display:none}\n.as-pp svg{width:16px;height:16px;fill:currentColor}\n.as-pp .i-pl,.as.is-paused .as-pp .i-pa{display:none}\n.as.is-paused .as-pp .i-pl{display:block}\n@media(prefers-reduced-motion:reduce){.as.is-live .as-bar{display:none}.as-ex{transition:none}.as.is-live .as-card{transform:none!important;transition-duration:.2s}}\n@media(max-width:860px){.as-body{grid-template-columns:minmax(0,1fr)}.as-pv{grid-column:1;grid-row:auto;order:-1}.as-card{aspect-ratio:16/11}.as-pp{grid-row:auto}}","html":"<div class=\"stage\"><section class=\"as\" data-as>\n  <div class=\"as-hd\">\n    <p class=\"as-k\">מרכז הידע<\/p>\n    <h2>מדריכים לפני שמתקינים עמדת טעינה<\/h2>\n    <p>ארבעה מדריכים קצרים שכתבו החשמלאים שלנו, לפי השאלות שאנחנו שומעים הכי הרבה בטלפון.<\/p>\n  <\/div>\n  <div class=\"as-body\">\n    <ul class=\"as-list\">\n      <li><button class=\"as-it\" type=\"button\" aria-pressed=\"true\" aria-controls=\"as-c0\"><span class=\"as-meta\">בית פרטי · 6 דקות קריאה<\/span><b>איזו עמדת טעינה מתאימה לבית פרטי<\/b><span class=\"as-ex\"><span>ההבדל בין עמדה של 7 קילוואט לעמדה של 11, מה בודקים בלוח החשמל, ומתי כדאי לחכות.<\/span><\/span><span class=\"as-bar\" aria-hidden=\"true\"><\/span><\/button><\/li>\n      <li><button class=\"as-it\" type=\"button\" aria-pressed=\"false\" aria-controls=\"as-c1\"><span class=\"as-meta\">התקנה · 4 דקות קריאה<\/span><b>מה קורה ביום ההתקנה<\/b><span class=\"as-ex\"><span>כמה זמן זה לוקח, מה החשמלאי צריך מכם, ואיך בודקים שהעמדה עובדת לפני שהוא הולך.<\/span><\/span><span class=\"as-bar\" aria-hidden=\"true\"><\/span><\/button><\/li>\n      <li><button class=\"as-it\" type=\"button\" aria-pressed=\"false\" aria-controls=\"as-c2\"><span class=\"as-meta\">בניין משותף · 8 דקות קריאה<\/span><b>עמדת טעינה בבניין משותף<\/b><span class=\"as-ex\"><span>מה צריך לאשר בוועד הבית, איך מחלקים את חשבון החשמל בין הדיירים, ומה להביא לאסיפה.<\/span><\/span><span class=\"as-bar\" aria-hidden=\"true\"><\/span><\/button><\/li>\n      <li><button class=\"as-it\" type=\"button\" aria-pressed=\"false\" aria-controls=\"as-c3\"><span class=\"as-meta\">עסקים · 5 דקות קריאה<\/span><b>חניון טעינה לעסק<\/b><span class=\"as-ex\"><span>כמה עמדות צריך, איך גובים מהעובדים או מהלקוחות, ומה עולה ההקמה.<\/span><\/span><span class=\"as-bar\" aria-hidden=\"true\"><\/span><\/button><\/li>\n    <\/ul>\n    <div class=\"as-pv\">\n      <figure class=\"as-card is-on\" id=\"as-c0\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/wallbox.webp\" width=\"1000\" height=\"1500\" alt=\"עמדת טעינה לבנה מותקנת על קיר\" loading=\"lazy\" decoding=\"async\"><figcaption><span class=\"as-chip\">בית פרטי<\/span><b>איזו עמדת טעינה מתאימה לבית פרטי<\/b><a class=\"as-go\" href=\"#\">לקריאת המדריך <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/figcaption><\/figure>\n      <figure class=\"as-card\" id=\"as-c1\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/install.webp\" width=\"1200\" height=\"1067\" alt=\"חשמלאי מתקין עמדת טעינה על קיר\" loading=\"lazy\" decoding=\"async\"><figcaption><span class=\"as-chip\">התקנה<\/span><b>מה קורה ביום ההתקנה<\/b><a class=\"as-go\" href=\"#\">לקריאת המדריך <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/figcaption><\/figure>\n      <figure class=\"as-card\" id=\"as-c2\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/resident.webp\" width=\"1100\" height=\"1650\" alt=\"אישה עומדת ליד רכב לבן בטעינה\" loading=\"lazy\" decoding=\"async\"><figcaption><span class=\"as-chip\">בניין משותף<\/span><b>עמדת טעינה בבניין משותף<\/b><a class=\"as-go\" href=\"#\">לקריאת המדריך <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/figcaption><\/figure>\n      <figure class=\"as-card\" id=\"as-c3\"><img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s10/lot-paint.webp\" width=\"1600\" height=\"1067\" alt=\"סימון של חניה לרכב חשמלי על אספלט\" loading=\"lazy\" decoding=\"async\"><figcaption><span class=\"as-chip\">עסקים<\/span><b>חניון טעינה לעסק<\/b><a class=\"as-go\" href=\"#\">לקריאת המדריך <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/figcaption><\/figure>\n    <\/div>\n    <button class=\"as-pp\" type=\"button\" hidden><svg class=\"i-pa\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M7 5h3.5v14H7zM13.5 5H17v14h-3.5z\"/><\/svg><svg class=\"i-pl\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M8 5l11 7-11 7z\"/><\/svg><span>עצירת ההחלפה<\/span><\/button>\n  <\/div>\n<\/section><\/div>","js":"(function(){\n  const root=document.querySelector(\"[data-as]\");\n  if(!root)return;\n  const its=[...root.querySelectorAll(\".as-it\")],cards=[...root.querySelectorAll(\".as-card\")],pp=root.querySelector(\".as-pp\");\n  const fine=matchMedia(\"(hover: hover) and (pointer: fine)\"),still=matchMedia(\"(prefers-reduced-motion: reduce)\");\n  let cur=0;\n  root.classList.add(\"is-live\");          // בלי JS כל המשפטים פתוחים וכל הכרטיסים גלויים\n  cards.forEach((c,i)=>{c.inert=i!==0;});\n  if(!still.matches)pp.hidden=false;\n  const go=j=>{\n    if(j===cur)return;cur=j;\n    its.forEach((b,i)=>b.setAttribute(\"aria-pressed\",String(i===j)));\n    cards.forEach((c,i)=>{c.classList.toggle(\"is-on\",i===j);c.inert=i!==j;});\n  };\n  its.forEach((b,i)=>{\n    b.addEventListener(\"click\",()=>go(i));\n    b.addEventListener(\"pointerenter\",()=>{if(fine.matches)go(i);});\n    // הסרגל של השורה הפעילה הוא השעון: כשהוא מתמלא עוברים למדריך הבא, וכשהוא עוצר גם ההחלפה עוצרת\n    b.querySelector(\".as-bar\").addEventListener(\"animationend\",()=>{if(i===cur)go((cur+1)%its.length);});\n  });\n  const hold=on=>root.classList.toggle(\"is-hold\",on);\n  root.addEventListener(\"pointerenter\",()=>hold(true));\n  root.addEventListener(\"pointerleave\",()=>hold(false));\n  root.addEventListener(\"focusin\",()=>hold(true));\n  root.addEventListener(\"focusout\",e=>{if(!root.contains(e.relatedTarget))hold(false);});\n  pp.addEventListener(\"click\",()=>{\n    const on=!root.classList.contains(\"is-paused\");\n    root.classList.toggle(\"is-paused\",on);\n    pp.querySelector(\"span\").textContent=on?\"המשך ההחלפה\":\"עצירת ההחלפה\";\n  });\n  // מחוץ למסך השעון עומד, כדי שמי שגולל חזרה ימצא את אותו מדריך\n  if(\"IntersectionObserver\" in window){\n    root.classList.add(\"is-off\");\n    new IntersectionObserver(es=>es.forEach(e=>root.classList.toggle(\"is-off\",!e.isIntersecting)),{threshold:.35}).observe(root);\n  }\n})();","scripts":"","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="b110.html" rel="prev"><small>→ הקודם</small><b>מניפת תמונות שמתחלפת עם הרשימה</b></a><a href="b112.html" rel="next"><small>הבא ←</small><b>טבעת תמונות שמסתובבת עם ההמלצות</b></a></nav>
+
+<script src="../assets/baseline.js?v=3b032095"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · מדריכים עם זרקור שעובר ביניהם").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+(function(){
+  const root=document.querySelector("[data-as]");
+  if(!root)return;
+  const its=[...root.querySelectorAll(".as-it")],cards=[...root.querySelectorAll(".as-card")],pp=root.querySelector(".as-pp");
+  const fine=matchMedia("(hover: hover) and (pointer: fine)"),still=matchMedia("(prefers-reduced-motion: reduce)");
+  let cur=0;
+  root.classList.add("is-live");          // בלי JS כל המשפטים פתוחים וכל הכרטיסים גלויים
+  cards.forEach((c,i)=>{c.inert=i!==0;});
+  if(!still.matches)pp.hidden=false;
+  const go=j=>{
+    if(j===cur)return;cur=j;
+    its.forEach((b,i)=>b.setAttribute("aria-pressed",String(i===j)));
+    cards.forEach((c,i)=>{c.classList.toggle("is-on",i===j);c.inert=i!==j;});
+  };
+  its.forEach((b,i)=>{
+    b.addEventListener("click",()=>go(i));
+    b.addEventListener("pointerenter",()=>{if(fine.matches)go(i);});
+    // הסרגל של השורה הפעילה הוא השעון: כשהוא מתמלא עוברים למדריך הבא, וכשהוא עוצר גם ההחלפה עוצרת
+    b.querySelector(".as-bar").addEventListener("animationend",()=>{if(i===cur)go((cur+1)%its.length);});
+  });
+  const hold=on=>root.classList.toggle("is-hold",on);
+  root.addEventListener("pointerenter",()=>hold(true));
+  root.addEventListener("pointerleave",()=>hold(false));
+  root.addEventListener("focusin",()=>hold(true));
+  root.addEventListener("focusout",e=>{if(!root.contains(e.relatedTarget))hold(false);});
+  pp.addEventListener("click",()=>{
+    const on=!root.classList.contains("is-paused");
+    root.classList.toggle("is-paused",on);
+    pp.querySelector("span").textContent=on?"המשך ההחלפה":"עצירת ההחלפה";
+  });
+  // מחוץ למסך השעון עומד, כדי שמי שגולל חזרה ימצא את אותו מדריך
+  if("IntersectionObserver" in window){
+    root.classList.add("is-off");
+    new IntersectionObserver(es=>es.forEach(e=>root.classList.toggle("is-off",!e.isIntersecting)),{threshold:.35}).observe(root);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B115 · קווי מסלול שנמתחים על תמונה | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.rl{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,5vw,72px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg);color:var(--ink)}
+.rl-txt{display:grid;gap:16px;justify-items:start}
+.rl-k{margin:0;font-size:15px;font-weight:700;color:var(--accent)}
+.rl-txt h2{margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.rl-txt>p:not(.rl-k){margin:0;max-width:40ch;color:var(--muted);font-size:var(--fs-body);line-height:1.6}
+.rl-list{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:4px;width:100%}
+.rl-it{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2px 16px;width:100%;padding:14px 18px;border:0;border-radius:16px;background:transparent;color:inherit;font:inherit;text-align:start;cursor:pointer;transition:background-color .3s cubic-bezier(.2,.6,.2,1)}
+.rl-it b{font-size:18px;font-weight:700}
+.rl-time{font-size:14px;font-weight:600;color:var(--muted);transition:color .3s cubic-bezier(.2,.6,.2,1)}
+.rl-price{grid-column:1/-1;font-size:15px;color:var(--muted)}
+.rl-it[aria-pressed="true"]{background:var(--card)}
+.rl-it[aria-pressed="true"] .rl-time{color:var(--accent)}
+.rl-it:focus-visible,.rl-cta:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.rl-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 28px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:600;text-decoration:none}
+.rl-map{position:relative;isolation:isolate;overflow:hidden;aspect-ratio:3/2;border-radius:24px;background:var(--card)}
+.rl-map>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rl-map::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,color-mix(in srgb,var(--ink) 40%,transparent),transparent 65%);pointer-events:none}
+.rl-map svg{position:absolute;inset:0;z-index:1;width:100%;height:100%;overflow:visible}
+.rl-path{fill:none;stroke:var(--bg);stroke-width:2.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0;filter:drop-shadow(0 1px 2px color-mix(in srgb,var(--ink) 45%,transparent));transition:stroke-dashoffset 1.3s cubic-bezier(.2,.6,.2,1) var(--d,0s),opacity .4s cubic-bezier(.2,.6,.2,1),stroke-width .4s cubic-bezier(.2,.6,.2,1)}
+.rl.is-live:not(.is-in) .rl-path{stroke-dashoffset:1}
+.rl.has-sel .rl-path:not(.is-on){opacity:.35}
+.rl-path.is-on{stroke-width:3.6}
+.rl-pin{position:absolute;z-index:2;width:0;height:0;transition:opacity .5s cubic-bezier(.2,.6,.2,1) var(--d,0s)}
+.rl-pin::before{content:"";position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;background:var(--bg);box-shadow:0 0 0 6px color-mix(in srgb,var(--bg) 30%,transparent)}
+.rl.is-live:not(.is-in) .rl-pin{opacity:0}
+.rl-tag{position:absolute;left:0;bottom:16px;display:grid;justify-items:center;padding:6px 12px;border-radius:12px;background:var(--card);color:var(--ink);white-space:nowrap;box-shadow:0 1px 2px color-mix(in srgb,var(--ink) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink) 5%,transparent);transform:translateX(-50%);transition:background-color .35s cubic-bezier(.2,.6,.2,1),color .35s cubic-bezier(.2,.6,.2,1)}
+.rl-pin.is-o .rl-tag{bottom:auto;top:16px}
+.rl-tag b{font-size:14px;font-weight:700}
+.rl-tag span{font-size:12px;color:var(--muted)}
+.rl-pin.is-on .rl-tag{background:var(--ink);color:var(--bg)}
+.rl-pin.is-on .rl-tag span{color:inherit;opacity:.75}
+.rl-dot{position:absolute;left:0;top:0;z-index:3;width:16px;height:16px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--bg) 70%,transparent);opacity:0;pointer-events:none;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}
+.rl.has-sel .rl-dot{opacity:1}
+@media(prefers-reduced-motion:reduce){.rl-path,.rl-pin{transition:none}}
+@media(max-width:860px){.rl{grid-template-columns:minmax(0,1fr)}.rl-map{order:-1}}
+@media(max-width:520px){.rl-tag span{display:none}.rl-tag{padding:4px 10px}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=behavior">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="b114.html" rel="prev" title="הקודם: מספר ענק שסופר ועוגה שמתמלאת">→<span class="sr-only">הקודם</span></a><span class="vpn-n">100/100</span><a href="b01.html" rel="next" title="הבא: מרקי (רצועה נעה)">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">B115</span> · קווי מסלול שנמתחים על תמונה</h1>
+  <span class="vchip cat-behavior">התנהגויות</span>
+  <span class="vchip">SVG · JS · requestAnimationFrame</span>
+  <span class="vchip use">תמונות וגלריות</span><span class="vchip use">ניווט ומבנה</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b115"><code>MV:b115</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="b115">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>תמונה גדולה של שקיעה מעל הים, ועליה שלוש קשתות שנמתחות מתל אביב לשלושה יעדים כשהכרטיס נכנס למסך. בקצה כל קשת נקודה ותווית עם שם היעד וזמן הטיסה. לצד התמונה רשימת היעדים: בחירה ביעד מבליטה את הקשת שלו, מעמעמת את האחרות, ונקודה טסה לאורכה מהמוצא ליעד.</p>
+  <p class="when"><b>מתי משתמשים:</b> סוכנות נסיעות, חברת שילוח או הובלות, רשת סניפים, שירות שמגיע לכמה אזורים, או כל עסק שהסיפור שלו הוא "מכאן לשם". שלושה עד חמישה יעדים. לא כמפה אמיתית לניווט (הקשתות הן איור, לא גאוגרפיה), ולא כשיש עשרות יעדים, שם רשימה עם חיפוש.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>דף נחיתה · וואן-פייג'ר · אתר תדמית</dd></div><div><dt>בסקשן</dt><dd>שירותים ומוצרים · עבודות וגלריה</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא ליותר מחמישה יעדים, ולא כשהמיקום לא חלק מההחלטה של הלקוח.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="b115"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="stage"><section class="rl" data-rl>
+  <div class="rl-txt">
+    <p class="rl-k">מסעות כחול, סוכנות נסיעות</p>
+    <h2>שלושה יעדים, עד שעתיים טיסה</h2>
+    <p>בחרו יעד ותראו כמה זמן לוקחת הטיסה ומה כולל המחיר. את כל השאר, מהמלון ועד ההסעה משדה התעופה, אנחנו מסדרים.</p>
+    <ul class="rl-list">
+      <li><button class="rl-it" type="button" aria-pressed="true"><b>לרנקה</b><span class="rl-time">45 דקות טיסה</span><span class="rl-price">סוף שבוע ליד הים, החל מ-1,690 ₪ לזוג</span></button></li>
+      <li><button class="rl-it" type="button" aria-pressed="false"><b>רודוס</b><span class="rl-time">שעה ו-20 דקות טיסה</span><span class="rl-price">ארבעה לילות בעיר העתיקה, החל מ-2,390 ₪ לזוג</span></button></li>
+      <li><button class="rl-it" type="button" aria-pressed="false"><b>אתונה</b><span class="rl-time">שעתיים טיסה</span><span class="rl-price">חמישה לילות ושייט לאיים, החל מ-3,290 ₪ לזוג</span></button></li>
+    </ul>
+    <a class="rl-cta" href="#">לתכנן חופשה</a>
+  </div>
+  <div class="rl-map">
+    <img src="../assets/media/real/s08/hero.webp" width="2560" height="1707" alt="שמש שוקעת מעל הים" loading="lazy" decoding="async">
+    <svg viewBox="0 0 600 400" aria-hidden="true">
+      <path class="rl-path" style="--d:0.0s" pathLength="1" data-q="515 330 518 261 465 215" d="M515 330 Q518 261 465 215"/>
+      <path class="rl-path" style="--d:0.2s" pathLength="1" data-q="515 330 438 182 275 150" d="M515 330 Q438 182 275 150"/>
+      <path class="rl-path" style="--d:0.4s" pathLength="1" data-q="515 330 368 118 110 100" d="M515 330 Q368 118 110 100"/>
+    </svg>
+    <span class="rl-pin is-o" style="left:85.83%;top:82.50%" aria-hidden="true"><span class="rl-tag"><b>תל אביב</b></span></span>
+    <span class="rl-pin" style="left:77.50%;top:53.75%;--d:1.0s" aria-hidden="true"><span class="rl-tag"><b>לרנקה</b><span>45 דקות טיסה</span></span></span>
+    <span class="rl-pin" style="left:45.83%;top:37.50%;--d:1.2s" aria-hidden="true"><span class="rl-tag"><b>רודוס</b><span>שעה ו-20 דקות טיסה</span></span></span>
+    <span class="rl-pin" style="left:18.33%;top:25.00%;--d:1.4s" aria-hidden="true"><span class="rl-tag"><b>אתונה</b><span>שעתיים טיסה</span></span></span>
+    <span class="rl-dot" aria-hidden="true"></span>
+  </div>
+</section></div>
+
+<div class="demo-note"><b>שחזור.</b> השראה: animtd.store (26.10.2026), סרטון של כרטיס תמונה שעליו נמתחים קווי מסלול עם תוויות יעד. נבנה מאפס מהצפייה. <b>במה זה שונה ממה שיש:</b> g172 הוא גלובוס נקודות בקנבס עם קשתות. כאן הקשתות יושבות על תמונה אמיתית, והרשימה לידן היא הממשק: בחירה ביעד מבליטה את הקשת ושולחת עליה נקודה. <b>המפה</b> היא SVG בגודל 600 על 400, והכרטיס נעול על יחס 3:2 בכל רוחב, כך שהתוויות (HTML במיקום באחוזים) יושבות בדיוק על קצות הקשתות. הקשת של כל מסלול היא עקומה ריבועית שנקודת הבקרה שלה מחושבת מהאמצע, בניצב כלפי מעלה, ב-24% מאורך המסלול. <b>המתיחה:</b> <code>pathLength=1</code> ו-<code>stroke-dashoffset</code> מ-1 ל-0, בדירוג של 0.2 שנייה בין הקשתות; התוויות נכנסות אחריהן. <b>הנקודה</b> היא אלמנט HTML שה-JS מזיז ב-<code>transform</code> לפי נוסחת העקומה (בלי <code>getPointAtLength</code>, שמתנהג שונה בין דפדפנים כש-<code>pathLength</code> מוגדר), ב-1.5 שניות עם האצה והאטה, כמו המראה ונחיתה. <b>הבחירה:</b> כפתורים עם <code>aria-pressed</code>; בעכבר גם ריחוף. אחרי שהקשתות נמתחו, היעד הראשון נבחר לבד פעם אחת. <b>ניגודיות:</b> הקשתות בצבע הרקע עם צל רך, והתוויות על כרטיס אטום, כך שהן קריאות על כל תמונה. <b>בלי JS</b> הקשתות והתוויות מוצגות, בלי בחירה. <b>הפחתת תנועה:</b> בלי מתיחה ובלי טיסה; הנקודה קופצת ליעד. <b>בטלפון</b> התמונה מעל הרשימה, וזמני הטיסה יורדים מהתוויות (הם נשארים ברשימה).</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b115.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B115 · קווי מסלול שנמתחים על תמונה */
+.rl{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,5vw,72px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}
+.rl-txt{display:grid;gap:16px;justify-items:start}
+.rl-k{margin:0;font-size:15px;font-weight:700;color:var(--accent, #4a3aff)}
+.rl-txt h2{margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.rl-txt&gt;p:not(.rl-k){margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.rl-list{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:4px;width:100%}
+.rl-it{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2px 16px;width:100%;padding:14px 18px;border:0;border-radius:16px;background:transparent;color:inherit;font:inherit;text-align:start;cursor:pointer;transition:background-color .3s cubic-bezier(.2,.6,.2,1)}
+.rl-it b{font-size:18px;font-weight:700}
+.rl-time{font-size:14px;font-weight:600;color:var(--muted, #6a6d85);transition:color .3s cubic-bezier(.2,.6,.2,1)}
+.rl-price{grid-column:1/-1;font-size:15px;color:var(--muted, #6a6d85)}
+.rl-it[aria-pressed="true"]{background:var(--card, #fff)}
+.rl-it[aria-pressed="true"] .rl-time{color:var(--accent, #4a3aff)}
+.rl-it:focus-visible,.rl-cta:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+.rl-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 28px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-weight:600;text-decoration:none}
+.rl-map{position:relative;isolation:isolate;overflow:hidden;aspect-ratio:3/2;border-radius:24px;background:var(--card, #fff)}
+.rl-map&gt;img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rl-map::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,color-mix(in srgb,var(--ink, #16182b) 40%,transparent),transparent 65%);pointer-events:none}
+.rl-map svg{position:absolute;inset:0;z-index:1;width:100%;height:100%;overflow:visible}
+.rl-path{fill:none;stroke:var(--bg, #f7f7fa);stroke-width:2.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0;filter:drop-shadow(0 1px 2px color-mix(in srgb,var(--ink, #16182b) 45%,transparent));transition:stroke-dashoffset 1.3s cubic-bezier(.2,.6,.2,1) var(--d,0s),opacity .4s cubic-bezier(.2,.6,.2,1),stroke-width .4s cubic-bezier(.2,.6,.2,1)}
+.rl.is-live:not(.is-in) .rl-path{stroke-dashoffset:1}
+.rl.has-sel .rl-path:not(.is-on){opacity:.35}
+.rl-path.is-on{stroke-width:3.6}
+.rl-pin{position:absolute;z-index:2;width:0;height:0;transition:opacity .5s cubic-bezier(.2,.6,.2,1) var(--d,0s)}
+.rl-pin::before{content:"";position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;background:var(--bg, #f7f7fa);box-shadow:0 0 0 6px color-mix(in srgb,var(--bg, #f7f7fa) 30%,transparent)}
+.rl.is-live:not(.is-in) .rl-pin{opacity:0}
+.rl-tag{position:absolute;left:0;bottom:16px;display:grid;justify-items:center;padding:6px 12px;border-radius:12px;background:var(--card, #fff);color:var(--ink, #16182b);white-space:nowrap;box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent);transform:translateX(-50%);transition:background-color .35s cubic-bezier(.2,.6,.2,1),color .35s cubic-bezier(.2,.6,.2,1)}
+.rl-pin.is-o .rl-tag{bottom:auto;top:16px}
+.rl-tag b{font-size:14px;font-weight:700}
+.rl-tag span{font-size:12px;color:var(--muted, #6a6d85)}
+.rl-pin.is-on .rl-tag{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+.rl-pin.is-on .rl-tag span{color:inherit;opacity:.75}
+.rl-dot{position:absolute;left:0;top:0;z-index:3;width:16px;height:16px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 4px color-mix(in srgb,var(--bg, #f7f7fa) 70%,transparent);opacity:0;pointer-events:none;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}
+.rl.has-sel .rl-dot{opacity:1}
+@media(prefers-reduced-motion:reduce){.rl-path,.rl-pin{transition:none}}
+@media(max-width:860px){.rl{grid-template-columns:minmax(0,1fr)}.rl-map{order:-1}}
+@media(max-width:520px){.rl-tag span{display:none}.rl-tag{padding:4px 10px}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;section class="rl" data-rl&gt;
+  &lt;div class="rl-txt"&gt;
+    &lt;p class="rl-k"&gt;מסעות כחול, סוכנות נסיעות&lt;/p&gt;
+    &lt;h2&gt;שלושה יעדים, עד שעתיים טיסה&lt;/h2&gt;
+    &lt;p&gt;בחרו יעד ותראו כמה זמן לוקחת הטיסה ומה כולל המחיר. את כל השאר, מהמלון ועד ההסעה משדה התעופה, אנחנו מסדרים.&lt;/p&gt;
+    &lt;ul class="rl-list"&gt;
+      &lt;li&gt;&lt;button class="rl-it" type="button" aria-pressed="true"&gt;&lt;b&gt;לרנקה&lt;/b&gt;&lt;span class="rl-time"&gt;45 דקות טיסה&lt;/span&gt;&lt;span class="rl-price"&gt;סוף שבוע ליד הים, החל מ-1,690 ₪ לזוג&lt;/span&gt;&lt;/button&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;button class="rl-it" type="button" aria-pressed="false"&gt;&lt;b&gt;רודוס&lt;/b&gt;&lt;span class="rl-time"&gt;שעה ו-20 דקות טיסה&lt;/span&gt;&lt;span class="rl-price"&gt;ארבעה לילות בעיר העתיקה, החל מ-2,390 ₪ לזוג&lt;/span&gt;&lt;/button&gt;&lt;/li&gt;
+      &lt;li&gt;&lt;button class="rl-it" type="button" aria-pressed="false"&gt;&lt;b&gt;אתונה&lt;/b&gt;&lt;span class="rl-time"&gt;שעתיים טיסה&lt;/span&gt;&lt;span class="rl-price"&gt;חמישה לילות ושייט לאיים, החל מ-3,290 ₪ לזוג&lt;/span&gt;&lt;/button&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;a class="rl-cta" href="#"&gt;לתכנן חופשה&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;div class="rl-map"&gt;
+    &lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s08/hero.webp" width="2560" height="1707" alt="שמש שוקעת מעל הים" loading="lazy" decoding="async"&gt;
+    &lt;svg viewBox="0 0 600 400" aria-hidden="true"&gt;
+      &lt;path class="rl-path" style="--d:0.0s" pathLength="1" data-q="515 330 518 261 465 215" d="M515 330 Q518 261 465 215"/&gt;
+      &lt;path class="rl-path" style="--d:0.2s" pathLength="1" data-q="515 330 438 182 275 150" d="M515 330 Q438 182 275 150"/&gt;
+      &lt;path class="rl-path" style="--d:0.4s" pathLength="1" data-q="515 330 368 118 110 100" d="M515 330 Q368 118 110 100"/&gt;
+    &lt;/svg&gt;
+    &lt;span class="rl-pin is-o" style="left:85.83%;top:82.50%" aria-hidden="true"&gt;&lt;span class="rl-tag"&gt;&lt;b&gt;תל אביב&lt;/b&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="rl-pin" style="left:77.50%;top:53.75%;--d:1.0s" aria-hidden="true"&gt;&lt;span class="rl-tag"&gt;&lt;b&gt;לרנקה&lt;/b&gt;&lt;span&gt;45 דקות טיסה&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="rl-pin" style="left:45.83%;top:37.50%;--d:1.2s" aria-hidden="true"&gt;&lt;span class="rl-tag"&gt;&lt;b&gt;רודוס&lt;/b&gt;&lt;span&gt;שעה ו-20 דקות טיסה&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="rl-pin" style="left:18.33%;top:25.00%;--d:1.4s" aria-hidden="true"&gt;&lt;span class="rl-tag"&gt;&lt;b&gt;אתונה&lt;/b&gt;&lt;span&gt;שעתיים טיסה&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+    &lt;span class="rl-dot" aria-hidden="true"&gt;&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const root=document.querySelector("[data-rl]");
+  if(!root)return;
+  const map=root.querySelector(".rl-map"),dot=root.querySelector(".rl-dot");
+  const paths=[...root.querySelectorAll(".rl-path")],pins=[...root.querySelectorAll(".rl-pin:not(.is-o)")],its=[...root.querySelectorAll(".rl-it")];
+  const still=matchMedia("(prefers-reduced-motion: reduce)"),fine=matchMedia("(hover: hover) and (pointer: fine)");
+  const Q=paths.map(p=&gt;p.dataset.q.split(" ").map(Number));
+  let cur=-1,raf=0,last=null;
+  root.classList.add("is-live");          // בלי JS הקשתות והתוויות כבר מצוירות
+  its.forEach(b=&gt;b.setAttribute("aria-pressed","false"));
+  // נקודה על העקומה הריבועית, ביחידות המפה (600x400), מומרת לפיקסלים של הכרטיס
+  const at=(q,t)=&gt;{const u=1-t;return[u*u*q[0]+2*u*t*q[2]+t*t*q[4],u*u*q[1]+2*u*t*q[3]+t*t*q[5]];};
+  const place=xy=&gt;{last=xy;dot.style.transform="translate("+(xy[0]/600*map.clientWidth)+"px,"+(xy[1]/400*map.clientHeight)+"px) translate(-50%,-50%)";};
+  const fly=i=&gt;{
+    cancelAnimationFrame(raf);
+    if(still.matches)return place(at(Q[i],1));
+    const t0=performance.now(),D=1500;
+    const tick=now=&gt;{
+      const t=Math.min(1,(now-t0)/D),k=t&lt;.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;   // מאיץ בהמראה ומאט בנחיתה
+      place(at(Q[i],k));
+      if(t&lt;1)raf=requestAnimationFrame(tick);
+    };
+    raf=requestAnimationFrame(tick);
+  };
+  const go=i=&gt;{
+    if(i===cur)return;cur=i;
+    root.classList.add("has-sel");
+    [paths,pins].forEach(g=&gt;g.forEach((el,k)=&gt;el.classList.toggle("is-on",k===i)));
+    its.forEach((b,k)=&gt;b.setAttribute("aria-pressed",String(k===i)));
+    fly(i);
+  };
+  its.forEach((b,i)=&gt;{
+    b.addEventListener("click",()=&gt;go(i));
+    b.addEventListener("pointerenter",()=&gt;{if(fine.matches)go(i);});
+  });
+  addEventListener("resize",()=&gt;{if(last)place(last);});
+  // כשהכרטיס נכנס למסך הקשתות נמתחות, ובסוף היעד הראשון נבחר לבד
+  const start=()=&gt;{root.classList.add("is-in");setTimeout(()=&gt;{if(cur&lt;0)go(0);},still.matches?0:1500);};
+  if(!("IntersectionObserver" in window))return start();
+  const io=new IntersectionObserver(es=&gt;{if(es.some(e=&gt;e.isIntersecting)){io.disconnect();start();}},{threshold:.4});
+  io.observe(map);
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b115 · קווי מסלול שנמתחים על תמונה\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b115.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b115.html\n\nמה זה עושה: תמונה גדולה של שקיעה מעל הים, ועליה שלוש קשתות שנמתחות מתל אביב לשלושה יעדים כשהכרטיס נכנס למסך. בקצה כל קשת נקודה ותווית עם שם היעד וזמן הטיסה. לצד התמונה רשימת היעדים: בחירה ביעד מבליטה את הקשת שלו, מעמעמת את האחרות, ונקודה טסה לאורכה מהמוצא ליעד.\nמתי משתמשים: סוכנות נסיעות, חברת שילוח או הובלות, רשת סניפים, שירות שמגיע לכמה אזורים, או כל עסק שהסיפור שלו הוא \"מכאן לשם\". שלושה עד חמישה יעדים. לא כמפה אמיתית לניווט (הקשתות הן איור, לא גאוגרפיה), ולא כשיש עשרות יעדים, שם רשימה עם חיפוש.\nסוג אתר: דף נחיתה · וואן-פייג'ר · אתר תדמית\nבסקשן: שירותים ומוצרים · עבודות וגלריה\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא ליותר מחמישה יעדים, ולא כשהמיקום לא חלק מההחלטה של הלקוח.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B115 · קווי מסלול שנמתחים על תמונה */\n.rl{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,5vw,72px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}\n.rl-txt{display:grid;gap:16px;justify-items:start}\n.rl-k{margin:0;font-size:15px;font-weight:700;color:var(--accent, #4a3aff)}\n.rl-txt h2{margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}\n.rl-txt>p:not(.rl-k){margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.rl-list{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:4px;width:100%}\n.rl-it{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2px 16px;width:100%;padding:14px 18px;border:0;border-radius:16px;background:transparent;color:inherit;font:inherit;text-align:start;cursor:pointer;transition:background-color .3s cubic-bezier(.2,.6,.2,1)}\n.rl-it b{font-size:18px;font-weight:700}\n.rl-time{font-size:14px;font-weight:600;color:var(--muted, #6a6d85);transition:color .3s cubic-bezier(.2,.6,.2,1)}\n.rl-price{grid-column:1/-1;font-size:15px;color:var(--muted, #6a6d85)}\n.rl-it[aria-pressed=\"true\"]{background:var(--card, #fff)}\n.rl-it[aria-pressed=\"true\"] .rl-time{color:var(--accent, #4a3aff)}\n.rl-it:focus-visible,.rl-cta:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n.rl-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 28px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-weight:600;text-decoration:none}\n.rl-map{position:relative;isolation:isolate;overflow:hidden;aspect-ratio:3/2;border-radius:24px;background:var(--card, #fff)}\n.rl-map>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}\n.rl-map::after{content:\"\";position:absolute;inset:0;background:linear-gradient(to top,color-mix(in srgb,var(--ink, #16182b) 40%,transparent),transparent 65%);pointer-events:none}\n.rl-map svg{position:absolute;inset:0;z-index:1;width:100%;height:100%;overflow:visible}\n.rl-path{fill:none;stroke:var(--bg, #f7f7fa);stroke-width:2.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0;filter:drop-shadow(0 1px 2px color-mix(in srgb,var(--ink, #16182b) 45%,transparent));transition:stroke-dashoffset 1.3s cubic-bezier(.2,.6,.2,1) var(--d,0s),opacity .4s cubic-bezier(.2,.6,.2,1),stroke-width .4s cubic-bezier(.2,.6,.2,1)}\n.rl.is-live:not(.is-in) .rl-path{stroke-dashoffset:1}\n.rl.has-sel .rl-path:not(.is-on){opacity:.35}\n.rl-path.is-on{stroke-width:3.6}\n.rl-pin{position:absolute;z-index:2;width:0;height:0;transition:opacity .5s cubic-bezier(.2,.6,.2,1) var(--d,0s)}\n.rl-pin::before{content:\"\";position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;background:var(--bg, #f7f7fa);box-shadow:0 0 0 6px color-mix(in srgb,var(--bg, #f7f7fa) 30%,transparent)}\n.rl.is-live:not(.is-in) .rl-pin{opacity:0}\n.rl-tag{position:absolute;left:0;bottom:16px;display:grid;justify-items:center;padding:6px 12px;border-radius:12px;background:var(--card, #fff);color:var(--ink, #16182b);white-space:nowrap;box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent);transform:translateX(-50%);transition:background-color .35s cubic-bezier(.2,.6,.2,1),color .35s cubic-bezier(.2,.6,.2,1)}\n.rl-pin.is-o .rl-tag{bottom:auto;top:16px}\n.rl-tag b{font-size:14px;font-weight:700}\n.rl-tag span{font-size:12px;color:var(--muted, #6a6d85)}\n.rl-pin.is-on .rl-tag{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}\n.rl-pin.is-on .rl-tag span{color:inherit;opacity:.75}\n.rl-dot{position:absolute;left:0;top:0;z-index:3;width:16px;height:16px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 4px color-mix(in srgb,var(--bg, #f7f7fa) 70%,transparent);opacity:0;pointer-events:none;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}\n.rl.has-sel .rl-dot{opacity:1}\n@media(prefers-reduced-motion:reduce){.rl-path,.rl-pin{transition:none}}\n@media(max-width:860px){.rl{grid-template-columns:minmax(0,1fr)}.rl-map{order:-1}}\n@media(max-width:520px){.rl-tag span{display:none}.rl-tag{padding:4px 10px}}\n\n=== HTML ===\n<div class=\"stage\"><section class=\"rl\" data-rl>\n  <div class=\"rl-txt\">\n    <p class=\"rl-k\">מסעות כחול, סוכנות נסיעות<\/p>\n    <h2>שלושה יעדים, עד שעתיים טיסה<\/h2>\n    <p>בחרו יעד ותראו כמה זמן לוקחת הטיסה ומה כולל המחיר. את כל השאר, מהמלון ועד ההסעה משדה התעופה, אנחנו מסדרים.<\/p>\n    <ul class=\"rl-list\">\n      <li><button class=\"rl-it\" type=\"button\" aria-pressed=\"true\"><b>לרנקה<\/b><span class=\"rl-time\">45 דקות טיסה<\/span><span class=\"rl-price\">סוף שבוע ליד הים, החל מ-1,690 ₪ לזוג<\/span><\/button><\/li>\n      <li><button class=\"rl-it\" type=\"button\" aria-pressed=\"false\"><b>רודוס<\/b><span class=\"rl-time\">שעה ו-20 דקות טיסה<\/span><span class=\"rl-price\">ארבעה לילות בעיר העתיקה, החל מ-2,390 ₪ לזוג<\/span><\/button><\/li>\n      <li><button class=\"rl-it\" type=\"button\" aria-pressed=\"false\"><b>אתונה<\/b><span class=\"rl-time\">שעתיים טיסה<\/span><span class=\"rl-price\">חמישה לילות ושייט לאיים, החל מ-3,290 ₪ לזוג<\/span><\/button><\/li>\n    <\/ul>\n    <a class=\"rl-cta\" href=\"#\">לתכנן חופשה<\/a>\n  <\/div>\n  <div class=\"rl-map\">\n    <img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s08/hero.webp\" width=\"2560\" height=\"1707\" alt=\"שמש שוקעת מעל הים\" loading=\"lazy\" decoding=\"async\">\n    <svg viewBox=\"0 0 600 400\" aria-hidden=\"true\">\n      <path class=\"rl-path\" style=\"--d:0.0s\" pathLength=\"1\" data-q=\"515 330 518 261 465 215\" d=\"M515 330 Q518 261 465 215\"/>\n      <path class=\"rl-path\" style=\"--d:0.2s\" pathLength=\"1\" data-q=\"515 330 438 182 275 150\" d=\"M515 330 Q438 182 275 150\"/>\n      <path class=\"rl-path\" style=\"--d:0.4s\" pathLength=\"1\" data-q=\"515 330 368 118 110 100\" d=\"M515 330 Q368 118 110 100\"/>\n    <\/svg>\n    <span class=\"rl-pin is-o\" style=\"left:85.83%;top:82.50%\" aria-hidden=\"true\"><span class=\"rl-tag\"><b>תל אביב<\/b><\/span><\/span>\n    <span class=\"rl-pin\" style=\"left:77.50%;top:53.75%;--d:1.0s\" aria-hidden=\"true\"><span class=\"rl-tag\"><b>לרנקה<\/b><span>45 דקות טיסה<\/span><\/span><\/span>\n    <span class=\"rl-pin\" style=\"left:45.83%;top:37.50%;--d:1.2s\" aria-hidden=\"true\"><span class=\"rl-tag\"><b>רודוס<\/b><span>שעה ו-20 דקות טיסה<\/span><\/span><\/span>\n    <span class=\"rl-pin\" style=\"left:18.33%;top:25.00%;--d:1.4s\" aria-hidden=\"true\"><span class=\"rl-tag\"><b>אתונה<\/b><span>שעתיים טיסה<\/span><\/span><\/span>\n    <span class=\"rl-dot\" aria-hidden=\"true\"><\/span>\n  <\/div>\n<\/section><\/div>\n\n=== JS ===\n(function(){\n  const root=document.querySelector(\"[data-rl]\");\n  if(!root)return;\n  const map=root.querySelector(\".rl-map\"),dot=root.querySelector(\".rl-dot\");\n  const paths=[...root.querySelectorAll(\".rl-path\")],pins=[...root.querySelectorAll(\".rl-pin:not(.is-o)\")],its=[...root.querySelectorAll(\".rl-it\")];\n  const still=matchMedia(\"(prefers-reduced-motion: reduce)\"),fine=matchMedia(\"(hover: hover) and (pointer: fine)\");\n  const Q=paths.map(p=>p.dataset.q.split(\" \").map(Number));\n  let cur=-1,raf=0,last=null;\n  root.classList.add(\"is-live\");          // בלי JS הקשתות והתוויות כבר מצוירות\n  its.forEach(b=>b.setAttribute(\"aria-pressed\",\"false\"));\n  // נקודה על העקומה הריבועית, ביחידות המפה (600x400), מומרת לפיקסלים של הכרטיס\n  const at=(q,t)=>{const u=1-t;return[u*u*q[0]+2*u*t*q[2]+t*t*q[4],u*u*q[1]+2*u*t*q[3]+t*t*q[5]];};\n  const place=xy=>{last=xy;dot.style.transform=\"translate(\"+(xy[0]/600*map.clientWidth)+\"px,\"+(xy[1]/400*map.clientHeight)+\"px) translate(-50%,-50%)\";};\n  const fly=i=>{\n    cancelAnimationFrame(raf);\n    if(still.matches)return place(at(Q[i],1));\n    const t0=performance.now(),D=1500;\n    const tick=now=>{\n      const t=Math.min(1,(now-t0)/D),k=t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;   // מאיץ בהמראה ומאט בנחיתה\n      place(at(Q[i],k));\n      if(t<1)raf=requestAnimationFrame(tick);\n    };\n    raf=requestAnimationFrame(tick);\n  };\n  const go=i=>{\n    if(i===cur)return;cur=i;\n    root.classList.add(\"has-sel\");\n    [paths,pins].forEach(g=>g.forEach((el,k)=>el.classList.toggle(\"is-on\",k===i)));\n    its.forEach((b,k)=>b.setAttribute(\"aria-pressed\",String(k===i)));\n    fly(i);\n  };\n  its.forEach((b,i)=>{\n    b.addEventListener(\"click\",()=>go(i));\n    b.addEventListener(\"pointerenter\",()=>{if(fine.matches)go(i);});\n  });\n  addEventListener(\"resize\",()=>{if(last)place(last);});\n  // כשהכרטיס נכנס למסך הקשתות נמתחות, ובסוף היעד הראשון נבחר לבד\n  const start=()=>{root.classList.add(\"is-in\");setTimeout(()=>{if(cur<0)go(0);},still.matches?0:1500);};\n  if(!(\"IntersectionObserver\" in window))return start();\n  const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();start();}},{threshold:.4});\n  io.observe(map);\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: animtd.store (26.10.2026), סרטון של כרטיס תמונה שעליו נמתחים קווי מסלול עם תוויות יעד. נבנה מאפס מהצפייה. במה זה שונה ממה שיש: g172 הוא גלובוס נקודות בקנבס עם קשתות. כאן הקשתות יושבות על תמונה אמיתית, והרשימה לידן היא הממשק: בחירה ביעד מבליטה את הקשת ושולחת עליה נקודה. המפה היא SVG בגודל 600 על 400, והכרטיס נעול על יחס 3:2 בכל רוחב, כך שהתוויות (HTML במיקום באחוזים) יושבות בדיוק על קצות הקשתות. הקשת של כל מסלול היא עקומה ריבועית שנקודת הבקרה שלה מחושבת מהאמצע, בניצב כלפי מעלה, ב-24% מאורך המסלול. המתיחה: `pathLength=1` ו-`stroke-dashoffset` מ-1 ל-0, בדירוג של 0.2 שנייה בין הקשתות; התוויות נכנסות אחריהן. הנקודה היא אלמנט HTML שה-JS מזיז ב-`transform` לפי נוסחת העקומה (בלי `getPointAtLength`, שמתנהג שונה בין דפדפנים כש-`pathLength` מוגדר), ב-1.5 שניות עם האצה והאטה, כמו המראה ונחיתה. הבחירה: כפתורים עם `aria-pressed`; בעכבר גם ריחוף. אחרי שהקשתות נמתחו, היעד הראשון נבחר לבד פעם אחת. ניגודיות: הקשתות בצבע הרקע עם צל רך, והתוויות על כרטיס אטום, כך שהן קריאות על כל תמונה. בלי JS הקשתות והתוויות מוצגות, בלי בחירה. הפחתת תנועה: בלי מתיחה ובלי טיסה; הנקודה קופצת ליעד. בטלפון התמונה מעל הרשימה, וזמני הטיסה יורדים מהתוויות (הם נשארים ברשימה).\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B115 · קווי מסלול שנמתחים על תמונה */\n.rl{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);align-items:center;gap:clamp(32px,5vw,72px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}\n.rl-txt{display:grid;gap:16px;justify-items:start}\n.rl-k{margin:0;font-size:15px;font-weight:700;color:var(--accent, #4a3aff)}\n.rl-txt h2{margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}\n.rl-txt>p:not(.rl-k){margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}\n.rl-list{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:4px;width:100%}\n.rl-it{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2px 16px;width:100%;padding:14px 18px;border:0;border-radius:16px;background:transparent;color:inherit;font:inherit;text-align:start;cursor:pointer;transition:background-color .3s cubic-bezier(.2,.6,.2,1)}\n.rl-it b{font-size:18px;font-weight:700}\n.rl-time{font-size:14px;font-weight:600;color:var(--muted, #6a6d85);transition:color .3s cubic-bezier(.2,.6,.2,1)}\n.rl-price{grid-column:1/-1;font-size:15px;color:var(--muted, #6a6d85)}\n.rl-it[aria-pressed=\"true\"]{background:var(--card, #fff)}\n.rl-it[aria-pressed=\"true\"] .rl-time{color:var(--accent, #4a3aff)}\n.rl-it:focus-visible,.rl-cta:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}\n.rl-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 28px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-weight:600;text-decoration:none}\n.rl-map{position:relative;isolation:isolate;overflow:hidden;aspect-ratio:3/2;border-radius:24px;background:var(--card, #fff)}\n.rl-map>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}\n.rl-map::after{content:\"\";position:absolute;inset:0;background:linear-gradient(to top,color-mix(in srgb,var(--ink, #16182b) 40%,transparent),transparent 65%);pointer-events:none}\n.rl-map svg{position:absolute;inset:0;z-index:1;width:100%;height:100%;overflow:visible}\n.rl-path{fill:none;stroke:var(--bg, #f7f7fa);stroke-width:2.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:0;filter:drop-shadow(0 1px 2px color-mix(in srgb,var(--ink, #16182b) 45%,transparent));transition:stroke-dashoffset 1.3s cubic-bezier(.2,.6,.2,1) var(--d,0s),opacity .4s cubic-bezier(.2,.6,.2,1),stroke-width .4s cubic-bezier(.2,.6,.2,1)}\n.rl.is-live:not(.is-in) .rl-path{stroke-dashoffset:1}\n.rl.has-sel .rl-path:not(.is-on){opacity:.35}\n.rl-path.is-on{stroke-width:3.6}\n.rl-pin{position:absolute;z-index:2;width:0;height:0;transition:opacity .5s cubic-bezier(.2,.6,.2,1) var(--d,0s)}\n.rl-pin::before{content:\"\";position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;background:var(--bg, #f7f7fa);box-shadow:0 0 0 6px color-mix(in srgb,var(--bg, #f7f7fa) 30%,transparent)}\n.rl.is-live:not(.is-in) .rl-pin{opacity:0}\n.rl-tag{position:absolute;left:0;bottom:16px;display:grid;justify-items:center;padding:6px 12px;border-radius:12px;background:var(--card, #fff);color:var(--ink, #16182b);white-space:nowrap;box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent);transform:translateX(-50%);transition:background-color .35s cubic-bezier(.2,.6,.2,1),color .35s cubic-bezier(.2,.6,.2,1)}\n.rl-pin.is-o .rl-tag{bottom:auto;top:16px}\n.rl-tag b{font-size:14px;font-weight:700}\n.rl-tag span{font-size:12px;color:var(--muted, #6a6d85)}\n.rl-pin.is-on .rl-tag{background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}\n.rl-pin.is-on .rl-tag span{color:inherit;opacity:.75}\n.rl-dot{position:absolute;left:0;top:0;z-index:3;width:16px;height:16px;border-radius:50%;background:var(--accent, #4a3aff);box-shadow:0 0 0 4px color-mix(in srgb,var(--bg, #f7f7fa) 70%,transparent);opacity:0;pointer-events:none;transition:opacity .3s cubic-bezier(.2,.6,.2,1)}\n.rl.has-sel .rl-dot{opacity:1}\n@media(prefers-reduced-motion:reduce){.rl-path,.rl-pin{transition:none}}\n@media(max-width:860px){.rl{grid-template-columns:minmax(0,1fr)}.rl-map{order:-1}}\n@media(max-width:520px){.rl-tag span{display:none}.rl-tag{padding:4px 10px}}","html":"<div class=\"stage\"><section class=\"rl\" data-rl>\n  <div class=\"rl-txt\">\n    <p class=\"rl-k\">מסעות כחול, סוכנות נסיעות<\/p>\n    <h2>שלושה יעדים, עד שעתיים טיסה<\/h2>\n    <p>בחרו יעד ותראו כמה זמן לוקחת הטיסה ומה כולל המחיר. את כל השאר, מהמלון ועד ההסעה משדה התעופה, אנחנו מסדרים.<\/p>\n    <ul class=\"rl-list\">\n      <li><button class=\"rl-it\" type=\"button\" aria-pressed=\"true\"><b>לרנקה<\/b><span class=\"rl-time\">45 דקות טיסה<\/span><span class=\"rl-price\">סוף שבוע ליד הים, החל מ-1,690 ₪ לזוג<\/span><\/button><\/li>\n      <li><button class=\"rl-it\" type=\"button\" aria-pressed=\"false\"><b>רודוס<\/b><span class=\"rl-time\">שעה ו-20 דקות טיסה<\/span><span class=\"rl-price\">ארבעה לילות בעיר העתיקה, החל מ-2,390 ₪ לזוג<\/span><\/button><\/li>\n      <li><button class=\"rl-it\" type=\"button\" aria-pressed=\"false\"><b>אתונה<\/b><span class=\"rl-time\">שעתיים טיסה<\/span><span class=\"rl-price\">חמישה לילות ושייט לאיים, החל מ-3,290 ₪ לזוג<\/span><\/button><\/li>\n    <\/ul>\n    <a class=\"rl-cta\" href=\"#\">לתכנן חופשה<\/a>\n  <\/div>\n  <div class=\"rl-map\">\n    <img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s08/hero.webp\" width=\"2560\" height=\"1707\" alt=\"שמש שוקעת מעל הים\" loading=\"lazy\" decoding=\"async\">\n    <svg viewBox=\"0 0 600 400\" aria-hidden=\"true\">\n      <path class=\"rl-path\" style=\"--d:0.0s\" pathLength=\"1\" data-q=\"515 330 518 261 465 215\" d=\"M515 330 Q518 261 465 215\"/>\n      <path class=\"rl-path\" style=\"--d:0.2s\" pathLength=\"1\" data-q=\"515 330 438 182 275 150\" d=\"M515 330 Q438 182 275 150\"/>\n      <path class=\"rl-path\" style=\"--d:0.4s\" pathLength=\"1\" data-q=\"515 330 368 118 110 100\" d=\"M515 330 Q368 118 110 100\"/>\n    <\/svg>\n    <span class=\"rl-pin is-o\" style=\"left:85.83%;top:82.50%\" aria-hidden=\"true\"><span class=\"rl-tag\"><b>תל אביב<\/b><\/span><\/span>\n    <span class=\"rl-pin\" style=\"left:77.50%;top:53.75%;--d:1.0s\" aria-hidden=\"true\"><span class=\"rl-tag\"><b>לרנקה<\/b><span>45 דקות טיסה<\/span><\/span><\/span>\n    <span class=\"rl-pin\" style=\"left:45.83%;top:37.50%;--d:1.2s\" aria-hidden=\"true\"><span class=\"rl-tag\"><b>רודוס<\/b><span>שעה ו-20 דקות טיסה<\/span><\/span><\/span>\n    <span class=\"rl-pin\" style=\"left:18.33%;top:25.00%;--d:1.4s\" aria-hidden=\"true\"><span class=\"rl-tag\"><b>אתונה<\/b><span>שעתיים טיסה<\/span><\/span><\/span>\n    <span class=\"rl-dot\" aria-hidden=\"true\"><\/span>\n  <\/div>\n<\/section><\/div>","js":"(function(){\n  const root=document.querySelector(\"[data-rl]\");\n  if(!root)return;\n  const map=root.querySelector(\".rl-map\"),dot=root.querySelector(\".rl-dot\");\n  const paths=[...root.querySelectorAll(\".rl-path\")],pins=[...root.querySelectorAll(\".rl-pin:not(.is-o)\")],its=[...root.querySelectorAll(\".rl-it\")];\n  const still=matchMedia(\"(prefers-reduced-motion: reduce)\"),fine=matchMedia(\"(hover: hover) and (pointer: fine)\");\n  const Q=paths.map(p=>p.dataset.q.split(\" \").map(Number));\n  let cur=-1,raf=0,last=null;\n  root.classList.add(\"is-live\");          // בלי JS הקשתות והתוויות כבר מצוירות\n  its.forEach(b=>b.setAttribute(\"aria-pressed\",\"false\"));\n  // נקודה על העקומה הריבועית, ביחידות המפה (600x400), מומרת לפיקסלים של הכרטיס\n  const at=(q,t)=>{const u=1-t;return[u*u*q[0]+2*u*t*q[2]+t*t*q[4],u*u*q[1]+2*u*t*q[3]+t*t*q[5]];};\n  const place=xy=>{last=xy;dot.style.transform=\"translate(\"+(xy[0]/600*map.clientWidth)+\"px,\"+(xy[1]/400*map.clientHeight)+\"px) translate(-50%,-50%)\";};\n  const fly=i=>{\n    cancelAnimationFrame(raf);\n    if(still.matches)return place(at(Q[i],1));\n    const t0=performance.now(),D=1500;\n    const tick=now=>{\n      const t=Math.min(1,(now-t0)/D),k=t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;   // מאיץ בהמראה ומאט בנחיתה\n      place(at(Q[i],k));\n      if(t<1)raf=requestAnimationFrame(tick);\n    };\n    raf=requestAnimationFrame(tick);\n  };\n  const go=i=>{\n    if(i===cur)return;cur=i;\n    root.classList.add(\"has-sel\");\n    [paths,pins].forEach(g=>g.forEach((el,k)=>el.classList.toggle(\"is-on\",k===i)));\n    its.forEach((b,k)=>b.setAttribute(\"aria-pressed\",String(k===i)));\n    fly(i);\n  };\n  its.forEach((b,i)=>{\n    b.addEventListener(\"click\",()=>go(i));\n    b.addEventListener(\"pointerenter\",()=>{if(fine.matches)go(i);});\n  });\n  addEventListener(\"resize\",()=>{if(last)place(last);});\n  // כשהכרטיס נכנס למסך הקשתות נמתחות, ובסוף היעד הראשון נבחר לבד\n  const start=()=>{root.classList.add(\"is-in\");setTimeout(()=>{if(cur<0)go(0);},still.matches?0:1500);};\n  if(!(\"IntersectionObserver\" in window))return start();\n  const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();start();}},{threshold:.4});\n  io.observe(map);\n})();","scripts":"","rtl":false}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="b114.html" rel="prev"><small>→ הקודם</small><b>מספר ענק שסופר ועוגה שמתמלאת</b></a><a href="b01.html" rel="next"><small>הבא ←</small><b>מרקי (רצועה נעה)</b></a></nav>
+
+<script src="../assets/baseline.js?v=3b032095"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · קווי מסלול שנמתחים על תמונה").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+(function(){
+  const root=document.querySelector("[data-rl]");
+  if(!root)return;
+  const map=root.querySelector(".rl-map"),dot=root.querySelector(".rl-dot");
+  const paths=[...root.querySelectorAll(".rl-path")],pins=[...root.querySelectorAll(".rl-pin:not(.is-o)")],its=[...root.querySelectorAll(".rl-it")];
+  const still=matchMedia("(prefers-reduced-motion: reduce)"),fine=matchMedia("(hover: hover) and (pointer: fine)");
+  const Q=paths.map(p=>p.dataset.q.split(" ").map(Number));
+  let cur=-1,raf=0,last=null;
+  root.classList.add("is-live");          // בלי JS הקשתות והתוויות כבר מצוירות
+  its.forEach(b=>b.setAttribute("aria-pressed","false"));
+  // נקודה על העקומה הריבועית, ביחידות המפה (600x400), מומרת לפיקסלים של הכרטיס
+  const at=(q,t)=>{const u=1-t;return[u*u*q[0]+2*u*t*q[2]+t*t*q[4],u*u*q[1]+2*u*t*q[3]+t*t*q[5]];};
+  const place=xy=>{last=xy;dot.style.transform="translate("+(xy[0]/600*map.clientWidth)+"px,"+(xy[1]/400*map.clientHeight)+"px) translate(-50%,-50%)";};
+  const fly=i=>{
+    cancelAnimationFrame(raf);
+    if(still.matches)return place(at(Q[i],1));
+    const t0=performance.now(),D=1500;
+    const tick=now=>{
+      const t=Math.min(1,(now-t0)/D),k=t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;   // מאיץ בהמראה ומאט בנחיתה
+      place(at(Q[i],k));
+      if(t<1)raf=requestAnimationFrame(tick);
+    };
+    raf=requestAnimationFrame(tick);
+  };
+  const go=i=>{
+    if(i===cur)return;cur=i;
+    root.classList.add("has-sel");
+    [paths,pins].forEach(g=>g.forEach((el,k)=>el.classList.toggle("is-on",k===i)));
+    its.forEach((b,k)=>b.setAttribute("aria-pressed",String(k===i)));
+    fly(i);
+  };
+  its.forEach((b,i)=>{
+    b.addEventListener("click",()=>go(i));
+    b.addEventListener("pointerenter",()=>{if(fine.matches)go(i);});
+  });
+  addEventListener("resize",()=>{if(last)place(last);});
+  // כשהכרטיס נכנס למסך הקשתות נמתחות, ובסוף היעד הראשון נבחר לבד
+  const start=()=>{root.classList.add("is-in");setTimeout(()=>{if(cur<0)go(0);},still.matches?0:1500);};
+  if(!("IntersectionObserver" in window))return start();
+  const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){io.disconnect();start();}},{threshold:.4});
+  io.observe(map);
+})();
+</script>
+</body>
+</html>

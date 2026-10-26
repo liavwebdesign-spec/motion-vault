@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B113 · גלריה עם רצועת תמונות שמתקדמת לבד</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B113 · גלריה עם רצועת תמונות שמתקדמת לבד */
+.fs{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:center;gap:clamp(32px,5vw,72px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}
+.fs-txt{display:grid;gap:16px;justify-items:start}
+.fs-k{margin:0;font-size:15px;font-weight:700;color:var(--accent, #4a3aff)}
+.fs-txt h2{margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.fs-txt>p:not(.fs-k){margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.fs-acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.fs-cta,.fs-alt{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 28px;border-radius:999px;font-weight:600;text-decoration:none}
+.fs-cta{background:var(--accent, #4a3aff);color:var(--accent-ink, #fff)}
+.fs-alt{background:color-mix(in srgb,var(--ink, #16182b) 6%,transparent);color:var(--ink, #16182b)}
+.fs-view{position:relative;display:grid;gap:16px}
+/* width:100% ולא אוטומטי: עם aspect-ratio ו-max-height לבד התמונה מתכווצת לרוחב 512 ונצמדת לצד אחד, והמונה והעצירה (שממוקמים לפי .fs-view) נשארים בחוץ על הקצה */
+.fs-main{position:relative;display:grid;width:100%;margin:0;overflow:hidden;aspect-ratio:4/5;max-height:640px;border-radius:24px;background:var(--card, #fff)}
+.fs-main img{grid-area:1/1;display:block;width:100%;height:100%;object-fit:cover}
+/* הכיתוב, המונה והעצירה יושבים על משטח בצבע הכרטיס ולא על שכבה כהה שקופה: שכבה מ-ink מתבהרת באתר כהה, ומעל תמונה כהה הטקסט נעלם */
+.fs-cap{position:absolute;inset-inline:16px;inset-block-end:16px;display:grid;padding:14px 18px;border-radius:16px;background:color-mix(in srgb,var(--card, #fff) 90%,transparent);color:var(--ink, #16182b);box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.fs-cap>div{grid-area:1/1;display:grid;gap:2px}
+.fs-cap b{font-size:18px;font-weight:700}
+.fs-cap span{font-size:15px;line-height:1.5;color:var(--muted, #6a6d85)}
+.fs-count,.fs-pp{position:absolute;inset-block-start:16px;z-index:1;color:var(--ink, #16182b);background:color-mix(in srgb,var(--card, #fff) 90%,transparent);box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.fs-count{inset-inline-start:16px;margin:0;padding:6px 12px;border-radius:999px;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.fs-pp{inset-inline-end:16px;display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;cursor:pointer}
+.fs-pp[hidden]{display:none}
+.fs-pp svg{width:18px;height:18px;fill:currentColor}
+.fs-pp .i-pl,.fs.is-paused .fs-pp .i-pa{display:none}
+.fs.is-paused .fs-pp .i-pl{display:block}
+.fs-strip{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.fs-th{position:relative;display:block;width:100%;padding:0;border:0;border-radius:14px;overflow:hidden;aspect-ratio:1;background:var(--card, #fff);cursor:pointer;opacity:.55;transform-origin:50% 100%;transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.fs-th img{display:block;width:100%;height:100%;object-fit:cover}
+.fs-th[aria-pressed="true"]{opacity:1;transform:translateY(-6px) scale(1.06)}
+.fs-th:focus-visible,.fs-pp:focus-visible,.fs-cta:focus-visible,.fs-alt:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+@media(hover:hover) and (pointer:fine){.fs-th:hover{opacity:1}}
+.fs-bar{position:absolute;inset-inline:8px;inset-block-end:8px;display:none;height:3px;border-radius:999px;background:var(--bg, #f7f7fa);transform:scaleX(0);transform-origin:100% 50%}
+.fs-bar:dir(ltr){transform-origin:0 50%}
+.fs.is-live .fs-bar{display:block}
+.fs.is-live .fs-th[aria-pressed="true"] .fs-bar{animation:fs-fill 5s linear forwards}
+.fs.is-hold .fs-bar,.fs.is-paused .fs-bar,.fs.is-off .fs-bar{animation-play-state:paused}
+@keyframes fs-fill{to{transform:scaleX(1)}}
+.fs:not(.is-live) .fs-main img:not(.is-on),.fs:not(.is-live) .fs-cap>div:not(.is-on){display:none}
+.fs.is-live .fs-main img{opacity:0;transform:scale(1.06);transition:opacity .8s cubic-bezier(.2,.6,.2,1),transform 1.4s cubic-bezier(.2,.6,.2,1)}
+.fs.is-live .fs-main img.is-on{opacity:1;transform:none}
+.fs.is-live .fs-cap>div{opacity:0;transform:translateY(8px);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .4s cubic-bezier(.2,.6,.2,1)}
+.fs.is-live .fs-cap>div.is-on{opacity:1;transform:none;transition-delay:.2s}
+@media(prefers-reduced-motion:reduce){.fs.is-live .fs-bar{display:none}.fs.is-live .fs-main img,.fs.is-live .fs-cap>div{transform:none!important;transition-duration:.2s}.fs-th{transition-duration:.2s}}
+@media(max-width:860px){.fs{grid-template-columns:minmax(0,1fr)}.fs-main{aspect-ratio:4/4.4}.fs-strip{gap:8px}}
+</style>
+</head>
+<body>
+
+<div class="stage"><section class="fs" data-fs>
+  <div class="fs-txt">
+    <p class="fs-k">בר הקטיפה, נחלת בנימין</p>
+    <h2>ערב אצלנו, בארבע תמונות</h2>
+    <p>פתוחים מרביעי עד שבת משמונה בערב. אפשר להזמין שולחן, ותמיד נשאר מקום ליד הבר למי שמגיע בלי הזמנה.</p>
+    <div class="fs-acts"><a class="fs-cta" href="#">להזמנת שולחן</a><a class="fs-alt" href="#">לתפריט</a></div>
+  </div>
+  <div class="fs-view">
+    <figure class="fs-main">
+      <img class="is-on" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/hero-glass.webp" width="1100" height="1375" alt="קוקטייל אדום על שולחן שיש מול וילון קטיפה" loading="lazy" decoding="async">
+      <img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/room.webp" width="1100" height="1320" alt="פנים הבר באור נמוך" loading="lazy" decoding="async">
+      <img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/pour.webp" width="1000" height="1250" alt="ברמן מוזג משקה לכוס" loading="lazy" decoding="async">
+      <img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/flute.webp" width="1000" height="1250" alt="כוס שמפניה עם קוקטייל בהיר" loading="lazy" decoding="async">
+      <figcaption class="fs-cap"><div class="is-on"><b>הקוקטייל של הבית</b><span>ג׳ין, פטל ובזיליקום, על שיש קר.</span></div><div><b>הבר</b><span>שלושים מקומות ישיבה, אור נמוך ומוזיקה שאפשר לדבר מעליה.</span></div><div><b>מאחורי הבר</b><span>כל קוקטייל נמזג מול האורח, עם מיצים שנסחטים באותו ערב.</span></div><div><b>לסיום</b><span>שמפניה עם סירופ הדרים, על חשבון הבית ביום הולדת.</span></div></figcaption>
+    </figure>
+    <p class="fs-count" aria-hidden="true"><b>1</b> / 4</p>
+    <ul class="fs-strip">
+      <li><button class="fs-th" type="button" aria-pressed="true" aria-label="הקוקטייל של הבית"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/hero-glass.webp" width="1100" height="1375" alt="" loading="lazy" decoding="async"><span class="fs-bar" aria-hidden="true"></span></button></li>
+      <li><button class="fs-th" type="button" aria-pressed="false" aria-label="הבר"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/room.webp" width="1100" height="1320" alt="" loading="lazy" decoding="async"><span class="fs-bar" aria-hidden="true"></span></button></li>
+      <li><button class="fs-th" type="button" aria-pressed="false" aria-label="מאחורי הבר"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/pour.webp" width="1000" height="1250" alt="" loading="lazy" decoding="async"><span class="fs-bar" aria-hidden="true"></span></button></li>
+      <li><button class="fs-th" type="button" aria-pressed="false" aria-label="לסיום"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/flute.webp" width="1000" height="1250" alt="" loading="lazy" decoding="async"><span class="fs-bar" aria-hidden="true"></span></button></li>
+    </ul>
+    <button class="fs-pp" type="button" aria-label="עצירת ההחלפה" hidden><svg class="i-pa" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg><svg class="i-pl" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg></button>
+  </div>
+</section></div>
+
+
+<script>
+(function(){
+  const root=document.querySelector("[data-fs]");
+  if(!root)return;
+  const ths=[...root.querySelectorAll(".fs-th")],imgs=[...root.querySelectorAll(".fs-main img")],caps=[...root.querySelectorAll(".fs-cap>div")];
+  const num=root.querySelector(".fs-count b"),pp=root.querySelector(".fs-pp"),view=root.querySelector(".fs-view");
+  let cur=0;
+  root.classList.add("is-live");
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches)pp.hidden=false;
+  const go=j=>{
+    if(j===cur)return;cur=j;
+    ths.forEach((b,i)=>b.setAttribute("aria-pressed",String(i===j)));
+    [imgs,caps].forEach(g=>g.forEach((el,i)=>el.classList.toggle("is-on",i===j)));
+    num.textContent=j+1;
+  };
+  ths.forEach((b,i)=>{
+    b.addEventListener("click",()=>go(i));
+    // הסרגל בממוזערת הפעילה הוא השעון: מתמלא, ועוברים לתמונה הבאה
+    b.querySelector(".fs-bar").addEventListener("animationend",()=>{if(i===cur)go((cur+1)%ths.length);});
+  });
+  const hold=on=>root.classList.toggle("is-hold",on);
+  view.addEventListener("pointerenter",()=>hold(true));
+  view.addEventListener("pointerleave",()=>hold(false));
+  view.addEventListener("focusin",()=>hold(true));
+  view.addEventListener("focusout",e=>{if(!view.contains(e.relatedTarget))hold(false);});
+  pp.addEventListener("click",()=>{
+    const on=!root.classList.contains("is-paused");
+    root.classList.toggle("is-paused",on);
+    pp.setAttribute("aria-label",on?"המשך ההחלפה":"עצירת ההחלפה");
+  });
+  if("IntersectionObserver" in window){
+    root.classList.add("is-off");
+    new IntersectionObserver(es=>es.forEach(e=>root.classList.toggle("is-off",!e.isIntersecting)),{threshold:.35}).observe(root);
+  }
+})();
+</script>
+</body>
+</html>

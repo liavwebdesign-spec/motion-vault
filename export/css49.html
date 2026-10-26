@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>CSS49 · זרם תמונות שטס מעומק המסך</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* CSS49 · זרם תמונות שטס מעומק המסך */
+.is{position:relative;display:grid;place-items:center;min-height:clamp(560px,72vh,760px);overflow:clip;border-radius:clamp(20px,2.4vw,32px);background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+.is-w{position:absolute;inset:0;perspective:1000px;perspective-origin:50% 44%;transform-style:preserve-3d;pointer-events:none}
+.is-f{--w:clamp(130px,15vw,220px);position:absolute;left:50%;top:44%;width:var(--w);aspect-ratio:4/5;margin:0;overflow:hidden;border-radius:16px;background:color-mix(in srgb,var(--bg, #f7f7fa) 10%,var(--ink, #16182b));opacity:0;animation:is-fly 15s linear infinite;animation-delay:calc(var(--i) * -1.5s)}
+.is-f img{display:block;width:100%;height:100%;object-fit:cover}
+@keyframes is-fly{
+  0%{opacity:0;transform:translate(-50%,-50%) translate3d(calc(var(--x) * 100%),calc(var(--y) * 100%),-2400px)}
+  14%{opacity:1}
+  86%{opacity:1}
+  100%{opacity:0;transform:translate(-50%,-50%) translate3d(calc(var(--x) * 100%),calc(var(--y) * 100%),400px)}
+}
+.is.is-paused .is-f,.is.is-off .is-f{animation-play-state:paused}
+.is-c{position:relative;z-index:2;display:grid;justify-items:center;gap:16px;max-width:30rem;margin:clamp(20px,4vw,40px);padding:clamp(24px,3vw,40px);border-radius:24px;background:color-mix(in srgb,var(--ink, #16182b) 70%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);text-align:center}
+.is-k{margin:0;font-size:15px;font-weight:700;opacity:.8}
+.is-c h2{margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.is-c>p:not(.is-k){margin:0;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6;opacity:.85}
+.is-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:8px;padding:12px 28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:600;text-decoration:none}
+.is-cta:focus-visible{outline:2px solid var(--bg, #f7f7fa);outline-offset:3px}
+.is-pp{position:absolute;inset-block-end:16px;inset-inline-end:16px;z-index:3;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border:0;border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);font:inherit;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent)}
+.is-pp[hidden]{display:none}
+.is-pp svg{width:16px;height:16px;fill:currentColor}
+.is-pp .i-pl,.is.is-paused .is-pp .i-pa{display:none}
+.is.is-paused .is-pp .i-pl{display:block}
+.is-pp:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){.is-f{animation-play-state:paused}}
+@media(max-width:760px){.is-f{--w:112px}.is-c{margin:16px}}
+</style>
+</head>
+<body>
+
+<div class="stage"><section class="is" data-is>
+  <div class="is-w" aria-hidden="true">
+    <figure class="is-f" style="--i:0;--x:-1.7;--y:-0.5"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/van-door.webp" width="1000" height="1200" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="is-f" style="--i:1;--x:1.5;--y:0.3"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s08/sea.webp" width="2560" height="1706" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="is-f" style="--i:2;--x:-1.2;--y:0.65"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/thermos.webp" width="900" height="1200" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="is-f" style="--i:3;--x:1.9;--y:-0.45"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/dusk-camp.webp" width="1000" height="1000" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="is-f" style="--i:4;--x:-2.1;--y:0.15"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s08/glass.webp" width="2560" height="1440" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="is-f" style="--i:5;--x:1.2;--y:-0.7"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/hero-window.webp" width="1100" height="1100" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="is-f" style="--i:6;--x:-1.5;--y:0.5"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s08/hero.webp" width="2560" height="1707" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="is-f" style="--i:7;--x:2;--y:-0.15"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/van-door.webp" width="1000" height="1200" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="is-f" style="--i:8;--x:-1.9;--y:-0.3"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s08/sea.webp" width="2560" height="1706" alt="" loading="lazy" decoding="async"></figure>
+    <figure class="is-f" style="--i:9;--x:1.6;--y:0.6"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/thermos.webp" width="900" height="1200" alt="" loading="lazy" decoding="async"></figure>
+  </div>
+  <div class="is-c">
+    <p class="is-k">ואן ודרך, טיולים מאורגנים</p>
+    <h2>יום אחד בצפון, בלי לנהוג</h2>
+    <p>יוצאים בשבע בבוקר מתל אביב וחוזרים בתשע בערב. שמונה אנשים בוואן, מדריך שנוהג, וחמש תחנות שלא תמצאו בוויז.</p>
+    <a class="is-cta" href="#">לתאריכים הקרובים</a>
+  </div>
+  <button class="is-pp" type="button" data-pp hidden><svg class="i-pa" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg><svg class="i-pl" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg><span>עצירת התמונות</span></button>
+</section></div>
+
+
+<script>
+(function(){
+  const root=document.querySelector("[data-is]");
+  if(!root)return;
+  const pp=root.querySelector("button[data-pp]");
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches)pp.hidden=false;
+  pp.addEventListener("click",()=>{
+    const on=!root.classList.contains("is-paused");
+    root.classList.toggle("is-paused",on);
+    pp.querySelector("span").textContent=on?"המשך התמונות":"עצירת התמונות";
+  });
+  // מחוץ למסך התנועה עומדת
+  if("IntersectionObserver" in window)new IntersectionObserver(es=>es.forEach(e=>root.classList.toggle("is-off",!e.isIntersecting))).observe(root);
+})();
+</script>
+</body>
+</html>

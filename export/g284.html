@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>G284 · טאבלט שמתיישר בגלילה ומתמלא בנתונים</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* G284 · טאבלט שמתיישר בגלילה ומתמלא בנתונים */
+.st{display:grid;justify-items:center;gap:clamp(32px,5vw,64px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg, #f7f7fa);color:var(--ink, #16182b);overflow:clip;text-align:center}
+.st-hd{display:grid;justify-items:center;gap:12px;max-width:42rem}
+.st-k{margin:0;font-size:15px;font-weight:700;color:var(--accent, #4a3aff)}
+.st-hd h2{margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
+.st-hd p{margin:0;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.st-stage{width:min(100%,960px);perspective:1400px}
+.st-dev{position:relative;padding:clamp(10px,1.2vw,16px);border-radius:clamp(20px,2.4vw,32px);background:var(--ink, #16182b);box-shadow:0 24px 64px color-mix(in srgb,var(--ink, #16182b) 22%,transparent);transform-origin:50% 100%;text-align:start}
+.st-scr{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px;padding:clamp(16px,2vw,24px);border-radius:clamp(12px,1.4vw,20px);background:var(--bg, #f7f7fa);color:var(--ink, #16182b)}
+.st-top{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.st-top b{font-size:18px;font-weight:700}
+.st-top span{font-size:14px;color:var(--muted, #6a6d85)}
+.st-kpi{grid-column:1/-1;list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.st-kpi li{display:grid;gap:4px;padding:16px;border-radius:14px;background:var(--card, #fff)}
+.st-kpi small{font-size:13px;color:var(--muted, #6a6d85)}
+.st-kpi b{font-size:clamp(20px,2.4vw,32px);font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}
+.st-chart{display:grid;gap:12px;align-content:start;padding:16px;border-radius:14px;background:var(--card, #fff)}
+.st-chart>span{font-size:14px;font-weight:600}
+.st-bars{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));align-items:end;gap:8px;height:140px}
+.st-bars i{display:block;height:var(--h);border-radius:6px 6px 2px 2px;background:color-mix(in srgb,var(--accent, #4a3aff) 35%,var(--card, #fff));transform-origin:50% 100%}
+.st-bars i.is-peak{background:var(--accent, #4a3aff)}
+.st-hrs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;font-size:12px;color:var(--muted, #6a6d85);text-align:center;font-variant-numeric:tabular-nums}
+.st-list{list-style:none;margin:0;padding:0;display:grid;gap:8px;align-content:start}
+.st-list li{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;background:var(--card, #fff);font-size:14px}
+.st-list time{font-weight:700;font-variant-numeric:tabular-nums}
+.st-list li>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.st-st{padding:2px 8px;border-radius:999px;background:color-mix(in srgb,var(--accent, #4a3aff) 14%,transparent);color:var(--accent, #4a3aff);font-size:12px;font-weight:600;white-space:nowrap}
+.st-chip{position:absolute;z-index:2;display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);font-size:14px;font-weight:600;white-space:nowrap;box-shadow:0 8px 28px color-mix(in srgb,var(--ink, #16182b) 18%,transparent)}
+.st-chip i{width:10px;height:10px;flex:none;border-radius:50%;background:var(--accent, #4a3aff)}
+.st-c1{inset-block-start:16%;inset-inline-end:-28px}
+.st-c2{inset-block-start:54%;inset-inline-start:-28px}
+.st-c3{inset-block-end:-20px;inset-inline-end:14%}
+@media(max-width:760px){
+  .st-scr{grid-template-columns:minmax(0,1fr);gap:12px}
+  .st-kpi{gap:8px}
+  .st-kpi li{padding:10px}
+  .st-kpi small{font-size:11px}
+  .st-bars{height:88px}
+  .st-list li:nth-child(n+3){display:none}
+  .st-chip{gap:8px;padding:8px 12px;font-size:12px}
+  .st-c1{inset-block-start:auto;inset-block-end:42%;inset-inline-end:8px}
+  .st-c2{inset-block-start:auto;inset-block-end:24%;inset-inline-start:8px}
+  .st-c3{inset-block-end:8px;inset-inline-end:8px}
+}
+</style>
+</head>
+<body>
+
+<div class="stage"><section class="st" data-st>
+  <div class="st-hd">
+    <p class="st-k">מערכת הזמנות למסעדות</p>
+    <h2>כל הערב של המסעדה, במסך אחד</h2>
+    <p>הזמנות מהאתר ומהטלפון, מקדמות ותזכורות לסועדים, מסודרות לפי שעה. המארחת יודעת מה מחכה לה עוד לפני שהדלת נפתחת.</p>
+  </div>
+  <div class="st-stage">
+    <div class="st-dev" role="img" aria-label="מסך ההזמנות של מסעדת הגפן ביום חמישי: 42 הזמנות הערב, תפוסה של 86%, הכנסה צפויה של 9,860 ₪, ושיא הסועדים בשמונה בערב. שלוש התראות: הזמנה חדשה לארבעה בתשע, מקדמה של 200 ₪ שהתקבלה, ותזכורת שנשלחה ל-12 סועדים.">
+      <div class="st-scr">
+        <div class="st-top"><b>הגפן, מסעדה ובר</b><span>חמישי, 19:40</span></div>
+        <ul class="st-kpi"><li><small>הזמנות הערב</small><b>42</b></li><li><small>תפוסה</small><b>86%</b></li><li><small>הכנסה צפויה</small><b>9,860 ₪</b></li></ul>
+        <div class="st-chart"><span>סועדים לפי שעה</span>
+          <div class="st-bars"><i style="--h:34%"></i><i style="--h:62%"></i><i class="is-peak" style="--h:100%"></i><i style="--h:88%"></i><i style="--h:56%"></i><i style="--h:22%"></i></div>
+          <div class="st-hrs"><span>18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span></div>
+        </div>
+        <ul class="st-list">
+          <li><time>19:30</time><span>משפחת לוי, 6 סועדים</span><b class="st-st">הגיעו</b></li>
+          <li><time>20:00</time><span>דנה ורועי, 2 סועדים</span><b class="st-st">מקדמה שולמה</b></li>
+          <li><time>20:30</time><span>יום הולדת לנוי, 10 סועדים</span><b class="st-st">אושר</b></li>
+          <li><time>21:00</time><span>אבי כהן, 4 סועדים</span><b class="st-st">חדש</b></li>
+        </ul>
+      </div>
+      <span class="st-chip st-c1"><i></i>הזמנה חדשה: 4 סועדים ב-21:00</span>
+      <span class="st-chip st-c2"><i></i>מקדמה של 200 ₪ התקבלה</span>
+      <span class="st-chip st-c3"><i></i>תזכורת נשלחה ל-12 סועדים</span>
+    </div>
+  </div>
+</section></div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script>
+if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
+
+(function(){
+  if(typeof gsap==="undefined")return;      // בלי GSAP: הטאבלט ישר, הגרף מלא וההתראות גלויות (במארקאפ)
+  const root=document.querySelector("[data-st]");if(!root)return;
+  gsap.registerPlugin(ScrollTrigger);
+  const stage=root.querySelector(".st-stage"),dev=root.querySelector(".st-dev"),
+    bars=[...root.querySelectorAll(".st-bars i")],chips=[...root.querySelectorAll(".st-chip")];
+  const mm=gsap.matchMedia();
+  mm.add("(prefers-reduced-motion: no-preference)",()=>{
+    // מוטה לאחור כאילו מונח על שולחן, הגרף ריק וההתראות עוד לא הגיעו
+    gsap.set(dev,{rotateX:32,scale:.88,y:40});
+    gsap.set(bars,{scaleY:0});
+    gsap.set(chips,{autoAlpha:0,y:16,scale:.92});
+    const tl=gsap.timeline({scrollTrigger:{trigger:stage,start:"top 92%",end:"top 22%",scrub:.6,invalidateOnRefresh:true}});
+    tl.to(dev,{rotateX:0,scale:1,y:0,ease:"none",duration:1},0)
+      .to(bars,{scaleY:1,ease:"power2.out",duration:.3,stagger:.05},.42)
+      .to(chips,{autoAlpha:1,y:0,scale:1,ease:"power2.out",duration:.16,stagger:.08},.72);
+  });
+})();
+</script>
+</body>
+</html>

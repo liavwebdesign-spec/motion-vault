@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B108 · תפריט וילון עם תמונה לכל קישור | Motion Vault</title>
+
+
+<link rel="stylesheet" href="../assets/vault.css?v=8b211157">
+<style>
+.mc{position:relative;isolation:isolate;overflow:clip;min-height:clamp(560px,52vw,680px);border-radius:clamp(20px,2.4vw,32px);background:var(--card);color:var(--ink)}
+.mc-bar,.mc-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.mc-bar{padding:20px clamp(20px,3vw,40px)}
+.mc-logo{font-size:18px;font-weight:800}
+.mc-tg{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 18px;border:0;border-radius:999px;background:var(--ink);color:var(--bg);font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.mc-tg svg,.mc-x svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mc-tg:focus-visible,.mc-x:focus-visible,.mc-links a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.mc-page{display:grid;gap:16px;justify-items:start;max-width:40rem;padding:clamp(48px,7vw,96px) clamp(20px,3vw,40px)}
+.mc-k{margin:0;font-size:15px;font-weight:600;color:var(--muted)}
+.mc-page h2{margin:0;font-size:clamp(36px,5vw,68px);font-weight:800;line-height:1.05;letter-spacing:-.02em;text-wrap:balance}
+.mc-page p{margin:0;max-width:40ch;font-size:var(--fs-body);line-height:1.6;color:var(--muted)}
+.mc-p{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);grid-template-rows:auto 1fr auto;column-gap:clamp(24px,4vw,64px);row-gap:16px;padding:20px clamp(20px,3vw,40px) clamp(24px,3vw,40px);background:var(--ink);color:var(--bg)}
+.mc-top{grid-column:1/-1}
+.mc-x{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:color-mix(in srgb,var(--bg) 12%,transparent);color:var(--bg);cursor:pointer}
+.mc-links{list-style:none;margin:0;padding:0;display:grid;align-content:center;gap:4px}
+.mc-links a{display:inline-flex;align-items:center;gap:16px;padding:4px 0;color:inherit;text-decoration:none;font-size:clamp(36px,4.6vw,64px);font-weight:800;line-height:1.1;letter-spacing:-.02em;transition:opacity .35s cubic-bezier(.2,.6,.2,1)}
+.mc-links a svg{width:.6em;height:.6em;flex:none;fill:none;stroke:var(--accent);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:translateX(16px);transition:opacity .35s cubic-bezier(.2,.6,.2,1),transform .35s cubic-bezier(.2,.6,.2,1)}
+.mc-links.is-dim a{opacity:.35}
+.mc-links.is-dim a.is-on{opacity:1}
+.mc-links a.is-on svg{opacity:1;transform:none}
+.mc-pv{position:relative;align-self:center;margin:0;aspect-ratio:4/5;max-height:min(100%,520px);width:100%;border-radius:20px;overflow:hidden;background:color-mix(in srgb,var(--bg) 8%,transparent)}
+.mc-pv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);transition:opacity .6s cubic-bezier(.2,.6,.2,1),transform .9s cubic-bezier(.2,.6,.2,1)}
+.mc-pv img.is-on{opacity:1;transform:none}
+.mc-pv figcaption{position:absolute;inset-inline-start:16px;inset-block-end:16px;padding:8px 14px;border-radius:999px;background:color-mix(in srgb,var(--ink) 62%,transparent);color:var(--bg);font-size:14px;font-weight:600;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.mc-pv figcaption span{display:none}
+.mc-pv figcaption span.is-on{display:inline}
+.mc-foot{grid-column:1/-1;margin:0;font-size:14px;opacity:.7}
+.mc-foot a{color:inherit}
+/* חי: התפריט הוא שכבה מעל העמוד, שיורדת כמו וילון */
+.mc.is-live .mc-p{position:absolute;inset:0;z-index:2;clip-path:inset(0 0 100% 0);visibility:hidden;transition:clip-path .8s cubic-bezier(.76,0,.24,1),visibility 0s .8s}
+.mc.is-live.is-open .mc-p{clip-path:inset(0);visibility:visible;transition:clip-path .8s cubic-bezier(.76,0,.24,1),visibility 0s}
+.mc.is-live .mc-links li,.mc.is-live .mc-pv{opacity:0;transform:translateY(24px);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.mc.is-live.is-open .mc-links li{opacity:1;transform:none;transition-duration:.6s;transition-delay:calc(.4s + var(--i) * 60ms)}
+.mc.is-live.is-open .mc-pv{opacity:1;transform:none;transition-duration:.7s;transition-delay:.55s}
+@media(prefers-reduced-motion:reduce){
+  .mc.is-live .mc-p{clip-path:none;opacity:0;transition:opacity .2s cubic-bezier(.2,.6,.2,1),visibility 0s .2s}
+  .mc.is-live.is-open .mc-p{clip-path:none;opacity:1;transition:opacity .2s cubic-bezier(.2,.6,.2,1),visibility 0s}
+  .mc.is-live .mc-links li,.mc.is-live .mc-pv,.mc.is-live.is-open .mc-links li,.mc.is-live.is-open .mc-pv{opacity:1;transform:none;transition:none}
+  .mc-pv img{transition-duration:.2s;transform:none}}
+@media(max-width:767px){.mc-p{grid-template-columns:minmax(0,1fr)}.mc-pv{display:none}.mc-links a{font-size:clamp(34px,10vw,48px)}}
+</style>
+</head>
+<body>
+<script>if(window.top!==window)document.documentElement.classList.add("in-frame")</script>
+<div class="vtop"><div class="vtop-in">
+  <a class="vback" href="../index.html#c=behavior">→ לספרייה</a>
+  <nav class="vpn" aria-label="פריטים סמוכים"><a href="b107.html" rel="prev" title="הקודם: כרטיסי צוות שנצבעים ונפתחים">→<span class="sr-only">הקודם</span></a><span class="vpn-n">93/100</span><a href="b109.html" rel="next" title="הבא: שובל תמונות אחרי העכבר">←<span class="sr-only">הבא</span></a></nav>
+  <h1><span class="vid">B108</span> · תפריט וילון עם תמונה לכל קישור</h1>
+  <span class="vchip cat-behavior">התנהגויות</span>
+  <span class="vchip">CSS clip-path · JS · inert</span>
+  <span class="vchip use">ניווט ומבנה</span><span class="vchip use">תמונות וגלריות</span><span class="vchip use">hover ומיקרו</span>
+  <span class="vchip st-pending" data-mvchip>ממתין</span>
+  <button class="mvid" data-mvid="MV:b108"><code>MV:b108</code> העתק מזהה</button>
+  <button class="vtray" type="button" data-tray="b108">+ לסל הפרויקט</button>
+</div></div>
+<div class="vintro">
+  <p>לחיצה על «תפריט» מורידה מלמעלה וילון כהה על כל המסך. הקישורים נכנסים בזה אחר זה בכתב גדול, ולידם תמונה. כשהעכבר עובר על קישור, השאר מתעמעמים, ליד הקישור מופיע חץ, והתמונה מתחלפת לפרויקט שמייצג אותו, עם כיתוב קצר.</p>
+  <p class="when"><b>מתי משתמשים:</b> אתר תדמית שהעבודות הן המוצר: אדריכלות, עיצוב פנים, צילום, סטודיו, מלון בוטיק. תפריט של ארבעה עד שישה קישורים. לא לאתר עם תפריט עמוק או חנות עם קטגוריות, שם מגה תפריט, ולא כשאין תמונה טובה לכל קישור. בטלפון התמונה יורדת ונשאר התפריט הגדול.</p>
+  <dl class="vplace"><div><dt>סוג אתר</dt><dd>אתר תדמית · פורטפוליו וסטודיו · חנות</dd></div><div><dt>בסקשן</dt><dd>הדר וניווט</dd></div><div><dt>אופי</dt><dd>רק באתר חוויתי</dd></div><div><dt>תפקיד ומינון</dt><dd>רגע חתימה, פעם אחת בעמוד</dd></div><div><dt>מתי לא</dt><dd>לא בדף נחיתה עם קישור אחד, ולא כשאין תמונה טובה לכל קישור.</dd></div></dl>
+  <div class="mvpanel" data-mvpanel="b108"></div>
+  <p class="inherit-note">הדמו כאן עיצובי-ניטרלי בכוונה. כשהמהלך נכנס לפרויקט, מיובאת רק ההתנהגות: הצבעים, הרדיוסים, הפונטים והצללים יורשים את העיצוב של אותו פרויקט.</p>
+</div>
+<h2 class="sr-only">הדמו</h2>
+
+<div class="stage"><section class="mc" data-mc>
+  <div class="mc-bar">
+    <b class="mc-logo">סטודיו אורן</b>
+    <button class="mc-tg" type="button" aria-expanded="false" aria-controls="mc-p">תפריט <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg></button>
+  </div>
+  <div class="mc-page">
+    <p class="mc-k">עיצוב פנים ואדריכלות</p>
+    <h2>בתים שקטים, שנבנו סביב האור</h2>
+    <p>אנחנו מתכננים דירות ובתים פרטיים מהקירות ועד המנורה האחרונה, עם חומרים טבעיים ומעט מאוד רעש.</p>
+  </div>
+  <nav class="mc-p" id="mc-p" aria-label="תפריט ראשי">
+    <div class="mc-top"><b class="mc-logo">סטודיו אורן</b><button class="mc-x" type="button" aria-label="סגירת התפריט"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <ul class="mc-links">
+      <li style="--i:0"><a href="#">פרויקטים <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a></li>
+      <li style="--i:1"><a href="#">שירותים <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a></li>
+      <li style="--i:2"><a href="#">תהליך <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a></li>
+      <li style="--i:3"><a href="#">אודות <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a></li>
+      <li style="--i:4"><a href="#">צור קשר <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></a></li>
+    </ul>
+    <figure class="mc-pv" aria-hidden="true">
+      <img class="is-on" src="../assets/media/real/s13/proj-a.webp" width="1800" height="1200" alt="סלון כהה עם ספה נמוכה ומנורות תלויות" loading="lazy" decoding="async">
+      <img src="../assets/media/real/s13/room.webp" width="2200" height="1469" alt="פינת קריאה עם כורסה ומדפים מוארים" loading="lazy" decoding="async">
+      <img src="../assets/media/real/s13/proj-c.webp" width="2400" height="1026" alt="מטבח כהה עם אי שיש ומנורות" loading="lazy" decoding="async">
+      <img src="../assets/media/real/s13/proj-b.webp" width="1200" height="1600" alt="חדר רחצה כהה עם מראה עגולה וכיור שיש" loading="lazy" decoding="async">
+      <img src="../assets/media/real/s13/hero.webp" width="2560" height="1435" alt="אור שמש נכנס דרך חלון לחדר כהה" loading="lazy" decoding="async">
+      <figcaption><span class="is-on">דירה בצפון תל אביב</span><span>פינת קריאה בבית בהרצליה</span><span>מטבח בבית פרטי ברעננה</span><span>חדר רחצה בפנטהאוז ביפו</span><span>הסטודיו שלנו בבוקר</span></figcaption>
+    </figure>
+    <p class="mc-foot">הסטודיו ברחוב הנביאים בתל אביב · <a href="#">לשלוח לנו הודעה</a></p>
+  </nav>
+</section></div>
+
+<div class="demo-note"><b>שחזור.</b> השראה: animtd.store (26.10.2026), סרטון של תפריט מסך מלא שבו כל קישור מחליף תמונה בצד. נבנה מאפס מהצפייה. <b>במה זה שונה ממה שיש:</b> b23 הוא תפריט מסך מלא בלי תמונות, ו-g43 הוא תמונה שעוקבת אחרי הסמן ברשימה. כאן התמונה קבועה במקום, ומתחלפת לפי הקישור. <b>הווילון:</b> <code>clip-path:inset(0 0 100% 0)</code> שנפתח ל-<code>inset(0)</code> ב-0.8 שנייה בעקומת in-out המאושרת (מעבר על פני המסך), ואחריו הקישורים עולים בדירוג של 60ms. <b>התמונה:</b> כל התמונות בערימה אחת, והפעילה מקבלת <code>is-on</code> (שקיפות והקטנה קלה מ-1.06). <b>המיקוד:</b> כשהתפריט פתוח, העמוד וההדר מקבלים <code>inert</code> (מלכודת פוקוס בלי ספרייה), הפוקוס עובר לקישור הראשון, Escape וכפתור הסגירה מחזירים אותו לכפתור «תפריט». פוקוס מהמקלדת על קישור עושה את מה שעושה הריחוף. <b>בדמו</b> הווילון מכסה את הבמה (<code>position:absolute</code>); בפרויקט הוא <code>position:fixed</code>, וה-<code>inert</code> עובר לכל מה שמחוץ לתפריט, כולל <code>main</code> והפוטר. <b>בלי JS</b> התפריט מוצג כרשימה רגילה מתחת להדר. <b>הפחתת תנועה:</b> בלי וילון ובלי עלייה, התפריט מופיע בעמעום קצר. <b>באתר משמאל לימין</b> החץ מתהפך.</div>
+<section class="mvcode">
+  <h2>קוד להדבקה</h2>
+  <p class="mvcode-lead">הקוד כאן עומד בפני עצמו. כל טוקן עיצוב נושא ברירת מחדל, מחלקות העזר של המאגר מוטמעות בו, ותגי הסקריפט מסודרים לפי הסדר הנכון. פרויקט שמגדיר <code>--accent</code> או <code>--line</code> משלו יורש אותם אוטומטית. הרכיב הזה מסתמך על <code>dir="rtl"</code>.</p>
+  <div class="mvcode-bar">
+    <button class="cp cp-main" data-cp="brief">📋 העתק הנחיה מלאה לסוכן</button>
+    <button class="cp" data-cp="css">CSS</button>
+    <button class="cp" data-cp="html">HTML</button>
+    <button class="cp" data-cp="js">JS</button>
+    
+    <a class="cp cp-link" href="../export/b108.html" target="_blank" rel="noopener">פתח קובץ עצמאי ↗</a>
+  </div>
+  <details class="mvcode-see"><summary>הצג את הקוד כאן</summary>
+    <h3>CSS</h3><pre><code>/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B108 · תפריט וילון עם תמונה לכל קישור */
+.mc{position:relative;isolation:isolate;overflow:clip;min-height:clamp(560px,52vw,680px);border-radius:clamp(20px,2.4vw,32px);background:var(--card, #fff);color:var(--ink, #16182b)}
+.mc-bar,.mc-top{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.mc-bar{padding:20px clamp(20px,3vw,40px)}
+.mc-logo{font-size:18px;font-weight:800}
+.mc-tg{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 18px;border:0;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font:inherit;font-size:15px;font-weight:600;cursor:pointer}
+.mc-tg svg,.mc-x svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mc-tg:focus-visible,.mc-x:focus-visible,.mc-links a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+.mc-page{display:grid;gap:16px;justify-items:start;max-width:40rem;padding:clamp(48px,7vw,96px) clamp(20px,3vw,40px)}
+.mc-k{margin:0;font-size:15px;font-weight:600;color:var(--muted, #6a6d85)}
+.mc-page h2{margin:0;font-size:clamp(36px,5vw,68px);font-weight:800;line-height:1.05;letter-spacing:-.02em;text-wrap:balance}
+.mc-page p{margin:0;max-width:40ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6;color:var(--muted, #6a6d85)}
+.mc-p{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);grid-template-rows:auto 1fr auto;column-gap:clamp(24px,4vw,64px);row-gap:16px;padding:20px clamp(20px,3vw,40px) clamp(24px,3vw,40px);background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}
+.mc-top{grid-column:1/-1}
+.mc-x{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:color-mix(in srgb,var(--bg, #f7f7fa) 12%,transparent);color:var(--bg, #f7f7fa);cursor:pointer}
+.mc-links{list-style:none;margin:0;padding:0;display:grid;align-content:center;gap:4px}
+.mc-links a{display:inline-flex;align-items:center;gap:16px;padding:4px 0;color:inherit;text-decoration:none;font-size:clamp(36px,4.6vw,64px);font-weight:800;line-height:1.1;letter-spacing:-.02em;transition:opacity .35s cubic-bezier(.2,.6,.2,1)}
+.mc-links a svg{width:.6em;height:.6em;flex:none;fill:none;stroke:var(--accent, #4a3aff);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:translateX(16px);transition:opacity .35s cubic-bezier(.2,.6,.2,1),transform .35s cubic-bezier(.2,.6,.2,1)}
+.mc-links.is-dim a{opacity:.35}
+.mc-links.is-dim a.is-on{opacity:1}
+.mc-links a.is-on svg{opacity:1;transform:none}
+.mc-pv{position:relative;align-self:center;margin:0;aspect-ratio:4/5;max-height:min(100%,520px);width:100%;border-radius:20px;overflow:hidden;background:color-mix(in srgb,var(--bg, #f7f7fa) 8%,transparent)}
+.mc-pv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);transition:opacity .6s cubic-bezier(.2,.6,.2,1),transform .9s cubic-bezier(.2,.6,.2,1)}
+.mc-pv img.is-on{opacity:1;transform:none}
+.mc-pv figcaption{position:absolute;inset-inline-start:16px;inset-block-end:16px;padding:8px 14px;border-radius:999px;background:color-mix(in srgb,var(--ink, #16182b) 62%,transparent);color:var(--bg, #f7f7fa);font-size:14px;font-weight:600;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.mc-pv figcaption span{display:none}
+.mc-pv figcaption span.is-on{display:inline}
+.mc-foot{grid-column:1/-1;margin:0;font-size:14px;opacity:.7}
+.mc-foot a{color:inherit}
+/* חי: התפריט הוא שכבה מעל העמוד, שיורדת כמו וילון */
+.mc.is-live .mc-p{position:absolute;inset:0;z-index:2;clip-path:inset(0 0 100% 0);visibility:hidden;transition:clip-path .8s cubic-bezier(.76,0,.24,1),visibility 0s .8s}
+.mc.is-live.is-open .mc-p{clip-path:inset(0);visibility:visible;transition:clip-path .8s cubic-bezier(.76,0,.24,1),visibility 0s}
+.mc.is-live .mc-links li,.mc.is-live .mc-pv{opacity:0;transform:translateY(24px);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
+.mc.is-live.is-open .mc-links li{opacity:1;transform:none;transition-duration:.6s;transition-delay:calc(.4s + var(--i) * 60ms)}
+.mc.is-live.is-open .mc-pv{opacity:1;transform:none;transition-duration:.7s;transition-delay:.55s}
+@media(prefers-reduced-motion:reduce){
+  .mc.is-live .mc-p{clip-path:none;opacity:0;transition:opacity .2s cubic-bezier(.2,.6,.2,1),visibility 0s .2s}
+  .mc.is-live.is-open .mc-p{clip-path:none;opacity:1;transition:opacity .2s cubic-bezier(.2,.6,.2,1),visibility 0s}
+  .mc.is-live .mc-links li,.mc.is-live .mc-pv,.mc.is-live.is-open .mc-links li,.mc.is-live.is-open .mc-pv{opacity:1;transform:none;transition:none}
+  .mc-pv img{transition-duration:.2s;transform:none}}
+@media(max-width:767px){.mc-p{grid-template-columns:minmax(0,1fr)}.mc-pv{display:none}.mc-links a{font-size:clamp(34px,10vw,48px)}}</code></pre>
+    <h3>HTML</h3><pre><code>&lt;div class="stage"&gt;&lt;section class="mc" data-mc&gt;
+  &lt;div class="mc-bar"&gt;
+    &lt;b class="mc-logo"&gt;סטודיו אורן&lt;/b&gt;
+    &lt;button class="mc-tg" type="button" aria-expanded="false" aria-controls="mc-p"&gt;תפריט &lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M4 8h16M4 16h16"/&gt;&lt;/svg&gt;&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class="mc-page"&gt;
+    &lt;p class="mc-k"&gt;עיצוב פנים ואדריכלות&lt;/p&gt;
+    &lt;h2&gt;בתים שקטים, שנבנו סביב האור&lt;/h2&gt;
+    &lt;p&gt;אנחנו מתכננים דירות ובתים פרטיים מהקירות ועד המנורה האחרונה, עם חומרים טבעיים ומעט מאוד רעש.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;nav class="mc-p" id="mc-p" aria-label="תפריט ראשי"&gt;
+    &lt;div class="mc-top"&gt;&lt;b class="mc-logo"&gt;סטודיו אורן&lt;/b&gt;&lt;button class="mc-x" type="button" aria-label="סגירת התפריט"&gt;&lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M6 6l12 12M18 6L6 18"/&gt;&lt;/svg&gt;&lt;/button&gt;&lt;/div&gt;
+    &lt;ul class="mc-links"&gt;
+      &lt;li style="--i:0"&gt;&lt;a href="#"&gt;פרויקטים &lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M19 12H5M11 6l-6 6 6 6"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li style="--i:1"&gt;&lt;a href="#"&gt;שירותים &lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M19 12H5M11 6l-6 6 6 6"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li style="--i:2"&gt;&lt;a href="#"&gt;תהליך &lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M19 12H5M11 6l-6 6 6 6"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li style="--i:3"&gt;&lt;a href="#"&gt;אודות &lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M19 12H5M11 6l-6 6 6 6"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/li&gt;
+      &lt;li style="--i:4"&gt;&lt;a href="#"&gt;צור קשר &lt;svg viewBox="0 0 24 24" aria-hidden="true"&gt;&lt;path d="M19 12H5M11 6l-6 6 6 6"/&gt;&lt;/svg&gt;&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;figure class="mc-pv" aria-hidden="true"&gt;
+      &lt;img class="is-on" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp" width="1800" height="1200" alt="סלון כהה עם ספה נמוכה ומנורות תלויות" loading="lazy" decoding="async"&gt;
+      &lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp" width="2200" height="1469" alt="פינת קריאה עם כורסה ומדפים מוארים" loading="lazy" decoding="async"&gt;
+      &lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp" width="2400" height="1026" alt="מטבח כהה עם אי שיש ומנורות" loading="lazy" decoding="async"&gt;
+      &lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp" width="1200" height="1600" alt="חדר רחצה כהה עם מראה עגולה וכיור שיש" loading="lazy" decoding="async"&gt;
+      &lt;img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp" width="2560" height="1435" alt="אור שמש נכנס דרך חלון לחדר כהה" loading="lazy" decoding="async"&gt;
+      &lt;figcaption&gt;&lt;span class="is-on"&gt;דירה בצפון תל אביב&lt;/span&gt;&lt;span&gt;פינת קריאה בבית בהרצליה&lt;/span&gt;&lt;span&gt;מטבח בבית פרטי ברעננה&lt;/span&gt;&lt;span&gt;חדר רחצה בפנטהאוז ביפו&lt;/span&gt;&lt;span&gt;הסטודיו שלנו בבוקר&lt;/span&gt;&lt;/figcaption&gt;
+    &lt;/figure&gt;
+    &lt;p class="mc-foot"&gt;הסטודיו ברחוב הנביאים בתל אביב · &lt;a href="#"&gt;לשלוח לנו הודעה&lt;/a&gt;&lt;/p&gt;
+  &lt;/nav&gt;
+&lt;/section&gt;&lt;/div&gt;</code></pre>
+    <h3>JS</h3><pre><code>(function(){
+  const root=document.querySelector("[data-mc]");
+  if(!root)return;
+  const tg=root.querySelector(".mc-tg"),x=root.querySelector(".mc-x"),panel=root.querySelector(".mc-p");
+  const page=root.querySelector(".mc-page"),bar=root.querySelector(".mc-bar"),list=panel.querySelector(".mc-links");
+  const links=[...list.querySelectorAll("a")],imgs=[...panel.querySelectorAll(".mc-pv img")],caps=[...panel.querySelectorAll(".mc-pv figcaption span")];
+  root.classList.add("is-live");panel.inert=true;     // בלי JS התפריט הוא רשימה רגילה מתחת להדר
+  const show=i=&gt;[links,imgs,caps].forEach(g=&gt;g.forEach((el,k)=&gt;el.classList.toggle("is-on",k===i)));
+  const set=on=&gt;{
+    root.classList.toggle("is-open",on);
+    panel.inert=!on;page.inert=on;bar.inert=on;       // מלכודת פוקוס: מה שמאחורי הווילון לא נגיש
+    tg.setAttribute("aria-expanded",String(on));
+    if(on){show(0);list.classList.remove("is-dim");setTimeout(()=&gt;links[0].focus({preventScroll:true}),80);}
+    else tg.focus({preventScroll:true});
+  };
+  tg.addEventListener("click",()=&gt;set(true));
+  x.addEventListener("click",()=&gt;set(false));
+  root.addEventListener("keydown",e=&gt;{if(e.key==="Escape"&amp;&amp;root.classList.contains("is-open"))set(false);});
+  links.forEach((a,i)=&gt;{
+    a.addEventListener("pointerenter",()=&gt;{show(i);list.classList.add("is-dim");});
+    a.addEventListener("focus",()=&gt;{if(a.matches(":focus-visible")){show(i);list.classList.add("is-dim");}});
+    a.addEventListener("click",e=&gt;{e.preventDefault();set(false);});   // בדמו; בפרויקט הקישור מנווט
+  });
+  list.addEventListener("pointerleave",()=&gt;list.classList.remove("is-dim"));
+})();</code></pre>
+  </details>
+  <script type="application/json" id="mvcode-data">{"brief":"מהלך מתוך Motion Vault: MV:b108 · תפריט וילון עם תמונה לכל קישור\nעמוד הדמו: https://liavwebdesign-spec.github.io/motion-vault/behavior/b108.html\nקובץ עצמאי לבדיקה: https://liavwebdesign-spec.github.io/motion-vault/export/b108.html\n\nמה זה עושה: לחיצה על «תפריט» מורידה מלמעלה וילון כהה על כל המסך. הקישורים נכנסים בזה אחר זה בכתב גדול, ולידם תמונה. כשהעכבר עובר על קישור, השאר מתעמעמים, ליד הקישור מופיע חץ, והתמונה מתחלפת לפרויקט שמייצג אותו, עם כיתוב קצר.\nמתי משתמשים: אתר תדמית שהעבודות הן המוצר: אדריכלות, עיצוב פנים, צילום, סטודיו, מלון בוטיק. תפריט של ארבעה עד שישה קישורים. לא לאתר עם תפריט עמוק או חנות עם קטגוריות, שם מגה תפריט, ולא כשאין תמונה טובה לכל קישור. בטלפון התמונה יורדת ונשאר התפריט הגדול.\nסוג אתר: אתר תדמית · פורטפוליו וסטודיו · חנות\nבסקשן: הדר וניווט\nאופי: רק באתר חוויתי\nתפקיד ומינון: רגע חתימה, פעם אחת בעמוד\nמתי לא: לא בדף נחיתה עם קישור אחד, ולא כשאין תמונה טובה לכל קישור.\n\nכללי הטמעה:\n1. הקוד למטה עומד בפני עצמו. כל משתנה CSS נושא ברירת מחדל, ולכן אם הפרויקט מגדיר --accent, --line, --ink או --gutter משלו, הרכיב יורש אותם אוטומטית. אם לא, הוא עדיין נראה נכון.\n2. הרכיב מסתמך על dir=\"rtl\" בשורש המסמך. בלי זה כל המיקומים הלוגיים מתהפכים.\n3. ה-JS חייב לרוץ אחרי שה-HTML כבר קיים ב-DOM.\n\nהטקסט: כל הטקסט בדמו הוא ממלא מקום ולא נכנס לפרויקט. הטקסט בא מהקופי המאושר של הפרויקט. מספר לפני כותרת רק כשהסדר הוא מידע (שלבים, רצף, דירוג), וכרטיס לא נבנה כברירת מחדל ממספר, קטגוריה, כותרת, תיאור וקישור עם חץ.\n\n=== CSS ===\n/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B108 · תפריט וילון עם תמונה לכל קישור */\n.mc{position:relative;isolation:isolate;overflow:clip;min-height:clamp(560px,52vw,680px);border-radius:clamp(20px,2.4vw,32px);background:var(--card, #fff);color:var(--ink, #16182b)}\n.mc-bar,.mc-top{display:flex;align-items:center;justify-content:space-between;gap:16px}\n.mc-bar{padding:20px clamp(20px,3vw,40px)}\n.mc-logo{font-size:18px;font-weight:800}\n.mc-tg{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 18px;border:0;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font:inherit;font-size:15px;font-weight:600;cursor:pointer}\n.mc-tg svg,.mc-x svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}\n.mc-tg:focus-visible,.mc-x:focus-visible,.mc-links a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n.mc-page{display:grid;gap:16px;justify-items:start;max-width:40rem;padding:clamp(48px,7vw,96px) clamp(20px,3vw,40px)}\n.mc-k{margin:0;font-size:15px;font-weight:600;color:var(--muted, #6a6d85)}\n.mc-page h2{margin:0;font-size:clamp(36px,5vw,68px);font-weight:800;line-height:1.05;letter-spacing:-.02em;text-wrap:balance}\n.mc-page p{margin:0;max-width:40ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6;color:var(--muted, #6a6d85)}\n.mc-p{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);grid-template-rows:auto 1fr auto;column-gap:clamp(24px,4vw,64px);row-gap:16px;padding:20px clamp(20px,3vw,40px) clamp(24px,3vw,40px);background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}\n.mc-top{grid-column:1/-1}\n.mc-x{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:color-mix(in srgb,var(--bg, #f7f7fa) 12%,transparent);color:var(--bg, #f7f7fa);cursor:pointer}\n.mc-links{list-style:none;margin:0;padding:0;display:grid;align-content:center;gap:4px}\n.mc-links a{display:inline-flex;align-items:center;gap:16px;padding:4px 0;color:inherit;text-decoration:none;font-size:clamp(36px,4.6vw,64px);font-weight:800;line-height:1.1;letter-spacing:-.02em;transition:opacity .35s cubic-bezier(.2,.6,.2,1)}\n.mc-links a svg{width:.6em;height:.6em;flex:none;fill:none;stroke:var(--accent, #4a3aff);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:translateX(16px);transition:opacity .35s cubic-bezier(.2,.6,.2,1),transform .35s cubic-bezier(.2,.6,.2,1)}\n.mc-links.is-dim a{opacity:.35}\n.mc-links.is-dim a.is-on{opacity:1}\n.mc-links a.is-on svg{opacity:1;transform:none}\n.mc-pv{position:relative;align-self:center;margin:0;aspect-ratio:4/5;max-height:min(100%,520px);width:100%;border-radius:20px;overflow:hidden;background:color-mix(in srgb,var(--bg, #f7f7fa) 8%,transparent)}\n.mc-pv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);transition:opacity .6s cubic-bezier(.2,.6,.2,1),transform .9s cubic-bezier(.2,.6,.2,1)}\n.mc-pv img.is-on{opacity:1;transform:none}\n.mc-pv figcaption{position:absolute;inset-inline-start:16px;inset-block-end:16px;padding:8px 14px;border-radius:999px;background:color-mix(in srgb,var(--ink, #16182b) 62%,transparent);color:var(--bg, #f7f7fa);font-size:14px;font-weight:600;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}\n.mc-pv figcaption span{display:none}\n.mc-pv figcaption span.is-on{display:inline}\n.mc-foot{grid-column:1/-1;margin:0;font-size:14px;opacity:.7}\n.mc-foot a{color:inherit}\n/* חי: התפריט הוא שכבה מעל העמוד, שיורדת כמו וילון */\n.mc.is-live .mc-p{position:absolute;inset:0;z-index:2;clip-path:inset(0 0 100% 0);visibility:hidden;transition:clip-path .8s cubic-bezier(.76,0,.24,1),visibility 0s .8s}\n.mc.is-live.is-open .mc-p{clip-path:inset(0);visibility:visible;transition:clip-path .8s cubic-bezier(.76,0,.24,1),visibility 0s}\n.mc.is-live .mc-links li,.mc.is-live .mc-pv{opacity:0;transform:translateY(24px);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.mc.is-live.is-open .mc-links li{opacity:1;transform:none;transition-duration:.6s;transition-delay:calc(.4s + var(--i) * 60ms)}\n.mc.is-live.is-open .mc-pv{opacity:1;transform:none;transition-duration:.7s;transition-delay:.55s}\n@media(prefers-reduced-motion:reduce){\n  .mc.is-live .mc-p{clip-path:none;opacity:0;transition:opacity .2s cubic-bezier(.2,.6,.2,1),visibility 0s .2s}\n  .mc.is-live.is-open .mc-p{clip-path:none;opacity:1;transition:opacity .2s cubic-bezier(.2,.6,.2,1),visibility 0s}\n  .mc.is-live .mc-links li,.mc.is-live .mc-pv,.mc.is-live.is-open .mc-links li,.mc.is-live.is-open .mc-pv{opacity:1;transform:none;transition:none}\n  .mc-pv img{transition-duration:.2s;transform:none}}\n@media(max-width:767px){.mc-p{grid-template-columns:minmax(0,1fr)}.mc-pv{display:none}.mc-links a{font-size:clamp(34px,10vw,48px)}}\n\n=== HTML ===\n<div class=\"stage\"><section class=\"mc\" data-mc>\n  <div class=\"mc-bar\">\n    <b class=\"mc-logo\">סטודיו אורן<\/b>\n    <button class=\"mc-tg\" type=\"button\" aria-expanded=\"false\" aria-controls=\"mc-p\">תפריט <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 8h16M4 16h16\"/><\/svg><\/button>\n  <\/div>\n  <div class=\"mc-page\">\n    <p class=\"mc-k\">עיצוב פנים ואדריכלות<\/p>\n    <h2>בתים שקטים, שנבנו סביב האור<\/h2>\n    <p>אנחנו מתכננים דירות ובתים פרטיים מהקירות ועד המנורה האחרונה, עם חומרים טבעיים ומעט מאוד רעש.<\/p>\n  <\/div>\n  <nav class=\"mc-p\" id=\"mc-p\" aria-label=\"תפריט ראשי\">\n    <div class=\"mc-top\"><b class=\"mc-logo\">סטודיו אורן<\/b><button class=\"mc-x\" type=\"button\" aria-label=\"סגירת התפריט\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 6l12 12M18 6L6 18\"/><\/svg><\/button><\/div>\n    <ul class=\"mc-links\">\n      <li style=\"--i:0\"><a href=\"#\">פרויקטים <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/li>\n      <li style=\"--i:1\"><a href=\"#\">שירותים <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/li>\n      <li style=\"--i:2\"><a href=\"#\">תהליך <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/li>\n      <li style=\"--i:3\"><a href=\"#\">אודות <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/li>\n      <li style=\"--i:4\"><a href=\"#\">צור קשר <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/li>\n    <\/ul>\n    <figure class=\"mc-pv\" aria-hidden=\"true\">\n      <img class=\"is-on\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp\" width=\"1800\" height=\"1200\" alt=\"סלון כהה עם ספה נמוכה ומנורות תלויות\" loading=\"lazy\" decoding=\"async\">\n      <img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp\" width=\"2200\" height=\"1469\" alt=\"פינת קריאה עם כורסה ומדפים מוארים\" loading=\"lazy\" decoding=\"async\">\n      <img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp\" width=\"2400\" height=\"1026\" alt=\"מטבח כהה עם אי שיש ומנורות\" loading=\"lazy\" decoding=\"async\">\n      <img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp\" width=\"1200\" height=\"1600\" alt=\"חדר רחצה כהה עם מראה עגולה וכיור שיש\" loading=\"lazy\" decoding=\"async\">\n      <img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp\" width=\"2560\" height=\"1435\" alt=\"אור שמש נכנס דרך חלון לחדר כהה\" loading=\"lazy\" decoding=\"async\">\n      <figcaption><span class=\"is-on\">דירה בצפון תל אביב<\/span><span>פינת קריאה בבית בהרצליה<\/span><span>מטבח בבית פרטי ברעננה<\/span><span>חדר רחצה בפנטהאוז ביפו<\/span><span>הסטודיו שלנו בבוקר<\/span><\/figcaption>\n    <\/figure>\n    <p class=\"mc-foot\">הסטודיו ברחוב הנביאים בתל אביב · <a href=\"#\">לשלוח לנו הודעה<\/a><\/p>\n  <\/nav>\n<\/section><\/div>\n\n=== JS ===\n(function(){\n  const root=document.querySelector(\"[data-mc]\");\n  if(!root)return;\n  const tg=root.querySelector(\".mc-tg\"),x=root.querySelector(\".mc-x\"),panel=root.querySelector(\".mc-p\");\n  const page=root.querySelector(\".mc-page\"),bar=root.querySelector(\".mc-bar\"),list=panel.querySelector(\".mc-links\");\n  const links=[...list.querySelectorAll(\"a\")],imgs=[...panel.querySelectorAll(\".mc-pv img\")],caps=[...panel.querySelectorAll(\".mc-pv figcaption span\")];\n  root.classList.add(\"is-live\");panel.inert=true;     // בלי JS התפריט הוא רשימה רגילה מתחת להדר\n  const show=i=>[links,imgs,caps].forEach(g=>g.forEach((el,k)=>el.classList.toggle(\"is-on\",k===i)));\n  const set=on=>{\n    root.classList.toggle(\"is-open\",on);\n    panel.inert=!on;page.inert=on;bar.inert=on;       // מלכודת פוקוס: מה שמאחורי הווילון לא נגיש\n    tg.setAttribute(\"aria-expanded\",String(on));\n    if(on){show(0);list.classList.remove(\"is-dim\");setTimeout(()=>links[0].focus({preventScroll:true}),80);}\n    else tg.focus({preventScroll:true});\n  };\n  tg.addEventListener(\"click\",()=>set(true));\n  x.addEventListener(\"click\",()=>set(false));\n  root.addEventListener(\"keydown\",e=>{if(e.key===\"Escape\"&&root.classList.contains(\"is-open\"))set(false);});\n  links.forEach((a,i)=>{\n    a.addEventListener(\"pointerenter\",()=>{show(i);list.classList.add(\"is-dim\");});\n    a.addEventListener(\"focus\",()=>{if(a.matches(\":focus-visible\")){show(i);list.classList.add(\"is-dim\");}});\n    a.addEventListener(\"click\",e=>{e.preventDefault();set(false);});   // בדמו; בפרויקט הקישור מנווט\n  });\n  list.addEventListener(\"pointerleave\",()=>list.classList.remove(\"is-dim\"));\n})();\n\nהערת מימוש מהמאגר:\nשחזור. השראה: animtd.store (26.10.2026), סרטון של תפריט מסך מלא שבו כל קישור מחליף תמונה בצד. נבנה מאפס מהצפייה. במה זה שונה ממה שיש: b23 הוא תפריט מסך מלא בלי תמונות, ו-g43 הוא תמונה שעוקבת אחרי הסמן ברשימה. כאן התמונה קבועה במקום, ומתחלפת לפי הקישור. הווילון: `clip-path:inset(0 0 100% 0)` שנפתח ל-`inset(0)` ב-0.8 שנייה בעקומת in-out המאושרת (מעבר על פני המסך), ואחריו הקישורים עולים בדירוג של 60ms. התמונה: כל התמונות בערימה אחת, והפעילה מקבלת `is-on` (שקיפות והקטנה קלה מ-1.06). המיקוד: כשהתפריט פתוח, העמוד וההדר מקבלים `inert` (מלכודת פוקוס בלי ספרייה), הפוקוס עובר לקישור הראשון, Escape וכפתור הסגירה מחזירים אותו לכפתור «תפריט». פוקוס מהמקלדת על קישור עושה את מה שעושה הריחוף. בדמו הווילון מכסה את הבמה (`position:absolute`); בפרויקט הוא `position:fixed`, וה-`inert` עובר לכל מה שמחוץ לתפריט, כולל `main` והפוטר. בלי JS התפריט מוצג כרשימה רגילה מתחת להדר. הפחתת תנועה: בלי וילון ובלי עלייה, התפריט מופיע בעמעום קצר. באתר משמאל לימין החץ מתהפך.\n\n=== המרה ל-React או ל-Lovable ===\nהכללים כאן נבדקו בפועל בפרויקט Vite + React עם StrictMode דלוק, ולא נכתבו מהזיכרון.\n\nהמרת המארקאפ:\n- class ל-className, for ל-htmlFor, style=\"a:b\" לאובייקט, ותגים ריקים נסגרים בעצמם.\n- input עם checked חייב להפוך ל-defaultChecked. ב-JSX תכונת checked בלי onChange הופכת את השדה לקריאה בלבד והוא פשוט לא נלחץ.\n- תכונות מקף הופכות ל-camelCase: playsinline ל-playsInline, autoplay ל-autoPlay.\n- אם ה-HTML מכיל יותר מאלמנט אחד ברמה העליונה, עטוף ב-Fragment.\n\nה-CSS:\n- אל תמיר למחלקות Tailwind. חלק גדול מהכללים נשען על nth-child, על פסאודו-אלמנטים ועל משתני CSS שמונפשים, וזה נשבר בהמרה. שים את הקובץ כמו שהוא וייבא אותו בקומפוננטה.\n\nJS:\n- אין GSAP כאן. ה-JS נכנס ל-useEffect עם ref לשורש, והניקוי חייב לשחרר מה שנפתח: observer.disconnect() ל-IntersectionObserver, ו-AbortController לכל addEventListener. בלי זה StrictMode משאיר מופע תלוי באוויר.","css":"/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */\n.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}\n.stage.tight{padding-block:clamp(48px,5vw,90px)}\n.stage.full{padding-inline:0}\n\n/* B108 · תפריט וילון עם תמונה לכל קישור */\n.mc{position:relative;isolation:isolate;overflow:clip;min-height:clamp(560px,52vw,680px);border-radius:clamp(20px,2.4vw,32px);background:var(--card, #fff);color:var(--ink, #16182b)}\n.mc-bar,.mc-top{display:flex;align-items:center;justify-content:space-between;gap:16px}\n.mc-bar{padding:20px clamp(20px,3vw,40px)}\n.mc-logo{font-size:18px;font-weight:800}\n.mc-tg{display:inline-flex;align-items:center;gap:10px;min-height:44px;padding:8px 18px;border:0;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font:inherit;font-size:15px;font-weight:600;cursor:pointer}\n.mc-tg svg,.mc-x svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}\n.mc-tg:focus-visible,.mc-x:focus-visible,.mc-links a:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}\n.mc-page{display:grid;gap:16px;justify-items:start;max-width:40rem;padding:clamp(48px,7vw,96px) clamp(20px,3vw,40px)}\n.mc-k{margin:0;font-size:15px;font-weight:600;color:var(--muted, #6a6d85)}\n.mc-page h2{margin:0;font-size:clamp(36px,5vw,68px);font-weight:800;line-height:1.05;letter-spacing:-.02em;text-wrap:balance}\n.mc-page p{margin:0;max-width:40ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6;color:var(--muted, #6a6d85)}\n.mc-p{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);grid-template-rows:auto 1fr auto;column-gap:clamp(24px,4vw,64px);row-gap:16px;padding:20px clamp(20px,3vw,40px) clamp(24px,3vw,40px);background:var(--ink, #16182b);color:var(--bg, #f7f7fa)}\n.mc-top{grid-column:1/-1}\n.mc-x{display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;background:color-mix(in srgb,var(--bg, #f7f7fa) 12%,transparent);color:var(--bg, #f7f7fa);cursor:pointer}\n.mc-links{list-style:none;margin:0;padding:0;display:grid;align-content:center;gap:4px}\n.mc-links a{display:inline-flex;align-items:center;gap:16px;padding:4px 0;color:inherit;text-decoration:none;font-size:clamp(36px,4.6vw,64px);font-weight:800;line-height:1.1;letter-spacing:-.02em;transition:opacity .35s cubic-bezier(.2,.6,.2,1)}\n.mc-links a svg{width:.6em;height:.6em;flex:none;fill:none;stroke:var(--accent, #4a3aff);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;opacity:0;transform:translateX(16px);transition:opacity .35s cubic-bezier(.2,.6,.2,1),transform .35s cubic-bezier(.2,.6,.2,1)}\n.mc-links.is-dim a{opacity:.35}\n.mc-links.is-dim a.is-on{opacity:1}\n.mc-links a.is-on svg{opacity:1;transform:none}\n.mc-pv{position:relative;align-self:center;margin:0;aspect-ratio:4/5;max-height:min(100%,520px);width:100%;border-radius:20px;overflow:hidden;background:color-mix(in srgb,var(--bg, #f7f7fa) 8%,transparent)}\n.mc-pv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);transition:opacity .6s cubic-bezier(.2,.6,.2,1),transform .9s cubic-bezier(.2,.6,.2,1)}\n.mc-pv img.is-on{opacity:1;transform:none}\n.mc-pv figcaption{position:absolute;inset-inline-start:16px;inset-block-end:16px;padding:8px 14px;border-radius:999px;background:color-mix(in srgb,var(--ink, #16182b) 62%,transparent);color:var(--bg, #f7f7fa);font-size:14px;font-weight:600;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}\n.mc-pv figcaption span{display:none}\n.mc-pv figcaption span.is-on{display:inline}\n.mc-foot{grid-column:1/-1;margin:0;font-size:14px;opacity:.7}\n.mc-foot a{color:inherit}\n/* חי: התפריט הוא שכבה מעל העמוד, שיורדת כמו וילון */\n.mc.is-live .mc-p{position:absolute;inset:0;z-index:2;clip-path:inset(0 0 100% 0);visibility:hidden;transition:clip-path .8s cubic-bezier(.76,0,.24,1),visibility 0s .8s}\n.mc.is-live.is-open .mc-p{clip-path:inset(0);visibility:visible;transition:clip-path .8s cubic-bezier(.76,0,.24,1),visibility 0s}\n.mc.is-live .mc-links li,.mc.is-live .mc-pv{opacity:0;transform:translateY(24px);transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}\n.mc.is-live.is-open .mc-links li{opacity:1;transform:none;transition-duration:.6s;transition-delay:calc(.4s + var(--i) * 60ms)}\n.mc.is-live.is-open .mc-pv{opacity:1;transform:none;transition-duration:.7s;transition-delay:.55s}\n@media(prefers-reduced-motion:reduce){\n  .mc.is-live .mc-p{clip-path:none;opacity:0;transition:opacity .2s cubic-bezier(.2,.6,.2,1),visibility 0s .2s}\n  .mc.is-live.is-open .mc-p{clip-path:none;opacity:1;transition:opacity .2s cubic-bezier(.2,.6,.2,1),visibility 0s}\n  .mc.is-live .mc-links li,.mc.is-live .mc-pv,.mc.is-live.is-open .mc-links li,.mc.is-live.is-open .mc-pv{opacity:1;transform:none;transition:none}\n  .mc-pv img{transition-duration:.2s;transform:none}}\n@media(max-width:767px){.mc-p{grid-template-columns:minmax(0,1fr)}.mc-pv{display:none}.mc-links a{font-size:clamp(34px,10vw,48px)}}","html":"<div class=\"stage\"><section class=\"mc\" data-mc>\n  <div class=\"mc-bar\">\n    <b class=\"mc-logo\">סטודיו אורן<\/b>\n    <button class=\"mc-tg\" type=\"button\" aria-expanded=\"false\" aria-controls=\"mc-p\">תפריט <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M4 8h16M4 16h16\"/><\/svg><\/button>\n  <\/div>\n  <div class=\"mc-page\">\n    <p class=\"mc-k\">עיצוב פנים ואדריכלות<\/p>\n    <h2>בתים שקטים, שנבנו סביב האור<\/h2>\n    <p>אנחנו מתכננים דירות ובתים פרטיים מהקירות ועד המנורה האחרונה, עם חומרים טבעיים ומעט מאוד רעש.<\/p>\n  <\/div>\n  <nav class=\"mc-p\" id=\"mc-p\" aria-label=\"תפריט ראשי\">\n    <div class=\"mc-top\"><b class=\"mc-logo\">סטודיו אורן<\/b><button class=\"mc-x\" type=\"button\" aria-label=\"סגירת התפריט\"><svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M6 6l12 12M18 6L6 18\"/><\/svg><\/button><\/div>\n    <ul class=\"mc-links\">\n      <li style=\"--i:0\"><a href=\"#\">פרויקטים <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/li>\n      <li style=\"--i:1\"><a href=\"#\">שירותים <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/li>\n      <li style=\"--i:2\"><a href=\"#\">תהליך <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/li>\n      <li style=\"--i:3\"><a href=\"#\">אודות <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/li>\n      <li style=\"--i:4\"><a href=\"#\">צור קשר <svg viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M19 12H5M11 6l-6 6 6 6\"/><\/svg><\/a><\/li>\n    <\/ul>\n    <figure class=\"mc-pv\" aria-hidden=\"true\">\n      <img class=\"is-on\" src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-a.webp\" width=\"1800\" height=\"1200\" alt=\"סלון כהה עם ספה נמוכה ומנורות תלויות\" loading=\"lazy\" decoding=\"async\">\n      <img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/room.webp\" width=\"2200\" height=\"1469\" alt=\"פינת קריאה עם כורסה ומדפים מוארים\" loading=\"lazy\" decoding=\"async\">\n      <img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-c.webp\" width=\"2400\" height=\"1026\" alt=\"מטבח כהה עם אי שיש ומנורות\" loading=\"lazy\" decoding=\"async\">\n      <img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/proj-b.webp\" width=\"1200\" height=\"1600\" alt=\"חדר רחצה כהה עם מראה עגולה וכיור שיש\" loading=\"lazy\" decoding=\"async\">\n      <img src=\"https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s13/hero.webp\" width=\"2560\" height=\"1435\" alt=\"אור שמש נכנס דרך חלון לחדר כהה\" loading=\"lazy\" decoding=\"async\">\n      <figcaption><span class=\"is-on\">דירה בצפון תל אביב<\/span><span>פינת קריאה בבית בהרצליה<\/span><span>מטבח בבית פרטי ברעננה<\/span><span>חדר רחצה בפנטהאוז ביפו<\/span><span>הסטודיו שלנו בבוקר<\/span><\/figcaption>\n    <\/figure>\n    <p class=\"mc-foot\">הסטודיו ברחוב הנביאים בתל אביב · <a href=\"#\">לשלוח לנו הודעה<\/a><\/p>\n  <\/nav>\n<\/section><\/div>","js":"(function(){\n  const root=document.querySelector(\"[data-mc]\");\n  if(!root)return;\n  const tg=root.querySelector(\".mc-tg\"),x=root.querySelector(\".mc-x\"),panel=root.querySelector(\".mc-p\");\n  const page=root.querySelector(\".mc-page\"),bar=root.querySelector(\".mc-bar\"),list=panel.querySelector(\".mc-links\");\n  const links=[...list.querySelectorAll(\"a\")],imgs=[...panel.querySelectorAll(\".mc-pv img\")],caps=[...panel.querySelectorAll(\".mc-pv figcaption span\")];\n  root.classList.add(\"is-live\");panel.inert=true;     // בלי JS התפריט הוא רשימה רגילה מתחת להדר\n  const show=i=>[links,imgs,caps].forEach(g=>g.forEach((el,k)=>el.classList.toggle(\"is-on\",k===i)));\n  const set=on=>{\n    root.classList.toggle(\"is-open\",on);\n    panel.inert=!on;page.inert=on;bar.inert=on;       // מלכודת פוקוס: מה שמאחורי הווילון לא נגיש\n    tg.setAttribute(\"aria-expanded\",String(on));\n    if(on){show(0);list.classList.remove(\"is-dim\");setTimeout(()=>links[0].focus({preventScroll:true}),80);}\n    else tg.focus({preventScroll:true});\n  };\n  tg.addEventListener(\"click\",()=>set(true));\n  x.addEventListener(\"click\",()=>set(false));\n  root.addEventListener(\"keydown\",e=>{if(e.key===\"Escape\"&&root.classList.contains(\"is-open\"))set(false);});\n  links.forEach((a,i)=>{\n    a.addEventListener(\"pointerenter\",()=>{show(i);list.classList.add(\"is-dim\");});\n    a.addEventListener(\"focus\",()=>{if(a.matches(\":focus-visible\")){show(i);list.classList.add(\"is-dim\");}});\n    a.addEventListener(\"click\",e=>{e.preventDefault();set(false);});   // בדמו; בפרויקט הקישור מנווט\n  });\n  list.addEventListener(\"pointerleave\",()=>list.classList.remove(\"is-dim\"));\n})();","scripts":"","rtl":true}</script>
+</section>
+<nav class="vpn-foot" aria-label="הפריט הקודם והבא"><a href="b107.html" rel="prev"><small>→ הקודם</small><b>כרטיסי צוות שנצבעים ונפתחים</b></a><a href="b109.html" rel="next"><small>הבא ←</small><b>שובל תמונות אחרי העכבר</b></a></nav>
+
+<script src="../assets/baseline.js?v=3b032095"></script>
+<script src="../assets/status.js?v=38ce7fee"></script>
+<script src="../assets/tray.js"></script>
+<script>
+if(window.MV)MV.panel(document.querySelector("[data-mvpanel]"));
+document.querySelector(".mvid").addEventListener("click",function(){
+  navigator.clipboard.writeText(this.dataset.mvid+" · תפריט וילון עם תמונה לכל קישור").then(()=>{
+    this.classList.add("copied");const c=this.querySelector("code").textContent;
+    this.innerHTML="<code>"+c+"</code> הועתק ✓";
+    setTimeout(()=>{this.classList.remove("copied");this.innerHTML="<code>"+c+"</code> העתק מזהה";},1800);
+  });
+});
+(function(){
+  var data=JSON.parse(document.getElementById("mvcode-data").textContent);
+  document.querySelectorAll(".mvcode .cp[data-cp]").forEach(function(b){
+    b.addEventListener("click",function(){
+      var txt=data[b.dataset.cp]; if(!txt)return;
+      navigator.clipboard.writeText(txt).then(function(){
+        var was=b.textContent; b.classList.add("copied"); b.textContent="הועתק ✓";
+        setTimeout(function(){b.classList.remove("copied");b.textContent=was;},1600);
+      });
+    });
+  });
+})();
+
+(function(){
+  const root=document.querySelector("[data-mc]");
+  if(!root)return;
+  const tg=root.querySelector(".mc-tg"),x=root.querySelector(".mc-x"),panel=root.querySelector(".mc-p");
+  const page=root.querySelector(".mc-page"),bar=root.querySelector(".mc-bar"),list=panel.querySelector(".mc-links");
+  const links=[...list.querySelectorAll("a")],imgs=[...panel.querySelectorAll(".mc-pv img")],caps=[...panel.querySelectorAll(".mc-pv figcaption span")];
+  root.classList.add("is-live");panel.inert=true;     // בלי JS התפריט הוא רשימה רגילה מתחת להדר
+  const show=i=>[links,imgs,caps].forEach(g=>g.forEach((el,k)=>el.classList.toggle("is-on",k===i)));
+  const set=on=>{
+    root.classList.toggle("is-open",on);
+    panel.inert=!on;page.inert=on;bar.inert=on;       // מלכודת פוקוס: מה שמאחורי הווילון לא נגיש
+    tg.setAttribute("aria-expanded",String(on));
+    if(on){show(0);list.classList.remove("is-dim");setTimeout(()=>links[0].focus({preventScroll:true}),80);}
+    else tg.focus({preventScroll:true});
+  };
+  tg.addEventListener("click",()=>set(true));
+  x.addEventListener("click",()=>set(false));
+  root.addEventListener("keydown",e=>{if(e.key==="Escape"&&root.classList.contains("is-open"))set(false);});
+  links.forEach((a,i)=>{
+    a.addEventListener("pointerenter",()=>{show(i);list.classList.add("is-dim");});
+    a.addEventListener("focus",()=>{if(a.matches(":focus-visible")){show(i);list.classList.add("is-dim");}});
+    a.addEventListener("click",e=>{e.preventDefault();set(false);});   // בדמו; בפרויקט הקישור מנווט
+  });
+  list.addEventListener("pointerleave",()=>list.classList.remove("is-dim"));
+})();
+</script>
+</body>
+</html>

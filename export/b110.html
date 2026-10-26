@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B110 · מניפת תמונות שמתחלפת עם הרשימה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B110 · מניפת תמונות שמתחלפת עם הרשימה */
+.cf{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(32px,5vw,72px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg, #f7f7fa);color:var(--ink, #16182b);overflow:clip}
+.cf-txt{display:grid;gap:16px;align-content:center}
+.cf-txt h2{margin:0;font-size:clamp(30px,3.6vw,52px);font-weight:800;line-height:1.08;letter-spacing:-.01em;text-wrap:balance}
+.cf-txt>p{margin:0;max-width:40ch;color:var(--muted, #6a6d85);font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6}
+.cf-list{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:4px}
+.cf-it{display:grid;gap:2px;width:100%;padding:12px 18px;border:0;border-radius:16px;background:transparent;color:inherit;font:inherit;text-align:start;cursor:pointer;transition:background-color .3s cubic-bezier(.2,.6,.2,1)}
+.cf-day{font-size:13px;font-weight:600;color:var(--muted, #6a6d85);transition:color .3s cubic-bezier(.2,.6,.2,1)}
+.cf-it b{font-size:18px;font-weight:700}
+.cf-d{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.6,.2,1)}
+.cf-d>span{min-height:0;overflow:hidden;font-size:15px;line-height:1.5;color:var(--muted, #6a6d85)}
+.cf-it[aria-pressed="true"]{background:var(--card, #fff)}
+.cf-it[aria-pressed="true"] .cf-day{color:var(--accent, #4a3aff)}
+.cf-it[aria-pressed="true"] .cf-d{grid-template-rows:1fr}
+.cf-it:focus-visible,.cf-next:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
+@media(hover:hover) and (pointer:fine){.cf-it:hover{background:color-mix(in srgb,var(--card, #fff) 70%,transparent)}}
+.cf-stage{display:grid;justify-items:center;gap:32px}
+.cf-deck{position:relative;width:min(100%,400px);aspect-ratio:4/5;cursor:pointer}
+.cf-card{position:absolute;inset:0;margin:0;overflow:hidden;border-radius:24px;background:var(--card, #fff);box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent);transform-origin:50% 90%;transition:transform .7s cubic-bezier(.76,0,.24,1),filter .7s cubic-bezier(.76,0,.24,1)}
+.cf-card img{display:block;width:100%;height:100%;object-fit:cover}
+.cf-card[data-k="0"]{z-index:5;transform:none}
+.cf-card[data-k="1"]{z-index:4;transform:translate(-9%,2%) rotate(-7deg) scale(.95);filter:brightness(.92)}
+.cf-card[data-k="2"]{z-index:3;transform:translate(9%,3%) rotate(7deg) scale(.9);filter:brightness(.86)}
+.cf-card[data-k="3"]{z-index:2;transform:translate(-15%,5%) rotate(-12deg) scale(.85);filter:brightness(.8)}
+.cf-card[data-k="4"]{z-index:1;transform:translate(15%,6%) rotate(12deg) scale(.8);filter:brightness(.75)}
+.cf-card.is-throw{z-index:6;transform:translate(-72%,-6%) rotate(-18deg);transition-duration:.38s}
+.cf-next{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:12px 24px;border:0;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font:inherit;font-weight:600;cursor:pointer}
+.cf-next svg{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cf-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+@media(prefers-reduced-motion:reduce){.cf-card{transition:none}.cf-d{transition:none}}
+@media(max-width:860px){.cf{grid-template-columns:minmax(0,1fr)}.cf-stage{order:-1}.cf-deck{width:min(76%,320px)}}
+</style>
+</head>
+<body>
+
+<div class="stage"><section class="cf" data-cf>
+  <div class="cf-txt">
+    <h2>חמישה ימים, ואן אחד, כל החוף</h2>
+    <p>ככה נראה המסלול הכי מוזמן שלנו. בחרו יום כדי לראות איפה עוצרים.</p>
+    <ol class="cf-list">
+      <li><button class="cf-it" type="button" aria-pressed="true"><span class="cf-day">יום ראשון</span><b>יוצאים לדרך</b><span class="cf-d"><span>אוספים את הוואן בבוקר, ממלאים מים ויוצאים צפונה עם רשימת שירים אחת.</span></span></button></li>
+      <li><button class="cf-it" type="button" aria-pressed="false"><span class="cf-day">יום שני</span><b>קפה בחלון</b><span class="cf-d"><span>בוקר בחניון לילה מעל הים, קפה מהתרמוס, ואף אחד לא ממהר.</span></span></button></li>
+      <li><button class="cf-it" type="button" aria-pressed="false"><span class="cf-day">יום שלישי</span><b>שלושה בחלון</b><span class="cf-d"><span>עוצרים על צוק מעל החוף ומחכים שהשמש תשקע.</span></span></button></li>
+      <li><button class="cf-it" type="button" aria-pressed="false"><span class="cf-day">יום רביעי</span><b>מחנה בשדה</b><span class="cf-d"><span>כיסאות, שולחן מתקפל ורדיו. מבשלים ארוחת ערב בחוץ.</span></span></button></li>
+      <li><button class="cf-it" type="button" aria-pressed="false"><span class="cf-day">יום חמישי</span><b>הים בסוף</b><span class="cf-d"><span>השקיעה האחרונה מהחוף, ומחר מחזירים את הוואן.</span></span></button></li>
+    </ol>
+  </div>
+  <div class="cf-stage">
+    <div class="cf-deck">
+      <figure class="cf-card" data-k="0"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/van-door.webp" width="1000" height="1200" alt="אישה יושבת בפתח של ואן עם רדיו" loading="lazy" decoding="async"></figure>
+      <figure class="cf-card" data-k="1"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/thermos.webp" width="900" height="1200" alt="שתי חברות מוזגות קפה מתרמוס בתוך ואן" loading="lazy" decoding="async"></figure>
+      <figure class="cf-card" data-k="2"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/hero-window.webp" width="1100" height="1100" alt="שלושה חברים מסתכלים החוצה מחלון הוואן" loading="lazy" decoding="async"></figure>
+      <figure class="cf-card" data-k="3"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/dusk-camp.webp" width="1000" height="1000" alt="ואן חונה בשדה ולידו כיסאות ושולחן מתקפל" loading="lazy" decoding="async"></figure>
+      <figure class="cf-card" data-k="4"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s08/sea.webp" width="2560" height="1706" alt="שמש שוקעת משתקפת במים כהים" loading="lazy" decoding="async"></figure>
+    </div>
+    <button class="cf-next" type="button">היום הבא <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
+    <p class="cf-sr" aria-live="polite"></p>
+  </div>
+</section></div>
+
+
+<script>
+(function(){
+  const root=document.querySelector("[data-cf]");
+  if(!root)return;
+  const cards=[...root.querySelectorAll(".cf-card")],its=[...root.querySelectorAll(".cf-it")],live=root.querySelector(".cf-sr");
+  const still=matchMedia("(prefers-reduced-motion: reduce)");
+  const n=cards.length;let cur=0,pend=null;
+  // זריקה שעוד באוויר נסגרת לפני הבאה: התמונה נוחתת במקום שלה לפי הסדר הנוכחי
+  const settle=()=>{if(!pend)return;clearTimeout(pend.t);pend.c.classList.remove("is-throw");pend.c.dataset.k=(cards.indexOf(pend.c)-cur+n)%n;pend=null;};
+  const go=j=>{
+    j=(j+n)%n;if(j===cur)return;
+    settle();
+    const out=cards[cur];cur=j;
+    cards.forEach((c,i)=>{if(c!==out||still.matches)c.dataset.k=(i-j+n)%n;});
+    if(!still.matches){out.classList.add("is-throw");pend={c:out,t:setTimeout(settle,380)};}
+    its.forEach((b,i)=>b.setAttribute("aria-pressed",String(i===j)));
+    live.textContent=its[j].querySelector(".cf-day").textContent+": "+its[j].querySelector("b").textContent;
+  };
+  its.forEach((b,i)=>b.addEventListener("click",()=>go(i)));
+  root.querySelector(".cf-next").addEventListener("click",()=>go(cur+1));
+  root.querySelector(".cf-deck").addEventListener("click",()=>go(cur+1));
+})();
+</script>
+</body>
+</html>
