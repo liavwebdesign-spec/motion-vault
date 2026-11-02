@@ -8,7 +8,7 @@
 //   node _src/tools/inspo.mjs check <url> --id w03     בדיקה שהאתר חי ועובד בטלפון + צילומים מתוארכים
 //   node _src/tools/inspo.mjs pick --field <תחום> --mood quiet|wow [--strength <s>] [--n 5]   רק מאושרים
 //   node _src/tools/inspo.mjs status                   כמה ממתינים, ואילו כתובות כבר נבחנו
-//   node _src/tools/inspo.mjs add <file.json>          מוסיף מועמד אחרי בדיקת שדות וכפילות (ממתין לליאב)
+//   node _src/tools/inspo.mjs add <file.json> [--batch] מוסיף מועמד אחרי בדיקת שדות וכפילות (ממתין לליאב). --batch רק כשליאב ביקש אצווה גדולה; הסריקה השבועית נשארת עם תקרה של 5
 //   node _src/tools/inspo.mjs sync '<json>'            {"w01":{"s":"ok","note":"","t":123}} לתוך baseline.js, רק מזהי אתרים
 // יציאה: 0 תקין, 1 שגיאת שימוש, 2 כשהבדיקה נכשלה (האתר לא חי, או גולש הצידה בטלפון). אפס תלויות npm.
 
@@ -18,7 +18,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
-import { FIELDS, MOODS, STRENGTHS } from "../inspo-pages.mjs";
+import { FIELDS, MOODS, STRENGTHS, STYLES } from "../inspo-pages.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const DATA = join(ROOT, "_src", "inspo", "sites.json");
@@ -75,6 +75,7 @@ function add() {
   if (all.some(s => norm(s.url) === norm(c.url || "")) || passed.includes(norm(c.url || ""))) bad.push("האתר כבר נבחן: " + c.url);
   if (!FIELDS.includes(c.field)) bad.push("תחום לא מהרשימה: " + FIELDS.join(", "));
   if (!MOODS[c.mood]) bad.push("אווירה: quiet או wow");
+  if (!STYLES[c.style]) bad.push("סגנון: " + Object.keys(STYLES).join(", "));
   if (!c.strengths?.length || c.strengths.some(k => !STRENGTHS[k])) bad.push("חזק ב: " + Object.keys(STRENGTHS).join(", "));
   for (const k of ["name", "why", "take", "phone"]) if (!c[k]) bad.push("חסר " + k);
   const id = /^w\d{2,}$/.test(c.id || "") && !all.some(s => s.id === c.id) ? c.id : null;
@@ -82,9 +83,9 @@ function add() {
   // מועמד בלי צילומים מהיום לא עבר בדיקה
   if (!c.shots?.length || !existsSync(join(SHOTS, `${c.id}-${c.shots[c.shots.length - 1]}-m-full.jpg`))) bad.push("חסרים צילומים: קודם check, ואז shots עם התאריך");
   const b = baseline();
-  if (all.filter(s => stateOf(b, s.id) === "pending").length >= 5) bad.push("כבר 5 מועמדים ממתינים לליאב. לא מערימים עוד.");
+  if (!args.includes("--batch") && all.filter(s => stateOf(b, s.id) === "pending").length >= 5) bad.push("כבר 5 מועמדים ממתינים לליאב. לא מערימים עוד.");
   if (bad.length) { console.error(bad.join("\n")); process.exit(2); }
-  all.push({ id, name: c.name, url: c.url, field: c.field, mood: c.mood, strengths: c.strengths, rtl: !!c.rtl, why: c.why, whyBy: "proposal", take: c.take, phone: c.phone, shots: c.shots, added: today(), source: c.source || "הסריקה השבועית" });
+  all.push({ id, name: c.name, url: c.url, field: c.field, mood: c.mood, style: c.style, strengths: c.strengths, rtl: !!c.rtl, why: c.why, whyBy: "proposal", take: c.take, phone: c.phone, shots: c.shots, added: today(), source: c.source || "הסריקה השבועית" });
   writeFileSync(DATA, JSON.stringify(all, null, 2) + "\n");
   console.log("נוסף " + id + ", ממתין לליאב במסך הסקירה.");
 }

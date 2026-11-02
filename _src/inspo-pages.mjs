@@ -9,6 +9,8 @@ import vm from "node:vm";
 
 export const FIELDS = ["אירועים ובידור", "ביטוח ופיננסים", "שירותים מקצועיים", "נדל\"ן ובנייה", "מסחר וחנויות", "מזון ומסעדות", "בריאות ויופי", "תיירות ופנאי", "טכנולוגיה ו-SaaS", "עיצוב וסטודיו", "חינוך ותרבות", "תעשייה ו-B2B"];
 export const MOODS = { quiet: "שקט", wow: "חוויתי" };
+// סגנון העיצוב של האתר (ליאב, 2.11.2026: "בכל סגנונות העיצוב"). תג אחד לכל אתר, לפי מה שהכי מגדיר אותו.
+export const STYLES = { minimal: "מינימליסטי", editorial: "מגזיני", bold: "טיפוגרפיה ענקית", brutalist: "ברוטליסטי", retro: "רטרו", playful: "שובב וצבעוני", illustrated: "מאויר", immersive: "תלת-ממד וחוויה", luxury: "יוקרתי", organic: "טבעי וחם", product: "מוצר נקי", dark: "כהה וטכנולוגי", photo: "צילום גדול" };
 export const STRENGTHS = { type: "טיפוגרפיה", illustration: "איור", photo: "צילום", color: "צבע", motion: "תנועה", layout: "פריסה", character: "אופי", simple: "פשטות", conversion: "המרה", mobile: "טלפון", rtl: "עברית ומימין לשמאל" };
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
@@ -69,7 +71,7 @@ export function inspoSitePage(s, { FONT }) {
     <div><dt>למה מאסט</dt><dd>${whyLine(s)}</dd></div>
     <div><dt>מה לוקחים ממנו</dt><dd>${esc(s.take)}</dd></div>
     <div><dt>בטלפון</dt><dd>${esc(s.phone)}</dd></div>
-    <div><dt>תחום ואווירה</dt><dd class="iw-chips"><span class="vchip">${esc(s.field)}</span><span class="vchip">${MOODS[s.mood]}</span>${s.strengths.map(k => `<span class="vchip">${STRENGTHS[k]}</span>`).join("")}</dd></div>
+    <div><dt>תחום ואווירה</dt><dd class="iw-chips"><span class="vchip">${esc(s.field)}</span><span class="vchip">${MOODS[s.mood]}</span>${s.style ? `<span class="vchip">${STYLES[s.style]}</span>` : ""}${s.strengths.map(k => `<span class="vchip">${STRENGTHS[k]}</span>`).join("")}</dd></div>
   </dl>
   <div data-shots data-id="${s.id}" data-date="${date || ""}"></div>
 </main>
@@ -95,9 +97,10 @@ export function inspoIndexPage(approved, { FONT }) {
   const opts = (vals) => vals.map(([v, t]) => `<option value="${esc(v)}">${esc(t)}</option>`).join("");
   const usedFields = [...new Set(approved.map(s => s.field))].map(f => [f, f]);
   const usedStrengths = [...new Set(approved.flatMap(s => s.strengths))].map(k => [k, STRENGTHS[k]]);
-  const cards = approved.map(s => `<article class="iw-card" data-field="${esc(s.field)}" data-mood="${s.mood}" data-str="${s.strengths.join(" ")}">
+  const usedStyles = Object.entries(STYLES).filter(([k]) => approved.some(s => s.style === k));
+  const cards = approved.map(s => `<article class="iw-card" data-field="${esc(s.field)}" data-mood="${s.mood}" data-style="${s.style || ""}" data-str="${s.strengths.join(" ")}">
     <h2><a href="inspo/${s.id}.html">${esc(s.name)}</a></h2>
-    <div class="iw-chips"><span class="vchip">${esc(s.field)}</span><span class="vchip">${MOODS[s.mood]}</span></div>
+    <div class="iw-chips"><span class="vchip">${esc(s.field)}</span><span class="vchip">${MOODS[s.mood]}</span>${s.style ? `<span class="vchip">${STYLES[s.style]}</span>` : ""}</div>
     <p>${whyLine(s)}</p>
     <p><b>לוקחים:</b> ${esc(s.take)}</p>
     <a class="iw-out" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(domain(s.url))} ↗</a>
@@ -111,6 +114,7 @@ export function inspoIndexPage(approved, { FONT }) {
   <p class="iw-lead">אתרים שלמים שנבחרו ביד, כדי לקחת מהם כיוון. לוקחים מהמראה בלבד, בלי קוד, טקסטים ותמונות.</p>
   ${approved.length ? `<div class="iw-filters">
     <select data-f="field" aria-label="תחום"><option value="">כל התחומים</option>${opts(usedFields)}</select>
+    <select data-f="style" aria-label="סגנון"><option value="">כל הסגנונות</option>${opts(usedStyles)}</select>
     <select data-f="mood" aria-label="אווירה"><option value="">כל האווירות</option>${opts(Object.entries(MOODS))}</select>
     <select data-f="str" aria-label="מה חזק בו"><option value="">מה חזק בו</option>${opts(usedStrengths)}</select>
   </div>
@@ -122,7 +126,7 @@ export function inspoIndexPage(approved, { FONT }) {
   var sels=[].slice.call(document.querySelectorAll("[data-f]")),cards=[].slice.call(document.querySelectorAll(".iw-card")),none=document.querySelector("[data-none]");
   function run(){
     var v={};sels.forEach(function(s){v[s.dataset.f]=s.value;});var n=0;
-    cards.forEach(function(c){var ok=(!v.field||c.dataset.field===v.field)&&(!v.mood||c.dataset.mood===v.mood)&&(!v.str||c.dataset.str.split(" ").indexOf(v.str)>=0);c.hidden=!ok;if(ok)n++;});
+    cards.forEach(function(c){var ok=(!v.field||c.dataset.field===v.field)&&(!v.style||c.dataset.style===v.style)&&(!v.mood||c.dataset.mood===v.mood)&&(!v.str||c.dataset.str.split(" ").indexOf(v.str)>=0);c.hidden=!ok;if(ok)n++;});
     if(none)none.hidden=n>0;
   }
   sels.forEach(function(s){s.addEventListener("change",run);});
