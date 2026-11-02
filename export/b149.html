@@ -53,10 +53,10 @@ img{max-width:100%}
 .ob.is-on .ob-s{overflow-x:clip}
 .ob.is-on .ob-v{position:relative;perspective:2000px;height:clamp(460px,78vh,780px);cursor:grab;touch-action:pan-y;user-select:none}
 .ob.is-on .ob-g{display:block;position:absolute;inset:0;transform-style:preserve-3d}
-.ob.is-on .ob-i{position:absolute;inset:0;margin:auto;height:fit-content;width:clamp(68px,8.5vw,132px)}
+.ob.is-on .ob-i{position:absolute;inset:0;margin:auto;height:fit-content;width:clamp(58px,8.5vw,132px)}
 .ob-t{justify-items:center;text-align:center}
 .ob-t p:not(.ob-k){text-align:center}
-.ob-b{display:block;width:clamp(180px,24vw,340px);height:auto;margin-inline:auto}
+.ob-b{display:block;width:clamp(150px,24vw,340px);height:auto;margin-inline:auto}
 .ob.is-on .ob-b{position:absolute;inset:0;margin:auto}
 </style>
 </head>
@@ -113,7 +113,7 @@ function mv3(root,o){
 const obView=document.querySelector(".ob-g"),bottle=new Image();bottle.className="ob-b";bottle.width=600;bottle.height=750;bottle.alt="בקבוק בושם LUMA";bottle.draggable=false;const B="https://liavwebdesign-spec.github.io/motion-vault/assets/media/luma/";bottle.src=B+"t-2-06.webp";obView.prepend(bottle);
 const fr=[];let shownF=6,asked=false;function loadF(){if(asked)return;asked=true;for(let q=0;q<13;q++){const im=new Image();im.decoding="async";im.src=B+"t-2-"+String(q).padStart(2,"0")+".webp";fr.push(im);}}
 mv3(document.querySelector("[data-ob]"),{phoneN:10,drag:-.0042,auto:.2,
-size:function(a){a.R1=Math.min(a.w*.46,a.h*.72);a.R2=a.R1*.74;a.ct=Math.ceil(a.N/2);a.cz=Math.sin(.56);a.cc=Math.cos(.56);loadF();},
+size:function(a){const nar=a.w<560,tilt=nar?.95:.56;a.R1=Math.min(a.w*.46,a.h*.72);a.R2=a.R1*(nar?.9:.74);a.ct=Math.ceil(a.N/2);a.cz=Math.sin(tilt);a.cc=Math.cos(tilt);loadF();},
 frame:function(a){a.scene.style.transform="rotateX("+(-a.my*6).toFixed(2)+"deg) rotateY("+(a.mx*11).toFixed(2)+"deg)";
 const f=Math.max(0,Math.min(12,Math.round(6+a.mx*6)));if(f!==shownF&&fr[f]&&fr[f].complete){shownF=f;bottle.src=fr[f].src;}},
 place:function(e,i,a){const r=i&1,g=(i>>1)/a.ct*6.283+a.p*(r?-.8:1),R0=r?a.R2:a.R1,ps=r?-.3:.16,x=R0*Math.cos(g),s=R0*Math.sin(g),y=s*a.cz,z=s*a.cc,cs=Math.cos(ps),sn=Math.sin(ps);

@@ -116,8 +116,11 @@ def aim(o, target):
 
 
 if MODE == "turn":
+    # הזכוכית אטומה לאלפא: שקיפות זכוכית מבטלת את צבע הנוזל והבקבוק יוצא אפור
     sc.render.film_transparent = True
-    sc.cycles.film_transparent_glass = True
+    sc.cycles.film_transparent_glass = False
+    w.node_tree.nodes["Background"].inputs[0].default_value = (1, 0.98, 0.95, 1)
+    w.node_tree.nodes["Background"].inputs[1].default_value = 0.6
     sc.render.resolution_x, sc.render.resolution_y = RES, int(RES * 1.25)
     cam.location = (0, -5.0, 1.05); aim(cam, (0, 0, 0.95))
     YAW = list(range(-36, 37, 6))      # 13 עמודות

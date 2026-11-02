@@ -310,18 +310,18 @@ RG({
   diff:"b81 טבעת של מילים, b112 טבעת אחת בלי מוצר, ו-h36 הירו של מוצר בלי סביבה. כאן המוצר ממוקם בתוך החלל עצמו, ולכן התמונות באמת עוברות מלפניו ומאחוריו.",
   how:"הבקבוק והתמונות באותה סצנת תלת ממד, והדפדפן ממיין את העומק לבד. תמונות הטבעת תמיד פונות אלינו, והסיבוב של הבקבוק נטען רק כשהוא נכנס למסך.",
   k:"LUMA", h:"ריח אחד, והעולם שסביבו", p:"ענבר, עשן ומלח. בקבוק שנמזג ביד, במהדורה של 400.", cta:"להזמנה מוקדמת",
-  ar:"4/5", persp:"2000px", tw:"clamp(68px,8.5vw,132px)", vh:"clamp(460px,78vh,780px)", drag:true,
+  ar:"4/5", persp:"2000px", tw:"clamp(58px,8.5vw,132px)", vh:"clamp(460px,78vh,780px)", drag:true,
   tiles:TILES("ob", ["marble","sea","glass","sky","light","ink","street","projb","ddial","hands","pour","gl","flute","neg"]),
   inView:"",
   css:`.ob-t{justify-items:center;text-align:center}
 .ob-t p:not(.ob-k){text-align:center}
-.ob-b{display:block;width:clamp(180px,24vw,340px);height:auto;margin-inline:auto}
+.ob-b{display:block;width:clamp(150px,24vw,340px);height:auto;margin-inline:auto}
 .ob.is-on .ob-b{position:absolute;inset:0;margin:auto}`,
   pre:`const obView=document.querySelector(".ob-g"),bottle=new Image();bottle.className="ob-b";bottle.width=600;bottle.height=750;bottle.alt="בקבוק בושם LUMA";bottle.draggable=false;const B="${L}";bottle.src=B+"t-2-06.webp";obView.prepend(bottle);
 const fr=[];let shownF=6,asked=false;function loadF(){if(asked)return;asked=true;for(let q=0;q<13;q++){const im=new Image();im.decoding="async";im.src=B+"t-2-"+String(q).padStart(2,"0")+".webp";fr.push(im);}}
 `,
   opts:`{phoneN:10,drag:-.0042,auto:.2,
-size:function(a){a.R1=Math.min(a.w*.46,a.h*.72);a.R2=a.R1*.74;a.ct=Math.ceil(a.N/2);a.cz=Math.sin(.56);a.cc=Math.cos(.56);loadF();},
+size:function(a){const nar=a.w<560,tilt=nar?.95:.56;a.R1=Math.min(a.w*.46,a.h*.72);a.R2=a.R1*(nar?.9:.74);a.ct=Math.ceil(a.N/2);a.cz=Math.sin(tilt);a.cc=Math.cos(tilt);loadF();},
 frame:function(a){a.scene.style.transform="rotateX("+(-a.my*6).toFixed(2)+"deg) rotateY("+(a.mx*11).toFixed(2)+"deg)";
 const f=Math.max(0,Math.min(12,Math.round(6+a.mx*6)));if(f!==shownF&&fr[f]&&fr[f].complete){shownF=f;bottle.src=fr[f].src;}},
 place:function(e,i,a){const r=i&1,g=(i>>1)/a.ct*6.283+a.p*(r?-.8:1),R0=r?a.R2:a.R1,ps=r?-.3:.16,x=R0*Math.cos(g),s=R0*Math.sin(g),y=s*a.cz,z=s*a.cc,cs=Math.cos(ps),sn=Math.sin(ps);
