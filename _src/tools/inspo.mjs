@@ -54,7 +54,7 @@ function pick() {
   const rank = s => (field && s.field === field ? 2 : 0) + (mood && s.mood === mood ? 1 : 0);
   const out = ok.map(s => ({ s, r: rank(s) })).filter(x => x.r > 0 || (!field && !mood)).sort((x, y) => y.r - x.r).slice(0, n).map(x => x.s);
   if (!out.length) console.log("אין עדיין אתר מאושר שמתאים. ממשיכים בלי השראה מהרשימה, ולא משתמשים במועמד שלא אושר.");
-  out.forEach(s => console.log(`MV:${s.id} ${s.name} · ${s.url}\n  תחום: ${s.field} · ${MOODS[s.mood]} · חזק ב: ${s.strengths.map(k => STRENGTHS[k]).join(", ")}\n  לוקחים: ${s.take}\n  השראה מהמראה בלבד, בלי קוד, טקסטים ותמונות.`));
+  out.forEach(s => console.log(`MV:${s.id} ${s.name} · ${s.url}\n  תחום: ${s.field} · ${MOODS[s.mood]} · חזק ב: ${s.strengths.map(k => STRENGTHS[k]).join(", ")}\n  למה: ${s.why}\n  מה לוקחים מחליטים בפרויקט. בלי להעתיק קוד, טקסטים ותמונות.`));
 }
 
 function status() {
@@ -77,7 +77,7 @@ function add() {
   if (!MOODS[c.mood]) bad.push("אווירה: quiet או wow");
   if (!STYLES[c.style]) bad.push("סגנון: " + Object.keys(STYLES).join(", "));
   if (!c.strengths?.length || c.strengths.some(k => !STRENGTHS[k])) bad.push("חזק ב: " + Object.keys(STRENGTHS).join(", "));
-  for (const k of ["name", "why", "take", "phone"]) if (!c[k]) bad.push("חסר " + k);
+  for (const k of ["name", "why", "phone"]) if (!c[k]) bad.push("חסר " + k);
   const id = /^w\d{2,}$/.test(c.id || "") && !all.some(s => s.id === c.id) ? c.id : null;
   if (!id) bad.push("id חסר או תפוס. המזהה מגיע מ-status, ואותו מזהה משמש ל-check.");
   // מועמד בלי צילומים מהיום לא עבר בדיקה
@@ -85,7 +85,7 @@ function add() {
   const b = baseline();
   if (!args.includes("--batch") && all.filter(s => stateOf(b, s.id) === "pending").length >= 5) bad.push("כבר 5 מועמדים ממתינים לליאב. לא מערימים עוד.");
   if (bad.length) { console.error(bad.join("\n")); process.exit(2); }
-  all.push({ id, name: c.name, url: c.url, field: c.field, mood: c.mood, style: c.style, strengths: c.strengths, rtl: !!c.rtl, why: c.why, whyBy: "proposal", take: c.take, phone: c.phone, shots: c.shots, added: today(), source: c.source || "הסריקה השבועית" });
+  all.push({ id, name: c.name, url: c.url, field: c.field, mood: c.mood, style: c.style, strengths: c.strengths, rtl: !!c.rtl, why: c.why, whyBy: "proposal", phone: c.phone, shots: c.shots, added: today(), source: c.source || "הסריקה השבועית" });
   writeFileSync(DATA, JSON.stringify(all, null, 2) + "\n");
   console.log("נוסף " + id + ", ממתין לליאב במסך הסקירה.");
 }

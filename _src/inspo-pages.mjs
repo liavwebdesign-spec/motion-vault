@@ -69,7 +69,6 @@ export function inspoSitePage(s, { FONT }) {
   <p><a class="iw-go" href="${esc(s.url)}" target="_blank" rel="noopener">פתח את ${esc(domain(s.url))} ↗</a></p>
   <dl class="iw-dl">
     <div><dt>למה מאסט</dt><dd>${whyLine(s)}</dd></div>
-    <div><dt>מה לוקחים ממנו</dt><dd>${esc(s.take)}</dd></div>
     <div><dt>בטלפון</dt><dd>${esc(s.phone)}</dd></div>
     <div><dt>תחום ואווירה</dt><dd class="iw-chips"><span class="vchip">${esc(s.field)}</span><span class="vchip">${MOODS[s.mood]}</span>${s.style ? `<span class="vchip">${STYLES[s.style]}</span>` : ""}${s.strengths.map(k => `<span class="vchip">${STRENGTHS[k]}</span>`).join("")}</dd></div>
   </dl>
@@ -102,7 +101,6 @@ export function inspoIndexPage(approved, { FONT }) {
     <h2><a href="inspo/${s.id}.html">${esc(s.name)}</a></h2>
     <div class="iw-chips"><span class="vchip">${esc(s.field)}</span><span class="vchip">${MOODS[s.mood]}</span>${s.style ? `<span class="vchip">${STYLES[s.style]}</span>` : ""}</div>
     <p>${whyLine(s)}</p>
-    <p><b>לוקחים:</b> ${esc(s.take)}</p>
     <a class="iw-out" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(domain(s.url))} ↗</a>
   </article>`).join("\n");
   return `${head("אתרי השראה · Motion Vault", FONT, "")}
@@ -111,7 +109,7 @@ export function inspoIndexPage(approved, { FONT }) {
   <a class="vback" href="index.html">לכל המאגר</a>
   <h1 style="margin-top:20px">אתרי השראה</h1>
   <p class="iw-label">אתרים של גורמים אחרים. השראה בלבד, לא עבודות שלנו.</p>
-  <p class="iw-lead">אתרים שלמים שנבחרו ביד, כדי לקחת מהם כיוון. לוקחים מהמראה בלבד, בלי קוד, טקסטים ותמונות.</p>
+  <p class="iw-lead">אתרים שלמים שנבחרו ביד, כדי לקחת מהם כיוון. מה לוקחים מכל אתר מחליטים בכל פרויקט לגופו, בלי להעתיק קוד, טקסטים ותמונות.</p>
   ${approved.length ? `<div class="iw-filters">
     <select data-f="field" aria-label="תחום"><option value="">כל התחומים</option>${opts(usedFields)}</select>
     <select data-f="style" aria-label="סגנון"><option value="">כל הסגנונות</option>${opts(usedStyles)}</select>
