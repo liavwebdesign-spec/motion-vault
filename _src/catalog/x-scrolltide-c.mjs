@@ -139,25 +139,6 @@ const IMGS = (a) => JSON.stringify(a.map((s) => R + s));
 
 export default [
 FX({
-  id:"b124", cls:"fl", name:"תמונה מאחורי זכוכית מחורצת שמתבהרת בעכבר",
-  insp:"אפקט זכוכית מחורצת (fluted glass) על תמונה",
-  desc:"התמונה נראית דרך זכוכית אמבטיה מחורצת: עשרות צלעות אנכיות שכל אחת שוברת את התמונה קצת אחרת, עם ברק דק על הצלע. איפה שהעכבר עובר הזכוכית מתבהרת והתמונה נקייה, והצלעות זזות מעט עם התנועה.",
-  when:"הירו של אדריכלות, עיצוב פנים, אמבטיות, חומרים ובוטיק, כשרוצים רמז לחומר ולפרטיות לפני שרואים הכול. מתי לא: כשהלקוח חייב לראות את התמונה מיד (מוצר למכירה, פנים של אדם). ",
-  diff:"g11 מגדיל בעיגול על תמונה רגילה. כאן כל התמונה עוברת דרך חומר, והעכבר מנקה אותו.",
-  how:"מספר הצלעות נגזר מרוחב המסך; בכל צלע הקואורדינטה נשברת לפי המרחק ממרכז הצלע, עם שלוש דגימות לטשטוש קל וברק על הצלע.",
-  img:"s13/proj-a.webp", iw:1800, ih:1200, alt:"סלון כהה עם ספה נמוכה, מנורות תלויות וחלון גבוה",
-  k:"סטודיו לעיצוב פנים", h:"בית שנראה טוב גם כשאף אחד לא מסתכל", p:"תכנון וליווי של דירות ובתים פרטיים, מהסקיצה הראשונה ועד הכרית האחרונה על הספה.", cta:"לתיק העבודות",
-  frag:`void main(){vec2 uv=gl_FragCoord.xy/R;float ax=R.x/R.y;
-float N=max(14.,R.x/44.);float x=uv.x*N+(M.x-.5)*H*1.4;float f=fract(x)-.5;
-float cl=H*smoothstep(.40,.10,length((uv-M)*vec2(ax,1.)));
-float k=(1.-cl)*.06;vec2 q=uv+vec2((f+4.*f*f*f)*k,0.);
-float b=.0035*(1.-cl);
-vec3 c=(texture2D(U0,cov(q,A0)).rgb+texture2D(U0,cov(q+vec2(b,0.),A0)).rgb+texture2D(U0,cov(q-vec2(b,0.),A0)).rgb)/3.;
-c+=(1.-cl)*(pow(1.-abs(2.*f),4.)*.13-smoothstep(.40,.5,abs(f))*.2);
-gl_FragColor=vec4(c,1.);}`,
-  opts:`{c:${JSON.stringify(COLS)},imgs:${IMGS(["s13/proj-a.webp"])},rest:[.62,.5],wander:[.26,.2]}`,
-}),
-FX({
   id:"b125", cls:"dt", name:"תמונה מנוקדת בשני צבעים עם עדשה שמגלה את האמת",
   insp:"אפקט דיתר (dither) עם עדשה שעוקבת אחרי העכבר",
   desc:"כל התמונה מצוירת בנקודות של שני צבעים בלבד, כמו הדפסה ישנה, בצבעי המותג. עיגול רך עוקב אחרי העכבר ומראה דרכו את התמונה האמיתית בצבע מלא.",
@@ -178,73 +159,6 @@ vec2 p=(uv-M)*vec2(ax,1.);float r=.2+.05*H+.006*sin(T*1.3);float m=smoothstep(r,
 vec3 lens=texture2D(U0,cov(M+(uv-M)*.86,A0)).rgb;
 gl_FragColor=vec4(mix(c,lens,m),1.);}`,
   opts:`{c:${JSON.stringify(COLS)},imgs:${IMGS(["s06/singer.webp"])},rest:[.68,.55],wander:[.22,.2]}`,
-}),
-FX({
-  id:"b126", cls:"mz", name:"שובל פסיפס שהעכבר משאיר על התמונה",
-  insp:"שובל פיקסלים שנשאר אחרי העכבר ונרפא לאט",
-  desc:"העכבר משאיר אחריו שובל של ריבועים גדולים על התמונה. במרכז השובל הריבועים הכי גדולים, בקצוות הם מתכווצים, ותוך שנייה וחצי התמונה נרפאת ומתחדדת חזרה.",
-  when:"מותג צבעוני, צעיר ושובב: אוכל, גלידה, אופנה, אירועים, על תמונה עם צבעים חזקים. מתי לא: צילום שמוכר איכות (הפסיפס נלחם בו) ותמונה דלת צבע שלא נראית מעניינת בריבועים. ",
-  diff:"השובלים במאגר מציירים משהו מעל התמונה. כאן התמונה עצמה מאבדת רזולוציה בשובל ומחזירה אותה.",
-  how:"לכל פיקסל מחשבים עוצמה מ-24 נקודות השובל. העוצמה נחתכת לחמש דרגות, וכל דרגה מכפילה את גודל הריבוע, ולכן רואים שלבים ברורים במקום טשטוש.",
-  img:"s11/bowls.webp", iw:1100, ih:1650, alt:"קערות גלידה צבעוניות",
-  k:"גלידריה שכונתית", h:"טעמים שמתחלפים לפי מה שהבשיל השבוע", p:"שישה טעמים קבועים ושניים שמשתנים כל שבוע, בלי צבע מאכל ובלי קיצורי דרך.", cta:"מה יש השבוע",
-  frag:`void main(){vec2 uv=gl_FragCoord.xy/R;float ax=R.x/R.y;vec2 p=uv*vec2(ax,1.);float w=0.;
-for(int i=0;i<24;i++){vec2 d=p-V[i].xy*vec2(ax,1.);w=max(w,V[i].z*exp(-dot(d,d)/.012));}
-float lv=floor(w*5.+.15);vec2 q=uv;float pop=0.;
-if(lv>.5){float cs=pow(2.,lv+2.);vec2 g=R/cs;q=(floor(uv*g)+.5)/g;pop=h21(floor(uv*g))-.5;}
-vec3 c=texture2D(U0,cov(q,A0)).rgb;c*=1.+.07*pop;
-gl_FragColor=vec4(c,1.);}`,
-  opts:`{c:${JSON.stringify(COLS)},imgs:${IMGS(["s11/bowls.webp"])},rest:[.5,.5],wander:[.36,.3],gap:.028,decay:.975,seed:function(a){for(let i=0;i<14;i++){a.V[i*3]=.18+i*.05;a.V[i*3+1]=.34+.22*Math.sin(i*.6);a.V[i*3+2]=.25+i*.052;}}}`,
-}),
-FX({
-  id:"b127", cls:"lq", name:"רצועת תמונות עם עדשה נוזלית שנגררת",
-  tech:"WebGL · GLSL · רצועה מקנבס · גרירה",
-  insp:"רצועת תמונות עם עדשה נוזלית שעוקבת אחרי העכבר",
-  desc:"רצועה רחבה של תמונות שזזה לאט לבד. העדשה נוזלית ורועדת בקצוות, עוקבת אחרי העכבר ומגדילה את מה שמתחתיה עם שבירת אור בשפה, ואפשר לגרור את הרצועה לשני הצדדים.",
-  when:"גלריה של נופים, מוצרים, תיירות או תיק עבודות, כשהתמונות דומות באווירה. מתי לא: כשצריך לזהות פרט בכל תמונה, או רשימה שכל פריט בה צריך קישור וטקסט משלו. ",
-  diff:"g11 היא זכוכית מגדלת עגולה וקשיחה על תמונה אחת. b31 ו-g31 גוררים תוכן בלי עדשה. כאן הקצה של העדשה חי ושובר צבעים, והיא עוברת בין התמונות.",
-  how:"התמונות מורכבות פעם אחת לקנבס רחב שעולה כתמונה אחת. הרדיוס של העדשה משתנה עם הזווית והזמן, ובתוכה הדגימה נמשכת למרכז, עם הפרש קטן בין האדום לכחול בשפה.",
-  img:"s12/hero-window.webp", iw:1100, ih:1100, alt:"שלושה חברים צוחקים בחלון של ואן קמפינג",
-  k:"טיולי ואן", h:"לוקחים את המפתחות ונוסעים לאן שבא", p:"ואנים מאובזרים, מפה עם המקומות השקטים באמת, ותמיכה בטלפון אם משהו נתקע.", cta:"לבחירת ואן",
-  ratio:"16/7", cursor:"grab", touch:"pan-y",
-  frag:`vec3 s(vec2 uv,float ax){vec4 t=texture2D(U0,vec2(fract(uv.x*ax/A0+T*.008+P),uv.y));return mix(C0,t.rgb,t.a);}
-void main(){vec2 uv=gl_FragCoord.xy/R;float ax=R.x/R.y;vec3 c=s(uv,ax);
-vec2 p=(uv-M)*vec2(ax,1.);float a=atan(p.y,p.x);
-float r=(.2+.03*H)+.012*sin(a*3.+T*1.5)+.008*sin(a*5.-T*1.1);float d=length(p)/r;
-if(d<1.){float z=pow(d,3.);vec2 v=p*mix(.48,1.,z);
-vec2 u=M+v/vec2(ax,1.);vec2 ca=p*.03*z;
-vec3 l=vec3(s(u+ca/vec2(ax,1.),ax).r,s(u,ax).g,s(u-ca/vec2(ax,1.),ax).b);
-l+=pow(d,9.)*.3;l+=.1*smoothstep(.5,.9,dot(normalize(p+1e-4),vec2(-.5,.8)))*d*d;
-c=mix(c,l,smoothstep(1.,.97,d));}
-gl_FragColor=vec4(c,1.);}`,
-  pre:`const dragBox=root.querySelector(".lq-m");let dn=false,lx=0,vel=0,apiRef=null;
-dragBox.addEventListener("pointerdown",e=>{dn=true;lx=e.clientX;vel=0;dragBox.style.cursor="grabbing";try{dragBox.setPointerCapture(e.pointerId);}catch(_){}});
-dragBox.addEventListener("pointermove",e=>{if(!dn||!apiRef)return;const dx=(e.clientX-lx)/dragBox.clientWidth;lx=e.clientX;vel=-dx*.45;apiRef.P+=vel;});
-const up=()=>{dn=false;dragBox.style.cursor="";};dragBox.addEventListener("pointerup",up);dragBox.addEventListener("pointercancel",up);
-`,
-  opts:`{c:${JSON.stringify(COLS)},imgs:${IMGS(["s12/hero-window.webp","s12/dusk-camp.webp","s12/van-door.webp","s12/thermos.webp"])},strip:true,cell:640,rest:[.42,.5],wander:[.24,.14],ready:function(a){apiRef=a;},tick:function(dt,a){if(!dn){a.P+=vel;vel*=.94;}}}`,
-}),
-FX({
-  id:"b128", cls:"sn", name:"תמונה שמתפוררת לגרגרים ברוח של העכבר",
-  insp:"תמונה שמתפרקת לגרגרי חול ונושבת ברוח",
-  desc:"איפה שהעכבר עובר התמונה מתפרקת לגרגרים דקים שעפים ברוח לצד אחד, עם משבים לא אחידים. אחרי שהעכבר עוזב הגרגרים חוזרים למקום והתמונה מתאחה.",
-  when:"מאפיה, קמח, תבלינים, מדבר, קרמיקה וכל מותג שהחומר שלו הוא גרגר, על צילום עם הרבה מרקם. מתי לא: תמונת פנים של אדם (מתפורר בצורה מטרידה) או עמוד שמצלם מוצר למכירה. ",
-  diff:"g251 מוחק אובייקט בקו קשקוש, ואפקטי המסכה במאגר חושפים מה שמתחת. כאן אין שכבה שנחשפת: הפיקסלים עצמם זזים לכיוון הרוח ומשאירים חור.",
-  how:"עוצמת הרוח מגיעה מהשובל ומוכפלת ברעש שזז, כך שהמשבים נשברים. כל גרגר של 2 פיקסלים זז לפי ערך אקראי משלו, והגרגרים עם הערך הגבוה נעלמים לרקע.",
-  img:"s14/hero-bread.webp", iw:1600, ih:1333, alt:"כיכרות לחם חמות על שולחן עץ",
-  k:"מאפיית שאור", h:"קמח, מים, מלח ויומיים של סבלנות", p:"לחם שמתפח לאט בלילה ונאפה בבוקר בתנור אבן. אופים רק כמה שמזמינים, אז כדאי להזמין מראש.", cta:"להזמנה למחר",
-  frag:`void main(){vec2 uv=gl_FragCoord.xy/R;float ax=R.x/R.y;vec2 p=uv*vec2(ax,1.);float w=0.;
-for(int i=0;i<24;i++){vec2 d=p-V[i].xy*vec2(ax,1.);w+=V[i].z*exp(-dot(d,d)/.02);}
-w=min(1.,w*.55);float g=fbm(uv*vec2(3.,5.)+vec2(-T*.35,T*.05));
-float a=smoothstep(.05,.95,w*(.45+1.1*g));
-vec2 cell=floor(gl_FragCoord.xy/2.);float n=h21(cell);
-vec2 dir=vec2(-1./ax,.18+.5*(g-.5));
-vec2 q=uv-dir*a*a*(.08+.5*n);
-vec3 t=texture2D(U0,cov(q,A0)).rgb;
-float gone=step(1.-a*.88,n);
-vec3 c=mix(t,C0,gone);c*=1.-.1*a*(n-.5);
-gl_FragColor=vec4(c,1.);}`,
-  opts:`{c:${JSON.stringify(COLS)},imgs:${IMGS(["s14/hero-bread.webp"])},rest:[.5,.48],wander:[.32,.26],decay:.984,gap:.035,seed:function(a){for(let i=0;i<14;i++){a.V[i*3]=.42+i*.03;a.V[i*3+1]=.42+.14*Math.sin(i*.5);a.V[i*3+2]=.75;}}}`,
 }),
 (() => {
   const ROWS = [["בית הירדן", "וילה פרטית, 2025", "s13/proj-a.webp", 1800, 1200, "סלון כהה עם ספה נמוכה"], ["מרפסת ברמת גן", "פנטהאוז, 2024", "s13/proj-b.webp", 1200, 1600, "פינה כהה עם צמח, מראה עגולה ומנורה"], ["מטבח שחור", "שיפוץ מלא, 2024", "s13/proj-c.webp", 2400, 1026, "מטבח שחור מרווח עם אי באמצע"], ["חדר קריאה", "דירת גן, 2023", "s13/room.webp", 2200, 1469, "חדר קריאה חשוך עם כורסה ומנורה"]];
@@ -296,45 +210,4 @@ root.querySelectorAll(".gy-row").forEach(r=>{const on=()=>{cur=+r.dataset.i;if(a
 })();`,
   };
 })(),
-FX({
-  id:"b130", cls:"sc", name:"וידאו על מסך נקודות שמתחדד סביב העכבר",
-  tech:"WebGL · GLSL · טקסטורת וידאו",
-  insp:"וידאו בפיקסלים עם קווי סריקה",
-  desc:"סרטון רץ כאילו על מסך לד ישן: נקודות אור וקווי סריקה שזזים. סביב העכבר המסך מתחדד ורואים את הווידאו הנקי. בטלפון ובהפחתת תנועה נשאר פריים אחד, בלי להוריד את הסרטון.",
-  when:"מוזיקה, גיימינג, טכנולוגיה, סרטי מותג עם אווירה רטרו, על צילום עם תנועה רחבה. מתי לא: סרטון שמספר משהו שצריך לראות בבירור, או שיש בו דיבור וכתוביות. ",
-  diff:"g49 מקדם וידאו בגלילה בלי לגעת במראה שלו, וההירו עם וידאו במאגר מנגן אותו נקי. כאן הווידאו עובר דרך שיידר בכל פריים.",
-  how:"גודל התא תלוי במרחק מהעכבר, בכל תא דוגמים צבע אחד ומציירים נקודה עגולה, ומעליה גל של קווי סריקה.",
-  common:"**המנוע:** WebGL גולמי בלי ספרייה. **ביצועים:** הווידאו נטען רק כשהסקשן נראה ונעצר כשהוא יוצא מהמסך. **טלפון והפחתת תנועה:** פריים אחד מתמונה, בלי להוריד וידאו. **בלי WebGL או JS:** התמונה הרגילה נשארת. לא יותר מקנבס WebGL אחד בעמוד.",
-  img:"../dive/first.webp", iw:854, ih:480, alt:"מבט אווירי על גלים שמגיעים לחוף חול",
-  k:"סרט מותג", h:"הגל הבא כבר בדרך לחוף", p:"סרט קצר על חופים שקטים, שצולם מהאוויר בעונה שאין בה אף אחד.", cta:"לצפייה בסרט",
-  frag:`void main(){vec2 uv=gl_FragCoord.xy/R;float ax=R.x/R.y;
-float cl=H*smoothstep(.36,.1,length((uv-M)*vec2(ax,1.)));
-float cs=floor(mix(9.,1.,cl)+.5);
-vec2 fc=gl_FragCoord.xy/cs;vec2 q=(floor(fc)+.5)*cs/R;
-vec3 c=texture2D(U0,cov(q,A0)).rgb;
-vec2 f=fract(fc)-.5;float dot0=smoothstep(.62,.32,length(f));
-float scan=.84+.16*sin(gl_FragCoord.y*.5-T*7.);float sweep=1.+.12*smoothstep(.06,0.,abs(fract(uv.y-T*.08)-.5));
-float k=1.-cl;c*=mix(1.,dot0*1.55,k);c*=mix(1.,scan*sweep,k);
-gl_FragColor=vec4(c,1.);}`,
-  opts:`{c:${JSON.stringify(COLS)},imgs:["../assets/media/dive/first.webp"],video:"../assets/media/dive/reel-720.mp4",rest:[.6,.5],wander:[.25,.22]}`,
-}),
-FX({
-  id:"b131", cls:"gw", name:"תמונה ורשת שנמשכות אל בור כבידה בעכבר",
-  insp:"רשת שזורמת ושוקעת סביב נקודת כבידה",
-  desc:"תמונה עם רשת קווים דקה. סביב העכבר המרחב שוקע פנימה כמו שק כבד על סדין: התמונה נמשכת אל המרכז, הקווים מתעקלים והמרכז מחשיך. כשהעכבר עוזב המרחב מתיישר בגמישות.",
-  when:"נדל\"ן, פיננסים, מדע וטכנולוגיה, כשהרעיון הוא משיכה או משקל. עובד הכי טוב על תמונה עם קווים ישרים, כמו בניינים. מתי לא: תמונת פנים של אדם, או סקשן שיש בו טקסט בתוך התמונה. ",
-  diff:"b78 מצייר רשת קווים גלית מאחורי כותרת, בלי תמונה. b68 מזיז שדה בלי לעוות צילום. כאן הצילום עצמו שוקע יחד עם הרשת.",
-  how:"הקואורדינטה נמשכת אל העכבר לפי עקומת גאוס. אותה משיכה חלה על הרשת, ולכן הקווים נשארים דבוקים לתמונה. המרכז מוחשך לפי עומק הבור.",
-  img:"s08/glass.webp", iw:2560, ih:1440, alt:"מגדלי זכוכית כחולים במבט מלמטה",
-  k:"נדל\"ן מסחרי", h:"המשרדים שכולם רוצים להיות לידם", p:"שלושה מגדלים בלב מתחם התעסוקה, עם קומות שלמות לחברות שגדלות מהר.", cta:"לתיאום סיור",
-  frag:`void main(){vec2 uv=gl_FragCoord.xy/R;float ax=R.x/R.y;vec2 p=(uv-M)*vec2(ax,1.);float d2=dot(p,p);
-float well=H*.62*exp(-d2/.07);vec2 q=uv-(uv-M)*well;
-vec3 c=texture2D(U0,cov(q,A0)).rgb;
-vec2 g=q*vec2(ax,1.)*16.;vec2 fw=abs(fract(g)-.5);float px=16./R.y*.9;
-float ln=max(smoothstep(px*1.8,px*.6,fw.x),smoothstep(px*1.8,px*.6,fw.y));
-c=mix(c,mix(C0,vec3(1.),.6),ln*(.07+.36*well));
-c*=1.-.82*H*exp(-d2/.009);
-gl_FragColor=vec4(c,1.);}`,
-  opts:`{c:${JSON.stringify(COLS)},imgs:${IMGS(["s08/glass.webp"])},rest:[.5,.5],wander:[.28,.22],ease:.07}`,
-}),
 ];
