@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B119 · תאים חיים שנעים כמו רקמה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B119 · תאים חיים שנעים כמו רקמה */
+.vc{position:relative;isolation:isolate;display:grid;align-content:center;min-height:min(82vh,760px);padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);overflow:hidden;background:radial-gradient(80% 90% at 30% 40%,color-mix(in srgb,var(--accent, #4a3aff) 20%,var(--bg, #f7f7fa)),var(--bg, #f7f7fa));color:var(--ink, #16182b)}
+.vc>canvas{position:absolute;inset:0;z-index:-1;width:100%;height:100%;opacity:0;transition:opacity .8s cubic-bezier(.2,.6,.2,1)}
+.vc.is-gl>canvas{opacity:1}
+.vc-tx{display:grid;gap:18px;max-width:32rem;justify-self:start;text-align:start}
+.vc-k{margin:0;font-size:15px;font-weight:700;letter-spacing:.04em;color:var(--accent, #4a3aff)}
+.vc-tx h2{margin:0;font-size:clamp(36px,4.6vw,68px);font-weight:800;line-height:1.05;letter-spacing:-.015em;text-wrap:balance}
+.vc-tx p{margin:0;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6;color:var(--muted, #6a6d85)}
+.vc-cta{justify-self:start;display:inline-flex;align-items:center;min-height:48px;padding:12px 24px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-weight:700;text-decoration:none}
+.vc-cta:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<div class="stage"><section class="vc" data-vc>
+  <canvas aria-hidden="true"></canvas>
+  <div class="vc-tx">
+    <p class="vc-k">מעבדה לחקר תאי גזע</p>
+    <h2>המחקר שלנו מתחיל בתא אחד</h2>
+    <p>צוות של 40 חוקרים, שלוש מעבדות ושותפות עם ארבעה בתי חולים. פרסמנו 62 מאמרים מאז 2019.</p>
+    <a class="vc-cta" href="#">למחקרים שלנו</a>
+  </div>
+</section></div>
+
+
+<script>
+(function(){
+function mvGL(root,frag,o){
+  if(!root)return;
+  const cv=root.querySelector("canvas"),gl=cv.getContext("webgl",{alpha:false,antialias:false,depth:false,stencil:false,powerPreference:"low-power"});
+  if(!gl)return;                                                   // הרקע של ה-CSS נשאר
+  const still=matchMedia("(prefers-reduced-motion: reduce)").matches||matchMedia("(max-width:700px),(pointer:coarse)").matches;
+  const NOISE="float h21(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}\n"+
+    "vec2 h22(vec2 p){float n=h21(p);return vec2(n,h21(p+n+17.));}\n"+
+    "float vn(vec2 p){vec2 i=floor(p),f=fract(p);vec2 u=f*f*(3.-2.*f);return mix(mix(h21(i),h21(i+vec2(1.,0.)),u.x),mix(h21(i+vec2(0.,1.)),h21(i+vec2(1.,1.)),u.x),u.y);}\n"+
+    "float fbm(vec2 p){float a=.5,s=0.;for(int i=0;i<5;i++){s+=a*vn(p);p=mat2(1.6,1.2,-1.2,1.6)*p+vec2(1.7,9.2);a*=.5;}return s;}\n"+
+    "float gr(){return h21(gl_FragCoord.xy+fract(T)*97.)-.5;}\n";
+  const head="precision highp float;uniform vec2 R,M;uniform float T,H;uniform vec3 C0,C1,C2,C3;\n"+NOISE;
+  function sh(t,s){const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS)){console.warn(gl.getShaderInfoLog(x));return null;}return x;}
+  const vs=sh(gl.VERTEX_SHADER,"attribute vec2 a;void main(){gl_Position=vec4(a,0.,1.);}"),fs=sh(gl.FRAGMENT_SHADER,head+frag);
+  if(!vs||!fs)return;
+  const pr=gl.createProgram();gl.attachShader(pr,vs);gl.attachShader(pr,fs);gl.bindAttribLocation(pr,0,"a");gl.linkProgram(pr);gl.useProgram(pr);
+  gl.bindBuffer(gl.ARRAY_BUFFER,gl.createBuffer());gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
+  const U=n=>gl.getUniformLocation(pr,n);
+  const px=document.createElement("canvas");px.width=px.height=1;const p2=px.getContext("2d",{willReadFrequently:true});
+  const probe=document.createElement("span");probe.hidden=true;root.appendChild(probe);
+  function rgb(v){probe.style.color=v;p2.fillStyle="#000";p2.fillStyle=getComputedStyle(probe).color;p2.fillRect(0,0,1,1);const d=p2.getImageData(0,0,1,1).data;return[d[0]/255,d[1]/255,d[2]/255];}
+  function cols(){o.c.forEach((v,i)=>gl.uniform3fv(U("C"+i),rgb(v)));}
+  let w=1,h=1,mx=.5,my=.5,tm=.5,tn=.5,hv=0,th=0,seen=false,raf=0,last=0,acc=o.t0||6;
+  function size(){const s=(still?.5:.6)*Math.min(devicePixelRatio||1,1.5);w=Math.max(1,Math.round(cv.clientWidth*s));h=Math.max(1,Math.round(cv.clientHeight*s));cv.width=w;cv.height=h;gl.viewport(0,0,w,h);}
+  function frame(){gl.uniform2f(U("R"),w,h);gl.uniform1f(U("T"),acc);gl.uniform2f(U("M"),mx,my);gl.uniform1f(U("H"),hv);gl.drawArrays(gl.TRIANGLES,0,3);}
+  function loop(now){raf=0;if(!seen||document.hidden)return;acc+=Math.min(.05,(now-last)/1000)*(o.speed||1);last=now;mx+=(tm-mx)*.06;my+=(tn-my)*.06;hv+=(th-hv)*.05;frame();raf=requestAnimationFrame(loop);}
+  function go(){if(!raf&&seen&&!document.hidden&&!still){last=performance.now();raf=requestAnimationFrame(loop);}}
+  size();cols();frame();
+  new ResizeObserver(()=>{size();frame();}).observe(cv);
+  const mo=new MutationObserver(()=>{cols();frame();});            // החלפת עור מחליפה צבעים
+  mo.observe(document.documentElement,{attributes:true});mo.observe(document.body,{attributes:true});
+  if(still){root.classList.add("is-gl");return;}           // טלפון או תנועה מופחתת: פריים אחד, בלי לולאה
+  new IntersectionObserver(([e])=>{seen=e.isIntersecting;if(seen)root.classList.add("is-gl");go();}).observe(root);   // הקנבס נכנס בהדרגה כשהסקשן נראה
+  document.addEventListener("visibilitychange",go);
+  root.addEventListener("pointermove",e=>{if(e.pointerType!=="mouse")return;const r=root.getBoundingClientRect();tm=(e.clientX-r.left)/r.width;tn=1-(e.clientY-r.top)/r.height;th=1;});
+  root.addEventListener("pointerleave",()=>{th=0;});
+}
+mvGL(document.querySelector("[data-vc]"),"void main(){vec2 p=gl_FragCoord.xy/R.y*5.;vec2 m=M*vec2(R.x/R.y,1.)*5.;\nvec2 i=floor(p),f=fract(p);float d1=8.,d2=8.;vec2 id=i;\nfor(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){vec2 g=vec2(float(x),float(y));vec2 o=h22(i+g);o=.5+.4*sin(T*.35+6.2831*o);vec2 r=g+o-f;float d=dot(r,r);\nif(d<d1){d2=d1;d1=d;id=i+g;}else if(d<d2){d2=d;}}\nd1=sqrt(d1);d2=sqrt(d2);\nfloat k=h21(id);float near=H*exp(-.5*dot(id+.5-m,id+.5-m));\nvec3 cell=mix(C0,C1,k*.75+near*.55);\nfloat edge=smoothstep(0.,.2,d2-d1);\nvec3 c=mix(mix(C0,C2,.16),cell,edge)+(.5-d1)*.05;\ngl_FragColor=vec4(c+gr()*.025,1.);}",{c:["var(--bg)","color-mix(in srgb,var(--accent) 55%,var(--bg))","var(--ink)","color-mix(in srgb,var(--accent) 25%,var(--bg))"],t0:6,speed:0.9});
+})();
+</script>
+</body>
+</html>

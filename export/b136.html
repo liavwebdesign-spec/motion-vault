@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>B136 · כותרת ענקית מאלפי חלקיקים שנדחפים מהעכבר</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* מחלקות עזר של המאגר שהרכיב הזה משתמש בהן */
+.stage{padding:var(--sec, clamp(120px, 12vw, 260px)) var(--gutter, clamp(24px, 5vw, 96px));position:relative}
+.stage.tight{padding-block:clamp(48px,5vw,90px)}
+.stage.full{padding-inline:0}
+
+/* B136 · כותרת ענקית מאלפי חלקיקים שנדחפים מהעכבר */
+.pw{position:relative;display:grid;gap:clamp(24px,3vw,48px);align-content:center;min-height:min(86vh,760px);padding:clamp(24px,4vw,64px) clamp(20px,5vw,72px);overflow:hidden}
+.pw>canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0;transition:opacity .5s cubic-bezier(.2,.6,.2,1)}
+.pw.is-gl>canvas{opacity:1}
+.pw-k{margin:0;font-size:15px;font-weight:700;letter-spacing:.04em;color:var(--accent, #4a3aff);text-align:center}
+.pw h2{margin:0;font-size:clamp(56px,12.5vw,210px);font-weight:800;line-height:1;letter-spacing:-.02em;text-align:center}
+.pw h2 span{display:block}
+.pw.is-gl h2{color:transparent}
+.pw-b{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px 32px;position:relative}
+.pw-b p{margin:0;max-width:44ch;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6;color:var(--muted, #6a6d85)}
+.pw-cta{display:inline-flex;align-items:center;min-height:48px;padding:12px 24px;border-radius:999px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);font-weight:700;text-decoration:none}
+.pw-cta:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+</style>
+</head>
+<body>
+
+<div class="stage"><section class="pw" data-pw>
+  <canvas aria-hidden="true"></canvas>
+  <p class="pw-k">סטודיו למוצרים דיגיטליים</p>
+  <h2><span>בונים דברים</span><span>שזזים</span></h2>
+  <div class="pw-b"><p>מוצרים שאנשים פותחים כל יום, מהסקיצה הראשונה ועד הגרסה שעובדת בלי שמישהו ישים לב.</p><a class="pw-cta" href="#">דברו איתנו</a></div>
+</section></div>
+
+
+<script>
+(function(){
+function mvPts(root,o){
+  if(!root)return null;
+  const cv=root.querySelector("canvas"),gl=cv.getContext("webgl",{alpha:true,antialias:false,depth:false,stencil:false,powerPreference:"low-power"});
+  if(!gl)return null;
+  const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches,phone=matchMedia("(max-width:700px),(pointer:coarse)").matches;
+  const still=reduced||(phone&&!o.phone);
+  function sh(t,s){const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS)){console.warn(gl.getShaderInfoLog(x));return null;}return x;}
+  const vs=sh(gl.VERTEX_SHADER,"precision highp float;uniform vec2 V,M;uniform float T,H,P,S,A;uniform vec3 C0,C1,C2,C3,W0,W1;\n"+o.vs),fs=sh(gl.FRAGMENT_SHADER,"precision highp float;uniform vec2 V,M;uniform float T,H,P,S,A;uniform vec3 C0,C1,C2,C3;uniform sampler2D U0;\n"+o.fs);
+  if(!vs||!fs)return null;
+  const pr=gl.createProgram();gl.attachShader(pr,vs);gl.attachShader(pr,fs);gl.linkProgram(pr);gl.useProgram(pr);
+  gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE_MINUS_SRC_ALPHA);gl.clearColor(0,0,0,0);
+  const U=n=>gl.getUniformLocation(pr,n);
+  const px=document.createElement("canvas");px.width=px.height=1;const p2=px.getContext("2d",{willReadFrequently:true});
+  const probe=document.createElement("span");probe.hidden=true;root.appendChild(probe);
+  function rgb(v){probe.style.color=v;p2.fillStyle="#000";p2.fillStyle=getComputedStyle(probe).color;p2.fillRect(0,0,1,1);const d=p2.getImageData(0,0,1,1).data;return[d[0]/255,d[1]/255,d[2]/255];}
+  function cols(){(o.c||[]).forEach((v,i)=>gl.uniform3fv(U("C"+i),rgb(v)));}
+  let cw=1,ch=1,s=1,count=0,seen=false,ready=false,started=false,raf=0,last=0,acc=0,moved=-1e9,mx=0,my=0,tx=0,ty=0;const bufs={};
+  const api={P:0,H:0,th:0,A:1,count:0,still,reduced,phone,over:false,cv,gl,kick:go,draw:frame,mesh,tex,U,get w(){return cw;},get h(){return ch;},get s(){return s;}};
+  function mesh(attrs,n){count=n;api.count=n;for(const k in attrs){const l=gl.getAttribLocation(pr,k);if(l<0)continue;bufs[k]=bufs[k]||gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bufs[k]);gl.bufferData(gl.ARRAY_BUFFER,attrs[k].d,gl.STATIC_DRAW);gl.enableVertexAttribArray(l);gl.vertexAttribPointer(l,attrs[k].n,gl.FLOAT,false,0,0);}}
+  function tex(im){const t=gl.createTexture();gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,im);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);gl.uniform1i(U("U0"),0);api.A=im.naturalWidth/im.naturalHeight;}
+  function size(){s=Math.min(devicePixelRatio||1,o.dpr||1.5);cw=Math.max(1,cv.clientWidth);ch=Math.max(1,cv.clientHeight);cv.width=Math.round(cw*s);cv.height=Math.round(ch*s);gl.viewport(0,0,cv.width,cv.height);}
+  function frame(){gl.uniform2f(U("V"),cw,ch);gl.uniform2f(U("M"),mx,my);gl.uniform1f(U("T"),acc);gl.uniform1f(U("H"),api.H);gl.uniform1f(U("P"),api.P);gl.uniform1f(U("S"),s);gl.uniform1f(U("A"),api.A);
+    gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArrays(o.tri?gl.TRIANGLES:gl.POINTS,0,count);}
+  function loop(now){raf=0;if(!seen||document.hidden||!ready)return;
+    const dt=Math.min(.05,(now-last)/1000);last=now;acc+=dt;
+    if(o.wander&&now-moved>2500){tx=cw*(.5+o.wander[0]*Math.sin(acc*.55));ty=ch*(.5+o.wander[1]*Math.sin(acc*.83+1));api.th=1;}
+    mx+=(tx-mx)*(o.ease||.1);my+=(ty-my)*(o.ease||.1);api.H+=(api.th-api.H)*.07;
+    if(o.tick)o.tick(dt,api,mx,my);
+    frame();raf=requestAnimationFrame(loop);}
+  function go(){if(!raf&&ready&&seen&&!document.hidden&&!still){last=performance.now();raf=requestAnimationFrame(loop);}}
+  function reveal(){if(ready&&seen)root.classList.add("is-gl");}
+  function load(){if(started)return;started=true;
+    Promise.resolve(o.init(api)).then(()=>{size();mx=tx=cw*.5;my=ty=ch*.5;cols();if(o.build)o.build(api);ready=true;if(still)api.H=0;if(o.ready)o.ready(api);frame();reveal();go();}).catch(e=>console.warn(e));}
+  let rt=0;new ResizeObserver(()=>{if(!ready)return;size();clearTimeout(rt);rt=setTimeout(()=>{if(o.build)o.build(api);frame();},180);frame();}).observe(cv);
+  new MutationObserver(()=>{if(ready){cols();frame();}}).observe(document.documentElement,{attributes:true});
+  new IntersectionObserver(([e])=>{seen=e.isIntersecting;if(seen){load();reveal();}go();},{rootMargin:"200px"}).observe(root);
+  document.addEventListener("visibilitychange",go);
+  if(!still){
+    root.addEventListener("pointermove",e=>{if(e.pointerType==="touch"&&!o.touch)return;const r=cv.getBoundingClientRect();tx=e.clientX-r.left;ty=e.clientY-r.top;moved=performance.now();api.over=true;api.th=1;});
+    root.addEventListener("pointerleave",()=>{api.over=false;api.th=0;});
+  }
+  return api;
+}
+const root=document.querySelector("[data-pw]");
+if(matchMedia("(max-width:700px),(pointer:coarse),(prefers-reduced-motion: reduce)").matches)return;   // הכותרת הרגילה
+mvPts(root,{c:["var(--bg)","var(--accent)","var(--ink)","color-mix(in srgb,var(--accent) 25%,var(--bg))"],wander:[.32,.2],ease:.14,
+vs:"attribute vec2 a,b;varying float v;varying float w;\nvoid main(){vec2 p=a;vec2 d=p-M;float r=length(d);float f=H*exp(-r*r/(2.*92.*92.));\nvec2 n=d/max(r,1.);vec2 t=vec2(-n.y,n.x);\np+=n*f*(30.+62.*b.x)+t*f*(b.y-.5)*38.;\np+=vec2(sin(T*1.3+a.y*.03+b.x*6.28),cos(T*1.1+a.x*.02+b.y*6.28))*(.7+f*5.);\nfloat e=P*P*(3.-2.*P);float q=clamp(e*1.8-b.y*.8,0.,1.);q=q*q*(3.-2.*q);\np=mix(a+(b-.5)*V*vec2(1.3,1.5),p,q);\nv=f;w=b.x;\ngl_Position=vec4(p.x/V.x*2.-1.,1.-p.y/V.y*2.,0.,1.);\ngl_PointSize=(2.8+f*1.1)*S;}",
+fs:"varying float v;varying float w;\nvoid main(){float l=length(gl_PointCoord-.5);float a=smoothstep(.5,.38,l);\nvec3 c=mix(C2,C1,clamp(v*1.6+step(w,.07),0.,1.));gl_FragColor=vec4(c*a,a);}",
+init:function(){return document.fonts?document.fonts.ready:null;},
+build:function(a){
+  const W=a.w,H=a.h,c=document.createElement("canvas");c.width=W;c.height=H;const x=c.getContext("2d",{willReadFrequently:true});
+  const h=root.querySelector("h2"),cs=getComputedStyle(h),rr=a.cv.getBoundingClientRect();
+  x.font=cs.fontWeight+" "+cs.fontSize+" "+cs.fontFamily;x.direction="rtl";x.textAlign="center";x.textBaseline="alphabetic";x.fillStyle="#000";try{x.letterSpacing=cs.letterSpacing;}catch(_){}
+  h.querySelectorAll("span").forEach(sp=>{const g=document.createRange();g.selectNodeContents(sp);const b=g.getBoundingClientRect(),m=x.measureText(sp.textContent);const A=m.fontBoundingBoxAscent,D=m.fontBoundingBoxDescent;x.fillText(sp.textContent,(b.left+b.right)/2-rr.left,b.top-rr.top+(b.height+A-D)/2);});
+  const d=x.getImageData(0,0,W,H).data;let st=2,pts=[];
+  for(;st<8;st+=.5){pts=[];for(let y=0;y<H;y+=st)for(let X=0;X<W;X+=st){if(d[(Math.round(y)*W+Math.round(X))*4+3]>128)pts.push(X,y);}if(pts.length/2<26000)break;}
+  const n=pts.length/2,sd=new Float32Array(n*2);for(let i=0;i<n*2;i++)sd[i]=Math.random();
+  a.mesh({a:{n:2,d:new Float32Array(pts)},b:{n:2,d:sd}},n);
+},
+tick:function(dt,a){if(a.P<1)a.P=Math.min(1,a.P+dt/1.5);}});
+})();
+</script>
+</body>
+</html>
