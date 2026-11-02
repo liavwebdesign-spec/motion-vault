@@ -1362,7 +1362,7 @@ writeFileSync(join(ROOT, "index.html"), ASSETV(libraryPage({ entries: Object.val
 writeFileSync(join(ROOT, "classic.html"), ASSETV(indexPage()));
 writeFileSync(join(ROOT, "library.html"), `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><title>Design DNA · הספרייה</title>
 <script>location.replace("index.html"+location.hash)</script><meta http-equiv="refresh" content="0;url=index.html"></head><body><a href="index.html">לספרייה</a></body></html>`);
-const INSPO = writeInspo({ ROOT, FONT, BV, ASSETV });
+const INSPO = writeInspo({ ROOT, FONT, ASSETV });
 writeFileSync(join(ROOT, "review.html"), ASSETV(reviewPage()));
 writeFileSync(join(ROOT, "legend.html"), ASSETV(legendPage()));
 // התורה נכתבת לסקיל מהקטלוג: המאגר הוא מקור האמת (6.9.2026)

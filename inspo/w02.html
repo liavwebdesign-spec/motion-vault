@@ -47,14 +47,11 @@
     <div><dt>תחום ואווירה</dt><dd class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">שקט</span><span class="vchip">איור</span><span class="vchip">פשטות</span><span class="vchip">המרה</span></dd></div>
   </dl>
   <div data-shots data-id="w02" data-date="2026-11-02"></div>
-  <div data-mvpanel="w02"></div>
 </main>
-<script src="../assets/baseline.js?v=1a461dc8"></script>
-<script src="../assets/status.js?v=38ce7fee"></script>
 <script>
 (function(){
-  if(/qa=0/.test(location.search)){document.querySelector(".vback").hidden=true;document.querySelector("[data-mvpanel]").hidden=true;}
-  else document.querySelectorAll("[data-mvpanel]").forEach(function(el){MV.panel(el);});
+  // האישור נעשה בכפתורים של מסך הסקירה. בעמוד עצמו אין פאנל בדיקה, כי מציגים אותו ללקוחות.
+  if(/qa=0/.test(location.search))document.querySelector(".vback").hidden=true;
   var box=document.querySelector("[data-shots]"),d=box.dataset.date,id=box.dataset.id;
   var local=/^(localhost|127\.0\.0\.1)$/.test(location.hostname)||location.protocol==="file:";
   if(local&&d){

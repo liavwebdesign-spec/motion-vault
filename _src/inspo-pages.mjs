@@ -56,7 +56,7 @@ ${FONT}
 <style>${CSS}</style>
 </head>`;
 
-export function inspoSitePage(s, { FONT, BV }) {
+export function inspoSitePage(s, { FONT }) {
   const date = s.shots[s.shots.length - 1];
   return `${head(`${esc(s.name)} · אתרי השראה`, FONT, "../")}
 <body>
@@ -72,14 +72,11 @@ export function inspoSitePage(s, { FONT, BV }) {
     <div><dt>תחום ואווירה</dt><dd class="iw-chips"><span class="vchip">${esc(s.field)}</span><span class="vchip">${MOODS[s.mood]}</span>${s.strengths.map(k => `<span class="vchip">${STRENGTHS[k]}</span>`).join("")}</dd></div>
   </dl>
   <div data-shots data-id="${s.id}" data-date="${date || ""}"></div>
-  <div data-mvpanel="${s.id}"></div>
 </main>
-<script src="../assets/baseline.js?v=${BV}"></script>
-<script src="../assets/status.js"></script>
 <script>
 (function(){
-  if(/qa=0/.test(location.search)){document.querySelector(".vback").hidden=true;document.querySelector("[data-mvpanel]").hidden=true;}
-  else document.querySelectorAll("[data-mvpanel]").forEach(function(el){MV.panel(el);});
+  // האישור נעשה בכפתורים של מסך הסקירה. בעמוד עצמו אין פאנל בדיקה, כי מציגים אותו ללקוחות.
+  if(/qa=0/.test(location.search))document.querySelector(".vback").hidden=true;
   var box=document.querySelector("[data-shots]"),d=box.dataset.date,id=box.dataset.id;
   var local=/^(localhost|127\\.0\\.0\\.1)$/.test(location.hostname)||location.protocol==="file:";
   if(local&&d){
@@ -136,13 +133,13 @@ export function inspoIndexPage(approved, { FONT }) {
 }
 
 // כותב את העמודים, ומחזיר את הרשימה למסך הסקירה. מה שנכנס ל-inspo.html נקבע רק לפי baseline, בזמן הבנייה.
-export function writeInspo({ ROOT, FONT, BV, ASSETV }) {
+export function writeInspo({ ROOT, FONT, ASSETV }) {
   const all = JSON.parse(readFileSync(join(ROOT, "_src", "inspo", "sites.json"), "utf8"));
   const ctx = { window: {} };
   vm.runInNewContext(readFileSync(join(ROOT, "assets", "baseline.js"), "utf8"), ctx);
   const base = ctx.window.MV_BASELINE || {};
   mkdirSync(join(ROOT, "inspo"), { recursive: true });
-  for (const s of all) writeFileSync(join(ROOT, "inspo", `${s.id}.html`), ASSETV(inspoSitePage(s, { FONT, BV })));
+  for (const s of all) writeFileSync(join(ROOT, "inspo", `${s.id}.html`), ASSETV(inspoSitePage(s, { FONT })));
   writeFileSync(join(ROOT, "inspo.html"), ASSETV(inspoIndexPage(all.filter(s => base[s.id]?.s === "ok"), { FONT })));
   return all.map(s => ({ id: s.id, name: s.name, cat: "inspo", desc: s.why, when: "" }));
 }
