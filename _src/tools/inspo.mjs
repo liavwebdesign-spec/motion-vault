@@ -33,6 +33,13 @@ const SHOTS_REPO = join(ROOT, "..", "motion-vault-shots");
 // [המקור, הסיומת בריפו, רוחב, איכות]: הכרטיס טוען את שתי הקטנות, ורק לחיצה על כרטיס טוענת את העמוד המלא
 const SHOT_SIZES = [["d", "d", 800, 62], ["m", "m", 200, 60], ["d-full", "df", 1100, 55], ["m-full", "mf", 390, 55]];
 const GAP_VIEWPORTS = 1.2, MAX_FRAMES = 26; // פס ריק מעל גובה מסך ורבע נחשב צילום שנכשל; רצף של יותר מ-26 פריימים כבר לא נקרא
+// מסתירים אצלנו בצילום חלונית עוגיות או בחירת אזור צפה, בלי ללחוץ עליה ובלי להסכים לכלום. חלונית שמכסה את כל המסך מזוהה לפי טקסט קצר, כדי לא להעלים עטיפה של כל האתר; אחריה נעלם גם המסך המעומעם שנשאר מאחוריה
+const HIDE_COOKIES = `{let hit=0;const hide=e=>{e.style.setProperty("display","none","important");hit++};
+[...document.querySelectorAll('[id*="cookie" i],[class*="cookie" i],[id*="consent" i],[class*="consent" i],[id*="onetrust" i],[id*="usercentrics" i],[id^="coi" i]')].forEach(e=>{const r=e.getBoundingClientRect();if(e!==document.body&&e!==document.documentElement&&["fixed","sticky"].includes(getComputedStyle(e).position)&&r.width*r.height<innerWidth*innerHeight*.6)hide(e)});
+[...document.querySelectorAll("#coiOverlay,#usercentrics-root,#onetrust-consent-sdk")].forEach(hide);
+[...document.body.querySelectorAll("*")].forEach(e=>{if(getComputedStyle(e).position!=="fixed")return;const r=e.getBoundingClientRect(),t=e.innerText||"";if(/cookie|consent/i.test(t)&&(r.width*r.height<innerWidth*innerHeight*.6||t.length<4000)||/shipping region|select your (location|country|region)|choose your (location|country|region)/i.test(t)&&t.length<800)hide(e)});
+if(hit){for(const e of[document.documentElement,document.body])if(getComputedStyle(e).overflowY==="hidden")e.style.setProperty("overflow","auto","important");
+[...document.body.querySelectorAll("*")].forEach(e=>{if(getComputedStyle(e).position!=="fixed")return;const r=e.getBoundingClientRect();if(r.width*r.height>=innerWidth*innerHeight*.9&&!(e.innerText||"").trim()&&!e.querySelector("img,video,canvas,svg")&&!e.matches("video,canvas,img"))hide(e)})}}`;
 
 const args = process.argv.slice(2);
 const cmd = args[0];
@@ -193,6 +200,7 @@ async function check() {
       for (let i = 0; i < 100 && !loaded; i++) await sleep(250);
       const loadMs = Date.now() - t0;
       await sleep(6000); // אנימציית פתיחה: מצלמים אחרי שהיא נגמרה (FlowFest באמצעה ב-3 שניות)
+      await ev(HIDE_COOKIES);
       await shot(join(SHOTS, `${id}-${date}-${key}.jpg`));
       // גוללים בצעדים כדי שתמונות עצלות ואנימציות כניסה יתעוררו לפני הצילום המלא
       const height = await ev("document.documentElement.scrollHeight");
@@ -248,6 +256,8 @@ async function stackFrames(url, file, key) {
   const CHROME = [process.env.CHROME_PATH, "C:/Program Files/Google/Chrome/Application/chrome.exe", "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"].find(p => p && existsSync(p));
   const [w, h, mobile] = key === "m" ? [390, 844, true] : [1440, 900, false];
   const port = 9000 + Math.floor(Math.random() * 390), profile = join(tmpdir(), `mv-frames-${process.pid}-${key}`), dir = join(tmpdir(), `mv-frames-out-${process.pid}-${key}`);
+  // תיקייה שנשארה מריצה קודמת עם אותו מספר תהליך הכניסה פריימים של אתר אחר לרצף (Casa Momo קיבל את ONE ZERO)
+  rmSync(dir, { recursive: true, force: true });
   mkdirSync(dir, { recursive: true });
   const proc = spawn(CHROME, ["--headless=new", "--use-angle=d3d11", "--ignore-gpu-blocklist", "--no-first-run", "--hide-scrollbars", `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, "about:blank"], { stdio: "ignore" });
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
@@ -267,8 +277,10 @@ async function stackFrames(url, file, key) {
     if (mobile) await send("Network.setUserAgentOverride", { userAgent: "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36" });
     await send("Page.navigate", { url });
     await sleep(9000);
+    // דף אימות של שומר האתר (כמו Cloudflare) הוא לא האתר: הצילום הקודם נשאר
+    if (await ev(`/just a moment|verify(ing)? you|checking your browser|security (check|verification)|attention required|access denied|אימות אבטחה|אימות אנושי/i.test(document.title+" "+(document.body?.innerText||"").slice(0,800))`)) return false;
     // חלונית עוגיות תחזור בכל פריים: מסתירים אותה אצלנו בצילום, בלי ללחוץ עליה
-    await ev(`[...document.querySelectorAll('[id*="cookie" i],[class*="cookie" i],[id*="consent" i],[class*="consent" i],[id*="onetrust" i]')].forEach(e=>{const r=e.getBoundingClientRect();if(e!==document.body&&e!==document.documentElement&&["fixed","sticky"].includes(getComputedStyle(e).position)&&r.width*r.height<innerWidth*innerHeight*.6)e.style.display="none"})`);
+    await ev(HIDE_COOKIES);
     const total = (await ev("document.documentElement.scrollHeight")) || h;
     const step = Math.round(Math.max(h * .9, total / MAX_FRAMES));
     let same = 0, last = "";
@@ -276,15 +288,27 @@ async function stackFrames(url, file, key) {
       const data = (await send("Page.captureScreenshot", { format: "jpeg", quality: 74 })).data;
       if (data && data !== last) { writeFileSync(join(dir, `f${String(frames++).padStart(3, "0")}.jpg`), Buffer.from(data, "base64")); same = 0; } else same++;
       last = data;
+      const before = await ev("scrollY");
       await send("Input.synthesizeScrollGesture", { x: w / 2, y: h / 2, yDistance: -step, speed: 1600, gestureSourceType: mobile ? "touch" : "mouse" });
       await sleep(1000);
+      // יש אתרים שמתעלמים מאצבע מדומה (שכבת סרטון מעל הכל): העמוד לא זז, אז מזיזים אותו ישירות
+      if ((await ev("scrollY")) === before && before + h < total) { await ev(`scrollBy(0,${step})`); await sleep(800); }
+      // אתר עם מנגנון גלילה משלו בטלפון לא זז גם מזה, ומגיב רק לגלגלת
+      if (mobile && (await ev("scrollY")) === before) { await send("Input.synthesizeScrollGesture", { x: w / 2, y: h / 2, yDistance: -step, speed: 1600, gestureSourceType: "mouse" }); await sleep(800); }
     }
     ws.close();
     // פחות משני פריימים אומר שהגלילה לא עבדה: הצילום הקודם נשאר, בלי להחליף אותו בפחות מידע
     if (frames < 2) return false;
-    const list = Array.from({ length: frames }, (_, i) => join(dir, `f${String(i).padStart(3, "0")}.jpg`));
+    // סרטון רקע משנה כל פריים גם כשהעמוד לא זז: נשארים רק פריימים שבאמת נראים אחרת מהקודם
+    const look = (f) => execFileSync("magick", [f, "-colorspace", "Gray", "-resize", "24x24!", "-depth", "8", "gray:-"]);
+    const list = []; let prev = null;
+    for (let i = 0; i < frames; i++) {
+      const f = join(dir, `f${String(i).padStart(3, "0")}.jpg`), sig = look(f);
+      if (!prev || sig.reduce((t, v, j) => t + Math.abs(v - prev[j]), 0) / sig.length >= 4) { list.push(f); prev = sig; }
+    }
+    if (list.length < 2) return false;
     execFileSync("magick", [...list, "-append", "-quality", "74", file]);
-    return frames;
+    return list.length;
   } finally {
     proc.kill();
     await sleep(500);
