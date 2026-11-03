@@ -992,8 +992,8 @@ ${isDoc ? BP_JS + String.fromCharCode(10) + (isStyle ? FONT_JS + String.fromChar
 // הסטטוס נשמר דרך אותה שכבת אישורים (status.js, localStorage), ולכן האינדקס והעמודים רואים אותו מיד.
 function reviewPage() {
   // archived languages stay in the vault as inspiration, but they are not reviewed and not offered (Liav, 6.10.2026)
-  const LIST = JSON.stringify([...INSPO, ...entries.filter(e => !e.archived).map(e => ({ id: e.id, name: e.name, cat: e.cat, desc: e.desc, when: e.when || "" }))]);
-  const CATS_JSON = JSON.stringify({ inspo: "אתרי השראה", ...CATS });
+  const LIST = JSON.stringify([...entries.filter(e => !e.archived).map(e => ({ id: e.id, name: e.name, cat: e.cat, desc: e.desc, when: e.when || "" }))]);
+  const CATS_JSON = JSON.stringify(CATS);
   return `<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
@@ -1072,14 +1072,14 @@ ${existsSync(join(ROOT, "assets", "changes.js")) ? `<script src="assets/changes.
 (function(){
   const ALL=${LIST}, CATS=${CATS_JSON}, CHG=window.MV_CHANGES||{};
   // הסדר: מהלכים קודם (הם מה שלא נשפט), ואז הדוקטרינה
-  const ORDER=["inspo","gsap","behavior","header","hero","footer","conv","css","lm","misc","comp","rhythm","style","anti","arch"];
+  const ORDER=["gsap","behavior","header","hero","footer","conv","css","lm","misc","comp","rhythm","style","anti","arch"];
   ALL.sort((a,b)=>ORDER.indexOf(a.cat)-ORDER.indexOf(b.cat));
   const $=s=>document.querySelector(s);
   const frame=$("[data-frame]"),count=$("[data-count]"),note=$("[data-note]"),ta=$("[data-ta]"),done=$("[data-done]");
   const fsel=$("[data-filter]"),csel=$("[data-cat]");
   Object.entries(CATS).forEach(([k,v])=>{const o=document.createElement("option");o.value=k;o.textContent=v;csel.appendChild(o);});
-  // קישור ישיר לקטגוריה: review.html?cat=inspo
-  const qcat=new URLSearchParams(location.search).get("cat"); if(qcat&&CATS[qcat])csel.value=qcat;
+  // קישור ישיר לקטגוריה: review.html?cat=gsap. אתרי ההשראה עברו למסך משלהם, וקישור ישן אליהם ממשיך לעבוד
+  const qcat=new URLSearchParams(location.search).get("cat"); if(qcat==="inspo")location.replace("inspo-review.html"); if(qcat&&CATS[qcat])csel.value=qcat;
   let list=[],i=0,cur=null;
   function build(){
     const f=fsel.value,c=csel.value;
@@ -1332,7 +1332,7 @@ writeFileSync(join(ROOT, "index.html"), ASSETV(libraryPage({ entries: Object.val
 writeFileSync(join(ROOT, "classic.html"), ASSETV(indexPage()));
 writeFileSync(join(ROOT, "library.html"), `<!DOCTYPE html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="robots" content="noindex, nofollow"><title>Design DNA · הספרייה</title>
 <script>location.replace("index.html"+location.hash)</script><meta http-equiv="refresh" content="0;url=index.html"></head><body><a href="index.html">לספרייה</a></body></html>`);
-const INSPO = writeInspo({ ROOT, FONT, ASSETV });
+writeInspo({ ROOT, FONT, ASSETV, BV });
 writeFileSync(join(ROOT, "review.html"), ASSETV(reviewPage()));
 writeFileSync(join(ROOT, "legend.html"), ASSETV(legendPage()));
 // התורה נכתבת לסקיל מהקטלוג: המאגר הוא מקור האמת (6.9.2026)

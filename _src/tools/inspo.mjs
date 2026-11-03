@@ -2,7 +2,8 @@
 // inspo.mjs: אתרי ההשראה של המאגר (ליאב, 2.11.2026: "סקשן וסריקה שבועית").
 //
 // הכלל שהכלי שומר: אתר שליאב לא אישר לא נשלף ולא מוצג. מקור האמת לאישור הוא assets/baseline.js, כמו בכל המאגר.
-// הצילומים פנימיים: הריפו ציבורי, ולכן הם נשמרים ב-assets/inspo-internal/ שלא נכנס לגיט.
+// הצילומים המלאים נשמרים ב-assets/inspo-internal/ שלא נכנס לגיט של המאגר. עותקים דחוסים עולים לריפו נפרד,
+// motion-vault-shots (ליאב, 3.11.2026: "באוויר, בנפרד"), ומחיקה שלו מורידה את כולם בבת אחת.
 //
 // שימוש:
 //   node _src/tools/inspo.mjs check <url> --id w03     בדיקה שהאתר חי ועובד בטלפון + צילומים מתוארכים
@@ -10,10 +11,11 @@
 //   node _src/tools/inspo.mjs status                   כמה ממתינים, ואילו כתובות כבר נבחנו
 //   node _src/tools/inspo.mjs add <file.json> [--batch] מוסיף מועמד אחרי בדיקת שדות וכפילות (ממתין לליאב). --batch רק כשליאב ביקש אצווה גדולה; הסריקה השבועית נשארת עם תקרה של 5
 //   node _src/tools/inspo.mjs sync '<json>'            {"w01":{"s":"ok","note":"","t":123}} לתוך baseline.js, רק מזהי אתרים
+//   node _src/tools/inspo.mjs shots [--push]           עותקים דחוסים לריפו התמונות (רק מה שחדש), ועם --push גם דוחף
 // יציאה: 0 תקין, 1 שגיאת שימוש, 2 כשהבדיקה נכשלה (האתר לא חי, או גולש הצידה בטלפון). אפס תלויות npm.
 
-import { spawn } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { execFileSync, spawn } from "node:child_process";
+import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -26,6 +28,9 @@ const PASSED = join(ROOT, "_src", "inspo", "passed.txt"); // אתרים שהסר
 const BASE = join(ROOT, "assets", "baseline.js");
 const SHOTS = join(ROOT, "assets", "inspo-internal");
 const LOOK = join(ROOT, "_src", "tools", "out", "inspo");
+const SHOTS_REPO = join(ROOT, "..", "motion-vault-shots");
+// [המקור, הסיומת בריפו, רוחב, איכות]: הכרטיס טוען את שתי הקטנות, ורק לחיצה על כרטיס טוענת את העמוד המלא
+const SHOT_SIZES = [["d", "d", 800, 62], ["m", "m", 200, 60], ["d-full", "df", 1100, 55], ["m-full", "mf", 390, 55]];
 
 const args = process.argv.slice(2);
 const cmd = args[0];
@@ -45,7 +50,8 @@ else if (cmd === "status") status();
 else if (cmd === "add") add();
 else if (cmd === "sync") sync();
 else if (cmd === "check") await check();
-else { console.error("שימוש: check | pick | status | add | sync"); process.exit(1); }
+else if (cmd === "shots") await shots();
+else { console.error("שימוש: check | pick | status | add | sync | shots"); process.exit(1); }
 
 function pick() {
   const b = baseline(), n = Number(flag("--n") || 5), field = flag("--field"), mood = flag("--mood"), strength = flag("--strength");
@@ -103,6 +109,39 @@ function sync() {
   writeFileSync(BASE, src);
   baseline(); // קורס כאן אם הקובץ נשבר, לפני שמישהו דוחף אותו
   console.log("סונכרנו " + n + " אתרים");
+}
+
+async function shots() {
+  if (!existsSync(join(SHOTS_REPO, ".git"))) { console.error("חסר הריפו המקומי של התמונות: " + SHOTS_REPO); process.exit(1); }
+  const jobs = [], missing = [];
+  for (const s of sites()) {
+    const date = s.shots[s.shots.length - 1];
+    for (const [from, to, width, quality] of SHOT_SIZES) {
+      const src = join(SHOTS, `${s.id}-${date}-${from}.jpg`), out = join(SHOTS_REPO, `${s.id}-${to}.jpg`);
+      if (!existsSync(src)) { missing.push(src); continue; }
+      if (!existsSync(out) || statSync(out).mtimeMs < statSync(src).mtimeMs) jobs.push({ src, out, width, quality });
+    }
+  }
+  if (missing.length) { console.error("חסרים צילומים:\n" + missing.join("\n")); process.exit(2); }
+  const failed = [];
+  const worker = async () => {
+    for (let j; (j = jobs.shift());) {
+      await new Promise(done => spawn("magick", [j.src, "-strip", "-resize", `${j.width}x`, "-sampling-factor", "4:2:0", "-interlace", "JPEG", "-quality", String(j.quality), j.out], { stdio: "ignore" })
+        .on("error", () => { failed.push(j.src); done(); })
+        .on("exit", code => { if (code) failed.push(j.src); done(); }));
+    }
+  };
+  const total = jobs.length;
+  await Promise.all(Array.from({ length: 6 }, worker));
+  if (failed.length) { console.error("נכשלו:\n" + failed.join("\n")); process.exit(2); }
+  console.log(`נוצרו ${total} תמונות`);
+  if (!args.includes("--push")) return;
+  const git = (...a) => execFileSync("git", a, { cwd: SHOTS_REPO, encoding: "utf8" });
+  git("add", "-A");
+  if (!git("status", "--porcelain").trim()) { console.log("אין מה לדחוף"); return; }
+  git("commit", "-m", `צילומי אתרי השראה: ${today()}\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`);
+  git("push", "origin", "main");
+  console.log("נדחף");
 }
 
 async function check() {
