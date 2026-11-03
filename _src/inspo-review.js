@@ -2,7 +2,7 @@
 // נכנס כמו שהוא לתוך inspo-review.html בזמן הבנייה. הסימונים עוברים דרך שכבת האישורים של המאגר (MV), כמו בכל מהלך,
 // ולכן הם נשמרים בדפדפן של המכשיר ומגיעים ל-baseline ב-sync. הכתובות של התמונות נבנות כאן ולא ב-HTML של העמוד.
 (function () {
-  const { sites: SITES, styles: STYLES, moods: MOOD, order: ORDER, shots: SHOTS } = window.INSPO;
+  const { sites: SITES, styles: STYLES, moods: MOOD, levels: LEVELS, order: ORDER, shots: SHOTS } = window.INSPO;
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
   const shot = (id, kind) => `${SHOTS}${id}-${kind}.jpg`;
@@ -41,7 +41,7 @@
       </button>
       <div class="ir-body">
         <h3>${esc(s.name)}</h3>
-        <div class="ir-tags"><span class="vchip">${esc(STYLES[s.style] || "")}</span><span class="vchip">${MOOD[s.mood]}</span>${s.rtl ? `<span class="vchip">עברית/ערבית</span>` : ""}</div>
+        <div class="ir-tags">${s.level ? `<span class="vchip">${LEVELS[s.level]}</span>` : ""}<span class="vchip">${esc(STYLES[s.style] || "")}</span><span class="vchip">${MOOD[s.mood]}</span>${s.rtl ? `<span class="vchip">עברית/ערבית</span>` : ""}</div>
         <p class="ir-txt"><span>למה</span>${esc(s.why)}</p>
         <p class="ir-txt"><span>בטלפון</span>${esc(s.phone)}</p>
         <div class="ir-foot">

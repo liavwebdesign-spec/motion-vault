@@ -8,19 +8,21 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
 
-export const FIELDS = ["אירועים ובידור", "ביטוח ופיננסים", "שירותים מקצועיים", "נדל\"ן ובנייה", "מסחר וחנויות", "מזון ומסעדות", "בריאות ויופי", "תיירות ופנאי", "טכנולוגיה ו-SaaS", "עיצוב וסטודיו", "חינוך ותרבות", "תעשייה ו-B2B"];
-// סדר התצוגה: קודם התחומים של רוב הלקוחות; עיצוב וסטודיו בסוף, כי הוא מקור לרעיונות ולא התחום של הלקוח
-const FIELD_ORDER = ["נדל\"ן ובנייה", "תיירות ופנאי", "בריאות ויופי", "מזון ומסעדות", "מסחר וחנויות", "שירותים מקצועיים", "ביטוח ופיננסים", "תעשייה ו-B2B", "טכנולוגיה ו-SaaS", "חינוך ותרבות", "אירועים ובידור", "עיצוב וסטודיו"];
+export const FIELDS = ["אירועים ובידור", "ביטוח ופיננסים", "שירותים מקצועיים", "נדל\"ן ובנייה", "מסחר וחנויות", "מזון ומסעדות", "בריאות ויופי", "תיירות ופנאי", "טכנולוגיה ו-SaaS", "עיצוב וסטודיו", "חינוך ותרבות", "תעשייה ו-B2B", "בעלי מקצוע ובית", "רכב", "ילדים ומשפחה", "עמותות וקהילה"];
+// סדר התצוגה לפי תמהיל הלקוחות בפועל (3.11.2026, מהפרויקטים והלידים ב-CRM); עיצוב וסטודיו בסוף, כי הוא מקור לרעיונות ולא התחום של הלקוח
+const FIELD_ORDER = ["שירותים מקצועיים", "ביטוח ופיננסים", "בעלי מקצוע ובית", "נדל\"ן ובנייה", "תעשייה ו-B2B", "בריאות ויופי", "ילדים ומשפחה", "מסחר וחנויות", "מזון ומסעדות", "תיירות ופנאי", "רכב", "חינוך ותרבות", "טכנולוגיה ו-SaaS", "עמותות וקהילה", "אירועים ובידור", "עיצוב וסטודיו"];
 const SHOTS_BASE = "https://liavwebdesign-spec.github.io/motion-vault-shots/";
 export const MOODS = { quiet: "שקט", wow: "חוויתי" };
 // סגנון העיצוב של האתר (ליאב, 2.11.2026: "בכל סגנונות העיצוב"). תג אחד לכל אתר, לפי מה שהכי מגדיר אותו.
 export const STYLES = { minimal: "מינימליסטי", editorial: "מגזיני", bold: "טיפוגרפיה ענקית", brutalist: "ברוטליסטי", retro: "רטרו", playful: "שובב וצבעוני", illustrated: "מאויר", immersive: "תלת-ממד וחוויה", luxury: "יוקרתי", organic: "טבעי וחם", product: "מוצר נקי", dark: "כהה וטכנולוגי", photo: "צילום גדול" };
+// רמת הגימור, אותן ארבע רמות של מסך האפיון וטבלת המחירים ב-CRM: לפי מה שאנחנו יכולים לספק ברמה הזו, לא לפי איך האתר נבנה.
+// תלת מימד בזמן אמת נכנס ל"שומט לסתות" רק במובן של רצף תמונות מרונדר שמתנגן עם הגלילה, וזה מה שמוכרים ברמה הזו.
+export const LEVELS = { classic: "קלאסי", high: "גימור גבוה", premium: "פרמיום", jaw: "שומט לסתות" };
 export const STRENGTHS = { type: "טיפוגרפיה", illustration: "איור", photo: "צילום", color: "צבע", motion: "תנועה", layout: "פריסה", character: "אופי", simple: "פשטות", conversion: "המרה", mobile: "טלפון", rtl: "עברית ומימין לשמאל" };
 
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
 const domain = (u) => u.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "");
 const fmt = (d) => d.split("-").reverse().join(".");
-const whyLine = (s) => s.whyBy === "liav" ? esc(s.why) : `${esc(s.why)} <span class="iw-prop">(הצעה לניסוח)</span>`;
 const LABEL = "אתר של גורם אחר. השראה בלבד, לא עבודה שלנו.";
 
 const CSS = `
@@ -28,7 +30,6 @@ const CSS = `
 .iw h1{font-size:clamp(28px,4vw,44px);line-height:1.15;margin:0 0 8px;font-weight:700}
 .iw-lead{color:var(--muted);margin:0 0 24px;max-width:70ch}
 .iw-label{display:inline-block;font-size:14px;font-weight:600;padding:6px 14px;border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,#fff);color:var(--ink);margin:0 0 16px}
-.iw-prop{font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}
 .iw-go{display:inline-flex;align-items:center;min-height:44px;padding:0 22px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
 .iw-dl{display:grid;gap:16px;margin:24px 0;max-width:75ch}
 .iw-dl dt{font-size:14px;color:var(--muted);margin:0 0 2px}
@@ -39,10 +40,14 @@ const CSS = `
 .iw-shots img{display:block;width:100%;height:auto;border-radius:8px;box-shadow:0 2px 14px rgb(0 0 0 / .12)}
 .iw-shots figcaption{font-size:14px;color:var(--muted);margin-top:8px}
 .iw-note{color:var(--muted);font-size:15px;margin:24px 0}
-.iw-filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
-.iw-filters select{font:inherit;font-size:15px;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff}
+.iw-filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.iw-filters select{flex:1 1 150px;max-width:100%;min-width:0;font:inherit;font-size:15px;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff}
+.iw-result{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;min-height:44px;margin:0 0 12px;color:var(--muted);font-size:15px}
+.iw-clear{font:inherit;font-size:15px;font-weight:600;color:var(--accent);background:none;border:0;min-height:44px;padding:0 4px;cursor:pointer}
+.iw-near{font-size:14px;font-weight:600;color:var(--accent)}
 .iw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:16px}
 .iw-card{display:flex;flex-direction:column;gap:10px;padding:20px;border-radius:12px;background:#fff;box-shadow:0 1px 8px rgb(0 0 0 / .07)}
+.iw-card[hidden]{display:none}
 .iw-card h2{font-size:20px;margin:0}
 .iw-card h2 a{color:inherit;text-decoration:none}
 .iw-card p{margin:0;line-height:1.5}
@@ -143,9 +148,8 @@ export function inspoSitePage(s, { FONT }) {
   <p class="iw-label">${LABEL}</p>
   <p><a class="iw-go" href="${esc(s.url)}" target="_blank" rel="noopener">פתח את ${esc(domain(s.url))} ↗</a></p>
   <dl class="iw-dl">
-    <div><dt>למה מאסט</dt><dd>${whyLine(s)}</dd></div>
-    <div><dt>בטלפון</dt><dd>${esc(s.phone)}</dd></div>
-    <div><dt>תחום ואווירה</dt><dd class="iw-chips"><span class="vchip">${esc(s.field)}</span><span class="vchip">${MOODS[s.mood]}</span>${s.style ? `<span class="vchip">${STYLES[s.style]}</span>` : ""}${s.strengths.map(k => `<span class="vchip">${STRENGTHS[k]}</span>`).join("")}</dd></div>
+    <div><dt>למה שווה להסתכל עליו</dt><dd>${esc(s.why)}</dd></div>
+    <div><dt>תחום, גימור וסגנון</dt><dd class="iw-chips"><span class="vchip">${esc(s.field)}</span>${s.level ? `<span class="vchip">${LEVELS[s.level]}</span>` : ""}${s.style ? `<span class="vchip">${STYLES[s.style]}</span>` : ""}<span class="vchip">${MOODS[s.mood]}</span>${s.strengths.map(k => `<span class="vchip">${STRENGTHS[k]}</span>`).join("")}</dd></div>
   </dl>
   <div data-shots data-id="${s.id}" data-date="${date || ""}"></div>
 </main>
@@ -164,33 +168,34 @@ export function inspoSitePage(s, { FONT }) {
 }
 
 export function inspoIndexPage(approved, { FONT }) {
-  const opts = (vals) => vals.map(([v, t]) => `<option value="${esc(v)}">${esc(t)}</option>`).join("");
-  const usedFields = [...new Set(approved.map(s => s.field))].map(f => [f, f]);
+  const opts = (vals) => vals.map(([v, t]) => `<option value="${esc(v)}" data-t="${esc(t)}">${esc(t)}</option>`).join("");
+  const usedFields = FIELD_ORDER.filter(f => approved.some(s => s.field === f)).map(f => [f, f]);
   const usedStrengths = [...new Set(approved.flatMap(s => s.strengths))].map(k => [k, STRENGTHS[k]]);
   const usedStyles = Object.entries(STYLES).filter(([k]) => approved.some(s => s.style === k));
-  const cards = approved.map(s => `<article class="iw-card" data-field="${esc(s.field)}" data-mood="${s.mood}" data-style="${s.style || ""}" data-str="${s.strengths.join(" ")}">
+  const cards = approved.map(s => `<article class="iw-card" data-field="${esc(s.field)}" data-level="${s.level || ""}" data-mood="${s.mood}" data-style="${s.style || ""}" data-str="${s.strengths.join(" ")}">
     <a class="iw-stage" href="inspo/${s.id}.html" aria-label="${esc(s.name)}" data-stage="${s.id}"></a>
     <h2><a href="inspo/${s.id}.html">${esc(s.name)}</a></h2>
-    <div class="iw-chips"><span class="vchip">${esc(s.field)}</span><span class="vchip">${MOODS[s.mood]}</span>${s.style ? `<span class="vchip">${STYLES[s.style]}</span>` : ""}</div>
-    <p>${whyLine(s)}</p>
+    <div class="iw-chips"><span class="vchip">${esc(s.field)}</span>${s.level ? `<span class="vchip">${LEVELS[s.level]}</span>` : ""}${s.style ? `<span class="vchip">${STYLES[s.style]}</span>` : ""}</div>
+    <p class="iw-near" data-near hidden></p>
+    <p>${esc(s.why)}</p>
     <a class="iw-out" href="${esc(s.url)}" target="_blank" rel="noopener">${esc(domain(s.url))} ↗</a>
   </article>`).join("\n");
-  return `${head("אתרי השראה · Motion Vault", FONT, "")}
+  // העמוד הזה נפתח מול לקוח בשיתוף מסך: בלי קישורים למאגר ולמסך האישור, ובלי ניסוחים פנימיים
+  return `${head("אתרי השראה", FONT, "")}
 <body>
 <main class="iw">
-  <a class="vback" href="index.html">לכל המאגר</a>
-  <a class="vback" href="inspo-review.html">מסך האישור</a>
-  <h1 style="margin-top:20px">אתרי השראה</h1>
+  <h1>אתרי השראה</h1>
   <p class="iw-label">אתרים של גורמים אחרים. השראה בלבד, לא עבודות שלנו.</p>
-  <p class="iw-lead">אתרים שלמים שנבחרו ביד, כדי לקחת מהם כיוון. מה לוקחים מכל אתר מחליטים בכל פרויקט לגופו, בלי להעתיק קוד, טקסטים ותמונות.</p>
+  <p class="iw-lead">אתרים שלמים שנבחרו ביד, כדי למצוא יחד כיוון לאתר שלכם. בוחרים תחום, רמת גימור וסגנון, ופותחים את מה שמדבר אליכם.</p>
   ${approved.length ? `<div class="iw-filters">
-    <select data-f="field" aria-label="תחום"><option value="">כל התחומים</option>${opts(usedFields)}</select>
-    <select data-f="style" aria-label="סגנון"><option value="">כל הסגנונות</option>${opts(usedStyles)}</select>
-    <select data-f="mood" aria-label="אווירה"><option value="">כל האווירות</option>${opts(Object.entries(MOODS))}</select>
-    <select data-f="str" aria-label="מה חזק בו"><option value="">מה חזק בו</option>${opts(usedStrengths)}</select>
+    <select data-f="field" aria-label="תחום"><option value="" data-t="כל התחומים">כל התחומים</option>${opts(usedFields)}</select>
+    <select data-f="level" aria-label="רמת גימור"><option value="" data-t="כל רמות הגימור">כל רמות הגימור</option>${opts(Object.entries(LEVELS))}</select>
+    <select data-f="style" aria-label="סגנון"><option value="" data-t="כל הסגנונות">כל הסגנונות</option>${opts(usedStyles)}</select>
+    <select data-f="mood" aria-label="אווירה"><option value="" data-t="כל האווירות">כל האווירות</option>${opts(Object.entries(MOODS))}</select>
+    <select data-f="str" aria-label="מה חזק בו"><option value="" data-t="מה חזק בו">מה חזק בו</option>${opts(usedStrengths)}</select>
   </div>
-  <div class="iw-grid">${cards}</div>
-  <p class="iw-empty" data-none hidden>אין אתר שעונה על הסינון הזה.</p>` : `<p class="iw-empty">עדיין אין אתר מאושר. מועמדים מחכים לליאב במסך האישור.</p>`}
+  <div class="iw-result"><span data-count aria-live="polite"></span><button class="iw-clear" type="button" data-clear hidden>נקה סינון</button></div>
+  <div class="iw-grid">${cards}</div>` : `<p class="iw-empty">עדיין אין כאן אתרים.</p>`}
 </main>
 <script>
 (function(){
@@ -198,13 +203,57 @@ export function inspoIndexPage(approved, { FONT }) {
     var b="${SHOTS_BASE}"+a.dataset.stage;
     a.innerHTML='<img class="iw-d" loading="lazy" decoding="async" alt="" width="800" height="500" src="'+b+'-d.jpg"><img class="iw-m" loading="lazy" decoding="async" alt="" width="200" height="433" src="'+b+'-m.jpg">';
   });
-  var sels=[].slice.call(document.querySelectorAll("[data-f]")),cards=[].slice.call(document.querySelectorAll(".iw-card")),none=document.querySelector("[data-none]");
+  var sels=[].slice.call(document.querySelectorAll("[data-f]")),cards=[].slice.call(document.querySelectorAll(".iw-card")),count=document.querySelector("[data-count]"),clear=document.querySelector("[data-clear]");
+  if(!sels.length)return;
+  // משקל כל קריטריון כשאין התאמה מלאה: קודם התחום, אחריו הגימור, אחריו הסגנון
+  var WEIGHT={field:16,level:8,style:4,mood:2,str:1},NAMES={field:"תחום",level:"גימור",style:"סגנון",mood:"אווירה",str:"מה שחזק בו"},NEAR=6,LV=${JSON.stringify(Object.keys(LEVELS))};
+  function has(c,k,val){return k==="str"?c.dataset.str.split(" ").indexOf(val)>=0:c.dataset[k]===val;}
   function run(){
-    var v={};sels.forEach(function(s){v[s.dataset.f]=s.value;});var n=0;
-    cards.forEach(function(c){var ok=(!v.field||c.dataset.field===v.field)&&(!v.style||c.dataset.style===v.style)&&(!v.mood||c.dataset.mood===v.mood)&&(!v.str||c.dataset.str.split(" ").indexOf(v.str)>=0);c.hidden=!ok;if(ok)n++;});
-    if(none)none.hidden=n>0;
+    var v={};sels.forEach(function(s){v[s.dataset.f]=s.value;});
+    var on=sels.map(function(s){return s.dataset.f;}).filter(function(k){return v[k];}),n=0;
+    cards.forEach(function(c){
+      var ok=on.every(function(k){return has(c,k,v[k]);});
+      c.hidden=!ok;c.style.order="";c.querySelector("[data-near]").hidden=true;
+      if(ok)n++;
+    });
+    // מספר ליד כל אפשרות: כמה אתרים יישארו אם בוחרים בה, בלי לשנות את שאר הסינון
+    sels.forEach(function(s){
+      var k=s.dataset.f;
+      [].forEach.call(s.options,function(o){
+        if(!o.value)return;
+        var m=cards.filter(function(c){return has(c,k,o.value)&&on.every(function(j){return j===k||has(c,j,v[j]);});}).length;
+        o.textContent=o.dataset.t+" ("+m+")";
+      });
+    });
+    clear.hidden=!on.length;
+    if(n||!on.length){count.textContent=n===1?"אתר אחד":n+" אתרים";}
+    else{
+      // אין התאמה מלאה: במקום מסך ריק מציגים את הקרובים, ואומרים במה כל אחד מהם תואם
+      var near=cards.map(function(c,i){
+        var hit=on.filter(function(k){return has(c,k,v[k]);}),w=hit.reduce(function(a,k){return a+WEIGHT[k];},0),t=hit.map(function(k){return NAMES[k];});
+        // רמת גימור סמוכה עדיין קרובה: מי שביקש קלאסי יכול להסתכל על גימור גבוה
+        if(v.level&&!has(c,"level",v.level)&&Math.abs(LV.indexOf(c.dataset.level)-LV.indexOf(v.level))===1){w+=WEIGHT.level/2;t.push("גימור סמוך");}
+        return {c:c,i:i,t:t,w:w};
+      }).filter(function(x){return x.w>0;}).sort(function(a,b){return b.w-a.w||a.i-b.i;}).slice(0,NEAR);
+      count.textContent=near.length?"אין אתר שעונה על כל הסינון הזה. אלה הכי קרובים:":"אין אתר שעונה על הסינון הזה.";
+      near.forEach(function(x,i){
+        var el=x.c.querySelector("[data-near]");
+        el.textContent="תואם ב: "+x.t.join(", ");el.hidden=false;
+        x.c.hidden=false;x.c.style.order=i;
+      });
+    }
+    // הסינון נשמר בכתובת: חזרה מעמוד של אתר מחזירה אליו, ואפשר לפתוח את העמוד מסונן מראש
+    var q=new URLSearchParams();on.forEach(function(k){q.set(k,v[k]);});
+    history.replaceState(null,"",location.pathname+(on.length?"?"+q:""));
   }
-  sels.forEach(function(s){s.addEventListener("change",run);});
+  var start=new URLSearchParams(location.search);
+  sels.forEach(function(s){
+    var val=start.get(s.dataset.f);
+    if(val&&[].some.call(s.options,function(o){return o.value===val;}))s.value=val;
+    s.addEventListener("change",run);
+  });
+  clear.addEventListener("click",function(){sels.forEach(function(s){s.value="";});run();sels[0].focus();});
+  run();
 })();
 </script>
 </body>
@@ -214,8 +263,8 @@ export function inspoIndexPage(approved, { FONT }) {
 // מסך האישור של הסקשן: כל האתרים לפי תחום, עם הצילומים וכפתורי כן ולא. כל סבב חדש של אתרים נכנס לכאן.
 export function inspoReviewPage(all, { FONT, BV, client }) {
   const data = JSON.stringify({
-    sites: all.map(({ id, name, url, field, mood, style, rtl, why, phone }) => ({ id, name, url, field, mood, style, rtl, why, phone })),
-    styles: STYLES, moods: MOODS, order: FIELD_ORDER, shots: SHOTS_BASE,
+    sites: all.map(({ id, name, url, field, mood, style, level, rtl, why, phone }) => ({ id, name, url, field, mood, style, level, rtl, why, phone })),
+    styles: STYLES, moods: MOODS, levels: LEVELS, order: FIELD_ORDER, shots: SHOTS_BASE,
   }).replace(/</g, "\\u003c");
   return `<!DOCTYPE html>
 <html lang="he" dir="rtl">
@@ -233,7 +282,7 @@ ${FONT}
   <a class="vback" href="inspo.html">מה שכבר אושר</a>
   <h1>אישור אתרי השראה</h1>
   <p class="ir-label">אתרים של גורמים אחרים. השראה בלבד, לא עבודות שלנו.</p>
-  <p class="ir-lead">לחיצה על תחום מציגה רק אותו, והסגנון מצמצם בתוכו. לחיצה על תמונה פותחת את כל העמוד. באתרי תלת מימד התמונות הן פריימים מהמסע, ואת החוויה מקבלים בקישור לאתר עצמו. מה שתסמן "כן" ייכנס לסקשן אתרי ההשראה. "למה" הוא הצעה, לא קביעה. מה לוקחים מכל אתר מחליטים בכל פרויקט לגופו.</p>
+  <p class="ir-lead">לחיצה על תחום מציגה רק אותו, והסגנון מצמצם בתוכו. לחיצה על תמונה פותחת את כל העמוד. באתרים עם גלילה מיוחדת התמונה הארוכה היא רצף פריימים מהמסע, ואת החוויה מקבלים בקישור לאתר עצמו. מה שתסמן "כן" ייכנס לסקשן אתרי ההשראה. "למה" הוא הצעה, לא קביעה. מה לוקחים מכל אתר מחליטים בכל פרויקט לגופו.</p>
   <p class="ir-where">הסימונים נשמרים בדפדפן של המכשיר הזה. סימנת בטלפון או במחשב אחר? "העתק דוח" ושליחה לקלוד מעבירים אותם למאגר.</p>
   <div class="ir-row ir-fields" id="fields" role="group" aria-label="סינון לפי תחום"></div>
   <div class="ir-bar" id="bar">

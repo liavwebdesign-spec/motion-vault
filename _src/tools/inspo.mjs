@@ -7,7 +7,8 @@
 //
 // שימוש:
 //   node _src/tools/inspo.mjs check <url> --id w03     בדיקה שהאתר חי ועובד בטלפון + צילומים מתוארכים
-//   node _src/tools/inspo.mjs pick --field <תחום> --mood quiet|wow [--strength <s>] [--n 5]   רק מאושרים
+//   node _src/tools/inspo.mjs frames <id> [d|m]        מצלם מחדש עמוד מלא כרצף פריימים מגלילה אמיתית, לאתר שהצילום הרגיל שלו יצא עם פס ריק
+//   node _src/tools/inspo.mjs pick --field <תחום> --mood quiet|wow [--level classic|high|premium|jaw] [--style <s>] [--strength <s>] [--n 5]   רק מאושרים
 //   node _src/tools/inspo.mjs status                   כמה ממתינים, ואילו כתובות כבר נבחנו
 //   node _src/tools/inspo.mjs add <file.json> [--batch] מוסיף מועמד אחרי בדיקת שדות וכפילות (ממתין לליאב). --batch רק כשליאב ביקש אצווה גדולה; הסריקה השבועית נשארת עם תקרה של 5
 //   node _src/tools/inspo.mjs sync '<json>'            {"w01":{"s":"ok","note":"","t":123}} לתוך baseline.js, רק מזהי אתרים
@@ -20,7 +21,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
-import { FIELDS, MOODS, STRENGTHS, STYLES } from "../inspo-pages.mjs";
+import { FIELDS, LEVELS, MOODS, STRENGTHS, STYLES } from "../inspo-pages.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const DATA = join(ROOT, "_src", "inspo", "sites.json");
@@ -31,6 +32,7 @@ const LOOK = join(ROOT, "_src", "tools", "out", "inspo");
 const SHOTS_REPO = join(ROOT, "..", "motion-vault-shots");
 // [המקור, הסיומת בריפו, רוחב, איכות]: הכרטיס טוען את שתי הקטנות, ורק לחיצה על כרטיס טוענת את העמוד המלא
 const SHOT_SIZES = [["d", "d", 800, 62], ["m", "m", 200, 60], ["d-full", "df", 1100, 55], ["m-full", "mf", 390, 55]];
+const GAP_VIEWPORTS = 1.2, MAX_FRAMES = 26; // פס ריק מעל גובה מסך ורבע נחשב צילום שנכשל; רצף של יותר מ-26 פריימים כבר לא נקרא
 
 const args = process.argv.slice(2);
 const cmd = args[0];
@@ -51,16 +53,17 @@ else if (cmd === "add") add();
 else if (cmd === "sync") sync();
 else if (cmd === "check") await check();
 else if (cmd === "shots") await shots();
-else { console.error("שימוש: check | pick | status | add | sync | shots"); process.exit(1); }
+else if (cmd === "frames") await framesCmd();
+else { console.error("שימוש: check | frames | pick | status | add | sync | shots"); process.exit(1); }
 
 function pick() {
-  const b = baseline(), n = Number(flag("--n") || 5), field = flag("--field"), mood = flag("--mood"), strength = flag("--strength");
+  const b = baseline(), n = Number(flag("--n") || 5), field = flag("--field"), mood = flag("--mood"), strength = flag("--strength"), level = flag("--level"), style = flag("--style");
   const ok = sites().filter(s => stateOf(b, s.id) === "ok" && (!strength || s.strengths.includes(strength)));
-  // קודם אותו תחום ואותה אווירה, ואז אותו תחום, ואז אותה אווירה. אתר שלא עונה על אף אחד לא נשלף.
-  const rank = s => (field && s.field === field ? 2 : 0) + (mood && s.mood === mood ? 1 : 0);
-  const out = ok.map(s => ({ s, r: rank(s) })).filter(x => x.r > 0 || (!field && !mood)).sort((x, y) => y.r - x.r).slice(0, n).map(x => x.s);
+  // קודם התחום, אחריו רמת הגימור, אחריה הסגנון והאווירה. אתר שלא עונה על אף אחד לא נשלף.
+  const rank = s => (field && s.field === field ? 8 : 0) + (level && s.level === level ? 4 : 0) + (style && s.style === style ? 2 : 0) + (mood && s.mood === mood ? 1 : 0);
+  const out = ok.map(s => ({ s, r: rank(s) })).filter(x => x.r > 0 || (!field && !mood && !level && !style)).sort((x, y) => y.r - x.r).slice(0, n).map(x => x.s);
   if (!out.length) console.log("אין עדיין אתר מאושר שמתאים. ממשיכים בלי השראה מהרשימה, ולא משתמשים במועמד שלא אושר.");
-  out.forEach(s => console.log(`MV:${s.id} ${s.name} · ${s.url}\n  תחום: ${s.field} · ${MOODS[s.mood]} · חזק ב: ${s.strengths.map(k => STRENGTHS[k]).join(", ")}\n  למה: ${s.why}\n  מה לוקחים מחליטים בפרויקט. בלי להעתיק קוד, טקסטים ותמונות.`));
+  out.forEach(s => console.log(`MV:${s.id} ${s.name} · ${s.url}\n  תחום: ${s.field} · ${LEVELS[s.level] || "בלי רמת גימור"} · ${STYLES[s.style] || ""} · ${MOODS[s.mood]} · חזק ב: ${s.strengths.map(k => STRENGTHS[k]).join(", ")}\n  למה: ${s.why}\n  מה לוקחים מחליטים בפרויקט. בלי להעתיק קוד, טקסטים ותמונות.`));
 }
 
 function status() {
@@ -82,6 +85,7 @@ function add() {
   if (!FIELDS.includes(c.field)) bad.push("תחום לא מהרשימה: " + FIELDS.join(", "));
   if (!MOODS[c.mood]) bad.push("אווירה: quiet או wow");
   if (!STYLES[c.style]) bad.push("סגנון: " + Object.keys(STYLES).join(", "));
+  if (!LEVELS[c.level]) bad.push("רמת גימור: " + Object.keys(LEVELS).join(", "));
   if (!c.strengths?.length || c.strengths.some(k => !STRENGTHS[k])) bad.push("חזק ב: " + Object.keys(STRENGTHS).join(", "));
   for (const k of ["name", "why", "phone"]) if (!c[k]) bad.push("חסר " + k);
   const id = /^w\d{2,}$/.test(c.id || "") && !all.some(s => s.id === c.id) ? c.id : null;
@@ -91,7 +95,7 @@ function add() {
   const b = baseline();
   if (!args.includes("--batch") && all.filter(s => stateOf(b, s.id) === "pending").length >= 5) bad.push("כבר 5 מועמדים ממתינים לליאב. לא מערימים עוד.");
   if (bad.length) { console.error(bad.join("\n")); process.exit(2); }
-  all.push({ id, name: c.name, url: c.url, field: c.field, mood: c.mood, style: c.style, strengths: c.strengths, rtl: !!c.rtl, why: c.why, whyBy: "proposal", phone: c.phone, shots: c.shots, added: today(), source: c.source || "הסריקה השבועית" });
+  all.push({ id, name: c.name, url: c.url, field: c.field, mood: c.mood, style: c.style, level: c.level, strengths: c.strengths, rtl: !!c.rtl, why: c.why, whyBy: "proposal", phone: c.phone, shots: c.shots, added: today(), source: c.source || "הסריקה השבועית" });
   writeFileSync(DATA, JSON.stringify(all, null, 2) + "\n");
   console.log("נוסף " + id + ", ממתין לליאב במסך הסקירה.");
 }
@@ -215,6 +219,85 @@ async function check() {
   const live = report.views.d?.status === 200 && report.views.m?.status === 200;
   report.pass = live && report.views.m?.overflow === false;
   report.look = join(LOOK, id);
+  // סקשן נעוץ לא מצויר בצילום עמוד מלא ויוצא פס ריק, וליאב שופט לפי התמונה הזו: במקומה רצף פריימים מגלילה אמיתית
+  for (const [key, h] of [["d", 900], ["m", 844]]) {
+    const file = join(SHOTS, `${id}-${date}-${key}-full.jpg`);
+    if (live && existsSync(file) && gapOf(file, h) >= GAP_VIEWPORTS) report.views[key].stacked = await stackFrames(url, file, key);
+  }
   console.log(JSON.stringify(report, null, 2));
   process.exit(report.pass ? 0 : 2);
+}
+
+// הפס הריק הארוך ביותר בתמונה, ביחידות של גובה מסך
+function gapOf(file, viewport) {
+  const height = Number(execFileSync("magick", ["identify", "-format", "%h", file], { encoding: "utf8" }));
+  const cols = 32, rows = Math.ceil(height / 4);
+  const buf = execFileSync("magick", [file, "-colorspace", "Gray", "-resize", `${cols}x${rows}!`, "-depth", "8", "gray:-"], { maxBuffer: 1 << 26 });
+  let run = 0, best = 0, prev = null;
+  for (let y = 0; y < rows; y++) {
+    const row = buf.subarray(y * cols, (y + 1) * cols), mean = row.reduce((a, b) => a + b, 0) / cols;
+    const sd = Math.sqrt(row.reduce((a, b) => a + (b - mean) ** 2, 0) / cols);
+    if (sd < 2.5 && (prev === null || Math.abs(mean - prev) < 2.5)) { run++; best = Math.max(best, run); } else run = 0;
+    prev = mean;
+  }
+  return best * 4 / viewport;
+}
+
+// גלילה אמיתית (גלגלת בדסקטופ, אצבע בטלפון) עם כרטיס המסך, וצילום מסך אחרי כל צעד. לא לוחצים על שום דבר באתר.
+async function stackFrames(url, file, key) {
+  const CHROME = [process.env.CHROME_PATH, "C:/Program Files/Google/Chrome/Application/chrome.exe", "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"].find(p => p && existsSync(p));
+  const [w, h, mobile] = key === "m" ? [390, 844, true] : [1440, 900, false];
+  const port = 9000 + Math.floor(Math.random() * 390), profile = join(tmpdir(), `mv-frames-${process.pid}-${key}`), dir = join(tmpdir(), `mv-frames-out-${process.pid}-${key}`);
+  mkdirSync(dir, { recursive: true });
+  const proc = spawn(CHROME, ["--headless=new", "--use-angle=d3d11", "--ignore-gpu-blocklist", "--no-first-run", "--hide-scrollbars", `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, "about:blank"], { stdio: "ignore" });
+  const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+  let frames = 0;
+  try {
+    let target;
+    for (let i = 0; i < 60 && !target; i++) { await sleep(250); try { target = (await (await fetch(`http://127.0.0.1:${port}/json`)).json()).find(t => t.type === "page"); } catch {} }
+    const ws = new WebSocket(target.webSocketDebuggerUrl);
+    await new Promise((r, x) => { ws.onopen = r; ws.onerror = x; });
+    let seq = 0; const waiting = new Map();
+    ws.onmessage = (m) => { const d = JSON.parse(m.data); if (d.id) { waiting.get(d.id)?.(d.result || {}); waiting.delete(d.id); } };
+    const send = (method, params = {}) => new Promise(r => { const i = ++seq; waiting.set(i, r); ws.send(JSON.stringify({ id: i, method, params })); setTimeout(() => r({}), 20000); });
+    const ev = async (expression) => (await send("Runtime.evaluate", { expression, returnByValue: true, awaitPromise: true })).result?.value;
+    await send("Page.enable"); await send("Runtime.enable");
+    await send("Emulation.setDeviceMetricsOverride", { width: w, height: h, deviceScaleFactor: 1, mobile });
+    await send("Emulation.setTouchEmulationEnabled", { enabled: mobile });
+    if (mobile) await send("Network.setUserAgentOverride", { userAgent: "Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Mobile Safari/537.36" });
+    await send("Page.navigate", { url });
+    await sleep(9000);
+    // חלונית עוגיות תחזור בכל פריים: מסתירים אותה אצלנו בצילום, בלי ללחוץ עליה
+    await ev(`[...document.querySelectorAll('[id*="cookie" i],[class*="cookie" i],[id*="consent" i],[class*="consent" i],[id*="onetrust" i]')].forEach(e=>{const r=e.getBoundingClientRect();if(e!==document.body&&e!==document.documentElement&&["fixed","sticky"].includes(getComputedStyle(e).position)&&r.width*r.height<innerWidth*innerHeight*.6)e.style.display="none"})`);
+    const total = (await ev("document.documentElement.scrollHeight")) || h;
+    const step = Math.round(Math.max(h * .9, total / MAX_FRAMES));
+    let same = 0, last = "";
+    for (let i = 0; i < MAX_FRAMES && same < 3; i++) {
+      const data = (await send("Page.captureScreenshot", { format: "jpeg", quality: 74 })).data;
+      if (data && data !== last) { writeFileSync(join(dir, `f${String(frames++).padStart(3, "0")}.jpg`), Buffer.from(data, "base64")); same = 0; } else same++;
+      last = data;
+      await send("Input.synthesizeScrollGesture", { x: w / 2, y: h / 2, yDistance: -step, speed: 1600, gestureSourceType: mobile ? "touch" : "mouse" });
+      await sleep(1000);
+    }
+    ws.close();
+    // פחות משני פריימים אומר שהגלילה לא עבדה: הצילום הקודם נשאר, בלי להחליף אותו בפחות מידע
+    if (frames < 2) return false;
+    const list = Array.from({ length: frames }, (_, i) => join(dir, `f${String(i).padStart(3, "0")}.jpg`));
+    execFileSync("magick", [...list, "-append", "-quality", "74", file]);
+    return frames;
+  } finally {
+    proc.kill();
+    await sleep(500);
+    for (const p of [profile, dir]) try { rmSync(p, { recursive: true, force: true }); } catch {}
+  }
+}
+
+async function framesCmd() {
+  const s = sites().find(x => x.id === args[1]);
+  if (!s) { console.error("שימוש: frames <id> [d|m]"); process.exit(1); }
+  const date = s.shots[s.shots.length - 1];
+  for (const key of args[2] ? [args[2]] : ["d", "m"]) {
+    const n = await stackFrames(s.url, join(SHOTS, `${s.id}-${date}-${key}-full.jpg`), key);
+    console.log(`${s.id} ${key}: ${n ? n + " פריימים" : "לא הוחלף"}`);
+  }
 }

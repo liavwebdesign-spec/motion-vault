@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>אתרי השראה · Motion Vault</title>
+<title>אתרי השראה</title>
 
 <link rel="stylesheet" href="assets/vault.css?v=8b211157">
 <style>
@@ -11,7 +11,6 @@
 .iw h1{font-size:clamp(28px,4vw,44px);line-height:1.15;margin:0 0 8px;font-weight:700}
 .iw-lead{color:var(--muted);margin:0 0 24px;max-width:70ch}
 .iw-label{display:inline-block;font-size:14px;font-weight:600;padding:6px 14px;border-radius:999px;background:color-mix(in srgb,var(--accent) 10%,#fff);color:var(--ink);margin:0 0 16px}
-.iw-prop{font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}
 .iw-go{display:inline-flex;align-items:center;min-height:44px;padding:0 22px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
 .iw-dl{display:grid;gap:16px;margin:24px 0;max-width:75ch}
 .iw-dl dt{font-size:14px;color:var(--muted);margin:0 0 2px}
@@ -22,10 +21,14 @@
 .iw-shots img{display:block;width:100%;height:auto;border-radius:8px;box-shadow:0 2px 14px rgb(0 0 0 / .12)}
 .iw-shots figcaption{font-size:14px;color:var(--muted);margin-top:8px}
 .iw-note{color:var(--muted);font-size:15px;margin:24px 0}
-.iw-filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
-.iw-filters select{font:inherit;font-size:15px;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff}
+.iw-filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+.iw-filters select{flex:1 1 150px;max-width:100%;min-width:0;font:inherit;font-size:15px;min-height:44px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:#fff}
+.iw-result{display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;min-height:44px;margin:0 0 12px;color:var(--muted);font-size:15px}
+.iw-clear{font:inherit;font-size:15px;font-weight:600;color:var(--accent);background:none;border:0;min-height:44px;padding:0 4px;cursor:pointer}
+.iw-near{font-size:14px;font-weight:600;color:var(--accent)}
 .iw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:16px}
 .iw-card{display:flex;flex-direction:column;gap:10px;padding:20px;border-radius:12px;background:#fff;box-shadow:0 1px 8px rgb(0 0 0 / .07)}
+.iw-card[hidden]{display:none}
 .iw-card h2{font-size:20px;margin:0}
 .iw-card h2 a{color:inherit;text-decoration:none}
 .iw-card p{margin:0;line-height:1.5}
@@ -40,277 +43,313 @@
 </head>
 <body>
 <main class="iw">
-  <a class="vback" href="index.html">לכל המאגר</a>
-  <a class="vback" href="inspo-review.html">מסך האישור</a>
-  <h1 style="margin-top:20px">אתרי השראה</h1>
+  <h1>אתרי השראה</h1>
   <p class="iw-label">אתרים של גורמים אחרים. השראה בלבד, לא עבודות שלנו.</p>
-  <p class="iw-lead">אתרים שלמים שנבחרו ביד, כדי לקחת מהם כיוון. מה לוקחים מכל אתר מחליטים בכל פרויקט לגופו, בלי להעתיק קוד, טקסטים ותמונות.</p>
+  <p class="iw-lead">אתרים שלמים שנבחרו ביד, כדי למצוא יחד כיוון לאתר שלכם. בוחרים תחום, רמת גימור וסגנון, ופותחים את מה שמדבר אליכם.</p>
   <div class="iw-filters">
-    <select data-f="field" aria-label="תחום"><option value="">כל התחומים</option><option value="נדל&quot;ן ובנייה">נדל&quot;ן ובנייה</option><option value="תיירות ופנאי">תיירות ופנאי</option><option value="מזון ומסעדות">מזון ומסעדות</option><option value="מסחר וחנויות">מסחר וחנויות</option><option value="שירותים מקצועיים">שירותים מקצועיים</option><option value="ביטוח ופיננסים">ביטוח ופיננסים</option><option value="תעשייה ו-B2B">תעשייה ו-B2B</option><option value="טכנולוגיה ו-SaaS">טכנולוגיה ו-SaaS</option><option value="חינוך ותרבות">חינוך ותרבות</option><option value="אירועים ובידור">אירועים ובידור</option><option value="עיצוב וסטודיו">עיצוב וסטודיו</option></select>
-    <select data-f="style" aria-label="סגנון"><option value="">כל הסגנונות</option><option value="minimal">מינימליסטי</option><option value="editorial">מגזיני</option><option value="bold">טיפוגרפיה ענקית</option><option value="retro">רטרו</option><option value="playful">שובב וצבעוני</option><option value="illustrated">מאויר</option><option value="immersive">תלת-ממד וחוויה</option><option value="luxury">יוקרתי</option><option value="organic">טבעי וחם</option><option value="product">מוצר נקי</option><option value="photo">צילום גדול</option></select>
-    <select data-f="mood" aria-label="אווירה"><option value="">כל האווירות</option><option value="quiet">שקט</option><option value="wow">חוויתי</option></select>
-    <select data-f="str" aria-label="מה חזק בו"><option value="">מה חזק בו</option><option value="illustration">איור</option><option value="motion">תנועה</option><option value="type">טיפוגרפיה</option><option value="photo">צילום</option><option value="character">אופי</option><option value="conversion">המרה</option><option value="color">צבע</option><option value="layout">פריסה</option><option value="simple">פשטות</option><option value="rtl">עברית ומימין לשמאל</option></select>
+    <select data-f="field" aria-label="תחום"><option value="" data-t="כל התחומים">כל התחומים</option><option value="שירותים מקצועיים" data-t="שירותים מקצועיים">שירותים מקצועיים</option><option value="ביטוח ופיננסים" data-t="ביטוח ופיננסים">ביטוח ופיננסים</option><option value="נדל&quot;ן ובנייה" data-t="נדל&quot;ן ובנייה">נדל&quot;ן ובנייה</option><option value="תעשייה ו-B2B" data-t="תעשייה ו-B2B">תעשייה ו-B2B</option><option value="מסחר וחנויות" data-t="מסחר וחנויות">מסחר וחנויות</option><option value="מזון ומסעדות" data-t="מזון ומסעדות">מזון ומסעדות</option><option value="תיירות ופנאי" data-t="תיירות ופנאי">תיירות ופנאי</option><option value="חינוך ותרבות" data-t="חינוך ותרבות">חינוך ותרבות</option><option value="טכנולוגיה ו-SaaS" data-t="טכנולוגיה ו-SaaS">טכנולוגיה ו-SaaS</option><option value="אירועים ובידור" data-t="אירועים ובידור">אירועים ובידור</option><option value="עיצוב וסטודיו" data-t="עיצוב וסטודיו">עיצוב וסטודיו</option></select>
+    <select data-f="level" aria-label="רמת גימור"><option value="" data-t="כל רמות הגימור">כל רמות הגימור</option><option value="classic" data-t="קלאסי">קלאסי</option><option value="high" data-t="גימור גבוה">גימור גבוה</option><option value="premium" data-t="פרמיום">פרמיום</option><option value="jaw" data-t="שומט לסתות">שומט לסתות</option></select>
+    <select data-f="style" aria-label="סגנון"><option value="" data-t="כל הסגנונות">כל הסגנונות</option><option value="minimal" data-t="מינימליסטי">מינימליסטי</option><option value="editorial" data-t="מגזיני">מגזיני</option><option value="bold" data-t="טיפוגרפיה ענקית">טיפוגרפיה ענקית</option><option value="retro" data-t="רטרו">רטרו</option><option value="playful" data-t="שובב וצבעוני">שובב וצבעוני</option><option value="illustrated" data-t="מאויר">מאויר</option><option value="immersive" data-t="תלת-ממד וחוויה">תלת-ממד וחוויה</option><option value="luxury" data-t="יוקרתי">יוקרתי</option><option value="organic" data-t="טבעי וחם">טבעי וחם</option><option value="product" data-t="מוצר נקי">מוצר נקי</option><option value="photo" data-t="צילום גדול">צילום גדול</option></select>
+    <select data-f="mood" aria-label="אווירה"><option value="" data-t="כל האווירות">כל האווירות</option><option value="quiet" data-t="שקט">שקט</option><option value="wow" data-t="חוויתי">חוויתי</option></select>
+    <select data-f="str" aria-label="מה חזק בו"><option value="" data-t="מה חזק בו">מה חזק בו</option><option value="illustration" data-t="איור">איור</option><option value="color" data-t="צבע">צבע</option><option value="rtl" data-t="עברית ומימין לשמאל">עברית ומימין לשמאל</option><option value="character" data-t="אופי">אופי</option><option value="type" data-t="טיפוגרפיה">טיפוגרפיה</option><option value="layout" data-t="פריסה">פריסה</option><option value="simple" data-t="פשטות">פשטות</option><option value="conversion" data-t="המרה">המרה</option><option value="photo" data-t="צילום">צילום</option><option value="motion" data-t="תנועה">תנועה</option></select>
   </div>
-  <div class="iw-grid"><article class="iw-card" data-field="נדל&quot;ן ובנייה" data-mood="wow" data-style="immersive" data-str="illustration motion type">
-    <a class="iw-stage" href="inspo/w27.html" aria-label="Belgrade Arbor" data-stage="w27"></a>
-    <h2><a href="inspo/w27.html">Belgrade Arbor</a></h2>
-    <div class="iw-chips"><span class="vchip">נדל&quot;ן ובנייה</span><span class="vchip">חוויתי</span><span class="vchip">תלת-ממד וחוויה</span></div>
-    <p>פרויקט מגורים שמתחיל מסקיצת קו של הבניין ורק אחר כך נכנס לצילום, כמו שמספרים על בית לפני שהוא קיים. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://belgradearbor.rs/en" target="_blank" rel="noopener">belgradearbor.rs/en ↗</a>
-  </article>
-<article class="iw-card" data-field="נדל&quot;ן ובנייה" data-mood="wow" data-style="immersive" data-str="motion photo character">
-    <a class="iw-stage" href="inspo/w28.html" aria-label="Still Form" data-stage="w28"></a>
-    <h2><a href="inspo/w28.html">Still Form</a></h2>
-    <div class="iw-chips"><span class="vchip">נדל&quot;ן ובנייה</span><span class="vchip">חוויתי</span><span class="vchip">תלת-ממד וחוויה</span></div>
-    <p>הגלילה מפרקת בית לשכבות בתלת-ממד ואז נכנסת לחדר אמיתי: מכירה של בית שעוד לא נבנה. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://stillform.homes/" target="_blank" rel="noopener">stillform.homes ↗</a>
-  </article>
-<article class="iw-card" data-field="נדל&quot;ן ובנייה" data-mood="quiet" data-style="luxury" data-str="type photo conversion">
-    <a class="iw-stage" href="inspo/w29.html" aria-label="Loam House" data-stage="w29"></a>
-    <h2><a href="inspo/w29.html">Loam House</a></h2>
-    <div class="iw-chips"><span class="vchip">נדל&quot;ן ובנייה</span><span class="vchip">שקט</span><span class="vchip">יוקרתי</span></div>
-    <p>מגורי יוקרה עם סריף דק ונטוי על תמונות כהות, וטופס השארת פרטים ישר בהירו. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://residences.loamhouse.com.au" target="_blank" rel="noopener">residences.loamhouse.com.au ↗</a>
-  </article>
-<article class="iw-card" data-field="נדל&quot;ן ובנייה" data-mood="quiet" data-style="luxury" data-str="type photo">
-    <a class="iw-stage" href="inspo/w30.html" aria-label="Mejuma" data-stage="w30"></a>
-    <h2><a href="inspo/w30.html">Mejuma</a></h2>
-    <div class="iw-chips"><span class="vchip">נדל&quot;ן ובנייה</span><span class="vchip">שקט</span><span class="vchip">יוקרתי</span></div>
-    <p>לוגו ענק בסריף דק על נוף טוסקני: נדל&quot;ן יוקרה שנראה כמו מגזין. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://mejuma-tuscany.com/" target="_blank" rel="noopener">mejuma-tuscany.com ↗</a>
-  </article>
-<article class="iw-card" data-field="נדל&quot;ן ובנייה" data-mood="wow" data-style="bold" data-str="color layout character">
-    <a class="iw-stage" href="inspo/w32.html" aria-label="Warren and Mahoney" data-stage="w32"></a>
-    <h2><a href="inspo/w32.html">Warren and Mahoney</a></h2>
-    <div class="iw-chips"><span class="vchip">נדל&quot;ן ובנייה</span><span class="vchip">חוויתי</span><span class="vchip">טיפוגרפיה ענקית</span></div>
-    <p>הלוגו הוא צורה גדולה שנפתחת כמו חלון ומתמלאת בתמונות: סימן אחד שמחזיק את כל האתר. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://wam.studio/" target="_blank" rel="noopener">wam.studio ↗</a>
-  </article>
-<article class="iw-card" data-field="נדל&quot;ן ובנייה" data-mood="quiet" data-style="organic" data-str="photo simple layout">
-    <a class="iw-stage" href="inspo/w33.html" aria-label="Taylor Hare" data-stage="w33"></a>
-    <h2><a href="inspo/w33.html">Taylor Hare</a></h2>
-    <div class="iw-chips"><span class="vchip">נדל&quot;ן ובנייה</span><span class="vchip">שקט</span><span class="vchip">טבעי וחם</span></div>
-    <p>אדריכלות כפרית שקטה: תמונות בגדלים לא שווים, צבעי אדמה ומשולש קטן בפינה כסימן. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://taylorhare.com/" target="_blank" rel="noopener">taylorhare.com ↗</a>
-  </article>
-<article class="iw-card" data-field="תיירות ופנאי" data-mood="wow" data-style="organic" data-str="type photo color character">
-    <a class="iw-stage" href="inspo/w35.html" aria-label="Casa Momo" data-stage="w35"></a>
-    <h2><a href="inspo/w35.html">Casa Momo</a></h2>
-    <div class="iw-chips"><span class="vchip">תיירות ופנאי</span><span class="vchip">חוויתי</span><span class="vchip">טבעי וחם</span></div>
-    <p>דירות נופש בגראץ עם שם המקום ענק בשתי פינות המסך, ותמונות חמות שנראות כמו בית אמיתי. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://www.casamomo.at/" target="_blank" rel="noopener">casamomo.at ↗</a>
-  </article>
-<article class="iw-card" data-field="תיירות ופנאי" data-mood="quiet" data-style="luxury" data-str="type photo">
-    <a class="iw-stage" href="inspo/w36.html" aria-label="Tengile Mala Mala" data-stage="w36"></a>
-    <h2><a href="inspo/w36.html">Tengile Mala Mala</a></h2>
-    <div class="iw-chips"><span class="vchip">תיירות ופנאי</span><span class="vchip">שקט</span><span class="vchip">יוקרתי</span></div>
-    <p>לודג' ספארי עם שתי שורות כותרת דקות שמוזזות זו מזו על צילום כהה וקרוב. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://tengilemalamala.com/" target="_blank" rel="noopener">tengilemalamala.com ↗</a>
-  </article>
-<article class="iw-card" data-field="תיירות ופנאי" data-mood="quiet" data-style="photo" data-str="photo type">
-    <a class="iw-stage" href="inspo/w37.html" aria-label="Red Dot Tours" data-stage="w37"></a>
-    <h2><a href="inspo/w37.html">Red Dot Tours</a></h2>
-    <div class="iw-chips"><span class="vchip">תיירות ופנאי</span><span class="vchip">שקט</span><span class="vchip">צילום גדול</span></div>
-    <p>סוכנות טיולים שמוכרת בצילומים מלמעלה ואנשים אמיתיים, לא בעסקאות וחבילות. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://www.reddottours.com/" target="_blank" rel="noopener">reddottours.com ↗</a>
-  </article>
-<article class="iw-card" data-field="תיירות ופנאי" data-mood="quiet" data-style="organic" data-str="type photo layout">
-    <a class="iw-stage" href="inspo/w38.html" aria-label="Les Grands Chênes" data-stage="w38"></a>
-    <h2><a href="inspo/w38.html">Les Grands Chênes</a></h2>
-    <div class="iw-chips"><span class="vchip">תיירות ופנאי</span><span class="vchip">שקט</span><span class="vchip">טבעי וחם</span></div>
-    <p>אכסניה שוויצרית שנראית כמו דף מספר: סריף, בז', וכפתור הזמנה עגול שצף. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://www.maisonlesgrandschenes.com/" target="_blank" rel="noopener">maisonlesgrandschenes.com ↗</a>
-  </article>
-<article class="iw-card" data-field="תיירות ופנאי" data-mood="wow" data-style="bold" data-str="type color layout">
-    <a class="iw-stage" href="inspo/w39.html" aria-label="Inspired by Iceland" data-stage="w39"></a>
-    <h2><a href="inspo/w39.html">Inspired by Iceland</a></h2>
-    <div class="iw-chips"><span class="vchip">תיירות ופנאי</span><span class="vchip">חוויתי</span><span class="vchip">טיפוגרפיה ענקית</span></div>
-    <p>אתר תיירות לאומי בלי תמונת נוף בהירו: כחול חזק וכותרות ענקיות שנראות כמו כרזה. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://www.inspiredbyiceland.com/" target="_blank" rel="noopener">inspiredbyiceland.com ↗</a>
-  </article>
-<article class="iw-card" data-field="תיירות ופנאי" data-mood="quiet" data-style="photo" data-str="photo simple">
-    <a class="iw-stage" href="inspo/w40.html" aria-label="Royal Sites of Ireland" data-stage="w40"></a>
-    <h2><a href="inspo/w40.html">Royal Sites of Ireland</a></h2>
-    <div class="iw-chips"><span class="vchip">תיירות ופנאי</span><span class="vchip">שקט</span><span class="vchip">צילום גדול</span></div>
-    <p>צילומי רחפן של אתרים עתיקים, גריד פשוט ומעט טקסט: התוכן לבדו מחזיק את העמוד. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://royalsites.ie/" target="_blank" rel="noopener">royalsites.ie ↗</a>
-  </article>
-<article class="iw-card" data-field="מזון ומסעדות" data-mood="wow" data-style="bold" data-str="type color photo">
-    <a class="iw-stage" href="inspo/w51.html" aria-label="Theobroma" data-stage="w51"></a>
-    <h2><a href="inspo/w51.html">Theobroma</a></h2>
-    <div class="iw-chips"><span class="vchip">מזון ומסעדות</span><span class="vchip">חוויתי</span><span class="vchip">טיפוגרפיה ענקית</span></div>
-    <p>שוקולד עם כותרות עבות, נוזל שוקולד בקצוות ופסים נעים: קולני ומשמח בלי להיראות זול. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://theobromachocolat.com/" target="_blank" rel="noopener">theobromachocolat.com ↗</a>
-  </article>
-<article class="iw-card" data-field="מזון ומסעדות" data-mood="quiet" data-style="minimal" data-str="type photo simple">
-    <a class="iw-stage" href="inspo/w52.html" aria-label="Impasto" data-stage="w52"></a>
-    <h2><a href="inspo/w52.html">Impasto</a></h2>
-    <div class="iw-chips"><span class="vchip">מזון ומסעדות</span><span class="vchip">שקט</span><span class="vchip">מינימליסטי</span></div>
-    <p>מאפייה עם שלוש מילים גדולות בהירו ותמונה מאחוריהן: מינימלי וגם רעב. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://www.impastofornoantico.com/" target="_blank" rel="noopener">impastofornoantico.com ↗</a>
-  </article>
-<article class="iw-card" data-field="מסחר וחנויות" data-mood="quiet" data-style="minimal" data-str="photo simple type">
-    <a class="iw-stage" href="inspo/w44.html" aria-label="Almada" data-stage="w44"></a>
-    <h2><a href="inspo/w44.html">Almada</a></h2>
-    <div class="iw-chips"><span class="vchip">מסחר וחנויות</span><span class="vchip">שקט</span><span class="vchip">מינימליסטי</span></div>
-    <p>אופנה בשחור-לבן עם לוגו ענק בתחתית: כמעט בלי צבע, וההקפדה היא העיצוב. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://almadalabel.com/" target="_blank" rel="noopener">almadalabel.com ↗</a>
-  </article>
-<article class="iw-card" data-field="מסחר וחנויות" data-mood="wow" data-style="playful" data-str="illustration type character">
-    <a class="iw-stage" href="inspo/w47.html" aria-label="Graza" data-stage="w47"></a>
-    <h2><a href="inspo/w47.html">Graza</a></h2>
-    <div class="iw-chips"><span class="vchip">מסחר וחנויות</span><span class="vchip">חוויתי</span><span class="vchip">שובב וצבעוני</span></div>
-    <p>שמן זית עם איור מצחיק של זית ופונט מכונת כתיבה: מוצר רגיל שנהיה דמות. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://graza.co/" target="_blank" rel="noopener">graza.co ↗</a>
-  </article>
-<article class="iw-card" data-field="מסחר וחנויות" data-mood="quiet" data-style="product" data-str="photo type color">
-    <a class="iw-stage" href="inspo/w49.html" aria-label="Acme" data-stage="w49"></a>
-    <h2><a href="inspo/w49.html">Acme</a></h2>
-    <div class="iw-chips"><span class="vchip">מסחר וחנויות</span><span class="vchip">שקט</span><span class="vchip">מוצר נקי</span></div>
-    <p>כוסות קפה עם בייגלה ביניהן, וקטלוג נקי בגדלים: מוצר פשוט עם המון אופי בצילום. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://acmecups.nz/" target="_blank" rel="noopener">acmecups.nz ↗</a>
-  </article>
-<article class="iw-card" data-field="שירותים מקצועיים" data-mood="wow" data-style="playful" data-str="illustration color rtl character">
+  <div class="iw-result"><span data-count aria-live="polite"></span><button class="iw-clear" type="button" data-clear hidden>נקה סינון</button></div>
+  <div class="iw-grid"><article class="iw-card" data-field="שירותים מקצועיים" data-level="high" data-mood="wow" data-style="playful" data-str="illustration color rtl character">
     <a class="iw-stage" href="inspo/w03.html" aria-label="Content Lab" data-stage="w03"></a>
     <h2><a href="inspo/w03.html">Content Lab</a></h2>
-    <div class="iw-chips"><span class="vchip">שירותים מקצועיים</span><span class="vchip">חוויתי</span><span class="vchip">שובב וצבעוני</span></div>
-    <p>משרד תוכן בעברית שנראה כמו ספר צורות לילדים: גופים גיאומטריים צבעוניים במקום תמונות אילוסטרציה, וכותרת עברית גדולה ומרכזית. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">שירותים מקצועיים</span><span class="vchip">גימור גבוה</span><span class="vchip">שובב וצבעוני</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>משרד תוכן בעברית שנראה כמו ספר צורות לילדים: גופים גיאומטריים צבעוניים במקום תמונות אילוסטרציה, וכותרת עברית גדולה ומרכזית.</p>
     <a class="iw-out" href="https://www.content-lab.co.il/" target="_blank" rel="noopener">content-lab.co.il ↗</a>
   </article>
-<article class="iw-card" data-field="שירותים מקצועיים" data-mood="quiet" data-style="editorial" data-str="type layout simple">
+<article class="iw-card" data-field="שירותים מקצועיים" data-level="high" data-mood="quiet" data-style="editorial" data-str="type layout simple">
     <a class="iw-stage" href="inspo/w24.html" aria-label="P+Z" data-stage="w24"></a>
     <h2><a href="inspo/w24.html">P+Z</a></h2>
-    <div class="iw-chips"><span class="vchip">שירותים מקצועיים</span><span class="vchip">שקט</span><span class="vchip">מגזיני</span></div>
-    <p>חברת הובלת אמנות שנראית כמו ספר אמנות: כותרת סריפית נטויה בשילוב רגיל, והרבה אוויר. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">שירותים מקצועיים</span><span class="vchip">גימור גבוה</span><span class="vchip">מגזיני</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>חברת הובלת אמנות שנראית כמו ספר אמנות: כותרת סריפית נטויה בשילוב רגיל, והרבה אוויר.</p>
     <a class="iw-out" href="https://www.pnzfas.com/" target="_blank" rel="noopener">pnzfas.com ↗</a>
   </article>
-<article class="iw-card" data-field="שירותים מקצועיים" data-mood="quiet" data-style="illustrated" data-str="illustration color character">
+<article class="iw-card" data-field="שירותים מקצועיים" data-level="high" data-mood="quiet" data-style="illustrated" data-str="illustration color character">
     <a class="iw-stage" href="inspo/w26.html" aria-label="No Jiggery" data-stage="w26"></a>
     <h2><a href="inspo/w26.html">No Jiggery</a></h2>
-    <div class="iw-chips"><span class="vchip">שירותים מקצועיים</span><span class="vchip">שקט</span><span class="vchip">מאויר</span></div>
-    <p>יועץ דיגיטל יחיד עם ורוד, ירוק כהה ואיור יד אחד: אתר קטן עם אישיות ברורה. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">שירותים מקצועיים</span><span class="vchip">גימור גבוה</span><span class="vchip">מאויר</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>יועץ דיגיטל יחיד עם ורוד, ירוק כהה ואיור יד אחד: אתר קטן עם אישיות ברורה.</p>
     <a class="iw-out" href="https://nojiggery.co/" target="_blank" rel="noopener">nojiggery.co ↗</a>
   </article>
-<article class="iw-card" data-field="ביטוח ופיננסים" data-mood="quiet" data-style="illustrated" data-str="illustration simple conversion">
+<article class="iw-card" data-field="ביטוח ופיננסים" data-level="high" data-mood="quiet" data-style="illustrated" data-str="illustration simple conversion">
     <a class="iw-stage" href="inspo/w02.html" aria-label="Lemonade" data-stage="w02"></a>
     <h2><a href="inspo/w02.html">Lemonade</a></h2>
-    <div class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">שקט</span><span class="vchip">מאויר</span></div>
-    <p>לוקח תחום משעמם ומפחיד ועושה אותו ידידותי ופשוט: איור קווי אפור, הרבה אוויר, ומשפט אחד ברור. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">גימור גבוה</span><span class="vchip">מאויר</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>לוקח תחום משעמם ומפחיד ועושה אותו ידידותי ופשוט: איור קווי אפור, הרבה אוויר, ומשפט אחד ברור.</p>
     <a class="iw-out" href="https://www.lemonade.com/" target="_blank" rel="noopener">lemonade.com ↗</a>
   </article>
-<article class="iw-card" data-field="ביטוח ופיננסים" data-mood="quiet" data-style="product" data-str="simple rtl conversion">
+<article class="iw-card" data-field="ביטוח ופיננסים" data-level="high" data-mood="quiet" data-style="product" data-str="simple rtl conversion">
     <a class="iw-stage" href="inspo/w07.html" aria-label="ONE ZERO" data-stage="w07"></a>
     <h2><a href="inspo/w07.html">ONE ZERO</a></h2>
-    <div class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">שקט</span><span class="vchip">מוצר נקי</span></div>
-    <p>בנק דיגיטלי בעברית נקי מאוד: כותרת אחת, הרבה אוויר, ומעט מאוד צבע. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">גימור גבוה</span><span class="vchip">מוצר נקי</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>בנק דיגיטלי בעברית נקי מאוד: כותרת אחת, הרבה אוויר, ומעט מאוד צבע.</p>
     <a class="iw-out" href="https://www.onezerobank.com/" target="_blank" rel="noopener">onezerobank.com ↗</a>
   </article>
-<article class="iw-card" data-field="ביטוח ופיננסים" data-mood="quiet" data-style="photo" data-str="photo simple conversion">
+<article class="iw-card" data-field="ביטוח ופיננסים" data-level="premium" data-mood="quiet" data-style="photo" data-str="photo simple conversion">
     <a class="iw-stage" href="inspo/w20.html" aria-label="Mercury" data-stage="w20"></a>
     <h2><a href="inspo/w20.html">Mercury</a></h2>
-    <div class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">שקט</span><span class="vchip">צילום גדול</span></div>
-    <p>בנק שנראה רגוע: שולחן עבודה על ראש הר במקום גרפים ודולרים, ואז מסכים נקיים של המוצר. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">פרמיום</span><span class="vchip">צילום גדול</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>בנק שנראה רגוע: שולחן עבודה על ראש הר במקום גרפים ודולרים, ואז מסכים נקיים של המוצר.</p>
     <a class="iw-out" href="https://mercury.com/" target="_blank" rel="noopener">mercury.com ↗</a>
   </article>
-<article class="iw-card" data-field="ביטוח ופיננסים" data-mood="wow" data-style="bold" data-str="type color conversion">
+<article class="iw-card" data-field="ביטוח ופיננסים" data-level="premium" data-mood="wow" data-style="bold" data-str="type color conversion">
     <a class="iw-stage" href="inspo/w21.html" aria-label="Wise" data-stage="w21"></a>
     <h2><a href="inspo/w21.html">Wise</a></h2>
-    <div class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">חוויתי</span><span class="vchip">טיפוגרפיה ענקית</span></div>
-    <p>ירוק זרחני וכותרות עבות באותיות גדולות: חברת כספים שנראית כמו מותג נוער ועדיין ברורה. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">פרמיום</span><span class="vchip">טיפוגרפיה ענקית</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>ירוק זרחני וכותרות עבות באותיות גדולות: חברת כספים שנראית כמו מותג נוער ועדיין ברורה.</p>
     <a class="iw-out" href="https://wise.com/" target="_blank" rel="noopener">wise.com ↗</a>
   </article>
-<article class="iw-card" data-field="ביטוח ופיננסים" data-mood="wow" data-style="editorial" data-str="type color layout">
+<article class="iw-card" data-field="ביטוח ופיננסים" data-level="premium" data-mood="wow" data-style="editorial" data-str="type color layout">
     <a class="iw-stage" href="inspo/w22.html" aria-label="Varsity" data-stage="w22"></a>
     <h2><a href="inspo/w22.html">Varsity</a></h2>
-    <div class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">חוויתי</span><span class="vchip">מגזיני</span></div>
-    <p>קרן השקעות שמציגה ערכים כמילים ענקיות על בלוקים של צבע, במקום רשימת נקודות. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">פרמיום</span><span class="vchip">מגזיני</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>קרן השקעות שמציגה ערכים כמילים ענקיות על בלוקים של צבע, במקום רשימת נקודות.</p>
     <a class="iw-out" href="https://www.varsity.vc/" target="_blank" rel="noopener">varsity.vc ↗</a>
   </article>
-<article class="iw-card" data-field="ביטוח ופיננסים" data-mood="wow" data-style="immersive" data-str="motion layout simple">
+<article class="iw-card" data-field="ביטוח ופיננסים" data-level="jaw" data-mood="wow" data-style="immersive" data-str="motion layout simple">
     <a class="iw-stage" href="inspo/w155.html" aria-label="Earth Wallet" data-stage="w155"></a>
     <h2><a href="inspo/w155.html">Earth Wallet</a></h2>
-    <div class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">חוויתי</span><span class="vchip">תלת-ממד וחוויה</span></div>
-    <p>מותג של נכסים וחומרי גלם שמספר על עצמו בצלילה: מהגלובוס, דרך העננים, אל רכס הרים, ומשם אל תוך האדמה עד למכרה. כרטיסי נתונים צפים מעל השטח, כך שגם מידע יבש הופך לחלק מהסיפור. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">שומט לסתות</span><span class="vchip">תלת-ממד וחוויה</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>מותג של נכסים וחומרי גלם שמספר על עצמו בצלילה: מהגלובוס, דרך העננים, אל רכס הרים, ומשם אל תוך האדמה עד למכרה. כרטיסי נתונים צפים מעל השטח, כך שגם מידע יבש הופך לחלק מהסיפור.</p>
     <a class="iw-out" href="https://earthwallet.com/" target="_blank" rel="noopener">earthwallet.com ↗</a>
   </article>
-<article class="iw-card" data-field="ביטוח ופיננסים" data-mood="wow" data-style="immersive" data-str="illustration type motion">
+<article class="iw-card" data-field="ביטוח ופיננסים" data-level="jaw" data-mood="wow" data-style="immersive" data-str="illustration type motion">
     <a class="iw-stage" href="inspo/w157.html" aria-label="EverSwap" data-stage="w157"></a>
     <h2><a href="inspo/w157.html">EverSwap</a></h2>
-    <div class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">חוויתי</span><span class="vchip">תלת-ממד וחוויה</span></div>
-    <p>מוצר פיננסי שנראה כמו ציור שמן: הרים צבועים ביד בתלת מימד, ציפור לבנה שעפה ביניהם, כותרות שעומדות בתוך הנוף ונהר שמוביל הלאה. עדין מאוד לתחום שכולו בדרך כלל כהה וטכנולוגי. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">ביטוח ופיננסים</span><span class="vchip">שומט לסתות</span><span class="vchip">תלת-ממד וחוויה</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>מוצר פיננסי שנראה כמו ציור שמן: הרים צבועים ביד בתלת מימד, ציפור לבנה שעפה ביניהם, כותרות שעומדות בתוך הנוף ונהר שמוביל הלאה. עדין מאוד לתחום שכולו בדרך כלל כהה וטכנולוגי.</p>
     <a class="iw-out" href="https://everswap.com/" target="_blank" rel="noopener">everswap.com ↗</a>
   </article>
-<article class="iw-card" data-field="תעשייה ו-B2B" data-mood="wow" data-style="immersive" data-str="type motion layout">
+<article class="iw-card" data-field="נדל&quot;ן ובנייה" data-level="jaw" data-mood="wow" data-style="immersive" data-str="illustration motion type">
+    <a class="iw-stage" href="inspo/w27.html" aria-label="Belgrade Arbor" data-stage="w27"></a>
+    <h2><a href="inspo/w27.html">Belgrade Arbor</a></h2>
+    <div class="iw-chips"><span class="vchip">נדל&quot;ן ובנייה</span><span class="vchip">שומט לסתות</span><span class="vchip">תלת-ממד וחוויה</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>פרויקט מגורים שמתחיל מסקיצת קו של הבניין ורק אחר כך נכנס לצילום, כמו שמספרים על בית לפני שהוא קיים.</p>
+    <a class="iw-out" href="https://belgradearbor.rs/en" target="_blank" rel="noopener">belgradearbor.rs/en ↗</a>
+  </article>
+<article class="iw-card" data-field="נדל&quot;ן ובנייה" data-level="jaw" data-mood="wow" data-style="immersive" data-str="motion photo character">
+    <a class="iw-stage" href="inspo/w28.html" aria-label="Still Form" data-stage="w28"></a>
+    <h2><a href="inspo/w28.html">Still Form</a></h2>
+    <div class="iw-chips"><span class="vchip">נדל&quot;ן ובנייה</span><span class="vchip">שומט לסתות</span><span class="vchip">תלת-ממד וחוויה</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>הגלילה מפרקת בית לשכבות בתלת-ממד ואז נכנסת לחדר אמיתי: מכירה של בית שעוד לא נבנה.</p>
+    <a class="iw-out" href="https://stillform.homes/" target="_blank" rel="noopener">stillform.homes ↗</a>
+  </article>
+<article class="iw-card" data-field="נדל&quot;ן ובנייה" data-level="premium" data-mood="quiet" data-style="luxury" data-str="type photo conversion">
+    <a class="iw-stage" href="inspo/w29.html" aria-label="Loam House" data-stage="w29"></a>
+    <h2><a href="inspo/w29.html">Loam House</a></h2>
+    <div class="iw-chips"><span class="vchip">נדל&quot;ן ובנייה</span><span class="vchip">פרמיום</span><span class="vchip">יוקרתי</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>מגורי יוקרה עם סריף דק ונטוי על תמונות כהות, וטופס השארת פרטים ישר בהירו.</p>
+    <a class="iw-out" href="https://residences.loamhouse.com.au" target="_blank" rel="noopener">residences.loamhouse.com.au ↗</a>
+  </article>
+<article class="iw-card" data-field="נדל&quot;ן ובנייה" data-level="premium" data-mood="quiet" data-style="luxury" data-str="type photo">
+    <a class="iw-stage" href="inspo/w30.html" aria-label="Mejuma" data-stage="w30"></a>
+    <h2><a href="inspo/w30.html">Mejuma</a></h2>
+    <div class="iw-chips"><span class="vchip">נדל&quot;ן ובנייה</span><span class="vchip">פרמיום</span><span class="vchip">יוקרתי</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>לוגו ענק בסריף דק על נוף טוסקני: נדל&quot;ן יוקרה שנראה כמו מגזין.</p>
+    <a class="iw-out" href="https://mejuma-tuscany.com/" target="_blank" rel="noopener">mejuma-tuscany.com ↗</a>
+  </article>
+<article class="iw-card" data-field="נדל&quot;ן ובנייה" data-level="premium" data-mood="wow" data-style="bold" data-str="color layout character">
+    <a class="iw-stage" href="inspo/w32.html" aria-label="Warren and Mahoney" data-stage="w32"></a>
+    <h2><a href="inspo/w32.html">Warren and Mahoney</a></h2>
+    <div class="iw-chips"><span class="vchip">נדל&quot;ן ובנייה</span><span class="vchip">פרמיום</span><span class="vchip">טיפוגרפיה ענקית</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>הלוגו הוא צורה גדולה שנפתחת כמו חלון ומתמלאת בתמונות: סימן אחד שמחזיק את כל האתר.</p>
+    <a class="iw-out" href="https://wam.studio/" target="_blank" rel="noopener">wam.studio ↗</a>
+  </article>
+<article class="iw-card" data-field="נדל&quot;ן ובנייה" data-level="premium" data-mood="quiet" data-style="organic" data-str="photo simple layout">
+    <a class="iw-stage" href="inspo/w33.html" aria-label="Taylor Hare" data-stage="w33"></a>
+    <h2><a href="inspo/w33.html">Taylor Hare</a></h2>
+    <div class="iw-chips"><span class="vchip">נדל&quot;ן ובנייה</span><span class="vchip">פרמיום</span><span class="vchip">טבעי וחם</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>אדריכלות כפרית שקטה: תמונות בגדלים לא שווים, צבעי אדמה ומשולש קטן בפינה כסימן.</p>
+    <a class="iw-out" href="https://taylorhare.com/" target="_blank" rel="noopener">taylorhare.com ↗</a>
+  </article>
+<article class="iw-card" data-field="תעשייה ו-B2B" data-level="jaw" data-mood="wow" data-style="immersive" data-str="type motion layout">
     <a class="iw-stage" href="inspo/w154.html" aria-label="RIY3.0 Hive" data-stage="w154"></a>
     <h2><a href="inspo/w154.html">RIY3.0 Hive</a></h2>
-    <div class="iw-chips"><span class="vchip">תעשייה ו-B2B</span><span class="vchip">חוויתי</span><span class="vchip">תלת-ממד וחוויה</span></div>
-    <p>כלי טיס להגנה מפני רחפנים שמוצג כמו סרט: עיר בלילה מטושטשת, המספר 550 קמ&quot;ש בענק, ואז כלי הטיס בשמי שקיעה, צילום תקריב עם תוויות ושרטוט הנדסי. טיפוגרפיה רחבה וגדולה שיושבת בתוך הסצנה. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">תעשייה ו-B2B</span><span class="vchip">שומט לסתות</span><span class="vchip">תלת-ממד וחוויה</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>כלי טיס להגנה מפני רחפנים שמוצג כמו סרט: עיר בלילה מטושטשת, המספר 550 קמ&quot;ש בענק, ואז כלי הטיס בשמי שקיעה, צילום תקריב עם תוויות ושרטוט הנדסי. טיפוגרפיה רחבה וגדולה שיושבת בתוך הסצנה.</p>
     <a class="iw-out" href="https://riy3.com/" target="_blank" rel="noopener">riy3.com ↗</a>
   </article>
-<article class="iw-card" data-field="טכנולוגיה ו-SaaS" data-mood="wow" data-style="immersive" data-str="character color motion">
-    <a class="iw-stage" href="inspo/w158.html" aria-label="Imogen" data-stage="w158"></a>
-    <h2><a href="inspo/w158.html">Imogen</a></h2>
-    <div class="iw-chips"><span class="vchip">טכנולוגיה ו-SaaS</span><span class="vchip">חוויתי</span><span class="vchip">תלת-ממד וחוויה</span></div>
-    <p>מוצר בינה מלאכותית למשווקים שמוסבר דרך תמנון ורוד וסגול ענק: כל איבר בגוף שלו הוא יכולת של המוצר, והצבע מתהפך לליילך בהיר באמצע. דרך נדירה להפוך מוצר מופשט לדמות שזוכרים. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://vsproject-imogen.vendredi-society.com/" target="_blank" rel="noopener">vsproject-imogen.vendredi-society.com ↗</a>
+<article class="iw-card" data-field="מסחר וחנויות" data-level="high" data-mood="quiet" data-style="minimal" data-str="photo simple type">
+    <a class="iw-stage" href="inspo/w44.html" aria-label="Almada" data-stage="w44"></a>
+    <h2><a href="inspo/w44.html">Almada</a></h2>
+    <div class="iw-chips"><span class="vchip">מסחר וחנויות</span><span class="vchip">גימור גבוה</span><span class="vchip">מינימליסטי</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>אופנה בשחור-לבן עם לוגו ענק בתחתית: כמעט בלי צבע, וההקפדה היא העיצוב.</p>
+    <a class="iw-out" href="https://almadalabel.com/" target="_blank" rel="noopener">almadalabel.com ↗</a>
   </article>
-<article class="iw-card" data-field="טכנולוגיה ו-SaaS" data-mood="wow" data-style="immersive" data-str="motion type layout">
-    <a class="iw-stage" href="inspo/w160.html" aria-label="NODDAL" data-stage="w160"></a>
-    <h2><a href="inspo/w160.html">NODDAL</a></h2>
-    <div class="iw-chips"><span class="vchip">טכנולוגיה ו-SaaS</span><span class="vchip">חוויתי</span><span class="vchip">תלת-ממד וחוויה</span></div>
-    <p>חברת תשתית מחשוב שהופכת שרתים לסצנה: קובייה זוהרת על הר מושלג, הבזק אור, מנהרה, ואז עיר צפה של נתונים. עין ענקית וטבעת ברקים סוגרות את המסע. לוקח את הדבר הכי משעמם בעולם והופך אותו לסרט. <span class="iw-prop">(הצעה לניסוח)</span></p>
-    <a class="iw-out" href="https://noddal.xyz/" target="_blank" rel="noopener">noddal.xyz ↗</a>
+<article class="iw-card" data-field="מסחר וחנויות" data-level="premium" data-mood="wow" data-style="playful" data-str="illustration type character">
+    <a class="iw-stage" href="inspo/w47.html" aria-label="Graza" data-stage="w47"></a>
+    <h2><a href="inspo/w47.html">Graza</a></h2>
+    <div class="iw-chips"><span class="vchip">מסחר וחנויות</span><span class="vchip">פרמיום</span><span class="vchip">שובב וצבעוני</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>שמן זית עם איור מצחיק של זית ופונט מכונת כתיבה: מוצר רגיל שנהיה דמות.</p>
+    <a class="iw-out" href="https://graza.co/" target="_blank" rel="noopener">graza.co ↗</a>
   </article>
-<article class="iw-card" data-field="חינוך ותרבות" data-mood="wow" data-style="immersive" data-str="illustration motion character">
+<article class="iw-card" data-field="מסחר וחנויות" data-level="high" data-mood="quiet" data-style="product" data-str="photo type color">
+    <a class="iw-stage" href="inspo/w49.html" aria-label="Acme" data-stage="w49"></a>
+    <h2><a href="inspo/w49.html">Acme</a></h2>
+    <div class="iw-chips"><span class="vchip">מסחר וחנויות</span><span class="vchip">גימור גבוה</span><span class="vchip">מוצר נקי</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>כוסות קפה עם בייגלה ביניהן, וקטלוג נקי בגדלים: מוצר פשוט עם המון אופי בצילום.</p>
+    <a class="iw-out" href="https://acmecups.nz/" target="_blank" rel="noopener">acmecups.nz ↗</a>
+  </article>
+<article class="iw-card" data-field="מזון ומסעדות" data-level="premium" data-mood="wow" data-style="bold" data-str="type color photo">
+    <a class="iw-stage" href="inspo/w51.html" aria-label="Theobroma" data-stage="w51"></a>
+    <h2><a href="inspo/w51.html">Theobroma</a></h2>
+    <div class="iw-chips"><span class="vchip">מזון ומסעדות</span><span class="vchip">פרמיום</span><span class="vchip">טיפוגרפיה ענקית</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>שוקולד עם כותרות עבות, נוזל שוקולד בקצוות ופסים נעים: קולני ומשמח בלי להיראות זול.</p>
+    <a class="iw-out" href="https://theobromachocolat.com/" target="_blank" rel="noopener">theobromachocolat.com ↗</a>
+  </article>
+<article class="iw-card" data-field="מזון ומסעדות" data-level="high" data-mood="quiet" data-style="minimal" data-str="type photo simple">
+    <a class="iw-stage" href="inspo/w52.html" aria-label="Impasto" data-stage="w52"></a>
+    <h2><a href="inspo/w52.html">Impasto</a></h2>
+    <div class="iw-chips"><span class="vchip">מזון ומסעדות</span><span class="vchip">גימור גבוה</span><span class="vchip">מינימליסטי</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>מאפייה עם שלוש מילים גדולות בהירו ותמונה מאחוריהן: מינימלי וגם רעב.</p>
+    <a class="iw-out" href="https://www.impastofornoantico.com/" target="_blank" rel="noopener">impastofornoantico.com ↗</a>
+  </article>
+<article class="iw-card" data-field="תיירות ופנאי" data-level="premium" data-mood="wow" data-style="organic" data-str="type photo color character">
+    <a class="iw-stage" href="inspo/w35.html" aria-label="Casa Momo" data-stage="w35"></a>
+    <h2><a href="inspo/w35.html">Casa Momo</a></h2>
+    <div class="iw-chips"><span class="vchip">תיירות ופנאי</span><span class="vchip">פרמיום</span><span class="vchip">טבעי וחם</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>דירות נופש בגראץ עם שם המקום ענק בשתי פינות המסך, ותמונות חמות שנראות כמו בית אמיתי.</p>
+    <a class="iw-out" href="https://www.casamomo.at/" target="_blank" rel="noopener">casamomo.at ↗</a>
+  </article>
+<article class="iw-card" data-field="תיירות ופנאי" data-level="premium" data-mood="quiet" data-style="luxury" data-str="type photo">
+    <a class="iw-stage" href="inspo/w36.html" aria-label="Tengile Mala Mala" data-stage="w36"></a>
+    <h2><a href="inspo/w36.html">Tengile Mala Mala</a></h2>
+    <div class="iw-chips"><span class="vchip">תיירות ופנאי</span><span class="vchip">פרמיום</span><span class="vchip">יוקרתי</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>לודג' ספארי עם שתי שורות כותרת דקות שמוזזות זו מזו על צילום כהה וקרוב.</p>
+    <a class="iw-out" href="https://tengilemalamala.com/" target="_blank" rel="noopener">tengilemalamala.com ↗</a>
+  </article>
+<article class="iw-card" data-field="תיירות ופנאי" data-level="premium" data-mood="quiet" data-style="photo" data-str="photo type">
+    <a class="iw-stage" href="inspo/w37.html" aria-label="Red Dot Tours" data-stage="w37"></a>
+    <h2><a href="inspo/w37.html">Red Dot Tours</a></h2>
+    <div class="iw-chips"><span class="vchip">תיירות ופנאי</span><span class="vchip">פרמיום</span><span class="vchip">צילום גדול</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>סוכנות טיולים שמוכרת בצילומים מלמעלה ואנשים אמיתיים, לא בעסקאות וחבילות.</p>
+    <a class="iw-out" href="https://www.reddottours.com/" target="_blank" rel="noopener">reddottours.com ↗</a>
+  </article>
+<article class="iw-card" data-field="תיירות ופנאי" data-level="high" data-mood="quiet" data-style="organic" data-str="type photo layout">
+    <a class="iw-stage" href="inspo/w38.html" aria-label="Les Grands Chênes" data-stage="w38"></a>
+    <h2><a href="inspo/w38.html">Les Grands Chênes</a></h2>
+    <div class="iw-chips"><span class="vchip">תיירות ופנאי</span><span class="vchip">גימור גבוה</span><span class="vchip">טבעי וחם</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>אכסניה שוויצרית שנראית כמו דף מספר: סריף, בז', וכפתור הזמנה עגול שצף.</p>
+    <a class="iw-out" href="https://www.maisonlesgrandschenes.com/" target="_blank" rel="noopener">maisonlesgrandschenes.com ↗</a>
+  </article>
+<article class="iw-card" data-field="תיירות ופנאי" data-level="high" data-mood="wow" data-style="bold" data-str="type color layout">
+    <a class="iw-stage" href="inspo/w39.html" aria-label="Inspired by Iceland" data-stage="w39"></a>
+    <h2><a href="inspo/w39.html">Inspired by Iceland</a></h2>
+    <div class="iw-chips"><span class="vchip">תיירות ופנאי</span><span class="vchip">גימור גבוה</span><span class="vchip">טיפוגרפיה ענקית</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>אתר תיירות לאומי בלי תמונת נוף בהירו: כחול חזק וכותרות ענקיות שנראות כמו כרזה.</p>
+    <a class="iw-out" href="https://www.inspiredbyiceland.com/" target="_blank" rel="noopener">inspiredbyiceland.com ↗</a>
+  </article>
+<article class="iw-card" data-field="תיירות ופנאי" data-level="high" data-mood="quiet" data-style="photo" data-str="photo simple">
+    <a class="iw-stage" href="inspo/w40.html" aria-label="Royal Sites of Ireland" data-stage="w40"></a>
+    <h2><a href="inspo/w40.html">Royal Sites of Ireland</a></h2>
+    <div class="iw-chips"><span class="vchip">תיירות ופנאי</span><span class="vchip">גימור גבוה</span><span class="vchip">צילום גדול</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>צילומי רחפן של אתרים עתיקים, גריד פשוט ומעט טקסט: התוכן לבדו מחזיק את העמוד.</p>
+    <a class="iw-out" href="https://royalsites.ie/" target="_blank" rel="noopener">royalsites.ie ↗</a>
+  </article>
+<article class="iw-card" data-field="חינוך ותרבות" data-level="jaw" data-mood="wow" data-style="immersive" data-str="illustration motion character">
     <a class="iw-stage" href="inspo/w152.html" aria-label="The Little Match Girl" data-stage="w152"></a>
     <h2><a href="inspo/w152.html">The Little Match Girl</a></h2>
-    <div class="iw-chips"><span class="vchip">חינוך ותרבות</span><span class="vchip">חוויתי</span><span class="vchip">תלת-ממד וחוויה</span></div>
-    <p>האגדה של אנדרסן כספר תמונות בדיו שחורה על נייר לבן. הספר נפתח בתלת מימד, הירח עולה מעל עיירה מושלגת, ועם הגלילה נכנסים לתוך האיורים. גפרור דולק מסמן כמה מהסיפור עבר, והצבע היחיד שמופיע הוא האש. הקונספט הכי נקי ברשימה. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">חינוך ותרבות</span><span class="vchip">שומט לסתות</span><span class="vchip">תלת-ממד וחוויה</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>האגדה של אנדרסן כספר תמונות בדיו שחורה על נייר לבן. הספר נפתח בתלת מימד, הירח עולה מעל עיירה מושלגת, ועם הגלילה נכנסים לתוך האיורים. גפרור דולק מסמן כמה מהסיפור עבר, והצבע היחיד שמופיע הוא האש.</p>
     <a class="iw-out" href="https://onecoldnight.com/" target="_blank" rel="noopener">onecoldnight.com ↗</a>
   </article>
-<article class="iw-card" data-field="אירועים ובידור" data-mood="wow" data-style="retro" data-str="character type color photo">
+<article class="iw-card" data-field="טכנולוגיה ו-SaaS" data-level="jaw" data-mood="wow" data-style="immersive" data-str="character color motion">
+    <a class="iw-stage" href="inspo/w158.html" aria-label="Imogen" data-stage="w158"></a>
+    <h2><a href="inspo/w158.html">Imogen</a></h2>
+    <div class="iw-chips"><span class="vchip">טכנולוגיה ו-SaaS</span><span class="vchip">שומט לסתות</span><span class="vchip">תלת-ממד וחוויה</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>מוצר בינה מלאכותית למשווקים שמוסבר דרך תמנון ורוד וסגול ענק: כל איבר בגוף שלו הוא יכולת של המוצר, והצבע מתהפך לליילך בהיר באמצע. דרך נדירה להפוך מוצר מופשט לדמות שזוכרים.</p>
+    <a class="iw-out" href="https://vsproject-imogen.vendredi-society.com/" target="_blank" rel="noopener">vsproject-imogen.vendredi-society.com ↗</a>
+  </article>
+<article class="iw-card" data-field="טכנולוגיה ו-SaaS" data-level="jaw" data-mood="wow" data-style="immersive" data-str="motion type layout">
+    <a class="iw-stage" href="inspo/w160.html" aria-label="NODDAL" data-stage="w160"></a>
+    <h2><a href="inspo/w160.html">NODDAL</a></h2>
+    <div class="iw-chips"><span class="vchip">טכנולוגיה ו-SaaS</span><span class="vchip">שומט לסתות</span><span class="vchip">תלת-ממד וחוויה</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>חברת תשתית מחשוב שהופכת שרתים לסצנה: קובייה זוהרת על הר מושלג, הבזק אור, מנהרה, ואז עיר צפה של נתונים. עין ענקית וטבעת ברקים סוגרות את המסע. לוקח את הדבר הכי משעמם בעולם והופך אותו לסרט.</p>
+    <a class="iw-out" href="https://noddal.xyz/" target="_blank" rel="noopener">noddal.xyz ↗</a>
+  </article>
+<article class="iw-card" data-field="אירועים ובידור" data-level="premium" data-mood="wow" data-style="retro" data-str="character type color photo">
     <a class="iw-stage" href="inspo/w01.html" aria-label="FlowFest" data-stage="w01"></a>
     <h2><a href="inspo/w01.html">FlowFest</a></h2>
-    <div class="iw-chips"><span class="vchip">אירועים ובידור</span><span class="vchip">חוויתי</span><span class="vchip">רטרו</span></div>
-    <p>אופי שאי אפשר להתבלבל בו: קשתות רטרו, כותרות עבות וצבעים חמים, שמרגישים כמו הפסטיבל עצמו עוד לפני שקראו מילה. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">אירועים ובידור</span><span class="vchip">פרמיום</span><span class="vchip">רטרו</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>אופי שאי אפשר להתבלבל בו: קשתות רטרו, כותרות עבות וצבעים חמים, שמרגישים כמו הפסטיבל עצמו עוד לפני שקראו מילה.</p>
     <a class="iw-out" href="https://www.flowfest.co.uk/" target="_blank" rel="noopener">flowfest.co.uk ↗</a>
   </article>
-<article class="iw-card" data-field="אירועים ובידור" data-mood="wow" data-style="bold" data-str="type photo color rtl">
+<article class="iw-card" data-field="אירועים ובידור" data-level="high" data-mood="wow" data-style="bold" data-str="type photo color rtl">
     <a class="iw-stage" href="inspo/w05.html" aria-label="פסטיבל ישראל" data-stage="w05"></a>
     <h2><a href="inspo/w05.html">פסטיבל ישראל</a></h2>
-    <div class="iw-chips"><span class="vchip">אירועים ובידור</span><span class="vchip">חוויתי</span><span class="vchip">טיפוגרפיה ענקית</span></div>
-    <p>יונים גזורות על כחול חזק וכותרת עברית ענקית: כרזה שעובדת גם כאתר, ואחד האתרים העבריים החזקים שמצאתי. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">אירועים ובידור</span><span class="vchip">גימור גבוה</span><span class="vchip">טיפוגרפיה ענקית</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>יונים גזורות על כחול חזק וכותרת עברית ענקית: כרזה שעובדת גם כאתר.</p>
     <a class="iw-out" href="https://www.israel-festival.org/" target="_blank" rel="noopener">israel-festival.org ↗</a>
   </article>
-<article class="iw-card" data-field="אירועים ובידור" data-mood="wow" data-style="bold" data-str="type color character">
+<article class="iw-card" data-field="אירועים ובידור" data-level="premium" data-mood="wow" data-style="bold" data-str="type color character">
     <a class="iw-stage" href="inspo/w18.html" aria-label="Kelvin" data-stage="w18"></a>
     <h2><a href="inspo/w18.html">Kelvin</a></h2>
-    <div class="iw-chips"><span class="vchip">אירועים ובידור</span><span class="vchip">חוויתי</span><span class="vchip">טיפוגרפיה ענקית</span></div>
-    <p>שם הפסטיבל בגובה מלא של המסך באותיות דקות בצבעי קשת, וכל העמוד בנוי על רעיון של מצלמה תרמית. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">אירועים ובידור</span><span class="vchip">פרמיום</span><span class="vchip">טיפוגרפיה ענקית</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>שם הפסטיבל בגובה מלא של המסך באותיות דקות בצבעי קשת, וכל העמוד בנוי על רעיון של מצלמה תרמית.</p>
     <a class="iw-out" href="https://kelvin.8b.com/" target="_blank" rel="noopener">kelvin.8b.com ↗</a>
   </article>
-<article class="iw-card" data-field="אירועים ובידור" data-mood="quiet" data-style="immersive" data-str="simple layout photo">
+<article class="iw-card" data-field="אירועים ובידור" data-level="jaw" data-mood="quiet" data-style="immersive" data-str="simple layout photo">
     <a class="iw-stage" href="inspo/w161.html" aria-label="A24 Films" data-stage="w161"></a>
     <h2><a href="inspo/w161.html">A24 Films</a></h2>
-    <div class="iw-chips"><span class="vchip">אירועים ובידור</span><span class="vchip">שקט</span><span class="vchip">תלת-ממד וחוויה</span></div>
-    <p>קונספט של מעצב שאינו של האולפן עצמו: הסרטים של A24 כדיסקים בתלת מימד על נייר לבן, עם פרטי הסרט כמו בכיתוב של מוזיאון. היחיד ברשימה שבהיר ושקט, ומראה שתלת מימד לא חייב להיות חושך וזוהר. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">אירועים ובידור</span><span class="vchip">שומט לסתות</span><span class="vchip">תלת-ממד וחוויה</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>קונספט של מעצב שאינו של האולפן עצמו: הסרטים של A24 כדיסקים בתלת מימד על נייר לבן, עם פרטי הסרט כמו בכיתוב של מוזיאון. בהיר ושקט, ומראה שתלת מימד לא חייב להיות חושך וזוהר.</p>
     <a class="iw-out" href="https://a24.raviklaassens.com/" target="_blank" rel="noopener">a24.raviklaassens.com ↗</a>
   </article>
-<article class="iw-card" data-field="עיצוב וסטודיו" data-mood="wow" data-style="immersive" data-str="color motion character">
+<article class="iw-card" data-field="עיצוב וסטודיו" data-level="jaw" data-mood="wow" data-style="immersive" data-str="color motion character">
     <a class="iw-stage" href="inspo/w156.html" aria-label="Yogi Suria" data-stage="w156"></a>
     <h2><a href="inspo/w156.html">Yogi Suria</a></h2>
-    <div class="iw-chips"><span class="vchip">עיצוב וסטודיו</span><span class="vchip">חוויתי</span><span class="vchip">תלת-ממד וחוויה</span></div>
-    <p>תיק עבודות של אדם אחד שבנוי כעולם בפרקים: צלב לייזר אדום בין אסטרואידים, קרן שנופלת לדשא ירוק, מדבר אדום, כדור זוהר ודמות שעפה. כל פרק הוא צבע אחר וקטע אחר מהסיפור המקצועי שלו. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">עיצוב וסטודיו</span><span class="vchip">שומט לסתות</span><span class="vchip">תלת-ממד וחוויה</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>תיק עבודות של אדם אחד שבנוי כעולם בפרקים: צלב לייזר אדום בין אסטרואידים, קרן שנופלת לדשא ירוק, מדבר אדום, כדור זוהר ודמות שעפה. כל פרק הוא צבע אחר וקטע אחר מהסיפור המקצועי שלו.</p>
     <a class="iw-out" href="https://ysuriadesign.co/" target="_blank" rel="noopener">ysuriadesign.co ↗</a>
   </article>
-<article class="iw-card" data-field="עיצוב וסטודיו" data-mood="wow" data-style="immersive" data-str="type color motion">
+<article class="iw-card" data-field="עיצוב וסטודיו" data-level="jaw" data-mood="wow" data-style="immersive" data-str="type color motion">
     <a class="iw-stage" href="inspo/w159.html" aria-label="Noomo Storytelling" data-stage="w159"></a>
     <h2><a href="inspo/w159.html">Noomo Storytelling</a></h2>
-    <div class="iw-chips"><span class="vchip">עיצוב וסטודיו</span><span class="vchip">חוויתי</span><span class="vchip">תלת-ממד וחוויה</span></div>
-    <p>סוכנות שמסבירה מה זה סיפור דרך עוף חול מזכוכית: שמיים רכים בצבעי קשת, כנפיים שקופות ומילים גדולות באיטליק שנשזרות בנוצות. אחר כך הכול מתהפך לכחול עמוק עם גבישים. הכי אוורירי ברשימה. <span class="iw-prop">(הצעה לניסוח)</span></p>
+    <div class="iw-chips"><span class="vchip">עיצוב וסטודיו</span><span class="vchip">שומט לסתות</span><span class="vchip">תלת-ממד וחוויה</span></div>
+    <p class="iw-near" data-near hidden></p>
+    <p>סוכנות שמסבירה מה זה סיפור דרך עוף חול מזכוכית: שמיים רכים בצבעי קשת, כנפיים שקופות ומילים גדולות באיטליק שנשזרות בנוצות. אחר כך הכול מתהפך לכחול עמוק עם גבישים.</p>
     <a class="iw-out" href="https://storytelling.noomoagency.com/" target="_blank" rel="noopener">storytelling.noomoagency.com ↗</a>
   </article></div>
-  <p class="iw-empty" data-none hidden>אין אתר שעונה על הסינון הזה.</p>
 </main>
 <script>
 (function(){
@@ -318,13 +357,57 @@
     var b="https://liavwebdesign-spec.github.io/motion-vault-shots/"+a.dataset.stage;
     a.innerHTML='<img class="iw-d" loading="lazy" decoding="async" alt="" width="800" height="500" src="'+b+'-d.jpg"><img class="iw-m" loading="lazy" decoding="async" alt="" width="200" height="433" src="'+b+'-m.jpg">';
   });
-  var sels=[].slice.call(document.querySelectorAll("[data-f]")),cards=[].slice.call(document.querySelectorAll(".iw-card")),none=document.querySelector("[data-none]");
+  var sels=[].slice.call(document.querySelectorAll("[data-f]")),cards=[].slice.call(document.querySelectorAll(".iw-card")),count=document.querySelector("[data-count]"),clear=document.querySelector("[data-clear]");
+  if(!sels.length)return;
+  // משקל כל קריטריון כשאין התאמה מלאה: קודם התחום, אחריו הגימור, אחריו הסגנון
+  var WEIGHT={field:16,level:8,style:4,mood:2,str:1},NAMES={field:"תחום",level:"גימור",style:"סגנון",mood:"אווירה",str:"מה שחזק בו"},NEAR=6,LV=["classic","high","premium","jaw"];
+  function has(c,k,val){return k==="str"?c.dataset.str.split(" ").indexOf(val)>=0:c.dataset[k]===val;}
   function run(){
-    var v={};sels.forEach(function(s){v[s.dataset.f]=s.value;});var n=0;
-    cards.forEach(function(c){var ok=(!v.field||c.dataset.field===v.field)&&(!v.style||c.dataset.style===v.style)&&(!v.mood||c.dataset.mood===v.mood)&&(!v.str||c.dataset.str.split(" ").indexOf(v.str)>=0);c.hidden=!ok;if(ok)n++;});
-    if(none)none.hidden=n>0;
+    var v={};sels.forEach(function(s){v[s.dataset.f]=s.value;});
+    var on=sels.map(function(s){return s.dataset.f;}).filter(function(k){return v[k];}),n=0;
+    cards.forEach(function(c){
+      var ok=on.every(function(k){return has(c,k,v[k]);});
+      c.hidden=!ok;c.style.order="";c.querySelector("[data-near]").hidden=true;
+      if(ok)n++;
+    });
+    // מספר ליד כל אפשרות: כמה אתרים יישארו אם בוחרים בה, בלי לשנות את שאר הסינון
+    sels.forEach(function(s){
+      var k=s.dataset.f;
+      [].forEach.call(s.options,function(o){
+        if(!o.value)return;
+        var m=cards.filter(function(c){return has(c,k,o.value)&&on.every(function(j){return j===k||has(c,j,v[j]);});}).length;
+        o.textContent=o.dataset.t+" ("+m+")";
+      });
+    });
+    clear.hidden=!on.length;
+    if(n||!on.length){count.textContent=n===1?"אתר אחד":n+" אתרים";}
+    else{
+      // אין התאמה מלאה: במקום מסך ריק מציגים את הקרובים, ואומרים במה כל אחד מהם תואם
+      var near=cards.map(function(c,i){
+        var hit=on.filter(function(k){return has(c,k,v[k]);}),w=hit.reduce(function(a,k){return a+WEIGHT[k];},0),t=hit.map(function(k){return NAMES[k];});
+        // רמת גימור סמוכה עדיין קרובה: מי שביקש קלאסי יכול להסתכל על גימור גבוה
+        if(v.level&&!has(c,"level",v.level)&&Math.abs(LV.indexOf(c.dataset.level)-LV.indexOf(v.level))===1){w+=WEIGHT.level/2;t.push("גימור סמוך");}
+        return {c:c,i:i,t:t,w:w};
+      }).filter(function(x){return x.w>0;}).sort(function(a,b){return b.w-a.w||a.i-b.i;}).slice(0,NEAR);
+      count.textContent=near.length?"אין אתר שעונה על כל הסינון הזה. אלה הכי קרובים:":"אין אתר שעונה על הסינון הזה.";
+      near.forEach(function(x,i){
+        var el=x.c.querySelector("[data-near]");
+        el.textContent="תואם ב: "+x.t.join(", ");el.hidden=false;
+        x.c.hidden=false;x.c.style.order=i;
+      });
+    }
+    // הסינון נשמר בכתובת: חזרה מעמוד של אתר מחזירה אליו, ואפשר לפתוח את העמוד מסונן מראש
+    var q=new URLSearchParams();on.forEach(function(k){q.set(k,v[k]);});
+    history.replaceState(null,"",location.pathname+(on.length?"?"+q:""));
   }
-  sels.forEach(function(s){s.addEventListener("change",run);});
+  var start=new URLSearchParams(location.search);
+  sels.forEach(function(s){
+    var val=start.get(s.dataset.f);
+    if(val&&[].some.call(s.options,function(o){return o.value===val;}))s.value=val;
+    s.addEventListener("change",run);
+  });
+  clear.addEventListener("click",function(){sels.forEach(function(s){s.value="";});run();sels[0].focus();});
+  run();
 })();
 </script>
 </body>
