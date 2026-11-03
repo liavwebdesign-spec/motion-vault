@@ -17,6 +17,7 @@
 
 import { execFileSync, spawn } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { createServer } from "node:net";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -37,7 +38,7 @@ const GAP_VIEWPORTS = 1.2, MAX_FRAMES = 26; // פס ריק מעל גובה מס�
 const HIDE_COOKIES = `{let hit=0;const hide=e=>{e.style.setProperty("display","none","important");hit++};
 [...document.querySelectorAll('[id*="cookie" i],[class*="cookie" i],[id*="consent" i],[class*="consent" i],[id*="onetrust" i],[id*="usercentrics" i],[id^="coi" i]')].forEach(e=>{const r=e.getBoundingClientRect();if(e!==document.body&&e!==document.documentElement&&["fixed","sticky"].includes(getComputedStyle(e).position)&&r.width*r.height<innerWidth*innerHeight*.6)hide(e)});
 [...document.querySelectorAll("#coiOverlay,#usercentrics-root,#onetrust-consent-sdk")].forEach(hide);
-[...document.body.querySelectorAll("*")].forEach(e=>{if(getComputedStyle(e).position!=="fixed")return;const r=e.getBoundingClientRect(),t=e.innerText||"";if(/cookie|consent/i.test(t)&&(r.width*r.height<innerWidth*innerHeight*.6||t.length<4000)||/shipping region|select your (location|country|region)|choose your (location|country|region)/i.test(t)&&t.length<800)hide(e)});
+[...document.body.querySelectorAll("*")].forEach(e=>{if(getComputedStyle(e).position!=="fixed")return;const r=e.getBoundingClientRect(),t=e.innerText||"";if(/cookie|consent/i.test(t)&&(r.width*r.height<innerWidth*innerHeight*.6||t.length<4000)||/shipping region|select your (location|country|region)|choose your (location|country|region)/i.test(t)&&t.length<800||/\d+\s*%?\s*off\b|exclusive offer/i.test(t)&&t.length<600&&r.height>150)hide(e)});
 if(hit){for(const e of[document.documentElement,document.body])if(getComputedStyle(e).overflowY==="hidden")e.style.setProperty("overflow","auto","important");
 [...document.body.querySelectorAll("*")].forEach(e=>{if(getComputedStyle(e).position!=="fixed")return;const r=e.getBoundingClientRect();if(r.width*r.height>=innerWidth*innerHeight*.9&&!(e.innerText||"").trim()&&!e.querySelector("img,video,canvas,svg")&&!e.matches("video,canvas,img"))hide(e)})}}`;
 
@@ -160,7 +161,9 @@ async function check() {
   if (!/^https?:\/\//.test(url || "") || !id) { console.error("שימוש: check <url> --id w03"); process.exit(1); }
   const CHROME = [process.env.CHROME_PATH, "C:/Program Files/Google/Chrome/Application/chrome.exe", "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe"].find(p => p && existsSync(p));
   if (!CHROME) { console.error("לא נמצא Chrome"); process.exit(1); }
-  const date = today(), port = 9400 + Math.floor(Math.random() * 400), profile = join(tmpdir(), "mv-inspo-" + process.pid);
+  // פורט פנוי מהמערכת: פורט אקראי התנגש בהרצה מקבילה וצילומים של אתר אחד נכנסו לאתר אחר
+  const port = await new Promise(r => { const s = createServer().listen(0, "127.0.0.1", () => { const p = s.address().port; s.close(() => r(p)); }); });
+  const date = today(), profile = join(tmpdir(), "mv-inspo-" + process.pid);
   mkdirSync(SHOTS, { recursive: true }); mkdirSync(join(LOOK, id), { recursive: true });
   // פרופיל ריק וזמני: בלי חשבונות, ובלי ללחוץ על באנרים של עוגיות
   const proc = spawn(CHROME, ["--headless=new", "--disable-gpu", "--no-first-run", "--hide-scrollbars", `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, "about:blank"], { stdio: "ignore" });
