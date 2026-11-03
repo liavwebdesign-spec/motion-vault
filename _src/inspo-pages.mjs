@@ -97,6 +97,7 @@ const REVIEW_CSS = `
 .ir-vote[data-v="ok"][aria-pressed="true"]{background:var(--yes-bg);color:var(--yes);border-color:var(--yes)}
 .ir-vote[data-v="no"][aria-pressed="true"]{background:var(--no-bg);color:var(--no);border-color:var(--no)}
 .ir-empty{color:var(--muted);padding:48px 0;text-align:center}
+.ir-report-text{flex:1 0 100%;width:100%;min-height:180px;margin-top:8px;padding:12px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:14px;background:none;color:inherit}
 .ir-dlg{border:0;padding:0;margin:0;width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;background:var(--bg);color:var(--ink)}
 .ir-dlg::backdrop{background:rgb(10 10 12 / .62)}
 .ir-dh{display:flex;align-items:center;gap:8px;padding:10px 20px;border-bottom:1px solid var(--line);height:64px}

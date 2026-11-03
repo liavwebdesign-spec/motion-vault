@@ -130,8 +130,15 @@
   $("mood").onchange = (e) => { state.mood = e.target.value; render(); };
   $("rtl").onclick = (e) => { state.rtl = !state.rtl; e.currentTarget.setAttribute("aria-pressed", String(state.rtl)); render(); };
   $("report").onclick = (e) => {
-    const b = e.currentTarget, list = SITES.map(s => ({ id: s.id, name: s.name, cat: "inspo" }));
-    navigator.clipboard.writeText(MV.report(list)).then(() => { b.textContent = "הועתק ✓"; setTimeout(() => b.textContent = "העתק דוח", 1500); }, () => { b.textContent = "ההעתקה נכשלה"; setTimeout(() => b.textContent = "העתק דוח", 2500); });
+    const b = e.currentTarget, list = SITES.map(s => ({ id: s.id, name: s.name, cat: "inspo" })), text = MV.report(list);
+    const done = (msg) => { b.textContent = msg; setTimeout(() => b.textContent = "העתק דוח", 2500); };
+    // הדוח הוא הדרך היחידה להעביר סימונים ממכשיר אחר, אז כשהדפדפן חוסם העתקה הטקסט נפתח כאן וניתן לסימון ידני
+    const manual = () => {
+      const box = $("reportText") || b.parentNode.insertBefore(Object.assign(document.createElement("textarea"), { id: "reportText", className: "ir-report-text", readOnly: true, ariaLabel: "הדוח להעתקה" }), b.nextSibling);
+      box.value = text; box.focus(); box.select();
+      done(document.execCommand("copy") ? "הועתק ✓" : "סמן והעתק ידנית");
+    };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => done("הועתק ✓"), manual); else manual();
   };
   $("dClose").onclick = () => $("dlg").close();
   $("dPrev").onclick = () => step(-1);

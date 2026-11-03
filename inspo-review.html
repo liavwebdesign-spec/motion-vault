@@ -48,6 +48,7 @@
 .ir-vote[data-v="ok"][aria-pressed="true"]{background:var(--yes-bg);color:var(--yes);border-color:var(--yes)}
 .ir-vote[data-v="no"][aria-pressed="true"]{background:var(--no-bg);color:var(--no);border-color:var(--no)}
 .ir-empty{color:var(--muted);padding:48px 0;text-align:center}
+.ir-report-text{flex:1 0 100%;width:100%;min-height:180px;margin-top:8px;padding:12px;border:1px solid var(--line);border-radius:10px;font:inherit;font-size:14px;background:none;color:inherit}
 .ir-dlg{border:0;padding:0;margin:0;width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;background:var(--bg);color:var(--ink)}
 .ir-dlg::backdrop{background:rgb(10 10 12 / .62)}
 .ir-dh{display:flex;align-items:center;gap:8px;padding:10px 20px;border-bottom:1px solid var(--line);height:64px}
@@ -247,8 +248,15 @@
   $("mood").onchange = (e) => { state.mood = e.target.value; render(); };
   $("rtl").onclick = (e) => { state.rtl = !state.rtl; e.currentTarget.setAttribute("aria-pressed", String(state.rtl)); render(); };
   $("report").onclick = (e) => {
-    const b = e.currentTarget, list = SITES.map(s => ({ id: s.id, name: s.name, cat: "inspo" }));
-    navigator.clipboard.writeText(MV.report(list)).then(() => { b.textContent = "הועתק ✓"; setTimeout(() => b.textContent = "העתק דוח", 1500); }, () => { b.textContent = "ההעתקה נכשלה"; setTimeout(() => b.textContent = "העתק דוח", 2500); });
+    const b = e.currentTarget, list = SITES.map(s => ({ id: s.id, name: s.name, cat: "inspo" })), text = MV.report(list);
+    const done = (msg) => { b.textContent = msg; setTimeout(() => b.textContent = "העתק דוח", 2500); };
+    // הדוח הוא הדרך היחידה להעביר סימונים ממכשיר אחר, אז כשהדפדפן חוסם העתקה הטקסט נפתח כאן וניתן לסימון ידני
+    const manual = () => {
+      const box = $("reportText") || b.parentNode.insertBefore(Object.assign(document.createElement("textarea"), { id: "reportText", className: "ir-report-text", readOnly: true, ariaLabel: "הדוח להעתקה" }), b.nextSibling);
+      box.value = text; box.focus(); box.select();
+      done(document.execCommand("copy") ? "הועתק ✓" : "סמן והעתק ידנית");
+    };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(() => done("הועתק ✓"), manual); else manual();
   };
   $("dClose").onclick = () => $("dlg").close();
   $("dPrev").onclick = () => step(-1);
