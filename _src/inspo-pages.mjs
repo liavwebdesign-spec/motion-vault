@@ -154,7 +154,7 @@ export function inspoSitePage(s, { FONT }) {
   var box=document.querySelector("[data-shots]"),d=box.dataset.date,id=box.dataset.id,base="${SHOTS_BASE}";
   if(d){
     var when=d.split("-").reverse().join(".");
-    box.innerHTML='<div class="iw-shots"><figure><img loading="lazy" alt="האתר בדסקטופ" src="'+base+id+'-df.jpg"><figcaption>דסקטופ, צולם ב-'+when+'</figcaption></figure><figure><img loading="lazy" alt="האתר בטלפון" src="'+base+id+'-mf.jpg"><figcaption>טלפון, צולם ב-'+when+'</figcaption></figure></div>';
+    box.innerHTML='<div class="iw-shots"><figure><img alt="האתר בדסקטופ" src="'+base+id+'-df.jpg"><figcaption>דסקטופ, צולם ב-'+when+'</figcaption></figure><figure><img alt="האתר בטלפון" src="'+base+id+'-mf.jpg"><figcaption>טלפון, צולם ב-'+when+'</figcaption></figure></div>';
   }
 })();
 </script>
