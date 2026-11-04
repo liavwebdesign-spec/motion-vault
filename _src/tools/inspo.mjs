@@ -43,6 +43,9 @@ if(hit){for(const e of[document.documentElement,document.body])if(getComputedSty
 [...document.body.querySelectorAll("*")].forEach(e=>{if(getComputedStyle(e).position!=="fixed")return;const r=e.getBoundingClientRect();if(r.width*r.height>=innerWidth*innerHeight*.9&&!(e.innerText||"").trim()&&!e.querySelector("img,video,canvas,svg")&&!e.matches("video,canvas,img"))hide(e)})}}`;
 
 const args = process.argv.slice(2);
+// --popups: מסתיר אצלנו בצילום גם חלון שיווקי צף (ניוזלטר, מבצע), בלי ללחוץ עליו. שער גיל לא מוסתר: הוא נשאר, והאתר לא נשפט
+const POPUP_RULE = `[...document.body.querySelectorAll("*")].forEach(e=>{const s=getComputedStyle(e);if(s.position!=="fixed"||s.display==="none")return;const r=e.getBoundingClientRect(),t=e.innerText||"",c=String(e.className&&e.className.baseVal||e.className||"")+" "+e.id,A=innerWidth*innerHeight;const named=(/popup|modal|lightbox|newsletter|fancybox|mfp-/i.test(c)||e.getAttribute("role")==="dialog")&&!/nav|menu/i.test(c)&&t.length<1500;const floating=r.left>8&&r.top>40&&r.right<innerWidth-8&&r.bottom<innerHeight-8&&r.width*r.height>A*.1;if((named||floating)&&r.width*r.height>0&&!/(מעל|גיל)\\s*(גיל\\s*)?18|18\\s*\\+|over 18/i.test(t))hide(e)});`;
+const HIDE = args.includes("--popups") ? HIDE_COOKIES.replace("if(hit){", POPUP_RULE + "if(hit){") : HIDE_COOKIES;
 const cmd = args[0];
 const flag = (n) => { const i = args.indexOf(n); return i >= 0 ? args[i + 1] : null; };
 const today = () => new Date().toLocaleDateString("sv-SE");
@@ -203,7 +206,7 @@ async function check() {
       for (let i = 0; i < 100 && !loaded; i++) await sleep(250);
       const loadMs = Date.now() - t0;
       await sleep(6000); // אנימציית פתיחה: מצלמים אחרי שהיא נגמרה (FlowFest באמצעה ב-3 שניות)
-      await ev(HIDE_COOKIES);
+      await ev(HIDE);
       await shot(join(SHOTS, `${id}-${date}-${key}.jpg`));
       // גוללים בצעדים כדי שתמונות עצלות ואנימציות כניסה יתעוררו לפני הצילום המלא
       const height = await ev("document.documentElement.scrollHeight");
@@ -211,6 +214,7 @@ async function check() {
       for (let i = 1; i <= steps; i++) {
         await ev(`window.scrollTo(0, ${Math.round(i * h * .8)})`);
         await sleep(350);
+        if (HIDE !== HIDE_COOKIES) await ev(HIDE); // חלון שיווקי יכול לקפוץ רק אחרי גלילה
         if ([.25, .5, .75].some(p => i === Math.max(1, Math.round(steps * p)))) await shot(join(LOOK, id, `${key}-${i}.jpg`));
       }
       await ev("window.scrollTo(0, 0)"); await sleep(600);
@@ -283,11 +287,12 @@ async function stackFrames(url, file, key) {
     // דף אימות של שומר האתר (כמו Cloudflare) הוא לא האתר: הצילום הקודם נשאר
     if (await ev(`/just a moment|verify(ing)? you|checking your browser|security (check|verification)|attention required|access denied|אימות אבטחה|אימות אנושי/i.test(document.title+" "+(document.body?.innerText||"").slice(0,800))`)) return false;
     // חלונית עוגיות תחזור בכל פריים: מסתירים אותה אצלנו בצילום, בלי ללחוץ עליה
-    await ev(HIDE_COOKIES);
+    await ev(HIDE);
     const total = (await ev("document.documentElement.scrollHeight")) || h;
     const step = Math.round(Math.max(h * .9, total / MAX_FRAMES));
     let same = 0, last = "";
     for (let i = 0; i < MAX_FRAMES && same < 3; i++) {
+      if (HIDE !== HIDE_COOKIES) await ev(HIDE);
       const data = (await send("Page.captureScreenshot", { format: "jpeg", quality: 74 })).data;
       if (data && data !== last) { writeFileSync(join(dir, `f${String(frames++).padStart(3, "0")}.jpg`), Buffer.from(data, "base64")); same = 0; } else same++;
       last = data;
