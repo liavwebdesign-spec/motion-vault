@@ -169,7 +169,7 @@ async function check() {
   const date = today(), profile = join(tmpdir(), "mv-inspo-" + process.pid);
   mkdirSync(SHOTS, { recursive: true }); mkdirSync(join(LOOK, id), { recursive: true });
   // פרופיל ריק וזמני: בלי חשבונות, ובלי ללחוץ על באנרים של עוגיות
-  const proc = spawn(CHROME, ["--headless=new", "--disable-gpu", "--no-first-run", "--hide-scrollbars", `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, "about:blank"], { stdio: "ignore" });
+  const proc = spawn(CHROME, ["--headless=new", "--mute-audio", "--disable-gpu", "--no-first-run", "--hide-scrollbars", `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, "about:blank"], { stdio: "ignore" });
   const report = { id, url, date, views: {} };
   try {
     let target;
@@ -266,7 +266,7 @@ async function stackFrames(url, file, key) {
   // תיקייה שנשארה מריצה קודמת עם אותו מספר תהליך הכניסה פריימים של אתר אחר לרצף (Casa Momo קיבל את ONE ZERO)
   rmSync(dir, { recursive: true, force: true });
   mkdirSync(dir, { recursive: true });
-  const proc = spawn(CHROME, ["--headless=new", "--use-angle=d3d11", "--ignore-gpu-blocklist", "--no-first-run", "--hide-scrollbars", `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, "about:blank"], { stdio: "ignore" });
+  const proc = spawn(CHROME, ["--headless=new", "--mute-audio", "--use-angle=d3d11", "--ignore-gpu-blocklist", "--no-first-run", "--hide-scrollbars", `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, "about:blank"], { stdio: "ignore" });
   const sleep = (ms) => new Promise(r => setTimeout(r, ms));
   let frames = 0;
   try {

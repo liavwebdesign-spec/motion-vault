@@ -322,7 +322,7 @@ function runOne(e, width, height) {
   writeFileSync(tmp, html, "utf8");
   try {
     const out = execFileSync(CHROME, [
-      "--headless=new", "--disable-gpu", "--hide-scrollbars", "--no-first-run", "--no-default-browser-check",
+      "--headless=new", "--mute-audio", "--disable-gpu", "--hide-scrollbars", "--no-first-run", "--no-default-browser-check",
       "--run-all-compositor-stages-before-draw", `--window-size=${width},${height}`,
       // --screenshot לצד --dump-dom מכריח את הקומפוזיטור לייצר פריימים; בלעדיו rAF וטרנזישנים לא מתקדמים לפני ה-dump
       "--virtual-time-budget=6000", `--screenshot=${join(ROOT, e.cat, e.id + ".behave.frame.png")}`, "--dump-dom", pathToFileURL(tmp).href + (NO_DRIVE ? "?nodrive=1" : "?qa=0"),

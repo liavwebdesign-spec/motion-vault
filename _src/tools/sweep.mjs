@@ -48,7 +48,7 @@ const CHROME = [process.env.CHROME_PATH, "C:/Program Files/Google/Chrome/Applica
 if (!CHROME) { console.error("Chrome לא נמצא"); process.exit(1); }
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const PORT = 9300 + (process.pid % 90);
-const chrome = spawn(CHROME, ["--headless=new", "--disable-gpu", "--hide-scrollbars", "--no-first-run", "--allow-file-access-from-files",
+const chrome = spawn(CHROME, ["--headless=new", "--mute-audio", "--disable-gpu", "--hide-scrollbars", "--no-first-run", "--allow-file-access-from-files",
   "--force-device-scale-factor=1", `--remote-debugging-port=${PORT}`, `--user-data-dir=${join(process.env.TEMP || ".", "sweep-" + PORT)}`,
   // three pages run at once and only one is in front: without these flags the others get no animation frames,
   // scroll scenes never advance there, and the text they reveal was reported as "never seen" (30.9.2026, g23-g59 review)

@@ -50,7 +50,7 @@ mkdirSync(OUT, { recursive: true });
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const PORT = 9400 + (process.pid % 500);
-const chrome = spawn(CHROME, ["--headless=new", "--disable-gpu", "--hide-scrollbars", "--no-first-run",
+const chrome = spawn(CHROME, ["--headless=new", "--mute-audio", "--disable-gpu", "--hide-scrollbars", "--no-first-run",
   "--allow-file-access-from-files", "--force-device-scale-factor=1", `--remote-debugging-port=${PORT}`,
   "--window-size=1280,800", "about:blank"], { stdio: "ignore" });
 

@@ -33,7 +33,7 @@ const CHROME = [process.env.CHROME_PATH, "C:/Program Files/Google/Chrome/Applica
 if (!CHROME) { console.error("Chrome לא נמצא"); process.exit(2); }
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 const PORT = 9400 + (process.pid % 90);
-const chrome = spawn(CHROME, ["--headless=new", "--disable-gpu", "--hide-scrollbars", "--no-first-run", "--allow-file-access-from-files",
+const chrome = spawn(CHROME, ["--headless=new", "--mute-audio", "--disable-gpu", "--hide-scrollbars", "--no-first-run", "--allow-file-access-from-files",
   "--force-device-scale-factor=1", `--remote-debugging-port=${PORT}`, `--user-data-dir=${join(process.env.TEMP || ".", "numbering-" + PORT)}`,
   "--disable-background-timer-throttling", "--disable-backgrounding-occluded-windows", "--disable-renderer-backgrounding",
   "--window-size=1440,900", "about:blank"], { stdio: "ignore" });

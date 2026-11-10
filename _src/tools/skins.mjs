@@ -164,7 +164,7 @@ function runOne(e, skin) {
   writeFileSync(tmp, html, "utf8");
   const shot = join(OUT, `${e.id}-${skin || "base"}.png`);
   try {
-    const flags = ["--headless=new", "--disable-gpu", "--hide-scrollbars", "--no-first-run", "--no-default-browser-check",
+    const flags = ["--headless=new", "--mute-audio", "--disable-gpu", "--hide-scrollbars", "--no-first-run", "--no-default-browser-check",
       "--run-all-compositor-stages-before-draw", "--window-size=1280,1400", "--virtual-time-budget=4000", "--allow-file-access-from-files"];
     if (!NO_SHOTS) flags.push(`--screenshot=${shot}`);
     flags.push("--dump-dom", pathToFileURL(tmp).href);
