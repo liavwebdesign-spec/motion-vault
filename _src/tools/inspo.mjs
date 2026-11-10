@@ -13,12 +13,15 @@
 //   node _src/tools/inspo.mjs add <file.json> [--batch] מוסיף מועמד אחרי בדיקת שדות וכפילות (ממתין לליאב). --batch רק כשליאב ביקש אצווה גדולה; הסריקה השבועית נשארת עם תקרה של 5
 //   node _src/tools/inspo.mjs sync '<json>'            {"w01":{"s":"ok","note":"","t":123}} לתוך baseline.js, רק מזהי אתרים
 //   node _src/tools/inspo.mjs shots [--push]           עותקים דחוסים לריפו התמונות (רק מה שחדש), ועם --push גם דוחף
+//   node _src/tools/inspo.mjs crm [--dry] [--as-no w01,w02]   הסט המלא של המאושרים עם צילומים באוויר לפורטל ההשראות ב-CRM. --dry כותב JSON ל-_src/tools/out/inspo-crm.json בלי לשלוח; --as-no מדמה סימון "לא" בהרצה יבשה
+//
+// הנוהל אחרי כל אישור של ליאב (ליאב, 10.11.2026, פורטל ההשראות ב-CRM): sync, build, דחיפה של המאגר, shots --push, crm.
 // יציאה: 0 תקין, 1 שגיאת שימוש, 2 כשהבדיקה נכשלה (האתר לא חי, או גולש הצידה בטלפון). אפס תלויות npm.
 
 import { execFileSync, spawn } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { createServer } from "node:net";
-import { tmpdir } from "node:os";
+import { homedir, tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import vm from "node:vm";
@@ -65,7 +68,8 @@ else if (cmd === "sync") sync();
 else if (cmd === "check") await check();
 else if (cmd === "shots") await shots();
 else if (cmd === "frames") await framesCmd();
-else { console.error("שימוש: check | frames | pick | status | add | sync | shots"); process.exit(1); }
+else if (cmd === "crm") await crm();
+else { console.error("שימוש: check | frames | pick | status | add | sync | shots | crm"); process.exit(1); }
 
 function pick() {
   const b = baseline(), n = Number(flag("--n") || 5), field = flag("--field"), mood = flag("--mood"), strength = flag("--strength"), level = flag("--level"), style = flag("--style");
@@ -124,6 +128,47 @@ function sync() {
   writeFileSync(BASE, src);
   baseline(); // קורס כאן אם הקובץ נשבר, לפני שמישהו דוחף אותו
   console.log("סונכרנו " + n + " אתרים");
+}
+
+// פורטל ההשראות ב-CRM (ליאב, 10.11.2026: "אני פשוט לא רוצה לשלוח לאנשים את הלינק לריפו").
+// שולח בכל פעם את הסט המלא של המאושרים שהצילומים שלהם כבר באוויר; מה שלא בסט יורד מהפורטל בצד השרת, בלי מחיקה.
+// הכתובת ונתיב הסוד ב-~/.claude/inspo-crm.json ({"url","secretFile"}), מחוץ לריפו הציבורי. הסוד עצמו לא נכתב כאן ולא מודפס.
+async function crm() {
+  const dry = args.includes("--dry"), asNo = new Set((flag("--as-no") || "").split(",").filter(Boolean));
+  if (asNo.size && !dry) { console.error("--as-no רק עם --dry: הוא מדמה סימון לא, בלי לגעת ב-baseline"); process.exit(1); }
+  const b = baseline();
+  const ok = sites().filter(s => stateOf(b, s.id) === "ok" && !asNo.has(s.id));
+  // "באוויר" = הקובץ נמצא ב-origin/main של ריפו התמונות, לא רק מקומית
+  let tree;
+  try {
+    execFileSync("git", ["fetch", "-q", "origin", "main"], { cwd: SHOTS_REPO });
+    tree = new Set(execFileSync("git", ["ls-tree", "-r", "--name-only", "origin/main"], { cwd: SHOTS_REPO, encoding: "utf8" }).split("\n"));
+  } catch { console.error("אין גישה לריפו התמונות: " + SHOTS_REPO); process.exit(1); }
+  const noShots = ok.filter(s => SHOT_SIZES.some(([, to]) => !tree.has(`${s.id}-${to}.jpg`)));
+  const items = ok.filter(s => !noShots.includes(s)).map(s => ({
+    id: s.id, name: s.name, url: s.url, field: s.field, style: s.style, level: s.level, mood: s.mood,
+    strengths: s.strengths, rtl: !!s.rtl, why: s.why, added: s.added || null, shot: s.shots[s.shots.length - 1],
+  }));
+  const body = JSON.stringify({ full: true, items });
+  console.log(`מאושרים: ${sites().filter(s => stateOf(b, s.id) === "ok").length}, נשלחים: ${items.length}` + (asNo.size ? `, מדומים כ"לא": ${[...asNo].join(", ")}` : ""));
+  if (noShots.length) console.log("מאושרים בלי צילומים באוויר, לא נשלחים (להריץ shots --push): " + noShots.map(s => s.id).join(", "));
+  if (dry) {
+    mkdirSync(join(ROOT, "_src", "tools", "out"), { recursive: true });
+    const out = join(ROOT, "_src", "tools", "out", "inspo-crm.json");
+    writeFileSync(out, JSON.stringify({ full: true, items }, null, 1));
+    console.log("הרצה יבשה, לא נשלח. ה-JSON: " + out);
+    return;
+  }
+  if (!items.length) { console.error("אין מה לשלוח. לא שולחים סט ריק, כי הוא היה מוריד את כל הפורטל."); process.exit(2); }
+  const cfgFile = join(homedir(), ".claude", "inspo-crm.json");
+  if (!existsSync(cfgFile)) { console.error("חסר " + cfgFile + ' עם {"url","secretFile"}'); process.exit(1); }
+  const cfg = JSON.parse(readFileSync(cfgFile, "utf8"));
+  const secret = cfg.secretFile && existsSync(cfg.secretFile) ? readFileSync(cfg.secretFile, "utf8").trim() : "";
+  if (!cfg.url || !secret) { console.error("חסרה כתובת או סוד (הקובץ שב-secretFile ריק או לא קיים)"); process.exit(1); }
+  const res = await fetch(cfg.url, { method: "POST", headers: { "content-type": "application/json", "x-inspo-secret": secret }, body });
+  const text = (await res.text()).slice(0, 400);
+  if (!res.ok) { console.error(`הפורטל החזיר ${res.status}: ${text}`); process.exit(2); }
+  console.log(`נשלח לפורטל (${res.status}): ${text}`);
 }
 
 async function shots() {
