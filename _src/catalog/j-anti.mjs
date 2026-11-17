@@ -590,7 +590,7 @@ doc({
 .a25 .sm{font-size:12px;color:#5b5b66;margin:0}
 .a25 .row{display:flex;gap:8px;flex-wrap:wrap}`,
   html: wrap("a25",
-    `<p class="hd">שירותי <span class="lat">Cloud</span> לעסק <em>שלך</em></p><ul><li>גיבוי יומי אוטומטי</li><li>תמיכה בעברית</li></ul><p class="sm">שלב 2 מתוך 3</p><div class="bar"><i></i></div><p class="sm">$29/mo · 11/17/2026</p><div class="row"><span class="btn">המשך →</span><span class="btn">Submit</span></div>`,
+    `<p class="hd">שירותי <span class="lat">Cloud</span> לעסק <em>שלך</em></p><ul><li>גיבוי יומי אוטומטי</li><li>תמיכה בעברית</li></ul><p class="sm">שלב 2 מתוך 3</p><div class="bar"><i></i></div><p class="sm"><bdi dir="ltr">$29/mo</bdi> · <bdi dir="ltr">11/17/2026</bdi></p><div class="row"><span class="btn">המשך →</span><span class="btn">Submit</span></div>`,
     "המילה הלטינית בפונט אחר, \"שלך\" בנטוי מלאכותי, התבליטים בצד שמאל, הפס מתמלא משמאל, מחיר בדולרים ותאריך אמריקאי, חץ שמצביע אחורה וכפתור באנגלית.",
     `<p class="hd">שירותי Cloud לעסק <em>שלך</em></p><ul><li>גיבוי יומי אוטומטי</li><li>תמיכה בעברית</li></ul><p class="sm">שלב 2 מתוך 3</p><div class="bar"><i></i></div><p class="sm">109 ש"ח לחודש · 17.11.2026</p><div class="row"><span class="btn">המשך ←</span><span class="btn">שליחה</span></div>`,
     "פונט אחד לעברית וללטינית, הדגשה בצבע, תבליטים בצד ההתחלה, הפס מתמלא מימין, שקלים ותאריך ישראלי, חץ קדימה וכפתור בעברית."),
