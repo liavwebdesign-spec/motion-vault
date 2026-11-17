@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>A19 · אפקטים בערימה והובר על מה שלא לחיץ</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@100..900&display=swap" rel="stylesheet">
+
+<style>
+/* ===== טוקנים. בפרויקט אמיתי מוחקים את הבלוק הזה והרכיב יורש את הטוקנים שלכם. ===== */
+:root{
+  --gutter: clamp(24px, 5vw, 96px);
+  --fs-h1: clamp(26px, 1.6vw + 0.5rem, 40px);
+  --fs-h2: clamp(28px, 1.9vw + 0.5rem, 52px);
+  --fs-demo: clamp(36px, 3vw + 0.5rem, 76px);
+  --fs-body: clamp(17px, 0.6vw + 0.7rem, 22px);
+  --sec: clamp(120px, 12vw, 260px);
+  --gap: clamp(16px, 1.6vw, 36px);
+  --ink: #16182b;
+  --muted: #6a6d85;
+  --bg: #f7f7fa;
+  --line: #e4e4ee;
+  --accent: #4a3aff;
+  --card: #fff;
+  --accent-ink: #fff;
+  --r: 14px;
+}
+*{box-sizing:border-box}
+/* כמו בכל פרויקט של התורה: מה שנכנס מהצד לא פותח גלילה אופקית (30.9.2026, g17 כיווץ את כל העמוד בטלפון) */
+html,body{overflow-x:clip}
+body{margin:0;font-family:"Heebo",system-ui,sans-serif;font-size:var(--fs-body);line-height:1.35;color:var(--ink);background:var(--bg)}
+img{max-width:100%}
+
+
+/* ===== הרכיב ===== */
+/* A19 · אפקטים בערימה והובר על מה שלא לחיץ */
+.cwrap{container-type:inline-size}
+.ap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(16px,2.5cqi,28px);padding:clamp(24px,4cqi,56px) clamp(20px,4cqi,64px)}
+.pane{position:relative;border-radius:16px;border:1px solid var(--line,#e4e4ee);background:#fff;padding:56px clamp(18px,3cqi,36px) clamp(18px,3cqi,32px);overflow:hidden;display:flex;flex-direction:column;gap:14px}
+.pane .lbl{position:absolute;top:14px;inset-inline-start:14px;font-size:12px;font-weight:700;padding:4px 11px;border-radius:999px;z-index:5;line-height:1.3}
+.bad .lbl{background:#ffe3e3;color:#a11414}
+.good .lbl{background:#e3f7e8;color:#176b2c}
+.pane .cap{margin:auto 0 0;padding-top:12px;border-top:1px dashed var(--line,#e4e4ee);font-size:13px;color:var(--muted,#6a6d85);line-height:1.45}
+.demo{flex:1;display:flex;flex-direction:column;gap:10px;position:relative}
+.tx{height:10px;border-radius:6px;background:#dfe0ea;margin:0}
+.tx.s{width:38%}.tx.m{width:62%}.tx.l{width:86%}
+.ttl{font-weight:700;font-size:clamp(18px,2cqi,24px);line-height:1.15;margin:0}
+.ph{background:#dfe0ea;border-radius:10px;display:grid;place-items:center;color:#6a6d85;font-size:13px;font-weight:600;min-height:90px}
+.btn{display:inline-block;padding:10px 18px;border-radius:10px;background:var(--ink,#16182b);color:#fff;font-weight:600;font-size:14px;line-height:1.2;width:max-content}
+@container (max-width:767px){.ap{grid-template-columns:1fr}}
+.a19 .st{border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px;background:#0d0e1a;color:#fff;position:relative;overflow:hidden}
+.a19 .bad .st{background:radial-gradient(180px 120px at 30% 20%,rgba(124,92,255,.55),transparent 70%),radial-gradient(rgba(255,255,255,.35) 1px,transparent 1.5px) 0 0/18px 18px,#0d0e1a}
+.a19 .h{font-weight:700;font-size:16px;margin:0;line-height:1.25}
+.a19 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.a19 .fc{position:relative;display:block;border-radius:12px;padding:2px;overflow:hidden;background:#2a2c40;color:inherit;text-decoration:none}
+.a19 .fc i{position:absolute;inset:-60%;background:conic-gradient(from 0deg,transparent 0 70%,#9d7bff 85%,#5ad1ff 100%)}
+.a19 .fc b{position:relative;display:block;border-radius:10px;background:#15172a;padding:12px;font-size:13px;font-weight:600;transition:background .2s}
+.a19 .good .fc:hover b{background:#1d2038}
+.a19 .ic{border-radius:12px;background:#15172a;padding:12px;font-size:13px}
+.a19 .bad .ic{transition:transform .2s,box-shadow .2s}
+.a19 .bad .ic:hover{transform:translateY(-6px);box-shadow:0 14px 30px rgba(124,92,255,.5)}
+.a19 .cta{display:inline-block;width:max-content;padding:10px 18px;border-radius:999px;font-weight:600;font-size:13px;color:#0d0e1a;background:#fff}
+.a19 .bad .cta{background:linear-gradient(110deg,#fff 35%,#b9a4ff 50%,#fff 65%) 0 0/250% 100%;box-shadow:0 0 24px rgba(157,123,255,.8)}
+@media (prefers-reduced-motion:no-preference){.a19 .fc i{animation:a19spin 4s linear infinite}.a19 .bad .cta{animation:a19shim 2.2s linear infinite}}
+@keyframes a19spin{to{transform:rotate(1turn)}}
+@keyframes a19shim{to{background-position:-250% 0}}
+@container (max-width:480px){.a19 .row{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div class="cwrap a19"><div class="ap"><div class="pane bad"><span class="lbl">ככה לא</span><div class="demo"><div class="st"><p class="h">בוחרים מסלול</p><div class="row"><div class="fc"><i aria-hidden="true"></i><b>המסלול המומלץ</b></div><div class="ic">המסלול הבסיסי</div></div><span class="cta">להתחיל עכשיו</span></div></div><p class="cap">חלקיקים, הילה, מסגרת אור מסתובבת וכפתור מנצנץ וזוהר, כולם באותו מסך. והכרטיס הבסיסי קופץ בהובר בלי שיש בו קישור.</p></div><div class="pane good"><span class="lbl">ככה כן</span><div class="demo"><div class="st"><p class="h">בוחרים מסלול</p><div class="row"><a class="fc" href="#"><i aria-hidden="true"></i><b>המסלול המומלץ</b></a><div class="ic">המסלול הבסיסי</div></div><span class="cta">להתחיל עכשיו</span></div></div><p class="cap">אפקט אחד: האור מקיף רק את המסלול המומלץ, כי זה המסר. הכרטיס הזה הוא קישור ולכן מגיב להובר. כל השאר שקט.</p></div></div></div>
+
+
+
+</body>
+</html>

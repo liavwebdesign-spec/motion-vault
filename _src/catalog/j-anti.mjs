@@ -1,6 +1,7 @@
-// גלריית אנטי-פטרנים A1-A16: כל עמוד מציג "ככה לא" מול "ככה כן" על אותו
-// בלוק ניטרלי בדיוק. המקור לכל פריט הוא לקח שכבר רשום בתורה (צ'קליסט ה-QA
+// גלריית אנטי-פטרנים A1-A26: כל עמוד מציג "ככה לא" מול "ככה כן" על אותו
+// בלוק ניטרלי בדיוק. המקור של A1-A16 הוא לקח שכבר רשום בתורה (צ'קליסט ה-QA
 // של design-dna, קריקטורות השפות, כללי המנוע), וכאן הוא מקבל עיניים.
+// A17-A26 (17.11.2026) באים ממחקר רשת על טביעות האצבע של מחוללי AI, ראו ההערה מעליהם.
 //
 // ההכרעה (6.9.2026): הסקיל library/anti-patterns.md נבנה מכאן.
 // שדות: rule (החוק שנשבר ומקורו), why (למה זה נראה רע), fix (התיקון), spot
@@ -327,5 +328,307 @@ doc({
     "מספר סקשן, ובכל כרטיס חמישה חלקים באותו סדר. המדריכים לא נקראים לפי סדר, ואף אחד לא יחפש את מדריך 02.",
     `<p class="h2">ידע שמוסיף פרספקטיבה</p><div class="filt"><span>הכל</span><span>מוצרים מובנים</span><span>השתלמות</span><span>פנסיה</span></div><div class="g"><a class="c" href="#"><p class="h">מה זה מוצר מובנה</p><p>למי זה מתאים ומה בודקים לפני.</p></a><a class="c" href="#"><p class="h">איך בוחרים מסלול</p><p>דמי ניהול לאורך שנים.</p></a><a class="c" href="#"><p class="h">דוח המסלקה בעשר דקות</p><p>איפה מסתתר כפל ביטוחים.</p></a></div>`,
     "כותרת בלי מספר. הקטגוריה עברה למסנן אחד מעל הגריד, וכל כרטיס הוא כותרת ושורה, והכרטיס כולו הוא הקישור."),
+}),
+
+// a17 עד a26 (17.11.2026): טביעות האצבע של מחוללי AI, ממחקר רשת בשבעה ערוצים (מחוללים, קהילות,
+// רשימות חוקים וגלאים, רכיבים, עברית ו-RTL, תמונות, ממשקי מערכת). המקור הוא המחקר ולא ליאב,
+// ולכן הם לא נכנסים ל-baseline.js ומחכים לעין שלו במסך הסקירה.
+// שלושה עקרונות בכתיבה: (1) הסימן הוא הצירוף המוכן, השארית או הזיוף, אף פעם לא אפקט או רכיב לבדו,
+// כי כמעט כל אפקט כאן קיים במאגר ומאושר. (2) בלי הוראות ניסוח: סימני קופי לא נכנסים לתורה.
+// (3) כל spot נגמר ב"בשער:", מה נתפס אוטומטית ומה נשאר לעין.
+doc({
+  id: "a17", name: "שאריות של המחולל",
+  desc: "מה שהמחולל משאיר אחריו כשלא נוגעים בו: הלב בלשונית, כותרת לשונית עם שם הכלי, תמונת שיתוף ותיאור אוטומטיים שנראים בכל שליחה בוואטסאפ, תג \"Edit with\" בפינה, עמוד 404 באנגלית, שנה ישנה בפוטר וקישורים שמובילים ל-#.",
+  when: "כל אתר שעולה מ-Lovable או ממחולל אחר, ברגע הפרסום. רוב השאריות לא נמצאות בעמוד אלא מסביבו: בלשונית, בתצוגת הקישור בוואטסאפ ובכתובת שלא קיימת.",
+  rule: "מחקר סימני AI, 17.11.2026. מקורות: התיעוד של Lovable על מטא-דאטה של אתר ועל הסתרת התג; קוד התבנית של עמוד 404 (\"Oops! Page not found\") כפי שהוא מופיע בפרויקטים פומביים; שרשורי r/vibecoding ו-r/lovable (2025 עד 2026). ממתין לעין של ליאב. משלים את feedback_lovable_favicon (18.10.2026) ואת צ'קליסט סגירת האתר.",
+  why: "אלה הסימנים היחידים שלא דורשים עין של מעצב, כי הם נושאים את שם הכלי. מי שמקבל קישור בוואטסאפ רואה את תמונת השיתוף של המחולל עוד לפני שנכנס לאתר. וגם מי שלא מזהה את הכלי קורא את זה כ\"לא סיימו\".",
+  fix: "רשימת סגירה לפני פרסום: סמל אתר מקובץ הלוגו, כותרת ותיאור לכל עמוד, תמונת שיתוף שנבחרה, התג כבוי בהגדרות הפרויקט ונבדק שוב אחרי כל פרסום, עמוד 404 בשפת האתר ובצבעיו עם דרך חזרה, שנה שמתעדכנת לבד, ואף קישור לא מוביל ל-#.",
+  spot: "פותחים את האתר בלשונית חדשה ומסתכלים על הלשונית לפני העמוד. שולחים את הקישור לעצמך בוואטסאפ. מקלידים כתובת שלא קיימת. בשער: סמל האתר נבדק בסריקה השבועית; קיום עמוד 404, כפתורים מתים וקישורים ריקים ב-interact; המילה Lovable בטקסט העמוד ב-project-check. לא נבדק אוטומטית: כותרת הלשונית, תמונת השיתוף והתיאור, התג, שפת עמוד ה-404 והשנה.",
+  css: `${AP_BASE}
+.a17 .tab{display:flex;align-items:center;gap:8px;background:#eceef3;border-radius:10px 10px 0 0;padding:8px 12px;font-size:12px;width:max-content;max-width:100%}
+.a17 .fav{width:16px;height:16px;border-radius:4px;display:grid;place-items:center;font-size:11px;line-height:1;color:#fff;flex:none}
+.a17 .bad .fav{background:linear-gradient(135deg,#ff7a59,#ff3d9a)}
+.a17 .good .fav{background:#1f3a2e;font-weight:700}
+.a17 .wa{background:#e7f6dc;border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:6px;max-width:270px}
+.a17 .wa .im{height:72px;border-radius:8px;display:grid;place-items:center;font-size:12px;font-weight:600}
+.a17 .bad .wa .im{background:linear-gradient(120deg,#ff7a59,#ff3d9a 55%,#7a5cff);color:#fff}
+.a17 .good .wa .im{background:#c9d3c5;color:#1f3a2e}
+.a17 .wa p{margin:0;line-height:1.35}
+.a17 .wa .t{font-weight:700;font-size:13px}
+.a17 .wa .d{font-size:12px;color:#4d5a4a}
+.a17 .wa .u{font-size:11px;color:#6a7a66}
+.a17 .sm{font-size:12px;color:#5b5b66;margin:0}
+.a17 .bdg{position:absolute;bottom:0;inset-inline-end:0;font-size:11px;font-weight:600;background:#16182b;color:#fff;padding:6px 10px;border-radius:8px}`,
+  html: wrap("a17",
+    `<div class="tab"><span class="fav">♥</span><span>Lovable App</span></div><div class="wa"><div class="im">תמונת השיתוף של הכלי</div><p class="t">streamwave-vista-project</p><p class="d">Lovable Generated Project</p><p class="u">streamwave-vista.lovable.app</p></div><p class="sm">404 · Oops! Page not found</p><p class="sm">© 2024 כל הזכויות שמורות</p><span class="bdg">Edit with Lovable</span>`,
+    "הלב ושם הכלי בלשונית, תצוגת קישור אוטומטית בוואטסאפ, עמוד 404 באנגלית, שנה ישנה ותג בפינה. אף אחד מאלה לא נמצא בעיצוב עצמו.",
+    `<div class="tab"><span class="fav">נ</span><span>סטודיו נועה · אדריכלות פנים</span></div><div class="wa"><div class="im">תמונה שנבחרה מהפרויקטים</div><p class="t">סטודיו נועה, אדריכלות פנים בחיפה</p><p class="d">תכנון דירות ובתים פרטיים, מהסקיצה ועד המפתח.</p><p class="u">studio-noa.co.il</p></div><p class="sm">404 · העמוד לא נמצא. חזרה לדף הבית ←</p><p class="sm">© 2026 סטודיו נועה</p>`,
+    "סמל מהלוגו, כותרת של העסק, תמונת שיתוף שנבחרה, עמוד 404 בשפת האתר, שנה נוכחית, ובלי תג."),
+}),
+doc({
+  id: "a18", name: "ערכת ברירת המחדל",
+  desc: "העיצוב נשאר על הערכים שהערכה הגיעה איתם: כפתור אינדיגו, אפורים כחלחלים, אותו רדיוס על כל דבר, צל אפור רך על כרטיס לבן עם מסגרת דקה, ותגיות פסטל. אף ערך לא נבחר, ולכן האתר נראה כמו כל אתר אחר שנבנה באותה ערכה.",
+  when: "כל פרויקט שמתחיל מ-Tailwind ו-shadcn, כלומר כמעט כל מה שמחולל בונה. הכי בולט בכפתורים, בכרטיסים, בשדות ובתגיות.",
+  rule: "מחקר סימני AI, 17.11.2026. מקורות: סקיל frontend-design של Anthropic (9.2026), Impeccable, taste-skill, Uncodixfy ומדריכי ה-frontend של OpenAI חוזרים על אותה רשימה (סגול על לבן, רדיוס אחיד, צל ברירת מחדל); הניקוד של Krebs ל-1,590 אתרי Show HN (4.2026); שרשור r/vibecoding (6.2026, 2,711 נקודות). ממתין לעין של ליאב. משלים את צ'קליסט 11ב (טיפוגרפיה וצבע).",
+  why: "הגולש לא יודע מה זה shadcn, אבל ראה את אותו כפתור ואותו כרטיס במאה אתרים. מה שמסגיר הוא לא שלושה כרטיסים ולא צבע סגול, אלא שהכול יחד זהה לדף הדוגמה של הערכה.",
+  fix: "מחליפים את ערכי הערכה לפני שבונים סקשן אחד: צבע מהלוגו, אפורים שנוטים לגוון המותג, רדיוס לפי תפקיד (כפתור, כרטיס, שדה), ומשטח או צל שצבוע בגוון הרקע במקום צל אפור. המבנה יכול להישאר בדיוק אותו דבר.",
+  spot: "שמים את האתר ליד דף הדוגמה של הערכה. אם הכפתור, הכרטיס והתגית זהים, שום דבר לא נבחר. בשער: צל אפור על רקע צבעוני ורדיוס מקונן נבדקים ב-audit. לא נבדק אוטומטית: ערכי הצבע, האפורים והרדיוס של הערכה.",
+  css: `${AP_BASE}
+.a18 .h2{font-weight:700;font-size:clamp(17px,1.8cqi,22px);margin:0 0 4px;line-height:1.2}
+.a18 .g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.a18 .c{padding:14px;display:flex;flex-direction:column;gap:6px}
+.a18 .c .h{font-weight:700;font-size:14px;margin:0;line-height:1.3}
+.a18 .c p{margin:0;font-size:12px;line-height:1.45}
+.a18 .bd{font-size:11px;font-weight:600;width:max-content;padding:2px 8px}
+.a18 .b{display:inline-block;width:max-content;font-weight:600;font-size:13px;padding:10px 18px;line-height:1.2}
+.a18 .bad .h2,.a18 .bad .h{color:#0f172a}
+.a18 .bad .c{background:#fff;border:1px solid #e2e8f0;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06)}
+.a18 .bad .c p{color:#64748b}
+.a18 .bad .bd{background:#e0e7ff;color:#4338ca;border-radius:8px}
+.a18 .bad .b{background:#4f46e5;color:#fff;border-radius:8px}
+.a18 .good .h2,.a18 .good .h{color:#1d2b24}
+.a18 .good .c{background:#edf2ee;border-radius:20px}
+.a18 .good .c p{color:#4c5a52}
+.a18 .good .bd{padding:0;color:#a2532b}
+.a18 .good .b{background:#1d2b24;color:#f4f7f4;border-radius:999px}
+@container (max-width:480px){.a18 .g{grid-template-columns:1fr}}`,
+  html: wrap("a18",
+    `<p class="h2">שלושה מסלולי ליווי</p><div class="g"><div class="c"><span class="bd">חדש</span><p class="h">ליווי חודשי</p><p>פגישה אחת בחודש ומענה בין הפגישות.</p></div><div class="c"><p class="h">ליווי רבעוני</p><p>תוכנית עבודה ובדיקה כל שלושה חודשים.</p></div><div class="c"><p class="h">פגישה חד-פעמית</p><p>שעתיים על שאלה אחת.</p></div></div><span class="b">לתיאום שיחה</span>`,
+    "כל ערך כאן הוא ברירת המחדל של הערכה: אינדיגו, אפור כחלחל, רדיוס אחד על הכול, צל אפור ותגית פסטל.",
+    `<p class="h2">שלושה מסלולי ליווי</p><div class="g"><div class="c"><span class="bd">חדש</span><p class="h">ליווי חודשי</p><p>פגישה אחת בחודש ומענה בין הפגישות.</p></div><div class="c"><p class="h">ליווי רבעוני</p><p>תוכנית עבודה ובדיקה כל שלושה חודשים.</p></div><div class="c"><p class="h">פגישה חד-פעמית</p><p>שעתיים על שאלה אחת.</p></div></div><span class="b">לתיאום שיחה</span>`,
+    "אותו מבנה בדיוק, שלושה כרטיסים שווים וכפתור. הצבע, האפורים והרדיוסים נבחרו מהמותג, והכרטיס עומד על משטח בלי צל."),
+}),
+doc({
+  id: "a19", name: "אפקטים בערימה והובר על מה שלא לחיץ",
+  desc: "כמה אפקטים מוכנים מספריות על אותו מסך: כפתור מנצנץ, מסגרת אור שמסתובבת, הילה זוהרת וחלקיקים ברקע. ולידם כרטיסים שקופצים ומקבלים צל בהובר, בלי שיש במה ללחוץ.",
+  when: "הירו ואזור המחירים באתרי תדמית ומוצר, וכל גריד של כרטיסי מידע.",
+  rule: "מחקר סימני AI, 17.11.2026. מקורות: \"Tells of a Slop UI\" והדיון עליו ב-Hacker News (9.2026), Performative-UI (6.2026), Impeccable, taste-skill, שרשורי r/vibecoding ו-r/UX_Design (2026). ממתין לעין של ליאב. כל אפקט שמופיע כאן קיים במאגר ומאושר לבדו; הסימן הוא הערימה, וההובר על דבר שאינו קישור. משלים את צ'קליסט 11 (אפקט חתימה אחד למסך).",
+  why: "אפקט אחד מושך את העין למקום אחד. ארבעה מושכים לארבעה מקומות, והגולש מבין שאף אחד לא בחר. וכרטיס שמגיב להובר מבטיח לחיצה: כשלא קורה כלום, נשארת הבטחה שלא קוימה.",
+  fix: "אפקט חתימה אחד למסך, עם סיבה שקשורה למסר, וכל השאר שקט. הובר רק על מה שלחיץ, ואז כל הכרטיס הוא הקישור.",
+  spot: "סופרים כמה דברים זזים או זוהרים במסך אחד בלי שנגעת. ואז עוברים עם העכבר על הכרטיסים: מה שקופץ ולא נפתח בלחיצה, זה זה. בשער: slop-check תופס זוהר על רקע כהה ונקודה פועמת. לא נבדק אוטומטית: ספירת האפקטים במסך, והובר על אלמנט שאינו קישור.",
+  css: `${AP_BASE}
+.a19 .st{border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:12px;background:#0d0e1a;color:#fff;position:relative;overflow:hidden}
+.a19 .bad .st{background:radial-gradient(180px 120px at 30% 20%,rgba(124,92,255,.55),transparent 70%),radial-gradient(rgba(255,255,255,.35) 1px,transparent 1.5px) 0 0/18px 18px,#0d0e1a}
+.a19 .h{font-weight:700;font-size:16px;margin:0;line-height:1.25}
+.a19 .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.a19 .fc{position:relative;display:block;border-radius:12px;padding:2px;overflow:hidden;background:#2a2c40;color:inherit;text-decoration:none}
+.a19 .fc i{position:absolute;inset:-60%;background:conic-gradient(from 0deg,transparent 0 70%,#9d7bff 85%,#5ad1ff 100%)}
+.a19 .fc b{position:relative;display:block;border-radius:10px;background:#15172a;padding:12px;font-size:13px;font-weight:600;transition:background .2s}
+.a19 .good .fc:hover b{background:#1d2038}
+.a19 .ic{border-radius:12px;background:#15172a;padding:12px;font-size:13px}
+.a19 .bad .ic{transition:transform .2s,box-shadow .2s}
+.a19 .bad .ic:hover{transform:translateY(-6px);box-shadow:0 14px 30px rgba(124,92,255,.5)}
+.a19 .cta{display:inline-block;width:max-content;padding:10px 18px;border-radius:999px;font-weight:600;font-size:13px;color:#0d0e1a;background:#fff}
+.a19 .bad .cta{background:linear-gradient(110deg,#fff 35%,#b9a4ff 50%,#fff 65%) 0 0/250% 100%;box-shadow:0 0 24px rgba(157,123,255,.8)}
+@media (prefers-reduced-motion:no-preference){.a19 .fc i{animation:a19spin 4s linear infinite}.a19 .bad .cta{animation:a19shim 2.2s linear infinite}}
+@keyframes a19spin{to{transform:rotate(1turn)}}
+@keyframes a19shim{to{background-position:-250% 0}}
+@container (max-width:480px){.a19 .row{grid-template-columns:1fr}}`,
+  html: wrap("a19",
+    `<div class="st"><p class="h">בוחרים מסלול</p><div class="row"><div class="fc"><i aria-hidden="true"></i><b>המסלול המומלץ</b></div><div class="ic">המסלול הבסיסי</div></div><span class="cta">להתחיל עכשיו</span></div>`,
+    "חלקיקים, הילה, מסגרת אור מסתובבת וכפתור מנצנץ וזוהר, כולם באותו מסך. והכרטיס הבסיסי קופץ בהובר בלי שיש בו קישור.",
+    `<div class="st"><p class="h">בוחרים מסלול</p><div class="row"><a class="fc" href="#"><i aria-hidden="true"></i><b>המסלול המומלץ</b></a><div class="ic">המסלול הבסיסי</div></div><span class="cta">להתחיל עכשיו</span></div>`,
+    "אפקט אחד: האור מקיף רק את המסלול המומלץ, כי זה המסר. הכרטיס הזה הוא קישור ולכן מגיב להובר. כל השאר שקט."),
+}),
+doc({
+  id: "a20", name: "אימוג'י ואייקוני מדף",
+  desc: "אימוג'י בתפקיד אייקון (טיל, ברק, ניצוצות), או אותו סט קווי דק מהמדף ליד כל כותרת, כל אייקון בצבע אחר, ולפעמים אייקון מדף בתור לוגו.",
+  when: "כרטיסי שירותים ויתרונות, כותרות סקשן, כפתורים, פריטי תפריט, ולוגו זמני שנשאר.",
+  rule: "מחקר סימני AI, 17.11.2026. מקורות: Uncodixfy, taste-skill, רשימת האיסורים של ux-skill (11.2026), NN/g על אייקון הניצוצות (2024), שרשורי r/vibecoding (11.2025, 6.2026) שבהם אימוג'י בכותרות ואייקוני Lucide מוזכרים בין הראשונים. ממתין לעין של ליאב. משלים את מדף האייקונים (Lucide חסומה), feedback_icons_sharp ו-feedback_brand_from_logo_file.",
+  why: "אימוג'י נראה אחרת בכל מכשיר ואינו שייך למותג. סט מדף אחיד ליד כל כותרת אומר שהאייקון נכנס כי היה מקום, לא כי הוא מסביר משהו. וצבע אחר לכל אייקון הופך את כולם לקישוט.",
+  fix: "קודם שואלים אם צריך אייקון בכלל: אם הכותרת מובנת בלעדיו, הוא יורד. אם צריך, מהמדף של העסק, בעובי קו אחד ובצבע מותג אחד. לוגו מגיע רק מקובץ הלוגו של הלקוח.",
+  spot: "מכסים את האייקונים ושואלים אם משהו הפך פחות ברור. ואז בודקים אם יש שני אייקונים באותו צבע. בשער: Lucide נחסמת במדף האייקונים. לא נבדק אוטומטית: אימוג'י בתפקיד אייקון, וצבע שונה לכל אייקון.",
+  css: `${AP_BASE}
+.a20 .h2{font-weight:700;font-size:clamp(17px,1.8cqi,22px);margin:0 0 4px;line-height:1.2}
+.a20 .g{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.a20 .c{border-radius:12px;background:#f3f3f6;padding:12px;display:flex;flex-direction:column;gap:6px}
+.a20 .c .e{font-size:20px;line-height:1}
+.a20 .c .h{font-weight:700;font-size:13px;margin:0;line-height:1.3}
+.a20 .c p{margin:0;font-size:12px;color:#5b5b66;line-height:1.45}
+.a20 .ic{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;align-items:center}
+.a20 .ic span{display:inline-flex;align-items:center;gap:6px}
+.a20 .ic svg{width:18px;height:18px;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+@container (max-width:480px){.a20 .g{grid-template-columns:1fr}}`,
+  html: wrap("a20",
+    `<p class="h2">✨ מה אנחנו עושים</p><div class="g"><div class="c"><span class="e">🚀</span><p class="h">הקמה מהירה</p><p>עולים לאוויר תוך שבועיים.</p></div><div class="c"><span class="e">⚡</span><p class="h">ביצועים</p><p>העמוד נטען בפחות משנייה.</p></div><div class="c"><span class="e">🎯</span><p class="h">דיוק</p><p>כל עמוד נבנה למטרה אחת.</p></div></div><div class="ic"><span><svg viewBox="0 0 24 24" stroke="#7c3aed" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>מהיר</span><span><svg viewBox="0 0 24 24" stroke="#16a34a" aria-hidden="true"><path d="M12 3 5 6v6c0 4 3 7 7 9 4-2 7-5 7-9V6z"/></svg>מאובטח</span><span><svg viewBox="0 0 24 24" stroke="#ea580c" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>מדיד</span></div>`,
+    "אימוג'י בכותרת ובכל כרטיס, ומתחת שלושה אייקוני מדף, כל אחד בצבע אחר. אף אחד מהם לא מוסיף מידע שהכותרת לא אמרה.",
+    `<p class="h2">מה אנחנו עושים</p><div class="g"><div class="c"><p class="h">הקמה מהירה</p><p>עולים לאוויר תוך שבועיים.</p></div><div class="c"><p class="h">ביצועים</p><p>העמוד נטען בפחות משנייה.</p></div><div class="c"><p class="h">דיוק</p><p>כל עמוד נבנה למטרה אחת.</p></div></div>`,
+    "בלי אייקונים: הכותרות מובנות לבד, ולכן הם ירדו. כשאייקון באמת נדרש, הוא מגיע מהמדף של העסק, בקו אחד ובצבע אחד."),
+}),
+doc({
+  id: "a21", name: "הוכחה מפוברקת",
+  desc: "רכיבי הוכחה שהגיעו עם התבנית ולא מהלקוח: ערימת תמונות פרופיל חופפות עם חמישה כוכבים ומונה עגול, שורת לוגואים של חברות ענק או חברות שלא קיימות, והמלצות עם פנים מחוללות ושם פרטי בלבד.",
+  when: "מתחת להירו, רצועת \"סומכים עלינו\", סקשן ההמלצות, מונים ומספרים.",
+  rule: "מחקר סימני AI, 17.11.2026. מקורות: \"Tells of a Slop UI\" (9.2026), Performative-UI (6.2026), Hallmark (11.2026), שרשור r/SaaS (9.2026), ומקרה מתועד ב-r/lovable (4.2026) של לקוח שעבר למתחרה בגלל המלצת דמו שנשארה באתר. ממתין לעין של ליאב. הרכיבים עצמם (דירוג בהירו, רצועת לוגואים, המלצות) קיימים במאגר ומאושרים כשהחומר אמיתי.",
+  why: "זה הסימן שעולה כסף ישירות: גולש שמזהה המלצה מפוברקת מפסיק להאמין גם לשאר העמוד. ומעבר למראה, זו הטעיה של הגולש.",
+  fix: "הוכחה נכנסת רק מחומר שהלקוח מסר ושאפשר לאמת: מי אמר, מאיזה עסק, ומאיפה זה נלקח. אם אין חומר, הסקשן יורד מהעמוד עד שיהיה. תוכן דמו לא נשאר במקומו.",
+  spot: "עוברים על כל לוגו, המלצה ומספר ושואלים \"מאיפה זה הגיע?\". מספר עגול בלי מקור, פנים חלקות מדי ושם בלי שם משפחה הם הדגל. בשער: טקסט ממלא מקום נתפס ב-project-check. לא נבדק אוטומטית: המקור של ההמלצות, של הלוגואים ושל המספרים.",
+  css: `${AP_BASE}
+.a21 .pr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12px}
+.a21 .av{display:flex}
+.a21 .av span{width:28px;height:28px;border-radius:50%;border:2px solid #fff;margin-inline-start:-8px;background:linear-gradient(135deg,#a5b4fc,#f0abfc)}
+.a21 .av span:first-child{margin-inline-start:0}
+.a21 .av span:nth-child(2){background:linear-gradient(135deg,#fde68a,#fca5a5)}
+.a21 .av span:nth-child(3){background:linear-gradient(135deg,#99f6e4,#93c5fd)}
+.a21 .sr{color:#f5a623;letter-spacing:2px;font-size:13px}
+.a21 .lg{display:flex;gap:14px;flex-wrap:wrap;font-weight:700;font-size:13px;color:#a9abbb;letter-spacing:.04em}
+.a21 .q{border-radius:12px;background:#f3f3f6;padding:12px;display:flex;flex-direction:column;gap:8px;font-size:13px;line-height:1.5}
+.a21 .q p{margin:0}
+.a21 .who{display:flex;align-items:center;gap:8px;font-size:12px;color:#5b5b66}
+.a21 .who i{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#fbcfe8,#c7d2fe);flex:none}
+.a21 .src{font-size:11px;color:#6a6d85}
+.a21 .sm{font-size:12px;color:#5b5b66;margin:0}`,
+  html: wrap("a21",
+    `<div class="pr"><span class="av"><span></span><span></span><span></span><span></span></span><span class="sr">★★★★★</span><span>מעל 10,000 לקוחות מרוצים</span></div><div class="lg"><span>ACME</span><span>Globex</span><span>Initech</span><span>Umbrella</span></div><div class="q"><p>"שירות מדהים, ממליצה בחום לכל אחד!"</p><span class="who"><i></i>שרה כ. · מנכ"לית</span></div>`,
+    "ערימת פרצופים, חמישה כוכבים ומספר עגול בלי מקור, לוגואים של חברות דמו, והמלצה עם פנים מחוללות ושם פרטי.",
+    `<div class="q"><p>"הגיעו למדידה ביום שקבענו, והמטבח הותקן שבוע לפני המועד."</p><span class="who">דנה לוי · סטודיו לקרמיקה, חיפה</span><span class="src">מתוך ביקורת בגוגל, מרץ 2026</span></div><p class="sm">עבדנו עם: מאפיית לחם ארז · קליניקת ד"ר שגב</p>`,
+    "המלצה אחת שאפשר לאמת: שם מלא, עסק ומקור. שני לקוחות שאישרו שמזכירים אותם, בשמם. מה שאין לו חומר אמיתי פשוט לא מופיע."),
+}),
+doc({
+  id: "a22", name: "שלד התבנית",
+  desc: "אותו סדר סקשנים בכל אתר: הירו ממורכז בגובה מסך עם גלולה קטנה, שני כפתורים ורצועת לוגואים, אחריו שלושה יתרונות, המלצות, מחירים, שאלות נפוצות וקריאה לפעולה. כל סקשן תקין לבדו. הרצף הוא הסימן.",
+  when: "דף בית ודף נחיתה, בעיקר כשהעמוד נבנה מפרומפט אחד בלי אפיון.",
+  rule: "מחקר סימני AI, 17.11.2026. מקורות: מדידה של 149 אתרי Lovable מול 64 אתרים מ-2019 עד 2021 (r/website, 10.2026, מקור יחיד), taste-skill, Hallmark (11.2026), שרשורי r/vibecoding ו-r/SaaS, וסרטון של Y Combinator (3.2026, מסיכום יד שנייה). ממתין לעין של ליאב. שלושה כרטיסים, מחירון ושאלות נפוצות נשארים מותרים; משלים את צ'קליסט 11ב (גיוון פריסה) ואת מקצבי העמוד במאגר.",
+  why: "מי שראה שלושה אתרים כאלה מזהה את הרביעי לפני שקרא מילה. הסדר לא נבחר בשביל העסק הזה, ולכן העמוד עונה על שאלות שהגולש לא שאל ומדלג על אלה שכן.",
+  fix: "הסדר נגזר ממסע הגולש באפיון: מה הוא צריך לדעת קודם כדי להמשיך. בוחרים מקצב עמוד מהמאגר, ולכל סקשן יש סיבה להיות במקום שלו. סקשן שאין לו חומר אמיתי יורד.",
+  spot: "כותבים את שמות הסקשנים בשורה אחת. אם הרשימה מתאימה באותה מידה לרואה חשבון, לסטודיו ליוגה ולאפליקציה, היא לא נבנתה בשביל אף אחד מהם. בשער: פתיחי הסקשנים נבדקים ב-project-check, וגיוון הפריסה בצ'קליסט 11ב. לא נבדק אוטומטית: סדר הסקשנים.",
+  css: `${AP_BASE}
+.a22 .wf{display:flex;flex-direction:column;gap:6px}
+.a22 .r{border-radius:8px;background:#eef0f5;padding:8px 10px;font-size:12px;color:#3b3d52;line-height:1.3;display:flex;align-items:center}
+.a22 .bad .r{min-height:34px;justify-content:center;text-align:center}
+.a22 .bad .r.t{min-height:64px;background:#dfe0ea;font-weight:600}
+.a22 .good .r.t{min-height:84px;background:#dfe0ea;font-weight:600;align-items:flex-end}
+.a22 .good .r.w{min-height:54px}
+.a22 .good .r.n{background:none;padding:0 10px}`,
+  html: wrap("a22",
+    `<div class="wf"><div class="r t">הירו ממורכז · גלולה · שני כפתורים</div><div class="r">רצועת לוגואים</div><div class="r">שלושה יתרונות</div><div class="r">המלצות</div><div class="r">שלושה מחירים</div><div class="r">שאלות נפוצות</div><div class="r">קריאה לפעולה</div></div>`,
+    "הרצף שכל מחולל מוציא. מחליפים את שם העסק והוא מתאים לכל תחום, כלומר לא נבנה בשביל אף אחד.",
+    `<div class="wf"><div class="r t">מטבח אחד שסיימנו, בתמונה מלאה</div><div class="r n">כמה זה עולה, בשורה אחת</div><div class="r w">ארבעה שלבים, מהמדידה עד ההתקנה</div><div class="r w">שלוש עבודות, כל אחת עם מחיר ומשך</div><div class="r">תיאום מדידה</div></div>`,
+    "נגר מטבחים: הגולש רוצה לראות עבודה, לדעת מחיר ולהבין את התהליך, בסדר הזה. הסקשנים, הגבהים והסדר נגזרו מזה."),
+}),
+doc({
+  id: "a23", name: "טעם מוכן",
+  desc: "מראה שלם שנלקח מהמדף ומולבש על כל עסק: קרם וסריף עם מילה אחת נטויה בטרקוטה; שחור כמעט מלא עם צבע חומצי אחד; תוויות מונו קטנות עם // ונקודות אמצע. כל אחד מהם נולד כבריחה מהמראה הסגול, והפך לתבנית בעצמו.",
+  when: "הירו, כותרות סקשן ותוויות קטנות. בעיקר כשמבקשים מהמודל \"משהו לא גנרי\" בלי חומר מותג.",
+  rule: "מחקר סימני AI, 17.11.2026. מקורות: \"The Claude Aesthetic\" (הניו יורקר, 6.2026), הדיון ב-Hacker News על \"design slop\" (4.2026), Impeccable (פלטת קרם, סריף נטוי), Hallmark (11.2026), ו-W3C על כך שבעברית אין נטוי אמיתי. ממתין לעין של ליאב. קרם, סריף, רקע כהה ופונט מונו אינם סימן לבדם; הסימן הוא הצירוף המוכן שלא נגזר מהמותג. משלים את feedback_brand_from_logo_file.",
+  why: "זה הסימן של מי שכבר ברח מהסגול. הגולש לא חושב \"AI\" אלא \"ראיתי את זה אתמול\", והעסק נראה כמו עוד אחד באותה סדרה.",
+  fix: "הפלטה והפונט מתחילים מקובץ הלוגו ומהחומרים של העסק, לא מסגנון. בעברית אין נטוי אמיתי, ולכן מילה מודגשת מקבלת משקל או צבע. תווית קטנה מקבלת עיצוב רק אם יש לה תפקיד.",
+  spot: "מחליפים בראש את שם העסק בעסק מתחום אחר. אם העיצוב מתאים באותה מידה, הוא לא נגזר מהמותג. בשער: slop-check תופס פלטת קרם וסריף נטוי. לא נבדק אוטומטית: הקשר בין הפלטה לקובץ הלוגו.",
+  css: `${AP_BASE}
+.a23 .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.a23 .cd{border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px;min-height:150px}
+.a23 .hd{font-size:clamp(16px,1.9cqi,22px);line-height:1.2;margin:0;font-weight:700}
+.a23 .mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10px;letter-spacing:.08em;margin:0;opacity:.7}
+.a23 .cr{background:#f4efe6;color:#2b2622}
+.a23 .cr .hd{font-family:"Frank Ruhl Libre","David",serif;font-weight:500}
+.a23 .cr em{font-style:italic;color:#c0603d}
+.a23 .dk{background:#0b0b0c;color:#f2f2ee}
+.a23 .dk em{font-style:normal;color:#c6f432}
+.a23 .good .cd{background:#eaf0f7;color:#12304f}
+.a23 .good em{font-style:normal;color:#b86a12}
+.a23 .lg{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px}
+.a23 .lg i{width:22px;height:22px;border-radius:6px;background:#12304f;box-shadow:inset -8px 0 0 #e8a33d}
+.a23 .sw{display:flex;gap:6px;margin-top:auto}
+.a23 .sw span{width:18px;height:18px;border-radius:50%}
+@container (max-width:480px){.a23 .two{grid-template-columns:1fr}}`,
+  html: wrap("a23",
+    `<div class="two"><div class="cd cr"><p class="mono">// 01 · STUDIO</p><p class="hd">ליווי משכנתאות <em>אחרת</em></p></div><div class="cd dk"><p class="mono">// 01 · STUDIO</p><p class="hd">ליווי משכנתאות <em>אחרת</em></p></div></div>`,
+    "שני מראות מדף על אותו עסק: קרם וסריף עם מילה נטויה בטרקוטה, ושחור עם צבע חומצי. שניהם היו מתאימים באותה מידה לכל עסק אחר.",
+    `<div class="cd"><span class="lg"><i></i>גשר משכנתאות</span><p class="hd">ליווי משכנתאות <em>עד החתימה</em></p><span class="sw"><span style="background:#12304f"></span><span style="background:#e8a33d"></span><span style="background:#eaf0f7;box-shadow:inset 0 0 0 1px #c9d6e6"></span></span></div>`,
+    "הכחול והצהוב נלקחו מקובץ הלוגו, והמשטח הוא גוון בהיר של אותו כחול. המילה המודגשת מקבלת צבע ומשקל, בלי נטוי."),
+}),
+doc({
+  id: "a24", name: "תמונות שנראות מחוללות",
+  desc: "תמונות שהמודל ייצר ואף אחד לא בדק מקרוב: עברית שבורה או הפוכה שנאפתה לתוך התמונה, אותן פנים בשלוש המלצות, מוצר שהוא כמעט המוצר של הלקוח, ואותו אור זהוב מטושטש על כל תמונה באתר.",
+  when: "הירו, כרטיסי שירות, המלצות, גלריית מוצרים ותמונות למאמרים.",
+  rule: "מחקר סימני AI, 17.11.2026 (ערוץ התמונות). מקורות: Decrypt (9.2026) ו-SF Standard (7.2026) על טקסט משובש בתמונות ועל תגובת לקוחות; CNN (9.2026) על אוכל מחולל; מדד Photoroom על נאמנות למוצר (7.2026); NN/g (8.2026); בדיקת עברית בתמונות מחוללות (nitaimodel, 8.2026). ממתין לעין של ליאב. תמונה מחוללת אינה סימן לבדה: רוב הגולשים לא מזהים תמונה טובה. הסימן הוא מה שלא נבדק, ומה שמתחזה לדבר אמיתי. משלים את feedback_sketch_real_visuals.",
+  why: "עברית הפוכה בתוך תמונה נראית לכל ישראלי בשנייה. פנים שחוזרות בשלוש המלצות, או מוצר שאינו בדיוק המוצר, פוגעים באמון הרבה יותר מתמונה פשוטה ואמיתית.",
+  fix: "מה שמציג דבר אמיתי (העסק, הצוות, המוצר, לקוחות) מצולם, או מתחיל מצילום אמיתי. טקסט ולוגו לא נאפים בתמונה אלא יושבים מעליה כטקסט חי. כל תמונה נבדקת בגודל מלא לפני שהיא עולה, ולכל סדרת תמונות יש מקור אחד וטיפול צבע אחד.",
+  spot: "מגדילים כל תמונה ל-100% וקוראים כל אות, שלט ואריזה. מעמידים את תמונות האנשים זו ליד זו ומחפשים את אותן פנים. משווים את המוצר בתמונה למוצר האמיתי. בשער: לא נבדק אוטומטית, זו בדיקת עין.",
+  css: `${AP_BASE}
+.a24 .im{position:relative;border-radius:12px;min-height:110px;display:grid;place-items:center;overflow:hidden}
+.a24 .bad .im{background:radial-gradient(120px 80px at 70% 30%,#ffe2a8,transparent 70%),linear-gradient(135deg,#f3b562,#c9742f)}
+.a24 .bad .im b{font-size:26px;font-weight:800;color:#fff8e6;filter:blur(.6px);transform:rotate(-2deg)}
+.a24 .good .im{background:#dfe0ea}
+.a24 .good .im b{font-size:18px;font-weight:700;background:#16182b;color:#fff;padding:6px 12px;border-radius:8px}
+.a24 .im small{position:absolute;bottom:8px;inset-inline-start:10px;font-size:11px;color:#3b3d52}
+.a24 .ppl{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.a24 .p{display:flex;align-items:center;gap:8px;font-size:12px;background:#f3f3f6;border-radius:10px;padding:8px}
+.a24 .p i{width:28px;height:28px;border-radius:50%;flex:none;font-style:normal}
+.a24 .bad .p i{background:radial-gradient(circle at 50% 38%,#f6d2b8 0 34%,transparent 35%),radial-gradient(circle at 50% 110%,#7a8fb5 0 52%,transparent 53%),#e9d9c9}
+.a24 .good .p i{background:#dfe0ea;display:grid;place-items:center;font-weight:700;font-size:11px;color:#3b3d52}
+@container (max-width:480px){.a24 .ppl{grid-template-columns:1fr}}`,
+  html: wrap("a24",
+    `<div class="im"><b>ץיק עצבמ</b></div><div class="ppl"><div class="p"><i></i>מיכל</div><div class="p"><i></i>רונית</div><div class="p"><i></i>יעל</div></div>`,
+    "\"מבצע קיץ\" נאפה בתוך התמונה ויצא הפוך, על רקע זהוב מטושטש. ושלוש ממליצות עם אותן פנים בדיוק.",
+    `<div class="im"><b>מבצע קיץ</b><small>צילום של המוצר עצמו</small></div><div class="ppl"><div class="p"><i>מ.כ</i>מיכל כהן</div><div class="p"><i>ר.ל</i>רונית לוי</div><div class="p"><i>י.ב</i>יעל ברק</div></div>`,
+    "התמונה היא צילום אמיתי, והטקסט יושב מעליה כטקסט חי. לממליצות אין פנים מחוללות: שם מלא, ותמונה רק אם הן שלחו אחת."),
+}),
+doc({
+  id: "a25", name: "שאריות אנגלית באתר עברי",
+  desc: "האתר בעברית, אבל חלקים ממנו נשארו בכיוון ובהרגלים של אנגלית: חץ \"המשך\" שמצביע ימינה, תבליט בצד הלא נכון, פס התקדמות שמתמלא משמאל, אותיות לטיניות בפונט אחר בתוך כותרת עברית, עברית נטויה מלאכותית, מחיר בדולרים, תאריך אמריקאי וכפתורי מערכת באנגלית.",
+  when: "כל אתר עברי שנבנה במחולל: כפתורים עם חץ, רשימות, שלבי תהליך, קרוסלות, טפסים והודעות מערכת, מחירים ותאריכים.",
+  rule: "מחקר סימני AI, 17.11.2026 (ערוץ העברית). מקורות: תיעוד ה-RTL של shadcn והדיון 9247 (1.2026), Evil Martians (5.2026), rtlify ומאמרו של עידן לוי על סוכני קוד ו-RTL, הנחיות הדו-כיווניות של Material, ו-W3C על נטוי בעברית. ממתין לעין של ליאב. משלים את כללי ה-RTL במנוע ואת בדיקות כיוון הטקסט בשער. לא הכול מתהפך: וי, סמל ניגון, לוגו ומספר טלפון נשארים כמו שהם.",
+  why: "גולש ישראלי מרגיש את זה גם בלי לדעת להסביר: העין הולכת ימינה והחץ שולח אותה חזרה. זה נקרא כאתר שתורגם ולא כאתר שנבנה בעברית.",
+  fix: "כיוון השורש מוגדר פעם אחת (dir=\"rtl\" ו-lang=\"he\"), והריווחים והמיקומים נכתבים במאפיינים לוגיים, כך שכל רכיב מתהפך לבד. חץ קדימה מצביע שמאלה. מחיר בשקלים ותאריך בסדר יום, חודש, שנה. כל מחרוזת מערכת (שליחה, שגיאה, טעינה, 404) בשפת האתר. פונט אחד שמכיל גם עברית וגם לטינית, והדגשה במשקל או בצבע.",
+  spot: "עוברים על כל חץ ושואלים לאן הוא שולח. ממלאים טופס עד הסוף וקוראים כל הודעה שקופצת. מחפשים בעמוד את הסימן $, את המילה Submit ותאריך שמתחיל בחודש. בשער: project-check בודק lang ו-dir, יישור, פיסוק שנדד, מספר שהתהפך וכיוון שדות. לא נבדק אוטומטית: כיוון חצים ופסי התקדמות, מטבע ותאריך, מחרוזות מערכת באנגלית, ועירוב פונטים בכותרת.",
+  css: `${AP_BASE}
+.a25 .hd{font-weight:700;font-size:clamp(17px,1.8cqi,22px);margin:0;line-height:1.25}
+.a25 .bad .hd .lat{font-family:Georgia,"Times New Roman",serif;font-weight:400}
+.a25 .bad .hd em{font-style:italic}
+.a25 .good .hd em{font-style:normal;color:#3d4fd6}
+.a25 ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;font-size:13px}
+.a25 li{position:relative}
+.a25 li::before{content:"";position:absolute;top:.5em;width:7px;height:7px;border-radius:50%;background:#16182b}
+.a25 .bad li{padding-left:16px}
+.a25 .bad li::before{left:0}
+.a25 .good li{padding-inline-start:16px}
+.a25 .good li::before{inset-inline-start:0}
+.a25 .bar{height:8px;border-radius:999px;background:#e4e4ee;overflow:hidden;display:flex}
+.a25 .bar i{width:60%;background:#16182b;border-radius:999px}
+.a25 .bad .bar{direction:ltr}
+.a25 .sm{font-size:12px;color:#5b5b66;margin:0}
+.a25 .row{display:flex;gap:8px;flex-wrap:wrap}`,
+  html: wrap("a25",
+    `<p class="hd">שירותי <span class="lat">Cloud</span> לעסק <em>שלך</em></p><ul><li>גיבוי יומי אוטומטי</li><li>תמיכה בעברית</li></ul><p class="sm">שלב 2 מתוך 3</p><div class="bar"><i></i></div><p class="sm">$29/mo · 11/17/2026</p><div class="row"><span class="btn">המשך →</span><span class="btn">Submit</span></div>`,
+    "המילה הלטינית בפונט אחר, \"שלך\" בנטוי מלאכותי, התבליטים בצד שמאל, הפס מתמלא משמאל, מחיר בדולרים ותאריך אמריקאי, חץ שמצביע אחורה וכפתור באנגלית.",
+    `<p class="hd">שירותי Cloud לעסק <em>שלך</em></p><ul><li>גיבוי יומי אוטומטי</li><li>תמיכה בעברית</li></ul><p class="sm">שלב 2 מתוך 3</p><div class="bar"><i></i></div><p class="sm">109 ש"ח לחודש · 17.11.2026</p><div class="row"><span class="btn">המשך ←</span><span class="btn">שליחה</span></div>`,
+    "פונט אחד לעברית וללטינית, הדגשה בצבע, תבליטים בצד ההתחלה, הפס מתמלא מימין, שקלים ותאריך ישראלי, חץ קדימה וכפתור בעברית."),
+}),
+doc({
+  id: "a26", name: "לוח בקרה מהמדף",
+  desc: "מסך מערכת שנבנה מדף הדוגמה של הערכה: ארבע קוביות מדד זהות עם תגית שינוי ירוקה, כל דבר בתוך כרטיס באותו משקל, ריבוע צבעוני אחר בכל קובייה, גרף קישוטי, פעמון וחיפוש שלא עושים כלום, ונתוני דמו (Acme, John Doe).",
+  when: "דשבורדים, מסכי ניהול, CRM ופאנלים: המסך הראשון אחרי ההתחברות.",
+  rule: "מחקר סימני AI, 17.11.2026 (ערוץ ממשקי המערכת). מקורות: דף הדוגמה הרשמי של הדשבורד ב-shadcn, שהוא המקור של החתימה; שרשור r/webdesign \"האם הדשבורד הזה נראה מחולל\" (7.2025); \"Tells of a Slop UI\" (9.2026); רשימת הבדיקה של 21st.dev לממשק מחולל (8.2026); Hallmark (11.2026). ממתין לעין של ליאב. משלים את feedback_admin_panel_design.",
+  why: "ארבעה מדדים באותו גודל אומרים שאף אחד לא שאל מה המשתמש בא לעשות במסך הזה. הוא נראה מלא ולא עונה על שאלה אחת. ונתוני דמו או כפתור מת שנשארו שוברים אמון במערכת כולה.",
+  fix: "מתחילים מהשאלה הראשונה של המשתמש במסך, והיא מקבלת את המקום הגדול. שאר המספרים שקטים ובלי כרטיס לכל אחד. צבע מצב מופיע תמיד עם מילה. לכל אזור יש מצב ריק, מצב טעינה ומצב שגיאה. ספרות ברוחב אחיד. שום אלמנט לא נשאר בלי פעולה מאחוריו.",
+  spot: "שואלים \"מה הדבר הראשון שהמשתמש צריך לדעת כאן?\" ובודקים אם זה הדבר הגדול במסך. לוחצים על כל אייקון בסרגל העליון. מחפשים Acme, John Doe ומספרים עגולים מדי. בשער: כפתורים מתים נתפסים ב-interact. לא נבדק אוטומטית: מבנה המסך, נתוני דמו, ומצבי ריק, טעינה ושגיאה.",
+  css: `${AP_BASE}
+.a26 .top{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#64748b}
+.a26 .bell{position:relative;width:18px;height:18px;border-radius:50%;background:#e2e8f0;flex:none}
+.a26 .bell::after{content:"";position:absolute;top:0;inset-inline-end:0;width:7px;height:7px;border-radius:50%;background:#ef4444}
+.a26 .k4{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.a26 .k{border:1px solid #e2e8f0;border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:4px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+.a26 .k .l{font-size:11px;color:#64748b;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.a26 .k .l i{width:18px;height:18px;border-radius:6px;flex:none;background:#dbeafe}
+.a26 .k:nth-child(2) .l i{background:#dcfce7}
+.a26 .k:nth-child(3) .l i{background:#fef3c7}
+.a26 .k:nth-child(4) .l i{background:#fce7f3}
+.a26 .k .n{font-size:18px;font-weight:700;line-height:1.1}
+.a26 .k .d{font-size:10px;font-weight:600;color:#15803d;background:#dcfce7;border-radius:999px;padding:1px 7px;width:max-content}
+.a26 .q{font-size:12px;color:#5b5b66;margin:0}
+.a26 .big{font-size:clamp(20px,2.4cqi,28px);font-weight:700;line-height:1.15;margin:0}
+.a26 .lst{display:flex;flex-direction:column;gap:6px;font-size:13px}
+.a26 .lst a{display:flex;justify-content:space-between;gap:10px;background:#f3f3f6;border-radius:10px;padding:8px 12px;color:inherit;text-decoration:none;transition:background .2s}
+.a26 .lst a:hover{background:#e9e9ef}
+.a26 .lst b{font-weight:600}
+.a26 .late{color:#a11414;font-weight:600}
+.a26 .rest{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:#5b5b66;font-variant-numeric:tabular-nums;margin:0}
+.a26 .rest b{color:#16182b;font-size:14px}`,
+  html: wrap("a26",
+    `<div class="top"><span>Welcome back, John Doe 👋</span><span class="bell"></span></div><div class="k4"><div class="k"><span class="l">Total Revenue<i></i></span><span class="n">$45,231</span><span class="d">+20.1%</span></div><div class="k"><span class="l">Customers<i></i></span><span class="n">2,350</span><span class="d">+18.1%</span></div><div class="k"><span class="l">Sales<i></i></span><span class="n">12,234</span><span class="d">+19%</span></div><div class="k"><span class="l">Active Now<i></i></span><span class="n">573</span><span class="d">+20.1%</span></div></div><div class="ph">גרף</div>`,
+    "ארבע קוביות זהות, כולן ירוקות ובאותו משקל, ריבוע צבעוני אחר בכל אחת, פעמון שלא נפתח, גרף קישוטי ונתוני דמו באנגלית.",
+    `<p class="q">מה מחכה לך היום</p><p class="big">3 הצעות מחיר מחכות לתשובה</p><div class="lst"><a href="#"><b>סטודיו לקרמיקה</b><span class="late">באיחור של יומיים</span></a><a href="#"><b>מאפיית ארז</b><span>נשלחה אתמול</span></a><a href="#"><b>קליניקת שגב</b><span>נשלחה היום</span></a></div><p class="rest"><span><b>12</b> לידים החודש</span><span><b>4</b> פרויקטים פעילים</span></p>`,
+    "המסך נפתח במה שהמשתמש צריך לעשות עכשיו, וכל שורה לחיצה. האיחור מסומן בצבע וגם במילה. שאר המספרים שקטים, בלי כרטיס לכל אחד."),
 }),
 ];
