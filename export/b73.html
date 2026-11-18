@@ -42,12 +42,6 @@ img{max-width:100%}
 .cw{position:relative;max-width:min(1180px,94vw);margin-inline:auto;color:var(--ink, #16182b)}
 .cw-bar{display:flex;align-items:center;justify-content:space-between;gap:var(--gap, clamp(16px, 1.6vw, 36px));margin-block-end:clamp(24px,3vw,40px)}
 .cw-title{margin:0;font-size:15px;font-weight:500;color:var(--muted, #6a6d85)}
-.cw-pause{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);color:var(--ink, #16182b);display:grid;place-items:center;cursor:pointer;transition:border-color .18s cubic-bezier(.2,.6,.2,1)}
-@media (hover:hover) and (pointer:fine){.cw-pause:hover{border-color:var(--ink, #16182b)}}
-.cw-pause:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
-.cw-pause svg{width:16px;height:16px}
-.cw-pause .i-play,.cw-pause.is-paused .i-pause{display:none}
-.cw-pause.is-paused .i-play{display:block}
 .cw-wall{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(16px,3vw,48px);align-items:center}
 .cw-cell{position:relative;height:clamp(40px,4.4vw,60px);opacity:.78}
 /* הלב: הלוגו הוא מסכה וצבעו הוא currentColor (כמו ב-lm10). רק הלוגו הנוכחי בכל משבצת (is-on) נראה */
@@ -55,11 +49,10 @@ img{max-width:100%}
 .cw-logo.is-on{opacity:1;visibility:visible}
 .cw-vh{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media (max-width:767px){.cw-wall{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:24px}}
-/* בתנועה מופחתת: רשת סטטית עם כל הלוגואים, הכפתור מיותר */
+/* בתנועה מופחתת: רשת סטטית עם כל הלוגואים */
 @media (prefers-reduced-motion: reduce){
   .cw-cell{display:contents}
   .cw-logo,.cw-logo.is-on{position:static;display:block;height:clamp(40px,4.4vw,60px);opacity:.78;visibility:visible}
-  .cw-pause{display:none}
 }
 </style>
 </head>
@@ -69,7 +62,7 @@ img{max-width:100%}
 <section class="cw" aria-labelledby="cw-t">
   <div class="cw-bar">
     <p class="cw-title" id="cw-t">לקוחות שסומכים עלינו</p>
-    <button class="cw-pause" type="button" aria-label="השהיית החלפת הלוגואים"><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
+    
   </div>
   <ul class="cw-wall" aria-hidden="true">
     <li class="cw-cell"><span class="cw-logo is-on" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Ccircle%20cx%3D%2220%22%20cy%3D%2220%22%20r%3D%2215%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2214%22%20width%3D%2274%22%20height%3D%2212%22%20rx%3D%226%22%2F%3E%3C%2Fsvg%3E')"></span><span class="cw-logo" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Cpath%20d%3D%22M5%2035C5%2018%2018%205%2035%205c0%2017-13%2030-30%2030z%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2211%22%20width%3D%2274%22%20height%3D%226%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2223%22%20width%3D%2256%22%20height%3D%226%22%20rx%3D%223%22%2F%3E%3C%2Fsvg%3E')"></span><span class="cw-logo" style="--logo:url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20124%2040%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%227%22%2F%3E%3Ccircle%20cx%3D%2228%22%20cy%3D%2212%22%20r%3D%227%22%2F%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2228%22%20r%3D%227%22%2F%3E%3Ccircle%20cx%3D%2228%22%20cy%3D%2228%22%20r%3D%227%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2211%22%20width%3D%2274%22%20height%3D%226%22%20rx%3D%223%22%2F%3E%3Crect%20x%3D%2246%22%20y%3D%2223%22%20width%3D%2256%22%20height%3D%226%22%20rx%3D%223%22%2F%3E%3C%2Fsvg%3E')"></span></li>
@@ -86,16 +79,16 @@ img{max-width:100%}
 
 <script>
 (function(){
-  const wrap=document.querySelector(".cw"),wall=wrap.querySelector(".cw-wall"),cells=[...wall.children],btn=wrap.querySelector(".cw-pause");
+  const wrap=document.querySelector(".cw"),wall=wrap.querySelector(".cw-wall"),cells=[...wall.children];
   const rq=matchMedia("(prefers-reduced-motion: reduce)"),hasA=typeof Element.prototype.animate==="function";
   const E="cubic-bezier(.2,.6,.2,1)",PERIOD=2400,STEP=260,FIRST=700;   // כל משבצת כל 2.4 שניות, בהיסט של 260ms מהשכנה
   // סדר ההחלפה: לא סריקה מצד לצד. מיון לפי השבר של i*0.618 נותן סדר מפוזר לכל מספר משבצות
   const seq=cells.map((_,i)=>i).sort((a,b)=>((a*.618)%1)-((b*.618)%1));
   const st=cells.map(c=>({logos:[...c.querySelectorAll(".cw-logo")],cur:0,at:0}));
   seq.forEach((ci,k)=>{st[ci].at=FIRST+k*STEP;});
-  let elapsed=0,last=0,raf=0,inView=false,userPaused=false,hov=false,foc=false;
+  let elapsed=0,last=0,raf=0,inView=false,hov=false,foc=false;
   // השעון רץ רק כשכל התנאים מתקיימים. אחרת requestAnimationFrame לא נקרא בכלל, ואין עבודה ברקע
-  const live=()=>hasA&&!rq.matches&&inView&&!document.hidden&&!userPaused&&!hov&&!foc;
+  const live=()=>hasA&&!rq.matches&&inView&&!document.hidden&&!hov&&!foc;
   function swap(s){
     if(s.logos.length<2)return;
     const old=s.logos[s.cur];s.cur=(s.cur+1)%s.logos.length;const nu=s.logos[s.cur];
@@ -126,12 +119,7 @@ img{max-width:100%}
   wrap.addEventListener("pointerleave",()=>{hov=false;update();});
   wrap.addEventListener("focusin",()=>{if(wrap.querySelector(":focus-visible")){foc=true;update();}});
   wrap.addEventListener("focusout",e=>{if(!wrap.contains(e.relatedTarget)){foc=false;update();}});
-  btn.addEventListener("click",()=>{
-    userPaused=!userPaused;foc=false;                // לחיצה מפורשת גוברת על העצירה האוטומטית של הפוקוס
-    btn.classList.toggle("is-paused",userPaused);
-    btn.setAttribute("aria-label",userPaused?"הפעלת החלפת הלוגואים":"השהיית החלפת הלוגואים");
-    update();
-  });
+  // בלי כפתור עצירה בעמוד: העצירה המלאה היא המתג בסרגל הנגישות (motion.md 2א)
 })();
 </script>
 </body>

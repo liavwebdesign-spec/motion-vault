@@ -16,16 +16,6 @@ const SERIF = `@font-face{font-family:"MV Bellefair";src:url("../assets/fonts/be
 const DISP = `"MV Bellefair","Bellefair",Georgia,serif`;
 
 // pause and play for anything that moves on its own for more than five seconds (WCAG 2.2.2, motion.md 2א): a surface, no ring
-const PP_CSS = `
-.hpp{width:44px;height:44px;flex:none;border:0;border-radius:999px;display:grid;place-items:center;cursor:pointer;
-  background:color-mix(in srgb,var(--ink) 55%,transparent);color:var(--bg);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .18s ${E}}
-.hpp svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.hpp .i-play{display:none;fill:currentColor}
-.hpp[aria-pressed="true"] .i-pause{display:none}
-.hpp[aria-pressed="true"] .i-play{display:block}
-.hpp:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-@media (hover:hover) and (pointer:fine){.hpp:hover{background:color-mix(in srgb,var(--ink) 75%,transparent)}}`;
-const PP = (label) => `<button class="hpp" type="button" aria-pressed="false" aria-label="${label}"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>`;
 
 export default [
 {
@@ -261,11 +251,10 @@ enter(document.getElementById("h13"));`,
 },
 {
   id:"h14", cat:"hero", name:"הירו עם עמודות תמונות שזזות", tech:"CSS · JS", status:"מאושר-עין", runway:false,
-  desc:"טקסט בצד אחד, ובצד השני שתי עמודות של תמונות שגולשות לאט ובלי סוף, אחת למעלה ואחת למטה. הקצוות נמוגים, ריחוף עוצר את התנועה, ויש כפתור עצירה גלוי.",
+  desc:"טקסט בצד אחד, ובצד השני שתי עמודות של תמונות שגולשות לאט ובלי סוף, אחת למעלה ואחת למטה. הקצוות נמוגים, וריחוף עוצר את התנועה.",
   when:"עסק שיש לו הרבה צילומים טובים ולא צילום אחד מוביל: הפקת אירועים, צלם, מסעדה, חנות, סטודיו, קייטרינג. מראה כמות ואיכות בבת אחת. לא כשיש פחות משש תמונות, כי החזרה בולטת.",
   libs:[],
   css:`${FRAME_CSS}
-${PP_CSS}
 .h14h{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:48px;height:min(84vh,760px);min-height:560px;padding-inline:28px;background:var(--bg);overflow:hidden}
 .h14-txt{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:112px 56px}
 .h14h h3{margin:0;max-width:13ch;font-size:clamp(34px,min(4.4vw,7.8vh),72px);line-height:1.03;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
@@ -279,10 +268,8 @@ ${PP_CSS}
 /* the list is written twice: moving by half of it (plus half a gap) lands on the same picture, so the loop has no seam */
 @keyframes h14up{to{transform:translateY(calc(-50% - 8px))}}
 @keyframes h14dn{from{transform:translateY(calc(-50% - 8px))}to{transform:none}}
-.h14h.paused .h14-col{animation-play-state:paused}
 @media (hover:hover) and (pointer:fine){.h14-vis:hover .h14-col{animation-play-state:paused}}
-.h14h .hpp{position:absolute;inset-block-end:20px;inset-inline-end:20px;z-index:2}
-@media (prefers-reduced-motion:reduce){.h14-col{animation:none}.h14h .hpp{display:none}}
+@media (prefers-reduced-motion:reduce){.h14-col{animation:none}}
 /* phone: the text first, the two columns as a band below it */
 @media (max-width:860px){.h14h{grid-template-columns:1fr;grid-template-rows:auto minmax(200px,1fr);gap:8px;height:min(94vh,800px);min-height:0;padding-inline:20px}
   .h14-txt{padding-block:88px 8px;gap:18px}
@@ -300,24 +287,20 @@ ${PP_CSS}
       <div class="h14-col">${PIC("real/s06/dancers.webp", "", { deco: true, pri: true })}${PIC("real/s06/food.webp", "", { deco: true })}${PIC("real/s06/singer.webp", "", { deco: true })}${PIC("real/s12/hero-window.webp", "", { deco: true })}${PIC("real/s06/dancers.webp", "", { deco: true })}${PIC("real/s06/food.webp", "", { deco: true })}${PIC("real/s06/singer.webp", "", { deco: true })}${PIC("real/s12/hero-window.webp", "", { deco: true })}</div>
       <div class="h14-col dn">${PIC("real/s06/hug.webp", "", { deco: true })}${PIC("real/s15/pour.webp", "", { deco: true })}${PIC("real/s06/hands.webp", "", { deco: true })}${PIC("real/s12/dusk-camp.webp", "", { deco: true })}${PIC("real/s06/hug.webp", "", { deco: true })}${PIC("real/s15/pour.webp", "", { deco: true })}${PIC("real/s06/hands.webp", "", { deco: true })}${PIC("real/s12/dusk-camp.webp", "", { deco: true })}</div>
     </div>
-    ${PP("עצירת התמונות הזזות")}
   </section>
 </div>`,
   js:`${REVEAL_JS}
 (function(){
-  var root=document.getElementById("h14"), pp=root.querySelector(".hpp"); enter(root);
-  pp.addEventListener("click",function(){var on=!root.classList.contains("paused");root.classList.toggle("paused",on);pp.setAttribute("aria-pressed",String(on));
-    pp.setAttribute("aria-label",on?"הפעלת התמונות הזזות":"עצירת התמונות הזזות");});
+  var root=document.getElementById("h14"); enter(root);
 })();`,
-  note:"כל עמודה כתובה פעמיים, והאנימציה מזיזה אותה בדיוק בחצי מהגובה ועוד חצי מהרווח (calc(-50% - 8px)), ולכן התמונה שנוחתת למעלה זהה לזו שהתחילה שם ואין קפיצה בלולאה. שתי העמודות בכיוונים הפוכים ובמהירויות שונות (44 ו-52 שניות), כדי שהעין לא תתפוס קצב. הקצוות נמוגים במסכת גרדיאנט ולא בשכבת צבע, אז זה עובד על כל רקע. זו תנועה שנמשכת יותר מחמש שניות, ולכן יש כפתור עצירה גלוי (WCAG 2.2.2), ריחוף עוצר אותה, ובהפחתת תנועה היא לא זזה בכלל והכפתור יורד. העמודות הן תמונה אחת מבחינת קורא מסך (role=img עם תיאור), והתמונות עצמן דקורטיביות. בטלפון הטקסט עולה למעלה והעמודות ממלאות את מה שנשאר מתחתיו." + NOTE_TAIL
+  note:"כל עמודה כתובה פעמיים, והאנימציה מזיזה אותה בדיוק בחצי מהגובה ועוד חצי מהרווח (calc(-50% - 8px)), ולכן התמונה שנוחתת למעלה זהה לזו שהתחילה שם ואין קפיצה בלולאה. שתי העמודות בכיוונים הפוכים ובמהירויות שונות (44 ו-52 שניות), כדי שהעין לא תתפוס קצב. הקצוות נמוגים במסכת גרדיאנט ולא בשכבת צבע, אז זה עובד על כל רקע. זו תנועה שנמשכת יותר מחמש שניות: בלי כפתור עצירה בעמוד (motion.md 2א), WCAG 2.2.2 מתקיים בהמתג בסרגל הנגישות של האתר. ריחוף עוצר אותה, ובהפחתת תנועה היא לא זזה בכלל. העמודות הן תמונה אחת מבחינת קורא מסך (role=img עם תיאור), והתמונות עצמן דקורטיביות. בטלפון הטקסט עולה למעלה והעמודות ממלאות את מה שנשאר מתחתיו." + NOTE_TAIL
 },
 {
   id:"h15", cat:"hero", name:"הירו מצגת מסך מלא עם פסי התקדמות", tech:"CSS · JS", status:"מאושר-עין", runway:false,
-  desc:"שלוש תמונות במסך מלא שמתחלפות לבד, כל אחת עם שם קצר, ופס התקדמות לכל אחת כמו בסטורי. הכותרת והכפתור נשארים קבועים, נגיעה בשם עוברת לתמונה שלו, ויש כפתור עצירה.",
+  desc:"שלוש תמונות במסך מלא שמתחלפות לבד, כל אחת עם שם קצר, ופס התקדמות לכל אחת כמו בסטורי. הכותרת והכפתור נשארים קבועים, ונגיעה בשם עוברת לתמונה שלו.",
   when:"עסק שצריך להראות כמה מקומות או חלקים כבר במסך הראשון: מלון (חוף, חדרים, בר), נדל״ן (בניין, דירה, נוף), אולם, מסעדה עם כמה חללים, אתר תיירות. לא כשיש רק צילום אחד טוב; אז h3.",
   libs:[],
   css:`${FRAME_CSS}
-${PP_CSS}
 .h15h{position:relative;min-height:min(84vh,760px);display:flex;flex-direction:column;justify-content:flex-end;padding:112px 28px 40px;background:var(--ink);color:var(--bg);overflow:hidden;isolation:isolate}
 /* the incoming slide fades in on top while the outgoing one stays whole underneath and drops only when the fade is done,
    so the middle of a change never shows the background through two half-transparent photos */
@@ -345,7 +328,6 @@ ${PP_CSS}
 .h15-tab[aria-current="true"] .h15-bar i{animation:h15fill 6s linear forwards}
 .h15h.still .h15-tab[aria-current="true"] .h15-bar i{animation:none;transform:scaleX(1)}
 @keyframes h15fill{to{transform:scaleX(1)}}
-.h15h.paused .h15-bar i,.h15h.paused .h15-sl img{animation-play-state:paused}
 @media (hover:hover) and (pointer:fine){.h15-tab:hover{opacity:1}}
 @media (prefers-reduced-motion:reduce){.h15-sl.on img{animation:none}.h15-sl,.h15-sl.on{transition:none}}
 @media (max-width:860px){.h15h{padding:96px 20px 32px;min-height:min(88vh,720px)}.h15-foot{flex-direction:column-reverse;align-items:stretch;gap:28px}.h15-nav{width:100%}}`,
@@ -367,18 +349,17 @@ ${PP_CSS}
         <button class="h15-tab" type="button" aria-current="true"><span>החוף</span><span class="h15-bar"><i></i></span></button>
         <button class="h15-tab" type="button" aria-current="false"><span>החדרים</span><span class="h15-bar"><i></i></span></button>
         <button class="h15-tab" type="button" aria-current="false"><span>הלאונג'</span><span class="h15-bar"><i></i></span></button>
-        ${PP("עצירת המצגת")}
       </div>
     </div>
   </section>
 </div>`,
   js:`${REVEAL_JS}
 (function(){
-  var root=document.getElementById("h15"), pp=root.querySelector(".hpp"); enter(root);
+  var root=document.getElementById("h15"); enter(root);
   var sl=[].slice.call(root.querySelectorAll(".h15-sl")), tabs=[].slice.call(root.querySelectorAll(".h15-tab")), cur=0;
-  // reduced motion: no autoplay, the names still switch; the button has nothing to stop, so it leaves
+  // reduced motion: no autoplay, the names still switch. No pause button on the page: the stop is the toolbar's animation switch (motion.md 2א)
   var auto=matchMedia("(prefers-reduced-motion:no-preference)").matches;
-  if(!auto){root.classList.add("still"); pp.hidden=true;}
+  if(!auto)root.classList.add("still");
   function go(n){
     cur=(n+sl.length)%sl.length;
     sl.forEach(function(s,k){s.classList.toggle("on",k===cur); s.setAttribute("aria-hidden",String(k!==cur));});
@@ -391,10 +372,8 @@ ${PP_CSS}
     t.addEventListener("click",function(){go(k);});
     t.querySelector("i").addEventListener("animationend",function(){if(auto&&k===cur)go(cur+1);});
   });
-  pp.addEventListener("click",function(){var on=!root.classList.contains("paused"); root.classList.toggle("paused",on);
-    pp.setAttribute("aria-pressed",String(on)); pp.setAttribute("aria-label",on?"הפעלת המצגת":"עצירת המצגת");});
 })();`,
-  note:"הכותרת והכפתור לא מתחלפים עם התמונות. רק השם הקטן והתמונה מתחלפים, ולכן המסר נקרא פעם אחת ולא בורח באמצע קריאה. הפס של השקופית הנוכחית הוא השעון: אנימציית CSS של 6 שניות, ו-animationend שלה מביא את הבאה, כך שעצירה (animation-play-state) עוצרת גם את הזמן וגם את הזום האיטי בבת אחת, בלי טיימר מקביל שיברח. נגיעה בשם עוברת אליו. בהפחתת תנועה אין החלפה אוטומטית ואין זום: השמות עדיין מחליפים תמונה, וכפתור העצירה יורד כי אין מה לעצור. שכבת הקריאות אלכסונית מהפינה של הטקסט (התורה), וההיפוך שלה ל-LTR כתוב. רק התמונה הראשונה נשלפת בעדיפות; השתיים שמחכות נטענות רגיל ולא ב-lazy, כי הן כבר בתוך המסך ו-lazy רק מסכן מעבר למסגרת ריקה." + NOTE_TAIL
+  note:"הכותרת והכפתור לא מתחלפים עם התמונות. רק השם הקטן והתמונה מתחלפים, ולכן המסר נקרא פעם אחת ולא בורח באמצע קריאה. הפס של השקופית הנוכחית הוא השעון: אנימציית CSS של 6 שניות, ו-animationend שלה מביא את הבאה, כך שעצירה (animation-play-state) עוצרת גם את הזמן וגם את הזום האיטי בבת אחת, בלי טיימר מקביל שיברח. נגיעה בשם עוברת אליו. בהפחתת תנועה אין החלפה אוטומטית ואין זום: השמות עדיין מחליפים תמונה. אין כפתור עצירה בעמוד: העצירה היא המתג בסרגל הנגישות (motion.md 2א). שכבת הקריאות אלכסונית מהפינה של הטקסט (התורה), וההיפוך שלה ל-LTR כתוב. רק התמונה הראשונה נשלפת בעדיפות; השתיים שמחכות נטענות רגיל ולא ב-lazy, כי הן כבר בתוך המסך ו-lazy רק מסכן מעבר למסגרת ריקה." + NOTE_TAIL
 },
 {
   id:"h16", cat:"hero", name:"הירו עם טופס לידים בתוך ההירו", tech:"CSS · JS", status:"מאושר-עין", runway:false,
@@ -1002,11 +981,10 @@ enter(document.getElementById("h21"));`,
 },
 {
   id:"h24", cat:"hero", name:"הירו דירוג למעלה ורצועת ביקורות", tech:"CSS · JS", status:"מאושר-עין", runway:false,
-  desc:"כותרת ממורכזת שמעליה שורת דירוג: עיגולי ראשי תיבות, כוכבים ומספר הביקורות. מתחת לכפתורים רצועה של כרטיסי ביקורת שגולשת לאט לרוחב, עם קצוות נמוגים, עצירה בריחוף וכפתור עצירה גלוי.",
+  desc:"כותרת ממורכזת שמעליה שורת דירוג: עיגולי ראשי תיבות, כוכבים ומספר הביקורות. מתחת לכפתורים רצועה של כרטיסי ביקורת שגולשת לאט לרוחב, עם קצוות נמוגים ועצירה בריחוף.",
   when:"עסק שהלקוח בוחר בו לפי ביקורות ויש לו הרבה כאלה: הובלות, שיפוצים, ניקיון, מרפאה, מוסך, בית ספר לנהיגה, קייטרינג. הביקורות הן הטיעון, ולכן הן במסך הראשון ולא בתחתית העמוד. לא לעסק עם פחות מעשרים ביקורות אמיתיות, ולעולם לא עם ביקורות ממוצאות.",
   libs:[],
   css:`${FRAME_CSS}
-${PP_CSS}
 .h24h{position:relative;display:flex;flex-direction:column;align-items:center;gap:32px;min-height:min(86vh,780px);padding:96px 0 28px;text-align:center;overflow:hidden;
   background:radial-gradient(80% 60% at 50% 0%,color-mix(in srgb,var(--accent) 10%,var(--bg)),var(--bg))}
 .h24-top{display:flex;flex-direction:column;align-items:center;gap:24px;padding-inline:28px}
@@ -1031,21 +1009,19 @@ ${PP_CSS}
 [dir="ltr"] .h24-track{animation-name:h24-run-l}
 @keyframes h24-run{to{transform:translateX(calc(50% + 8px))}}
 @keyframes h24-run-l{to{transform:translateX(calc(-50% - 8px))}}
-.h24h.paused .h24-track{animation-play-state:paused}
 @media (hover:hover) and (pointer:fine){.h24-rail:hover .h24-track{animation-play-state:paused}}
 .h24-card{flex:none;width:300px;display:flex;flex-direction:column;align-items:flex-start;gap:12px;padding:20px;border-radius:16px;background:var(--card);text-align:start;
   box-shadow:0 12px 32px -18px color-mix(in srgb,var(--ink) 40%,transparent)}
 .h24-card blockquote{margin:0;font-size:15px;line-height:1.55}
 .h24-card p{margin:0;font-size:13px;color:var(--muted)}
 .h24-card p b{color:var(--ink);font-weight:700}
-.h24h .hpp{position:absolute;inset-block-end:28px;inset-inline-end:20px;z-index:2}
 /* reduced motion: nothing slides; one set stays, and the rail scrolls by hand (it is focusable, so the keyboard can too) */
-@media (prefers-reduced-motion:reduce){.h24h .h24-track{animation:none}.h24-track>[aria-hidden]{display:none}.h24h .hpp{display:none}
+@media (prefers-reduced-motion:reduce){.h24h .h24-track{animation:none}.h24-track>[aria-hidden]{display:none}
   .h24-rail{overflow-x:auto;-webkit-mask-image:none;mask-image:none}.h24-track{padding-inline:28px}}
 .h24-rail:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 @media (max-width:860px){.h24h{gap:24px;padding:88px 0 20px;min-height:min(92vh,800px)}.h24-top{padding-inline:20px;gap:18px}
   .h24h h3{font-size:clamp(28px,7.8vw,40px)}.h24-proof{font-size:13px;padding-inline:16px}.h24-card{width:260px}
-  .h24-av{display:none}.h24h .hpp{inset-inline-end:8px}
+  .h24-av{display:none}
   .h24h{justify-content:center}.h24-rail{margin-top:0}}`,
   html:`${OPEN_GATE}
 <div class="hf">${TOP(true)}
@@ -1070,16 +1046,13 @@ ${PP_CSS}
         return set + set.replace(/<li class="h24-card">/g, '<li class="h24-card" aria-hidden="true">');
       })()}</ul>
     </div>
-    ${PP("עצירת הביקורות הזזות")}
   </section>
 </div>`,
   js:`${REVEAL_JS}
 (function(){
-  var root=document.getElementById("h24"), pp=root.querySelector(".hpp"); enter(root);
-  pp.addEventListener("click",function(){var on=!root.classList.contains("paused");root.classList.toggle("paused",on);pp.setAttribute("aria-pressed",String(on));
-    pp.setAttribute("aria-label",on?"הפעלת הביקורות הזזות":"עצירת הביקורות הזזות");});
+  var root=document.getElementById("h24"); enter(root);
 })();`,
-  note:"הדירוג עולה לפני הכותרת, כי מי שבוחר מוביל, שיפוצניק או מרפאה בודק קודם כמה כוכבים יש לו, ורק אחר כך קורא מה הוא מבטיח. עיגולי ראשי התיבות הם רמז לאנשים אמיתיים בלי צילומי פנים מבנק תמונות, והכוכבים בצבע הטקסט ולא בצהוב, כדי שיחזיקו בכל עור. רצועת הביקורות כתובה פעמיים והאנימציה מזיזה אותה בחצי ועוד חצי רווח, כך שהלולאה בלי קפיצה; הכיוון מתהפך באנגלית. זו תנועה של יותר מחמש שניות, ולכן יש כפתור עצירה גלוי, ריחוף עוצר אותה, ובהפחתת תנועה היא לא זזה בכלל: נשאר עותק אחד והרצועה נגללת ביד, והיא יכולה לקבל פוקוס כדי שגם המקלדת תגלול. העותק השני מוסתר מקורא מסך, כדי שכל ביקורת תיקרא פעם אחת. בפרויקט הביקורות מגיעות מגוגל או מהפאנל, עם שם פרטי ועיר, ולעולם לא נכתבות בשביל הדמו." + NOTE_TAIL
+  note:"הדירוג עולה לפני הכותרת, כי מי שבוחר מוביל, שיפוצניק או מרפאה בודק קודם כמה כוכבים יש לו, ורק אחר כך קורא מה הוא מבטיח. עיגולי ראשי התיבות הם רמז לאנשים אמיתיים בלי צילומי פנים מבנק תמונות, והכוכבים בצבע הטקסט ולא בצהוב, כדי שיחזיקו בכל עור. רצועת הביקורות כתובה פעמיים והאנימציה מזיזה אותה בחצי ועוד חצי רווח, כך שהלולאה בלי קפיצה; הכיוון מתהפך באנגלית. זו תנועה של יותר מחמש שניות: בלי כפתור עצירה בעמוד (motion.md 2א), העצירה היא המתג בסרגל הנגישות, ריחוף עוצר אותה, ובהפחתת תנועה היא לא זזה בכלל: נשאר עותק אחד והרצועה נגללת ביד, והיא יכולה לקבל פוקוס כדי שגם המקלדת תגלול. העותק השני מוסתר מקורא מסך, כדי שכל ביקורת תיקרא פעם אחת. בפרויקט הביקורות מגיעות מגוגל או מהפאנל, עם שם פרטי ועיר, ולעולם לא נכתבות בשביל הדמו." + NOTE_TAIL
 },
 {
   id:"h25", cat:"hero", name:"הירו מוצר עם בורר צבעים", tech:"CSS · JS", status:"מאושר-עין", runway:false,
@@ -1795,11 +1768,10 @@ ${(() => {
 },
 {
   id:"h34", cat:"hero", name:"הירו סרטון רחב כמו בקולנוע", tech:"CSS · JS", status:"מאושר-עין", runway:false,
-  desc:"סרטון רחב ונמוך, כמו פתיחה של סרט, שנפתח מקו דק לגובה מלא, ומתחתיו כותרת בצד אחד ומשפט וכפתורים בצד השני. הסרטון מתנגן בלולאה שקטה ויש לו כפתור עצירה.",
+  desc:"סרטון רחב ונמוך, כמו פתיחה של סרט, שנפתח מקו דק לגובה מלא, ומתחתיו כותרת בצד אחד ומשפט וכפתורים בצד השני. הסרטון מתנגן בלולאה שקטה.",
   when:"עסק שיש לו סרטון קצר ושקט שמראה את החוויה: נסיעות וחופשות, מלון, צימר, יקב, אירועים, ספורט ים, אדריכלות. הפורמט הרחב משאיר מקום לטקסט במסך הראשון בלי לכתוב על הסרטון. לא בלי סרטון אמיתי של העסק, ולא לסרטון אנכי מהטלפון, שם h3 עם צילום.",
   libs:[],
-  css:`${PP_CSS}
-${FRAME_CSS}
+  css:`${FRAME_CSS}
 .h34h{display:flex;flex-direction:column;justify-content:center;gap:28px;min-height:min(86vh,780px);padding:88px 28px 28px;background:var(--bg)}
 /* a letterbox, wider than any screen: on a low laptop it gets wider still, never taller */
 .h34-fr{position:relative;width:100%;aspect-ratio:2.4/1;max-height:46vh;border-radius:24px;overflow:hidden;background:var(--ink);clip-path:inset(0 round 24px);transition:clip-path .9s ${E}}
@@ -1811,8 +1783,6 @@ ${FRAME_CSS}
 .is-in .h34-fr{clip-path:inset(0 round 24px);transition-delay:var(--t0,0s)}
 .rv-on .h34-fr{animation:none}
 @keyframes h34f-fs{to{clip-path:inset(0 round 24px)}}
-.h34-fr .hpp{position:absolute;inset-block-end:16px;inset-inline-end:16px;z-index:1}
-.h34-fr .hpp[hidden]{display:none}
 .h34-bot{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:end;gap:20px 56px}
 .h34-ttl,.h34-side{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
 .h34-side{gap:20px}
@@ -1830,7 +1800,6 @@ ${FRAME_CSS}
     <div class="h34-fr">
       ${PIC("dive/reel.webp", "חוף מלמעלה: גלים לבנים על חול זהוב ומים בצבע טורקיז", { pri: true })}
       <video muted loop playsinline preload="none" aria-hidden="true" poster="../assets/media/dive/reel.webp" data-src="../assets/media/dive/reel-720.mp4"></video>
-      ${PP("עצירת הסרטון").replace("<button ", "<button hidden ")}
     </div>
     <div class="h34-bot">
       <div class="h34-ttl">
@@ -1846,21 +1815,17 @@ ${FRAME_CSS}
 </div>`,
   js:`${REVEAL_JS}
 (function(){
-  var root=document.getElementById("h34"), v=root.querySelector("video"), pp=root.querySelector(".hpp");
+  var root=document.getElementById("h34"), v=root.querySelector("video");
   enter(root);
   // fetched only once the hero is on screen, and it plays for everyone, reduced motion included (motion.md 2א):
-  // a video that never starts looks like a stuck site. The button is the way to stop it
+  // a video that never starts looks like a stuck site. No pause button on the page: the stop is the toolbar's animation switch
   inView(root,function(){
     v.src=v.dataset.src; v.muted=true; v.setAttribute("autoplay","");
     // a blocked autoplay never adds the class: the poster stays and the hero is still whole
     var p=v.play(); if(p&&p.then)p.then(on,function(){}); else on();
   });
-  function on(){v.classList.add("on"); pp.hidden=false;}
-  pp.addEventListener("click",function(){
-    var stop=!v.paused; if(stop)v.pause(); else{var p=v.play(); if(p&&p.catch)p.catch(function(){});}
-    pp.setAttribute("aria-pressed",String(stop)); pp.setAttribute("aria-label",stop?"הפעלת הסרטון":"עצירת הסרטון");
-  });
+  function on(){v.classList.add("on");}
 })();`,
-  note:"הפורמט הרחב (2.4 על 1) הוא מה שמבדיל את ההירו הזה מסרטון רקע: הסרטון לא נמתח על כל המסך ולא צריך שכבת קריאות, והטקסט יושב מתחתיו על רקע נקי, כך שהוא קריא בכל עור. במסך נמוך הגובה נעצר ב-46% מהמסך והסרטון רק נהיה רחב יותר, כדי שהכותרת והכפתורים תמיד יישארו במסך הראשון. הפתיחה היא קו דק באמצע שנפתח לגובה מלא (clip-path), והכותרת עולה כשהסרטון כמעט פתוח. הסרטון נטען רק כשההירו על המסך, מתנגן גם בהפחתת תנועה עם כפתור עצירה והפעלה שמופיע רק כשהוא באמת רץ (motion.md 2א, WCAG 2.2.2); אם הדפדפן חוסם, הפוסטר נשאר, ולכן הפוסטר הוא פריים מתוך הסרטון. הסרטון מוסתר מקורא מסך כי הוא אווירה, והתמונה שמתחתיו נושאת את התיאור. בטלפון היחס 16 על 9. סרטון של שש עד עשר שניות, בלי חיתוכים חדים, עד 2MB." + NOTE_TAIL
+  note:"הפורמט הרחב (2.4 על 1) הוא מה שמבדיל את ההירו הזה מסרטון רקע: הסרטון לא נמתח על כל המסך ולא צריך שכבת קריאות, והטקסט יושב מתחתיו על רקע נקי, כך שהוא קריא בכל עור. במסך נמוך הגובה נעצר ב-46% מהמסך והסרטון רק נהיה רחב יותר, כדי שהכותרת והכפתורים תמיד יישארו במסך הראשון. הפתיחה היא קו דק באמצע שנפתח לגובה מלא (clip-path), והכותרת עולה כשהסרטון כמעט פתוח. הסרטון נטען רק כשההירו על המסך, מתנגן גם בהפחתת תנועה, בלי כפתור עצירה בעמוד: WCAG 2.2.2 מתקיים בהמתג בסרגל הנגישות (motion.md 2א); אם הדפדפן חוסם, הפוסטר נשאר, ולכן הפוסטר הוא פריים מתוך הסרטון. הסרטון מוסתר מקורא מסך כי הוא אווירה, והתמונה שמתחתיו נושאת את התיאור. בטלפון היחס 16 על 9. סרטון של שש עד עשר שניות, בלי חיתוכים חדים, עד 2MB." + NOTE_TAIL
 }
 ];

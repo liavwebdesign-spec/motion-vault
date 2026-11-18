@@ -51,15 +51,9 @@ img{max-width:100%}
 .wm-set span{font-size:clamp(28px,4.4vw,60px);font-weight:800;line-height:1.1;letter-spacing:-.01em;white-space:nowrap}
 .wm-set i{width:clamp(10px,1vw,14px);aspect-ratio:1;flex:none;border-radius:50%;background:currentColor;opacity:.55}
 @keyframes wm-run{to{transform:translateX(calc(var(--wm-shift,50%) * var(--wm-sign,1)))}}
-.wm.is-paused .wm-track,.wm.is-off .wm-track{animation-play-state:paused}
+.wm.is-off .wm-track{animation-play-state:paused}
 @media(hover:hover) and (pointer:fine){.wm:hover .wm-track{animation-play-state:paused}}
 .wm-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.wm-pp{position:absolute;inset-block-end:16px;inset-inline-end:16px;z-index:3;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border:0;border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);font:inherit;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent)}
-.wm-pp[hidden]{display:none}
-.wm-pp svg{width:16px;height:16px;fill:currentColor}
-.wm-pp .i-pl,.wm.is-paused .wm-pp .i-pa{display:none}
-.wm.is-paused .wm-pp .i-pl{display:block}
-.wm-pp:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.wm-track{animation:none}}
 </style>
 </head>
@@ -71,7 +65,7 @@ img{max-width:100%}
     <div class="wm-band wm-b"><div class="wm-track"><div class="wm-set"><span>שיעור ראשון עלינו</span><i></i><span>מגיל שש ועד שמונים</span><i></i><span>הופעה בסוף כל שנה</span><i></i><span>הרכבים ולהקות</span><i></i></div></div></div>
   </div>
   <ul class="wm-sr" aria-label="מה לומדים אצלנו"><li>גיטרה</li><li>פסנתר</li><li>תופים</li><li>שירה</li><li>כינור</li><li>בס</li><li>סקסופון</li><li>שיעור ראשון עלינו</li><li>מגיל שש ועד שמונים</li><li>הופעה בסוף כל שנה</li><li>הרכבים ולהקות</li></ul>
-  <button class="wm-pp" type="button" data-pp hidden><svg class="i-pa" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg><svg class="i-pl" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg><span>עצירת התנועה</span></button>
+  
 </section></div>
 
 
@@ -95,13 +89,6 @@ img{max-width:100%}
   // מדידה לפני שהפונט נטען יוצאת קצרה, והלולאה קופצת בכל סיבוב
   if(document.fonts)document.fonts.ready.then(all);
   let t;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(all,200);});
-  const pp=root.querySelector("button[data-pp]");
-  if(!matchMedia("(prefers-reduced-motion: reduce)").matches)pp.hidden=false;
-  pp.addEventListener("click",()=>{
-    const on=!root.classList.contains("is-paused");
-    root.classList.toggle("is-paused",on);
-    pp.querySelector("span").textContent=on?"המשך התנועה":"עצירת התנועה";
-  });
   // מחוץ למסך התנועה עומדת
   if("IntersectionObserver" in window)new IntersectionObserver(es=>es.forEach(e=>root.classList.toggle("is-off",!e.isIntersecting))).observe(root);
 })();

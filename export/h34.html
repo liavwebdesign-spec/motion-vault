@@ -34,15 +34,6 @@ img{max-width:100%}
 
 /* ===== הרכיב ===== */
 /* H34 · הירו סרטון רחב כמו בקולנוע */
-.hpp{width:44px;height:44px;flex:none;border:0;border-radius:999px;display:grid;place-items:center;cursor:pointer;
-  background:color-mix(in srgb,var(--ink, #16182b) 55%,transparent);color:var(--bg, #f7f7fa);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .18s cubic-bezier(.2,.6,.2,1)}
-.hpp svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.hpp .i-play{display:none;fill:currentColor}
-.hpp[aria-pressed="true"] .i-pause{display:none}
-.hpp[aria-pressed="true"] .i-play{display:block}
-.hpp:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
-@media (hover:hover) and (pointer:fine){.hpp:hover{background:color-mix(in srgb,var(--ink, #16182b) 75%,transparent)}}
-
 /* ---- demo frame and top row (scaffolding, not part of the hero) ---- */
 .hf{position:relative;margin-inline:var(--gutter, clamp(24px, 5vw, 96px));border:1px solid var(--line, #e4e4ee);border-radius:var(--r, 14px);overflow:hidden;background:var(--bg, #f7f7fa);isolation:isolate}
 .hf-top{position:absolute;inset-inline:0;top:0;z-index:6;display:flex;align-items:center;gap:24px;padding:20px 28px;font-size:15px;font-weight:500}
@@ -78,8 +69,6 @@ img{max-width:100%}
 .is-in .h34-fr{clip-path:inset(0 round 24px);transition-delay:var(--t0,0s)}
 .rv-on .h34-fr{animation:none}
 @keyframes h34f-fs{to{clip-path:inset(0 round 24px)}}
-.h34-fr .hpp{position:absolute;inset-block-end:16px;inset-inline-end:16px;z-index:1}
-.h34-fr .hpp[hidden]{display:none}
 .h34-bot{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);align-items:end;gap:20px 56px}
 .h34-ttl,.h34-side{display:flex;flex-direction:column;align-items:flex-start;gap:16px}
 .h34-side{gap:20px}
@@ -101,7 +90,6 @@ img{max-width:100%}
     <div class="h34-fr">
       <img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/dive/reel.webp" alt="חוף מלמעלה: גלים לבנים על חול זהוב ומים בצבע טורקיז" fetchpriority="high" decoding="async">
       <video muted loop playsinline preload="none" aria-hidden="true" poster="https://liavwebdesign-spec.github.io/motion-vault/assets/media/dive/reel.webp" data-src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/dive/reel-720.mp4"></video>
-      <button hidden class="hpp" type="button" aria-pressed="false" aria-label="עצירת הסרטון"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
     </div>
     <div class="h34-bot">
       <div class="h34-ttl">
@@ -142,20 +130,16 @@ function enter(root){
   inView(root,function(){root.classList.add("is-in");});
 }
 (function(){
-  var root=document.getElementById("h34"), v=root.querySelector("video"), pp=root.querySelector(".hpp");
+  var root=document.getElementById("h34"), v=root.querySelector("video");
   enter(root);
   // fetched only once the hero is on screen, and it plays for everyone, reduced motion included (motion.md 2א):
-  // a video that never starts looks like a stuck site. The button is the way to stop it
+  // a video that never starts looks like a stuck site. No pause button on the page: the stop is the toolbar's animation switch
   inView(root,function(){
     v.src=v.dataset.src; v.muted=true; v.setAttribute("autoplay","");
     // a blocked autoplay never adds the class: the poster stays and the hero is still whole
     var p=v.play(); if(p&&p.then)p.then(on,function(){}); else on();
   });
-  function on(){v.classList.add("on"); pp.hidden=false;}
-  pp.addEventListener("click",function(){
-    var stop=!v.paused; if(stop)v.pause(); else{var p=v.play(); if(p&&p.catch)p.catch(function(){});}
-    pp.setAttribute("aria-pressed",String(stop)); pp.setAttribute("aria-label",stop?"הפעלת הסרטון":"עצירת הסרטון");
-  });
+  function on(){v.classList.add("on");}
 })();
 </script>
 </body>

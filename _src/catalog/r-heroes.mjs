@@ -152,7 +152,7 @@ enter(document.getElementById("h2"));`,
 },
 {
   id:"h3", cat:"hero", name:"הירו מדיה מלאה עם שכבת קריאות", tech:"CSS · JS · video", status:"ממתין", runway:false,
-  desc:"וידאו או צילום שממלא את המסך, שכבת גרדיאנט שמבטיחה שהטקסט קריא, וכותרת שעולה מתוך חיתוך. הווידאו מתחיל רק כשהוא על המסך, מתנגן לכולם, ויש לו כפתור עצירה גלוי.",
+  desc:"וידאו או צילום שממלא את המסך, שכבת גרדיאנט שמבטיחה שהטקסט קריא, וכותרת שעולה מתוך חיתוך. הווידאו מתחיל רק כשהוא על המסך, מתנגן לכולם, והעצירה היא המתג בסרגל הנגישות.",
   when:"עסק שמוכר חוויה, מקום או חומר: מסעדה, מלון, אולם אירועים, סטודיו, תיירות, קבלן. דורש צילום אמיתי וטוב. לא לאתר שירות עם תמונות סטוק.",
   libs:[],
   css:`${FRAME_CSS}
@@ -171,17 +171,6 @@ enter(document.getElementById("h2"));`,
 .is-in .h3-line:nth-of-type(2) span{transition-delay:calc(var(--t0,0s) + .1s)}
 .rv-on .h3-line span{animation:none}
 .h3h .hlead{max-width:42ch;opacity:.9}
-/* pause and play (motion.md 2א, WCAG 2.2.2): the video plays for everyone, reduced motion included, and this button stops it.
-   It appears only once the video really runs; a blocked autoplay leaves the poster and no button */
-.h3-pp{position:absolute;inset-block-end:20px;inset-inline-end:20px;z-index:1;width:44px;height:44px;border:0;border-radius:999px;display:grid;place-items:center;
-  background:color-mix(in srgb,var(--bg) 16%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--bg) 40%,transparent);color:var(--bg);cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .18s ${E}}
-.h3-pp[hidden]{display:none}
-.h3-pp svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.h3-pp .i-play{display:none;fill:currentColor}
-.h3-pp[aria-pressed="true"] .i-pause{display:none}
-.h3-pp[aria-pressed="true"] .i-play{display:block}
-.h3-pp:focus-visible{outline:2px solid var(--bg);outline-offset:3px}
-@media (hover:hover) and (pointer:fine){.h3-pp:hover{background:color-mix(in srgb,var(--bg) 28%,transparent)}}
 @media (prefers-reduced-motion:reduce){.h3-line span{transition-duration:.01ms!important}}
 @media (max-width:760px){.h3h{padding:96px 20px 40px;min-height:74vh}}`,
   html:`${OPEN_GATE}
@@ -193,27 +182,23 @@ enter(document.getElementById("h2"));`,
     <h3><span class="h3-line"><span>ארוחת ערב</span></span><span class="h3-line"><span>שנמשכת כל הערב</span></span></h3>
     <p class="hlead rv" style="--i:2">מטבח פתוח, תפריט שמתחלף כל שבועיים, ורשימת יינות קטנה שאפשר לסמוך עליה.</p>
     <div class="hcta rv" style="--i:3"><a class="hbtn" href="#h3">להזמנת שולחן</a><a class="hbtn ghost" href="#h3">לתפריט הערב</a></div>
-    <button class="h3-pp" type="button" aria-pressed="false" aria-label="עצירת הווידאו" hidden><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
+    
   </section>
 </div>`,
   js:`${REVEAL_JS}
 (function(){
-  var root=document.getElementById("h3"), v=root.querySelector("video"), pp=root.querySelector(".h3-pp");
+  var root=document.getElementById("h3"), v=root.querySelector("video");
   enter(root);
   // the video is fetched only when the hero is on screen, and it plays for everyone, reduced motion included (motion.md 2א):
-  // on office PCs Windows turns animations off, and a video that never starts looks like a stuck site. The button is the way to stop it
+  // on office PCs Windows turns animations off, and a video that never starts looks like a stuck site. No pause button on the page: the stop is the toolbar's animation switch
   inView(root,function(){
     v.src=v.dataset.src; v.muted=true; v.setAttribute("autoplay","");
     // if the browser blocks autoplay, the class is never added and the poster simply stays: the hero still works
     var p=v.play(); if(p&&p.then)p.then(on,function(){}); else on();
   });
-  function on(){v.classList.add("on"); pp.hidden=false;}
-  pp.addEventListener("click",function(){
-    var stop=!v.paused; if(stop)v.pause(); else{var p=v.play(); if(p&&p.catch)p.catch(function(){});}
-    pp.setAttribute("aria-pressed",String(stop));
-  });
+  function on(){v.classList.add("on");}
 })();`,
-  note:"שכבת הקריאות היא חובה ולא קישוט: גרדיאנט מכיוון הטקסט (כאן מלמטה), שמגיע ל-88% מעל האזור שבו יושבות המילים. בלעדיה הכותרת תיפול על אזור בהיר בצילום ותיעלם, וזה נראה רק בצילום מסך אמיתי. הכותרת עולה מתוך חיתוך (overflow hidden על השורה, translateY 105% על הפנים), שתי שורות בהפרש של 100 מילישניות. הווידאו נטען ב-data-src רק כשהוא על המסך, מתחיל שקוף ומתמזג מעל הפוסטר, ומתנגן גם בהפחתת תנועה, עם כפתור עצירה והפעלה בפינה (motion.md 2א, WCAG 2.2.2). הכפתור הוא toggle עם aria-pressed, ומופיע רק כשהווידאו באמת רץ. הכותרת לפי min של רוחב וגובה, כדי שבמסך נמוך היא לא תעבור 8% מגובה המסך. אם הדפדפן חוסם הפעלה אוטומטית (קורה בחלונית של קלוד קוד ובחלק מהמובייל), המחלקה לא נוספת והפוסטר פשוט נשאר, וההירו עדיין שלם: זו הסיבה שהפוסטר חייב להיות פריים אמיתי מהסרטון ולא תמונה אחרת." + NOTE_TAIL
+  note:"שכבת הקריאות היא חובה ולא קישוט: גרדיאנט מכיוון הטקסט (כאן מלמטה), שמגיע ל-88% מעל האזור שבו יושבות המילים. בלעדיה הכותרת תיפול על אזור בהיר בצילום ותיעלם, וזה נראה רק בצילום מסך אמיתי. הכותרת עולה מתוך חיתוך (overflow hidden על השורה, translateY 105% על הפנים), שתי שורות בהפרש של 100 מילישניות. הווידאו נטען ב-data-src רק כשהוא על המסך, מתחיל שקוף ומתמזג מעל הפוסטר, ומתנגן גם בהפחתת תנועה, בלי כפתור עצירה בעמוד: WCAG 2.2.2 מתקיים במתג עצירת האנימציות בסרגל הנגישות של האתר (motion.md 2א). הכותרת לפי min של רוחב וגובה, כדי שבמסך נמוך היא לא תעבור 8% מגובה המסך. אם הדפדפן חוסם הפעלה אוטומטית (קורה בחלונית של קלוד קוד ובחלק מהמובייל), המחלקה לא נוספת והפוסטר פשוט נשאר, וההירו עדיין שלם: זו הסיבה שהפוסטר חייב להיות פריים אמיתי מהסרטון ולא תמונה אחרת." + NOTE_TAIL
 },
 {
   id:"h4", cat:"hero", name:"הירו חצי חצי עם הפרדה חדה", tech:"CSS · JS", status:"ממתין", runway:false,

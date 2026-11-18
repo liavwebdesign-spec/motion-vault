@@ -58,25 +58,20 @@ img{max-width:100%}
 .fs-cap>div{grid-area:1/1;display:grid;gap:2px}
 .fs-cap b{font-size:18px;font-weight:700}
 .fs-cap span{font-size:15px;line-height:1.5;color:var(--muted, #6a6d85)}
-.fs-count,.fs-pp{position:absolute;inset-block-start:16px;z-index:1;color:var(--ink, #16182b);background:color-mix(in srgb,var(--card, #fff) 90%,transparent);box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.fs-count{position:absolute;inset-block-start:16px;z-index:1;color:var(--ink, #16182b);background:color-mix(in srgb,var(--card, #fff) 90%,transparent);box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .fs-count{inset-inline-start:16px;margin:0;padding:6px 12px;border-radius:999px;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
-.fs-pp{inset-inline-end:16px;display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;cursor:pointer}
-.fs-pp[hidden]{display:none}
-.fs-pp svg{width:18px;height:18px;fill:currentColor}
-.fs-pp .i-pl,.fs.is-paused .fs-pp .i-pa{display:none}
-.fs.is-paused .fs-pp .i-pl{display:block}
 .fs-strip{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--fs-gap)}
 .fs-th{position:relative;display:block;width:100%;padding:0;border:0;border-radius:14px;overflow:hidden;aspect-ratio:1;background:var(--card, #fff);cursor:pointer;opacity:.55;transition:opacity .4s cubic-bezier(.2,.6,.2,1),transform .5s cubic-bezier(.2,.6,.2,1)}
 .fs-th img{display:block;width:100%;height:100%;object-fit:cover}
 /* הרמה בלבד, בלי הגדלה: הגדלה דחפה את הממוזערת שבקצה מעבר לקו של התמונה הגדולה */
 .fs-th[aria-pressed="true"]{opacity:1;transform:translateY(calc(var(--fs-lift) * -1))}
-.fs-th:focus-visible,.fs-pp:focus-visible,.fs-cta:focus-visible,.fs-alt:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
+.fs-th:focus-visible,.fs-cta:focus-visible,.fs-alt:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
 @media(hover:hover) and (pointer:fine){.fs-th:hover{opacity:1}}
 .fs-bar{position:absolute;inset-inline:8px;inset-block-end:8px;display:none;height:3px;border-radius:999px;background:var(--bg, #f7f7fa);transform:scaleX(0);transform-origin:100% 50%}
 .fs-bar:dir(ltr){transform-origin:0 50%}
 .fs.is-live .fs-bar{display:block}
 .fs.is-live .fs-th[aria-pressed="true"] .fs-bar{animation:fs-fill 5s linear forwards}
-.fs.is-hold .fs-bar,.fs.is-paused .fs-bar,.fs.is-off .fs-bar{animation-play-state:paused}
+.fs.is-hold .fs-bar,.fs.is-off .fs-bar{animation-play-state:paused}
 @keyframes fs-fill{to{transform:scaleX(1)}}
 .fs:not(.is-live) .fs-main img:not(.is-on),.fs:not(.is-live) .fs-cap>div:not(.is-on){display:none}
 .fs.is-live .fs-main img{opacity:0;transform:scale(1.06);transition:opacity .8s cubic-bezier(.2,.6,.2,1),transform 1.4s cubic-bezier(.2,.6,.2,1)}
@@ -111,7 +106,7 @@ img{max-width:100%}
       <li><button class="fs-th" type="button" aria-pressed="false" aria-label="מאחורי הבר"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/pour.webp" width="1000" height="1250" alt="" loading="lazy" decoding="async"><span class="fs-bar" aria-hidden="true"></span></button></li>
       <li><button class="fs-th" type="button" aria-pressed="false" aria-label="לסיום"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/flute.webp" width="1000" height="1250" alt="" loading="lazy" decoding="async"><span class="fs-bar" aria-hidden="true"></span></button></li>
     </ul>
-    <button class="fs-pp" type="button" aria-label="עצירת ההחלפה" hidden><svg class="i-pa" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg><svg class="i-pl" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg></button>
+    
   </div>
 </section></div>
 
@@ -121,10 +116,9 @@ img{max-width:100%}
   const root=document.querySelector("[data-fs]");
   if(!root)return;
   const ths=[...root.querySelectorAll(".fs-th")],imgs=[...root.querySelectorAll(".fs-main img")],caps=[...root.querySelectorAll(".fs-cap>div")];
-  const num=root.querySelector(".fs-count b"),pp=root.querySelector(".fs-pp"),view=root.querySelector(".fs-view");
+  const num=root.querySelector(".fs-count b"),view=root.querySelector(".fs-view");
   let cur=0;
   root.classList.add("is-live");
-  if(!matchMedia("(prefers-reduced-motion: reduce)").matches)pp.hidden=false;
   const go=j=>{
     if(j===cur)return;cur=j;
     ths.forEach((b,i)=>b.setAttribute("aria-pressed",String(i===j)));
@@ -141,11 +135,7 @@ img{max-width:100%}
   view.addEventListener("pointerleave",()=>hold(false));
   view.addEventListener("focusin",()=>hold(true));
   view.addEventListener("focusout",e=>{if(!view.contains(e.relatedTarget))hold(false);});
-  pp.addEventListener("click",()=>{
-    const on=!root.classList.contains("is-paused");
-    root.classList.toggle("is-paused",on);
-    pp.setAttribute("aria-label",on?"המשך ההחלפה":"עצירת ההחלפה");
-  });
+  // בלי כפתור עצירה בעמוד: העצירה המלאה היא המתג בסרגל הנגישות (motion.md 2א)
   if("IntersectionObserver" in window){
     root.classList.add("is-off");
     new IntersectionObserver(es=>es.forEach(e=>root.classList.toggle("is-off",!e.isIntersecting)),{threshold:.35}).observe(root);

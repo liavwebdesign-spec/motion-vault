@@ -345,17 +345,11 @@ ${ccTpl}`,
   id:"b73", cat:"behavior", name:"קיר לוגואים שמתחלפים במקום", tech:"vanilla JS · WAAPI · CSS mask", status:"ממתין", runway:false,
   desc:"שורה של שש משבצות לוגו, וכל משבצת מחליפה את הלוגו שלה בעצמה כל כמה שניות: הישן עולה למעלה ונמוג בטשטוש קל, החדש עולה מלמטה ומתחדד. המשבצות לא מתחלפות יחד, ובסך הכל מופיעים 18 לקוחות בשטח של שישה.",
   when:"רצועת לקוחות בעמוד הבית או בדף שירות, כשיש יותר לקוחות ממה שנכנס בשורה אחת (12 עד 18 לוגואים) והשטח מוגבל. מתחת לכותרת הראשית או לפני הצעת המחיר. לא כשיש עד שישה לקוחות: אז מציגים את כולם, בלי תנועה.",
-  note:"מקור: Cult UI logo-carousel (nolly-studio, https://github.com/nolly-studio/cult-ui, registry/default/ui/logo-carousel.tsx) ו-Eldora UI logo-cloud-04 (karthikmudunuri, https://github.com/karthikmudunuri/eldoraui, apps/www/registry/blocks/logo-cloud-04), רישיון MIT לשניהם. נכתב מחדש בלי React ובלי Framer Motion: שעון גלובלי אחד, Web Animations, ולוגואים כמסכת CSS.\n\nהבדל מהמהלכים הקרובים: b01 (מרקי) מזיז את כל הרצועה אופקית, ולכן לא ניתן לקרוא לוגו אחד בלי שהוא בורח; lm10 הוא קראפט של צבע, בלי תנועה, ושישה לוגואים בלבד. כאן אין תנועה אופקית, כל לוגו עומד במקום ונקרא בנחת, ושש משבצות מכילות 18 לקוחות: יותר לוגואים בפחות שטח.\n\nאיך זה עובד: 18 הלוגואים מחולקים round-robin בין שש המשבצות (משבצת 1 מקבלת את הלוגו 1, 7 ו-13). שעון אחד על requestAnimationFrame, שמתקדם רק כשהוא באמת צריך: מחוץ למסך (IntersectionObserver), בלשונית מוסתרת, בריחוף עכבר ובפוקוס מקלדת, ועל כפתור ההשהיה הוא עוצר לגמרי. כל משבצת מתחלפת כל 2.4 שניות, בהיסט של 260ms מהשכנה, בסדר שאינו סריקה משמאל לימין, כך שאף פעם שתי משבצות לא מתחלפות יחד. ההחלפה: הישן עולה 40% למעלה ונמוג בטשטוש של 4px תוך 0.3 שנייה, החדש עולה מלמטה ומתחדד תוך 0.4 שנייה. הלוגואים הם מסכה (mask) בצבע currentColor, כמו ב-lm10, ולכן הם לובשים את צבע הטקסט של הסקשן בכל עור, כהה או בהיר, בלי קובץ נוסף. בדמו הם SVG מוטבע; בפרויקט אמיתי url(\"logos/x.svg\"), כל לוגו בכל צבע.\n\nנגישות: כפתור השהיה גלוי (WCAG 2.2.2, תוכן שמתחלף מעבר לחמש שניות), 44 פיקסלים. רשימה מוסתרת-חזותית עם שמות כל הלקוחות לקורא מסך, והמשבצות עצמן aria-hidden, כך שקורא המסך לא שומע החלפות. בתנועה מופחתת אין החלפה: הרשת הסטטית מציגה את כל 18 הלוגואים (שלוש שורות של שישה, ובמובייל שש שורות של שלושה) והכפתור נעלם. בלי JS: הלוגו הראשון של כל משבצת גלוי. חזרה מלשונית מוסתרת לא יוצרת פרץ החלפות, כי הזמן בין פריימים נחתך. בטלפון: שלוש עמודות על שתי שורות.\n\nשלוש תשובות הגימור. (1) הגרסה הבנאלית: רצועת לוגואים נעה בלופ, שבה שום לוגו לא נקרא; כאן כל לוגו עומד במקום ומתחלף בנחת, ואין צורך בחצי רצועה כדי להראות 18 לקוחות. (2) מה נושא המשכיות: היציאה למעלה והכניסה מלמטה באותו כיוון, וההיסט בין המשבצות, שנותנים תחושה של גלגל אחד ולא של שש נורות מהבהבות; והכפתור שמראה מצב. (3) איזו פעולה זה מקל: לקרוא את הלוגו שמעניין אותך בלי לרדוף אחריו, ולעצור את הכל כשצריך.",
+  note:"מקור: Cult UI logo-carousel (nolly-studio, https://github.com/nolly-studio/cult-ui, registry/default/ui/logo-carousel.tsx) ו-Eldora UI logo-cloud-04 (karthikmudunuri, https://github.com/karthikmudunuri/eldoraui, apps/www/registry/blocks/logo-cloud-04), רישיון MIT לשניהם. נכתב מחדש בלי React ובלי Framer Motion: שעון גלובלי אחד, Web Animations, ולוגואים כמסכת CSS.\n\nהבדל מהמהלכים הקרובים: b01 (מרקי) מזיז את כל הרצועה אופקית, ולכן לא ניתן לקרוא לוגו אחד בלי שהוא בורח; lm10 הוא קראפט של צבע, בלי תנועה, ושישה לוגואים בלבד. כאן אין תנועה אופקית, כל לוגו עומד במקום ונקרא בנחת, ושש משבצות מכילות 18 לקוחות: יותר לוגואים בפחות שטח.\n\nאיך זה עובד: 18 הלוגואים מחולקים round-robin בין שש המשבצות (משבצת 1 מקבלת את הלוגו 1, 7 ו-13). שעון אחד על requestAnimationFrame, שמתקדם רק כשהוא באמת צריך: מחוץ למסך (IntersectionObserver), בלשונית מוסתרת, בריחוף עכבר ובפוקוס מקלדת. כל משבצת מתחלפת כל 2.4 שניות, בהיסט של 260ms מהשכנה, בסדר שאינו סריקה משמאל לימין, כך שאף פעם שתי משבצות לא מתחלפות יחד. ההחלפה: הישן עולה 40% למעלה ונמוג בטשטוש של 4px תוך 0.3 שנייה, החדש עולה מלמטה ומתחדד תוך 0.4 שנייה. הלוגואים הם מסכה (mask) בצבע currentColor, כמו ב-lm10, ולכן הם לובשים את צבע הטקסט של הסקשן בכל עור, כהה או בהיר, בלי קובץ נוסף. בדמו הם SVG מוטבע; בפרויקט אמיתי url(\"logos/x.svg\"), כל לוגו בכל צבע.\n\nנגישות: בלי כפתור עצירה בעמוד (motion.md 2א); WCAG 2.2.2 (תוכן שמתחלף מעבר לחמש שניות) מתקיים במתג עצירת האנימציות בסרגל הנגישות של האתר. רשימה מוסתרת-חזותית עם שמות כל הלקוחות לקורא מסך, והמשבצות עצמן aria-hidden, כך שקורא המסך לא שומע החלפות. בתנועה מופחתת אין החלפה: הרשת הסטטית מציגה את כל 18 הלוגואים (שלוש שורות של שישה, ובמובייל שש שורות של שלושה). בלי JS: הלוגו הראשון של כל משבצת גלוי. חזרה מלשונית מוסתרת לא יוצרת פרץ החלפות, כי הזמן בין פריימים נחתך. בטלפון: שלוש עמודות על שתי שורות.\n\nשלוש תשובות הגימור. (1) הגרסה הבנאלית: רצועת לוגואים נעה בלופ, שבה שום לוגו לא נקרא; כאן כל לוגו עומד במקום ומתחלף בנחת, ואין צורך בחצי רצועה כדי להראות 18 לקוחות. (2) מה נושא המשכיות: היציאה למעלה והכניסה מלמטה באותו כיוון, וההיסט בין המשבצות, שנותנים תחושה של גלגל אחד ולא של שש נורות מהבהבות. (3) איזו פעולה זה מקל: לקרוא את הלוגו שמעניין אותך בלי לרדוף אחריו.",
   libs:[],
   css:`.cw{position:relative;max-width:min(1180px,94vw);margin-inline:auto;color:var(--ink)}
 .cw-bar{display:flex;align-items:center;justify-content:space-between;gap:var(--gap);margin-block-end:clamp(24px,3vw,40px)}
 .cw-title{margin:0;font-size:15px;font-weight:500;color:var(--muted)}
-.cw-pause{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:border-color .18s cubic-bezier(.2,.6,.2,1)}
-@media (hover:hover) and (pointer:fine){.cw-pause:hover{border-color:var(--ink)}}
-.cw-pause:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.cw-pause svg{width:16px;height:16px}
-.cw-pause .i-play,.cw-pause.is-paused .i-pause{display:none}
-.cw-pause.is-paused .i-play{display:block}
 .cw-wall{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(16px,3vw,48px);align-items:center}
 .cw-cell{position:relative;height:clamp(40px,4.4vw,60px);opacity:.78}
 /* הלב: הלוגו הוא מסכה וצבעו הוא currentColor (כמו ב-lm10). רק הלוגו הנוכחי בכל משבצת (is-on) נראה */
@@ -363,17 +357,16 @@ ${ccTpl}`,
 .cw-logo.is-on{opacity:1;visibility:visible}
 .cw-vh{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 @media (max-width:767px){.cw-wall{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:24px}}
-/* בתנועה מופחתת: רשת סטטית עם כל הלוגואים, הכפתור מיותר */
+/* בתנועה מופחתת: רשת סטטית עם כל הלוגואים */
 @media (prefers-reduced-motion: reduce){
   .cw-cell{display:contents}
   .cw-logo,.cw-logo.is-on{position:static;display:block;height:clamp(40px,4.4vw,60px);opacity:.78;visibility:visible}
-  .cw-pause{display:none}
 }`,
   html:`<div class="stage tight">
 <section class="cw" aria-labelledby="cw-t">
   <div class="cw-bar">
     <p class="cw-title" id="cw-t">לקוחות שסומכים עלינו</p>
-    <button class="cw-pause" type="button" aria-label="השהיית החלפת הלוגואים"><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
+    
   </div>
   <ul class="cw-wall" aria-hidden="true">
 ${cwCells}
@@ -382,16 +375,16 @@ ${cwCells}
 </section>
 </div>`,
   js:`(function(){
-  const wrap=document.querySelector(".cw"),wall=wrap.querySelector(".cw-wall"),cells=[...wall.children],btn=wrap.querySelector(".cw-pause");
+  const wrap=document.querySelector(".cw"),wall=wrap.querySelector(".cw-wall"),cells=[...wall.children];
   const rq=matchMedia("(prefers-reduced-motion: reduce)"),hasA=typeof Element.prototype.animate==="function";
   const E="cubic-bezier(.2,.6,.2,1)",PERIOD=2400,STEP=260,FIRST=700;   // כל משבצת כל 2.4 שניות, בהיסט של 260ms מהשכנה
   // סדר ההחלפה: לא סריקה מצד לצד. מיון לפי השבר של i*0.618 נותן סדר מפוזר לכל מספר משבצות
   const seq=cells.map((_,i)=>i).sort((a,b)=>((a*.618)%1)-((b*.618)%1));
   const st=cells.map(c=>({logos:[...c.querySelectorAll(".cw-logo")],cur:0,at:0}));
   seq.forEach((ci,k)=>{st[ci].at=FIRST+k*STEP;});
-  let elapsed=0,last=0,raf=0,inView=false,userPaused=false,hov=false,foc=false;
+  let elapsed=0,last=0,raf=0,inView=false,hov=false,foc=false;
   // השעון רץ רק כשכל התנאים מתקיימים. אחרת requestAnimationFrame לא נקרא בכלל, ואין עבודה ברקע
-  const live=()=>hasA&&!rq.matches&&inView&&!document.hidden&&!userPaused&&!hov&&!foc;
+  const live=()=>hasA&&!rq.matches&&inView&&!document.hidden&&!hov&&!foc;
   function swap(s){
     if(s.logos.length<2)return;
     const old=s.logos[s.cur];s.cur=(s.cur+1)%s.logos.length;const nu=s.logos[s.cur];
@@ -422,12 +415,7 @@ ${cwCells}
   wrap.addEventListener("pointerleave",()=>{hov=false;update();});
   wrap.addEventListener("focusin",()=>{if(wrap.querySelector(":focus-visible")){foc=true;update();}});
   wrap.addEventListener("focusout",e=>{if(!wrap.contains(e.relatedTarget)){foc=false;update();}});
-  btn.addEventListener("click",()=>{
-    userPaused=!userPaused;foc=false;                // לחיצה מפורשת גוברת על העצירה האוטומטית של הפוקוס
-    btn.classList.toggle("is-paused",userPaused);
-    btn.setAttribute("aria-label",userPaused?"הפעלת החלפת הלוגואים":"השהיית החלפת הלוגואים");
-    update();
-  });
+  // בלי כפתור עצירה בעמוד: העצירה המלאה היא המתג בסרגל הנגישות (motion.md 2א)
 })();`
 },
 ];

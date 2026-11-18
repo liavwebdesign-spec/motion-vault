@@ -7,25 +7,11 @@ const E = "cubic-bezier(.2,.6,.2,1)";
 const SHADOW = "0 1px 2px color-mix(in srgb,var(--ink) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink) 5%,transparent)";
 const IMG = (f, w, h, alt, cls = "") =>
   `<img${cls ? ` class="${cls}"` : ""} src="../assets/media/${f}" width="${w}" height="${h}" alt="${alt}" loading="lazy" decoding="async">`;
-const PAUSE = `<svg class="i-pa" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg><svg class="i-pl" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>`;
 const H2 = "margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance";
 const SEC = "padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg);color:var(--ink)";
 const SR = (sel) => `${sel}{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}`;
-// כפתור עצירה לכל מה שזז לבד יותר מחמש שניות (WCAG 2.2.2): מוסתר עד שה-JS רץ, ובהפחתת תנועה לא מופיע
-const PP_CSS = (p, pos) => `.${p}-pp{position:absolute;${pos};z-index:3;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border:0;border-radius:999px;background:var(--card);color:var(--ink);font:inherit;font-size:14px;font-weight:600;cursor:pointer;box-shadow:${SHADOW}}
-.${p}-pp[hidden]{display:none}
-.${p}-pp svg{width:16px;height:16px;fill:currentColor}
-.${p}-pp .i-pl,.${p}.is-paused .${p}-pp .i-pa{display:none}
-.${p}.is-paused .${p}-pp .i-pl{display:block}
-.${p}-pp:focus-visible{outline:2px solid var(--accent);outline-offset:3px}`;
-const PP_JS = (label, again) => `  const pp=root.querySelector("button[data-pp]");
-  if(!matchMedia("(prefers-reduced-motion: reduce)").matches)pp.hidden=false;
-  pp.addEventListener("click",()=>{
-    const on=!root.classList.contains("is-paused");
-    root.classList.toggle("is-paused",on);
-    pp.querySelector("span").textContent=on?"${again}":"${label}";
-  });
-  // מחוץ למסך התנועה עומדת
+// בלי כפתור עצירה בעמוד (motion.md 2א): WCAG 2.2.2 מתקיים במתג עצירת האנימציות בסרגל הנגישות של האתר
+const OFF_JS = `  // מחוץ למסך התנועה עומדת
   if("IntersectionObserver" in window)new IntersectionObserver(es=>es.forEach(e=>root.classList.toggle("is-off",!e.isIntersecting))).observe(root);`;
 
 // css48: שני פסים של בית ספר למוזיקה
@@ -59,9 +45,9 @@ const MS_AP = [
 export default [
 {
   id:"css48", cat:"css", name:"שני פסי מילים שמצטלבים באיקס", tech:"CSS keyframes · שכפול מדוד · IntersectionObserver", status:"מאושר-עין", runway:false,
-  desc:"שני פסים רחבים ומוטים שחוצים את הסקשן באיקס, אחד בצבע המותג ואחד כהה. בכל פס מילים גדולות שזורמות בלולאה, והפסים זזים בכיוונים מנוגדים. הפס הכהה עובר מעל הצבעוני באמצע. ריחוף עוצר, ויש כפתור עצירה.",
+  desc:"שני פסים רחבים ומוטים שחוצים את הסקשן באיקס, אחד בצבע המותג ואחד כהה. בכל פס מילים גדולות שזורמות בלולאה, והפסים זזים בכיוונים מנוגדים. הפס הכהה עובר מעל הצבעוני באמצע. ריחוף עוצר אותם.",
   when:"מעבר בין סקשנים באתר עם אנרגיה: בית ספר למוזיקה, סטודיו לריקוד, חדר כושר, פסטיבל, מותג לצעירים. מילים קצרות שאומרות מה יש אצלכם, לא משפטים. פעם אחת בעמוד. לא באתר שקט ורציני (משפט, רפואה, פיננסים), ולא מתחת להירו שכבר זז; שם b01 ישר ועדין.",
-  note:"**שחזור.** השראה: animtd.store (26.10.2026), סרטון של שני פסי טקסט שמצטלבים וזזים בכיוונים מנוגדים. נבנה מאפס מהצפייה. **במה זה שונה ממה שיש:** b01 הוא פס אחד, ישר ושקט, לנקודות אמון. כאן שני פסים מוטים בזוויות מנוגדות (מינוס 6 ופלוס 5 מעלות) שחוצים זה את זה, בצבע מלא, עם מילים גדולות, והם הסקשן עצמו ולא שוליים שלו. **הלולאה:** אותו מנגנון כמו ב-b01. ה-JS משכפל את קבוצת המילים עד שהיא מכסה את רוחב הפס ועוד אחת, ומזיז ברוחב קבוצה אחת בפיקסלים, כך שהתפר לא נראה. המהירות נקבעת בפיקסלים לשנייה, ולכן שני הפסים זזים באותו קצב גם כשאחד ארוך יותר. הפס השני רץ ב-`animation-direction:reverse`. **כיוון:** ב-RTL העותקים נערמים שמאלה וההזזה ימינה; ב-LTR הסימן מתהפך (`--wm-sign`). **הפסים** רחבים ב-30% מהסקשן כדי שהקצוות המוטים לא ייראו, והסקשן חותך אותם רק לרוחב (`overflow-x:clip` עם `overflow-y:visible`): חיתוך בשני הצירים היה קוטע את הצל של הפסים בקצה העליון והתחתון כשהסקשן נמוך. **נגישות:** הפסים `aria-hidden` (עותקים חוזרים), ולצדם רשימה מוסתרת של כל המילים פעם אחת. עוצר בריחוף, בכפתור, ומחוץ למסך. **הפחתת תנועה:** הפסים עומדים והכפתור לא מופיע. **בטלפון** אותו דבר, באותיות קטנות יותר.",
+  note:"**שחזור.** השראה: animtd.store (26.10.2026), סרטון של שני פסי טקסט שמצטלבים וזזים בכיוונים מנוגדים. נבנה מאפס מהצפייה. **במה זה שונה ממה שיש:** b01 הוא פס אחד, ישר ושקט, לנקודות אמון. כאן שני פסים מוטים בזוויות מנוגדות (מינוס 6 ופלוס 5 מעלות) שחוצים זה את זה, בצבע מלא, עם מילים גדולות, והם הסקשן עצמו ולא שוליים שלו. **הלולאה:** אותו מנגנון כמו ב-b01. ה-JS משכפל את קבוצת המילים עד שהיא מכסה את רוחב הפס ועוד אחת, ומזיז ברוחב קבוצה אחת בפיקסלים, כך שהתפר לא נראה. המהירות נקבעת בפיקסלים לשנייה, ולכן שני הפסים זזים באותו קצב גם כשאחד ארוך יותר. הפס השני רץ ב-`animation-direction:reverse`. **כיוון:** ב-RTL העותקים נערמים שמאלה וההזזה ימינה; ב-LTR הסימן מתהפך (`--wm-sign`). **הפסים** רחבים ב-30% מהסקשן כדי שהקצוות המוטים לא ייראו, והסקשן חותך אותם רק לרוחב (`overflow-x:clip` עם `overflow-y:visible`): חיתוך בשני הצירים היה קוטע את הצל של הפסים בקצה העליון והתחתון כשהסקשן נמוך. **נגישות:** הפסים `aria-hidden` (עותקים חוזרים), ולצדם רשימה מוסתרת של כל המילים פעם אחת. עוצר בריחוף ומחוץ למסך; בלי כפתור עצירה בעמוד, העצירה המלאה היא המתג בסרגל הנגישות (motion.md 2א). **הפחתת תנועה:** הפסים עומדים. **בטלפון** אותו דבר, באותיות קטנות יותר.",
   libs:[],
   css:`.wm{position:relative;display:grid;place-items:center;min-height:clamp(280px,32vw,400px);overflow-x:clip;overflow-y:visible;border-radius:clamp(20px,2.4vw,32px);background:var(--bg)}
 .wm-x{width:100%;display:grid;place-items:center}
@@ -75,10 +61,9 @@ export default [
 .wm-set span{font-size:clamp(28px,4.4vw,60px);font-weight:800;line-height:1.1;letter-spacing:-.01em;white-space:nowrap}
 .wm-set i{width:clamp(10px,1vw,14px);aspect-ratio:1;flex:none;border-radius:50%;background:currentColor;opacity:.55}
 @keyframes wm-run{to{transform:translateX(calc(var(--wm-shift,50%) * var(--wm-sign,1)))}}
-.wm.is-paused .wm-track,.wm.is-off .wm-track{animation-play-state:paused}
+.wm.is-off .wm-track{animation-play-state:paused}
 @media(hover:hover) and (pointer:fine){.wm:hover .wm-track{animation-play-state:paused}}
 ${SR(".wm-sr")}
-${PP_CSS("wm", "inset-block-end:16px;inset-inline-end:16px")}
 @media(prefers-reduced-motion:reduce){.wm-track{animation:none}}`,
   html:`<div class="stage"><section class="wm" data-wm>
   <div class="wm-x" aria-hidden="true">
@@ -86,7 +71,7 @@ ${PP_CSS("wm", "inset-block-end:16px;inset-inline-end:16px")}
     <div class="wm-band wm-b"><div class="wm-track"><div class="wm-set">${WM_B.map(w => `<span>${w}</span><i></i>`).join("")}</div></div></div>
   </div>
   <ul class="wm-sr" aria-label="מה לומדים אצלנו">${[...WM_A, ...WM_B].map(w => `<li>${w}</li>`).join("")}</ul>
-  <button class="wm-pp" type="button" data-pp hidden>${PAUSE}<span>עצירת התנועה</span></button>
+  
 </section></div>`,
   js:`(function(){
   const root=document.querySelector("[data-wm]");
@@ -107,14 +92,14 @@ ${PP_CSS("wm", "inset-block-end:16px;inset-inline-end:16px")}
   // מדידה לפני שהפונט נטען יוצאת קצרה, והלולאה קופצת בכל סיבוב
   if(document.fonts)document.fonts.ready.then(all);
   let t;addEventListener("resize",()=>{clearTimeout(t);t=setTimeout(all,200);});
-${PP_JS("עצירת התנועה", "המשך התנועה")}
+${OFF_JS}
 })();`
 },
 {
   id:"css49", cat:"css", name:"זרם תמונות שטס מעומק המסך", tech:"CSS 3D · keyframes · IntersectionObserver", status:"מאושר-עין", runway:false,
-  desc:"רקע כהה, ובמרכזו כרטיס עם כותרת וכפתור. מסביבו תמונות קטנות מופיעות בנקודה רחוקה במרכז המסך, גדלות ומתקרבות לאט, חולפות בצדדים ונעלמות, כאילו נוסעים במסדרון של תמונות. הזרם לא נגמר, ויש כפתור עצירה.",
+  desc:"רקע כהה, ובמרכזו כרטיס עם כותרת וכפתור. מסביבו תמונות קטנות מופיעות בנקודה רחוקה במרכז המסך, גדלות ומתקרבות לאט, חולפות בצדדים ונעלמות, כאילו נוסעים במסדרון של תמונות. הזרם לא נגמר.",
   when:"עסק של חוויות שיש לו הרבה צילומים טובים: טיולים, סיורים, אירועים, חופשות, סדנאות. הזרם אומר \"יש עוד ועוד\" בלי גלריה. מתאים כסקשן הזמנה לפני הפוטר, או כהירו של עמוד פנימי. לא כשיש פחות משש תמונות, ולא בעור בהיר ושקט, כי הוא צריך רקע כהה כדי שהעומק ייקרא.",
-  note:"**שחזור.** השראה: animtd.store (26.10.2026), סרטון של תמונות שזורמות לעבר הצופה מנקודת מגוז. נבנה מאפס מהצפייה. **במה זה שונה ממה שיש:** g91 הוא טקסט שנוסע לעומק בגלילה, ו-g261 צורות מקוננות. כאן הזרם רץ לבד, בלי גלילה, והוא רקע לתוכן ולא התוכן עצמו. **אפס JS בתנועה:** כל תמונה היא אנימציית CSS אחת של 15 שניות, מ-`translateZ(-2400px)` עד `translateZ(400px)`, עם עמעום בהתחלה ובסוף, ו-`animation-delay` שלילי לפי המיקום שלה (מינוס 1.5 שניות לכל אחת), כך שהזרם מלא מהרגע הראשון. **המסדרון:** ההזזה לצדדים כתובה ביחידות של הכרטיס עצמו (אחוזים בתוך `translate3d`), והפרספקטיבה מכווצת אותה ברחוק, ולכן כל התמונות יוצאות מאותה נקודה ומתפזרות לצדדים בקרוב. העטיפה היא `preserve-3d`, כך שהדפדפן ממיין את התמונות לפי העומק ולא לפי הסדר במארקאפ. התנועה לינארית, וההאצה שהעין רואה באה מהפרספקטיבה. **הכרטיס** מעל הזרם, על זכוכית כהה, כך שהטקסט קריא בכל רגע. **נגישות:** התמונות `aria-hidden` וריקות מתיאור, כי הן אווירה; כפתור עצירה (WCAG 2.2.2), ועצירה גם מחוץ למסך. **הפחתת תנועה:** האנימציה עומדת בנקודה שבה כל תמונה נמצאת, כך שנשארת תמונה סטטית של מסדרון. **בטלפון** הכרטיסים קטנים יותר, והקיצוניים נחתכים בקצה.",
+  note:"**שחזור.** השראה: animtd.store (26.10.2026), סרטון של תמונות שזורמות לעבר הצופה מנקודת מגוז. נבנה מאפס מהצפייה. **במה זה שונה ממה שיש:** g91 הוא טקסט שנוסע לעומק בגלילה, ו-g261 צורות מקוננות. כאן הזרם רץ לבד, בלי גלילה, והוא רקע לתוכן ולא התוכן עצמו. **אפס JS בתנועה:** כל תמונה היא אנימציית CSS אחת של 15 שניות, מ-`translateZ(-2400px)` עד `translateZ(400px)`, עם עמעום בהתחלה ובסוף, ו-`animation-delay` שלילי לפי המיקום שלה (מינוס 1.5 שניות לכל אחת), כך שהזרם מלא מהרגע הראשון. **המסדרון:** ההזזה לצדדים כתובה ביחידות של הכרטיס עצמו (אחוזים בתוך `translate3d`), והפרספקטיבה מכווצת אותה ברחוק, ולכן כל התמונות יוצאות מאותה נקודה ומתפזרות לצדדים בקרוב. העטיפה היא `preserve-3d`, כך שהדפדפן ממיין את התמונות לפי העומק ולא לפי הסדר במארקאפ. התנועה לינארית, וההאצה שהעין רואה באה מהפרספקטיבה. **הכרטיס** מעל הזרם, על זכוכית כהה, כך שהטקסט קריא בכל רגע. **נגישות:** התמונות `aria-hidden` וריקות מתיאור, כי הן אווירה; בלי כפתור עצירה בעמוד (motion.md 2א): WCAG 2.2.2 מתקיים במתג עצירת האנימציות בסרגל הנגישות, והזרם עוצר גם מחוץ למסך. **הפחתת תנועה:** האנימציה עומדת בנקודה שבה כל תמונה נמצאת, כך שנשארת תמונה סטטית של מסדרון. **בטלפון** הכרטיסים קטנים יותר, והקיצוניים נחתכים בקצה.",
   libs:[],
   css:`.is{position:relative;display:grid;place-items:center;min-height:clamp(560px,72vh,760px);overflow:clip;border-radius:clamp(20px,2.4vw,32px);background:var(--ink);color:var(--bg)}
 .is-w{position:absolute;inset:0;perspective:1000px;perspective-origin:50% 44%;transform-style:preserve-3d;pointer-events:none}
@@ -126,14 +111,13 @@ ${PP_JS("עצירת התנועה", "המשך התנועה")}
   86%{opacity:1}
   100%{opacity:0;transform:translate(-50%,-50%) translate3d(calc(var(--x) * 100%),calc(var(--y) * 100%),400px)}
 }
-.is.is-paused .is-f,.is.is-off .is-f{animation-play-state:paused}
+.is.is-off .is-f{animation-play-state:paused}
 .is-c{position:relative;z-index:2;display:grid;justify-items:center;gap:16px;max-width:30rem;margin:clamp(20px,4vw,40px);padding:clamp(24px,3vw,40px);border-radius:24px;background:color-mix(in srgb,var(--ink) 70%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);text-align:center}
 .is-k{margin:0;font-size:15px;font-weight:700;opacity:.8}
 .is-c h2{${H2}}
 .is-c>p:not(.is-k){margin:0;font-size:var(--fs-body);line-height:1.6;opacity:.85}
 .is-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:8px;padding:12px 28px;border-radius:999px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
 .is-cta:focus-visible{outline:2px solid var(--bg);outline-offset:3px}
-${PP_CSS("is", "inset-block-end:16px;inset-inline-end:16px")}
 @media(prefers-reduced-motion:reduce){.is-f{animation-play-state:paused}}
 @media(max-width:760px){.is-f{--w:112px}.is-c{margin:16px}}`,
   html:`<div class="stage"><section class="is" data-is>
@@ -146,12 +130,12 @@ ${IS_POS.map(([x, y], i) => { const [f, w, h] = IS_IMG[i % IS_IMG.length]; retur
     <p>יוצאים בשבע בבוקר מתל אביב וחוזרים בתשע בערב. שמונה אנשים בוואן, מדריך שנוהג, וחמש תחנות שלא תמצאו בוויז.</p>
     <a class="is-cta" href="#">לתאריכים הקרובים</a>
   </div>
-  <button class="is-pp" type="button" data-pp hidden>${PAUSE}<span>עצירת התמונות</span></button>
+  
 </section></div>`,
   js:`(function(){
   const root=document.querySelector("[data-is]");
   if(!root)return;
-${PP_JS("עצירת התמונות", "המשך התמונות")}
+${OFF_JS}
 })();`
 },
 {

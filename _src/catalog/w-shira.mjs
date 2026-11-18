@@ -6,7 +6,7 @@ export default [
   id:"g154", cat:"gsap", name:"צלילה לתוך עדשת המשקפיים", tech:"GSAP · ScrollTrigger scrub · וידאו מסונכרן", status:"מאושר-עין",
   desc:"פורטרט במשקפי שמש, ובעדשה מתנגן סרטון כמו השתקפות. בגלילה המצלמה צוללת לתוך העדשה עד שהיא ממלאת את המסך, ואז הסרטון יוצא ממנה ומתיישב במסגרת מעוגלת באמצע העמוד, וממשיך מאותה שנייה.",
   when:"הירו של סטודיו, צלם, מעצב, או מותג אופנה ואופטיקה, כשיש פורטרט אמיתי וסרטון שמראה את העבודה. הצלילה היא הדרך מהפנים אל העבודה: קודם מי אנחנו, ואז מה אנחנו עושים. פעם אחת בעמוד, בראש.",
-  note:"**שחזור.** השראה: shira-bengaiev.co.il (20.10.2026). נבנה מאפס מהצפייה, בלי הקוד, התמונות או הסרטונים שלה. **הבמה היא התמונה עצמה** ביחס 3:2, בגודל שמכסה את המסך (כמו cover, ביחידות cqw/cqh של המסך הנעוץ), ולכן העדשה יושבת באחוזים קבועים של הבמה: `--cx`, `--cy`, `--w`, `--h`, שנמדדים פעם אחת על התמונה. `--fx` ו-`--fy` קובעים איזו נקודה בתמונה נשארת במרכז כשהמסך צר או רחב. **הצלילה:** ה-`transform-origin` הוא מרכז העדשה, כך שההגדלה לא מזיזה אותה, וההזזה לבדה מביאה אותה למרכז המסך. ההגדלה היא `S^z` ולא ליניארית, כי גודל נתפס ביחס: כל קטע גלילה מכפיל את הגודל באותו שיעור. `S = hypot(W/lw, H/lh)` הוא בדיוק הגודל שבו אליפסת העדשה מכסה את המסך. **שני סרטונים:** קל בעדשה (480p, ב-screen מעל הזכוכית הכהה, וכך הוא נראה כמו השתקפות) וכבד במסגרת (720p, `preload=none`, נטען רק כשמתחילים לצלול; המקור טוען 17MB מראש). במעבר הכבד מקבל את ה-`currentTime` של הקל, כך שהסרט ממשיך ולא מתחיל מחדש, והקל נעצר כדי לא לפענח שני סרטונים. גודל ההתחלה של המסגרת מחושב מהמרכז שלה בפועל (הכיתוב מתחתיה מרים אותה), אחרת נשאר פס ריק בתחתית. **בטלפון** המסגרת ריבועית, ברוחב המסך פחות 12px מכל צד, והטקסט יורד לתחתית על מעבר מצבע הרקע. **נגישות:** כפתור השהיה תמיד (סרטון שמתנגן לבד יותר מחמש שניות, WCAG 2.2.2). בהפחתת תנועה או בלי הספרייה אין צלילה ואין ניגון אוטומטי: רואים את הפורטרט, ומתחתיו את הסרטון במסגרת עם כפתור נגן. **בפרויקט:** תמונה עם עדשה גדולה וכהה (עגולה הכי פשוטה), ומודדים את העדשה כשברים מרוחב וגובה התמונה.",
+  note:"**שחזור.** השראה: shira-bengaiev.co.il (20.10.2026). נבנה מאפס מהצפייה, בלי הקוד, התמונות או הסרטונים שלה. **הבמה היא התמונה עצמה** ביחס 3:2, בגודל שמכסה את המסך (כמו cover, ביחידות cqw/cqh של המסך הנעוץ), ולכן העדשה יושבת באחוזים קבועים של הבמה: `--cx`, `--cy`, `--w`, `--h`, שנמדדים פעם אחת על התמונה. `--fx` ו-`--fy` קובעים איזו נקודה בתמונה נשארת במרכז כשהמסך צר או רחב. **הצלילה:** ה-`transform-origin` הוא מרכז העדשה, כך שההגדלה לא מזיזה אותה, וההזזה לבדה מביאה אותה למרכז המסך. ההגדלה היא `S^z` ולא ליניארית, כי גודל נתפס ביחס: כל קטע גלילה מכפיל את הגודל באותו שיעור. `S = hypot(W/lw, H/lh)` הוא בדיוק הגודל שבו אליפסת העדשה מכסה את המסך. **שני סרטונים:** קל בעדשה (480p, ב-screen מעל הזכוכית הכהה, וכך הוא נראה כמו השתקפות) וכבד במסגרת (720p, `preload=none`, נטען רק כשמתחילים לצלול; המקור טוען 17MB מראש). במעבר הכבד מקבל את ה-`currentTime` של הקל, כך שהסרט ממשיך ולא מתחיל מחדש, והקל נעצר כדי לא לפענח שני סרטונים. גודל ההתחלה של המסגרת מחושב מהמרכז שלה בפועל (הכיתוב מתחתיה מרים אותה), אחרת נשאר פס ריק בתחתית. **בטלפון** המסגרת ריבועית, ברוחב המסך פחות 12px מכל צד, והטקסט יורד לתחתית על מעבר מצבע הרקע. **נגישות:** בלי כפתור עצירה בעמוד (motion.md 2א): WCAG 2.2.2 (סרטון שמתנגן לבד יותר מחמש שניות) מתקיים במתג עצירת האנימציות בסרגל הנגישות של האתר. בהפחתת תנועה או בלי הספרייה אין צלילה: רואים את הפורטרט, ומתחתיו את הסרטון במסגרת, שמתנגן כשהוא במסך. **בפרויקט:** תמונה עם עדשה גדולה וכהה (עגולה הכי פשוטה), ומודדים את העדשה כשברים מרוחב וגובה התמונה.",
   libs:["gsap","ScrollTrigger"],
   css:`.ld{position:relative;background:var(--bg);color:var(--ink)}
 .ld-hero{position:relative;height:100vh;height:100svh;overflow:hidden;container-type:size}
@@ -37,9 +37,6 @@ export default [
 .ld-frame{position:relative;width:min(100%, 1100px);aspect-ratio:16/9;border-radius:24px;overflow:hidden;background:color-mix(in srgb, var(--ink) 10%, var(--bg))}
 .ld-fv{display:block;width:100%;height:100%;object-fit:cover}
 .ld-cap{display:flex;align-items:center;justify-content:space-between;gap:16px;width:min(100%, 1100px);font-size:15px;color:var(--muted)}
-.ld-play{font:inherit;font-size:14px;padding:8px 16px;border-radius:999px;border:1px solid currentColor;background:transparent;color:var(--ink);cursor:pointer;transition:background-color .2s cubic-bezier(.2,.6,.2,1)}
-.ld-play:hover{background:color-mix(in srgb, var(--ink) 8%, transparent)}
-.ld-play:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 /* הצלילה קיימת רק תחת .mv-on, שהסקריפט מוסיף כשהתנועה מותרת. בלעדיו: פורטרט, ומתחתיו הסרטון במסגרת */
 .ld.mv-on{height:340vh}
 .ld.mv-on .ld-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;container-type:size}
@@ -74,31 +71,29 @@ export default [
     </div>
     <figure class="ld-reel">
       <div class="ld-frame"><video class="ld-fv" src="../assets/media/dive/reel-720.mp4" poster="../assets/media/dive/reel.webp" muted loop playsinline preload="none" aria-label="סרט הסטודיו: חוף מלמעלה, גלים ואדם שהולך על החול"></video></div>
-      <figcaption class="ld-cap"><span>סרט הסטודיו, 2026</span><button type="button" class="ld-play">נגן</button></figcaption>
+      <figcaption class="ld-cap"><span>סרט הסטודיו, 2026</span></figcaption>
     </figure>
   </div>
 </section>`,
   js:`(function(){
   const root=document.querySelector(".ld"); if(!root)return;
-  const lv=root.querySelector(".ld-lv"), fv=root.querySelector(".ld-fv"), btn=root.querySelector(".ld-play");
-  let userPaused=false, inView=false, synced=false;
-  // הסרטון הכבד לא נטען עם העמוד (preload=none). נטען פעם אחת, כשמתחילים לצלול או כשלוחצים נגן
+  const lv=root.querySelector(".ld-lv"), fv=root.querySelector(".ld-fv");
+  let inView=false, synced=false, still=null;
+  // הסרטון הכבד לא נטען עם העמוד (preload=none). נטען פעם אחת, כשמתחילים לצלול או כשהמסגרת נכנסת למסך
   function warm(){ if(fv.dataset.warm)return; fv.dataset.warm="1"; fv.preload="auto"; fv.load(); }
-  function label(){ btn.textContent=(fv.paused&&lv.paused)?"נגן":"השהה"; }
-  // הכפתור עובד תמיד, גם בלי GSAP ובהפחתת תנועה: סרטון שמתנגן לבד יותר מחמש שניות חייב עצירה (WCAG 2.2.2)
-  btn.addEventListener("click",function(){
-    if(fv.paused&&lv.paused){ userPaused=false; warm(); fv.play().catch(function(){}); }
-    else { userPaused=true; fv.pause(); lv.pause(); }
-    label();
-  });
-  [fv,lv].forEach(function(v){ v.addEventListener("play",label); v.addEventListener("pause",label); });
-  if(typeof gsap==="undefined")return;   // בלי הספרייה: פורטרט, ומתחתיו הסרטון עם כפתור נגן
+  // בלי כפתור עצירה בעמוד (motion.md 2א): העצירה היא המתג בסרגל הנגישות של האתר.
+  // בלי הצלילה (בלי הספרייה או בהפחתת תנועה) הסרטון במסגרת מתנגן כשהוא במסך ועוצר כשהוא יוצא
+  function stillOn(){ if(still||!("IntersectionObserver" in window))return;
+    still=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ warm(); fv.play().catch(function(){}); } else fv.pause(); }); },{threshold:.25});
+    still.observe(fv); }
+  function stillOff(){ if(still){ still.disconnect(); still=null; } }
+  if(typeof gsap==="undefined"){ stillOn(); return; }
   const pin=root.querySelector(".ld-pin"), stage=root.querySelector(".ld-stage"), lens=root.querySelector(".ld-lens");
   const reel=root.querySelector(".ld-reel"), frame=root.querySelector(".ld-frame"), cap=root.querySelector(".ld-cap"), copy=root.querySelector(".ld-copy");
   // מיקום ביחס למסך הנעוץ דרך offsetLeft/Top: הם מתעלמים מ-transform, ולכן אפשר למדוד באמצע הצלילה
   function offsetTo(el,anc){ let x=0,y=0; while(el&&el!==anc){ x+=el.offsetLeft; y+=el.offsetTop; el=el.offsetParent; } return {x:x,y:y}; }
   gsap.matchMedia().add({mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)",desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)"},function(){
-    root.classList.add("mv-on");
+    stillOff(); fv.pause(); root.classList.add("mv-on");
     const cs=getComputedStyle(lens), L={cx:+cs.getPropertyValue("--cx"),cy:+cs.getPropertyValue("--cy"),w:+cs.getPropertyValue("--w"),h:+cs.getPropertyValue("--h")};
     const G={};
     function measure(){
@@ -138,12 +133,12 @@ export default [
     function watch(){
       const p=tl.progress();
       if(p>.1)warm();
-      if(p>.45&&!synced){ synced=true; lv.pause(); if(!userPaused&&inView){ try{ fv.currentTime=lv.currentTime||0; }catch(e){} fv.play().catch(function(){}); } }
-      else if(p<.42&&synced){ synced=false; fv.pause(); try{ lv.currentTime=fv.currentTime||0; }catch(e){} if(!userPaused&&inView)lv.play().catch(function(){}); }
+      if(p>.45&&!synced){ synced=true; lv.pause(); if(inView){ try{ fv.currentTime=lv.currentTime||0; }catch(e){} fv.play().catch(function(){}); } }
+      else if(p<.42&&synced){ synced=false; fv.pause(); try{ lv.currentTime=fv.currentTime||0; }catch(e){} if(inView)lv.play().catch(function(){}); }
     }
     ScrollTrigger.create({trigger:root,start:"top bottom",end:"bottom top",onToggle:function(s){
       inView=s.isActive;
-      if(!inView){ lv.pause(); fv.pause(); } else if(!userPaused){ (synced?fv:lv).play().catch(function(){}); }
+      if(!inView){ lv.pause(); fv.pause(); } else { (synced?fv:lv).play().catch(function(){}); }
     }});
     const onInit=function(){ measure(); }, onRef=function(){ apply(); };
     ScrollTrigger.addEventListener("refreshInit",onInit); ScrollTrigger.addEventListener("refresh",onRef);
@@ -153,8 +148,10 @@ export default [
       lv.pause(); fv.pause(); synced=false;
       gsap.set(stage,{clearProps:"transform,transformOrigin"});
       root.classList.remove("mv-on");
+      stillOn();
     };
   });
+  if(!root.classList.contains("mv-on"))stillOn();   // הפחתת תנועה: מסגרת רגילה שמתנגנת במסך
 })();`
 },
 {

@@ -49,19 +49,13 @@ img{max-width:100%}
   86%{opacity:1}
   100%{opacity:0;transform:translate(-50%,-50%) translate3d(calc(var(--x) * 100%),calc(var(--y) * 100%),400px)}
 }
-.is.is-paused .is-f,.is.is-off .is-f{animation-play-state:paused}
+.is.is-off .is-f{animation-play-state:paused}
 .is-c{position:relative;z-index:2;display:grid;justify-items:center;gap:16px;max-width:30rem;margin:clamp(20px,4vw,40px);padding:clamp(24px,3vw,40px);border-radius:24px;background:color-mix(in srgb,var(--ink, #16182b) 70%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);text-align:center}
 .is-k{margin:0;font-size:15px;font-weight:700;opacity:.8}
 .is-c h2{margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance}
 .is-c>p:not(.is-k){margin:0;font-size:var(--fs-body, clamp(17px, 0.6vw + 0.7rem, 22px));line-height:1.6;opacity:.85}
 .is-cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;margin-top:8px;padding:12px 28px;border-radius:999px;background:var(--accent, #4a3aff);color:var(--accent-ink, #fff);font-weight:600;text-decoration:none}
 .is-cta:focus-visible{outline:2px solid var(--bg, #f7f7fa);outline-offset:3px}
-.is-pp{position:absolute;inset-block-end:16px;inset-inline-end:16px;z-index:3;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border:0;border-radius:999px;background:var(--card, #fff);color:var(--ink, #16182b);font:inherit;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px color-mix(in srgb,var(--ink, #16182b) 6%,transparent),0 6px 20px color-mix(in srgb,var(--ink, #16182b) 5%,transparent)}
-.is-pp[hidden]{display:none}
-.is-pp svg{width:16px;height:16px;fill:currentColor}
-.is-pp .i-pl,.is.is-paused .is-pp .i-pa{display:none}
-.is.is-paused .is-pp .i-pl{display:block}
-.is-pp:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
 @media(prefers-reduced-motion:reduce){.is-f{animation-play-state:paused}}
 @media(max-width:760px){.is-f{--w:112px}.is-c{margin:16px}}
 </style>
@@ -87,7 +81,7 @@ img{max-width:100%}
     <p>יוצאים בשבע בבוקר מתל אביב וחוזרים בתשע בערב. שמונה אנשים בוואן, מדריך שנוהג, וחמש תחנות שלא תמצאו בוויז.</p>
     <a class="is-cta" href="#">לתאריכים הקרובים</a>
   </div>
-  <button class="is-pp" type="button" data-pp hidden><svg class="i-pa" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg><svg class="i-pl" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg><span>עצירת התמונות</span></button>
+  
 </section></div>
 
 
@@ -95,13 +89,6 @@ img{max-width:100%}
 (function(){
   const root=document.querySelector("[data-is]");
   if(!root)return;
-  const pp=root.querySelector("button[data-pp]");
-  if(!matchMedia("(prefers-reduced-motion: reduce)").matches)pp.hidden=false;
-  pp.addEventListener("click",()=>{
-    const on=!root.classList.contains("is-paused");
-    root.classList.toggle("is-paused",on);
-    pp.querySelector("span").textContent=on?"המשך התמונות":"עצירת התמונות";
-  });
   // מחוץ למסך התנועה עומדת
   if("IntersectionObserver" in window)new IntersectionObserver(es=>es.forEach(e=>root.classList.toggle("is-off",!e.isIntersecting))).observe(root);
 })();

@@ -179,15 +179,12 @@ const CSS = `@font-face{font-family:"MV Google Sans";src:url("../assets/fonts/go
 .q .ctas{display:flex;align-items:center;flex-wrap:wrap;gap:8px 28px}
 /* סרט רץ */
 .q .tick{flex:none;height:var(--th);display:flex;align-items:stretch;background:var(--ink);color:var(--paper);position:relative;z-index:5}
-.q .tick-btn{flex:none;display:inline-flex;align-items:center;gap:8px;padding-inline:20px;border:0;background:var(--ink-2);color:var(--paper);font-size:14px;font-weight:600;line-height:1;cursor:pointer;transition:background .15s var(--ease)}
-@media (hover:hover) and (pointer:fine){.q .tick-btn:hover{background:var(--ink-3)}}
 .q .tick-view{flex:1;min-width:0;overflow:hidden;display:flex;align-items:center}
 .q .tick-trk{--tt:70s;display:flex;width:max-content;animation:worow var(--tt) linear infinite}
 .q .tick-set{display:flex;align-items:center;flex:none}
 .q .ti{font-size:20px;font-weight:700;line-height:1;white-space:nowrap;padding-inline:24px}
 .q .ti.t2{color:var(--tomato)}
 .q .sq{width:10px;height:10px;background:var(--paper);flex:none;display:block}
-.q[data-paused] .tick-trk,.q[data-paused] .trk,.q[data-paused] .stk{animation-play-state:paused}
 /* הוכחה: שקטה, על נייר */
 .q .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:48px;margin-bottom:72px}
 .q .stat{display:flex;flex-direction:column;gap:12px}
@@ -373,8 +370,6 @@ const CSS = `@font-face{font-family:"MV Google Sans";src:url("../assets/fonts/go
 .q .ctas{width:100%;flex-direction:column;align-items:stretch;gap:0}
 .q .ctas .btn{width:100%}
 .q .ctas .lnk{justify-content:center}
-.q .tick-btn span{display:none}
-.q .tick-btn{padding-inline:16px;min-width:48px;justify-content:center}
 .q .stats{grid-template-columns:1fr;gap:32px;margin-bottom:56px}
 .q .stat p{max-width:none}
 .q .quotes{grid-template-columns:1fr}
@@ -413,7 +408,7 @@ const CSS = `@font-face{font-family:"MV Google Sans";src:url("../assets/fonts/go
 .q .tick-set+.tick-set{display:none}
 .q .row{overflow-x:auto;scroll-snap-type:x proximity}
 .q .set+.set{display:none}
-.q .btn,.q .lnk,.q .lnk .ico,.q .tick-btn,.q .pst,.q .tk,.q .tk-stub,.q .qt,.q .hd,.q .opt span,.q .hd nav a{transition:none}
+.q .btn,.q .lnk,.q .lnk .ico,.q .pst,.q .tk,.q .tk-stub,.q .qt,.q .hd,.q .opt span,.q .hd nav a{transition:none}
 .q .btn:hover,.q .btn:active{transform:none}
 .q .pst.card:hover,.q .tk.card:hover{translate:none;rotate:var(--r,0deg)}
 .q .lnk:hover .ico{transform:none}
@@ -444,7 +439,7 @@ const HTML = `<div class="cwrap sk-s06"><div class="q" id="s06-top">
 <div class="ctas oi"><a class="btn" href="#s06-tix">לכרטיסים מ-129 ₪</a><a class="lnk" href="#s06-lineup">ללוח ההופעות${I.arrow}</a></div>
 </div>
 </div>
-<div class="tick"><button class="tick-btn" type="button" data-pause aria-label="השהיית התנועה">${I.pause}<span>השהיית התנועה</span></button><div class="tick-view" aria-hidden="true"><div class="tick-trk">${tickSet(false)}${tickSet(true)}${tickSet(true)}${tickSet(true)}</div></div></div>
+<div class="tick"><div class="tick-view" aria-hidden="true"><div class="tick-trk">${tickSet(false)}${tickSet(true)}${tickSet(true)}${tickSet(true)}</div></div></div>
 </section>
 
 <section class="sec proof" id="s06-proof" aria-labelledby="s06-pr-h"><div class="wrap">
@@ -464,7 +459,7 @@ const HTML = `<div class="cwrap sk-s06"><div class="q" id="s06-top">
 <section class="wall" id="s06-lineup" aria-labelledby="s06-ln-h">
 <div class="head reveal"><div><span class="eyebrow">ההופעות</span><h2 id="s06-ln-h">שלושה לילות על קיר אחד</h2><p class="lead">כל פוסטר הוא הופעה: שעה, במה וסגנון. השורות נעות לאט, והעכבר עוצר אותן.</p></div></div>
 <div class="rows reveal">${NIGHTS.map(rowHtml).join("")}</div>
-<div class="wall-foot reveal"><p class="micro">ההרכבים, השעות והמחירים לדוגמה, להדגמת העיצוב בלבד.</p><button class="lnk" type="button" data-pause2>${I.pause}<span>השהיית התנועה</span></button></div>
+<div class="wall-foot reveal"><p class="micro">ההרכבים, השעות והמחירים לדוגמה, להדגמת העיצוב בלבד.</p></div>
 </section>
 
 <section class="sec grounds" id="s06-grounds" aria-labelledby="s06-gr-h"><div class="grounds-grid">
@@ -542,13 +537,6 @@ else{var io=new IntersectionObserver(function(en){en.forEach(function(x){if(!x.i
 var hero=$(".hero"),py=-1,tick=false;
 function par(){tick=false;if(!hero)return;var r=hero.getBoundingClientRect(),y=Math.round(Math.max(0,Math.min(r.height,-r.top)));if(y!==py){py=y;hero.style.setProperty("--py",String(y))}}
 if(hero&&!rm){window.addEventListener("scroll",function(){if(!tick){tick=true;requestAnimationFrame(par)}},{passive:true});par()}
-/* השהיית כל התנועה הרציפה: הסרט, שורות הפוסטרים והמדבקה (WCAG 2.2.2) */
-function icon(d){return'<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true">'+d+'</svg>'}
-var PA='<path d="M9 5v14"/><path d="M15 5v14"/>',PL='<path d="M8 5l11 7-11 7z"/>';
-function setPaused(p){if(p)q.setAttribute("data-paused","");else q.removeAttribute("data-paused");
-$$("[data-pause]").forEach(function(b){b.setAttribute("aria-label",p?"הפעלת התנועה":"השהיית התנועה");b.innerHTML=icon(p?PL:PA)+"<span>"+(p?"הפעלת התנועה":"השהיית התנועה")+"</span>"});
-$$("[data-pause2]").forEach(function(b){b.innerHTML=icon(p?PL:PA)+"<span>"+(p?"הפעלת התנועה":"השהיית התנועה")+"</span>"})}
-$$("[data-pause],[data-pause2]").forEach(function(b){b.addEventListener("click",function(){setPaused(!q.hasAttribute("data-paused"))})});
 /* שורות הפוסטרים עוצרות מחוץ למסך; כשהשורה ניתנת לגלילה במגע היא מקבלת פוקוס מקלדת */
 var rows=$(".rows");
 if(rows&&"IntersectionObserver" in window){new IntersectionObserver(function(en){en.forEach(function(x){rows.classList.toggle("is-off",!x.isIntersecting)})}).observe(rows)}
@@ -581,9 +569,9 @@ const base = {
   sig: "קולאז' הירו בפראלקס: שכבות שנעות במהירויות שונות בגלילה, כשכותרת הרצועות חוצה את הצילום · קיר הפוסטרים: שלוש שורות נעות בכיוונים מנוגדים, כל לילה בצבע משלו, עם עצירה ויישור ב-hover · מילת המותג כצל טון על טון בהירו ובפוטר · כרטיסים עם ניקוב שעולים על צילום ברוחב מלא · צבע אחד לכל תפקיד: הצהוב רק ב-CTA.",
   avoid: "הכל צועק, ואז כלום לא נשמע: אחרי כל שיא בא סקשן נייר · מדבקות קליפ-ארט אקראיות ופיצוצים · גרדיאנט קשת · טקסט ישירות על צילום עמוס (כאן: רצועה אטומה או כרטיס) · צהוב כרקע או על נייר (ניגודיות 1.2) · עגבנייה עם טקסט לבן · בלובים · פונט תצוגה צעקני שמחליף את הקומפוזיציה · פוסטרים שאי אפשר לקרוא מרוב תנועה, ולכן קיר שעוצר, מושהה ונגלל במגע.",
   qa: ["הצהוב מופיע רק על כפתור CTA ורק על משטח כהה", "אחרי כל סקשן עוצמה בא סקשן הפוגה על נייר", "כל טקסט על צילום יושב על רצועה או כרטיס אטומים", "פראלקס רק על transform, כתיבה ל-DOM רק כשהערך המעוגל משתנה", "סרט ושורות הפוסטרים עוצרים בכפתור, ב-hover, מחוץ למסך וב-reduced-motion", "ההירו נכנס כולו במסך בדסקטופ ובטלפון", "שלושה משקלים בלבד, בלי ריווח חיובי בעברית"],
-  engine: "ניגודיות (נמדד 15.10.2026): דיו על נייר 15.8, על נייר-2 13.8 · muted #554A40 על נייר 7.3, על נייר-2 6.4, על נייר-3 5.4 · לבן על קובלט 7.5, על קובלט כהה 9.4 · צהוב על קובלט 5.3, על דיו 13.2 · דיו על צהוב 13.2 · דיו על עגבנייה 5.0 · נייר על דיו 15.8 · שדות: גבול #9A8F83 על דיו 5.6. עגבנייה על נייר 3.1 ועל קובלט 2.0, ולכן היא לעולם לא נושאת טקסט קטן וגם לא נשענת על קובלט. הפונט Google Sans בלבד. הסרט והשורות עוצרים (WCAG 2.2.2); בטלפון השורות נגללות במגע. הכל נראה בלי JS.",
+  engine: "ניגודיות (נמדד 15.10.2026): דיו על נייר 15.8, על נייר-2 13.8 · muted #554A40 על נייר 7.3, על נייר-2 6.4, על נייר-3 5.4 · לבן על קובלט 7.5, על קובלט כהה 9.4 · צהוב על קובלט 5.3, על דיו 13.2 · דיו על צהוב 13.2 · דיו על עגבנייה 5.0 · נייר על דיו 15.8 · שדות: גבול #9A8F83 על דיו 5.6. עגבנייה על נייר 3.1 ועל קובלט 2.0, ולכן היא לעולם לא נושאת טקסט קטן וגם לא נשענת על קובלט. הפונט Google Sans בלבד. הסרט והשורות עוצרים במתג עצירת האנימציות בסרגל הנגישות (WCAG 2.2.2, בלי כפתור בעמוד); בטלפון השורות נגללות במגע. הכל נראה בלי JS.",
   agent: "עצב בסגנון מקסימליסטי מכוון: רקע נייר חם, שלושה צבעים חזקים עם תפקיד לכל אחד (קובלט למבנה, עגבנייה לחום ולאנשים, צהוב ל-CTA בלבד), Google Sans בשלושה משקלים, אפס רדיוס, צילום אמיתי וצבעוני של אנשים שמודפס על נייר בזוויות קטנות, קולאז' הירו בפראלקס, כותרת על רצועות צבע אטומות, מילת מותג ענקית טון על טון, וקיר פוסטרים נע שעוצר ב-hover. אחרי כל סקשן עוצמה בא סקשן נייר שקט, הטופס נקי, והצהוב לעולם לא על נייר.",
-  mobile: "ההדר: הניווט נעלם והכפתור הצהוב נשאר. ההירו מרוכז אנכית ונכנס כולו במסך: צילום בזווית עם מדבקה ושדה נקודות, כותרת הרצועות שעולה עליו, והכפתור ברוחב מלא. הסרט נשאר עם כפתור השהיה בגודל מגע. שורות הפוסטרים נגללות במגע עם snap, והכרטיסים בעמודה. הטופס בעמודה אחת עם בחירות של 44px.",
+  mobile: "ההדר: הניווט נעלם והכפתור הצהוב נשאר. ההירו מרוכז אנכית ונכנס כולו במסך: צילום בזווית עם מדבקה ושדה נקודות, כותרת הרצועות שעולה עליו, והכפתור ברוחב מלא. הסרט נשאר. שורות הפוסטרים נגללות במגע עם snap, והכרטיסים בעמודה. הטופס בעמודה אחת עם בחירות של 44px.",
   fonts: [],
 };
 

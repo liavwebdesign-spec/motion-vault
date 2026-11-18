@@ -58,15 +58,6 @@ img{max-width:100%}
 @keyframes rv-fs{to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
   .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
-
-.hpp{width:44px;height:44px;flex:none;border:0;border-radius:999px;display:grid;place-items:center;cursor:pointer;
-  background:color-mix(in srgb,var(--ink, #16182b) 55%,transparent);color:var(--bg, #f7f7fa);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .18s cubic-bezier(.2,.6,.2,1)}
-.hpp svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.hpp .i-play{display:none;fill:currentColor}
-.hpp[aria-pressed="true"] .i-pause{display:none}
-.hpp[aria-pressed="true"] .i-play{display:block}
-.hpp:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
-@media (hover:hover) and (pointer:fine){.hpp:hover{background:color-mix(in srgb,var(--ink, #16182b) 75%,transparent)}}
 .h15h{position:relative;min-height:min(84vh,760px);display:flex;flex-direction:column;justify-content:flex-end;padding:112px 28px 40px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);overflow:hidden;isolation:isolate}
 /* the incoming slide fades in on top while the outgoing one stays whole underneath and drops only when the fade is done,
    so the middle of a change never shows the background through two half-transparent photos */
@@ -94,7 +85,6 @@ img{max-width:100%}
 .h15-tab[aria-current="true"] .h15-bar i{animation:h15fill 6s linear forwards}
 .h15h.still .h15-tab[aria-current="true"] .h15-bar i{animation:none;transform:scaleX(1)}
 @keyframes h15fill{to{transform:scaleX(1)}}
-.h15h.paused .h15-bar i,.h15h.paused .h15-sl img{animation-play-state:paused}
 @media (hover:hover) and (pointer:fine){.h15-tab:hover{opacity:1}}
 @media (prefers-reduced-motion:reduce){.h15-sl.on img{animation:none}.h15-sl,.h15-sl.on{transition:none}}
 @media (max-width:860px){.h15h{padding:96px 20px 32px;min-height:min(88vh,720px)}.h15-foot{flex-direction:column-reverse;align-items:stretch;gap:28px}.h15-nav{width:100%}}
@@ -120,7 +110,6 @@ img{max-width:100%}
         <button class="h15-tab" type="button" aria-current="true"><span>החוף</span><span class="h15-bar"><i></i></span></button>
         <button class="h15-tab" type="button" aria-current="false"><span>החדרים</span><span class="h15-bar"><i></i></span></button>
         <button class="h15-tab" type="button" aria-current="false"><span>הלאונג'</span><span class="h15-bar"><i></i></span></button>
-        <button class="hpp" type="button" aria-pressed="false" aria-label="עצירת המצגת"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
       </div>
     </div>
   </section>
@@ -152,11 +141,11 @@ function enter(root){
   inView(root,function(){root.classList.add("is-in");});
 }
 (function(){
-  var root=document.getElementById("h15"), pp=root.querySelector(".hpp"); enter(root);
+  var root=document.getElementById("h15"); enter(root);
   var sl=[].slice.call(root.querySelectorAll(".h15-sl")), tabs=[].slice.call(root.querySelectorAll(".h15-tab")), cur=0;
-  // reduced motion: no autoplay, the names still switch; the button has nothing to stop, so it leaves
+  // reduced motion: no autoplay, the names still switch. No pause button on the page: the stop is the toolbar's animation switch (motion.md 2א)
   var auto=matchMedia("(prefers-reduced-motion:no-preference)").matches;
-  if(!auto){root.classList.add("still"); pp.hidden=true;}
+  if(!auto)root.classList.add("still");
   function go(n){
     cur=(n+sl.length)%sl.length;
     sl.forEach(function(s,k){s.classList.toggle("on",k===cur); s.setAttribute("aria-hidden",String(k!==cur));});
@@ -169,8 +158,6 @@ function enter(root){
     t.addEventListener("click",function(){go(k);});
     t.querySelector("i").addEventListener("animationend",function(){if(auto&&k===cur)go(cur+1);});
   });
-  pp.addEventListener("click",function(){var on=!root.classList.contains("paused"); root.classList.toggle("paused",on);
-    pp.setAttribute("aria-pressed",String(on)); pp.setAttribute("aria-label",on?"הפעלת המצגת":"עצירת המצגת");});
 })();
 </script>
 </body>

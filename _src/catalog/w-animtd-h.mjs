@@ -11,17 +11,6 @@ const PIC = (f, alt, { pri = false, deco = false } = {}) =>
   `<img src="../assets/media/${f}" alt="${deco ? "" : alt}"${pri ? ' fetchpriority="high"' : ""} decoding="async">`;
 
 // עצירה לכל מה שזז לבד יותר מחמש שניות (WCAG 2.2.2, motion.md 2א), כמו ב-r2-heroes
-const PP_CSS = `
-.hpp{width:44px;height:44px;flex:none;border:0;border-radius:999px;display:grid;place-items:center;cursor:pointer;
-  background:color-mix(in srgb,var(--ink) 55%,transparent);color:var(--bg);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .18s ${E}}
-.hpp[hidden]{display:none}
-.hpp svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.hpp .i-play{display:none;fill:currentColor}
-.hpp[aria-pressed="true"] .i-pause{display:none}
-.hpp[aria-pressed="true"] .i-play{display:block}
-.hpp:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
-@media (hover:hover) and (pointer:fine){.hpp:hover{background:color-mix(in srgb,var(--ink) 75%,transparent)}}`;
-const PP = (label) => `<button class="hpp" type="button" aria-pressed="false" aria-label="${label}" hidden><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>`;
 // חץ ימינה. ב-RTL "הקודם" מצביע ימינה ו"הבא" שמאלה; ב-LTR שניהם מתהפכים
 const ARR = (flip) => `<svg viewBox="0 0 24 24" aria-hidden="true"${flip ? ' class="flip"' : ""}><path d="M5 12h14M13 6l6 6-6 6"/></svg>`;
 
@@ -30,11 +19,10 @@ const H35_T = [["אוהל עם נוף לים,", "חמש דקות מהחוף"], [
 export default [
 {
   id:"h35", cat:"hero", name:"הירו מצגת עם וילון בכיוון הקריאה וכותרת לכל תמונה", tech:"CSS clip-path · JS", status:"מאושר-עין", runway:false,
-  desc:"שלוש תמונות במסך מלא. כל תמונה חדשה נכנסת כמו וילון שנמשך מהצד שבו מתחילים לקרוא, מעל הקודמת, עם זום איטי החוצה. הכותרת מתחלפת יחד איתה: השורות של הישנה יוצאות למעלה, והחדשות עולות מלמטה שורה אחרי שורה. חצים, מונה, פס זמן וכפתור עצירה בפינה.",
+  desc:"שלוש תמונות במסך מלא. כל תמונה חדשה נכנסת כמו וילון שנמשך מהצד שבו מתחילים לקרוא, מעל הקודמת, עם זום איטי החוצה. הכותרת מתחלפת יחד איתה: השורות של הישנה יוצאות למעלה, והחדשות עולות מלמטה שורה אחרי שורה. חצים, מונה ופס זמן בפינה.",
   when:"עסק שהמקום שלו הוא המוצר, ולכל צילום יש משפט משלו: גלמפינג, צימר, וילה, מסעדה עם כמה חללים, אולם. מתאים כשרוצים שכל תמונה תספר חלק אחר מהחוויה. כשהמסר אחד והתמונות רק מראות את המקום מכמה זוויות, h15 עדיף: הכותרת שם קבועה ונקראת פעם אחת. לא עם פחות משלוש תמונות טובות.",
   libs:[],
   css:`${FRAME_CSS}
-${PP_CSS}
 .h35h{--off:inset(0 0 0 100%);position:relative;min-height:min(88vh,800px);display:flex;flex-direction:column;justify-content:flex-end;padding:112px 28px 28px;background:var(--ink);color:var(--bg);overflow:clip;isolation:isolate}
 /* הווילון נפתח מהצד שבו מתחילים לקרוא: ב-RTL מימין, ב-LTR משמאל */
 [dir="ltr"] .h35h{--off:inset(0 100% 0 0)}
@@ -85,7 +73,7 @@ ${PP_CSS}
 [dir="ltr"] .h35-bar i{transform-origin:left}
 .h35-bar.run i{animation:h35-fill 6s linear forwards}
 @keyframes h35-fill{to{transform:scaleX(1)}}
-.h35h.is-paused .h35-bar i,.h35h.is-off .h35-bar i,.h35h.is-hold .h35-bar i{animation-play-state:paused}
+.h35h.is-off .h35-bar i,.h35h.is-hold .h35-bar i{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){
   .h35-s.is-on{transition-duration:.01ms}
   .h35-s img{transition:none;transform:none!important}
@@ -120,7 +108,6 @@ ${H35_T.map((t, i) => `          <span class="h35-t${i === 0 ? " is-on" : ""}"${
         <button class="h35-nav" type="button" data-step="1" aria-label="התמונה הבאה">${ARR(true)}</button>
         <span class="h35-cnt" aria-hidden="true">1 / 3</span>
         <span class="h35-bar" hidden><i></i></span>
-        ${PP("עצירת ההחלפה")}
       </div>
     </div>
   </section>
@@ -130,8 +117,8 @@ ${H35_T.map((t, i) => `          <span class="h35-t${i === 0 ? " is-on" : ""}"${
   var root=document.getElementById("h35"); enter(root);
   var sl=[].slice.call(root.querySelectorAll(".h35-s")), tt=[].slice.call(root.querySelectorAll(".h35-t")),
       h3=root.querySelector("h3"), cnt=root.querySelector(".h35-cnt"), bar=root.querySelector(".h35-bar"),
-      pp=root.querySelector(".hpp"), ctl=root.querySelector(".h35-ctl"), N=sl.length, cur=0, busy=false;
-  // בהפחתת תנועה אין החלפה לבד: החצים עובדים, ופס הזמן וכפתור העצירה לא מופיעים כי אין מה לעצור
+      ctl=root.querySelector(".h35-ctl"), N=sl.length, cur=0, busy=false;
+  // בהפחתת תנועה אין החלפה לבד: החצים עובדים, ופס הזמן לא מופיע. בלי כפתור עצירה בעמוד: העצירה המלאה היא המתג בסרגל הנגישות (motion.md 2א)
   var auto=matchMedia("(prefers-reduced-motion:no-preference)").matches;
   function restart(){if(!auto)return; bar.classList.remove("run"); void bar.offsetWidth; bar.classList.add("run");}
   function go(n){
@@ -151,14 +138,12 @@ ${H35_T.map((t, i) => `          <span class="h35-t${i === 0 ? " is-on" : ""}"${
     b.addEventListener("click",function(){h3.setAttribute("aria-live","polite"); go(cur+Number(b.dataset.step));});
   });
   bar.querySelector("i").addEventListener("animationend",function(){go(cur+1);});
-  if(auto){root.classList.add("is-auto"); bar.hidden=false; pp.hidden=false; restart();}
-  pp.addEventListener("click",function(){var on=!root.classList.contains("is-paused"); root.classList.toggle("is-paused",on);
-    pp.setAttribute("aria-pressed",String(on)); pp.setAttribute("aria-label",on?"הפעלת ההחלפה":"עצירת ההחלפה");});
+  if(auto){root.classList.add("is-auto"); bar.hidden=false; restart();}
   // מקלדת בתוך הפקדים עוצרת את השעון, כדי שהתמונה לא תתחלף מתחת לאצבע
   ctl.addEventListener("focusin",function(e){if(e.target.matches(":focus-visible"))root.classList.add("is-hold");});
   ctl.addEventListener("focusout",function(){root.classList.remove("is-hold");});
   if("IntersectionObserver" in window)new IntersectionObserver(function(es){root.classList.toggle("is-off",!es[0].isIntersecting);}).observe(root);
 })();`,
-  note:"**שחזור.** השראה: animtd.store (26.10.2026), סרטון של מצגת הירו שבה כל תמונה נכנסת בווילון והכותרת מתחלפת איתה. נבנה מאפס מהצפייה. **במה זה שונה ממה שיש:** ב-h15 התמונות מתחלפות בהתמזגות, והכותרת קבועה, כך שהמסר נקרא פעם אחת. כאן כל תמונה נכנסת בווילון (`clip-path` מ-`inset` מלא ל-0) מהצד שבו מתחילים לקרוא, ולכל תמונה יש כותרת משלה, שהשורות שלה עולות מתוך מסכה אחת אחרי השנייה. כשהמסר אחד, h15; כשכל תמונה מספרת חלק אחר, זה. **הווילון:** החדשה מקבלת `z-index` מעל ומעבר של 1.1 שניות; הקודמת נשארת שלמה מתחתיה עד הסוף ואז יורדת בלי מעבר, כך שבאמצע אף פעם לא רואים רקע. הכיוון הוא משתנה אחד (`--off`), ו-LTR מהפך אותו. בכניסה התמונה הנחשפת מתחילה מוגדלת ב-8% ונרגעת. **הכותרות** יושבות באותו תא של גריד, ולכן הגובה הוא של הארוכה וכלום לא קופץ; היוצאת עולה החוצה, הנכנסת עולה פנימה עם השהיה של רבע שנייה, ומי שלא בתמונה מוסתרת. **השעון** הוא פס הזמן: אנימציית CSS של 6 שניות ש-`animationend` שלה מביא את הבאה, כמו ב-h15, כך שעצירה, יציאה מהמסך ומיקוד מקלדת בפקדים עוצרים אותו בלי טיימר מקביל. נעילה של 1.15 שניות מונעת שלוש תמונות באמצע מעבר. **נגישות:** התמונות דקורטיביות, הכותרת היא הטקסט; הכותרות שלא מוצגות `aria-hidden`, וההכרזה (`aria-live`) נפתחת רק אחרי לחיצה על חץ, כדי שהחלפה אוטומטית לא תדבר כל 6 שניות. **הפחתת תנועה:** בלי החלפה לבד, בלי זום, והחלפה בחצים מיידית." + NOTE_TAIL
+  note:"**שחזור.** השראה: animtd.store (26.10.2026), סרטון של מצגת הירו שבה כל תמונה נכנסת בווילון והכותרת מתחלפת איתה. נבנה מאפס מהצפייה. **במה זה שונה ממה שיש:** ב-h15 התמונות מתחלפות בהתמזגות, והכותרת קבועה, כך שהמסר נקרא פעם אחת. כאן כל תמונה נכנסת בווילון (`clip-path` מ-`inset` מלא ל-0) מהצד שבו מתחילים לקרוא, ולכל תמונה יש כותרת משלה, שהשורות שלה עולות מתוך מסכה אחת אחרי השנייה. כשהמסר אחד, h15; כשכל תמונה מספרת חלק אחר, זה. **הווילון:** החדשה מקבלת `z-index` מעל ומעבר של 1.1 שניות; הקודמת נשארת שלמה מתחתיה עד הסוף ואז יורדת בלי מעבר, כך שבאמצע אף פעם לא רואים רקע. הכיוון הוא משתנה אחד (`--off`), ו-LTR מהפך אותו. בכניסה התמונה הנחשפת מתחילה מוגדלת ב-8% ונרגעת. **הכותרות** יושבות באותו תא של גריד, ולכן הגובה הוא של הארוכה וכלום לא קופץ; היוצאת עולה החוצה, הנכנסת עולה פנימה עם השהיה של רבע שנייה, ומי שלא בתמונה מוסתרת. **השעון** הוא פס הזמן: אנימציית CSS של 6 שניות ש-`animationend` שלה מביא את הבאה, כמו ב-h15, כך שיציאה מהמסך, מיקוד מקלדת בפקדים ומתג עצירת האנימציות בסרגל הנגישות עוצרים אותו בלי טיימר מקביל. אין כפתור עצירה בעמוד (motion.md 2א). נעילה של 1.15 שניות מונעת שלוש תמונות באמצע מעבר. **נגישות:** התמונות דקורטיביות, הכותרת היא הטקסט; הכותרות שלא מוצגות `aria-hidden`, וההכרזה (`aria-live`) נפתחת רק אחרי לחיצה על חץ, כדי שהחלפה אוטומטית לא תדבר כל 6 שניות. **הפחתת תנועה:** בלי החלפה לבד, בלי זום, והחלפה בחצים מיידית." + NOTE_TAIL
 }
 ];

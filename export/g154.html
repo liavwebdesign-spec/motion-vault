@@ -65,9 +65,6 @@ img{max-width:100%}
 .ld-frame{position:relative;width:min(100%, 1100px);aspect-ratio:16/9;border-radius:24px;overflow:hidden;background:color-mix(in srgb, var(--ink, #16182b) 10%, var(--bg, #f7f7fa))}
 .ld-fv{display:block;width:100%;height:100%;object-fit:cover}
 .ld-cap{display:flex;align-items:center;justify-content:space-between;gap:16px;width:min(100%, 1100px);font-size:15px;color:var(--muted, #6a6d85)}
-.ld-play{font:inherit;font-size:14px;padding:8px 16px;border-radius:999px;border:1px solid currentColor;background:transparent;color:var(--ink, #16182b);cursor:pointer;transition:background-color .2s cubic-bezier(.2,.6,.2,1)}
-.ld-play:hover{background:color-mix(in srgb, var(--ink, #16182b) 8%, transparent)}
-.ld-play:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
 /* הצלילה קיימת רק תחת .mv-on, שהסקריפט מוסיף כשהתנועה מותרת. בלעדיו: פורטרט, ומתחתיו הסרטון במסגרת */
 .ld.mv-on{height:340vh}
 .ld.mv-on .ld-pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;container-type:size}
@@ -106,7 +103,7 @@ img{max-width:100%}
     </div>
     <figure class="ld-reel">
       <div class="ld-frame"><video class="ld-fv" src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/dive/reel-720.mp4" poster="https://liavwebdesign-spec.github.io/motion-vault/assets/media/dive/reel.webp" muted loop playsinline preload="none" aria-label="סרט הסטודיו: חוף מלמעלה, גלים ואדם שהולך על החול"></video></div>
-      <figcaption class="ld-cap"><span>סרט הסטודיו, 2026</span><button type="button" class="ld-play">נגן</button></figcaption>
+      <figcaption class="ld-cap"><span>סרט הסטודיו, 2026</span></figcaption>
     </figure>
   </div>
 </section>
@@ -118,25 +115,23 @@ if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
 (function(){
   const root=document.querySelector(".ld"); if(!root)return;
-  const lv=root.querySelector(".ld-lv"), fv=root.querySelector(".ld-fv"), btn=root.querySelector(".ld-play");
-  let userPaused=false, inView=false, synced=false;
-  // הסרטון הכבד לא נטען עם העמוד (preload=none). נטען פעם אחת, כשמתחילים לצלול או כשלוחצים נגן
+  const lv=root.querySelector(".ld-lv"), fv=root.querySelector(".ld-fv");
+  let inView=false, synced=false, still=null;
+  // הסרטון הכבד לא נטען עם העמוד (preload=none). נטען פעם אחת, כשמתחילים לצלול או כשהמסגרת נכנסת למסך
   function warm(){ if(fv.dataset.warm)return; fv.dataset.warm="1"; fv.preload="auto"; fv.load(); }
-  function label(){ btn.textContent=(fv.paused&&lv.paused)?"נגן":"השהה"; }
-  // הכפתור עובד תמיד, גם בלי GSAP ובהפחתת תנועה: סרטון שמתנגן לבד יותר מחמש שניות חייב עצירה (WCAG 2.2.2)
-  btn.addEventListener("click",function(){
-    if(fv.paused&&lv.paused){ userPaused=false; warm(); fv.play().catch(function(){}); }
-    else { userPaused=true; fv.pause(); lv.pause(); }
-    label();
-  });
-  [fv,lv].forEach(function(v){ v.addEventListener("play",label); v.addEventListener("pause",label); });
-  if(typeof gsap==="undefined")return;   // בלי הספרייה: פורטרט, ומתחתיו הסרטון עם כפתור נגן
+  // בלי כפתור עצירה בעמוד (motion.md 2א): העצירה היא המתג בסרגל הנגישות של האתר.
+  // בלי הצלילה (בלי הספרייה או בהפחתת תנועה) הסרטון במסגרת מתנגן כשהוא במסך ועוצר כשהוא יוצא
+  function stillOn(){ if(still||!("IntersectionObserver" in window))return;
+    still=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ warm(); fv.play().catch(function(){}); } else fv.pause(); }); },{threshold:.25});
+    still.observe(fv); }
+  function stillOff(){ if(still){ still.disconnect(); still=null; } }
+  if(typeof gsap==="undefined"){ stillOn(); return; }
   const pin=root.querySelector(".ld-pin"), stage=root.querySelector(".ld-stage"), lens=root.querySelector(".ld-lens");
   const reel=root.querySelector(".ld-reel"), frame=root.querySelector(".ld-frame"), cap=root.querySelector(".ld-cap"), copy=root.querySelector(".ld-copy");
   // מיקום ביחס למסך הנעוץ דרך offsetLeft/Top: הם מתעלמים מ-transform, ולכן אפשר למדוד באמצע הצלילה
   function offsetTo(el,anc){ let x=0,y=0; while(el&&el!==anc){ x+=el.offsetLeft; y+=el.offsetTop; el=el.offsetParent; } return {x:x,y:y}; }
   gsap.matchMedia().add({mob:"(max-width:767px) and (prefers-reduced-motion: no-preference)",desk:"(min-width:768px) and (prefers-reduced-motion: no-preference)"},function(){
-    root.classList.add("mv-on");
+    stillOff(); fv.pause(); root.classList.add("mv-on");
     const cs=getComputedStyle(lens), L={cx:+cs.getPropertyValue("--cx"),cy:+cs.getPropertyValue("--cy"),w:+cs.getPropertyValue("--w"),h:+cs.getPropertyValue("--h")};
     const G={};
     function measure(){
@@ -176,12 +171,12 @@ if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
     function watch(){
       const p=tl.progress();
       if(p>.1)warm();
-      if(p>.45&&!synced){ synced=true; lv.pause(); if(!userPaused&&inView){ try{ fv.currentTime=lv.currentTime||0; }catch(e){} fv.play().catch(function(){}); } }
-      else if(p<.42&&synced){ synced=false; fv.pause(); try{ lv.currentTime=fv.currentTime||0; }catch(e){} if(!userPaused&&inView)lv.play().catch(function(){}); }
+      if(p>.45&&!synced){ synced=true; lv.pause(); if(inView){ try{ fv.currentTime=lv.currentTime||0; }catch(e){} fv.play().catch(function(){}); } }
+      else if(p<.42&&synced){ synced=false; fv.pause(); try{ lv.currentTime=fv.currentTime||0; }catch(e){} if(inView)lv.play().catch(function(){}); }
     }
     ScrollTrigger.create({trigger:root,start:"top bottom",end:"bottom top",onToggle:function(s){
       inView=s.isActive;
-      if(!inView){ lv.pause(); fv.pause(); } else if(!userPaused){ (synced?fv:lv).play().catch(function(){}); }
+      if(!inView){ lv.pause(); fv.pause(); } else { (synced?fv:lv).play().catch(function(){}); }
     }});
     const onInit=function(){ measure(); }, onRef=function(){ apply(); };
     ScrollTrigger.addEventListener("refreshInit",onInit); ScrollTrigger.addEventListener("refresh",onRef);
@@ -191,8 +186,10 @@ if (typeof gsap !== "undefined") gsap.registerPlugin(ScrollTrigger);
       lv.pause(); fv.pause(); synced=false;
       gsap.set(stage,{clearProps:"transform,transformOrigin"});
       root.classList.remove("mv-on");
+      stillOn();
     };
   });
+  if(!root.classList.contains("mv-on"))stillOn();   // הפחתת תנועה: מסגרת רגילה שמתנגנת במסך
 })();
 </script>
 </body>

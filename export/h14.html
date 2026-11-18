@@ -58,15 +58,6 @@ img{max-width:100%}
 @keyframes rv-fs{to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
   .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
-
-.hpp{width:44px;height:44px;flex:none;border:0;border-radius:999px;display:grid;place-items:center;cursor:pointer;
-  background:color-mix(in srgb,var(--ink, #16182b) 55%,transparent);color:var(--bg, #f7f7fa);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .18s cubic-bezier(.2,.6,.2,1)}
-.hpp svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.hpp .i-play{display:none;fill:currentColor}
-.hpp[aria-pressed="true"] .i-pause{display:none}
-.hpp[aria-pressed="true"] .i-play{display:block}
-.hpp:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
-@media (hover:hover) and (pointer:fine){.hpp:hover{background:color-mix(in srgb,var(--ink, #16182b) 75%,transparent)}}
 .h14h{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:48px;height:min(84vh,760px);min-height:560px;padding-inline:28px;background:var(--bg, #f7f7fa);overflow:hidden}
 .h14-txt{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;gap:24px;padding-block:112px 56px}
 .h14h h3{margin:0;max-width:13ch;font-size:clamp(34px,min(4.4vw,7.8vh),72px);line-height:1.03;font-weight:700;letter-spacing:-.01em;text-wrap:balance}
@@ -80,10 +71,8 @@ img{max-width:100%}
 /* the list is written twice: moving by half of it (plus half a gap) lands on the same picture, so the loop has no seam */
 @keyframes h14up{to{transform:translateY(calc(-50% - 8px))}}
 @keyframes h14dn{from{transform:translateY(calc(-50% - 8px))}to{transform:none}}
-.h14h.paused .h14-col{animation-play-state:paused}
 @media (hover:hover) and (pointer:fine){.h14-vis:hover .h14-col{animation-play-state:paused}}
-.h14h .hpp{position:absolute;inset-block-end:20px;inset-inline-end:20px;z-index:2}
-@media (prefers-reduced-motion:reduce){.h14-col{animation:none}.h14h .hpp{display:none}}
+@media (prefers-reduced-motion:reduce){.h14-col{animation:none}}
 /* phone: the text first, the two columns as a band below it */
 @media (max-width:860px){.h14h{grid-template-columns:1fr;grid-template-rows:auto minmax(200px,1fr);gap:8px;height:min(94vh,800px);min-height:0;padding-inline:20px}
   .h14-txt{padding-block:88px 8px;gap:18px}
@@ -105,7 +94,6 @@ img{max-width:100%}
       <div class="h14-col"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s06/dancers.webp" alt="" aria-hidden="true" fetchpriority="high" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s06/food.webp" alt="" aria-hidden="true" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s06/singer.webp" alt="" aria-hidden="true" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/hero-window.webp" alt="" aria-hidden="true" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s06/dancers.webp" alt="" aria-hidden="true" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s06/food.webp" alt="" aria-hidden="true" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s06/singer.webp" alt="" aria-hidden="true" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/hero-window.webp" alt="" aria-hidden="true" decoding="async"></div>
       <div class="h14-col dn"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s06/hug.webp" alt="" aria-hidden="true" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/pour.webp" alt="" aria-hidden="true" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s06/hands.webp" alt="" aria-hidden="true" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/dusk-camp.webp" alt="" aria-hidden="true" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s06/hug.webp" alt="" aria-hidden="true" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s15/pour.webp" alt="" aria-hidden="true" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s06/hands.webp" alt="" aria-hidden="true" decoding="async"><img src="https://liavwebdesign-spec.github.io/motion-vault/assets/media/real/s12/dusk-camp.webp" alt="" aria-hidden="true" decoding="async"></div>
     </div>
-    <button class="hpp" type="button" aria-pressed="false" aria-label="עצירת התמונות הזזות"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
   </section>
 </div>
 
@@ -135,9 +123,7 @@ function enter(root){
   inView(root,function(){root.classList.add("is-in");});
 }
 (function(){
-  var root=document.getElementById("h14"), pp=root.querySelector(".hpp"); enter(root);
-  pp.addEventListener("click",function(){var on=!root.classList.contains("paused");root.classList.toggle("paused",on);pp.setAttribute("aria-pressed",String(on));
-    pp.setAttribute("aria-label",on?"הפעלת התמונות הזזות":"עצירת התמונות הזזות");});
+  var root=document.getElementById("h14"); enter(root);
 })();
 </script>
 </body>

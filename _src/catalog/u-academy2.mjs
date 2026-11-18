@@ -455,8 +455,6 @@ export default [
 @media (hover:hover) and (pointer:fine){.ac-ctrl button:hover{transform:translateY(-2px)}}
 .ac-ctrl button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .ac-ctrl svg{width:20px;height:20px}
-.ac-play .i-play,.ac-play[aria-pressed="false"] .i-pause{display:none}
-.ac-play[aria-pressed="false"] .i-play{display:block}
 @media (prefers-reduced-motion: reduce){.ac-cap.swap{animation:none}.ac-card .ph{transition:none}}`,
   html:`<section class="ac" aria-roledescription="קרוסלה" aria-label="פרויקטים נבחרים">
   <header class="ac-head"><h2>פרויקטים נבחרים</h2><p>גררו את הקשת, לחצו על כרטיס, או השתמשו בחצים.</p></header>
@@ -474,13 +472,13 @@ export default [
   <div class="ac-cap" aria-live="polite"><b class="ac-t"></b><span class="ac-m"></span></div>
   <div class="ac-ctrl">
     <button class="ac-prev" type="button" aria-label="לפרויקט הקודם"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
-    <button class="ac-play" type="button" aria-pressed="true" aria-label="התקדמות אוטומטית"><svg class="i-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5v14M15 5v14"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
+    
     <button class="ac-next" type="button" aria-label="לפרויקט הבא"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
   </div>
 </section>`,
   js:`(function(){
   const root=document.querySelector(".ac"),stage=root.querySelector(".ac-stage"),cards=[...root.querySelectorAll(".ac-card")],n=cards.length;
-  const cap=root.querySelector(".ac-cap"),capT=root.querySelector(".ac-t"),capM=root.querySelector(".ac-m"),play=root.querySelector(".ac-play");
+  const cap=root.querySelector(".ac-cap"),capT=root.querySelector(".ac-t"),capM=root.querySelector(".ac-m");
   const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
   // בלי GSAP (CDN חסום) הקשת עובדת בלי מעברים: המיקום נקבע ישר ב-style, ומעבר בין כרטיסים הוא קפיצה
   const G=typeof gsap!=="undefined"?gsap:{
@@ -488,7 +486,7 @@ export default [
     to:(o,v)=>{o.pos=v.pos;if(v.onUpdate)v.onUpdate();if(v.onComplete)v.onComplete();return {kill(){}};},
     delayedCall:(t,f)=>{const id=setTimeout(f,t*1000);return {kill(){clearTimeout(id);}};}
   };
-  const S={pos:0};let R=900,step=.2,vis=2.6,active=-1,tween=null,auto=null,userPaused=reduced,hover=false,inView=false;
+  const S={pos:0};let R=900,step=.2,vis=2.6,active=-1,tween=null,auto=null,hover=false,inView=false;
   const wrap=v=>{v=((v%n)+n)%n;return v>n/2?v-n:v;};
   function measure(){
     const W=stage.offsetWidth,cw=cards[0].offsetWidth;
@@ -516,17 +514,13 @@ export default [
   // עצירות אוטומטיות: רק כשהקשת על המסך, בלי ריחוף, בלי פוקוס, ורק אם הגולש לא עצר
   function schedule(){
     if(auto)auto.kill();auto=null;
-    if(userPaused||hover||!inView||document.hidden||root.contains(document.activeElement))return;
+    if(reduced||hover||!inView||document.hidden||root.contains(document.activeElement))return;
     auto=G.delayedCall(3.4,()=>step1(1));
   }
   function stop(){if(auto)auto.kill();auto=null;}
   root.querySelector(".ac-next").addEventListener("click",()=>{stop();step1(1);});
   root.querySelector(".ac-prev").addEventListener("click",()=>{stop();step1(-1);});
-  play.addEventListener("click",()=>{
-    // כפתור מתג: התווית קבועה והמצב נאמר ב-aria-pressed ("התקדמות אוטומטית, לחוץ")
-    userPaused=!userPaused;play.setAttribute("aria-pressed",String(!userPaused));
-    if(userPaused)stop();else schedule();
-  });
+  // בלי כפתור עצירה בעמוד: העצירה המלאה היא המתג בסרגל הנגישות (motion.md 2א)
   stage.addEventListener("keydown",e=>{
     if(e.key==="ArrowLeft"){e.preventDefault();stop();step1(1);}
     if(e.key==="ArrowRight"){e.preventDefault();stop();step1(-1);}
@@ -563,11 +557,10 @@ export default [
   new ResizeObserver(measure).observe(stage);
   new IntersectionObserver(es=>{inView=es[0].isIntersecting;if(inView)schedule();else stop();},{threshold:.4}).observe(stage);
   document.addEventListener("visibilitychange",()=>{if(document.hidden)stop();else schedule();});
-  if(reduced)play.setAttribute("aria-pressed","false");
   measure();
 })();`,
   runway:false,
-  note:"(1) המצב כולו הוא מספר אחד, pos, וכל כרטיס מחושב ממנו: זווית על הקשת, מיקום, הטיה ושקיפות. לכן גרירה, חצים, מקלדת והתקדמות אוטומטית לא מתנגשים: כולם רק מזיזים את pos. (2) התנופה מחושבת מהמהירות בסוף הגרירה ומעוגלת לכרטיס שלם, כך שהקשת לעולם לא נעצרת בין שני כרטיסים. (3) התקדמות אוטומטית היא עצירות כל 3.4 שניות ולא סחיפה רציפה, כדי שאפשר יהיה לקרוא את הכותרת. היא נעצרת בריחוף, בפוקוס, בגרירה, מחוץ למסך ובלשונית נסתרת, ויש כפתור עצירה (WCAG 2.2.2: תנועה אוטומטית של יותר מחמש שניות). בתנועה מופחתת היא כבויה מההתחלה. (4) רק הכרטיס שבמרכז חשוף לקורא מסך, והכותרת שמתחת היא ה-live region. כפתור העצירה הוא מתג: התווית קבועה (\"התקדמות אוטומטית\") והמצב נאמר ב-aria-pressed. (5) כש-GSAP לא נטען (CDN חסום) הקשת עדיין עובדת: שלוש הפעולות שהיא צריכה ממנו (set, to, delayedCall) מוחלפות בגיבוי קטן, והמעבר בין כרטיסים הוא קפיצה במקום גלישה.",
+  note:"(1) המצב כולו הוא מספר אחד, pos, וכל כרטיס מחושב ממנו: זווית על הקשת, מיקום, הטיה ושקיפות. לכן גרירה, חצים, מקלדת והתקדמות אוטומטית לא מתנגשים: כולם רק מזיזים את pos. (2) התנופה מחושבת מהמהירות בסוף הגרירה ומעוגלת לכרטיס שלם, כך שהקשת לעולם לא נעצרת בין שני כרטיסים. (3) התקדמות אוטומטית היא עצירות כל 3.4 שניות ולא סחיפה רציפה, כדי שאפשר יהיה לקרוא את הכותרת. היא נעצרת בריחוף, בפוקוס, בגרירה, מחוץ למסך ובלשונית נסתרת, ובלי כפתור עצירה בעמוד (motion.md 2א): WCAG 2.2.2 (תנועה אוטומטית של יותר מחמש שניות) מתקיים במתג עצירת האנימציות בסרגל הנגישות של האתר. בתנועה מופחתת היא כבויה. (4) רק הכרטיס שבמרכז חשוף לקורא מסך, והכותרת שמתחת היא ה-live region. (5) כש-GSAP לא נטען (CDN חסום) הקשת עדיין עובדת: שלוש הפעולות שהיא צריכה ממנו (set, to, delayedCall) מוחלפות בגיבוי קטן, והמעבר בין כרטיסים הוא קפיצה במקום גלישה.",
 },
 {
   id:"b70", cat:"behavior", name:"כפתור שיתוף שנפרש", tech:"CSS · JS · Web Share API", status:"מאושר-עין",

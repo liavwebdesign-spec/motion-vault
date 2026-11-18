@@ -10,7 +10,6 @@ const IMG = (f, w, h, alt, cls = "") =>
   `<img${cls ? ` class="${cls}"` : ""} src="../assets/media/${f}" width="${w}" height="${h}" alt="${alt}" loading="lazy" decoding="async">`;
 const ARROW = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>`;
 const CHECK = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>`;
-const PAUSE = `<svg class="i-pa" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg><svg class="i-pl" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>`;
 const SVG_CSS = (sel) => `${sel}{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}`;
 const H2 = "margin:0;font-size:clamp(30px,3.4vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.01em;text-wrap:balance";
 const SEC = "padding:clamp(40px,6vw,96px) clamp(20px,5vw,72px);border-radius:clamp(20px,2.4vw,32px);background:var(--bg);color:var(--ink)";
@@ -67,9 +66,9 @@ const PG = [
 export default [
 {
   id:"b111", cat:"behavior", name:"מדריכים עם זרקור שעובר ביניהם", tech:"JS · CSS animation · IntersectionObserver", status:"מאושר-עין", runway:false,
-  desc:"רשימה של ארבעה מדריכים, ולידה תמונה גדולה של המדריך הנבחר. השורה הנבחרת מקבלת משטח, נפתחת ומראה משפט על המדריך, ובתחתית שלה סרגל דק מתמלא. כשהוא מתמלא, הזרקור עובר לבד למדריך הבא והתמונה מתחלפת. עכבר על הרכיב עוצר את ההחלפה, ויש כפתור לעצור אותה לגמרי.",
+  desc:"רשימה של ארבעה מדריכים, ולידה תמונה גדולה של המדריך הנבחר. השורה הנבחרת מקבלת משטח, נפתחת ומראה משפט על המדריך, ובתחתית שלה סרגל דק מתמלא. כשהוא מתמלא, הזרקור עובר לבד למדריך הבא והתמונה מתחלפת. עכבר על הרכיב עוצר את ההחלפה.",
   when:"מרכז ידע, בלוג, מדריכים, מקרי לקוח או מוצרים מובילים, כשיש שלושה עד חמישה פריטים ותמונה טובה לכל אחד. מתאים לעמוד הבית של עסק שמוכר ידע (חשמלאי, רואה חשבון, סוכן ביטוח). לא לרשימה של עשרה מאמרים ומעלה, שם רשת כרטיסים, ולא כשהתמונות חלשות, כי התמונה הגדולה היא חצי מהרכיב.",
-  note:"**שחזור.** השראה: animtd.store (26.10.2026), סרטון של רשימת מאמרים שבה השורה הפעילה גדלה ומקבלת פס הדגשה. נבנה מאפס מהצפייה. **במה זה שונה ממה שיש:** טאבים רגילים מחליפים תוכן רק בלחיצה. כאן יש שעון גלוי: הסרגל בתחתית השורה הפעילה הוא אנימציית CSS של שש שניות, וה-JS עובר לפריט הבא רק באירוע `animationend` שלו. לכן עצירה היא פשוט `animation-play-state:paused`, והסרגל והזמן לא יכולים להתפצל. **עוצר כש:** העכבר על הרכיב, הפוקוס בתוכו (מי שקורא בטאב לא יאבד את המקום), הרכיב מחוץ למסך (IntersectionObserver), או שלחצו «עצירת ההחלפה». **בחירה:** לחיצה על שורה, וריחוף בעכבר; השורה היא כפתור עם `aria-pressed`, ומי שלא רואה את התמונה מקבל את כל המידע מהשורה עצמה. **התמונות** בערימה אחת, והפעילה מתחלפת בעמעום והקטנה קלה; הכרטיסים הלא פעילים מקבלים `inert`, כך שהקישור «לקריאת המדריך» הוא תמיד של המדריך הנבחר. **בלי JS** כל המשפטים פתוחים וכל הכרטיסים זה מתחת לזה. **הפחתת תנועה:** אין החלפה אוטומטית, אין סרגל ואין כפתור עצירה; הבחירה ידנית. **בטלפון** התמונה מעל הרשימה, ברוחב מלא.",
+  note:"**שחזור.** השראה: animtd.store (26.10.2026), סרטון של רשימת מאמרים שבה השורה הפעילה גדלה ומקבלת פס הדגשה. נבנה מאפס מהצפייה. **במה זה שונה ממה שיש:** טאבים רגילים מחליפים תוכן רק בלחיצה. כאן יש שעון גלוי: הסרגל בתחתית השורה הפעילה הוא אנימציית CSS של שש שניות, וה-JS עובר לפריט הבא רק באירוע `animationend` שלו. לכן עצירה היא פשוט `animation-play-state:paused`, והסרגל והזמן לא יכולים להתפצל. **עוצר כש:** העכבר על הרכיב, הפוקוס בתוכו (מי שקורא בטאב לא יאבד את המקום), או שהרכיב מחוץ למסך (IntersectionObserver). אין כפתור עצירה בעמוד (motion.md 2א): העצירה המלאה (WCAG 2.2.2) היא המתג עצירת האנימציות בסרגל הנגישות של האתר. **בחירה:** לחיצה על שורה, וריחוף בעכבר; השורה היא כפתור עם `aria-pressed`, ומי שלא רואה את התמונה מקבל את כל המידע מהשורה עצמה. **התמונות** בערימה אחת, והפעילה מתחלפת בעמעום והקטנה קלה; הכרטיסים הלא פעילים מקבלים `inert`, כך שהקישור «לקריאת המדריך» הוא תמיד של המדריך הנבחר. **בלי JS** כל המשפטים פתוחים וכל הכרטיסים זה מתחת לזה. **הפחתת תנועה:** אין החלפה אוטומטית ואין סרגל; הבחירה ידנית. **בטלפון** התמונה מעל הרשימה, ברוחב מלא.",
   libs:[],
   css:`.as{display:grid;gap:clamp(28px,4vw,48px);${SEC}}
 .as-hd{display:grid;gap:12px;max-width:44rem}
@@ -86,12 +85,12 @@ export default [
 .as-it[aria-pressed="true"]{background:var(--card)}
 .as-it[aria-pressed="true"] .as-meta{color:var(--accent)}
 .as:not(.is-live) .as-ex,.as-it[aria-pressed="true"] .as-ex{grid-template-rows:1fr}
-.as-it:focus-visible,.as-go:focus-visible,.as-pp:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.as-it:focus-visible,.as-go:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .as-bar{position:absolute;inset-inline:20px;inset-block-end:8px;display:none;height:3px;border-radius:999px;background:var(--accent);transform:scaleX(0);transform-origin:100% 50%}
 .as-bar:dir(ltr){transform-origin:0 50%}
 .as.is-live .as-bar{display:block}
 .as.is-live .as-it[aria-pressed="true"] .as-bar{animation:as-fill 6s linear forwards}
-.as.is-hold .as-bar,.as.is-paused .as-bar,.as.is-off .as-bar{animation-play-state:paused}
+.as.is-hold .as-bar,.as.is-off .as-bar{animation-play-state:paused}
 @keyframes as-fill{to{transform:scaleX(1)}}
 .as-pv{grid-column:2;grid-row:1/span 2;display:grid;gap:16px}
 .as-card{position:relative;margin:0;overflow:hidden;aspect-ratio:4/5;max-height:620px;border-radius:24px;background:var(--card)}
@@ -103,13 +102,8 @@ export default [
 ${SVG_CSS(".as-go svg")}
 .as.is-live .as-card{grid-area:1/1;opacity:0;visibility:hidden;transform:scale(1.03);transition:opacity .5s ${E},visibility 0s .5s,transform .9s ${E}}
 .as.is-live .as-card.is-on{opacity:1;visibility:visible;transform:none;transition:opacity .5s ${E},visibility 0s,transform .9s ${E}}
-.as-pp{grid-column:1;grid-row:2;justify-self:start;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border:0;border-radius:999px;background:color-mix(in srgb,var(--ink) 6%,transparent);color:var(--ink);font:inherit;font-size:14px;font-weight:600;cursor:pointer}
-.as-pp[hidden]{display:none}
-.as-pp svg{width:16px;height:16px;fill:currentColor}
-.as-pp .i-pl,.as.is-paused .as-pp .i-pa{display:none}
-.as.is-paused .as-pp .i-pl{display:block}
 @media(prefers-reduced-motion:reduce){.as.is-live .as-bar{display:none}.as-ex{transition:none}.as.is-live .as-card{transform:none!important;transition-duration:.2s}}
-@media(max-width:860px){.as-body{grid-template-columns:minmax(0,1fr)}.as-pv{grid-column:1;grid-row:auto;order:-1}.as-card{aspect-ratio:16/11}.as-pp{grid-row:auto}}`,
+@media(max-width:860px){.as-body{grid-template-columns:minmax(0,1fr)}.as-pv{grid-column:1;grid-row:auto;order:-1}.as-card{aspect-ratio:16/11}}`,
   html:`<div class="stage"><section class="as" data-as>
   <div class="as-hd">
     <p class="as-k">מרכז הידע</p>
@@ -123,18 +117,17 @@ ${AS.map(([c, t, h, x], i) => `      <li><button class="as-it" type="button" ari
     <div class="as-pv">
 ${AS.map(([c, , h, , f, w, ht, alt], i) => `      <figure class="as-card${i === 0 ? " is-on" : ""}" id="as-c${i}">${IMG(f, w, ht, alt)}<figcaption><span class="as-chip">${c}</span><b>${h}</b><a class="as-go" href="#">לקריאת המדריך ${ARROW}</a></figcaption></figure>`).join("\n")}
     </div>
-    <button class="as-pp" type="button" hidden>${PAUSE}<span>עצירת ההחלפה</span></button>
+    
   </div>
 </section></div>`,
   js:`(function(){
   const root=document.querySelector("[data-as]");
   if(!root)return;
-  const its=[...root.querySelectorAll(".as-it")],cards=[...root.querySelectorAll(".as-card")],pp=root.querySelector(".as-pp");
+  const its=[...root.querySelectorAll(".as-it")],cards=[...root.querySelectorAll(".as-card")];
   const fine=matchMedia("(hover: hover) and (pointer: fine)"),still=matchMedia("(prefers-reduced-motion: reduce)");
   let cur=0;
   root.classList.add("is-live");          // בלי JS כל המשפטים פתוחים וכל הכרטיסים גלויים
   cards.forEach((c,i)=>{c.inert=i!==0;});
-  if(!still.matches)pp.hidden=false;
   const go=j=>{
     if(j===cur)return;cur=j;
     its.forEach((b,i)=>b.setAttribute("aria-pressed",String(i===j)));
@@ -151,11 +144,7 @@ ${AS.map(([c, , h, , f, w, ht, alt], i) => `      <figure class="as-card${i === 
   root.addEventListener("pointerleave",()=>hold(false));
   root.addEventListener("focusin",()=>hold(true));
   root.addEventListener("focusout",e=>{if(!root.contains(e.relatedTarget))hold(false);});
-  pp.addEventListener("click",()=>{
-    const on=!root.classList.contains("is-paused");
-    root.classList.toggle("is-paused",on);
-    pp.querySelector("span").textContent=on?"המשך ההחלפה":"עצירת ההחלפה";
-  });
+  // בלי כפתור עצירה בעמוד: העצירה המלאה היא המתג בסרגל הנגישות (motion.md 2א)
   // מחוץ למסך השעון עומד, כדי שמי שגולל חזרה ימצא את אותו מדריך
   if("IntersectionObserver" in window){
     root.classList.add("is-off");
@@ -245,9 +234,9 @@ ${RQ.map(([f, w, h, alt], i) => `      <figure class="rq-p${i === 0 ? " is-on" :
 },
 {
   id:"b113", cat:"behavior", name:"גלריה עם רצועת תמונות שמתקדמת לבד", tech:"JS · CSS animation · IntersectionObserver", status:"מאושר-עין", runway:false,
-  desc:"תמונה גדולה עם כיתוב, ומתחתיה רצועה של ארבע תמונות קטנות. הקטנה הפעילה בולטת ועולה מעט לכיוון התמונה הגדולה, ובתחתיתה סרגל מתמלא; כשהוא מתמלא, התמונה הגדולה מתחלפת לבאה בעמעום והתרחקות קלה, והכיתוב מתחלף איתה. לחיצה על תמונה קטנה עוברת אליה. מונה קטן בפינה, וכפתור לעצירה.",
+  desc:"תמונה גדולה עם כיתוב, ומתחתיה רצועה של ארבע תמונות קטנות. הקטנה הפעילה בולטת ועולה מעט לכיוון התמונה הגדולה, ובתחתיתה סרגל מתמלא; כשהוא מתמלא, התמונה הגדולה מתחלפת לבאה בעמעום והתרחקות קלה, והכיתוב מתחלף איתה. לחיצה על תמונה קטנה עוברת אליה. ומונה קטן בפינה.",
   when:"מקום או חוויה שרוצים להראות בכמה רגעים: בר, מסעדה, צימר, אולם, סטודיו, נכס להשכרה. שלוש עד שש תמונות באותו יחס, ולכל אחת משפט. לא לקטלוג מוצרים, שם c25 בלי החלפה אוטומטית, ולא לתמונות שצריך לבחון בעיון (תוכנית, מפרט), כי ההחלפה לא מחכה.",
-  note:"**שחזור.** השראה: animtd.store (26.10.2026), סרטון של גלריה עם רצועת ממוזערות שמתקדמת לבד. נבנה מאפס מהצפייה. **במה זה שונה ממה שיש:** c25 הוא תמונה ראשית ופס ממוזערות שמתחלף רק בלחיצה. כאן הגלריה מתקדמת לבד עם שעון גלוי בתוך הממוזערת הפעילה, והתמונה הגדולה נכנסת בהתרחקות (מ-1.06 ל-1). **השעון:** כמו ב-b111, הסרגל הוא אנימציית CSS של חמש שניות, וה-JS עובר לתמונה הבאה רק ב-`animationend`. **עוצר כש:** העכבר על הגלריה, הפוקוס בתוכה, הגלריה מחוץ למסך, או בכפתור העצירה (WCAG 2.2.2). **הממוזערת הפעילה** עולה ב-`transform` (הזזה למעלה בלבד, בלי הגדלה), לא ברוחב, כך שאין קפיצות בפריסה; האחרות בשקיפות .55. **הריווח (תוקן 26.10 לפי ליאב):** הרווח בין התמונה הגדולה לרצועה הוא הרווח בין הממוזערות ועוד גובה ההרמה (`--fs-gap` ו-`--fs-lift`), כך שהפעילה נעצרת במרחק מהתמונה הגדולה ששווה בדיוק לרווח בינה לשכנות. בגרסה הקודמת היא עלתה עם הגדלה ל-1.06, כמעט נגעה בתמונה הגדולה וחרגה מהקו שלה בקצה. כל ממוזערת היא כפתור עם `aria-pressed` ותווית. **הכיתוב, המונה והעצירה** יושבים על משטח בצבע הכרטיס עם טשטוש, ולא על שכבה כהה שקופה: שכבה מ-ink מתבהרת באתר כהה, והטקסט נעלם מעל תמונה כהה (נמצא בבדיקת העורות). **בלי JS** מוצגות התמונה והכיתוב הראשונים, והממוזערות לא עושות כלום. **הפחתת תנועה:** בלי החלפה אוטומטית ובלי כפתור עצירה; הבחירה בלחיצה. **בטלפון** אותו מבנה, והרצועה נשארת בשורה אחת.",
+  note:"**שחזור.** השראה: animtd.store (26.10.2026), סרטון של גלריה עם רצועת ממוזערות שמתקדמת לבד. נבנה מאפס מהצפייה. **במה זה שונה ממה שיש:** c25 הוא תמונה ראשית ופס ממוזערות שמתחלף רק בלחיצה. כאן הגלריה מתקדמת לבד עם שעון גלוי בתוך הממוזערת הפעילה, והתמונה הגדולה נכנסת בהתרחקות (מ-1.06 ל-1). **השעון:** כמו ב-b111, הסרגל הוא אנימציית CSS של חמש שניות, וה-JS עובר לתמונה הבאה רק ב-`animationend`. **עוצר כש:** העכבר על הגלריה, הפוקוס בתוכה, או שהגלריה מחוץ למסך. אין כפתור עצירה בעמוד (motion.md 2א): WCAG 2.2.2 מתקיים במתג עצירת האנימציות בסרגל הנגישות של האתר. **הממוזערת הפעילה** עולה ב-`transform` (הזזה למעלה בלבד, בלי הגדלה), לא ברוחב, כך שאין קפיצות בפריסה; האחרות בשקיפות .55. **הריווח (תוקן 26.10 לפי ליאב):** הרווח בין התמונה הגדולה לרצועה הוא הרווח בין הממוזערות ועוד גובה ההרמה (`--fs-gap` ו-`--fs-lift`), כך שהפעילה נעצרת במרחק מהתמונה הגדולה ששווה בדיוק לרווח בינה לשכנות. בגרסה הקודמת היא עלתה עם הגדלה ל-1.06, כמעט נגעה בתמונה הגדולה וחרגה מהקו שלה בקצה. כל ממוזערת היא כפתור עם `aria-pressed` ותווית. **הכיתוב והמונה** יושבים על משטח בצבע הכרטיס עם טשטוש, ולא על שכבה כהה שקופה: שכבה מ-ink מתבהרת באתר כהה, והטקסט נעלם מעל תמונה כהה (נמצא בבדיקת העורות). **בלי JS** מוצגות התמונה והכיתוב הראשונים, והממוזערות לא עושות כלום. **הפחתת תנועה:** בלי החלפה אוטומטית; הבחירה בלחיצה. **בטלפון** אותו מבנה, והרצועה נשארת בשורה אחת.",
   libs:[],
   css:`.fs{--fs-gap:12px;--fs-lift:8px;display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);align-items:center;gap:clamp(32px,5vw,72px);${SEC}}
 .fs-txt{display:grid;gap:16px;justify-items:start}
@@ -268,25 +257,20 @@ ${RQ.map(([f, w, h, alt], i) => `      <figure class="rq-p${i === 0 ? " is-on" :
 .fs-cap>div{grid-area:1/1;display:grid;gap:2px}
 .fs-cap b{font-size:18px;font-weight:700}
 .fs-cap span{font-size:15px;line-height:1.5;color:var(--muted)}
-.fs-count,.fs-pp{position:absolute;inset-block-start:16px;z-index:1;color:var(--ink);background:color-mix(in srgb,var(--card) 90%,transparent);box-shadow:${SHADOW};-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.fs-count{position:absolute;inset-block-start:16px;z-index:1;color:var(--ink);background:color-mix(in srgb,var(--card) 90%,transparent);box-shadow:${SHADOW};-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .fs-count{inset-inline-start:16px;margin:0;padding:6px 12px;border-radius:999px;font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
-.fs-pp{inset-inline-end:16px;display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:50%;cursor:pointer}
-.fs-pp[hidden]{display:none}
-.fs-pp svg{width:18px;height:18px;fill:currentColor}
-.fs-pp .i-pl,.fs.is-paused .fs-pp .i-pa{display:none}
-.fs.is-paused .fs-pp .i-pl{display:block}
 .fs-strip{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--fs-gap)}
 .fs-th{position:relative;display:block;width:100%;padding:0;border:0;border-radius:14px;overflow:hidden;aspect-ratio:1;background:var(--card);cursor:pointer;opacity:.55;transition:opacity .4s ${E},transform .5s ${E}}
 .fs-th img{display:block;width:100%;height:100%;object-fit:cover}
 /* הרמה בלבד, בלי הגדלה: הגדלה דחפה את הממוזערת שבקצה מעבר לקו של התמונה הגדולה */
 .fs-th[aria-pressed="true"]{opacity:1;transform:translateY(calc(var(--fs-lift) * -1))}
-.fs-th:focus-visible,.fs-pp:focus-visible,.fs-cta:focus-visible,.fs-alt:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.fs-th:focus-visible,.fs-cta:focus-visible,.fs-alt:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 @media(hover:hover) and (pointer:fine){.fs-th:hover{opacity:1}}
 .fs-bar{position:absolute;inset-inline:8px;inset-block-end:8px;display:none;height:3px;border-radius:999px;background:var(--bg);transform:scaleX(0);transform-origin:100% 50%}
 .fs-bar:dir(ltr){transform-origin:0 50%}
 .fs.is-live .fs-bar{display:block}
 .fs.is-live .fs-th[aria-pressed="true"] .fs-bar{animation:fs-fill 5s linear forwards}
-.fs.is-hold .fs-bar,.fs.is-paused .fs-bar,.fs.is-off .fs-bar{animation-play-state:paused}
+.fs.is-hold .fs-bar,.fs.is-off .fs-bar{animation-play-state:paused}
 @keyframes fs-fill{to{transform:scaleX(1)}}
 .fs:not(.is-live) .fs-main img:not(.is-on),.fs:not(.is-live) .fs-cap>div:not(.is-on){display:none}
 .fs.is-live .fs-main img{opacity:0;transform:scale(1.06);transition:opacity .8s ${E},transform 1.4s ${E}}
@@ -311,17 +295,16 @@ ${FS.map(([f, w, h, alt], i) => `      ${IMG(f, w, h, alt, i === 0 ? "is-on" : "
     <ul class="fs-strip">
 ${FS.map(([f, w, h, , t], i) => `      <li><button class="fs-th" type="button" aria-pressed="${i === 0}" aria-label="${t}">${IMG(f, w, h, "")}<span class="fs-bar" aria-hidden="true"></span></button></li>`).join("\n")}
     </ul>
-    <button class="fs-pp" type="button" aria-label="עצירת ההחלפה" hidden>${PAUSE}</button>
+    
   </div>
 </section></div>`,
   js:`(function(){
   const root=document.querySelector("[data-fs]");
   if(!root)return;
   const ths=[...root.querySelectorAll(".fs-th")],imgs=[...root.querySelectorAll(".fs-main img")],caps=[...root.querySelectorAll(".fs-cap>div")];
-  const num=root.querySelector(".fs-count b"),pp=root.querySelector(".fs-pp"),view=root.querySelector(".fs-view");
+  const num=root.querySelector(".fs-count b"),view=root.querySelector(".fs-view");
   let cur=0;
   root.classList.add("is-live");
-  if(!matchMedia("(prefers-reduced-motion: reduce)").matches)pp.hidden=false;
   const go=j=>{
     if(j===cur)return;cur=j;
     ths.forEach((b,i)=>b.setAttribute("aria-pressed",String(i===j)));
@@ -338,11 +321,7 @@ ${FS.map(([f, w, h, , t], i) => `      <li><button class="fs-th" type="button" a
   view.addEventListener("pointerleave",()=>hold(false));
   view.addEventListener("focusin",()=>hold(true));
   view.addEventListener("focusout",e=>{if(!view.contains(e.relatedTarget))hold(false);});
-  pp.addEventListener("click",()=>{
-    const on=!root.classList.contains("is-paused");
-    root.classList.toggle("is-paused",on);
-    pp.setAttribute("aria-label",on?"המשך ההחלפה":"עצירת ההחלפה");
-  });
+  // בלי כפתור עצירה בעמוד: העצירה המלאה היא המתג בסרגל הנגישות (motion.md 2א)
   if("IntersectionObserver" in window){
     root.classList.add("is-off");
     new IntersectionObserver(es=>es.forEach(e=>root.classList.toggle("is-off",!e.isIntersecting)),{threshold:.35}).observe(root);

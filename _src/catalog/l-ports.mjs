@@ -295,7 +295,7 @@ html[dir="ltr"] .bm-node{transform:translate(-50%,-50%)}
   id:"b59", cat:"behavior", name:"רשימה חיה שפריטים נכנסים אליה", tech:"vanilla JS · FLIP", status:"ממתין", runway:false,
   desc:"פריט חדש נכנס לראש הרשימה בקפיצה קטנה, והקודמים נדחפים למטה בחלקות במקום לקפוץ. הרשימה מרגישה כמו פיד חי.",
   when:"פיד התראות, הדגמת מערכת שעובדת, לוג פעילות, \"מה קרה היום\". מקסימום חמישה פריטים גלויים.",
-  note:"מקור: MagicUI AnimatedList. נכתב מחדש עם FLIP ידני: מודדים מיקום לפני ואחרי ההוספה ומזיזים ב-transform. הישנים נגזרים מלמטה, לא נמחקים בבת אחת. נגישות: הרשימה היא role=log עם aria-live=off, כי הודעה לקורא מסך כל שתי שניות בלי סוף היא רעש שאי אפשר לעצור; מי שרוצה לקרוא אותה נכנס אליה בעצמו. מתחת לרשימה כפתור עצירה והפעלה גלוי (WCAG 2.2.2: עדכון אוטומטי שנמשך יותר מחמש שניות חייב דרך לעצור אותו), באותה שפה כמו בקרוסלה b62. בנוסף הלולאה רצה רק כשהרשימה על המסך ונעצרת בריחוף ובלשונית מוסתרת. בתנועה מופחתת היא מתחילה עצורה עם שלושת הפריטים הראשונים, והגולש יכול להפעיל אותה בכפתור (בלי אנימציה).",
+  note:"מקור: MagicUI AnimatedList. נכתב מחדש עם FLIP ידני: מודדים מיקום לפני ואחרי ההוספה ומזיזים ב-transform. הישנים נגזרים מלמטה, לא נמחקים בבת אחת. נגישות: הרשימה היא role=log עם aria-live=off, כי הודעה לקורא מסך כל שתי שניות בלי סוף היא רעש שאי אפשר לעצור; מי שרוצה לקרוא אותה נכנס אליה בעצמו. בלי כפתור עצירה בעמוד (motion.md 2א): WCAG 2.2.2 מתקיים במתג עצירת האנימציות בסרגל הנגישות של האתר. הלולאה רצה רק כשהרשימה על המסך ונעצרת בריחוף ובלשונית מוסתרת. בתנועה מופחתת היא לא רצה, ונשארים שלושת הפריטים הראשונים.",
   libs:[],
   css:`.al{max-width:440px;margin-inline:auto;display:flex;flex-direction:column;gap:12px;height:380px;overflow:hidden;
   mask-image:linear-gradient(180deg,#000 70%,transparent);-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent)}
@@ -306,16 +306,9 @@ html[dir="ltr"] .bm-node{transform:translate(-50%,-50%)}
 .al-t{display:flex;flex-direction:column;gap:2px;min-width:0}
 .al-t b{font-size:15px}.al-t span{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .al-time{margin-inline-start:auto;font-size:12px;color:var(--muted);flex:none}
-.al-ctrl{display:flex;justify-content:center;margin-top:16px}
-.al-play{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:border-color .18s cubic-bezier(.2,.6,.2,1)}
-@media (hover:hover) and (pointer:fine){.al-play:hover{border-color:var(--ink)}}
-.al-play:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.al-play svg{width:16px;height:16px}
-.al-play .i-play,.al-play[aria-pressed="false"] .i-pause{display:none}
-.al-play[aria-pressed="false"] .i-play{display:block}
-@media (prefers-reduced-motion: reduce){.al-item.enter{animation:none}.al-play{transition:none}}`,
+@media (prefers-reduced-motion: reduce){.al-item.enter{animation:none}}`,
   html:`<div class="stage tight"><div class="al" role="log" aria-live="off" aria-label="פעילות אחרונה"></div>
-<div class="al-ctrl"><button class="al-play" type="button" aria-pressed="true" aria-label="עצירת העדכון האוטומטי"><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button></div></div>`,
+</div>`,
   js:`(function(){
   const list=document.querySelector(".al"),reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
   const feed=[["ליד חדש","דנה מחיפה השאירה פרטים בטופס","ph-a"],["תשלום התקבל","חשבונית 2041 שולמה","ph-d"],["פגישה נקבעה","יום שלישי 10:00 עם רועי","ph-b"],["הודעת וואטסאפ","\\"אפשר הצעת מחיר?\\"","ph-c"],["ביקור חוזר","לקוח מ-2024 חזר לעמוד המחירים","ph-e"]];
@@ -332,14 +325,9 @@ html[dir="ltr"] .bm-node{transform:translate(-50%,-50%)}
     el.addEventListener("animationend",()=>el.classList.remove("enter"),{once:true});
   }
   add();add();add();
-  // הלולאה רק כשלא עצרו אותה בכפתור, כשהרשימה על המסך, לא בריחוף ולא בלשונית מוסתרת. בתנועה מופחתת מתחילים עצורים
-  const play=document.querySelector(".al-play");
+  // הלולאה רק כשהרשימה על המסך, לא בריחוף ולא בלשונית מוסתרת. בתנועה מופחתת לא רצה. בלי כפתור עצירה בעמוד: העצירה היא המתג בסרגל הנגישות (motion.md 2א)
   let t=null,seen=false,paused=reduce;
   const run=()=>{if(!t&&seen&&!paused&&!document.hidden&&!list.matches(":hover"))t=setInterval(add,2200);},stop=()=>{clearInterval(t);t=null;};
-  // WCAG 2.2.2: עדכון אוטומטי שנמשך יותר מחמש שניות חייב כפתור עצירה גלוי; ריחוף ויציאה מהמסך לא מספיקים
-  const setPlay=()=>{play.setAttribute("aria-pressed",String(!paused));play.setAttribute("aria-label",paused?"הפעלת העדכון האוטומטי":"עצירת העדכון האוטומטי");};
-  play.addEventListener("click",()=>{paused=!paused;setPlay();paused?stop():run();});
-  setPlay();
   if("IntersectionObserver" in window)new IntersectionObserver(es=>{seen=es[es.length-1].isIntersecting;seen?run():stop();}).observe(list);
   else{seen=true;run();}
   list.addEventListener("mouseenter",stop);list.addEventListener("mouseleave",run);
@@ -451,7 +439,7 @@ html[dir="ltr"] .bm-node{transform:translate(-50%,-50%)}
   id:"b62", cat:"behavior", name:"קרוסלת עומק תלת-ממדית", tech:"GSAP · pointer", status:"ממתין", runway:false,
   desc:"כרטיסים על מסילה תלת-ממדית: הפעיל קדימה ובגודל מלא, השאר נסוגים לעומק ומתכהים. גרירה, חיצים, מקלדת ואוטו-פליי שנעצר במגע.",
   when:"תיק עבודות, מוצרים נבחרים, סיפורי לקוח. שלושה עד שבעה פריטים, כשרוצים נוכחות קולנועית בלי גריד.",
-  note:"מקור: ReactBits DepthCarousel (GSAP). נכתב מחדש בלי ספריית גרירה: pointer events עם סף 40px, וכל כרטיס מקבל translateZ/x/opacity לפי המרחק מהפעיל. RTL: החץ הימני מוביל אחורה ומקש ArrowRight גם. במובייל הפרספקטיבה קטנה והכרטיסים צרים יותר כדי שהשכנים יציצו; הרוחב נקרא מ-matchMedia בכל סידור ולא פעם אחת בטעינה. ההתקדמות האוטומטית: כפתור עצירה והפעלה גלוי בשורת הניווט (WCAG 2.2.2, תנועה שנמשכת יותר מחמש שניות), ריחוף עוצר זמנית, ופוקוס מקלדת בתוך הקרוסלה עוצר עד שהגולש מפעיל שוב בכפתור. בתנועה מופחתת היא מתחילה עצורה, והמעברים מיידיים. בלי GSAP (CDN חסום) הכרטיסים מקבלים את אותו מיקום ב-style, בלי אנימציה, והקרוסלה עובדת.",
+  note:"מקור: ReactBits DepthCarousel (GSAP). נכתב מחדש בלי ספריית גרירה: pointer events עם סף 40px, וכל כרטיס מקבל translateZ/x/opacity לפי המרחק מהפעיל. RTL: החץ הימני מוביל אחורה ומקש ArrowRight גם. במובייל הפרספקטיבה קטנה והכרטיסים צרים יותר כדי שהשכנים יציצו; הרוחב נקרא מ-matchMedia בכל סידור ולא פעם אחת בטעינה. ההתקדמות האוטומטית: בלי כפתור עצירה בעמוד (motion.md 2א); WCAG 2.2.2 מתקיים במתג עצירת האנימציות בסרגל הנגישות של האתר. ריחוף ופוקוס מקלדת בתוך הקרוסלה עוצרים זמנית. בתנועה מופחתת היא לא מתקדמת לבד, והמעברים מיידיים. בלי GSAP (CDN חסום) הכרטיסים מקבלים את אותו מיקום ב-style, בלי אנימציה, והקרוסלה עובדת.",
   libs:["gsap"],
   css:`.dc{position:relative;height:clamp(360px,52vh,520px);perspective:1200px;overflow:hidden;touch-action:pan-y;cursor:grab;user-select:none}
 .dc.drag{cursor:grabbing}
@@ -463,9 +451,6 @@ html[dir="ltr"] .bm-node{transform:translate(-50%,-50%)}
 .dc-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:18px;cursor:pointer;display:grid;place-items:center;transition:border-color .18s cubic-bezier(.2,.6,.2,1)}
 @media (hover:hover) and (pointer:fine){.dc-btn:hover{border-color:var(--ink)}}
 .dc-btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.dc-play svg{width:16px;height:16px}
-.dc-play .i-play,.dc-play[aria-pressed="false"] .i-pause{display:none}
-.dc-play[aria-pressed="false"] .i-play{display:block}
 .dc-dots{display:flex;gap:6px}
 .dc-dots i{width:6px;height:6px;border-radius:50%;background:var(--line);transition:transform .3s cubic-bezier(.2,.6,.2,1),background-color .3s}
 .dc-dots i.on{background:var(--accent);transform:scale(1.5)}
@@ -481,12 +466,12 @@ html[dir="ltr"] .bm-node{transform:translate(-50%,-50%)}
     <figure class="dc-card"><div class="ph ph-e">5</div><figcaption class="dc-cap">דף נחיתה לקורס</figcaption></figure>
   </div>
 </div>
-<div class="dc-nav"><button class="dc-btn dc-prev" type="button" aria-label="הקודם">→</button><div class="dc-dots" aria-hidden="true"></div><button class="dc-btn dc-play" type="button" aria-pressed="true" aria-label="עצירת ההתקדמות האוטומטית"><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button><button class="dc-btn dc-next" type="button" aria-label="הבא">←</button></div>
+<div class="dc-nav"><button class="dc-btn dc-prev" type="button" aria-label="הקודם">→</button><div class="dc-dots" aria-hidden="true"></div><button class="dc-btn dc-next" type="button" aria-label="הבא">←</button></div>
 </div>`,
   js:`(function(){
-  const root=document.querySelector(".dc"),wrap=root.parentElement,cards=[...root.querySelectorAll(".dc-card")],dots=document.querySelector(".dc-dots"),play=document.querySelector(".dc-play"),n=cards.length;
+  const root=document.querySelector(".dc"),wrap=root.parentElement,cards=[...root.querySelectorAll(".dc-card")],dots=document.querySelector(".dc-dots"),n=cards.length;
   const rq=matchMedia("(prefers-reduced-motion: reduce)"),mq=matchMedia("(max-width:767px)"),hasG=typeof gsap!=="undefined";
-  let cur=0,timer=null,paused=rq.matches;   // בתנועה מופחתת מתחילים עצורים
+  let cur=0,timer=null,focused=false;const paused=rq.matches;   // בתנועה מופחתת לא מתקדמת לבד
   cards.forEach(()=>dots.appendChild(document.createElement("i")));
   function place(c,v,animate){
     if(!hasG){   // בלי GSAP (CDN חסום): אותו מיקום, בלי אנימציה, והקרוסלה עובדת
@@ -506,13 +491,11 @@ html[dir="ltr"] .bm-node{transform:translate(-50%,-50%)}
     [...dots.children].forEach((d,i)=>d.classList.toggle("on",i===cur));
   }
   function go(step){cur=(cur+step+n)%n;layout(true);restart();}
-  // רץ רק כשלא עצרו אותו ולא מרחפים מעליו
-  function restart(){clearInterval(timer);timer=null;if(!paused&&!root.matches(":hover"))timer=setInterval(()=>go(1),3800);}
-  function setPlay(){play.setAttribute("aria-pressed",String(!paused));play.setAttribute("aria-label",paused?"הפעלת ההתקדמות האוטומטית":"עצירת ההתקדמות האוטומטית");}
-  play.addEventListener("click",()=>{paused=!paused;setPlay();restart();});
-  // פוקוס מקלדת בתוך הקרוסלה עוצר אותה עד שהגולש מפעיל שוב בכפתור (כמו בדפוס הקרוסלה של WAI-ARIA)
-  wrap.addEventListener("focusin",()=>{if(!paused&&wrap.querySelector(":focus-visible")){paused=true;setPlay();restart();}});
-  setPlay();
+  // רץ רק כשאין פוקוס מקלדת בפנים ולא מרחפים מעליו. בלי כפתור עצירה בעמוד: העצירה היא המתג בסרגל הנגישות (motion.md 2א)
+  function restart(){clearInterval(timer);timer=null;if(!paused&&!focused&&!root.matches(":hover"))timer=setInterval(()=>go(1),3800);}
+  // פוקוס מקלדת בתוך הקרוסלה עוצר אותה, ויציאה ממנה מחזירה (כמו בדפוס הקרוסלה של WAI-ARIA)
+  wrap.addEventListener("focusin",()=>{if(wrap.querySelector(":focus-visible")){focused=true;restart();}});
+  wrap.addEventListener("focusout",e=>{if(!wrap.contains(e.relatedTarget)){focused=false;restart();}});
   document.querySelector(".dc-next").addEventListener("click",()=>go(1));
   document.querySelector(".dc-prev").addEventListener("click",()=>go(-1));
   // מקלדת: בעברית חץ שמאלה = הבא

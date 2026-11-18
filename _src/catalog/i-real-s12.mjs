@@ -383,7 +383,7 @@ const CSS = `@font-face{font-family:"MV Google Sans";src:url("../assets/fonts/go
 .q .pic:hover img,.q .lnk:hover .ico{transform:none}
 .q .van:hover{translate:none}
 }
-.q[data-paused] .sun-rays{animation-play-state:paused}`;
+`;
 
 // ───────── HTML ─────────
 const IMG = "../assets/media/real/s12/";
@@ -481,7 +481,7 @@ const HTML = `<div class="cwrap sk-s12"><div class="q" id="s12-top">
 <div class="ft-col"><p class="ft-h">להגיע</p><address>החרושת 9, תל אביב</address><a href="tel:+97235550170" dir="ltr" style="unicode-bidi:isolate">03-555-0170</a><a href="https://waze.com/ul?q=%D7%94%D7%97%D7%A8%D7%95%D7%A9%D7%AA%209%20%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91" rel="noopener">ניווט ב-Waze</a></div>
 <div class="ft-col"><p class="ft-h">באתר</p><a href="#s12-reviews">ביקורות</a><a href="#s12-route">המסלול</a><a href="#s12-fleet">הצי</a><a href="#s12-book">הזמנה</a></div>
 </div>
-<div class="ft-bot"><p>© <span data-year>2026</span> שמש בדרך</p><nav aria-label="משפטי"><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">הצהרת נגישות</a></nav><button class="lnk" type="button" data-pause>${I.pauseS}<span>השהיית התנועה</span></button><p>עוצב ופותח על ידי <a href="https://liavmatzri.co.il" rel="noopener">ליאב מצרי</a></p></div>
+<div class="ft-bot"><p>© <span data-year>2026</span> שמש בדרך</p><nav aria-label="משפטי"><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">הצהרת נגישות</a></nav><p>עוצב ופותח על ידי <a href="https://liavmatzri.co.il" rel="noopener">ליאב מצרי</a></p></div>
 <svg class="sunset" viewBox="0 0 560 280" aria-hidden="true" focusable="false"><path d="M0 280a280 280 0 0 1 560 0z" fill="#E5A823"/><path d="M52 280a228 228 0 0 1 456 0z" fill="#E5702B"/><path d="M104 280a176 176 0 0 1 352 0z" fill="#B2441F"/><path d="M156 280a124 124 0 0 1 248 0z" fill="#54402F"/></svg>
 </footer>
 </div></div>`;
@@ -534,9 +534,6 @@ if("ResizeObserver" in window){var w0=route.getBoundingClientRect().width,h0=rou
 else window.addEventListener("resize",build)}
 /* בחירת רכב מהצי מסמנת אותו בטופס */
 $$("[data-pick]").forEach(function(a){a.addEventListener("click",function(){var f=$(".form"),i=f&&f.querySelector('input[name="van"][value="'+a.dataset.pick+'"]');if(i)i.checked=true})});
-/* השהיית התנועה (WCAG 2.2.2): מקפיא את השמש */
-var pb=$("[data-pause]");
-if(pb)pb.addEventListener("click",function(){var p=q.hasAttribute("data-paused");if(p)q.removeAttribute("data-paused");else q.setAttribute("data-paused","");pb.innerHTML=(p?'<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14"/><path d="M15 5v14"/></svg><span>השהיית התנועה</span>':'<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg><span>הפעלת התנועה</span>')});
 /* טופס ההזמנה */
 var form=$(".form"),bk=$(".book");
 if(form)form.addEventListener("submit",function(e){e.preventDefault();var nm=form.elements.name,tl=form.elements.tel,bad=null;
@@ -563,7 +560,7 @@ Google Sans בלבד, שלושה משקלים: 700 לכותרות, מספרים 
   apply: "הדר לשונית שתלויה מהקצה העליון על paper, בלי קו, עם headroom. הירו בשני טורים: הטקסט בהתחלה, חלון קשת עם שמש מסתובבת מאחוריו ומדבקת מחיר חרדלית. כל סקשן נפתח באותה תווית חרדלית. הוכחה כמספרים גדולים בחלודה ושלושה כרטיסים בצבעי הרכבים, האמצעי יורד 48px. רגע החתימה על יריעת שוקולד: ארבעת הפסים נמשכים בגלילה מאחורי הצילום, עוטפים את הפינה ויורדים לאורך תחנות שנדלקות בחרדל. הצי בשלושה כרטיסים בצבע מלא עם מספר ישנים ענק, וכפתור שוקולד שמסמן את הרכב בטופס. ההזמנה על יריעת חול שקטה, שדות pill ובחירות pill. הפוטר שוקולד עם שקיעה בקצה.",
   sig: "חלון קשת אחד לכל הצילומים · שמש מסתובבת לאט מאחורי ההירו · 'מסלול סוף שבוע': ארבעה פסים נמשכים בגלילה, עוטפים פינה ויורדים עם התחנות · מספרים ענקיים במשקל 700 (ישנים, מחיר, דירוג) · כרטיסי צבע מלא שמכהים בהובר · שקיעה של חצאי טבעות בפוטר.",
   avoid: "פונט רטרו, גם בכותרת: התקופה באה מצבע, פסים, צורה וצילום · חום בכל מקום ובלי שמנת שנושמת · פסים על כל רכיב, גלגלי דיסקו, קליפ-ארט 'גרובי' וקשת בענן · ניגודיות עכורה בין חרדל לחלודה · צל על משטח צבעוני · כתמים אמורפיים · קו או מסגרת לקישוט · פילטר סרט כבד שמלכלך את הפנים בצילום.",
-  qa: ["פלטה של חרדל, כתום, חלודה, זית ושוקולד על שמנת, בלי לבן ובלי שחור", "אין פונט תקופתי; הכותרת 700 הדוקה מ-40px", "פסים רק במקומות מכוונים: המסלול והשקיעה, ולא על כל רכיב", "חלון קשת אחד לכל הצילומים, אותו גריידינג וגרעין סרט כאריח PNG", "צל רק על משטח paper, וכרטיס צבעוני מכהה לגוון משלו בהובר", "ניגודיות AA בכל זוג צבעים, כולל טקסט על שוקולד וכרטיסי צבע", "הסיבוב נעצר ב-reduced-motion ובכפתור 'השהיית התנועה'; הפסים והתחנות גלויים בלי JS"],
+  qa: ["פלטה של חרדל, כתום, חלודה, זית ושוקולד על שמנת, בלי לבן ובלי שחור", "אין פונט תקופתי; הכותרת 700 הדוקה מ-40px", "פסים רק במקומות מכוונים: המסלול והשקיעה, ולא על כל רכיב", "חלון קשת אחד לכל הצילומים, אותו גריידינג וגרעין סרט כאריח PNG", "צל רק על משטח paper, וכרטיס צבעוני מכהה לגוון משלו בהובר", "ניגודיות AA בכל זוג צבעים, כולל טקסט על שוקולד וכרטיסי צבע", "הסיבוב נעצר ב-reduced-motion ובמתג עצירת האנימציות בסרגל הנגישות; הפסים והתחנות גלויים בלי JS"],
   engine: `ניגודיות נמדדה (WCAG): שוקולד #3A2418 על שמנת #F6ECD6 12.4 · טקסט משני #664E3C על שמנת 6.6, על חול 5.9, על קרני השמש 5.2 · חלודה #B2441F על שמנת 4.8 (כותרות וטקסט גדול בלבד) · לבן-שמנת #FFF8E8 על כפתור #A8401F 5.8 ועל hover #8C3216 7.7 · שוקולד על חרדל בהיר 8.7, על אפרסק 7.4, על זית בהיר 8.9, על אפרסק ב-hover 6.3 · שוקולד כהה #2B1810 על כתום #E5702B 5.4 ועל ה-hover 4.6 (כרטיס הכתום) · לבן-שמנת על זית #5E6C2C 5.4 ועל ה-hover 6.8 · #E8D9BB על שוקולד 10.4 · שדה טופס, קו #8A6F52 על חול 3.6 ועל לבן-שמנת 4.4 (רכיב ממשק, סף 3) · שגיאה #B3261E על חול 4.9.
 אילוצי מנוע: עור אחד, בלי שחור ובלי לבן טהור · .hchip ולא .chip, כי ב-vault.css יש .chip במשקל 600 שדולף ושובר את מגבלת שלושת המשקלים · תוויות eyebrow זהות בכל המשטחים (גלולה חרדלית, טקסט שוקולד) · חלון הקשת ברדיוס אחד (50% 50% 40px 40px / 44% 44% 40px 40px) לכל הצילומים · פסי המסלול הם SVG שמחושב ב-JS לפי הגלילה ונכתב רק בשינוי, ובלי JS יש פס סטטי בארבעה צבעים · גרעין כאריח PNG קטן (6 עד 13KB) ולא פילטר SVG.`,
   agent: "עצב בסגנון רטרו שנות ה-70 חם וגרפי: רקע שמנת עם גרעין, טקסט שוקולד, פלטה של חרדל, כתום, חלודה וזית, Google Sans במשקל 700 הדוק לכותרות ובלי פונט תקופתי, צילום אמיתי וחם עם אנשים באותו גריידינג בתוך חלון קשת, ארבעה פסים כחומר גלם בשני מקומות בלבד (רגע חתימה שנמשך בגלילה ועוטף פינה, ושקיעה בפוטר), שמש שמסתובבת לאט מאחורי ההירו, כרטיסים בצבע מלא שמכהים בהובר, כפתור חלודה עמוקה. בלי קליפ-ארט, גלגלי דיסקו ופסים על כל רכיב.",

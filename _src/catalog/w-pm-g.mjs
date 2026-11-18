@@ -525,9 +525,9 @@ export default [
 },
 {
   id:"b91", cat:"behavior", name:"סבך עקומות זוהרות שנשרטט ונמוג", tech:"Canvas 2D · lighter · Lissajous · SVG fallback", status:"מאושר-עין", runway:false,
-  desc:"לוח כהה עם קופסת טקסט בצד ומולה סבך של שישה חוטי אור בצבע המותג: ליבה בהירה, הילה סגולה סביבה, ועל הרקע הכהה זה זוהר באמת. החוטים נשרטטים אחד אחרי השני, ובראש כל חוט נקודת אור שמובילה אותו. אחרי שהסבך שלם הוא נע לאט והצורה משתנה, ואז הוא נמוג והמחזור מתחיל שוב. בקצוות הסבך מתפוגג לתוך הרקע בלי מסגרת, ובנקודות שהחוטים נחתכים האור מצטבר לצמתים בוהקים. בלי JS רואים את אותו סבך כשרטוט קבוע. כפתור קטן משהה את התנועה.",
+  desc:"לוח כהה עם קופסת טקסט בצד ומולה סבך של שישה חוטי אור בצבע המותג: ליבה בהירה, הילה סגולה סביבה, ועל הרקע הכהה זה זוהר באמת. החוטים נשרטטים אחד אחרי השני, ובראש כל חוט נקודת אור שמובילה אותו. אחרי שהסבך שלם הוא נע לאט והצורה משתנה, ואז הוא נמוג והמחזור מתחיל שוב. בקצוות הסבך מתפוגג לתוך הרקע בלי מסגרת, ובנקודות שהחוטים נחתכים האור מצטבר לצמתים בוהקים. בלי JS רואים את אותו סבך כשרטוט קבוע. התנועה עוצרת מחוץ למסך.",
   when:"עסק שמחבר דברים: אינטגרציות, תוכנה, תקשורת, רשתות, ייעוץ שמקשר בין גורמים. הסבך אומר שיש הרבה חלקים שמסתדרים. מתאים כסקשן ״איך זה עובד״ או כהירו של חברת טכנולוגיה. לא לעסק שמבקש שקט וניקיון.",
-  note:"**שחזור.** השראה: כמה סרטונים ב-prompt-motion.com (21.10.2026) שבהם עקומות זוהרות שזורות נשרטטות ונמוגות על רקע כהה. נבנה מאפס מהצפייה. **גרסה 2 (25.10.2026):** הגרסה הקודמת הייתה שמונה קווי שיער דקים ועמומים בתוך מלבן, ללא זוהר אמיתי, והקצוות של הסבך יצרו מסגרת נראית. עכשיו: שישה חוטים (חמישה בטאבלט, ארבעה בטלפון), זוהר אמיתי והקצוות נמסים. **העקומות הן עקומות ליסז'ו:** `x = sin(a·s + d)`, `y = sin(b·s)`, וכל עקומה היא זוג מספרים שלמים קטנים (a, b) וזווית התחלה. מספרים קטנים נותנים לולאות רחבות ונקיות; מספרים גדולים נראים כשיער, ולכן הוסרו. ההיסחפות היא הזזה איטית של הזווית `d` בזמן, ולכן הצורה משתנה בלי קפיצות. **הזוהר הוא שלושה משיכות של אותה עקומה** (רחבה ועמומה, בינונית, ודקה ובהירה) בהבהרה (`globalCompositeOperation:'lighter'`): הליבה בצבע בהיר שנגזר מ-`--accent` ו-`--bg`, ההילה ב-`--accent`. בנקודות שבהן כמה חוטים נחתכים הצבעים מצטברים והנקודה מבהיקה, בלי מסנן טשטוש יקר. **הקצוות** נמסים במסכה אליפטית (`mask-image`) על התיבה כולה, אז אין מלבן גלוי, והמסכה פועלת על הקנבס ועל ה-SVG הסטטי באותה מידה. **ראש החוט:** בזמן השרטוט, בקצה כל עקומה מצוירת נקודת אור, כך שרואים מיד שהקווים נשרטטים. **מחזור של 16 שניות:** שרטוט (כל עקומה מתחילה מעט אחרי הקודמת), החזקה, ודעיכה לשקיפות אפס, הכול בעקומות חלקות ובלי הבהוב. **קל:** שלוש משיכות של שש עקומות, 360 נקודות לכל אחת (240 בטלפון), DPR עד 2, הלולאה עוצרת מחוץ למסך. **כפתור השהיה** (WCAG 2.2.2, כי המחזור רץ בלי סוף): מוסתר במארקאפ, JS מגלה אותו, והוא עוצר את השעון בפריים הנוכחי וממשיך ממנו. **בלי JS ובהפחתת תנועה:** SVG סטטי שנבנה מאותה נוסחה בזמן קבוע (`LJ_DEFS`, עם `use` שלוש פעמים לכל עקומה), ובהפחתת תנועה מצויר פריים אחד בקנבס, עם אותה זווית התחלה, כך שאין קפיצה בין שני המצבים. הם מתחלפים בהצלבה עם `is-on`. בהפחתת תנועה אין כפתור. **הצבע** נקרא מ-`--accent` ומ-`--bg` בזמן ריצה (פיקסל אחד בקנבס, כך שכל פורמט צבע עובד). **באתר משמאל לימין** הופכים את סדר העמודות (`direction:ltr` על `.lj`). **נגישות:** כל הסבך `aria-hidden` וחסר תוכן סמנטי, וכל המידע בטקסט.",
+  note:"**שחזור.** השראה: כמה סרטונים ב-prompt-motion.com (21.10.2026) שבהם עקומות זוהרות שזורות נשרטטות ונמוגות על רקע כהה. נבנה מאפס מהצפייה. **גרסה 2 (25.10.2026):** הגרסה הקודמת הייתה שמונה קווי שיער דקים ועמומים בתוך מלבן, ללא זוהר אמיתי, והקצוות של הסבך יצרו מסגרת נראית. עכשיו: שישה חוטים (חמישה בטאבלט, ארבעה בטלפון), זוהר אמיתי והקצוות נמסים. **העקומות הן עקומות ליסז'ו:** `x = sin(a·s + d)`, `y = sin(b·s)`, וכל עקומה היא זוג מספרים שלמים קטנים (a, b) וזווית התחלה. מספרים קטנים נותנים לולאות רחבות ונקיות; מספרים גדולים נראים כשיער, ולכן הוסרו. ההיסחפות היא הזזה איטית של הזווית `d` בזמן, ולכן הצורה משתנה בלי קפיצות. **הזוהר הוא שלושה משיכות של אותה עקומה** (רחבה ועמומה, בינונית, ודקה ובהירה) בהבהרה (`globalCompositeOperation:'lighter'`): הליבה בצבע בהיר שנגזר מ-`--accent` ו-`--bg`, ההילה ב-`--accent`. בנקודות שבהן כמה חוטים נחתכים הצבעים מצטברים והנקודה מבהיקה, בלי מסנן טשטוש יקר. **הקצוות** נמסים במסכה אליפטית (`mask-image`) על התיבה כולה, אז אין מלבן גלוי, והמסכה פועלת על הקנבס ועל ה-SVG הסטטי באותה מידה. **ראש החוט:** בזמן השרטוט, בקצה כל עקומה מצוירת נקודת אור, כך שרואים מיד שהקווים נשרטטים. **מחזור של 16 שניות:** שרטוט (כל עקומה מתחילה מעט אחרי הקודמת), החזקה, ודעיכה לשקיפות אפס, הכול בעקומות חלקות ובלי הבהוב. **קל:** שלוש משיכות של שש עקומות, 360 נקודות לכל אחת (240 בטלפון), DPR עד 2, הלולאה עוצרת מחוץ למסך. **בלי כפתור עצירה בעמוד** (motion.md 2א): WCAG 2.2.2 (המחזור רץ בלי סוף) מתקיים במתג עצירת האנימציות בסרגל הנגישות של האתר. **בלי JS ובהפחתת תנועה:** SVG סטטי שנבנה מאותה נוסחה בזמן קבוע (`LJ_DEFS`, עם `use` שלוש פעמים לכל עקומה), ובהפחתת תנועה מצויר פריים אחד בקנבס, עם אותה זווית התחלה, כך שאין קפיצה בין שני המצבים. הם מתחלפים בהצלבה עם `is-on`. **הצבע** נקרא מ-`--accent` ומ-`--bg` בזמן ריצה (פיקסל אחד בקנבס, כך שכל פורמט צבע עובד). **באתר משמאל לימין** הופכים את סדר העמודות (`direction:ltr` על `.lj`). **נגישות:** כל הסבך `aria-hidden` וחסר תוכן סמנטי, וכל המידע בטקסט.",
   libs:[],
   css:`.lj{--lj-tint:color-mix(in srgb,var(--accent) 52%,var(--bg));display:grid;place-items:center;padding-block:clamp(24px,4vw,64px)}
 .lj-box{display:grid;grid-template-columns:minmax(0,4.4fr) minmax(0,7.6fr);align-items:center;gap:clamp(16px,3vw,40px);width:min(1100px,100%);padding:clamp(32px,5vw,72px);border-radius:32px;background:radial-gradient(ellipse 52% 88% at 28% 50%,color-mix(in srgb,var(--accent) 24%,transparent),transparent 72%),var(--ink);color:var(--bg);overflow:hidden}
@@ -550,15 +550,8 @@ export default [
 .lj-cv{opacity:0}
 .lj-art.is-on .lj-cv{opacity:1}
 .lj-art.is-on .lj-svg{opacity:0}
-.lj-pause{position:absolute;inset-block-end:0;inset-inline-end:0;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:color-mix(in srgb,var(--bg) 14%,transparent);color:var(--bg);cursor:pointer;transition:background .2s cubic-bezier(.2,.6,.2,1)}
-.lj-pause[hidden]{display:none}
-.lj-pause svg{width:16px;height:16px;fill:currentColor}
-.lj-pause .i-play,.lj-pause[aria-pressed="true"] .i-pause{display:none}
-.lj-pause[aria-pressed="true"] .i-play{display:block}
-@media (hover:hover) and (pointer:fine){.lj-pause:hover{background:color-mix(in srgb,var(--bg) 24%,transparent)}}
-.lj-pause:focus-visible{outline:2px solid var(--bg);outline-offset:4px}
 @media(max-width:767px){.lj-box{grid-template-columns:minmax(0,1fr)}.lj-stage{order:-1;margin-inline-end:0}}
-@media(prefers-reduced-motion:reduce){.lj-svg,.lj-cv{transition:none}.lj-pause{display:none}}`,
+@media(prefers-reduced-motion:reduce){.lj-svg,.lj-cv{transition:none}}`,
   html:`<div class="stage"><section class="lj" aria-labelledby="lj-h">
   <div class="lj-box">
     <div class="lj-in">
@@ -571,12 +564,12 @@ export default [
         <svg class="lj-svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid meet" focusable="false"><defs>${LJ_DEFS}</defs>${LJ_USE}</svg>
         <canvas class="lj-cv"></canvas>
       </div>
-      <button class="lj-pause" type="button" hidden aria-pressed="false" aria-label="השהיית התנועה"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4l13 8-13 8z"/></svg></button>
+      
     </div>
   </div>
 </section></div>`,
   js:`(function(){
-  const root=document.querySelector(".lj"),art=root.querySelector(".lj-art"),cv=art.querySelector(".lj-cv"),ctx=cv.getContext("2d"),btn=root.querySelector(".lj-pause");
+  const root=document.querySelector(".lj"),art=root.querySelector(".lj-art"),cv=art.querySelector(".lj-cv"),ctx=cv.getContext("2d");
   const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
   // אותן עקומות כמו ב-SVG הסטטי: [a, b, זווית התחלה]
   const SET=[[3,2,.2],[5,4,1.1],[4,3,2.0],[5,3,2.7],[3,4,2.3],[7,4,1.6]];
@@ -629,11 +622,7 @@ export default [
   if(!reduced){
     // הקנבס מתחיל ריק ונצבע בכניסה, אז הסבך לא מבזיק שלם לפני שהוא נשרטט
     art.classList.add("is-on");
-    btn.hidden=false;
-    btn.addEventListener("click",()=>{
-      held=!held;btn.setAttribute("aria-pressed",String(held));btn.setAttribute("aria-label",held?"הפעלת התנועה":"השהיית התנועה");
-      if(!held)start();
-    });
+    // בלי כפתור עצירה בעמוד: העצירה היא המתג בסרגל הנגישות (motion.md 2א)
   }else art.classList.add("is-on");   // פריים אחד, בלי לולאה
   build();
 })();`

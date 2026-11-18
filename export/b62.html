@@ -56,9 +56,6 @@ img{max-width:100%}
 .dc-btn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line, #e4e4ee);background:var(--card, #fff);color:var(--ink, #16182b);font-size:18px;cursor:pointer;display:grid;place-items:center;transition:border-color .18s cubic-bezier(.2,.6,.2,1)}
 @media (hover:hover) and (pointer:fine){.dc-btn:hover{border-color:var(--ink, #16182b)}}
 .dc-btn:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:2px}
-.dc-play svg{width:16px;height:16px}
-.dc-play .i-play,.dc-play[aria-pressed="false"] .i-pause{display:none}
-.dc-play[aria-pressed="false"] .i-play{display:block}
 .dc-dots{display:flex;gap:6px}
 .dc-dots i{width:6px;height:6px;border-radius:50%;background:var(--line, #e4e4ee);transition:transform .3s cubic-bezier(.2,.6,.2,1),background-color .3s}
 .dc-dots i.on{background:var(--accent, #4a3aff);transform:scale(1.5)}
@@ -78,15 +75,15 @@ img{max-width:100%}
     <figure class="dc-card"><div class="ph ph-e"><span class="ph-l">5</span></div><figcaption class="dc-cap">דף נחיתה לקורס</figcaption></figure>
   </div>
 </div>
-<div class="dc-nav"><button class="dc-btn dc-prev" type="button" aria-label="הקודם">→</button><div class="dc-dots" aria-hidden="true"></div><button class="dc-btn dc-play" type="button" aria-pressed="true" aria-label="עצירת ההתקדמות האוטומטית"><svg class="i-pause" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button><button class="dc-btn dc-next" type="button" aria-label="הבא">←</button></div>
+<div class="dc-nav"><button class="dc-btn dc-prev" type="button" aria-label="הקודם">→</button><div class="dc-dots" aria-hidden="true"></div><button class="dc-btn dc-next" type="button" aria-label="הבא">←</button></div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
 <script>
 (function(){
-  const root=document.querySelector(".dc"),wrap=root.parentElement,cards=[...root.querySelectorAll(".dc-card")],dots=document.querySelector(".dc-dots"),play=document.querySelector(".dc-play"),n=cards.length;
+  const root=document.querySelector(".dc"),wrap=root.parentElement,cards=[...root.querySelectorAll(".dc-card")],dots=document.querySelector(".dc-dots"),n=cards.length;
   const rq=matchMedia("(prefers-reduced-motion: reduce)"),mq=matchMedia("(max-width:767px)"),hasG=typeof gsap!=="undefined";
-  let cur=0,timer=null,paused=rq.matches;   // בתנועה מופחתת מתחילים עצורים
+  let cur=0,timer=null,focused=false;const paused=rq.matches;   // בתנועה מופחתת לא מתקדמת לבד
   cards.forEach(()=>dots.appendChild(document.createElement("i")));
   function place(c,v,animate){
     if(!hasG){   // בלי GSAP (CDN חסום): אותו מיקום, בלי אנימציה, והקרוסלה עובדת
@@ -106,13 +103,11 @@ img{max-width:100%}
     [...dots.children].forEach((d,i)=>d.classList.toggle("on",i===cur));
   }
   function go(step){cur=(cur+step+n)%n;layout(true);restart();}
-  // רץ רק כשלא עצרו אותו ולא מרחפים מעליו
-  function restart(){clearInterval(timer);timer=null;if(!paused&&!root.matches(":hover"))timer=setInterval(()=>go(1),3800);}
-  function setPlay(){play.setAttribute("aria-pressed",String(!paused));play.setAttribute("aria-label",paused?"הפעלת ההתקדמות האוטומטית":"עצירת ההתקדמות האוטומטית");}
-  play.addEventListener("click",()=>{paused=!paused;setPlay();restart();});
-  // פוקוס מקלדת בתוך הקרוסלה עוצר אותה עד שהגולש מפעיל שוב בכפתור (כמו בדפוס הקרוסלה של WAI-ARIA)
-  wrap.addEventListener("focusin",()=>{if(!paused&&wrap.querySelector(":focus-visible")){paused=true;setPlay();restart();}});
-  setPlay();
+  // רץ רק כשאין פוקוס מקלדת בפנים ולא מרחפים מעליו. בלי כפתור עצירה בעמוד: העצירה היא המתג בסרגל הנגישות (motion.md 2א)
+  function restart(){clearInterval(timer);timer=null;if(!paused&&!focused&&!root.matches(":hover"))timer=setInterval(()=>go(1),3800);}
+  // פוקוס מקלדת בתוך הקרוסלה עוצר אותה, ויציאה ממנה מחזירה (כמו בדפוס הקרוסלה של WAI-ARIA)
+  wrap.addEventListener("focusin",()=>{if(wrap.querySelector(":focus-visible")){focused=true;restart();}});
+  wrap.addEventListener("focusout",e=>{if(!wrap.contains(e.relatedTarget)){focused=false;restart();}});
   document.querySelector(".dc-next").addEventListener("click",()=>go(1));
   document.querySelector(".dc-prev").addEventListener("click",()=>go(-1));
   // מקלדת: בעברית חץ שמאלה = הבא

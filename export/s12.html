@@ -340,7 +340,6 @@ img{max-width:100%}
 .q .pic:hover img,.q .lnk:hover .ico{transform:none}
 .q .van:hover{translate:none}
 }
-.q[data-paused] .sun-rays{animation-play-state:paused}
 </style>
 </head>
 <body>
@@ -438,7 +437,7 @@ img{max-width:100%}
 <div class="ft-col"><p class="ft-h">להגיע</p><address>החרושת 9, תל אביב</address><a href="tel:+97235550170" dir="ltr" style="unicode-bidi:isolate">03-555-0170</a><a href="https://waze.com/ul?q=%D7%94%D7%97%D7%A8%D7%95%D7%A9%D7%AA%209%20%D7%AA%D7%9C%20%D7%90%D7%91%D7%99%D7%91" rel="noopener">ניווט ב-Waze</a></div>
 <div class="ft-col"><p class="ft-h">באתר</p><a href="#s12-reviews">ביקורות</a><a href="#s12-route">המסלול</a><a href="#s12-fleet">הצי</a><a href="#s12-book">הזמנה</a></div>
 </div>
-<div class="ft-bot"><p>© <span data-year>2026</span> שמש בדרך</p><nav aria-label="משפטי"><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">הצהרת נגישות</a></nav><button class="lnk" type="button" data-pause><svg class="ico s" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 5v14"/><path d="M15 5v14"/></svg><span>השהיית התנועה</span></button><p>עוצב ופותח על ידי <a href="https://liavmatzri.co.il" rel="noopener">ליאב מצרי</a></p></div>
+<div class="ft-bot"><p>© <span data-year>2026</span> שמש בדרך</p><nav aria-label="משפטי"><a href="privacy.html">מדיניות פרטיות</a><a href="accessibility.html">הצהרת נגישות</a></nav><p>עוצב ופותח על ידי <a href="https://liavmatzri.co.il" rel="noopener">ליאב מצרי</a></p></div>
 <svg class="sunset" viewBox="0 0 560 280" aria-hidden="true" focusable="false"><path d="M0 280a280 280 0 0 1 560 0z" fill="#E5A823"/><path d="M52 280a228 228 0 0 1 456 0z" fill="#E5702B"/><path d="M104 280a176 176 0 0 1 352 0z" fill="#B2441F"/><path d="M156 280a124 124 0 0 1 248 0z" fill="#54402F"/></svg>
 </footer>
 </div></div>
@@ -490,9 +489,6 @@ if("ResizeObserver" in window){var w0=route.getBoundingClientRect().width,h0=rou
 else window.addEventListener("resize",build)}
 /* בחירת רכב מהצי מסמנת אותו בטופס */
 $$("[data-pick]").forEach(function(a){a.addEventListener("click",function(){var f=$(".form"),i=f&&f.querySelector('input[name="van"][value="'+a.dataset.pick+'"]');if(i)i.checked=true})});
-/* השהיית התנועה (WCAG 2.2.2): מקפיא את השמש */
-var pb=$("[data-pause]");
-if(pb)pb.addEventListener("click",function(){var p=q.hasAttribute("data-paused");if(p)q.removeAttribute("data-paused");else q.setAttribute("data-paused","");pb.innerHTML=(p?'<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5v14"/><path d="M15 5v14"/></svg><span>השהיית התנועה</span>':'<svg class="ico s" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg><span>הפעלת התנועה</span>')});
 /* טופס ההזמנה */
 var form=$(".form"),bk=$(".book");
 if(form)form.addEventListener("submit",function(e){e.preventDefault();var nm=form.elements.name,tl=form.elements.tel,bad=null;

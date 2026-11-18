@@ -58,16 +58,6 @@ img{max-width:100%}
 @keyframes rv-fs{to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.rv,.is-in .rv{transition-duration:.01ms!important;transition-delay:0s!important}
   .hbtn{transition-duration:.01ms!important}.hbtn:hover{transform:none!important}}
-
-.hpp{width:44px;height:44px;flex:none;border:0;border-radius:999px;display:grid;place-items:center;cursor:pointer;
-  background:color-mix(in srgb,var(--ink, #16182b) 55%,transparent);color:var(--bg, #f7f7fa);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .18s cubic-bezier(.2,.6,.2,1)}
-.hpp[hidden]{display:none}
-.hpp svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-.hpp .i-play{display:none;fill:currentColor}
-.hpp[aria-pressed="true"] .i-pause{display:none}
-.hpp[aria-pressed="true"] .i-play{display:block}
-.hpp:focus-visible{outline:2px solid var(--accent, #4a3aff);outline-offset:3px}
-@media (hover:hover) and (pointer:fine){.hpp:hover{background:color-mix(in srgb,var(--ink, #16182b) 75%,transparent)}}
 .h35h{--off:inset(0 0 0 100%);position:relative;min-height:min(88vh,800px);display:flex;flex-direction:column;justify-content:flex-end;padding:112px 28px 28px;background:var(--ink, #16182b);color:var(--bg, #f7f7fa);overflow:clip;isolation:isolate}
 /* הווילון נפתח מהצד שבו מתחילים לקרוא: ב-RTL מימין, ב-LTR משמאל */
 [dir="ltr"] .h35h{--off:inset(0 100% 0 0)}
@@ -118,7 +108,7 @@ img{max-width:100%}
 [dir="ltr"] .h35-bar i{transform-origin:left}
 .h35-bar.run i{animation:h35-fill 6s linear forwards}
 @keyframes h35-fill{to{transform:scaleX(1)}}
-.h35h.is-paused .h35-bar i,.h35h.is-off .h35-bar i,.h35h.is-hold .h35-bar i{animation-play-state:paused}
+.h35h.is-off .h35-bar i,.h35h.is-hold .h35-bar i{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){
   .h35-s.is-on{transition-duration:.01ms}
   .h35-s img{transition:none;transform:none!important}
@@ -159,7 +149,6 @@ img{max-width:100%}
         <button class="h35-nav" type="button" data-step="1" aria-label="התמונה הבאה"><svg viewBox="0 0 24 24" aria-hidden="true" class="flip"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         <span class="h35-cnt" aria-hidden="true">1 / 3</span>
         <span class="h35-bar" hidden><i></i></span>
-        <button class="hpp" type="button" aria-pressed="false" aria-label="עצירת ההחלפה" hidden><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
       </div>
     </div>
   </section>
@@ -194,8 +183,8 @@ function enter(root){
   var root=document.getElementById("h35"); enter(root);
   var sl=[].slice.call(root.querySelectorAll(".h35-s")), tt=[].slice.call(root.querySelectorAll(".h35-t")),
       h3=root.querySelector("h3"), cnt=root.querySelector(".h35-cnt"), bar=root.querySelector(".h35-bar"),
-      pp=root.querySelector(".hpp"), ctl=root.querySelector(".h35-ctl"), N=sl.length, cur=0, busy=false;
-  // בהפחתת תנועה אין החלפה לבד: החצים עובדים, ופס הזמן וכפתור העצירה לא מופיעים כי אין מה לעצור
+      ctl=root.querySelector(".h35-ctl"), N=sl.length, cur=0, busy=false;
+  // בהפחתת תנועה אין החלפה לבד: החצים עובדים, ופס הזמן לא מופיע. בלי כפתור עצירה בעמוד: העצירה המלאה היא המתג בסרגל הנגישות (motion.md 2א)
   var auto=matchMedia("(prefers-reduced-motion:no-preference)").matches;
   function restart(){if(!auto)return; bar.classList.remove("run"); void bar.offsetWidth; bar.classList.add("run");}
   function go(n){
@@ -215,9 +204,7 @@ function enter(root){
     b.addEventListener("click",function(){h3.setAttribute("aria-live","polite"); go(cur+Number(b.dataset.step));});
   });
   bar.querySelector("i").addEventListener("animationend",function(){go(cur+1);});
-  if(auto){root.classList.add("is-auto"); bar.hidden=false; pp.hidden=false; restart();}
-  pp.addEventListener("click",function(){var on=!root.classList.contains("is-paused"); root.classList.toggle("is-paused",on);
-    pp.setAttribute("aria-pressed",String(on)); pp.setAttribute("aria-label",on?"הפעלת ההחלפה":"עצירת ההחלפה");});
+  if(auto){root.classList.add("is-auto"); bar.hidden=false; restart();}
   // מקלדת בתוך הפקדים עוצרת את השעון, כדי שהתמונה לא תתחלף מתחת לאצבע
   ctl.addEventListener("focusin",function(e){if(e.target.matches(":focus-visible"))root.classList.add("is-hold");});
   ctl.addEventListener("focusout",function(){root.classList.remove("is-hold");});
